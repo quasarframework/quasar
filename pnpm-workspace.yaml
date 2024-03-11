@@ -8,4 +8,5 @@ packages:
   - utils/ssl-certificate
   - extras
   - ui
+  - create-quasar
   - docs

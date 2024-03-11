@@ -16,5 +16,3 @@ yarn-error.log*
 
 # create-test-project script output
 test-project/
-
-pnpm-lock.yaml
