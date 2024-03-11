@@ -1,8 +1,10 @@
-import { ref, onBeforeUpdate } from 'vue'
+import { ref, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
-export default function (attrs, vnode) {
+export default function () {
+  const { attrs, vnode } = getCurrentInstance()
+
   const acc = {
     listeners: ref({}),
     attributes: ref({})

@@ -5,7 +5,7 @@ import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
-import useSplitAttrs from '../../composables/private/use-split-attrs.js'
+import useSplitAttrs from '../../composables/use-split-attrs.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -85,13 +85,13 @@ export default createComponent({
     'linkHide'
   ],
 
-  setup (props, { slots, emit, attrs }) {
-    const { proxy, vnode } = getCurrentInstance()
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()
-    const splitAttrs = useSplitAttrs(attrs, vnode)
+    const splitAttrs = useSplitAttrs()
 
     const rootRef = ref(null)
     const contentRef = ref(null)

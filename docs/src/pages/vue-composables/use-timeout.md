@@ -27,12 +27,10 @@ setup () {
 ```
 
 ```js
-interface useTimeoutObject {
+function useTimeout(): {
   registerTimeout(fn: () => void, delay?: string | number): void;
   removeTimeout(): void;
-}
-
-export function useTimeout(): useTimeoutObject;
+};
 ```
 
 ## Example
@@ -59,4 +57,18 @@ setup () {
   // Note that the delay is reset each
   // time you register/override the timeout
 }
+```
+
+Should you need more than one useTimeout() per component, simply rename the functions of the returned object:
+
+```js
+const {
+  registerTimeout: registerFirstTimeout,
+  removeTimeout: removeFirstTimeout
+} = useTimeout()
+
+const {
+  registerTimeout: registerSecondTimeout,
+  removeTimeout: removeSecondTimeout
+} = useTimeout()
 ```

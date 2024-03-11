@@ -31,14 +31,12 @@ setup () {
 ```
 
 ```js
-interface useRenderCacheObject {
+function useRenderCache(): {
   getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T | undefined;
   setCache: <T = any>(key: string, value: T) => void;
   hasCache: (key: string) => boolean;
   clearCache: (key?: string) => void;
-}
-
-function useRenderCache(): useRenderCacheObject;
+};
 ```
 
 ## Example

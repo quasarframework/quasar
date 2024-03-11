@@ -3,15 +3,6 @@ import { MetaOptions } from "./meta";
 import { Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
-interface useRenderCacheObject {
-  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T | undefined;
-  setCache: <T = any>(key: string, value: T) => void;
-  hasCache: (key: string) => boolean;
-  clearCache: (key?: string) => void;
-}
-
-export function useRenderCache(): useRenderCacheObject;
-
 interface useDialogPluginComponent {
   <T = any>(): {
     dialogRef: Ref<QDialog | undefined>;
@@ -40,16 +31,24 @@ export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
 export function useQuasar(): QVueGlobals;
 
-interface useTickObject {
+export function useRenderCache(): {
+  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T | undefined;
+  setCache: <T = any>(key: string, value: T) => void;
+  hasCache: (key: string) => boolean;
+  clearCache: (key?: string) => void;
+};
+
+export function useSplitAttrs(): {
+  attributes: Ref<Record<string, any>>;
+  listeners: Ref<Record<string, any>>;
+};
+
+export function useTick(): {
   registerTick(fn: () => void): void;
   removeTick(): void;
-}
+};
 
-export function useTick(): useTickObject;
-
-interface useTimeoutObject {
+export function useTimeout(): {
   registerTimeout(fn: () => void, delay?: string | number): void;
   removeTimeout(): void;
-}
-
-export function useTimeout(): useTimeoutObject;
+};
