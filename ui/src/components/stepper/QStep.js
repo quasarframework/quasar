@@ -67,7 +67,7 @@ export default createComponent({
       return emptyRenderFn
     }
 
-    const { getCacheByFn } = useRenderCache()
+    const { getCache } = useRenderCache()
 
     const rootRef = ref(null)
 
@@ -106,7 +106,7 @@ export default createComponent({
             ? [
                 h(
                   $stepper.value.needsUniqueKeepAliveWrapper.value === true
-                    ? getCacheByFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                    ? getCache(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                     : PanelWrapper,
                   { key: contentKey.value },
                   slots.default

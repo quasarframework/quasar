@@ -1,25 +1,31 @@
 export default function () {
-  let cache = {}
+  let cache = Object.create(null)
 
   return {
     getCache: __QUASAR_SSR_SERVER__
-      ? (_, obj) => obj
-      : (key, obj) => (
+      ? (_, defaultValue) => (
+          typeof defaultValue === 'function'
+            ? defaultValue()
+            : defaultValue
+        )
+      : (key, defaultValue) => (
           cache[ key ] === void 0
-            ? (cache[ key ] = obj)
-            : cache[ key ]
-        ),
-
-    getCacheByFn: __QUASAR_SSR_SERVER__
-      ? (_, fn) => fn()
-      : (key, fn) => (
-          cache[ key ] === void 0
-            ? (cache[ key ] = fn())
+            ? (
+                cache[ key ] = (
+                  typeof defaultValue === 'function'
+                    ? defaultValue()
+                    : defaultValue
+                )
+              )
             : cache[ key ]
         ),
 
     setCache (key, obj) {
       cache[ key ] = obj
+    },
+
+    hasCache (key) {
+      return cache.hasOwnProperty(key)
     },
 
     clearCache (key) {

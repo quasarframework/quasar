@@ -36,7 +36,7 @@ export default createComponent({
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
-    const { getCacheByFn } = useRenderCache()
+    const { getCache } = useRenderCache()
 
     const contentRef = ref(null)
 
@@ -209,7 +209,7 @@ export default createComponent({
       }
       else {
         content.push(
-          withDirectives(node, getCacheByFn('dir#' + dirs.join(''), () => {
+          withDirectives(node, getCache('dir#' + dirs.join(''), () => {
             const modifiers = {
               prevent: true,
               stop: true,

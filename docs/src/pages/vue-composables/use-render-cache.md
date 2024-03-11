@@ -21,8 +21,8 @@ import { useRenderCache } from 'quasar'
 setup () {
   const {
     getCache,
-    getCacheByFn,
     setCache,
+    hasCache,
     clearCache
   } = useRenderCache()
 
@@ -32,9 +32,9 @@ setup () {
 
 ```js
 interface useRenderCacheObject {
-  getCache: <T = any>(key: string, defaultValue?: T) => T | undefined;
-  getCacheByFn: <T = any>(key: string, fn: () => T) => T;
+  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T | undefined;
   setCache: <T = any>(key: string, value: T) => void;
+  hasCache: (key: string) => boolean;
   clearCache: (key?: string) => void;
 }
 
@@ -82,9 +82,9 @@ export default {
 The following example caches some values and calls the second parameter (which is a Function) to generate the default value only when the cache has no such key already set. This way, we avoid needlessly running the function even if cache is already set:
 
 ```js
-const { getCacheByFn } = useRenderCache()
+const { getCache } = useRenderCache()
 
-getCacheByFn('my-key', () => {
+getCache('my-key', () => {
   // some computation which is only run
   // when the cache does NOT have "my-key" set
   return { some: 'object' }
@@ -99,7 +99,7 @@ Don't cache directly on the second parameter of the Vue `h()` function. This wil
 // DON'T cache like this:
 h(
   'div',
-  getCacheByFn(`node#${ i }`, () => {
+  getCache(`node#${ i }`, () => {
     return {
       onClick () => { console.log(`clicked on node ${ i }`) }
     }
@@ -111,7 +111,7 @@ h(
   'div',
   { // new such object needs to be created on each
     // render, even if the content is cached
-    ...getCacheByFn(`node#${ i }`, () => {
+    ...getCache(`node#${ i }`, () => {
       return {
         onClick () => { console.log(`clicked on node ${ i }`) }
       }

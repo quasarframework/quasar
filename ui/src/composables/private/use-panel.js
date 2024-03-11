@@ -48,7 +48,7 @@ export const usePanelEmits = [ 'update:modelValue', 'beforeTransition', 'transit
 
 export default function () {
   const { props, emit, proxy } = getCurrentInstance()
-  const { getCacheByFn } = useRenderCache()
+  const { getCache } = useRenderCache()
 
   let panels, forcedPanelTransition
 
@@ -207,7 +207,7 @@ export default function () {
           h(KeepAlive, keepAliveProps.value, [
             h(
               needsUniqueKeepAliveWrapper.value === true
-                ? getCacheByFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                ? getCache(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                 : PanelWrapper,
               { key: contentKey.value, style: transitionStyle.value },
               () => panel

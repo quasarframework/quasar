@@ -4,9 +4,9 @@ import { Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
 interface useRenderCacheObject {
-  getCache: <T = any>(key: string, defaultValue?: T) => T | undefined;
-  getCacheByFn: <T = any>(key: string, fn: () => T) => T;
+  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T | undefined;
   setCache: <T = any>(key: string, value: T) => void;
+  hasCache: (key: string) => boolean;
   clearCache: (key?: string) => void;
 }
 
