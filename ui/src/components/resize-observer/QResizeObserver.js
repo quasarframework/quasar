@@ -1,6 +1,6 @@
 import { h, onMounted, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
 
-import useCanRender from '../../composables/private/use-can-render.js'
+import useHydration from '../../composables/use-hydration.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { listenOpts, noop } from '../../utils/event.js'
@@ -95,7 +95,7 @@ export default createComponent({
       return noop
     }
     else { // no observer, so fallback to old iframe method
-      const canRender = useCanRender()
+      const { isHydrated } = useHydration()
 
       let curDocView
 
@@ -134,7 +134,7 @@ export default createComponent({
       onBeforeUnmount(cleanup)
 
       return () => {
-        if (canRender.value === true) {
+        if (isHydrated.value === true) {
           return h('object', {
             class: 'q--avoid-card-border',
             style: resizeProps.style,

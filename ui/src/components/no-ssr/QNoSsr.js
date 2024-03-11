@@ -1,6 +1,6 @@
 import { h } from 'vue'
 
-import useCanRender from '../../composables/private/use-can-render.js'
+import useHydration from '../../composables/use-hydration.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
@@ -18,10 +18,10 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const canRender = useCanRender()
+    const { isHydrated } = useHydration()
 
     return () => {
-      if (canRender.value === true) {
+      if (isHydrated.value === true) {
         const node = hSlot(slots.default)
         return node === void 0
           ? node

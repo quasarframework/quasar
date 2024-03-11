@@ -5,6 +5,7 @@ keys: QNoSsr
 related:
   - /quasar-cli-vite/developing-ssr/introduction
   - /quasar-cli-webpack/developing-ssr/introduction
+  - /vue-composables/use-hydration
 ---
 The QNoSsr component makes sense only if you are creating a SSR website/app.
 

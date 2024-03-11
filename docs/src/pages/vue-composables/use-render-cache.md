@@ -32,7 +32,7 @@ setup () {
 
 ```js
 function useRenderCache(): {
-  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T | undefined;
+  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T;
   setCache: <T = any>(key: string, value: T) => void;
   hasCache: (key: string) => boolean;
   clearCache: (key?: string) => void;

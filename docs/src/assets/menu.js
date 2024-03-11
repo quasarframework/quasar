@@ -663,6 +663,11 @@ export default [
         path: 'use-meta'
       },
       {
+        name: 'useHydration',
+        badge: 'new',
+        path: 'use-hydration'
+      },
+      {
         name: 'useRenderCache',
         badge: 'new',
         path: 'use-render-cache'
@@ -676,6 +681,11 @@ export default [
         name: 'useTimeout',
         badge: 'new',
         path: 'use-timeout'
+      },
+      {
+        name: 'useSplitAttrs',
+        badge: 'new',
+        path: 'use-split-attrs'
       }
     ]
   },
