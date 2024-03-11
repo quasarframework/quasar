@@ -3,7 +3,7 @@ import { h, ref, computed, watch, Transition, nextTick, getCurrentInstance } fro
 import QBtn from '../btn/QBtn.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/private/use-cache.js'
+import useRenderCache from '../../composables/use-render-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
 
@@ -90,7 +90,7 @@ export default createComponent({
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
-    const { getCache } = useCache()
+    const { getCache } = useRenderCache()
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 
     let lastEmitValue

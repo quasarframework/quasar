@@ -11,7 +11,7 @@ import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/private/use-cache.js'
+import useRenderCache from '../../composables/use-render-cache.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import { createComponent } from '../../utils/private/create.js'
@@ -80,7 +80,7 @@ export default createComponent({
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
-    const { getCache } = useCache()
+    const { getCache } = useRenderCache()
 
     const spectrumRef = ref(null)
     const errorIconRef = ref(null)

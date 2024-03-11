@@ -661,6 +661,11 @@ export default [
       {
         name: 'useMeta',
         path: 'use-meta'
+      },
+      {
+        name: 'useRenderCache',
+        badge: 'new',
+        path: 'use-render-cache'
       }
     ]
   },

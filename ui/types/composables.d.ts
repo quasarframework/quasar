@@ -3,6 +3,15 @@ import { MetaOptions } from "./meta";
 import { Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
+interface useRenderCacheObject {
+  getCache: <T = any>(key: string, defaultValue?: T) => T | undefined;
+  getCacheByFn: <T = any>(key: string, fn: () => T) => T;
+  setCache: <T = any>(key: string, value: T) => void;
+  clearCache: (key?: string) => void;
+}
+
+export function useRenderCache(): useRenderCacheObject;
+
 interface useDialogPluginComponent {
   <T = any>(): {
     dialogRef: Ref<QDialog | undefined>;

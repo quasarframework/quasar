@@ -4,7 +4,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
 import { usePanelChildProps } from '../../composables/private/use-panel.js'
-import useCache from '../../composables/private/use-cache.js'
+import useRenderCache from '../../composables/use-render-cache.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stepperKey, emptyRenderFn } from '../../utils/private/symbols.js'
@@ -67,7 +67,7 @@ export default createComponent({
       return emptyRenderFn
     }
 
-    const { getCacheWithFn } = useCache()
+    const { getCacheByFn } = useRenderCache()
 
     const rootRef = ref(null)
 
@@ -106,7 +106,7 @@ export default createComponent({
             ? [
                 h(
                   $stepper.value.needsUniqueKeepAliveWrapper.value === true
-                    ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                    ? getCacheByFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                     : PanelWrapper,
                   { key: contentKey.value },
                   slots.default
