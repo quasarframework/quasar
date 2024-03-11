@@ -290,7 +290,7 @@ export default createComponent({
       updateModel(rgb, change)
     }
 
-    function onHueChange (val, change) {
+    function onHue (val, change) {
       const h = Math.round(val)
       const rgb = hsvToRgb({
         h,
@@ -301,6 +301,10 @@ export default createComponent({
 
       model.value.h = h
       updateModel(rgb, change)
+    }
+
+    function onHueChange (val) {
+      onHueChange(val, true)
     }
 
     function onNumericChange (value, formatModel, max, evt, change) {
@@ -494,6 +498,10 @@ export default createComponent({
       }
     }
 
+    function setTopView (val) {
+      topView.value = val
+    }
+
     function getHeader () {
       const child = []
 
@@ -503,9 +511,7 @@ export default createComponent({
           modelValue: topView.value,
           dense: true,
           align: 'justify',
-          ...getCache('topVTab', {
-            'onUpdate:modelValue': val => { topView.value = val }
-          })
+          'onUpdate:modelValue': setTopView
         }, () => [
           h(QTab, {
             label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
@@ -586,6 +592,10 @@ export default createComponent({
       ])
     }
 
+    function setView (val) {
+      view.value = val
+    }
+
     function getFooter () {
       return h('div', {
         class: 'q-color-picker__footer relative-position overflow-hidden'
@@ -595,9 +605,7 @@ export default createComponent({
           modelValue: view.value,
           dense: true,
           align: 'justify',
-          ...getCache('ftIn', {
-            'onUpdate:modelValue': val => { view.value = val }
-          })
+          'onUpdate:modelValue': setView
         }, () => [
           h(QTab, {
             icon: $q.iconSet.colorPicker.spectrum,
@@ -660,10 +668,8 @@ export default createComponent({
           selectionColor: 'transparent',
           readonly: editable.value !== true,
           thumbPath,
-          'onUpdate:modelValue': onHueChange,
-          ...getCache('lazyhue', {
-            onChange: val => onHueChange(val, true)
-          })
+          'onUpdate:modelValue': onHue,
+          onChange: onHueChange
         })
       ]
 
