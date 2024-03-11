@@ -15,7 +15,7 @@
       </div>
 
       <div class="text-h6 q-my-md">
-        Run "pnpm dev:quploader" / "npm run dev:quploader"
+        Run "pnpm dev:quploader"
       </div>
 
       <div class="q-gutter-sm">
