@@ -172,7 +172,7 @@ importers:
     dependencies:
       '@quasar/extras':
         specifier: ^1.16.6
-        version: 1.16.9
+        version: link:../extras
       prismjs:
         specifier: ^1.26.0
         version: 1.29.0
@@ -241,6 +241,51 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
 
+  extras:
+    devDependencies:
+      '@fortawesome/fontawesome-free':
+        specifier: 6.5.0
+        version: 6.5.0
+      '@mdi/font':
+        specifier: 7.3.67
+        version: 7.3.67
+      '@mdi/svg':
+        specifier: 7.3.67
+        version: 7.3.67
+      '@xmldom/xmldom':
+        specifier: 0.8.10
+        version: 0.8.10
+      animate.css:
+        specifier: 4.1.1
+        version: 4.1.1
+      bootstrap-icons:
+        specifier: ^1.11.2
+        version: 1.11.3
+      cross-fetch:
+        specifier: ^4.0.0
+        version: 4.0.0
+      cross-spawn:
+        specifier: 7.0.3
+        version: 7.0.3
+      eva-icons:
+        specifier: 1.1.3
+        version: 1.1.3
+      fs-extra:
+        specifier: 11.2.0
+        version: 11.2.0
+      glob:
+        specifier: 10.3.10
+        version: 10.3.10
+      ionicons:
+        specifier: 7.2.1
+        version: 7.2.1
+      line-awesome:
+        specifier: 1.3.0
+        version: 1.3.0
+      themify-icons:
+        specifier: https://github.com/lykmapipo/themify-icons
+        version: github.com/lykmapipo/themify-icons/9600186b24a7242f0e1e0a186983e6253301bb5d
+
   ui:
     devDependencies:
       '@quasar/app-vite':
@@ -248,7 +293,7 @@ importers:
         version: 2.0.0-beta.5(eslint@8.57.0)(quasar@2.14.7)(rollup@2.79.1)(vue-router@4.3.0)(vue@3.4.21)(workbox-build@7.0.0)
       '@quasar/extras':
         specifier: ^1.16.4
-        version: 1.16.9
+        version: link:../extras
       '@quasar/quasar-app-extension-testing-e2e-cypress':
         specifier: ^6.0.0
         version: 6.0.0(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(babel-loader@9.1.3)(cypress@13.6.6)(eslint-plugin-cypress@2.15.1)(vite@5.1.5)(webpack@5.90.3)
@@ -354,7 +399,7 @@ importers:
         version: 2.0.0-beta.5(eslint@8.57.0)(quasar@2.14.7)(rollup@2.79.1)(vue-router@4.3.0)(vue@3.4.21)(workbox-build@7.0.0)
       '@quasar/extras':
         specifier: ^1.16.6
-        version: 1.16.9
+        version: link:../../extras
       autoprefixer:
         specifier: ^10.4.17
         version: 10.4.18(postcss@8.4.35)
@@ -479,7 +524,7 @@ importers:
     dependencies:
       '@quasar/extras':
         specifier: ^1.16.6
-        version: 1.16.9
+        version: link:../../extras
       quasar:
         specifier: ^2.14.0
         version: 2.14.7
@@ -2266,6 +2311,12 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@fortawesome/fontawesome-free@6.5.0:
+    resolution: {integrity: sha512-npV8sIYN4tQmLkzkWU6Q2Ot8L3XqBzLpS+rGTl96nFM7qbMWIoFqcdp0YrcWlfRDQx5G+gA2sn8uSFNRAYTrrA==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dev: true
+
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
     dev: true
@@ -2391,6 +2442,14 @@ packages:
       - supports-color
     dev: true
 
+  /@mdi/font@7.3.67:
+    resolution: {integrity: sha512-SWxvzRbUQRfewlIV+OF4/YF4DkeTjMWoT8Hh9yeU/5UBVdJZj9Uf4a9+cXjknSIhIaMxZ/4N1O/s7ojApOOGjg==}
+    dev: true
+
+  /@mdi/svg@7.3.67:
+    resolution: {integrity: sha512-KNr7D8jbu8DEprgRckVywVBkajsGGqocFjOzlekv35UedLjpkMDTkFO8VYnhnLySL0QaPBa568fe8BZsB0TBJQ==}
+    dev: true
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2496,9 +2555,6 @@ packages:
       - supports-color
       - terser
     dev: true
-
-  /@quasar/extras@1.16.9:
-    resolution: {integrity: sha512-SlOhwzXyPQHWgQIS2ncyDdYdksCJvUYNtgsDQqzAKEG3r3d/ejOxvThle79HTK3Q6HB+gQWFG21Ux00Osr5XSw==}
 
   /@quasar/quasar-app-extension-testing-e2e-cypress@6.0.0(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(babel-loader@9.1.3)(cypress@13.6.6)(eslint-plugin-cypress@2.15.1)(vite@5.1.5)(webpack@5.90.3):
     resolution: {integrity: sha512-ja9hk6o2zQFlKwF3iu8HDfA/vJApALL/H0jSULGzIyKsx4GfqvEU7Fdg2+2V85jUFkuWasispmh1Xzhizx8c5w==}
@@ -2723,6 +2779,12 @@ packages:
   /@sindresorhus/is@4.6.0:
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
+    dev: true
+
+  /@stencil/core@4.12.5:
+    resolution: {integrity: sha512-vSyFjY7XSEx0ufa9SebOd437CvnneaTXlCpuGDhjUDxAjGBlu6ie5qHyubobVGBth//aErc6wZPHc6W75Vp3iQ==}
+    engines: {node: '>=16.0.0', npm: '>=7.10.0'}
+    hasBin: true
     dev: true
 
   /@surma/rollup-plugin-off-main-thread@2.2.3:
@@ -3298,6 +3360,10 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
 
+  /animate.css@4.1.1:
+    resolution: {integrity: sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==}
+    dev: true
+
   /ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
     engines: {node: '>=6'}
@@ -3794,6 +3860,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /bootstrap-icons@1.11.3:
+    resolution: {integrity: sha512-+3lpHrCw/it2/7lBL15VR0HEumaBss0+f/Lb6ZvHISn1mlK83jjFpooTLsMWbIjJMDjDjOExMsTxnXSIT4k4ww==}
+    dev: true
 
   /brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
@@ -4374,6 +4444,14 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
+    dev: true
+
+  /cross-fetch@4.0.0:
+    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
+    dependencies:
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
     dev: true
 
   /cross-spawn-windows-exe@1.2.0:
@@ -5519,6 +5597,10 @@ packages:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
 
+  /eva-icons@1.1.3:
+    resolution: {integrity: sha512-QBSEWNbEx1H0numXP1qgxKVCZHonRaky5ft4pGzQBcO4cy7mEja6TuJ8rc7BqX2pmkvetVQWKDH+DK/8y7GTag==}
+    dev: true
+
   /event-stream@3.3.4:
     resolution: {integrity: sha512-QHpkERcGsR0T7Qm3HNJSyXKEEj8AHNxkY3PK8TS2KJvQ7NiSHe3DDpwVKKtoYprL/AreyzFBeIkBIWChAqn60g==}
     dependencies:
@@ -6499,6 +6581,12 @@ packages:
       side-channel: 1.0.6
     dev: true
 
+  /ionicons@7.2.1:
+    resolution: {integrity: sha512-2pvCM7DGVEtbbj48PJzQrCADCQrqjU1nUYX9l9PyEWz3ZfdnLdAouqwPxLdl8tbaF9cE7OZRSlyQD7oLOLnGoQ==}
+    dependencies:
+      '@stencil/core': 4.12.5
+    dev: true
+
   /ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
@@ -7049,6 +7137,10 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /line-awesome@1.3.0:
+    resolution: {integrity: sha512-Y0YHksL37ixDsHz+ihCwOtF5jwJgCDxQ3q+zOVgaSW8VugHGTsZZXMacPYZB1/JULBi6BAuTCTek+4ZY/UIwcw==}
+    dev: true
+
   /linkify-it@5.0.0:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
     dependencies:
@@ -7481,6 +7573,18 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /node-fetch@2.7.0:
+    resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+    dependencies:
+      whatwg-url: 5.0.0
+    dev: true
 
   /node-forge@1.3.1:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
@@ -9608,6 +9712,10 @@ packages:
       url-parse: 1.5.10
     dev: true
 
+  /tr46@0.0.3:
+    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+    dev: true
+
   /tr46@1.0.1:
     resolution: {integrity: sha512-dTpowEjclQ7Kgx5SdBkqRzVhERQXov8/l9Ft9dVM9fmg0W0KQSVaXX9T4i6twCPNtYiZM53lpSSUAwJbFPOHxA==}
     dependencies:
@@ -10229,6 +10337,10 @@ packages:
     dependencies:
       defaults: 1.0.4
 
+  /webidl-conversions@3.0.1:
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+    dev: true
+
   /webidl-conversions@4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
     dev: true
@@ -10284,6 +10396,13 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
+
+  /whatwg-url@5.0.0:
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
     dev: true
 
   /whatwg-url@7.1.0:
@@ -10638,3 +10757,9 @@ packages:
       archiver-utils: 5.0.1
       compress-commons: 6.0.1
       readable-stream: 4.5.2
+
+  github.com/lykmapipo/themify-icons/9600186b24a7242f0e1e0a186983e6253301bb5d:
+    resolution: {tarball: https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d}
+    name: themify-icons
+    version: 0.0.0
+    dev: true
