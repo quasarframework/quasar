@@ -25,8 +25,8 @@ setup () {
 ```js
 function useId(
   opts?: {
-    getValue?: () => string | null | undefined,
-    required?: boolean // default: true
+    getValue?: () => string | null | undefined;
+    required?: boolean; // default: true
   }
 ): {
   id: Ref<string>;

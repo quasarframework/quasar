@@ -93,7 +93,7 @@ getCache('my-key', () => {
 
 Don't cache directly on the second parameter of the Vue `h()` function. This will tamper with Vue's DOM diff algorithm.
 
-```
+```js
 // DON'T cache like this:
 h(
   'div',
