@@ -2,6 +2,7 @@ import { h, ref, computed, watch, onMounted, Transition, getCurrentInstance } fr
 
 import QSpinner from '../spinner/QSpinner.js'
 
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
 import { createComponent } from '../../utils/private/create.js'
@@ -9,7 +10,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { vmIsDestroyed } from '../../utils/private/vm.js'
 import useTimeout from '../../composables/use-timeout.js'
 
-const defaultRatio = 16 / 9
+const defaultRatio = 1.7778 /* 16/9 */
 
 export default createComponent({
   name: 'QImg',
@@ -49,6 +50,7 @@ export default createComponent({
     },
 
     placeholderSrc: String,
+    errorSrc: String,
 
     fit: {
       type: String,
@@ -80,9 +82,21 @@ export default createComponent({
     const { registerTimeout: registerLoadTimeout, removeTimeout: removeLoadTimeout } = useTimeout()
     const { registerTimeout: registerLoadShowTimeout, removeTimeout: removeLoadShowTimeout } = useTimeout()
 
+    const placeholderImg = computed(() => (
+      props.placeholderSrc !== void 0
+        ? { src: props.placeholderSrc }
+        : null
+    ))
+
+    const errorImg = computed(() => (
+      props.errorSrc !== void 0
+        ? { src: props.errorSrc, __qerror: true }
+        : null
+    ))
+
     const images = [
       ref(null),
-      ref(getPlaceholderSrc())
+      ref(placeholderImg.value)
     ]
 
     const position = ref(0)
@@ -102,6 +116,7 @@ export default createComponent({
     const imgClass = computed(() =>
       `q-img__image ${ props.imgClass !== void 0 ? props.imgClass + ' ' : '' }`
       + `q-img__image--with${ props.noTransition === true ? 'out' : '' }-transition`
+      + ' q-img__image--'
     )
 
     const imgStyle = computed(() => ({
@@ -109,8 +124,6 @@ export default createComponent({
       objectFit: props.fit,
       objectPosition: props.position
     }))
-
-    watch(() => getCurrentSrc(), addImage)
 
     function setLoading () {
       removeLoadShowTimeout()
@@ -128,37 +141,6 @@ export default createComponent({
     function clearLoading () {
       removeLoadShowTimeout()
       isLoading.value = false
-    }
-
-    function getCurrentSrc () {
-      return props.src || props.srcset || props.sizes
-        ? {
-            src: props.src,
-            srcset: props.srcset,
-            sizes: props.sizes
-          }
-        : null
-    }
-
-    function getPlaceholderSrc () {
-      return props.placeholderSrc !== void 0
-        ? { src: props.placeholderSrc }
-        : null
-    }
-
-    function addImage (imgProps) {
-      removeLoadTimeout()
-      hasError.value = false
-
-      if (imgProps === null) {
-        clearLoading()
-        images[ position.value ^ 1 ].value = getPlaceholderSrc()
-      }
-      else {
-        setLoading()
-      }
-
-      images[ position.value ].value = imgProps
     }
 
     function onLoad ({ target }) {
@@ -187,14 +169,19 @@ export default createComponent({
       }
     }
 
-    function onReady (img) {
+    function onReady (target) {
       if (vmIsDestroyed(vm) === true) return
 
       position.value = position.value ^ 1
       images[ position.value ].value = null
+
       clearLoading()
-      hasError.value = false
-      emit('load', img.currentSrc || img.src)
+
+      if (target.getAttribute('__qerror') !== 'true') {
+        hasError.value = false
+      }
+
+      emit('load', target.currentSrc || target.src)
     }
 
     function onError (err) {
@@ -202,8 +189,8 @@ export default createComponent({
       clearLoading()
 
       hasError.value = true
-      images[ position.value ].value = null
-      images[ position.value ^ 1 ].value = getPlaceholderSrc()
+      images[ position.value ].value = errorImg.value
+      images[ position.value ^ 1 ].value = placeholderImg.value
 
       emit('error', err)
     }
@@ -229,11 +216,14 @@ export default createComponent({
       }
 
       if (position.value === index) {
-        data.class += ' q-img__image--waiting'
-        Object.assign(data, { onLoad, onError })
+        Object.assign(data, {
+          class: data.class + 'current',
+          onLoad,
+          onError
+        })
       }
       else {
-        data.class += ' q-img__image--loaded'
+        data.class += 'loaded'
       }
 
       return h(
@@ -271,13 +261,40 @@ export default createComponent({
     }
 
     if (__QUASAR_SSR_SERVER__ !== true) {
-      if (__QUASAR_SSR_CLIENT__) {
-        onMounted(() => {
-          addImage(getCurrentSrc())
-        })
+      function watchSrc () {
+        watch(
+          () => (
+            props.src || props.srcset || props.sizes
+              ? {
+                  src: props.src,
+                  srcset: props.srcset,
+                  sizes: props.sizes
+                }
+              : null
+          ),
+          imgProps => {
+            removeLoadTimeout()
+            hasError.value = false
+
+            if (imgProps === null) {
+              clearLoading()
+              images[ position.value ^ 1 ].value = placeholderImg.value
+            }
+            else {
+              setLoading()
+            }
+
+            images[ position.value ].value = imgProps
+          },
+          { immediate: true }
+        )
+      }
+
+      if (isRuntimeSsrPreHydration.value === true) {
+        onMounted(watchSrc)
       }
       else {
-        addImage(getCurrentSrc())
+        watchSrc()
       }
     }
 
@@ -290,14 +307,16 @@ export default createComponent({
         )
       }
 
-      if (hasError.value !== true) {
-        if (images[ 0 ].value !== null) {
-          content.push(getImage(0))
-        }
+      if (images[ 0 ].value !== null) {
+        content.push(
+          getImage(0)
+        )
+      }
 
-        if (images[ 1 ].value !== null) {
-          content.push(getImage(1))
-        }
+      if (images[ 1 ].value !== null) {
+        content.push(
+          getImage(1)
+        )
       }
 
       content.push(
@@ -305,6 +324,7 @@ export default createComponent({
       )
 
       return h('div', {
+        key: 'main',
         class: classes.value,
         style: style.value,
         role: 'img',
