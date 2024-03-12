@@ -1,4 +1,3 @@
-
 const components = [
   { name: 'Ajax-bar', short: 'ajaxbar', description: 'A loading bar for ajax calls in progress', tag: 'loading' },
   { name: 'Avatar', description: 'A space for your portrait, icon or text', tag: 'media' },

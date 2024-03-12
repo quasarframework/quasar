@@ -4,10 +4,19 @@
   "packageManager": "pnpm@8.15.4",
   "scripts": {
     "preinstall": "npx only-allow@1.2.1 pnpm",
+    "lint": "pnpm --recursive run lint",
     "test": "pnpm vite-ecosystem-ci:build && pnpm vite-ecosystem-ci:test && pnpm vue-ecosystem-ci:test",
     "vite-ecosystem-ci:build": "pnpm workspace @quasar/vite-plugin build && pnpm workspace quasar test:build",
     "vite-ecosystem-ci:test": "pnpm workspace @quasar/vite-plugin test",
     "vue-ecosystem-ci:build": "pnpm vite-ecosystem-ci:build",
     "vue-ecosystem-ci:test": "pnpm workspace quasar test:component:run && pnpm workspace @quasar/vite-plugin test:e2e:ci"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vue": "^9.22.0"
   }
 }

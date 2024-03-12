@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fse from 'fs-extra'

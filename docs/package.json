@@ -12,7 +12,7 @@
     "dev:ssr": "pnpm prepare-docs && quasar dev -m ssr",
     "build": "pnpm prepare-docs && node build/search.js && quasar build -m ssr && node build/fix-ssr-manifest.js && mkdir -p dist/quasar.dev/client/examples/ && cp -R src/examples/* dist/quasar.dev/client/examples/ && node build/ssg.js",
     "relnotes": "node build/release-notes/index.js",
-    "lint": "eslint --ext .js,.vue ./ --fix",
+    "lint": "eslint --ext .js,.vue ./ --report-unused-disable-directives --fix",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {

@@ -14,7 +14,7 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
-    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .js,.vue ./ --fix --report-unused-disable-directives",
     "test": "pnpm test:unit:ci && pnpm test:e2e:ci",
     "test:unit:dev": "vitest",
     "test:unit:ci": "vitest run",
@@ -46,12 +46,6 @@
   },
   "devDependencies": {
     "cypress": "^13.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-vue": "^9.22.0",
     "fs-extra": "^11.2.0",
     "quasar": "^2.11.10",
     "rollup": "^4.12.0",

@@ -1,6 +1,4 @@
 module.exports = {
-  root: true,
-
   parserOptions: {
     ecmaVersion: 'latest'
   },
@@ -13,8 +11,7 @@ module.exports = {
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/vue3-essential',
-    'standard'
+    'plugin:vue/vue3-essential'
   ],
 
   // required to lint *.vue files
@@ -24,9 +21,6 @@ module.exports = {
   ],
 
   globals: {
-    ga: true, // Google Analytics
-    cordova: true,
-    __statics: true,
     __QUASAR_SSR__: true,
     __QUASAR_SSR_SERVER__: true,
     __QUASAR_SSR_CLIENT__: true,
@@ -34,33 +28,14 @@ module.exports = {
     Prism: true
   },
 
-  // add your custom rules here
   rules: {
-    'brace-style': [ 2, 'stroustrup', { allowSingleLine: true } ],
-    'prefer-const': 2,
-    'prefer-promise-reject-errors': 'off',
-    'multiline-ternary': 'off',
+    // TODO: Unify rules with the root config
     'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
-    'computed-property-spacing': [ 'error', 'always' ],
-    'no-prototype-builtins': 'off',
-    'no-case-declarations': 'off',
-    'generator-star-spacing': 'off',
-    'arrow-parens': 'off',
-    'one-var': 'off',
-    'no-void': 'off',
-    'no-console': 'error',
-    'no-debugger': 'error',
     'template-curly-spacing': 'off',
-    'no-multiple-empty-lines': 'off',
-
-    'import/export': 'off',
-    'import/first': 'off',
-    'import/no-absolute-path': 'off',
-    'import/no-duplicates': 'off',
-    'import/no-named-default': 'off',
-    'import/no-webpack-loader-syntax': 'off',
-    'import/extensions': 'off',
-    'import/no-extraneous-dependencies': 'off',
+    'no-useless-concat': 'off',
+    'operator-linebreak': 'off',
+    'no-console': 'error',
+    'no-confusing-arrow': 'off',
 
     'quasar/check-valid-props': 'warn',
 

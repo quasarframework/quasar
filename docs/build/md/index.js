@@ -1,4 +1,3 @@
-
 import mdParse from './md-parse.js'
 
 const mdRE = /.md$/

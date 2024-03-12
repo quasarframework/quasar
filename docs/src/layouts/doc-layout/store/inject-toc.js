@@ -1,4 +1,3 @@
-
 function updateActiveToc (position, state) {
   if (position === void 0) {
     position = document.documentElement.scrollTop || document.body.scrollTop

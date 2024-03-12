@@ -1,4 +1,5 @@
 module.exports = {
+  // TODO: improve rules, use the ones from the root config by removing `root: true`
   root: true,
 
   parserOptions: {
