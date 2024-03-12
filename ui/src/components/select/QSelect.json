@@ -236,7 +236,7 @@
       "type": "Boolean",
       "desc": "Changing route app won't dismiss the popup (menu or dialog)",
       "category": "behavior",
-      "addedIn": "v2.14.8"
+      "addedIn": "v2.15"
     },
 
     "use-input": {
