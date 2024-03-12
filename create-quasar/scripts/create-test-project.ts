@@ -12,7 +12,9 @@ type CreateProjectOptions = {
 
 export async function createProject({ scriptType, appEngine, packageManager }: CreateProjectOptions) {
   // To bypass Corepack enforcing what's specified in the closest package.json file that has the 'packageManager' field
-  process.env.COREPACK_ENABLE_STRICT = '0';
+  // It also helps with a random weird issue that says:
+  // `This project's package.json defines "packageManager": "yarn@pnpm@8.15.4". However the current global version of Yarn is 1.22.21.`
+  process.env.COREPACK_ENABLE_PROJECT_SPEC = '0';
   // To alter the behavior to run correctly within this script
   process.env.CREATE_TEST_PROJECT_OVERRIDE = 'true';
 
