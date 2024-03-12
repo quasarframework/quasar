@@ -2,6 +2,7 @@
 # Use individual folders for usual development of everything else.
 packages:
   - app-vite
+  - app-webpack
   - vite-plugin
   - vite-plugin/playground
   - utils/render-ssr-error
