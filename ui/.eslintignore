@@ -1,6 +1,7 @@
 node_modules/
 dist/
 /test
+/types
 /icon-set/*.js
 /icon-set/svg-*.mjs
 /lang/*.js
