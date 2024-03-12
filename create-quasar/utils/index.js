@@ -187,9 +187,16 @@ function runCommand (cmd, args, options) {
 }
 
 function installDeps (scope) {
+  const args = [ 'install' ]
+  // Related to scripts/create-test-project.ts
+  if (process.env.CREATE_TEST_PROJECT_OVERRIDE === 'true') {
+    // If we don't use this flag, then the test project will become part of the monorepo and fail to install properly
+    args.push('--ignore-workspace')
+  }
+
   return runCommand(
     scope.packageManager,
-    [ 'install' ],
+    args,
     { cwd: scope.projectFolder }
   )
 }
