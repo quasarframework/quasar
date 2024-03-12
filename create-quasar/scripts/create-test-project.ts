@@ -13,6 +13,8 @@ type CreateProjectOptions = {
 export async function createProject({ scriptType, appEngine, packageManager }: CreateProjectOptions) {
   // To bypass Corepack enforcing what's specified in the closest package.json file that has the 'packageManager' field
   process.env.COREPACK_ENABLE_STRICT = '0';
+  // See https://github.com/yarnpkg/yarn/issues/9015
+  process.env.SKIP_YARN_COREPACK_CHECK = '1';
   // To alter the behavior to run correctly within this script
   process.env.CREATE_TEST_PROJECT_OVERRIDE = 'true';
 
