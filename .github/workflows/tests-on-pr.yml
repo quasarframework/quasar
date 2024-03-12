@@ -90,6 +90,21 @@ jobs:
           node-version: 20
           cache: 'pnpm'
 
+      # We have to cache Cypress binary as well (https://on.cypress.io/not-installed-ci-error)
+      - name: Get Cypress version
+        id: cypress-version
+        run: |
+          # Can't use pnpm why, pnpm list, etc. as we haven't installed the dependencies yet
+          echo "CYPRESS_VERSION=$(pnpm cat-index cypress | jq -r '.version')" > $GITHUB_OUTPUT
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          # https://docs.cypress.io/guides/references/advanced-installation#Skipping-installation
+          path: ~/.cache/Cypress
+          key: cypress-cache-${{ steps.cypress-version.outputs.CYPRESS_VERSION }}
+          restore-keys: |
+            cypress-cache-
+
       - name: Install dependencies
         run: pnpm i
 
