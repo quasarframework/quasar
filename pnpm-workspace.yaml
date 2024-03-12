@@ -9,6 +9,7 @@ packages:
   - extras
   - ui
   - create-quasar
+  - cli
   - docs
 
   # private packages
