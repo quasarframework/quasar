@@ -1,4 +1,4 @@
-import { h, ref, computed, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../../components/icon/QIcon.js'
 import QSpinner from '../../components/spinner/QSpinner.js'
@@ -549,6 +549,10 @@ export default function (state) {
   // expose public methods
   Object.assign(proxy, { focus, blur })
 
+  let shouldSwallowClick = false
+
+  provide('q-field-container', { swallowClick (flag) { shouldSwallowClick = flag } })
+
   return function renderField () {
     const labelAttrs = state.getControl === void 0 && slots.control === void 0
       ? {
@@ -565,6 +569,11 @@ export default function (state) {
         attrs.class
       ],
       style: attrs.style,
+      onClick: function (e) {
+        if (shouldSwallowClick) {
+          prevent(e)
+        }
+      },
       ...labelAttrs
     }, [
       slots.before !== void 0
