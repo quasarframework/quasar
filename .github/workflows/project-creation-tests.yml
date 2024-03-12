@@ -40,12 +40,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # create-quasar is not included in workspaces, and its lock file is .gitignored, so we can't have caching
-          # cache: 'pnpm'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i
@@ -79,22 +81,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          # create-quasar is not included in workspaces, and its lock file is .gitignored, so we can't have caching
-          # cache: 'pnpm'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i
 
       # pnpm
-      - name: Install pnpm
-        if: ${{ matrix.package-manager == 'pnpm' }}
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
       - name: Get pnpm store directory
         if: ${{ matrix.package-manager == 'pnpm' }}
         id: pnpm-cache
