@@ -181,13 +181,13 @@
       "type": "String",
       "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
       "examples": [ "Two cats" ],
-      "category": "content"
+      "category": "miscellaneous"
     },
 
     "draggable": {
       "type": "Boolean",
       "desc": "Adds the native 'draggable' attribute",
-      "category": "behavior"
+      "category": "miscellaneous"
     },
 
     "img-class": {
