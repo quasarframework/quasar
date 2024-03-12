@@ -149,7 +149,7 @@ importers:
         version: 2.1.7(typescript@5.4.2)(vue@3.4.21)
       quasar:
         specifier: ^2.14.0
-        version: link:../ui
+        version: 2.15.0
       ts-essentials:
         specifier: ^9.1.2
         version: 9.4.1(typescript@5.4.2)
@@ -396,7 +396,7 @@ importers:
         version: 2.1.7(typescript@5.4.2)(vue@3.4.21)
       quasar:
         specifier: ^2.14.5
-        version: link:../ui
+        version: 2.15.0
       ts-essentials:
         specifier: ^9.1.2
         version: 9.4.1(typescript@5.4.2)
@@ -515,7 +515,7 @@ importers:
         version: 1.29.0
       quasar:
         specifier: ^2.11.5
-        version: link:../ui
+        version: 2.15.0
       vue:
         specifier: ^3.4.20
         version: 3.4.21(typescript@5.4.2)
@@ -647,7 +647,7 @@ importers:
   ui:
     devDependencies:
       '@quasar/app-vite':
-        specifier: ^2.0.0-beta.1
+        specifier: ^2.0.0-beta.5
         version: link:../app-vite
       '@quasar/extras':
         specifier: ^1.16.4
@@ -712,9 +712,6 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.4.2
-      vite-plugin-checker:
-        specifier: ^0.6.4
-        version: 0.6.4(eslint@8.57.0)(typescript@5.4.2)(vite@5.1.5)
       vue:
         specifier: ^3.4.20
         version: 3.4.21(typescript@5.4.2)
@@ -724,6 +721,18 @@ importers:
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
+
+  ui/dev:
+    devDependencies:
+      '@quasar/app-vite':
+        specifier: ^2.0.0-beta.5
+        version: link:../../app-vite
+      '@quasar/vite-plugin':
+        specifier: ^1.6.0
+        version: link:../../vite-plugin
+      vite-plugin-checker:
+        specifier: ^0.6.4
+        version: 0.6.4(eslint@8.57.0)(typescript@5.4.2)(vite@5.1.5)
 
   utils/render-ssr-error:
     dependencies:
@@ -754,7 +763,7 @@ importers:
         version: 1.29.0
       quasar:
         specifier: ^2.6.0
-        version: link:../../ui
+        version: 2.15.0
       vue:
         specifier: ^3.4.20
         version: 3.4.21(typescript@5.4.2)
@@ -798,7 +807,7 @@ importers:
         version: 11.2.0
       quasar:
         specifier: ^2.11.10
-        version: link:../ui
+        version: 2.15.0
       rollup:
         specifier: ^4.12.0
         version: 4.12.1
@@ -822,7 +831,7 @@ importers:
         version: link:../../extras
       quasar:
         specifier: ^2.14.0
-        version: link:../../ui
+        version: 2.15.0
       vue:
         specifier: ^3.4.20
         version: 3.4.21(typescript@5.4.2)
@@ -9832,6 +9841,10 @@ packages:
     dependencies:
       side-channel: 1.0.6
     dev: false
+
+  /quasar@2.15.0:
+    resolution: {integrity: sha512-yREEAoG6bkH4Mt2NbRfIGU1K/t0Iw3ILx75evdR3qKT0XHjjyDnvu++MQc3b9K79AYqZvcmVfmNncKozC3NU5g==}
+    engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
 
   /querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
