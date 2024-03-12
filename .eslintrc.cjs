@@ -8,7 +8,8 @@ module.exports = {
   },
 
   extends: [
-    // 'eslint:recommended', // TODO: enable this
-    'quasar/base'
+    'eslint:recommended',
+    'quasar/base',
+    'quasar/node'
   ]
 }
