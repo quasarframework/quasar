@@ -1,4 +1,8 @@
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
+  root: true,
+
   parserOptions: {
     ecmaVersion: 'latest'
   },
@@ -9,12 +13,12 @@ module.exports = {
   },
 
   plugins: [
-    'vue',
     'no-only-tests'
   ],
 
   extends: [
-    'plugin:vue/vue3-essential'
+    'quasar/base',
+    'quasar/vue'
   ],
 
   globals: {
@@ -24,24 +28,6 @@ module.exports = {
     __QUASAR_SSR_SERVER__: 'readonly',
     __QUASAR_SSR_CLIENT__: 'readonly',
     __QUASAR_SSR_PWA__: 'readonly'
-  },
-
-  rules: {
-    'vue/max-attributes-per-line': 'off',
-    'vue/valid-v-for': 'off',
-    'vue/require-default-prop': 'off',
-    'vue/require-prop-types': 'off',
-    'vue/require-v-for-key': 'off',
-    'vue/return-in-computed-property': 'off',
-    'vue/require-render-return': 'off',
-    'vue/singleline-html-element-content-newline': 'off',
-    'vue/no-side-effects-in-computed-properties': 'off',
-    'vue/array-bracket-spacing': 'off',
-    'vue/object-curly-spacing': 'off',
-    'vue/script-indent': 'off',
-    'vue/no-v-model-argument': 'off',
-    'vue/require-explicit-emits': 'off',
-    'vue/multi-word-component-names': 'off'
   },
 
   overrides: [

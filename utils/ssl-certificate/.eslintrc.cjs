@@ -1,4 +1,8 @@
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
+  root: true,
+
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
@@ -9,6 +13,7 @@ module.exports = {
   },
 
   extends: [
-    'eslint:recommended'
+    'eslint:recommended',
+    'quasar/base'
   ]
 }

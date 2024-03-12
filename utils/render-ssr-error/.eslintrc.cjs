@@ -1,4 +1,8 @@
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
+  root: true,
+
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
@@ -12,12 +16,7 @@ module.exports = {
   // Rules order is important, please avoid shuffling them
   extends: [
     'eslint:recommended',
-    'plugin:vue/vue3-essential' // Priority A: Essential (Error Prevention)
-  ],
-
-  plugins: [
-    // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
-    // required to lint *.vue files
-    'vue'
+    'quasar/base',
+    'quasar/vue'
   ]
 }

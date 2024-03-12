@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "cypress": "^13.0.0",
+    "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.2.0",
     "quasar": "^2.11.10",
     "rollup": "^4.12.0",

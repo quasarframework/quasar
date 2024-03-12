@@ -12,11 +12,8 @@
     "vue-ecosystem-ci:test": "pnpm workspace quasar test:component:run && pnpm workspace @quasar/vite-plugin test:e2e:ci"
   },
   "devDependencies": {
+    "@rushstack/eslint-patch": "^1.7.2",
     "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-vue": "^9.22.0"
+    "eslint-config-quasar": "workspace:*"
   }
 }

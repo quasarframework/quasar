@@ -1,4 +1,9 @@
+// eslint-disable-next-line n/no-extraneous-require
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
+  root: true,
+
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
@@ -10,13 +15,12 @@ module.exports = {
 
   extends: [
     'eslint:recommended',
-    'plugin:n/recommended'
+    'quasar/base',
+    'quasar/node'
   ],
 
   rules: {
     'no-useless-escape': 'off',
-    'no-unused-vars': [ 'error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' } ],
-
-    'n/no-process-exit': 'off'
+    'no-unused-vars': [ 'error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' } ]
   }
 }

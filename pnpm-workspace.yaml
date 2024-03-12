@@ -10,3 +10,6 @@ packages:
   - ui
   - create-quasar
   - docs
+
+  # private packages
+  - eslint-config
