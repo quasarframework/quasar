@@ -63,6 +63,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      # See https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: 1
+
     defaults:
       run:
         working-directory: create-quasar
