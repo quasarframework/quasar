@@ -61,18 +61,18 @@ export async function script ({ scope, utils }) {
   ])
 
   utils.createTargetDir(scope)
-  utils.renderTemplate(utils.join(import.meta.url, 'BASE'), scope)
-  utils.renderTemplate(utils.join(import.meta.url, scope.css), scope)
+  utils.renderTemplate('BASE', scope)
+  utils.renderTemplate(scope.css, scope)
 
-  if (scope.preset.axios) utils.renderTemplate(utils.join(import.meta.url, 'axios'), scope)
-  if (scope.preset.i18n) utils.renderTemplate(utils.join(import.meta.url, 'i18n'), scope)
+  if (scope.preset.axios) utils.renderTemplate('axios', scope)
+  if (scope.preset.i18n) utils.renderTemplate('i18n', scope)
   if (scope.preset.lint) {
-    utils.renderTemplate(utils.join(import.meta.url, 'lint'), scope)
+    utils.renderTemplate('lint', scope)
     if (scope.lintConfig === 'prettier') {
-      utils.renderTemplate(utils.join(import.meta.url, 'prettier'), scope)
+      utils.renderTemplate('prettier', scope)
     }
   }
 
-  if (scope.preset.pinia) utils.renderTemplate(utils.join(import.meta.url, 'pinia'), scope)
-  else if (scope.preset.vuex) utils.renderTemplate(utils.join(import.meta.url, 'vuex'), scope)
+  if (scope.preset.pinia) utils.renderTemplate('pinia', scope)
+  else if (scope.preset.vuex) utils.renderTemplate('vuex', scope)
 }

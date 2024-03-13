@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { sep, normalize, join as pathJoin, resolve, extname } from 'node:path'
+import { sep, dirname, normalize, join, resolve, extname } from 'node:path'
 import { spawn, execSync as exec } from 'node:child_process'
 
 import { emptyDirSync, ensureDirSync, ensureFileSync, copySync } from 'fs-extra/esm'
@@ -12,10 +12,6 @@ import { yellow, green } from 'kolorist'
 import logger from './logger.js'
 
 const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.cjs', '.ts', '.vue', '.md', '.html', '.sass' ]
-
-function join (importMetaUrl, targetPath) {
-  return fileURLToPath(new URL('./' + targetPath, importMetaUrl))
-}
 
 async function prompts (scope, questions, opts) {
   const options = opts || {
@@ -53,7 +49,24 @@ const runningPackageManager = (() => {
   }
 })()
 
-function renderTemplate (templateDir, scope) {
+function getCallerPath () {
+  const _prepareStackTrace = Error.prepareStackTrace
+  Error.prepareStackTrace = (_, stack) => stack
+  const stack = new Error().stack.slice(1)
+  Error.prepareStackTrace = _prepareStackTrace
+  const filename = stack[ 1 ].getFileName()
+  return dirname(
+    filename.startsWith('file://')
+      ? fileURLToPath(filename)
+      : filename
+  )
+}
+
+function renderTemplate (relativePath, scope) {
+  console.log('renderTemplate:', relativePath)
+  console.log(getCallerPath())
+  const templateDir = join(getCallerPath(), relativePath)
+  console.log('templateDir:', templateDir, 'from', relativePath)
   const files = fglob.sync([ '**/*' ], { cwd: templateDir })
 
   for (const rawPath of files) {
@@ -217,13 +230,13 @@ function ensureOutsideProject () {
 
   while (dir.length && dir[ dir.length - 1 ] !== sep) {
     for (const name of quasarConfigFilenameList) {
-      const filename = pathJoin(dir, name)
+      const filename = join(dir, name)
       if (existsSync(filename)) {
         logger.fatal('Error. This command must NOT be executed inside of a Quasar project folder.')
       }
     }
 
-    dir = normalize(pathJoin(dir, '..'))
+    dir = normalize(join(dir, '..'))
   }
 }
 
@@ -312,7 +325,6 @@ const commonPrompts = {
 export default {
   logger,
 
-  join,
   prompts,
   createTargetDir,
   convertArrayToObject,

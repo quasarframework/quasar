@@ -84,11 +84,11 @@ export async function script ({ scope, utils }) {
   ])
 
   utils.createTargetDir(scope)
-  utils.renderTemplate(utils.join(import.meta.url, 'BASE'), scope)
+  utils.renderTemplate('BASE', scope)
 
-  if (scope.preset.prompts) utils.renderTemplate(utils.join(import.meta.url, 'prompts-script'), scope)
-  if (scope.preset.install) utils.renderTemplate(utils.join(import.meta.url, 'install-script'), scope)
-  if (scope.preset.uninstall) utils.renderTemplate(utils.join(import.meta.url, 'uninstall-script'), scope)
+  if (scope.preset.prompts) utils.renderTemplate('prompts-script', scope)
+  if (scope.preset.install) utils.renderTemplate('install-script', scope)
+  if (scope.preset.uninstall) utils.renderTemplate('uninstall-script', scope)
 
   // nothing to install, so we'll skip it
   scope.skipDepsInstall = true
