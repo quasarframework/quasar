@@ -15,7 +15,6 @@
     "build": "quasar build"
   },
   "dependencies": {
-    <% if (sfcStyle === 'class') { %>"vue-class-component": "^8.0.0-rc.1",<% } %>
     <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
     <% if (preset.i18n) { %>"vue-i18n": "^9.2.2",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>

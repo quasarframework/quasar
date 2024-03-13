@@ -63,10 +63,7 @@ function getCallerPath () {
 }
 
 function renderTemplate (relativePath, scope) {
-  console.log('renderTemplate:', relativePath)
-  console.log(getCallerPath())
   const templateDir = join(getCallerPath(), relativePath)
-  console.log('templateDir:', templateDir, 'from', relativePath)
   const files = fglob.sync([ '**/*' ], { cwd: templateDir })
 
   for (const rawPath of files) {
@@ -322,26 +319,6 @@ const commonPrompts = {
   }
 }
 
-const javascriptSfcStylePrompt = {
-  type: 'select',
-  name: 'sfcStyle',
-  message: 'Pick a Vue component style:',
-  initial: 0,
-  choices: [
-    { title: 'Composition API with <script setup>', value: 'composition-setup', description: 'recommended' },
-    { title: 'Composition API', value: 'composition', description: 'recommended' },
-    { title: 'Options API', value: 'options' }
-  ]
-}
-
-const typescriptSfcStylePrompt = {
-  ...javascriptSfcStylePrompt,
-  choices: [
-    ...javascriptSfcStylePrompt.choices,
-    { title: 'Class-based', value: 'class', description: 'DEPRECATED; see https://github.com/quasarframework/quasar/discussions/11204', disabled: true }
-  ]
-}
-
 export default {
   logger,
 
@@ -358,7 +335,5 @@ export default {
   lintFolder,
   ensureOutsideProject,
 
-  commonPrompts,
-  javascriptSfcStylePrompt,
-  typescriptSfcStylePrompt
+  commonPrompts
 }

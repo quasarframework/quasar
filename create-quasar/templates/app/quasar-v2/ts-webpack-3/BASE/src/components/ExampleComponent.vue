@@ -11,8 +11,8 @@
     <p>Clicks on todos: {{ clickCount }}</p>
   </div>
 </template>
-
-<% if (sfcStyle === 'composition-setup') { %><script setup lang="ts">
+<% if (sfcStyle === 'composition-setup') { %>
+<script setup lang="ts">
 import { computed, ref } from 'vue';
 import { Todo, Meta } from './models';
 
@@ -21,9 +21,10 @@ interface Props {
   todos?: Todo[];
   meta: Meta;
   active: boolean;
-}
+};
+
 const props = withDefaults(defineProps<Props>(), {
-  todos: () => [],
+  todos: () => []
 });
 
 const clickCount = ref(0);
@@ -33,7 +34,8 @@ function increment() {
 }
 
 const todoCount = computed(() => props.todos.length);
-<% } else if (sfcStyle === 'composition') { %><script lang="ts">
+</script><% } else if (sfcStyle === 'composition') { %>
+<script lang="ts">
 import {
   defineComponent,
   PropType,
@@ -61,6 +63,7 @@ function useDisplayTodo(todos: Ref<Todo[]>) {
 
 export default defineComponent({
   name: 'ExampleComponent',
+
   props: {
     title: {
       type: String,
@@ -78,15 +81,19 @@ export default defineComponent({
       type: Boolean
     }
   },
-  setup(props) {
+
+  setup (props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
-  },
-});<% } else if (sfcStyle === 'options') { %><script lang="ts">
+  }
+});
+</script><% } else if (sfcStyle === 'options') { %>
+<script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { Todo, Meta } from './models';
 
 export default defineComponent({
   name: 'ExampleComponent',
+
   props: {
     title: {
       type: String,
@@ -104,41 +111,23 @@ export default defineComponent({
       type: Boolean
     }
   },
+
   data(): { clickCount: number } {
     return {
       clickCount: 0
     };
   },
+
   methods: {
-    increment(): void {
+    increment (): void {
       this.clickCount += 1;
     }
   },
+
   computed: {
-    todoCount(): number {
+    todoCount (): number {
       return this.todos.length;
     }
   }
-});<% } else if (sfcStyle === 'class') { %><script lang="ts">
-import { Vue, prop } from 'vue-class-component';
-import { Todo, Meta } from './models';
-
-class Props {
-  readonly title!: string;
-  readonly todos = prop<Todo[]>({ default: () => [] });
-  readonly meta!: Meta;
-  readonly active!: boolean;
-}
-
-export default class ExampleComponent extends Vue.with(Props) {
-  clickCount = 0;
-
-  increment () {
-    this.clickCount += 1
-  }
-
-  get todoCount () {
-    return this.todos.length
-  }
-}<% } %>
-</script>
+});
+</script><% } %>

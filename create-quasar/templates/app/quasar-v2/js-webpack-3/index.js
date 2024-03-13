@@ -1,17 +1,5 @@
 export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
-    utils.javascriptSfcStylePrompt,
-    {
-      type: 'select',
-      name: 'css',
-      message: 'Pick your CSS preprocessor:',
-      initial: 0,
-      choices: [
-        { title: 'Sass with SCSS syntax', value: 'scss' },
-        { title: 'Sass with indented syntax', value: 'sass' },
-        { title: 'None (the others will still be available)', value: 'css' }
-      ]
-    },
     {
       type: 'multiselect',
       name: 'preset',

@@ -1,8 +1,6 @@
 {
   "extends": "@quasar/app-webpack/tsconfig-preset",
   "compilerOptions": {
-    "baseUrl": "."<% if (sfcStyle === 'class') { %>,
-    "experimentalDecorators": true,
-    "useDefineForClassFields": true<% } %>
+    "baseUrl": "."
   }
 }

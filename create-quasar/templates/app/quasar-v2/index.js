@@ -23,7 +23,31 @@ export async function script ({ scope, utils }) {
 
     utils.commonPrompts.productName,
     utils.commonPrompts.description,
-    utils.commonPrompts.author
+    utils.commonPrompts.author,
+
+    {
+      type: 'select',
+      name: 'sfcStyle',
+      message: 'Pick a Vue component style:',
+      initial: 0,
+      choices: [
+        { title: 'Composition API with <script setup>', value: 'composition-setup', description: 'recommended' },
+        { title: 'Composition API', value: 'composition', description: 'recommended' },
+        { title: 'Options API', value: 'options' }
+      ]
+    },
+
+    {
+      type: 'select',
+      name: 'css',
+      message: 'Pick your CSS preprocessor:',
+      initial: 0,
+      choices: [
+        { title: 'Sass with SCSS syntax', value: 'scss' },
+        { title: 'Sass with indented syntax', value: 'sass' },
+        { title: 'None (the others will still be available)', value: 'css' }
+      ]
+    }
   ])
 
   const { script } = await import(`./${ scope.scriptType }-${ scope.engine }/index.js`)

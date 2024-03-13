@@ -18,20 +18,34 @@
     </q-item-section>
   </q-item>
 </template>
+<% if (sfcStyle === 'composition-setup') { %>
+<script setup lang="ts">
+defineOptions({
+  name: 'EssentialLink'
+});
 
-<% if (sfcStyle === 'composition-setup') { %><script setup lang="ts">
 export interface EssentialLinkProps {
   title: string;
   caption?: string;
   link?: string;
   icon?: string;
-}
+};
+
 withDefaults(defineProps<EssentialLinkProps>(), {
   caption: '',
   link: '#',
   icon: '',
-});<% } else if (sfcStyle === 'composition') { %><script lang="ts">
+});
+</script><% } else if (sfcStyle === 'composition' || sfcStyle === 'options') { %>
+<script lang="ts">
 import { defineComponent } from 'vue';
+
+export interface EssentialLinkProps {
+  title: string;
+  caption?: string;
+  link?: string;
+  icon?: string;
+};
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -56,42 +70,5 @@ export default defineComponent({
       default: ''
     }
   }
-});<% } else if (sfcStyle === 'options') { %><script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'EssentialLink',
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-
-    caption: {
-      type: String,
-      default: ''
-    },
-
-    link: {
-      type: String,
-      default: '#'
-    },
-
-    icon: {
-      type: String,
-      default: ''
-    }
-  }
-});<% } else if (sfcStyle === 'class') { %><script lang="ts">
-import { Vue, prop, Options } from 'vue-class-component';
-
-class Props {
-  readonly title!: string;
-  readonly caption = prop({ default: '' });
-  readonly link = prop({ default: '#' });
-  readonly icon = prop({ default: '' });
-}
-
-@Options({})
-export default class EssentialLink extends Vue.with(Props) {}<% } %>
-</script>
+});
+</script><% } %>
