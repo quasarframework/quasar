@@ -21,7 +21,14 @@ Create `/tsconfig.json` file at the root of you project with this content:
   "compilerOptions": {
     "baseUrl": "."
   },
-  "exclude": ["./dist", "./.quasar", "./node_modules"]
+  "exclude": [
+    "./dist",
+    "./.quasar",
+    "./node_modules",
+    "./src-capacitor",
+    "./src-cordova",
+    "./quasar.config.*.temporary.compiled*"
+  ]
 }
 ```
 

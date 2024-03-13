@@ -285,13 +285,20 @@ Preparations:
 
 * If using Typescript, then ensure that your `/tsconfig.json` file looks like this:
 
-  ```json [highlight=6]
+  ```json [highlight=6-13]
   {
     "extends": "@quasar/app-vite/tsconfig-preset",
     "compilerOptions": {
       "baseUrl": "."
     },
-    "exclude": ["./dist", "./.quasar", "./node_modules"]
+    "exclude": [
+      "./dist",
+      "./.quasar",
+      "./node_modules",
+      "./src-capacitor",
+      "./src-cordova",
+      "./quasar.config.*.temporary.compiled*"
+    ]
   }
   ```
 
