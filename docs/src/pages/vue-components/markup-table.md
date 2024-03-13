@@ -22,7 +22,17 @@ Notice that the content of `QMarkupTable` reflects an accurate markup representa
 :::
 
 ::: warning UMD developers
-This component will *NOT* work as-is within the UMD version of Quasar. Browsers parse the template HTML before Vue kicks in and renders it, so the markup needs to be correct. `<q-markup-table> <thead>` or `<q-markup-table> <tbody>` is not. The solution is to directly use the QMarkupTable Vue rendered tag (`<table class="....`).
+This component will *NOT* work as-is within the UMD version of Quasar. Browsers parse the template HTML before Vue kicks in and renders it, so the markup needs to be correct. `<q-markup-table> <thead>` or `<q-markup-table> <tbody>` is not. The solution is to wrap the content in a `<template>` like the following:
+
+<br>
+
+```html
+<q-markup-table>
+  <template>
+    <!-- your content -->
+  </template>
+</q-markup-table>
+```
 :::
 
 <DocExample title="Basic" file="Basic" no-edit />
