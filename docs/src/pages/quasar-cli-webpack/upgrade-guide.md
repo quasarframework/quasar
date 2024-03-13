@@ -230,7 +230,54 @@ Preparations:
 
 * You might want to add the following to your `/.gitignore` file. These kind of files are left for inspection purposes when something fails with your `/quasar.config` file (and can be removed by the `quasar clean` command):
 
-  ```bash /.gitignore
+  ```bash [highlight=8,11] /.gitignore
+  .DS_Store
+  .thumbs.db
+  node_modules
+
+  # Quasar core related directories
+  .quasar
+  /dist
+  /quasar.config.*.temporary.compiled*
+
+  # local .env files
+  .env.local*
+
+  # Cordova related directories and files
+  /src-cordova/node_modules
+  /src-cordova/platforms
+  /src-cordova/plugins
+  /src-cordova/www
+
+  # Capacitor related directories and files
+  /src-capacitor/www
+  /src-capacitor/node_modules
+
+  # Log files
+  npm-debug.log*
+  yarn-debug.log*
+  yarn-error.log*
+
+  # Editor directories and files
+  .idea
+  *.suo
+  *.ntvs*
+  *.njsproj
+  *.sln
+  ```
+
+  <br>
+
+* If you have linting, please review your `/.eslintignore` file as well:
+
+  ```bash [highlight=6-8] /.eslintignore
+  /dist
+  /src-capacitor
+  /src-cordova
+  /.quasar
+  /node_modules
+  .eslintrc.cjs
+  babel.config.cjs
   /quasar.config.*.temporary.compiled*
   ```
 
