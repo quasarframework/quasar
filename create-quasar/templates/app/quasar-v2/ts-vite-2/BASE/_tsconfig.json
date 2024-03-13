@@ -2,5 +2,6 @@
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": "."
-  }
+  },
+  "exclude": ["./dist", "./.quasar", "./node_modules"]
 }
