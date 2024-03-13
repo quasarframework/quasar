@@ -6,18 +6,18 @@ This folder contains a testing harness for [Cypress component testing](https://d
 ```bash
 # run tests in watch mode with visual feedback one component at a time
 # use when developing
-yarn test:component
+pnpm test:component
 # run the build script, then run the tests
 # run it locally before pushing the branch and creating a PR
-yarn test:component:ci
+pnpm test:component:ci
 
 # ---
 # manual steps, you may need them when building the package once and running multiple tests suite on it
 
 # build the package, to be able to run the tests
-yarn test:build
+pnpm test:build
 # execute all tests without visual feedback, using the previously generated bundle
-yarn test:component:run
+pnpm test:component:run
 ```
 
 ## Component test setup
@@ -66,14 +66,14 @@ There is a helper tool that will create the `describe` boilerplate based on this
 It can be used by calling a script from within the `ui` directory. It is used like:
 
 ```bash
-yarn run test:create %COMPONENT_FOLDER_NAME%
-yarn run test:create %COMPOSABLE_NAME%
+pnpm test:create %COMPONENT_FOLDER_NAME%
+pnpm test:create %COMPOSABLE_NAME%
 ```
 
 Here are some examples:
 ```bash
-yarn run test:create scroll-area
-yarn run test:create use-field
+pnpm test:create scroll-area
+pnpm test:create use-field
 ```
 
 For the `COMPONENT_FOLDER_NAME` you should look inside `ui/src/components` and use the name of the folder used there.
@@ -84,14 +84,14 @@ For the `COMPOSABLE_NAME` you should look inside `ui/src/composables/private` an
 There are some composables that are located inside the component folder along with the component. You can generate boilerplate for that component using the command like this:
 
 ```bash
-yarn run test:create btn/use-btn
+pnpm test:create btn/use-btn
 ```
 
 There are also some component folders which contain multiple components (like `page` and `table`). If you, for example, want to generate boilerplate for `QPageContainer` you can use the command like this:
 
 ```bash
-yarn run test:create page/page-container
-yarn run test:create page/PageContainer
+pnpm test:create page/page-container
+pnpm test:create page/PageContainer
 ```
 
 The script will convert kebab case into pascal case so you could use either one. 

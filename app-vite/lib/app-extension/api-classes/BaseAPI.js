@@ -57,7 +57,7 @@ export class BaseAPI {
   /**
    * What is the host project's node packager?
    *
-   * @return {Promise<string>} 'npm' | 'yarn' | 'pnpm'
+   * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
    */
   async getNodePackagerName () {
     const nodePackager = await this.ctx.cacheProxy.getModule('nodePackager')

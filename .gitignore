@@ -2,10 +2,10 @@
 .Thumbs.db
 *.sublime*
 .idea/
-**/yarn.lock
 debug.log
-package-lock.json
 
 ui/.vscode/
 
 node_modules/
+yarn.lock
+package-lock.json

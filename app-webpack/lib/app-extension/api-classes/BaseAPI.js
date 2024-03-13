@@ -56,7 +56,7 @@ module.exports.BaseAPI = class BaseAPI {
   /**
    * What is the host project's node packager?
    *
-   * @return {string} 'npm' | 'yarn' | 'pnpm'
+   * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
    */
   async getNodePackagerName () {
     const nodePackager = this.ctx.cacheProxy.getModule('nodePackager')

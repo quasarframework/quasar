@@ -119,7 +119,7 @@ function startVueDevtools (ctx, devtoolsPort) {
   nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
-  // after a yarn/npm install will fail
+  // after a installing the dependencies will fail
   return new Promise(resolve => {
     vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
     run().then(resolve)

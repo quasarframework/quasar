@@ -210,7 +210,6 @@ export class AppExtensionInstance {
       }
     }
 
-    // yarn/npm/pnpm install
     if (skipPkgInstall !== true) {
       await this.#installPackage()
     }
@@ -253,7 +252,6 @@ export class AppExtensionInstance {
 
     this.#appExtJson.remove(this.extId)
 
-    // yarn/npm/pnpm uninstall
     if (skipPkgUninstall !== true) {
       await this.#uninstallPackage()
     }

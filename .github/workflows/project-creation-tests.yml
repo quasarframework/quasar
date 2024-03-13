@@ -40,18 +40,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # create-quasar is not included in workspaces, and its yarn.lock is .gitignored, so we can't have caching
-          # cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       - name: Lint the code
-        run: yarn lint
+        run: pnpm lint
 
   test:
     needs: lint
@@ -60,6 +62,10 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     runs-on: ubuntu-latest
+
+    env:
+      # See https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: 1
 
     defaults:
       run:
@@ -79,22 +85,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          # create-quasar is not included in workspaces, and its yarn.lock is .gitignored, so we can't have caching
-          # cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       # pnpm
-      - name: Install pnpm
-        if: ${{ matrix.package-manager == 'pnpm' }}
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
       - name: Get pnpm store directory
         if: ${{ matrix.package-manager == 'pnpm' }}
         id: pnpm-cache
@@ -143,7 +146,7 @@ jobs:
             npm-cache-
 
       - name: Create the test project
-        run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
+        run: pnpm create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
 
       - name: Lint the project
         working-directory: create-quasar/test-project

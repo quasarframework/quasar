@@ -61,7 +61,7 @@ if (appPaths.appDir === void 0) {
 }
 
 if (!fs.existsSync(appPaths.resolve.app('node_modules'))) {
-  fatal('Please run "yarn" / "npm install" / "pnpm install" first\n', 'Error')
+  fatal('Please run npm/yarn/pnpm/bun install first\n', 'Error')
 }
 
 import { appPkg } from '../app-pkg.js'

@@ -94,7 +94,7 @@ await api.getStorePackageName()
 
 ```js
 /**
- * @return {Promise<string|undefined>} 'npm' | 'yarn' | 'pnpm'
+ * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
  */
 await api.getNodePackagerName()
 ```

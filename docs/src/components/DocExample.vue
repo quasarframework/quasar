@@ -55,9 +55,8 @@
 </template>
 
 <script setup>
-import { markRaw, onMounted } from 'vue'
+import { computed, inject, markRaw, ref, reactive, onMounted } from 'vue'
 import { openURL } from 'quasar'
-import { ref, reactive, computed, inject } from 'vue'
 
 import { fabGithub, fabCodepen } from '@quasar/extras/fontawesome-v6'
 import { mdiCompare } from '@quasar/extras/mdi-v7'

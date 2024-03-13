@@ -1,4 +1,3 @@
-
 /**
  * Vite 3+ injects vendor.css into the manifest, which doubles up the html link tag for it.
  * This differs significantly from Vite 2, which didn't do this when manually generating a vendor chunk

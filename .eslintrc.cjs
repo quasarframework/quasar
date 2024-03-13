@@ -4,16 +4,12 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
-  },
-
-  env: {
-    node: true
+    ecmaVersion: 'latest'
   },
 
   extends: [
     'eslint:recommended',
-    'quasar/base'
+    'quasar/base',
+    'quasar/node'
   ]
 }

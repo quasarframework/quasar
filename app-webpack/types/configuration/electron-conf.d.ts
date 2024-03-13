@@ -52,7 +52,7 @@ interface QuasarBaseElectronConfiguration {
   bundler: QuasarElectronBundlersInternal;
 
   /**
-   * Specify additional parameters when yarn/npm installing
+   * Specify additional parameters when installing dependencies in
    * the UnPackaged folder, right before bundling with either
    * electron packager or electron builder;
    * Example: [ 'install', '--production', '--ignore-optional', '--some-other-param' ]

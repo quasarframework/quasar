@@ -691,7 +691,19 @@ $ node my-server.js
 
 ### Scaffolding a Quasar project folder
 
-Please use `yarn create quasar` or `npm init quasar` (or PNPM or Bun equivalents) instead of this command, which is now considered "legacy".
+`quasar create` is a legacy command and is not recommended for use except for custom starter kits.
+You should use `create-quasar` instead:
+
+```tabs
+<<| bash Yarn |>>
+yarn create quasar
+<<| bash NPM |>>
+npm init quasar
+<<| bash PNPM |>>
+pnpm create quasar
+<<| bash Bun |>>
+bun create quasar
+```
 
 ### Scaffolding from a custom starter kit <q-badge align="top" color="brand-primary" label="legacy" />
 

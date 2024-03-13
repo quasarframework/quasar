@@ -17,13 +17,16 @@ jobs:
         with:
           ref: dev
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install
-        working-directory: docs
+      - name: Install dependencies
+        run: pnpm i
 
       - name: Generate Release Notes
         uses: actions/github-script@v7
