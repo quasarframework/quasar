@@ -7,11 +7,16 @@
     >
   </q-page>
 </template>
-
+<% if (sfcStyle === 'composition-setup') { %>
+<script setup>
+defineOptions({
+  name: 'IndexPage'
+});
+</script><% } else if (sfcStyle === 'composition' || sfcStyle === 'options') { %>
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage'
-})
-</script>
+});
+</script><% } %>

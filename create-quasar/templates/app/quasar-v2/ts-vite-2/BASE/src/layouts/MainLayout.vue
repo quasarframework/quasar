@@ -45,7 +45,7 @@
   </q-layout>
 </template>
 
-<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+<% if (sfcStyle === 'composition-setup') { %><script setup lang="ts">
 import { ref } from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 
@@ -98,7 +98,7 @@ const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
-}<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+}<% } else if (sfcStyle === 'composition') { %><script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 
@@ -165,7 +165,7 @@ export default defineComponent({
       }
     }
   }
-});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+});<% } else if (sfcStyle === 'options') { %><script lang="ts">
 import { defineComponent } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 
@@ -233,7 +233,7 @@ export default defineComponent({
       this.leftDrawerOpen = !this.leftDrawerOpen
     }
   }
-});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
+});<% } else if (sfcStyle === 'class') { %><script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import EssentialLink from 'components/EssentialLink.vue';
 

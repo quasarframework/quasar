@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+<% if (sfcStyle === 'composition-setup') { %><script setup lang="ts">
 import { computed, ref } from 'vue';
 import { Todo, Meta } from './models';
 
@@ -33,7 +33,7 @@ function increment() {
 }
 
 const todoCount = computed(() => props.todos.length);
-<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+<% } else if (sfcStyle === 'composition') { %><script lang="ts">
 import {
   defineComponent,
   PropType,
@@ -81,7 +81,7 @@ export default defineComponent({
   setup (props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
   },
-});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+});<% } else if (sfcStyle === 'options') { %><script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { Todo, Meta } from './models';
 
@@ -119,7 +119,7 @@ export default defineComponent({
       return this.todos.length;
     }
   }
-});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
+});<% } else if (sfcStyle === 'class') { %><script lang="ts">
 import { Vue, prop } from 'vue-class-component';
 import { Todo, Meta } from './models';
 

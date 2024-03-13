@@ -9,7 +9,7 @@
   </q-page>
 </template>
 
-<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+<% if (sfcStyle === 'composition-setup') { %><script setup lang="ts">
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { ref } from 'vue';
@@ -38,7 +38,7 @@ const todos = ref<Todo[]>([
 ]);
 const meta = ref<Meta>({
   totalCount: 1200
-});<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+});<% } else if (sfcStyle === 'composition') { %><script lang="ts">
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
@@ -74,7 +74,7 @@ export default defineComponent({
     });
     return { todos, meta };
   }
-});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+});<% } else if (sfcStyle === 'options') { %><script lang="ts">
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent } from 'vue';
@@ -110,7 +110,7 @@ export default defineComponent({
     };
     return { todos, meta };
   }
-});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
+});<% } else if (sfcStyle === 'class') { %><script lang="ts">
 import { Vue, Options } from 'vue-class-component'
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';

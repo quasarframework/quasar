@@ -12,7 +12,7 @@ module.exports = {
       'productName',
 
       // Quasar v1 - TS
-      'typescriptConfig',
+      'sfcStyle',
       'css',
       'importStrategy',
       'preset',

@@ -1,16 +1,6 @@
 export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
-    {
-      type: 'select',
-      name: 'typescriptConfig',
-      message: 'Pick a Vue component style:',
-      initial: 0,
-      choices: [
-        { title: 'Composition API (recommended) (https://github.com/vuejs/composition-api)', value: 'composition' },
-        { title: 'Class-based (recommended) (https://github.com/vuejs/vue-class-component & https://github.com/kaorun343/vue-property-decorator)', value: 'class' },
-        { title: 'Options API', value: 'options' }
-      ]
-    },
+    utils.typescriptSfcStylePrompt,
     {
       type: 'select',
       name: 'css',

@@ -1,17 +1,6 @@
 export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
-    {
-      type: 'select',
-      name: 'typescriptConfig',
-      message: 'Pick a Vue component style:',
-      initial: 0,
-      choices: [
-        { title: 'Composition API with <script setup>', value: 'composition-setup', description: 'recommended' },
-        { title: 'Composition API', value: 'composition', description: 'recommended' },
-        { title: 'Options API', value: 'options' },
-        { title: 'Class-based (DEPRECATED; see https://github.com/quasarframework/quasar/discussions/11204)', value: 'class', disabled: true }
-      ]
-    },
+    utils.typescriptSfcStylePrompt,
     {
       type: 'select',
       name: 'css',

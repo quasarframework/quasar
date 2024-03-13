@@ -19,7 +19,7 @@
   </q-item>
 </template>
 
-<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+<% if (sfcStyle === 'composition-setup') { %><script setup lang="ts">
 export interface EssentialLinkProps {
   title: string;
   caption?: string;
@@ -30,7 +30,7 @@ withDefaults(defineProps<EssentialLinkProps>(), {
   caption: '',
   link: '#',
   icon: '',
-});<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+});<% } else if (sfcStyle === 'composition') { %><script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -56,7 +56,7 @@ export default defineComponent({
       default: ''
     }
   }
-});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+});<% } else if (sfcStyle === 'options') { %><script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -82,7 +82,7 @@ export default defineComponent({
       default: ''
     }
   }
-});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
+});<% } else if (sfcStyle === 'class') { %><script lang="ts">
 import { Vue, prop, Options } from 'vue-class-component';
 
 class Props {

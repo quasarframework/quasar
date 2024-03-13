@@ -21,11 +21,16 @@
     </div>
   </div>
 </template>
-
+<% if (sfcStyle === 'composition-setup') { %>
+<script setup>
+defineOptions({
+  name: 'ErrorNotFound'
+});
+</script><% } else if (sfcStyle === 'composition' || sfcStyle === 'options') { %>
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ErrorNotFound'
-})
-</script>
+});
+</script><% } %>

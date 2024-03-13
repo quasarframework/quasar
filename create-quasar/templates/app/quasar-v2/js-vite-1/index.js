@@ -1,5 +1,6 @@
 export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
+    utils.javascriptSfcStylePrompt,
     {
       type: 'select',
       name: 'css',

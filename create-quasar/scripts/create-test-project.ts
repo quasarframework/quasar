@@ -29,7 +29,7 @@ export async function createProject({ scriptType, appEngine, packageManager }: C
     author: 'Quasar Team (info@quasar.dev)',
 
     // The defaults
-    typescriptConfig: 'composition',
+    sfcStyle: 'composition',
     css: 'scss',
     preset: ['lint'],
     lintConfig: 'prettier',
