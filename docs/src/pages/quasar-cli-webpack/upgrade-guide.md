@@ -281,6 +281,20 @@ Preparations:
   /quasar.config.*.temporary.compiled*
   ```
 
+  <br>
+
+* If using Typescript, then ensure that your `/tsconfig.json` file looks like this:
+
+  ```json [highlight=6]
+  {
+    "extends": "@quasar/app-vite/tsconfig-preset",
+    "compilerOptions": {
+      "baseUrl": "."
+    },
+    "exclude": ["./dist", "./.quasar", "./node_modules"]
+  }
+  ```
+
 ### SPA / Capacitor / Cordova modes changes
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
 

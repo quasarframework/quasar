@@ -179,6 +179,21 @@ Preparations:
   *.sln
   ```
 
+  <br>
+
+* If using Typescript, then ensure that your `/tsconfig.json` file looks like this:
+
+  ```json [highlight=6]
+  {
+    "extends": "@quasar/app-vite/tsconfig-preset",
+    "compilerOptions": {
+      "baseUrl": "."
+    },
+    "exclude": ["./dist", "./.quasar", "./node_modules"]
+  }
+  ```
+
+
 ### Linting (TS or JS)
 
 We dropped support for our internal linting (quasar.config file > eslint) in favor of the [vite-plugin-checker](https://vite-plugin-checker.netlify.app/) package. We will detail below the changes that you need to make based on if you use TS or not.

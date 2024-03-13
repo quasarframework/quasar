@@ -20,7 +20,8 @@ Create `/tsconfig.json` file at the root of you project with this content:
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": "."
-  }
+  },
+  "exclude": ["./dist", "./.quasar", "./node_modules"]
 }
 ```
 
