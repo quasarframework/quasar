@@ -7,10 +7,10 @@
     "lint:root": "eslint .eslintrc.cjs --report-unused-disable-directives --fix",
     "lint": "pnpm lint:root && pnpm --recursive run lint",
     "test": "pnpm vite-ecosystem-ci:build && pnpm vite-ecosystem-ci:test && pnpm vue-ecosystem-ci:test",
-    "vite-ecosystem-ci:build": "pnpm workspace @quasar/vite-plugin build && pnpm workspace quasar test:build",
-    "vite-ecosystem-ci:test": "pnpm workspace @quasar/vite-plugin test",
+    "vite-ecosystem-ci:build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar test:build",
+    "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",
     "vue-ecosystem-ci:build": "pnpm vite-ecosystem-ci:build",
-    "vue-ecosystem-ci:test": "pnpm workspace quasar test:component:run && pnpm workspace @quasar/vite-plugin test:e2e:ci"
+    "vue-ecosystem-ci:test": "pnpm --filter quasar test:component:run && pnpm --filter @quasar/vite-plugin test:e2e:ci"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.7.2",
