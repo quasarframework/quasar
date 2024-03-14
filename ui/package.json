@@ -87,7 +87,6 @@
     "eslint-plugin-no-only-tests": "^3.1.0",
     "fast-glob": "^3.3.0",
     "fs-extra": "^11.2.0",
-    "module-alias": "^2.2.2",
     "open": "^10.0.4",
     "postcss-rtlcss": "^5.1.0",
     "prettier": "^3.0.0",

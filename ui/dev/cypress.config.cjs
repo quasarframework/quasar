@@ -4,13 +4,7 @@ const { defineConfig } = require('cypress')
 const viteVuePlugin = require('@vitejs/plugin-vue')
 const { quasar, transformAssetUrls } = require('@quasar/vite-plugin')
 
-const moduleAlias = require('module-alias')
 const { join } = require('path')
-
-const uiFolder = join(__dirname, '..')
-
-// Quasar dependency should point to the current UI project, which we build right before running tests
-moduleAlias.addAlias('quasar', uiFolder)
 
 module.exports = defineConfig({
   projectId: '5zr217',
@@ -44,9 +38,16 @@ module.exports = defineConfig({
       framework: 'vue',
       bundler: 'vite',
       viteConfig: {
+        resolve: {
+          alias: {
+            quasar: join(__dirname, '../')
+          }
+        },
         plugins: [
           viteVuePlugin({ template: { transformAssetUrls } }),
-          quasar()
+          quasar({
+            devTreeshaking: true
+          })
         ]
       }
     }

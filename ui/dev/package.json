@@ -10,9 +10,12 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "///": "Some dependencies are needed for tests to work properly. Also, if a dependency is needed only for the dev app, add them here.",
+  "dependencies": {
+    "quasar": "workspace:*"
+  },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-beta.5",
-    "@quasar/vite-plugin": "^1.6.0",
+    "@quasar/app-vite": "workspace:*",
+    "@quasar/vite-plugin": "workspace:*",
     "vite-plugin-checker": "^0.6.4"
   },
   "engines": {

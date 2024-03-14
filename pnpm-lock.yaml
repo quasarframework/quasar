@@ -661,9 +661,6 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
-      module-alias:
-        specifier: ^2.2.2
-        version: 2.2.3
       open:
         specifier: ^10.0.4
         version: 10.0.4
@@ -693,12 +690,16 @@ importers:
         version: 17.7.2
 
   ui/dev:
+    dependencies:
+      quasar:
+        specifier: workspace:*
+        version: link:..
     devDependencies:
       '@quasar/app-vite':
-        specifier: ^2.0.0-beta.5
+        specifier: workspace:*
         version: link:../../app-vite
       '@quasar/vite-plugin':
-        specifier: ^1.6.0
+        specifier: workspace:*
         version: link:../../vite-plugin
       vite-plugin-checker:
         specifier: ^0.6.4
@@ -8672,10 +8673,6 @@ packages:
       pathe: 1.1.2
       pkg-types: 1.0.3
       ufo: 1.4.0
-    dev: true
-
-  /module-alias@2.2.3:
-    resolution: {integrity: sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==}
     dev: true
 
   /mrmime@2.0.0:
