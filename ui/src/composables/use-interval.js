@@ -4,35 +4,32 @@ import { vmIsDestroyed } from '../utils/private/vm.js'
 
 /*
  * Usage:
- *    registerTimeout(fn[, delay])
- *    removeTimeout()
+ *    registerInterval(fn[, delay])
+ *    removeInterval()
  */
 
 export default function () {
   let timer = null
   const vm = getCurrentInstance()
 
-  function removeTimeout () {
+  function removeInterval () {
     if (timer !== null) {
-      clearTimeout(timer)
+      clearInterval(timer)
       timer = null
     }
   }
 
-  onDeactivated(removeTimeout)
-  onBeforeUnmount(removeTimeout)
+  onDeactivated(removeInterval)
+  onBeforeUnmount(removeInterval)
 
   return {
-    removeTimeout,
+    removeInterval,
 
-    registerTimeout (fn, delay) {
-      removeTimeout(timer)
+    registerInterval (fn, delay) {
+      removeInterval(timer)
 
       if (vmIsDestroyed(vm) === false) {
-        timer = setTimeout(() => {
-          timer = null
-          fn()
-        }, delay)
+        timer = setInterval(fn, delay)
       }
     }
   }

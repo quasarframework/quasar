@@ -31,6 +31,11 @@ export function useHydration(): {
   isHydrated: Ref<boolean>;
 };
 
+export function useInterval(): {
+  registerInterval(fn: () => void, interval: string | number): void;
+  removeInterval(): void;
+};
+
 export function useId(opts?: {
   getValue?: () => string | null | undefined;
   required?: boolean;

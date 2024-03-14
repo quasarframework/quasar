@@ -673,6 +673,11 @@ export default [
         path: 'use-id'
       },
       {
+        name: 'useInterval',
+        badge: 'new',
+        path: 'use-interval'
+      },
+      {
         name: 'useRenderCache',
         badge: 'new',
         path: 'use-render-cache'
