@@ -306,7 +306,21 @@ Preparations:
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
 
 ### PWA mode changes
-Editing your `/src-pwa/custom-service-worker.js` file:
+
+The `register-service-worker` dependency is no longer supplied by the CLI. You will have to install it yourself in your project folder.
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add register-service-worker@^1.0.0
+<<| bash NPM |>>
+$ npm install --save register-service-worker@^1.0.0
+<<| bash PNPM |>>
+$ pnpm add register-service-worker@^1.0.0
+<<| bash Bun |>>
+$ bun add register-service-worker@^1.0.0
+```
+
+Edit your `/src-pwa/custom-service-worker.js` file:
 
 ```diff /src-pwa/custom-service-worker.js
 - import { precacheAndRoute } from 'workbox-precaching'
