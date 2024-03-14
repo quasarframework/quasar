@@ -63,6 +63,7 @@ export default ctx => ({
   framework: {
     iconSet: 'svg-mdi-v6',
 
+    devTreeshaking: true,
     autoImportVueExtensions: [ 'vue', 'md' ],
 
     config: {
