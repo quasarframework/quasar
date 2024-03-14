@@ -612,8 +612,23 @@ export default createComponent({
     function getTHead () {
       const child = getTHeadTR()
 
+      const hBeforeSlot = slots[ 'header-before' ]
+      const beforeChildren = hBeforeSlot ? hBeforeSlot(
+        getHeaderScope({ header: true })
+      ).slice() : null
+
+      const hAfterSlot = slots[ 'header-after' ]
+      const afterChildren = hAfterSlot ? hAfterSlot(
+        getHeaderScope({ header: true })
+      ).slice() : null
+
+      const headerChildren = []
+      if (beforeChildren) headerChildren.push(...beforeChildren)
+      headerChildren.push(...child)
+      if (afterChildren) headerChildren.push(...afterChildren)
+
       if (props.loading === true && slots.loading === void 0) {
-        child.push(
+        headerChildren.push(
           h('tr', { class: 'q-table__progress' }, [
             h('th', {
               class: 'relative-position',
@@ -623,7 +638,7 @@ export default createComponent({
         )
       }
 
-      return h('thead', child)
+      return h('thead', headerChildren)
     }
 
     function getTHeadTR () {
