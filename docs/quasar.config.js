@@ -36,14 +36,11 @@ export default ctx => ({
     vitePlugins: [
       mdPlugin,
       examplesPlugin(ctx.prod),
-
-      process.env.NO_DOCS_LINTING === 'true'
-        ? null
-        : [ 'vite-plugin-checker', {
-            eslint: {
-              lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
-            }
-          }, { server: false } ]
+      [ 'vite-plugin-checker', {
+        eslint: {
+          lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
+        }
+      }, { server: false } ]
     ],
 
     extendViteConf (viteConf, { isClient }) {

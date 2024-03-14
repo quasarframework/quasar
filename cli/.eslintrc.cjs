@@ -1,6 +1,3 @@
-// eslint-disable-next-line n/no-extraneous-require
-require('@rushstack/eslint-patch/modern-module-resolution')
-
 module.exports = {
   root: true,
 

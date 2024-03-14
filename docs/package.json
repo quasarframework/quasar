@@ -23,16 +23,12 @@
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-beta.1",
+    "@quasar/app-vite": "^2.0.0-beta.5",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
     "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-quasar": "^1.1.0",
-    "eslint-plugin-vue": "^9.22.0",
+    "eslint-config-quasar": "^0.0.1",
     "fast-glob": "^3.2.12",
     "fs-extra": "^11.2.0",
     "gray-matter": "^4.0.2",

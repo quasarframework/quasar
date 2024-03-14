@@ -89,7 +89,7 @@
     "electron-builder": "^24.12.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.57.0",
-    "eslint-config-quasar": "workspace:*",
+    "eslint-config-quasar": "^0.0.1",
     "pinia": "^2.1.3",
     "quasar": "^2.14.0",
     "ts-essentials": "^9.1.2",

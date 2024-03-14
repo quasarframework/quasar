@@ -1,5 +1,3 @@
-require('@rushstack/eslint-patch/modern-module-resolution')
-
 module.exports = {
   root: true,
 
@@ -41,6 +39,7 @@ module.exports = {
     'no-confusing-arrow': 'off',
 
     'quasar/check-valid-props': 'warn',
+    'import/named': 'off',
 
     'vue/no-mutating-props': 'off',
     'vue/no-v-model-argument': 'off',

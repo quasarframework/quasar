@@ -35,6 +35,7 @@
     "selfsigned": "^2.1.1"
   },
   "devDependencies": {
-    "eslint-config-quasar": "workspace:*"
+    "eslint": "^8.57.0",
+    "eslint-config-quasar": "^0.0.1"
   }
 }
