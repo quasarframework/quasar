@@ -16,7 +16,7 @@ importers:
         version: 8.57.0
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:eslint-config
+        version: link:utils/eslint-config
 
   app-vite:
     dependencies:
@@ -143,7 +143,7 @@ importers:
         version: 8.57.0
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../utils/eslint-config
       pinia:
         specifier: ^2.1.3
         version: 2.1.7(typescript@5.4.2)(vue@3.4.21)
@@ -390,7 +390,7 @@ importers:
         version: 8.57.0
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../utils/eslint-config
       pinia:
         specifier: ^2.1.3
         version: 2.1.7(typescript@5.4.2)(vue@3.4.21)
@@ -463,7 +463,7 @@ importers:
     devDependencies:
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../utils/eslint-config
 
   create-quasar:
     dependencies:
@@ -581,27 +581,6 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
 
-  eslint-config:
-    dependencies:
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      eslint-config-standard:
-        specifier: ^17.1.0
-        version: 17.1.0(eslint-plugin-import@2.29.1)(eslint-plugin-n@16.6.2)(eslint-plugin-promise@6.1.1)(eslint@8.57.0)
-      eslint-plugin-import:
-        specifier: ^2.29.1
-        version: 2.29.1(eslint@8.57.0)
-      eslint-plugin-n:
-        specifier: ^16.6.2
-        version: 16.6.2(eslint@8.57.0)
-      eslint-plugin-promise:
-        specifier: ^6.1.1
-        version: 6.1.1(eslint@8.57.0)
-      eslint-plugin-vue:
-        specifier: ^9.22.0
-        version: 9.22.0(eslint@8.57.0)
-
   extras:
     devDependencies:
       '@fortawesome/fontawesome-free':
@@ -681,7 +660,7 @@ importers:
         version: 0.20.1
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../utils/eslint-config
       eslint-plugin-cypress:
         specifier: ^2.13.3
         version: 2.15.1(eslint@8.57.0)
@@ -737,6 +716,27 @@ importers:
         specifier: ^0.6.4
         version: 0.6.4(eslint@8.57.0)(typescript@5.4.2)(vite@5.1.5)
 
+  utils/eslint-config:
+    dependencies:
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      eslint-config-standard:
+        specifier: ^17.1.0
+        version: 17.1.0(eslint-plugin-import@2.29.1)(eslint-plugin-n@16.6.2)(eslint-plugin-promise@6.1.1)(eslint@8.57.0)
+      eslint-plugin-import:
+        specifier: ^2.29.1
+        version: 2.29.1(eslint@8.57.0)
+      eslint-plugin-n:
+        specifier: ^16.6.2
+        version: 16.6.2(eslint@8.57.0)
+      eslint-plugin-promise:
+        specifier: ^6.1.1
+        version: 6.1.1(eslint@8.57.0)
+      eslint-plugin-vue:
+        specifier: ^9.22.0
+        version: 9.22.0(eslint@8.57.0)
+
   utils/render-ssr-error:
     dependencies:
       stack-trace:
@@ -754,7 +754,7 @@ importers:
         version: 10.4.18(postcss@8.4.35)
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../../eslint-config
+        version: link:../eslint-config
       fs-extra:
         specifier: ^11.1.1
         version: 11.2.0
@@ -785,7 +785,7 @@ importers:
     devDependencies:
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../../eslint-config
+        version: link:../eslint-config
 
   vite-plugin:
     dependencies:
@@ -804,7 +804,7 @@ importers:
         version: 13.6.6
       eslint-config-quasar:
         specifier: workspace:*
-        version: link:../eslint-config
+        version: link:../utils/eslint-config
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0

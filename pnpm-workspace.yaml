@@ -15,4 +15,4 @@ packages:
   - docs
 
   # private packages
-  - eslint-config
+  - utils/eslint-config
