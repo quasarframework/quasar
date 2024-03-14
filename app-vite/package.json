@@ -76,7 +76,6 @@
     "lodash": "^4.17.21",
     "minimist": "^1.2.6",
     "open": "^10.0.4",
-    "register-service-worker": "^1.7.2",
     "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.71.0",
     "semver": "^7.6.0",

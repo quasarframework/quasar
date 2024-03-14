@@ -40,6 +40,7 @@ export class QuasarModeBuilder extends AppBuilder {
     if (pkg.dependencies) {
       pkg.dependencies = getFixedDeps(pkg.dependencies, this.ctx.appPaths.appDir)
       delete pkg.dependencies[ '@quasar/extras' ]
+      delete pkg.dependencies[ 'register-service-worker' ]
     }
 
     // we don't need this (also, faster install time & smaller bundles)
