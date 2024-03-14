@@ -304,7 +304,7 @@ export default createComponent({
     }
 
     function onHueChange (val) {
-      onHueChange(val, true)
+      onHue(val, true)
     }
 
     function onNumericChange (value, formatModel, max, evt, change) {
