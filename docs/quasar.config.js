@@ -37,7 +37,7 @@ export default ctx => ({
       mdPlugin,
       examplesPlugin(ctx.prod),
 
-      process.env.NO_DOCS_LINTING === true
+      process.env.NO_DOCS_LINTING === 'true'
         ? null
         : [ 'vite-plugin-checker', {
             eslint: {
