@@ -95,7 +95,6 @@
     "postcss": "^8.4.35",
     "postcss-loader": "^8.1.0",
     "postcss-rtlcss": "^5.1.0",
-    "register-service-worker": "^1.7.2",
     "rollup-plugin-visualizer": "^5.5.4",
     "sass": "^1.71.1",
     "sass-loader": "14.1.1",
