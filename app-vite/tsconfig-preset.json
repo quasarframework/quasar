@@ -17,6 +17,7 @@
     "useDefineForClassFields": true,
     // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "lib": ["esnext", "dom"],
     "paths": {
       "src/*": ["src/*"],
