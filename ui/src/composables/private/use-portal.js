@@ -1,10 +1,25 @@
 import { h, ref, onUnmounted, Teleport } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { noop } from '../../utils/event.js'
 import { addFocusWaitFlag, removeFocusWaitFlag } from '../../utils/private/focus-manager.js'
 import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
 import { portalProxyList } from '../../utils/private/portal.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
+
+/**
+ * Noop internal component to ease testing
+ * of the teleported content.
+ *
+ * const wrapper = mount(QDialog, { ... })
+ * const teleportedWrapper = wrapper.findComponent({ name: 'QPortal' })
+ */
+const QPortal = createComponent({
+  name: 'QPortal',
+  setup (_, { slots }) {
+    return () => slots.default()
+  }
+})
 
 function isOnGlobalDialog (vm) {
   vm = vm.parent
@@ -111,7 +126,7 @@ export default function (vm, innerRef, renderPortalContent, type) {
         ? renderPortalContent()
         : (
             portalIsActive.value === true
-              ? [ h(Teleport, { to: portalEl }, renderPortalContent()) ]
+              ? [ h(Teleport, { to: portalEl }, h(QPortal, renderPortalContent)) ]
               : void 0
           )
     )
