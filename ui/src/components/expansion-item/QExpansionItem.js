@@ -130,7 +130,7 @@ export default createComponent({
 
     const headerSlotScope = computed(() => ({
       expanded: showing.value === true,
-      detailsId: props.targetUid,
+      detailsId: targetUid.value,
       toggle,
       show,
       hide
