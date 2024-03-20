@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
 const dest = path.join(root, 'dist/api')
 const extendApi = require(resolvePath('src/api.extends.json'))
-const { logError, writeFile, kebabCase } = require('./build.utils')
+const { logError, writeFile, kebabCase, filterTestFiles } = require('./build.utils')
 const ast = require('./ast')
 
 const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
@@ -37,8 +37,15 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
+  // also update /ui/test/generators/generator.plugin.js
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods', 'internal' ],
+
+  // also update:
+  //  * /ui/test/generators/generator.component.js
+  //  * /ui/test/generators/generator.composable.js
   component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'computedProps' ],
+
+  // also update /ui/test/generators/generator.directive.js
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
@@ -724,15 +731,15 @@ module.exports.generate = function ({ compact = false } = {}) {
       'src/Brand.json',
       'src/Lang.json'
     ], { cwd: root, absolute: true })
-      .filter(file => !path.basename(file).startsWith('__'))
+      .filter(filterTestFiles)
       .map(fillAPI('plugin', list, encodeFn))
 
     const directives = glob.sync('src/directives/*.json', { cwd: root, absolute: true })
-      .filter(file => !path.basename(file).startsWith('__'))
+      .filter(filterTestFiles)
       .map(fillAPI('directive', list, encodeFn))
 
     const components = glob.sync('src/components/**/Q*.json', { cwd: root, absolute: true })
-      .filter(file => !path.basename(file).startsWith('__'))
+      .filter(filterTestFiles)
       .map(fillAPI('component', list, encodeFn))
 
     writeTransformAssetUrls(components, encodeFn)

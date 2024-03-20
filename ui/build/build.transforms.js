@@ -6,9 +6,7 @@ const glob = require('fast-glob')
 
 const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
-const { writeFile, kebabCase } = require('./build.utils')
-
-const sourceFileSuffixRE = /__tests__/
+const { writeFile, kebabCase, filterTestFiles } = require('./build.utils')
 
 function relative (name) {
   return path.relative(root, name).split('\\').join('/')
@@ -25,7 +23,7 @@ function lowerCamelCase (name) {
 
 function addComponents (map, autoImport) {
   glob.sync('src/components/**/Q*.js', { cwd: root, absolute: true })
-    .filter(file => sourceFileSuffixRE.test(file) === false)
+    .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
       const
@@ -43,7 +41,7 @@ function addComponents (map, autoImport) {
 
 function addDirectives (map, autoImport) {
   glob.sync('src/directives/*.js', { cwd: root, absolute: true })
-    .filter(file => sourceFileSuffixRE.test(file) === false)
+    .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
       const
@@ -59,7 +57,7 @@ function addDirectives (map, autoImport) {
 
 function addPlugins (map) {
   glob.sync('src/plugins/*.js', { cwd: root, absolute: true })
-    .filter(file => sourceFileSuffixRE.test(file) === false)
+    .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
@@ -69,7 +67,7 @@ function addPlugins (map) {
 
 function addComposables (map) {
   glob.sync('src/composables/*.js', { cwd: root, absolute: true })
-    .filter(file => sourceFileSuffixRE.test(file) === false)
+    .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
@@ -79,7 +77,7 @@ function addComposables (map) {
 
 function addUtils (map) {
   glob.sync('src/utils/*.js', { cwd: root, absolute: true })
-    .filter(file => sourceFileSuffixRE.test(file) === false)
+    .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))

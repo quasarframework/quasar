@@ -168,3 +168,6 @@ module.exports.clone = function clone (data) {
     return JSON.parse(str)
   }
 }
+
+const testFileRE = /test/
+module.exports.filterTestFiles = file => testFileRE.test(file) === false
