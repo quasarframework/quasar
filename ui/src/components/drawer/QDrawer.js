@@ -6,7 +6,7 @@ import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 import useTimeout from '../../composables/use-timeout.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'

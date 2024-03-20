@@ -1,9 +1,9 @@
-import { createDirective } from '../utils/private/create.js'
-import { css } from '../utils/dom.js'
-import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
-import { isKeyCode } from '../utils/private/key-composition.js'
-import throttle from '../utils/throttle.js'
-import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private/create.js'
+import { css } from '../../utils/dom.js'
+import { position, stop, addEvt, cleanEvt } from '../../utils/event.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
+import throttle from '../../utils/throttle.js'
+import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)

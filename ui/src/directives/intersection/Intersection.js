@@ -1,6 +1,6 @@
-import { createDirective } from '../utils/private/create.js'
-import { isDeepEqual } from '../utils/is.js'
-import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private/create.js'
+import { isDeepEqual } from '../../utils/is.js'
+import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
 
 const defaultCfg = {
   threshold: 0,

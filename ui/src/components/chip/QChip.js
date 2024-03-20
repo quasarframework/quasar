@@ -2,7 +2,7 @@ import { h, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import Ripple from '../../directives/Ripple.js'
+import Ripple from '../../directives/ripple/Ripple.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'

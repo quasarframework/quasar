@@ -1,10 +1,10 @@
-import { client } from '../plugins/Platform.js'
+import { client } from '../../plugins/Platform.js'
 
-import { createDirective } from '../utils/private/create.js'
-import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
-import { clearSelection } from '../utils/private/selection.js'
-import { isKeyCode } from '../utils/private/key-composition.js'
-import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private/create.js'
+import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../../utils/event.js'
+import { clearSelection } from '../../utils/private/selection.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
+import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
 
 const
   keyCodes = {

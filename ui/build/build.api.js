@@ -734,7 +734,7 @@ module.exports.generate = function ({ compact = false } = {}) {
       .filter(filterTestFiles)
       .map(fillAPI('plugin', list, encodeFn))
 
-    const directives = glob.sync('src/directives/*.json', { cwd: root, absolute: true })
+    const directives = glob.sync('src/directives/**/*.json', { cwd: root, absolute: true })
       .filter(filterTestFiles)
       .map(fillAPI('directive', list, encodeFn))
 

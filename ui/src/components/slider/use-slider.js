@@ -1,6 +1,6 @@
 import { h, ref, computed, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useFormProps, useFormInject } from '../../composables/private/use-form.js'

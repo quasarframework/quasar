@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, nextTick, getCurrentInstance, Transition, KeepAlive } from 'vue'
 
-import TouchSwipe from '../../directives/TouchSwipe.js'
+import TouchSwipe from '../../directives/touch-swipe/TouchSwipe.js'
 
 import useRenderCache from '../../composables/use-render-cache.js'
 

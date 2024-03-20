@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import QSlider from '../slider/QSlider.js'
 import QIcon from '../icon/QIcon.js'
