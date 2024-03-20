@@ -6,39 +6,58 @@
       row-key="name"
       title="Inner expanded"
     >
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="desc" :props="props">
-            <div class="row items-center">
-              <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
-              <div>%%% {{ props.row.name }} %%%</div>
+      <template v-slot:body-cell-desc="props">
+        <q-td :props="props">
+          <div class="row items-center">
+            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+            <div>%%% {{ props.row.name }} %%%</div>
+          </div>
+        </q-td>
+      </template>
+      <template v-slot:body-cell-iron="props">
+        <q-td :props="props">
+          <q-badge square color="amber">
+            {{ props.row.iron }}
+          </q-badge>
+        </q-td>
+      </template>
+      <template v-slot:row-expand="props">
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">
+              This is expand slot for row above: {{ props.row.name }}.
+              <q-input v-model="props.row.input" />
             </div>
           </q-td>
-
-          <q-td key="calories" :props="props">
-            {{ props.row.calories }}
-          </q-td>
-          <q-td key="fat" :props="props">
-            {{ props.row.fat }}
-          </q-td>
-          <q-td key="carbs" :props="props">
-            {{ props.row.carbs }}
-          </q-td>
-          <q-td key="protein" :props="props">
-            {{ props.row.protein }}
-          </q-td>
-          <q-td key="sodium" :props="props">
-            {{ props.row.sodium }}
-          </q-td>
-          <q-td key="calcium" :props="props">
-            {{ props.row.calcium }}
-          </q-td>
-          <q-td key="iron" :props="props">
-            <q-badge square color="amber">
-              {{ props.row.iron }}
-            </q-badge>
-          </q-td>
         </q-tr>
+      </template>
+    </q-table>
+
+    <q-table
+      style="height: 400px"
+      :rows="data"
+      :columns="columns"
+      row-key="name"
+      virtual-scroll
+      :virtual-scroll-item-size="48"
+      title="Inner expanded with virtaul scroll"
+    >
+      <template v-slot:body-cell-desc="props">
+        <q-td :props="props">
+          <div class="row items-center">
+            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+            <div>%%% {{ props.row.name }} %%%</div>
+          </div>
+        </q-td>
+      </template>
+      <template v-slot:body-cell-iron="props">
+        <q-td :props="props">
+          <q-badge square color="amber">
+            {{ props.row.iron }}
+          </q-badge>
+        </q-td>
+      </template>
+      <template v-slot:row-expand="props">
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="text-left">
@@ -57,39 +76,22 @@
       v-model:expanded="expanded"
       title="With v-model:expanded"
     >
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="desc" :props="props">
-            <div class="row items-center">
-              <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
-              <div>%%% {{ props.row.name }} %%%</div>
-            </div>
-          </q-td>
-
-          <q-td key="calories" :props="props">
-            {{ props.row.calories }}
-          </q-td>
-          <q-td key="fat" :props="props">
-            {{ props.row.fat }}
-          </q-td>
-          <q-td key="carbs" :props="props">
-            {{ props.row.carbs }}
-          </q-td>
-          <q-td key="protein" :props="props">
-            {{ props.row.protein }}
-          </q-td>
-          <q-td key="sodium" :props="props">
-            {{ props.row.sodium }}
-          </q-td>
-          <q-td key="calcium" :props="props">
-            {{ props.row.calcium }}
-          </q-td>
-          <q-td key="iron" :props="props">
-            <q-badge square color="amber">
-              {{ props.row.iron }}
-            </q-badge>
-          </q-td>
-        </q-tr>
+      <template v-slot:body-cell-desc="props">
+        <q-td :props="props">
+          <div class="row items-center">
+            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+            <div>%%% {{ props.row.name }} %%%</div>
+          </div>
+        </q-td>
+      </template>
+      <template v-slot:body-cell-iron="props">
+        <q-td :props="props">
+          <q-badge square color="amber">
+            {{ props.row.iron }}
+          </q-badge>
+        </q-td>
+      </template>
+      <template v-slot:row-expand="props">
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="text-left">

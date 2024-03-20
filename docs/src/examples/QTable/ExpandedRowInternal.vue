@@ -7,33 +7,12 @@
       :columns="columns"
       row-key="name"
     >
-
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th auto-width />
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.label }}
-          </q-th>
-        </q-tr>
+      <template v-slot:body-cell-before="props">
+        <q-td auto-width>
+          <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+        </q-td>
       </template>
-
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td auto-width>
-            <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-          </q-td>
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.value }}
-          </q-td>
-        </q-tr>
+      <template v-slot:row-expand="props">
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
@@ -47,6 +26,12 @@
 
 <script>
 const columns = [
+  {
+    name: 'before',
+    label: () => '',
+    field: () => '',
+    format: () => ''
+  },
   {
     name: 'name',
     required: true,

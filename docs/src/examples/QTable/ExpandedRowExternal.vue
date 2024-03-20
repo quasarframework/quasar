@@ -8,35 +8,12 @@
       row-key="name"
       v-model:expanded="expanded"
     >
-
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th auto-width />
-
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.label }}
-          </q-th>
-        </q-tr>
+      <template v-slot:body-cell-before="props">
+        <q-td auto-width>
+          <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+        </q-td>
       </template>
-
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td auto-width>
-            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
-          </q-td>
-
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.value }}
-          </q-td>
-        </q-tr>
+      <template v-slot:row-expand="props">
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
             <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
@@ -52,6 +29,12 @@
 import { ref } from 'vue'
 
 const columns = [
+  {
+    name: 'before',
+    label: () => '',
+    field: () => '',
+    format: () => ''
+  },
   {
     name: 'name',
     required: true,

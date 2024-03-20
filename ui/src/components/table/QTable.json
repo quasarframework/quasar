@@ -1044,6 +1044,79 @@
       }
     },
 
+    "row-expand": {
+      "desc": "Slot to define how the expanded part of a row looks like; Suggestion: QTr + Td with `colspan=\"100%\"`",
+      "scope": {
+        "key": {
+          "type": "Any",
+          "desc": "Row's key",
+          "__exemption": [ "examples" ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
+        },
+        "__trClass": {
+          "type": "String",
+          "desc": "Internal prop passed down to QTr (if used)",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
     "header": {
       "desc": "Slot to define how header looks like; Suggestion: QTr + QTh",
       "scope": {
