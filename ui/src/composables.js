@@ -5,6 +5,7 @@ import useQuasar from './composables/use-quasar.js'
 
 import useHydration from './composables/use-hydration.js'
 import useId from './composables/use-id.js'
+import useInterval from './composables/use-interval.js'
 import useRenderCache from './composables/use-render-cache.js'
 import useSplitAttrs from './composables/use-split-attrs.js'
 import useTick from './composables/use-tick.js'
@@ -18,6 +19,7 @@ export {
 
   useHydration,
   useId,
+  useInterval,
   useRenderCache,
   useSplitAttrs,
   useTick,
