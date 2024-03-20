@@ -8,9 +8,6 @@
   "props": {
     "name": {
       "desc": "Slide name",
-      "examples": [
-        "accounts", "firstSlide", ":name=\"1\""
-      ],
       "category": "model"
     },
 
