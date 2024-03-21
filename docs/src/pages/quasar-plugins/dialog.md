@@ -111,6 +111,7 @@ setup () {
     // props forwarded to your custom component
     componentProps: {
       text: 'something',
+      persistent: true,
       // ...more..props...
     }
   }).onOk(() => {
