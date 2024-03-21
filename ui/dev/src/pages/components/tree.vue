@@ -19,6 +19,7 @@
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
             <q-toggle v-model="noSelectionUnset" label="noSelectionUnset" />
             <q-toggle v-model="noConnectors" label="No connectors" />
+            <q-toggle v-model="keepColor" label="Keep color" />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-input v-model="filter" label="Filter" />
@@ -56,6 +57,7 @@
           :dense="dense"
           :accordion="accordion"
           :color="color"
+          :keep-color="keepColor"
           :filter="filter"
           :no-connectors="noConnectors"
           :no-transition="noTransition"
@@ -150,6 +152,7 @@ export default {
     findNode('KEY: Node 1.3 - tap on me!', smallTree).handler = () => this.$q.notify('Tapped on node 1.3')
 
     return {
+      keepColor: true,
       noConnectors: false,
       noTransition: false,
       selected: null,
