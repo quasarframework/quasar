@@ -5,6 +5,7 @@ import useMask, { useMaskProps } from './use-mask.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
@@ -386,6 +387,11 @@ export default createComponent({
       props.autogrow === true && adjustHeight()
     })
 
+    function onResize () {
+      // textarea only
+      props.autogrow === true && adjustHeight()
+    }
+
     Object.assign(state, {
       innerValue,
 
@@ -415,7 +421,7 @@ export default createComponent({
       ),
 
       getControl: () => {
-        return h(isTextarea.value === true ? 'textarea' : 'input', {
+        return [ h(isTextarea.value === true ? 'textarea' : 'input', {
           ref: inputRef,
           class: [
             'q-field__native q-placeholder',
@@ -429,7 +435,10 @@ export default createComponent({
               ? { value: getCurValue() }
               : formDomProps.value
           )
-        })
+        }), ...(props.autogrow === true ? [ h(QResizeObserver, {
+          debounce: 0,
+          onResize
+        }) ] : []) ]
       },
 
       getShadowControl: () => {
