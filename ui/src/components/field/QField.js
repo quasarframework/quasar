@@ -18,10 +18,10 @@ export default createComponent({
 
   emits: useFieldEmits,
 
-  setup () {
+  setup (props) {
     return useField(
       useFieldState({
-        requiredForAttr: false,
+        requiredForAttr: props.tag === 'label',
         tagProp: true
       })
     )
