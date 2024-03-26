@@ -20,7 +20,7 @@
 
     "tag": {
       "extends": "tag",
-      "default": "label",
+      "default": "div",
       "examples": [ "div", "label" ],
       "addedIn": "v2.13.1"
     }

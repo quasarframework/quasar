@@ -12,16 +12,16 @@ export default createComponent({
 
     tag: {
       type: String,
-      default: 'label'
+      default: 'div'
     }
   },
 
   emits: useFieldEmits,
 
-  setup () {
+  setup (props) {
     return useField(
       useFieldState({
-        requiredForAttr: false,
+        requiredForAttr: props.tag === 'label',
         tagProp: true
       })
     )
