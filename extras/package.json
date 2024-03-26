@@ -152,7 +152,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "6.5.0",
+    "@fortawesome/fontawesome-free": "6.5.1",
     "@mdi/font": "7.3.67",
     "@mdi/svg": "7.3.67",
     "@xmldom/xmldom": "0.8.10",
