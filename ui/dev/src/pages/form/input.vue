@@ -73,7 +73,7 @@
 
       <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" color="green" />
 
-      <q-field v-bind="props" v-model="text" required label="Required - Custom input">
+      <q-field tag="label" v-bind="props" v-model="text" required label="Required - Custom input">
         <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
           <input :id="id" class="q-field__input" :value="modelValue" @input="e => emitValue(e.target.value)" v-show="floatingLabel">
         </template>

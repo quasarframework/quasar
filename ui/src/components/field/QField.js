@@ -12,7 +12,7 @@ export default createComponent({
 
     tag: {
       type: String,
-      default: 'label'
+      default: 'div'
     }
   },
 

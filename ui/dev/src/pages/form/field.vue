@@ -10,7 +10,7 @@
 
       <h1>Field wrapper tests</h1>
 
-      <q-field tag="div" model-value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
+      <q-field model-value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
         <template v-slot:before>
           <q-icon name="event" />
         </template>
@@ -190,7 +190,7 @@
       <p class="caption">
         Control slot: {{ testValue }}
       </p>
-      <q-field filled v-model="testValue" label="Tree Select - Single" tabindex="0">
+      <q-field tag="label" filled v-model="testValue" label="Tree Select - Single" tabindex="0">
         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
           <input :id="id" :value="value" @input="e => emitValue(e.target.value)" v-show="floatingLabel">
         </template>
