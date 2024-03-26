@@ -74,6 +74,15 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ## Basic features
 
+### Tag Wrapper
+Allowing selection between `label` for form control fields and `div` for custom components with a `tag` property, enhances form functionality, and accessibility.
+
+::: warning
+If using `label`, ensure it is associated with form control fields and link the generated ID to the form field to avoid an accessibility violation.
+:::
+
+<DocExample title="Tag" file="TagWrapper" />
+
 ### Clearable
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
