@@ -401,7 +401,7 @@ export default createComponent({
           scroll,
           container,
 
-          onScroll: setScroll
+          onSetScroll: setScroll
         })
       ])
     }
