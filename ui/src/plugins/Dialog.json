@@ -19,13 +19,13 @@
             "title": {
               "type": "String",
               "desc": "A text for the heading title of the dialog",
-              "examples": [ "Continue?" ]
+              "examples": [ "'Continue?'" ]
             },
 
             "message": {
               "type": "String",
               "desc": "A text with more information about what needs to be input, selected or confirmed.",
-              "examples": [ "Are you certain you want to continue?" ]
+              "examples": [ "'Are you certain you want to continue?'" ]
             },
 
             "html": {
@@ -36,15 +36,15 @@
             "position": {
               "type": "String",
               "desc": "Position of the Dialog on screen. Standard is centered.",
-              "values": [ "top", "right", "bottom", "left", "standard" ],
-              "default": "standard"
+              "values": [ "'top'", "'right'", "'bottom'", "'left'", "'standard'" ],
+              "default": "'standard'"
             },
 
             "prompt": {
               "type": "Object",
               "tsType": "QDialogInputPrompt",
               "desc": "An object definition of the input field for the prompting question.",
-              "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
+              "examples": [ "{ model: this.promptVal, type: 'number' }" ],
               "definition": {
                 "model": {
                   "type": "String",
@@ -55,8 +55,8 @@
                 "type": {
                   "type": "String",
                   "desc": "Optional property to determine the input field type",
-                  "default": "text",
-                  "examples": [ "text", "number", "textarea" ]
+                  "default": "'text'",
+                  "examples": [ "'text'", "'number'", "'textarea'" ]
                 },
 
                 "isValid": {
@@ -89,7 +89,7 @@
                 "...nativeAttributes": {
                   "type": "Object",
                   "desc": "Any native attributes to pass to the prompt control",
-                  "examples": [ "autocomplete: 'off'" ]
+                  "examples": [ "# autocomplete: 'off'" ]
                 }
               }
             },
@@ -110,8 +110,8 @@
                 "type": {
                   "type": "String",
                   "desc": "The type of selection",
-                  "default": "radio",
-                  "values": [ "radio", "checkbox", "toggle" ]
+                  "default": "'radio'",
+                  "values": [ "'radio'", "'checkbox'", "'toggle'" ]
                 },
 
                 "items": {
@@ -131,7 +131,7 @@
                       "required": true,
                       "desc": "The current model (String if it's of type radio or Array otherwise)",
                       "examples": [
-                        "opt2",
+                        "'opt2'",
                         "[ 'opt1' ]",
                         "[]",
                         "[ 'opt1', 'opt3' ]"
@@ -201,8 +201,8 @@
             "focus": {
               "type": "String",
               "desc": "What button to focus, unless you also have 'prompt' or 'options'",
-              "values": [ "ok", "cancel", "none" ],
-              "default": "ok"
+              "values": [ "'ok'", "'cancel'", "'none'" ],
+              "default": "'ok'"
             },
 
             "stackButtons": {
@@ -261,12 +261,12 @@
 
             "transitionShow": {
               "extends": "transition",
-              "default": "scale"
+              "default": "'scale'"
             },
 
             "transitionHide": {
               "extends": "transition",
-              "default": "scale"
+              "default": "'scale'"
             },
 
             "component": {

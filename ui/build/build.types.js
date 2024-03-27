@@ -40,10 +40,10 @@ const fallbackComplexTypeMap = new Map([
 ])
 
 const dontNarrowValues = [
-  '(Boolean) true',
-  '(Boolean) false',
-  '(CSS selector)',
-  '(DOM Element)'
+  'true',
+  'false',
+  '# CSS selector',
+  '# DOM Element'
 ]
 
 function convertTypeVal (type, def) {
@@ -52,10 +52,8 @@ function convertTypeVal (type, def) {
   }
 
   if (def.values && type === 'String') {
-    const narrowedValues = def.values.filter(v =>
-      !dontNarrowValues.includes(v)
-      && typeof v === 'string'
-    ).map(v => `'${ v }'`)
+    const narrowedValues = def.values
+      .filter(v => !dontNarrowValues.includes(v))
 
     if (narrowedValues.length) {
       return narrowedValues.join(' | ')

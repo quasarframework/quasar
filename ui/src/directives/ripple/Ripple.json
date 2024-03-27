@@ -25,7 +25,7 @@
       "color": {
         "type": "String",
         "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
-        "examples": [ "orange-5" ]
+        "examples": [ "'orange-5'" ]
       },
 
       "keyCodes": {
@@ -58,7 +58,7 @@
       "color": {
         "type": "String",
         "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
-        "examples": [ "orange-5" ]
+        "examples": [ "'orange-5'" ]
       },
 
       "keyCodes": {
@@ -68,17 +68,15 @@
       }
     },
     "examples": [
-      "v-ripple=\"booleanState\"",
-      "v-ripple=\"{ center: true, color: 'primary', keyCodes: [] }\""
+      "# v-ripple=\"booleanState\"",
+      "# v-ripple=\"{ center: true, color: 'primary', keyCodes: [] }\""
     ]
   },
 
   "arg": {
     "type": "String",
     "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
-    "examples": [
-      "v-ripple:orange-5"
-    ]
+    "examples": [ "# v-ripple:orange-5" ]
   },
 
   "modifiers": {
@@ -90,17 +88,13 @@
     "stop": {
       "type": "Boolean",
       "desc": "Stop click/touch event propagation",
-      "examples": [
-        "v-ripple.stop"
-      ]
+      "examples": [ "# v-ripple.stop" ]
     },
 
     "center": {
       "type": "Boolean",
       "desc": "Ripple starts from the absolute center",
-      "examples": [
-        "v-ripple.center"
-      ]
+      "examples": [ "# v-ripple.center" ]
     }
   }
 }

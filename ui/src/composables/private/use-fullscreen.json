@@ -4,9 +4,7 @@
       "type": "Boolean",
       "sync": true,
       "desc": "Fullscreen mode",
-      "examples": [
-        "v-model:fullscreen=\"isFullscreen\""
-      ],
+      "examples": [ "# v-model:fullscreen=\"isFullscreen\"" ],
       "category": "behavior"
     },
 

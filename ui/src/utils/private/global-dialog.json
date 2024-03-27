@@ -11,14 +11,14 @@
               "type": [ "String", "Array", "Object" ],
               "tsType": "VueClassProp",
               "desc": "CSS Class name to apply to the Dialog's QCard",
-              "examples": [ "my-class" ]
+              "examples": [ "'my-class'" ]
             },
 
             "style": {
               "type": [ "String", "Array", "Object" ],
               "tsType": "VueStyleProp",
               "desc": "CSS style to apply to the Dialog's QCard",
-              "examples": [ "border: 2px solid black" ]
+              "examples": [ "'border: 2px solid black'" ]
             }
           }
         }

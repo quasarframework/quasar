@@ -7,11 +7,11 @@
     "position": {
       "type": "String",
       "desc": "Page side/corner to stick to",
-      "default": "bottom-right",
+      "default": "'bottom-right'",
       "values": [
-        "top-right", "top-left",
-        "bottom-right", "bottom-left",
-        "top", "right", "bottom", "left"
+        "'top-right'", "'top-left'",
+        "'bottom-right'", "'bottom-left'",
+        "'top'", "'right'", "'bottom'", "'left'"
       ],
       "category": "position"
     },

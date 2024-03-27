@@ -11,7 +11,7 @@
           "type": "String",
           "desc": "Entry key",
           "required": true,
-          "examples": [ "userId" ]
+          "examples": [ "'userId'" ]
         }
       },
       "returns": {
@@ -36,13 +36,13 @@
           "type": "String",
           "desc": "Entry key",
           "required": true,
-          "examples": [ "userId" ]
+          "examples": [ "'userId'" ]
         }
       },
       "returns": {
         "type": [ "Date", "RegExp", "Number", "Boolean", "Function", "Object", "Array", "String", "null" ],
         "desc": "Storage item value",
-        "examples": [ "john12", 702 ]
+        "examples": [ "'john12'", "702" ]
       }
     },
 
@@ -75,7 +75,7 @@
       "returns": {
         "type": [ "String", "null" ],
         "desc": "Storage key",
-        "examples": [ "userId" ]
+        "examples": [ "'userId'" ]
       }
     },
 
@@ -84,9 +84,7 @@
       "returns": {
         "type": "Object",
         "desc": "Object syntax: item name as Object key and its value",
-        "examples": [
-          "{ userId: 'jon12', timesLoggedIn: 14 }"
-        ]
+        "examples": [ "{ userId: 'jon12', timesLoggedIn: 14 }" ]
       }
     },
 
@@ -107,7 +105,7 @@
           "type": "String",
           "desc": "Entry key",
           "required": true,
-          "examples": [ "userId" ]
+          "examples": [ "'userId'" ]
         },
 
         "value": {
@@ -124,7 +122,7 @@
             "type": "Any",
             "__exemption": [ "desc" ]
           },
-          "examples": [ "john12" ]
+          "examples": [ "'john12'" ]
         }
       }
     },
@@ -136,7 +134,7 @@
           "type": "String",
           "desc": "Storage key",
           "required": true,
-          "examples": [ "userId" ]
+          "examples": [ "'userId'" ]
         }
       }
     },

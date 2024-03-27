@@ -21,20 +21,20 @@
       "type": "Number",
       "desc": "Screen width (in pixels)",
       "reactive": true,
-      "examples": [ 452 ]
+      "examples": [ "452" ]
     },
 
     "height": {
       "type": "Number",
       "desc": "Screen height (in pixels)",
       "reactive": true,
-      "examples": [ 721 ]
+      "examples": [ "721" ]
     },
 
     "name": {
       "type": "String",
       "desc": "Tells current window breakpoint",
-      "values": [ "xs", "sm", "md", "lg", "xl" ],
+      "values": [ "'xs'", "'sm'", "'md'", "'lg'", "'xl'" ],
       "reactive": true
     },
 
@@ -60,9 +60,7 @@
         }
       },
       "reactive": true,
-      "examples": [
-        "{ sm: 600, md: 1024, lg: 1440, xl: 1920 }"
-      ]
+      "examples": [ "{ sm: 600, md: 1024, lg: 1440, xl: 1920 }" ]
     },
 
     "lt": {
@@ -87,9 +85,7 @@
           "desc": "Is current screen width lower than this breakpoint's lowest limit?"
         }
       },
-      "examples": [
-        "{ sm: false, md: true, lg: true, xl: true }"
-      ]
+      "examples": [ "{ sm: false, md: true, lg: true, xl: true }" ]
     },
 
     "gt": {
@@ -114,9 +110,7 @@
           "desc": "Is current screen width greater than this breakpoint's max limit?"
         }
       },
-      "examples": [
-        "{ xs: true, sm: true, md: false, lg: false, xl: false }"
-      ]
+      "examples": [ "{ xs: true, sm: true, md: false, lg: false, xl: false }" ]
     },
 
     "xs": {

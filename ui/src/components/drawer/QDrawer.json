@@ -9,8 +9,8 @@
     "side": {
       "type": "String",
       "desc": "Side to attach to",
-      "values": [ "left", "right" ],
-      "default": "left",
+      "values": [ "'left'", "'right'" ],
+      "default": "'left'",
       "category": "behavior"
     },
 
@@ -23,8 +23,7 @@
     "width": {
       "type": "Number",
       "desc": "Width of drawer (in pixels)",
-      "default": 300,
-      "examples": [ ":width=\"350\"" ],
+      "default": "300",
       "category": "style"
     },
 
@@ -37,8 +36,7 @@
     "mini-width": {
       "type": "Number",
       "desc": "Width of drawer (in pixels) when in mini mode",
-      "default": 60,
-      "examples": [ ":mini-width=\"100\"" ],
+      "default": "60",
       "category": "style"
     },
 
@@ -62,18 +60,16 @@
     "breakpoint": {
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
-      "default": 1023,
-      "examples": [ 1200, ":breakpoint=\"1400\"" ],
+      "default": "1023",
+      "examples": [ "1200" ],
       "category": "behavior"
     },
 
     "behavior": {
       "type": "String",
       "desc": "Overrides the default dynamic mode into which the drawer is put on",
-      "values": [
-        "default", "desktop", "mobile"
-      ],
-      "default": "default",
+      "values": [ "'default'", "'desktop'", "'mobile'" ],
+      "default": "'default'",
       "category": "behavior"
     },
 

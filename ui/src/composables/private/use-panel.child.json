@@ -4,9 +4,7 @@
       "type": "Any",
       "desc": "Panel name",
       "required": true,
-      "examples": [
-        "accounts", "firstPanel", ":name=\"1\""
-      ],
+      "examples": [ "'accounts'", "'firstPanel'", "1" ],
       "category": "general"
     },
 

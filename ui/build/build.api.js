@@ -11,6 +11,27 @@ const { logError, writeFile, kebabCase, filterTestFiles } = require('./build.uti
 const ast = require('./ast')
 
 const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
+const apiIgnoreValueRegex = /^# /
+const apiValuePromiseRegex = /\.then\(/
+const apiValueRegex = {
+  Number: /^-?\d/,
+  String: /^'[^']+'$/,
+  Array: /^\[.*\]$/,
+  Object: /^{.*}$/,
+  Boolean: /^(true|false)$/,
+  Function: / => /,
+  RegExp: /^\/.*\/[gimuy]*$/,
+  Element: /(^document\.?|^\..+|^#.+|^body\.?|.+El$|\$refs)/,
+  Component: /^[A-Z][A-Za-z]+$/,
+  'Promise<any>': apiValuePromiseRegex,
+  'Promise<void>': apiValuePromiseRegex,
+  'Promise<boolean>': apiValuePromiseRegex,
+  'Promise<number>': apiValuePromiseRegex,
+  'Promise<string>': apiValuePromiseRegex,
+  'Promise<object>': apiValuePromiseRegex,
+  null: /^null$/,
+  undefined: /^void 0$/
+}
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -241,6 +262,10 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
   const def = objectTypes[ type ]
 
   if (obj.internal !== true) {
+    const regexList = Array.isArray(obj.type)
+      ? (obj.type.includes('Any') ? [] : obj.type.map(t => apiValueRegex[ t ]).filter(v => v))
+      : (obj.type === 'Any' ? [] : [ apiValueRegex[ obj.type ] ].filter(v => v))
+
     for (const prop in obj) {
       // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
       if ([ 'type', '__exemption' ].includes(prop)) {
@@ -257,6 +282,70 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
         console.error(obj)
         console.log()
         process.exit(1)
+      }
+
+      if (prop === 'default') {
+        if (typeof obj.default !== 'string') {
+          logError(`${ banner } object: stringify "${ prop }" -> "default" value`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+
+        if (
+          regexList.length !== 0
+          && apiIgnoreValueRegex.test(obj.default) === false
+          && regexList.every(regex => regex.test(obj.default) === false)
+        ) {
+          logError(`${ banner } object: "${ prop }" -> "default" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      }
+      else if (prop === 'values') {
+        if (obj.values.some(val => typeof val !== 'string')) {
+          logError(`${ banner } object: stringify each of "${ prop }" -> "values" entries`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+
+        if (regexList.length !== 0) {
+          obj.values.forEach(val => {
+            if (
+              apiIgnoreValueRegex.test(val) === false
+              && regexList.every(regex => regex.test(val) === false)
+            ) {
+              logError(`${ banner } object: "${ prop }" -> "values" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+              console.error(obj)
+              console.log()
+              process.exit(1)
+            }
+          })
+        }
+      }
+      else if (prop === 'examples') {
+        if (obj.examples.some(val => typeof val !== 'string')) {
+          logError(`${ banner } object: stringify each of "${ prop }" -> "examples" entries`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+
+        if (regexList.length !== 0) {
+          obj.examples.forEach(val => {
+            if (
+              apiIgnoreValueRegex.test(val) === false
+              && regexList.every(regex => regex.test(val) === false)
+            ) {
+              logError(`${ banner } object: "${ prop }" -> "examples" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+              console.error(obj)
+              console.log()
+              process.exit(1)
+            }
+          })
+        }
       }
     }
 
@@ -529,7 +618,7 @@ function arrayHasError (name, key, property, expected, propApi) {
     || !expectedVal.every(t => apiVal.includes(t))
   ) {
     console.log(key, name, propApi[ key ], expectedVal)
-    logError(`${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
+    logError(`[1] ${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
     return true
   }
 }
@@ -587,7 +676,7 @@ function fillAPI (apiType, list, encodeFn) {
           if (definition) {
             const propApi = api[ prop ][ key ]
             if (typeof definition === 'string' && propApi.type !== definition) {
-              logError(`${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
+              logError(`[2] ${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
               hasError = true // keep looping through to find as many as can be found before exiting
             }
             else if (Array.isArray(definition)) {
@@ -625,18 +714,24 @@ function fillAPI (apiType, list, encodeFn) {
                   }
                 }
                 else if (propApiType !== definition.type) {
-                  logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
+                  logError(`[3] ${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }
 
               if (key !== 'model-value' && definition.required && Boolean(definition.required) !== propApi.required) {
-                logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
+                logError(`[4] ${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
                 hasError = true // keep looping through to find as many as can be found before exiting
               }
 
               if (definition.validator && Array.isArray(definition.validator)) {
-                if (arrayHasError(name, key, 'values', definition.validator, propApi)) {
+                const validator = definition.validator.map(entry => (
+                  typeof entry === 'string'
+                    ? `'${ entry }'`
+                    : entry
+                ))
+
+                if (arrayHasError(name, key, 'values', validator, propApi)) {
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }

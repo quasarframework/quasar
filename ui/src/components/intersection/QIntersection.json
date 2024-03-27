@@ -6,8 +6,8 @@
   "props": {
     "tag": {
       "extends": "tag",
-      "default": "div",
-      "examples": [ "div", "span", "blockquote" ]
+      "default": "'div'",
+      "examples": [ "'div'", "'span'", "'blockquote'" ]
     },
 
     "once": {
@@ -24,16 +24,16 @@
 
     "root": {
       "type": [ "Element", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "[Intersection API root prop] Lets you define an alternative to the viewport as your root (through its DOM element); It is important to keep in mind that root needs to be an ancestor of the observed element",
-      "examples": [ "$refs.myTable.$el", "getElementById(\"myTable\")" ],
+      "examples": [ "document.getElementById('myTable')", "$refs.myTable.$el" ],
       "category": "behavior"
     },
 
     "margin": {
       "type": "String",
       "desc": "[Intersection API rootMargin prop] Allows you to specify the margins for the root, effectively allowing you to either grow or shrink the area used for intersections",
-      "examples": [ "-20px 0px", "10px 20px 30px 40px" ],
+      "examples": [ "'-20px 0px'", "'10px 20px 30px 40px'" ],
       "category": "behavior"
     },
 
@@ -42,7 +42,7 @@
       "desc": "[Intersection API threshold prop] Threshold(s) at which to trigger, specified as a ratio, or list of ratios, of (visible area / total area) of the observed element",
       "examples": [
         "[ 0, 0.25, 0.5, 0.75, 1 ]",
-        ":threshold=\"1\""
+        "1"
       ],
       "category": "behavior"
     },
@@ -55,7 +55,7 @@
     "transition-duration": {
       "type": [ "String", "Number" ],
       "desc": "Transition duration (in milliseconds, without unit)",
-      "default": 300,
+      "default": "300",
       "category": "behavior",
       "addedIn": "v2.3.1"
     },

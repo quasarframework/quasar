@@ -11,36 +11,29 @@
     "label": {
       "type": [ "Number", "String" ],
       "desc": "A number or string to label the tab",
-      "examples": [ "Home" ],
+      "examples": [ "'Home'" ],
       "category": "content"
     },
 
     "alert": {
       "type": [ "Boolean", "String" ],
       "desc": "Adds an alert symbol to the tab, notifying the user there are some updates; If its value is not a Boolean, then you can specify a color",
-      "examples": [
-        "alert",
-        "alert=\"purple\""
-      ],
+      "examples": [ "'purple'" ],
       "category": "content"
     },
 
     "alert-icon": {
       "type": "String",
       "desc": "Adds a floating icon to the tab, notifying the user there are some updates; It's displayed only if 'alert' is set; Can use the color specified by 'alert' prop",
-      "examples": [
-        "alert-icon=\"alarm_on\""
-      ],
+      "examples": [ "'alarm_on'" ],
       "category": "content"
     },
 
     "name": {
       "type": [ "Number", "String" ],
       "desc": "Panel name",
-      "default": "A random UID",
-      "examples": [
-        "home", ":name=\"1\""
-      ],
+      "default": "# a random UUID",
+      "examples": [ "'home'", "1" ],
       "category": "general"
     },
 
@@ -53,7 +46,7 @@
     "content-class": {
       "type": "String",
       "desc": "Class definitions to be attributed to the content wrapper",
-      "examples": [ "my-special-class" ],
+      "examples": [ "'my-special-class'" ],
       "category": "style"
     },
 

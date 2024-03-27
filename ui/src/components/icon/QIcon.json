@@ -9,8 +9,8 @@
     "tag": {
       "extends": "tag",
       "desc": "HTML tag to render, unless no icon is supplied or it's an svg icon",
-      "default": "i",
-      "examples": [ "div", "i" ]
+      "default": "'i'",
+      "examples": [ "'div'", "'i'" ]
     },
 
     "name": {

@@ -4,7 +4,7 @@
   },
 
   "value": {
-    "type": ["Function", "undefined"],
+    "type": [ "Function", "undefined" ],
     "desc": "Function to call after user has hold touch/click for the specified amount of time (use undefined to disable)",
     "params": {
       "details": {
@@ -45,17 +45,17 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-hold=\"fnToCall\"", "v-touch-hold=\"undefined\"" ]
+    "examples": [ "({ evt, touch, mouse, position, duration }) => { /* ... */ }" ]
   },
 
   "arg": {
     "type": "String",
     "desc": "x:y:z, where x is the amount of time to wait (in milliseconds), y is the touch event sensitivity (in pixels) and z is the mouse event sensitivity (in pixels)",
-    "default": "600:5:7",
+    "default": "'600:5:7'",
     "examples": [
-      "v-touch-hold:400=\"fnToCall\"",
-      "v-touch-hold:400:15=\"fnToCall\"",
-      "v-touch-hold:400:10:10=\"fnToCall\""
+      "# v-touch-hold:400=\"fnToCall\"",
+      "# v-touch-hold:400:15=\"fnToCall\"",
+      "# v-touch-hold:400:10:10=\"fnToCall\""
     ]
   },
 

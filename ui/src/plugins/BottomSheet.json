@@ -18,13 +18,13 @@
             "title": {
               "type": "String",
               "desc": "Title",
-              "examples": [ "Share" ]
+              "examples": [ "'Share'" ]
             },
 
             "message": {
               "type": "String",
               "desc": "Message",
-              "examples": [ "Please select how to share" ]
+              "examples": [ "'Please select how to share'" ]
             },
 
             "actions": {
@@ -35,7 +35,7 @@
                   "type": [ "String", "Array", "Object" ],
                   "tsType": "VueClassProp",
                   "desc": "CSS classes for this action",
-                  "examples": [ "my-class" ]
+                  "examples": [ "'my-class'" ]
                 },
 
                 "style": {
@@ -54,9 +54,9 @@
                   "type": "String",
                   "desc": "Path to an image for this action",
                   "examples": [
-                    "(public folder) img/something.png",
-                    "(relative path format) :src=\"require('./my_img.jpg')\"",
-                    "(URL) https://some-site.net/some-img.gif"
+                    "# (public folder) 'img/something.png'",
+                    "# (relative path format) :src=\"require('./my_img.jpg')\"",
+                    "# (URL) https://some-site.net/some-img.gif"
                   ]
                 },
 
@@ -64,16 +64,16 @@
                   "type": "String",
                   "desc": "Path to an avatar image for this action",
                   "examples": [
-                    "(public folder) img/avatar.png",
-                    "(relative path format) :src=\"require('./my_img.jpg')\"",
-                    "(URL) https://some-site.net/some-img.gif"
+                    "# (public folder) 'img/avatar.png'",
+                    "# (relative path format) :src=\"require('./my_img.jpg')\"",
+                    "# (URL) https://some-site.net/some-img.gif"
                   ]
                 },
 
                 "label": {
                   "type": [ "String", "Number" ],
                   "desc": "Action label",
-                  "examples": [ "Facebook" ]
+                  "examples": [ "'Facebook'" ]
                 },
 
                 "...": {

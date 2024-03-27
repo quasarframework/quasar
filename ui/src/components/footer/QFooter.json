@@ -8,11 +8,9 @@
       "extends": "model-value",
       "type": "Boolean",
       "desc": "Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "default": true,
+      "default": "true",
       "required": false,
-      "examples": [
-        "v-model=\"footerState\""
-      ]
+      "examples": [ "# v-model=\"footerState\"" ]
     },
 
     "reveal": {
@@ -34,7 +32,7 @@
     "height-hint": {
       "type": [ "Number", "String" ],
       "desc": "When using SSR, you can optionally hint of the height (in pixels) of the QFooter",
-      "default": 50,
+      "default": "50",
       "category": "behavior"
     }
   },

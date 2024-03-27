@@ -6,9 +6,9 @@
   "props": {
     "align": {
       "type": "String",
-      "desc": "Specify how to align the actions",
-      "default": "left (for horizontal mode) / stretch (for vertical mode)",
-      "values": [ "left", "center", "right", "between", "around", "evenly", "stretch" ],
+      "desc": "Specify how to align the actions; For horizontal mode, the default is 'left', while for vertical mode, the default is 'stretch'",
+      "default": "# 'left'/'stretch'",
+      "values": [ "'left'", "'center'", "'right'", "'between'", "'around'", "'evenly'", "'stretch'" ],
       "category": "content"
     },
 

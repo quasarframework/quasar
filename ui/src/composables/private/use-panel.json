@@ -3,7 +3,7 @@
     "model-value": {
       "type": "Any",
       "desc": "Model of the component defining the current panel's name; If a Number is used, it does not define the panel's index, but rather the panel's name which can also be an Integer; Either use this property (along with a listener for 'update:model-value' event) OR use the v-model directive.",
-      "examples": [ "v-model=\"panelName\"" ],
+      "examples": [ "# v-model=\"panelName\"" ],
       "category": "model"
     },
 
@@ -16,14 +16,14 @@
     "keep-alive-include": {
       "type": [ "String", "Array", "RegExp" ],
       "desc": "Equivalent to using Vue's native include prop for <keep-alive>; Values must be valid Vue component names",
-      "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
+      "examples": [ "'a,b'", "/a|b/", "['a', 'b']" ],
       "category": "behavior"
     },
 
     "keep-alive-exclude": {
       "type": [ "String", "Array", "RegExp"  ],
       "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>; Values must be valid Vue component names",
-      "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
+      "examples": [ "'a,b'", "/a|b/", "['a', 'b']" ],
       "category": "behavior"
     },
 
@@ -60,21 +60,21 @@
     "transition-prev": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-right/slide-down",
+      "default": "# slide-right/slide-down",
       "category": "transition"
     },
 
     "transition-next": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-left/slide-up",
+      "default": "# slide-left/slide-up",
       "category": "transition"
     },
 
     "transition-duration": {
       "type": [ "String", "Number" ],
       "desc": "Transition duration (in milliseconds, without unit)",
-      "default": 300,
+      "default": "300",
       "category": "transition",
       "addedIn": "v2.2"
     }
@@ -87,7 +87,7 @@
         "value": {
           "type": [ "String", "Number" ],
           "desc": "New current panel name",
-          "examples": [ "dashboard" ]
+          "examples": [ "'dashboard'" ]
         }
       }
     },
@@ -98,12 +98,12 @@
         "newVal": {
           "type": [ "String", "Number" ],
           "desc": "Panel name towards transition is going",
-          "examples": [ "dashboard" ]
+          "examples": [ "'dashboard'" ]
         },
         "oldVal": {
           "type": [ "String", "Number" ],
           "desc": "Panel name from which transition is happening",
-          "examples": [ "dashboard" ]
+          "examples": [ "'dashboard'" ]
         }
       }
     },
@@ -114,12 +114,12 @@
         "newVal": {
           "type": [ "String", "Number" ],
           "desc": "Panel name towards transition has occurred",
-          "examples": [ "dashboard" ]
+          "examples": [ "'dashboard'" ]
         },
         "oldVal": {
           "type": [ "String", "Number" ],
           "desc": "Panel name from which transition has happened",
-          "examples": [ "dashboard" ]
+          "examples": [ "'dashboard'" ]
         }
       }
     }
@@ -141,7 +141,7 @@
           "type": [ "String", "Number" ],
           "desc": "Panel's name, which may be a String or Number; Number does not refers to panel index, but to its name, which may be an Integer",
           "required": true,
-          "examples": [ "dashboard" ]
+          "examples": [ "'dashboard'" ]
         }
       }
     }

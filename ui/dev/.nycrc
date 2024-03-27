@@ -1,3 +1,0 @@
-{
-  "extends": "@quasar/quasar-app-extension-testing-e2e-cypress/nyc-config-preset"
-}

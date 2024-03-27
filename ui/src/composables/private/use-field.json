@@ -5,7 +5,7 @@
     "label": {
       "type": "String",
       "desc": "A text label that will “float” up above the input field, once the field gets focus",
-      "examples": [ "Username" ],
+      "examples": [ "'Username'" ],
       "category": "content"
     },
 
@@ -18,7 +18,7 @@
     "hint": {
       "type": "String",
       "desc": "Helper (hint) text which gets placed below your wrapped form component",
-      "examples": [ "Fill in between 3 and 12 characters" ],
+      "examples": [ "'Fill in between 3 and 12 characters'" ],
       "category": "content"
     },
 
@@ -31,14 +31,14 @@
     "prefix": {
       "type": "String",
       "desc": "Prefix",
-      "examples": [ "$" ],
+      "examples": [ "'$'" ],
       "category": "content"
     },
 
     "suffix": {
       "type": "String",
       "desc": "Suffix",
-      "examples": [ "@gmail.com" ],
+      "examples": [ "'@gmail.com'" ],
       "category": "content"
     },
 
@@ -74,7 +74,7 @@
     "clear-icon": {
       "type": "String",
       "desc": "Custom icon to use for the clear button when using along with 'clearable' prop",
-      "examples": [ "close" ],
+      "examples": [ "'close'" ],
       "category": "content"
     },
 
@@ -99,10 +99,7 @@
     "standout": {
       "type": [ "Boolean", "String" ],
       "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
-      "examples": [
-        "standout",
-        "standout=\"bg-primary text-white\""
-      ],
+      "examples": [ "true", "'bg-primary text-white'" ],
       "category": "style"
     },
 
@@ -167,14 +164,14 @@
     "for": {
       "type": "String",
       "desc": "Used to specify the 'id' of the control and also the 'for' attribute of the label that wraps it; If no 'name' prop is specified, then it is used for this attribute as well",
-      "examples": [ "myFieldsId" ],
+      "examples": [ "'myFieldsId'" ],
       "category": "behavior"
     },
 
     "name": {
       "type": "String",
       "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists",
-      "examples": [ "car_id" ],
+      "examples": [ "'car_id'" ],
       "category": "behavior"
     }
   },

@@ -9,24 +9,24 @@
     "width": {
       "type": [ "Number", "String" ],
       "desc": "Component width (in pixels)",
-      "examples": [ ":width=\"300\"", "400" ],
+      "examples": [ "300", "'400'" ],
       "category": "style"
     },
 
     "position": {
       "type": "String",
       "desc": "Positions component at one of the edges of the screen",
-      "examples": [ "bottom" ],
+      "examples": [ "'bottom'" ],
       "required": true,
-      "default": "top",
-      "values": [ "top", "right", "bottom", "left" ],
+      "default": "'top'",
+      "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
       "category": "content"
     },
 
     "font-size": {
       "type": "String",
       "desc": "The size in CSS units, including unit name, of the content (icon, text)",
-      "examples": [ "18px", "2rem" ],
+      "examples": [ "'18px'", "'2rem'" ],
       "category": "style"
     },
 

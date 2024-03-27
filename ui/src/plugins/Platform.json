@@ -9,9 +9,7 @@
     "userAgent": {
       "type": "String",
       "desc": "Client browser User Agent",
-      "examples": [
-        "mozilla/5.0 (macintosh; intel mac os x 10_14_5) applewebkit/537.36 (khtml, like gecko) chrome/75.0.3770.100 safari/537.36"
-      ]
+      "examples": [ "'mozilla/5.0 (macintosh; intel mac os x 10_14_5) applewebkit/537.36 (khtml, like gecko) chrome/75.0.3770.100 safari/537.36'" ]
     },
 
     "is": {
@@ -21,18 +19,18 @@
         "name": {
           "type": "String",
           "desc": "Browser name",
-          "examples": [ "chrome" ]
+          "examples": [ "'chrome'" ]
         },
         "platform": {
           "type": "String",
           "desc": "Platform name",
-          "examples": [ "mac" ]
+          "examples": [ "'mac'" ]
         },
         "version": {
           "type": "String",
           "required": false,
           "desc": "Detailed browser version",
-          "examples": [ "71.0.3578.98" ]
+          "examples": [ "'71.0.3578.98'" ]
         },
         "versionNumber": {
           "type": "Number",
@@ -78,7 +76,7 @@
         "nativeMobileWrapper": {
           "type": "String",
           "required": false,
-          "values": ["cordova", "capacitor"],
+          "values": [ "'cordova'", "'capacitor'" ],
           "desc": "Type of the native mobile wrapper"
         },
 
@@ -182,9 +180,7 @@
           "desc": "Whether the browser is Amazon Silk"
         }
       },
-      "examples": [
-        "{ chrome: true, version: '71.0.3578.98', versionNumber: 71, mac: true, desktop: true, webkit: true, name: 'chrome', platform: 'mac' }"
-      ]
+      "examples": [ "{ chrome: true, version: '71.0.3578.98', versionNumber: 71, mac: true, desktop: true, webkit: true, name: 'chrome', platform: 'mac' }" ]
     },
 
     "has": {

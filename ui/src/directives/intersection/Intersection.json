@@ -7,8 +7,8 @@
     "type": [ "Object", "Function" ],
     "desc": "Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); If using the Object form, it is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
     "examples": [
-      "v-intersection=\"myFunction\"",
-      "v-intersection=\"{ handler: myFunction, cfg: { root: myScrollingParentEl, rootMargin: '10px 20px 30px 40px', threshold: [0, 0.25, 0.5, 0.75, 1] } }\""
+      "# v-intersection=\"myFunction\"",
+      "# v-intersection=\"{ handler: myFunction, cfg: { root: myScrollingParentEl, rootMargin: '10px 20px 30px 40px', threshold: [0, 0.25, 0.5, 0.75, 1] } }\""
     ],
 
     "definition": {
@@ -180,7 +180,7 @@
           "rootMargin": {
             "type": "String",
             "desc": "Allows you to specify the margins for the root, effectively allowing you to either grow or shrink the area used for intersections",
-            "examples": [ "10px 20px 30px 40px" ]
+            "examples": [ "'10px 20px 30px 40px'" ]
           },
 
           "threshold": {
@@ -209,9 +209,7 @@
     "once": {
       "type": "Boolean",
       "desc": "Call handler only once, when the conditions are first met",
-      "examples": [
-        "v-intersection.once"
-      ]
+      "examples": [ "# v-intersection.once" ]
     }
   }
 }
