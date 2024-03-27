@@ -10,8 +10,9 @@ function showHelp (exitCode = 0) {
     $ specs -i
 
     $ specs -t QIcon
-    $ specs -t components/**/QIcon
-    $ specs -t utils/**/some-util
+    $ specs -t components
+    $ specs -t Ico
+    $ specs -t utils
 
     $ specs -t QIcon -g props.name
 
@@ -57,7 +58,7 @@ if (targetList.length === 0) {
 
 for (const target of targetList) {
   if (ignoredTestFiles.has(target) === true) {
-    argv.interactive === true && console.log(`  📦 Ignoring "${ target }`)
+    argv.interactive === true && console.log(`  📦 Ignoring "${ target }"`)
     continue
   }
 

@@ -644,7 +644,7 @@ importers:
         specifier: ^0.0.1
         version: link:../utils/eslint-config
       fast-glob:
-        specifier: ^3.3.0
+        specifier: ^3.3.2
         version: 3.3.2
       fs-extra:
         specifier: ^11.2.0
@@ -735,9 +735,9 @@ importers:
       eslint-config-quasar:
         specifier: ^0.0.1
         version: link:../../utils/eslint-config
-      fglob:
-        specifier: ^0.0.1
-        version: 0.0.1
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
@@ -6600,10 +6600,6 @@ packages:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
     dependencies:
       pend: 1.2.0
-    dev: true
-
-  /fglob@0.0.1:
-    resolution: {integrity: sha512-2sCWie6Csn58iBt5HuObontGhhilTsQnJBY1iK90HmtwPPnmt2A5PT2uLNMuUd/P86rNqc4QNFNEnxbwqxyXow==}
     dev: true
 
   /figures@3.2.0:

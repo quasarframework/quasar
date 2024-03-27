@@ -72,7 +72,7 @@
     "esbuild": "^0.20.1",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "^0.0.1",
-    "fast-glob": "^3.3.0",
+    "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
     "open": "^10.0.4",
     "postcss-rtlcss": "^5.1.0",
