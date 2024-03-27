@@ -1,13 +1,11 @@
 import { h, ref, withDirectives } from 'vue'
 
+import { dirProps } from './use-scroll-area.js'
+
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private/create.js'
 
-const dirProps = {
-  vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
-  horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
-}
 const panOpts = {
   prevent: true,
   mouse: true,

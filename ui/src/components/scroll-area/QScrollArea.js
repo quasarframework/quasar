@@ -1,22 +1,19 @@
 import { h, ref, computed, watch, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { dirProps } from './use-scroll-area.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
+import QScrollAreaControls from './QScrollAreaControls.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import debounce from '../../utils/debounce.js'
-import QScrollAreaControls from './QScrollAreaControls.js'
 
 const axisList = [ 'vertical', 'horizontal' ]
-const dirProps = {
-  vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
-  horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
-}
 const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
 
 export default createComponent({
