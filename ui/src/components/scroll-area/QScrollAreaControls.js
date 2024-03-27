@@ -17,7 +17,7 @@ const panOpts = {
 export default createComponent({
   name: 'QScrollAreaControls',
 
-  emits: ['set-scroll'],
+  emits: [ 'set-scroll' ],
 
   props: {
     thumbStyle: Object,
