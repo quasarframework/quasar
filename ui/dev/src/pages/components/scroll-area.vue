@@ -28,7 +28,9 @@
           <div style="margin-top: 150px" />
           <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
             {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            <q-btn label="Click" color="primary" />
+            <q-btn label="Click" color="primary">
+              {{ logRender() }}
+            </q-btn>
           </div>
         </div>
       </q-scroll-area>
@@ -47,7 +49,9 @@
           <div style="margin-top: 150px" />
           <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
             {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            <q-btn label="Click" color="primary" />
+            <q-btn label="Click" color="primary">
+              {{ logRender() }}
+            </q-btn>
           </div>
         </div>
       </q-scroll-area>
@@ -223,6 +227,9 @@ export default {
       console.log('getScroll()', this.$refs.scroll.getScroll())
       console.log('getScrollPosition()', this.$refs.scroll.getScrollPosition())
       console.log('getScrollPercentage()', this.$refs.scroll.getScrollPercentage())
+    },
+    logRender () {
+      console.log('button render call')
     }
   }
 }
