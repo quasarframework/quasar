@@ -114,7 +114,7 @@ More information: [Workbox Webpack Plugin](https://developer.chrome.com/docs/wor
 
 The `metaVariables` Object is used by Quasar itself only (has no meaning for Workbox) to inject specific value attributes to some PWA meta tags into the rendered HTML page. Example: `<meta name="apple-mobile-web-app-status-bar-style">` will have value attribute assigned to the content of `metaVariables.appleMobileWebAppStatusBarStyle`.
 
-You can use an alternative to metaVariables: `metaVariablesFn(manifest)` which can return an Array of Objects (see their form in the code above). Should you configure this function to not return an Array or to return an empty Array, then Quasar App CLI will understand not to add any tags -- so you can manually add your custom tags directly in `/src/index.template.html`.
+You can use an alternative to metaVariables: `metaVariablesFn(manifest)` which can return an Array of Objects (see their form in the code above). Should you configure this function to not return an Array or to return an empty Array, then Quasar App CLI will understand not to add any tags -- so you can manually add your custom tags directly in /index.html or /src/index.template.html.
 
 ## Picking Workbox mode
 
@@ -225,7 +225,7 @@ pwa: {
 Please read about the [manifest config](https://developer.mozilla.org/en-US/docs/Web/Manifest) before diving in.
 
 ::: warning
-Note that you don't need to edit your index.html file (generated from `/src/index.template.html`) to link to the manifest file. Quasar CLI takes care of embedding the right things for you.
+Note that you don't need to edit your index.html file (generated from /index.html or /src/index.template.html) to link to the manifest file. Quasar CLI takes care of embedding the right things for you.
 ::::
 
 ::: tip

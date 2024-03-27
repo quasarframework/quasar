@@ -14,7 +14,7 @@ This means you need your logo in about 100+ different sizes with representative 
 ## How it helps you
 
 ::: tip
-We highly recommend using the Icon Genie CLI **for your Quasar CLI-generated projects** because it consumes a source icon and automatically clones, scales, minifies and places the icons and splash screens in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
+We highly recommend using the Icon Genie CLI **for your Quasar CLI-generated projects** because it consumes a source icon and automatically clones, scales, minifies and places the icons and splash screens in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html or /src/index.template.html file.
 :::
 
 ## Requirements

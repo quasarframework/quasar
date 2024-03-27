@@ -66,7 +66,7 @@ The splash screens work in a completely different manner too. They will get gene
 
 ### Output files
 
-We have refined the list of icons and splash screens that are generated to match the latest standards and to also avoid duplication. So you will notice that some of the older files don't get generated anymore and some are completely new. Icon Genie will now tell you what tags you need to add (if any) to your /src/index.template.html (**you can copy paste the tags and replace your old ones**) -- so be mindful about the list of tags.
+We have refined the list of icons and splash screens that are generated to match the latest standards and to also avoid duplication. So you will notice that some of the older files don't get generated anymore and some are completely new. Icon Genie will now tell you what tags you need to add (if any) to your /index.html or /src/index.template.html (**you can copy paste the tags and replace your old ones**) -- so be mindful about the list of tags.
 
 It might be a good idea to delete all your current icon/splashscreen files and let Icon Genie do its job again. This way you will be sure that what you're left with is actually used in your Quasar App.
 
@@ -80,7 +80,7 @@ Icon Genie v2 is a complete rewrite from top to bottom.
 * We have refined the list of icons and splash screens that get generated to match the latest standards and to also avoid duplication.
 * Splash screens are created in a better manner, with the icon on top of the background (with the icon having any size ratio that you want, including 0 which means: "I only want the background image with no icon on top")
 * New commands: [generate](/icongenie/command-list#generate), [verify](/icongenie/command-list#verify), and [profile](/icongenie/command-list#profile), each with its own purpose.
-* The `generate` command now also shows you what tags you need in your `/src/index.template.html` file.
+* The `generate` command now also shows you what tags you need in your `/index.html` or `/src/index.template.html` file.
 * The `verify` command can even check if every file is in the right place and it has the right width by height.
 * A lot of new parameters: quality, svg-color, png-color, splashscreen-color, splashscreen-icon-ratio, etc etc. Check the [command list](/icongenie/command-list) page.
 * You can now control each type of asset (ico, png, splashscreen, ...) for each Quasar mode individually, each with its own settings/parameters. Check the `--filter`, `--quality` and all the color parameters. One good use case is with the `.ico` files.

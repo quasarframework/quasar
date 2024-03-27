@@ -65,7 +65,7 @@ interface BaseQuasarConfiguration {
    */
   extras?: (QuasarIconSets | QuasarFonts)[];
   /**
-   * Add variables that you can use in index.template.html
+   * Add variables that you can use in index.html
    *
    * @see https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#htmlvariables
    */

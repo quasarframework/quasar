@@ -135,7 +135,7 @@ Let's take each option one by one:
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
 | supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli-webpack/supporting-ts) |
-| htmlVariables | Object | Add variables that you can use in index.template.html. |
+| htmlVariables | Object | Add variables that you can use in /index.html or /src/index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
 | devServer | Object | Webpack devServer options. Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
@@ -347,7 +347,7 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 
 ### Property: htmlVariables
 
-You can define and then reference variables in `src/index.template.html`, like this:
+You can define and then reference variables in /index.html or /src/index.template.html, like this:
 
 ```js /quasar.config file
 module.exports = function (ctx) {
@@ -362,7 +362,7 @@ module.exports = function (ctx) {
 
 Then (just an example showing you how to reference a variable defined above, in this case `title`):
 
-```html /src/index.template.html
+```html /index.html or /src/index.template.html
 <%= title %>
 <%= some.prop %>
 ```
