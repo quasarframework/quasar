@@ -59,6 +59,7 @@ const jsonKeyList = Object.keys(identifiers)
 const categoryList = jsonKeyList.map(key => identifiers[ key ].categoryId)
 
 function createQuasarConfOption () {
+  // TODO: implement
   return `
     test('definition', () => {
       //
@@ -301,6 +302,8 @@ function generateSection (ctx, jsonPath) {
 
 function createTestFileContent (ctx) {
   const { json } = ctx
+  if (json === void 0) return '/* no associated JSON so we cannot generate anything */'
+
   let acc = 'import { mount } from \'@vue/test-utils\''
     + '\nimport { describe, test, expect } from \'vitest\''
     + `\n\nimport ${ ctx.pascalName } from './${ ctx.localName }'`
@@ -340,6 +343,8 @@ function createTestFileContent (ctx) {
 function getMissingTests (ctx) {
   const acc = []
   const { json, testFile } = ctx
+
+  if (json === void 0) return null
 
   jsonKeyList.forEach(jsonKey => {
     const categoryJson = json[ jsonKey ]

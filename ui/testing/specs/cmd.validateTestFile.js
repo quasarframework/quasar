@@ -54,10 +54,6 @@ export async function cmdValidateTestFile ({
     })
   }
 
-  // Validation occurs against its json file.
-  // So if there's no json file, we can't (& shouldn't) validate
-  if (ctx.json === void 0) return
-
   const missingTests = ctx.testFile.getMissingTests()
 
   if (missingTests === null) {
