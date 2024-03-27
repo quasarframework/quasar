@@ -73,7 +73,7 @@
     "elementtree": "0.1.7",
     "error-stack-parser": "^2.1.4",
     "esbuild": "^0.20.1",
-    "express": "^4.17.3",
+    "express": "^4.19.2",
     "fast-glob": "^3.2.12",
     "file-loader": "^6.2.0",
     "fs-extra": "^11.1.0",
