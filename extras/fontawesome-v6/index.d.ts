@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.5.0 */
+/* Fontawesome Free v6.5.1 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -342,8 +342,10 @@ export declare const fabSellcast: string;
 export declare const fabSellsy: string;
 export declare const fabServicestack: string;
 export declare const fabShirtsinbulk: string;
+export declare const fabShoelace: string;
 export declare const fabShopify: string;
 export declare const fabShopware: string;
+export declare const fabSignalMessenger: string;
 export declare const fabSimplybuilt: string;
 export declare const fabSistrix: string;
 export declare const fabSith: string;
@@ -450,6 +452,7 @@ export declare const fabVnv: string;
 export declare const fabVuejs: string;
 export declare const fabWatchmanMonitoring: string;
 export declare const fabWaze: string;
+export declare const fabWebflow: string;
 export declare const fabWeebly: string;
 export declare const fabWeibo: string;
 export declare const fabWeixin: string;
