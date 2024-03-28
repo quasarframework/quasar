@@ -222,12 +222,7 @@ describe('QSelect API', () => {
             }
           })
           getHostElement()
-            .click()
-          cy.get('.q-menu')
-            .contains('Option 1')
-            .should('be.visible')
-            .click()
-          cy.get('.q-menu')
+            .select('Option 1')
             .then(() => {
               expect(fn).to.have.been.calledWith(1)
             })
@@ -243,12 +238,7 @@ describe('QSelect API', () => {
             }
           })
           getHostElement()
-            .click()
-          cy.get('.q-menu')
-            .contains('Option 1')
-            .should('be.visible')
-            .click()
-          cy.get('.q-menu')
+            .select('Option 1')
             .then(() => {
               expect(fn).to.have.been.calledWith(options[ 0 ])
             })
@@ -268,27 +258,17 @@ describe('QSelect API', () => {
             }
           })
 
-          getHostElement().click()
-          cy.withinSelectMenu(() => {
-            cy.contains('Option 1')
-              .should('be.visible')
-              .click()
-            cy.contains('Option 1')
-              .then(() => {
-                expect(model.value).to.equal(options[ 0 ])
-              })
-          })
+          getHostElement()
+            .select('Option 1')
+            .then(() => {
+              expect(model.value).to.equal(options[ 0 ])
+            })
 
-          getHostElement().click()
-          cy.withinSelectMenu(() => {
-            cy.contains('Option 2')
-              .should('be.visible')
-              .click()
-            cy.contains('Option 2')
-              .then(() => {
-                expect(model.value).to.equal(options[ 1 ])
-              })
-          })
+          getHostElement()
+            .select('Option 2')
+            .then(() => {
+              expect(model.value).to.equal(options[ 1 ])
+            })
         })
 
         it('should select multiple options if multiple is true', () => {
@@ -302,27 +282,11 @@ describe('QSelect API', () => {
             }
           })
 
-          getHostElement().click()
-          cy.withinSelectMenu({
-            persistent: true,
-            fn: () => {
-              cy.contains('Option 1')
-                .should('be.visible')
-                .click()
-              cy.contains('Option 1')
-                .then(() => {
-                  expect(model.value).to.eql([ options[ 0 ] ])
-                })
-
-              cy.contains('Option 2')
-                .should('be.visible')
-                .click()
-              cy.contains('Option 2')
-                .then(() => {
-                  expect(model.value).to.eql(options)
-                })
-            }
-          })
+          getHostElement()
+            .select(options)
+            .then(() => {
+              expect(model.value).to.eql(options)
+            })
         })
       })
     })
@@ -359,12 +323,7 @@ describe('QSelect API', () => {
             }
           })
           getHostElement()
-            .click()
-          cy.get('.q-menu')
-            .contains(options[ 0 ].label)
-            .should('be.visible')
-            .click()
-          cy.get('.q-menu')
+            .select(options[ 0 ].label)
             .then(() => {
               expect(model.value).to.equal(options[ 0 ].value)
             })
@@ -382,12 +341,7 @@ describe('QSelect API', () => {
             }
           })
           getHostElement()
-            .click()
-          cy.get('.q-menu')
-            .contains(options[ 0 ].label)
-            .should('be.visible')
-            .click()
-          cy.get('.q-menu')
+            .select(options[ 0 ].label)
             .then(() => {
               expect(model.value).to.equal(options[ 0 ].test)
             })
@@ -405,12 +359,7 @@ describe('QSelect API', () => {
             }
           })
           getHostElement()
-            .click()
-          cy.get('.q-menu')
-            .contains(options[ 0 ].label)
-            .should('be.visible')
-            .click()
-          cy.get('.q-menu')
+            .select(options[ 0 ].label)
             .then(() => {
               expect(model.value).to.equal(options[ 0 ].test)
             })
