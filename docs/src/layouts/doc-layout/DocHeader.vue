@@ -27,6 +27,10 @@
         nav-class="text-uppercase text-size-16 letter-spacing-300"
       />
 
+      <div class="flex justify-center items-center">
+        <kbd class="quickly-navigation-kbd q-ma-sm text-grey-6" @click="docStore.openQuicklyNavigation"> {{ keysLabel }}</kbd>
+      </div>
+
       <doc-search />
 
       <div v-if="showThemeChanger" class="doc-header-icon-links q-ml-sm row no-wrap items-center">
@@ -110,7 +114,9 @@ import DocHeaderTextLinks from './DocHeaderTextLinks.vue'
 import DocHeaderIconLinks from './DocHeaderIconLinks.vue'
 
 import { useDocStore } from './store/index.js'
+import { useQuasar } from 'quasar'
 const docStore = useDocStore()
+const $q = useQuasar()
 
 const logo = computed(() => {
   const opt = docStore.$q.dark.isActive === true ? '-dark' : ''
@@ -122,9 +128,24 @@ const logo = computed(() => {
 
 const showThemeChanger = computed(() => docStore.$route.meta.dark !== true)
 const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStore.$route.meta.fullscreen !== true && docStore.state.value.toc.length !== 0)
+const keysLabel = computed(() => $q.platform.is.mac ? '⌘P' : 'Ctrl+P')
+
 </script>
 
 <style lang="sass">
+.quickly-navigation-kbd
+  box-shadow: none !important
+  padding: 4px
+  background: transparent !important
+  cursor: pointer
+  border: 1px solid transparent
+  transition: border-color 0.3s
+  font-size: 14px
+
+.quickly-navigation-kbd:hover
+  border-color: $primary !important
+  color: $primary !important
+
 .doc-header
   transition: none
 

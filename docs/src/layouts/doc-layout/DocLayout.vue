@@ -28,6 +28,8 @@
     <q-no-ssr>
       <doc-drawer-menu />
       <doc-drawer-toc />
+      <doc-navigation />
+
     </q-no-ssr>
   </q-layout>
 </template>
@@ -43,6 +45,7 @@ import DocDrawerMenu from './DocDrawerMenu.vue'
 import DocDrawerToc from './DocDrawerToc.vue'
 import DocPageMenu from './DocPageMenu.js'
 import DocPageFooter from './DocPageFooter.vue'
+import DocNavigation from './DocNavigation.vue'
 
 const docStore = provideDocStore()
 
