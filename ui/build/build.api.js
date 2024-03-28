@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
 const dest = path.join(root, 'dist/api')
 const extendApi = require(resolvePath('src/api.extends.json'))
-const { logError, writeFile, kebabCase, filterTestFiles } = require('./build.utils')
+const { logError, writeFile, kebabCase } = require('./build.utils')
 const ast = require('./ast')
 
 const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
@@ -822,19 +822,18 @@ module.exports.generate = function ({ compact = false } = {}) {
     const list = []
 
     const plugins = glob.sync([
-      'src/plugins/*.json',
+      'src/plugins/*/*.json',
       'src/Brand.json',
       'src/Lang.json'
     ], { cwd: root, absolute: true })
-      .filter(filterTestFiles)
       .map(fillAPI('plugin', list, encodeFn))
 
-    const directives = glob.sync('src/directives/**/*.json', { cwd: root, absolute: true })
-      .filter(filterTestFiles)
+    const directives = glob
+      .sync('src/directives/*/*.json', { cwd: root, absolute: true })
       .map(fillAPI('directive', list, encodeFn))
 
-    const components = glob.sync('src/components/**/Q*.json', { cwd: root, absolute: true })
-      .filter(filterTestFiles)
+    const components = glob
+      .sync('src/components/*/Q*.json', { cwd: root, absolute: true })
       .map(fillAPI('component', list, encodeFn))
 
     writeTransformAssetUrls(components, encodeFn)

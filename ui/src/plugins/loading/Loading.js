@@ -1,12 +1,13 @@
 import { h, Transition, onMounted } from 'vue'
 
-import QSpinner from '../components/spinner/QSpinner.js'
+import QSpinner from '../../components/spinner/QSpinner.js'
 
-import { createChildApp } from '../install-quasar.js'
-import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
-import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
-import preventScroll from '../utils/prevent-scroll.js'
-import { isObject } from '../utils/is.js'
+import { createChildApp } from '../../install-quasar.js'
+
+import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
+import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
+import preventScroll from '../../utils/prevent-scroll.js'
+import { isObject } from '../../utils/is.js'
 
 let
   app,

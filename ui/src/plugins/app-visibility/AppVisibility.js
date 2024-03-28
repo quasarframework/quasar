@@ -1,5 +1,5 @@
-import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
-import { injectProp } from '../utils/private/inject-obj-prop.js'
+import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const Plugin = defineReactivePlugin({
   appVisible: true

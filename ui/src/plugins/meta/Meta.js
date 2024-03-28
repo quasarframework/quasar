@@ -1,5 +1,5 @@
-import { isRuntimeSsrPreHydration } from './Platform.js'
-import extend from '../utils/extend.js'
+import { isRuntimeSsrPreHydration } from '../platform/Platform.js'
+import extend from '../../utils/extend.js'
 
 let updateId = null, currentClientMeta
 export const clientList = []

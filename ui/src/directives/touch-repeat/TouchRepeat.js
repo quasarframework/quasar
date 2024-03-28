@@ -1,4 +1,4 @@
-import { client } from '../../plugins/Platform.js'
+import { client } from '../../plugins/platform/Platform.js'
 
 import { createDirective } from '../../utils/private/create.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../../utils/event.js'

@@ -1,4 +1,4 @@
-import { client } from '../../plugins/Platform.js'
+import { client } from '../../plugins/platform/Platform.js'
 import { isKeyCode } from './key-composition.js'
 
 const handlers = []

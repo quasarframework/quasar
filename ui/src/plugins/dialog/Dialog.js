@@ -1,5 +1,5 @@
-import DialogPlugin from '../components/dialog-plugin/DialogPlugin.js'
-import globalDialog from '../utils/private/global-dialog.js'
+import DialogPlugin from './component/DialogPluginComponent.js'
+import globalDialog from '../../utils/private/global-dialog.js'
 
 export default {
   install ({ $q, parentApp }) {

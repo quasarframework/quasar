@@ -1,4 +1,4 @@
-import { client } from '../../plugins/Platform.js'
+import { client } from '../../plugins/platform/Platform.js'
 
 const handlers = []
 

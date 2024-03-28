@@ -1,13 +1,13 @@
-import { client } from './Platform.js'
-import { getEmptyStorage, getStorage } from '../utils/private/web-storage.js'
+import { client } from '../platform/Platform.js'
+import { getEmptyStorage, getStorage } from '../../utils/private/web-storage.js'
 
 const storage = __QUASAR_SSR_SERVER__ || client.has.webStorage === false
   ? getEmptyStorage()
-  : getStorage('local')
+  : getStorage('session')
 
 const Plugin = {
   install ({ $q }) {
-    $q.localStorage = storage
+    $q.sessionStorage = storage
   }
 }
 

@@ -1,21 +1,21 @@
 import { h, ref, getCurrentInstance } from 'vue'
 
-import QDialog from '../dialog/QDialog.js'
+import QDialog from '../../../components/dialog/QDialog.js'
 
-import QIcon from '../icon/QIcon.js'
-import QSeparator from '../separator/QSeparator.js'
+import QIcon from '../../../components/icon/QIcon.js'
+import QSeparator from '../../../components/separator/QSeparator.js'
 
-import QCard from '../card/QCard.js'
-import QCardSection from '../card/QCardSection.js'
+import QCard from '../../../components/card/QCard.js'
+import QCardSection from '../../../components/card/QCardSection.js'
 
-import QItem from '../item/QItem.js'
-import QItemSection from '../item/QItemSection.js'
+import QItem from '../../../components/item/QItem.js'
+import QItemSection from '../../../components/item/QItemSection.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { createComponent } from '../../../utils/private/create.js'
+import useDark, { useDarkProps } from '../../../composables/private/use-dark.js'
 
 export default createComponent({
-  name: 'BottomSheetPlugin',
+  name: 'BottomSheetComponent',
 
   props: {
     ...useDarkProps,

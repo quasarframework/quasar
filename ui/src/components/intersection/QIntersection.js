@@ -1,6 +1,6 @@
 import { h, ref, computed, Transition } from 'vue'
 
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
 import Intersection from '../../directives/intersection/Intersection.js'
 

@@ -1,6 +1,6 @@
-import { client } from './Platform.js'
-import { noop } from '../utils/event.js'
-import getCssVar from '../utils/get-css-var.js'
+import { client } from '../platform/Platform.js'
+import { noop } from '../../utils/event.js'
+import getCssVar from '../../utils/get-css-var.js'
 
 let metaValue
 

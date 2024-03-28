@@ -1,5 +1,5 @@
-import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
-import { changeGlobalNodesTarget } from '../utils/private/global-nodes.js'
+import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
+import { changeGlobalNodesTarget } from '../../utils/private/global-nodes.js'
 
 const prefixes = {}
 

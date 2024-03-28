@@ -1,15 +1,16 @@
 import { h, ref, markRaw, TransitionGroup } from 'vue'
 
-import QAvatar from '../components/avatar/QAvatar.js'
-import QIcon from '../components/icon/QIcon.js'
-import QBtn from '../components/btn/QBtn.js'
-import QSpinner from '../components/spinner/QSpinner.js'
+import QAvatar from '../../components/avatar/QAvatar.js'
+import QIcon from '../../components/icon/QIcon.js'
+import QBtn from '../../components/btn/QBtn.js'
+import QSpinner from '../../components/spinner/QSpinner.js'
 
-import { createComponent } from '../utils/private/create.js'
-import { noop } from '../utils/event.js'
-import { createGlobalNode } from '../utils/private/global-nodes.js'
-import { createChildApp } from '../install-quasar.js'
-import { isObject } from '../utils/is.js'
+import { createChildApp } from '../../install-quasar.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import { noop } from '../../utils/event.js'
+import { createGlobalNode } from '../../utils/private/global-nodes.js'
+import { isObject } from '../../utils/is.js'
 
 let uid = 0
 

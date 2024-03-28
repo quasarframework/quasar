@@ -1,4 +1,4 @@
-import { client } from '../../plugins/Platform.js'
+import { client } from '../../plugins/platform/Platform.js'
 
 import { createDirective } from '../../utils/private/create.js'
 import { getModifierDirections, shouldStart } from '../../utils/private/touch.js'

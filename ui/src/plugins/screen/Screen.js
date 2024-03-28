@@ -1,8 +1,8 @@
-import { isRuntimeSsrPreHydration, client } from './Platform.js'
+import { isRuntimeSsrPreHydration, client } from '../platform/Platform.js'
 
-import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
-import { listenOpts, noop } from '../utils/event.js'
-import debounce from '../utils/debounce.js'
+import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
+import { listenOpts, noop } from '../../utils/event.js'
+import debounce from '../../utils/debounce.js'
 
 const SIZE_LIST = [ 'sm', 'md', 'lg', 'xl' ]
 const { passive } = listenOpts

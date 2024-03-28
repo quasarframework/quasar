@@ -1,12 +1,12 @@
 import { h, ref } from 'vue'
 
-import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
-import { noop } from '../utils/event.js'
-import { createGlobalNode } from '../utils/private/global-nodes.js'
-import { createChildApp } from '../install-quasar.js'
+import QAjaxBar from '../../components/ajax-bar/QAjaxBar.js'
+import { createChildApp } from '../../install-quasar.js'
 
-import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
-import { isObject } from '../utils/is.js'
+import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
+import { noop } from '../../utils/event.js'
+import { createGlobalNode } from '../../utils/private/global-nodes.js'
+import { isObject } from '../../utils/is.js'
 
 const barRef = ref(null)
 

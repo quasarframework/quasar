@@ -2,7 +2,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 
 import uid from '../utils/uid.js'
 
-import { isRuntimeSsrPreHydration } from '../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../plugins/platform/Platform.js'
 
 function parseValue (val) {
   return val === void 0 || val === null

@@ -1,5 +1,5 @@
 import { getScrollbarWidth } from '../scroll.js'
-import { client } from '../../plugins/Platform.js'
+import { client } from '../../plugins/platform/Platform.js'
 
 let vpLeft, vpTop
 

@@ -1,4 +1,4 @@
-import { clientList, planClientUpdate } from '../plugins/Meta.js'
+import { clientList, planClientUpdate } from '../plugins/meta/Meta.js'
 
 export default metaOptions => {
   if (__QUASAR_SSR_SERVER__) {

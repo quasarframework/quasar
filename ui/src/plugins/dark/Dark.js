@@ -1,4 +1,4 @@
-import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
 
 const Plugin = defineReactivePlugin({
   isActive: false,

@@ -1,26 +1,26 @@
 import { h, ref, computed, watch, toRaw, getCurrentInstance } from 'vue'
 
-import QDialog from '../dialog/QDialog.js'
-import QBtn from '../btn/QBtn.js'
+import QDialog from '../../../components/dialog/QDialog.js'
+import QBtn from '../../../components/btn/QBtn.js'
 
-import QCard from '../card/QCard.js'
-import QCardSection from '../card/QCardSection.js'
-import QCardActions from '../card/QCardActions.js'
-import QSeparator from '../separator/QSeparator.js'
+import QCard from '../../../components/card/QCard.js'
+import QCardSection from '../../../components/card/QCardSection.js'
+import QCardActions from '../../../components/card/QCardActions.js'
+import QSeparator from '../../../components/separator/QSeparator.js'
 
-import QInput from '../input/QInput.js'
-import QOptionGroup from '../option-group/QOptionGroup.js'
+import QInput from '../../../components/input/QInput.js'
+import QOptionGroup from '../../../components/option-group/QOptionGroup.js'
 
-import QSpinner from '../spinner/QSpinner.js'
+import QSpinner from '../../../components/spinner/QSpinner.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { createComponent } from '../../../utils/private/create.js'
+import useDark, { useDarkProps } from '../../../composables/private/use-dark.js'
 
-import { isKeyCode } from '../../utils/private/key-composition.js'
-import { isObject } from '../../utils/is.js'
+import { isKeyCode } from '../../../utils/private/key-composition.js'
+import { isObject } from '../../../utils/is.js'
 
 export default createComponent({
-  name: 'DialogPlugin',
+  name: 'DialogPluginComponent',
 
   props: {
     ...useDarkProps,

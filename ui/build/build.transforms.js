@@ -22,7 +22,7 @@ function lowerCamelCase (name) {
 }
 
 function addComponents (map, autoImport) {
-  glob.sync('src/components/**/Q*.js', { cwd: root, absolute: true })
+  glob.sync('src/components/*/Q*.js', { cwd: root, absolute: true })
     .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
@@ -40,7 +40,7 @@ function addComponents (map, autoImport) {
 }
 
 function addDirectives (map, autoImport) {
-  glob.sync('src/directives/**/*.js', { cwd: root, absolute: true })
+  glob.sync('src/directives/*/*.js', { cwd: root, absolute: true })
     .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
@@ -56,7 +56,7 @@ function addDirectives (map, autoImport) {
 }
 
 function addPlugins (map) {
-  glob.sync('src/plugins/*.js', { cwd: root, absolute: true })
+  glob.sync('src/plugins/*/*.js', { cwd: root, absolute: true })
     .filter(filterTestFiles)
     .map(relative)
     .forEach(file => {
