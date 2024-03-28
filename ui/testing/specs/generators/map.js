@@ -5,9 +5,9 @@ import plugin from './generator.plugin.js'
 import util from './generator.util.js'
 
 export function getGenerator (target) {
-  if (/src[\\/]components/.test(target) === true) return component
-  if (/src[\\/]composables/.test(target) === true) return composable
-  if (/src[\\/]directives/.test(target) === true) return directive
-  if (/src[\\/]plugins/.test(target) === true) return plugin
+  if (/src[\\/]components[\\/][^\\/]+[\\/]Q[^\\/]+\.js/.test(target) === true) return component
+  if (/use-[^\\/]+\.js/.test(target) === true) return composable
+  if (/src[\\/]directives[\\/][^\\/]+[\\/][^\\/]+\.js/.test(target) === true) return directive
+  if (/src[\\/]plugins[\\/][^\\/]+[\\/][^\\/]+\.js/.test(target) === true) return plugin
   return util
 }

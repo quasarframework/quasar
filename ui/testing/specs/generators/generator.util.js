@@ -262,7 +262,7 @@ function getJson (ctx) {
     && hasClasses === false
     && hasFunctions === false
   ) {
-    console.error('AST: no variables,classes or functions found for:', ctx.targetAbsolute)
+    console.error('AST: no variables, classes or functions found for:', ctx.targetAbsolute)
     process.exit(1)
   }
 
