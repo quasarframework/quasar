@@ -8,6 +8,12 @@ const identifiers = {
     createTestFn: createVariableTest
   },
 
+  classes: {
+    categoryId: '[Classes]',
+    getTestId: name => `[(class)${ name }]`,
+    createTestFn: createClassTest
+  },
+
   functions: {
     categoryId: '[Functions]',
     getTestId: name => `[(function)${ name }]`,
@@ -23,6 +29,23 @@ function createVariableTest ({ name, testId, ctx }) {
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
         // TODO: do something with ${ ctx.pascalName }.${ name }
+      })
+    })
+`
+}
+
+function createClassTest ({ name, testId, jsonEntry, ctx }) {
+  const className = jsonEntry.name === 'default'
+    ? ctx.pascalName
+    : `${ ctx.pascalName }.${ name }`
+
+  const constructorParams = jsonEntry.constructorParams
+
+  return `
+    describe('${ testId }', () => {
+      test.todo('can be instantiated', () => {
+        const instance = new ${ className }(${ constructorParams })
+        // TODO: do something with "instance"
       })
     })
 `
@@ -60,6 +83,22 @@ function injectVar (declaration, acc) {
   acc[ name ] = {
     injectInto: 'variables',
     def: { name }
+  }
+}
+
+function injectClass (declaration, acc, content) {
+  const { name } = declaration.id
+  const constructorEntry = declaration.body.body.find(entry => entry.kind === 'constructor')
+  const params = constructorEntry?.value.params
+    .map(param => content.slice(param.start, param.end))
+    .join(', ')
+
+  acc[ name ] = {
+    injectInto: 'classes',
+    def: {
+      name,
+      constructorParams: params || ''
+    }
   }
 }
 
@@ -119,6 +158,9 @@ function getJson (ctx) {
           }
         })
       }
+      else if (node.declaration.type === 'ClassDeclaration') {
+        injectClass(node.declaration, acc, content)
+      }
       else if (node.declaration.type === 'FunctionDeclaration') {
         injectFunction(node.declaration, acc, content)
       }
@@ -135,6 +177,7 @@ function getJson (ctx) {
 
   const json = {
     variables: {},
+    classes: {},
     functions: {}
   }
 
@@ -167,25 +210,39 @@ function getJson (ctx) {
       declaration.type === 'FunctionDeclaration'
       || declaration.type === 'ArrowFunctionExpression'
     ) {
-      json.functions.default = {
-        name: 'default',
-        params: declaration.params
-          .map(param => content.slice(param.start, param.end))
-          .join(', ')
-      }
+      injectFunction({
+        ...declaration,
+        id: { name: 'default' }
+      }, acc, content)
+
+      json.functions.default = acc.default.def
+    }
+    else if (declaration.type === 'ClassDeclaration') {
+      injectClass({
+        ...declaration,
+        id: { name: 'default' }
+      }, acc, content)
+
+      json.classes.default = acc.default.def
     }
   })
 
   const hasVariables = Object.keys(json.variables).length !== 0
+  const hasClasses = Object.keys(json.classes).length !== 0
   const hasFunctions = Object.keys(json.functions).length !== 0
 
-  if (hasVariables === false && hasFunctions === false) {
+  if (
+    hasVariables === false
+    && hasClasses === false
+    && hasFunctions === false
+  ) {
     console.error('AST: no variables or functions found for:', ctx.targetAbsolute)
     process.exit(1)
   }
 
   return {
     variables: hasVariables ? json.variables : void 0,
+    classes: hasClasses ? json.classes : void 0,
     functions: hasFunctions ? json.functions : void 0
   }
 }
