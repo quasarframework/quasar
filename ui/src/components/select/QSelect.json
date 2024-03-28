@@ -341,6 +341,16 @@
       "values": [ "'default'", "'menu'", "'dialog'" ],
       "default": "'default'",
       "category": "behavior"
+    },
+
+    "dialog-position": {
+      "type": "String",
+      "desc": "Overrides the default standard (middle) positioning if dialog is used",
+      "values": [
+        "standard", "top", "bottom", "right", "left"
+      ],
+      "default": "standard",
+      "category": "behavior"
     }
   },
 
