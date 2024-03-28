@@ -24,48 +24,36 @@ const identifiers = {
 const jsonKeyList = Object.keys(identifiers)
 const categoryList = jsonKeyList.map(key => identifiers[ key ].categoryId)
 
-function createVariableTest ({ name, testId, ctx }) {
+function createVariableTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
-        // TODO: do something with ${ ctx.pascalName }.${ name }
+        // TODO: do something with ${ jsonEntry.accessor }
       })
     })
 `
 }
 
-function createClassTest ({ name, testId, jsonEntry, ctx }) {
-  const className = jsonEntry.name === 'default'
-    ? ctx.pascalName
-    : `${ ctx.pascalName }.${ name }`
-
-  const constructorParams = jsonEntry.constructorParams
-
+function createClassTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('can be instantiated', () => {
-        const instance = new ${ className }(${ constructorParams })
+        const instance = new ${ jsonEntry.accessor }(${ jsonEntry.constructorParams })
         // TODO: do something with "instance"
       })
     })
 `
 }
 
-function createFunctionTest ({ name, testId, jsonEntry, ctx }) {
-  const callName = jsonEntry.name === 'default'
-    ? ctx.pascalName
-    : `${ ctx.pascalName }.${ name }`
-
-  const callParams = jsonEntry.params
-
+function createFunctionTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('does not error out', () => {
-        expect(() => ${ callName }(${ callParams })).not.toThrow()
+        expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
       })
 
       test.todo('has correct return value', () => {
-        const result = ${ callName }(${ callParams })
+        const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
         expect(result).toBeDefined()
       })
     })
@@ -74,64 +62,69 @@ function createFunctionTest ({ name, testId, jsonEntry, ctx }) {
 
 const astNodeTypes = [
   'ExportNamedDeclaration', 'ExportDefaultDeclaration',
-  'VariableDeclaration', 'FunctionDeclaration'
+  'VariableDeclaration', 'ClassDeclaration', 'FunctionDeclaration'
 ]
 
-function injectVar (declaration, acc) {
-  const { name } = declaration.id
-
-  acc[ name ] = {
-    injectInto: 'variables',
-    def: { name }
+function parseVar ({ accessor, isExported = false }) {
+  return {
+    jsonKey: 'variables',
+    isExported,
+    def: {
+      accessor
+    }
   }
 }
 
-function injectClass (declaration, acc, content) {
-  const { name } = declaration.id
+function parseClass ({ declaration, accessor, fileContent, isExported = false }) {
   const constructorEntry = declaration.body.body.find(entry => entry.kind === 'constructor')
   const params = constructorEntry?.value.params
-    .map(param => content.slice(param.start, param.end))
+    .map(param => fileContent.slice(param.start, param.end))
     .join(', ')
 
-  acc[ name ] = {
-    injectInto: 'classes',
+  return {
+    jsonKey: 'classes',
+    isExported,
     def: {
-      name,
+      accessor,
       constructorParams: params || ''
     }
   }
 }
 
-function injectFunction (declaration, acc, content) {
-  const { name } = declaration.id
-
-  acc[ name ] = {
-    injectInto: 'functions',
+function parseFunction ({ declaration, accessor, fileContent, isExported = false }) {
+  return {
+    jsonKey: 'functions',
+    isExported,
     def: {
-      name,
+      accessor,
       params: declaration.params
-        .map(param => content.slice(param.start, param.end))
+        .map(param => fileContent.slice(param.start, param.end))
         .join(', ')
     }
   }
 }
 
-function getJson (ctx) {
-  /**
-   * We expect the content to default export something,
-   * be that an Object (with references to variables or functions)
-   * or directly a function.
-   */
-  const content = fse.readFileSync(ctx.targetAbsolute, 'utf8')
+function getImportStatement (json, ctx) {
+  const list = []
+  if (json.defaultExport === true) {
+    list.push(ctx.pascalName)
+  }
+  if (json.namedExports.size !== 0) {
+    list.push(`{ ${ Array.from(json.namedExports).join(', ') } }`)
+  }
+  return `import ${ list.join(', ') } from './${ ctx.localName }'`
+}
 
-  const { body } = Parser.parse(content, {
+function getJson (ctx) {
+  const fileContent = fse.readFileSync(ctx.targetAbsolute, 'utf8')
+
+  const { body } = Parser.parse(fileContent, {
     ecmaVersion: 'latest',
     sourceType: 'module'
   })
 
   const nodeList = body.filter(({ type }) => astNodeTypes.includes(type))
-
-  const acc = {}
+  const content = {}
 
   nodeList.forEach(node => {
     if (node.type === 'ExportNamedDeclaration') {
@@ -141,10 +134,14 @@ function getJson (ctx) {
             declaration.type === 'VariableDeclaration'
             || declaration.type === 'VariableDeclarator'
           ) {
-            injectVar(declaration, acc)
+            content[ declaration.id.name ] = parseVar({ isExported: true })
           }
           else if (declaration.type === 'FunctionDeclaration') {
-            injectFunction(declaration, acc, content)
+            content[ declaration.id.name ] = parseFunction({
+              declaration,
+              fileContent,
+              isExported: true
+            })
           }
           else {
             console.error(
@@ -159,29 +156,39 @@ function getJson (ctx) {
         })
       }
       else if (node.declaration.type === 'ClassDeclaration') {
-        injectClass(node.declaration, acc, content)
+        content[ node.declaration.id.name ] = parseClass({
+          declaration: node.declaration,
+          fileContent,
+          isExported: true
+        })
       }
       else if (node.declaration.type === 'FunctionDeclaration') {
-        injectFunction(node.declaration, acc, content)
+        content[ node.declaration.id.name ] = parseFunction({
+          declaration: node.declaration,
+          fileContent,
+          isExported: true
+        })
       }
     }
     else if (node.type === 'VariableDeclaration') {
       node.declarations.forEach(declaration => {
-        injectVar(declaration, acc)
+        content[ declaration.id.name ] = parseVar({})
       })
     }
     else if (node.type === 'FunctionDeclaration') {
-      injectFunction(node, acc, content)
+      content[ node.id.name ] = parseFunction({ declaration: node, fileContent })
     }
   })
 
   const json = {
+    defaultExport: void 0,
+    namedExports: new Set(),
     variables: {},
     classes: {},
     functions: {}
   }
 
-  // now we fill the json object
+  // now we fill the json object with the default export stuff
   nodeList.forEach(({ type, declaration }) => {
     if (type !== 'ExportDefaultDeclaration') return
 
@@ -189,8 +196,9 @@ function getJson (ctx) {
     if (declaration.type === 'ObjectExpression') {
       declaration.properties.forEach(prop => {
         const { name } = prop.key
+        const { name: ref } = (prop.value || prop.key)
 
-        if (acc[ name ] === void 0) {
+        if (content[ ref ] === void 0) {
           console.error(
             'AST: unregistered ExportDefaultDeclaration > ObjectExpression > properties:',
             name,
@@ -200,9 +208,12 @@ function getJson (ctx) {
           process.exit(1)
         }
 
-        const { injectInto, def } = acc[ name ]
+        const { jsonKey, def } = content[ ref ]
+        delete content[ ref ]
 
-        json[ injectInto ][ name ] = def
+        def.accessor = `${ ctx.pascalName }.${ name }`
+        json[ jsonKey ][ name ] = def
+        json.defaultExport = true
       })
     }
     // export default function () {}
@@ -210,20 +221,35 @@ function getJson (ctx) {
       declaration.type === 'FunctionDeclaration'
       || declaration.type === 'ArrowFunctionExpression'
     ) {
-      injectFunction({
-        ...declaration,
-        id: { name: 'default' }
-      }, acc, content)
+      const { def } = parseFunction({
+        declaration,
+        accessor: ctx.pascalName,
+        fileContent
+      })
 
-      json.functions.default = acc.default.def
+      json.functions.default = def
+      json.defaultExport = true
     }
+    // export default class X {}
     else if (declaration.type === 'ClassDeclaration') {
-      injectClass({
-        ...declaration,
-        id: { name: 'default' }
-      }, acc, content)
+      const { def } = parseClass({
+        declaration,
+        accessor: ctx.pascalName,
+        fileContent
+      })
 
-      json.classes.default = acc.default.def
+      json.classes.default = def
+      json.defaultExport = true
+    }
+  })
+
+  // is there anything else name exported?
+  Object.keys(content).forEach(name => {
+    const { jsonKey, isExported, def } = content[ name ]
+    if (isExported === true) {
+      json[ jsonKey ][ name ] = def
+      def.accessor = name
+      json.namedExports.add(name)
     }
   })
 
@@ -236,11 +262,12 @@ function getJson (ctx) {
     && hasClasses === false
     && hasFunctions === false
   ) {
-    console.error('AST: no variables or functions found for:', ctx.targetAbsolute)
+    console.error('AST: no variables,classes or functions found for:', ctx.targetAbsolute)
     process.exit(1)
   }
 
   return {
+    importStatement: getImportStatement(json, ctx),
     variables: hasVariables ? json.variables : void 0,
     classes: hasClasses ? json.classes : void 0,
     functions: hasFunctions ? json.functions : void 0
@@ -273,7 +300,7 @@ function generateSection (ctx, jsonPath) {
 function createTestFileContent (ctx) {
   const json = getJson(ctx)
   let acc = 'import { describe, test, expect } from \'vitest\''
-    + `\n\nimport ${ ctx.pascalName } from './${ ctx.localName }'`
+    + `\n\n${ json.importStatement }`
     + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
 
   jsonKeyList.forEach(jsonKey => {

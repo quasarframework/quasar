@@ -29,7 +29,7 @@ class IgnoredFilesList {
   #save () {
     if (this.#shouldSave === true) {
       const content = Array.from(this.#list).sort().join('\n')
-      fse.writeFileSync(this.#file, content, 'utf-8')
+      fse.writeFileSync(this.#file, content + '\n', 'utf-8')
     }
   }
 }
