@@ -44,6 +44,10 @@ export default {
         update(() => {
           const needle = val.toLowerCase()
           options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        },
+        (ref) => {
+            ref.setOptionIndex(-1);
+            ref.moveOptionSelection(1, true);
         })
       }
     }
