@@ -65,7 +65,7 @@
     "dotenv-expand": "^11.0.6",
     "elementtree": "0.1.7",
     "esbuild": "^0.20.1",
-    "express": "^4.17.3",
+    "express": "^4.19.2",
     "fast-glob": "3.3.2",
     "fs-extra": "^11.1.0",
     "html-minifier": "^4.0.0",
