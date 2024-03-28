@@ -5,13 +5,17 @@ const jsonPathRE = /^[^.]+\.[^.]+$/
 /**
  * Generates a targeted section of a json path
  */
-export async function cmdGenerateSection ({ ctx, jsonPath }) {
+export async function cmdGenerateSection ({
+  ctx,
+  testFile,
+  jsonPath
+}) {
   if (jsonPathRE.test(jsonPath) === false) {
     console.log(`  ❌ Invalid json path: "${ jsonPath }"`)
     return
   }
 
-  const output = ctx.testFile.generateSection(jsonPath)
+  const output = testFile.generateSection(jsonPath)
 
   if (output === null) {
     console.log(`  ❌ No such json path found: "${ jsonPath }"`)

@@ -21,17 +21,13 @@ const identifiers = {
   }
 }
 
-const jsonKeyList = Object.keys(identifiers)
-const categoryList = jsonKeyList.map(key => identifiers[ key ].categoryId)
-
 function createVariableTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
         // TODO: do something with ${ jsonEntry.accessor }
       })
-    })
-`
+    })\n`
 }
 
 function createClassTest ({ testId, jsonEntry }) {
@@ -41,8 +37,7 @@ function createClassTest ({ testId, jsonEntry }) {
         const instance = new ${ jsonEntry.accessor }(${ jsonEntry.constructorParams })
         // TODO: do something with "instance"
       })
-    })
-`
+    })\n`
 }
 
 function createFunctionTest ({ testId, jsonEntry }) {
@@ -56,8 +51,7 @@ function createFunctionTest ({ testId, jsonEntry }) {
         const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
         expect(result).toBeDefined()
       })
-    })
-`
+    })\n`
 }
 
 const astNodeTypes = [
@@ -69,9 +63,7 @@ function parseVar ({ accessor, isExported = false }) {
   return {
     jsonKey: 'variables',
     isExported,
-    def: {
-      accessor
-    }
+    def: { accessor }
   }
 }
 
@@ -274,100 +266,14 @@ function getJson (ctx) {
   }
 }
 
-function generateSection (ctx, jsonPath) {
-  const json = getJson(ctx)
-
-  const [ jsonKey, entryName ] = jsonPath.split('.')
-  if (jsonKey === void 0 || entryName === void 0) return null
-
-  const categoryJson = json[ jsonKey ]
-  if (categoryJson === void 0) return null
-
-  const jsonEntry = categoryJson[ entryName ]
-  if (jsonEntry === void 0) return null
-
-  const { getTestId, createTestFn } = identifiers[ jsonKey ]
-  const testId = getTestId(entryName)
-
-  return createTestFn({
-    name: entryName,
-    testId,
-    jsonEntry,
-    ctx
-  })
-}
-
-function createTestFileContent (ctx) {
-  const json = getJson(ctx)
-  let acc = 'import { describe, test, expect } from \'vitest\''
-    + `\n\n${ json.importStatement }`
-    + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
-
-  jsonKeyList.forEach(jsonKey => {
-    const categoryJson = json[ jsonKey ]
-    if (categoryJson === void 0) return
-
-    const { categoryId, getTestId, createTestFn } = identifiers[ jsonKey ]
-
-    acc += `\n  describe('${ categoryId }', () => {`
-    Object.keys(categoryJson).forEach(entryName => {
-      const testId = getTestId(entryName)
-      const jsonEntry = categoryJson[ entryName ]
-
-      acc += createTestFn({
-        name: entryName,
-        testId,
-        jsonEntry,
-        ctx
-      })
-    })
-    acc += '  })\n'
-  })
-
-  return acc + '})\n'
-}
-
-function getMissingTests (ctx) {
-  const acc = []
-  const json = getJson(ctx)
-  const { testFile } = ctx
-
-  jsonKeyList.forEach(jsonKey => {
-    const categoryJson = json[ jsonKey ]
-    if (categoryJson === void 0) return
-
-    const { categoryId, getTestId, createTestFn } = identifiers[ jsonKey ]
-
-    Object.keys(categoryJson).forEach(entryName => {
-      const testId = getTestId(entryName)
-
-      if (testFile.ignoreCommentIds.includes(testId)) return
-      if (testFile.testTree[ ctx.testTreeRootId ].children[ categoryId ]?.children[ testId ] !== void 0) return
-
-      const jsonEntry = categoryJson[ entryName ]
-
-      acc.push({
-        testId,
-        categoryId,
-        content: createTestFn({
-          name: entryName,
-          testId,
-          jsonEntry,
-          ctx
-        })
-      })
-    })
-  })
-
-  return acc.length !== 0
-    ? acc
-    : null
-}
-
 export default {
-  categoryList,
-
-  generateSection,
-  createTestFileContent,
-  getMissingTests
+  identifiers,
+  getJson,
+  getFileHeader: ({ json }) => {
+    return [
+      'import { describe, test, expect } from \'vitest\'',
+      '',
+      json.importStatement
+    ].join('\n')
+  }
 }

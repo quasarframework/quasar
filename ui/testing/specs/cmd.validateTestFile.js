@@ -1,14 +1,17 @@
 import { basename } from 'node:path'
 import prompts from 'prompts'
 
+import { plural } from './specs.utils.js'
+
 /**
  * Validates a test file
  */
 export async function cmdValidateTestFile ({
   ctx,
+  testFile,
   argv
 }) {
-  const { errors, warnings } = ctx.testFile.getMisconfiguration()
+  const { errors, warnings } = testFile.getMisconfiguration()
 
   if (errors.length !== 0) {
     if (argv.interactive === true) {
@@ -54,20 +57,22 @@ export async function cmdValidateTestFile ({
     })
   }
 
-  const missingTests = ctx.testFile.getMissingTests()
+  const missingTests = testFile.getMissingTests()
 
   if (missingTests === null) {
     console.log(`  ✅ ${ ctx.testFileRelative }`)
     return
   }
 
+  const pluralSuffix = plural(missingTests.length)
+
   if (argv.interactive === false) {
     // TODO: process.exit(1) when all test files have been added
-    console.log(`  ❌ ${ ctx.testFileRelative } is missing ${ missingTests.length } test-cases`)
+    console.log(`  ❌ ${ ctx.testFileRelative } is missing ${ missingTests.length } test-case${ pluralSuffix }`)
     return
   }
 
-  console.log(`\n  ❌ ${ ctx.testFileRelative } is missing ${ missingTests.length } test-cases:`)
+  console.log(`\n  ❌ ${ ctx.testFileRelative } is missing ${ missingTests.length } test-case${ pluralSuffix }:`)
 
   missingTests.forEach(test => {
     console.log(test.content)
@@ -76,15 +81,17 @@ export async function cmdValidateTestFile ({
   const { action } = await prompts({
     type: 'select',
     name: 'action',
-    message: `🔥 Missing ${ missingTests.length } test-cases in "${ ctx.testFileRelative }":`,
+    message: `🔥 Missing ${ missingTests.length } test-case${ pluralSuffix } in "${ ctx.testFileRelative }":`,
     initial: 0,
     choices: [
       { title: 'Skip', value: 'skip' },
-      { title: 'Accept test-cases (notice test.todo calls)', value: 'add-missing-test-cases' },
-      { title: 'Handle individually', value: 'handle-individually' },
-      { title: 'Add ignore comments', value: 'add-ignore-comments' },
+      { title: `Accept test-case${ pluralSuffix } (notice test.todo calls)`, value: 'add-missing-test-cases' },
+      missingTests.length > 1
+        ? { title: 'Handle individually', value: 'handle-individually' }
+        : void 0,
+      { title: `Add ignore comment${ pluralSuffix }`, value: 'add-ignore-comments' },
       { title: 'Abort & exit', value: 'exit' }
-    ]
+    ].filter(v => v)
   })
 
   // allow user to exit
@@ -93,13 +100,13 @@ export async function cmdValidateTestFile ({
   if (action === 'skip') return
 
   if (action === 'add-missing-test-cases') {
-    ctx.testFile.addTestCases(missingTests)
+    testFile.addTestCases(missingTests)
     console.log(`  🎉 Injected the missing test-cases into "${ ctx.testFileRelative }"`)
     return
   }
 
   if (action === 'add-ignore-comments') {
-    ctx.testFile.addIgnoreComments(missingTests.map(test => test.testId))
+    testFile.addIgnoreComments(missingTests.map(test => test.testId || test.categoryId))
     console.log(`  🎉 Injected the ignore comments into "${ ctx.testFileRelative }"`)
     return
   }
@@ -111,18 +118,19 @@ export async function cmdValidateTestFile ({
 
     for (const test of missingTests) {
       index++
+      const testCaseName = test.testId || test.categoryId
 
       console.log()
       console.log(' -------')
       console.log(` | 🍕 [ ${ index } / ${ missingTestsLen } of ${ testFileName } ]`)
-      console.log(` | 🔥 Missing test-case: "${ test.testId }"`)
+      console.log(` | 🔥 Missing test-case: "${ testCaseName }"`)
       console.log(' -------')
       console.log(test.content)
 
       const { action } = await prompts({
         type: 'select',
         name: 'action',
-        message: `🔋 How to proceed with "${ test.testId }" from above?`,
+        message: `🔋 How to proceed with "${ testCaseName }" from above?`,
         initial: 0,
         choices: [
           { title: 'Skip', value: 'skip' },
@@ -140,13 +148,13 @@ export async function cmdValidateTestFile ({
       if (action === 'skip-the-rest') return
 
       if (action === 'accept-missing-test-case') {
-        ctx.testFile.addTestCases([ test ])
+        testFile.addTestCases([ test ])
         console.log(`  🎉 Injected the missing test-case into "${ ctx.testFileRelative }"`)
         continue
       }
 
       if (action === 'add-ignore-comment') {
-        ctx.testFile.addIgnoreComments([ test.testId ])
+        testFile.addIgnoreComments([ testCaseName ])
         console.log(`  🎉 Injected the ignore comment into "${ ctx.testFileRelative }"`)
         continue
       }

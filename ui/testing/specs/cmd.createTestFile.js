@@ -6,6 +6,7 @@ import prompts from 'prompts'
  */
 export async function cmdCreateTestFile ({
   ctx,
+  testFile,
   ignoredTestFiles
 }) {
   const { action } = await prompts({
@@ -31,7 +32,7 @@ export async function cmdCreateTestFile ({
     return
   }
 
-  const testFileContent = ctx.testFile.createContent()
+  const testFileContent = testFile.createContent()
 
   console.log()
   console.log(testFileContent)

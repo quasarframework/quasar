@@ -2,8 +2,7 @@ import { resolve, dirname, basename, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fse from 'fs-extra'
 
-import { toPascalCase } from './specs.utils.js'
-import { getTestFile } from './testFile.js'
+import { pascalCase } from './specs.utils.js'
 
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
 
@@ -27,7 +26,7 @@ export function createCtx (target) {
   const dirAbsolute = dirname(resolve(rootFolder, target))
   const testName = localName.replace('.js', '.test.js')
   const testFileAbsolute = resolve(dirAbsolute, testName)
-  const pascalName = toPascalCase(localName.replace('.js', ''))
+  const pascalName = pascalCase(localName.replace('.js', ''))
 
   const ctx = {
     targetRelative: target,
@@ -40,8 +39,6 @@ export function createCtx (target) {
     jsonFileBasename: localName.replace('.js', '.json'),
     testTreeRootId: `[${ pascalName } API]`
   }
-
-  ctx.testFile = getTestFile(ctx)
 
   let cachedJson
   Object.defineProperty(ctx, 'json', {

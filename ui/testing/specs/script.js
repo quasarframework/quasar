@@ -44,6 +44,7 @@ if (argv.help) showHelp()
 import { getTargetList } from './target.js'
 import { ignoredTestFiles } from './ignoredTestFiles.js'
 import { createCtx } from './ctx.js'
+import { getTestFile } from './testFile.js'
 
 import { cmdValidateTestFile } from './cmd.validateTestFile.js'
 import { cmdCreateTestFile } from './cmd.createTestFile.js'
@@ -63,14 +64,15 @@ for (const target of targetList) {
   }
 
   const ctx = createCtx(target)
+  const testFile = getTestFile(ctx)
 
   if (argv.generate !== void 0) {
-    await cmdGenerateSection({ ctx, jsonPath: argv.generate })
+    await cmdGenerateSection({ ctx, testFile, jsonPath: argv.generate })
   }
-  else if (ctx.testFile.content !== null) {
-    await cmdValidateTestFile({ ctx, argv })
+  else if (testFile.content !== null) {
+    await cmdValidateTestFile({ ctx, testFile, argv })
   }
   else if (argv.interactive === true) {
-    await cmdCreateTestFile({ ctx, ignoredTestFiles })
+    await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })
   }
 }

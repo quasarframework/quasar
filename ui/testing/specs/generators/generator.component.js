@@ -6,7 +6,6 @@
  */
 
 import {
-  toPascalCase,
   getDefTesting,
   testIndent,
   getComponentMount,
@@ -16,8 +15,7 @@ import {
 const identifiers = {
   quasarConfOptions: {
     categoryId: '[QuasarConfOptions]',
-    getTestId: name => `[(quasarConfOption)${ name }]`,
-    createTestFn: createQuasarConfOption
+    createTestFn: createQuasarConfOptions
   },
 
   props: {
@@ -55,16 +53,14 @@ const identifiers = {
   }
 }
 
-const jsonKeyList = Object.keys(identifiers)
-const categoryList = jsonKeyList.map(key => identifiers[ key ].categoryId)
-
-function createQuasarConfOption () {
+function createQuasarConfOptions ({ categoryId, _jsonEntry, _ctx }) {
   // TODO: implement
   return `
+  describe('${ categoryId }', () => {
     test('definition', () => {
       //
     })
-`
+  })\n`
 }
 
 function getPropTest (name, jsonEntry, ctx) {
@@ -140,8 +136,7 @@ function createPropTest ({
       test('is defined', () => {
         expect(${ ctx.pascalName }.props.${ pascalName }).toBeDefined()
       })${ propTest }
-    })
-`
+    })\n`
 }
 
 function getSlotScope (jsonEntry) {
@@ -184,8 +179,7 @@ function createSlotTest ({
 
         expect(wrapper.html()).toContain(slotContent)${ scopeTests }
       })
-    })
-`
+    })\n`
 }
 
 function getEventParamsTest (jsonEntry, varName) {
@@ -230,8 +224,7 @@ function createEventTest ({
 
         ${ paramsTest }
       })
-    })
-`
+    })\n`
 }
 
 function createMethodTest ({
@@ -253,8 +246,7 @@ function createMethodTest ({
 
         ${ typeTest }
       })
-    })
-`
+    })\n`
 }
 
 function createComputedPropTest ({
@@ -271,124 +263,18 @@ function createComputedPropTest ({
 
         ${ expectType('wrapper.vm.' + pascalName) }
       })
-    })
-`
-}
-
-function generateSection (ctx, jsonPath) {
-  const { json } = ctx
-  if (json === void 0) return null
-
-  const [ jsonKey, entryName ] = jsonPath.split('.')
-  if (jsonKey === void 0 || entryName === void 0) return null
-
-  const categoryJson = json[ jsonKey ]
-  if (categoryJson === void 0) return null
-
-  const jsonEntry = categoryJson[ entryName ]
-  if (jsonEntry === void 0) return null
-
-  const { getTestId, createTestFn } = identifiers[ jsonKey ]
-  const testId = getTestId(entryName)
-
-  return createTestFn({
-    name: entryName,
-    pascalName: toPascalCase(entryName),
-    testId,
-    jsonEntry,
-    ctx
-  })
-}
-
-function createTestFileContent (ctx) {
-  const { json } = ctx
-  if (json === void 0) return '/* no associated JSON so we cannot generate anything */'
-
-  let acc = 'import { mount } from \'@vue/test-utils\''
-    + '\nimport { describe, test, expect } from \'vitest\''
-    + `\n\nimport ${ ctx.pascalName } from './${ ctx.localName }'`
-    + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
-
-  jsonKeyList.forEach(jsonKey => {
-    const categoryJson = json[ jsonKey ]
-    if (categoryJson === void 0) return
-
-    const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
-
-    acc += `\n  describe('${ categoryId }', () => {`
-    Object.keys(categoryJson).forEach(entryName => {
-      const testId = getTestId(entryName)
-      const jsonEntry = categoryJson[ entryName ]
-
-      if (jsonEntry.internal === true) return
-
-      const scope = {
-        name: entryName,
-        pascalName: toPascalCase(entryName),
-        testId,
-        jsonEntry,
-        ctx
-      }
-
-      if (shouldIgnoreEntry?.(scope) !== true) {
-        acc += createTestFn(scope)
-      }
-    })
-    acc += '  })\n'
-  })
-
-  return acc + '})\n'
-}
-
-function getMissingTests (ctx) {
-  const acc = []
-  const { json, testFile } = ctx
-
-  if (json === void 0) return null
-
-  jsonKeyList.forEach(jsonKey => {
-    const categoryJson = json[ jsonKey ]
-    if (categoryJson === void 0) return
-
-    const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
-
-    Object.keys(categoryJson).forEach(entryName => {
-      const testId = getTestId(entryName)
-
-      if (testFile.ignoreCommentIds.includes(testId)) return
-      if (testFile.testTree[ ctx.testTreeRootId ].children[ categoryId ]?.children[ testId ] !== void 0) return
-
-      const jsonEntry = categoryJson[ entryName ]
-
-      if (jsonEntry.internal === true) return
-
-      const scope = {
-        name: entryName,
-        pascalName: toPascalCase(entryName),
-        testId,
-        jsonEntry,
-        ctx
-      }
-
-      if (shouldIgnoreEntry?.(scope) !== true) {
-        acc.push({
-          testId,
-          categoryId,
-          content: createTestFn(scope)
-        })
-      }
-    })
-  })
-
-  return acc.length !== 0
-    ? acc
-    : null
+    })\n`
 }
 
 export default {
-  categoryList,
-
-  generateSection,
-  createTestFileContent,
-  getMissingTests
+  identifiers,
+  getJson: ctx => ctx.json,
+  getFileHeader: ({ ctx }) => {
+    return [
+      'import { mount } from \'@vue/test-utils\'',
+      'import { describe, test, expect } from \'vitest\'',
+      '',
+      `import ${ ctx.pascalName } from './${ ctx.localName }'`
+    ].join('\n')
+  }
 }

@@ -2,6 +2,7 @@ import fse from 'fs-extra'
 import { Parser } from 'acorn'
 // import { inspect } from 'node:util'
 
+import { pascalCase } from './specs.utils.js'
 import { getGenerator } from './generators/map.js'
 
 const ignoreCommentLineMaxLen = 100
@@ -92,12 +93,14 @@ function getTestTree (testFileContent) {
   return tree
 }
 
-function getTestFileMisconfiguration (ctx, categoryList) {
+function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
   const errors = []
   const warnings = []
 
   const { testTreeRootId } = ctx
-  const { testTree, ignoreCommentIds, content } = ctx.testFile
+  const { testTree, ignoreCommentIds, content } = testFile
+
+  if (content === null) return { errors, warnings }
 
   if (Object.keys(testTree).length !== 1) {
     errors.push(
@@ -133,6 +136,28 @@ function getTestFileMisconfiguration (ctx, categoryList) {
     )
   }
 
+  const { identifiers } = generator
+  const categoryList = Object.keys(identifiers)
+    .map(key => identifiers[ key ].categoryId)
+
+  const categoryTestIdMap = Object.keys(identifiers).reduce(
+    (acc, key) => {
+      const entry = identifiers[ key ]
+      if (entry.getTestId !== void 0) {
+        acc[ entry.categoryId ] = true
+      }
+      return acc
+    },
+    {}
+  )
+
+  if (tree.children === null) {
+    errors.push(
+      `Found empty describe('${ testTreeRootId }'). Delete it.`
+    )
+    return { errors, warnings }
+  }
+
   Object.keys(tree.children).forEach(categoryId => {
     const { type } = tree.children[ categoryId ]
 
@@ -157,6 +182,8 @@ function getTestFileMisconfiguration (ctx, categoryList) {
       )
       return
     }
+
+    if (categoryTestIdMap[ categoryId ] === void 0) return
 
     Object.keys(categoryTree).forEach(testId => {
       const { type } = categoryTree[ testId ]
@@ -186,6 +213,147 @@ function getTestFileMisconfiguration (ctx, categoryList) {
   return { errors, warnings }
 }
 
+function getTestFileMissingTests ({ ctx, generator, testFile }) {
+  if (testFile.content === null) return null
+
+  const { identifiers, getJson } = generator
+
+  const json = getJson(ctx)
+  if (json === void 0) return null
+
+  const acc = []
+
+  Object.keys(identifiers).forEach(jsonKey => {
+    const categoryJson = json[ jsonKey ]
+    if (categoryJson === void 0) return
+
+    const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
+
+    if (getTestId === void 0) {
+      if (testFile.ignoreCommentIds.includes(categoryId)) return
+      if (testFile.testTree[ ctx.testTreeRootId ].children[ categoryId ] !== void 0) return
+
+      acc.push({
+        categoryId,
+        content: createTestFn({ categoryId, jsonEntry: categoryJson, ctx })
+      })
+      return
+    }
+
+    Object.keys(categoryJson).forEach(entryName => {
+      const testId = getTestId(entryName)
+
+      if (testFile.ignoreCommentIds.includes(testId)) return
+      if (testFile.testTree[ ctx.testTreeRootId ].children[ categoryId ]?.children[ testId ] !== void 0) return
+
+      const jsonEntry = categoryJson[ entryName ]
+
+      if (jsonEntry.internal === true) return
+
+      const scope = {
+        name: entryName,
+        pascalName: pascalCase(entryName),
+        testId,
+        jsonEntry,
+        ctx
+      }
+
+      if (shouldIgnoreEntry?.(scope) !== true) {
+        acc.push({
+          testId,
+          categoryId,
+          content: createTestFn(scope)
+        })
+      }
+    })
+  })
+
+  return acc.length !== 0
+    ? acc
+    : null
+}
+
+function generateTestFileSection ({ ctx, generator, jsonPath }) {
+  const { identifiers, getJson } = generator
+
+  const json = getJson(ctx)
+  if (json === void 0) return null
+
+  const [ jsonKey, entryName ] = jsonPath.split('.')
+  if (jsonKey === void 0) return null
+
+  const categoryJson = json[ jsonKey ]
+  if (categoryJson === void 0) return null
+
+  const { categoryId, getTestId, createTestFn } = identifiers[ jsonKey ]
+
+  if (getTestId === void 0) {
+    return createTestFn({ categoryId, jsonEntry: categoryJson, ctx })
+  }
+
+  if (entryName === void 0) return null
+
+  const jsonEntry = categoryJson[ entryName ]
+  if (jsonEntry === void 0) return null
+
+  const testId = getTestId(entryName)
+
+  return createTestFn({
+    name: entryName,
+    pascalName: pascalCase(entryName),
+    testId,
+    jsonEntry,
+    ctx
+  })
+}
+
+function createTestFileContent ({ ctx, generator }) {
+  const { identifiers, getJson, getFileHeader } = generator
+
+  const json = getJson(ctx)
+  if (json === void 0) return '/* no associated JSON so we cannot generate anything */'
+
+  let acc = getFileHeader({ ctx, json })
+    + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
+
+  Object.keys(identifiers).forEach(jsonKey => {
+    const categoryJson = json[ jsonKey ]
+    if (categoryJson === void 0) return
+
+    const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
+
+    if (getTestId === void 0) {
+      acc += createTestFn({ categoryId, jsonEntry: categoryJson, ctx })
+    }
+    else {
+      acc += `\n  describe('${ categoryId }', () => {`
+
+      Object.keys(categoryJson).forEach(entryName => {
+        const testId = getTestId(entryName)
+        const jsonEntry = categoryJson[ entryName ]
+
+        if (jsonEntry.internal === true) return
+
+        const scope = {
+          name: entryName,
+          pascalName: pascalCase(entryName),
+          testId,
+          jsonEntry,
+          ctx
+        }
+
+        if (shouldIgnoreEntry?.(scope) !== true) {
+          acc += createTestFn(scope)
+        }
+      })
+
+      acc += '  })\n'
+    }
+  })
+
+  return acc + '})\n'
+}
+
 function getInitialState (file) {
   const content = fse.readFileSync(file, 'utf-8')
   const match = content.match(ignoreCommentRE)
@@ -201,14 +369,14 @@ function getInitialState (file) {
 export function getTestFile (ctx) {
   const file = ctx.testFileAbsolute
   const generator = getGenerator(ctx.targetRelative)
-  const generateSection = jsonPath => generator.generateSection(ctx, jsonPath)
+  const generateSection = jsonPath => generateTestFileSection({ ctx, generator, jsonPath })
 
   if (fse.existsSync(file) === false) {
     return {
       content: null,
       generateSection,
       createContent () {
-        return generator.createTestFileContent(ctx)
+        return createTestFileContent({ ctx, generator })
       }
     }
   }
@@ -223,13 +391,11 @@ export function getTestFile (ctx) {
     generateSection,
 
     getMissingTests () {
-      if (this.content === null) return []
-      return generator.getMissingTests(ctx)
+      return getTestFileMissingTests({ ctx, generator, testFile: this })
     },
 
     getMisconfiguration () {
-      if (this.content === null) return []
-      return getTestFileMisconfiguration(ctx, generator.categoryList)
+      return getTestFileMisconfiguration({ ctx, generator, testFile: this })
     },
 
     addIgnoreComments (ignoreCommentIds) {
@@ -258,33 +424,41 @@ export function getTestFile (ctx) {
       const categoryContent = {}
 
       missingTests.forEach(test => {
-        if (categoryContent[ test.categoryId ] === void 0) {
-          categoryContent[ test.categoryId ] = [ test.content ]
+        if (categoryContent[ test.categoryId ] !== void 0) {
+          categoryContent[ test.categoryId ].content += test.content
+          return
         }
-        else {
-          categoryContent[ test.categoryId ].push(test.content)
+
+        const acc = {
+          content: test.content,
+          suffix: '',
+          prefix: ''
         }
+
+        if (
+          test.testId !== void 0
+          && this.testTree[ ctx.testTreeRootId ].children[ test.categoryId ] === void 0
+        ) {
+          acc.prefix = `\n  describe('${ test.categoryId }', () => {`
+          acc.suffix = '  })\n'
+        }
+
+        categoryContent[ test.categoryId ] = acc
       })
 
       const categoryList = Object.keys(categoryContent).sort()
 
       categoryList.forEach(categoryId => {
-        let treeCategory = this.testTree[ ctx.testTreeRootId ].children[ categoryId ]
-        let prefix = ''
-        let suffix = ''
-
-        if (treeCategory === void 0) {
-          prefix = `\n  describe('${ categoryId }', () => {`
-          suffix = '  })\n'
-          treeCategory = this.testTree[ ctx.testTreeRootId ]
-        }
-
-        const { insertIndex } = treeCategory
+        const { content, prefix, suffix } = categoryContent[ categoryId ]
+        const { insertIndex } = (
+          this.testTree[ ctx.testTreeRootId ].children[ categoryId ]
+          || this.testTree[ ctx.testTreeRootId ]
+        )
 
         this.content = (
           this.content.slice(0, insertIndex)
           + prefix
-          + categoryContent[ categoryId ].join('')
+          + content
           + suffix
           + this.content.slice(insertIndex)
         )

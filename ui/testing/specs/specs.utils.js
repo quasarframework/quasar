@@ -1,10 +1,23 @@
 export const testIndent = '        '
+const pascalRegex = /((-|\.)\w)/g
+const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 
-export function toPascalCase (str) {
+export function pascalCase (str) {
   return str.replace(
-    /((-|\.)\w)/g,
+    pascalRegex,
     text => text.replace(/-|\./, '').toUpperCase()
   )
+}
+
+export function kebabCase (str) {
+  return str.replace(
+    kebabRegex,
+    match => '-' + match.toLowerCase()
+  ).substring(1)
+}
+
+export function plural (num) {
+  return num === 1 ? '' : 's'
 }
 
 const defTypeMap = {
@@ -293,7 +306,7 @@ function getMountRequiredProps (jsonProps, exceptionProp) {
     const propDef = jsonProps[ prop ]
 
     if (propDef.required) {
-      const pascalName = toPascalCase(prop)
+      const pascalName = pascalCase(prop)
       const { createValue } = getDefTesting(propDef)
 
       acc.push([ pascalName, createValue(propIndent) ])
@@ -322,7 +335,7 @@ export function getComponentMount ({ ctx, prop = null, slot = null }) {
   const requiredProps = getMountRequiredProps(json.props, prop)
 
   if (prop !== null) {
-    const pascalName = toPascalCase(prop)
+    const pascalName = pascalCase(prop)
     requiredProps.push([ pascalName, 'propVal' ])
     if (json.props[ prop ].sync === true) {
       requiredProps.push([ `'onUpdate:${ pascalName }'`, 'val => { propVal = val }' ])

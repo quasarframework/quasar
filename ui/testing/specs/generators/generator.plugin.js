@@ -7,24 +7,17 @@
 //   output += `  })\n`
 // }
 
-const categoryList = []
-
-function generateSection (_ctx, _jsonPath) {
-  return ''
-}
-
-function createTestFileContent (_ctx) {
-  return ''
-}
-
-function getMissingTests (_ctx) {
-  return null
-}
+const identifiers = {}
 
 export default {
-  categoryList,
-
-  generateSection,
-  createTestFileContent,
-  getMissingTests
+  identifiers,
+  getJson: ctx => ctx.json,
+  getFileHeader: ({ ctx }) => {
+    return [
+      'import { mount } from \'@vue/test-utils\'',
+      'import { describe, test, expect } from \'vitest\'',
+      '',
+      `import ${ ctx.pascalName } from './${ ctx.localName }'`
+    ].join('\n')
+  }
 }
