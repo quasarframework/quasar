@@ -352,8 +352,8 @@ importers:
         specifier: ^4.8.0
         version: 4.10.1
       webpack-dev-middleware:
-        specifier: ^7.0.0
-        version: 7.0.0(webpack@5.90.3)
+        specifier: ^7.1.0
+        version: 7.1.0(webpack@5.90.3)
       webpack-dev-server:
         specifier: ^5.0.2
         version: 5.0.2(webpack@5.90.3)
@@ -11864,8 +11864,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /webpack-dev-middleware@7.0.0(webpack@5.90.3):
-    resolution: {integrity: sha512-tZ5hqsWwww/8DislmrzXE3x+4f+v10H1z57mA2dWFrILb4i3xX+dPhTkcdR0DLyQztrhF2AUmO5nN085UYjd/Q==}
+  /webpack-dev-middleware@7.1.0(webpack@5.90.3):
+    resolution: {integrity: sha512-+RYhGOyviHkKdMi1aaT8WZBQW033YgyBgtQHF2kMWo3mYA9z7W2AjsyY/DIzvp2Bhzys4UgHXFsIyTiL5qRBVw==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       webpack: ^5.0.0
@@ -11876,6 +11876,7 @@ packages:
       colorette: 2.0.20
       memfs: 4.7.7
       mime-types: 2.1.35
+      on-finished: 2.4.1
       range-parser: 1.2.1
       schema-utils: 4.2.0
       webpack: 5.90.3(esbuild@0.20.1)
@@ -11923,7 +11924,7 @@ packages:
       sockjs: 0.3.24
       spdy: 4.0.2
       webpack: 5.90.3(esbuild@0.20.1)
-      webpack-dev-middleware: 7.0.0(webpack@5.90.3)
+      webpack-dev-middleware: 7.1.0(webpack@5.90.3)
       ws: 8.16.0
     transitivePeerDependencies:
       - bufferutil
