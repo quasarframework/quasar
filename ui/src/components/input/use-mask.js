@@ -502,7 +502,7 @@ export default function (props, emit, emitValue, inputRef) {
 
       if (typeof maskDef === 'string') {
         output += maskDef
-        valChar === maskDef && valIndex++
+        valChar === maskDef && isNaN(Number(valChar)) && valIndex++
       }
       else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
         output += maskDef.transform !== void 0
