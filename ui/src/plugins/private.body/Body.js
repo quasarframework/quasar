@@ -1,7 +1,8 @@
-import setCssVar from './utils/set-css-var.js'
-import { noop } from './utils/event.js'
-import { onKeyDownComposition } from './utils/private/key-composition.js'
-import { isRuntimeSsrPreHydration, client } from './plugins/platform/Platform.js'
+import setCssVar from '../../utils/set-css-var.js'
+import { noop } from '../../utils/event.js'
+import { onKeyDownComposition } from '../../utils/private/key-composition.js'
+
+import { isRuntimeSsrPreHydration, client } from '../platform/Platform.js'
 
 function getMobilePlatform (is) {
   if (is.ios === true) return 'ios'

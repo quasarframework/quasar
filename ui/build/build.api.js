@@ -58,15 +58,13 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  // also update /ui/test/generators/generator.plugin.js
+  // also update /ui/testing/generators/generator.plugin.js
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods', 'internal' ],
 
-  // also update:
-  //  * /ui/test/generators/generator.component.js
-  //  * /ui/test/generators/generator.composable.js
+  // also update: /ui/testing/generators/generator.component.js
   component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'computedProps' ],
 
-  // also update /ui/test/generators/generator.directive.js
+  // also update /ui/testing/generators/generator.directive.js
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
@@ -823,8 +821,7 @@ module.exports.generate = function ({ compact = false } = {}) {
 
     const plugins = glob.sync([
       'src/plugins/*/*.json',
-      'src/Brand.json',
-      'src/Lang.json'
+      'src/Brand.json'
     ], { cwd: root, absolute: true })
       .map(fillAPI('plugin', list, encodeFn))
 

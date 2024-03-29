@@ -2,10 +2,7 @@ import { ref, watch, onBeforeUnmount } from 'vue'
 
 import { listenOpts } from '../../utils/event.js'
 
-export default function (
-  props,
-  configureScrollTarget
-) {
+export default function (props, configureScrollTarget) {
   const localScrollTarget = ref(null)
   let scrollFn
 

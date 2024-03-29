@@ -6,6 +6,8 @@ function getFn (prop) {
     : () => prop
 }
 
+const name = 'QUploader'
+
 const props = {
   url: [ Function, String ],
   method: {
@@ -251,7 +253,7 @@ function injectPlugin ({ props, emit, helpers }) {
 }
 
 export default {
-  name: 'QUploader',
+  name,
   props,
   emits,
   injectPlugin

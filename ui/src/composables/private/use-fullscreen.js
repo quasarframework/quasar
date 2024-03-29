@@ -1,6 +1,6 @@
 import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import History from '../../history.js'
+import History from '../../plugins/private.history/History.js'
 import { vmHasRouter } from '../../utils/private/vm.js'
 
 let counter = 0

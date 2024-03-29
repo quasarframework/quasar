@@ -330,8 +330,7 @@ function getMountSlot ({ name, slotFn }) {
     + `\n${ testIndent }  }`
 }
 
-export function getComponentMount ({ ctx, prop = null, slot = null }) {
-  const { json } = ctx
+export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
   const requiredProps = getMountRequiredProps(json.props, prop)
 
   if (prop !== null) {

@@ -1,58 +1,4 @@
-import fse from 'fs-extra'
 import { Parser } from 'acorn'
-
-const identifiers = {
-  variables: {
-    categoryId: '[Variables]',
-    getTestId: name => `[(variable)${ name }]`,
-    createTestFn: createVariableTest
-  },
-
-  classes: {
-    categoryId: '[Classes]',
-    getTestId: name => `[(class)${ name }]`,
-    createTestFn: createClassTest
-  },
-
-  functions: {
-    categoryId: '[Functions]',
-    getTestId: name => `[(function)${ name }]`,
-    createTestFn: createFunctionTest
-  }
-}
-
-function createVariableTest ({ testId, jsonEntry }) {
-  return `
-    describe('${ testId }', () => {
-      test.todo('is defined correctly', () => {
-        // TODO: do something with ${ jsonEntry.accessor }
-      })
-    })\n`
-}
-
-function createClassTest ({ testId, jsonEntry }) {
-  return `
-    describe('${ testId }', () => {
-      test.todo('can be instantiated', () => {
-        const instance = new ${ jsonEntry.accessor }(${ jsonEntry.constructorParams })
-        // TODO: do something with "instance"
-      })
-    })\n`
-}
-
-function createFunctionTest ({ testId, jsonEntry }) {
-  return `
-    describe('${ testId }', () => {
-      test.todo('does not error out', () => {
-        expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
-      })
-
-      test.todo('has correct return value', () => {
-        const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
-        expect(result).toBeDefined()
-      })
-    })\n`
-}
 
 const astNodeTypes = [
   'ExportNamedDeclaration', 'ExportDefaultDeclaration',
@@ -63,14 +9,16 @@ function parseVar ({ accessor, isExported = false }) {
   return {
     jsonKey: 'variables',
     isExported,
-    def: { accessor }
+    def: {
+      accessor
+    }
   }
 }
 
-function parseClass ({ declaration, accessor, fileContent, isExported = false }) {
+function parseClass ({ declaration, accessor, targetContent, isExported = false }) {
   const constructorEntry = declaration.body.body.find(entry => entry.kind === 'constructor')
   const params = constructorEntry?.value.params
-    .map(param => fileContent.slice(param.start, param.end))
+    .map(param => targetContent.slice(param.start, param.end))
     .join(', ')
 
   return {
@@ -83,20 +31,20 @@ function parseClass ({ declaration, accessor, fileContent, isExported = false })
   }
 }
 
-function parseFunction ({ declaration, accessor, fileContent, isExported = false }) {
+function parseFunction ({ declaration, accessor, targetContent, isExported = false }) {
   return {
     jsonKey: 'functions',
     isExported,
     def: {
       accessor,
       params: declaration.params
-        .map(param => fileContent.slice(param.start, param.end))
+        .map(param => targetContent.slice(param.start, param.end))
         .join(', ')
     }
   }
 }
 
-function getImportStatement (json, ctx) {
+export function getImportStatement ({ ctx, json }) {
   const list = []
   if (json.defaultExport === true) {
     list.push(ctx.pascalName)
@@ -107,10 +55,10 @@ function getImportStatement (json, ctx) {
   return `import ${ list.join(', ') } from './${ ctx.localName }'`
 }
 
-function getJson (ctx) {
-  const fileContent = fse.readFileSync(ctx.targetAbsolute, 'utf8')
+export function readAstJson (ctx) {
+  const { targetContent } = ctx
 
-  const { body } = Parser.parse(fileContent, {
+  const { body } = Parser.parse(targetContent, {
     ecmaVersion: 'latest',
     sourceType: 'module'
   })
@@ -131,7 +79,7 @@ function getJson (ctx) {
           else if (declaration.type === 'FunctionDeclaration') {
             content[ declaration.id.name ] = parseFunction({
               declaration,
-              fileContent,
+              targetContent,
               isExported: true
             })
           }
@@ -150,14 +98,14 @@ function getJson (ctx) {
       else if (node.declaration.type === 'ClassDeclaration') {
         content[ node.declaration.id.name ] = parseClass({
           declaration: node.declaration,
-          fileContent,
+          targetContent,
           isExported: true
         })
       }
       else if (node.declaration.type === 'FunctionDeclaration') {
         content[ node.declaration.id.name ] = parseFunction({
           declaration: node.declaration,
-          fileContent,
+          targetContent,
           isExported: true
         })
       }
@@ -168,7 +116,7 @@ function getJson (ctx) {
       })
     }
     else if (node.type === 'FunctionDeclaration') {
-      content[ node.id.name ] = parseFunction({ declaration: node, fileContent })
+      content[ node.id.name ] = parseFunction({ declaration: node, targetContent })
     }
   })
 
@@ -216,7 +164,7 @@ function getJson (ctx) {
       const { def } = parseFunction({
         declaration,
         accessor: ctx.pascalName,
-        fileContent
+        targetContent
       })
 
       json.functions.default = def
@@ -227,7 +175,7 @@ function getJson (ctx) {
       const { def } = parseClass({
         declaration,
         accessor: ctx.pascalName,
-        fileContent
+        targetContent
       })
 
       json.classes.default = def
@@ -258,22 +206,17 @@ function getJson (ctx) {
     process.exit(1)
   }
 
-  return {
-    importStatement: getImportStatement(json, ctx),
-    variables: hasVariables ? json.variables : void 0,
-    classes: hasClasses ? json.classes : void 0,
-    functions: hasFunctions ? json.functions : void 0
+  if (hasVariables === false) {
+    delete json.variables
   }
-}
 
-export default {
-  identifiers,
-  getJson,
-  getFileHeader: ({ json }) => {
-    return [
-      'import { describe, test, expect } from \'vitest\'',
-      '',
-      json.importStatement
-    ].join('\n')
+  if (hasClasses === false) {
+    delete json.classes
   }
+
+  if (hasFunctions === false) {
+    delete json.functions
+  }
+
+  return json
 }

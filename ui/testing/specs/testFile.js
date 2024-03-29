@@ -213,14 +213,15 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
   return { errors, warnings }
 }
 
-function getTestFileMissingTests ({ ctx, generator, testFile }) {
-  if (testFile.content === null) return null
+function getTestFileMissingTests ({ ctx, generator, json, testFile }) {
+  if (
+    testFile.content === null
+    || json === void 0
+  ) {
+    return null
+  }
 
-  const { identifiers, getJson } = generator
-
-  const json = getJson(ctx)
-  if (json === void 0) return null
-
+  const { identifiers } = generator
   const acc = []
 
   Object.keys(identifiers).forEach(jsonKey => {
@@ -235,7 +236,7 @@ function getTestFileMissingTests ({ ctx, generator, testFile }) {
 
       acc.push({
         categoryId,
-        content: createTestFn({ categoryId, jsonEntry: categoryJson, ctx })
+        content: createTestFn({ categoryId, jsonEntry: categoryJson, json, ctx })
       })
       return
     }
@@ -255,6 +256,7 @@ function getTestFileMissingTests ({ ctx, generator, testFile }) {
         pascalName: pascalCase(entryName),
         testId,
         jsonEntry,
+        json,
         ctx
       }
 
@@ -273,11 +275,10 @@ function getTestFileMissingTests ({ ctx, generator, testFile }) {
     : null
 }
 
-function generateTestFileSection ({ ctx, generator, jsonPath }) {
-  const { identifiers, getJson } = generator
-
-  const json = getJson(ctx)
+function generateTestFileSection ({ ctx, generator, json, jsonPath }) {
   if (json === void 0) return null
+
+  const { identifiers } = generator
 
   const [ jsonKey, entryName ] = jsonPath.split('.')
   if (jsonKey === void 0) return null
@@ -288,7 +289,7 @@ function generateTestFileSection ({ ctx, generator, jsonPath }) {
   const { categoryId, getTestId, createTestFn } = identifiers[ jsonKey ]
 
   if (getTestId === void 0) {
-    return createTestFn({ categoryId, jsonEntry: categoryJson, ctx })
+    return createTestFn({ categoryId, jsonEntry: categoryJson, json, ctx })
   }
 
   if (entryName === void 0) return null
@@ -303,15 +304,15 @@ function generateTestFileSection ({ ctx, generator, jsonPath }) {
     pascalName: pascalCase(entryName),
     testId,
     jsonEntry,
+    json,
     ctx
   })
 }
 
-function createTestFileContent ({ ctx, generator }) {
-  const { identifiers, getJson, getFileHeader } = generator
-
-  const json = getJson(ctx)
+function createTestFileContent ({ ctx, json, generator }) {
   if (json === void 0) return '/* no associated JSON so we cannot generate anything */'
+
+  const { identifiers, getFileHeader } = generator
 
   let acc = getFileHeader({ ctx, json })
     + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
@@ -323,7 +324,7 @@ function createTestFileContent ({ ctx, generator }) {
     const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
 
     if (getTestId === void 0) {
-      acc += createTestFn({ categoryId, jsonEntry: categoryJson, ctx })
+      acc += createTestFn({ categoryId, jsonEntry: categoryJson, json, ctx })
     }
     else {
       acc += `\n  describe('${ categoryId }', () => {`
@@ -339,6 +340,7 @@ function createTestFileContent ({ ctx, generator }) {
           pascalName: pascalCase(entryName),
           testId,
           jsonEntry,
+          json,
           ctx
         }
 
@@ -369,14 +371,21 @@ function getInitialState (file) {
 export function getTestFile (ctx) {
   const file = ctx.testFileAbsolute
   const generator = getGenerator(ctx.targetRelative)
-  const generateSection = jsonPath => generateTestFileSection({ ctx, generator, jsonPath })
+
+  const json = generator.getJson(ctx)
+  const generateSection = jsonPath => generateTestFileSection({
+    ctx,
+    generator,
+    json,
+    jsonPath
+  })
 
   if (fse.existsSync(file) === false) {
     return {
       content: null,
       generateSection,
       createContent () {
-        return createTestFileContent({ ctx, generator })
+        return createTestFileContent({ ctx, json, generator })
       }
     }
   }
@@ -388,10 +397,11 @@ export function getTestFile (ctx) {
 
   const testFile = {
     ...getInitialState(file),
+
     generateSection,
 
     getMissingTests () {
-      return getTestFileMissingTests({ ctx, generator, testFile: this })
+      return getTestFileMissingTests({ ctx, generator, json, testFile: this })
     },
 
     getMisconfiguration () {

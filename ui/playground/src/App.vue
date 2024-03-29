@@ -24,7 +24,7 @@
 
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
-      class="rounded-borders shadow-4 fixed z-max"
+      class="rounded-borders shadow-4 fixed"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" aria-label="Settings" />
       <template v-if="showSelector">

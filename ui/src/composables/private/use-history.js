@@ -1,6 +1,6 @@
 import { onBeforeUnmount } from 'vue'
 
-import History from '../../history.js'
+import History from '../../plugins/private.history/History.js'
 
 export default function (showing, hide, hideOnRouteChange) {
   let historyEntry

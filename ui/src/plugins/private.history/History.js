@@ -1,5 +1,5 @@
-import { client } from './plugins/platform/Platform.js'
-import { noop } from './utils/event.js'
+import { client } from '../platform/Platform.js'
+import { noop } from '../../utils/event.js'
 
 const getTrue = () => true
 

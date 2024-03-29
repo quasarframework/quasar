@@ -5,6 +5,7 @@
  * !!!
  */
 
+import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
   getDefTesting,
   testIndent,
@@ -63,13 +64,13 @@ function createQuasarConfOptions ({ categoryId, _jsonEntry, _ctx }) {
   })\n`
 }
 
-function getPropTest (name, jsonEntry, ctx) {
+function getPropTest ({ name, jsonEntry, json, ctx }) {
   const type = filterDefExceptionTypes(jsonEntry.type)
   if (type === void 0) return ''
 
   // example: QTable > props > selection
   if (jsonEntry.values !== void 0) {
-    const mountOperation = getComponentMount({ ctx, prop: name })
+    const mountOperation = getComponentMount({ ctx, json, prop: name })
     const eachList = jsonEntry.values.map(val => {
       return `[ ${ val } ]`
     }).join(`,\n${ testIndent }`)
@@ -86,7 +87,7 @@ function getPropTest (name, jsonEntry, ctx) {
 
   // example: QTable > props > virtual-scroll-slice-size
   if (Array.isArray(type) === true) {
-    const mountOperation = getComponentMount({ ctx, prop: name })
+    const mountOperation = getComponentMount({ ctx, json, prop: name })
     const eachIndent = testIndent + '  '
     const eachList = type.map(t => {
       const { createValue } = getDefTesting({ ...jsonEntry, type: t })
@@ -104,10 +105,7 @@ function getPropTest (name, jsonEntry, ctx) {
   }
 
   const { createValue } = getDefTesting(jsonEntry)
-  const mountOperation = getComponentMount({
-    ctx,
-    prop: name
-  })
+  const mountOperation = getComponentMount({ ctx, json, prop: name })
 
   return `\n
       test.todo('type ${ type } has effect', () => {
@@ -123,13 +121,10 @@ function createPropTest ({
   pascalName,
   testId,
   jsonEntry,
+  json,
   ctx
 }) {
-  const propTest = getPropTest(
-    name,
-    jsonEntry,
-    ctx
-  )
+  const propTest = getPropTest({ name, jsonEntry, json, ctx })
 
   return `
     describe('${ testId }', () => {
@@ -163,6 +158,7 @@ function createSlotTest ({
   name,
   testId,
   jsonEntry,
+  json,
   ctx
 }) {
   const { slotFn, scopeTests } = getSlotScope(jsonEntry)
@@ -175,7 +171,7 @@ function createSlotTest ({
             ? `let slotScope\n${ testIndent }`
             : ''
         }const slotContent = 'some-slot-content'
-        ${ getComponentMount({ ctx, slot: { name, slotFn } }) }
+        ${ getComponentMount({ ctx, json, slot: { name, slotFn } }) }
 
         expect(wrapper.html()).toContain(slotContent)${ scopeTests }
       })
@@ -196,6 +192,7 @@ function createEventTest ({
   pascalName,
   testId,
   jsonEntry,
+  json,
   ctx
 }) {
   const nameAccessor = pascalName.indexOf(':') === -1
@@ -214,7 +211,7 @@ function createEventTest ({
       })
 
       test.todo('is emitting', () => {
-        ${ getComponentMount({ ctx }) }
+        ${ getComponentMount({ ctx, json }) }
 
         // TODO: trigger the event
 
@@ -231,6 +228,7 @@ function createMethodTest ({
   pascalName,
   testId,
   jsonEntry,
+  json,
   ctx
 }) {
   const { expectType } = getDefTesting({ ...jsonEntry, type: 'Function' })
@@ -242,7 +240,7 @@ function createMethodTest ({
   return `
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
-        ${ getComponentMount({ ctx }) }
+        ${ getComponentMount({ ctx, json }) }
 
         ${ typeTest }
       })
@@ -253,13 +251,14 @@ function createComputedPropTest ({
   pascalName,
   testId,
   jsonEntry,
+  json,
   ctx
 }) {
   const { expectType } = getDefTesting(jsonEntry)
   return `
     describe('${ testId }', () => {
       test.todo('should be exposed', () => {
-        ${ getComponentMount({ ctx }) }
+        ${ getComponentMount({ ctx, json }) }
 
         ${ expectType('wrapper.vm.' + pascalName) }
       })
@@ -268,7 +267,7 @@ function createComputedPropTest ({
 
 export default {
   identifiers,
-  getJson: ctx => ctx.json,
+  getJson: readAssociatedJsonFile,
   getFileHeader: ({ ctx }) => {
     return [
       'import { mount } from \'@vue/test-utils\'',

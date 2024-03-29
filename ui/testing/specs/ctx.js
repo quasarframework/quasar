@@ -6,21 +6,6 @@ import { pascalCase } from './specs.utils.js'
 
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
 
-function getJsonFile (meta) {
-  const distJsonFile = resolve(rootFolder, 'dist/api/', meta.jsonFileBasename)
-  if (fse.existsSync(distJsonFile)) return distJsonFile
-
-  const localJsonFile = resolve(meta.dirAbsolute, meta.jsonFileBasename)
-  if (fse.existsSync(localJsonFile)) return localJsonFile
-}
-
-function getJson (meta) {
-  const jsonFile = getJsonFile(meta)
-  return jsonFile === void 0
-    ? void 0
-    : JSON.parse(fse.readFileSync(jsonFile, 'utf-8'))
-}
-
 export function createCtx (target) {
   const localName = basename(target)
   const dirAbsolute = dirname(resolve(rootFolder, target))
@@ -36,17 +21,17 @@ export function createCtx (target) {
     dirAbsolute,
     testFileAbsolute,
     testFileRelative: relative(rootFolder, testFileAbsolute),
-    jsonFileBasename: localName.replace('.js', '.json'),
     testTreeRootId: `[${ pascalName } API]`
   }
 
-  let cachedJson
-  Object.defineProperty(ctx, 'json', {
+  let cachedTargetContent
+  // on demand only
+  Object.defineProperty(ctx, 'targetContent', {
     get () {
-      if (cachedJson === void 0) {
-        cachedJson = getJson(ctx)
+      if (cachedTargetContent === void 0) {
+        cachedTargetContent = fse.readFileSync(ctx.targetAbsolute, 'utf-8')
       }
-      return cachedJson
+      return cachedTargetContent
     }
   })
 

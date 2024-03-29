@@ -5,7 +5,7 @@ import getEmitsObject from '../utils/private/get-emits-object'
 // To be used for the custom component
 // used on a Dialog plugin
 
-function useDialogPluginComponent () {
+export default function useDialogPluginComponent () {
   const { emit, proxy } = getCurrentInstance()
 
   // we need a Vue reference to the QDialog
@@ -41,5 +41,3 @@ const emits = [ 'ok', 'hide' ]
 
 useDialogPluginComponent.emits = emits
 useDialogPluginComponent.emitsObject = getEmitsObject(emits)
-
-export default useDialogPluginComponent

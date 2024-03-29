@@ -1,3 +1,4 @@
+import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
   getDefTesting,
   testIndent,
@@ -122,7 +123,7 @@ function createModifierTest ({
 
 export default {
   identifiers,
-  getJson: ctx => ctx.json,
+  getJson: readAssociatedJsonFile,
   getFileHeader: ({ ctx }) => {
     return [
       'import { mount } from \'@vue/test-utils\'',

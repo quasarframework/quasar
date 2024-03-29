@@ -1,4 +1,4 @@
 import { defineComponent, markRaw } from 'vue'
 
-export const createComponent = raw => markRaw(defineComponent(raw))
-export const createDirective = raw => markRaw(raw)
+export function createComponent (raw) { return markRaw(defineComponent(raw)) }
+export function createDirective (raw) { return markRaw(raw) }

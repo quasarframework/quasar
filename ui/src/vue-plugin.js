@@ -1,6 +1,6 @@
 import installQuasar from './install-quasar.js'
-import lang from './lang.js'
-import iconSet from './icon-set.js'
+import lang from './plugins/private.lang/Lang.js'
+import iconSet from './plugins/private.icon-set/IconSet.js'
 
 export default {
   version: __QUASAR_VERSION__,

@@ -3,7 +3,7 @@
 import { isDate } from './is.js'
 import { pad, capitalize } from './format.js'
 import { jalaaliMonthLength } from './private/date-persian.js'
-import lang, { defaultLang } from '../lang.js'
+import Lang, { defaultLang } from '../plugins/private.lang/Lang.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
@@ -352,7 +352,7 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   }
 
   const
-    langOpts = getDateLocale(dateLocale, lang.props),
+    langOpts = getDateLocale(dateLocale, Lang.props),
     months = langOpts.months,
     monthsShort = langOpts.monthsShort
 
@@ -961,7 +961,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezon
     mask = defaultMask
   }
 
-  const locale = getDateLocale(dateLocale, lang.props)
+  const locale = getDateLocale(dateLocale, Lang.props)
 
   return mask.replace(
     token,
