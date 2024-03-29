@@ -1,10 +1,10 @@
 /* MaterialDesignIcons.com v7.4.47 */
 
+
 @font-face {
   font-family: "Material Design Icons";
-
-  src: url("./materialdesignicons-webfont.woff2") format("woff2"),
-    url("./materialdesignicons-webfont.woff") format("woff");
+  
+  src: url("./materialdesignicons-webfont.woff2") format("woff2"), url("./materialdesignicons-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -29813,23 +29813,19 @@
   visibility: hidden;
 }
 
-.mdi-18px.mdi-set,
-.mdi-18px.mdi:before {
+.mdi-18px.mdi-set, .mdi-18px.mdi:before {
   font-size: 18px;
 }
 
-.mdi-24px.mdi-set,
-.mdi-24px.mdi:before {
+.mdi-24px.mdi-set, .mdi-24px.mdi:before {
   font-size: 24px;
 }
 
-.mdi-36px.mdi-set,
-.mdi-36px.mdi:before {
+.mdi-36px.mdi-set, .mdi-36px.mdi:before {
   font-size: 36px;
 }
 
-.mdi-48px.mdi-set,
-.mdi-48px.mdi:before {
+.mdi-48px.mdi-set, .mdi-48px.mdi:before {
   font-size: 48px;
 }
 
@@ -30064,3 +30060,4 @@
     transform: rotate(359deg);
   }
 }
+
