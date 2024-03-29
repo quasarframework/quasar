@@ -170,6 +170,13 @@ const defTypeMap = {
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
     expectValueTest: ref => `${ ref } instanceof Promise`
   },
+
+  Error: {
+    createValue: () => () => 'new Error()',
+    expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Error)`,
+    expectValueTest: ref => `${ ref } instanceof Error`
+  },
+
   Component: {
     createValue: () => () => '{ template: \'<div></div>\', props: {}, setup () {} }',
     expectType: () => ref => `expect(${ ref }).toBeTypeOf('object')`,
