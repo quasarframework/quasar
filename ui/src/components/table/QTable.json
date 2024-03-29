@@ -528,7 +528,7 @@
       "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -550,7 +550,7 @@
       "desc": "CSS classes to apply to header of native HTML <table> (which is a TR)",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -573,7 +573,7 @@
       "examples": [
         "'my-special-class'",
         "'justify-center'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -595,7 +595,7 @@
       "desc": "CSS classes to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -607,7 +607,7 @@
       "examples": [
         "'my-special-class'",
         "'text-h1'",
-        "{ 'text-h1': <condition> }"
+        "{ 'text-h1': true }"
       ],
       "category": "style"
     },

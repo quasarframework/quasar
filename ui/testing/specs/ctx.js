@@ -5,28 +5,30 @@ import fse from 'fs-extra'
 import { pascalCase } from './specs.utils.js'
 
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
+const jsRE = /\.js$/
 
 export function createCtx (target) {
   const localName = basename(target)
-  const dirAbsolute = dirname(resolve(rootFolder, target))
-  const testName = localName.replace('.js', '.test.js')
-  const testFileAbsolute = resolve(dirAbsolute, testName)
-  const pascalName = pascalCase(localName.replace('.js', ''))
+  const rootName = localName.replace(jsRE, '')
+  const testName = rootName + '.test.js'
+  const targetAbsolute = resolve(rootFolder, target)
+  const testFileAbsolute = resolve(dirname(targetAbsolute), testName)
+  const pascalName = pascalCase(rootName)
 
   const ctx = {
     targetRelative: target,
-    targetAbsolute: resolve(rootFolder, target),
+    targetAbsolute,
     localName,
     pascalName,
-    dirAbsolute,
+    testTreeRootId: `[${ pascalName } API]`,
     testFileAbsolute,
-    testFileRelative: relative(rootFolder, testFileAbsolute),
-    testTreeRootId: `[${ pascalName } API]`
+    testFileRelative: relative(rootFolder, testFileAbsolute)
   }
 
   let cachedTargetContent
   // on demand only
   Object.defineProperty(ctx, 'targetContent', {
+    enumerable: true,
     get () {
       if (cachedTargetContent === void 0) {
         cachedTargetContent = fse.readFileSync(ctx.targetAbsolute, 'utf-8')

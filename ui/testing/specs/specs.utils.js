@@ -1,6 +1,7 @@
 export const testIndent = '        '
 const pascalRegex = /((-|\.)\w)/g
 const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
+const ignoreKeyRE = /\.\.\./
 
 export function pascalCase (str) {
   return str.replace(
@@ -18,6 +19,11 @@ export function kebabCase (str) {
 
 export function plural (num) {
   return num === 1 ? '' : 's'
+}
+
+function filterSpreadKey (key) {
+  // example -> "...": { desc: "Any other props..." }
+  return ignoreKeyRE.test(key) === false
 }
 
 const defTypeMap = {
@@ -42,13 +48,12 @@ const defTypeMap = {
 
       return (indentation = testIndent) => {
         const keyIndent = indentation + '  '
-        const list = Object.keys(def.definition).map(key => {
-          // example -> "...": { desc: "Any other props..." }
-          if (key === '...') return ''
-
-          const { createValue } = getDefTesting(def.definition[ key ])
-          return `\n${ keyIndent }${ key }: ${ createValue(keyIndent) }`
-        })
+        const list = Object.keys(def.definition)
+          .filter(filterSpreadKey)
+          .map(key => {
+            const { createValue } = getDefTesting(def.definition[ key ])
+            return `\n${ keyIndent }${ key }: ${ createValue(keyIndent) }`
+          })
 
         return `[{${ list.join(',') }\n${ indentation }}]`
       }
@@ -68,13 +73,12 @@ const defTypeMap = {
 
       return (indentation = testIndent) => {
         const keyIndent = indentation + '  '
-        const list = Object.keys(def.definition).map(key => {
-          // example -> "...": { desc: "Any other props..." }
-          if (key === '...') return ''
-
-          const { createValue } = getDefTesting(def.definition[ key ])
-          return `\n${ keyIndent }${ key }: ${ createValue(keyIndent) }`
-        })
+        const list = Object.keys(def.definition)
+          .filter(filterSpreadKey)
+          .map(key => {
+            const { createValue } = getDefTesting(def.definition[ key ])
+            return `\n${ keyIndent }${ key }: ${ createValue(keyIndent) }`
+          })
 
         return `{${ list.join(',') }\n${ indentation }}`
       }
@@ -116,7 +120,7 @@ const defTypeMap = {
   },
 
   Element: {
-    valueRegex: /(^document\.?|^\..+|^#.+|^body\.?|.+El$|\$refs)/,
+    valueRegex: /^document\./,
     createValue: () => () => 'document.createElement(\'div\')',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Element)`,
     expectValueTest: ref => `${ ref } instanceof Element`
@@ -240,30 +244,29 @@ function getFunctionCallTest (def, ref) {
 const objectEqualDefTypeExceptions = [ 'Any', 'Component', 'FileList' ]
 
 function getObjectEqualDef (definition, localIndent) {
-  const list = Object.keys(definition).map(key => {
-    const target = definition[ key ]
+  const list = Object.keys(definition)
+    .filter(filterSpreadKey)
+    .map(key => {
+      const target = definition[ key ]
 
-    // example -> "...": { desc: "Any other props..." }
-    if (key === '...') return ''
+      let type = Array.isArray(target.type)
+        ? target.type[ 0 ]
+        : target.type
 
-    let type = Array.isArray(target.type)
-      ? target.type[ 0 ]
-      : target.type
+      if (type.startsWith('Promise') === true) {
+        type = 'Promise'
+      }
 
-    if (type.startsWith('Promise') === true) {
-      type = 'Promise'
-    }
+      const valueTest = objectEqualDefTypeExceptions.includes(type)
+        ? 'expect.anything()'
+        : (
+            type === 'Object' && (target.definition !== void 0 || target.scope !== void 0)
+              ? `expect.objectContaining(${ getObjectEqualDef(target.definition || target.scope, localIndent + '  ') })`
+              : `expect.any(${ type })`
+          )
 
-    const valueTest = objectEqualDefTypeExceptions.includes(type)
-      ? 'expect.anything()'
-      : (
-          type === 'Object' && (target.definition !== void 0 || target.scope !== void 0)
-            ? `expect.objectContaining(${ getObjectEqualDef(target.definition || target.scope, localIndent + '  ') })`
-            : `expect.any(${ type })`
-        )
-
-    return `\n${ testIndent }${ localIndent }  ${ key }: ${ valueTest }`
-  })
+      return `\n${ testIndent }${ localIndent }  ${ key }: ${ valueTest }`
+    })
 
   return `{${ list.join(',') }\n${ testIndent }${ localIndent }}`
 }

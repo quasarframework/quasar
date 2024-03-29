@@ -219,7 +219,7 @@
       "desc": "Class definitions to be attributed to the input (if using one)",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },

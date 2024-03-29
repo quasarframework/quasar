@@ -233,7 +233,7 @@
       "desc": "CSS classes for the input area",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },

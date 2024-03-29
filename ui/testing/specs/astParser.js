@@ -75,7 +75,7 @@ export function readAstJson (ctx) {
         )
         console.error('declaration', node.declaration)
         console.error('ctx', ctx)
-        process.exit(1)
+        throw new Error('readAstJson > unknown ExportNamedDeclaration > declaration')
       }
       if (node.declaration.type === 'VariableDeclaration') {
         node.declaration.declarations.forEach(declaration => {
@@ -101,7 +101,7 @@ export function readAstJson (ctx) {
             )
             console.error('declaration', declaration)
             console.error('ctx', ctx)
-            process.exit(1)
+            throw new Error('readAstJson > unknown ExportNamedDeclaration > VariableDeclaration > type')
           }
         })
       }
@@ -156,7 +156,7 @@ export function readAstJson (ctx) {
           )
           console.error('prop', prop)
           console.error('ctx', ctx)
-          process.exit(1)
+          throw new Error('readAstJson > unregistered ExportDefaultDeclaration > ObjectExpression > properties')
         }
 
         const { jsonKey, def } = content[ ref ]
@@ -215,7 +215,7 @@ export function readAstJson (ctx) {
   ) {
     console.error('AST: no variables, classes or functions found for:', ctx.targetAbsolute)
     console.error('ctx', ctx)
-    process.exit(1)
+    throw new Error('readAstJson > no variables, classes or functions found')
   }
 
   if (hasVariables === false) {

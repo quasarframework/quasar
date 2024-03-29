@@ -90,7 +90,7 @@
       "desc": "Class definitions to be attributed to the label container",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },

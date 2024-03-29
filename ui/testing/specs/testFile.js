@@ -153,7 +153,7 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
 
   if (tree.children === null) {
     errors.push(
-      `Found empty describe('${ testTreeRootId }'). Delete it.`
+      `Found empty describe('${ testTreeRootId }'). Delete the file and generate it again.`
     )
     return { errors, warnings }
   }
@@ -357,6 +357,14 @@ function createTestFileContent ({ ctx, json, generator }) {
 }
 
 function getInitialState (file) {
+  if (fse.existsSync(file) === false) {
+    return {
+      content: null,
+      ignoreCommentIds: [],
+      testTree: {}
+    }
+  }
+
   const content = fse.readFileSync(file, 'utf-8')
   const match = content.match(ignoreCommentRE)
   const ignoreComment = match?.[ 1 ]
@@ -370,25 +378,9 @@ function getInitialState (file) {
 
 export function getTestFile (ctx) {
   const file = ctx.testFileAbsolute
+
   const generator = getGenerator(ctx.targetRelative)
-
   const json = generator.getJson(ctx)
-  const generateSection = jsonPath => generateTestFileSection({
-    ctx,
-    generator,
-    json,
-    jsonPath
-  })
-
-  if (fse.existsSync(file) === false) {
-    return {
-      content: null,
-      generateSection,
-      createContent () {
-        return createTestFileContent({ ctx, json, generator })
-      }
-    }
-  }
 
   const save = content => {
     testFile.testTree = getTestTree(content)
@@ -398,7 +390,13 @@ export function getTestFile (ctx) {
   const testFile = {
     ...getInitialState(file),
 
-    generateSection,
+    createContent () {
+      return createTestFileContent({ ctx, json, generator })
+    },
+
+    generateSection (jsonPath) {
+      return generateTestFileSection({ ctx, generator, json, jsonPath })
+    },
 
     getMissingTests () {
       return getTestFileMissingTests({ ctx, generator, json, testFile: this })

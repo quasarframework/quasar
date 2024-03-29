@@ -21,7 +21,7 @@ const apiValueRegex = {
   Boolean: /^(true|false)$/,
   Function: / => /,
   RegExp: /^\/.*\/[gimuy]*$/,
-  Element: /(^document\.?|^\..+|^#.+|^body\.?|.+El$|\$refs)/,
+  Element: /(^document\.|^\..+|^#.+|.+El$|\$refs)/,
   Component: /^[A-Z][A-Za-z]+$/,
   'Promise<any>': apiValuePromiseRegex,
   'Promise<void>': apiValuePromiseRegex,

@@ -55,7 +55,7 @@
       "desc": "Class definitions to be attributed to the 'before' panel",
       "examples": [
         "'bg-deep-orange'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -66,7 +66,7 @@
       "desc": "Class definitions to be attributed to the 'after' panel",
       "examples": [
         "'bg-deep-orange'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -77,7 +77,7 @@
       "desc": "Class definitions to be attributed to the splitter separator",
       "examples": [
         "'bg-deep-orange'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },

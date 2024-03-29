@@ -77,7 +77,7 @@
       "desc": "Class definitions to be attributed to the underlying selection container",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },

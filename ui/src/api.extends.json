@@ -132,7 +132,7 @@
         ".scroll-target-class",
         "#scroll-target-id",
         "$refs.scrollTarget",
-        "body"
+        "document.body"
       ],
       "category": "behavior"
     },

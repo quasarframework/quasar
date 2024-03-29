@@ -131,7 +131,7 @@
         "desc": "Class definitions to be attributed to the badge",
         "examples": [
           "'my-special-class'",
-          "{ 'my-special-class': <condition> }"
+          "{ 'my-special-class': true }"
         ]
       },
 
@@ -145,7 +145,7 @@
         "desc": "Class definitions to be attributed to the progress bar",
         "examples": [
           "'my-special-class'",
-          "{ 'my-special-class': <condition> }"
+          "{ 'my-special-class': true }"
         ]
       },
 
@@ -349,7 +349,7 @@
               "desc": "Class definitions to be attributed to the badge",
               "examples": [
                 "'my-special-class'",
-                "{ 'my-special-class': <condition> }"
+                "{ 'my-special-class': true }"
               ]
             },
 
@@ -363,7 +363,7 @@
               "desc": "Class definitions to be attributed to the progress bar",
               "examples": [
                 "'my-special-class'",
-                "{ 'my-special-class': <condition> }"
+                "{ 'my-special-class': true }"
               ]
             },
 

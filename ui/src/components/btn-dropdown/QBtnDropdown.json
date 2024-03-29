@@ -59,7 +59,7 @@
       "desc": "Class definitions to be attributed to the menu",
       "examples": [
         "'my-special-class'",
-        "{ 'my-special-class': <condition> }"
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },

@@ -10,7 +10,7 @@ function readJsonFile (ctx) {
   const distJsonFile = resolve(rootFolder, 'dist/api/', jsonFileBasename)
   if (fse.existsSync(distJsonFile)) return distJsonFile
 
-  const localJsonFile = resolve(ctx.dirAbsolute, jsonFileBasename)
+  const localJsonFile = ctx.targetAbsolute.replace('.js', '.json')
   if (fse.existsSync(localJsonFile)) return localJsonFile
 }
 
