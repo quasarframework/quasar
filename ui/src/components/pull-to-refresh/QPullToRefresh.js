@@ -2,7 +2,7 @@ import { h, ref, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll.js'

@@ -14,8 +14,9 @@ export const quasarElectronConfig = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  main: async quasarConf => {
-    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-electron-main', format: 'esm' })
+  // returns a Promise
+  main: quasarConf => {
+    const cfg = createNodeEsbuildConfig(quasarConf, { compileId: 'node-electron-main', format: 'esm' })
     const { appPaths } = quasarConf.ctx
     const ext = quasarConf.metaConf.packageTypeBasedExtension
 
@@ -55,7 +56,7 @@ export const quasarElectronConfig = {
      */
 
     const scriptName = basename(name)
-    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: `node-electron-preload-${ scriptName }`, format: 'cjs' })
+    const cfg = createNodeEsbuildConfig(quasarConf, { compileId: `node-electron-preload-${ scriptName }`, format: 'cjs' })
     const { appPaths } = quasarConf.ctx
 
     cfg.entryPoints = [ resolve('src-electron', name) ]

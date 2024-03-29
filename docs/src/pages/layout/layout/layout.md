@@ -10,15 +10,12 @@ related:
   - /layout/page-sticky
   - /layout/page-scroller
   - /vue-components/floating-action-button
-components:
-  - ./ViewProp
-  - ./ViewPlay
 ---
 The QLayout is a component designed to manage the entire window and wrap page content with elements such as a navigational bar or a drawer. Multiple pages can share the same QLayout, so the code is reusable, which is one of their key points.
 
 **QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.
 
-<doc-api file="QLayout" />
+<DocApi file="QLayout" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
@@ -52,11 +49,19 @@ This matrix of containers or "QLayout View" can be represented by a string that 
 - a space
 - then 3 defining the footer row
 
-<view-prop />
+<script doc>
+import ViewProp from './ViewProp.vue'
+</script>
+
+<ViewProp />
 
 The letters shown above are also case sensitive. For example, using at least one "L" (uppercase character instead of lowercase) will make your layout left side (drawer) be in a fixed position. Same applies for "H" (header), "F" (footer) and finally "R" (right side / drawer).
 
-<view-play />
+<script doc>
+import ViewPlay from './ViewPlay.vue'
+</script>
+
+<ViewPlay />
 
 For example, if you want your layout's right side / drawer to be placed on the right of the header, page and footer, you'd use `hhr lpr ffr`. If you'd like to also make it fixed, just transform one `r` character to uppercase, like this: `hhr lpR ffr`, or `hhR lpr ffr` or `hhr lpr ffR`.
 
@@ -78,6 +83,6 @@ Please note that it **requires a CSS height (or min-height) being set explicitly
 
 In the example below, there is a containerized QLayout with drawers on each side (breakpoint of 700px on the left-side drawer and 500px on the right-side drawer). The breakpoint does not refer to the window width, but to the actual width of the QLayout container.
 
-<doc-example title="Containerized QLayout" file="Container" />
+<DocExample title="Containerized QLayout" file="Container" />
 
-<doc-example title="In a QDialog" file="ContainerDialog" />
+<DocExample title="In a QDialog" file="ContainerDialog" />

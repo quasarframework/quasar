@@ -20,7 +20,7 @@
           "desc": "Model value for right thumb"
         }
       },
-      "examples": [ "v-model=\"positionModel\"" ]
+      "examples": [ "# v-model=\"positionModel\"" ]
     },
 
     "drag-range": {
@@ -62,18 +62,14 @@
     "left-label-value": {
       "type": [ "String", "Number" ],
       "desc": "Override default label for min value",
-      "examples": [
-        ":left-label-value=\"model.min + 'px'\""
-      ],
+      "examples": [ "# :left-label-value=\"model.min + 'px'\"" ],
       "category": "labels"
     },
 
     "right-label-value": {
       "type": [ "String", "Number" ],
       "desc": "Override default label for max value",
-      "examples": [
-        ":right-label-value=\"model.max + 'px'\""
-      ],
+      "examples": [ "# :right-label-value=\"model.max + 'px'\"" ],
       "category": "labels"
     },
 

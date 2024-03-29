@@ -1,0 +1,31 @@
+{
+  "name": "quasar-ui-test",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@quasar/extras": "^1.16.4",
+    "@quasar/vite-plugin": "^1.6.0",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/test-utils": "^2.4.1",
+    "acorn": "^8.11.3",
+    "eslint": "^8.11.0",
+    "eslint-config-quasar": "^0.0.1",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "jsdom": "latest",
+    "prompts": "^2.4.2",
+    "vite": "^5.1.0",
+    "vite-plugin-checker": "^0.6.4",
+    "vitest": "^1.0.0",
+    "vue": "^3.4.18"
+  },
+  "dependencies": {
+    "clipboardy": "^4.0.0",
+    "minimist": "^1.2.8"
+  }
+}

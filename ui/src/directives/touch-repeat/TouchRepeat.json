@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-repeat"
+  },
+
+  "value": {
+    "type": ["Function", "undefined"],
+    "desc": "Handler for touch-repeat (use undefined to disable)",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Event details",
+        "definition": {
+          "evt": {
+            "extends": "evt",
+            "desc": "Original JS event Object"
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
+          },
+          "keyboard": {
+            "type": "Boolean",
+            "desc": "Triggered by a keyboard event"
+          },
+          "position": {
+            "type": "Object",
+            "desc": "Event Position Object; Supplied ONLY if it's a touch or mouse event",
+            "definition": {
+              "top": {
+                "type": "Number",
+                "desc": "Vertical offset from top of window"
+              },
+              "left": {
+                "type": "Number",
+                "desc": "Horizontal offset from left of window"
+              }
+            }
+          },
+          "keyCode": {
+            "type": "Number",
+            "desc": "Keycode; Supplied ONLY if it's a keyboard event"
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)"
+          },
+          "repeatCount": {
+            "type": "Number",
+            "desc": "Handler called for nth time"
+          },
+          "startTime": {
+            "type": "Number",
+            "desc": "Unix timestamp of the moment when event started; Equivalent to Date.now()"
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "({ evt, touch, mouse, keyboard, position, keyCode, duration, repeatCount, startTime }) => { /* ... */ }" ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "String of numbers (at least one number) separated by ':' which defines the amount of time to wait for 1st handler call, 2nd, 3rd and so on; All subsequent calls will use last value as time to wait until triggering",
+    "default": "'0:600:300'",
+    "examples": [ "# v-touch-repeat:0:400=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
+    "mouse": {
+      "type": "Boolean",
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "keyCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for keydown event"
+    },
+
+    "esc": {
+      "type": "Boolean",
+      "desc": "Catch ESC key"
+    },
+
+    "tab": {
+      "type": "Boolean",
+      "desc": "Catch TAB key"
+    },
+
+    "enter": {
+      "type": "Boolean",
+      "desc": "Catch ENTER key"
+    },
+
+    "space": {
+      "type": "Boolean",
+      "desc": "Catch SPACE key"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch UP arrow key"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch LEFT arrow key"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch RIGHT arrow key"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch DOWN key"
+    },
+
+    "delete": {
+      "type": "Boolean",
+      "desc": "Catch DELETE key"
+    },
+
+    "[keycode]": {
+      "type": "Number",
+      "desc": "Key code to catch",
+      "examples": [ "# v-touch-repeat.68=\"fnToCall\"" ]
+    }
+  }
+}

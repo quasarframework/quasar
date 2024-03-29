@@ -44,6 +44,8 @@ const output = [
   { key: 'Global packages', section: true },
   { key: '  NPM', value: getSpawnOutput('npm') },
   { key: '  yarn', value: getSpawnOutput('yarn') },
+  { key: '  pnpm', value: getSpawnOutput('pnpm') },
+  { key: '  bun', value: getSpawnOutput('bun') },
   { key: '  @quasar/cli', value: green(cliPkg.version) },
   { key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') },
   { key: '  cordova', value: getSpawnOutput('cordova') }

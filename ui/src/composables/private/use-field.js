@@ -1,12 +1,12 @@
-import { h, ref, computed, watch, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 import QIcon from '../../components/icon/QIcon.js'
 import QSpinner from '../../components/spinner/QSpinner.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useId, { getId } from './use-id.js'
+import useId from '../use-id.js'
 import useValidate, { useValidateProps } from './use-validate.js'
-import useSplitAttrs from './use-split-attrs.js'
+import useSplitAttrs from '../use-split-attrs.js'
 
 import { hSlot } from '../../utils/private/render.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
@@ -69,10 +69,13 @@ export const useFieldProps = {
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
 
 export function useFieldState ({ requiredForAttr = true, tagProp } = {}) {
-  const { props, attrs, proxy, vnode } = getCurrentInstance()
+  const { props, proxy } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
-  const targetUid = useId(props.for, requiredForAttr)
+  const targetUid = useId({
+    required: requiredForAttr,
+    getValue: () => props.for
+  })
 
   return {
     requiredForAttr,
@@ -90,7 +93,7 @@ export function useFieldState ({ requiredForAttr = true, tagProp } = {}) {
     focused: ref(false),
     hasPopupOpen: false,
 
-    splitAttrs: useSplitAttrs(attrs, vnode),
+    splitAttrs: useSplitAttrs(),
     targetUid,
 
     rootRef: ref(null),
@@ -254,12 +257,6 @@ export default function (state) {
     }
 
     return acc
-  })
-
-  watch(() => props.for, val => {
-    // don't transform targetUid into a computed
-    // prop as it will break SSR
-    state.targetUid.value = getId(val, state.requiredForAttr)
   })
 
   function focusHandler () {

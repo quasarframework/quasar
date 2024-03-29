@@ -13,31 +13,31 @@ QTimeline has 3 layouts:
 * `comfortable` is showing headings, titles and content on the **timeline-specified side** of the time line (default on right) and the subtitles on the other side
 * `loose` is showing headings on center, titles and content on the **entry-specified side** of the time line (default on right) and the subtitles on the other side
 
-<doc-api file="QTimeline" />
+<DocApi file="QTimeline" />
 
-<doc-api file="QTimelineEntry" />
+<DocApi file="QTimelineEntry" />
 
 ## Usage
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" scrollable />
+<DocExample title="Basic" file="Basic" scrollable />
 
 ### Using props only
 
 Below is the same example, but using QTimelineEntry properties only instead of the default slot:
 
-<doc-example title="Props only" file="PropsOnly" scrollable />
+<DocExample title="Props only" file="PropsOnly" scrollable />
 
 ### Using slots only
 
 Below is again the same example, but using only QTimelineEntry slots:
 
-<doc-example title="Slots only" file="SlotsOnly" scrollable />
+<DocExample title="Slots only" file="SlotsOnly" scrollable />
 
 ### Dark design
 
-<doc-example title="Force dark mode" file="Dark" scrollable />
+<DocExample title="Force dark mode" file="Dark" scrollable />
 
 ### Layouts and side selection
 
@@ -45,7 +45,7 @@ Below is again the same example, but using only QTimelineEntry slots:
 QTimelineEntry only takes into account its `side` prop if QTimeline has the `loose` layout.
 :::
 
-<doc-example title="Layouts and side selection" file="Layouts" scrollable />
+<DocExample title="Layouts and side selection" file="Layouts" scrollable />
 
 ### Responsive
 
@@ -53,4 +53,4 @@ QTimelineEntry only takes into account its `side` prop if QTimeline has the `loo
 The examples below uses `$q.screen` to detect changes in window size to see all 3 layouts in action.
 :::
 
-<doc-example title="Responsive layout" file="Responsive" scrollable />
+<DocExample title="Responsive layout" file="Responsive" scrollable />

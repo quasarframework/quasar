@@ -20,5 +20,5 @@ export type ValidationRule<T = any> =
   | EmbeddedValidationRule
   | ((
       value: T,
-      rules: Record<EmbeddedValidationRule, EmbeddedValidationRuleFn>
+      rules: Record<EmbeddedValidationRule, EmbeddedValidationRuleFn>,
     ) => boolean | string | Promise<boolean | string>);

@@ -1,6 +1,6 @@
 import { h, ref, reactive, computed, watch, provide, onUnmounted, getCurrentInstance } from 'vue'
 
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'

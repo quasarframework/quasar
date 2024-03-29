@@ -19,7 +19,7 @@ These images are used to display the icon of the application in the desktop oper
 ## Icon Genie CLI
 
 ::: tip
-We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
+We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html or /src/index.template.html file.
 :::
 
 Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
@@ -30,4 +30,4 @@ $ icongenie generate -m electron -i /path/to/source/icon.png
 
 ## Manual instructions
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

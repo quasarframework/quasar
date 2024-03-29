@@ -4,7 +4,7 @@
       "type": "String",
       "desc": "Custom mask or one of the predefined mask names",
       "examples": [
-        "###-##", "date", "datetime", "time", "fulltime", "phone", "card"
+        "'###-##'", "'date'", "'datetime'", "'time'", "'fulltime'", "'phone'", "'card'"
       ],
       "category": "behavior"
     },

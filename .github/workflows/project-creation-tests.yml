@@ -38,20 +38,22 @@ jobs:
     name: Lint create-quasar
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-          # create-quasar is not included in workspaces, and it's yarn.lock is .gitignored, so we can't have caching
-          # cache: 'yarn'
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       - name: Lint the code
-        run: yarn lint
+        run: pnpm lint
 
   test:
     needs: lint
@@ -61,6 +63,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      # See https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: 1
+
     defaults:
       run:
         working-directory: create-quasar
@@ -69,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         script-type: [js, ts]
-        app-engine: [vite, webpack]
+        app-engine: [vite-1, vite-2, webpack-3, webpack-4]
         node-version: [18, 20]
         package-manager: [yarn, npm, pnpm]
 
@@ -77,24 +83,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          # create-quasar is not included in workspaces, and it's yarn.lock is .gitignored, so we can't have caching
-          # cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       # pnpm
-      - name: Install pnpm
-        if: ${{ matrix.package-manager == 'pnpm' }}
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
       - name: Get pnpm store directory
         if: ${{ matrix.package-manager == 'pnpm' }}
         id: pnpm-cache
@@ -102,7 +105,7 @@ jobs:
           echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
       - name: Setup pnpm cache
         if: ${{ matrix.package-manager == 'pnpm' }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
           key: pnpm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
@@ -118,7 +121,7 @@ jobs:
           echo "YARN_CACHE_PATH=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Setup yarn cache
         if: ${{ matrix.package-manager == 'yarn' }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache.outputs.YARN_CACHE_PATH }}
           key: yarn-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
@@ -134,7 +137,7 @@ jobs:
           echo "NPM_CACHE_PATH=$(npm config get cache)" >> $GITHUB_OUTPUT
       - name: Setup npm cache
         if: ${{ matrix.package-manager == 'npm' }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.npm-cache.outputs.NPM_CACHE_PATH }}
           key: npm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
@@ -143,7 +146,7 @@ jobs:
             npm-cache-
 
       - name: Create the test project
-        run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
+        run: pnpm create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
 
       - name: Lint the project
         working-directory: create-quasar/test-project

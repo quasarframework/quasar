@@ -5,18 +5,18 @@ desc: How to contribute to Quasar Framework.
 
 This guide covers ways in which you can become a part of the ongoing development of Quasar.
 
-But, before we begin, a first important note. Everyone interacting in Quasar is expected to follow the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md).
+But, before we begin, a first important note. Everyone interacting in Quasar is expected to follow the [Quasar Code of Conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md).
 
 Now that we've got that covered, let's go!
 
 After reading this guide, you will know:
 
 * How to use GitHub to report issues.
-* How to clone master and run the test suite.
+* How to clone the repo and run the test suite.
 * How to help resolve existing issues.
 * How to contribute to the Quasar documentation.
 * How to create a Quasar App Extension.
-* How to contribute to the Quasar code.
+* How to contribute to the Quasar source code.
 
 Quasar is not "someone else's framework". Many people have contributed to Quasar ranging from a single character to massive architectural changes or significant documentation - all with the goal of making Quasar better for everyone. Even if you don't feel up to writing code or documentation yet, there are a variety of other ways that you can contribute, from reporting issues to testing patches.
 
@@ -26,8 +26,8 @@ One of the easiest ways to contribute is to answer questions in the different Q&
 
 Here are our discussion/Q&A venues:
 
-* [Forum](https://forum.quasar.dev/): The best place to ask questions and get answers about Quasar and its ecosystem.
-* [Chat](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time.
+* [GitHub Discussions](https://forum.quasar.dev/): A place to ask questions and get answers about Quasar and its ecosystem. It’s also a great place to share your knowledge and experience with others. You can also use it to share your ideas and feature requests.
+* [Discord Server](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time. You can ask questions, share your knowledge, and help others. It's also possible to post job offers or look for a job there.
 
 ## Share (and Build) Your Experience
 
@@ -57,13 +57,13 @@ If you've found a problem in Quasar which is not a security risk, do a search on
 
 - Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).
 
-- Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.
+- Check if the issue is reproducible with the latest stable version of Quasar. Please always indicate the specific version you are using.
 
 - It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Although we would love to help our users as much as possible, diagnosing issues without clear reproduction steps is extremely time-consuming and simply not sustainable.
 
 - Use only the minimum amount of code necessary to reproduce the unexpected behavior. A good bug report should isolate specific methods that exhibit unexpected behavior and precisely define how expectations were violated. What did you expect the method or methods to do, and how did the observed behavior differ? The more precisely you isolate the issue, the faster we can investigate.
 
-- Issues with no clear reproduction steps will not be triaged. If an issue labeled "bug/0-needs-info" receives no further input from the issue author for more than 5 days, it will be closed.
+- Issues with no clear reproduction steps will not be triaged. If an issue labeled "bug/0-needs-info" receives no further input from the issue author for a significant period of time, it will be closed.
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
@@ -141,25 +141,28 @@ Make sure you have `dev` branch selected and this is where all the work is done.
 :::
 
 #### Clone the forked repository
+
 To be able to change the documentation, you need to clone forked repository:
 
 ```bash
 $ git clone https://github.com/your-user-name/quasar.git
+$ cd quasar
 $ git checkout dev
 ```
 
 #### Install dependencies
 
 Install the required dependencies.
+
 ```bash
-$ cd quasar/docs
-$ yarn # or npm install
+$ pnpm i
 ```
 
 #### Running documentation against your local repository
 
 ```bash
-$ quasar dev
+$ cd docs
+$ pnpm dev
 ```
 
 The documentation runs against your local cloned repository.
@@ -227,6 +230,7 @@ When done, submit a PR on [Quasar Awesome](https://github.com/quasarframework/qu
 
 As with any project, there are rules to contributing. Ours are written here, please read them carefully. After that, read the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md) and you’ll be ready to contribute to Quasar’s core repositories.
 
+<!-- TODO: Update the article(published in 2018): it has Vue 2, Stylus, etc. stuff, outdated social/repo links -->
 An article [Look at the source code](https://medium.com/quasar-framework/wip-look-at-the-source-code-please-1b905ea4906) will help you to get familiar with a Quasar code base.
 
 #### Pull Request Guidelines
@@ -238,46 +242,50 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 - It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.
 
 - If adding new feature:
-  * Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
+  * Provide convincing reason to add this feature.
+  * Ideally you should open a suggestion issue first and have it green-lighted before working on it. Otherwise, you risk spending a lot of time on something which might not get accepted at all or not in the form you expect.
 
 - If fixing a bug:
-  * If you are resolving a special issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
-  * Provide detailed description of the bug in the PR. Live demo preferred.
+  * If you are resolving a specific issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
+  * Provide detailed description of the bug in the PR. A live demo is preferred.
 
 #### Development Setup
 
-You will need [Node.js](http://nodejs.org) version **12.22.1+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) version **v16+** along [pnpm](https://pnpm.io/). Read `package.json` and take notice of the scripts you can use.
 
-After cloning the repo run:
+After cloning the repo, run:
 
-``` bash
-$ cd ui
-$ yarn # or: npm install
+```bash
+$ pnpm i
 ```
 
 #### Commonly used NPM scripts
 
-``` bash
+```bash
 # Start dev server with a demo app. This app has Quasar source code linked directly so any change will trigger HMR (Hot Module Reload) on the dev server.
 # There's a section for each feature where tests are made.
-$ yarn dev # or: npm run dev
+$ pnpm dev
 
 # build all dist files, including npm packages
-$ yarn build      # or: npm run build
+$ pnpm build
 # build only js dist files
-$ yarn build js   # or: npm run build js
+$ pnpm build js
+# build only type related files
+$ pnpm build js types
 # build only css dist files
-$ yarn build css  # or: npm run build css
+$ pnpm build css
 
 # lint sources
-$ yarn lint # or: npm run lint
+$ pnpm lint
 ```
 
 #### Project Structure (/ui)
 
+<!-- TODO: Use DocTree -->
+
 - `build` - contains build-related configuration files. In most cases you don't need to touch them.
 
-- `src` - contains the source code, obviously. The codebase is written in ES2015.
+- `src` - contains the source code. The codebase is written in ES2015.
 
   - `components` - JS, Sass and JSON (API) files for Quasar Vue components
 
@@ -287,7 +295,7 @@ $ yarn lint # or: npm run lint
 
   - `plugins` - Quasar plugins
 
-  - `css` - Sass definitions and core code for Quasar themes
+  - `css` - Sass definitions and core code for Quasar styles
 
   - `utils` - utilities used by the framework and exported to the public API
 
@@ -295,12 +303,21 @@ $ yarn lint # or: npm run lint
 
 - `icon-set` - Quasar icon sets
 
-- `dist` - contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
+- `dist` - contains built files for distribution (only after a build).
 
 - `dev` - app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
 
 #### Dev Server for Quasar (/ui)
-Running `yarn dev` (or `npm run dev`) starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.
+
+Running `pnpm dev` starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.
+
+<!-- TODO: Add app-vite, app-webpack, and vite-plugin instructions, or at least briefly mention them -->
+
+## Financial Contribution
+
+Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/quasarframework/quasar/blob/dev/backers.md).
+
+**Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
 
 ## Quasar Contributors
 

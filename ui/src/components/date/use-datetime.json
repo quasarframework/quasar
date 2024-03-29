@@ -17,7 +17,7 @@
     "locale": {
       "type": "Object",
       "desc": "Locale formatting options",
-      "examples": [ ":locale=\"{ monthsShort: ['Ian', 'Feb', 'Mar', '...'] }\"" ],
+      "examples": [ "{ monthsShort: ['Ian', 'Feb', 'Mar', '...'] }" ],
       "definition": {
         "days": {
           "type": "Array",
@@ -46,8 +46,8 @@
     "calendar": {
       "type": "String",
       "desc": "Specify calendar type",
-      "default": "gregorian",
-      "values": [ "gregorian", "persian" ],
+      "default": "'gregorian'",
+      "values": [ "'gregorian'", "'persian'" ],
       "category": "model"
     },
 

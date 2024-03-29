@@ -9,40 +9,40 @@ The QPagination component is available for whenever a pagination system is requi
 
 There are two modes in which QPagination operates: with buttons only or with an inputbox. The latter allows the user to go to a specific page by clicking/tapping on the inputbox, typing the page number then hitting Enter key. If the new page number is within valid limits, the model will be changed accordingly.
 
-<doc-api file="QPagination" />
+<DocApi file="QPagination" />
 
 ## Usage
 
 ### Design
 
-<doc-example title="Standard" file="Standard" />
+<DocExample title="Standard" file="Standard" />
 
 The following are a few examples, but not an exhaustive list:
 
-<doc-example title="Button design (v2.10+)" file="BtnDesign" />
+<DocExample title="Button design (v2.10+)" file="BtnDesign" />
 
-<doc-example title="Gutter (v2.10+)" file="BtnGutter" />
+<DocExample title="Gutter (v2.10+)" file="BtnGutter" />
 
 ### Custom icons
 
-<doc-example title="With icon replacement" file="Icons" />
+<DocExample title="With icon replacement" file="Icons" />
 
 ### With input
 
-<doc-example title="With input" file="Input" />
+<DocExample title="With input" file="Input" />
 
-<doc-example title="With input color" file="InputColor" />
+<DocExample title="With input color" file="InputColor" />
 
 ### Max pages shown
 
-<doc-example title="Maximum pages shown" file="MaxPages" />
+<DocExample title="Maximum pages shown" file="MaxPages" />
 
-<doc-example title="Removing ellipses" file="Ellipses" />
+<DocExample title="Removing ellipses" file="Ellipses" />
 
 ### Handling boundary
 
-<doc-example title="With boundary numbers" file="BoundaryNumbers" />
+<DocExample title="With boundary numbers" file="BoundaryNumbers" />
 
-<doc-example title="With boundary links" file="BoundaryLinks" />
+<DocExample title="With boundary links" file="BoundaryLinks" />
 
-<doc-example title="With direction links" file="DirectionLinks" />
+<DocExample title="With direction links" file="DirectionLinks" />

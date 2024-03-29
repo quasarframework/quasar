@@ -1,4 +1,4 @@
-import { client } from './plugins/Platform.js'
+import { client } from './plugins/platform/Platform.js'
 import { noop } from './utils/event.js'
 
 const getTrue = () => true
@@ -43,7 +43,7 @@ export default {
   remove: noop,
 
   install ({ $q }) {
-    if (__QUASAR_SSR_SERVER__ || this.__installed === true) { return }
+    if (__QUASAR_SSR_SERVER__ || this.__installed === true) return
 
     const { cordova, capacitor } = client.is
 

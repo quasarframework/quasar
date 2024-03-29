@@ -177,7 +177,7 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
       isSameRouteRecord.bind(null, routeMatched)
     )
 
-    if (index > -1) {
+    if (index !== -1) {
       return index
     }
 

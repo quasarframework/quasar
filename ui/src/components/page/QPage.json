@@ -27,8 +27,8 @@
         "type": "Object",
         "desc": "Object with CSS properties to apply to Page DOM element"
       },
-      "default": "(see source code)",
-      "examples": [ "(see source code)" ],
+      "default": "# see source code",
+      "examples": [ "# see source code" ],
       "category": "style"
     }
   },

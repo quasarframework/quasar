@@ -825,7 +825,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         : void 0
     }
 
-    if (cfg.build.webpackTranspileDependencies === true) {
+    if (cfg.build.webpackTranspile === true) {
       cfg.build.webpackTranspileDependencies = cfg.build.webpackTranspileDependencies.filter(uniqueRegexFilter)
       cfg.metaConf.webpackTranspileBanner = green('yes (Babel)')
     }
@@ -834,7 +834,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
 
     if (!cfg.build.esbuildTarget.browser) {
-      cfg.build.esbuildTarget.browser = [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ]
+      cfg.build.esbuildTarget.browser = [ 'es2022', 'firefox115', 'chrome115', 'safari14' ]
     }
 
     if (!cfg.build.esbuildTarget.node) {
@@ -918,7 +918,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
 
     // (backward compatibility for upstream)
-    // webpack-dev-server 4.5.0 introduced a change in behavior
+    // webpack-dev-server 4.5.0 / 5.0.0 introduced a change in behavior
     // along with deprecation notices; so we transform it automatically
     // for a better experience for our developers
     if (typeof cfg.devServer.server === 'string') {

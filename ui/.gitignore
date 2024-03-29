@@ -1,9 +1,9 @@
 .DS_Store
 .Thumbs.db
 node_modules/
-dev-umd/dist
+playground-umd/dist
 dist/
-dev/dist/
+playground/dist/
 deploy/
 npm-debug.log
 test/unit/coverage/

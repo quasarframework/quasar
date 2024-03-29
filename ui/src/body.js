@@ -1,7 +1,7 @@
 import setCssVar from './utils/set-css-var.js'
 import { noop } from './utils/event.js'
 import { onKeyDownComposition } from './utils/private/key-composition.js'
-import { isRuntimeSsrPreHydration, client, iosCorrection } from './plugins/Platform.js'
+import { isRuntimeSsrPreHydration, client } from './plugins/platform/Platform.js'
 
 function getMobilePlatform (is) {
   if (is.ios === true) return 'ios'
@@ -50,13 +50,7 @@ function applyClientSsrCorrections () {
 
   const classList = new Set(classes.replace(/ {2}/g, ' ').split(' '))
 
-  if (iosCorrection !== void 0) {
-    classList.delete('desktop')
-    classList.add('platform-ios')
-    classList.add('mobile')
-  }
-  // else: is it SSG?
-  else if (is.nativeMobile !== true && is.electron !== true && is.bex !== true) {
+  if (is.nativeMobile !== true && is.electron !== true && is.bex !== true) {
     if (is.desktop === true) {
       classList.delete('mobile')
       classList.delete('platform-ios')
@@ -67,14 +61,12 @@ function applyClientSsrCorrections () {
       classList.delete('desktop')
       classList.add('mobile')
 
+      classList.delete('platform-ios')
+      classList.delete('platform-android')
+
       const mobile = getMobilePlatform(is)
       if (mobile !== void 0) {
         classList.add(`platform-${ mobile }`)
-        classList.delete(`platform-${ mobile === 'ios' ? 'android' : 'ios' }`)
-      }
-      else {
-        classList.delete('platform-ios')
-        classList.delete('platform-android')
       }
     }
   }
@@ -125,7 +117,7 @@ export default {
       return
     }
 
-    if (this.__installed === true) { return }
+    if (this.__installed === true) return
 
     if (isRuntimeSsrPreHydration.value === true) {
       applyClientSsrCorrections()

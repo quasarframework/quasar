@@ -12,13 +12,13 @@ related:
 Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) builds**. It also makes sense to use it for SPA (Single Page Applications). Although the meta information in this case will be added at run-time and not supplied directly by the webserver (as on SSR builds), modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) will render dynamic pages and extract out the dynamically set meta information.
 :::
 
-<doc-installation plugins="Meta" />
+<DocInstallation plugins="Meta" />
 
 ## Usage
 What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.
 
 ::: warning Important!
-Make sure not to duplicate content that already exists in `/src/index.template.html`. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
+Make sure not to duplicate content that already exists in /index.html or /src/index.template.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
 :::
 
 ### Composition API

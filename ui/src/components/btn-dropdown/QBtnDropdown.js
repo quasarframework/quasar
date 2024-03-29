@@ -6,7 +6,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { getBtnDesignAttr, useBtnProps } from '../btn/use-btn.js'
-import useId from '../../composables/private/use-id.js'
+import useId from '../../composables/use-id.js'
 import { useTransitionProps } from '../../composables/private/use-transition.js'
 
 import { createComponent } from '../../utils/private/create.js'

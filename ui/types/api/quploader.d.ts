@@ -24,5 +24,5 @@ export type QUploaderFactoryObject = {
 };
 
 export type QUploaderFactoryFn = (
-  files: readonly File[]
+  files: readonly File[],
 ) => QUploaderFactoryObject | Promise<QUploaderFactoryObject>;

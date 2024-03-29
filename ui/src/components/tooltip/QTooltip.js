@@ -5,8 +5,8 @@ import useScrollTarget from '../../composables/private/use-scroll-target.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePortal from '../../composables/private/use-portal.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useTick from '../../composables/private/use-tick.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useTick from '../../composables/use-tick.js'
+import useTimeout from '../../composables/use-timeout.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -72,7 +72,9 @@ export default createComponent({
     hideDelay: {
       type: Number,
       default: 0
-    }
+    },
+
+    persistent: Boolean
   },
 
   emits: [
@@ -241,7 +243,7 @@ export default createComponent({
     }
 
     function configureAnchorEl () {
-      if (props.noParentEvent === true || anchorEl.value === null) { return }
+      if (props.noParentEvent === true || anchorEl.value === null) return
 
       const evts = $q.platform.is.mobile === true
         ? [

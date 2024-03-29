@@ -56,5 +56,5 @@ module.exports.syncAppExt = function (both = true) {
     return
   }
 
-  console.error(`   App Extension version and dependency NOT synced.\n`)
+  console.error('   App Extension version and dependency NOT synced.\n')
 }

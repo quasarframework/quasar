@@ -1,4 +1,3 @@
-
 import mdPageList from 'src/pages/listing.js'
 
 import layoutGallery from 'assets/layout-gallery.js'

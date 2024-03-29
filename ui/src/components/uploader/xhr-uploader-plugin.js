@@ -156,7 +156,7 @@ function injectPlugin ({ props, emit, helpers }) {
       aborted
 
     xhr.upload.addEventListener('progress', e => {
-      if (aborted === true) { return }
+      if (aborted === true) return
 
       const loaded = Math.min(maxUploadSize, e.loaded)
 

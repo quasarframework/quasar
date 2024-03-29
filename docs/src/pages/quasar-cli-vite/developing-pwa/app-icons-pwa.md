@@ -58,7 +58,7 @@ $ icongenie generate -m pwa -i /path/to/source/icon.png [-b /path/to/background.
 
 ## Manual instructions
 
-<doc-tree :def="scope.pwaTree" />
+<DocTree :def="scope.pwaTree" />
 
 The required HTML code that goes into `/index.html` to reference the above files (notice not all files need to be manually referenced as Quasar CLI automatically injects the other PWA ones):
 

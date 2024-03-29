@@ -121,7 +121,7 @@ export default createComponent({
 
     function removeFile (file) {
       const index = innerValue.value.indexOf(file)
-      if (index > -1) {
+      if (index !== -1) {
         removeAtIndex(index)
       }
     }
@@ -155,7 +155,7 @@ export default createComponent({
       }
 
       // if nothing to do...
-      if (files === void 0) { return }
+      if (files === void 0) return
 
       // protect against input @change being called in a loop
       // like it happens on Safari, so don't emit same thing:

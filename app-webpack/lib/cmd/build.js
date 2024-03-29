@@ -113,11 +113,7 @@ const ctx = getCtx({
   publish: argv.publish
 })
 
-const { displayBanner } = require('../utils/banner.js')
-displayBanner({ argv, ctx, cmd: 'build' })
-
 const { log } = require('../utils/logger.js')
-
 async function runBuild () {
   // install mode if it's missing
   const { addMode } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
@@ -163,7 +159,7 @@ async function runBuild () {
       ? path.join(outputFolder, '..')
       : outputFolder
 
-    displayBanner({
+    await displayBanner({
       argv,
       ctx,
       cmd: 'build',
@@ -204,4 +200,5 @@ async function runBuild () {
   })
 }
 
-runBuild()
+const { displayBanner } = require('../utils/banner.js')
+displayBanner({ argv, ctx, cmd: 'build' }).then(runBuild)

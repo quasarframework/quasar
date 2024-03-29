@@ -9,7 +9,7 @@
     "max-height": {
       "extends": "size",
       "type": [ "String", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "The maximum height of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
@@ -17,28 +17,28 @@
     "max-width": {
       "extends": "size",
       "type": [ "String", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
 
     "transition-show": {
-      "default": "jump-down"
+      "default": "'jump-down'"
     },
 
     "transition-hide": {
-      "default": "jump-up"
+      "default": "'jump-up'"
     },
 
     "anchor": {
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "default": "bottom middle",
+      "default": "'bottom middle'",
       "category": "position"
     },
 
@@ -46,11 +46,11 @@
       "type": "String",
       "desc": "Two values setting the Tooltip's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "default": "top middle",
+      "default": "'top middle'",
       "category": "position"
     },
 
@@ -69,12 +69,9 @@
     "target": {
       "type": [ "Boolean", "String" ],
       "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
-      "default": true,
-      "values": [ "(Boolean) true", "(Boolean) false", "(CSS selector)" ],
-      "examples": [
-        ":target=\"false\"",
-        "target=\".my-parent\""
-      ],
+      "default": "true",
+      "values": [ "true", "false", "# CSS selector" ],
+      "examples": [ "# :target=\"false\"", "# target=\".my-parent\"" ],
       "category": "behavior"
     },
 
@@ -87,14 +84,20 @@
     "delay": {
       "type": "Number",
       "desc": "Configure Tooltip to appear with delay",
-      "default": 0,
+      "default": "0",
       "category": "behavior"
     },
 
     "hide-delay": {
       "type": "Number",
       "desc": "Configure Tooltip to disappear with delay",
-      "default": 0,
+      "default": "0",
+      "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Prevents Tooltip from auto-closing when app's route changes",
       "category": "behavior"
     }
   },

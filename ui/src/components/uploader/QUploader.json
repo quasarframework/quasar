@@ -9,7 +9,7 @@
     "label": {
       "type": "String",
       "desc": "Label for the uploader",
-      "examples": ["Upload photo here"],
+      "examples": [ "'Upload photo here'" ],
       "category": "content"
     },
 
@@ -161,7 +161,7 @@
         "status": {
           "type": "String",
           "desc": "Status of file",
-          "values": [ "idle", "failed", "uploading", "uploaded" ],
+          "values": [ "'idle'", "'failed'", "'uploading'", "'uploaded'" ],
           "required": true
         },
         "uploadedSize": {
@@ -227,13 +227,13 @@
     "uploadSizeLabel": {
       "type": "String",
       "desc": "Label for the size total of all files",
-      "examples": [ "1.0MB" ]
+      "examples": [ "'1.0MB'" ]
     },
 
     "uploadProgressLabel": {
       "type": "String",
       "desc": "Label for the upload progress (in %)",
-      "examples": [ "52.76%" ]
+      "examples": [ "'52.76%'" ]
     },
 
     "canAddFiles": {

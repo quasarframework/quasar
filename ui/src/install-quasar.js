@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 
-import Platform, { isRuntimeSsrPreHydration } from './plugins/Platform.js'
-import Screen from './plugins/Screen.js'
-import Dark from './plugins/Dark.js'
+import Platform, { isRuntimeSsrPreHydration } from './plugins/platform/Platform.js'
+import Screen from './plugins/screen/Screen.js'
+import Dark from './plugins/dark/Dark.js'
 import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'

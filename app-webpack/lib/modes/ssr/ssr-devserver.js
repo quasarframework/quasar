@@ -283,7 +283,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     const htmlWatcher = chokidar.watch(templatePath).on('change', () => {
       updateTemplate()
-      logServerMessage('Updated', 'index.template.html')
+      logServerMessage('Updated', 'index.html')
     })
 
     this.#webpackWatcherList.push(() => htmlWatcher.close())

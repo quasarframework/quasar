@@ -472,12 +472,6 @@ export class QuasarConfigFile {
         config: {}
       },
 
-      eslint: {
-        include: [],
-        exclude: [],
-        rawOptions: {}
-      },
-
       sourceFiles: {},
       bin: {},
       htmlVariables: {},
@@ -680,17 +674,6 @@ export class QuasarConfigFile {
       hasMetaPlugin: cfg.framework.plugins.includes('Meta')
     })
 
-    cfg.eslint = merge({
-      warnings: false,
-      errors: false,
-      fix: false,
-      formatter: 'stylish',
-      cache: true,
-      include: [],
-      exclude: [],
-      rawOptions: {}
-    }, cfg.eslint)
-
     cfg.build = merge({
       viteVuePluginOptions: {
         isProduction: this.#ctx.prod === true,
@@ -747,7 +730,7 @@ export class QuasarConfigFile {
     }, cfg.build)
 
     if (!cfg.build.target.browser) {
-      cfg.build.target.browser = [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ]
+      cfg.build.target.browser = [ 'es2022', 'firefox115', 'chrome115', 'safari14' ]
     }
 
     if (!cfg.build.target.node) {
@@ -1075,10 +1058,11 @@ export class QuasarConfigFile {
       }
     }
 
-    const entryScriptWebPath = cfg.build.publicPath + relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/')
+    const entryScriptWebPath = relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/')
     Object.assign(cfg.metaConf, {
-      entryScriptWebPath,
-      entryScriptTag: `<script type="module" src="${ entryScriptWebPath }"></script>`
+      entryScriptWebPath: cfg.build.publicPath + entryScriptWebPath,
+      // publicPath will be handled by Vite middleware:
+      entryScriptTag: `<script type="module" src="/${ entryScriptWebPath }"></script>`
     })
 
     cfg.htmlVariables = merge({

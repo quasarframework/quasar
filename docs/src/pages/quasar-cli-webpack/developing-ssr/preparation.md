@@ -31,4 +31,4 @@ This will add SSR mode automatically, if it is missing.
 
 A new folder will appear in your project folder (which is explained in detail on the [Configuring SSR](/quasar-cli-webpack/developing-ssr/configuring-ssr) page):
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

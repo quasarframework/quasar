@@ -30,7 +30,7 @@ The recommended way to go if you want components sharing state is Pinia. Take a 
 
 We won't go into details on how to configure or use Pinia since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 When you scaffold a Quasar project folder you can choose to add Pinia. It will create all the necessary configuration for you. Like for example the creation of `/src/stores` which handles all the Pinia related code that you need.
 
@@ -70,7 +70,7 @@ It will create a folder in `/src/stores` named by "store_name" from the command 
 
 Let's say that you want to create a "counter" Pinia store. You issue `$ quasar new store counter`. You then notice the newly created `/src/stores/counter.[js|ts]` file:
 
-<doc-tree :def="scope.newStore" />
+<DocTree :def="scope.newStore" />
 
 Example of Pinia store:
 

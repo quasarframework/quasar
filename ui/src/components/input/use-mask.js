@@ -97,7 +97,7 @@ export default function (props, emit, emitValue, inputRef) {
     let pad = '', localMaskMarked = maskMarked
     const padPos = localMaskMarked.indexOf(MARKER)
 
-    if (padPos > -1) {
+    if (padPos !== -1) {
       for (let i = size - localMaskMarked.length; i > 0; i--) {
         pad += MARKER
       }
@@ -259,7 +259,7 @@ export default function (props, emit, emitValue, inputRef) {
         return
       }
 
-      if ([ 'deleteContentBackward', 'deleteContentForward' ].indexOf(inputType) > -1) {
+      if ([ 'deleteContentBackward', 'deleteContentForward' ].indexOf(inputType) !== -1) {
         const cursor = props.reverseFillMask === true
           ? (
               end === 0
@@ -525,7 +525,7 @@ export default function (props, emit, emitValue, inputRef) {
 
     let valIndex = val.length - 1, output = ''
 
-    for (let maskIndex = mask.length - 1; maskIndex >= 0 && valIndex > -1; maskIndex--) {
+    for (let maskIndex = mask.length - 1; maskIndex >= 0 && valIndex !== -1; maskIndex--) {
       const maskDef = mask[ maskIndex ]
 
       let valChar = val[ valIndex ]

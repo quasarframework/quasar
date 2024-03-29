@@ -10,7 +10,7 @@ Helpers are built into Quasar to detect the Platform (and its capabilities) with
 Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 :::
 
-<doc-api file="Platform" />
+<DocApi file="Platform" />
 
 ## Usage
 Usage inside a Vue component JS:
@@ -68,7 +68,7 @@ Now, let's say we want to render different components or DOM elements, based on 
 </div>
 ```
 
-<doc-example title="Your device" file="Basic" />
+<DocExample title="Your device" file="Basic" />
 
 ## Properties
 

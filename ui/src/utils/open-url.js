@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import Platform from '../plugins/platform/Platform.js'
 
 import { noop } from './event.js'
 import { isNumber } from './is.js'

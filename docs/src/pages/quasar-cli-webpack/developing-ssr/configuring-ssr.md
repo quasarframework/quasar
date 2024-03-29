@@ -158,7 +158,7 @@ export default {
 
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files:
 
-<doc-tree :def="scope.nodeJsTree" />
+<DocTree :def="scope.nodeJsTree" />
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
 
@@ -228,8 +228,8 @@ export default ({ app, ..., ssrContext }) => {
 }
 ```
 
-When you add such references (`someProp` surrounded by brackets in the example above) into your `src/index.template.html`, make sure you tell Quasar it’s only valid for SSR builds:
+When you add such references (`someProp` surrounded by brackets in the example above) into your /index.html or /src/index.template.html, make sure you tell Quasar it’s only valid for SSR builds:
 
-```html /src/index.template.html
+```html /index.html or /src/index.template.html
 <% if (ctx.mode.ssr) { %>{{ someProp }} <% } %>
 ```

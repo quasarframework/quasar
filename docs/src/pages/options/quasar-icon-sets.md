@@ -12,7 +12,9 @@ You can install multiple icon libraries, but you must choose only one to use on 
 
 Quasar currently supports: [Material Icons](https://fonts.google.com/icons?icon.set=Material+Icons), [Material Symbols](https://fonts.google.com/icons?icon.set=Material+Symbols), [Font Awesome](https://fontawesome.com/icons), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/).
 
-It is also possible to use your own icons (as custom svgs or as images in any format) with any Quasar component, see the [QIcon](/vue-components/icon#image-icons) page for more info on this.
+It is also possible to use your own icon files (SVG or any image format) with any Quasar component, see [QIcon | Image icons](/vue-components/icon#image-icons) page for more details.
+
+You can also provide an icon mapping function to add support for any other icon library or re-map some existing ones to your liking, see [QIcon | Custom mapping](/vue-components/icon#custom-mapping) for more details. You can use this to re-map long image file paths to short and understandable names, if using image icons, for example.
 
 ::: tip
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [QIcon component](/vue-components/icon).

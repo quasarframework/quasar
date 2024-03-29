@@ -1,7 +1,7 @@
+const path = require('node:path')
 const glob = require('fast-glob')
-const path = require('path')
 const { merge } = require('webpack-merge')
-const fs = require('fs')
+const fse = require('fs-extra')
 
 const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
@@ -11,12 +11,33 @@ const { logError, writeFile, kebabCase } = require('./build.utils')
 const ast = require('./ast')
 
 const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
+const apiIgnoreValueRegex = /^# /
+const apiValuePromiseRegex = /\.then\(/
+const apiValueRegex = {
+  Number: /^-?\d/,
+  String: /^'[^']+'$/,
+  Array: /^\[.*\]$/,
+  Object: /^{.*}$/,
+  Boolean: /^(true|false)$/,
+  Function: / => /,
+  RegExp: /^\/.*\/[gimuy]*$/,
+  Element: /(^document\.?|^\..+|^#.+|^body\.?|.+El$|\$refs)/,
+  Component: /^[A-Z][A-Za-z]+$/,
+  'Promise<any>': apiValuePromiseRegex,
+  'Promise<void>': apiValuePromiseRegex,
+  'Promise<boolean>': apiValuePromiseRegex,
+  'Promise<number>': apiValuePromiseRegex,
+  'Promise<string>': apiValuePromiseRegex,
+  'Promise<object>': apiValuePromiseRegex,
+  null: /^null$/,
+  undefined: /^void 0$/
+}
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolvePath('src/' + mixin + '.json')
 
-    if (!fs.existsSync(mixinFile)) {
+    if (!fse.existsSync(mixinFile)) {
       logError(`build.api.js: ${ path.relative(root, mainFile) } -> no such mixin ${ mixin }`)
       process.exit(1)
     }
@@ -37,8 +58,15 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
+  // also update /ui/test/generators/generator.plugin.js
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods', 'internal' ],
+
+  // also update:
+  //  * /ui/test/generators/generator.component.js
+  //  * /ui/test/generators/generator.composable.js
   component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'computedProps' ],
+
+  // also update /ui/test/generators/generator.directive.js
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
@@ -234,6 +262,10 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
   const def = objectTypes[ type ]
 
   if (obj.internal !== true) {
+    const regexList = Array.isArray(obj.type)
+      ? (obj.type.includes('Any') ? [] : obj.type.map(t => apiValueRegex[ t ]).filter(v => v))
+      : (obj.type === 'Any' ? [] : [ apiValueRegex[ obj.type ] ].filter(v => v))
+
     for (const prop in obj) {
       // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
       if ([ 'type', '__exemption' ].includes(prop)) {
@@ -250,6 +282,70 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
         console.error(obj)
         console.log()
         process.exit(1)
+      }
+
+      if (prop === 'default') {
+        if (typeof obj.default !== 'string') {
+          logError(`${ banner } object: stringify "${ prop }" -> "default" value`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+
+        if (
+          regexList.length !== 0
+          && apiIgnoreValueRegex.test(obj.default) === false
+          && regexList.every(regex => regex.test(obj.default) === false)
+        ) {
+          logError(`${ banner } object: "${ prop }" -> "default" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      }
+      else if (prop === 'values') {
+        if (obj.values.some(val => typeof val !== 'string')) {
+          logError(`${ banner } object: stringify each of "${ prop }" -> "values" entries`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+
+        if (regexList.length !== 0) {
+          obj.values.forEach(val => {
+            if (
+              apiIgnoreValueRegex.test(val) === false
+              && regexList.every(regex => regex.test(val) === false)
+            ) {
+              logError(`${ banner } object: "${ prop }" -> "values" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+              console.error(obj)
+              console.log()
+              process.exit(1)
+            }
+          })
+        }
+      }
+      else if (prop === 'examples') {
+        if (obj.examples.some(val => typeof val !== 'string')) {
+          logError(`${ banner } object: stringify each of "${ prop }" -> "examples" entries`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+
+        if (regexList.length !== 0) {
+          obj.examples.forEach(val => {
+            if (
+              apiIgnoreValueRegex.test(val) === false
+              && regexList.every(regex => regex.test(val) === false)
+            ) {
+              logError(`${ banner } object: "${ prop }" -> "examples" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+              console.error(obj)
+              console.log()
+              process.exit(1)
+            }
+          })
+        }
       }
     }
 
@@ -379,7 +475,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
   }
 
   ;[ 'params', 'definition', 'scope', 'props' ].forEach(prop => {
-    if (!obj[ prop ]) { return }
+    if (!obj[ prop ]) return
 
     for (const item in obj[ prop ]) {
       parseObject({
@@ -522,12 +618,12 @@ function arrayHasError (name, key, property, expected, propApi) {
     || !expectedVal.every(t => apiVal.includes(t))
   ) {
     console.log(key, name, propApi[ key ], expectedVal)
-    logError(`${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
+    logError(`[1] ${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
     return true
   }
 }
 
-function fillAPI (apiType, list) {
+function fillAPI (apiType, list, encodeFn) {
   return file => {
     const
       name = path.basename(file),
@@ -540,9 +636,9 @@ function fillAPI (apiType, list) {
 
       // QUploader has different definition
       if (name !== 'QUploader.json') {
-        const filePath = file.replace('.json', fs.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
+        const filePath = file.replace('.json', fse.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
 
-        const definition = fs.readFileSync(filePath, 'utf-8')
+        const definition = fse.readFileSync(filePath, 'utf-8')
 
         let slotMatch
         while ((slotMatch = slotRegex.exec(definition)) !== null) {
@@ -569,7 +665,7 @@ function fillAPI (apiType, list) {
               .replace(/\s+/g, '-')
               .toLowerCase()
 
-            if (/^on-/.test(key) === true) { return }
+            if (/^on-/.test(key) === true) return
           }
 
           if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
@@ -580,7 +676,7 @@ function fillAPI (apiType, list) {
           if (definition) {
             const propApi = api[ prop ][ key ]
             if (typeof definition === 'string' && propApi.type !== definition) {
-              logError(`${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
+              logError(`[2] ${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
               hasError = true // keep looping through to find as many as can be found before exiting
             }
             else if (Array.isArray(definition)) {
@@ -618,18 +714,24 @@ function fillAPI (apiType, list) {
                   }
                 }
                 else if (propApiType !== definition.type) {
-                  logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
+                  logError(`[3] ${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }
 
               if (key !== 'model-value' && definition.required && Boolean(definition.required) !== propApi.required) {
-                logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
+                logError(`[4] ${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
                 hasError = true // keep looping through to find as many as can be found before exiting
               }
 
               if (definition.validator && Array.isArray(definition.validator)) {
-                if (arrayHasError(name, key, 'values', definition.validator, propApi)) {
+                const validator = definition.validator.map(entry => (
+                  typeof entry === 'string'
+                    ? `'${ entry }'`
+                    : entry
+                ))
+
+                if (arrayHasError(name, key, 'values', validator, propApi)) {
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }
@@ -657,7 +759,7 @@ function fillAPI (apiType, list) {
     }
 
     // copy API file to dest
-    writeFile(filePath, JSON.stringify(api, null, 2))
+    writeFile(filePath, encodeFn(api))
 
     const shortName = name.substring(0, name.length - 5)
     list.push(shortName)
@@ -669,7 +771,7 @@ function fillAPI (apiType, list) {
   }
 }
 
-function writeTransformAssetUrls (components) {
+function writeTransformAssetUrls (components, encodeFn) {
   const transformAssetUrls = {
     base: null,
     includeAbsolute: false,
@@ -700,39 +802,42 @@ function writeTransformAssetUrls (components) {
 
   writeFile(
     path.join(root, 'dist/transforms/loader-asset-urls.json'),
-    JSON.stringify(transformAssetUrls, null, 2)
+    encodeFn(transformAssetUrls)
   )
 }
 
-function writeApiIndex (list) {
+function writeApiIndex (list, encodeFn) {
   writeFile(
     path.join(root, 'dist/transforms/api-list.json'),
-    JSON.stringify(list, null, 2)
+    encodeFn(list)
   )
 }
 
-module.exports.generate = function () {
+module.exports.generate = function ({ compact = false } = {}) {
+  const encodeFn = compact === true
+    ? JSON.stringify
+    : json => JSON.stringify(json, null, 2)
+
   return new Promise((resolve) => {
     const list = []
 
     const plugins = glob.sync([
-      'src/plugins/*.json',
+      'src/plugins/*/*.json',
       'src/Brand.json',
       'src/Lang.json'
     ], { cwd: root, absolute: true })
-      .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('plugin', list))
+      .map(fillAPI('plugin', list, encodeFn))
 
-    const directives = glob.sync('src/directives/*.json', { cwd: root, absolute: true })
-      .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('directive', list))
+    const directives = glob
+      .sync('src/directives/*/*.json', { cwd: root, absolute: true })
+      .map(fillAPI('directive', list, encodeFn))
 
-    const components = glob.sync('src/components/**/Q*.json', { cwd: root, absolute: true })
-      .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('component', list))
+    const components = glob
+      .sync('src/components/*/Q*.json', { cwd: root, absolute: true })
+      .map(fillAPI('component', list, encodeFn))
 
-    writeTransformAssetUrls(components)
-    writeApiIndex(list)
+    writeTransformAssetUrls(components, encodeFn)
+    writeApiIndex(list, encodeFn)
 
     resolve({ components, directives, plugins })
   }).catch(err => {

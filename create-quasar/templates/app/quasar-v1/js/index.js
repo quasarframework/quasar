@@ -1,5 +1,4 @@
-
-module.exports = async function ({ scope, utils }) {
+export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
     {
       type: 'select',
@@ -43,7 +42,7 @@ module.exports = async function ({ scope, utils }) {
       format: utils.convertArrayToObject
     },
     {
-      type: (_, { preset }) => preset.lint ? 'select' : null,
+      type: (_, { preset }) => (preset.lint ? 'select' : null),
       name: 'lintConfig',
       message: 'Pick an ESLint preset:',
       choices: [
@@ -55,11 +54,11 @@ module.exports = async function ({ scope, utils }) {
   ])
 
   utils.createTargetDir(scope)
-  utils.renderTemplate(utils.join(__dirname, 'BASE'), scope)
-  utils.renderTemplate(utils.join(__dirname, scope.css), scope)
+  utils.renderTemplate('BASE', scope)
+  utils.renderTemplate(scope.css, scope)
 
-  if (scope.preset.axios) utils.renderTemplate(utils.join(__dirname, 'axios'), scope)
-  if (scope.preset.i18n) utils.renderTemplate(utils.join(__dirname, 'i18n'), scope)
-  if (scope.preset.vuex) utils.renderTemplate(utils.join(__dirname, 'vuex'), scope)
-  if (scope.preset.lint) utils.renderTemplate(utils.join(__dirname, 'lint'), scope)
+  if (scope.preset.axios) utils.renderTemplate('axios', scope)
+  if (scope.preset.i18n) utils.renderTemplate('i18n', scope)
+  if (scope.preset.vuex) utils.renderTemplate('vuex', scope)
+  if (scope.preset.lint) utils.renderTemplate('lint', scope)
 }

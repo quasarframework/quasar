@@ -46,7 +46,7 @@ The recommended way to go if you want components sharing state is Vuex. Take a l
 
 We won't go into details on how to configure or use Vuex since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 By default, if you choose to use Vuex when you create a project folder with Quasar CLI, it will set you up on using Vuex modules. Each sub-folder of `/src/store` represents a Vuex Module.
 
@@ -67,7 +67,7 @@ It will create a folder in `/src/store` named by "store_name" from the command a
 
 Let's say that you want to create a "showcase" Vuex Module. You issue `$ quasar new store showcase`. You then notice the newly created `/src/store/showcase` folder, which holds the following files:
 
-<doc-tree :def="scope.newStore" />
+<DocTree :def="scope.newStore" />
 
 We've created the new Vuex Module, but we haven't yet informed Vuex to use it. So we edit `/src/store/index.js` and add a reference to it:
 

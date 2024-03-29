@@ -30,7 +30,11 @@ export function provideDocStore () {
 
     toggleDark () {
       const val = store.state.value.dark = store.state.value.dark === false
-      $q.cookies.set('theme', val ? 'dark' : 'light', { path: '/', sameSite: 'Strict' })
+      $q.cookies.set(
+        'theme',
+        val ? 'dark' : 'light',
+        { path: '/', sameSite: 'Strict', expires: 400 }
+      )
     },
 
     toggleMenuDrawer () {

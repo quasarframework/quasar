@@ -1,6 +1,6 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
-import { client } from '../../plugins/Platform.js'
+import { client } from '../../plugins/platform/Platform.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {

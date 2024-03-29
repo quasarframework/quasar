@@ -12,9 +12,9 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 
 ![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
-<doc-api file="AddressbarColor" />
+<DocApi file="AddressbarColor" />
 
-<doc-installation plugins="AddressbarColor" />
+<DocInstallation plugins="AddressbarColor" />
 
 ## Usage
 

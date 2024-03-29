@@ -10,9 +10,9 @@ Material Ripple effect can easily be added to any DOM element (or component) thr
 Do not use this directive on components that already have material ripples baked in (example: `QBtn`). Rather configure the internal ripples through those component's `ripple` property.
 :::
 
-<doc-api file="Ripple" />
+<DocApi file="Ripple" />
 
-<doc-installation title="Configuration" config="ripple" />
+<DocInstallation title="Configuration" config="ripple" />
 
 ## Usage
 
@@ -22,19 +22,19 @@ Make sure that your DOM element or component has CSS `position: relative` or Qua
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ### Coloring
 
 The Material Ripple takes the CSS color of text by default, but you can configure it:
 
-<doc-example title="Colored" file="Colored" />
+<DocExample title="Colored" file="Colored" />
 
 ### Positioning
 
 You can also configure if the ripple should always start from center or not, regardless of the touch point:
 
-<doc-example title="Positioning" file="Positioning" />
+<DocExample title="Positioning" file="Positioning" />
 
 ### Triggering early
 
@@ -42,10 +42,10 @@ By default, the Ripple directive is triggered on click or keyup. However, you ca
 
 This is especially noticeable on touchscreens where if a user accidentally moves their finger after the touchstart it can sometimes be interpreted as a very small scroll event instead of a click so the click event isn't triggered but there is still a ripple.
 
-<doc-example title="Triggering immediately" file="Early" />
+<DocExample title="Triggering immediately" file="Early" />
 
 ### Disable
 
 If for some reason you have a scenario where the ripples need to be disabled, then you can assign a Boolean as value for the directive:
 
-<doc-example title="Disable" file="Disable" />
+<DocExample title="Disable" file="Disable" />

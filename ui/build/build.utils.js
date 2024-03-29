@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+const path = require('node:path')
+const fse = require('fs-extra')
 const zlib = require('zlib')
 const { green, blue, red, magenta, grey, underline } = require('chalk')
 
@@ -46,9 +46,7 @@ function getSize (code) {
 
 module.exports.createFolder = function (folder) {
   const dir = path.join(__dirname, '..', folder)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
-  }
+  fse.ensureDirSync(dir)
 }
 
 function getDestinationInfo (dest) {
@@ -110,7 +108,7 @@ module.exports.writeFile = function (dest, code, zip) {
       resolve(code)
     }
 
-    fs.writeFile(dest, code, err => {
+    fse.writeFile(dest, code, err => {
       if (err) return reject(err)
       if (zip) {
         zlib.gzip(code, (err, zipped) => {
@@ -127,13 +125,13 @@ module.exports.writeFile = function (dest, code, zip) {
 }
 
 module.exports.readFile = function (file) {
-  return fs.readFileSync(file, 'utf-8')
+  return fse.readFileSync(file, 'utf-8')
 }
 
 module.exports.writeFileIfChanged = function (dest, newContent, zip) {
   let currentContent = ''
   try {
-    currentContent = fs.readFileSync(dest, 'utf-8')
+    currentContent = fse.readFileSync(dest, 'utf-8')
   }
   catch (e) {}
 
@@ -170,3 +168,6 @@ module.exports.clone = function clone (data) {
     return JSON.parse(str)
   }
 }
+
+const testFileRE = /test/
+module.exports.filterTestFiles = file => testFileRE.test(file) === false

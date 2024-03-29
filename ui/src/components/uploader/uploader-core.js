@@ -229,7 +229,7 @@ export function getRenderer (getPlugin, expose) {
   }
 
   function removeFile (file) {
-    if (props.disable) { return }
+    if (props.disable) return
 
     if (file.__status === 'uploaded') {
       state.uploadedFiles.value = state.uploadedFiles.value.filter(f => f.__key !== file.__key)
@@ -274,7 +274,7 @@ export function getRenderer (getPlugin, expose) {
       fileInput.value = ''
     }
 
-    if (localFiles === void 0) { return }
+    if (localFiles === void 0) return
 
     localFiles.forEach(file => {
       state.updateFileStatus(file, 'idle')

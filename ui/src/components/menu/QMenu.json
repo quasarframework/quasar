@@ -26,9 +26,9 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
       "category": "position"
     },
@@ -37,9 +37,9 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
       "category": "position"
     },
@@ -63,7 +63,7 @@
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key",
+      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it",
       "category": "behavior"
     },
 
@@ -106,7 +106,7 @@
     "max-height": {
       "extends": "size",
       "type": [ "String", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "The maximum height of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
@@ -114,7 +114,7 @@
     "max-width": {
       "extends": "size",
       "type": [ "String", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
     }

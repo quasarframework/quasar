@@ -60,7 +60,7 @@ const ctx = getCtx({
 })
 
 import { displayBanner } from '../utils/banner.js'
-displayBanner({ argv, ctx, cmd: argv.cmd })
+await displayBanner({ argv, ctx, cmd: argv.cmd })
 
 import { log, fatal } from '../utils/logger.js'
 

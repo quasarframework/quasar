@@ -33,10 +33,10 @@ export default function () {
     const pos = props.position
 
     return {
-      top: pos.indexOf('top') > -1,
-      right: pos.indexOf('right') > -1,
-      bottom: pos.indexOf('bottom') > -1,
-      left: pos.indexOf('left') > -1,
+      top: pos.indexOf('top') !== -1,
+      right: pos.indexOf('right') !== -1,
+      bottom: pos.indexOf('bottom') !== -1,
+      left: pos.indexOf('left') !== -1,
       vertical: pos === 'top' || pos === 'bottom',
       horizontal: pos === 'left' || pos === 'right'
     }

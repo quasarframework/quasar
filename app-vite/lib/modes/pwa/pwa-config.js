@@ -130,12 +130,13 @@ export const quasarPwaConfig = {
     return opts
   },
 
-  // exported to ssr-config.js as well
-  customSw: async quasarConf => {
+  // exported to ssr-config.js as well;
+  // returns a Promise
+  customSw: quasarConf => {
     const { ctx } = quasarConf
     const { appPaths } = ctx
 
-    const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: 'browser-custom-sw' })
+    const cfg = createBrowserEsbuildConfig(quasarConf, { compileId: 'browser-custom-sw' })
 
     cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = JSON.stringify(
       ctx.mode.ssr === true && ctx.prod === true

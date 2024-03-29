@@ -2,7 +2,7 @@ import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives, g
 
 import QIcon from '../icon/QIcon.js'
 
-import Ripple from '../../directives/Ripple.js'
+import Ripple from '../../directives/ripple/Ripple.js'
 
 import { hMergeSlot } from '../../utils/private/render.js'
 import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'

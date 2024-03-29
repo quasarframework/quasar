@@ -51,7 +51,7 @@ function highjackAjax (stackEntry) {
 
   stack.push(stackEntry)
 
-  if (highjackCount > 1) { return }
+  if (highjackCount > 1) return
 
   xhr.prototype.open = function (_, url) {
     const stopStack = []

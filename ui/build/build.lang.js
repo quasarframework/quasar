@@ -1,6 +1,6 @@
+const path = require('node:path')
 const glob = require('fast-glob')
-const path = require('path')
-const fs = require('fs')
+const fse = require('fs-extra')
 
 const { logError, writeFileIfChanged, convertToCjs } = require('./build.utils')
 
@@ -35,7 +35,7 @@ module.exports.generate = function () {
   try {
     glob.sync('lang/*.mjs', { cwd: root, absolute: true })
       .forEach(file => {
-        const content = fs.readFileSync(file, 'utf-8')
+        const content = fse.readFileSync(file, 'utf-8')
         const isoName = parse('isoName', content)
         const nativeName = parse('nativeName', content)
         languages.push({ isoName, nativeName })
@@ -49,13 +49,13 @@ module.exports.generate = function () {
 
     const
       langFile = resolve('lang/index.json'),
-      newLangJson = JSON.stringify(languages, null, 2)
+      quasarLangIndex = JSON.stringify(languages)
 
     promises.push(
-      writeFileIfChanged(langFile, newLangJson)
+      writeFileIfChanged(langFile, quasarLangIndex)
     )
 
-    return Promise.all(promises)
+    return Promise.all(promises).then(() => languages)
   }
   catch (err) {
     logError('build.lang.js: something went wrong...')

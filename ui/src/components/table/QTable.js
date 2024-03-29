@@ -37,7 +37,7 @@ export default createComponent({
   props: {
     rows: {
       type: Array,
-      default: () => []
+      required: true
     },
     rowKey: {
       type: [ String, Function ],

@@ -14,26 +14,26 @@ related:
 
 A Spinner is used to show the user a timely process is currently taking place. It is an important UX feature, which gives the user the feeling the system is continuing to work for longer term activities, like grabbing data from the server or some heavy calculations.
 
-<doc-api file="QSpinner" />
+<DocApi file="QSpinner" />
 
 ::: tip
 The API below applies to all spinners, except for QSpinner. Making an example with QSpinnerCube.
 :::
 
-<doc-api file="QSpinnerCube" title="Other Spinners API" />
+<DocApi file="QSpinnerCube" title="Other Spinners API" />
 
 ## Usage
 
-<doc-example title="QSpinner" file="Default" />
+<DocExample title="QSpinner" file="Default" />
 
 In the example below, hover over the spinners to see their names.
 
-<doc-example title="Other spinners" file="Others" />
+<DocExample title="Other spinners" file="Others" />
 
-<doc-example title="Coloring" file="Color" />
+<DocExample title="Coloring" file="Color" />
 
 Please note that by default, QSpinner and all other spinners inherit the font-size of the parent and applies it as its size.
 
-<doc-example title="Size" file="Size" />
+<DocExample title="Size" file="Size" />
 
-<doc-example title="Standard sizes" file="StandardSizes" />
+<DocExample title="Standard sizes" file="StandardSizes" />

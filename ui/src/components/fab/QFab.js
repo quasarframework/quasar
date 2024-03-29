@@ -4,7 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
-import useId from '../../composables/private/use-id.js'
+import useId from '../../composables/use-id.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { createComponent } from '../../utils/private/create.js'

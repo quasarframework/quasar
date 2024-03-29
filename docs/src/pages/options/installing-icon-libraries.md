@@ -48,9 +48,9 @@ For all available options, visit the [GitHub](https://github.com/quasarframework
 You're now ready to use the [QIcon](/vue-components/icon) component.
 
 ## Using CDN as alternative
-If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your `index.template.html` which point to the CDN URL.
+If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your /index.html or /src/index.template.html file which point to the CDN URL.
 
-In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
+In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit /index.html or /src/index.template.html as described there.
 
 ## Using Fontawesome-Pro
 If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:

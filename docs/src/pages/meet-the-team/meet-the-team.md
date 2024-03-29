@@ -2,8 +2,6 @@
 title: Meet the Team
 desc: The list of people behind Quasar Framework.
 keys: Team
-components:
-  - ./TeamMember
 scope:
   core:
   - name: Razvan Stoenescu
@@ -52,11 +50,6 @@ scope:
     avatar: luke_diebold.png
     github: ldiebold
     desc: Creates video tutorials, podcasts and shows for Quasar Framework.
-  - name: Niccolò Menozzi
-    role: Senior designer
-    avatar: niccolo_menozzi.jpg
-    github: NiccoloMenozzi
-    desc: UX manager, brand management, communication, business strategy.
   others:
   - name: Allan Gaunt
     role: Senior Developer
@@ -100,10 +93,14 @@ Hailing from all around the planet, the Quasar Team is not only international bu
 
 With hundreds of contributors to Quasar, **the list of people you can meet below is by no means exhaustive**. Just remember to thank everyone using Quasar and supporting us, because together we all help you push your products light-years ahead of your competition. A great way to do that is to [donate](https://donate.quasar.dev).
 
+<script doc>
+import TeamMember from './TeamMember.vue'
+</script>
+
 ### Core Team
 
 <div class="row items-stretch q-gutter-sm">
-  <team-member
+  <TeamMember
     v-for="m in scope.core"
     :key="m.name"
     :name="m.name"
@@ -119,7 +116,7 @@ With hundreds of contributors to Quasar, **the list of people you can meet below
 ### Honorable mentions
 
 <div class="row items-stretch q-gutter-sm">
-  <team-member
+  <TeamMember
     v-for="m in scope.others"
     :key="m.name"
     :name="m.name"

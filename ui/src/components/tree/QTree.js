@@ -129,7 +129,7 @@ export default createComponent({
         : (node, filter) => {
             const filt = filter.toLowerCase()
             return node[ props.labelKey ]
-            && node[ props.labelKey ].toLowerCase().indexOf(filt) > -1
+            && node[ props.labelKey ].toLowerCase().indexOf(filt) !== -1
           }
     ))
 

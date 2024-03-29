@@ -9,21 +9,21 @@ type WebStorageGetMethodReturnType =
 type WebStorageGetKeyMethodReturnType = string;
 
 export type WebStorageGetItemMethodType = <
-  T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType
+  T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType,
 >(
-  key: string
+  key: string,
 ) => T | null;
 
 export type WebStorageGetIndexMethodType = <
-  T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType
+  T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType,
 >(
-  index: number
+  index: number,
 ) => T | null;
 
 export type WebStorageGetKeyMethodType = <
-  T extends WebStorageGetKeyMethodReturnType = WebStorageGetKeyMethodReturnType
+  T extends WebStorageGetKeyMethodReturnType = WebStorageGetKeyMethodReturnType,
 >(
-  index: number
+  index: number,
 ) => T | null;
 
 export type WebStorageGetAllKeysMethodType = () => string[];

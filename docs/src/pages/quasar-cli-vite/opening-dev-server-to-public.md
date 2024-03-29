@@ -11,9 +11,21 @@ When you've finished with your demonstration or testing, make sure to stop local
 :::
 
 ## Using Tunnelmole
+
 Tunnelmole will work on any machine with NodeJS 16+ installed and has no non-JavaScript dependencies.
 
-First, install Tunnelmole from NPM: `yarn global add tunnelmole` or `npm i -g tunnelmole`.
+First, install `tunnelmole` package globally:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn global add tunnelmole
+<<| bash NPM |>>
+$ npm install -g tunnelmole
+<<| bash PNPM |>>
+$ pnpm add -g tunnelmole
+<<| bash Bun |>>
+$ bun add -g tunnelmole
+```
 
 Then, assuming you are running quasar on port `80`, run the following:
 

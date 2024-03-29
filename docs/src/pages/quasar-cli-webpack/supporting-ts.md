@@ -34,7 +34,15 @@ Then create `/tsconfig.json` file at the root of you project with this content:
   "extends": "@quasar/app-webpack/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": "."
-  }
+  },
+  "exclude": [
+    "./dist",
+    "./.quasar",
+    "./node_modules",
+    "./src-capacitor",
+    "./src-cordova",
+    "./quasar.config.*.temporary.compiled*"
+  ]
 }
 ```
 
@@ -48,7 +56,7 @@ Remember that you must change the extension of your JavaScript files to `.ts` to
 If you fail to add the `tsconfig.json` file, the application will break at compile time!
 :::
 
-## Handling TS Webpack loaders <q-badge label="@quasar/app-webpack v4+" />
+## Handling TS Webpack loaders <q-badge label="@quasar/app-webpack =v3" />
 
 Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `build` property like so:
 

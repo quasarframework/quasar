@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+const path = require('node:path')
+const fse = require('fs-extra')
 const { sync: fastGlob, convertPathToPattern } = require('fast-glob')
 const { createPatch } = require('diff')
 const { highlight } = require('cli-highlight')
@@ -24,13 +24,13 @@ module.exports = function prepareDiff (locationPath) {
   const absolutePath = resolve(locationPath)
 
   // If there is no "old" file/folder, then there is no diff (everything will be new)
-  if (!fs.existsSync(absolutePath)) {
+  if (!fse.existsSync(absolutePath)) {
     return
   }
 
   let pattern = convertPathToPattern(absolutePath)
   // If it's a directory, then query all files in it
-  if (fs.lstatSync(absolutePath).isDirectory()) {
+  if (fse.lstatSync(absolutePath).isDirectory()) {
     pattern += '/*'
   }
 
@@ -44,12 +44,12 @@ module.exports = function prepareDiff (locationPath) {
 
   // Read the current (old) contents
   originalFiles.forEach(filePath => {
-    originalsMap.set(filePath, fs.readFileSync(filePath, { encoding: 'utf-8' }))
+    originalsMap.set(filePath, fse.readFileSync(filePath, 'utf-8'))
   })
 
   // Before exiting the process, read the new contents and output the diff
   process.on('exit', code => {
-    if (code !== 0) { return }
+    if (code !== 0) return
 
     const currentFiles = fastGlob(pattern)
     const currentMap = new Map()
@@ -66,7 +66,7 @@ module.exports = function prepareDiff (locationPath) {
         return
       }
 
-      const currentContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
+      const currentContent = fse.readFileSync(filePath, 'utf-8')
       const originalContent = originalsMap.get(filePath)
 
       if (originalContent !== currentContent) {

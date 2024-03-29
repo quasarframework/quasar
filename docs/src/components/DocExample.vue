@@ -1,7 +1,7 @@
 <template>
   <q-card class="doc-example q-my-lg" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
-      <doc-card-title :title="props.title" prefix="example--" />
+      <DocCardTitle :title="props.title" prefix="example--" />
 
       <q-space />
 
@@ -36,14 +36,14 @@
 
         <q-tab-panels class="text-grey-3 text-weight-regular" v-model="currentTab" animated>
           <q-tab-panel class="q-pa-none" v-for="tab in def.tabs" :key="`pane-${tab}`" :name="tab">
-            <doc-code lang="markup" :code="def.parts[tab]" max-height="70vh" />
+            <DocCode lang="markup" :code="def.parts[tab]" max-height="70vh" />
           </q-tab-panel>
         </q-tab-panels>
 
       </div>
     </q-slide-transition>
 
-    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="props.title" />
+    <DocCodepen v-if="!isBusy" ref="codepenRef" :title="props.title" />
 
     <q-separator />
 
@@ -55,9 +55,8 @@
 </template>
 
 <script setup>
-import { markRaw, onMounted } from 'vue'
+import { computed, inject, markRaw, ref, reactive, onMounted } from 'vue'
 import { openURL } from 'quasar'
-import { ref, reactive, computed, inject } from 'vue'
 
 import { fabGithub, fabCodepen } from '@quasar/extras/fontawesome-v6'
 import { mdiCompare } from '@quasar/extras/mdi-v7'

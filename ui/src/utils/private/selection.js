@@ -1,4 +1,4 @@
-import Platform from '../../plugins/Platform.js'
+import Platform from '../../plugins/platform/Platform.js'
 
 export function clearSelection () {
   if (window.getSelection !== void 0) {

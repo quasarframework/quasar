@@ -7,15 +7,15 @@
     "debounce": {
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
-      "examples": [ "0", "530" ],
+      "examples": [ "0", "'530'" ],
       "category": "behavior"
     },
 
     "axis": {
       "type": "String",
       "desc": "Axis on which to detect changes",
-      "values": [ "both", "vertical", "horizontal" ],
-      "default": "vertical",
+      "values": [ "'both'", "'vertical'", "'horizontal'" ],
+      "default": "'vertical'",
       "category": "behavior"
     },
 
@@ -54,7 +54,7 @@
               "type": "String",
               "required": true,
               "desc": "Direction of scroll",
-              "values": [ "up", "down", "left", "right" ]
+              "values": [ "'up'", "'down'", "'left'", "'right'" ]
             },
             "directionChanged": {
               "type": "Boolean",

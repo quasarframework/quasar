@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/intersection"
+  },
+
+  "value": {
+    "type": [ "Object", "Function" ],
+    "desc": "Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); If using the Object form, it is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
+    "examples": [
+      "# v-intersection=\"myFunction\"",
+      "# v-intersection=\"{ handler: myFunction, cfg: { root: myScrollingParentEl, rootMargin: '10px 20px 30px 40px', threshold: [0, 0.25, 0.5, 0.75, 1] } }\""
+    ],
+
+    "definition": {
+      "handler": {
+        "type": "Function",
+        "desc": "The handler function to be called",
+        "returns": {
+          "type": "Boolean",
+          "desc": "If you return Boolean false from the handler, the observer stops"
+        },
+        "params": {
+          "entry": {
+            "type": "Object",
+            "tsType": "IntersectionObserverEntry",
+            "desc": "The IntersectionObserverEntry object",
+            "definition": {
+              "boundingClientRect": {
+                "type": "Object",
+                "desc": "Object containing the client rect information",
+                "definition": {
+                  "bottom": {
+                    "type": "Number",
+                    "desc": "The bottom of the client rect"
+                  },
+                  "height": {
+                    "type": "Number",
+                    "desc": "The height of the client rect"
+                  },
+                  "left": {
+                    "type": "Number",
+                    "desc": "The left of the client rect"
+                  },
+                  "right": {
+                    "type": "Number",
+                    "desc": "The right of the client rect"
+                  },
+                  "top": {
+                    "type": "Number",
+                    "desc": "The top of the client rect"
+                  },
+                  "width": {
+                    "type": "Number",
+                    "desc": "The width of the client rect"
+                  },
+                  "x": {
+                    "type": "Number",
+                    "desc": "The x position of the client rect"
+                  },
+                  "y": {
+                    "type": "Number",
+                    "desc": "The y position of the client rect"
+                  }
+                }
+              },
+
+              "intersectionRatio": {
+                "type": "Number",
+                "desc": "The ratio of the observed objects visibility"
+              },
+
+              "intersectionRect": {
+                "type": "Object",
+                "desc": "Object containing the client rect information",
+                "definition": {
+                  "bottom": {
+                    "type": "Number",
+                    "desc": "The bottom of the client rect"
+                  },
+                  "height": {
+                    "type": "Number",
+                    "desc": "The height of the client rect"
+                  },
+                  "left": {
+                    "type": "Number",
+                    "desc": "The left of the client rect"
+                  },
+                  "right": {
+                    "type": "Number",
+                    "desc": "The right of the client rect"
+                  },
+                  "top": {
+                    "type": "Number",
+                    "desc": "The top of the client rect"
+                  },
+                  "width": {
+                    "type": "Number",
+                    "desc": "The width of the client rect"
+                  },
+                  "x": {
+                    "type": "Number",
+                    "desc": "The x position of the client rect"
+                  },
+                  "y": {
+                    "type": "Number",
+                    "desc": "The y position of the client rect"
+                  }
+                }
+              },
+
+              "isIntersecting": {
+                "type": "Boolean",
+                "desc": "It is Boolean true if intersecting the scrollable area"
+              },
+
+              "rootBounds": {
+                "type": "Object",
+                "desc": "Object containing the client rect information",
+                "definition": {
+                  "bottom": {
+                    "type": "Number",
+                    "desc": "The bottom of the client rect"
+                  },
+                  "height": {
+                    "type": "Number",
+                    "desc": "The height of the client rect"
+                  },
+                  "left": {
+                    "type": "Number",
+                    "desc": "The left of the client rect"
+                  },
+                  "right": {
+                    "type": "Number",
+                    "desc": "The right of the client rect"
+                  },
+                  "top": {
+                    "type": "Number",
+                    "desc": "The top of the client rect"
+                  },
+                  "width": {
+                    "type": "Number",
+                    "desc": "The width of the client rect"
+                  },
+                  "x": {
+                    "type": "Number",
+                    "desc": "The x position of the client rect"
+                  },
+                  "y": {
+                    "type": "Number",
+                    "desc": "The y position of the client rect"
+                  }
+                }
+              },
+
+              "target": {
+                "type": "Element",
+                "desc": "The target element"
+              },
+
+              "time": {
+                "type": "Number",
+                "desc": "The timestamp of the event",
+                "examples": [ "6316.879999998491" ]
+              }
+            }
+          }
+        }
+      },
+
+      "cfg": {
+        "type": "Object",
+        "desc": "Intersection observer options (can be omitted and all its props are optional)",
+        "definition": {
+          "root": {
+            "type": "Element",
+            "desc": "Lets you define an alternative to the viewport as your root (through its DOM element); It is important to keep in mind that root needs to be an ancestor of the observed element",
+            "examples": [ "myScrollingParentEl" ]
+          },
+
+          "rootMargin": {
+            "type": "String",
+            "desc": "Allows you to specify the margins for the root, effectively allowing you to either grow or shrink the area used for intersections",
+            "examples": [ "'10px 20px 30px 40px'" ]
+          },
+
+          "threshold": {
+            "type": "Array",
+            "desc": "Threshold(s) at which to trigger callback, specified as a ratio, or list of ratios, of (visible area / total area) of the observed element",
+            "examples": [ "[ 0, 0.25, 0.5, 0.75, 1 ]" ]
+          }
+        }
+      }
+    },
+
+    "params": {
+      "entry": {
+        "type": "Object",
+        "tsType": "IntersectionObserverEntry",
+        "desc": "The IntersectionObserverEntry object"
+      }
+    },
+    "returns": {
+      "type": "Boolean",
+      "desc": "If you return Boolean false from the handler, the observer stops"
+    }
+  },
+
+  "modifiers": {
+    "once": {
+      "type": "Boolean",
+      "desc": "Call handler only once, when the conditions are first met",
+      "examples": [ "# v-intersection.once" ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+# Not all packages are included.
+# Use individual folders for usual development of everything else.
+packages:
+  - app-vite
+  - app-webpack
+  - vite-plugin
+  - vite-plugin/playground
+  - utils/render-ssr-error
+  - utils/ssl-certificate
+  - extras
+  - ui
+  - ui/playground
+  - ui/testing
+  - create-quasar
+  - cli
+  - docs
+
+  # private packages
+  - utils/eslint-config

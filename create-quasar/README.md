@@ -13,12 +13,17 @@
 This app is used to scaffold Quasar CLI project folders.
 
 ```bash
+npm init quasar
+# or:
 yarn create quasar
 # or:
-npm init quasar
+pnpm create quasar
+# or:
+bun create quasar
 ```
 
 ## Supporting Quasar
+
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
 
 **Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
@@ -44,6 +49,7 @@ Ask questions at the official community forum: [https://forum.quasar.dev](https:
 I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature). Please read the [Contributing Guide](../CONTRIBUTING.md).
 
 ## Semver
+
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License

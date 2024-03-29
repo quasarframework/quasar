@@ -1,6 +1,6 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
 import { hasScrollbar, getVerticalScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
-import { client } from '../plugins/Platform.js'
+import { client } from '../plugins/platform/Platform.js'
 
 let
   registered = 0,

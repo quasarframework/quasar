@@ -171,7 +171,7 @@ export default createComponent({
     })
 
     return () => {
-      if (props.disable === true) { return }
+      if (props.disable === true) return
 
       return h(QMenu, {
         ref: menuRef,

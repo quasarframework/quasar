@@ -1,7 +1,7 @@
 import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { position, stopAndPrevent } from '../../utils/event.js'

@@ -81,9 +81,7 @@
       "returns": {
         "type": "Promise<boolean>",
         "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
-        "examples": [
-          "validate().then(outcome => { ... })"
-        ]
+        "examples": [ "validate().then(outcome => { ... })" ]
       }
     },
 

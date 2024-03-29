@@ -2,18 +2,18 @@
   "props": {
     "transition-show": {
       "extends": "transition",
-      "default": "fade"
+      "default": "'fade'"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "default": "fade"
+      "default": "'fade'"
     },
 
     "transition-duration": {
       "type": [ "String", "Number" ],
       "desc": "Transition duration (in milliseconds, without unit)",
-      "default": 300,
+      "default": "300",
       "category": "transition"
     }
   }

@@ -3,8 +3,10 @@ title: Quasar Integrations
 desc: Quasar Integrations
 heading: false
 editLink: false
-components:
-  - ./QuasarIntegrations
 ---
 
-<quasar-integrations />
+<script doc>
+import QuasarIntegrations from './QuasarIntegrations.vue'
+</script>
+
+<QuasarIntegrations />

@@ -10,7 +10,7 @@
       "extends": "model-value",
       "type": "Any",
       "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"myModel\"" ]
+      "examples": [ "# v-model=\"myModel\"" ]
     },
 
     "multiple": {
@@ -22,7 +22,7 @@
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop",
-      "examples": [ "Options: x, y, z" ],
+      "examples": [ "'Options: x, y, z'" ],
       "category": "selection"
     },
 
@@ -37,8 +37,8 @@
       "desc": "Available options that the user can select from. For best performance freeze the list of options.",
       "default": "[]",
       "examples": [
-        ":options=\"[ 'BMW', 'Samsung Phone' ]\"",
-        ":options=\"[ { label: 'BMW', value: 'car' }, { label: 'Samsung Phone', value: 'phone' } ]\""
+        "[ 'Tesla', 'iPhone' ]",
+        "[ { label: 'Tesla', value: 'car' }, { label: 'iPhone', value: 'phone' } ]"
       ],
       "category": "options"
     },
@@ -46,15 +46,15 @@
     "option-value": {
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "value",
+      "default": "'value'",
       "params": {
         "option": {
           "type": [ "String", "Object" ],
           "desc": "The current option being processed",
           "examples": [
-            "'BMW'",
-            "'Samsung Phone'",
-            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
           ]
         }
       },
@@ -64,8 +64,8 @@
         "examples": [ "'car'", "34" ]
       },
       "examples": [
-        "option-value=\"modelNumber\"",
-        ":option-value=\"(item) => item === null ? null : item.modelNumber\""
+        "'modelNumber'",
+        "(item) => item === null ? null : item.modelNumber"
       ],
       "category": "options"
     },
@@ -73,26 +73,26 @@
     "option-label": {
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "label",
+      "default": "'label'",
       "params": {
         "option": {
           "type": [ "String", "Object" ],
           "desc": "The current option being processed",
           "examples": [
-            "'BMW'",
-            "'Samsung Phone'",
-            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
           ]
         }
       },
       "returns": {
         "type": "String",
         "desc": "Label of the current option",
-        "examples": [ "'BMW'", "'Samsung Phone'" ]
+        "examples": [ "'Tesla'", "'iPhone'" ]
       },
       "examples": [
-        "option-label=\"itemName\"",
-        ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
+        "'itemName'",
+        "(item) => item === null ? 'Null value' : item.itemName"
       ],
       "category": "options"
     },
@@ -100,15 +100,15 @@
     "option-disable": {
       "type": [ "Function", "String" ],
       "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "disable",
+      "default": "'disable'",
       "params": {
         "option": {
           "type": [ "String", "Object" ],
           "desc": "The current option being processed",
           "examples": [
-            "'BMW'",
-            "'Samsung Phone'",
-            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
           ]
         }
       },
@@ -117,8 +117,8 @@
         "desc": "If true, the current option will be disabled"
       },
       "examples": [
-        "option-disable=\"cannotSelect\"",
-        ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""
+        "(item) => item === null ? true : item.cannotSelect",
+        "# option-disable=\"cannotSelect\""
       ],
       "category": "options"
     },
@@ -153,7 +153,7 @@
 
     "options-dark": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "Options menu will be colored with a dark color",
       "category": "options"
     },
@@ -161,7 +161,7 @@
     "options-selected-class": {
       "type": "String",
       "desc": "CSS class name for options that are active/selected; Set it to an empty string to stop applying the default (which is text-* where * is the 'color' prop value)",
-      "examples": [ "text-orange" ],
+      "examples": [ "'text-orange'" ],
       "category": "options"
     },
 
@@ -187,9 +187,9 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
       "category": "position"
     },
@@ -198,9 +198,9 @@
       "type": "String",
       "desc": "Two values setting the options list's own position relative to its target (only in menu mode)",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
       "category": "position"
     },
@@ -215,9 +215,7 @@
     "popup-content-class": {
       "type": "String",
       "desc": "Class definitions to be attributed to the popup content",
-      "examples": [
-        "my-special-class"
-      ],
+      "examples": [ "'my-special-class'" ],
       "category": "style"
     },
 
@@ -226,10 +224,17 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the popup content",
       "examples": [
-        "background-color: #ff0000",
-        ":popup-content-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
+    },
+
+    "popup-no-route-dismiss": {
+      "type": "Boolean",
+      "desc": "Changing route app won't dismiss the popup (menu or dialog)",
+      "category": "behavior",
+      "addedIn": "v2.15"
     },
 
     "use-input": {
@@ -253,7 +258,7 @@
     "new-value-mode": {
       "type": "String",
       "desc": "Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')",
-      "values": [ "add", "add-unique", "toggle" ],
+      "values": [ "'add'", "'add-unique'", "'toggle'" ],
       "category": "behavior"
     },
 
@@ -272,7 +277,7 @@
     "input-debounce": {
       "type": [ "Number", "String" ],
       "desc": "Debounce the input model update with an amount of milliseconds (also affects the 'filter' event, if used)",
-      "default": 500,
+      "default": "500",
       "category": "content"
     },
 
@@ -281,8 +286,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the underlying input tag",
       "examples": [
-        "my-special-class",
-        ":input-class=\"{ 'my-special-class': <condition> }\""
+        "'my-special-class'",
+        "{ 'my-special-class': <condition> }"
       ],
       "category": "style"
     },
@@ -292,8 +297,8 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the underlying input tag",
       "examples": [
-        "background-color: #ff0000",
-        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
     },
@@ -305,38 +310,36 @@
     "autocomplete": {
       "type": "String",
       "desc": "Autocomplete attribute for field",
-      "examples": [ "autocomplete=\"country\"" ],
+      "examples": [ "'country'" ],
       "category": "behavior"
     },
 
     "transition-show": {
       "extends": "transition",
       "desc": "Transition when showing the menu/dialog; One of Quasar's embedded transitions",
-      "default": "fade",
+      "default": "'fade'",
       "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
       "desc": "Transition when hiding the menu/dialog; One of Quasar's embedded transitions",
-      "default": "fade",
+      "default": "'fade'",
       "category": "behavior"
     },
 
     "transition-duration": {
       "type": [ "String", "Number" ],
       "desc": "Transition duration when hiding the menu/dialog (in milliseconds, without unit)",
-      "default": 300,
+      "default": "300",
       "category": "behavior"
     },
 
     "behavior": {
       "type": "String",
       "desc": "Overrides the default dynamic mode of showing as menu on desktop and dialog on mobiles",
-      "values": [
-        "default", "menu", "dialog"
-      ],
-      "default": "default",
+      "values": [ "'default'", "'menu'", "'dialog'" ],
+      "default": "'default'",
       "category": "behavior"
     }
   },
@@ -364,7 +367,7 @@
         "inputValue": {
           "type": "String",
           "desc": "Input textfield value, if any (not QSelect model)",
-          "examples": [ "typed something" ]
+          "examples": [ "'typed something'" ]
         }
       }
     },
@@ -411,7 +414,7 @@
         "tabindex": {
           "type": "Number",
           "desc": "Tabindex HTML attribute value associated with respective option",
-          "values": [ 0, -1 ]
+          "values": [ "0", "-1" ]
         }
       }
     },
@@ -532,7 +535,7 @@
         "inputValue": {
           "type": "String",
           "desc": "What the user typed",
-          "examples": [ "phone" ]
+          "examples": [ "'phone'" ]
         },
         "doneFn": {
           "type": "Function",
@@ -547,8 +550,8 @@
               "type": "String",
               "required": false,
               "desc": "Override 'new-value-mode' (prop) behavior should you wish to",
-              "values": [ "add", "add-unique", "toggle" ],
-              "default": "add"
+              "values": [ "'add'", "'add-unique'", "'toggle'" ],
+              "default": "'add'"
             }
           },
           "returns": null
@@ -562,7 +565,7 @@
         "inputValue": {
           "type": "String",
           "desc": "What the user typed",
-          "examples": [ "phone" ]
+          "examples": [ "'phone'" ]
         },
         "doneFn": {
           "type": "Function",
@@ -717,7 +720,7 @@
         "offset": {
           "type": "Number",
           "desc": "Number of options to move up or down",
-          "default": 1
+          "default": "1"
         },
         "skipInputValue": {
           "type": "Boolean",
@@ -733,7 +736,7 @@
           "type": "String",
           "required": true,
           "desc": "String to filter with",
-          "examples": [ "car" ]
+          "examples": [ "'car'" ]
         }
       }
     },
@@ -749,7 +752,7 @@
           "type": "String",
           "required": true,
           "desc": "String to set the input value to",
-          "examples": [ "hotel" ]
+          "examples": [ "'hotel'" ]
         },
         "noFilter": {
           "type": "Boolean",

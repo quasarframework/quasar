@@ -18,7 +18,7 @@ QAjaxBar is a component which displays a loading bar (like Youtube) whenever an 
 If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
 :::
 
-<doc-api file="QAjaxBar" />
+<DocApi file="QAjaxBar" />
 
 ## Usage
 The QAjaxBar component captures Ajax calls automatically (unless told not to).
@@ -27,7 +27,7 @@ The example below triggers events manually for demonstrating purposes only. This
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 Please check out the API section for all properties that you can use.
 

@@ -1,8 +1,8 @@
 import { h, ref, computed, Transition } from 'vue'
 
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
-import Intersection from '../../directives/Intersection.js'
+import Intersection from '../../directives/intersection/Intersection.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hDir } from '../../utils/private/render.js'

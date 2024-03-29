@@ -20,14 +20,14 @@ jobs:
       TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug 🐞') && 'bug' || 'docs' }}
       TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv1') && 'v1' || 'v2' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--quasar-${{ env.TEMPLATE_VERSION }}.yml
 
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         env:
           ISSUE_MODEL: ${{ steps.issue-parser.outputs.jsonString }}
           INVALID_REPRO_MESSAGE: |

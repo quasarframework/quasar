@@ -53,7 +53,7 @@ interface InvokeParams {
 
 interface EsbuildTargetOptions {
   /**
-   * @default ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1']
+   * @default ['es2022', 'firefox115', 'chrome115', 'safari14']
    */
   browser?: string[];
   /**
@@ -76,9 +76,10 @@ interface QuasarStaticBuildConfiguration {
    */
   webpackTranspileDependencies?: (RegExp | string)[];
   /**
+   * Esbuild is used to build contents of /src-pwa, /src-ssr, /src-electron, /src-bex
    * @example
    *    {
-   *      browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
+   *      browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
    *      node: 'node20'
    *    }
    */

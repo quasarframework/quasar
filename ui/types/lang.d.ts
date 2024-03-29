@@ -88,7 +88,7 @@ type QuasarLanguageDayTuple = [
   string,
   string,
   string,
-  string
+  string,
 ];
 type QuasarLanguageMonthTuple = [
   string,
@@ -102,7 +102,7 @@ type QuasarLanguageMonthTuple = [
   string,
   string,
   string,
-  string
+  string,
 ];
 
 export interface QuasarLanguage {
@@ -119,7 +119,7 @@ export interface QuasarLanguage {
     format24h: boolean;
     headerTitle?: (
       date: Date,
-      model: { year: number; month: number; day: number }
+      model: { year: number; month: number; day: number },
     ) => string;
   };
   table: StringDictionary<QuasarLanguageTableLabel> & {

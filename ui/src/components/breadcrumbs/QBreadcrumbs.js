@@ -47,7 +47,7 @@ export default createComponent({
         hSlot(slots.default)
       )
 
-      if (vnodes.length === 0) { return }
+      if (vnodes.length === 0) return
 
       let els = 1
 

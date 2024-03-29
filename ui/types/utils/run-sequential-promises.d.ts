@@ -1,6 +1,6 @@
 export interface RunSequentialPromisesFulfilledResult<
   TKey extends number | string,
-  TValue
+  TValue,
 > {
   key: TKey;
   status: "fulfilled";
@@ -26,7 +26,7 @@ export interface RunSequentialPromisesFulfilledResult<
  */
 export interface RunSequentialPromisesRejectedResult<
   TKey extends number | string,
-  TValue
+  TValue,
 > {
   key: TKey;
   status: "rejected";
@@ -70,28 +70,28 @@ export interface RunSequentialPromisesOptions {
 // Array-style overrides
 export function runSequentialPromises<
   TValue = any,
-  TKey extends number = number
+  TKey extends number = number,
 >(
   promises: ((
-    resultAggregator: RunSequentialPromisesResult<TKey, TValue>[]
+    resultAggregator: RunSequentialPromisesResult<TKey, TValue>[],
   ) => Promise<TValue>)[],
   options: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
     abortOnFail: false;
-  }
+  },
 ): Promise<RunSequentialPromisesResult<TKey, TValue>[]>;
 export function runSequentialPromises<
   TValue = any,
-  TKey extends number = number
+  TKey extends number = number,
 >(
   promises: ((
-    resultAggregator: RunSequentialPromisesFulfilledResult<TKey, TValue>[]
+    resultAggregator: RunSequentialPromisesFulfilledResult<TKey, TValue>[],
   ) => Promise<TValue>)[],
-  options?: RunSequentialPromisesOptions
+  options?: RunSequentialPromisesOptions,
 ): Promise<RunSequentialPromisesFulfilledResult<TKey, TValue>[]>;
 // Object-style overrides
 export function runSequentialPromises<
   TValue = any,
-  TKey extends string = string
+  TKey extends string = string,
 >(
   promisesMap: {
     [key in TKey]: (resultAggregator: {
@@ -100,20 +100,20 @@ export function runSequentialPromises<
   },
   options?: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
     abortOnFail: false;
-  }
+  },
 ): Promise<{
   [key in TKey]: RunSequentialPromisesResult<TKey, TValue>;
 }>;
 export function runSequentialPromises<
   TValue = any,
-  TKey extends string = string
+  TKey extends string = string,
 >(
   promisesMap: {
     [key in TKey]: (resultAggregator: {
       [key in TKey]?: RunSequentialPromisesFulfilledResult<TKey, TValue>;
     }) => Promise<TValue>;
   },
-  options?: RunSequentialPromisesOptions
+  options?: RunSequentialPromisesOptions,
 ): Promise<{
   [key in TKey]: RunSequentialPromisesFulfilledResult<TKey, TValue>;
 }>;

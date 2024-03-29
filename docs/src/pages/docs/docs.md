@@ -4,8 +4,10 @@ desc: Welcome to Quasar documentation website!
 heading: false
 editLink: false
 keys: Welcome,Quasar
-components:
-  - ./DocsHomepage
 ---
 
-<docs-homepage />
+<script doc>
+import DocsHomepage from './DocsHomepage.vue'
+</script>
+
+<DocsHomepage />

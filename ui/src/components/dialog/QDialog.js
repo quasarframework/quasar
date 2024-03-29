@@ -1,8 +1,8 @@
 import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
-import useTimeout from '../../composables/private/use-timeout.js'
-import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/use-timeout.js'
+import useTick from '../../composables/use-tick.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 import usePortal from '../../composables/private/use-portal.js'
@@ -64,6 +64,8 @@ export default createComponent({
 
     square: Boolean,
 
+    backdropFilter: String,
+
     position: {
       type: String,
       default: 'standard',
@@ -101,6 +103,16 @@ export default createComponent({
       () => defaultTransitions[ props.position ][ 0 ],
       () => defaultTransitions[ props.position ][ 1 ]
     )
+
+    const backdropStyle = computed(() => (
+      transitionStyle.value
+      + (
+        props.backdropFilter !== void 0
+          // Safari requires the -webkit prefix
+          ? `;backdrop-filter:${ props.backdropFilter };-webkit-backdrop-filter:${ props.backdropFilter }`
+          : ''
+      )
+    ))
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
       vm, innerRef, renderPortalContent, 'dialog'
@@ -384,7 +396,7 @@ export default createComponent({
           useBackdrop.value === true
             ? h('div', {
               class: 'q-dialog__backdrop fixed-full',
-              style: transitionStyle.value,
+              style: backdropStyle.value,
               'aria-hidden': 'true',
               tabindex: -1,
               onClick: onBackdropClick

@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint ./ --ext .js,.vue --fix --report-unused-disable-directives",
     "dev": "cd src-ui && quasar dev",
-    "build": "yarn build:ui && yarn build:package",
+    "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && quasar build",
     "build:package": "node ./build/index.js"
   },
@@ -38,20 +38,16 @@
     "stack-trace": "^1.0.0-pre2"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-alpha.0",
+    "@quasar/app-vite": "^2.0.0-beta.1",
     "@quasar/extras": "^1.16.6",
-    "autoprefixer": "^10.4.15",
-    "eslint": "^8.49.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-n": "^16.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-vue": "^9.17.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.57.0",
+    "eslint-config-quasar": "^0.0.1",
     "fs-extra": "^11.1.1",
-    "postcss": "^8.4.31",
+    "postcss": "^8.4.35",
     "prismjs": "^1.29.0",
     "quasar": "^2.6.0",
-    "vue": "^3.4.15",
+    "vue": "^3.4.20",
     "vue-router": "^4.2.4"
   }
 }
