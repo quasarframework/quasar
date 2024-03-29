@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         script-type: [js, ts]
-        app-engine: [vite, webpack]
+        app-engine: [vite-1, vite-2, webpack-3, webpack-4]
         node-version: [18, 20]
         package-manager: [yarn, npm, pnpm]
 
