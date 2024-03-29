@@ -68,6 +68,15 @@ export function readAstJson (ctx) {
 
   nodeList.forEach(node => {
     if (node.type === 'ExportNamedDeclaration') {
+      if (node.declaration?.type === void 0) {
+        console.error(
+          'AST: unknown ExportNamedDeclaration > declaration for:',
+          ctx.targetAbsolute
+        )
+        console.error('declaration', node.declaration)
+        console.error('ctx', ctx)
+        process.exit(1)
+      }
       if (node.declaration.type === 'VariableDeclaration') {
         node.declaration.declarations.forEach(declaration => {
           if (
@@ -90,7 +99,8 @@ export function readAstJson (ctx) {
               'for:',
               ctx.targetAbsolute
             )
-            console.error(declaration)
+            console.error('declaration', declaration)
+            console.error('ctx', ctx)
             process.exit(1)
           }
         })
@@ -144,7 +154,8 @@ export function readAstJson (ctx) {
             name,
             'for:', ctx.targetAbsolute
           )
-          console.error(prop)
+          console.error('prop', prop)
+          console.error('ctx', ctx)
           process.exit(1)
         }
 
@@ -203,6 +214,7 @@ export function readAstJson (ctx) {
     && hasFunctions === false
   ) {
     console.error('AST: no variables, classes or functions found for:', ctx.targetAbsolute)
+    console.error('ctx', ctx)
     process.exit(1)
   }
 
