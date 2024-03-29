@@ -113,7 +113,7 @@ function getPlatform (UA) {
     delete browser[ 'windows phone' ]
   }
 
-  if (browser.edga || browser.edgios) {
+  if (browser.edga || browser.edgios || browser.edg) {
     browser.edge = true
     matched.browser = 'edge'
   }
@@ -154,14 +154,8 @@ function getPlatform (UA) {
     browser.webkit = true
   }
 
-  // TODO: (Qv3) rename the terms 'edge' to 'edge legacy' (or remove it) then 'edge chromium' to 'edge' to match with the known up-to-date terms
-  // Microsoft Edge is the new Chromium-based browser. Microsoft Edge Legacy is the old EdgeHTML-based browser (EOL: March 9, 2021).
-  if (browser.edg) {
-    matched.browser = 'edgechromium'
-    browser.edgeChromium = true
-  }
   // Opera 15+ are identified as opr
-  else if (browser.opr) {
+  if (browser.opr) {
     matched.browser = 'opera'
     browser.opera = true
   }
