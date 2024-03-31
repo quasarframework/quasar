@@ -1,7 +1,7 @@
 interface NativeMobileWrapperConfiguration {
-  iosStatusBarPadding: boolean;
-  backButton: boolean;
-  backButtonExit: boolean | "*" | string[];
+  iosStatusBarPadding?: boolean;
+  backButton?: boolean;
+  backButtonExit?: boolean | "*" | string[];
 }
 
 export interface QuasarUIConfiguration {
