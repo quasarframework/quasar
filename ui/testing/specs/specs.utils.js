@@ -31,14 +31,14 @@ const defTypeMap = {
     valueRegex: /^-?\d/,
     createValue: () => () => '10',
     expectType: () => ref => `expect(${ ref }).toBeTypeOf('number')`,
-    expectValueTest: ref => `typeof ${ ref } === 'number'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'number')
   },
 
   String: {
     valueRegex: /^'[^']+'$/,
     createValue: () => () => '\'some-string\'',
     expectType: () => ref => `expect(${ ref }).toBeTypeOf('string')`,
-    expectValueTest: ref => `typeof ${ ref } === 'string'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'string')
   },
 
   Array: {
@@ -63,7 +63,7 @@ const defTypeMap = {
         ? ref => `expect(Array.isArray(${ ref })).toBe(true)`
         : ref => `expect(${ ref }).toContainEqual(${ getObjectEqualDef(def.definition, '') })`
     ),
-    expectValueTest: ref => `Array.isArray(${ ref })`
+    runtimeValueTest: runtimeValue => Array.isArray(runtimeValue)
   },
 
   Object: {
@@ -88,14 +88,14 @@ const defTypeMap = {
         ? ref => `expect(${ ref }).toBeTypeOf('object')`
         : ref => `expect(${ ref }).toEqual(${ getObjectEqualDef(def.definition, '') })`
     ),
-    expectValueTest: ref => `typeof ${ ref } === 'object'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'object')
   },
 
   Boolean: {
     valueRegex: /^(true|false)$/,
     createValue: () => () => 'true',
     expectType: () => ref => `expect(${ ref }).toBeTypeOf('boolean')`,
-    expectValueTest: ref => `typeof ${ ref } === 'boolean'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'boolean')
   },
 
   Function: {
@@ -105,100 +105,100 @@ const defTypeMap = {
       `expect(${ ref }).toBeTypeOf('function')`
       + (
         opts.withCall === true
-          ? getFunctionCallTest(def, ref)
+          ? getFunctionCallTest(def, ref, testIndent)
           : ''
       )
     ),
-    expectValueTest: ref => `typeof ${ ref } === 'function'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'function')
   },
 
   RegExp: {
     valueRegex: /^\/.*\/[gimuy]*$/,
     createValue: () => () => '/.*/',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(RegExp)`,
-    expectValueTest: ref => `${ ref } instanceof RegExp`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof RegExp)
   },
 
   Element: {
     valueRegex: /^document\./,
     createValue: () => () => 'document.createElement(\'div\')',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Element)`,
-    expectValueTest: ref => `${ ref } instanceof Element`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Element)
   },
 
   Any: {
     createValue: () => () => '\'any-value\'',
     expectType: () => ref => `expect(${ ref }).not.toBeUndefined()`,
-    expectValueTest: ref => `${ ref } !== void 0`
+    runtimeValueTest: runtimeValue => (runtimeValue !== void 0)
   },
 
   Event: {
     createValue: () => () => '{}',
     expectType: () => ref => `expect(${ ref }).toBeTypeOf('object')`,
-    expectValueTest: ref => `typeof ${ ref } === 'object'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'object')
   },
 
   File: {
     createValue: () => () => 'new File([], \'file.txt\')',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(File)`,
-    expectValueTest: ref => `${ ref } instanceof File`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof File)
   },
 
   'Promise<any>': {
     createValue: () => () => 'new Promise((_resolve, _reject) => {})',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
-    expectValueTest: ref => `${ ref } instanceof Promise`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Promise)
   },
   'Promise<void>': {
     createValue: () => () => 'new Promise((_resolve, _reject) => {})',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
-    expectValueTest: ref => `${ ref } instanceof Promise`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Promise)
   },
   'Promise<boolean>': {
     createValue: () => () => 'new Promise((_resolve, _reject) => {})',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
-    expectValueTest: ref => `${ ref } instanceof Promise`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Promise)
   },
   'Promise<number>': {
     createValue: () => () => 'new Promise((_resolve, _reject) => {})',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
-    expectValueTest: ref => `${ ref } instanceof Promise`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Promise)
   },
   'Promise<string>': {
     createValue: () => () => 'new Promise((_resolve, _reject) => {})',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
-    expectValueTest: ref => `${ ref } instanceof Promise`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Promise)
   },
   'Promise<object>': {
     createValue: () => () => 'new Promise((_resolve, _reject) => {})',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Promise)`,
-    expectValueTest: ref => `${ ref } instanceof Promise`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Promise)
   },
 
   Error: {
     createValue: () => () => 'new Error()',
     expectType: () => ref => `expect(${ ref }).toBeInstanceOf(Error)`,
-    expectValueTest: ref => `${ ref } instanceof Error`
+    runtimeValueTest: runtimeValue => (runtimeValue instanceof Error)
   },
 
   Component: {
     createValue: () => () => '{ template: \'<div></div>\', props: {}, setup () {} }',
     expectType: () => ref => `expect(${ ref }).toBeTypeOf('object')`,
-    expectValueTest: ref => `typeof ${ ref } === 'object'`
+    runtimeValueTest: runtimeValue => (typeof runtimeValue === 'object')
   },
 
   null: {
     valueRegex: /^null$/,
     createValue: () => () => 'null',
     expectType: () => ref => `expect(${ ref }).toBeNull()`,
-    expectValueTest: ref => `${ ref } === null`
+    runtimeValueTest: runtimeValue => (runtimeValue === null)
   },
 
   undefined: {
     valueRegex: /^undefined$/,
     createValue: () => () => 'undefined',
     expectType: () => ref => `expect(${ ref }).toBeUndefined()`,
-    expectValueTest: ref => `${ ref } === void 0`
+    runtimeValueTest: runtimeValue => (runtimeValue === void 0)
   }
 }
 
@@ -220,8 +220,8 @@ function getFunctionValue (def) {
   }
 }
 
-function getFunctionCallTest (def, ref) {
-  const paramIndent = testIndent + '  '
+function getFunctionCallTest (def, ref, indent) {
+  const paramIndent = indent + '  '
   let callParams = Object.keys(def.params || [])
     .map(paramName => {
       const { createValue } = getDefTesting(def.params[ paramName ])
@@ -230,18 +230,35 @@ function getFunctionCallTest (def, ref) {
     .join(',')
 
   if (callParams.length !== 0) {
-    callParams += `\n${ testIndent }`
+    callParams += `\n${ indent }`
   }
 
   if (def.returns !== void 0) {
     const { expectType } = getDefTesting(def.returns)
-    return `\n${ testIndent }${ expectType(`${ ref }(${ callParams })`) }`
+    return `\n${ indent }${ expectType(`${ ref }(${ callParams })`) }`
   }
 
-  return `\n${ testIndent }expect(${ ref }(${ callParams })).toBeUndefined()`
+  return `\n${ indent }expect(${ ref }(${ callParams })).toBeUndefined()`
 }
 
 const objectEqualDefTypeExceptions = [ 'Any', 'Component', 'FileList' ]
+
+function getObjectEqualDefValueTest (type, target, indent) {
+  if (objectEqualDefTypeExceptions.includes(type) === true) {
+    return 'expect.anything()'
+  }
+
+  if (type === 'Object') {
+    const definition = target.definition || target.scope
+    if (definition !== void 0) {
+      return Object.keys(definition).includes('...key') === true
+        ? 'expect.anything()'
+        : `expect.objectContaining(${ getObjectEqualDef(definition, indent) })`
+    }
+  }
+
+  return `expect.any(${ type })`
+}
 
 function getObjectEqualDef (definition, localIndent) {
   const list = Object.keys(definition)
@@ -257,13 +274,7 @@ function getObjectEqualDef (definition, localIndent) {
         type = 'Promise'
       }
 
-      const valueTest = objectEqualDefTypeExceptions.includes(type)
-        ? 'expect.anything()'
-        : (
-            type === 'Object' && (target.definition !== void 0 || target.scope !== void 0)
-              ? `expect.objectContaining(${ getObjectEqualDef(target.definition || target.scope, localIndent + '  ') })`
-              : `expect.any(${ type })`
-          )
+      const valueTest = getObjectEqualDefValueTest(type, target, localIndent + '  ')
 
       return `\n${ testIndent }${ localIndent }  ${ key }: ${ valueTest }`
     })
@@ -437,13 +448,45 @@ export function getExpectOneOfTypes ({ jsonEntry, ref }) {
     return expectType(ref)
   }
 
-  const subIndent = testIndent + '  '
-  const assertionList = jsonEntry.type.map(t => {
-    const { expectValueTest } = defTypeMap[ t ]
-    return expectValueTest(ref)
+  const typeList = jsonEntry.type.map(entry => `'${ entry }'`).join(', ')
+  let acc = `expect(${ ref }).$toBeOneOfTypes([ ${ typeList } ])`
+
+  jsonEntry.type.forEach(type => {
+    if (type === 'Array') {
+      if (jsonEntry.definition === void 0) return
+      const expectStr = `expect(${ ref }).toContainEqual(${ getObjectEqualDef(jsonEntry.definition, '') })`
+      acc += `\n\n${ testIndent }Array.isArray(${ ref }) && ${ expectStr }`
+    }
+    else if (type === 'Object') {
+      if (jsonEntry.definition === void 0) return
+      const expectStr = `expect(${ ref }).toEqual(${ getObjectEqualDef(jsonEntry.definition, '') })`
+      acc += `\n\n${ testIndent }typeof ${ ref } === 'object' && ${ expectStr }`
+    }
+    else if (type === 'Function') {
+      const localIndent = testIndent + '  '
+      const expectStr = getFunctionCallTest(jsonEntry, ref, localIndent)
+      acc += `\n\n${ testIndent }if (typeof ${ ref } === 'function') {${ expectStr }\n${ testIndent }}`
+    }
   })
 
-  return `expect([\n${ subIndent }`
-    + `${ assertionList.join(`,\n${ subIndent }`) }`
-    + `\n${ testIndent }]).toContain(true)`
+  return acc
+}
+
+// expect matcher
+export function $toBeOneOfTypes (actual, typeOfList) {
+  if (Array.isArray(typeOfList) === false) {
+    throw new TypeError('The second argument must be an array of strings!')
+  }
+
+  const pass = typeOfList.some(type => defTypeMap[ type ]?.runtimeValueTest(actual) === true)
+
+  return {
+    pass,
+    message: () =>
+      `expected ${ this.utils.printReceived(
+        actual
+      ) } to be one type of ${ this.utils.printExpected(
+        typeOfList.join(', ')
+      ) }`
+  }
 }

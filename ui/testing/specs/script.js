@@ -4,8 +4,9 @@ function showHelp (exitCode = 0) {
     UI test files validator & generator
 
   Usage
-    $ specs [-i] [-t <target>]
+    $ specs [-i] [-t <target>] [-g <json.path>]
     $ specs [-t <target>] [-g <json.path>]
+    $ specs [-d] [-t <target>]
 
     $ specs -i
 
@@ -20,7 +21,7 @@ function showHelp (exitCode = 0) {
     --target, -t        Target a component/directive/plugin/composable/other
                            (should not specify file extension)
     --generate, -g      Generates a targeted section of a json path
-    --test              Dry-run test for create + validate
+    --dry-run, -d       Dry-run test for create + validate (no output to files)
     --interactive, -i   Interactively validate & create specs
     --help, -h          Show this help message
   `)
@@ -34,10 +35,10 @@ const argv = parseArgs(process.argv.slice(2), {
     t: 'target',
     g: 'generate',
     i: 'interactive',
-    test: 'test',
+    d: 'dry-run',
     h: 'help'
   },
-  boolean: [ 'h', 'i', 'test' ],
+  boolean: [ 'h', 'i', 'd' ],
   string: [ 't', 'g' ]
 })
 
@@ -51,7 +52,7 @@ import { getTestFile } from './testFile.js'
 import { cmdValidateTestFile } from './cmd.validateTestFile.js'
 import { cmdCreateTestFile } from './cmd.createTestFile.js'
 import { cmdGenerateSection } from './cmd.generateSection.js'
-import { cmdTest } from './cmd.test.js'
+import { cmdDryRun } from './cmd.dryRun.js'
 
 const targetList = getTargetList(argv)
 
@@ -69,8 +70,8 @@ for (const target of targetList) {
   const ctx = createCtx(target)
   const testFile = getTestFile(ctx)
 
-  if (argv.test === true) {
-    await cmdTest({ ctx, testFile })
+  if (argv[ 'dry-run' ] === true) {
+    await cmdDryRun({ ctx, testFile })
   }
   else if (argv.generate !== void 0) {
     await cmdGenerateSection({ ctx, testFile, jsonPath: argv.generate })

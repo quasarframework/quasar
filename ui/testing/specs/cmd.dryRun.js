@@ -15,7 +15,7 @@ const ctxOverride = {
 /**
  * Dry-run test of create + validate
  */
-export async function cmdTest ({
+export async function cmdDryRun ({
   ctx,
   testFile
 }) {

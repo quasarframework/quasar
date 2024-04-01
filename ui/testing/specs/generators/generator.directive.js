@@ -57,7 +57,7 @@ function createValueTest ({
       const TestComponent = defineComponent({
         template: '<div v-${ kebabCase(ctx.pascalName) }${ exists ? '="val"' : '' }></div>',
         directives: { ${ ctx.pascalName } }${ exists ? `
-        setup (props) {
+        setup () {
           return {
             val: ${ value }
           }

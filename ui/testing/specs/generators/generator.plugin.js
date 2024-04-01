@@ -56,7 +56,7 @@ function createInjection ({ categoryId, jsonEntry, json, ctx }) {
       mount(
         defineComponent({
           template: '<div></div>',
-          setup (props) {
+          setup () {
             $q = useQuasar()
             return {}
           }
@@ -78,33 +78,33 @@ function createQuasarConfOptions ({ categoryId, _jsonEntry, _ctx }) {
   })\n`
 }
 
-function getReactiveTest ({ jsonEntry, ref }) {
-  if (jsonEntry.reactive !== true) {
-    return ''
-  }
+function getReactivePropTest ({ jsonEntry, ref }) {
+  const expectAction = jsonEntry.type === 'Array'
+    ? 'toContainEqual'
+    : 'toEqual'
 
   return `\n
       test.todo('is reactive', () => {
-        const val = ${ ref }
+        const val = clone(${ ref })
 
         // TODO: trigger something to test reactivity
 
-        expect(${ ref }).not.toBe(val)
+        expect(${ ref }).not.${ expectAction }(val)
       })`
 }
 
 function createPropTest ({
-  name,
   pascalName,
   testId,
   jsonEntry,
-  json,
   ctx
 }) {
   const ref = `${ ctx.pascalName }.${ pascalName }`
 
   const typeTest = getExpectOneOfTypes({ jsonEntry, ref })
-  const reactiveTest = getReactiveTest({ jsonEntry, ref })
+  const reactiveTest = jsonEntry.reactive === true
+    ? getReactivePropTest({ jsonEntry, ref })
+    : ''
 
   return `
     describe('${ testId }', () => {
@@ -118,7 +118,6 @@ function createMethodTest ({
   pascalName,
   testId,
   jsonEntry,
-  json,
   ctx
 }) {
   const { expectType } = getDefTesting({ ...jsonEntry, type: 'Function' })
@@ -145,11 +144,33 @@ export default {
       'import { describe, test, expect } from \'vitest\''
     ]
 
+    const vueImports = []
+    const quasarImports = []
+
     if (json.injection !== void 0) {
+      quasarImports.push('useQuasar')
+      vueImports.push('defineComponent')
       acc.push(
-        'import { mount } from \'@vue/test-utils\'',
-        'import { useQuasar } from \'quasar\'',
-        'import { defineComponent } from \'vue\''
+        'import { mount } from \'@vue/test-utils\''
+      )
+    }
+
+    if (
+      Object.keys(json.props || [])
+        .some(prop => json.props[ prop ].reactive === true)
+    ) {
+      quasarImports.push('clone')
+    }
+
+    if (quasarImports.length !== 0) {
+      acc.push(
+        `import { ${ quasarImports.join(', ') } } from 'quasar'`
+      )
+    }
+
+    if (vueImports.length !== 0) {
+      acc.push(
+        `import { ${ vueImports.join(', ') } } from 'vue'`
       )
     }
 
