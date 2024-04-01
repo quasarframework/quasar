@@ -18,7 +18,7 @@ config.plugins.DOMWrapper.install(wrapper => {
     $style: prop => (
       prop === void 0
         ? wrapper.attributes('style')
-        : wrapper.element.style[prop]
+        : wrapper.element.style[ prop ]
     ),
     $computedStyle: prop => window.getComputedStyle(wrapper.element).getPropertyValue(prop)
   }

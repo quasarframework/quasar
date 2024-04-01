@@ -485,8 +485,8 @@ export function $toBeOneOfTypes (actual, typeOfList) {
     message: () =>
       `expected ${ this.utils.printReceived(
         actual
-      ) } to be one type of ${ this.utils.printExpected(
-        typeOfList.join(', ')
+      ) } to be one of types: ${ this.utils.printExpected(
+        typeOfList.join(' or ')
       ) }`
   }
 }

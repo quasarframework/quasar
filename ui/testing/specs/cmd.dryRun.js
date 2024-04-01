@@ -7,6 +7,7 @@ import { getTestFile } from './testFile.js'
 const testFilePath = fileURLToPath(new URL('./__temp.js', import.meta.url))
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
 
+let result
 const ctxOverride = {
   testFileAbsolute: testFilePath,
   testFileRelative: relative(rootFolder, testFilePath)
@@ -19,6 +20,24 @@ export async function cmdDryRun ({
   ctx,
   testFile
 }) {
+  if (result === void 0) {
+    result = {
+      passed: 0,
+      failed: 0,
+      failList: []
+    }
+
+    process.on('exit', () => {
+      console.log(`\n\n  🏁 Done dry-run testing: ${ result.passed } passed & ${ result.failed } failed\n`)
+      if (result.failList.length !== 0) {
+        console.log('  Failed for:')
+        for (const fail of result.failList) {
+          console.log(`    ❌ ${ fail }`)
+        }
+      }
+    })
+  }
+
   console.log(`\n  🍕 Testing ${ ctx.targetRelative }:`)
 
   let testFileContent
@@ -26,6 +45,8 @@ export async function cmdDryRun ({
     testFileContent = testFile.createContent()
   }
   catch (err) {
+    result.failed++
+    result.failList.push(ctx.targetRelative)
     console.error('  ❌ Failed createContent() test (threw an error)')
     console.error(err)
     return
@@ -42,6 +63,8 @@ export async function cmdDryRun ({
     tempTestFile = getTestFile({ ...ctx, ...ctxOverride })
   }
   catch (err) {
+    result.failed++
+    result.failList.push(ctx.targetRelative)
     console.error('  ❌ Failed getTestFile() test (threw an error)')
     console.error(err)
     fse.unlinkSync(testFilePath)
@@ -51,6 +74,8 @@ export async function cmdDryRun ({
   try {
     const { errors, warnings } = tempTestFile.getMisconfiguration()
     if (errors.length !== 0 || warnings.length !== 0) {
+      result.failed++
+      result.failList.push(ctx.targetRelative)
       console.error('  ❌ Failed getMisconfiguration() test')
       console.error('errors', errors)
       console.error('warnings', warnings)
@@ -59,6 +84,8 @@ export async function cmdDryRun ({
     }
   }
   catch (err) {
+    result.failed++
+    result.failList.push(ctx.targetRelative)
     console.error('  ❌ Failed getMisconfiguration() test (threw an error)')
     console.error(err)
     fse.unlinkSync(testFilePath)
@@ -68,6 +95,8 @@ export async function cmdDryRun ({
   try {
     const missingTests = tempTestFile.getMissingTests()
     if (missingTests !== null) {
+      result.failed++
+      result.failList.push(ctx.targetRelative)
       console.error('  ❌ Failed getMissingTests() test')
       console.log(missingTests)
       fse.unlinkSync(testFilePath)
@@ -75,12 +104,15 @@ export async function cmdDryRun ({
     }
   }
   catch (err) {
+    result.failed++
+    result.failList.push(ctx.targetRelative)
     console.error('  ❌ Failed getMissingTests() test (threw an error)')
     console.error(err)
     fse.unlinkSync(testFilePath)
     return
   }
 
+  result.passed++
   fse.unlinkSync(testFilePath)
   console.log('  ✅ Passed')
 }
