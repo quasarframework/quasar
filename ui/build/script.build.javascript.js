@@ -274,6 +274,23 @@ const runBuild = {
     require('./build.types').generate({ api, quasarLangIndex })
   },
 
+  async fast () { // does NOT builds types
+    require('./build.transforms').generate({ compact: true })
+    require('./build.icon-sets').generate()
+
+    addUmdAssets(builds, 'lang', 'Lang')
+    addUmdAssets(builds, 'icon-set', 'IconSet', true)
+
+    build(builds)
+
+    const api = await require('./build.api').generate({ compact: true })
+
+    require('./build.vetur').generate({ api, compact: true })
+    require('./build.web-types').generate({ api, compact: true })
+
+    await require('./build.lang').generate()
+  },
+
   async types () {
     prepareDiff('dist/types/index.d.ts')
 
