@@ -56,7 +56,7 @@ function createValueTest ({
     return `test('as ${ type }', () => {
       const TestComponent = defineComponent({
         template: '<div v-${ kebabCase(ctx.pascalName) }${ exists ? '="val"' : '' }></div>',
-        directives: { ${ ctx.pascalName } }${ exists ? `
+        directives: { ${ ctx.pascalName } }${ exists ? `,
         setup () {
           return {
             val: ${ value }
@@ -128,6 +128,7 @@ export default {
     return [
       'import { mount } from \'@vue/test-utils\'',
       'import { describe, test, expect } from \'vitest\'',
+      'import { defineComponent } from \'vue\'',
       '',
       `import ${ ctx.pascalName } from './${ ctx.localName }'`
     ].join('\n')

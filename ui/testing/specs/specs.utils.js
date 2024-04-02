@@ -505,7 +505,7 @@ export function $toBeOneOfTypes (received, typeOfList) {
  *
  *    expect(target).$objectWithEachKeyContaining({
  *      one: expect.any(Number),
- *      two: expect.any(Number)
+ *      // ...
  *    })
  */
 export function $objectWithEachKeyContaining (received, keyObjectMatch) {
