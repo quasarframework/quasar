@@ -260,8 +260,8 @@ const runBuild = {
     require('./build.transforms').generate({ compact: true })
     require('./build.icon-sets').generate()
 
-    addUmdAssets(builds, 'lang', 'lang')
-    addUmdAssets(builds, 'icon-set', 'iconSet', true)
+    addUmdAssets(builds, 'lang', 'Lang')
+    addUmdAssets(builds, 'icon-set', 'IconSet', true)
 
     build(builds)
 

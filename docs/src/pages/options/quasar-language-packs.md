@@ -1,6 +1,7 @@
 ---
 title: Quasar Language Packs
 desc: How to configure the Quasar language packs in a Quasar app.
+keys: Lang,lang
 related:
   - /options/rtl-support
   - /options/app-internationalization
@@ -75,7 +76,7 @@ Include the language pack JS tag for your Quasar version and also tell Quasar to
 <!-- include this after Quasar JS tag -->
 <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/de.umd.prod.js"></script>
 <script>
-  Quasar.lang.set(Quasar.lang.de)
+  Quasar.Lang.set(Quasar.Lang.de)
 </script>
 ```
 
@@ -86,7 +87,7 @@ Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (e
 
 ```tabs
 <<| js With @quasar/app-vite |>>
-import { Quasar } from 'quasar'
+import { Lang } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
@@ -99,7 +100,7 @@ export default async () => {
 
   try {
     langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
-      Quasar.lang.set(lang.default)
+      Lang.set(lang.default)
     })
   }
   catch (err) {
@@ -108,7 +109,7 @@ export default async () => {
   }
 }
 <<| js With @quasar/app-webpack |>>
-import { Quasar } from 'quasar'
+import { Lang } from 'quasar'
 
 export default async () => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
@@ -118,7 +119,7 @@ export default async () => {
       /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
     ).then(lang => {
-      Quasar.lang.set(lang.default)
+      Lang.set(lang.default)
     })
   }
   catch (err) {
@@ -145,7 +146,7 @@ When dealing with SSR, we can't use singleton objects because that would pollute
 
 ```tabs
 <<| js With @quasar/app-vite |>>
-import { Quasar } from 'quasar'
+import { Lang } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
@@ -159,7 +160,7 @@ export default async ({ ssrContext }) => {
 
   try {
     langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
-      Quasar.lang.set(lang.default, ssrContext)
+      Lang.set(lang.default, ssrContext)
     })
   }
   catch (err) {
@@ -168,7 +169,7 @@ export default async ({ ssrContext }) => {
   }
 }
 <<| js With @quasar/app-webpack |>>
-import { Quasar } from 'quasar'
+import { Lang } from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
@@ -179,7 +180,7 @@ export default async ({ ssrContext }) => {
       /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
     ).then(lang => {
-      Quasar.lang.set(lang.default, ssrContext)
+      Lang.set(lang.default, ssrContext)
     })
   }
   catch (err) {
@@ -259,8 +260,8 @@ There's also a method to determine user locale which is supplied by Quasar out o
 
 ```js
 // outside of a Vue file
-import { Quasar } from 'quasar'
-Quasar.lang.getLocale() // returns a string
+import { Lang } from 'quasar'
+Lang.getLocale() // returns a string
 
 // inside of a Vue file
 import { useQuasar } from 'quasar'

@@ -6,8 +6,9 @@ import Cookies from './plugins/cookies/Cookies.js'
 import Dark from './plugins/dark/Dark.js'
 import Dialog from './plugins/dialog/Dialog.js'
 import IconSet from './plugins/icon-set/IconSet.js'
-import LoadingBar from './plugins/loading-bar/LoadingBar.js'
+import Lang from './plugins/lang/Lang.js'
 import Loading from './plugins/loading/Loading.js'
+import LoadingBar from './plugins/loading-bar/LoadingBar.js'
 import Meta from './plugins/meta/Meta.js'
 import Notify from './plugins/notify/Notify.js'
 import Platform from './plugins/platform/Platform.js'
@@ -24,8 +25,9 @@ export {
   Dark,
   Dialog,
   IconSet,
-  LoadingBar,
+  Lang,
   Loading,
+  LoadingBar,
   Meta,
   Notify,
   Platform,

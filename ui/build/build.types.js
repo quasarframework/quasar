@@ -553,11 +553,14 @@ function getIndexDts (apis, quasarLangIndex) {
       // Example: $q.dialog -> target: $q, property: dialog
       const [ target, property ] = content.injection.split('.')
 
-      if (!injections[ target ]) {
-        injections[ target ] = []
-      }
+      // should not be the following; they are declared separately in globals.d.ts
+      if ([ 'iconSet', 'lang' ].includes(property) === false) {
+        if (!injections[ target ]) {
+          injections[ target ] = []
+        }
 
-      injections[ target ].push(getInjectionDefinition(property, content, typeName))
+        injections[ target ].push(getInjectionDefinition(property, content, typeName))
+      }
     }
   })
 

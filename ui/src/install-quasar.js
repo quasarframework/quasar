@@ -5,7 +5,7 @@ import Screen from './plugins/screen/Screen.js'
 import Dark from './plugins/dark/Dark.js'
 import Body from './plugins/private.body/Body.js'
 import History from './plugins/private.history/History.js'
-import Lang from './plugins/private.lang/Lang.js'
+import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'
 
 import { quasarKey } from './utils/private/symbols.js'

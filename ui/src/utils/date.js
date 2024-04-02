@@ -3,7 +3,7 @@
 import { isDate } from './is.js'
 import { pad, capitalize } from './format.js'
 import { jalaaliMonthLength } from './private/date-persian.js'
-import Lang, { defaultLang } from '../plugins/private.lang/Lang.js'
+import Lang, { defaultLang } from '../plugins/lang/Lang.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,

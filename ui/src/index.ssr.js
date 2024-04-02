@@ -3,7 +3,7 @@
  */
 
 import installQuasar from './install-quasar.js'
-import lang from './plugins/private.lang/Lang.js'
+import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'
 
 import * as components from './components.js'
@@ -26,8 +26,11 @@ export const Quasar = {
     )
   },
 
-  lang,
+  // TODO: remove in Qv3 (should only be used through the plugin)
+  // We provide a deprecated fallback here
+  lang: Lang,
 
   // TODO: remove in Qv3 (should only be used through the plugin)
+  // We provide a deprecated fallback here
   iconSet: IconSet
 }
