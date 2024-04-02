@@ -20,7 +20,7 @@ interface QuasarLanguageInstance extends QuasarLanguage {
 
 export interface GlobalQuasarLanguage extends QuasarLanguageInstance {
   set(lang: QuasarLanguage): void;
-  /** Returns undefined when it cannot determine current language or when running on server in SSR mode. */
+  /** Returns undefined when it cannot determine current browser locale or when running on server in SSR mode. */
   getLocale(): string | undefined;
 }
 
