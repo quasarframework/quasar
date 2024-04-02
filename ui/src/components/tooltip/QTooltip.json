@@ -70,7 +70,6 @@
       "type": [ "Boolean", "String" ],
       "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
       "default": "true",
-      "values": [ "true", "false", "# CSS selector" ],
       "examples": [ "# :target=\"false\"", "# target=\".my-parent\"" ],
       "category": "behavior"
     },
