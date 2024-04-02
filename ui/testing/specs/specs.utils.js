@@ -519,7 +519,7 @@ export function $objectWithEachKeyContaining (received, keyObjectMatch) {
     message: () =>
       `expected ${ this.utils.printReceived(
         received
-      ) } to${ this.isNot ? ' not' : '' }  have each key-value in the form defined by ${ this.utils.printExpected(
+      ) } to${ this.isNot ? ' not' : '' } have each key-value in the form defined by ${ this.utils.printExpected(
         keyObjectMatch
       ) }`
   }

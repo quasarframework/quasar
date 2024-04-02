@@ -142,11 +142,21 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
     )
   }
 
-  const { identifiers } = generator
-  const categoryList = Object.keys(identifiers)
-    .map(key => identifiers[ key ].categoryId)
+  if (tree.children === null) {
+    errors.push(
+      `Found empty describe('${ testTreeRootId }'). Delete the file and generate it again.`
+    )
+    return { errors, warnings }
+  }
 
-  const categoryTestIdMap = Object.keys(identifiers).reduce(
+  const { identifiers } = generator
+  const identifiersKeys = Object.keys(identifiers)
+
+  const categoryList = identifiersKeys
+    .map(key => identifiers[ key ].categoryId)
+    .concat('[Generic]')
+
+  const categoryTestIdMap = identifiersKeys.reduce(
     (acc, key) => {
       const entry = identifiers[ key ]
       if (entry.getTestId !== void 0) {
@@ -156,13 +166,6 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
     },
     {}
   )
-
-  if (tree.children === null) {
-    errors.push(
-      `Found empty describe('${ testTreeRootId }'). Delete the file and generate it again.`
-    )
-    return { errors, warnings }
-  }
 
   Object.keys(tree.children).forEach(categoryId => {
     const { type } = tree.children[ categoryId ]
@@ -320,6 +323,7 @@ function createTestFileContent ({ ctx, json, generator }) {
 
   const { identifiers, getFileHeader } = generator
 
+  let hasIdentifier = false
   let acc = getFileHeader({ ctx, json })
     + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
 
@@ -327,6 +331,7 @@ function createTestFileContent ({ ctx, json, generator }) {
     const categoryJson = json[ jsonKey ]
     if (categoryJson === void 0) return
 
+    hasIdentifier = true
     const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
 
     if (getTestId === void 0) {
@@ -358,6 +363,15 @@ function createTestFileContent ({ ctx, json, generator }) {
       acc += '  })\n'
     }
   })
+
+  if (hasIdentifier === false) {
+    acc += `\n  describe('[Generic]', () => {
+    test('generic', () => {
+      // TODO: write a generic test
+      expect(true).toBe(true)
+    })
+  })\n`
+  }
 
   return acc + '})\n'
 }
