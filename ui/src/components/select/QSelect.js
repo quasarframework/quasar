@@ -117,6 +117,12 @@ export default createComponent({
       default: 'default'
     },
 
+    dialogPosition: {
+      type: String,
+      validator: v => [ 'standard', 'top', 'bottom', 'right', 'left' ].includes(v),
+      default: 'standard'
+    },
+
     virtualScrollItemSize: {
       type: [ Number, String ],
       default: void 0
@@ -1261,7 +1267,7 @@ export default createComponent({
       return h(QDialog, {
         ref: dialogRef,
         modelValue: dialog.value,
-        position: props.useInput === true ? 'top' : void 0,
+        position: props.dialogPosition,
         transitionShow: transitionShowComputed,
         transitionHide: props.transitionHide,
         transitionDuration: props.transitionDuration,
