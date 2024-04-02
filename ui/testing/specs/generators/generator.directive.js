@@ -6,11 +6,6 @@ import {
 } from '../specs.utils.js'
 
 const identifiers = {
-  quasarConfOptions: {
-    categoryId: '[QuasarConfOptions]',
-    createTestFn: createQuasarConfOptions
-  },
-
   value: {
     categoryId: '[Value]',
     createTestFn: createValueTest
@@ -26,16 +21,6 @@ const identifiers = {
     getTestId: name => `[(modifier)${ name }]`,
     createTestFn: createModifierTest
   }
-}
-
-function createQuasarConfOptions ({ categoryId, _jsonEntry, _ctx }) {
-  // TODO: implement
-  return `
-  describe('${ categoryId }', () => {
-    test('definition', () => {
-      //
-    })
-  })\n`
 }
 
 function createValueTest ({

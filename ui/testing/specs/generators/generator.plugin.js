@@ -10,11 +10,6 @@ const identifiers = {
     createTestFn: createInjection
   },
 
-  quasarConfOptions: {
-    categoryId: '[QuasarConfOptions]',
-    createTestFn: createQuasarConfOptions
-  },
-
   props: {
     categoryId: '[Props]',
     getTestId: name => `[(prop)${ name }]`,
@@ -64,16 +59,6 @@ function createInjection ({ categoryId, jsonEntry, json, ctx }) {
       )
 
       ${ testType }
-    })
-  })\n`
-}
-
-function createQuasarConfOptions ({ categoryId, _jsonEntry, _ctx }) {
-  // TODO: implement
-  return `
-  describe('${ categoryId }', () => {
-    test.todo('definition', () => {
-      //
     })
   })\n`
 }

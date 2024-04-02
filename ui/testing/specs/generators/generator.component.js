@@ -14,11 +14,6 @@ import {
 } from '../specs.utils.js'
 
 const identifiers = {
-  quasarConfOptions: {
-    categoryId: '[QuasarConfOptions]',
-    createTestFn: createQuasarConfOptions
-  },
-
   props: {
     categoryId: '[Props]',
     getTestId: name => `[(prop)${ name }]`,
@@ -52,16 +47,6 @@ const identifiers = {
     getTestId: name => `[(computedProp)${ name }]`,
     createTestFn: createComputedPropTest
   }
-}
-
-function createQuasarConfOptions ({ categoryId, _jsonEntry, _ctx }) {
-  // TODO: implement
-  return `
-  describe('${ categoryId }', () => {
-    test('definition', () => {
-      //
-    })
-  })\n`
 }
 
 function getPropTest ({ name, jsonEntry, json, ctx }) {
