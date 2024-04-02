@@ -12,7 +12,7 @@ export async function cmdCreateTestFile ({
   const { action } = await prompts({
     type: 'select',
     name: 'action',
-    message: `🔥 Missing spec file for "${ ctx.targetRelative }":`,
+    message: `🔥 Missing test file for "${ ctx.targetRelative }":`,
     initial: 0,
     choices: [
       { title: 'Skip', value: 'skip' },

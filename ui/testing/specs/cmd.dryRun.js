@@ -38,8 +38,6 @@ export async function cmdDryRun ({
     })
   }
 
-  console.log(`\n  🍕 Testing ${ ctx.targetRelative }:`)
-
   let testFileContent
   try {
     testFileContent = testFile.createContent()
@@ -47,7 +45,7 @@ export async function cmdDryRun ({
   catch (err) {
     result.failed++
     result.failList.push(ctx.targetRelative)
-    console.error('  ❌ Failed createContent() test (threw an error)')
+    console.error(`\n  ❌ Failed ${ ctx.targetRelative }: createContent() threw an error`)
     console.error(err)
     return
   }
@@ -65,7 +63,7 @@ export async function cmdDryRun ({
   catch (err) {
     result.failed++
     result.failList.push(ctx.targetRelative)
-    console.error('  ❌ Failed getTestFile() test (threw an error)')
+    console.error(`\n  ❌ Failed ${ ctx.targetRelative }: getTestFile() threw an error`)
     console.error(err)
     fse.unlinkSync(testFilePath)
     return
@@ -76,7 +74,7 @@ export async function cmdDryRun ({
     if (errors.length !== 0 || warnings.length !== 0) {
       result.failed++
       result.failList.push(ctx.targetRelative)
-      console.error('  ❌ Failed getMisconfiguration() test')
+      console.error(`\n  ❌ Failed ${ ctx.targetRelative }: getMisconfiguration()`)
       console.error('errors', errors)
       console.error('warnings', warnings)
       fse.unlinkSync(testFilePath)
@@ -86,7 +84,7 @@ export async function cmdDryRun ({
   catch (err) {
     result.failed++
     result.failList.push(ctx.targetRelative)
-    console.error('  ❌ Failed getMisconfiguration() test (threw an error)')
+    console.error(`\n  ❌ Failed ${ ctx.targetRelative }: getMisconfiguration() threw an error`)
     console.error(err)
     fse.unlinkSync(testFilePath)
     return
@@ -97,8 +95,8 @@ export async function cmdDryRun ({
     if (missingTests !== null) {
       result.failed++
       result.failList.push(ctx.targetRelative)
-      console.error('  ❌ Failed getMissingTests() test')
-      console.log(missingTests)
+      console.error(`\n  ❌ Failed ${ ctx.targetRelative }: getMissingTests()`)
+      console.error(missingTests)
       fse.unlinkSync(testFilePath)
       return
     }
@@ -106,7 +104,7 @@ export async function cmdDryRun ({
   catch (err) {
     result.failed++
     result.failList.push(ctx.targetRelative)
-    console.error('  ❌ Failed getMissingTests() test (threw an error)')
+    console.error(`\n  ❌ Failed ${ ctx.targetRelative }: getMissingTests() threw an error`)
     console.error(err)
     fse.unlinkSync(testFilePath)
     return
@@ -114,5 +112,4 @@ export async function cmdDryRun ({
 
   result.passed++
   fse.unlinkSync(testFilePath)
-  console.log('  ✅ Passed')
 }

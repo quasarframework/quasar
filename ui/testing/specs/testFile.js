@@ -9,6 +9,8 @@ const ignoreCommentLineMaxLen = 100
 const ignoreCommentRE = /^(\/\*.*\n\s*\*\s*Ignored specs:\s*\n.+\n\s*\*\/\s*\n?\n?)/s
 const ignoreCommentEntryRE = /(\[[^\]]+\])/g
 
+const NO_ASSOCIATED_JSON = '/* No associated JSON so we cannot generate anything */'
+
 function getIgnoreCommentIds (ignoreComment) {
   if (ignoreComment === void 0) return []
 
@@ -103,10 +105,14 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
   if (content === null) return { errors, warnings }
 
   if (Object.keys(testTree).length !== 1) {
-    errors.push(
-      'Should only have one (and only one) root describe(),'
-      + ` which should be: describe('${ testTreeRootId }')`
-    )
+    const msg = content === NO_ASSOCIATED_JSON
+      ? 'No associated JSON so nothing was generated'
+      : (
+          'Should only have one (and only one) root describe(),'
+          + ` which should be: describe('${ testTreeRootId }')`
+        )
+
+    errors.push(msg)
 
     // early exit... this is fatal
     return { errors, warnings }
@@ -310,7 +316,7 @@ function generateTestFileSection ({ ctx, generator, json, jsonPath }) {
 }
 
 function createTestFileContent ({ ctx, json, generator }) {
-  if (json === void 0) return '/* no associated JSON so we cannot generate anything */'
+  if (json === void 0) return NO_ASSOCIATED_JSON
 
   const { identifiers, getFileHeader } = generator
 
