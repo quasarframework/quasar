@@ -1,7 +1,7 @@
 import { config } from '@vue/test-utils'
 import { expect } from 'vitest'
 
-import { $toBeOneOfTypes } from './specs/specs.utils.js'
+import { $toBeOneOfTypes, $objectWithEachKeyContaining } from './specs/specs.utils.js'
 
 import '@quasar/extras/material-icons/material-icons.css'
 import '../src/css/index.sass'
@@ -28,5 +28,6 @@ config.plugins.DOMWrapper.install(wrapper => {
 window.scrollTo = () => {}
 
 expect.extend({
-  $toBeOneOfTypes
+  $toBeOneOfTypes,
+  $objectWithEachKeyContaining
 })

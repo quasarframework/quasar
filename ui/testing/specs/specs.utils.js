@@ -252,7 +252,7 @@ function getObjectEqualDefValueTest (type, target, indent) {
     const definition = target.definition || target.scope
     if (definition !== void 0) {
       return Object.keys(definition).includes('...key') === true
-        ? 'expect.anything()'
+        ? `expect.$objectWithEachKeyContaining(${ getObjectEqualDef(definition[ '...key' ].definition, indent) })`
         : `expect.objectContaining(${ getObjectEqualDef(definition, indent) })`
     }
   }
@@ -266,13 +266,9 @@ function getObjectEqualDef (definition, localIndent) {
     .map(key => {
       const target = definition[ key ]
 
-      let type = Array.isArray(target.type)
+      const type = Array.isArray(target.type) === true
         ? target.type[ 0 ]
         : target.type
-
-      if (type.startsWith('Promise') === true) {
-        type = 'Promise'
-      }
 
       const valueTest = getObjectEqualDefValueTest(type, target, localIndent + '  ')
 
@@ -472,21 +468,59 @@ export function getExpectOneOfTypes ({ jsonEntry, ref }) {
   return acc
 }
 
-// expect matcher
-export function $toBeOneOfTypes (actual, typeOfList) {
-  if (Array.isArray(typeOfList) === false) {
+/**
+ * Expect matcher
+ * @example: expect(target).$toBeOneOfTypes([ 'RegExp', 'String' ])
+ */
+export function $toBeOneOfTypes (received, typeOfList) {
+  if (
+    Array.isArray(typeOfList) === false
+    || typeOfList.some(type => typeof type !== 'string')
+  ) {
     throw new TypeError('The second argument must be an array of strings!')
   }
 
-  const pass = typeOfList.some(type => defTypeMap[ type ]?.runtimeValueTest(actual) === true)
+  const pass = typeOfList.some(type => defTypeMap[ type ]?.runtimeValueTest(received) === true)
 
   return {
     pass,
     message: () =>
       `expected ${ this.utils.printReceived(
-        actual
-      ) } to be one of types: ${ this.utils.printExpected(
+        received
+      ) } to${ this.isNot ? ' not' : '' } be one of types: ${ this.utils.printExpected(
         typeOfList.join(' or ')
+      ) }`
+  }
+}
+
+/**
+ * Expect matcher (mainly for asymmetric matching)
+ * @example:
+ *    expect(target).toEqual(
+ *      expect.$objectWithEachKeyContaining({
+ *        one: expect.any(Number),
+ *        // ...
+ *      })
+ *    )
+ *
+ *    expect(target).$objectWithEachKeyContaining({
+ *      one: expect.any(Number),
+ *      two: expect.any(Number)
+ *    })
+ */
+export function $objectWithEachKeyContaining (received, keyObjectMatch) {
+  const pass = (
+    typeof received === 'object'
+    && Object.keys(received).every(key => this.equals(received[ key ], keyObjectMatch))
+  )
+
+  return {
+    pass,
+    message: () =>
+      `expected ${ this.utils.printReceived(
+        received
+      ) } to${ this.isNot ? ' not' : '' }  have each key-value in the form defined by ${ this.utils.printExpected(
+        keyObjectMatch
       ) }`
   }
 }

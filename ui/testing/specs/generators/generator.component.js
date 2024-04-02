@@ -147,10 +147,7 @@ function getSlotScope (jsonEntry) {
       + `\n${ testIndent }      return slotContent`
       + `\n${ testIndent }    }`,
 
-    scopeTests: (
-      `\n\n${ testIndent }`
-      + expectType('slotScope')
-    )
+    scopeTests: `\n\n${ testIndent }${ expectType('slotScope') }`
   }
 }
 
