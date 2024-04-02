@@ -6,7 +6,7 @@ import Dark from './plugins/dark/Dark.js'
 import Body from './plugins/private.body/Body.js'
 import History from './plugins/private.history/History.js'
 import Lang from './plugins/private.lang/Lang.js'
-import IconSet from './plugins/private.icon-set/IconSet.js'
+import IconSet from './plugins/icon-set/IconSet.js'
 
 import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
