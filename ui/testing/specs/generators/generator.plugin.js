@@ -126,18 +126,15 @@ export default {
   getJson: readAssociatedJsonFile,
   getFileHeader: ({ ctx, json }) => {
     const acc = [
-      'import { describe, test, expect } from \'vitest\''
+      'import { describe, test, expect } from \'vitest\'',
+      'import { mount } from \'@vue/test-utils\'',
+      'import { defineComponent } from \'vue\''
     ]
 
-    const vueImports = []
     const quasarImports = []
 
     if (json.injection !== void 0) {
       quasarImports.push('useQuasar')
-      vueImports.push('defineComponent')
-      acc.push(
-        'import { mount } from \'@vue/test-utils\''
-      )
     }
 
     if (
@@ -153,15 +150,12 @@ export default {
       )
     }
 
-    if (vueImports.length !== 0) {
-      acc.push(
-        `import { ${ vueImports.join(', ') } } from 'vue'`
-      )
-    }
-
     acc.push(
       '',
-      `import ${ ctx.pascalName } from './${ ctx.localName }'`
+      `import ${ ctx.pascalName } from './${ ctx.localName }'`,
+      '',
+      '// ensure the Quasar plugin gets installed:',
+      'mount(defineComponent({ template: \'<div />\' }))'
     )
 
     return acc.join('\n')
