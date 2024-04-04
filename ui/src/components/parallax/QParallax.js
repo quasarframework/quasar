@@ -31,8 +31,6 @@ export default createComponent({
     onScroll: Function
   },
 
-  emits: [ 'scroll' ],
-
   setup (props, { slots, emit }) {
     const percentScrolled = ref(0)
     const rootRef = ref(null)
