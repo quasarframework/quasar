@@ -58,7 +58,7 @@ const typeMap = {
           return `\n${ keyIndent }${ key }: ${ val }`
         })
 
-      return `[{${ list.join(',') }\n${ indent }}]`
+      return `[ {${ list.join(',') }\n${ indent }} ]`
     },
     createExpectCall: ({ jsonEntry, ref }) => (
       jsonEntry.definition === void 0
@@ -316,7 +316,7 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
   const innerIndent = indent + '  '
 
   if (jsonEntry.values !== void 0) {
-    const lines = jsonEntry.values.join(`,\n${ indent }`)
+    const lines = jsonEntry.values.join(`,\n${ innerIndent }`)
     return `expect.$any([\n${ innerIndent }${ lines }\n${ indent }])`
   }
 
@@ -399,7 +399,7 @@ export function getTypeTest ({ jsonEntry, ref }) {
     return target.createExpectCall({ jsonEntry, ref })
   }
 
-  return `expect(${ ref }).$any([${ getExpectMatcher(jsonEntry) }])`
+  return `expect(${ ref }).$any([ ${ getExpectMatcher(jsonEntry) } ])`
 }
 
 const defTypeTestableValueKeyList = Object.keys(typeMap)
@@ -485,8 +485,8 @@ export function getFunctionCallTest ({ jsonEntry, ref, indent = testIndent }) {
       ref: callRef
     })
 
-    return `\n${ indent }${ returnTypeTest }`
+    return `${ returnTypeTest }`
   }
 
-  return `\n${ indent }expect(${ callRef }).toBeUndefined()`
+  return `expect(${ callRef }).toBeUndefined()`
 }

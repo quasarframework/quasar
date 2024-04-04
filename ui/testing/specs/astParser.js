@@ -5,6 +5,29 @@ const astNodeTypes = [
   'VariableDeclaration', 'ClassDeclaration', 'FunctionDeclaration'
 ]
 
+function getParams (params, targetContent) {
+  const list = params.map(param => {
+    const content = targetContent.slice(param.start, param.end)
+
+    if (/^([{[]) .* $1}$/.test(content) === true) {
+      return content
+    }
+
+    const equalIndex = content.lastIndexOf('=')
+
+    if (equalIndex !== -1) {
+      const name = content.substring(0, equalIndex).trim()
+      const value = content.substring(equalIndex + 2).trim()
+
+      return `/* ${ name.trim() } */ ${ value.trim() }`
+    }
+
+    return content
+  })
+
+  return list.join(', ') || ''
+}
+
 function parseVar ({ accessor, isExported = false }) {
   return {
     jsonKey: 'variables',
@@ -17,16 +40,14 @@ function parseVar ({ accessor, isExported = false }) {
 
 function parseClass ({ declaration, accessor, targetContent, isExported = false }) {
   const constructorEntry = declaration.body.body.find(entry => entry.kind === 'constructor')
-  const params = constructorEntry?.value.params
-    .map(param => targetContent.slice(param.start, param.end))
-    .join(', ')
+  const params = getParams(constructorEntry?.value.params, targetContent)
 
   return {
     jsonKey: 'classes',
     isExported,
     def: {
       accessor,
-      constructorParams: params || ''
+      constructorParams: params
     }
   }
 }
@@ -37,9 +58,7 @@ function parseFunction ({ declaration, accessor, targetContent, isExported = fal
     isExported,
     def: {
       accessor,
-      params: declaration.params
-        .map(param => targetContent.slice(param.start, param.end))
-        .join(', ')
+      params: getParams(declaration.params, targetContent)
     }
   }
 }
