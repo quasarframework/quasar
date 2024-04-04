@@ -464,7 +464,8 @@
           "desc": "Notification options except 'ignoreDefaults' (See 'opts' param of 'create()' for object properties)",
           "__exemption": [ "definition" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "registerType": {
@@ -484,7 +485,8 @@
           "desc": "Notification options except 'ignoreDefaults' (See 'opts' param of 'create()' for object properties)",
           "__exemption": [ "definition" ]
         }
-      }
+      },
+      "returns": null
     }
   }
 }

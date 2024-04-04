@@ -254,11 +254,15 @@
 
   "methods": {
     "set": {
-      "desc": "Trigger a model update; Validates model (and emits 'save' event if it's the case) then closes Popup"
+      "desc": "Trigger a model update; Validates model (and emits 'save' event if it's the case) then closes Popup",
+      "params": null,
+      "returns": null
     },
 
     "cancel": {
-      "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup"
+      "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup",
+      "params": null,
+      "returns": null
     },
 
     "show": {
@@ -270,7 +274,9 @@
     },
 
     "updatePosition": {
-      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+      "params": null,
+      "returns": null
     }
   }
 }

@@ -94,6 +94,7 @@
 
     "stop": {
       "desc": "Notify bar that one process you were waiting has finished",
+      "params": null,
       "returns": {
         "type": "Number",
         "desc": "Number of active simultaneous sessions"

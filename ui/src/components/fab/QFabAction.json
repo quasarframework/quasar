@@ -59,7 +59,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "returns": null
     }
   }
 }

@@ -104,19 +104,26 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus underlying input tag"
+      "desc": "Focus underlying input tag",
+      "params": null,
+      "returns": null
     },
 
     "blur": {
-      "desc": "Lose focus on underlying input tag"
+      "desc": "Lose focus on underlying input tag",
+      "params": null,
+      "returns": null
     },
 
     "select": {
-      "desc": "Select input text"
+      "desc": "Select input text",
+      "params": null,
+      "returns": null
     },
 
     "getNativeElement": {
       "desc": "DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element",
+      "params": null,
       "returns": {
         "type": "Element",
         "tsType": "QInputNativeElement",

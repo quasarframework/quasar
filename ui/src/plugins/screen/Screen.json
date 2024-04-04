@@ -171,7 +171,8 @@
           },
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "setDebounce": {
@@ -182,7 +183,8 @@
           "desc": "Amount in milliseconds",
           "required": true
         }
-      }
+      },
+      "returns": null
     }
   }
 }

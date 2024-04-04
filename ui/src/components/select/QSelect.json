@@ -642,15 +642,21 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus component"
+      "desc": "Focus component",
+      "params": null,
+      "returns": null
     },
 
     "showPopup": {
-      "desc": "Focus and open popup"
+      "desc": "Focus and open popup",
+      "params": null,
+      "returns": null
     },
 
     "hidePopup": {
-      "desc": "Hide popup"
+      "desc": "Hide popup",
+      "params": null,
+      "returns": null
     },
 
     "removeAtIndex": {
@@ -661,7 +667,8 @@
           "required": true,
           "desc": "Index at which to remove selection"
         }
-      }
+      },
+      "returns": null
     },
 
     "add": {
@@ -676,7 +683,8 @@
           "type": "Boolean",
           "desc": "Option must be unique"
         }
-      }
+      },
+      "returns": null
     },
 
     "toggleOption": {
@@ -691,11 +699,13 @@
           "type": "Boolean",
           "desc": "Don't close the menu and do not clear the filter"
         }
-      }
+      },
+      "returns": null
     },
 
     "getOptionIndex": {
       "desc": "Gets current focused option index from menu; It's -1 if no option is focused",
+      "params": null,
       "returns": {
         "type": "Number",
         "desc": "Index of option from menu; It's -1 if no option is focused"
@@ -711,7 +721,8 @@
           "required": true,
           "desc": "Index of option from menu; -1 to focus none"
         }
-      }
+      },
+      "returns": null
     },
 
     "moveOptionSelection": {
@@ -726,7 +737,8 @@
           "type": "Boolean",
           "desc": "Don't set input-value on navigation"
         }
-      }
+      },
+      "returns": null
     },
 
     "filter": {
@@ -738,11 +750,14 @@
           "desc": "String to filter with",
           "examples": [ "'car'" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "updateMenuPosition": {
-      "desc": "Recomputes menu position"
+      "desc": "Recomputes menu position",
+      "params": null,
+      "returns": null
     },
 
     "updateInputValue": {
@@ -758,7 +773,8 @@
           "type": "Boolean",
           "desc": "Set to true if you don't want the filter (if any) to be also triggered"
         }
-      }
+      },
+      "returns": null
     },
 
     "isOptionSelected": {

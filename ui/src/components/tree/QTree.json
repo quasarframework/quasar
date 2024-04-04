@@ -442,6 +442,7 @@
 
     "getTickedNodes": {
       "desc": "Get array of nodes that are ticked",
+      "params": null,
       "returns": {
         "type": "Array",
         "desc": "Ticked node objects"
@@ -450,6 +451,7 @@
 
     "getExpandedNodes": {
       "desc": "Get array of nodes that are expanded",
+      "params": null,
       "returns": {
         "type": "Array",
         "desc": "Expanded node objects"
@@ -473,11 +475,15 @@
     },
 
     "expandAll": {
-      "desc": "Use to expand all branches of the tree"
+      "desc": "Use to expand all branches of the tree",
+      "params": null,
+      "returns": null
     },
 
     "collapseAll": {
-      "desc": "Use to collapse all branches of the tree"
+      "desc": "Use to collapse all branches of the tree",
+      "params": null,
+      "returns": null
     },
 
     "setExpanded": {
@@ -494,7 +500,8 @@
           "required": true,
           "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it"
         }
-      }
+      },
+      "returns": null
     },
 
     "isTicked": {
@@ -527,7 +534,8 @@
           "required": true,
           "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them"
         }
-      }
+      },
+      "returns": null
     }
   }
 }

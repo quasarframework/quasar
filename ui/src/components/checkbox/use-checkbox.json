@@ -130,7 +130,9 @@
 
   "methods": {
     "toggle": {
-      "desc": "Toggle the state (of the model)"
+      "desc": "Toggle the state (of the model)",
+      "params": null,
+      "returns": null
     }
   },
 

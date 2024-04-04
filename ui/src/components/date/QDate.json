@@ -380,7 +380,9 @@
 
   "methods": {
     "setToday": {
-      "desc": "Change model to today"
+      "desc": "Change model to today",
+      "params": null,
+      "returns": null
     },
 
     "setView": {
@@ -392,7 +394,8 @@
           "desc": "QDate view name",
           "values": [ "'Calendar'", "'Months'", "'Years'" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "offsetCalendar": {
@@ -408,7 +411,8 @@
           "type": "Boolean",
           "desc": "Decrement?"
         }
-      }
+      },
+      "returns": null
     },
 
     "setCalendarTo": {
@@ -422,7 +426,8 @@
           "type": "Number",
           "desc": "The month"
         }
-      }
+      },
+      "returns": null
     },
 
     "setEditingRange": {
@@ -464,7 +469,8 @@
             }
           }
         }
-      }
+      },
+      "returns": null
     }
   }
 }

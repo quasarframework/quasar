@@ -2144,7 +2144,8 @@
             }
           }
         }
-      }
+      },
+      "returns": null
     },
 
     "setPagination": {
@@ -2178,23 +2179,32 @@
           "type": "Boolean",
           "desc": "Also force a server request"
         }
-      }
+      },
+      "returns": null
     },
 
     "firstPage": {
-      "desc": "Navigates to first page"
+      "desc": "Navigates to first page",
+      "params": null,
+      "returns": null
     },
 
     "prevPage": {
-      "desc": "Navigates to previous page, if available"
+      "desc": "Navigates to previous page, if available",
+      "params": null,
+      "returns": null
     },
 
     "nextPage": {
-      "desc": "Navigates to next page, if available"
+      "desc": "Navigates to next page, if available",
+      "params": null,
+      "returns": null
     },
 
     "lastPage": {
-      "desc": "Navigates to last page"
+      "desc": "Navigates to last page",
+      "params": null,
+      "returns": null
     },
 
     "isRowSelected": {
@@ -2214,7 +2224,9 @@
     },
 
     "clearSelection": {
-      "desc": "Clears user selection (emits 'update:selected' with empty array)"
+      "desc": "Clears user selection (emits 'update:selected' with empty array)",
+      "params": null,
+      "returns": null
     },
 
     "isRowExpanded": {
@@ -2242,7 +2254,8 @@
           "desc": "Array containing keys of the expanded rows",
           "examples": [ "[ 'row-a', 'row-b' ]" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "sort": {
@@ -2254,15 +2267,20 @@
           "desc": "Column name or column definition object",
           "examples": [ "'calories'" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "toggleFullscreen": {
-      "desc": "Toggles fullscreen mode"
+      "desc": "Toggles fullscreen mode",
+      "params": null,
+      "returns": null
     },
 
     "resetVirtualScroll": {
-      "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases"
+      "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases",
+      "params": null,
+      "returns": null
     },
 
     "scrollTo": {
@@ -2279,7 +2297,8 @@
           "values": [ "'start'", "'center'", "'end'", "'start-force'", "'center-force'", "'end-force'" ],
           "default": "# end/start"
         }
-      }
+      },
+      "returns": null
     }
   },
 

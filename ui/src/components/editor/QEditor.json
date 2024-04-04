@@ -328,19 +328,25 @@
           "desc": "Refresh the toolbar",
           "default": "true"
         }
-      }
+      },
+      "returns": null
     },
 
     "refreshToolbar": {
-      "desc": "Hide the link editor if visible and force the instance to re-render"
+      "desc": "Hide the link editor if visible and force the instance to re-render",
+      "params": null,
+      "returns": null
     },
 
     "focus": {
-      "desc": "Focus on the contentEditable at saved cursor position"
+      "desc": "Focus on the contentEditable at saved cursor position",
+      "params": null,
+      "returns": null
     },
 
     "getContentEl": {
       "desc": "Retrieve the content of the Editor",
+      "params": null,
       "returns": {
         "type": "Element",
         "desc": "Provides the pure HTML within the editable area"

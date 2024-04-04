@@ -141,7 +141,8 @@
           "examples": [ "'[tabindex]:not([tabindex=\"-1\"])'" ],
           "addedIn": "v2.6.5"
         }
-      }
+      },
+      "returns": null
     },
 
     "shake": {
@@ -153,7 +154,8 @@
           "examples": [ "document.getElementById('example')" ],
           "addedIn": "v2.10.1"
         }
-      }
+      },
+      "returns": null
     }
   },
 

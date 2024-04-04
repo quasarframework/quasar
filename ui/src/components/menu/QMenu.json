@@ -134,11 +134,15 @@
 
   "methods": {
     "updatePosition": {
-      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the menu without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the menu without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+      "params": null,
+      "returns": null
     },
 
     "focus": {
-      "desc": "Focus menu; if you have content with autofocus attribute, it will directly focus it"
+      "desc": "Focus menu; if you have content with autofocus attribute, it will directly focus it",
+      "params": null,
+      "returns": null
     }
   }
 }

@@ -104,11 +104,15 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus field"
+      "desc": "Focus field",
+      "params": null,
+      "returns": null
     },
 
     "blur": {
-      "desc": "Blur field (lose focus)"
+      "desc": "Blur field (lose focus)",
+      "params": null,
+      "returns": null
     }
   }
 }

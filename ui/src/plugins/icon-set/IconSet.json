@@ -1369,7 +1369,8 @@
           "desc": "Required for SSR only",
           "__exemption": [ "examples" ]
         }
-      }
+      },
+      "returns": null
     }
   }
 }

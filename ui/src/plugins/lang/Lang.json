@@ -1093,11 +1093,13 @@
           "desc": "Required for SSR only",
           "__exemption": [ "examples" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "getLocale": {
       "desc": "Get the browser locale ISO name; Returns undefined when it cannot determine current browser locale or when running on server in SSR mode",
+      "params": null,
       "returns": {
         "type": [ "String", "undefined" ],
         "desc": "Browser locale ISO name",

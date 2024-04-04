@@ -67,7 +67,9 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus on first focusable element/component in the form"
+      "desc": "Focus on first focusable element/component in the form",
+      "params": null,
+      "returns": null
     },
 
     "validate": {
@@ -86,7 +88,9 @@
     },
 
     "resetValidation": {
-      "desc": "Resets the validation on all applicable inner Quasar components"
+      "desc": "Resets the validation on all applicable inner Quasar components",
+      "params": null,
+      "returns": null
     },
 
     "submit": {
@@ -95,7 +99,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "returns": null
     },
 
     "reset": {
@@ -104,11 +109,13 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "returns": null
     },
 
     "getValidationComponents": {
       "desc": "Get an array of children Vue component instances that support Quasar validation API (derived from QField, or using useFormChild()/QFormChildMixin)",
+      "params": null,
       "returns": {
         "type": "Array",
         "tsType": "QFormChildComponent",

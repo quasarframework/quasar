@@ -162,6 +162,7 @@
   "methods": {
     "getScrollTarget": {
       "desc": "Get the scrolling DOM element target",
+      "params": null,
       "returns": {
         "type": "Element",
         "desc": "DOM element upon which scrolling takes place"
@@ -170,6 +171,7 @@
 
     "getScroll": {
       "desc": "Get the current scroll information",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "Scroll information",
@@ -221,6 +223,7 @@
 
     "getScrollPosition": {
       "desc": "Get current scroll position",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "An object containing scroll position information",
@@ -242,6 +245,7 @@
 
     "getScrollPercentage": {
       "desc": "Get current scroll position in percentage (0.0 <= x <= 1.0)",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "An object containing scroll position information in percentage",
@@ -279,7 +283,8 @@
           "type": "Number",
           "desc": "Duration (in milliseconds) enabling animated scroll"
         }
-      }
+      },
+      "returns": null
     },
 
     "setScrollPercentage": {
@@ -300,7 +305,8 @@
           "type": "Number",
           "desc": "Duration (in milliseconds) enabling animated scroll"
         }
-      }
+      },
+      "returns": null
     }
   }
 }

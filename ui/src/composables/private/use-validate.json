@@ -54,7 +54,9 @@
 
   "methods": {
     "resetValidation": {
-      "desc": "Reset validation status"
+      "desc": "Reset validation status",
+      "params": null,
+      "returns": null
     },
 
     "validate": {

@@ -166,7 +166,8 @@
           "examples": [ "'some-api-call'" ],
           "addedIn": "v2.8"
         }
-      }
+      },
+      "returns": null
     },
 
     "setDefaults": {
@@ -220,7 +221,8 @@
             }
           }
         }
-      }
+      },
+      "returns": null
     }
   }
 }

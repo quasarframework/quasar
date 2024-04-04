@@ -110,11 +110,14 @@
           "type": "Boolean",
           "desc": "Skip over the debounce amount"
         }
-      }
+      },
+      "returns": null
     },
 
     "getPosition": {
-      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflectionPoint }"
+      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflectionPoint }",
+      "params": null,
+      "returns": null
     }
   }
 }

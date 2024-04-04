@@ -101,7 +101,9 @@
 
   "methods": {
     "set": {
-      "desc": "Sets the Radio's v-model to equal the val"
+      "desc": "Sets the Radio's v-model to equal the val",
+      "params": null,
+      "returns": null
     }
   }
 }

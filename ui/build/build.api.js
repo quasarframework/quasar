@@ -122,7 +122,6 @@ const objectTypes = {
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'params', 'returns' ],
-    canBeNull: [ 'params', 'returns' ],
     isArray: [ 'examples' ]
   },
 
@@ -165,7 +164,7 @@ const objectTypes = {
 
   methods: {
     props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn' ],
-    required: [ 'desc' ],
+    required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint' ],
     isObject: [ 'params', 'returns' ]
   },

@@ -26,6 +26,7 @@
 
     "getAll": {
       "desc": "Get all cookies",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "Object with cookie names (as keys) and their values",
@@ -89,7 +90,8 @@
             }
           }
         }
-      }
+      },
+      "returns": null
     },
 
     "has": {
@@ -134,7 +136,8 @@
             }
           }
         }
-      }
+      },
+      "returns": null
     },
 
     "parseSSR": {

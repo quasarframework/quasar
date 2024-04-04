@@ -158,7 +158,9 @@
 
   "methods": {
     "setNow": {
-      "desc": "Change model to current moment"
+      "desc": "Change model to current moment",
+      "params": null,
+      "returns": null
     }
   }
 }

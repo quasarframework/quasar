@@ -45,7 +45,8 @@
           "type": "Boolean",
           "desc": "Skip over the debounce amount"
         }
-      }
+      },
+      "returns": null
     }
   }
 }

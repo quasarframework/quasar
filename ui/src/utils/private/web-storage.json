@@ -22,6 +22,7 @@
 
     "getLength": {
       "desc": "Get storage number of entries",
+      "params": null,
       "returns": {
         "type": "Number",
         "desc": "Number of entries"
@@ -81,6 +82,7 @@
 
     "getAll": {
       "desc": "Retrieve all items in storage",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "Object syntax: item name as Object key and its value",
@@ -91,6 +93,7 @@
     "getAllKeys": {
       "tsType": "WebStorageGetAllKeysMethodType",
       "desc": "Retrieve all keys in storage",
+      "params": null,
       "returns": {
         "type": "Array",
         "desc": "Storage keys (Array of Strings)",
@@ -124,7 +127,8 @@
           },
           "examples": [ "'john12'" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "remove": {
@@ -136,15 +140,19 @@
           "required": true,
           "examples": [ "'userId'" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "clear": {
-      "desc": "Remove everything from the storage"
+      "desc": "Remove everything from the storage",
+      "params": null,
+      "returns": null
     },
 
     "isEmpty": {
       "desc": "Determine if storage has any items",
+      "params": null,
       "returns": {
         "type": "Boolean",
         "desc": "Tells if storage is empty or not"

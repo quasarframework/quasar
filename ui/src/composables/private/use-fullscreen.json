@@ -29,14 +29,20 @@
 
   "methods": {
     "toggleFullscreen": {
-      "desc": "Toggle the view to be fullscreen or not fullscreen"
+      "desc": "Toggle the view to be fullscreen or not fullscreen",
+      "params": null,
+      "returns": null
     },
     "setFullscreen": {
-      "desc": "Enter the fullscreen view"
+      "desc": "Enter the fullscreen view",
+      "params": null,
+      "returns": null
     },
 
     "exitFullscreen": {
-      "desc": "Leave the fullscreen view"
+      "desc": "Leave the fullscreen view",
+      "params": null,
+      "returns": null
     }
   }
 }

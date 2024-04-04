@@ -236,7 +236,8 @@
           "extends": "evt",
           "required": false
         }
-      }
+      },
+      "returns": null
     },
 
     "hide": {
@@ -246,17 +247,19 @@
           "extends": "evt",
           "required": false
         }
-      }
+      },
+      "returns": null
     },
 
     "toggle": {
+      "desc": "Triggers component to toggle between show/hide",
       "params": {
         "evt": {
           "extends": "evt",
           "required": false
         }
       },
-      "desc": "Triggers component to toggle between show/hide"
+      "returns": null
     }
   }
 }

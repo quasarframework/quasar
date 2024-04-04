@@ -15,7 +15,8 @@
           "required": true,
           "examples": [ "'#ff0000'" ]
         }
-      }
+      },
+      "returns": null
     }
   }
 }

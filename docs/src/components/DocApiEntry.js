@@ -15,7 +15,11 @@ function copyPropName (propName) {
 }
 
 function getEventParams (event) {
-  const params = event.params === void 0 || event.params.length === 0
+  const params = (
+    event.params === void 0
+    || event.params === null
+    || event.params.length === 0
+  )
     ? ''
     : Object.keys(event.params).join(', ')
 
@@ -23,7 +27,11 @@ function getEventParams (event) {
 }
 
 function getMethodParams (method, noRequired) {
-  if (!method.params || method.params.length === 0) {
+  if (
+    method.params === void 0
+    || method.params === null
+    || method.params.length === 0
+  ) {
     return ' ()'
   }
 
@@ -46,7 +54,7 @@ function getMethodParams (method, noRequired) {
 
 function getMethodReturnValue (method) {
   return ' => ' +
-    (!method.returns
+    (method.returns === void 0 || method.returns === null
       ? 'void'
       : getStringType(method.returns.type)
     )
@@ -363,7 +371,7 @@ describe.events = (openState, events) => {
         ...getExpandable(
           openState,
           event.desc,
-          event.params !== void 0,
+          event.params !== void 0 && event.params !== null,
           masterKey,
           () => {
             const params = []
@@ -406,7 +414,7 @@ describe.methods = (openState, methods) => {
         () => {
           const nodes = []
 
-          if (method.params !== void 0) {
+          if (method.params !== void 0 && method.params !== null) {
             const props = []
             for (const paramName in method.params) {
               props.push(
@@ -423,7 +431,7 @@ describe.methods = (openState, methods) => {
             )
           }
 
-          if (method.returns !== void 0) {
+          if (method.returns !== void 0 && method.returns !== null) {
             nodes.push(
               getDiv(
                 12,

@@ -30,11 +30,14 @@
           "desc": "Delay (in milliseconds) between bar progress increments",
           "default": "300"
         }
-      }
+      },
+      "returns": null
     },
 
     "stop": {
-      "desc": "Notify bar one background activity has finalized"
+      "desc": "Notify bar one background activity has finalized",
+      "params": null,
+      "returns": null
     },
 
     "increment": {
@@ -44,7 +47,8 @@
           "type": "Number",
           "desc": "Amount (0.0 < x < 1.0) to increment with"
         }
-      }
+      },
+      "returns": null
     },
 
     "setDefaults": {
@@ -57,7 +61,8 @@
           "desc": "QAjaxBar component props",
           "examples": [ "{ position: 'bottom', reverse: true }" ]
         }
-      }
+      },
+      "returns": null
     }
   }
 }

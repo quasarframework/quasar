@@ -188,7 +188,9 @@
 
   "methods": {
     "reset": {
-      "desc": "Reset to initial state (not swiped to any side)"
+      "desc": "Reset to initial state (not swiped to any side)",
+      "params": null,
+      "returns": null
     }
   }
 }

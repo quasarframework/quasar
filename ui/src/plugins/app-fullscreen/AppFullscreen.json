@@ -44,6 +44,7 @@
 
     "exit": {
       "desc": "Request exiting out of Fullscreen mode",
+      "params": null,
       "returns": {
         "type": "Promise<void>",
         "desc": "A Promise which is resolved when exited out of fullscreen mode. It gets rejected with 'Not capable' if the browser is not capable, and with an Error object if something else went wrong.",

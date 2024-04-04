@@ -110,11 +110,14 @@
           "desc": "The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
           "values": [ "'start'", "'center'", "'end'", "'start-force'", "'center-force'", "'end-force'" ]
         }
-      }
+      },
+      "returns": null
     },
 
     "reset": {
-      "desc": "Resets the virtual scroll computations; Needed for custom edge-cases"
+      "desc": "Resets the virtual scroll computations; Needed for custom edge-cases",
+      "params": null,
+      "returns": null
     },
 
     "refresh": {
@@ -125,7 +128,8 @@
           "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed; Use a negative value to keep scroll position",
           "examples": [ "5" ]
         }
-      }
+      },
+      "returns": null
     }
   }
 }

@@ -127,11 +127,15 @@
 
   "methods": {
     "next": {
-      "desc": "Go to next panel"
+      "desc": "Go to next panel",
+      "params": null,
+      "returns": null
     },
 
     "previous": {
-      "desc": "Go to previous panel"
+      "desc": "Go to previous panel",
+      "params": null,
+      "returns": null
     },
 
     "goTo": {
@@ -143,7 +147,8 @@
           "required": true,
           "examples": [ "'dashboard'" ]
         }
-      }
+      },
+      "returns": null
     }
   }
 }

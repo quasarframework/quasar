@@ -37,11 +37,14 @@
           "values": [ "true", "false", "'auto'" ],
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "toggle": {
-      "desc": "Toggle dark mode status"
+      "desc": "Toggle dark mode status",
+      "params": null,
+      "returns": null
     }
   }
 }

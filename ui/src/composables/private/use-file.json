@@ -77,7 +77,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "returns": null
     },
 
     "addFiles": {
@@ -88,7 +89,8 @@
           "desc": "Array of files (instances of File)",
           "required": true
         }
-      }
+      },
+      "returns": null
     }
   }
 }

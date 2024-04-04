@@ -232,11 +232,15 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus component"
+      "desc": "Focus component",
+      "params": null,
+      "returns": null
     },
 
     "blur": {
-      "desc": "Blur component (lose focus)"
+      "desc": "Blur component (lose focus)",
+      "params": null,
+      "returns": null
     }
   }
 }

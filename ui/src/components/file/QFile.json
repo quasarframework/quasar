@@ -148,7 +148,8 @@
           "desc": "Index at which to remove selection",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "removeFile": {
@@ -159,11 +160,13 @@
           "desc": "File to remove (instance of File)",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "getNativeElement": {
       "desc": "DEPRECATED; Access 'nativeEl' directly; Gets the native input DOM Element",
+      "params": null,
       "returns": {
         "type": "Element",
         "tsType": "QFileNativeElement",
