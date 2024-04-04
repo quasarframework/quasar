@@ -48,7 +48,7 @@
                   }
                 },
                 "returns": null,
-                "examples": [ "() => console.log('OK!')", "(payload) => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })" ]
+                "examples": [ "() => console.log('OK!')", "payload => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })" ]
               }
             },
             "returns": {

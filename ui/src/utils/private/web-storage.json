@@ -97,7 +97,7 @@
       "returns": {
         "type": "Array",
         "desc": "Storage keys (Array of Strings)",
-        "examples": [ "['userId', 'password']" ]
+        "examples": [ "[ 'userId', 'password' ]" ]
       }
     },
 

@@ -5,7 +5,7 @@
     "model-value": {
       "extends": "model-value",
       "type": [ "Any", "Array" ],
-      "examples": [ "false", "['car', 'building']" ]
+      "examples": [ "false", "[ 'car', 'building' ]" ]
     },
 
     "val": {

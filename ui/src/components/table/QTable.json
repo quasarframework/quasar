@@ -268,7 +268,7 @@
         "format": {
           "type": "Function",
           "desc": "Function you can apply to format your data",
-          "examples": [ "(val, row) => `${val}%`", "val => val ? /* Unicode checkmark checked */ '\u2611' : /* Unicode checkmark unchecked */ '\u2610'" ],
+          "examples": [ "(val, _row) => `${ val }%`", "val => val ? /* Unicode checkmark checked */ '\u2611' : /* Unicode checkmark unchecked */ '\u2610'" ],
           "params": {
             "val": {
               "type": "Any",
@@ -704,7 +704,7 @@
       "type": "Array",
       "desc": "Options for user to pick (Numbers); Number 0 means 'Show all rows in one page'",
       "default": "[ 3, 5, 7, 10, 15, 20, 25, 50, 0 ]",
-      "examples": [ "[10, 20]" ],
+      "examples": [ "[ 10, 20 ]" ],
       "category": "pagination"
     },
 

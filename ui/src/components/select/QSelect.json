@@ -65,7 +65,7 @@
       },
       "examples": [
         "'modelNumber'",
-        "(item) => item === null ? null : item.modelNumber"
+        "item => (item === null ? null : item.modelNumber)"
       ],
       "category": "options"
     },
@@ -92,7 +92,7 @@
       },
       "examples": [
         "'itemName'",
-        "(item) => item === null ? 'Null value' : item.itemName"
+        "item => (item === null ? 'Null value' : item.itemName)"
       ],
       "category": "options"
     },
@@ -117,7 +117,7 @@
         "desc": "If true, the current option will be disabled"
       },
       "examples": [
-        "(item) => item === null ? true : item.cannotSelect",
+        "item => (item === null ? true : item.cannotSelect)",
         "# option-disable=\"cannotSelect\""
       ],
       "category": "options"
@@ -208,7 +208,7 @@
     "menu-offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)",
-      "examples": [ "[8, 8]", "[5, 10]" ],
+      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
       "category": "position"
     },
 

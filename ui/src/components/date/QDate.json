@@ -73,8 +73,8 @@
         "desc": "If true, the current date will be highlighted"
       },
       "examples": [
-        "['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']",
-        "date => date[9] % 3 === 0"
+        "[ '2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23' ]",
+        "date => (date[ 9 ] % 3 === 0)"
       ],
       "category": "model"
     },
@@ -96,7 +96,7 @@
       },
       "examples": [
         "'teal-10'",
-        "(date) => date[9] % 2 === 0 ? 'teal' : 'orange'"
+        "date => (date[ 9 ] % 2 === 0 ? 'teal' : 'orange')"
       ],
       "category": "style"
     },
@@ -116,9 +116,9 @@
         "desc": "If true, the current date will be made available for selection"
       },
       "examples": [
-        "['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]",
-        "date => date[9] % 3 === 0",
-        "date => date >= '2018/11/03' && date <= '2018/11/15'"
+        "[ '2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]",
+        "date => (date[ 9 ] % 3 === 0)",
+        "date => (date >= '2018/11/03' && date <= '2018/11/15')"
       ],
       "category": "model"
     },

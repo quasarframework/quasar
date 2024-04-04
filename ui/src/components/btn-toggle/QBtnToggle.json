@@ -49,7 +49,7 @@
         }
       },
       "examples": [
-        "[ {label: 'One', value: 'one'}, {label: 'Two', value: 'two'} ]"
+        "[ { label: 'One', value: 'one' }, { label: 'Two', value: 'two' } ]"
       ],
       "category": "model"
     },

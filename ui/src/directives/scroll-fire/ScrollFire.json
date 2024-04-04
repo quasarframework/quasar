@@ -13,6 +13,6 @@
       }
     },
     "returns": null,
-    "examples": [ "(el) => { console.log('Element:', el) }" ]
+    "examples": [ "el => { console.log('Element:', el) }" ]
   }
 }

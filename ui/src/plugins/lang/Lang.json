@@ -172,7 +172,7 @@
             "monthsShort": {
               "type": "Array",
               "desc": "Label",
-              "examples": [ "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
+              "examples": [ "[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
             },
             "firstDayOfWeek": {
               "type": "Number",
@@ -688,7 +688,7 @@
                   "type": "Array",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
+                  "examples": [ "[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
                 },
                 "firstDayOfWeek": {
                   "type": "Number",

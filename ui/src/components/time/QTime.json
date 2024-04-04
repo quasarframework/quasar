@@ -69,14 +69,14 @@
     "minute-options": {
       "type": "Array",
       "desc": "Optionally configure what minutes is the user allowed to set; Overrides 'options' prop if that is also set",
-      "examples": [ "[0, 15, 30, 45]" ],
+      "examples": [ "[ 0, 15, 30, 45 ]" ],
       "category": "behavior"
     },
 
     "second-options": {
       "type": "Array",
       "desc": "Optionally configure what seconds is the user allowed to set; Overrides 'options' prop if that is also set",
-      "examples": [ "[0, 7, 10, 23]" ],
+      "examples": [ "[ 0, 7, 10, 23 ]" ],
       "category": "behavior"
     },
 

@@ -57,8 +57,8 @@
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
-      "default": "[14, 14]",
-      "examples": [ "[8, 8]", "[5, 10]" ],
+      "default": "[ 14, 14 ]",
+      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
       "category": "position"
     },
 

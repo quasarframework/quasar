@@ -98,7 +98,7 @@
               "type": "Object",
               "tsType": "QDialogSelectionPrompt",
               "desc": "An object definition for creating the selection form content",
-              "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
+              "examples": [ "{ model: dialogSelection, type: 'radio', items: [ ...listOfItems ] }" ],
               "definition": {
                 "model": {
                   "type": [ "String", "Array" ],

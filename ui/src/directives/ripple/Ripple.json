@@ -31,7 +31,7 @@
       "keyCodes": {
         "type": [ "Array", "Number" ],
         "desc": "List of keyCode that should trigger the ripple",
-        "examples": [ "[]", "[13, 32]" ]
+        "examples": [ "[]", "[ 13, 32 ]" ]
       }
     }
   },
@@ -64,7 +64,7 @@
       "keyCodes": {
         "type": [ "Array", "Number" ],
         "desc": "List of keyCode that should trigger the ripple",
-        "examples": [ "[]", "[13, 32]" ]
+        "examples": [ "[]", "[ 13, 32 ]" ]
       }
     },
     "examples": [

@@ -20,7 +20,7 @@
     "url": {
       "type": [ "String", "Function" ],
       "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "'https://example.com/path'", "files => `https://example.com?count=${files.length}`" ],
+      "examples": [ "'https://example.com/path'", "files => `https://example.com?count=${ files.length }`" ],
       "params": {
         "files": {
           "type": "Array",
@@ -56,10 +56,10 @@
     "field-name": {
       "type": [ "String", "Function" ],
       "desc": "Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name=\"__HERE__\"; filename=\"somefile.png\"; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "(file) => file.name",
+      "default": "file => file.name",
       "examples": [
         "'backgroundFile'",
-        "(file) => ('background' + file.name)"
+        "file => ('background' + file.name)"
       ],
       "params": {
         "files": {
@@ -92,9 +92,9 @@
         }
       },
       "examples": [
-        "[{name: 'Content-Type', value: 'application/json'}, {name: 'Accept', value: 'application/json'}]",
-        "() => [{name: 'X-Custom-Timestamp', value: Date.now()}]",
-        "files => [{name: 'X-Custom-Count', value: files.length}]"
+        "[ { name: 'Content-Type', value: 'application/json' }, { name: 'Accept', value: 'application/json' } ]",
+        "() => [ { name: 'X-Custom-Timestamp', value: Date.now() } ]",
+        "files => [ { name: 'X-Custom-Count', value: files.length } ]"
       ],
       "params": {
         "files": {
@@ -127,9 +127,9 @@
         }
       },
       "examples": [
-        "[{name: 'my-field', value: 'my-value'}]",
-        "() => [{name: 'my-field', value: 'my-value'}]",
-        "files => [{name: 'my-field', value: 'my-value' + files.length}]"
+        "[ { name: 'my-field', value: 'my-value' } ]",
+        "() => [ { name: 'my-field', value: 'my-value' } ]",
+        "files => [ { name: 'my-field', value: 'my-value' + files.length } ]"
       ],
       "params": {
         "files": {
