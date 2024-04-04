@@ -70,6 +70,7 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
         ${ mountOperation }
 
         // TODO: test the effect of the prop
+        expect(wrapper).toBeDefined() // this is here for linting only
       })`
     }).join('')
   }
@@ -85,12 +86,13 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
     })
 
     return `\n
-    test.todo('type ${ t } has effect', () => {
-      ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ val }
-      ${ mountOperation }
+      test.todo('type ${ t } has effect', () => {
+        ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ val }
+        ${ mountOperation }
 
-      // TODO: test the effect of the prop
-    })`
+        // TODO: test the effect of the prop
+        expect(wrapper).toBeDefined() // this is here for linting only
+      })`
   }).join('')
 }
 

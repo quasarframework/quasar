@@ -32,7 +32,7 @@ function createValueTest ({
     ? jsonEntry.type
     : [ jsonEntry.type ]
 
-  const valIndent = `${ testIndent }      `
+  const valIndent = `${ testIndent }    `
   const testList = typeList.map(type => {
     const val = getTestValue({
       jsonEntry: { ...jsonEntry, type },
@@ -54,6 +54,7 @@ function createValueTest ({
       const wrapper = mount(TestComponent)
 
       // TODO: test the effect of the value
+      expect(wrapper).toBeDefined() // this is here for linting only
     })`
   })
 
@@ -78,6 +79,7 @@ function createArgTest ({
       const wrapper = mount(TestComponent)
 
       // TODO: test the effect of the arg
+      expect(wrapper).toBeDefined() // this is here for linting only
     })
   })\n`
 }
@@ -104,6 +106,7 @@ function createModifierTest ({
         const wrapper = mount(TestComponent)
 
         // TODO: test the effect of the value
+        expect(wrapper).toBeDefined() // this is here for linting only
       })
     })\n`
 }

@@ -28,6 +28,8 @@ function createVariableTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
+        expect(${ jsonEntry.accessor }).toBeDefined()
+
         // TODO: do something with ${ jsonEntry.accessor }
       })
     })\n`
@@ -38,7 +40,9 @@ function createClassTest ({ testId, jsonEntry }) {
     describe('${ testId }', () => {
       test.todo('can be instantiated', () => {
         const instance = new ${ jsonEntry.accessor }(${ jsonEntry.constructorParams })
+
         // TODO: do something with "instance"
+        expect(instance).toBeDefined() // this is here for linting only
       })
     })\n`
 }
@@ -62,9 +66,10 @@ function getFnTests (jsonEntry, json) {
           }
         })
 
-        const wrapper = mount(TestComponent, {})
+        const wrapper = mount(TestComponent)
 
         // TODO: test the outcome
+        expect(wrapper).toBeDefined() // this is here for lint only
       })`
   }
 
