@@ -33,8 +33,8 @@ export default defineConfig(() => {
 
     resolve: {
       alias: {
-        'test': resolve('.'),
-        'quasar': resolve('..')
+        test: resolve('.'),
+        quasar: resolve('..')
         // 'quasar/dist/quasar.sass': resolve('../src/css/index.sass'),
         // 'quasar/icon-set': resolve('../icon-set'),
         // 'quasar/lang': resolve('../lang'),

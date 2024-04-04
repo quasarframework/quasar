@@ -1,8 +1,8 @@
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
-  getDefTesting,
   testIndent,
-  kebabCase
+  kebabCase,
+  getTestValue
 } from '../specs.utils.js'
 
 const identifiers = {
@@ -34,17 +34,19 @@ function createValueTest ({
 
   const valIndent = `${ testIndent }      `
   const testList = typeList.map(type => {
-    const { createValue } = getDefTesting({ ...jsonEntry, type })
-    const value = createValue(valIndent)
-    const exists = value !== 'undefined'
+    const val = getTestValue({
+      jsonEntry: { ...jsonEntry, type },
+      indent: valIndent
+    })
+    const valExists = val !== 'undefined'
 
-    return `test('as ${ type }', () => {
+    return `test.todo('as ${ type }', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.pascalName) }${ exists ? '="val"' : '' }></div>',
-        directives: { ${ ctx.pascalName } }${ exists ? `,
+        template: '<div v-${ kebabCase(ctx.pascalName) }${ valExists ? '="val"' : '' }></div>',
+        directives: { ${ ctx.pascalName } }${ valExists ? `,
         setup () {
           return {
-            val: ${ value }
+            val: ${ val }
           }
         }` : '' }
       })
@@ -67,7 +69,7 @@ function createArgTest ({
 }) {
   return `
   describe('${ categoryId }', () => {
-    test('has effect', () => {
+    test.todo('has effect', () => {
       const TestComponent = defineComponent({
         template: '<div v-${ kebabCase(ctx.pascalName) }:......></div>',
         directives: { ${ ctx.pascalName } }
@@ -86,16 +88,16 @@ function createModifierTest ({
   jsonEntry,
   ctx
 }) {
-  const value = jsonEntry.type === 'Boolean'
+  const val = jsonEntry.type === 'Boolean'
     ? name
     // example: TouchRepeat > modifiers > [keycode]
-    : getDefTesting(jsonEntry).createValue()
+    : getTestValue({ jsonEntry })
 
   return `
     describe('${ testId }', () => {
-      test('has effect', () => {
+      test.todo('has effect', () => {
         const TestComponent = defineComponent({
-          template: '<div v-${ kebabCase(ctx.pascalName) }.${ value }></div>',
+          template: '<div v-${ kebabCase(ctx.pascalName) }.${ val }></div>',
           directives: { ${ ctx.pascalName } }
         })
 

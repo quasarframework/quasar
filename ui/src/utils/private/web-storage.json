@@ -41,7 +41,7 @@
         }
       },
       "returns": {
-        "type": [ "Date", "RegExp", "Number", "Boolean", "Function", "Object", "Array", "String", "null" ],
+        "type": [ "Number", "Boolean", "Date", "RegExp", "Function", "Object", "Array", "String", "null" ],
         "desc": "Storage item value",
         "examples": [ "'john12'", "702" ]
       }
@@ -112,7 +112,7 @@
         },
 
         "value": {
-          "type": [ "Date", "RegExp", "Number", "Boolean", "Function", "Object", "Array", "String", "null" ],
+          "type": [ "Number", "Boolean", "Date", "RegExp", "Function", "Object", "Array", "String", "null" ],
           "desc": "Entry value",
           "required": true,
           "params": {

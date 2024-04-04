@@ -44,6 +44,9 @@ function createClassTest ({ testId, jsonEntry }) {
 }
 
 function getFnTests (jsonEntry, json) {
+  /**
+   * Update getFileHeader if you change the following "if"
+   */
   if (
     // we need a host component for the composables
     json.componentHost === true
@@ -52,7 +55,7 @@ function getFnTests (jsonEntry, json) {
   ) {
     return `test.todo('does not error out', () => {
         const TestComponent = defineComponent({
-          template: '<div></div>',
+          template: '<div />',
           setup () {
             const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
             return { result }
@@ -106,9 +109,22 @@ export default {
     return json
   },
   getFileHeader: ({ ctx, json }) => {
+    /**
+     * Update getFnTest if you change the following:
+     */
+    const needsMount = (
+      json.componentHost === true
+      && json.functions !== void 0
+      && Object.keys(json.functions).some(
+        key => useRE.test(json.functions[ key ].accessor)
+      )
+    )
+
     return [
       'import { describe, test, expect } from \'vitest\'',
-      '',
+      needsMount === true
+        ? 'import { mount } from \'@vue/test-utils\'\n'
+        : '',
       getImportStatement({ ctx, json })
     ].join('\n')
   }

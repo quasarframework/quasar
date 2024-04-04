@@ -7,10 +7,12 @@
 
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
-  getDefTesting,
   testIndent,
   getComponentMount,
-  filterDefExceptionTypes
+  filterDefExceptionTypes,
+  getTypeTest,
+  getTestValue,
+  getFunctionCallTest
 } from '../specs.utils.js'
 
 const identifiers = {
@@ -49,6 +51,8 @@ const identifiers = {
   }
 }
 
+const quoteRE = /'/g
+
 function getPropTest ({ name, jsonEntry, json, ctx }) {
   const type = filterDefExceptionTypes(jsonEntry.type)
   if (type === void 0) return ''
@@ -56,49 +60,38 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
   // example: QTable > props > selection
   if (jsonEntry.values !== void 0) {
     const mountOperation = getComponentMount({ ctx, json, prop: name })
-    const eachList = jsonEntry.values.map(val => {
-      return `[ ${ val } ]`
-    }).join(`,\n${ testIndent }`)
 
-    return `\n
-      test.todo.each([
-        ${ eachList }
-      ])('value %s has effect', propVal => {
+    return jsonEntry.values.map(val => {
+      const valueStr = val.replace(quoteRE, '"')
+
+      return `\n
+      test.todo('value ${ valueStr } has effect', () => {
+        ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ val }
         ${ mountOperation }
 
         // TODO: test the effect of the prop
       })`
+    }).join('')
   }
 
-  // example: QTable > props > virtual-scroll-slice-size
-  if (Array.isArray(type) === true) {
-    const mountOperation = getComponentMount({ ctx, json, prop: name })
-    const eachIndent = testIndent + '  '
-    const eachList = type.map(t => {
-      const { createValue } = getDefTesting({ ...jsonEntry, type: t })
-      return `[ '${ t }', ${ createValue(eachIndent) } ]`
-    }).join(`,\n${ testIndent }`)
-
-    return `\n
-      test.todo.each([
-        ${ eachList }
-      ])('type %s has effect', (_, propVal) => {
-        ${ mountOperation }
-
-        // TODO: test the effect of the prop
-      })`
-  }
-
-  const { createValue } = getDefTesting(jsonEntry)
   const mountOperation = getComponentMount({ ctx, json, prop: name })
+  const typeList = Array.isArray(type)
+    ? type // example: QTable > props > virtual-scroll-slice-size
+    : [ type ]
 
-  return `\n
-      test.todo('type ${ type } has effect', () => {
-        ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ createValue() }
-        ${ mountOperation }
+  return typeList.map(t => {
+    const val = getTestValue({
+      jsonEntry: { ...jsonEntry, type: t }
+    })
 
-        // TODO: test the effect of the prop
-      })`
+    return `\n
+    test.todo('type ${ t } has effect', () => {
+      ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ val }
+      ${ mountOperation }
+
+      // TODO: test the effect of the prop
+    })`
+  }).join('')
 }
 
 function createPropTest ({
@@ -125,14 +118,18 @@ function getSlotScope (jsonEntry) {
     scopeTests: ''
   }
 
-  const { expectType } = getDefTesting({ type: 'Object', definition: jsonEntry.scope })
+  const typeTest = getTypeTest({
+    jsonEntry: { type: 'Object', definition: jsonEntry.scope },
+    ref: 'slotScope'
+  })
+
   return {
     slotFn: 'scope => {'
       + `\n${ testIndent }      slotScope = scope`
       + `\n${ testIndent }      return slotContent`
       + `\n${ testIndent }    }`,
 
-    scopeTests: `\n\n${ testIndent }${ expectType('slotScope') }`
+    scopeTests: `\n\n${ testIndent }${ typeTest }`
   }
 }
 
@@ -163,8 +160,11 @@ function createSlotTest ({
 function getEventParamsTest (jsonEntry, varName) {
   const params = Object.keys(jsonEntry.params).join(', ')
   const tests = Object.keys(jsonEntry.params).map(paramName => {
-    const { expectType } = getDefTesting(jsonEntry.params[ paramName ])
-    return `\n${ testIndent }${ expectType(paramName) }`
+    const typeTest = getTypeTest({
+      jsonEntry: jsonEntry.params[ paramName ],
+      ref: paramName
+    })
+    return `\n${ testIndent }${ typeTest }`
   }).join('')
 
   return `const [ ${ params } ] = ${ varName }${ tests }`
@@ -213,11 +213,13 @@ function createMethodTest ({
   json,
   ctx
 }) {
-  const { expectType } = getDefTesting({ ...jsonEntry, type: 'Function' })
-  const typeTest = expectType(
-    `wrapper.vm.${ pascalName }`,
-    { withCall: true }
-  )
+  const opts = {
+    jsonEntry: { ...jsonEntry, type: 'Function' },
+    ref: `wrapper.vm.${ pascalName }`
+  }
+
+  const typeTest = getTypeTest(opts)
+  const callTest = getFunctionCallTest(opts)
 
   return `
     describe('${ testId }', () => {
@@ -225,6 +227,10 @@ function createMethodTest ({
         ${ getComponentMount({ ctx, json }) }
 
         ${ typeTest }
+
+        ${ callTest }
+
+        // TODO: test the effect
       })
     })\n`
 }
@@ -236,13 +242,17 @@ function createComputedPropTest ({
   json,
   ctx
 }) {
-  const { expectType } = getDefTesting(jsonEntry)
+  const typeTest = getTypeTest({
+    jsonEntry,
+    ref: `wrapper.vm.${ pascalName }`
+  })
+
   return `
     describe('${ testId }', () => {
       test.todo('should be exposed', () => {
         ${ getComponentMount({ ctx, json }) }
 
-        ${ expectType('wrapper.vm.' + pascalName) }
+        ${ typeTest }
       })
     })\n`
 }

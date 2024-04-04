@@ -1,7 +1,7 @@
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
-  getDefTesting,
-  getExpectOneOfTypes
+  getTypeTest,
+  getFunctionCallTest
 } from '../specs.utils.js'
 
 const identifiers = {
@@ -27,7 +27,7 @@ function getInjectionTest ({ jsonEntry, json, ctx }) {
   const target = jsonEntry.substring(3) // strip '$q.'
 
   if (json.props?.[ target ] !== void 0) {
-    return getExpectOneOfTypes({
+    return getTypeTest({
       jsonEntry: json.props[ target ],
       ref: jsonEntry
     })
@@ -41,7 +41,7 @@ function getInjectionTest ({ jsonEntry, json, ctx }) {
 }
 
 function createInjection ({ categoryId, jsonEntry, json, ctx }) {
-  const testType = getInjectionTest({ jsonEntry, json, ctx })
+  const typeTest = getInjectionTest({ jsonEntry, json, ctx })
 
   return `
   describe('${ categoryId }', () => {
@@ -50,7 +50,7 @@ function createInjection ({ categoryId, jsonEntry, json, ctx }) {
 
       mount(
         defineComponent({
-          template: '<div></div>',
+          template: '<div />',
           setup () {
             $q = useQuasar()
             return {}
@@ -58,23 +58,19 @@ function createInjection ({ categoryId, jsonEntry, json, ctx }) {
         })
       )
 
-      ${ testType }
+      ${ typeTest }
     })
   })\n`
 }
 
-function getReactivePropTest ({ jsonEntry, ref }) {
-  const expectAction = jsonEntry.type === 'Array'
-    ? 'toContainEqual'
-    : 'toEqual'
-
+function getReactivePropTest ({ ref }) {
   return `\n
       test.todo('is reactive', () => {
         const val = clone(${ ref })
 
         // TODO: trigger something to test reactivity
 
-        expect(${ ref }).not.${ expectAction }(val)
+        expect(${ ref }).not.toStrictEqual(val)
       })`
 }
 
@@ -86,7 +82,7 @@ function createPropTest ({
 }) {
   const ref = `${ ctx.pascalName }.${ pascalName }`
 
-  const typeTest = getExpectOneOfTypes({ jsonEntry, ref })
+  const typeTest = getTypeTest({ jsonEntry, ref })
   const reactiveTest = jsonEntry.reactive === true
     ? getReactivePropTest({ jsonEntry, ref })
     : ''
@@ -105,16 +101,20 @@ function createMethodTest ({
   jsonEntry,
   ctx
 }) {
-  const { expectType } = getDefTesting({ ...jsonEntry, type: 'Function' })
-  const typeTest = expectType(
-    `${ ctx.pascalName }.${ pascalName }`,
-    { withCall: true }
-  )
+  const opts = {
+    jsonEntry: { ...jsonEntry, type: 'Function' },
+    ref: `${ ctx.pascalName }.${ pascalName }`
+  }
+
+  const typeTest = getTypeTest(opts)
+  const callTest = getFunctionCallTest(opts)
 
   return `
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
         ${ typeTest }
+
+        ${ callTest }
 
         // TODO: test the effect
       })
@@ -127,13 +127,14 @@ export default {
   getFileHeader: ({ ctx, json }) => {
     const acc = [
       'import { describe, test, expect } from \'vitest\'',
-      'import { mount } from \'@vue/test-utils\'',
-      'import { defineComponent } from \'vue\''
+      'import { mount } from \'@vue/test-utils\''
     ]
 
+    const vueImports = []
     const quasarImports = []
 
     if (json.injection !== void 0) {
+      vueImports.push('defineComponent')
       quasarImports.push('useQuasar')
     }
 
@@ -142,6 +143,12 @@ export default {
         .some(prop => json.props[ prop ].reactive === true)
     ) {
       quasarImports.push('clone')
+    }
+
+    if (vueImports.length !== 0) {
+      acc.push(
+        `import { ${ vueImports.join(', ') } } from 'vue'`
+      )
     }
 
     if (quasarImports.length !== 0) {
@@ -155,7 +162,7 @@ export default {
       `import ${ ctx.pascalName } from './${ ctx.localName }'`,
       '',
       '// ensure the Quasar plugin gets installed:',
-      'mount(defineComponent({ template: \'<div />\' }))'
+      'mount({ template: \'<div />\' })'
     )
 
     return acc.join('\n')
