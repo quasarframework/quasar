@@ -5,26 +5,74 @@ const astNodeTypes = [
   'VariableDeclaration', 'ClassDeclaration', 'FunctionDeclaration'
 ]
 
-function getParams (params, targetContent) {
-  const list = params.map(param => {
-    const content = targetContent.slice(param.start, param.end)
+function getAstAssignmentPattern (node, canComment) {
+  const left = canComment ? `/* ${ getAstParam(node.left, false) } */ ` : ''
+  const right = getAstParam(node.right, false)
 
-    if (/^([{[]) .* $1}$/.test(content) === true) {
-      return content
-    }
+  return left + right
+}
 
-    const equalIndex = content.lastIndexOf('=')
+function getAstObjectPattern (node, canComment) {
+  const body = node.properties
+    .map(prop => getAstParam(prop.value, canComment))
+    .join(', ')
 
-    if (equalIndex !== -1) {
-      const name = content.substring(0, equalIndex).trim()
-      const value = content.substring(equalIndex + 2).trim()
+  return `{ ${ body } }`
+}
 
-      return `/* ${ name.trim() } */ ${ value.trim() }`
-    }
+function getAstMemberExpression (node) {
+  const left = node.object.type === 'MemberExpression'
+    ? getAstAssignmentPattern(node.object)
+    : node.object.name
 
-    return content
-  })
+  const right = node.property.value
 
+  return `${ left }.${ right }`
+}
+
+function getAstParam (param, canComment) {
+  if (param.type === 'ArrowFunctionExpression') {
+    return `(${ getParams(param.params, false) }) => {}`
+  }
+
+  if (param.type === 'Identifier') {
+    return param.name
+  }
+
+  if (param.type === 'Literal') {
+    return '' + param.value
+  }
+
+  if (param.type === 'NewExpression') {
+    return `new ${ param.callee.name }(${ getParams(param.arguments, false) })`
+  }
+
+  if (param.type === 'MemberExpression') {
+    return getAstMemberExpression(param)
+  }
+
+  if (param.type === 'ObjectPattern') {
+    return getAstObjectPattern(param, canComment)
+  }
+
+  if (param.type === 'ObjectExpression') {
+    return '{}'
+  }
+
+  if (param.type === 'ArrayExpression') {
+    return '[]'
+  }
+
+  if (param.type === 'AssignmentPattern') {
+    return getAstAssignmentPattern(param, canComment)
+  }
+
+  console.error('param:', param)
+  throw new Error('astParser - getAstParam(): unknown param case')
+}
+
+function getParams (params, canComment = true) {
+  const list = params.map(param => getAstParam(param, canComment))
   return list.join(', ') || ''
 }
 
@@ -38,27 +86,28 @@ function parseVar ({ accessor, isExported = false }) {
   }
 }
 
-function parseClass ({ declaration, accessor, targetContent, isExported = false }) {
-  const constructorEntry = declaration.body.body.find(entry => entry.kind === 'constructor')
-  const params = getParams(constructorEntry?.value.params, targetContent)
+function parseClass ({ declaration, accessor, isExported = false }) {
+  const constructorEntry = declaration.body.body.find(
+    entry => entry.kind === 'constructor'
+  )
 
   return {
     jsonKey: 'classes',
     isExported,
     def: {
       accessor,
-      constructorParams: params
+      constructorParams: getParams(constructorEntry?.value.params)
     }
   }
 }
 
-function parseFunction ({ declaration, accessor, targetContent, isExported = false }) {
+function parseFunction ({ declaration, accessor, isExported = false }) {
   return {
     jsonKey: 'functions',
     isExported,
     def: {
       accessor,
-      params: getParams(declaration.params, targetContent)
+      params: getParams(declaration.params)
     }
   }
 }
@@ -75,9 +124,7 @@ export function getImportStatement ({ ctx, json }) {
 }
 
 export function readAstJson (ctx) {
-  const { targetContent } = ctx
-
-  const { body } = Parser.parse(targetContent, {
+  const { body } = Parser.parse(ctx.targetContent, {
     ecmaVersion: 'latest',
     sourceType: 'module'
   })
@@ -107,7 +154,6 @@ export function readAstJson (ctx) {
           else if (declaration.type === 'FunctionDeclaration') {
             content[ declaration.id.name ] = parseFunction({
               declaration,
-              targetContent,
               isExported: true
             })
           }
@@ -127,14 +173,12 @@ export function readAstJson (ctx) {
       else if (node.declaration.type === 'ClassDeclaration') {
         content[ node.declaration.id.name ] = parseClass({
           declaration: node.declaration,
-          targetContent,
           isExported: true
         })
       }
       else if (node.declaration.type === 'FunctionDeclaration') {
         content[ node.declaration.id.name ] = parseFunction({
           declaration: node.declaration,
-          targetContent,
           isExported: true
         })
       }
@@ -145,7 +189,7 @@ export function readAstJson (ctx) {
       })
     }
     else if (node.type === 'FunctionDeclaration') {
-      content[ node.id.name ] = parseFunction({ declaration: node, targetContent })
+      content[ node.id.name ] = parseFunction({ declaration: node })
     }
   })
 
@@ -193,8 +237,7 @@ export function readAstJson (ctx) {
     ) {
       const { def } = parseFunction({
         declaration,
-        accessor: ctx.pascalName,
-        targetContent
+        accessor: ctx.pascalName
       })
 
       json.functions.default = def
@@ -204,8 +247,7 @@ export function readAstJson (ctx) {
     else if (declaration.type === 'ClassDeclaration') {
       const { def } = parseClass({
         declaration,
-        accessor: ctx.pascalName,
-        targetContent
+        accessor: ctx.pascalName
       })
 
       json.classes.default = def
