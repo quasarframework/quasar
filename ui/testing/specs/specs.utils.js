@@ -21,11 +21,6 @@ export function plural (num) {
   return num === 1 ? '' : 's'
 }
 
-function filterSpreadKey (key) {
-  // example -> "...": { desc: "Any other props..." }
-  return ignoreKeyRE.test(key) === false
-}
-
 const typeMap = {
   Number: {
     valueRegex: /^-?\d/,
@@ -47,16 +42,18 @@ const typeMap = {
       if (jsonEntry.definition === void 0) return '[]'
 
       const keyIndent = indent + '  '
-      const list = Object.keys(jsonEntry.definition)
-        .filter(filterSpreadKey)
-        .map(key => {
-          const val = getTestValue({
-            jsonEntry: jsonEntry.definition[ key ],
-            indent: keyIndent
-          })
+      const list = Object.keys(jsonEntry.definition).map(key => {
+        if (ignoreKeyRE.test(key) === true) {
+          return `\n${ keyIndent }// ${ key }`
+        }
 
-          return `\n${ keyIndent }${ key }: ${ val }`
+        const val = getTestValue({
+          jsonEntry: jsonEntry.definition[ key ],
+          indent: keyIndent
         })
+
+        return `\n${ keyIndent }${ key }: ${ val }`
+      })
 
       return `[ {${ list.join(',') }\n${ indent }} ]`
     },
@@ -74,16 +71,18 @@ const typeMap = {
       if (jsonEntry.definition === void 0) return '{}'
 
       const keyIndent = indent + '  '
-      const list = Object.keys(jsonEntry.definition)
-        .filter(filterSpreadKey)
-        .map(key => {
-          const val = getTestValue({
-            jsonEntry: jsonEntry.definition[ key ],
-            indent: keyIndent
-          })
+      const list = Object.keys(jsonEntry.definition).map(key => {
+        if (ignoreKeyRE.test(key) === true) {
+          return `\n${ keyIndent }// ${ key }`
+        }
 
-          return `\n${ keyIndent }${ key }: ${ val }`
+        const val = getTestValue({
+          jsonEntry: jsonEntry.definition[ key ],
+          indent: keyIndent
         })
+
+        return `\n${ keyIndent }${ key }: ${ val }`
+      })
 
       return `{${ list.join(',') }\n${ indent }}`
     },
@@ -321,35 +320,51 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
   }
 
   if (Array.isArray(jsonEntry.type) === false) {
-    const { type } = jsonEntry
-
-    if (type === 'Object') {
+    if (jsonEntry.type === 'Object') {
       if (jsonEntry.definition !== void 0) {
         const { definition } = jsonEntry
         const definitionKeys = Object.keys(definition)
 
-        const list = definitionKeys
-          .filter(filterSpreadKey)
-          .map(key => {
-            return `${ key }: ${ getExpectMatcher(definition[ key ], innerIndent) }`
-          })
+        if (definitionKeys.length === 1) {
+          const key = definitionKeys[ 0 ]
+          if (key === '...key' || key === '...self') {
+            const target = definition[ key ].definition
 
-        const expectStr = `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
-        return definitionKeys.length === 1 && definitionKeys[ 0 ] === '...keys'
-          ? `expect.$objectValues(${ expectStr })`
-          : expectStr
+            // example: QUploader > slots > header
+            if (target === void 0) {
+              return getExpectMatcher(definition[ key ], indent)
+            }
+
+            const list = Object.keys(target).map(key => {
+              return ignoreKeyRE.test(key) === true
+                ? `// ${ key }`
+                : `${ key }: ${ getExpectMatcher(target[ key ], innerIndent) }`
+            })
+
+            const expectStr = `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
+            return `expect.$objectValues(${ expectStr })`
+          }
+        }
+
+        const list = definitionKeys.map(key => {
+          return ignoreKeyRE.test(key) === true
+            ? `// ${ key }`
+            : `${ key }: ${ getExpectMatcher(definition[ key ], innerIndent) }`
+        })
+
+        return `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
       }
     }
-    else if (type === 'Array') {
+    else if (jsonEntry.type === 'Array') {
       if (jsonEntry.definition !== void 0) {
         const { definition } = jsonEntry
         const definitionKeys = Object.keys(definition)
 
-        const list = definitionKeys
-          .filter(filterSpreadKey)
-          .map(key => {
-            return `${ key }: ${ getExpectMatcher(definition[ key ], innerIndent) }`
-          })
+        const list = definitionKeys.map(key => {
+          return ignoreKeyRE.test(key) === true
+            ? `// ${ key }`
+            : `${ key }: ${ getExpectMatcher(definition[ key ], innerIndent) }`
+        })
 
         const expectStr = `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
         return `expect.$arrayValues(${ expectStr })`
