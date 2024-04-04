@@ -2,6 +2,7 @@ export const testIndent = '        '
 const pascalRegex = /((-|\.)\w)/g
 const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const ignoreKeyRE = /\.\.\./
+const objectSpreadKeys = [ '...key', '...self' ]
 
 export function pascalCase (str) {
   return str.replace(
@@ -86,11 +87,27 @@ const typeMap = {
 
       return `{${ list.join(',') }\n${ indent }}`
     },
-    createExpectCall: ({ jsonEntry, ref }) => (
-      jsonEntry.definition === void 0
-        ? `expect(${ ref }).toBeTypeOf('object')`
-        : `expect(${ ref }).toMatchObject(${ getExpectMatcher(jsonEntry) })`
-    ),
+    createExpectCall: ({ jsonEntry, ref }) => {
+      if (jsonEntry.definition === void 0) {
+        return `expect(${ ref }).toBeTypeOf('object')`
+      }
+
+      const keys = Object.keys(jsonEntry.definition)
+      if (keys.length === 1 && objectSpreadKeys.includes(keys[ 0 ]) === true) {
+        const localKey = keys[ 0 ]
+        const target = jsonEntry.definition[ localKey ].definition
+
+        if (target !== void 0) {
+          const matcher = localKey === '...key'
+            ? '$objectValues'
+            : 'toMatchObject'
+
+          return `expect(${ ref }).${ matcher }(${ getExpectMatcher(jsonEntry.definition[ localKey ]) })`
+        }
+      }
+
+      return `expect(${ ref }).toMatchObject(${ getExpectMatcher(jsonEntry) })`
+    },
     expectMatcher: 'expect.any(Object)'
   },
 
@@ -327,7 +344,7 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
 
         if (definitionKeys.length === 1) {
           const key = definitionKeys[ 0 ]
-          if (key === '...key' || key === '...self') {
+          if (objectSpreadKeys.includes(key) === true) {
             const target = definition[ key ].definition
 
             // example: QUploader > slots > header

@@ -113,7 +113,6 @@ function createMethodTest ({
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
         ${ typeTest }
-
         ${ callTest }
 
         // TODO: test the effect

@@ -229,7 +229,6 @@ function createMethodTest ({
         ${ getComponentMount({ ctx, json }) }
 
         ${ typeTest }
-
         ${ callTest }
 
         // TODO: test the effect
