@@ -120,7 +120,6 @@ export default createComponent({
 
   emits: [
     'request', 'virtualScroll',
-    'rowClick', 'rowDblclick', 'rowContextmenu',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits
