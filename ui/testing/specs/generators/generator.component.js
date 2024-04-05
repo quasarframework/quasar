@@ -8,6 +8,7 @@
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
   testIndent,
+  capitalize,
   getComponentMount,
   filterDefExceptionTypes,
   getTypeTest,
@@ -104,12 +105,16 @@ function createPropTest ({
   json,
   ctx
 }) {
+  const definedSuffix = jsonEntry.passthrough === true
+    ? 'toBeUndefined() // passthrough prop'
+    : 'toBeDefined()'
+
   const propTest = getPropTest({ name, jsonEntry, json, ctx })
 
   return `
     describe('${ testId }', () => {
-      test('is defined', () => {
-        expect(${ ctx.pascalName }.props.${ pascalName }).toBeDefined()
+      test('is defined correctly', () => {
+        expect(${ ctx.pascalName }.props.${ pascalName }).${ definedSuffix }
       })${ propTest }
     })\n`
 }
@@ -175,19 +180,27 @@ function createEventTest ({
   json,
   ctx
 }) {
-  const nameAccessor = pascalName.indexOf(':') === -1
-    ? `.${ pascalName }`
-    : `[ '${ pascalName }' ]` // example: 'update:modelValue'
+  const [ emitAccessor, propsAccessor ] = pascalName.indexOf(':') === -1
+    ? [ `.${ pascalName }`, `.on${ capitalize(pascalName) }` ]
+    // example: 'update:modelValue'
+    : [ `[ '${ pascalName }' ]`, `.[ 'on${ capitalize(pascalName) }' ]` ]
 
-  const varName = `eventList${ nameAccessor }`
+  const varName = `eventList${ emitAccessor }`
   const paramsTest = jsonEntry.params !== void 0
     ? getEventParamsTest(jsonEntry, `${ varName }[ 0 ]`)
     : `expect(${ varName }[ 0 ]).toHaveLength(0)`
 
+  const [ isDefinedBitwiseOperator, isDefinedSuffix ] = jsonEntry.passthrough === true
+    ? [ '&', 'toBe(0) // passthrough event' ]
+    : [ '^', 'toBe(1)' ]
+
   return `
     describe('${ testId }', () => {
-      test('is defined', () => {
-        expect(${ ctx.pascalName }.emits).toContain('${ pascalName }')
+      test('is defined correctly', () => {
+        expect(
+          ${ ctx.pascalName }.emits?.includes('${ pascalName }')
+          ${ isDefinedBitwiseOperator } (${ ctx.pascalName }.props?${ propsAccessor } !== void 0)
+        ).${ isDefinedSuffix }
       })
 
       test.todo('is emitting', () => {

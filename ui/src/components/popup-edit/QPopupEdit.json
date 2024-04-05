@@ -73,7 +73,8 @@
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
-      "category": "position"
+      "category": "position",
+      "passthrough": true
     },
 
     "cover": {
@@ -91,7 +92,8 @@
         "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
         "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "category": "position"
+      "category": "position",
+      "passthrough": true
     },
 
     "self": {
@@ -102,50 +104,58 @@
         "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
         "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "category": "position"
+      "category": "position",
+      "passthrough": true
     },
 
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     },
 
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
-      "category": "behavior"
+      "category": "behavior",
+      "passthrough": true
     },
 
     "persistent": {
       "type": "Boolean",
       "desc": "Avoid menu closing by hitting ESC key or by clicking/tapping outside of the Popup",
-      "category": "behavior"
+      "category": "behavior",
+      "passthrough": true
     },
 
     "separate-close-popup": {
       "type": "Boolean",
       "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
-      "category": "behavior"
+      "category": "behavior",
+      "passthrough": true
     },
 
     "square": {
       "type": "Boolean",
       "desc": "Forces menu to have squared borders",
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     },
 
     "max-height": {
       "extends": "size",
       "desc": "The maximum height of the menu; Size in CSS units, including unit name",
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     },
 
     "max-width": {
       "extends": "size",
       "desc": "The maximum width of the menu; Size in CSS units, including unit name",
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     }
   },
 

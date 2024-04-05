@@ -23,6 +23,10 @@ export function plural (num) {
   return num === 1 ? '' : 's'
 }
 
+export function capitalize (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 const typeMap = {
   Number: {
     valueRegex: /^-?\d/,
