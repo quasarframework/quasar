@@ -5,12 +5,6 @@
 
   "mixins": [ "composables/private/use-panel.child" ],
 
-  "props": {
-    "dark": {
-      "extends": "dark"
-    }
-  },
-
   "slots": {
     "default": {
       "extends": "default"
