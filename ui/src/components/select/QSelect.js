@@ -128,7 +128,7 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'add', 'remove', 'inputValue', 'newValue',
+    'add', 'remove', 'inputValue',
     'keyup', 'keypress', 'keydown',
     'filterAbort'
   ],
