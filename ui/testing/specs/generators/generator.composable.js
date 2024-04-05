@@ -125,12 +125,22 @@ export default {
       )
     )
 
-    return [
-      'import { describe, test, expect } from \'vitest\'',
-      needsMount === true
-        ? 'import { mount } from \'@vue/test-utils\'\n'
-        : '',
+    const acc = [
+      'import { describe, test, expect } from \'vitest\''
+    ]
+
+    if (needsMount === true) {
+      acc.push(
+        'import { mount } from \'@vue/test-utils\'',
+        'import { defineComponent } from \'vue\''
+      )
+    }
+
+    acc.push(
+      '',
       getImportStatement({ ctx, json })
-    ].join('\n')
+    )
+
+    return acc.join('\n')
   }
 }
