@@ -42,7 +42,7 @@
       :dark="dark"
       flat
       bordered
-      @row-dblclick="onRowClick"
+      @row-dblclick="onRowDblClick"
     />
 
     <q-table
@@ -235,8 +235,11 @@ export default {
 
   methods: {
     onRowClick (evt, row) {
-      // alert('click')
-      console.log('clicked on', evt, row)
+      console.log('@row-click', evt, row)
+    },
+
+    onRowDblClick (evt, row) {
+      console.log('@row-dblclick', evt, row)
     }
   }
 }

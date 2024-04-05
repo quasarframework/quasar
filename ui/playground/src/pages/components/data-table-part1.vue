@@ -348,6 +348,7 @@
         selection="multiple"
         v-model:selected="selected"
         row-key="name"
+        @row-click="onRowClick"
       />
 
       <h2>body-cell-[name] template</h2>
@@ -1003,6 +1004,10 @@ export default {
     },
     onSelection ({ added, ...rest }) {
       console.log(added ? 'selected' : 'un-selected', rest)
+    },
+
+    onRowClick (evt, row) {
+      console.log('@row-click', evt, row)
     }
   },
 
