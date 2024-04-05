@@ -120,9 +120,11 @@ function createPropTest ({
 }
 
 function getSlotScope (jsonEntry) {
-  if (jsonEntry.scope === void 0) return {
-    slotFn: '() => slotContent',
-    scopeTests: ''
+  if (jsonEntry.scope === void 0) {
+    return {
+      slotFn: '() => slotContent',
+      scopeTests: ''
+    }
   }
 
   const typeTest = getTypeTest({

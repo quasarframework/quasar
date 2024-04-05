@@ -502,8 +502,9 @@ export function getTestValue ({ jsonEntry, indent = testIndent }) {
     const { valueRegex } = target
 
     for (const val of valuesList) {
-      if (valueRegex.test(val) === true)
+      if (valueRegex.test(val) === true) {
         return val
+      }
     }
   }
 
