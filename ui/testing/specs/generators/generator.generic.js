@@ -1,4 +1,5 @@
 import { readAstJson, getImportStatement } from '../astParser.js'
+import { testIndent } from '../specs.utils.js'
 
 const identifiers = {
   variables: {
@@ -44,14 +45,18 @@ function createClassTest ({ testId, jsonEntry }) {
 }
 
 function createFunctionTest ({ testId, jsonEntry }) {
+  const lint = jsonEntry.params
+    ? `// eslint-disable-next-line\n${ testIndent }  `
+    : ''
+
   return `
     describe('${ testId }', () => {
       test.todo('does not error out', () => {
-        expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
+        ${ lint }expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
       })
 
       test.todo('has correct return value', () => {
-        const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
+        ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
         expect(result).toBeDefined()
       })
     })\n`

@@ -1,4 +1,5 @@
 import { readAstJson, getImportStatement } from '../astParser.js'
+import { testIndent } from '../specs.utils.js'
 
 const identifiers = {
   variables: {
@@ -57,11 +58,15 @@ function getFnTests (jsonEntry, json) {
     // and this is a composable function
     && useRE.test(jsonEntry.accessor)
   ) {
+    const lint = jsonEntry.params
+      ? `// eslint-disable-next-line\n${ testIndent }    `
+      : ''
+
     return `test.todo('does not error out', () => {
         const TestComponent = defineComponent({
           template: '<div />',
           setup () {
-            const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
+            ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
             return { result }
           }
         })
@@ -73,12 +78,16 @@ function getFnTests (jsonEntry, json) {
       })`
   }
 
+  const lint = jsonEntry.params
+    ? `// eslint-disable-next-line\n${ testIndent }  `
+    : ''
+
   return `test.todo('does not error out', () => {
-        expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
+        ${ lint }expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
       })
 
       test.todo('has correct return value', () => {
-        const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
+        ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
         expect(result).toBeDefined()
       })`
 }
