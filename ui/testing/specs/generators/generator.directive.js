@@ -42,7 +42,7 @@ function createValueTest ({
 
     return `test.todo('as ${ type }', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.pascalName) }${ valExists ? '="val"' : '' }></div>',
+        template: '<div v-${ kebabCase(ctx.pascalName) }${ valExists ? '="val"' : '' } />',
         directives: { ${ ctx.pascalName } }${ valExists ? `,
         setup () {
           return {
@@ -72,7 +72,7 @@ function createArgTest ({
   describe('${ categoryId }', () => {
     test.todo('has effect', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.pascalName) }:......></div>',
+        template: '<div v-${ kebabCase(ctx.pascalName) }:...... />',
         directives: { ${ ctx.pascalName } }
       })
 
@@ -99,7 +99,7 @@ function createModifierTest ({
     describe('${ testId }', () => {
       test.todo('has effect', () => {
         const TestComponent = defineComponent({
-          template: '<div v-${ kebabCase(ctx.pascalName) }.${ val }></div>',
+          template: '<div v-${ kebabCase(ctx.pascalName) }.${ val } />',
           directives: { ${ ctx.pascalName } }
         })
 
@@ -122,5 +122,20 @@ export default {
       '',
       `import ${ ctx.pascalName } from './${ ctx.localName }'`
     ].join('\n')
+  },
+  getGenericTest: ({ ctx }) => {
+    return `
+  describe('[Generic]', () => {
+    test('should not throw error on render', () => {
+      const TestComponent = defineComponent({
+        template: '<div v-${ kebabCase(ctx.pascalName) } />',
+        directives: { ${ ctx.pascalName } }
+      })
+
+      const wrapper = mount(TestComponent)
+
+      expect(wrapper).toBeDefined() // this is here for linting only
+    })
+  })\n`
   }
 }
