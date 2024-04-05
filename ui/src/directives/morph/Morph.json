@@ -122,7 +122,7 @@
             "desc": "Was the morphing aborted?"
           }
         },
-        "examples": [ "(direction, aborted) => { if (direction !== 'to') { revertLogic() } }" ]
+        "examples": [ "(direction, _aborted) => { if (direction !== 'to') { /* revertLogic() */ } }" ]
       }
     },
 

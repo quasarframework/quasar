@@ -165,7 +165,7 @@
       "desc": "Apply custom class(es) to the header",
       "examples": [
         "'my-custom-class'",
-        "{ 'my-custom-class': someCondition }"
+        "{ 'my-custom-class': true }"
       ],
       "category": "style"
     }

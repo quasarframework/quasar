@@ -44,7 +44,7 @@
               "type": "Object",
               "tsType": "QDialogInputPrompt",
               "desc": "An object definition of the input field for the prompting question.",
-              "examples": [ "{ model: this.promptVal, type: 'number' }" ],
+              "examples": [ "{ model: 'initial-value', type: 'number' }" ],
               "definition": {
                 "model": {
                   "type": "String",
@@ -98,7 +98,7 @@
               "type": "Object",
               "tsType": "QDialogSelectionPrompt",
               "desc": "An object definition for creating the selection form content",
-              "examples": [ "{ model: dialogSelection, type: 'radio', items: [ ...listOfItems ] }" ],
+              "examples": [ "{ model: null, type: 'radio', items: [ /* ...listOfItems */ ] }" ],
               "definition": {
                 "model": {
                   "type": [ "String", "Array" ],
