@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest watch",
+    "test:watch": "vitest watch --ui",
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@quasar/extras": "^1.16.4",
     "@quasar/vite-plugin": "^1.6.0",
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vitest/ui": "^1.4.0",
     "@vue/test-utils": "^2.4.1",
     "acorn": "^8.11.3",
     "eslint": "^8.11.0",
