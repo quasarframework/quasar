@@ -341,6 +341,10 @@
       "values": [ "'default'", "'menu'", "'dialog'" ],
       "default": "'default'",
       "category": "behavior"
+    },
+
+    "name": {
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists"
     }
   },
 
