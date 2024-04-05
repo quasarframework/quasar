@@ -79,7 +79,7 @@ function getFnTests (jsonEntry, json) {
   }
 
   const lint = jsonEntry.params
-    ? `// eslint-disable-next-line\n${ testIndent }  `
+    ? `// eslint-disable-next-line\n${ testIndent }`
     : ''
 
   return `test.todo('does not error out', () => {
