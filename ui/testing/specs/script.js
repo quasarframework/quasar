@@ -52,7 +52,7 @@ import { getTestFile } from './testFile.js'
 import { cmdValidateTestFile } from './cmd.validateTestFile.js'
 import { cmdCreateTestFile } from './cmd.createTestFile.js'
 import { cmdGenerateSection } from './cmd.generateSection.js'
-import { cmdDryRun } from './cmd.dryRun.js'
+import { getDryRunCmd } from './cmd.dryRun.js'
 
 const targetList = getTargetList(argv)
 
@@ -60,6 +60,10 @@ if (targetList.length === 0) {
   console.error('No such target found...')
   process.exit(1)
 }
+
+const cmdDryRun = argv[ 'dry-run' ] === true
+  ? await getDryRunCmd()
+  : null
 
 for (const target of targetList) {
   if (ignoredTestFiles.has(target) === true) {
@@ -70,7 +74,7 @@ for (const target of targetList) {
   const ctx = createCtx(target)
   const testFile = getTestFile(ctx)
 
-  if (argv[ 'dry-run' ] === true) {
+  if (cmdDryRun !== null) {
     await cmdDryRun({ ctx, testFile })
   }
   else if (argv.generate !== void 0) {
