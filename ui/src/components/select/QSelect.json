@@ -635,6 +635,7 @@
         "details": {
           "definition": {
             "ref": {
+              "type": "Component",
               "tsType": "QSelect",
               "desc": "Vue reference to the QSelect"
             }
