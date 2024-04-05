@@ -121,7 +121,6 @@
     "tag": {
       "type": "String",
       "desc": "HTML tag to use",
-      "examples": [ "'div'", "'span'" ],
       "category": "content"
     },
 

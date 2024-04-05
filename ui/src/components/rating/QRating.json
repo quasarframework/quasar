@@ -67,7 +67,7 @@
       "extends": "color",
       "type": [ "String", "Array" ],
       "desc": "Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)",
-      "examples": [ "'primary'", "'teal-10'", "[ 'accent', 'grey-7' ]" ]
+      "examples": [ "[ 'accent', 'grey-7' ]" ]
     },
 
     "color-selected": {

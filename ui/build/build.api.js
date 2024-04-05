@@ -386,6 +386,13 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
           }
         })
       }
+
+      if ((new Set(obj.examples)).size !== obj.examples.length) {
+        logError(`${ banner } object has "examples" Array with duplicates`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
     }
 
     // Since we processed '__exemption', we can strip it
