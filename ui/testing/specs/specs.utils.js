@@ -272,79 +272,65 @@ function getObjectList ({ keyList, getValue, indent }) {
   )
 }
 
-function getMountRequiredProps (jsonProps, exceptionProp) {
-  const acc = []
-  const propIndent = `${ testIndent }    `
-
-  Object.keys(jsonProps || []).forEach(prop => {
-    if (prop === exceptionProp) return
-
-    const propDef = jsonProps[ prop ]
-
-    if (propDef.required) {
-      const pascalName = pascalCase(prop)
-      const val = getTestValue({
-        jsonEntry: propDef,
-        indent: propIndent
-      })
-
-      acc.push([ pascalName, val ])
-
-      if (propDef.sync === true) {
-        acc.push([ `'onUpdate:${ pascalName }'`, '(_val) => {}' ])
-      }
-    }
-  })
-
-  return acc
-}
-
-function getMountSlot ({ name, slotFn }) {
-  const nameAsObjKey = name.indexOf('-') === -1
-    ? name
-    : `'${ name }'` // example: 'navigation-icon'
-
-  return `\n${ testIndent }  slots: {`
-    + `\n${ testIndent }    ${ nameAsObjKey }: ${ slotFn }`
-    + `\n${ testIndent }  }`
-}
-
+const mountInnerIndent = `${ testIndent }    `
 export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
-  const requiredProps = getMountRequiredProps(json.props, prop)
+  const target = {}
+  const props = Object.keys(json.props || [])
+    .filter(propName => prop === propName || json.props[ propName ].required === true)
 
-  if (prop !== null) {
-    const pascalName = pascalCase(prop)
-    requiredProps.push([ pascalName, 'propVal' ])
-    if (json.props[ prop ].sync === true) {
-      requiredProps.push([ `'onUpdate:${ pascalName }'`, 'val => { propVal = val }' ])
+  if (props.length !== 0) {
+    target.props = props.reduce((acc, propName) => {
+      const jsonEntry = json.props[ propName ]
+      const pascalName = pascalCase(propName)
+
+      acc[ pascalName ] = prop === propName
+        ? 'propVal'
+        : getTestValue({
+          jsonEntry,
+          indent: mountInnerIndent
+        })
+
+      if (jsonEntry.sync === true) {
+        acc[ `'onUpdate:${ pascalName }'` ] = prop === propName
+          ? 'val => { propVal = val }'
+          : '(_val) => {}'
+      }
+
+      return acc
+    }, {})
+  }
+
+  if (slot !== null) {
+    const { name, slotFn } = slot
+    const nameAsObjKey = name.indexOf('-') === -1
+      ? name
+      : `'${ name }'` // example: 'navigation-icon'
+
+    target.slots = {
+      [ nameAsObjKey ]: slotFn
     }
   }
 
-  const propList = requiredProps.map(([ prop, testVal ]) => {
-    return `${ testIndent }    ${ prop }: ${ testVal }`
-  })
+  const keyList = Object.keys(target)
 
-  const slotList = slot !== null
-    ? getMountSlot(slot)
-    : ''
-
-  if (propList.length === 0 && slotList === '') {
+  if (keyList.length === 0) {
     return `const wrapper = mount(${ ctx.pascalName })`
   }
 
-  return `const wrapper = mount(${ ctx.pascalName }, {`
-    + (
-      propList.length !== 0
-        ? (
-            `\n${ testIndent }  props: {\n`
-            + propList.join(',\n')
-            + `\n${ testIndent }  }`
-          )
-        : ''
-    )
-    + (propList.length !== 0 && slotList !== '' ? ',' : '')
-    + slotList
-    + `\n${ testIndent }})`
+  const mountOpts = getObjectList({
+    keyList,
+    getValue: key => {
+      const acc = target[ key ]
+      return getObjectList({
+        keyList: Object.keys(acc),
+        getValue: innerKey => acc[ innerKey ],
+        indent: testIndent + '  '
+      })
+    },
+    indent: testIndent
+  })
+
+  return `const wrapper = mount(${ ctx.pascalName }, ${ mountOpts })`
 }
 
 function getExpectMatcher (jsonEntry, indent = testIndent) {
