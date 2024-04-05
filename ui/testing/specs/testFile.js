@@ -1,6 +1,5 @@
 import fse from 'fs-extra'
 import { Parser } from 'acorn'
-// import { inspect } from 'node:util'
 
 import { pascalCase } from './specs.utils.js'
 import { getGenerator } from './generators/map.js'
@@ -83,15 +82,6 @@ function getTestTree (testFileContent) {
   const tree = {}
   body.forEach(astNode => extractTree(astNode, tree, 1))
 
-  // console.log(
-  //   inspect(tree, {
-  //     showHidden: true,
-  //     depth: null,
-  //     colors: true,
-  //     compact: false
-  //   })
-  // )
-  // process.exit(0)
   return tree
 }
 
@@ -323,7 +313,7 @@ function createTestFileContent ({ ctx, json, generator }) {
 
   const { identifiers, getFileHeader } = generator
 
-  let hasIdentifier = false
+  let hasContent = false
   let acc = getFileHeader({ ctx, json })
     + `\n\ndescribe('${ ctx.testTreeRootId }', () => {`
 
@@ -331,7 +321,7 @@ function createTestFileContent ({ ctx, json, generator }) {
     const categoryJson = json[ jsonKey ]
     if (categoryJson === void 0) return
 
-    hasIdentifier = true
+    hasContent = true
     const { categoryId, getTestId, createTestFn, shouldIgnoreEntry } = identifiers[ jsonKey ]
 
     if (getTestId === void 0) {
@@ -364,8 +354,8 @@ function createTestFileContent ({ ctx, json, generator }) {
     }
   })
 
-  if (hasIdentifier === false) {
-    acc += `\n  describe('[Generic]', () => {
+  if (hasContent === false) {
+    acc += generator.getGenericTest?.({ ctx }) || `\n  describe('[Generic]', () => {
     test('generic', () => {
       // TODO: write a generic test
       expect(true).toBe(true)

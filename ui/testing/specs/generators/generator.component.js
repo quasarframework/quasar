@@ -264,5 +264,17 @@ export default {
       '',
       `import ${ ctx.pascalName } from './${ ctx.localName }'`
     ].join('\n')
+  },
+  getGenericTest: ({ ctx }) => {
+    return `
+  describe('[Generic]', () => {
+    test('should not throw error on render', () => {
+      const wrapper = mount(${ ctx.pascalName })
+
+      expect(
+        wrapper.get('div')
+      ).toBeDefined()
+    })
+  })\n`
   }
 }
