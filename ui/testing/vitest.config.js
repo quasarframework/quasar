@@ -3,7 +3,6 @@ import { join } from 'node:path'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import vitePluginChecker from 'vite-plugin-checker'
 
 const rootFolder = fileURLToPath(new URL('.', import.meta.url))
 const resolve = _path => join(rootFolder, _path)
@@ -22,23 +21,11 @@ export default defineConfig(() => {
         sassVariables: false,
         autoImportComponentCase: 'combined'
       })
-
-      // vitePluginChecker({
-      //   root: resolve('../'),
-      //   eslint: {
-      //     lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
-      //   }
-      // })
     ],
 
     resolve: {
       alias: {
-        test: resolve('.'),
         quasar: resolve('..')
-        // 'quasar/dist/quasar.sass': resolve('../src/css/index.sass'),
-        // 'quasar/icon-set': resolve('../icon-set'),
-        // 'quasar/lang': resolve('../lang'),
-        // 'quasar/src': resolve('../src')
       }
     },
 

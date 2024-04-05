@@ -3,6 +3,7 @@ import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'
 
 export default {
+  name: 'Quasar',
   version: __QUASAR_VERSION__,
 
   install: installQuasar,

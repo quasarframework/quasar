@@ -2,14 +2,11 @@ import { config } from '@vue/test-utils'
 import { expect } from 'vitest'
 
 import '@quasar/extras/material-icons/material-icons.css'
-import '../src/css/index.sass'
+import 'quasar/src/css/index.sass'
 
-import installQuasar from '../src/install-quasar.js'
-import * as plugins from '../src/plugins.js'
+import quasarVuePlugin from 'quasar/src/vue-plugin.js'
 
-config.global.plugins.push({
-  install: app => installQuasar(app, { plugins })
-})
+config.global.plugins.push(quasarVuePlugin)
 
 config.plugins.DOMWrapper.install(wrapper => {
   return {

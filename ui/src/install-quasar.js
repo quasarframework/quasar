@@ -12,6 +12,11 @@ import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
 import { isObject } from './utils/is.js'
 
+/**
+ * If the list below changes, make sure
+ * to also edit /ui/testing/specs/generators/generator.plugin.js
+ * on the "autoInstalledPlugins" array
+ */
 const autoInstalledPlugins = [
   Platform,
   Body,

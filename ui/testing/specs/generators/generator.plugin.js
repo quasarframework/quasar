@@ -23,22 +23,37 @@ const identifiers = {
   }
 }
 
+/**
+ * Make sure that the below array is in sync with
+ * /ui/src/install-quasar.js > "autoInstalledPlugins"
+ */
+const autoInstalledPlugins = [
+  'Platform',
+  'Body',
+  'Dark',
+  'Screen',
+  'History',
+  'Lang',
+  'IconSet'
+]
+
 function getInjectionTest ({ jsonEntry, json, ctx }) {
+  const ref = `wrapper.vm.${ jsonEntry }`
   const target = jsonEntry.substring(3) // strip '$q.'
 
   if (json.props?.[ target ] !== void 0) {
     return getTypeTest({
       jsonEntry: json.props[ target ],
-      ref: jsonEntry
+      ref
     })
   }
 
   // we're sniffing... we might make a wrong assumption
   if (json.methods?.create !== void 0) {
-    return `expect(${ ctx.pascalName }.create).toBe(${ jsonEntry })`
+    return `expect(${ ctx.pascalName }.create).toBe(${ ref })`
   }
 
-  return `expect(${ ctx.pascalName }).toMatchObject(${ jsonEntry })`
+  return `expect(${ ctx.pascalName }).toMatchObject(${ ref })`
 }
 
 function createInjection ({ categoryId, jsonEntry, json, ctx }) {
@@ -47,18 +62,7 @@ function createInjection ({ categoryId, jsonEntry, json, ctx }) {
   return `
   describe('${ categoryId }', () => {
     test('is injected into $q', () => {
-      let $q
-
-      mount(
-        defineComponent({
-          template: '<div />',
-          setup () {
-            $q = useQuasar()
-            return {}
-          }
-        })
-      )
-
+      const wrapper = mountPlugin()
       ${ typeTest }
     })
   })\n`
@@ -67,6 +71,7 @@ function createInjection ({ categoryId, jsonEntry, json, ctx }) {
 function getReactivePropTest ({ ref }) {
   return `\n
       test.todo('is reactive', () => {
+        mountPlugin()
         const val = clone(${ ref })
 
         // TODO: trigger something to test reactivity
@@ -91,6 +96,7 @@ function createPropTest ({
   return `
     describe('${ testId }', () => {
       test('is correct type', () => {
+        mountPlugin()
         ${ typeTest }
       })${ reactiveTest }
     })\n`
@@ -113,6 +119,7 @@ function createMethodTest ({
   return `
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
+        mountPlugin()
         ${ typeTest }
         ${ callTest }
 
@@ -125,35 +132,21 @@ export default {
   identifiers,
   getJson: readAssociatedJsonFile,
   getFileHeader: ({ ctx, json }) => {
+    const hasQuasarInstallOverride = (
+      autoInstalledPlugins.includes(ctx.pascalName) === false
+    )
+
     const acc = [
       'import { describe, test, expect } from \'vitest\'',
-      'import { mount } from \'@vue/test-utils\''
+      `import { mount${ hasQuasarInstallOverride ? ', config' : '' } } from '@vue/test-utils'`
     ]
-
-    const vueImports = []
-    const quasarImports = []
-
-    if (json.injection !== void 0) {
-      vueImports.push('defineComponent')
-      quasarImports.push('useQuasar')
-    }
 
     if (
       Object.keys(json.props || [])
         .some(prop => json.props[ prop ].reactive === true)
     ) {
-      quasarImports.push('clone')
-    }
-
-    if (vueImports.length !== 0) {
       acc.push(
-        `import { ${ vueImports.join(', ') } } from 'vue'`
-      )
-    }
-
-    if (quasarImports.length !== 0) {
-      acc.push(
-        `import { ${ quasarImports.join(', ') } } from 'quasar'`
+        'import { clone } from \'quasar\''
       )
     }
 
@@ -161,9 +154,18 @@ export default {
       '',
       `import ${ ctx.pascalName } from './${ ctx.localName }'`,
       '',
-      '// ensure the Quasar plugin gets installed:',
-      'mount({ template: \'<div />\' })'
+      'const mountPlugin = () => mount({ template: \'<div />\' })'
     )
+
+    if (hasQuasarInstallOverride === true) {
+      acc.push(
+        '',
+        '// We override Quasar install so it installs this plugin',
+        'const quasarVuePlugin = config.global.plugins.find(entry => entry.name === \'Quasar\')',
+        'const { install } = quasarVuePlugin',
+        `quasarVuePlugin.install = app => install(app, { plugins: { ${ ctx.pascalName } } })`
+      )
+    }
 
     return acc.join('\n')
   }
