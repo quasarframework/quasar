@@ -1,7 +1,9 @@
 export const testIndent = '        '
+
 const pascalRegex = /((-|\.)\w)/g
 const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const ignoreKeyRE = /\.\.\./
+const newlineRE = /\n/g
 
 export function pascalCase (str) {
   return str.replace(
@@ -307,7 +309,10 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
       : `'${ name }'` // example: 'navigation-icon'
 
     target.slots = {
-      [ nameAsObjKey ]: slotFn
+      [ nameAsObjKey ]: slotFn.replace(
+        newlineRE,
+        `\n${ mountInnerIndent }`
+      )
     }
   }
 
@@ -317,6 +322,7 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
     return `const wrapper = mount(${ ctx.pascalName })`
   }
 
+  const innerIndent = `${ testIndent }  `
   const mountOpts = getObjectList({
     keyList,
     getValue: key => {
@@ -324,7 +330,7 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
       return getObjectList({
         keyList: Object.keys(acc),
         getValue: innerKey => acc[ innerKey ],
-        indent: testIndent + '  '
+        indent: innerIndent
       })
     },
     indent: testIndent

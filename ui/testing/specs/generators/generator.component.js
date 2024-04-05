@@ -126,11 +126,7 @@ function getSlotScope (jsonEntry) {
   })
 
   return {
-    slotFn: 'scope => {'
-      + `\n${ testIndent }      slotScope = scope`
-      + `\n${ testIndent }      return slotContent`
-      + `\n${ testIndent }    }`,
-
+    slotFn: 'scope => {\n  slotScope = scope\n  return slotContent\n}',
     scopeTests: `\n\n${ testIndent }${ typeTest }`
   }
 }
