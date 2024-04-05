@@ -185,6 +185,17 @@ nativeTypes.forEach(name => {
   }
 })
 
+/**
+ * Also update /ui/testing/specs/specs.utils.js on the "typeMap" object
+ */
+const typeList = [
+  'Number', 'String', 'Array', 'Object', 'Boolean', 'Function', 'RegExp',
+  'Date', 'Element', 'Any', 'Event', 'SubmitEvent', 'File', 'FileList',
+  'Promise<any>', 'Promise<void>', 'Promise<boolean>', 'Promise<number>',
+  'Promise<string>', 'Promise<object>', 'Error',
+  'Component', 'null', 'undefined'
+]
+
 // assumes type does NOT have any duplicates
 function isClassStyleType (type) {
   if (Array.isArray(type) === false) { return false }
@@ -265,7 +276,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
 
     for (const prop in obj) {
       // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
-      if ([ 'type', '__exemption' ].includes(prop)) {
+      if ([ 'type', '__exemption' ].includes(prop) === true) {
         continue
       }
 
@@ -279,70 +290,6 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
         console.error(obj)
         console.log()
         process.exit(1)
-      }
-
-      if (prop === 'default') {
-        if (typeof obj.default !== 'string') {
-          logError(`${ banner } object: stringify "${ prop }" -> "default" value`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-
-        if (
-          regexList.length !== 0
-          && apiIgnoreValueRegex.test(obj.default) === false
-          && regexList.every(regex => regex.test(obj.default) === false)
-        ) {
-          logError(`${ banner } object: "${ prop }" -> "default" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-      }
-      else if (prop === 'values') {
-        if (obj.values.some(val => typeof val !== 'string')) {
-          logError(`${ banner } object: stringify each of "${ prop }" -> "values" entries`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-
-        if (regexList.length !== 0) {
-          obj.values.forEach(val => {
-            if (
-              apiIgnoreValueRegex.test(val) === false
-              && regexList.every(regex => regex.test(val) === false)
-            ) {
-              logError(`${ banner } object: "${ prop }" -> "values" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
-              console.error(obj)
-              console.log()
-              process.exit(1)
-            }
-          })
-        }
-      }
-      else if (prop === 'examples') {
-        if (obj.examples.some(val => typeof val !== 'string')) {
-          logError(`${ banner } object: stringify each of "${ prop }" -> "examples" entries`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-
-        if (regexList.length !== 0) {
-          obj.examples.forEach(val => {
-            if (
-              apiIgnoreValueRegex.test(val) === false
-              && regexList.every(regex => regex.test(val) === false)
-            ) {
-              logError(`${ banner } object: "${ prop }" -> "examples" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
-              console.error(obj)
-              console.log()
-              process.exit(1)
-            }
-          })
-        }
       }
     }
 
@@ -362,6 +309,84 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
         process.exit(1)
       }
     })
+
+    if (obj.type) {
+      const list = Array.isArray(obj.type) ? obj.type : [ obj.type ]
+      list.forEach(t => {
+        if (typeList.includes(t) === false) {
+          logError(`${ banner } object has unrecognized type "${ t }"; if this is a new type, then add it to the "typeList" array in build.api.js`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      })
+    }
+
+    if (obj.default) {
+      if (typeof obj.default !== 'string') {
+        logError(`${ banner } object: stringify "default" value`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      if (
+        regexList.length !== 0
+        && apiIgnoreValueRegex.test(obj.default) === false
+        && regexList.every(regex => regex.test(obj.default) === false)
+      ) {
+        logError(`${ banner } object: "default" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    }
+
+    if (obj.values) {
+      if (obj.values.some(val => typeof val !== 'string')) {
+        logError(`${ banner } object: stringify each of "values" entries`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      if (regexList.length !== 0) {
+        obj.values.forEach(val => {
+          if (
+            apiIgnoreValueRegex.test(val) === false
+            && regexList.every(regex => regex.test(val) === false)
+          ) {
+            logError(`${ banner } object: "values" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+            console.error(obj)
+            console.log()
+            process.exit(1)
+          }
+        })
+      }
+    }
+
+    if (obj.examples) {
+      if (obj.examples.some(val => typeof val !== 'string')) {
+        logError(`${ banner } object: stringify each of "examples" entries`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      if (regexList.length !== 0) {
+        obj.examples.forEach(val => {
+          if (
+            apiIgnoreValueRegex.test(val) === false
+            && regexList.every(regex => regex.test(val) === false)
+          ) {
+            logError(`${ banner } object: "examples" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+            console.error(obj)
+            console.log()
+            process.exit(1)
+          }
+        })
+      }
+    }
 
     // Since we processed '__exemption', we can strip it
     if (obj.__exemption !== void 0) {
