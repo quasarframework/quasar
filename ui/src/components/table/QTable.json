@@ -189,7 +189,7 @@
         "sort": {
           "type": "Function",
           "desc": "Compare function if you have some custom data or want a specific way to compare two rows; rows with null/undefined values will get sorted without triggering this method (use 'rawSort' instead if you want to handle those values too)",
-          "examples": ["(a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)"],
+          "examples": ["(a, b, _rowA, _rowB) => parseInt(a, 10) - parseInt(b, 10)"],
           "params": {
             "a": {
               "type": "Any",
@@ -225,7 +225,7 @@
         "rawSort": {
           "type": "Function",
           "desc": "Compare function if you have some custom data or want a specific way to compare two rows; includes rows with null/undefined values (use 'sort' instead if you don't want that)",
-          "examples": ["(a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)"],
+          "examples": ["(a, b, _rowA, _rowB) => parseInt(a, 10) - parseInt(b, 10)"],
           "params": {
             "a": {
               "type": "Any",

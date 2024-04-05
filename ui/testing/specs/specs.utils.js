@@ -2,7 +2,6 @@ export const testIndent = '        '
 const pascalRegex = /((-|\.)\w)/g
 const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const ignoreKeyRE = /\.\.\./
-const objectSpreadKeys = [ '...key', '...self' ]
 
 export function pascalCase (str) {
   return str.replace(
@@ -43,20 +42,16 @@ const typeMap = {
       if (jsonEntry.definition === void 0) return '[]'
 
       const keyIndent = indent + '  '
-      const list = Object.keys(jsonEntry.definition).map(key => {
-        if (ignoreKeyRE.test(key) === true) {
-          return `\n${ keyIndent }// ${ key }`
-        }
-
-        const val = getTestValue({
+      const list = getObjectList({
+        keyList: Object.keys(jsonEntry.definition),
+        getValue: key => getTestValue({
           jsonEntry: jsonEntry.definition[ key ],
           indent: keyIndent
-        })
-
-        return `\n${ keyIndent }${ key }: ${ val }`
+        }),
+        indent
       })
 
-      return `[ {${ list.join(',') }\n${ indent }} ]`
+      return `[ ${ list } ]`
     },
     createExpectCall: ({ jsonEntry, ref }) => (
       jsonEntry.definition === void 0
@@ -72,37 +67,34 @@ const typeMap = {
       if (jsonEntry.definition === void 0) return '{}'
 
       const keyIndent = indent + '  '
-      const list = Object.keys(jsonEntry.definition).map(key => {
-        if (ignoreKeyRE.test(key) === true) {
-          return `\n${ keyIndent }// ${ key }`
-        }
-
-        const val = getTestValue({
+      return getObjectList({
+        keyList: Object.keys(jsonEntry.definition),
+        getValue: key => getTestValue({
           jsonEntry: jsonEntry.definition[ key ],
           indent: keyIndent
-        })
-
-        return `\n${ keyIndent }${ key }: ${ val }`
+        }),
+        indent
       })
-
-      return `{${ list.join(',') }\n${ indent }}`
     },
     createExpectCall: ({ jsonEntry, ref }) => {
       if (jsonEntry.definition === void 0) {
         return `expect(${ ref }).toBeTypeOf('object')`
       }
 
-      const keys = Object.keys(jsonEntry.definition)
-      if (keys.length === 1 && objectSpreadKeys.includes(keys[ 0 ]) === true) {
-        const localKey = keys[ 0 ]
-        const target = jsonEntry.definition[ localKey ].definition
+      const keyList = Object.keys(jsonEntry.definition)
+      if (keyList.length === 1) {
+        const [ localKey ] = keyList
 
-        if (target !== void 0) {
-          const matcher = localKey === '...key'
-            ? '$objectValues'
-            : 'toMatchObject'
+        if (localKey === '...self') {
+          // could be anything, not only Object
+          return getTypeTest({
+            jsonEntry: jsonEntry.definition[ localKey ],
+            ref
+          })
+        }
 
-          return `expect(${ ref }).${ matcher }(${ getExpectMatcher(jsonEntry.definition[ localKey ]) })`
+        if (localKey === '...key') {
+          return `expect(${ ref }).$objectValues(${ getExpectMatcher(jsonEntry.definition[ localKey ]) })`
         }
       }
 
@@ -253,6 +245,33 @@ export function filterDefExceptionTypes (type) {
   if (type !== 'FileList') return type
 }
 
+function getObjectList ({ keyList, getValue, indent }) {
+  const codeLines = []
+  const commentLines = []
+
+  keyList.forEach(key => {
+    if (ignoreKeyRE.test(key) === true) {
+      commentLines.push(`// ${ key }`)
+    }
+    else {
+      codeLines.push(`${ key }: ${ getValue(key) }`)
+    }
+  })
+
+  const separator = `,\n${ indent }  `
+  const listSeparator = codeLines.length !== 0 && commentLines.length !== 0
+    ? `\n${ indent }  `
+    : ''
+
+  return (
+    `{\n${ indent }  `
+    + codeLines.join(separator)
+    + listSeparator
+    + commentLines.join(separator)
+    + `\n${ indent }}`
+  )
+}
+
 function getMountRequiredProps (jsonProps, exceptionProp) {
   const acc = []
   const propIndent = `${ testIndent }    `
@@ -339,52 +358,68 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
   if (Array.isArray(jsonEntry.type) === false) {
     if (jsonEntry.type === 'Object') {
       if (jsonEntry.definition !== void 0) {
-        const { definition } = jsonEntry
-        const definitionKeys = Object.keys(definition)
+        const keyList = Object.keys(jsonEntry.definition)
 
-        if (definitionKeys.length === 1) {
-          const key = definitionKeys[ 0 ]
-          if (objectSpreadKeys.includes(key) === true) {
-            const target = definition[ key ].definition
+        if (keyList.length === 1) {
+          const [ localKey ] = keyList
+
+          if (localKey === '...self') {
+            // could be anything, not only Object
+            return getExpectMatcher(
+              jsonEntry.definition[ localKey ],
+              indent
+            )
+          }
+
+          if (localKey === '...key') {
+            const target = jsonEntry.definition[ localKey ].definition
 
             // example: QUploader > slots > header
             if (target === void 0) {
-              return getExpectMatcher(definition[ key ], indent)
+              return getExpectMatcher(
+                jsonEntry.definition[ localKey ],
+                indent
+              )
             }
 
-            const list = Object.keys(target).map(key => {
-              return ignoreKeyRE.test(key) === true
-                ? `// ${ key }`
-                : `${ key }: ${ getExpectMatcher(target[ key ], innerIndent) }`
+            const list = getObjectList({
+              keyList: Object.keys(target),
+              getValue: key => getExpectMatcher(
+                target[ key ],
+                innerIndent
+              ),
+              indent
             })
 
-            const expectStr = `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
-            return `expect.$objectValues(${ expectStr })`
+            return `expect.$objectValues(${ list })`
           }
         }
 
-        const list = definitionKeys.map(key => {
-          return ignoreKeyRE.test(key) === true
-            ? `// ${ key }`
-            : `${ key }: ${ getExpectMatcher(definition[ key ], innerIndent) }`
+        return getObjectList({
+          keyList,
+          getValue: key => getExpectMatcher(
+            jsonEntry.definition[ key ],
+            innerIndent
+          ),
+          indent
         })
-
-        return `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
       }
     }
     else if (jsonEntry.type === 'Array') {
       if (jsonEntry.definition !== void 0) {
         const { definition } = jsonEntry
-        const definitionKeys = Object.keys(definition)
+        const keyList = Object.keys(definition)
 
-        const list = definitionKeys.map(key => {
-          return ignoreKeyRE.test(key) === true
-            ? `// ${ key }`
-            : `${ key }: ${ getExpectMatcher(definition[ key ], innerIndent) }`
+        const list = getObjectList({
+          keyList,
+          getValue: key => getExpectMatcher(
+            definition[ key ],
+            innerIndent
+          ),
+          indent
         })
 
-        const expectStr = `{\n${ innerIndent }${ list.join(`,\n${ innerIndent }`) }\n${ indent }}`
-        return `expect.$arrayValues(${ expectStr })`
+        return `expect.$arrayValues(${ list })`
       }
     }
 
