@@ -137,17 +137,20 @@
 
     "click": {
       "extends": "click",
-      "desc": "Emitted when user clicks/taps on the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+      "desc": "Emitted when user clicks/taps on the component; Useful for when taking a decision to toggle mini mode",
+      "passthrough": true
     },
 
     "mouseover": {
       "extends": "click",
-      "desc": "Emitted when user moves mouse cursor over the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+      "desc": "Emitted when user moves mouse cursor over the component; Useful for when taking a decision to toggle mini mode",
+      "passthrough": true
     },
 
     "mouseout": {
       "extends": "click",
-      "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+      "desc": "Emitted when user moves mouse cursor out of the component; Useful for when taking a decision to toggle mini mode",
+      "passthrough": true
     },
 
     "mini-state": {
