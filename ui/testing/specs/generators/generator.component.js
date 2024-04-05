@@ -263,7 +263,6 @@ function createComputedPropTest ({
     describe('${ testId }', () => {
       test.todo('should be exposed', () => {
         ${ getComponentMount({ ctx, json }) }
-
         ${ typeTest }
       })
     })\n`

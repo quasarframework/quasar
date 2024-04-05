@@ -104,7 +104,7 @@ const typeMap = {
         }
       }
 
-      return `expect(${ ref }).toMatchObject(${ getExpectMatcher(jsonEntry) })`
+      return `expect(${ ref }).toStrictEqual(${ getExpectMatcher(jsonEntry) })`
     },
     expectMatcher: 'expect.any(Object)'
   },
