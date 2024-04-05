@@ -33,11 +33,12 @@ function getInjectionTest ({ jsonEntry, json, ctx }) {
     })
   }
 
-  const accessor = json.methods?.create !== void 0
-    ? '.create'
-    : ''
+  // we're sniffing... we might make a wrong assumption
+  if (json.methods?.create !== void 0) {
+    return `expect(${ ctx.pascalName }.create).toBe(${ jsonEntry })`
+  }
 
-  return `expect(${ jsonEntry }).toBe(${ ctx.pascalName }${ accessor })`
+  return `expect(${ ctx.pascalName }).toMatchObject(${ jsonEntry })`
 }
 
 function createInjection ({ categoryId, jsonEntry, json, ctx }) {

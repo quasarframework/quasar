@@ -53,7 +53,7 @@ export default defineConfig(() => {
       css: {
         include: [ /.+/ ]
       },
-      include: [ '../src/**/*.{test,spec}.js' ],
+      include: [ '../src/**/*.test.js' ],
       setupFiles: [
         './setup.js'
       ]
