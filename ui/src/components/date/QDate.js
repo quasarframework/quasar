@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, getCurrentInstance, inject } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -1441,6 +1441,11 @@ export default createComponent({
     Object.assign(proxy, {
       setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
     })
+
+    const qFieldContainer = inject('q-field-container')
+    if (qFieldContainer) {
+      qFieldContainer.swallowClick(true)
+    }
 
     return () => {
       const content = [
