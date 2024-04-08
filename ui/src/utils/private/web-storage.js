@@ -3,7 +3,7 @@ import { isDate, isRegexp } from '../is.js'
 
 function encode (value) {
   if (isDate(value) === true) {
-    return '__q_date|' + value.toUTCString()
+    return '__q_date|' + value.getTime()
   }
   if (isRegexp(value) === true) {
     return '__q_expr|' + value.source
@@ -41,7 +41,8 @@ function decode (value) {
 
   switch (type) {
     case '__q_date':
-      return new Date(source)
+      const number = Number(source)
+      return new Date(Number.isNaN(number) === true ? source : number)
 
     case '__q_expr':
       return new RegExp(source)
