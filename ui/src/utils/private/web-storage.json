@@ -58,7 +58,7 @@
         }
       },
       "returns": {
-        "type": [ "Number", "null" ],
+        "type": [ "Number", "Boolean", "Date", "RegExp", "Function", "Object", "Array", "String", "null" ],
         "desc": "Storage item index"
       }
     },
@@ -86,7 +86,7 @@
       "returns": {
         "type": "Object",
         "desc": "Object syntax: item name as Object key and its value",
-        "examples": [ "{ userId: 'jon12', timesLoggedIn: 14 }" ]
+        "examples": [ "{ userId: 'rstoenescu', timesLoggedIn: 14 }" ]
       }
     },
 
