@@ -51,10 +51,6 @@ function createFunctionTest ({ testId, jsonEntry }) {
 
   return `
     describe('${ testId }', () => {
-      test.todo('does not error out', () => {
-        ${ lint }expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
-      })
-
       test.todo('has correct return value', () => {
         ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
         expect(result).toBeDefined()

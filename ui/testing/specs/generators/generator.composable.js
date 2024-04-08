@@ -62,7 +62,7 @@ function getFnTests (jsonEntry, json) {
       ? `// eslint-disable-next-line\n${ testIndent }    `
       : ''
 
-    return `test.todo('does not error out', () => {
+    return `test.todo('can be used in a component', () => {
         const TestComponent = defineComponent({
           template: '<div />',
           setup () {
@@ -82,11 +82,7 @@ function getFnTests (jsonEntry, json) {
     ? `// eslint-disable-next-line\n${ testIndent }`
     : ''
 
-  return `test.todo('does not error out', () => {
-        ${ lint }expect(() => ${ jsonEntry.accessor }(${ jsonEntry.params })).not.toThrow()
-      })
-
-      test.todo('has correct return value', () => {
+  return `test.todo('has correct return value', () => {
         ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
         expect(result).toBeDefined()
       })`
