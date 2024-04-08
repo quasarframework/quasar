@@ -278,6 +278,20 @@ function getObjectList ({ keyList, getValue, indent }) {
   )
 }
 
+function getArrayList ({ keyList, getValue, indent }) {
+  const codeLines = []
+
+  keyList.forEach(key => {
+    codeLines.push(getValue(key))
+  })
+
+  return (
+    `[\n${ indent }  `
+    + codeLines.join(`,\n${ indent }  `)
+    + `\n${ indent }]`
+  )
+}
+
 const mountInnerIndent = `${ testIndent }    `
 export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
   const target = {}
@@ -462,7 +476,13 @@ export function getTypeTest ({ jsonEntry, ref }) {
     return target.createExpectCall({ jsonEntry, ref })
   }
 
-  return `expect(${ ref }).$any([ ${ getExpectMatcher(jsonEntry) } ])`
+  const list = getArrayList({
+    keyList: jsonEntry.type,
+    getValue: type => getExpectMatcher({ ...jsonEntry, type }),
+    indent: testIndent
+  })
+
+  return `expect(${ ref }).$any(${ list })`
 }
 
 const defTypeTestableValueKeyList = Object.keys(typeMap)
