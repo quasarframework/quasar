@@ -191,6 +191,9 @@ export default async ({ ssrContext }) => {
 ```
 
 ## Change Quasar Language Pack at Runtime
+
+### Changing Language Pack
+
 Example with a QSelect to dynamically change the Quasar components language:
 
 ```html
@@ -243,6 +246,40 @@ export default {
   }
 }
 </script>
+```
+
+### Changing a Specific Label at Runtime
+If you want to change a specific label to another, you can. Here is an example:
+
+```tabs
+<<| js Composition API |>>
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  function changeLabel () {
+    $q.lang.table.noData = 'Hey... there is no data...'
+  }
+
+  return { changeLabel }
+}
+<<| js Options API |>>
+methods: {
+  changeLabel () {
+    this.$q.lang.table.noData = 'Hey... there is no data...'
+  }
+}
+```
+
+If you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can
+
+```js /src/boot/some-boot-file.js
+import { Lang } from 'quasar'
+
+export default () {
+  Lang.props.table.noData = 'Hey... there is no data...'
+}
 ```
 
 ## Using Quasar Language Pack in App Space

@@ -217,7 +217,7 @@ export default async ({ ssrContext }) => {
 
 ## Change Quasar Icon Set at Runtime
 
-#### Changing Icon Set Dynamically
+### Changing Icon Set
 Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
 ```tabs
@@ -246,7 +246,18 @@ methods: {
 }
 ```
 
-#### Changing a Specific Icon Dynamically
+If you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can
+
+```js /src/boot/some-boot-file.js
+import { IconSet } from 'quasar'
+import mdiIconSet from 'quasar/icon-set/mdi-v7.js'
+
+export default () {
+  IconSet.set(mdiIconSet)
+}
+```
+
+### Changing a Specific Icon
 If you want to change a specific icon to another, you can. Here is an example:
 
 ```tabs
@@ -267,5 +278,15 @@ methods: {
   changeQEditorHeaderIcon () {
     this.$q.iconSet.editor.header1 = 'fas fa-font'
   }
+}
+```
+
+If you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can
+
+```js /src/boot/some-boot-file.js
+import { IconSet } from 'quasar'
+
+export default () {
+  IconSet.props.editor.header1 = 'fas fa-font'
 }
 ```

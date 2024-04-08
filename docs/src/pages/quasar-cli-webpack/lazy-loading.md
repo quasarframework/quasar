@@ -141,7 +141,7 @@ So how can we limit the number of chunks created in this case? The idea is to li
     'quasar/lang/' + langIso
   )
     .then(lang => {
-      Quasar.lang.set(lang.default)
+      Lang.set(lang.default)
     })
   ```
   will result in bundling only the language packs you need for your site/app, instead of bundling all the language packs (more than 40!) which might hamper the performance of the commands `quasar dev` and `quasar build`.

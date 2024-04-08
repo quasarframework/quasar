@@ -210,11 +210,11 @@ export default {
     watch(useMapFn, val => {
       if (val === true) {
         icon.value = TOP_ICON
-        // Quasar.iconSet.iconMapFn = customIconMapFn
+        // IconSet.iconMapFn = customIconMapFn
         $q.iconMapFn = customIconMapFn
       }
       else {
-        // Quasar.iconSet.iconMapFn = null
+        // IconSet.iconMapFn = null
         $q.iconMapFn = null
       }
     })

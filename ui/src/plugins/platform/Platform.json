@@ -80,6 +80,12 @@
           "desc": "Type of the native mobile wrapper"
         },
 
+        "webkit": {
+          "type": "Boolean",
+          "required": false,
+          "desc": "Whether the browser is a Webkit one"
+        },
+
         "chrome": {
           "type": "Boolean",
           "required": false,
