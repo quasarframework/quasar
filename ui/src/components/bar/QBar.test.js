@@ -6,9 +6,13 @@ import QBar from './QBar.js'
 describe('[QBar API]', () => {
   describe('[Props]', () => {
     describe('[(prop)dense]', () => {
-      test('should have a dense style when "dense" prop is true', () => {
+      test('is defined correctly', () => {
+        expect(QBar.props.dense).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
         const wrapper = mount(QBar, {
-          propsData: {
+          props: {
             dense: true
           }
         })
@@ -21,9 +25,13 @@ describe('[QBar API]', () => {
     })
 
     describe('[(prop)dark]', () => {
-      test('should have a dark style when "dark" prop is true', () => {
+      test('is defined correctly', () => {
+        expect(QBar.props.dark).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
         const wrapper = mount(QBar, {
-          propsData: {
+          props: {
             dark: true
           }
         })
@@ -33,22 +41,33 @@ describe('[QBar API]', () => {
             .classes()
         ).toContain('q-bar--dark')
       })
-    })
-  })
 
-  describe('[Slots]', () => {
-    describe('[(slot)default]', () => {
-      test('should render the default slot', () => {
+      test('type null has effect', () => {
         const wrapper = mount(QBar, {
-          slots: {
-            default: 'default bar slot'
+          props: {
+            dark: null
           }
         })
 
         expect(
           wrapper.get('.q-bar')
-            .text()
-        ).toContain('default bar slot')
+            .classes()
+        ).not.toContain('q-bar--dark')
+      })
+    })
+  })
+
+  describe('[Slots]', () => {
+    describe('[(slot)default]', () => {
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mount(QBar, {
+          slots: {
+            default: () => slotContent
+          }
+        })
+
+        expect(wrapper.html()).toContain(slotContent)
       })
     })
   })

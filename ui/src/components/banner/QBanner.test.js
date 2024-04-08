@@ -6,14 +6,17 @@ import QBanner from './QBanner.js'
 describe('[QBanner API]', () => {
   describe('[Props]', () => {
     describe('[(prop)inline-actions]', () => {
-      test('should render the actions in the same row as the content', () => {
+      test('is defined correctly', () => {
+        expect(QBanner.props.inlineActions).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
         const wrapper = mount(QBanner, {
-          slots: {
-            default: 'Banner content',
-            action: 'Banner action'
-          },
           props: {
             inlineActions: true
+          },
+          slots: {
+            action: () => 'Banner action'
           }
         })
 
@@ -26,7 +29,11 @@ describe('[QBanner API]', () => {
     })
 
     describe('[(prop)dense]', () => {
-      test('should have a dense style when "dense" prop is true', () => {
+      test('is defined correctly', () => {
+        expect(QBanner.props.dense).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
         const wrapper = mount(QBanner, {
           props: {
             dense: true
@@ -41,22 +48,31 @@ describe('[QBanner API]', () => {
     })
 
     describe('[(prop)rounded]', () => {
-      test('should have a rounded style when "rounded" prop is true', () => {
+      test('is defined correctly', () => {
+        expect(QBanner.props.rounded).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const propVal = true
         const wrapper = mount(QBanner, {
           props: {
-            rounded: true
+            rounded: propVal
           }
         })
 
         expect(
           wrapper.get('.q-banner')
-            .classes()
-        ).toContain('rounded-borders')
+            .$computedStyle('border-radius')
+        ).toBe('4px')
       })
     })
 
     describe('[(prop)dark]', () => {
-      test('should have a dark style when "dark" prop is true', () => {
+      test('is defined correctly', () => {
+        expect(QBanner.props.dark).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
         const wrapper = mount(QBanner, {
           props: {
             dark: true
@@ -68,55 +84,59 @@ describe('[QBanner API]', () => {
             .classes()
         ).toContain('q-banner--dark')
       })
+
+      test('type null has effect', () => {
+        const wrapper = mount(QBanner, {
+          props: {
+            dark: null
+          }
+        })
+
+        expect(
+          wrapper.get('.q-banner')
+            .classes()
+        ).not.toContain('q-banner--dark')
+      })
     })
   })
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
-      test('should render the default content', () => {
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
         const wrapper = mount(QBanner, {
           slots: {
-            default: 'Banner content'
+            default: () => slotContent
           }
         })
 
-        expect(
-          wrapper.get('.q-banner')
-            .get('.q-banner__content')
-            .text()
-        ).toBe('Banner content')
+        expect(wrapper.html()).toContain(slotContent)
       })
     })
 
     describe('[(slot)avatar]', () => {
-      test('should render the avatar content', () => {
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
         const wrapper = mount(QBanner, {
           slots: {
-            avatar: 'Banner avatar'
+            avatar: () => slotContent
           }
         })
 
-        expect(
-          wrapper.get('.q-banner')
-            .get('.q-banner__avatar')
-            .text()
-        ).toBe('Banner avatar')
+        expect(wrapper.html()).toContain(slotContent)
       })
     })
 
     describe('[(slot)action]', () => {
-      test('should render the action content', () => {
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
         const wrapper = mount(QBanner, {
           slots: {
-            action: 'Banner action'
+            action: () => slotContent
           }
         })
 
-        expect(
-          wrapper.get('.q-banner')
-            .get('.q-banner__actions')
-            .text()
-        ).toBe('Banner action')
+        expect(wrapper.html()).toContain(slotContent)
       })
     })
   })

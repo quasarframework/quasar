@@ -2,38 +2,50 @@ import { mount } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
 import QAvatar from './QAvatar.js'
+import { useSizeDefaults } from 'quasar/src/composables/private/use-size.js'
 
 describe('[QAvatar API]', () => {
   describe('[Props]', () => {
-    describe('[(prop)icon]', () => {
-      test('should render an icon', () => {
-        const icon = 'bug_report'
+    describe('[(prop)size]', () => {
+      test('is defined correctly', () => {
+        expect(QAvatar.props.size).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = '16px'
         const wrapper = mount(QAvatar, {
           props: {
-            icon,
-            color: 'grey'
+            size: propVal
           }
         })
 
         expect(
           wrapper.get('.q-avatar')
-            .get('.q-icon')
-            .text()
-        ).toContain(`${ icon }`)
+            .$style()
+        ).toContain(`font-size: ${ propVal };`)
+
+        await wrapper.setProps({ size: 'sm' })
+
+        expect(
+          wrapper.get('.q-avatar')
+            .$style()
+        ).toContain(`font-size: ${ useSizeDefaults.sm }px;`)
       })
     })
 
     describe('[(prop)font-size]', () => {
-      test('should set the font-size', () => {
-        const size = '40px'
-        // Doing em/rem units here does not work
-        // Cypress looks at actual computed values in the browser
-        const fontSize = '32px'
+      test('is defined correctly', () => {
+        expect(QAvatar.props.fontSize).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const size = '200px'
+        const fontSize = '100px'
+
         const wrapper = mount(QAvatar, {
           props: {
             size,
-            fontSize,
-            color: 'grey'
+            fontSize
           }
         })
 
@@ -50,7 +62,11 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)color]', () => {
-      test('should set a background color', () => {
+      test('is defined correctly', () => {
+        expect(QAvatar.props.color).toBeDefined()
+      })
+
+      test('type String has effect', () => {
         const color = 'red'
         const wrapper = mount(QAvatar, {
           props: {
@@ -66,7 +82,11 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)text-color]', () => {
-      test('should set a text color', () => {
+      test('is defined correctly', () => {
+        expect(QAvatar.props.textColor).toBeDefined()
+      })
+
+      test('type String has effect', () => {
         const textColor = 'red'
         const wrapper = mount(QAvatar, {
           props: {
@@ -81,19 +101,38 @@ describe('[QAvatar API]', () => {
       })
     })
 
-    describe('[(prop)square]', () => {
-      test('should create a square avatar', () => {
+    describe('[(prop)icon]', () => {
+      test('is defined correctly', () => {
+        expect(QAvatar.props.icon).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const icon = 'bug_report'
         const wrapper = mount(QAvatar, {
           props: {
-            square: true,
-            color: 'grey'
+            icon
           }
         })
 
         expect(
           wrapper.get('.q-avatar')
-            .classes()
-        ).toContain('q-avatar--square')
+            .get('.q-icon')
+            .text()
+        ).toContain(`${ icon }`)
+      })
+    })
+
+    describe('[(prop)square]', () => {
+      test('is defined correctly', () => {
+        expect(QAvatar.props.square).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QAvatar, {
+          props: {
+            square: true
+          }
+        })
 
         expect(
           wrapper.get('.q-avatar')
@@ -103,43 +142,36 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)rounded]', () => {
-      test('should create a rounded avatar', () => {
+      test('is defined correctly', () => {
+        expect(QAvatar.props.rounded).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
         const wrapper = mount(QAvatar, {
           props: {
-            rounded: true,
-            color: 'grey'
+            rounded: true
           }
         })
 
         expect(
           wrapper.get('.q-avatar')
-            .classes()
-        ).toContain('rounded-borders')
-      })
-    })
-
-    describe.todo('(prop): size', () => {
-      test(' ', () => {
-        //
+            .$computedStyle('border-radius')
+        ).toBe('4px')
       })
     })
   })
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
-      test('render the text in the default slot', () => {
-        const text = 'QQ'
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
         const wrapper = mount(QAvatar, {
           slots: {
-            // Using only a string here results in an error, this is a workaround
-            default: () => text
+            default: () => slotContent
           }
         })
 
-        expect(
-          wrapper.get('.q-avatar')
-            .text()
-        ).toContain(text)
+        expect(wrapper.html()).toContain(slotContent)
       })
     })
   })

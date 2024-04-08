@@ -43,6 +43,8 @@ export default createComponent({
     const activeClass = computed(() => ` text-${ props.activeColor }`)
 
     return () => {
+      if (slots.default === void 0) return
+
       const vnodes = getNormalizedVNodes(
         hSlot(slots.default)
       )

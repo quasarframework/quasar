@@ -1,105 +1,142 @@
 import { mount } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
-import { alignMap, alignValues } from '../../composables/private/use-align.js'
+import QBreadcrumbs from './QBreadcrumbs.js'
+
+import { alignMap } from 'quasar/src/composables/private/use-align.js'
+
 import BasicBreadcrumbs from './test/BasicBreadcrumbs.vue'
 import BreadcrumbWithSeparatorSlot from './test/BreadcrumbWithSeparatorSlot.vue'
-
-const gutterValues = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
 describe('[QBreadcrumbs API]', () => {
   describe('[Props]', () => {
     describe('[(prop)separator]', () => {
-      test('should render a custom separator based on the defined value', () => {
-        const customSeparator = '>'
+      test('is defined correctly', () => {
+        expect(QBreadcrumbs.props.separator).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = '>'
         const wrapper = mount(BasicBreadcrumbs, {
           props: {
-            separator: customSeparator
+            separator: propVal
           }
         })
 
         expect(
           wrapper.get('.q-breadcrumbs__separator')
             .text()
-        ).toContain(customSeparator)
+        ).toContain(propVal)
+      })
+    })
+
+    describe('[(prop)active-color]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbs.props.activeColor).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const wrapper = mount(BasicBreadcrumbs, {
+          props: {
+            activeColor: 'red'
+          }
+        })
+
+        expect(
+          wrapper.get('.q-breadcrumbs > div > .flex.items-center:not(.q-breadcrumbs--last)')
+            .classes()
+        ).toContain('text-red')
       })
     })
 
     describe('[(prop)gutter]', () => {
-      test(`should render a breadcrumb with a gutter based on defined values: ${ gutterValues.join(', ') }`, () => {
-        // loop through each gutter value
-        for (const gutter of gutterValues) {
-          const wrapper = mount(BasicBreadcrumbs, {
-            props: { gutter }
-          })
-
-          expect(
-            wrapper.get('.q-breadcrumbs > div')
-              .classes()
-          ).toContain(`q-gutter-${ gutter }`)
-        }
+      test('is defined correctly', () => {
+        expect(QBreadcrumbs.props.gutter).toBeDefined()
       })
 
-      test('should render a breadcrumb with no gutter when the value is set to "none"', () => {
+      test('value "none" has effect', () => {
+        const propVal = 'none'
         const wrapper = mount(BasicBreadcrumbs, {
           props: {
-            gutter: 'none'
+            gutter: propVal
           }
         })
 
         expect(
           wrapper.get('.q-breadcrumbs > div')
             .classes()
-        ).not.toContain('q-gutter')
+        ).toSatisfy(
+          list => list.every(cls => cls.startsWith('q-gutter') === false)
+        )
       })
-    })
 
-    describe('[(prop)align]', () => {
-      test(`should render a breadcrumb aligned based on defined values: ${ alignValues.join(', ') }`, () => {
-        // loop over alignValues
-        for (const align of alignValues) {
-          const wrapper = mount(BasicBreadcrumbs, {
-            props: { align }
-          })
-
-          expect(
-            wrapper.get('.q-breadcrumbs > div')
-              .classes()
-          ).toContain(`justify-${ alignMap[ align ] }`)
-        }
-      })
-    })
-
-    describe('[(prop)active-color]', () => {
-      test('should change breadcrumb item color based on Quasar Color Palette', () => {
-        const activeColor = 'red'
+      test.each([
+        [ 'xs' ],
+        [ 'sm' ],
+        [ 'md' ],
+        [ 'lg' ],
+        [ 'xl' ]
+      ])('value %s has effect', propVal => {
         const wrapper = mount(BasicBreadcrumbs, {
-          props: { activeColor }
+          props: {
+            gutter: propVal
+          }
         })
 
         expect(
-          wrapper.get('.q-breadcrumbs > div > .flex.items-center:not(.q-breadcrumbs--last)')
+          wrapper.get('.q-breadcrumbs > div')
             .classes()
-        ).toContain(`text-${ activeColor }`)
+        ).toContain(`q-gutter-${ propVal }`)
       })
     })
 
     describe('[(prop)separator-color]', () => {
-      test('should change breadcrumb separator color based on Quasar Color Palette', () => {
-        const separatorColor = 'red'
+      test('is defined correctly', () => {
+        expect(QBreadcrumbs.props.separatorColor).toBeDefined()
+      })
+
+      test('type String has effect', () => {
         const wrapper = mount(BasicBreadcrumbs, {
-          props: { separatorColor }
+          props: {
+            separatorColor: 'red'
+          }
         })
 
         wrapper.findAll('.q-breadcrumbs__separator')
-          .forEach(el => expect(el.classes()).toContain(`text-${ separatorColor }`))
+          .forEach(el => expect(el.classes()).toContain('text-red'))
+      })
+    })
+
+    describe('[(prop)align]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbs.props.align).toBeDefined()
+      })
+
+      test.each([
+        [ 'left' ],
+        [ 'center' ],
+        [ 'right' ],
+        [ 'between' ],
+        [ 'around' ],
+        [ 'evenly' ]
+      ])('value "%s" has effect', propVal => {
+        const wrapper = mount(BasicBreadcrumbs, {
+          props: {
+            align: propVal
+          }
+        })
+
+        expect(
+          wrapper.get('.q-breadcrumbs > div')
+            .classes()
+        ).toContain(`justify-${ alignMap[ propVal ] }`)
       })
     })
   })
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
-      test('should display the default slot content', () => {
+      test('renders the content', () => {
         const wrapper = mount(BasicBreadcrumbs)
 
         expect(
@@ -110,7 +147,7 @@ describe('[QBreadcrumbs API]', () => {
     })
 
     describe('[(slot)separator]', () => {
-      test('should display the separator slot content', () => {
+      test('renders the content', () => {
         const wrapper = mount(BreadcrumbWithSeparatorSlot)
 
         expect(
