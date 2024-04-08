@@ -40,7 +40,7 @@ const Plugin = defineReactivePlugin({
 
     if (__QUASAR_SSR_SERVER__) {
       if (ssrContext === void 0) {
-        console.error('SSR ERROR: second param required: Quasar.lang.set(lang, ssrContext)')
+        console.error('SSR ERROR: second param required: Lang.set(lang, ssrContext)')
         return
       }
 
@@ -99,13 +99,12 @@ const Plugin = defineReactivePlugin({
         lang !== void 0 && this.set(lang)
       }
       else {
-        const keyExceptions = [ 'set', 'getLocale' ]
         this.props = new Proxy(this.__qLang, {
           get () { return Reflect.get(...arguments) },
 
           ownKeys (target) {
             return Reflect.ownKeys(target)
-              .filter(key => keyExceptions.includes(key) === false)
+              .filter(key => key !== 'set' && key !== 'getLocale')
           }
         })
 
