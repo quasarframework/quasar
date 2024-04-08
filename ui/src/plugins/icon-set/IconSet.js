@@ -15,7 +15,7 @@ const Plugin = defineReactivePlugin({
 
     if (__QUASAR_SSR_SERVER__) {
       if (ssrContext === void 0) {
-        console.error('SSR ERROR: second param required: Quasar.iconSet.set(iconSet, ssrContext)')
+        console.error('SSR ERROR: second param required: IconSet.set(iconSet, ssrContext)')
         return
       }
 
