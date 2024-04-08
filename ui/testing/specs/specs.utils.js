@@ -173,7 +173,7 @@ const typeMap = {
   SubmitEvent: {
     createValue: () => 'new SubmitEvent(\'submit\')',
     createExpectCall: ({ ref }) => `expect(${ ref }).toBeInstanceOf(SubmitEvent)`,
-    expectMatcher: 'expect.any(Event)'
+    expectMatcher: 'expect.any(SubmitEvent)'
   },
 
   File: {
