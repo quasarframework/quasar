@@ -5,7 +5,9 @@
 > IMPORTANT!
 > All commands should be run from `/ui`, not from `/ui/testing`.
 
-## Steps for a new test file
+## Using the Specs script
+
+### Steps for a new test file
 
 1. Use the Specs script to generate the draft of the new testing file:
 
@@ -35,7 +37,7 @@ $ pnpm test:specs --target <target_file>
 # ...it should not output any errors
 ```
 
-## Steps for adding new sections to a test file
+### Steps for adding new sections to a test file
 
 So you've added a new prop/method/...etc to a Component/Directive/...etc and you've edited its JSON file (if it has one). This should make the Specs script to output an error that some tests are missing for the respective test file.
 
@@ -57,7 +59,7 @@ $ pnpm test:specs --target <target_file>
 # ...it should not output any errors
 ```
 
-## Steps for re-generating a test file section
+### Steps for re-generating a test file section
 
 So you've changed a prop/method/...etc on a Component/Directive/...etc and you've edited its JSON file (if it has one). Now the Specs script will not output any error since no tests are missing in the respective test file. But you can re-generate the test file section(s) where changes need to be made by targeting them:
 
@@ -102,6 +104,15 @@ $ pnpm test:specs -i -t global-nodes -g functions.createGlobalNode
 
 ```bash
 $ pnpm test:specs --target <target_file>
+# ...it should not output any errors
+```
+
+## Changing the Specs script code
+
+If you change the specs script code, then you need to test it:
+
+```bash
+$ pnpm test:specs --dry-run
 # ...it should not output any errors
 ```
 
