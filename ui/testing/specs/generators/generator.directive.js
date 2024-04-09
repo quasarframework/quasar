@@ -93,7 +93,7 @@ function createModifierTest ({
   const val = jsonEntry.type === 'Boolean'
     ? name
     // example: TouchRepeat > modifiers > [keycode]
-    : getTestValue({ jsonEntry })
+    : getTestValue({ jsonEntry, indent: testIndent })
 
   return `
     describe('${ testId }', () => {

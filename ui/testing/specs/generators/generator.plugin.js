@@ -1,5 +1,6 @@
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
+  testIndent,
   getTypeTest,
   getFunctionCallTest
 } from '../specs.utils.js'
@@ -44,7 +45,8 @@ function getInjectionTest ({ jsonEntry, json, ctx }) {
   if (json.props?.[ target ] !== void 0) {
     return getTypeTest({
       jsonEntry: json.props[ target ],
-      ref
+      ref,
+      indent: testIndent
     })
   }
 
@@ -88,7 +90,12 @@ function createPropTest ({
 }) {
   const ref = `${ ctx.pascalName }.${ pascalName }`
 
-  const typeTest = getTypeTest({ jsonEntry, ref })
+  const typeTest = getTypeTest({
+    jsonEntry,
+    ref,
+    indent: testIndent
+  })
+
   const reactiveTest = jsonEntry.reactive === true
     ? getReactivePropTest({ jsonEntry, ref })
     : ''
@@ -108,19 +115,16 @@ function createMethodTest ({
   jsonEntry,
   ctx
 }) {
-  const opts = {
+  const callTest = getFunctionCallTest({
     jsonEntry: { ...jsonEntry, type: 'Function' },
-    ref: `${ ctx.pascalName }.${ pascalName }`
-  }
-
-  const typeTest = getTypeTest(opts)
-  const callTest = getFunctionCallTest(opts)
+    ref: `${ ctx.pascalName }.${ pascalName }`,
+    indent: testIndent
+  })
 
   return `
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
         mountPlugin()
-        ${ typeTest }
         ${ callTest }
 
         // TODO: test the effect

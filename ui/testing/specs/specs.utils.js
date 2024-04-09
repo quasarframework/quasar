@@ -44,45 +44,50 @@ const typeMap = {
 
   Array: {
     valueRegex: /^\[.*\]$/,
-    createValue: ({ jsonEntry, indent = testIndent }) => {
+    createValue: ({ jsonEntry, indent }) => {
       if (jsonEntry.definition === void 0) return '[]'
 
-      const keyIndent = indent + '  '
-      const list = getObjectList({
+      const list = joinObject({
         keyList: Object.keys(jsonEntry.definition),
-        getValue: key => getTestValue({
+        getValue: (key, innerIndent) => getTestValue({
           jsonEntry: jsonEntry.definition[ key ],
-          indent: keyIndent
+          indent: innerIndent
         }),
         indent
       })
 
       return `[ ${ list } ]`
     },
-    createExpectCall: ({ jsonEntry, ref }) => (
-      jsonEntry.definition === void 0
-        ? `expect(Array.isArray(${ ref })).toBe(true)`
-        : `expect(${ ref }).$arrayValues(${ getExpectMatcher(jsonEntry) })`
-    ),
+    createExpectCall: ({ jsonEntry, ref, indent }) => {
+      if (jsonEntry.definition === void 0) {
+        return `expect(Array.isArray(${ ref })).toBe(true)`
+      }
+
+      const value = getExpectMatcher({
+        jsonEntry,
+        indent
+      })
+
+      return `expect(${ ref }).$arrayValues(${ value })`
+    },
     expectMatcher: 'expect.any(Array)'
   },
 
   Object: {
     valueRegex: /^{.*}$/,
-    createValue: ({ jsonEntry, indent = testIndent }) => {
+    createValue: ({ jsonEntry, indent }) => {
       if (jsonEntry.definition === void 0) return '{}'
 
-      const keyIndent = indent + '  '
-      return getObjectList({
+      return joinObject({
         keyList: Object.keys(jsonEntry.definition),
-        getValue: key => getTestValue({
+        getValue: (key, innerIndent) => getTestValue({
           jsonEntry: jsonEntry.definition[ key ],
-          indent: keyIndent
+          indent: innerIndent
         }),
         indent
       })
     },
-    createExpectCall: ({ jsonEntry, ref }) => {
+    createExpectCall: ({ jsonEntry, ref, indent }) => {
       if (jsonEntry.definition === void 0) {
         return `expect(${ ref }).toBeTypeOf('object')`
       }
@@ -95,16 +100,27 @@ const typeMap = {
           // could be anything, not only Object
           return getTypeTest({
             jsonEntry: jsonEntry.definition[ localKey ],
-            ref
+            ref,
+            indent
           })
         }
 
         if (localKey === '...key') {
-          return `expect(${ ref }).$objectValues(${ getExpectMatcher(jsonEntry.definition[ localKey ]) })`
+          const values = getExpectMatcher({
+            jsonEntry: jsonEntry.definition[ localKey ],
+            indent
+          })
+
+          return `expect(${ ref }).$objectValues(${ values })`
         }
       }
 
-      return `expect(${ ref }).toStrictEqual(${ getExpectMatcher(jsonEntry) })`
+      const value = getExpectMatcher({
+        jsonEntry,
+        indent
+      })
+
+      return `expect(${ ref }).toStrictEqual(${ value })`
     },
     expectMatcher: 'expect.any(Object)'
   },
@@ -118,7 +134,7 @@ const typeMap = {
 
   Function: {
     valueRegex: / => /, // example: "(file) => file.name"
-    createValue: ({ jsonEntry, indent = testIndent }) => {
+    createValue: ({ jsonEntry, indent }) => {
       const callParams = Object.keys(jsonEntry.params || [])
         .map(paramName => `_${ paramName }`)
         .join(', ')
@@ -240,27 +256,21 @@ const typeMap = {
   }
 }
 
-export function filterDefExceptionTypes (type) {
-  if (Array.isArray(type) === true) {
-    const list = type.filter(type => type !== 'FileList')
-    return list.length === 1
-      ? list[ 0 ]
-      : list
-  }
-
-  if (type !== 'FileList') return type
-}
-
-function getObjectList ({ keyList, getValue, indent }) {
+function joinObject ({
+  keyList,
+  getValue,
+  indent
+}) {
   const codeLines = []
   const commentLines = []
+  const innerIndent = indent + '  '
 
   keyList.forEach(key => {
     if (ignoreKeyRE.test(key) === true) {
       commentLines.push(`// ${ key }`)
     }
     else {
-      codeLines.push(`${ key }: ${ getValue(key) }`)
+      codeLines.push(`${ key }: ${ getValue(key, innerIndent) }`)
     }
   })
 
@@ -278,18 +288,39 @@ function getObjectList ({ keyList, getValue, indent }) {
   )
 }
 
-function getArrayList ({ keyList, getValue, indent }) {
-  const codeLines = []
+function joinList ({
+  keyList,
+  getValue,
+  indent,
+  prefix = '[',
+  suffix = ']'
+}) {
+  const innerIndent = keyList.length === 1
+    ? indent
+    : indent + '  '
 
-  keyList.forEach(key => {
-    codeLines.push(getValue(key))
-  })
+  const lines = keyList.map(key => getValue(key, innerIndent))
 
-  return (
-    `[\n${ indent }  `
-    + codeLines.join(`,\n${ indent }  `)
-    + `\n${ indent }]`
-  )
+  const str = lines.join(', ')
+
+  if (str.length + indent.length > 80) {
+    return keyList.length === 1
+      ? `${ prefix ? prefix + ' ' : '' }${ lines[ 0 ] }${ suffix ? ' ' + suffix : '' }`
+      : `${ prefix }\n${ indent }  ${ lines.join(`,\n${ indent }  `) }\n${ indent }${ suffix }`
+  }
+
+  return `${ prefix ? prefix + ' ' : '' }${ str }${ suffix ? ' ' + suffix : '' }`
+}
+
+export function filterDefExceptionTypes (type) {
+  if (Array.isArray(type) === true) {
+    const list = type.filter(type => type !== 'FileList')
+    return list.length === 1
+      ? list[ 0 ]
+      : list
+  }
+
+  if (type !== 'FileList') return type
 }
 
 const mountInnerIndent = `${ testIndent }    `
@@ -340,12 +371,11 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
     return `const wrapper = mount(${ ctx.pascalName })`
   }
 
-  const innerIndent = `${ testIndent }  `
-  const mountOpts = getObjectList({
+  const mountOpts = joinObject({
     keyList,
-    getValue: key => {
+    getValue: (key, innerIndent) => {
       const acc = target[ key ]
-      return getObjectList({
+      return joinObject({
         keyList: Object.keys(acc),
         getValue: innerKey => acc[ innerKey ],
         indent: innerIndent
@@ -357,12 +387,15 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
   return `const wrapper = mount(${ ctx.pascalName }, ${ mountOpts })`
 }
 
-function getExpectMatcher (jsonEntry, indent = testIndent) {
-  const innerIndent = indent + '  '
-
+function getExpectMatcher ({ jsonEntry, indent }) {
   if (jsonEntry.values !== void 0) {
-    const lines = jsonEntry.values.join(`,\n${ innerIndent }`)
-    return `expect.$any([\n${ innerIndent }${ lines }\n${ indent }])`
+    const list = joinList({
+      keyList: jsonEntry.values,
+      getValue: key => key,
+      indent
+    })
+
+    return `expect.$any(${ list })`
   }
 
   if (Array.isArray(jsonEntry.type) === false) {
@@ -375,10 +408,10 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
 
           if (localKey === '...self') {
             // could be anything, not only Object
-            return getExpectMatcher(
-              jsonEntry.definition[ localKey ],
+            return getExpectMatcher({
+              jsonEntry: jsonEntry.definition[ localKey ],
               indent
-            )
+            })
           }
 
           if (localKey === '...key') {
@@ -386,18 +419,18 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
 
             // example: QUploader > slots > header
             if (target === void 0) {
-              return getExpectMatcher(
-                jsonEntry.definition[ localKey ],
+              return getExpectMatcher({
+                jsonEntry: jsonEntry.definition[ localKey ],
                 indent
-              )
+              })
             }
 
-            const list = getObjectList({
+            const list = joinObject({
               keyList: Object.keys(target),
-              getValue: key => getExpectMatcher(
-                target[ key ],
-                innerIndent
-              ),
+              getValue: (key, innerIndent) => getExpectMatcher({
+                jsonEntry: target[ key ],
+                indent: innerIndent
+              }),
               indent
             })
 
@@ -405,12 +438,12 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
           }
         }
 
-        return getObjectList({
+        return joinObject({
           keyList,
-          getValue: key => getExpectMatcher(
-            jsonEntry.definition[ key ],
-            innerIndent
-          ),
+          getValue: (key, innerIndent) => getExpectMatcher({
+            jsonEntry: jsonEntry.definition[ key ],
+            indent: innerIndent
+          }),
           indent
         })
       }
@@ -420,12 +453,12 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
         const { definition } = jsonEntry
         const keyList = Object.keys(definition)
 
-        const list = getObjectList({
+        const list = joinObject({
           keyList,
-          getValue: key => getExpectMatcher(
-            definition[ key ],
-            innerIndent
-          ),
+          getValue: (key, innerIndent) => getExpectMatcher({
+            jsonEntry: definition[ key ],
+            indent: innerIndent
+          }),
           indent
         })
 
@@ -453,17 +486,31 @@ function getExpectMatcher (jsonEntry, indent = testIndent) {
     return 'expect.anything()'
   }
 
-  const lines = jsonEntry.type
-    .map(type => getExpectMatcher({ ...jsonEntry, type }, innerIndent))
-    .join(`,\n${ innerIndent }`)
+  const list = joinList({
+    keyList: jsonEntry.type,
+    getValue: (type, innerIndent) => getExpectMatcher({
+      jsonEntry: { ...jsonEntry, type },
+      indent: innerIndent
+    }),
+    indent
+  })
 
-  return `expect.$any([\n${ innerIndent }${ lines }\n${ indent }])`
+  return `expect.$any(${ list })`
 }
 
-export function getTypeTest ({ jsonEntry, ref }) {
+export function getTypeTest ({
+  jsonEntry,
+  ref,
+  indent
+}) {
   if (jsonEntry.values !== void 0) {
-    const localIndent = testIndent + '  '
-    return `expect([\n${ localIndent }${ jsonEntry.values.join(`,\n${ localIndent }`) }\n${ testIndent }]).toContain(${ ref })`
+    const list = joinList({
+      keyList: jsonEntry.values,
+      getValue: key => key,
+      indent
+    })
+
+    return `expect(${ list }).toContain(${ ref })`
   }
 
   if (Array.isArray(jsonEntry.type) === false) {
@@ -473,13 +520,20 @@ export function getTypeTest ({ jsonEntry, ref }) {
       throw new Error(`getTypeTest(): unknown type: ${ jsonEntry.type }`)
     }
 
-    return target.createExpectCall({ jsonEntry, ref })
+    return target.createExpectCall({
+      jsonEntry,
+      ref,
+      indent
+    })
   }
 
-  const list = getArrayList({
+  const list = joinList({
     keyList: jsonEntry.type,
-    getValue: type => getExpectMatcher({ ...jsonEntry, type }),
-    indent: testIndent
+    getValue: (type, innerIndent) => getExpectMatcher({
+      jsonEntry: { ...jsonEntry, type },
+      indent: innerIndent
+    }),
+    indent
   })
 
   return `expect(${ ref }).$any(${ list })`
@@ -488,7 +542,7 @@ export function getTypeTest ({ jsonEntry, ref }) {
 const defTypeTestableValueKeyList = Object.keys(typeMap)
   .filter(key => typeMap[ key ].valueRegex !== void 0)
 
-export function getTestValue ({ jsonEntry, indent = testIndent }) {
+export function getTestValue ({ jsonEntry, indent }) {
   const { type, default: defaultVal, values, examples } = jsonEntry
 
   const valuesList = [
@@ -537,36 +591,42 @@ export function getTestValue ({ jsonEntry, indent = testIndent }) {
       throw new Error(`getTestValue() -> Unknown type: ${ fallbackType }`)
     }
 
-    return fallback.createValue({ jsonEntry, indent })
+    return fallback.createValue({
+      jsonEntry,
+      indent
+    })
   }
 
   console.error('jsonEntry:', jsonEntry)
   throw new Error(`getTestValue() -> Cannot handle any of type(s): ${ typeList }`)
 }
 
-export function getFunctionCallTest ({ jsonEntry, ref, indent = testIndent }) {
-  const paramIndent = indent + '  '
-  let callParams = Object.keys(jsonEntry.params || [])
-    .map(paramName => {
-      const val = getTestValue({
+export function getFunctionCallTest ({
+  jsonEntry,
+  ref,
+  indent
+}) {
+  const localIndent = indent + '  '
+  const callParams = jsonEntry.params
+    ? joinList({
+      keyList: Object.keys(jsonEntry.params),
+      getValue: (paramName, innerIndent) => getTestValue({
         jsonEntry: jsonEntry.params[ paramName ],
-        indent: paramIndent
-      })
-
-      return `\n${ paramIndent }${ val }`
+        indent: innerIndent
+      }),
+      indent: localIndent,
+      prefix: '',
+      suffix: ''
     })
-    .join(',')
+    : ''
 
-  if (callParams.length !== 0) {
-    callParams += `\n${ indent }`
-  }
-
-  const callRef = `${ ref }(${ callParams })`
+  const callRef = `\n${ localIndent }${ ref }(${ callParams })\n${ indent }`
 
   if (jsonEntry.returns) {
     const returnTypeTest = getTypeTest({
       jsonEntry: jsonEntry.returns,
-      ref: callRef
+      ref: callRef,
+      indent
     })
 
     return `${ returnTypeTest }`

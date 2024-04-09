@@ -83,7 +83,8 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
 
   return typeList.map(t => {
     const val = getTestValue({
-      jsonEntry: { ...jsonEntry, type: t }
+      jsonEntry: { ...jsonEntry, type: t },
+      indent: testIndent
     })
 
     return `\n
@@ -129,7 +130,8 @@ function getSlotScope (jsonEntry) {
 
   const typeTest = getTypeTest({
     jsonEntry: { type: 'Object', definition: jsonEntry.scope },
-    ref: 'slotScope'
+    ref: 'slotScope',
+    indent: testIndent
   })
 
   return {
@@ -167,8 +169,10 @@ function getEventParamsTest (jsonEntry, varName) {
   const tests = Object.keys(jsonEntry.params).map(paramName => {
     const typeTest = getTypeTest({
       jsonEntry: jsonEntry.params[ paramName ],
-      ref: paramName
+      ref: paramName,
+      indent: testIndent
     })
+
     return `\n${ testIndent }${ typeTest }`
   }).join('')
 
@@ -226,20 +230,17 @@ function createMethodTest ({
   json,
   ctx
 }) {
-  const opts = {
+  const callTest = getFunctionCallTest({
     jsonEntry: { ...jsonEntry, type: 'Function' },
-    ref: `wrapper.vm.${ pascalName }`
-  }
-
-  const typeTest = getTypeTest(opts)
-  const callTest = getFunctionCallTest(opts)
+    ref: `wrapper.vm.${ pascalName }`,
+    indent: testIndent
+  })
 
   return `
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
         ${ getComponentMount({ ctx, json }) }
 
-        ${ typeTest }
         ${ callTest }
 
         // TODO: test the effect
@@ -256,7 +257,8 @@ function createComputedPropTest ({
 }) {
   const typeTest = getTypeTest({
     jsonEntry,
-    ref: `wrapper.vm.${ pascalName }`
+    ref: `wrapper.vm.${ pascalName }`,
+    indent: testIndent
   })
 
   return `
