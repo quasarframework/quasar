@@ -170,7 +170,7 @@ jobs:
         run: |
           ${{ matrix.package-manager }} run dev &
 
-          if [ '${{ matrix.app-engine }}' = 'vite' ]; then
+          if [[ '${{ matrix.app-engine }}' == vite* ]]; then
             echo $WAIT_ON_CONFIG > wait-on.json
             npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           else
