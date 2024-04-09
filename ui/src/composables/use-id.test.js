@@ -4,21 +4,19 @@ import { defineComponent } from 'vue'
 
 import useId from './use-id.js'
 
+const uidRE = /^f_/
+
 describe('[useId API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('useId()', () => {
         const { value: result } = useId()
-
-        expect(result).toBeTruthy()
-        expect(result.startsWith('f_')).toBe(true)
+        expect(result).toMatch(uidRE)
       })
 
       test('useId({})', () => {
         const { value: result } = useId({})
-
-        expect(result).toBeTruthy()
-        expect(result.startsWith('f_')).toBe(true)
+        expect(result).toMatch(uidRE)
       })
 
       test('useId({ getValue })', () => {
@@ -34,8 +32,7 @@ describe('[useId API]', () => {
           getValue: () => null
         })
 
-        expect(result).toBeTruthy()
-        expect(result.startsWith('f_')).toBe(true)
+        expect(result).toMatch(uidRE)
       })
 
       test('useId({ getValue: () => null, required: true })', () => {
@@ -44,8 +41,7 @@ describe('[useId API]', () => {
           required: true
         })
 
-        expect(result).toBeTruthy()
-        expect(result.startsWith('f_')).toBe(true)
+        expect(result).toMatch(uidRE)
       })
 
       test('useId({ getValue: () => null, required: false })', () => {
@@ -54,21 +50,22 @@ describe('[useId API]', () => {
           required: false
         })
 
-        expect(result).toBe(null)
+        expect(result).toBeNull()
       })
 
-      test('can be used in a Component', () => {
-        const TestComponent = defineComponent({
-          template: '<div />',
-          setup () {
-            // eslint-disable-next-line
-            const result = useId()
-            return { result }
-          }
-        })
+      test('can be used in a Vue Component', () => {
+        const wrapper = mount(
+          defineComponent({
+            template: '<div />',
+            setup () {
+              // eslint-disable-next-line
+              const result = useId()
+              return { result }
+            }
+          })
+        )
 
-        const wrapper = mount(TestComponent)
-        expect(wrapper.vm.result.startsWith('f_')).toBe(true)
+        expect(wrapper.vm.result).toMatch(/^f_/)
       })
     })
   })

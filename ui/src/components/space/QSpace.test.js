@@ -10,7 +10,8 @@ describe('[QSpace API]', () => {
 
       expect(
         wrapper.get('div.q-space')
-      ).toBeDefined()
+          .exists()
+      ).toBe(true)
     })
   })
 })

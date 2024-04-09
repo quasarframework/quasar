@@ -21,19 +21,19 @@ describe('[webStorage API]', () => {
     describe('[(function)getEmptyStorage]', () => {
       test('has correct return value', () => {
         const result = getEmptyStorage()
-        expect(result).toEqual(objectDefinition)
+        expect(result).toStrictEqual(objectDefinition)
       })
     })
 
     describe('[(function)getStorage]', () => {
       test('has correct return value for local', () => {
         const local = getStorage('local')
-        expect(local).toEqual(objectDefinition)
+        expect(local).toStrictEqual(objectDefinition)
       })
 
       test('has correct return value for session', () => {
         const session = getStorage('session')
-        expect(session).toEqual(objectDefinition)
+        expect(session).toStrictEqual(objectDefinition)
       })
     })
   })

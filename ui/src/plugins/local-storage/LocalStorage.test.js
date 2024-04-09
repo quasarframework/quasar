@@ -17,7 +17,7 @@ describe('[LocalStorage API]', () => {
 
       expect($q.localStorage).toBeDefined()
       expect($q.localStorage).toBeTypeOf('object')
-      expect(Object.keys($q.localStorage).length).not.toBe(0)
+      expect(Object.keys($q.localStorage)).not.toHaveLength(0)
 
       expect(LocalStorage).toMatchObject($q.localStorage)
     })
@@ -27,7 +27,6 @@ describe('[LocalStorage API]', () => {
     describe('[(method)has]', () => {
       test('should be callable', () => {
         mountPlugin()
-        expect(LocalStorage.has).toBeTypeOf('function')
 
         expect(LocalStorage.has('has')).toBe(false)
         LocalStorage.set('has', 'rstoenescu')
@@ -43,7 +42,6 @@ describe('[LocalStorage API]', () => {
     describe('[(method)getLength]', () => {
       test('should be callable', () => {
         mountPlugin()
-        expect(LocalStorage.getLength).toBeTypeOf('function')
 
         const len = LocalStorage.getLength()
         expect(len).toBeTypeOf('number')
@@ -62,8 +60,9 @@ describe('[LocalStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(LocalStorage.getItem).toBeTypeOf('function')
-        expect(LocalStorage.getItem('getItem')).toBeNull()
+        expect(
+          LocalStorage.getItem('getItem')
+        ).toBeNull()
       })
 
       test('matches $q API', () => {
@@ -79,7 +78,6 @@ describe('[LocalStorage API]', () => {
         // ensure at least one element is defined
         LocalStorage.set('getIndex', 'rstoenescu')
 
-        expect(LocalStorage.getIndex).toBeTypeOf('function')
         expect(
           LocalStorage.getIndex(0)
         ).$any([
@@ -107,7 +105,6 @@ describe('[LocalStorage API]', () => {
         // ensure at least one element is defined
         LocalStorage.set('getKey', 'rstoenescu')
 
-        expect(LocalStorage.getKey).toBeTypeOf('function')
         expect(
           LocalStorage.getKey(0)
         ).toBeTypeOf('string')
@@ -123,14 +120,12 @@ describe('[LocalStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(LocalStorage.getAll).toBeTypeOf('function')
-
         // ensure at least one element is defined
         LocalStorage.set('getAll', 'rstoenescu')
 
         const result = LocalStorage.getAll()
         expect(result).toBeTypeOf('object')
-        expect(Object.keys(result).length).not.toBe(0)
+        expect(Object.keys(result)).not.toHaveLength(0)
       })
 
       test('matches $q API', () => {
@@ -146,9 +141,13 @@ describe('[LocalStorage API]', () => {
         // ensure at least one element is defined
         LocalStorage.set('getAllKeys', 'rstoenescu')
 
-        expect(LocalStorage.getAllKeys).toBeTypeOf('function')
-        expect(Array.isArray(LocalStorage.getAllKeys())).toBe(true)
-        expect(LocalStorage.getAllKeys()).toContain('getAllKeys')
+        expect(
+          Array.isArray(LocalStorage.getAllKeys())
+        ).toBe(true)
+
+        expect(
+          LocalStorage.getAllKeys()
+        ).toContain('getAllKeys')
       })
 
       test('matches $q API', () => {
@@ -160,8 +159,6 @@ describe('[LocalStorage API]', () => {
     describe('[(method)set]', () => {
       test('should be callable', () => {
         mountPlugin()
-
-        expect(LocalStorage.set).toBeTypeOf('function')
 
         expect(
           LocalStorage.set('set', 'rstoenescu')
@@ -269,10 +266,10 @@ describe('[LocalStorage API]', () => {
           LocalStorage.getItem('remove')
         ).toBe(5)
 
-        expect(LocalStorage.remove).toBeTypeOf('function')
         expect(
           LocalStorage.remove('remove')
         ).toBeUndefined()
+
         expect(
           LocalStorage.getItem('remove')
         ).toBeNull()
@@ -291,7 +288,6 @@ describe('[LocalStorage API]', () => {
         LocalStorage.set('clear', 5)
         expect(LocalStorage.getItem('clear')).toBe(5)
 
-        expect(LocalStorage.clear).toBeTypeOf('function')
         expect(LocalStorage.clear()).toBeUndefined()
 
         expect(LocalStorage.getItem('clear')).toBeNull()
@@ -311,7 +307,6 @@ describe('[LocalStorage API]', () => {
         LocalStorage.set('isEmpty', 5)
         expect(LocalStorage.getItem('isEmpty')).toBe(5)
 
-        expect(LocalStorage.isEmpty).toBeTypeOf('function')
         expect(LocalStorage.isEmpty()).toBe(false)
 
         LocalStorage.clear()

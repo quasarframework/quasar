@@ -180,9 +180,8 @@ describe('[IconSet API]', () => {
       test('should be callable', () => {
         const wrapper = mountPlugin()
 
-        expect(IconSet.set).toBeTypeOf('function')
-        expect(IconSet.set(
-          {
+        expect(
+          IconSet.set({
             name: 'new-icon-set',
             type: {
               positive: 'check_circle',
@@ -322,25 +321,25 @@ describe('[IconSet API]', () => {
               removeQueue: 'clear_all',
               removeUploaded: 'done_all'
             }
-          }
-        )).toBeUndefined()
+          })
+        ).toBeUndefined()
 
         expect(IconSet.props.name).toBe('new-icon-set')
         expect(wrapper.vm.$q.iconSet.name).toBe('new-icon-set')
       })
 
       test('should work with an imported icon set', async () => {
-        const wrapper = mountPlugin()
+        const { vm: { $q } } = mountPlugin()
         const { default: newIconSet } = await import('quasar/icon-set/fontawesome-v6.mjs')
 
         IconSet.set(newIconSet)
         expect(IconSet.props.name).toBe(newIconSet.name)
-        expect(wrapper.vm.$q.iconSet.name).toBe(newIconSet.name)
+        expect($q.iconSet.name).toBe(newIconSet.name)
 
         const { default: anotherIconSet } = await import('quasar/icon-set/ionicons-v4.mjs')
-        wrapper.vm.$q.iconSet.set(anotherIconSet)
+        $q.iconSet.set(anotherIconSet)
         expect(IconSet.props.name).toBe(anotherIconSet.name)
-        expect(wrapper.vm.$q.iconSet.name).toBe(anotherIconSet.name)
+        expect($q.iconSet.name).toBe(anotherIconSet.name)
       })
     })
   })

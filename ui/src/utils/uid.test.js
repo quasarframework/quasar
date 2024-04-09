@@ -8,7 +8,7 @@ describe('[uid API]', () => {
       test('has correct return value', () => {
         const result = uid()
         expect(result).toBeTypeOf('string')
-        expect(result.length).toBe(36)
+        expect(result).toHaveLength(36)
 
         expect(uid()).not.toBe(result)
       })

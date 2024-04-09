@@ -97,7 +97,7 @@ describe('[QDialog API]', () => {
 
       test.todo('has effect', () => {
         const propVal = 'fade'
-        const wrapper = mount(QDialog, {
+        mount(QDialog, {
           props: {
             transitionShow: propVal
           }

@@ -17,7 +17,7 @@ describe('[SessionStorage API]', () => {
 
       expect($q.sessionStorage).toBeDefined()
       expect($q.sessionStorage).toBeTypeOf('object')
-      expect(Object.keys($q.sessionStorage).length).not.toBe(0)
+      expect(Object.keys($q.sessionStorage)).not.toHaveLength(0)
 
       expect(SessionStorage).toMatchObject($q.sessionStorage)
     })
@@ -27,7 +27,6 @@ describe('[SessionStorage API]', () => {
     describe('[(method)has]', () => {
       test('should be callable', () => {
         mountPlugin()
-        expect(SessionStorage.has).toBeTypeOf('function')
 
         expect(SessionStorage.has('has')).toBe(false)
         SessionStorage.set('has', 'rstoenescu')
@@ -43,7 +42,6 @@ describe('[SessionStorage API]', () => {
     describe('[(method)getLength]', () => {
       test('should be callable', () => {
         mountPlugin()
-        expect(SessionStorage.getLength).toBeTypeOf('function')
 
         const len = SessionStorage.getLength()
         expect(len).toBeTypeOf('number')
@@ -62,8 +60,9 @@ describe('[SessionStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(SessionStorage.getItem).toBeTypeOf('function')
-        expect(SessionStorage.getItem('getItem')).toBeNull()
+        expect(
+          SessionStorage.getItem('getItem')
+        ).toBeNull()
       })
 
       test('matches $q API', () => {
@@ -79,7 +78,6 @@ describe('[SessionStorage API]', () => {
         // ensure at least one element is defined
         SessionStorage.set('getIndex', 'rstoenescu')
 
-        expect(SessionStorage.getIndex).toBeTypeOf('function')
         expect(
           SessionStorage.getIndex(0)
         ).$any([
@@ -107,7 +105,6 @@ describe('[SessionStorage API]', () => {
         // ensure at least one element is defined
         SessionStorage.set('getKey', 'rstoenescu')
 
-        expect(SessionStorage.getKey).toBeTypeOf('function')
         expect(
           SessionStorage.getKey(0)
         ).toBeTypeOf('string')
@@ -123,14 +120,12 @@ describe('[SessionStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(SessionStorage.getAll).toBeTypeOf('function')
-
         // ensure at least one element is defined
         SessionStorage.set('getAll', 'rstoenescu')
 
         const result = SessionStorage.getAll()
         expect(result).toBeTypeOf('object')
-        expect(Object.keys(result).length).not.toBe(0)
+        expect(Object.keys(result)).not.toHaveLength(0)
       })
 
       test('matches $q API', () => {
@@ -146,9 +141,13 @@ describe('[SessionStorage API]', () => {
         // ensure at least one element is defined
         SessionStorage.set('getAllKeys', 'rstoenescu')
 
-        expect(SessionStorage.getAllKeys).toBeTypeOf('function')
-        expect(Array.isArray(SessionStorage.getAllKeys())).toBe(true)
-        expect(SessionStorage.getAllKeys()).toContain('getAllKeys')
+        expect(
+          Array.isArray(SessionStorage.getAllKeys())
+        ).toBe(true)
+
+        expect(
+          SessionStorage.getAllKeys()
+        ).toContain('getAllKeys')
       })
 
       test('matches $q API', () => {
@@ -160,8 +159,6 @@ describe('[SessionStorage API]', () => {
     describe('[(method)set]', () => {
       test('should be callable', () => {
         mountPlugin()
-
-        expect(SessionStorage.set).toBeTypeOf('function')
 
         expect(
           SessionStorage.set('set', 'rstoenescu')
@@ -269,10 +266,10 @@ describe('[SessionStorage API]', () => {
           SessionStorage.getItem('remove')
         ).toBe(5)
 
-        expect(SessionStorage.remove).toBeTypeOf('function')
         expect(
           SessionStorage.remove('remove')
         ).toBeUndefined()
+
         expect(
           SessionStorage.getItem('remove')
         ).toBeNull()
@@ -291,7 +288,6 @@ describe('[SessionStorage API]', () => {
         SessionStorage.set('clear', 5)
         expect(SessionStorage.getItem('clear')).toBe(5)
 
-        expect(SessionStorage.clear).toBeTypeOf('function')
         expect(SessionStorage.clear()).toBeUndefined()
 
         expect(SessionStorage.getItem('clear')).toBeNull()
@@ -311,7 +307,6 @@ describe('[SessionStorage API]', () => {
         SessionStorage.set('isEmpty', 5)
         expect(SessionStorage.getItem('isEmpty')).toBe(5)
 
-        expect(SessionStorage.isEmpty).toBeTypeOf('function')
         expect(SessionStorage.isEmpty()).toBe(false)
 
         SessionStorage.clear()

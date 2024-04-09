@@ -252,7 +252,7 @@ const typeMap = {
     valueRegex: /^undefined$/,
     createValue: () => 'undefined',
     createExpectCall: ({ ref }) => `expect(${ ref }).toBeUndefined()`,
-    expectMatcher: 'void 0'
+    expectMatcher: 'undefined'
   }
 }
 

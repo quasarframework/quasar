@@ -30,7 +30,7 @@ function createVariableTest ({ testId, jsonEntry }) {
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
         expect(${ jsonEntry.accessor }).toBeTypeOf('object')
-        expect(Object.keys(${ jsonEntry.accessor }).length).not.toBe(0)
+        expect(Object.keys(${ jsonEntry.accessor })).not.toHaveLength(0)
       })
     })\n`
 }
@@ -61,16 +61,16 @@ function getFnTests (jsonEntry, json) {
       ? `// eslint-disable-next-line\n${ testIndent }    `
       : ''
 
-    return `test.todo('can be used in a component', () => {
-        const TestComponent = defineComponent({
-          template: '<div />',
-          setup () {
-            ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
-            return { result }
-          }
-        })
-
-        const wrapper = mount(TestComponent)
+    return `test.todo('can be used in a Vue Component', () => {
+        const wrapper = mount(
+          defineComponent({
+            template: '<div />',
+            setup () {
+              ${ lint }const result = ${ jsonEntry.accessor }(${ jsonEntry.params })
+              return { result }
+            }
+          })
+        )
 
         // TODO: test the outcome
         expect(wrapper).toBeDefined() // this is here for lint only

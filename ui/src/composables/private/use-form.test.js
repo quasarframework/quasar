@@ -12,7 +12,7 @@ describe('[useForm API]', () => {
           modelValue: 'MyModelValue'
         })
 
-        expect(result).toBeTruthy()
+        expect(result).toBeTypeOf('object')
         expect(result.name).toBe('MyName')
         expect(result.value).toBe('MyModelValue')
       })
@@ -28,14 +28,14 @@ describe('[useForm API]', () => {
         fn(acc, 'push')
         fn(acc, 'push', ' MyClassName')
 
-        expect(acc.length).toBe(2)
+        expect(acc).toHaveLength(2)
 
         expect(acc[ 0 ].type).toBe('input')
-        expect(Object.keys(acc[ 0 ].props).length).toBe(1)
+        expect(Object.keys(acc[ 0 ].props)).toHaveLength(1)
         expect(acc[ 0 ].props.class).toBe('hidden')
 
         expect(acc[ 1 ].type).toBe('input')
-        expect(Object.keys(acc[ 1 ].props).length).toBe(1)
+        expect(Object.keys(acc[ 1 ].props)).toHaveLength(1)
         expect(acc[ 1 ].props.class).toBe('hidden MyClassName')
       })
 
@@ -51,15 +51,15 @@ describe('[useForm API]', () => {
         fn(acc, 'push')
         fn(acc, 'push', ' MyClassName')
 
-        expect(acc.length).toBe(2)
+        expect(acc).toHaveLength(2)
 
         expect(acc[ 0 ].type).toBe('input')
-        expect(Object.keys(acc[ 0 ].props).length).toBe(2)
+        expect(Object.keys(acc[ 0 ].props)).toHaveLength(2)
         expect(acc[ 0 ].props.class).toBe('hidden')
         expect(acc[ 0 ].props.myAttr).toBe('MyAttrValue')
 
         expect(acc[ 1 ].type).toBe('input')
-        expect(Object.keys(acc[ 1 ].props).length).toBe(2)
+        expect(Object.keys(acc[ 1 ].props)).toHaveLength(2)
         expect(acc[ 1 ].props.class).toBe('hidden MyClassName')
         expect(acc[ 1 ].props.myAttr).toBe('MyAttrValue')
       })

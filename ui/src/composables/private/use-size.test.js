@@ -7,7 +7,7 @@ describe('[useSize API]', () => {
     describe('[(variable)useSizeDefaults]', () => {
       test('is defined correctly', () => {
         expect(useSizeDefaults).toBeTypeOf('object')
-        expect(Object.keys(useSizeDefaults).length).not.toBe(0)
+        expect(Object.keys(useSizeDefaults)).not.toHaveLength(0)
       })
     })
   })

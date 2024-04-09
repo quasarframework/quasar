@@ -70,7 +70,7 @@ describe('[Platform API]', () => {
 
         const actualKeys = Object.keys(Platform.is)
 
-        expect(actualKeys.length).not.toBe(0)
+        expect(actualKeys).not.toHaveLength(0)
 
         expect(actualKeys).toSatisfy(
           keys => keys.every(key => expected[ key ] !== void 0)

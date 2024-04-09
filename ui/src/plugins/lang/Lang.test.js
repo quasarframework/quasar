@@ -114,15 +114,15 @@ describe('[Lang API]', () => {
       })
 
       test('can be set', () => {
-        const wrapper = mountPlugin()
+        const { vm: { $q } } = mountPlugin()
 
         Lang.props.nativeName = 'new-lang'
         expect(Lang.props.nativeName).toBe('new-lang')
-        expect(wrapper.vm.$q.lang.nativeName).toBe('new-lang')
+        expect($q.lang.nativeName).toBe('new-lang')
 
-        wrapper.vm.$q.lang.nativeName = 'another-lang'
+        $q.lang.nativeName = 'another-lang'
         expect(Lang.props.nativeName).toBe('another-lang')
-        expect(wrapper.vm.$q.lang.nativeName).toBe('another-lang')
+        expect($q.lang.nativeName).toBe('another-lang')
       })
     })
   })
@@ -132,9 +132,8 @@ describe('[Lang API]', () => {
       test('should be callable', () => {
         const wrapper = mountPlugin()
 
-        expect(Lang.set).toBeTypeOf('function')
-        expect(Lang.set(
-          {
+        expect(
+          Lang.set({
             isoName: 'en-US',
             nativeName: 'New Language',
             rtl: true,
@@ -223,25 +222,25 @@ describe('[Lang API]', () => {
               noNodes: 'No nodes available',
               noResults: 'No matching nodes found'
             }
-          }
-        )).toBeUndefined()
+          })
+        ).toBeUndefined()
 
         expect(Lang.props.nativeName).toBe('New Language')
         expect(wrapper.vm.$q.lang.nativeName).toBe('New Language')
       })
 
       test('should work with an imported lang pack', async () => {
-        const wrapper = mountPlugin()
+        const { vm: { $q } } = mountPlugin()
         const { default: deLang } = await import('quasar/lang/de-DE.mjs')
 
         Lang.set(deLang)
         expect(Lang.props.nativeName).toBe(deLang.nativeName)
-        expect(wrapper.vm.$q.lang.nativeName).toBe(deLang.nativeName)
+        expect($q.lang.nativeName).toBe(deLang.nativeName)
 
         const { default: itLang } = await import('quasar/lang/it.mjs')
-        wrapper.vm.$q.lang.set(itLang)
+        $q.lang.set(itLang)
         expect(Lang.props.nativeName).toBe(itLang.nativeName)
-        expect(wrapper.vm.$q.lang.nativeName).toBe(itLang.nativeName)
+        expect($q.lang.nativeName).toBe(itLang.nativeName)
       })
     })
 
@@ -249,16 +248,18 @@ describe('[Lang API]', () => {
       test('should be callable', () => {
         const wrapper = mountPlugin()
 
-        expect(Lang.getLocale).toBeTypeOf('function')
-        expect(Lang.getLocale()).$any([
+        expect(
+          Lang.getLocale()
+        ).$any([
           expect.any(String),
-          void 0
+          undefined
         ])
 
-        expect(wrapper.vm.$q.lang.getLocale).toBeTypeOf('function')
-        expect(wrapper.vm.$q.lang.getLocale()).$any([
+        expect(
+          wrapper.vm.$q.lang.getLocale()
+        ).$any([
           expect.any(String),
-          void 0
+          undefined
         ])
       })
     })
