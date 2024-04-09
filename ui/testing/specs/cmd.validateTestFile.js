@@ -2,6 +2,7 @@ import { basename } from 'node:path'
 import prompts from 'prompts'
 
 import { plural } from './specs.utils.js'
+import lint from './lint.js'
 
 /**
  * Validates a test file
@@ -11,6 +12,14 @@ export async function cmdValidateTestFile ({
   testFile,
   argv
 }) {
+  const lintResult = await lint(ctx.testFileAbsolute)
+  if (lintResult !== void 0) {
+    // TODO: process.exit(1) when all test files have been added
+    console.error(`  ❌ ${ ctx.testFileRelative } has linting issues:`)
+    console.error(lintResult)
+    return
+  }
+
   const { errors, warnings } = testFile.getMisconfiguration()
 
   if (errors.length !== 0) {

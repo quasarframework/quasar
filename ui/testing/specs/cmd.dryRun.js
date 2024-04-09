@@ -1,9 +1,9 @@
 import { relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fse from 'fs-extra'
-import { ESLint } from 'eslint'
 
 import { getTestFile } from './testFile.js'
+import lint from './lint.js'
 
 const testFilePath = fileURLToPath(new URL('./__temp.js', import.meta.url))
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
@@ -41,9 +41,6 @@ export async function getDryRunCmd () {
     }
   })
 
-  const eslint = new ESLint()
-  const eslintFormatter = await eslint.loadFormatter('stylish')
-
   return async function cmdDryRun ({ ctx, testFile }) {
     let testFileContent
     try {
@@ -62,17 +59,12 @@ export async function getDryRunCmd () {
       return
     }
 
-    const lintResult = await eslint.lintText(testFileContent)
-    if (
-      lintResult.length !== 0
-      && lintResult.some(({ errorCount, warningCount }) => errorCount !== 0 || warningCount !== 0)
-    ) {
+    const lintResult = await lint(testFileContent, 'lintText')
+    if (lintResult !== void 0) {
       result.failed++
       result.failList.push(ctx.targetRelative)
       console.error(`\n  ❌ Failed ${ ctx.targetRelative }: linting after createContent()`)
-      console.error(
-        eslintFormatter.format(lintResult)
-      )
+      console.error(lintResult)
       return
     }
 
