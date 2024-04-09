@@ -25,9 +25,8 @@ function createVariableTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
-        expect(${ jsonEntry.accessor }).toBeDefined()
-
-        // TODO: do something with ${ jsonEntry.accessor }
+        expect(${ jsonEntry.accessor }).toBeTypeOf('object')
+        expect(Object.keys(${ jsonEntry.accessor }).length).not.toBe(0)
       })
     })\n`
 }
