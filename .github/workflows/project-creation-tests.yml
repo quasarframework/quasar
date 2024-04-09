@@ -167,15 +167,17 @@ jobs:
               }
             }
 
+        # wait-on is pinned for stability and safety reasons, it can be updated manually after testing a new version
         run: |
           ${{ matrix.package-manager }} run dev &
 
           if [[ '${{ matrix.app-engine }}' == vite* ]]; then
             echo $WAIT_ON_CONFIG > wait-on.json
-            npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
+            npx wait-on@7.2.0 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           else
             # 15s is almost enough, but due to possible fluctuations in the CI environment, we set it higher than that
-            npx wait-on@7.0.1 --timeout 20000 http-get://127.0.0.1:8080
+            npx wait-on@7.2.0 --timeout 20000 http-get://127.0.0.1:8080
           fi
 
           kill $!
+
