@@ -106,6 +106,7 @@ export default createComponent({
       const chip = props.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: props.tabindex || 0 }
+
       const remove = {
         ...chip,
         role: 'button',

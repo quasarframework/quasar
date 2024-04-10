@@ -1,84 +1,154 @@
-import { mount } from '@vue/test-utils'
-import { describe, test, expect, vi } from 'vitest'
+import { mount, flushPromises } from '@vue/test-utils'
+import { describe, test, expect } from 'vitest'
 
 import QChip, { defaultSizes } from './QChip.js'
 
-const defaultOptions = {
-  label: 'simple chip'
-}
-
-const chipSizeValues = Object.keys(defaultSizes)
-
-function mountQChip (options = {}) {
-  options.props = {
-    ...defaultOptions,
-    ...options.props
-  }
-
-  return mount(QChip, options)
-}
-
 describe('[QChip API]', () => {
   describe('[Props]', () => {
-    describe('[(prop)icon]', () => {
-      test('should render an icon on the left', () => {
-        const icon = 'add'
-        const wrapper = mountQChip({
+    describe('[(prop)dense]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.dense).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const wrapper = mount(QChip, {
           props: {
-            icon
+            dense: true
+          }
+        })
+
+        expect(
+          wrapper.classes()
+        ).toContain('q-chip--dense')
+      })
+    })
+
+    describe('[(prop)size]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.size).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        const wrapper = mount(QChip, {
+          props: {
+            size: '50px'
           }
         })
 
         expect(
           wrapper.get('.q-chip')
-            .get('.q-icon.q-chip__icon--left')
-            .text()
-        ).toBe(icon)
+            .$style()
+        ).toContain('font-size: 50px')
+
+        await wrapper.setProps({ size: 'sm' })
+
+        expect(
+          wrapper.get('.q-chip')
+            .$style()
+        ).toContain(`font-size: ${ defaultSizes.sm }px;`)
+      })
+    })
+
+    describe('[(prop)dark]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.dark).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const wrapper = mount(QChip, {
+          props: {
+            dark: true
+          }
+        })
+
+        expect(
+          wrapper.classes()
+        ).toContain('q-chip--dark')
+      })
+
+      test('type null has effect', () => {
+        const wrapper = mount(QChip, {
+          props: {
+            dark: null
+          }
+        })
+
+        expect(
+          wrapper.classes()
+        ).not.toContain('q-chip--dense')
+      })
+    })
+
+    describe('[(prop)icon]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.icon).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'map'
+        const wrapper = mount(QChip, {
+          props: {
+            icon: propVal
+          }
+        })
+
+        expect(
+          wrapper.text()
+        ).toContain(propVal)
       })
     })
 
     describe('[(prop)icon-right]', () => {
-      test('should render an icon on the right', () => {
-        const icon = 'add'
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.iconRight).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'map'
+        const wrapper = mount(QChip, {
           props: {
-            iconRight: icon
+            iconRight: propVal
           }
         })
 
         expect(
-          wrapper.get('.q-chip')
-            .get('.q-icon.q-chip__icon--right')
-            .text()
-        ).toBe(icon)
+          wrapper.text()
+        ).toContain(propVal)
       })
     })
 
     describe('[(prop)icon-remove]', () => {
-      test('should render a custom remove icon', () => {
-        const icon = 'delete'
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.iconRemove).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'map'
+        const wrapper = mount(QChip, {
           props: {
             removable: true,
-            iconRemove: icon
+            iconRemove: propVal
           }
         })
 
         expect(
-          wrapper.get('.q-chip')
-            .get('.q-icon.q-chip__icon--remove')
+          wrapper.get('.q-icon.q-chip__icon--remove')
             .text()
-        ).toBe(icon)
+        ).toBe(propVal)
       })
     })
 
     describe('[(prop)icon-selected]', () => {
-      test('should render a custom selected icon when one provided', () => {
-        const icon = 'done'
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.iconSelected).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'map'
+        const wrapper = mount(QChip, {
           props: {
             selected: true,
-            iconSelected: icon
+            iconSelected: propVal
           }
         })
 
@@ -86,16 +156,34 @@ describe('[QChip API]', () => {
           wrapper.get('.q-chip.q-chip--selected')
             .get('.q-icon')
             .text()
-        ).toBe(icon)
+        ).toBe(propVal)
       })
     })
 
     describe('[(prop)label]', () => {
-      test('should render a label inside the chip', () => {
-        const label = 'Chip label'
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.label).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'John Doe'
+        const wrapper = mount(QChip, {
           props: {
-            label
+            label: propVal
+          }
+        })
+
+        expect(
+          wrapper.get('.q-chip__content')
+            .text()
+        ).toBe(propVal)
+      })
+
+      test('type Number has effect', () => {
+        const propVal = 10
+        const wrapper = mount(QChip, {
+          props: {
+            label: propVal
           }
         })
 
@@ -103,47 +191,63 @@ describe('[QChip API]', () => {
           wrapper.get('.q-chip')
             .get('.q-chip__content')
             .text()
-        ).toBe(label)
+        ).toBe('' + propVal)
       })
     })
 
-    describe('[(prop)tabindex]', () => {
-      test('should set the tabindex', () => {
-        const tabindex = 1
-        const wrapper = mountQChip({
+    describe('[(prop)color]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.color).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const wrapper = mount(QChip, {
           props: {
-            clickable: true,
-            tabindex
+            color: 'red'
           }
         })
 
         expect(
-          wrapper.get('.q-chip')
-            .attributes('tabindex')
-        ).toBe(`${ tabindex }`)
+          wrapper.classes()
+        ).toContain('bg-red')
+      })
+    })
+
+    describe('[(prop)text-color]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.textColor).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const wrapper = mount(QChip, {
+          props: {
+            textColor: 'red'
+          }
+        })
+
+        const cls = wrapper.classes()
+        expect(cls).toContain('text-red')
+        expect(cls).toContain('q-chip--colored')
       })
     })
 
     describe('[(prop)model-value]', () => {
-      test('should render when "modelValue" prop is true', () => {
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.modelValue).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip, {
           props: {
             modelValue: true
           }
         })
 
         expect(
-          wrapper.find('.q-chip')
-            .exists()
+          wrapper.find('.q-chip').exists()
         ).toBe(true)
-      })
 
-      test('should not render when "modelValue" prop is false', async () => {
-        const wrapper = mountQChip({
-          props: {
-            modelValue: false
-          }
-        })
+        await wrapper.setProps({ modelValue: false })
 
         expect(
           wrapper.find('.q-chip')
@@ -153,381 +257,466 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)selected]', () => {
-      test('should be selected when "selected" prop is true', () => {
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.selected).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip, {
           props: {
             selected: true
           }
         })
 
         expect(
-          wrapper.find('.q-chip.q-chip--selected')
-            .exists()
-        ).toBe(true)
+          wrapper.classes()
+        ).toContain('q-chip--selected')
       })
 
-      test('should not be selected when "selected" prop is false', () => {
-        const wrapper = mountQChip({
+      test('type null has effect', () => {
+        const wrapper = mount(QChip, {
           props: {
-            selected: false
+            selected: null
           }
         })
 
         expect(
-          wrapper.get('.q-chip')
-            .classes()
+          wrapper.classes()
         ).not.toContain('q-chip--selected')
       })
     })
 
-    describe('[(prop)clickable]', () => {
-      test('should have hover effects and emit "click" event when "clickable" prop is true', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
-          props: {
-            clickable: true,
-            onClick: fn
-          }
-        })
-
-        expect(
-          wrapper.get('.q-chip')
-            .$computedStyle('cursor')
-        ).toBe('pointer')
-
-        wrapper.get('.q-chip')
-          .trigger('click')
-
-        expect(fn).toHaveBeenCalledTimes(1)
-      })
-    })
-
-    describe('[(prop)removable]', () => {
-      test('should display a remove icon emitting a "remove" event when clicked', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
-          props: {
-            removable: true,
-            onRemove: fn
-          }
-        })
-
-        wrapper.get('.q-chip')
-          .get('.q-icon.q-chip__icon--remove')
-          .trigger('click')
-
-        expect(fn).toHaveBeenCalledTimes(1)
-      })
-    })
-
-    describe('[(prop)disable]', () => {
-      test('should not have hover effect and not emit "click" event when "disable" prop is true', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
-          props: {
-            disable: true,
-            onClick: fn
-          }
-        })
-
-        expect(
-          wrapper.get('.q-chip')
-            .$computedStyle('cursor')
-        ).not.toBe('pointer')
-
-        wrapper.get('.q-chip')
-          .trigger('click')
-
-        expect(fn).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('[(prop)dense]', () => {
-      test('should have a dense style when "dense" prop is true', () => {
-        const wrapper = mountQChip({
-          props: { dense: true }
-        })
-
-        expect(
-          wrapper.find('.q-chip.q-chip--dense')
-            .exists()
-        ).toBe(true)
-      })
-    })
-
-    describe('[(prop)size]', () => {
-      test('should change QChip size based on a CSS unit value', () => {
-        const size = '50px'
-        const wrapper = mountQChip({
-          props: { size }
-        })
-
-        expect(
-          wrapper.get('.q-chip')
-            .$style()
-        ).toContain(`font-size: ${ size };`)
-      })
-
-      test(`should change QChip size based defined values: ${ chipSizeValues.join(', ') }`, () => {
-        // loop over chipSizeValues
-        for (const key of chipSizeValues) {
-          const wrapper = mountQChip({
-            props: { size: key }
-          })
-
-          expect(
-            wrapper.get('.q-chip')
-              .$style()
-          ).toContain(`font-size: ${ defaultSizes[ key ] }px;`)
-        }
-      })
-    })
-
-    describe('[(prop)dark]', () => {
-      test('should have a dark style when "dark" prop is true', () => {
-        const wrapper = mountQChip({
-          props: {
-            dark: true
-          }
-        })
-
-        const cls = wrapper.get('.q-chip').classes()
-        expect(cls).toContain('q-dark')
-        expect(cls).toContain('q-chip--dark')
-      })
-    })
-
-    describe('[(prop)color]', () => {
-      test('should change color based on Quasar Color Palette', () => {
-        const color = 'red'
-        const wrapper = mountQChip({
-          props: { color }
-        })
-
-        expect(
-          wrapper.get('.q-chip')
-            .classes()
-        ).toContain(`bg-${ color }`)
-      })
-    })
-
-    describe('[(prop)text-color]', () => {
-      test('should change text color based on Quasar Color Palette', () => {
-        const textColor = 'red'
-        const wrapper = mountQChip({
-          props: { textColor }
-        })
-
-        const cls = wrapper.get('.q-chip').classes()
-        expect(cls).toContain(`text-${ textColor }`)
-        expect(cls).toContain('q-chip--colored')
-      })
-    })
-
     describe('[(prop)square]', () => {
-      test('should have a square style when "square" prop is true', () => {
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.square).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const wrapper = mount(QChip, {
           props: {
             square: true
           }
         })
 
         expect(
-          wrapper.get('.q-chip')
-            .classes()
+          wrapper.classes()
         ).toContain('q-chip--square')
+
+        expect(
+          wrapper.get('.q-chip')
+            .$computedStyle('border-radius')
+        ).toBe('4px')
       })
     })
 
     describe('[(prop)outline]', () => {
-      test('should have a outline style when "outline" prop is true', () => {
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.outline).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const propVal = true
+        const wrapper = mount(QChip, {
           props: {
-            outline: true
+            outline: propVal
           }
         })
 
         expect(
-          wrapper.get('.q-chip')
-            .classes()
+          wrapper.classes()
         ).toContain('q-chip--outline')
       })
     })
 
+    describe('[(prop)clickable]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.clickable).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const wrapper = mount(QChip, {
+          props: {
+            clickable: true
+          }
+        })
+
+        const chip = wrapper.get('.q-chip')
+
+        expect(
+          chip.$computedStyle('cursor')
+        ).toBe('pointer')
+
+        expect(
+          chip.attributes('tabindex')
+        ).toBe('0')
+      })
+    })
+
+    describe('[(prop)removable]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.removable).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const wrapper = mount(QChip, {
+          props: {
+            removable: true
+          }
+        })
+
+        expect(
+          wrapper.find('.q-icon.q-chip__icon--remove')
+            .exists()
+        ).toBe(true)
+      })
+    })
+
     describe('[(prop)ripple]', () => {
-      test('should have a ripple effect when "ripple" prop is true', () => {
-        const wrapper = mountQChip({
+      test('is defined correctly', () => {
+        expect(QChip.props.ripple).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip, {
           props: {
             ripple: true
           }
         })
 
-        wrapper.get('.q-chip')
-          .trigger('click')
+        await wrapper.trigger('click')
 
         expect(
-          wrapper.get('.q-chip')
-            .find('.q-ripple')
+          wrapper.find('.q-ripple')
             .exists()
         ).toBe(true)
       })
 
-      test('should not have a ripple effect when "ripple" prop is false', () => {
-        const wrapper = mountQChip({
+      test('type Object has effect', async () => {
+        const propVal = { center: true }
+        const wrapper = mount(QChip, {
           props: {
-            ripple: false
+            ripple: propVal
           }
         })
 
-        wrapper.get('.q-chip')
-          .trigger('click')
+        await wrapper.trigger('click')
 
         expect(
-          wrapper.get('.q-chip')
-            .find('.q-ripple')
+          wrapper.find('.q-ripple')
             .exists()
-        ).toBe(false)
+        ).toBe(true)
       })
     })
 
-    describe.todo('(prop): remove-aria-label', () => {
-      test(' ', () => {
-        //
+    describe('[(prop)remove-aria-label]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.removeAriaLabel).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'Remove item'
+        const wrapper = mount(QChip, {
+          props: {
+            removable: true,
+            removeAriaLabel: propVal
+          }
+        })
+
+        const removeIcon = wrapper.get('.q-chip__icon--remove')
+
+        expect(
+          removeIcon.attributes('aria-label')
+        ).toBe(propVal)
+
+        expect(
+          removeIcon.attributes('tabindex')
+        ).toBe('0')
+      })
+    })
+
+    describe('[(prop)tabindex]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.tabindex).toBeDefined()
+      })
+
+      test.each([
+        [ 'Number', 100 ],
+        [ 'String', '100' ]
+      ])('type %s has effect', async (_, propVal) => {
+        const wrapper = mount(QChip, {
+          props: {
+            clickable: true,
+            tabindex: propVal
+          }
+        })
+
+        expect(
+          wrapper.attributes('tabindex')
+        ).toBe('' + propVal)
+
+        // we'll test clickable + disable
+        await wrapper.setProps({ disable: true })
+        await flushPromises()
+
+        expect(
+          wrapper.attributes('tabindex')
+        ).toBeUndefined()
+
+        expect(
+          wrapper.attributes('aria-disabled')
+        ).toBeUndefined()
+
+        // we'll now test removable + disable
+        await wrapper.setProps({
+          clickable: false,
+          removable: true
+        })
+        await flushPromises()
+
+        let removeIcon = wrapper.get('.q-chip__icon--remove')
+
+        expect(
+          removeIcon.attributes('tabindex')
+        ).toBe('-1')
+
+        expect(
+          removeIcon.attributes('aria-disabled')
+        ).toBe('true')
+
+        // we'll now test removable
+        await wrapper.setProps({ disable: false })
+        await flushPromises()
+
+        removeIcon = wrapper.get('.q-chip__icon--remove')
+
+        expect(
+          removeIcon.attributes('tabindex')
+        ).toBe('' + propVal)
+
+        expect(
+          removeIcon.attributes('aria-disabled')
+        ).toBeUndefined()
+      })
+    })
+
+    describe('[(prop)disable]', () => {
+      test('is defined correctly', () => {
+        expect(QChip.props.disable).toBeDefined()
+      })
+
+      test('type Boolean has effect', () => {
+        const propVal = true
+        const wrapper = mount(QChip, {
+          props: {
+            disable: propVal
+          }
+        })
+
+        expect(
+          wrapper.classes()
+        ).toContain('disabled')
       })
     })
   })
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
-      test('should display the default slot content', () => {
-        const wrapper = mountQChip({
-          props: {
-            label: undefined
-          },
-
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mount(QChip, {
           slots: {
-            default: 'Default Slot Content'
+            default: () => slotContent
           }
         })
 
-        expect(
-          wrapper.get('.q-chip__content')
-            .text()
-        ).toBe('Default Slot Content')
+        expect(wrapper.text()).toContain(slotContent)
       })
     })
   })
 
   describe('[Events]', () => {
     describe('[(event)click]', () => {
-      test('should emit "click" event when clicked and "clickable" prop is true', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
-          props: {
-            clickable: true,
-            onClick: fn
-          }
-        })
-
-        wrapper.get('.q-chip')
-          .trigger('click')
-
-        expect(fn).toHaveBeenCalledTimes(1)
+      test('is defined correctly', () => {
+        expect(
+          QChip.emits?.includes('click')
+          ^ (QChip.props?.onClick !== void 0)
+        ).toBe(1)
       })
 
-      test('should not emit "click" event when "clickable" prop is false', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
+      test('is emitting when clickable', async () => {
+        const wrapper = mount(QChip, {
           props: {
-            clickable: false,
-            onClick: fn
+            clickable: true
           }
         })
 
-        wrapper.get('.q-chip')
-          .trigger('click')
+        await wrapper.trigger('click')
 
-        expect(fn).not.toHaveBeenCalled()
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('click')
+        expect(eventList.click).toHaveLength(1)
+
+        const [ evt ] = eventList.click[ 0 ]
+        expect(evt).toBeInstanceOf(Event)
+      })
+
+      test('is emitting when selected', async () => {
+        const wrapper = mount(QChip, {
+          props: {
+            selected: true
+          }
+        })
+
+        await wrapper.trigger('click')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('click')
+        expect(eventList.click).toHaveLength(1)
+
+        const [ evt ] = eventList.click[ 0 ]
+        expect(evt).toBeInstanceOf(Event)
+      })
+
+      test('is NOT emitting when not clickable or removable', async () => {
+        const wrapper = mount(QChip)
+
+        await wrapper.trigger('click')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).not.toHaveProperty('click')
+      })
+
+      test('is NOT emitting when disable + clickable', async () => {
+        const wrapper = mount(QChip, {
+          props: {
+            clickable: true,
+            disable: true
+          }
+        })
+
+        await wrapper.trigger('click')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).not.toHaveProperty('click')
+      })
+
+      test('is NOT emitting when disable + selected', async () => {
+        const wrapper = mount(QChip, {
+          props: {
+            selected: true,
+            disable: true
+          }
+        })
+
+        await wrapper.trigger('click')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).not.toHaveProperty('click')
       })
     })
 
-    describe('[(event): update:selected]', () => {
-      test('should update selected value when called', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
-          props: {
-            selected: false,
-            'onUpdate:selected': fn
-          }
-        })
-
-        wrapper.get('.q-chip')
-          .trigger('click')
-
+    describe('[(event)update:selected]', () => {
+      test('is defined correctly', () => {
         expect(
-          wrapper.find('.q-chip')
-            .exists()
-        ).toBe(true)
-
-        expect(fn).toHaveBeenCalledTimes(1)
+          QChip.emits?.includes('update:selected')
+          ^ (QChip.props?.[ 'onUpdate:selected' ] !== void 0)
+        ).toBe(1)
       })
 
-      test('should not emit update:selected event when "selected" prop is not set', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
+      test('is emitting', async () => {
+        const wrapper = mount(QChip, {
           props: {
-            selected: undefined,
-            'onUpdate:selected': fn
+            selected: false,
+            'onUpdate:selected': val => {
+              wrapper.setProps({ selected: val })
+            }
           }
         })
 
-        wrapper.get('.q-chip')
-          .trigger('click')
+        await wrapper.trigger('click')
+        await flushPromises()
 
-        expect(
-          wrapper.find('.q-chip')
-            .exists()
-        ).toBe(true)
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('update:selected')
+        expect(eventList[ 'update:selected' ]).toHaveLength(1)
 
-        expect(fn).not.toHaveBeenCalled()
+        const [ state ] = eventList[ 'update:selected' ][ 0 ]
+        expect(state).toBeTypeOf('boolean')
+      })
+
+      test('is NOT emitting when disable', async () => {
+        const wrapper = mount(QChip, {
+          props: {
+            disable: true,
+            selected: false,
+            'onUpdate:selected': val => {
+              wrapper.setProps({ selected: val })
+            }
+          }
+        })
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).not.toHaveProperty('update:selected')
       })
     })
 
     describe('[(event)remove]', () => {
-      test('should emit remove event when clicked and "removable" prop is true', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
-          props: {
-            removable: true,
-            onRemove: fn
-          }
-        })
-
-        wrapper.get('.q-chip')
-          .get('.q-icon.q-chip__icon--remove')
-          .trigger('click')
-
-        expect(fn).toHaveBeenCalledTimes(1)
+      test('is defined correctly', () => {
+        expect(
+          QChip.emits?.includes('remove')
+          ^ (QChip.props?.onRemove !== void 0)
+        ).toBe(1)
       })
 
-      test('should not emit remove event when "removable" prop is false', () => {
-        const fn = vi.fn()
-        const wrapper = mountQChip({
+      test('is emitting', async () => {
+        const wrapper = mount(QChip, {
           props: {
-            removable: false,
-            onRemove: fn
+            removable: true
           }
         })
 
-        wrapper.get('.q-chip')
+        await wrapper.get('.q-chip__icon--remove')
           .trigger('click')
 
-        expect(
-          wrapper.find('.q-chip')
-            .exists()
-        ).toBe(true)
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('remove')
+        expect(eventList.remove).toHaveLength(1)
 
-        expect(fn).not.toHaveBeenCalled()
+        expect(eventList.remove[ 0 ]).toHaveLength(0)
+      })
+    })
+
+    describe('[(event)update:model-value]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QChip.emits?.includes('update:modelValue')
+          ^ (QChip.props?.[ 'onUpdate:modelValue' ] !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        const wrapper = mount(QChip, {
+          props: {
+            removable: true,
+            modelValue: true,
+            'onUpdate:modelValue': val => {
+              wrapper.setProps({ modelValue: val })
+            }
+          }
+        })
+
+        await wrapper.get('.q-chip__icon--remove')
+          .trigger('click')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('update:modelValue')
+        expect(eventList[ 'update:modelValue' ]).toHaveLength(1)
+
+        const [ value ] = eventList[ 'update:modelValue' ][ 0 ]
+        expect(value).toBe(false)
       })
     })
   })
