@@ -127,6 +127,10 @@
       }
     },
 
+    "update:model-value": {
+      "extends": "update:model-value"
+    },
+
     "update:selected": {
       "desc": "Used by Vue on 'v-model:selected' for updating its value",
       "params": {
