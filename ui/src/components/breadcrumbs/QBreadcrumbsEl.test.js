@@ -1,133 +1,510 @@
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect, vi } from 'vitest'
 
 import QBreadcrumbsEl from './QBreadcrumbsEl.js'
+import { getRouter } from 'testing/runtime/router.js'
 
 describe('[QBreadcrumbsEl API]', () => {
   describe('[Props]', () => {
-    describe('[(prop)label]', () => {
-      test('should render a label inside the breadcrumb element', () => {
-        const label = 'Breadcrumb label'
+    describe('[(prop)to]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.to).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        const testRoute = '/home/dashboard'
+        const router = await getRouter(testRoute)
+
         const wrapper = mount(QBreadcrumbsEl, {
-          props: { label }
+          props: {
+            to: testRoute
+          },
+          global: {
+            plugins: [ router ]
+          }
         })
 
         expect(
-          wrapper.get('.q-breadcrumbs__el')
-            .text()
-        ).toContain(label)
+          wrapper.get('a').attributes('href')
+        ).toBe(testRoute)
+
+        const routerFn = vi.spyOn(router, 'push')
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe(testRoute)
+
+        expect(routerFn).toHaveBeenCalledTimes(1)
+        expect(routerFn).toHaveBeenCalledWith(testRoute)
+      })
+
+      test('type Object has effect', async () => {
+        const testRoute = '/my-route-name'
+        const propVal = { path: testRoute }
+        const router = await getRouter(testRoute)
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            to: propVal
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        expect(
+          wrapper.get('a').attributes('href')
+        ).toBe(testRoute)
+
+        const routerFn = vi.spyOn(router, 'push')
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe(testRoute)
+
+        expect(routerFn).toHaveBeenCalledTimes(1)
+        expect(routerFn).toHaveBeenCalledWith(propVal)
+      })
+    })
+
+    describe('[(prop)exact]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.exact).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const activeClass = 'it-is-active'
+        const exactActiveClass = 'it-is-exact-active'
+        const router = await getRouter({ '/route': 'subRoute' })
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            exact: true,
+            activeClass,
+            exactActiveClass,
+            to: '/route/subRoute'
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        expect(
+          wrapper.get('a').attributes('href')
+        ).toBe('/route/subRoute')
+
+        expect(
+          wrapper.get('a').classes()
+        ).not.toContain(
+          expect.$any([ activeClass, exactActiveClass ])
+        )
+
+        await router.push('/route')
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe('/route')
+
+        expect(
+          wrapper.get('a').classes()
+        ).not.toContain(
+          expect.$any([ activeClass, exactActiveClass ])
+        )
+
+        await router.push('/route/subRoute')
+
+        const cls = wrapper.get('a').classes()
+
+        expect(cls).toContain(activeClass)
+        expect(cls).toContain(exactActiveClass)
+      })
+    })
+
+    describe('[(prop)replace]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.replace).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const testRoute = '/test-route'
+        const router = await getRouter(testRoute)
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            replace: true,
+            to: testRoute
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        expect(
+          wrapper.get('a').attributes('href')
+        ).toBe(testRoute)
+
+        const routerFn = vi.spyOn(router, 'replace')
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe(testRoute)
+
+        expect(routerFn).toHaveBeenCalledTimes(1)
+        expect(routerFn).toHaveBeenCalledWith(testRoute)
+      })
+    })
+
+    describe('[(prop)active-class]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.activeClass).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        const activeClass = 'it-is-active'
+        const router = await getRouter({ '/route': 'subRoute' })
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            activeClass,
+            to: '/route'
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        expect(
+          wrapper.get('a').attributes('href')
+        ).toBe('/route')
+
+        expect(
+          wrapper.get('a').classes()
+        ).not.toContain(activeClass)
+
+        await router.push('/route')
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe('/route')
+
+        expect(
+          wrapper.get('a').classes()
+        ).toContain(activeClass)
+
+        await router.push('/route/subRoute')
+
+        expect(
+          wrapper.get('a').classes()
+        ).toContain(activeClass)
+      })
+    })
+
+    describe('[(prop)exact-active-class]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.exactActiveClass).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        const exactActiveClass = 'it-is-exact-active'
+        const router = await getRouter({
+          '/route': { subRoute: 'other' }
+        })
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            exact: true,
+            exactActiveClass,
+            to: '/route/subRoute'
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        expect(
+          wrapper.get('a').attributes('href')
+        ).toBe('/route/subRoute')
+
+        expect(
+          wrapper.get('a').classes()
+        ).not.toContain(exactActiveClass)
+
+        await router.push('/route')
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe('/route')
+
+        expect(
+          wrapper.get('a').classes()
+        ).not.toContain(exactActiveClass)
+
+        await router.push('/route/subRoute')
+
+        expect(
+          wrapper.get('a').classes()
+        ).toContain(exactActiveClass)
+
+        await router.push('/route/subRoute/other')
+
+        expect(
+          wrapper.get('a').classes()
+        ).not.toContain(exactActiveClass)
+      })
+    })
+
+    describe('[(prop)href]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.href).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'https://quasar.dev'
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            href: propVal
+          }
+        })
+
+        expect(
+          wrapper.get('a').attributes('href')
+        ).toBe(propVal)
+      })
+    })
+
+    describe('[(prop)target]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.target).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = '_blank'
+        const href = 'https://quasar.dev'
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            href,
+            target: propVal
+          }
+        })
+
+        const link = wrapper.get('a')
+
+        expect(
+          link.attributes('href')
+        ).toBe(href)
+
+        expect(
+          link.attributes('target')
+        ).toBe(propVal)
+      })
+    })
+
+    describe('[(prop)disable]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.disable).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const testRoute = '/home'
+        const router = await getRouter(testRoute)
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            disable: true,
+            to: testRoute
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        expect(
+          router.currentRoute.value.path
+        ).not.toBe(testRoute)
+      })
+    })
+
+    describe('[(prop)label]', () => {
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.label).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'Home'
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            label: propVal
+          }
+        })
+
+        expect(wrapper.text()).toContain(propVal)
       })
     })
 
     describe('[(prop)icon]', () => {
-      test('should render on the left of the breadcrumb element', () => {
-        const icon = 'home'
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.icon).toBeDefined()
+      })
+
+      test('type String has effect', () => {
+        const propVal = 'map'
         const wrapper = mount(QBreadcrumbsEl, {
-          props: { icon }
+          props: {
+            icon: propVal
+          }
         })
 
-        expect(
-          wrapper.get('.q-breadcrumbs__el')
-            .get('.q-icon')
-            .text()
-        ).toContain(icon)
+        expect(wrapper.text()).toContain(propVal)
       })
     })
 
     describe('[(prop)tag]', () => {
-      test('should render a custom tag', () => {
-        const tag = 'a'
-        const wrapper = mount(QBreadcrumbsEl, {
-          props: { tag }
-        })
+      test('is defined correctly', () => {
+        expect(QBreadcrumbsEl.props.tag).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        const propVal = 'div'
+        const wrapper = mount(QBreadcrumbsEl)
 
         expect(
-          wrapper.get('.q-breadcrumbs__el')
-            .element.tagName
-        ).toBe(tag.toUpperCase())
-      })
-    })
+          // default is 'span'
+          wrapper.element.tagName
+        ).not.toBe(propVal.toUpperCase())
 
-    describe.todo('(prop): to', () => {
-      test(' ', () => {
-        //
-      })
-    })
+        await wrapper.setProps({ tag: propVal })
+        await flushPromises()
 
-    describe.todo('(prop): exact', () => {
-      test(' ', () => {
-        //
-      })
-    })
-
-    describe.todo('(prop): replace', () => {
-      test(' ', () => {
-        //
-      })
-    })
-
-    describe.todo('(prop): active-class', () => {
-      test(' ', () => {
-        //
-      })
-    })
-
-    describe.todo('(prop): exact-active-class', () => {
-      test(' ', () => {
-        //
-      })
-    })
-
-    describe.todo('(prop): href', () => {
-      test(' ', () => {
-        //
-      })
-    })
-
-    describe.todo('(prop): target', () => {
-      test(' ', () => {
-        //
-      })
-    })
-
-    describe.todo('(prop): disable', () => {
-      test(' ', () => {
-        //
+        expect(
+          wrapper.element.tagName
+        ).toBe(propVal.toUpperCase())
       })
     })
   })
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
-      test('should render the default slot', () => {
-        const label = 'Breadcrumb label'
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
         const wrapper = mount(QBreadcrumbsEl, {
-          slots: { default: label }
+          slots: {
+            default: () => slotContent
+          }
         })
 
-        expect(
-          wrapper.get('.q-breadcrumbs__el')
-            .text()
-        ).toContain(label)
+        expect(wrapper.html()).toContain(slotContent)
       })
     })
   })
 
   describe('[Events]', () => {
     describe('[(event)click]', () => {
-      test('should emit "click" event when clicked', () => {
-        const fn = vi.fn()
+      test('is defined correctly', () => {
+        expect(
+          QBreadcrumbsEl.emits?.includes('click')
+          ^ (QBreadcrumbsEl.props?.onClick !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting without router', async () => {
+        const wrapper = mount(QBreadcrumbsEl)
+
+        await wrapper.trigger('click')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('click')
+        expect(eventList.click).toHaveLength(1)
+
+        const [ evt, go ] = eventList.click[ 0 ]
+        expect(evt).toBeInstanceOf(Event)
+        expect(go).not.toBeDefined()
+      })
+
+      test('is emitting with router', async () => {
+        const testRoute = '/home/dashboard'
+        const router = await getRouter(testRoute)
+
         const wrapper = mount(QBreadcrumbsEl, {
           props: {
-            label: 'clicked breadcrumb',
-            onClick: fn
+            to: testRoute
+          },
+          global: {
+            plugins: [ router ]
           }
         })
 
-        wrapper.get('.q-breadcrumbs__el')
-          .trigger('click')
+        await wrapper.trigger('click')
 
-        expect(fn).toHaveBeenCalledTimes(1)
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('click')
+        expect(eventList.click).toHaveLength(1)
+
+        const [ evt, go ] = eventList.click[ 0 ]
+        expect(evt).toBeInstanceOf(Event)
+        expect(go).toBeTypeOf('function')
+      })
+
+      test('does not navigates when prevented', async () => {
+        const testRoute = '/home/dashboard'
+        const router = await getRouter(testRoute)
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            to: testRoute,
+            onClick: e => e.preventDefault()
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        expect(
+          router.currentRoute.value.path
+        ).not.toBe(testRoute)
+      })
+
+      test('can manually navigate by calling go()', async () => {
+        const testRoute = '/home/dashboard'
+        const router = await getRouter(testRoute)
+
+        const wrapper = mount(QBreadcrumbsEl, {
+          props: {
+            to: testRoute,
+            onClick: (e, go) => {
+              e.preventDefault()
+              go()
+            }
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        await wrapper.trigger('click')
+        await flushPromises()
+
+        expect(
+          router.currentRoute.value.path
+        ).toBe(testRoute)
       })
     })
   })
