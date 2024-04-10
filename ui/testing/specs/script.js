@@ -67,7 +67,9 @@ const cmdDryRun = argv[ 'dry-run' ] === true
 
 for (const target of targetList) {
   if (ignoredTestFiles.has(target) === true) {
-    argv.interactive === true && console.log(`  📦 Ignoring "${ target }"`)
+    if (cmdDryRun !== null || argv.interactive === true) {
+      console.log(`  📦 Ignoring "${ target }"`)
+    }
     continue
   }
 

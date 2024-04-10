@@ -85,7 +85,26 @@ function getTestTree (testFileContent) {
   return tree
 }
 
-function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
+function addWorkInProgress (bag, tree, name, path) {
+  if (tree.modifier === 'todo' || tree.modifier === 'skip') {
+    bag.push(
+      `Remove ".${ tree.modifier }" from: ${ path }${ tree.type }.${ tree.modifier }("${ name }")`
+    )
+  }
+
+  if (tree.children !== null) {
+    for (const childName in tree.children) {
+      addWorkInProgress(
+        bag,
+        tree.children[ childName ],
+        childName,
+        `${ path }${ tree.type }("${ name }") > `
+      )
+    }
+  }
+}
+
+function getTestFileMisconfiguration ({ ctx, generator, testFile, opts }) {
   const errors = []
   const warnings = []
 
@@ -208,6 +227,10 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile }) {
       }
     })
   })
+
+  if (opts?.disallowWorkInProgress === true) {
+    addWorkInProgress(warnings, tree, testTreeRootId, '')
+  }
 
   return { errors, warnings }
 }
@@ -412,8 +435,8 @@ export function getTestFile (ctx) {
       return getTestFileMissingTests({ ctx, generator, json, testFile: this })
     },
 
-    getMisconfiguration () {
-      return getTestFileMisconfiguration({ ctx, generator, testFile: this })
+    getMisconfiguration (opts) {
+      return getTestFileMisconfiguration({ ctx, generator, testFile: this, opts })
     },
 
     addIgnoreComments (ignoreCommentIds) {

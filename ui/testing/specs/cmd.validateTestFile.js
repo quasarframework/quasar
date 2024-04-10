@@ -20,14 +20,17 @@ export async function cmdValidateTestFile ({
     return
   }
 
-  const { errors, warnings } = testFile.getMisconfiguration()
+  const { errors, warnings } = testFile.getMisconfiguration({ disallowWorkInProgress: true })
 
   if (errors.length !== 0) {
     if (argv.interactive === true) {
       console.log('\n')
     }
 
-    console.error(`  ❌ ${ ctx.testFileRelative } has critical issues:`)
+    const suffix = warnings.length !== 0
+      ? ' & warnings'
+      : ''
+    console.error(`  ❌ ${ ctx.testFileRelative } has validation errors${ suffix }:`)
 
     errors.forEach(error => {
       console.error(`       • (error)   ${ error }`)
@@ -60,7 +63,7 @@ export async function cmdValidateTestFile ({
     return
   }
   else if (warnings.length !== 0) {
-    console.warn(`  ⚠️  ${ ctx.testFileRelative } has issues:`)
+    console.warn(`  ❌ ${ ctx.testFileRelative } has validation warnings:`)
     warnings.forEach(warning => {
       console.warn(`       • (warning) ${ warning }`)
     })
