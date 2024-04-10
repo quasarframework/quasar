@@ -65,11 +65,9 @@ const cmdDryRun = argv[ 'dry-run' ] === true
   ? await getDryRunCmd()
   : null
 
-const shouldOutputIgnoredFiles = cmdDryRun === null && argv.ci !== true
-
 for (const target of targetList) {
   if (ignoredTestFiles.has(target) === true) {
-    if (shouldOutputIgnoredFiles === true) {
+    if (argv.ci !== true) {
       console.log(`  📦 Ignoring "${ target }"`)
     }
     continue

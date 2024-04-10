@@ -323,9 +323,15 @@ export function filterDefExceptionTypes (type) {
   if (type !== 'FileList') return type
 }
 
-const mountInnerIndent = `${ testIndent }    `
-export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
+export function getComponentMount ({
+  ctx,
+  json,
+  prop = null,
+  slot = null,
+  indent
+}) {
   const target = {}
+  const innerIndent = `${ indent }    `
   const props = Object.keys(json.props || [])
     .filter(propName => prop === propName || json.props[ propName ].required === true)
 
@@ -338,12 +344,12 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
         ? 'propVal'
         : getTestValue({
           jsonEntry,
-          indent: mountInnerIndent
+          indent: innerIndent
         })
 
       if (jsonEntry.sync === true) {
         acc[ `'onUpdate:${ pascalName }'` ] = prop === propName
-          ? 'val => { propVal = val }'
+          ? `val => { wrapper.setProps({ ${ pascalName }: val }) }`
           : '(_val) => {}'
       }
 
@@ -360,7 +366,7 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
     target.slots = {
       [ nameAsObjKey ]: slotFn.replace(
         newlineRE,
-        `\n${ mountInnerIndent }`
+        `\n${ innerIndent }`
       )
     }
   }
@@ -381,7 +387,7 @@ export function getComponentMount ({ ctx, json, prop = null, slot = null }) {
         indent: innerIndent
       })
     },
-    indent: testIndent
+    indent
   })
 
   return `const wrapper = mount(${ ctx.pascalName }, ${ mountOpts })`

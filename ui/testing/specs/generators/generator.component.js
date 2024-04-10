@@ -60,15 +60,20 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
 
   // example: QTable > props > selection
   if (jsonEntry.values !== void 0) {
-    const mountOperation = getComponentMount({ ctx, json, prop: name })
+    const mountCall = getComponentMount({
+      ctx,
+      json,
+      prop: name,
+      indent: testIndent
+    })
 
     return jsonEntry.values.map(val => {
       const valueStr = val.replace(quoteRE, '"')
 
       return `\n
       test.todo('value ${ valueStr } has effect', () => {
-        ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ val }
-        ${ mountOperation }
+        const propVal = ${ val }
+        ${ mountCall }
 
         // TODO: test the effect of the prop
         expect(wrapper).toBeDefined() // this is here for linting only
@@ -76,7 +81,13 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
     }).join('')
   }
 
-  const mountOperation = getComponentMount({ ctx, json, prop: name })
+  const mountCall = getComponentMount({
+    ctx,
+    json,
+    prop: name,
+    indent: testIndent
+  })
+
   const typeList = Array.isArray(type)
     ? type // example: QTable > props > virtual-scroll-slice-size
     : [ type ]
@@ -89,8 +100,8 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
 
     return `\n
       test.todo('type ${ t } has effect', () => {
-        ${ jsonEntry.sync === true ? 'let' : 'const' } propVal = ${ val }
-        ${ mountOperation }
+        const propVal = ${ val }
+        ${ mountCall }
 
         // TODO: test the effect of the prop
         expect(wrapper).toBeDefined() // this is here for linting only
@@ -148,6 +159,12 @@ function createSlotTest ({
   ctx
 }) {
   const { slotFn, scopeTests } = getSlotScope(jsonEntry)
+  const mountCall = getComponentMount({
+    ctx,
+    json,
+    slot: { name, slotFn },
+    indent: testIndent
+  })
 
   return `
     describe('${ testId }', () => {
@@ -157,7 +174,7 @@ function createSlotTest ({
             ? `let slotScope\n${ testIndent }`
             : ''
         }const slotContent = 'some-slot-content'
-        ${ getComponentMount({ ctx, json, slot: { name, slotFn } }) }
+        ${ mountCall }
 
         expect(wrapper.html()).toContain(slotContent)${ scopeTests }
       })
@@ -200,6 +217,12 @@ function createEventTest ({
     ? [ '&', 'toBe(0) // passthrough event' ]
     : [ '^', 'toBe(1)' ]
 
+  const mountCall = getComponentMount({
+    ctx,
+    json,
+    indent: testIndent
+  })
+
   return `
     describe('${ testId }', () => {
       test('is defined correctly', () => {
@@ -210,7 +233,7 @@ function createEventTest ({
       })
 
       test.todo('is emitting', () => {
-        ${ getComponentMount({ ctx, json }) }
+        ${ mountCall }
 
         // TODO: trigger the event
 
@@ -230,6 +253,12 @@ function createMethodTest ({
   json,
   ctx
 }) {
+  const mountCall = getComponentMount({
+    ctx,
+    json,
+    indent: testIndent
+  })
+
   const callTest = getFunctionCallTest({
     jsonEntry: { ...jsonEntry, type: 'Function' },
     ref: `wrapper.vm.${ pascalName }`,
@@ -239,7 +268,7 @@ function createMethodTest ({
   return `
     describe('${ testId }', () => {
       test.todo('should be callable', () => {
-        ${ getComponentMount({ ctx, json }) }
+        ${ mountCall }
 
         ${ callTest }
 
@@ -255,6 +284,12 @@ function createComputedPropTest ({
   json,
   ctx
 }) {
+  const mountCall = getComponentMount({
+    ctx,
+    json,
+    indent: testIndent
+  })
+
   const typeTest = getTypeTest({
     jsonEntry,
     ref: `wrapper.vm.${ pascalName }`,
@@ -264,7 +299,7 @@ function createComputedPropTest ({
   return `
     describe('${ testId }', () => {
       test.todo('should be exposed', () => {
-        ${ getComponentMount({ ctx, json }) }
+        ${ mountCall }
         ${ typeTest }
       })
     })\n`
