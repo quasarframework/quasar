@@ -26,9 +26,10 @@
     "lint": "eslint --ext .js,.cjs,.mjs,.vue ./ --fix --report-unused-disable-directives",
     "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
     "test": "pnpm --filter quasar-ui-test test",
+    "test:watch": "pnpm --filter quasar-ui-test test:watch",
     "test:build": "pnpm build",
     "test:specs": "node ./testing/specs/script.js",
-    "test:specs:create": "node ./testing/specs/script.js --interactive"
+    "test:specs:ci": "node ./testing/specs/script.js --ci"
   },
   "repository": {
     "type": "git",

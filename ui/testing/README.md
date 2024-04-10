@@ -22,20 +22,29 @@ $ pnpm test:specs --target <target_file>
 #   $ pnpm test:specs -t composable
 ```
 
-2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `test.todo()` call (also see step 3 below).
-3. Should you want to discard a `describe()` section, just delete it then call the Specs script again and add an ignore statement:
+2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls (also see step 3 below).
+
+3. Should you want to discard a `describe()` or `test()` section, just delete it then call the Specs script again and add an ignore statement:
 
 ```bash
-$ pnpm test:specs --interactive --target <target_file>
+$ pnpm test:specs --target <target_file>
 # ...then select to ignore the missing tests
 ```
 
-4. When you are done with the test file, verify that the contents of the test file is OK:
+4. You might want to also start Vitest to verify what you are writing in the test file:
+
+```bash
+$ pnpm test:watch
+```
+
+5. When you are done with the test file, verify that the contents of the test file is OK:
 
 ```bash
 $ pnpm test:specs --target <target_file>
 # ...it should not output any errors
 ```
+
+...and that all the tests are passing!
 
 ### Steps for adding new sections to a test file
 
@@ -44,20 +53,28 @@ So you've added a new prop/method/...etc to a Component/Directive/...etc and you
 1. Run the Specs script so it can generate the missing pieces for you:
 
 ```bash
-$ pnpm test:specs --interactive --target <target_file>
+$ pnpm test:specs --target <target_file>
 # ...and it will prompt you to add
 # the missing tests or to add ignore statements
 # (and you can handle each of the issues separately)
 ```
 
-2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `test.todo()` call (also see step 3 below).
+2. Edit the file, gradually removing the `.todo` suffix from the `test()` calls. Do not leave any `.todo()` or `.skip()` modifiers for all describe/test calls after you finish.
 
-3. After you're done with the test file, verify that the contents of the test file is OK:
+3. You might want to also start Vitest to verify what you are writing in the test file:
+
+```bash
+$ pnpm test:watch
+```
+
+4. After you're done with the test file, verify that the contents of the test file is OK:
 
 ```bash
 $ pnpm test:specs --target <target_file>
 # ...it should not output any errors
 ```
+
+...and that all the tests are passing!
 
 ### Steps for re-generating a test file section
 
@@ -66,46 +83,54 @@ So you've changed a prop/method/...etc on a Component/Directive/...etc and you'v
 1. Run the Specs script so it can generate the missing pieces for you for each of the sections:
 
 ```bash
-$ pnpm test:specs --interactive --target <target_file> --generate <json_root_prop>.<json_subprop>
+$ pnpm test:specs --target <target_file> --generate <json_root_prop>.<json_subprop>
 # ...and it will output how the section should look like
 
 # Examples:
-#   $ pnpm test:specs -i -t QBtn -g props.label
-#   $ pnpm test:specs -i -t QBtn -g events.click
-#   $ pnpm test:specs -i -t QBtn -g "events.update:model-value"
-#   $ pnpm test:specs -i -t QBtn -g methods.click
+#   $ pnpm test:specs -t QBtn -g props.label
+#   $ pnpm test:specs -t QBtn -g events.click
+#   $ pnpm test:specs -t QBtn -g "events.update:model-value"
+#   $ pnpm test:specs -t QBtn -g methods.click
 ```
 
 For NON component/directive/plugin files (so composables or other generic js files), there is no JSON (composables may have a JSON but it does not refer to the explicit exported content of the file so it is ignored), but the Specs script can still infer the contents and generate the missing pieces for you:
 
 ```bash
 # target the default exporting function
-$ pnpm test:specs -i -t set-css-var -g functions.default
+$ pnpm test:specs -t set-css-var -g functions.default
 
 # target the default exporting object:
-$ pnpm test:specs -i -t set-css-var -g variables.default
+$ pnpm test:specs -t set-css-var -g variables.default
 
 # target the default exporting class:
-$ pnpm test:specs -i -t EventBus -g classes.default
+$ pnpm test:specs -t EventBus -g classes.default
 
 # target a named exported variable
-$ pnpm test:specs -i -t set-css-var -g variables.useSizeDefaults
+$ pnpm test:specs -t set-css-var -g variables.useSizeDefaults
 
 # target a named exported class
-$ pnpm test:specs -i -t set-css-var -g classes.myClassName
+$ pnpm test:specs -t set-css-var -g classes.myClassName
 
 # target a named exported function
-$ pnpm test:specs -i -t global-nodes -g functions.createGlobalNode
+$ pnpm test:specs -t global-nodes -g functions.createGlobalNode
 ```
 
-2. The content that gets outputted to the terminal is automatically copied to the clipboard. Should you need just a part of it, just copy that part only. Should you copy the whole output, remember to not remove `.todo` from the `test.todo()` calls.
+2. The content that gets outputted to the terminal is automatically copied to the clipboard. Should you need just a part of it, just copy that part only. Remember to remove the `.todo` modifier from the `test()` calls at the end.
 
-3. After you're done with the test file, verify that the contents of the test file is OK:
+3. You might want to also start Vitest to verify what you are writing in the test file:
+
+```bash
+$ pnpm test:watch
+```
+
+4. After you're done with the test file, verify that the contents of the test file is OK:
 
 ```bash
 $ pnpm test:specs --target <target_file>
 # ...it should not output any errors
 ```
+
+...and that all the tests are passing!
 
 ## Changing the Specs script code
 

@@ -2,7 +2,7 @@ import fse from 'fs-extra'
 import prompts from 'prompts'
 
 /**
- * Creates a test file
+ * Creates a test file (does NOT run in CI mode)
  */
 export async function cmdCreateTestFile ({
   ctx,

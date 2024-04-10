@@ -14,16 +14,15 @@ export async function cmdValidateTestFile ({
 }) {
   const lintResult = await lint(ctx.testFileAbsolute)
   if (lintResult !== void 0) {
-    // TODO: process.exit(1) when all test files have been added
     console.error(`  ❌ ${ ctx.testFileRelative } has linting issues:`)
     console.error(lintResult)
-    return
+    process.exit(1)
   }
 
   const { errors, warnings } = testFile.getMisconfiguration({ disallowWorkInProgress: true })
 
   if (errors.length !== 0) {
-    if (argv.interactive === true) {
+    if (argv.ci !== true) {
       console.log('\n')
     }
 
@@ -40,7 +39,7 @@ export async function cmdValidateTestFile ({
       console.warn(`       • (warning) ${ warning }`)
     })
 
-    if (argv.interactive === true) {
+    if (argv.ci !== true) {
       console.log()
 
       const { action } = await prompts({
@@ -59,8 +58,7 @@ export async function cmdValidateTestFile ({
       process.exit(1)
     }
 
-    // TODO: process.exit(1) when all test files have been added
-    return
+    process.exit(1)
   }
   else if (warnings.length !== 0) {
     console.warn(`  ❌ ${ ctx.testFileRelative } has validation warnings:`)
@@ -78,10 +76,9 @@ export async function cmdValidateTestFile ({
 
   const pluralSuffix = plural(missingTests.length)
 
-  if (argv.interactive === false) {
-    // TODO: process.exit(1) when all test files have been added
+  if (argv.ci === true) {
     console.log(`  ❌ ${ ctx.testFileRelative } is missing ${ missingTests.length } test-case${ pluralSuffix }`)
-    return
+    process.exit(1)
   }
 
   console.log(`\n  ❌ ${ ctx.testFileRelative } is missing ${ missingTests.length } test-case${ pluralSuffix }:`)

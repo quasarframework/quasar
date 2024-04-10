@@ -4,11 +4,11 @@ function showHelp (exitCode = 0) {
     UI test files validator & generator
 
   Usage
-    $ specs [-i] [-t <target>] [-g <json.path>]
+    $ specs [--ci] [-t <target>] [-g <json.path>]
     $ specs [-t <target>] [-g <json.path>]
     $ specs [-d] [-t <target>]
 
-    $ specs -i
+    $ specs --ci
 
     $ specs -t QIcon
     $ specs -t components
@@ -22,7 +22,7 @@ function showHelp (exitCode = 0) {
                            (should not specify file extension)
     --generate, -g      Generates a targeted section of a json path
     --dry-run, -d       Dry-run test for create + validate (no output to files)
-    --interactive, -i   Interactively validate & create specs
+    --ci, -c            Validate & create specs while in CI mode
     --help, -h          Show this help message
   `)
   process.exit(exitCode)
@@ -34,11 +34,11 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     t: 'target',
     g: 'generate',
-    i: 'interactive',
+    c: 'ci',
     d: 'dry-run',
     h: 'help'
   },
-  boolean: [ 'h', 'i', 'd' ],
+  boolean: [ 'h', 'c', 'd' ],
   string: [ 't', 'g' ]
 })
 
@@ -65,9 +65,11 @@ const cmdDryRun = argv[ 'dry-run' ] === true
   ? await getDryRunCmd()
   : null
 
+const shouldOutputIgnoredFiles = cmdDryRun === null && argv.ci !== true
+
 for (const target of targetList) {
   if (ignoredTestFiles.has(target) === true) {
-    if (cmdDryRun !== null || argv.interactive === true) {
+    if (shouldOutputIgnoredFiles === true) {
       console.log(`  📦 Ignoring "${ target }"`)
     }
     continue
@@ -85,7 +87,7 @@ for (const target of targetList) {
   else if (testFile.content !== null) {
     await cmdValidateTestFile({ ctx, testFile, argv })
   }
-  else if (argv.interactive === true) {
+  else if (argv.ci !== true) {
     await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })
   }
 }
