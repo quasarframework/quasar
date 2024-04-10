@@ -2,9 +2,14 @@ import { mount } from '@vue/test-utils'
 import { describe, test, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-import { timeToPass } from 'test/runtime.utils.js'
 import QDialog from './QDialog.js'
 import DialogWrapper from './test/DialogWrapper.vue'
+
+function timeToPass (ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
+}
 
 function mountDialog (props = {}) {
   const wrapper = mount(DialogWrapper, {

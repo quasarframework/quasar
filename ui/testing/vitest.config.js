@@ -25,7 +25,7 @@ export default defineConfig(() => {
 
     resolve: {
       alias: {
-        test: resolve('.'),
+        testing: resolve('.'),
         quasar: resolve('..')
       }
     },
