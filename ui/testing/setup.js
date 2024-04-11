@@ -1,6 +1,8 @@
 import { config } from '@vue/test-utils'
 import { expect } from 'vitest'
 
+import { isRef, isReactive } from 'vue'
+
 import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 
@@ -28,6 +30,13 @@ config.plugins.DOMWrapper.install(wrapper => {
 // jsdom not supplying this
 window.scrollTo = () => {}
 
+/**
+ * Examples:
+ *   expect(variable).$any([ 'x', 'y', 1, /z/, ... ])
+ *   expect(variable).$any([ expect.any(String), expect.any(Number) ])
+ *   expect.$any([ 'x', 'y', 1, /z/, ... ])
+ *   expect.$any([ expect.any(String), expect.any(Number), 'xyz' ])
+ */
 function $any (received, expectedList) {
   if (Array.isArray(expectedList) === false) {
     throw new TypeError('The second argument must be an array of matchers!')
@@ -46,6 +55,11 @@ function $any (received, expectedList) {
   }
 }
 
+/**
+ * Examples:
+ *   expect(arr).$arrayValues({ ... })
+ *   expect.$arrayValues({ ... })
+ */
 export function $arrayValues (received, expected) {
   const pass = Array.isArray(received) === true
     && received.every(item => this.equals(item, expected))
@@ -61,6 +75,11 @@ export function $arrayValues (received, expected) {
   }
 }
 
+/**
+ * Examples:
+ *   expect(obj).$objectValues({ ... })
+ *   expect.$objectValues({ ... })
+ */
 export function $objectValues (received, expected) {
   const pass = (
     typeof received === 'object'
@@ -78,8 +97,60 @@ export function $objectValues (received, expected) {
   }
 }
 
+/**
+ * Examples:
+ *   expect(variable).$ref()
+ *   expect.$ref()
+ *   expect.$ref(<someValue>)
+ *   expect.$ref(expect.any(Number))
+ */
+export function $ref (received, expected) {
+  const pass = (
+    isRef(received)
+    && (expected === void 0 || this.equals(received.value, expected))
+  )
+
+  return {
+    pass,
+    message: () =>
+      `expected ${ this.utils.printReceived(
+        received
+      ) } to${ this.isNot ? ' not' : '' } to a ref/computed${ expected === void 0
+        ? ` and be equal to ${ this.utils.printExpected(expected) }`
+        : ''
+      }`
+  }
+}
+
+/**
+ * Examples:
+ *   expect(variable).$reactive()
+ *   expect.$reactive()
+ *   expect.$reactive(<someValue>)
+ *   expect.$reactive(expect.any(Boolean))
+ */
+export function $reactive (received, expected) {
+  const pass = (
+    isReactive(received)
+    && (expected === void 0 || this.equals(received, expected))
+  )
+
+  return {
+    pass,
+    message: () =>
+      `expected ${ this.utils.printReceived(
+        received
+      ) } to${ this.isNot ? ' not' : '' } to a ref/computed${ expected === void 0
+        ? ` and be equal to ${ this.utils.printExpected(expected) }`
+        : ''
+      }`
+  }
+}
+
 expect.extend({
   $any,
   $objectValues,
-  $arrayValues
+  $arrayValues,
+  $ref,
+  $reactive
 })
