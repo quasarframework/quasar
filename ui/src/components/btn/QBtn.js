@@ -289,7 +289,13 @@ export default createComponent({
     })
 
     // expose public methods
-    Object.assign(proxy, { click: onClick })
+    Object.assign(proxy, {
+      click: e => {
+        if (props.disable !== true) {
+          onClick(e)
+        }
+      }
+    })
 
     return () => {
       let inner = []
