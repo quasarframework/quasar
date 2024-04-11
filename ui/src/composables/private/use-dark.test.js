@@ -1,8 +1,17 @@
 import { describe, test, expect } from 'vitest'
 
-import useDark from './use-dark.js'
+import useDark, { useDarkProps } from './use-dark.js'
 
 describe('[useDark API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)useDarkProps]', () => {
+      test('is defined correctly', () => {
+        expect(useDarkProps).toBeTypeOf('object')
+        expect(Object.keys(useDarkProps)).not.toHaveLength(0)
+      })
+    })
+  })
+
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {

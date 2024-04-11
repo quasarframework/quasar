@@ -1,9 +1,21 @@
 import { describe, test, expect } from 'vitest'
 import { computed } from 'vue'
 
-import { useFormAttrs, useFormInject, useFormInputNameAttr } from './use-form.js'
+import {
+  useFormProps,
+  useFormAttrs, useFormInject, useFormInputNameAttr
+} from './use-form.js'
 
 describe('[useForm API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)useFormProps]', () => {
+      test('is defined correctly', () => {
+        expect(useFormProps).toBeTypeOf('object')
+        expect(Object.keys(useFormProps)).not.toHaveLength(0)
+      })
+    })
+  })
+
   describe('[Functions]', () => {
     describe('[(function)useFormAttrs]', () => {
       test('has correct return value', () => {

@@ -1,8 +1,17 @@
 import { describe, test, expect } from 'vitest'
 
-import useTransition from './use-transition.js'
+import useTransition, { useTransitionProps } from './use-transition.js'
 
 describe('[useTransition API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)useTransitionProps]', () => {
+      test('is defined correctly', () => {
+        expect(useTransitionProps).toBeTypeOf('object')
+        expect(Object.keys(useTransitionProps)).not.toHaveLength(0)
+      })
+    })
+  })
+
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {

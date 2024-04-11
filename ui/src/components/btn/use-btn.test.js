@@ -2,7 +2,10 @@ import { mount } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 import { defineComponent } from 'vue'
 
-import useBtn, { btnPadding, defaultSizes, btnDesignOptions, getBtnDesign, getBtnDesignAttr } from './use-btn.js'
+import useBtn, {
+  btnPadding, defaultSizes, btnDesignOptions, useBtnProps,
+  getBtnDesign, getBtnDesignAttr
+} from './use-btn.js'
 
 describe('[useBtn API]', () => {
   describe('[Variables]', () => {
@@ -24,6 +27,13 @@ describe('[useBtn API]', () => {
       test('is defined correctly', () => {
         expect(btnDesignOptions).toBeTypeOf('object')
         expect(Object.keys(btnDesignOptions)).not.toHaveLength(0)
+      })
+    })
+
+    describe('[(variable)useBtnProps]', () => {
+      test('is defined correctly', () => {
+        expect(useBtnProps).toBeTypeOf('object')
+        expect(Object.keys(useBtnProps)).not.toHaveLength(0)
       })
     })
   })

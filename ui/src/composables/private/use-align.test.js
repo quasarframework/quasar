@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 
-import useAlign, { alignMap, alignValues } from './use-align.js'
+import useAlign, { alignMap, alignValues, useAlignProps } from './use-align.js'
 
 describe('[useAlign API]', () => {
   describe('[Variables]', () => {
@@ -15,6 +15,13 @@ describe('[useAlign API]', () => {
       test('is defined correctly', () => {
         expect(Array.isArray(alignValues)).toBe(true)
         expect(alignValues).not.toHaveLength(0)
+      })
+    })
+
+    describe('[(variable)useAlignProps]', () => {
+      test('is defined correctly', () => {
+        expect(useAlignProps).toBeTypeOf('object')
+        expect(Object.keys(useAlignProps)).not.toHaveLength(0)
       })
     })
   })

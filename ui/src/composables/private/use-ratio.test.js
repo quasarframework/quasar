@@ -1,8 +1,17 @@
 import { describe, test, expect } from 'vitest'
 
-import useRatio from './use-ratio.js'
+import useRatio, { useRatioProps } from './use-ratio.js'
 
 describe('[useRatio API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)useRatioProps]', () => {
+      test('is defined correctly', () => {
+        expect(useRatioProps).toBeTypeOf('object')
+        expect(Object.keys(useRatioProps)).not.toHaveLength(0)
+      })
+    })
+  })
+
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('should return padding when ratio is supplied', () => {

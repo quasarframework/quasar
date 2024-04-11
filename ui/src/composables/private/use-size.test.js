@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 
-import useSize, { useSizeDefaults } from './use-size.js'
+import useSize, { useSizeDefaults, useSizeProps } from './use-size.js'
 
 describe('[useSize API]', () => {
   describe('[Variables]', () => {
@@ -8,6 +8,13 @@ describe('[useSize API]', () => {
       test('is defined correctly', () => {
         expect(useSizeDefaults).toBeTypeOf('object')
         expect(Object.keys(useSizeDefaults)).not.toHaveLength(0)
+      })
+    })
+
+    describe('[(variable)useSizeProps]', () => {
+      test('is defined correctly', () => {
+        expect(useSizeProps).toBeTypeOf('object')
+        expect(Object.keys(useSizeProps)).not.toHaveLength(0)
       })
     })
   })

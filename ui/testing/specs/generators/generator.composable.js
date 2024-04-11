@@ -21,7 +21,6 @@ const identifiers = {
   }
 }
 
-const varFilterRE = /(Props|Emits)$/
 const useRE = /use[A-Z]/
 const withComponentHostRE = /import \{.+(on[A-Za-z]+|getCurrentInstance).+\} from 'vue'/
 
@@ -96,27 +95,10 @@ function createFunctionTest ({ testId, jsonEntry, json }) {
 
 export default {
   identifiers,
-  getJson: ctx => {
-    const json = readAstJson(ctx)
-
-    json.variables = json.variables || {}
-
-    // filter out component props and emits
-    json.namedExports.forEach(name => {
-      if (varFilterRE.test(name) === true) {
-        json.namedExports.delete(name)
-        delete json.variables[ name ]
-      }
-    })
-
-    if (Object.keys(json.variables).length === 0) {
-      delete json.variables
-    }
-
-    json.componentHost = withComponentHostRE.test(ctx.targetContent)
-
-    return json
-  },
+  getJson: ctx => ({
+    ...readAstJson(ctx),
+    componentHost: withComponentHostRE.test(ctx.targetContent)
+  }),
   getFileHeader: ({ ctx, json }) => {
     /**
      * Update getFnTest if you change the following:

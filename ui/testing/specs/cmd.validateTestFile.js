@@ -65,6 +65,8 @@ export async function cmdValidateTestFile ({
     warnings.forEach(warning => {
       console.warn(`       • (warning) ${ warning }`)
     })
+
+    process.exit(1)
   }
 
   const missingTests = testFile.getMissingTests()
