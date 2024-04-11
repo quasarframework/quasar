@@ -10,6 +10,7 @@ import {
   testIndent,
   capitalize,
   getComponentMount,
+  getComponentPropAssignment,
   filterDefExceptionTypes,
   getTypeTest,
   getTestValue,
@@ -54,39 +55,59 @@ const identifiers = {
 
 const quoteRE = /'/g
 
-function getPropTest ({ name, jsonEntry, json, ctx }) {
-  const type = filterDefExceptionTypes(jsonEntry.type)
-  if (type === void 0) return ''
-
-  // example: QTable > props > selection
-  if (jsonEntry.values !== void 0) {
-    const mountCall = getComponentMount({
-      ctx,
-      json,
-      prop: name,
-      indent: testIndent
-    })
-
-    return jsonEntry.values.map(val => {
-      const valueStr = val.replace(quoteRE, '"')
-
-      return `\n
-      test.todo('value ${ valueStr } has effect', () => {
+function getRequiredPropTest ({ mountCall }) {
+  return ({ testStrPrefix, val }) => `\n
+      test.todo('${ testStrPrefix } has effect', () => {
         const propVal = ${ val }
         ${ mountCall }
 
         // TODO: test the effect of the prop
         expect(wrapper).toBeDefined() // this is here for linting only
       })`
-    }).join('')
-  }
+}
+
+function getNonRequiredPropTest ({ mountCall, pascalName, jsonEntry }) {
+  const assignmentCall = getComponentPropAssignment({
+    pascalName,
+    jsonEntry,
+    indent: testIndent
+  })
+
+  return ({ testStrPrefix, val }) => `\n
+      test.todo('${ testStrPrefix } has effect', async () => {
+        ${ mountCall }
+
+        // TODO: write expectations without the prop
+
+        const propVal = ${ val }
+        ${ assignmentCall }
+
+        // TODO: test the effect of the prop
+      })`
+}
+
+function getPropTest ({ name, pascalName, jsonEntry, json, ctx }) {
+  const type = filterDefExceptionTypes(jsonEntry.type)
+  if (type === void 0) return ''
 
   const mountCall = getComponentMount({
     ctx,
     json,
-    prop: name,
+    prop: jsonEntry.required === true ? name : null,
     indent: testIndent
   })
+
+  const getPropTestFn = jsonEntry.required === true
+    ? getRequiredPropTest({ mountCall })
+    : getNonRequiredPropTest({ mountCall, pascalName, jsonEntry })
+
+  // example: QTable > props > selection
+  if (jsonEntry.values !== void 0) {
+    return jsonEntry.values.map(val => getPropTestFn({
+      testStrPrefix: `value ${ val.replace(quoteRE, '"') }`,
+      val
+    })).join('')
+  }
 
   const typeList = Array.isArray(type)
     ? type // example: QTable > props > virtual-scroll-slice-size
@@ -98,14 +119,10 @@ function getPropTest ({ name, jsonEntry, json, ctx }) {
       indent: testIndent
     })
 
-    return `\n
-      test.todo('type ${ t } has effect', () => {
-        const propVal = ${ val }
-        ${ mountCall }
-
-        // TODO: test the effect of the prop
-        expect(wrapper).toBeDefined() // this is here for linting only
-      })`
+    return getPropTestFn({
+      testStrPrefix: `type ${ t }`,
+      val
+    })
   }).join('')
 }
 
@@ -121,7 +138,7 @@ function createPropTest ({
     ? 'toBeUndefined() // passthrough prop'
     : 'toBeDefined()'
 
-  const propTest = getPropTest({ name, jsonEntry, json, ctx })
+  const propTest = getPropTest({ name, pascalName, jsonEntry, json, ctx })
 
   return `
     describe('${ testId }', () => {
@@ -308,9 +325,16 @@ function createComputedPropTest ({
 export default {
   identifiers,
   getJson: readAssociatedJsonFile,
-  getFileHeader: ({ ctx }) => {
+  getFileHeader: ({ ctx, json }) => {
+    const flushPromises = (
+      json.props !== void 0
+      && Object.keys(json.props).some(name => json.props[ name ].required !== true)
+    )
+      ? ', flushPromises'
+      : ''
+
     return [
-      'import { mount } from \'@vue/test-utils\'',
+      `import { mount${ flushPromises } } from '@vue/test-utils'`,
       'import { describe, test, expect } from \'vitest\'',
       '',
       `import ${ ctx.pascalName } from './${ ctx.localName }'`

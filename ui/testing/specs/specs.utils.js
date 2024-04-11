@@ -323,6 +323,33 @@ export function filterDefExceptionTypes (type) {
   if (type !== 'FileList') return type
 }
 
+export function getComponentPropAssignment ({
+  pascalName,
+  jsonEntry,
+  indent
+}) {
+  const keyList = [ `${ pascalName }: propVal` ]
+
+  if (jsonEntry.sync === true) {
+    keyList.push(
+      `'onUpdate:${ pascalName }': val => { wrapper.setProps({ ${ pascalName }: val }) }`
+    )
+  }
+
+  const props = joinList({
+    keyList,
+    getValue: key => key,
+    indent,
+    prefix: '{',
+    suffix: '}'
+  })
+
+  return (
+    `await wrapper.setProps(${ props })`
+    + `\n${ indent }await flushPromises()`
+  )
+}
+
 export function getComponentMount ({
   ctx,
   json,
@@ -348,9 +375,9 @@ export function getComponentMount ({
         })
 
       if (jsonEntry.sync === true) {
-        acc[ `'onUpdate:${ pascalName }'` ] = prop === propName
-          ? `val => { wrapper.setProps({ ${ pascalName }: val }) }`
-          : '(_val) => {}'
+        acc[ `'onUpdate:${ pascalName }'` ] = (
+          `val => { wrapper.setProps({ ${ pascalName }: val }) }`
+        )
       }
 
       return acc
