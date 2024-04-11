@@ -22,7 +22,7 @@ const identifiers = {
 }
 
 const useRE = /use[A-Z]/
-const withComponentHostRE = /import \{.+(on[A-Za-z]+|getCurrentInstance).+\} from 'vue'/
+const withComponentHostRE = /import \{.+(on[A-Za-z]+|getCurrentInstance|inject|provide).+\} from 'vue'/
 
 function createVariableTest ({ testId, jsonEntry }) {
   return `
