@@ -13,7 +13,7 @@ export const btnPadding = {
   xl: 32
 }
 
-const defaultSizes = {
+export const defaultSizes = {
   xs: 8,
   sm: 10,
   md: 14,

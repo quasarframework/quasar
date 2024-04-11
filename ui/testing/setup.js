@@ -17,8 +17,10 @@ config.plugins.DOMWrapper.install(wrapper => {
     ),
 
     $computedStyle: prop => {
-      return window.getComputedStyle(wrapper.element)
-        .getPropertyValue(prop)
+      const result = window.getComputedStyle(wrapper.element)
+      return prop === void 0
+        ? result
+        : result.getPropertyValue(prop)
     }
   }
 })

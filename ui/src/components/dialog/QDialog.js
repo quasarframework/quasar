@@ -261,18 +261,16 @@ export default createComponent({
           }
         }
 
-        if (node.contains(document.activeElement) === true) {
-          return
+        if (node.contains(document.activeElement) !== true) {
+          node = (
+            node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+            || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+            || node.querySelector('[autofocus], [data-autofocus]')
+            || node
+          )
+
+          node.focus({ preventScroll: true })
         }
-
-        node = (
-          node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
-          || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
-          || node.querySelector('[autofocus], [data-autofocus]')
-          || node
-        )
-
-        node.focus({ preventScroll: true })
       })
     }
 

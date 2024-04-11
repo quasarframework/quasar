@@ -392,10 +392,9 @@ describe('[QChip API]', () => {
       })
 
       test('type Object has effect', async () => {
-        const propVal = { center: true }
         const wrapper = mount(QChip, {
           props: {
-            ripple: propVal
+            ripple: { center: true }
           }
         })
 

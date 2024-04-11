@@ -370,7 +370,9 @@ describe('[QBreadcrumbsEl API]', () => {
           }
         })
 
-        expect(wrapper.text()).toContain(propVal)
+        expect(
+          wrapper.get('.q-icon').text()
+        ).toContain(propVal)
       })
     })
 

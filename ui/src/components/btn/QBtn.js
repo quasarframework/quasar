@@ -291,7 +291,7 @@ export default createComponent({
     // expose public methods
     Object.assign(proxy, {
       click: e => {
-        if (props.disable !== true) {
+        if (isActionable.value === true) {
           onClick(e)
         }
       }
