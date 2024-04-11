@@ -54,16 +54,22 @@ const identifiers = {
 }
 
 const quoteRE = /'/g
+const propValExceptions = [ 'true', 'false', 'null', 'undefined' ]
 
 function getRequiredPropTest ({ mountCall }) {
-  return ({ testStrPrefix, val }) => `\n
+  return ({ testStrPrefix, val }) => {
+    const assignment = propValExceptions.includes(val)
+      ? mountCall.replace(': propVal', `: ${ val }`)
+      : `const propVal = ${ val }\n${ testIndent }${ mountCall }`
+
+    return `\n
       test.todo('${ testStrPrefix } has effect', () => {
-        const propVal = ${ val }
-        ${ mountCall }
+        ${ assignment }
 
         // TODO: test the effect of the prop
         expect(wrapper).toBeDefined() // this is here for linting only
       })`
+  }
 }
 
 function getNonRequiredPropTest ({ mountCall, pascalName, jsonEntry }) {
@@ -73,17 +79,22 @@ function getNonRequiredPropTest ({ mountCall, pascalName, jsonEntry }) {
     indent: testIndent
   })
 
-  return ({ testStrPrefix, val }) => `\n
+  return ({ testStrPrefix, val }) => {
+    const assignment = propValExceptions.includes(val)
+      ? assignmentCall.replace(': propVal', `: ${ val }`)
+      : `const propVal = ${ val }\n${ testIndent }${ assignmentCall }`
+
+    return `\n
       test.todo('${ testStrPrefix } has effect', async () => {
         ${ mountCall }
 
         // TODO: write expectations without the prop
 
-        const propVal = ${ val }
-        ${ assignmentCall }
+        ${ assignment }
 
         // TODO: test the effect of the prop
       })`
+  }
 }
 
 function getPropTest ({ name, pascalName, jsonEntry, json, ctx }) {
