@@ -10,7 +10,7 @@
     "vite-ecosystem-ci:build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar test:build",
     "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",
     "vue-ecosystem-ci:build": "pnpm vite-ecosystem-ci:build",
-    "vue-ecosystem-ci:test": "pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:e2e:ci"
+    "vue-ecosystem-ci:test": "pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:e2e:ci"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
