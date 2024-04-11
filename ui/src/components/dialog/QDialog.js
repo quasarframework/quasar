@@ -250,15 +250,27 @@ export default createComponent({
       addFocusFn(() => {
         let node = innerRef.value
 
-        if (node === null || node.contains(document.activeElement) === true) {
+        if (node === null) return
+
+        if (selector !== void 0) {
+          const target = node.querySelector(selector)
+          if (target !== null) {
+            target.focus({ preventScroll: true })
+            return
+          }
+        }
+
+        if (node.contains(document.activeElement) === true) {
           return
         }
 
-        node = (selector !== '' ? node.querySelector(selector) : null)
-          || node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+        node = (
+          node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
           || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
           || node.querySelector('[autofocus], [data-autofocus]')
           || node
+        )
+
         node.focus({ preventScroll: true })
       })
     }
