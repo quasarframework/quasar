@@ -114,8 +114,8 @@ export function $ref (received, expected) {
     pass,
     message: () =>
       `expected ${ this.utils.printReceived(
-        received
-      ) } to${ this.isNot ? ' not' : '' } to a ref/computed${ expected === void 0
+        received.value
+      ) } to${ this.isNot ? ' not' : '' } be a ref/computed${ expected !== void 0
         ? ` and be equal to ${ this.utils.printExpected(expected) }`
         : ''
       }`
@@ -140,7 +140,7 @@ export function $reactive (received, expected) {
     message: () =>
       `expected ${ this.utils.printReceived(
         received
-      ) } to${ this.isNot ? ' not' : '' } to a ref/computed${ expected === void 0
+      ) } to${ this.isNot ? ' not' : '' } be reactive${ expected !== void 0
         ? ` and be equal to ${ this.utils.printExpected(expected) }`
         : ''
       }`
