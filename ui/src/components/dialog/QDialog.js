@@ -235,6 +235,7 @@ export default createComponent({
           ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
           : void 0
         ) || refocusTarget).focus()
+
         refocusTarget = null
       }
 

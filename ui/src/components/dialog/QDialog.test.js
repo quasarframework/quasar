@@ -1,291 +1,580 @@
-import { mount } from '@vue/test-utils'
-import { describe, test, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
+import { mount, flushPromises } from '@vue/test-utils'
+import {
+  describe, test, expect, vi,
+  beforeEach, afterEach, onTestFinished
+} from 'vitest'
 
 import QDialog from './QDialog.js'
+import { getRouter } from 'testing/runtime/router.js'
 import DialogWrapper from './test/DialogWrapper.vue'
 
-function timeToPass (ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms)
-  })
+let wrapper = null
+
+beforeEach(() => {
+  vi.useFakeTimers()
+
+  if (wrapper !== null) {
+    wrapper.unmount()
+    wrapper = null
+  }
+})
+
+afterEach(() => {
+  vi.restoreAllMocks()
+})
+
+async function triggerBackdropClick (wrapper) {
+  await wrapper.findComponent({ name: 'QPortal' })
+    .find('.q-dialog__backdrop')
+    .trigger('click')
 }
 
-function mountDialog (props = {}) {
-  const wrapper = mount(DialogWrapper, {
-    props: {
-      modelValue: false,
-      'onUpdate:modelValue': e => wrapper.setProps({ modelValue: e }),
-      transitionDuration: 0,
-      ...props
-    }
-  })
+async function triggerEscKey (wrapper) {
+  const portal = await wrapper.findComponent({ name: 'QPortal' })
+  await portal.trigger('keydown', { keyCode: 27 })
+  await portal.trigger('keyup', { keyCode: 27 })
+}
 
-  const getDialog = () => wrapper.findComponent({ name: 'QDialog' })
-  const getPortal = () => wrapper.findComponent({ name: 'QPortal' })
+function createFocusEl () {
+  const el = document.createElement('div')
+  el.setAttribute('tabindex', '0')
+  document.body.appendChild(el)
 
-  return {
-    wrapper,
+  onTestFinished(() => { el.remove() })
 
-    getDialog,
-    getPortal,
-
-    setProps: props => {
-      wrapper.setProps(props)
-      return nextTick()
-    },
-
-    isMounted: () => {
-      const portal = getPortal()
-      if (portal.exists() === false) return false
-      return document.body.contains(portal.element)
-    },
-
-    show: () => {
-      wrapper.setProps({ modelValue: true })
-      return vi.waitUntil(
-        () => getPortal().exists(),
-        {
-          timeout: 150, // default is 1000
-          interval: 5 // default is 50
-        }
-      )
-    },
-
-    hide: () => {
-      wrapper.setProps({ modelValue: false })
-      return vi.waitUntil(
-        () => getPortal().exists() === false,
-        {
-          timeout: 150, // default is 1000
-          interval: 5 // default is 50
-        }
-      )
-    },
-
-    waitForEvent: eventName => {
-      const dlg = getDialog()
-      const evtLen = 1 + (
-        dlg.emitted()[ eventName ]?.length
-        || 0
-      )
-
-      return vi.waitUntil(
-        () => (dlg.emitted()[ eventName ]?.length === evtLen),
-        {
-          timeout: 150, // default is 1000
-          interval: 5 // default is 50
-        }
-      )
-    },
-
-    triggerEscape: () => {
-      const portal = getPortal()
-      portal.trigger('keydown', { keyCode: 27 })
-      portal.trigger('keyup', { keyCode: 27 })
-    },
-
-    triggerBackdropClick: () => {
-      getPortal()
-        .find('.q-dialog__backdrop')
-        .trigger('click')
-    }
-  }
+  return el
 }
 
 describe('[QDialog API]', () => {
   describe('[Props]', () => {
     describe('[(prop)transition-show]', () => {
-      test('is defined', () => {
+      test('is defined correctly', () => {
         expect(QDialog.props.transitionShow).toBeDefined()
       })
 
-      test.todo('has effect', () => {
-        const propVal = 'fade'
-        mount(QDialog, {
+      test('type String has effect', async () => {
+        wrapper = mount(QDialog, {
           props: {
-            transitionShow: propVal
+            modelValue: true,
+            transitionShow: 'flip'
           }
         })
 
-        // TODO: test the effect of the prop
+        await flushPromises()
+        const content = wrapper.findComponent({ name: 'QPortal' })
+
+        expect(
+          content.get('transition-stub[enterfromclass]')
+            .attributes('enterfromclass')
+        ).toBe('q-transition--flip-enter-from')
+      })
+    })
+
+    describe('[(prop)transition-hide]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.transitionHide).toBeDefined()
+      })
+
+      test('type String has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            transitionHide: 'flip'
+          }
+        })
+
+        await flushPromises()
+        let content = wrapper.findComponent({ name: 'QPortal' })
+
+        expect(
+          content.get('transition-stub[enterfromclass]')
+            .attributes('enterfromclass')
+        ).toBe('q-transition--scale-enter-from')
+
+        wrapper.vm.hide()
+        await flushPromises()
+
+        content = wrapper.findComponent({ name: 'QPortal' })
+
+        expect(
+          content.get('transition-stub[leavefromclass]')
+            .attributes('leavefromclass')
+        ).toBe('q-transition--flip-leave-from')
+      })
+    })
+
+    describe('[(prop)transition-duration]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.transitionDuration).toBeDefined()
+      })
+
+      test.each([
+        [ 'String', '1000' ],
+        [ 'Number', 1000 ]
+      ])('type %s has effect', async (_, propVal) => {
+        const onShowFn = vi.fn()
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            transitionDuration: propVal,
+            onShow: onShowFn
+          }
+        })
+
+        await flushPromises()
+        expect(onShowFn).not.toHaveBeenCalled()
+
+        vi.advanceTimersByTime(999)
+        expect(onShowFn).not.toHaveBeenCalled()
+
+        vi.advanceTimersByTime(1)
+        expect(onShowFn).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('[(prop)model-value]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.modelValue).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: false
+          }
+        })
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ modelValue: true })
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
       })
     })
 
     describe('[(prop)persistent]', () => {
-      test('should display a persistent dialog', async () => {
-        const dlg = mountDialog({ persistent: true })
+      test('is defined correctly', () => {
+        expect(QDialog.props.persistent).toBeDefined()
+      })
 
-        await dlg.show()
-        expect(dlg.isMounted()).toBe(true)
+      test.each([
+        [ 'Backdrop click', triggerBackdropClick ],
+        [ 'ESC key', triggerEscKey ]
+      ])('handles %s correctly', async (_, trigger) => {
+        wrapper = mount(QDialog, {
+          props: {
+            persistent: false
+          }
+        })
 
-        dlg.triggerBackdropClick()
-        await timeToPass(30)
-        expect(dlg.isMounted()).toBe(true)
+        wrapper.vm.show()
+        await flushPromises()
 
-        dlg.triggerEscape()
-        await timeToPass(30)
-        expect(dlg.isMounted()).toBe(true)
+        await trigger(wrapper)
 
-        await dlg.setProps({ persistent: false })
-        dlg.triggerBackdropClick()
+        await flushPromises()
+        await vi.runAllTimers()
 
-        await dlg.waitForEvent('hide')
-        expect(dlg.isMounted()).toBe(false)
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ persistent: true })
+
+        wrapper.vm.show()
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await trigger(wrapper)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
       })
     })
 
     describe('[(prop)no-esc-dismiss]', () => {
-      test('should not allow closing the dialog with the escape key', async () => {
-        const dlg = mountDialog({ noEscDismiss: true })
+      test('is defined correctly', () => {
+        expect(QDialog.props.noEscDismiss).toBeDefined()
+      })
 
-        await dlg.show()
-        dlg.triggerEscape()
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            noEscDismiss: false
+          }
+        })
 
-        await timeToPass(30)
-        expect(dlg.isMounted()).toBe(true)
+        wrapper.vm.show()
+        await flushPromises()
 
-        await dlg.setProps({ noEscDismiss: false })
-        dlg.triggerEscape()
+        await triggerEscKey(wrapper)
 
-        await dlg.waitForEvent('hide')
-        expect(dlg.isMounted()).toBe(false)
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ noEscDismiss: true })
+
+        wrapper.vm.show()
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await triggerEscKey(wrapper)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
       })
     })
 
     describe('[(prop)no-backdrop-dismiss]', () => {
-      test('should not close dialog with backdrop', async () => {
-        const dlg = mountDialog({ noBackdropDismiss: true })
+      test('is defined correctly', () => {
+        expect(QDialog.props.noBackdropDismiss).toBeDefined()
+      })
 
-        await dlg.show()
-        dlg.triggerBackdropClick()
-        await timeToPass(30)
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            noBackdropDismiss: false
+          }
+        })
 
-        expect(dlg.isMounted()).toBe(true)
+        wrapper.vm.show()
+        await flushPromises()
 
-        await dlg.setProps({ noBackdropDismiss: false })
-        dlg.triggerBackdropClick()
+        await triggerBackdropClick(wrapper)
 
-        await dlg.waitForEvent('hide')
-        expect(dlg.isMounted()).toBe(false)
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ noBackdropDismiss: true })
+
+        wrapper.vm.show()
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await triggerBackdropClick(wrapper)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
       })
     })
 
-    describe.todo('[(prop)no-route-dismiss]', () => {
-      test.todo(' ', () => {
-        //
+    describe('[(prop)no-route-dismiss]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.noRouteDismiss).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const router = await getRouter([ '/home', '/account' ])
+
+        wrapper = mount(QDialog, {
+          props: {
+            noRouteDismiss: true
+          },
+          global: {
+            plugins: [ router ]
+          }
+        })
+
+        wrapper.vm.show()
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await router.push('/home')
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
+
+        await wrapper.setProps({ noRouteDismiss: false })
+        await flushPromises()
+
+        await router.push('/account')
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
       })
     })
 
     describe('[(prop)auto-close]', () => {
-      test('should auto-close the dialog', async () => {
-        const dlg = mountDialog({ autoClose: false })
+      test('is defined correctly', () => {
+        expect(QDialog.props.autoClose).toBeDefined()
+      })
 
-        await dlg.show()
-        dlg.wrapper.findComponent({ name: 'QBtn' })
+      test('type Boolean has effect', async () => {
+        wrapper = mount(DialogWrapper, {
+          props: {
+            autoClose: false
+          }
+        })
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
+
+        await flushPromises()
+
+        await wrapper.findComponent({ name: 'QBtn' })
           .trigger('click')
 
-        await timeToPass(30)
+        await flushPromises()
+        await vi.runAllTimers()
 
-        expect(dlg.isMounted()).toBe(true)
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
 
-        await dlg.setProps({ autoClose: true })
+        await wrapper.setProps({ autoClose: true })
 
-        dlg.wrapper.findComponent({ name: 'QBtn' })
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await wrapper.findComponent({ name: 'QBtn' })
           .trigger('click')
 
-        await dlg.waitForEvent('hide')
-        expect(dlg.isMounted()).toBe(false)
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
       })
     })
 
     describe('[(prop)seamless]', () => {
-      test('should put the dialog in a seamless state', async () => {
-        const dlg = mountDialog({ seamless: true })
+      test('is defined correctly', () => {
+        expect(QDialog.props.seamless).toBeDefined()
+      })
 
-        await dlg.show()
-        const target = dlg.getPortal().get('.q-dialog')
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            seamless: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog')
+            .classes()
         ).toContain('q-dialog--seamless')
 
-        await dlg.setProps({ seamless: false })
+        await wrapper.setProps({ seamless: false })
+        await flushPromises()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog')
+            .classes()
         ).not.toContain('q-dialog--seamless')
       })
     })
 
-    describe('[(prop)maximized]', () => {
-      test('should maximize the dialog', async () => {
-        const dlg = mountDialog({ maximized: true })
+    describe('[(prop)backdrop-filter]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.backdropFilter).toBeDefined()
+      })
 
-        await dlg.show()
-        const target = dlg.getPortal().get('.q-dialog__inner')
+      // Commented because jsdom doesn't understand backdrop-filter
+
+      // test('type String has effect', async () => {
+      //   const propVal = 'blur(4px)'
+      //   wrapper = mount(QDialog, {
+      //     props: {
+      //       modelValue: true,
+      //       backdropFilter: propVal
+      //     }
+      //   })
+
+      //   await flushPromises()
+      //   await vi.runAllTimers()
+
+      //   expect(
+      //     wrapper.findComponent({ name: 'QPortal' })
+      //       .get('.q-dialog__backdrop')
+      //       .$style('backdrop-filter')
+      //   ).toBe(propVal)
+
+      //   await wrapper.setProps({ backdropFilter: void 0 })
+      //   await flushPromises()
+
+      //   expect(
+      //     wrapper.findComponent({ name: 'QPortal' })
+      //       .get('.q-dialog__backdrop')
+      //       .$style('backdrop-filter')
+      //   ).toBeUndefined()
+      // })
+    })
+
+    describe('[(prop)maximized]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.maximized).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            maximized: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
         ).toContain('q-dialog__inner--maximized')
 
-        await dlg.setProps({ maximized: false })
+        await wrapper.setProps({ maximized: false })
+        await flushPromises()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
         ).not.toContain('q-dialog__inner--maximized')
       })
     })
 
     describe('[(prop)full-width]', () => {
-      test('should use a full-width for the dialog', async () => {
-        const dlg = mountDialog({ fullWidth: true })
+      test('is defined correctly', () => {
+        expect(QDialog.props.fullWidth).toBeDefined()
+      })
 
-        await dlg.show()
-        const target = dlg.getPortal().get('.q-dialog__inner')
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            fullWidth: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
         ).toContain('q-dialog__inner--fullwidth')
 
-        await dlg.setProps({ fullWidth: false })
+        await wrapper.setProps({ fullWidth: false })
+        await flushPromises()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
         ).not.toContain('q-dialog__inner--fullwidth')
       })
     })
 
     describe('[(prop)full-height]', () => {
-      test('should set the dialog to full-height', async () => {
-        const dlg = mountDialog({ fullHeight: true })
+      test('is defined correctly', () => {
+        expect(QDialog.props.fullHeight).toBeDefined()
+      })
 
-        await dlg.show()
-        const target = dlg.getPortal().get('.q-dialog__inner')
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            fullHeight: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
         ).toContain('q-dialog__inner--fullheight')
 
-        await dlg.setProps({ fullHeight: false })
+        await wrapper.setProps({ fullHeight: false })
+        await flushPromises()
 
         expect(
-          target.classes()
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
         ).not.toContain('q-dialog__inner--fullheight')
       })
     })
 
     describe('[(prop)position]', () => {
-      test('should display the dialog at a specific position', async () => {
-        const dlg = mountDialog()
+      test('is defined correctly', () => {
+        expect(QDialog.props.position).toBeDefined()
+      })
 
-        await dlg.show()
+      test('type String has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
+          }
+        })
 
-        const target = dlg.getPortal().get('.q-dialog__inner')
-        const positions = [ 'top', 'right', 'bottom', 'left' ]
+        await flushPromises()
+        await vi.runAllTimers()
 
-        for (const position of positions) {
-          await dlg.setProps({ position })
+        const positionList = [ 'top', 'right', 'bottom', 'left' ]
+        const target = wrapper.findComponent({ name: 'QPortal' })
+          .get('.q-dialog__inner')
+
+        for (const position of positionList) {
+          await wrapper.setProps({ position })
+          await flushPromises()
 
           const cls = target.classes()
           expect(cls).toContain(`q-dialog__inner--${ position }`)
@@ -295,100 +584,679 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)square]', () => {
-      test('should use a square style for dialog', async () => {
-        const dlg = mountDialog({ square: true })
-        await dlg.show()
+      test('is defined correctly', () => {
+        expect(QDialog.props.square).toBeDefined()
+      })
 
-        const target = dlg.getPortal().get('.q-dialog__inner')
+      test('type Boolean has effect', async () => {
+        wrapper = mount(DialogWrapper, {
+          props: {
+            modelValue: true,
+            square: true
+          }
+        })
 
-        expect(target.classes()).toContain('q-dialog__inner--square')
-        await dlg.setProps({ square: false })
-        expect(target.classes()).not.toContain('q-dialog__inner--square')
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper
+            .findComponent({ name: 'QCard' })
+            .get('.q-card')
+            .$computedStyle('border-radius')
+        ).toBe('0')
+
+        await wrapper.setProps({ square: false })
+        await flushPromises()
+
+        expect(
+          wrapper
+            .findComponent({ name: 'QCard' })
+            .get('.q-card')
+            .$computedStyle('border-radius')
+        ).not.toBe('0')
+      })
+    })
+
+    describe('[(prop)no-refocus]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.noRefocus).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const el = createFocusEl()
+
+        el.focus()
+
+        wrapper = mount(QDialog)
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).not.toBe(
+          el
+        )
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.hide()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).toBe(
+          el
+        )
+
+        await wrapper.setProps({ noRefocus: true })
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.hide()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).not.toBe(
+          el
+        )
+      })
+    })
+
+    describe('[(prop)no-focus]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.noFocus).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const el = createFocusEl()
+
+        el.focus()
+
+        wrapper = mount(QDialog)
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).not.toBe(
+          el
+        )
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.hide()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).toBe(
+          el
+        )
+
+        await wrapper.setProps({ noFocus: true })
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).toBe(
+          el
+        )
+      })
+    })
+
+    describe('[(prop)no-shake]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.noShake).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            noShake: true,
+            persistent: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await triggerBackdropClick(wrapper)
+
+        await flushPromises()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
+        ).not.toContain('q-animate--scale')
+
+        await wrapper.setProps({ noShake: false })
+        await flushPromises()
+
+        await triggerBackdropClick(wrapper)
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
+        ).toContain('q-animate--scale')
+      })
+    })
+
+    describe('[(prop)allow-focus-outside]', () => {
+      test('is defined correctly', () => {
+        expect(QDialog.props.allowFocusOutside).toBeDefined()
+      })
+
+      test('type Boolean has effect', async () => {
+        const el = createFocusEl()
+
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            allowFocusOutside: false
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        el.focus()
+
+        await flushPromises()
+
+        expect(
+          document.activeElement
+        ).not.toBe(
+          el
+        )
+
+        await wrapper.setProps({ allowFocusOutside: true })
+        await flushPromises()
+
+        el.focus()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          document.activeElement
+        ).toBe(
+          el
+        )
       })
     })
   })
 
   describe('[Slots]', () => {
     describe('[(slot)default]', () => {
-      test('should display a default slot', async () => {
-        const dlg = mountDialog({ persistent: true })
-        await dlg.show()
+      test('renders the content', async () => {
+        const slotContent = 'some-slot-content'
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
+          },
+          slots: {
+            default: () => slotContent
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
 
         expect(
-          dlg.wrapper.findComponent({ name: 'QBtn' })
-            .exists()
-        ).toBe(true)
+          wrapper.findComponent({ name: 'QPortal' })
+            .html()
+        ).toContain(slotContent)
       })
     })
   })
 
   describe('[Events]', () => {
-    describe('[(event)shake]', () => {
-      test('should emit shake event', async () => {
-        const fn = vi.fn()
-        const dlg = mountDialog({
-          noEscDismiss: true,
-          onShake: fn
+    describe('[(event)update:model-value]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('update:modelValue')
+          ^ (QDialog.props?.[ 'onUpdate:modelValue' ] !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: false,
+            'onUpdate:modelValue': val => {
+              wrapper.setProps({ modelValue: val })
+            }
+          }
         })
 
-        await dlg.show()
+        await flushPromises()
+        await vi.runAllTimers()
 
-        dlg.triggerEscape()
-        await nextTick()
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show()
 
-        expect(fn).toHaveBeenCalledTimes(1)
+        await flushPromises()
+        await vi.runAllTimers()
 
-        dlg.getDialog().vm.shake()
-        await nextTick()
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('update:modelValue')
+        expect(eventList[ 'update:modelValue' ]).toHaveLength(1)
 
-        expect(fn).toHaveBeenCalledTimes(2)
+        const [ value ] = eventList[ 'update:modelValue' ][ 0 ]
+        expect(value).toBeTypeOf('boolean')
+      })
+    })
+
+    describe('[(event)show]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('show')
+          ^ (QDialog.props?.onShow !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog)
+        const event = new MouseEvent('click')
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show(event)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('show')
+        expect(eventList.show).toHaveLength(1)
+
+        const [ evt ] = eventList.show[ 0 ]
+        expect(evt).toBe(evt)
+      })
+    })
+
+    describe('[(event)before-show]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('beforeShow')
+          ^ (QDialog.props?.onBeforeShow !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog)
+        const event = new MouseEvent('click')
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.show(event)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('beforeShow')
+        expect(eventList.beforeShow).toHaveLength(1)
+
+        const [ evt ] = eventList.beforeShow[ 0 ]
+        expect(evt).toBe(event)
+      })
+    })
+
+    describe('[(event)hide]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('hide')
+          ^ (QDialog.props?.onHide !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            'onUpdate:modelValue': val => {
+              wrapper.setProps({ modelValue: val })
+            }
+          }
+        })
+        const event = new MouseEvent('click')
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.hide(event)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('hide')
+        expect(eventList.hide).toHaveLength(1)
+
+        const [ evt ] = eventList.hide[ 0 ]
+        expect(evt).toBe(event)
+      })
+    })
+
+    describe('[(event)before-hide]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('beforeHide')
+          ^ (QDialog.props?.onBeforeHide !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            'onUpdate:modelValue': val => {
+              wrapper.setProps({ modelValue: val })
+            }
+          }
+        })
+        const event = new MouseEvent('click')
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.hide(event)
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('beforeHide')
+        expect(eventList.beforeHide).toHaveLength(1)
+
+        const [ evt ] = eventList.beforeHide[ 0 ]
+        expect(evt).toBe(event)
+      })
+    })
+
+    describe('[(event)shake]', () => {
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('shake')
+          ^ (QDialog.props?.onShake !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true,
+            persistent: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        await triggerEscKey(wrapper)
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
+        ).toContain('q-animate--scale')
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('shake')
+        expect(eventList.shake).toHaveLength(1)
+
+        expect(eventList.shake[ 0 ]).toHaveLength(0)
       })
     })
 
     describe('[(event)escape-key]', () => {
-      test('should emit escape-key event', async () => {
-        const fn = vi.fn()
-        const dlg = mountDialog({
-          onEscapeKey: fn
+      test('is defined correctly', () => {
+        expect(
+          QDialog.emits?.includes('escapeKey')
+          ^ (QDialog.props?.onEscapeKey !== void 0)
+        ).toBe(1)
+      })
+
+      test('is emitting', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
+          }
         })
 
-        await dlg.show()
+        await flushPromises()
+        await vi.runAllTimers()
 
-        dlg.triggerEscape()
-        await nextTick()
+        await triggerEscKey(wrapper)
 
-        expect(fn).toHaveBeenCalledTimes(1)
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('escapeKey')
+        expect(eventList.escapeKey).toHaveLength(1)
+
+        expect(eventList.escapeKey[ 0 ]).toHaveLength(0)
       })
     })
   })
 
   describe('[Methods]', () => {
-    describe('[(method)shake]', () => {
-      test('should use the shake method to shake dialog', async () => {
-        const dlg = mountDialog({ noEscDismiss: true })
+    describe('[(method)show]', () => {
+      test('should be callable', async () => {
+        wrapper = mount(QDialog)
 
-        await dlg.show()
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
 
-        const target = dlg.getPortal().get('.q-dialog__inner')
-        expect(target.classes()).not.toContain('q-animate--scale')
+        expect(
+          wrapper.vm.show()
+        ).toBeUndefined()
 
-        dlg.triggerEscape()
-        await nextTick()
+        await flushPromises()
+        await vi.runAllTimers()
 
-        expect(target.classes()).toContain('q-animate--scale')
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
+      })
+    })
 
-        await vi.waitUntil(
-          () => target.classes().includes('q-animate--scale') === false,
-          {
-            timeout: 400, // default is 1000
-            interval: 50 // default is 50
+    describe('[(method)hide]', () => {
+      test('should be callable', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
           }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
+
+        expect(
+          wrapper.vm.hide()
+        ).toBeUndefined()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
+      })
+    })
+
+    describe('[(method)toggle]', () => {
+      test('should be callable', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
+
+        expect(
+          wrapper.vm.toggle()
+        ).toBeUndefined()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(false)
+
+        expect(
+          wrapper.vm.toggle()
+        ).toBeUndefined()
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .exists()
+        ).toBe(true)
+      })
+    })
+
+    describe('[(method)focus]', () => {
+      test('should focus with a selector', async () => {
+        wrapper = mount(DialogWrapper, {
+          props: {
+            modelValue: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QDialog' })
+            .vm.focus('.q-btn')
+        ).toBeUndefined()
+
+        await flushPromises()
+
+        expect(
+          document.activeElement
+        ).toBe(
+          wrapper.findComponent({ name: 'QBtn' }).element
         )
+      })
 
-        dlg.getDialog().vm.shake()
-        await nextTick()
+      test('should focus without a selector', async () => {
+        wrapper = mount(DialogWrapper, {
+          props: {
+            modelValue: true
+          }
+        })
 
-        expect(target.classes()).toContain('q-animate--scale')
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.findComponent({ name: 'QDialog' })
+            .vm.focus()
+        ).toBeUndefined()
+
+        await flushPromises()
+
+        expect(
+          document.activeElement
+        ).toBe(
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner').element
+        )
+      })
+    })
+
+    describe('[(method)shake]', () => {
+      test('should be callable', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        wrapper.findComponent({ name: 'QDialog' })
+          .vm.shake()
+
+        expect(
+          wrapper.findComponent({ name: 'QPortal' })
+            .get('.q-dialog__inner')
+            .classes()
+        ).toContain('q-animate--scale')
+      })
+    })
+  })
+
+  describe('[Computed props]', () => {
+    describe('[(computedProp)contentEl]', () => {
+      test('should be exposed', async () => {
+        wrapper = mount(QDialog, {
+          props: {
+            modelValue: true
+          }
+        })
+
+        await flushPromises()
+        await vi.runAllTimers()
+
+        expect(
+          wrapper.vm.contentEl
+        ).toBeInstanceOf(Element)
       })
     })
   })

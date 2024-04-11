@@ -15,7 +15,11 @@ config.plugins.DOMWrapper.install(wrapper => {
         ? wrapper.attributes('style')
         : wrapper.element.style[ prop ]
     ),
-    $computedStyle: prop => window.getComputedStyle(wrapper.element).getPropertyValue(prop)
+
+    $computedStyle: prop => {
+      return window.getComputedStyle(wrapper.element)
+        .getPropertyValue(prop)
+    }
   }
 })
 
