@@ -518,6 +518,19 @@ describe('[QBtn API]', () => {
         ).toBe(propVal)
       })
 
+      test('type String has effect (pixels; multiple values)', () => {
+        const propVal = '50px 100px'
+        const wrapper = mount(QBtn, {
+          props: {
+            padding: propVal
+          }
+        })
+
+        expect(
+          wrapper.get('button').element.style.padding
+        ).toBe(propVal)
+      })
+
       test('type String has effect (as "xs")', () => {
         const wrapper = mount(QBtn, {
           props: {
@@ -528,6 +541,34 @@ describe('[QBtn API]', () => {
         expect(
           wrapper.get('button').element.style.padding
         ).toBe(`${ btnPadding.xs }px`)
+      })
+
+      test('type String has effect (as "xs xl")', () => {
+        const wrapper = mount(QBtn, {
+          props: {
+            padding: 'xs xl'
+          }
+        })
+
+        expect(
+          wrapper.get('button').element.style.padding
+        ).toBe(`${ btnPadding.xs }px ${ btnPadding.xl }px`)
+      })
+
+      test('padding "0" is applied correctly', () => {
+        const wrapper = mount(QBtn, {
+          props: { padding: '0' }
+        })
+
+        expect(
+          wrapper.get('.q-btn')
+            .$style()
+        ).toContain('min-width: 0')
+
+        expect(
+          wrapper.get('.q-btn')
+            .$style()
+        ).toContain('min-height: 0')
       })
     })
 
