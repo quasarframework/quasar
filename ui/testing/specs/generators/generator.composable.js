@@ -58,7 +58,7 @@ function getFnTests (jsonEntry, json) {
     && useRE.test(jsonEntry.accessor)
   ) {
     const lint = jsonEntry.params
-      ? `// eslint-disable-next-line\n${ testIndent }    `
+      ? `// eslint-disable-next-line no-undef\n${ testIndent }      `
       : ''
 
     return `test.todo('can be used in a Vue Component', () => {
@@ -78,7 +78,7 @@ function getFnTests (jsonEntry, json) {
   }
 
   const lint = jsonEntry.params
-    ? `// eslint-disable-next-line\n${ testIndent }`
+    ? `// eslint-disable-next-line no-undef\n${ testIndent }`
     : ''
 
   return `test.todo('has correct return value', () => {

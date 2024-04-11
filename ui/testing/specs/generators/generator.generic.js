@@ -45,7 +45,7 @@ function createClassTest ({ testId, jsonEntry }) {
 
 function createFunctionTest ({ testId, jsonEntry }) {
   const lint = jsonEntry.params
-    ? `// eslint-disable-next-line\n${ testIndent }`
+    ? `// eslint-disable-next-line no-undef\n${ testIndent }`
     : ''
 
   return `
