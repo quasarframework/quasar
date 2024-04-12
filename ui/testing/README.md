@@ -150,6 +150,16 @@ $ pnpm test:specs --target <target_file>
 
 ...and that all the tests are passing!
 
+## Common formulas for writing tests
+
+> When instructed to search for something, do it in /ui/src/**/*.test.js files.
+
+| Need | Formula |
+| --- | --- |
+| Use Vue Router | Search for `getRouter` |
+| Testing Vue Router props | Search for `[(prop)to]` or `[(prop)active-class]`. Example: QBreadcrumbsEl.test.js |
+| Testing color/text-color props | Search for `[(prop)color]` and `[(prop)text-color]`. Example: QBtn.test.js |
+
 ## Changing the Specs script code
 
 If you change the specs script code, then you need to test it:
@@ -160,6 +170,10 @@ $ pnpm build
 
 # then we do a dry-run test:
 $ pnpm test:specs --dry-run
+# ...it should not output any errors
+
+# also do a test for existing files:
+$ pnpm test:specs:ci
 # ...it should not output any errors
 ```
 
