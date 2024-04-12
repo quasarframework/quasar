@@ -171,6 +171,7 @@ describe('[debounce API]', () => {
         expect(callback2).toHaveBeenCalledTimes(0)
 
         vi.advanceTimersByTime(100)
+        expect(callback1).toHaveBeenCalledTimes(1)
         expect(callback2).toHaveBeenCalledTimes(1)
       })
 
