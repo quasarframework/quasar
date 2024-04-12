@@ -382,19 +382,19 @@ export function readAstJson (ctx) {
       declaration.type === 'FunctionDeclaration'
       || declaration.type === 'ArrowFunctionExpression'
     ) {
+      json.defaultExport = true
       json.functions.default = {
-        ...parseFunction({ declaration, isExported: false }),
+        ...parseFunction({ declaration, isExported: false }).def,
         accessor: ctx.pascalName
       }
-      json.defaultExport = true
     }
     // export default class X {}
     else if (declaration.type === 'ClassDeclaration') {
+      json.defaultExport = true
       json.classes.default = {
-        ...parseClass({ declaration, isExported: false }),
+        ...parseClass({ declaration, isExported: false }).def,
         accessor: ctx.pascalName
       }
-      json.defaultExport = true
     }
   })
 
