@@ -157,6 +157,7 @@ $ pnpm test:specs --target <target_file>
 * Convert tests for multiple values/types of the same thing into an test.each() where it applies. There are lots of examples in the already existing test files.
 * Watch for `$computedStyle()` calls as these get cached, so you only get one chance per node to get the expected result. Usually leave this as the last expect() call.
 * Test the effect while not duplicating the implementation of what you are testing. Where you can, use `$computedStyle()`.
+* Be aware of the common formulas (below).
 
 ## Common formulas for writing tests
 
@@ -167,6 +168,7 @@ $ pnpm test:specs --target <target_file>
 | Use Vue Router | Search for `getRouter` |
 | Testing Vue Router props | Search for `[(prop)to]` or `[(prop)active-class]`. Example: QBreadcrumbsEl.test.js |
 | Testing color/text-color props | Search for `[(prop)color]` and `[(prop)text-color]`. Example: QBtn.test.js |
+| Speed up timers | Search for `useFakeTimers()` |
 
 ## Changing the Specs script code
 
