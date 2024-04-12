@@ -9,6 +9,7 @@ import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
 import {
   testIndent,
   capitalize,
+  kebabCase,
   getComponentMount,
   getComponentPropAssignment,
   filterDefExceptionTypes,
@@ -77,7 +78,7 @@ function getRequiredPropTest ({ mountCall }) {
   }
 }
 
-function getNonRequiredPropTest ({ mountCall, pascalName, jsonEntry }) {
+function getNonRequiredPropTest ({ mountCall, pascalName, cls, jsonEntry }) {
   const assignmentCall = getComponentPropAssignment({
     pascalName,
     jsonEntry,
@@ -85,15 +86,25 @@ function getNonRequiredPropTest ({ mountCall, pascalName, jsonEntry }) {
   })
 
   return ({ testStrPrefix, val }) => {
-    const assignment = propValExceptions.includes(val)
-      ? assignmentCall.replace(': propVal', `: ${ val }`)
-      : `const propVal = ${ val }\n${ testIndent }${ assignmentCall }`
+    const { preMount, assignment } = propValExceptions.includes(val)
+      ? {
+          preMount: '',
+          assignment: assignmentCall.replace(': propVal', `: ${ val }`)
+        }
+      : {
+          preMount: `const propVal = ${ val }\n${ testIndent }`,
+          assignment: assignmentCall
+        }
 
     return `\n
       test.todo('${ testStrPrefix } has effect', async () => {
-        ${ mountCall }
+        ${ preMount }${ mountCall }
+
+        // eslint-disable-next-line no-unused-vars
+        const target = wrapper.get('.${ cls }')
 
         // TODO: write expectations without the prop
+        // (usually negate the effect of the prop)
 
         ${ assignment }
 
@@ -115,7 +126,12 @@ function getPropTest ({ name, pascalName, jsonEntry, json, ctx }) {
 
   const getPropTestFn = jsonEntry.required === true
     ? getRequiredPropTest({ mountCall })
-    : getNonRequiredPropTest({ mountCall, pascalName, jsonEntry })
+    : getNonRequiredPropTest({
+      mountCall,
+      pascalName,
+      cls: kebabCase(ctx.pascalName),
+      jsonEntry
+    })
 
   // example: QTable > props > selection
   if (jsonEntry.values !== void 0) {
