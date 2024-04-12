@@ -150,6 +150,14 @@ $ pnpm test:specs --target <target_file>
 
 ...and that all the tests are passing!
 
+## Guidelines for testing
+
+* Keep testing code clean and easily understandable. Add comments if necessary.
+* Look into the code of what you are testing to decide the best approach for your tests.
+* Convert tests for multiple values/types of the same thing into an test.each() where it applies. There are lots of examples in the already existing test files.
+* Watch for `$computedStyle()` calls as these get cached, so you only get one chance per node to get the expected result. Usually leave this as the last expect() call.
+* Test the effect while not duplicating the implementation of what you are testing. Where you can, use `$computedStyle()`.
+
 ## Common formulas for writing tests
 
 > When instructed to search for something, do it in /ui/src/**/*.test.js files.
