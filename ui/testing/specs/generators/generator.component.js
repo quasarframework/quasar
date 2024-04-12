@@ -20,12 +20,14 @@ import {
 const identifiers = {
   props: {
     categoryId: '[Props]',
+    testIdToken: 'prop',
     getTestId: name => `[(prop)${ name }]`,
     createTestFn: createPropTest
   },
 
   slots: {
     categoryId: '[Slots]',
+    testIdToken: 'slot',
     getTestId: name => `[(slot)${ name }]`,
     createTestFn: createSlotTest,
     shouldIgnoreEntry: ({ name }) => (
@@ -36,18 +38,21 @@ const identifiers = {
 
   events: {
     categoryId: '[Events]',
+    testIdToken: 'event',
     getTestId: name => `[(event)${ name }]`,
     createTestFn: createEventTest
   },
 
   methods: {
     categoryId: '[Methods]',
+    testIdToken: 'method',
     getTestId: name => `[(method)${ name }]`,
     createTestFn: createMethodTest
   },
 
   computedProps: {
     categoryId: '[Computed props]',
+    testIdToken: 'computedProp',
     getTestId: name => `[(computedProp)${ name }]`,
     createTestFn: createComputedPropTest
   }

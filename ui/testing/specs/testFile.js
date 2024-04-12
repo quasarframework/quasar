@@ -8,6 +8,8 @@ const ignoreCommentLineMaxLen = 100
 const ignoreCommentRE = /^(\/\*.*\n\s*\*\s*Ignored specs:\s*\n.+\n\s*\*\/\s*\n?\n?)/s
 const ignoreCommentEntryRE = /(\[[^\]]+\])/g
 
+const testIdRE = /\[\((?<token>[^)]+)\)(?<name>.+)\]/
+
 const NO_ASSOCIATED_JSON = '/* No associated JSON so we cannot generate anything */'
 
 function getIgnoreCommentIds (ignoreComment) {
@@ -104,7 +106,13 @@ function addWorkInProgress (bag, tree, name, path) {
   }
 }
 
-function getTestFileMisconfiguration ({ ctx, generator, testFile, opts }) {
+function getTestFileMisconfiguration ({
+  ctx,
+  generator,
+  json,
+  testFile,
+  opts
+}) {
   const errors = []
   const warnings = []
 
@@ -169,7 +177,10 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile, opts }) {
     (acc, key) => {
       const entry = identifiers[ key ]
       if (entry.getTestId !== void 0) {
-        acc[ entry.categoryId ] = true
+        acc[ entry.categoryId ] = {
+          jsonKey: key,
+          token: entry.testIdToken
+        }
       }
       return acc
     },
@@ -181,7 +192,7 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile, opts }) {
 
     if (categoryId[ 0 ] === '[' && categoryList.includes(categoryId) === false) {
       errors.push(
-        `Invalid type('${ categoryId }')`
+        `Invalid category "${ categoryId }" found at ${ type }('${ categoryId }').`
       )
       return
     }
@@ -201,7 +212,8 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile, opts }) {
       return
     }
 
-    if (categoryTestIdMap[ categoryId ] === void 0) return
+    const idMap = categoryTestIdMap[ categoryId ]
+    if (idMap === void 0) return
 
     Object.keys(categoryTree).forEach(testId => {
       const { type } = categoryTree[ testId ]
@@ -224,6 +236,22 @@ function getTestFileMisconfiguration ({ ctx, generator, testFile, opts }) {
         errors.push(
           `Found empty describe('${ testId }')`
         )
+      }
+
+      const matcher = testId.match(testIdRE)
+
+      if (matcher) {
+        const { groups: { token, name } } = matcher
+        if (token !== idMap.token) {
+          errors.push(
+            `Found describe('${ testId }') but it should probably be describe('[${ idMap.token }]${ name }')`
+          )
+        }
+        else if (json[ idMap.jsonKey ][ name ] === void 0) {
+          errors.push(
+            `Found describe('${ testId }') but there's no associated JSON entry`
+          )
+        }
       }
     })
   })
@@ -436,7 +464,7 @@ export function getTestFile (ctx) {
     },
 
     getMisconfiguration (opts) {
-      return getTestFileMisconfiguration({ ctx, generator, testFile: this, opts })
+      return getTestFileMisconfiguration({ ctx, generator, json, testFile: this, opts })
     },
 
     addIgnoreComments (ignoreCommentIds) {

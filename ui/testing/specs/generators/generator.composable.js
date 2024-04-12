@@ -6,18 +6,21 @@ import { createVariableTest, createClassTest } from './generator.generic.js'
 const identifiers = {
   variables: {
     categoryId: '[Variables]',
+    testIdToken: 'variable',
     getTestId: name => `[(variable)${ name }]`,
     createTestFn: createVariableTest
   },
 
   classes: {
     categoryId: '[Classes]',
+    testIdToken: 'class',
     getTestId: name => `[(class)${ name }]`,
     createTestFn: createClassTest
   },
 
   functions: {
     categoryId: '[Functions]',
+    testIdToken: 'function',
     getTestId: name => `[(function)${ name }]`,
     createTestFn: createFunctionTest
   }

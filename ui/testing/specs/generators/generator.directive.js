@@ -18,6 +18,7 @@ const identifiers = {
 
   modifiers: {
     categoryId: '[Modifiers]',
+    testIdToken: 'modifier',
     getTestId: name => `[(modifier)${ name }]`,
     createTestFn: createModifierTest
   }

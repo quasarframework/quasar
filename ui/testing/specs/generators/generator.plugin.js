@@ -13,12 +13,14 @@ const identifiers = {
 
   props: {
     categoryId: '[Props]',
+    testIdToken: 'prop',
     getTestId: name => `[(prop)${ name }]`,
     createTestFn: createPropTest
   },
 
   methods: {
     categoryId: '[Methods]',
+    testIdToken: 'method',
     getTestId: name => `[(method)${ name }]`,
     createTestFn: createMethodTest
   }
