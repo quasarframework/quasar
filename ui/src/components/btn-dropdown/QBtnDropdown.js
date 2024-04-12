@@ -15,16 +15,15 @@ import { hSlot } from '../../utils/private/render.js'
 
 const btnPropsList = Object.keys(useBtnProps)
 
-export const passBtnProps = props => btnPropsList.reduce(
-  (acc, key) => {
+export function passBtnProps (props) {
+  return btnPropsList.reduce((acc, key) => {
     const val = props[ key ]
     if (val !== void 0) {
       acc[ key ] = val
     }
     return acc
-  },
-  {}
-)
+  }, {})
+}
 
 export default createComponent({
   name: 'QBtnDropdown',

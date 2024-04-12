@@ -1,5 +1,5 @@
 import { readAstJson, getImportStatement } from '../astParser.js'
-import { testIndent } from '../specs.utils.js'
+import { testIndent, getTypeTest } from '../specs.utils.js'
 
 const identifiers = {
   variables: {
@@ -21,17 +21,30 @@ const identifiers = {
   }
 }
 
-function createVariableTest ({ testId, jsonEntry }) {
+export function createVariableTest ({ testId, jsonEntry }) {
+  const typeTest = getTypeTest({
+    jsonEntry: { type: jsonEntry.type },
+    ref: jsonEntry.accessor,
+    indent: testIndent
+  })
+
+  const lengthTest = jsonEntry.type === 'Array'
+    ? `\n${ testIndent }expect(${ jsonEntry.accessor }).not.toHaveLength(0)`
+    : (
+        jsonEntry.type === 'Object'
+          ? `\n${ testIndent }expect(Object.keys(${ jsonEntry.accessor })).not.toHaveLength(0)`
+          : ''
+      )
+
   return `
     describe('${ testId }', () => {
       test.todo('is defined correctly', () => {
-        expect(${ jsonEntry.accessor }).toBeTypeOf('object')
-        expect(Object.keys(${ jsonEntry.accessor })).not.toHaveLength(0)
+        ${ typeTest }${ lengthTest }
       })
     })\n`
 }
 
-function createClassTest ({ testId, jsonEntry }) {
+export function createClassTest ({ testId, jsonEntry }) {
   return `
     describe('${ testId }', () => {
       test.todo('can be instantiated', () => {
@@ -43,7 +56,7 @@ function createClassTest ({ testId, jsonEntry }) {
     })\n`
 }
 
-function createFunctionTest ({ testId, jsonEntry }) {
+export function createFunctionTest ({ testId, jsonEntry }) {
   const lint = jsonEntry.params
     ? `// eslint-disable-next-line no-undef\n${ testIndent }`
     : ''

@@ -72,21 +72,96 @@ function getAstParam (param, canComment) {
 }
 
 function getParams (params, canComment = true) {
+  if (params === void 0) return ''
+
   const list = params.map(param => getAstParam(param, canComment))
   return list.join(', ') || ''
 }
 
-function parseVar ({ accessor, isExported = false }) {
+const rawValueTypeList = [
+  { type: 'Number', regex: /^-?\d/ },
+  { type: 'String', regex: /^'[^']+'$/ },
+  { type: 'Boolean', regex: /^true|false$/ },
+  { type: 'RegExp', regex: /^\/.*\/[gimuy]*$/ },
+  { type: 'null', regex: /^null$/ },
+  { type: 'undefined', regex: /^undefined$/ }
+]
+
+function extractVariableType (init, isExported) {
+  if (init === void 0 || init === null) return 'undefined'
+
+  if (init.type === 'ArrayExpression') return 'Array'
+  if (init.type === 'ObjectExpression') return 'Object'
+
+  if (init.type === 'FunctionExpression') {
+    // we ended up with a function instead of variable
+    // after a ConditionalExpression
+    return parseFunction({
+      declaration: init,
+      isExported
+    })
+  }
+
+  if (init.type === 'ClassExpression') {
+    // we ended up with a class instead of variable
+    // after a ConditionalExpression
+    return parseClass({
+      declaration: init,
+      isExported
+    })
+  }
+
+  if (init.type === 'ConditionalExpression') {
+    const consequentType = extractVariableType(init.consequent, isExported)
+
+    return [ 'null', 'undefined' ].includes(consequentType)
+      ? extractVariableType(init.alternate, isExported)
+      : consequentType
+  }
+
+  const { raw } = init
+  if (raw === void 0) return 'undefined'
+
+  for (const { type, regex } of rawValueTypeList) {
+    if (regex.test(raw)) return type
+  }
+
+  if (
+    init.type === 'UnaryExpression'
+    && init.operator === 'void'
+    && init.argument.raw === '0'
+  ) {
+    return 'undefined'
+  }
+
+  if (
+    init.type === 'MemberExpression'
+    && init.object.name === 'document'
+  ) {
+    return 'Element'
+  }
+}
+
+function parseVar ({ declaration, isExported }) {
+  const type = extractVariableType(declaration.init, isExported)
+
+  // we ended up with something else other than a variable...
+  if (Object(type) === type) {
+    type.def.accessor = declaration.id.name
+    return type
+  }
+
   return {
     jsonKey: 'variables',
     isExported,
     def: {
-      accessor
+      type,
+      accessor: declaration.id.name
     }
   }
 }
 
-function parseClass ({ declaration, accessor, isExported = false }) {
+function parseClass ({ declaration, isExported }) {
   const constructorEntry = declaration.body.body.find(
     entry => entry.kind === 'constructor'
   )
@@ -95,20 +170,45 @@ function parseClass ({ declaration, accessor, isExported = false }) {
     jsonKey: 'classes',
     isExported,
     def: {
-      accessor,
+      accessor: declaration.id.name,
       constructorParams: getParams(constructorEntry?.value.params)
     }
   }
 }
 
-function parseFunction ({ declaration, accessor, isExported = false }) {
+function parseFunction ({ declaration, isExported }) {
   return {
     jsonKey: 'functions',
     isExported,
     def: {
-      accessor,
+      accessor: declaration.id?.name,
       params: getParams(declaration.params)
     }
+  }
+}
+
+function injectVariableDeclaration ({
+  content,
+  declaration,
+  isExported
+}) {
+  if (declaration.id.type === 'ObjectPattern') {
+    // example: const { notPassiveCapture } = listenOpts
+    declaration.id.properties.forEach(property => {
+      content[ property.key.name ] = parseVar({
+        // we fake the declaration to match a "regular" variable one
+        declaration: {
+          id: { name: property.key.name }
+        },
+        isExported
+      })
+    })
+  }
+  else if (declaration.id.name !== void 0) {
+    content[ declaration.id.name ] = parseVar({
+      declaration,
+      isExported
+    })
   }
 }
 
@@ -134,6 +234,30 @@ export function readAstJson (ctx) {
 
   nodeList.forEach(node => {
     if (node.type === 'ExportNamedDeclaration') {
+      if (node.declaration === null && node.specifiers !== void 0) {
+        // export { ... }
+
+        node.specifiers.forEach(specifier => {
+          const target = content[ specifier.exported.name ]
+
+          if (target === void 0) {
+            console.error(
+              'AST: unregistered ExportNamedDeclaration > specifiers:',
+              specifier.exported.name,
+              'for:',
+              ctx.targetAbsolute
+            )
+            console.error('specifier', specifier)
+            console.error('ctx', ctx)
+            throw new Error('readAstJson > unregistered ExportNamedDeclaration > specifiers')
+          }
+
+          target.isExported = true
+        })
+
+        return
+      }
+
       if (node.declaration?.type === void 0) {
         console.error(
           'AST: unknown ExportNamedDeclaration > declaration for:',
@@ -143,13 +267,18 @@ export function readAstJson (ctx) {
         console.error('ctx', ctx)
         throw new Error('readAstJson > unknown ExportNamedDeclaration > declaration')
       }
+
       if (node.declaration.type === 'VariableDeclaration') {
         node.declaration.declarations.forEach(declaration => {
           if (
             declaration.type === 'VariableDeclaration'
             || declaration.type === 'VariableDeclarator'
           ) {
-            content[ declaration.id.name ] = parseVar({ isExported: true })
+            injectVariableDeclaration({
+              content,
+              declaration,
+              isExported: true
+            })
           }
           else if (declaration.type === 'FunctionDeclaration') {
             content[ declaration.id.name ] = parseFunction({
@@ -185,13 +314,31 @@ export function readAstJson (ctx) {
     }
     else if (node.type === 'VariableDeclaration') {
       node.declarations.forEach(declaration => {
-        content[ declaration.id.name ] = parseVar({})
+        injectVariableDeclaration({
+          content,
+          declaration,
+          isExported: false
+        })
       })
     }
     else if (node.type === 'FunctionDeclaration') {
-      content[ node.id.name ] = parseFunction({ declaration: node })
+      content[ node.id.name ] = parseFunction({
+        declaration: node,
+        isExported: false
+      })
     }
   })
+
+  if (
+    Object.keys(content).some(
+      name => content[ name ].def.accessor === void 0
+    )
+  ) {
+    console.error('AST: missing accessor for:', ctx.targetAbsolute)
+    console.error('content', content)
+    console.error('ctx', ctx)
+    throw new Error('readAstJson > missing accessor')
+  }
 
   const json = {
     defaultExport: void 0,
@@ -205,7 +352,7 @@ export function readAstJson (ctx) {
   nodeList.forEach(({ type, declaration }) => {
     if (type !== 'ExportDefaultDeclaration') return
 
-    // export { ... }
+    // export default { ... }
     if (declaration.type === 'ObjectExpression') {
       declaration.properties.forEach(prop => {
         const { name } = prop.key
@@ -235,22 +382,18 @@ export function readAstJson (ctx) {
       declaration.type === 'FunctionDeclaration'
       || declaration.type === 'ArrowFunctionExpression'
     ) {
-      const { def } = parseFunction({
-        declaration,
+      json.functions.default = {
+        ...parseFunction({ declaration, isExported: false }),
         accessor: ctx.pascalName
-      })
-
-      json.functions.default = def
+      }
       json.defaultExport = true
     }
     // export default class X {}
     else if (declaration.type === 'ClassDeclaration') {
-      const { def } = parseClass({
-        declaration,
+      json.classes.default = {
+        ...parseClass({ declaration, isExported: false }),
         accessor: ctx.pascalName
-      })
-
-      json.classes.default = def
+      }
       json.defaultExport = true
     }
   })
@@ -260,7 +403,6 @@ export function readAstJson (ctx) {
     const { jsonKey, isExported, def } = content[ name ]
     if (isExported === true) {
       json[ jsonKey ][ name ] = def
-      def.accessor = name
       json.namedExports.add(name)
     }
   })
