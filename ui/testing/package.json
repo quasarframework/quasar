@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest watch --ui",
+    "test:watch": "vitest watch",
+    "test:watch:ui": "vitest watch --ui",
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {

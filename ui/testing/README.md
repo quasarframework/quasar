@@ -40,7 +40,11 @@ $ pnpm test:specs --target <target_file>
 5. You might want to also start Vitest to verify what you are writing in the test file:
 
 ```bash
+# withOUT Vitest UI:
 $ pnpm test:watch
+
+# with Vitest UI:
+$ pnpm test:watch:ui
 ```
 
 6. When you are done with the test file, verify that the contents of the test file is OK:
@@ -76,7 +80,11 @@ $ pnpm test:specs --target <target_file>
 4. You might want to also start Vitest to verify what you are writing in the test file:
 
 ```bash
+# withOUT Vitest UI:
 $ pnpm test:watch
+
+# with Vitest UI:
+$ pnpm test:watch:ui
 ```
 
 5. After you're done with the test file, verify that the contents of the test file is OK:
@@ -138,7 +146,11 @@ $ pnpm test:specs -t global-nodes -g functions.createGlobalNode
 4. You might want to also start Vitest to verify what you are writing in the test file:
 
 ```bash
+# withOUT Vitest UI:
 $ pnpm test:watch
+
+# with Vitest UI:
+$ pnpm test:watch:ui
 ```
 
 5. After you're done with the test file, verify that the contents of the test file is OK:

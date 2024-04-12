@@ -27,6 +27,7 @@
     "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
     "test": "pnpm --filter quasar-ui-test test",
     "test:watch": "pnpm --filter quasar-ui-test test:watch",
+    "test:watch:ui": "pnpm --filter quasar-ui-test test:watch:ui",
     "test:build": "pnpm build",
     "test:specs": "node ./testing/specs/script.js",
     "test:specs:ci": "node ./testing/specs/script.js --ci"
