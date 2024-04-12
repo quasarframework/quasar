@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
 import QBar from './QBar.js'
@@ -10,16 +10,19 @@ describe('[QBar API]', () => {
         expect(QBar.props.dense).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBar, {
-          props: {
-            dense: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBar)
+        const target = wrapper.get('.q-bar')
 
         expect(
-          wrapper.get('.q-bar')
-            .classes()
+          target.classes()
+        ).not.toContain('q-bar--dense')
+
+        await wrapper.setProps({ dense: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-bar--dense')
       })
     })
@@ -29,20 +32,23 @@ describe('[QBar API]', () => {
         expect(QBar.props.dark).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBar, {
-          props: {
-            dark: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBar)
+        const target = wrapper.get('.q-bar')
 
         expect(
-          wrapper.get('.q-bar')
-            .classes()
+          target.classes()
+        ).not.toContain('q-bar--dark')
+
+        await wrapper.setProps({ dark: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-bar--dark')
       })
 
-      test('type null has effect', () => {
+      test('type null has effect', async () => {
         const wrapper = mount(QBar, {
           props: {
             dark: null

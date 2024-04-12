@@ -16,13 +16,17 @@ describe('[QBreadcrumbsEl API]', () => {
         const router = await getRouter(testRoute)
 
         const wrapper = mount(QBreadcrumbsEl, {
-          props: {
-            to: testRoute
-          },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: testRoute })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -47,13 +51,17 @@ describe('[QBreadcrumbsEl API]', () => {
         const router = await getRouter(testRoute)
 
         const wrapper = mount(QBreadcrumbsEl, {
-          props: {
-            to: propVal
-          },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -87,13 +95,19 @@ describe('[QBreadcrumbsEl API]', () => {
           props: {
             exact: true,
             activeClass,
-            exactActiveClass,
-            to: '/route/subRoute'
+            exactActiveClass
           },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: '/route/subRoute' })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -137,13 +151,19 @@ describe('[QBreadcrumbsEl API]', () => {
 
         const wrapper = mount(QBreadcrumbsEl, {
           props: {
-            replace: true,
-            to: testRoute
+            replace: true
           },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: testRoute })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -174,13 +194,19 @@ describe('[QBreadcrumbsEl API]', () => {
 
         const wrapper = mount(QBreadcrumbsEl, {
           props: {
-            activeClass,
-            to: '/route'
+            activeClass
           },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: '/route' })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -222,13 +248,19 @@ describe('[QBreadcrumbsEl API]', () => {
         const wrapper = mount(QBreadcrumbsEl, {
           props: {
             exact: true,
-            exactActiveClass,
-            to: '/route/subRoute'
+            exactActiveClass
           },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: '/route/subRoute' })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -267,13 +299,16 @@ describe('[QBreadcrumbsEl API]', () => {
         expect(QBreadcrumbsEl.props.href).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'https://quasar.dev'
-        const wrapper = mount(QBreadcrumbsEl, {
-          props: {
-            href: propVal
-          }
-        })
+        const wrapper = mount(QBreadcrumbsEl)
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ href: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -286,15 +321,21 @@ describe('[QBreadcrumbsEl API]', () => {
         expect(QBreadcrumbsEl.props.target).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = '_blank'
         const href = 'https://quasar.dev'
         const wrapper = mount(QBreadcrumbsEl, {
           props: {
-            href,
             target: propVal
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ href })
+        await flushPromises()
 
         const link = wrapper.get('a')
 
@@ -319,13 +360,19 @@ describe('[QBreadcrumbsEl API]', () => {
 
         const wrapper = mount(QBreadcrumbsEl, {
           props: {
-            disable: true,
             to: testRoute
           },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(true)
+
+        await wrapper.setProps({ disable: true })
+        await flushPromises()
 
         expect(
           wrapper.find('a').exists()
@@ -345,13 +392,14 @@ describe('[QBreadcrumbsEl API]', () => {
         expect(QBreadcrumbsEl.props.label).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'Home'
-        const wrapper = mount(QBreadcrumbsEl, {
-          props: {
-            label: propVal
-          }
-        })
+        const wrapper = mount(QBreadcrumbsEl)
+
+        expect(wrapper.text()).not.toContain(propVal)
+
+        await wrapper.setProps({ label: propVal })
+        await flushPromises()
 
         expect(wrapper.text()).toContain(propVal)
       })
@@ -362,13 +410,16 @@ describe('[QBreadcrumbsEl API]', () => {
         expect(QBreadcrumbsEl.props.icon).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QBreadcrumbsEl, {
-          props: {
-            icon: propVal
-          }
-        })
+        const wrapper = mount(QBreadcrumbsEl)
+
+        expect(
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ icon: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-icon').text()

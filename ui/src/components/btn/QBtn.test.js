@@ -2,6 +2,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect, vi } from 'vitest'
 
 import QBtn from './QBtn.js'
+
 import { btnPadding, defaultSizes } from './use-btn.js'
 import { alignMap } from 'quasar/src/composables/private/use-align.js'
 import { getRouter } from 'testing/runtime/router.js'
@@ -13,28 +14,37 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.size).toBeDefined()
       })
 
-      test('type String has effect (in pixels)', () => {
+      test('type String has effect (in pixels)', async () => {
         const propVal = '50px'
-        const wrapper = mount(QBtn, {
-          props: {
-            size: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button').element.style.fontSize
+          target.$style('font-size')
+        ).not.toBe(propVal)
+
+        await wrapper.setProps({ size: propVal })
+        await flushPromises()
+
+        expect(
+          target.$style('font-size')
         ).toBe(propVal)
       })
 
-      test('type String has effect (as "xs")', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            size: 'xs'
-          }
-        })
+      test('type String has effect (as "xs")', async () => {
+        const propVal = 'xs'
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button').element.style.fontSize
+          target.$style('font-size')
+        ).not.toBe(`${ defaultSizes.xs }px`)
+
+        await wrapper.setProps({ size: propVal })
+        await flushPromises()
+
+        expect(
+          target.$style('font-size')
         ).toBe(`${ defaultSizes.xs }px`)
       })
     })
@@ -108,13 +118,17 @@ describe('[QBtn API]', () => {
         const router = await getRouter(testRoute)
 
         const wrapper = mount(QBtn, {
-          props: {
-            to: testRoute
-          },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: testRoute })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -139,13 +153,17 @@ describe('[QBtn API]', () => {
         const router = await getRouter(testRoute)
 
         const wrapper = mount(QBtn, {
-          props: {
-            to: propVal
-          },
           global: {
             plugins: [ router ]
           }
         })
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ to: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -207,13 +225,16 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.href).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'https://quasar.dev'
-        const wrapper = mount(QBtn, {
-          props: {
-            href: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.find('a').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ href: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('a').attributes('href')
@@ -253,24 +274,26 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.label).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'Button Label'
-        const wrapper = mount(QBtn, {
-          props: {
-            label: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(wrapper.text()).not.toContain(propVal)
+
+        await wrapper.setProps({ label: propVal })
+        await flushPromises()
 
         expect(wrapper.text()).toContain(propVal)
       })
 
-      test('type Number has effect', () => {
+      test('type Number has effect', async () => {
         const propVal = 10
-        const wrapper = mount(QBtn, {
-          props: {
-            label: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(wrapper.text()).not.toContain('' + propVal)
+
+        await wrapper.setProps({ label: propVal })
+        await flushPromises()
 
         expect(wrapper.text()).toContain('' + propVal)
       })
@@ -281,13 +304,16 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.icon).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QBtn, {
-          props: {
-            icon: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ icon: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-icon').text()
@@ -300,13 +326,16 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.iconRight).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QBtn, {
-          props: {
-            iconRight: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ iconRight: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-icon').text()
@@ -319,19 +348,23 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.outline).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            outline: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--outline')
+
+        await wrapper.setProps({ outline: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--outline')
 
         expect(
-          wrapper.get('.q-btn').$computedStyle('background')
+          target.$computedStyle('background')
         ).toBe('transparent')
       })
     })
@@ -341,15 +374,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.flat).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            flat: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--flat')
+
+        await wrapper.setProps({ flat: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--flat')
       })
     })
@@ -359,15 +396,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.unelevated).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            unelevated: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--unelevated')
+
+        await wrapper.setProps({ unelevated: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--unelevated')
       })
     })
@@ -377,19 +418,23 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.rounded).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            rounded: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--rounded')
+
+        await wrapper.setProps({ rounded: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--rounded')
 
         expect(
-          wrapper.get('.q-btn').$computedStyle('border-radius')
+          target.$computedStyle('border-radius')
         ).toBe('28px')
       })
     })
@@ -399,14 +444,16 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.push).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            push: true
-          }
-        })
-
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
+
+        expect(
+          target.classes()
+        ).not.toContain('q-btn--push')
+
+        await wrapper.setProps({ push: true })
+        await flushPromises()
 
         expect(
           target.classes()
@@ -427,14 +474,16 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.square).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            square: true
-          }
-        })
-
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
+
+        expect(
+          target.classes()
+        ).not.toContain('q-btn--square')
+
+        await wrapper.setProps({ square: true })
+        await flushPromises()
 
         expect(
           target.classes()
@@ -451,15 +500,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.glossy).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            glossy: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('glossy')
+
+        await wrapper.setProps({ glossy: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('glossy')
       })
     })
@@ -469,15 +522,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.fab).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            fab: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--fab')
+
+        await wrapper.setProps({ fab: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--fab')
       })
     })
@@ -487,15 +544,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.fabMini).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            fabMini: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--fab-mini')
+
+        await wrapper.setProps({ fabMini: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--fab-mini')
       })
     })
@@ -505,70 +566,79 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.padding).toBeDefined()
       })
 
-      test('type String has effect (in pixels)', () => {
-        const propVal = '50px'
-        const wrapper = mount(QBtn, {
-          props: {
-            padding: propVal
-          }
-        })
+      test.each([
+        [ 'pixels; single value', '50px' ],
+        [ 'pixels; multiple values', '50px 100px' ]
+      ])('type String has effect (%s)', async (_, propVal) => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button').element.style.padding
+          target.$style('padding')
+        ).not.toBe(propVal)
+
+        await wrapper.setProps({ padding: propVal })
+        await flushPromises()
+
+        expect(
+          target.$style('padding')
         ).toBe(propVal)
       })
 
-      test('type String has effect (pixels; multiple values)', () => {
-        const propVal = '50px 100px'
-        const wrapper = mount(QBtn, {
-          props: {
-            padding: propVal
-          }
-        })
+      test('type String has effect (as "xs")', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button').element.style.padding
-        ).toBe(propVal)
-      })
+          target.$style('padding')
+        ).not.toBe(`${ btnPadding.xs }px`)
 
-      test('type String has effect (as "xs")', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            padding: 'xs'
-          }
-        })
+        await wrapper.setProps({ padding: 'xs' })
+        await flushPromises()
 
         expect(
-          wrapper.get('button').element.style.padding
+          target.$style('padding')
         ).toBe(`${ btnPadding.xs }px`)
       })
 
-      test('type String has effect (as "xs xl")', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            padding: 'xs xl'
-          }
-        })
+      test('type String has effect (as "xs xl")', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button').element.style.padding
+          target.$style('padding')
+        ).not.toBe(`${ btnPadding.xs }px ${ btnPadding.xl }px`)
+
+        await wrapper.setProps({ padding: 'xs xl' })
+        await flushPromises()
+
+        expect(
+          target.$style('padding')
         ).toBe(`${ btnPadding.xs }px ${ btnPadding.xl }px`)
       })
 
-      test('padding "0" is applied correctly', () => {
-        const wrapper = mount(QBtn, {
-          props: { padding: '0' }
-        })
+      test('padding "0" is applied correctly', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn')
-            .$style()
-        ).toContain('min-width: 0')
+          target.$style('min-width')
+        ).not.toBe('0')
 
         expect(
-          wrapper.get('.q-btn')
-            .$style()
-        ).toContain('min-height: 0')
+          target.$style('min-height')
+        ).not.toBe('0')
+
+        await wrapper.setProps({ padding: 'xs xl' })
+        await flushPromises()
+
+        expect(
+          target.$style('min-width')
+        ).toBe('0')
+
+        expect(
+          target.$style('min-height')
+        ).toBe('0')
       })
     })
 
@@ -577,14 +647,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.color).toBeDefined()
       })
 
-      test('(default design) is applied correctly', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            color: 'red'
-          }
-        })
+      test('(default design) is applied correctly', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('text-white')
+
+        await wrapper.setProps({ color: propVal })
+        await flushPromises()
+
+        cls = target.classes()
         expect(cls).toContain('bg-red')
         expect(cls).toContain('text-white')
       })
@@ -592,15 +667,21 @@ describe('[QBtn API]', () => {
       test.each([
         [ 'push' ],
         [ 'unelevated' ]
-      ])('(design "%s") is applied correctly', designProp => {
-        const wrapper = mount(QBtn, {
-          props: {
-            color: 'red',
-            [ designProp ]: true
-          }
-        })
+      ])('(design "%s") is applied correctly', async designProp => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('text-white')
+
+        await wrapper.setProps({
+          color: 'red',
+          [ designProp ]: true
+        })
+        await flushPromises()
+
+        cls = target.classes()
         expect(cls).toContain('bg-red')
         expect(cls).toContain('text-white')
       })
@@ -608,15 +689,21 @@ describe('[QBtn API]', () => {
       test.each([
         [ 'flat' ],
         [ 'outline' ]
-      ])('(design "%s") is applied correctly', designProp => {
-        const wrapper = mount(QBtn, {
-          props: {
-            color: 'red',
-            [ designProp ]: true
-          }
-        })
+      ])('(design "%s") is applied correctly', async designProp => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+
+        await wrapper.setProps({
+          color: 'red',
+          [ designProp ]: true
+        })
+        await flushPromises()
+
+        cls = target.classes()
         expect(cls).toContain('text-red')
         expect(cls).not.toContain('bg-red')
       })
@@ -627,27 +714,40 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.textColor).toBeDefined()
       })
 
-      test('is applied correctly with no "color" prop', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            textColor: 'red'
-          }
-        })
+      test('is applied correctly with no "color" prop', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+
+        await wrapper.setProps({ textColor: 'red' })
+        await flushPromises()
+
+        cls = target.classes()
         expect(cls).toContain('text-red')
         expect(cls).not.toContain('bg-red')
       })
 
-      test('(default design + color) is applied correctly', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            color: 'red',
-            textColor: 'blue'
-          }
-        })
+      test('(default design + color) is applied correctly', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-blue')
+        expect(cls).not.toContain('text-blue')
+
+        await wrapper.setProps({
+          color: 'red',
+          textColor: 'blue'
+        })
+        await flushPromises()
+
+        cls = target.classes()
 
         expect(cls).toContain('bg-red')
         expect(cls).toContain('text-blue')
@@ -659,16 +759,25 @@ describe('[QBtn API]', () => {
       test.each([
         [ 'push' ],
         [ 'unelevated' ]
-      ])('(design "%s" + color) is applied correctly', designProp => {
-        const wrapper = mount(QBtn, {
-          props: {
-            color: 'red',
-            textColor: 'blue',
-            [ designProp ]: true
-          }
-        })
+      ])('(design "%s" + color) is applied correctly', async designProp => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-blue')
+        expect(cls).not.toContain('text-blue')
+
+        await wrapper.setProps({
+          color: 'red',
+          textColor: 'blue',
+          [ designProp ]: true
+        })
+        await flushPromises()
+
+        cls = target.classes()
 
         expect(cls).toContain('bg-red')
         expect(cls).toContain('text-blue')
@@ -680,16 +789,25 @@ describe('[QBtn API]', () => {
       test.each([
         [ 'flat' ],
         [ 'outline' ]
-      ])('(design "%s" + color) is applied correctly', designProp => {
-        const wrapper = mount(QBtn, {
-          props: {
-            color: 'red',
-            textColor: 'blue',
-            [ designProp ]: true
-          }
-        })
+      ])('(design "%s" + color) is applied correctly', async designProp => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
-        const cls = wrapper.get('button').classes()
+        let cls = target.classes()
+
+        expect(cls).not.toContain('text-blue')
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('bg-blue')
+
+        await wrapper.setProps({
+          color: 'red',
+          textColor: 'blue',
+          [ designProp ]: true
+        })
+        await flushPromises()
+
+        cls = target.classes()
 
         expect(cls).toContain('text-blue')
 
@@ -706,17 +824,22 @@ describe('[QBtn API]', () => {
 
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button').$computedStyle('text-transform')
-        ).toBe('uppercase')
+          target.classes()
+        ).not.toContain('q-btn--no-uppercase')
 
         await wrapper.setProps({ noCaps: true })
         await flushPromises()
 
         expect(
-          wrapper.get('button').classes()
+          target.classes()
         ).toContain('q-btn--no-uppercase')
+
+        expect(
+          target.$computedStyle('text-transform')
+        ).toBe('none')
       })
     })
 
@@ -725,14 +848,17 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.noWrap).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            noWrap: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
 
-        const cls = wrapper.get('.q-btn__content').classes()
+        let cls = wrapper.get('.q-btn__content').classes()
+        expect(cls).not.toContain('no-wrap')
+        expect(cls).not.toContain('text-no-wrap')
+
+        await wrapper.setProps({ noWrap: true })
+        await flushPromises()
+
+        cls = wrapper.get('.q-btn__content').classes()
         expect(cls).toContain('no-wrap')
         expect(cls).toContain('text-no-wrap')
       })
@@ -743,15 +869,19 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.dense).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            dense: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('.q-btn').classes()
+          target.classes()
+        ).not.toContain('q-btn--dense')
+
+        await wrapper.setProps({ dense: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-btn--dense')
       })
     })
@@ -762,11 +892,15 @@ describe('[QBtn API]', () => {
       })
 
       test('type Boolean has effect', async () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            ripple: true
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.find('.q-ripple')
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ ripple: true })
+        await flushPromises()
 
         await wrapper.trigger('click')
 
@@ -777,11 +911,16 @@ describe('[QBtn API]', () => {
       })
 
       test('type Object has effect', async () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            ripple: { center: true }
-          }
-        })
+        const propVal = { center: true, color: 'teal', keyCodes: [] }
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.find('.q-ripple')
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ ripple: propVal })
+        await flushPromises()
 
         await wrapper.trigger('click')
 
@@ -801,11 +940,14 @@ describe('[QBtn API]', () => {
         [ 'Number', 100 ],
         [ 'String', '100' ]
       ])('type %s has effect', async (_, propVal) => {
-        const wrapper = mount(QBtn, {
-          props: {
-            tabindex: propVal
-          }
-        })
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.attributes('tabindex')
+        ).not.toBe('' + propVal)
+
+        await wrapper.setProps({ tabindex: propVal })
+        await flushPromises()
 
         expect(
           wrapper.attributes('tabindex')
@@ -844,16 +986,22 @@ describe('[QBtn API]', () => {
         [ 'between' ],
         [ 'around' ],
         [ 'evenly' ]
-      ])('value "%s" has effect', propVal => {
-        const wrapper = mount(QBtn, {
-          props: {
-            align: propVal
-          }
-        })
+      ])('value "%s" has effect', async propVal => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn__content')
+
+        if (propVal !== 'center') {
+          // the default value
+          expect(
+            target.classes()
+          ).not.toContain(`justify-${ alignMap[ propVal ] }`)
+        }
+
+        await wrapper.setProps({ align: propVal })
+        await flushPromises()
 
         expect(
-          wrapper.get('.q-btn__content')
-            .classes()
+          target.classes()
         ).toContain(`justify-${ alignMap[ propVal ] }`)
       })
     })
@@ -865,18 +1013,17 @@ describe('[QBtn API]', () => {
 
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn__content')
 
         expect(
-          wrapper.get('.q-btn__content')
-            .classes()
+          target.classes()
         ).toContain('row')
 
         await wrapper.setProps({ stack: true })
         await flushPromises()
 
         expect(
-          wrapper.get('.q-btn__content')
-            .classes()
+          target.classes()
         ).toContain('column')
       })
     })
@@ -888,18 +1035,17 @@ describe('[QBtn API]', () => {
 
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button')
-            .classes()
+          target.classes()
         ).not.toContain('self-stretch')
 
         await wrapper.setProps({ stretch: true })
         await flushPromises()
 
         expect(
-          wrapper.get('button')
-            .classes()
+          target.classes()
         ).toContain('self-stretch')
       })
     })
@@ -910,20 +1056,26 @@ describe('[QBtn API]', () => {
       })
 
       test('type Boolean has effect', async () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            loading: true
-          }
-        })
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button')
-            .attributes('role')
+          target.attributes('role')
         ).not.toBe('progressbar')
 
         expect(
-          wrapper.get('button')
-            .attributes('aria-valuenow')
+          target.attributes('aria-valuenow')
+        ).toBeUndefined()
+
+        await wrapper.setProps({ loading: true })
+        await flushPromises()
+
+        expect(
+          target.attributes('role')
+        ).not.toBe('progressbar')
+
+        expect(
+          target.attributes('aria-valuenow')
         ).toBeUndefined()
 
         expect(
@@ -940,31 +1092,35 @@ describe('[QBtn API]', () => {
         await flushPromises()
 
         expect(
-          wrapper.get('button')
-            .attributes('role')
+          target.attributes('role')
         ).toBe('progressbar')
 
         expect(
-          wrapper.get('button')
-            .attributes('aria-valuenow')
+          target.attributes('aria-valuenow')
         ).toBe('50')
       })
 
-      test('type null has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            loading: null
-          }
-        })
+      test('type null has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button')
-            .attributes('role')
+          target.attributes('role')
         ).not.toBe('progressbar')
 
         expect(
-          wrapper.get('button')
-            .attributes('aria-valuenow')
+          target.attributes('aria-valuenow')
+        ).toBeUndefined()
+
+        await wrapper.setProps({ loading: null })
+        await flushPromises()
+
+        expect(
+          target.attributes('role')
+        ).not.toBe('progressbar')
+
+        expect(
+          target.attributes('aria-valuenow')
         ).toBeUndefined()
 
         expect(
@@ -984,21 +1140,27 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.disable).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBtn, {
-          props: {
-            disable: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button')
-            .classes()
+          target.classes()
+        ).not.toContain('disabled')
+
+        expect(
+          target.attributes('aria-disabled')
+        ).not.toBe('true')
+
+        await wrapper.setProps({ disable: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('disabled')
 
         expect(
-          wrapper.get('button')
-            .attributes('aria-disabled')
+          target.attributes('aria-disabled')
         ).toBe('true')
       })
 
@@ -1058,16 +1220,14 @@ describe('[QBtn API]', () => {
 
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
+        const target = wrapper.get('.q-btn')
 
         expect(
-          wrapper.get('button')
-            .classes()
+          target.classes()
         ).toContain('q-btn--rectangle')
 
         await wrapper.setProps({ round: true })
         await flushPromises()
-
-        const target = wrapper.get('button')
 
         expect(
           target.classes()
@@ -1085,12 +1245,21 @@ describe('[QBtn API]', () => {
       })
 
       test('type Number has effect', async () => {
-        const percentage = 58
-        const wrapper = mount(QBtn, {
-          props: {
-            percentage
-          }
-        })
+        const propVal = 58
+        const wrapper = mount(QBtn)
+
+        expect(
+          wrapper.find('.q-btn__progress')
+            .exists()
+        ).toBe(false)
+
+        expect(
+          wrapper.get('.q-btn')
+            .attributes('aria-valuenow')
+        ).toBeUndefined()
+
+        await wrapper.setProps({ percentage: propVal })
+        await flushPromises()
 
         expect(
           wrapper.find('.q-btn__progress')
@@ -1113,7 +1282,7 @@ describe('[QBtn API]', () => {
         expect(
           wrapper.get('.q-btn__progress-indicator')
             .$computedStyle('transform')
-        ).toContain(`${ 100 - percentage }%`)
+        ).toContain(`${ 100 - propVal }%`)
 
         expect(
           wrapper.find('.q-spinner')
@@ -1123,7 +1292,7 @@ describe('[QBtn API]', () => {
         expect(
           wrapper.get('.q-btn')
             .attributes('aria-valuenow')
-        ).toBe('' + percentage)
+        ).toBe('' + propVal)
       })
     })
 
@@ -1132,20 +1301,31 @@ describe('[QBtn API]', () => {
         expect(QBtn.props.darkPercentage).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const percentage = 50
-        const wrapper = mount(QBtn, {
-          props: {
-            percentage,
-            loading: true,
-            darkPercentage: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const propVal = 58
+        const wrapper = mount(QBtn)
 
         expect(
           wrapper.get('.q-btn')
             .attributes('aria-valuenow')
-        ).toBe(percentage.toString())
+        ).not.toBe('' + propVal)
+
+        expect(
+          wrapper.find('.q-btn__progress')
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({
+          percentage: propVal,
+          loading: true,
+          darkPercentage: true
+        })
+        await flushPromises()
+
+        expect(
+          wrapper.get('.q-btn')
+            .attributes('aria-valuenow')
+        ).toBe('' + propVal)
 
         expect(
           wrapper.get('.q-btn__progress')

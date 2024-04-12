@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
 import QBadge from './QBadge.js'
@@ -10,17 +10,29 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.color).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            color: 'red'
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .classes()
-        ).toContain('bg-red')
+          target.classes()
+        ).not.toContain(`bg-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`text-${ propVal }`)
+
+        await wrapper.setProps({ color: propVal })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain(`bg-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`text-${ propVal }`)
       })
     })
 
@@ -29,17 +41,29 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.textColor).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            textColor: 'red'
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .classes()
-        ).toContain('text-red')
+          target.classes()
+        ).not.toContain(`bg-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`text-${ propVal }`)
+
+        await wrapper.setProps({ textColor: propVal })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain(`text-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`bg-${ propVal }`)
       })
     })
 
@@ -48,16 +72,19 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.floating).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            floating: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .classes()
+          target.classes()
+        ).not.toContain('q-badge--floating')
+
+        await wrapper.setProps({ floating: true })
+        await flushPromises()
+
+        expect(
+          wrapper.classes()
         ).toContain('q-badge--floating')
 
         expect(
@@ -72,21 +99,23 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.transparent).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            transparent: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .classes()
+          target.classes()
+        ).not.toContain('q-badge--transparent')
+
+        await wrapper.setProps({ transparent: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-badge--transparent')
 
         expect(
-          wrapper.get('.q-badge')
-            .$computedStyle('opacity')
+          target.$computedStyle('opacity')
         ).not.toBe('1')
       })
     })
@@ -96,21 +125,23 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.multiLine).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            multiLine: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .classes()
+          target.classes()
+        ).not.toContain('q-badge--multi-line')
+
+        await wrapper.setProps({ multiLine: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-badge--multi-line')
 
         expect(
-          wrapper.get('.q-badge')
-            .$computedStyle('word-break')
+          target.$computedStyle('word-break')
         ).toBe('break-all')
       })
     })
@@ -120,31 +151,22 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.label).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const propVal = 'John Doe'
-        const wrapper = mount(QBadge, {
-          props: {
-            label: propVal
-          }
-        })
+      test.each([
+        [ 'String', 'John Doe' ],
+        [ 'Number', 22 ]
+      ])('type %s has effect', async (_, propVal) => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .text()
-        ).toContain(propVal)
-      })
+          target.text()
+        ).not.toContain(propVal)
 
-      test('type Number has effect', () => {
-        const propVal = 22
-        const wrapper = mount(QBadge, {
-          props: {
-            label: propVal
-          }
-        })
+        await wrapper.setProps({ label: propVal })
+        await flushPromises()
 
         expect(
-          wrapper.get('.q-badge')
-            .text()
+          target.text()
         ).toContain(propVal)
       })
     })
@@ -154,45 +176,23 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.align).toBeDefined()
       })
 
-      test('value "top" has effect', () => {
-        const propVal = 'top'
-        const wrapper = mount(QBadge, {
-          props: {
-            align: propVal
-          }
-        })
+      test.each([
+        [ 'top' ],
+        [ 'middle' ],
+        [ 'bottom' ]
+      ])('value "%s" has effect', async propVal => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .$style('vertical-align')
-        ).toBe(propVal)
-      })
+          target.$style('vertical-align')
+        ).not.toBe(propVal)
 
-      test('value "middle" has effect', () => {
-        const propVal = 'middle'
-        const wrapper = mount(QBadge, {
-          props: {
-            align: propVal
-          }
-        })
+        await wrapper.setProps({ align: propVal })
+        await flushPromises()
 
         expect(
-          wrapper.get('.q-badge')
-            .$style('vertical-align')
-        ).toBe(propVal)
-      })
-
-      test('value "bottom" has effect', () => {
-        const propVal = 'bottom'
-        const wrapper = mount(QBadge, {
-          props: {
-            align: propVal
-          }
-        })
-
-        expect(
-          wrapper.get('.q-badge')
-            .$style('vertical-align')
+          target.$style('vertical-align')
         ).toBe(propVal)
       })
     })
@@ -202,21 +202,23 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.outline).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            outline: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .classes()
+          target.classes()
+        ).not.toContain('q-badge--outline')
+
+        await wrapper.setProps({ outline: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-badge--outline')
 
         expect(
-          wrapper.get('.q-badge')
-            .$computedStyle('border')
+          target.$computedStyle('border')
         ).toContain('1px solid')
       })
     })
@@ -226,16 +228,23 @@ describe('[QBadge API]', () => {
         expect(QBadge.props.rounded).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBadge, {
-          props: {
-            rounded: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBadge)
+        const target = wrapper.get('.q-badge')
 
         expect(
-          wrapper.get('.q-badge')
-            .$computedStyle('border-radius')
+          target.classes()
+        ).not.toContain('q-badge--rounded')
+
+        await wrapper.setProps({ rounded: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain('q-badge--rounded')
+
+        expect(
+          target.$computedStyle('border-radius')
         ).toBe('1em')
       })
     })

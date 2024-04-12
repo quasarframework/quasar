@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
 import QBreadcrumbs from './QBreadcrumbs.js'
@@ -15,13 +15,17 @@ describe('[QBreadcrumbs API]', () => {
         expect(QBreadcrumbs.props.separator).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = '>'
-        const wrapper = mount(BasicBreadcrumbs, {
-          props: {
-            separator: propVal
-          }
-        })
+        const wrapper = mount(BasicBreadcrumbs)
+
+        expect(
+          wrapper.get('.q-breadcrumbs__separator')
+            .text()
+        ).not.toContain(propVal)
+
+        await wrapper.setProps({ separator: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-breadcrumbs__separator')
@@ -35,12 +39,17 @@ describe('[QBreadcrumbs API]', () => {
         expect(QBreadcrumbs.props.activeColor).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const wrapper = mount(BasicBreadcrumbs, {
-          props: {
-            activeColor: 'red'
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'red'
+        const wrapper = mount(BasicBreadcrumbs)
+
+        expect(
+          wrapper.get('.q-breadcrumbs > div > .flex.items-center:not(.q-breadcrumbs--last)')
+            .classes()
+        ).not.toContain('text-red')
+
+        await wrapper.setProps({ activeColor: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-breadcrumbs > div > .flex.items-center:not(.q-breadcrumbs--last)')
@@ -54,13 +63,17 @@ describe('[QBreadcrumbs API]', () => {
         expect(QBreadcrumbs.props.gutter).toBeDefined()
       })
 
-      test('value "none" has effect', () => {
+      test('value "none" has effect', async () => {
         const propVal = 'none'
-        const wrapper = mount(BasicBreadcrumbs, {
-          props: {
-            gutter: propVal
-          }
-        })
+        const wrapper = mount(BasicBreadcrumbs)
+
+        expect(
+          wrapper.get('.q-breadcrumbs > div')
+            .classes()
+        ).toContain('q-gutter-sm')
+
+        await wrapper.setProps({ gutter: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-breadcrumbs > div')
@@ -76,12 +89,24 @@ describe('[QBreadcrumbs API]', () => {
         [ 'md' ],
         [ 'lg' ],
         [ 'xl' ]
-      ])('value %s has effect', propVal => {
-        const wrapper = mount(BasicBreadcrumbs, {
-          props: {
-            gutter: propVal
-          }
-        })
+      ])('value %s has effect', async propVal => {
+        const wrapper = mount(BasicBreadcrumbs)
+
+        expect(
+          wrapper.get('.q-breadcrumbs > div')
+            .classes()
+        ).toContain('q-gutter-sm')
+
+        await wrapper.setProps({ gutter: propVal })
+        await flushPromises()
+
+        if (propVal !== 'sm') {
+          // the default value
+          expect(
+            wrapper.get('.q-breadcrumbs > div')
+              .classes()
+          ).not.toContain('q-gutter-sm')
+        }
 
         expect(
           wrapper.get('.q-breadcrumbs > div')
@@ -95,12 +120,18 @@ describe('[QBreadcrumbs API]', () => {
         expect(QBreadcrumbs.props.separatorColor).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const wrapper = mount(BasicBreadcrumbs, {
-          props: {
-            separatorColor: 'red'
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'red'
+        const wrapper = mount(BasicBreadcrumbs)
+
+        wrapper.findAll('.q-breadcrumbs__separator')
+          .forEach(el => expect(el.classes()).not.toContain('text-red'))
+
+        // TODO: write expectations without the prop
+        // (usually negate the effect of the prop)
+
+        await wrapper.setProps({ separatorColor: propVal })
+        await flushPromises()
 
         wrapper.findAll('.q-breadcrumbs__separator')
           .forEach(el => expect(el.classes()).toContain('text-red'))
@@ -119,12 +150,19 @@ describe('[QBreadcrumbs API]', () => {
         [ 'between' ],
         [ 'around' ],
         [ 'evenly' ]
-      ])('value "%s" has effect', propVal => {
-        const wrapper = mount(BasicBreadcrumbs, {
-          props: {
-            align: propVal
-          }
-        })
+      ])('value "%s" has effect', async propVal => {
+        const wrapper = mount(BasicBreadcrumbs)
+
+        if (propVal !== 'left') {
+          // the default value
+          expect(
+            wrapper.get('.q-breadcrumbs > div')
+              .classes()
+          ).not.toContain(`justify-${ alignMap[ propVal ] }`)
+        }
+
+        await wrapper.setProps({ align: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-breadcrumbs > div')

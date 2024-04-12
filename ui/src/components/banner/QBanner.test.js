@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
 import QBanner from './QBanner.js'
@@ -10,20 +10,26 @@ describe('[QBanner API]', () => {
         expect(QBanner.props.inlineActions).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
+      test('type Boolean has effect', async () => {
         const wrapper = mount(QBanner, {
-          props: {
-            inlineActions: true
-          },
           slots: {
             action: () => 'Banner action'
           }
         })
 
+        const target = wrapper
+          .get('.q-banner')
+          .get('.q-banner__actions')
+
         expect(
-          wrapper.get('.q-banner')
-            .get('.q-banner__actions')
-            .classes()
+          target.classes()
+        ).not.toContain('col-auto')
+
+        await wrapper.setProps({ inlineActions: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('col-auto')
       })
     })
@@ -33,16 +39,19 @@ describe('[QBanner API]', () => {
         expect(QBanner.props.dense).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBanner, {
-          props: {
-            dense: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBanner)
+        const target = wrapper.get('.q-banner')
 
         expect(
-          wrapper.get('.q-banner')
-            .classes()
+          target.classes()
+        ).not.toContain('q-banner--dense')
+
+        await wrapper.setProps({ dense: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-banner--dense')
       })
     })
@@ -52,17 +61,23 @@ describe('[QBanner API]', () => {
         expect(QBanner.props.rounded).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const propVal = true
-        const wrapper = mount(QBanner, {
-          props: {
-            rounded: propVal
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBanner)
+        const target = wrapper.get('.q-banner')
 
         expect(
-          wrapper.get('.q-banner')
-            .$computedStyle('border-radius')
+          target.classes()
+        ).not.toContain('rounded-borders')
+
+        await wrapper.setProps({ rounded: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain('rounded-borders')
+
+        expect(
+          target.$computedStyle('border-radius')
         ).toBe('4px')
       })
     })
@@ -72,20 +87,23 @@ describe('[QBanner API]', () => {
         expect(QBanner.props.dark).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QBanner, {
-          props: {
-            dark: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QBanner)
+        const target = wrapper.get('.q-banner')
 
         expect(
-          wrapper.get('.q-banner')
-            .classes()
+          target.classes()
+        ).not.toContain('q-banner--dark')
+
+        await wrapper.setProps({ dark: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-banner--dark')
       })
 
-      test('type null has effect', () => {
+      test('type null has effect', async () => {
         const wrapper = mount(QBanner, {
           props: {
             dark: null

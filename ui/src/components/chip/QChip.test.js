@@ -10,15 +10,19 @@ describe('[QChip API]', () => {
         expect(QChip.props.dense).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            dense: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--dense')
+
+        await wrapper.setProps({ dense: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-chip--dense')
       })
     })
@@ -29,23 +33,25 @@ describe('[QChip API]', () => {
       })
 
       test('type String has effect', async () => {
-        const wrapper = mount(QChip, {
-          props: {
-            size: '50px'
-          }
-        })
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.get('.q-chip')
-            .$style()
-        ).toContain('font-size: 50px')
+          target.$style('font-size')
+        ).not.toBe('100px')
+
+        await wrapper.setProps({ size: '100px' })
+        await flushPromises()
+
+        expect(
+          target.$style('font-size')
+        ).toBe('100px')
 
         await wrapper.setProps({ size: 'sm' })
 
         expect(
-          wrapper.get('.q-chip')
-            .$style()
-        ).toContain(`font-size: ${ defaultSizes.sm }px;`)
+          target.$style('font-size')
+        ).toBe(`${ defaultSizes.sm }px`)
       })
     })
 
@@ -54,27 +60,35 @@ describe('[QChip API]', () => {
         expect(QChip.props.dark).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            dark: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--dark')
+
+        await wrapper.setProps({ dark: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-chip--dark')
       })
 
-      test('type null has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            dark: null
-          }
-        })
+      test('type null has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--dense')
+
+        await wrapper.setProps({ dark: null })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).not.toContain('q-chip--dense')
       })
     })
@@ -84,16 +98,19 @@ describe('[QChip API]', () => {
         expect(QChip.props.icon).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QChip, {
-          props: {
-            icon: propVal
-          }
-        })
+        const wrapper = mount(QChip)
 
         expect(
-          wrapper.text()
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ icon: propVal })
+        await flushPromises()
+
+        expect(
+          wrapper.get('.q-icon').text()
         ).toContain(propVal)
       })
     })
@@ -103,16 +120,19 @@ describe('[QChip API]', () => {
         expect(QChip.props.iconRight).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QChip, {
-          props: {
-            iconRight: propVal
-          }
-        })
+        const wrapper = mount(QChip)
 
         expect(
-          wrapper.text()
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ iconRight: propVal })
+        await flushPromises()
+
+        expect(
+          wrapper.get('.q-icon').text()
         ).toContain(propVal)
       })
     })
@@ -122,14 +142,19 @@ describe('[QChip API]', () => {
         expect(QChip.props.iconRemove).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QChip, {
-          props: {
-            removable: true,
-            iconRemove: propVal
-          }
+        const wrapper = mount(QChip)
+
+        expect(
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({
+          removable: true,
+          iconRemove: propVal
         })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-icon.q-chip__icon--remove')
@@ -143,14 +168,19 @@ describe('[QChip API]', () => {
         expect(QChip.props.iconSelected).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'map'
-        const wrapper = mount(QChip, {
-          props: {
-            selected: true,
-            iconSelected: propVal
-          }
+        const wrapper = mount(QChip)
+
+        expect(
+          wrapper.find('.q-icon').exists()
+        ).toBe(false)
+
+        await wrapper.setProps({
+          selected: true,
+          iconSelected: propVal
         })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-chip.q-chip--selected')
@@ -165,31 +195,22 @@ describe('[QChip API]', () => {
         expect(QChip.props.label).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const propVal = 'John Doe'
-        const wrapper = mount(QChip, {
-          props: {
-            label: propVal
-          }
-        })
+      test.each([
+        [ 'String', 'John Doe' ],
+        [ 'Number', 22 ]
+      ])('type %s has effect', async (_, propVal) => {
+        const wrapper = mount(QChip)
 
         expect(
           wrapper.get('.q-chip__content')
             .text()
-        ).toBe(propVal)
-      })
+        ).not.toBe('' + propVal)
 
-      test('type Number has effect', () => {
-        const propVal = 10
-        const wrapper = mount(QChip, {
-          props: {
-            label: propVal
-          }
-        })
+        await wrapper.setProps({ label: propVal })
+        await flushPromises()
 
         expect(
-          wrapper.get('.q-chip')
-            .get('.q-chip__content')
+          wrapper.get('.q-chip__content')
             .text()
         ).toBe('' + propVal)
       })
@@ -200,16 +221,43 @@ describe('[QChip API]', () => {
         expect(QChip.props.color).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('with default design', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
+
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+
+        await wrapper.setProps({ color: propVal })
+        await flushPromises()
+
+        cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).toContain('bg-red')
+      })
+
+      test('with outline design', async () => {
+        const propVal = 'red'
         const wrapper = mount(QChip, {
           props: {
-            color: 'red'
+            outline: true
           }
         })
 
-        expect(
-          wrapper.classes()
-        ).toContain('bg-red')
+        const target = wrapper.get('.q-chip')
+
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+
+        await wrapper.setProps({ color: propVal })
+        await flushPromises()
+
+        cls = target.classes()
+        expect(cls).toContain('text-red')
+        expect(cls).not.toContain('bg-red')
       })
     })
 
@@ -218,15 +266,103 @@ describe('[QChip API]', () => {
         expect(QChip.props.textColor).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('with default design', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
+
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('q-chip--colored')
+
+        await wrapper.setProps({ textColor: propVal })
+        await flushPromises()
+
+        cls = target.classes()
+        expect(cls).toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).toContain('q-chip--colored')
+      })
+
+      test('with default design + color', async () => {
+        const propVal = 'red'
         const wrapper = mount(QChip, {
           props: {
-            textColor: 'red'
+            color: 'blue'
           }
         })
 
-        const cls = wrapper.classes()
+        const target = wrapper.get('.q-chip')
+
+        let cls = target.classes()
+        expect(cls).not.toContain('text-blue')
+        expect(cls).toContain('bg-blue')
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('q-chip--colored')
+
+        await wrapper.setProps({ textColor: propVal })
+        await flushPromises()
+
+        cls = target.classes()
+        expect(cls).not.toContain('text-blue')
+        expect(cls).toContain('bg-blue')
         expect(cls).toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).toContain('q-chip--colored')
+      })
+
+      test('with outline design', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QChip, {
+          props: {
+            outline: true
+          }
+        })
+
+        const target = wrapper.get('.q-chip')
+
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).not.toContain('q-chip--colored')
+
+        await wrapper.setProps({ textColor: propVal })
+        await flushPromises()
+
+        cls = target.classes()
+        expect(cls).toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).toContain('q-chip--colored')
+      })
+
+      test('with outline design + color', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QChip, {
+          props: {
+            color: 'blue',
+            outline: true
+          }
+        })
+
+        const target = wrapper.get('.q-chip')
+
+        let cls = target.classes()
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
+        expect(cls).toContain('text-blue')
+        expect(cls).not.toContain('bg-blue')
+        expect(cls).toContain('q-chip--colored')
+
+        await wrapper.setProps({ textColor: propVal })
+        await flushPromises()
+
+        cls = target.classes()
+        expect(cls).toContain('text-blue')
+        expect(cls).not.toContain('bg-blue')
+        expect(cls).not.toContain('text-red')
+        expect(cls).not.toContain('bg-red')
         expect(cls).toContain('q-chip--colored')
       })
     })
@@ -248,6 +384,7 @@ describe('[QChip API]', () => {
         ).toBe(true)
 
         await wrapper.setProps({ modelValue: false })
+        await flushPromises()
 
         expect(
           wrapper.find('.q-chip')
@@ -262,26 +399,40 @@ describe('[QChip API]', () => {
       })
 
       test('type Boolean has effect', async () => {
-        const wrapper = mount(QChip, {
-          props: {
-            selected: true
-          }
-        })
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--selected')
+
+        await wrapper.setProps({
+          selected: true,
+          'onUpdate:selected': val => { wrapper.setProps({ selected: val }) }
+        })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-chip--selected')
       })
 
-      test('type null has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            selected: null
-          }
-        })
+      test('type null has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--selected')
+
+        await wrapper.setProps({
+          selected: null,
+          'onUpdate:selected': val => { wrapper.setProps({ selected: val }) }
+        })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).not.toContain('q-chip--selected')
       })
     })
@@ -291,20 +442,23 @@ describe('[QChip API]', () => {
         expect(QChip.props.square).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            square: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--square')
+
+        await wrapper.setProps({ square: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-chip--square')
 
         expect(
-          wrapper.get('.q-chip')
-            .$computedStyle('border-radius')
+          target.$computedStyle('border-radius')
         ).toBe('4px')
       })
     })
@@ -314,16 +468,19 @@ describe('[QChip API]', () => {
         expect(QChip.props.outline).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const propVal = true
-        const wrapper = mount(QChip, {
-          props: {
-            outline: propVal
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          wrapper.classes()
+          target.classes()
+        ).not.toContain('q-chip--outline')
+
+        await wrapper.setProps({ outline: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
         ).toContain('q-chip--outline')
       })
     })
@@ -333,22 +490,24 @@ describe('[QChip API]', () => {
         expect(QChip.props.clickable).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            clickable: true
-          }
-        })
-
-        const chip = wrapper.get('.q-chip')
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
+        const target = wrapper.get('.q-chip')
 
         expect(
-          chip.$computedStyle('cursor')
-        ).toBe('pointer')
+          target.attributes('tabindex')
+        ).toBeUndefined()
+
+        await wrapper.setProps({ clickable: true })
+        await flushPromises()
 
         expect(
-          chip.attributes('tabindex')
+          target.attributes('tabindex')
         ).toBe('0')
+
+        expect(
+          target.$computedStyle('cursor')
+        ).toBe('pointer')
       })
     })
 
@@ -357,12 +516,16 @@ describe('[QChip API]', () => {
         expect(QChip.props.removable).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QChip, {
-          props: {
-            removable: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
+
+        expect(
+          wrapper.find('.q-icon.q-chip__icon--remove')
+            .exists()
+        ).not.toBe(true)
+
+        await wrapper.setProps({ removable: true })
+        await flushPromises()
 
         expect(
           wrapper.find('.q-icon.q-chip__icon--remove')
@@ -377,11 +540,15 @@ describe('[QChip API]', () => {
       })
 
       test('type Boolean has effect', async () => {
-        const wrapper = mount(QChip, {
-          props: {
-            ripple: true
-          }
-        })
+        const wrapper = mount(QChip)
+
+        expect(
+          wrapper.find('.q-ripple')
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ ripple: true })
+        await flushPromises()
 
         await wrapper.trigger('click')
 
@@ -392,11 +559,16 @@ describe('[QChip API]', () => {
       })
 
       test('type Object has effect', async () => {
-        const wrapper = mount(QChip, {
-          props: {
-            ripple: { center: true }
-          }
-        })
+        const propVal = { center: true, color: 'teal', keyCodes: [] }
+        const wrapper = mount(QChip)
+
+        expect(
+          wrapper.find('.q-ripple')
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ ripple: propVal })
+        await flushPromises()
 
         await wrapper.trigger('click')
 
@@ -412,16 +584,22 @@ describe('[QChip API]', () => {
         expect(QChip.props.removeAriaLabel).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const propVal = 'Remove item'
         const wrapper = mount(QChip, {
           props: {
-            removable: true,
-            removeAriaLabel: propVal
+            removable: true
           }
         })
 
         const removeIcon = wrapper.get('.q-chip__icon--remove')
+
+        expect(
+          removeIcon.attributes('aria-label')
+        ).not.toBe(propVal)
+
+        await wrapper.setProps({ removeAriaLabel: propVal })
+        await flushPromises()
 
         expect(
           removeIcon.attributes('aria-label')
@@ -503,16 +681,18 @@ describe('[QChip API]', () => {
         expect(QChip.props.disable).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const propVal = true
-        const wrapper = mount(QChip, {
-          props: {
-            disable: propVal
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QChip)
 
         expect(
-          wrapper.classes()
+          wrapper.get('.q-chip').classes()
+        ).not.toContain('disabled')
+
+        await wrapper.setProps({ disable: true })
+        await flushPromises()
+
+        expect(
+          wrapper.get('.q-chip').classes()
         ).toContain('disabled')
       })
     })

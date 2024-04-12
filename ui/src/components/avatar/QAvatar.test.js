@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
 import QAvatar from './QAvatar.js'
@@ -12,24 +12,26 @@ describe('[QAvatar API]', () => {
       })
 
       test('type String has effect', async () => {
-        const propVal = '16px'
-        const wrapper = mount(QAvatar, {
-          props: {
-            size: propVal
-          }
-        })
+        const wrapper = mount(QAvatar)
+        const target = wrapper.get('.q-avatar')
 
         expect(
-          wrapper.get('.q-avatar')
-            .$style()
-        ).toContain(`font-size: ${ propVal };`)
+          target.$style('font-size')
+        ).toBe('')
+
+        await wrapper.setProps({ size: '100px' })
+        await flushPromises()
+
+        expect(
+          target.$style('font-size')
+        ).toContain('100px')
 
         await wrapper.setProps({ size: 'sm' })
+        await flushPromises()
 
         expect(
-          wrapper.get('.q-avatar')
-            .$style()
-        ).toContain(`font-size: ${ useSizeDefaults.sm }px;`)
+          target.$style('font-size')
+        ).toBe(`${ useSizeDefaults.sm }px`)
       })
     })
 
@@ -38,26 +40,37 @@ describe('[QAvatar API]', () => {
         expect(QAvatar.props.fontSize).toBeDefined()
       })
 
-      test('type String has effect', () => {
+      test('type String has effect', async () => {
         const size = '200px'
         const fontSize = '100px'
 
-        const wrapper = mount(QAvatar, {
-          props: {
-            size,
-            fontSize
-          }
-        })
+        const wrapper = mount(QAvatar)
 
         expect(
           wrapper.get('.q-avatar')
-            .$style()
-        ).toContain(`font-size: ${ size };`)
+            .$style('font-size')
+        ).not.toBe(size)
 
         expect(
           wrapper.get('.q-avatar__content')
-            .$style()
-        ).toContain(`font-size: ${ fontSize };`)
+            .$style('font-size')
+        ).not.toBe(fontSize)
+
+        await wrapper.setProps({
+          size,
+          fontSize
+        })
+        await flushPromises()
+
+        expect(
+          wrapper.get('.q-avatar')
+            .$style('font-size')
+        ).toBe(size)
+
+        expect(
+          wrapper.get('.q-avatar__content')
+            .$style('font-size')
+        ).toBe(fontSize)
       })
     })
 
@@ -66,18 +79,29 @@ describe('[QAvatar API]', () => {
         expect(QAvatar.props.color).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const color = 'red'
-        const wrapper = mount(QAvatar, {
-          props: {
-            color
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QAvatar)
+        const target = wrapper.get('.q-avatar')
 
         expect(
-          wrapper.get('.q-avatar')
-            .classes()
-        ).toContain(`bg-${ color }`)
+          target.classes()
+        ).not.toContain(`bg-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`text-${ propVal }`)
+
+        await wrapper.setProps({ color: propVal })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain(`bg-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`text-${ propVal }`)
       })
     })
 
@@ -86,18 +110,29 @@ describe('[QAvatar API]', () => {
         expect(QAvatar.props.textColor).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const textColor = 'red'
-        const wrapper = mount(QAvatar, {
-          props: {
-            textColor
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'red'
+        const wrapper = mount(QAvatar)
+        const target = wrapper.get('.q-avatar')
 
         expect(
-          wrapper.get('.q-avatar')
-            .classes()
-        ).toContain(`text-${ textColor }`)
+          target.classes()
+        ).not.toContain(`bg-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`text-${ propVal }`)
+
+        await wrapper.setProps({ textColor: propVal })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain(`text-${ propVal }`)
+
+        expect(
+          target.classes()
+        ).not.toContain(`bg-${ propVal }`)
       })
     })
 
@@ -106,19 +141,24 @@ describe('[QAvatar API]', () => {
         expect(QAvatar.props.icon).toBeDefined()
       })
 
-      test('type String has effect', () => {
-        const icon = 'bug_report'
-        const wrapper = mount(QAvatar, {
-          props: {
-            icon
-          }
-        })
+      test('type String has effect', async () => {
+        const propVal = 'map'
+        const wrapper = mount(QAvatar)
+
+        expect(
+          wrapper.get('.q-avatar')
+            .find('.q-icon')
+            .exists()
+        ).toBe(false)
+
+        await wrapper.setProps({ icon: propVal })
+        await flushPromises()
 
         expect(
           wrapper.get('.q-avatar')
             .get('.q-icon')
             .text()
-        ).toContain(`${ icon }`)
+        ).toContain(`${ propVal }`)
       })
     })
 
@@ -128,16 +168,23 @@ describe('[QAvatar API]', () => {
       })
 
       test('type Boolean has effect', async () => {
-        const wrapper = mount(QAvatar, {
-          props: {
-            square: true
-          }
-        })
+        const wrapper = mount(QAvatar)
+        const target = wrapper.get('.q-avatar')
 
         expect(
-          wrapper.get('.q-avatar')
-            .$computedStyle('border-radius')
-        ).toBe('0')
+          target.classes()
+        ).not.toContain('q-avatar--square')
+
+        await wrapper.setProps({ square: true })
+        await flushPromises()
+
+        expect(
+          target.classes()
+        ).toContain('q-avatar--square')
+
+        expect(
+          target.$computedStyle('border-radius')
+        ).not.toBe('0px')
       })
     })
 
@@ -146,17 +193,24 @@ describe('[QAvatar API]', () => {
         expect(QAvatar.props.rounded).toBeDefined()
       })
 
-      test('type Boolean has effect', () => {
-        const wrapper = mount(QAvatar, {
-          props: {
-            rounded: true
-          }
-        })
+      test('type Boolean has effect', async () => {
+        const wrapper = mount(QAvatar)
+        const target = wrapper.get('.q-avatar')
 
         expect(
-          wrapper.get('.q-avatar')
-            .$computedStyle('border-radius')
+          target.classes()
+        ).not.toContain('rounded-borders')
+
+        await wrapper.setProps({ rounded: true })
+        await flushPromises()
+
+        expect(
+          target.$computedStyle('border-radius')
         ).toBe('4px')
+
+        expect(
+          target.classes()
+        ).toContain('rounded-borders')
       })
     })
   })
