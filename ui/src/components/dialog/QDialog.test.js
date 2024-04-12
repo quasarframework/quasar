@@ -20,6 +20,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  vi.clearAllTimers()
   vi.restoreAllMocks()
 })
 
