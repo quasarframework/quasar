@@ -19,7 +19,7 @@
     "fs-extra": "^11.2.0",
     "jsdom": "latest",
     "prompts": "^2.4.2",
-    "vite": "^5.2.8",
+    "vite": "^5.1.7",
     "vite-plugin-checker": "^0.6.4",
     "vitest": "^1.4.0",
     "vue": "^3.4.21"
