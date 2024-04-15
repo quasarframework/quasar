@@ -1,6 +1,6 @@
 const units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB' ]
 
-export function humanStorageSize (bytes) {
+export function humanStorageSize (bytes, decimals = 1) {
   let u = 0
 
   while (parseInt(bytes, 10) >= 1024 && u < units.length - 1) {
@@ -8,7 +8,7 @@ export function humanStorageSize (bytes) {
     ++u
   }
 
-  return `${ bytes.toFixed(1) }${ units[ u ] }`
+  return `${ bytes.toFixed(decimals) }${ units[ u ] }`
 }
 
 export function capitalize (str) {

@@ -46,8 +46,14 @@ console.log( capitalize('some text') )
 import { format } from 'quasar'
 const { humanStorageSize } = format
 
+// humanStorageSize(value, decimals = 1)
+// "decimals" param requires Quasar v2.15.3+
+
 console.log( humanStorageSize(13087) )
-// 12.8kB
+// 12.8KB
+
+console.log( humanStorageSize(1024 * 1024 * 2.25, 3) )
+// 2.250MB
 ```
 
 ## Normalize Number to Interval
