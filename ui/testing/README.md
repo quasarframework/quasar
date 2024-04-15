@@ -170,6 +170,7 @@ $ pnpm test:specs --target <target_file>
 * Watch for `$computedStyle()` calls as these get cached, so you only get one chance per node to get the expected result. Usually leave this as the last expect() call.
 * Test the effect while not duplicating the implementation of what you are testing. Where you can, use `$computedStyle()`.
 * Be aware of the common formulas (below).
+* There are some custom matchers that you can use (`$any`, `$arrayValues`, `$objectValues`, `$ref`, `$reactive`) and also some extra @vue/test-utils mount() additions (`$style`, `$computedStyle`): [https://github.com/quasarframework/quasar/blob/dev/ui/testing/setup.js]
 * Use of Copilot when writing the tests is allowed ;)
 
 ## Common formulas for writing tests
