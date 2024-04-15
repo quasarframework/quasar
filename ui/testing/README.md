@@ -170,6 +170,7 @@ $ pnpm test:specs --target <target_file>
 * Watch for `$computedStyle()` calls as these get cached, so you only get one chance per node to get the expected result. Usually leave this as the last expect() call.
 * Test the effect while not duplicating the implementation of what you are testing. Where you can, use `$computedStyle()`.
 * Be aware of the common formulas (below).
+* Use of Copilot when writing the tests is allowed :)
 
 ## Common formulas for writing tests
 
