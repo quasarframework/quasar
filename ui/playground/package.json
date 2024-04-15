@@ -12,8 +12,8 @@
     "build": "quasar build"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
-    "quasar": "^2.6.0",
+    "@quasar/extras": "workspace:^",
+    "quasar": "workspace:^",
     "vue": "^3.4.18",
     "vue-router": "^4.0.0"
   },
@@ -21,7 +21,7 @@
     "vite-plugin-checker": "^0.6.4",
     "eslint": "^8.11.0",
     "eslint-config-quasar": "^0.0.1",
-    "@quasar/app-vite": "^2.0.0-beta.5",
+    "@quasar/app-vite": "workspace:^",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.14"
   },

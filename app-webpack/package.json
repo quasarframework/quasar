@@ -120,7 +120,7 @@
     "eslint": "^8.57.0",
     "eslint-config-quasar": "^0.0.1",
     "pinia": "^2.1.3",
-    "quasar": "^2.14.5",
+    "quasar": "workspace:^",
     "ts-essentials": "^9.1.2",
     "ts-loader": "^9.2.6",
     "typescript": "^5.2.2",

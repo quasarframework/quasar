@@ -64,7 +64,7 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "workspace:^",
     "autoprefixer": "^10.4.17",
     "cli-highlight": "^2.1.11",
     "cross-env": "^7.0.3",

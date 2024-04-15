@@ -38,15 +38,15 @@
     "stack-trace": "^1.0.0-pre2"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-beta.1",
-    "@quasar/extras": "^1.16.6",
+    "@quasar/app-vite": "workspace:^",
+    "@quasar/extras": "workspace:^",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "^0.0.1",
     "fs-extra": "^11.1.1",
     "postcss": "^8.4.35",
     "prismjs": "^1.29.0",
-    "quasar": "^2.6.0",
+    "quasar": "workspace:^",
     "vue": "^3.4.20",
     "vue-router": "^4.2.4"
   }

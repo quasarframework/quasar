@@ -10,8 +10,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.6",
-    "quasar": "^2.14.0",
+    "@quasar/extras": "workspace:^",
+    "quasar": "workspace:^",
     "vue": "^3.4.20"
   },
   "devDependencies": {
