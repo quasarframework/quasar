@@ -142,6 +142,13 @@ function extractVariableType (init, isExported) {
   }
 }
 
+function extractValueType (raw) {
+  for (const { type, regex } of rawValueTypeList) {
+    if (regex.test(raw)) return type
+  }
+  return 'undefined'
+}
+
 function parseVar ({ declaration, isExported }) {
   const type = extractVariableType(declaration.init, isExported)
 
@@ -354,8 +361,50 @@ export function readAstJson (ctx) {
 
     // export default { ... }
     if (declaration.type === 'ObjectExpression') {
+      json.defaultExport = true
+
       declaration.properties.forEach(prop => {
         const { name } = prop.key
+        const { type } = prop.value
+
+        // <key>: 'str' | 123 | true | /regex/ | etc...
+        if (type === 'Literal') {
+          json.variables[ name ] = {
+            // should match parseVar().def
+            type: extractValueType(prop.value.raw),
+            accessor: `${ ctx.pascalName }.${ name }`
+          }
+          return
+        }
+
+        // <key>: fn () {}
+        if (
+          type === 'FunctionDeclaration'
+          || type === 'ArrowFunctionExpression'
+        ) {
+          json.functions[ name ] = {
+            // should match parseFunction().def
+            accessor: ctx.pascalName,
+            params: getParams(prop.value.params)
+          }
+
+          return
+        }
+
+        // <key>: class X {}
+        if (type === 'ClassDeclaration') {
+          json.classes[ name ] = {
+            ...parseClass({
+              declaration: prop.value,
+              isExported: false
+            }).def,
+
+            accessor: ctx.pascalName
+          }
+
+          return
+        }
+
         const { name: ref } = (prop.value || prop.key)
 
         if (content[ ref ] === void 0) {
@@ -374,7 +423,6 @@ export function readAstJson (ctx) {
 
         def.accessor = `${ ctx.pascalName }.${ name }`
         json[ jsonKey ][ name ] = def
-        json.defaultExport = true
       })
     }
     // export default function () {}
