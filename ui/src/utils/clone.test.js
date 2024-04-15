@@ -57,7 +57,7 @@ describe('[clone API]', () => {
 
         expect(
           result
-        ).toEqual(array)
+        ).toStrictEqual(array)
 
         expect(
           result
@@ -70,7 +70,7 @@ describe('[clone API]', () => {
 
         expect(
           result
-        ).toEqual(object)
+        ).toStrictEqual(object)
 
         expect(
           result
@@ -83,7 +83,7 @@ describe('[clone API]', () => {
 
         expect(
           Array.from(result.values())
-        ).toEqual(
+        ).toStrictEqual(
           Array.from(set.values())
         )
 
@@ -98,7 +98,7 @@ describe('[clone API]', () => {
 
         expect(
           Array.from(result.entries())
-        ).toEqual(
+        ).toStrictEqual(
           Array.from(map.entries())
         )
 
