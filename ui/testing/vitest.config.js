@@ -33,6 +33,9 @@ export default defineConfig(() => {
     test: {
       globals: true,
       environment: 'jsdom',
+      environmentOptions: {
+        pretendToBeVisual: true
+      },
       // browser: {
       //   enabled: true,
       //   headless: true,

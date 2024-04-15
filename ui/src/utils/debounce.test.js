@@ -179,7 +179,7 @@ describe('[debounce API]', () => {
         const callback = vi.fn()
         debounce(callback, 100)
 
-        vi.advanceTimersByTime(150)
+        vi.runAllTimers()
 
         expect(callback).not.toHaveBeenCalled()
       })

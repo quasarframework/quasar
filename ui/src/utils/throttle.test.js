@@ -137,7 +137,7 @@ describe('[throttle API]', () => {
         const callback = vi.fn()
         throttle(callback, 100)
 
-        vi.advanceTimersByTime(150)
+        vi.runAllTimers()
 
         expect(callback).not.toHaveBeenCalled()
       })

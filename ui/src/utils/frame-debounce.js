@@ -6,7 +6,7 @@ export default function (fn) {
     if (wait === true) return
 
     wait = true
-    frame = requestAnimationFrame(() => {
+    frame = window.requestAnimationFrame(() => {
       fn.apply(this, callArgs)
       callArgs = void 0
       wait = false
