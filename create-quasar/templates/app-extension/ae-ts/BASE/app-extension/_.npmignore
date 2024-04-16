@@ -1,0 +1,5 @@
+.DS_Store
+.thumbs.db
+.eslintignore
+.eslintrc.js
+tsconfig.json

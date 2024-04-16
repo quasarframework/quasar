@@ -61,11 +61,26 @@ module.exports = {
     {
       files: [
         './*/*/*/**/_*.js',
-        './*/*/*/**/*.{conf,config}.js'
+        './*/*/*/**/*.{conf,config}.js',
       ],
 
       parserOptions: {
         sourceType: 'script'
+      },
+
+      env: {
+        browser: false,
+        node: true,
+      },
+    },
+
+    {
+      files: [
+        './*/*/*/**/_eslint.config.js'
+      ],
+
+      parserOptions: {
+        sourceType: 'module'
       },
 
       env: {
