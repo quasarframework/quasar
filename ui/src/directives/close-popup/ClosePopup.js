@@ -1,7 +1,7 @@
-import { createDirective } from '../../utils/private/create.js'
-import { closePortals, getPortalProxy } from '../../utils/private/portal.js'
-import { isKeyCode } from '../../utils/private/key-composition.js'
-import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private.create/create.js'
+import { closePortals, getPortalProxy } from '../../utils/private.portal/portal.js'
+import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
+import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
 /*
  * depth

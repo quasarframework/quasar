@@ -1,4 +1,4 @@
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 import usePageSticky, { usePageStickyProps } from './use-page-sticky'
 
 export default createComponent({

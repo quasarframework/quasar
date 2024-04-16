@@ -3,7 +3,7 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/video"
   },
 
-  "mixins": [ "composables/private/use-ratio" ],
+  "mixins": [ "composables/private.use-ratio/use-ratio" ],
 
   "props": {
     "src": {

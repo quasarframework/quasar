@@ -6,9 +6,9 @@ import useSlider, {
   keyCodes
 } from '../slider/use-slider.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { between } from '../../utils/format.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { between } from '../../utils/format/format.js'
 
 const dragType = {
   MIN: 0,

@@ -1,5 +1,5 @@
-import { createDirective } from '../../utils/private/create.js'
-import morph from '../../utils/morph.js'
+import { createDirective } from '../../utils/private.create/create.js'
+import morph from '../../utils/morph/morph.js'
 
 const morphGroups = {}
 const props = [

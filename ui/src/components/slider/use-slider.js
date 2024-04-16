@@ -2,13 +2,13 @@ import { h, ref, computed, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import { useFormProps, useFormInject } from '../../composables/private/use-form.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import { useFormProps, useFormInject } from '../../composables/use-form/private.use-form.js'
 
-import { between } from '../../utils/format.js'
-import { position } from '../../utils/event.js'
-import { isNumber, isObject } from '../../utils/is.js'
-import { hDir } from '../../utils/private/render.js'
+import { between } from '../../utils/format/format.js'
+import { position } from '../../utils/event/event.js'
+import { isNumber, isObject } from '../../utils/is/is.js'
+import { hDir } from '../../utils/private.render/render.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })

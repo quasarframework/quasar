@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-file", "components/uploader/xhr-uploader-plugin" ],
+  "mixins": [ "composables/private.use-file/use-file", "components/uploader/xhr-uploader-plugin" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/uploader"

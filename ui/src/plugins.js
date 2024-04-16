@@ -13,8 +13,8 @@ import Meta from './plugins/meta/Meta.js'
 import Notify from './plugins/notify/Notify.js'
 import Platform from './plugins/platform/Platform.js'
 import Screen from './plugins/screen/Screen.js'
-import LocalStorage from './plugins/local-storage/LocalStorage.js'
-import SessionStorage from './plugins/session-storage/SessionStorage.js'
+import LocalStorage from './plugins/storage/LocalStorage.js'
+import SessionStorage from './plugins/storage/SessionStorage.js'
 
 export {
   AddressbarColor,

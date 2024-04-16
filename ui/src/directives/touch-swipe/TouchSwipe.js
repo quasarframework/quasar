@@ -1,10 +1,10 @@
 import { client } from '../../plugins/platform/Platform.js'
 
-import { createDirective } from '../../utils/private/create.js'
-import { getModifierDirections, shouldStart } from '../../utils/private/touch.js'
-import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, preventDraggable, noop } from '../../utils/event.js'
-import { clearSelection } from '../../utils/private/selection.js'
-import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private.create/create.js'
+import { getModifierDirections, shouldStart } from '../../utils/private.touch/touch.js'
+import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, preventDraggable, noop } from '../../utils/event/event.js'
+import { clearSelection } from '../../utils/private.selection/selection.js'
+import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
 function parseArg (arg) {
   // delta (min velocity -- dist / time)

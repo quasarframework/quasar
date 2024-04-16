@@ -2,9 +2,9 @@ import { h, computed, Transition, getCurrentInstance } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
 
 export default createComponent({
   name: 'QInnerLoading',

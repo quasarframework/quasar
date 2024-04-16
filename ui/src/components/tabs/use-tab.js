@@ -4,12 +4,12 @@ import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/ripple/Ripple.js'
 
-import { hMergeSlot } from '../../utils/private/render.js'
-import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
-import { tabsKey, emptyRenderFn } from '../../utils/private/symbols.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import uid from '../../utils/uid.js'
-import { isDeepEqual } from '../../utils/is.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
+import { isKeyCode, shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
+import { tabsKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import uid from '../../utils/uid/uid.js'
+import { isDeepEqual } from '../../utils/is/is.js'
 
 let id = 0
 

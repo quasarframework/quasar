@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle" ],
+  "mixins": [ "composables/private.use-model-toggle/use-model-toggle" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/layout/drawer"

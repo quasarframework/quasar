@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field", "components/input/use-mask", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-field/use-field", "components/input/use-mask", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/input"

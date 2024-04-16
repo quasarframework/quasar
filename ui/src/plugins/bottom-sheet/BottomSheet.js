@@ -1,5 +1,5 @@
 import BottomSheet from './component/BottomSheetComponent.js'
-import globalDialog from '../../utils/private/global-dialog.js'
+import globalDialog from '../../utils/private.global/global-dialog.js'
 
 export default {
   install ({ $q, parentApp }) {

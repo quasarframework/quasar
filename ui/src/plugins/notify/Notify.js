@@ -7,10 +7,10 @@ import QSpinner from '../../components/spinner/QSpinner.js'
 
 import { createChildApp } from '../../install-quasar.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { noop } from '../../utils/event.js'
-import { createGlobalNode } from '../../utils/private/global-nodes.js'
-import { isObject } from '../../utils/is.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { noop } from '../../utils/event/event.js'
+import { createGlobalNode } from '../../utils/private.global/global-nodes.js'
+import { isObject } from '../../utils/is/is.js'
 
 let uid = 0
 

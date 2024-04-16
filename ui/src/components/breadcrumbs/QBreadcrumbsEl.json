@@ -3,7 +3,7 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
 
-  "mixins": [ "composables/private/use-router-link" ],
+  "mixins": [ "composables/private.use-router-link/use-router-link" ],
 
   "props": {
     "label": {

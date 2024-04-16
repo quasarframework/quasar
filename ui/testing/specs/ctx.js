@@ -9,7 +9,7 @@ const jsRE = /\.js$/
 
 export function createCtx (target) {
   const localName = basename(target)
-  const rootName = localName.replace(jsRE, '')
+  const rootName = localName.replace(jsRE, '').replace('private.', '')
   const testName = rootName + '.test.js'
   const targetAbsolute = resolve(rootFolder, target)
   const testFileAbsolute = resolve(dirname(targetAbsolute), testName)

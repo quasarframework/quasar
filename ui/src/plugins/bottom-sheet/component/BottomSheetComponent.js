@@ -11,8 +11,8 @@ import QCardSection from '../../../components/card/QCardSection.js'
 import QItem from '../../../components/item/QItem.js'
 import QItemSection from '../../../components/item/QItemSection.js'
 
-import { createComponent } from '../../../utils/private/create.js'
-import useDark, { useDarkProps } from '../../../composables/private/use-dark.js'
+import { createComponent } from '../../../utils/private.create/create.js'
+import useDark, { useDarkProps } from '../../../composables/private.use-dark/use-dark.js'
 
 export default createComponent({
   name: 'BottomSheetComponent',

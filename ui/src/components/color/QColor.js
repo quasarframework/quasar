@@ -10,16 +10,16 @@ import QTab from '../tabs/QTab.js'
 import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useRenderCache from '../../composables/use-render-cache.js'
-import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
+import { useFormInject, useFormProps } from '../../composables/use-form/private.use-form.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { testPattern } from '../../utils/patterns.js'
-import throttle from '../../utils/throttle.js'
-import { stop } from '../../utils/event.js'
-import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
-import { hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { testPattern } from '../../utils/patterns/patterns.js'
+import throttle from '../../utils/throttle/throttle.js'
+import { stop } from '../../utils/event/event.js'
+import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors/colors.js'
+import { hDir } from '../../utils/private.render/render.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',

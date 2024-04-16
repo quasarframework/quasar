@@ -3,15 +3,15 @@ import { h, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurre
 import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
-import useSplitAttrs from '../../composables/use-split-attrs.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private.use-fullscreen/use-fullscreen.js'
+import useSplitAttrs from '../../composables/use-split-attrs/use-split-attrs.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import extend from '../../utils/extend.js'
-import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import extend from '../../utils/extend/extend.js'
+import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
+import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 
 export default createComponent({
   name: 'QEditor',

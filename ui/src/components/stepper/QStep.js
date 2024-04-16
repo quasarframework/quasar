@@ -3,12 +3,12 @@ import { h, ref, computed, inject, getCurrentInstance, KeepAlive } from 'vue'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
-import { usePanelChildProps } from '../../composables/private/use-panel.js'
-import useRenderCache from '../../composables/use-render-cache.js'
+import { usePanelChildProps } from '../../composables/private.use-panel/use-panel.js'
+import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stepperKey, emptyRenderFn } from '../../utils/private/symbols.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stepperKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 function getStepWrapper (slots) {
   return h('div', {

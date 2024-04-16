@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle", "components/fab/use-fab" ],
+  "mixins": [ "composables/private.use-model-toggle/use-model-toggle", "components/fab/use-fab" ],
 
   "props": {
     "model-value": {

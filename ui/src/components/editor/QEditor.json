@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-fullscreen" ],
+  "mixins": [ "composables/private.use-fullscreen/use-fullscreen" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/editor"

@@ -3,7 +3,7 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/stepper"
   },
 
-  "mixins": [ "composables/private/use-panel.child" ],
+  "mixins": [ "composables/private.use-panel/use-panel.child" ],
 
   "props": {
     "icon": {

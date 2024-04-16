@@ -1,11 +1,11 @@
 import { h, ref, computed, watch, onMounted, onActivated, onDeactivated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import debounce from '../../utils/debounce.js'
-import { height } from '../../utils/dom.js'
-import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
-import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import debounce from '../../utils/debounce/debounce.js'
+import { height } from '../../utils/dom/dom.js'
+import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll/scroll.js'
+import { listenOpts } from '../../utils/event/event.js'
+import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 const { passive } = listenOpts
 

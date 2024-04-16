@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
-import { sortDate } from '../../utils/private/sort.js'
-import { isNumber, isDate, isObject } from '../../utils/is.js'
+import { sortDate } from '../../utils/private.sort/sort.js'
+import { isNumber, isDate, isObject } from '../../utils/is/is.js'
 
 export const useTableSortProps = {
   sortMethod: Function,

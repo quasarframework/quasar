@@ -3,13 +3,13 @@ import { h, ref, computed, watch, onBeforeUnmount, onActivated, onDeactivated, g
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useTick from '../../composables/use-tick.js'
-import useTimeout from '../../composables/use-timeout.js'
+import useTick from '../../composables/use-tick/use-tick.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { tabsKey } from '../../utils/private/symbols.js'
-import { rtlHasScrollBug } from '../../utils/private/rtl.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { tabsKey } from '../../utils/private.symbols/symbols.js'
+import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true

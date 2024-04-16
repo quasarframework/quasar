@@ -2,9 +2,9 @@ import { h, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } 
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hUniqueSlot } from '../../utils/private/render.js'
-import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hUniqueSlot } from '../../utils/private.render/render.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 
 export default createComponent({
   name: 'QHeader',

@@ -1,4 +1,4 @@
-import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
+import { createReactivePlugin } from '../../utils/private.create/create.js'
 
 // no extension on purpose for next one:
 import defaultLang from '../../../lang/en-US'
@@ -23,7 +23,7 @@ function getLocale () {
   }
 }
 
-const Plugin = defineReactivePlugin({
+const Plugin = createReactivePlugin({
   __qLang: {}
 }, {
   // props: object

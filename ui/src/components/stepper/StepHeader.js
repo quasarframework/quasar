@@ -3,7 +3,7 @@ import { h, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple/Ripple.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 export default createComponent({
   name: 'StepHeader',

@@ -66,7 +66,7 @@ function addPlugins (map) {
 }
 
 function addComposables (map) {
-  glob.sync('src/composables/*.js', { cwd: root, absolute: true })
+  glob.sync('src/composables/*/*.js', { cwd: root, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
@@ -76,7 +76,7 @@ function addComposables (map) {
 }
 
 function addUtils (map) {
-  glob.sync('src/utils/*.js', { cwd: root, absolute: true })
+  glob.sync('src/utils/*/*.js', { cwd: root, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {

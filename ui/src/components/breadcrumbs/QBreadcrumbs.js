@@ -1,10 +1,10 @@
 import { h, computed } from 'vue'
 
-import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
+import useAlign, { useAlignProps } from '../../composables/private.use-align/use-align.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { getNormalizedVNodes } from '../../utils/private/vm.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { getNormalizedVNodes } from '../../utils/private.vm/vm.js'
 
 const disabledValues = [ '', true ]
 

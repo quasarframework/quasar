@@ -1,17 +1,17 @@
 import { h, ref, computed, watch, withDirectives, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { between } from '../../utils/format.js'
-import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/private/render.js'
-import debounce from '../../utils/debounce.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { between } from '../../utils/format/format.js'
+import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll/scroll.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
+import debounce from '../../utils/debounce/debounce.js'
 
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {

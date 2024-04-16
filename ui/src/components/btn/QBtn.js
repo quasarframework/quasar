@@ -7,10 +7,10 @@ import Ripple from '../../directives/ripple/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hMergeSlot } from '../../utils/private/render.js'
-import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
-import { isKeyCode } from '../../utils/private/key-composition.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
+import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event/event.js'
+import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 
 const { passiveCapture } = listenOpts
 

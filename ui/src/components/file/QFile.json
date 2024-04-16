@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field", "composables/private/use-file", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-field/use-field", "composables/private.use-file/use-file", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/file"

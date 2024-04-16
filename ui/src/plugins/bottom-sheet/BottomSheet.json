@@ -1,5 +1,5 @@
 {
-  "mixins": [ "utils/private/global-dialog" ],
+  "mixins": [ "utils/private.global/global-dialog" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/quasar-plugins/bottom-sheet"

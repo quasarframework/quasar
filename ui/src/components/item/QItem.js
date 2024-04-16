@@ -1,12 +1,12 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hUniqueSlot } from '../../utils/private/render.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { isKeyCode } from '../../utils/private/key-composition.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hUniqueSlot } from '../../utils/private.render/render.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 
 export default createComponent({
   name: 'QItem',

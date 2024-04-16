@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-anchor" ],
+  "mixins": [ "composables/private.use-anchor/use-anchor" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/popup-proxy"

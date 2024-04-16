@@ -1,10 +1,10 @@
 import { computed, getCurrentInstance } from 'vue'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private.use-panel/use-panel.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hDir } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QTabPanels',

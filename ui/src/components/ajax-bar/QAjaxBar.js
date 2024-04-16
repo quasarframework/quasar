@@ -1,7 +1,7 @@
 import { h, ref, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { between } from '../../utils/format.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { between } from '../../utils/format/format.js'
 
 const
   xhr = __QUASAR_SSR_SERVER__ ? null : XMLHttpRequest,

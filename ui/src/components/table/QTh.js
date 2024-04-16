@@ -2,8 +2,8 @@ import { h, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QTh',

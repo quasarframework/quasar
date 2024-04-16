@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-router-link" ],
+  "mixins": [ "composables/private.use-router-link/use-router-link" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"

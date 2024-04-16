@@ -3,7 +3,7 @@ import { describe, test, expect } from 'vitest'
 
 import QBreadcrumbs from './QBreadcrumbs.js'
 
-import { alignMap } from 'quasar/src/composables/private/use-align.js'
+import { alignMap } from 'quasar/src/composables/private.use-align/use-align.js'
 
 import BasicBreadcrumbs from './test/BasicBreadcrumbs.vue'
 import BreadcrumbWithSeparatorSlot from './test/BreadcrumbWithSeparatorSlot.vue'

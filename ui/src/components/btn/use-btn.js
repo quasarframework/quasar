@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
-import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
-import useSize, { useSizeProps } from '../../composables/private/use-size.js'
-import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useAlign, { useAlignProps } from '../../composables/private.use-align/use-align.js'
+import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
 
 export const btnPadding = {
   none: 0,

@@ -1,6 +1,6 @@
 import { h } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 const space = h('div', { class: 'q-space' })
 

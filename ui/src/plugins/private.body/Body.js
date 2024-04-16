@@ -1,6 +1,6 @@
-import setCssVar from '../../utils/set-css-var.js'
-import { noop } from '../../utils/event.js'
-import { onKeyDownComposition } from '../../utils/private/key-composition.js'
+import setCssVar from '../../utils/css-var/set-css-var.js'
+import { noop } from '../../utils/event/event.js'
+import { onKeyDownComposition } from '../../utils/private.keyboard/key-composition.js'
 
 import { isRuntimeSsrPreHydration, client } from '../platform/Platform.js'
 

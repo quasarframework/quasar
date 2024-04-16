@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field", "components/virtual-scroll/use-virtual-scroll", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-field/use-field", "components/virtual-scroll/use-virtual-scroll", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/select"

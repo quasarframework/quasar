@@ -1,9 +1,9 @@
 import { h, ref, computed, watch, onBeforeUnmount, getCurrentInstance, Transition } from 'vue'
 
 import usePageSticky, { usePageStickyProps } from '../page-sticky/use-page-sticky.js'
-import { getScrollTarget, setVerticalScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, setVerticalScrollPosition } from '../../utils/scroll/scroll.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 export default createComponent({
   name: 'QPageScroller',

@@ -13,11 +13,11 @@ import QOptionGroup from '../../../components/option-group/QOptionGroup.js'
 
 import QSpinner from '../../../components/spinner/QSpinner.js'
 
-import { createComponent } from '../../../utils/private/create.js'
-import useDark, { useDarkProps } from '../../../composables/private/use-dark.js'
+import { createComponent } from '../../../utils/private.create/create.js'
+import useDark, { useDarkProps } from '../../../composables/private.use-dark/use-dark.js'
 
-import { isKeyCode } from '../../../utils/private/key-composition.js'
-import { isObject } from '../../../utils/is.js'
+import { isKeyCode } from '../../../utils/private.keyboard/key-composition.js'
+import { isObject } from '../../../utils/is/is.js'
 
 export default createComponent({
   name: 'DialogPluginComponent',

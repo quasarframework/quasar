@@ -2,11 +2,11 @@ import { h, ref, computed, withDirectives, onBeforeUnmount, onBeforeUpdate, getC
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useRenderCache from '../../composables/use-render-cache.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],

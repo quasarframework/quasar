@@ -12,9 +12,9 @@ import QBtn from '../btn/QBtn.js'
 
 import getTableMiddle from './get-table-middle.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
@@ -23,8 +23,8 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
-import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
-import { createComponent } from '../../utils/private/create.js'
+import { injectProp, injectMultipleProps } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 

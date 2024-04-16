@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size", "composables/private/use-transition" ],
+  "mixins": [ "composables/private.use-size/use-size", "composables/private.use-transition/use-transition" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/inner-loading"

@@ -4,7 +4,7 @@ import { describe, test, expect, vi } from 'vitest'
 import QBtn from './QBtn.js'
 
 import { btnPadding, defaultSizes } from './use-btn.js'
-import { alignMap } from 'quasar/src/composables/private/use-align.js'
+import { alignMap } from 'quasar/src/composables/private.use-align/use-align.js'
 import { getRouter } from 'testing/runtime/router.js'
 
 describe('[QBtn API]', () => {

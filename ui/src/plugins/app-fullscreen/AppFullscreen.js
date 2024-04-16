@@ -1,5 +1,5 @@
-import defineReactivePlugin from '../../utils/private/define-reactive-plugin.js'
-import { changeGlobalNodesTarget } from '../../utils/private/global-nodes.js'
+import { createReactivePlugin } from '../../utils/private.create/create.js'
+import { changeGlobalNodesTarget } from '../../utils/private.global/global-nodes.js'
 
 const prefixes = {}
 
@@ -51,7 +51,7 @@ function promisify (target, fn) {
   }
 }
 
-const Plugin = defineReactivePlugin({
+const Plugin = createReactivePlugin({
   isActive: false,
   activeEl: null
 }, {

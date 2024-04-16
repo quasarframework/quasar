@@ -1,4 +1,4 @@
-import { useSizeProps } from '../../composables/private/use-size.js'
+import { useSizeProps } from '../../composables/private.use-size/use-size.js'
 
 // also used by QKnob
 export const useCircularCommonProps = {

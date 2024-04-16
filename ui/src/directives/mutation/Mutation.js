@@ -1,5 +1,5 @@
-import { createDirective } from '../../utils/private/create.js'
-import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private.create/create.js'
+import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
 const defaultCfg = {
   childList: true,
