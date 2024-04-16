@@ -152,6 +152,10 @@ function printProp (prop, propName, indentLevel) {
   }
 
   console.log(`${ indent }Description: ${ prop.desc }`)
+
+  if (prop.alias) {
+    console.log(`${ indent }Alias: ${ prop.alias }`)
+  }
   if (type === 'Function') {
     console.log(`${ indent }Function form:${ getMethodParams(prop, true) }${ getMethodReturnValue(prop) }`)
   }
