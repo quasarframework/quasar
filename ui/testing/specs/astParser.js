@@ -93,7 +93,10 @@ function extractVariableType (init, isExported) {
   if (init.type === 'ArrayExpression') return 'Array'
   if (init.type === 'ObjectExpression') return 'Object'
 
-  if (init.type === 'FunctionExpression') {
+  if (
+    init.type === 'FunctionExpression'
+    || init.type === 'ArrowFunctionExpression'
+  ) {
     // we ended up with a function instead of variable
     // after a ConditionalExpression
     return parseFunction({

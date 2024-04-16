@@ -247,7 +247,7 @@ function getTestFileMisconfiguration ({
             `Found describe('${ testId }') but it should probably be describe('[${ idMap.token }]${ name }')`
           )
         }
-        else if (json[ idMap.jsonKey ][ name ] === void 0) {
+        else if (json[ idMap.jsonKey ]?.[ name ] === void 0) {
           errors.push(
             `Found describe('${ testId }') but there's no associated JSON entry`
           )
