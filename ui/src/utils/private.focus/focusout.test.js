@@ -1,12 +1,12 @@
 import { describe, test, expect, vi, afterEach } from 'vitest'
 
-import { addEscapeKey, removeEscapeKey } from './escape-key.js'
+import { addFocusout, removeFocusout } from './focusout.js'
 
 let fnList = []
 
 afterEach(() => {
   fnList.forEach(fn => {
-    removeEscapeKey(fn)
+    removeFocusout(fn)
   })
 
   fnList = []
@@ -18,29 +18,26 @@ function createTestFn () {
   return fn
 }
 
-function triggerKey (keyCode = 27) {
-  const keydown = new KeyboardEvent('keydown', { keyCode })
-  window.dispatchEvent(keydown)
+function triggerEvt (name = 'focusin') {
+  const evt = new Event(name)
+  document.body.dispatchEvent(evt)
 
-  const keyup = new KeyboardEvent('keyup', { keyCode })
-  window.dispatchEvent(keyup)
-
-  return keyup
+  return evt
 }
 
-describe('[escapeKey API]', () => {
+describe('[focusout API]', () => {
   describe('[Functions]', () => {
-    describe('[(function)addEscapeKey]', () => {
+    describe('[(function)addFocusout]', () => {
       test('registers correctly', async () => {
         const fn = createTestFn()
 
         expect(
-          addEscapeKey(fn)
+          addFocusout(fn)
         ).toBeUndefined()
 
         expect(fn).not.toHaveBeenCalled()
 
-        const evt = triggerKey()
+        const evt = triggerEvt()
 
         expect(fn).toHaveBeenCalledTimes(1)
         expect(fn).toHaveBeenCalledWith(evt)
@@ -51,56 +48,56 @@ describe('[escapeKey API]', () => {
         const fnLast = createTestFn()
 
         expect(
-          addEscapeKey(fnFirst)
+          addFocusout(fnFirst)
         ).toBeUndefined()
 
         expect(
-          addEscapeKey(fnLast)
+          addFocusout(fnLast)
         ).toBeUndefined()
 
         expect(fnFirst).not.toHaveBeenCalled()
         expect(fnLast).not.toHaveBeenCalled()
 
-        const evt = triggerKey()
+        const evt = triggerEvt()
 
         expect(fnFirst).not.toHaveBeenCalled()
         expect(fnLast).toHaveBeenCalledTimes(1)
         expect(fnLast).toHaveBeenCalledWith(evt)
 
-        removeEscapeKey(fnLast)
+        removeFocusout(fnLast)
 
-        const evtSecond = triggerKey()
+        const evtSecond = triggerEvt()
 
         expect(fnFirst).toHaveBeenCalledTimes(1)
         expect(fnFirst).toHaveBeenCalledWith(evtSecond)
       })
 
-      test('triggers only on ESC key', () => {
+      test('triggers only on focusin evt', () => {
         const fn = createTestFn()
 
         expect(
-          addEscapeKey(fn)
+          addFocusout(fn)
         ).toBeUndefined()
 
         expect(fn).not.toHaveBeenCalled()
 
-        triggerKey(65)
+        triggerEvt('focusout')
 
         expect(fn).not.toHaveBeenCalled()
       })
     })
 
-    describe('[(function)removeEscapeKey]', () => {
+    describe('[(function)removeFocusout]', () => {
       test('has correct return value', () => {
         const fn = createTestFn()
 
-        addEscapeKey(fn)
+        addFocusout(fn)
 
         expect(
-          removeEscapeKey(fn)
+          removeFocusout(fn)
         ).toBeUndefined()
 
-        triggerKey()
+        triggerEvt()
 
         expect(fn).not.toHaveBeenCalled()
       })
@@ -109,7 +106,7 @@ describe('[escapeKey API]', () => {
         const fn = createTestFn()
 
         expect(
-          removeEscapeKey(fn)
+          removeFocusout(fn)
         ).toBeUndefined()
       })
     })
