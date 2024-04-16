@@ -24,18 +24,18 @@ describe('[SessionStorage API]', () => {
   })
 
   describe('[Methods]', () => {
-    describe('[(method)has]', () => {
+    describe('[(method)hasItem]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(SessionStorage.has('has')).toBe(false)
-        SessionStorage.set('has', 'rstoenescu')
-        expect(SessionStorage.has('has')).toBe(true)
+        expect(SessionStorage.hasItem('has')).toBe(false)
+        SessionStorage.setItem('has', 'rstoenescu')
+        expect(SessionStorage.hasItem('has')).toBe(true)
       })
 
       test('matches $q API', () => {
         const { vm: { $q } } = mountPlugin()
-        expect($q.sessionStorage.has).toBe(SessionStorage.has)
+        expect($q.sessionStorage.hasItem).toBe(SessionStorage.hasItem)
       })
     })
 
@@ -46,7 +46,7 @@ describe('[SessionStorage API]', () => {
         const len = SessionStorage.getLength()
         expect(len).toBeTypeOf('number')
 
-        SessionStorage.set('getLength', 0)
+        SessionStorage.setItem('getLength', 0)
         expect(SessionStorage.getLength()).toBe(len + 1)
       })
 
@@ -76,7 +76,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
 
         // ensure at least one element is defined
-        SessionStorage.set('getIndex', 'rstoenescu')
+        SessionStorage.setItem('getIndex', 'rstoenescu')
 
         expect(
           SessionStorage.getIndex(0)
@@ -103,7 +103,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
 
         // ensure at least one element is defined
-        SessionStorage.set('getKey', 'rstoenescu')
+        SessionStorage.setItem('getKey', 'rstoenescu')
 
         expect(
           SessionStorage.getKey(0)
@@ -121,7 +121,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
 
         // ensure at least one element is defined
-        SessionStorage.set('getAll', 'rstoenescu')
+        SessionStorage.setItem('getAll', 'rstoenescu')
 
         const result = SessionStorage.getAll()
         expect(result).toBeTypeOf('object')
@@ -139,7 +139,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
 
         // ensure at least one element is defined
-        SessionStorage.set('getAllKeys', 'rstoenescu')
+        SessionStorage.setItem('getAllKeys', 'rstoenescu')
 
         expect(
           Array.isArray(SessionStorage.getAllKeys())
@@ -156,12 +156,12 @@ describe('[SessionStorage API]', () => {
       })
     })
 
-    describe('[(method)set]', () => {
+    describe('[(method)setItem]', () => {
       test('should be callable', () => {
         mountPlugin()
 
         expect(
-          SessionStorage.set('set', 'rstoenescu')
+          SessionStorage.setItem('set', 'rstoenescu')
         ).toBeUndefined()
 
         expect(
@@ -171,30 +171,30 @@ describe('[SessionStorage API]', () => {
 
       test('matches $q API', () => {
         const { vm: { $q } } = mountPlugin()
-        expect($q.sessionStorage.set).toBe(SessionStorage.set)
+        expect($q.sessionStorage.setItem).toBe(SessionStorage.setItem)
       })
 
       test('can override value', () => {
         mountPlugin()
 
-        expect(SessionStorage.set('set2', 'rstoenescu'))
+        expect(SessionStorage.setItem('set2', 'rstoenescu'))
         expect(SessionStorage.getItem('set2')).toBe('rstoenescu')
 
-        expect(SessionStorage.set('set2', 'rstoenescu2'))
+        expect(SessionStorage.setItem('set2', 'rstoenescu2'))
         expect(SessionStorage.getItem('set2')).toBe('rstoenescu2')
       })
 
       test('can encode + decode a Number', () => {
         mountPlugin()
 
-        SessionStorage.set('Number', 123)
+        SessionStorage.setItem('Number', 123)
         expect(SessionStorage.getItem('Number')).toBe(123)
       })
 
       test('can encode + decode a Boolean', () => {
         mountPlugin()
 
-        SessionStorage.set('Boolean', true)
+        SessionStorage.setItem('Boolean', true)
         expect(SessionStorage.getItem('Boolean')).toBe(true)
       })
 
@@ -202,7 +202,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const date = new Date()
 
-        SessionStorage.set('Date', date)
+        SessionStorage.setItem('Date', date)
         expect(
           SessionStorage.getItem('Date')
         ).toStrictEqual(date)
@@ -211,7 +211,7 @@ describe('[SessionStorage API]', () => {
       test('can encode + decode a String', () => {
         mountPlugin()
 
-        SessionStorage.set('String', 'rstoenescu')
+        SessionStorage.setItem('String', 'rstoenescu')
         expect(
           SessionStorage.getItem('String')
         ).toBe('rstoenescu')
@@ -220,7 +220,7 @@ describe('[SessionStorage API]', () => {
       test('can encode + decode a RegExp', () => {
         mountPlugin()
 
-        SessionStorage.set('RegExp', /abc/)
+        SessionStorage.setItem('RegExp', /abc/)
         expect(
           SessionStorage.getItem('RegExp')
         ).toStrictEqual(/abc/)
@@ -230,7 +230,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const fn = () => 5
 
-        SessionStorage.set('Function', fn)
+        SessionStorage.setItem('Function', fn)
         expect(
           SessionStorage.getItem('Function')
         ).toBe(fn.toString())
@@ -240,7 +240,7 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const obj = { a: 1 }
 
-        SessionStorage.set('Object', obj)
+        SessionStorage.setItem('Object', obj)
         expect(
           SessionStorage.getItem('Object')
         ).toStrictEqual(obj)
@@ -250,24 +250,24 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
         const arr = [ 1, 2, 3 ]
 
-        SessionStorage.set('Array', arr)
+        SessionStorage.setItem('Array', arr)
         expect(
           SessionStorage.getItem('Array')
         ).toStrictEqual(arr)
       })
     })
 
-    describe('[(method)remove]', () => {
+    describe('[(method)removeItem]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        SessionStorage.set('remove', 5)
+        SessionStorage.setItem('remove', 5)
         expect(
           SessionStorage.getItem('remove')
         ).toBe(5)
 
         expect(
-          SessionStorage.remove('remove')
+          SessionStorage.removeItem('remove')
         ).toBeUndefined()
 
         expect(
@@ -277,7 +277,7 @@ describe('[SessionStorage API]', () => {
 
       test('matches $q API', () => {
         const { vm: { $q } } = mountPlugin()
-        expect($q.sessionStorage.remove).toBe(SessionStorage.remove)
+        expect($q.sessionStorage.removeItem).toBe(SessionStorage.removeItem)
       })
     })
 
@@ -285,7 +285,7 @@ describe('[SessionStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        SessionStorage.set('clear', 5)
+        SessionStorage.setItem('clear', 5)
         expect(SessionStorage.getItem('clear')).toBe(5)
 
         expect(SessionStorage.clear()).toBeUndefined()
@@ -304,7 +304,7 @@ describe('[SessionStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        SessionStorage.set('isEmpty', 5)
+        SessionStorage.setItem('isEmpty', 5)
         expect(SessionStorage.getItem('isEmpty')).toBe(5)
 
         expect(SessionStorage.isEmpty()).toBe(false)

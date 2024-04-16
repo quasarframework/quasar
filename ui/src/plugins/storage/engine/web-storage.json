@@ -4,8 +4,9 @@
   },
 
   "methods": {
-    "has": {
+    "hasItem": {
       "desc": "Check if storage item exists",
+      "alias": "has",
       "params": {
         "key": {
           "type": "String",
@@ -101,8 +102,9 @@
       }
     },
 
-    "set": {
+    "setItem": {
       "desc": "Set item in storage",
+      "alias": "set",
       "params": {
         "key": {
           "type": "String",
@@ -131,8 +133,9 @@
       "returns": null
     },
 
-    "remove": {
+    "removeItem": {
       "desc": "Remove a storage item",
+      "alias": "remove",
       "params": {
         "key": {
           "type": "String",

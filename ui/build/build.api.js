@@ -72,24 +72,27 @@ const nativeTypes = [ 'Component', 'Error', 'Element', 'File', 'FileList', 'Even
 
 const objectTypes = {
   Boolean: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   String: {
     props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal', 'passthrough' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Number: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Object: {
@@ -98,7 +101,8 @@ const objectTypes = {
     recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Array: {
@@ -106,15 +110,17 @@ const objectTypes = {
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Function: {
@@ -122,7 +128,8 @@ const objectTypes = {
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'params', 'returns' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   MultipleTypes: {
@@ -130,7 +137,8 @@ const objectTypes = {
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   meta: {
@@ -140,18 +148,20 @@ const objectTypes = {
 
   // component only
   slots: {
-    props: [ 'desc', 'link', 'scope', 'addedIn', 'internal' ],
+    props: [ 'tsType', 'desc', 'link', 'scope', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isObject: [ 'scope' ],
-    isBoolean: [ 'internal' ]
+    isBoolean: [ 'internal' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   },
 
   // component only
   events: {
-    props: [ 'desc', 'link', 'params', 'addedIn', 'passthrough', 'internal' ],
+    props: [ 'tsType', 'desc', 'link', 'params', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     isObject: [ 'params' ],
-    isBoolean: [ 'passthrough', 'internal' ]
+    isBoolean: [ 'passthrough', 'internal' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   },
 
   // component only
@@ -159,21 +169,24 @@ const objectTypes = {
     props: [ 'desc', 'tsType', 'examples', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'internal' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   },
 
   methods: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn', 'alias' ],
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint' ],
-    isObject: [ 'params', 'returns' ]
+    isObject: [ 'params', 'returns' ],
+    isString: [ 'tsType', 'desc', 'link', 'addedIn', 'alias' ]
   },
 
   quasarConfOptions: {
-    props: [ 'propName', 'definition', 'values', 'tsType', 'desc', 'examples', 'link', 'addedIn' ],
+    props: [ 'tsType', 'desc', 'propName', 'definition', 'values', 'examples', 'link', 'addedIn' ],
     required: [ 'propName' ],
     isObject: [ 'definition' ],
-    isArray: [ 'values' ]
+    isArray: [ 'values' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   }
 }
 
@@ -181,7 +194,8 @@ nativeTypes.forEach(name => {
   objectTypes[ name ] = {
     props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'passthrough', 'internal' ]
+    isBoolean: [ 'passthrough', 'internal' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   }
 })
 
@@ -420,6 +434,14 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
     def.isArray && def.isArray.forEach(prop => {
       if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
         logError(`${ banner }/"${ prop }" is not an Array`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+    def.isString && def.isString.forEach(prop => {
+      if (obj[ prop ] && typeof obj[ prop ] !== 'string') {
+        logError(`${ banner }/"${ prop }" is not a String`)
         console.error(obj)
         console.log()
         process.exit(1)

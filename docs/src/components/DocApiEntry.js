@@ -403,12 +403,15 @@ describe.methods = (openState, methods) => {
     const method = methods[ methodName ]
     const masterKey = `method|${ methodName }`
 
+    const alias = method.alias ? `Alias: "${ method.alias }"; ` : ''
+    const desc = `${ alias }${ method.desc }`
+
     const methodNode = h('div', { class: 'doc-api-entry row' }, [
       getNameDiv(method, methodName, 0, `${ getMethodParams(method) }${ getMethodReturnValue(method) }`),
 
       ...getExpandable(
         openState,
-        method.desc,
+        desc,
         method.params !== void 0 || method.returns !== void 0,
         masterKey,
         () => {

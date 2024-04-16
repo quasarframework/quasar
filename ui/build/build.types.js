@@ -426,6 +426,18 @@ function getIndexDts (apis, quasarLangIndex) {
       prop.type = 'Function'
     })
 
+    if (content.type === 'plugin') {
+      Object.keys(content.methods).forEach(methodName => {
+        const method = content.methods[ methodName ]
+        if (method.alias) {
+          content.methods[ method.alias ] = {
+            ...method,
+            desc: `(Alias of "${ methodName }") ${ method.desc }`
+          }
+        }
+      })
+    }
+
     // computedProps should always be required
     content.computedProps = transformObject(content.computedProps, makeRequired)
 

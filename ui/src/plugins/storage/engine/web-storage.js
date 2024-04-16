@@ -71,15 +71,18 @@ export function getEmptyStorage () {
   const getVal = () => null
 
   return {
-    has: () => false,
+    has: () => false, // alias for hasItem; TODO: remove in Qv3
+    hasItem: () => false,
     getLength: () => 0,
     getItem: getVal,
     getIndex: getVal,
     getKey: getVal,
     getAll: () => {},
     getAllKeys: () => [],
-    set: noop,
-    remove: noop,
+    set: noop, // alias for setItem; TODO: remove in Qv3
+    setItem: noop,
+    remove: noop, // alias for removeItem; TODO: remove in Qv3
+    removeItem: noop,
     clear: noop,
     isEmpty: () => true
   }
@@ -95,8 +98,13 @@ export function getStorage (type) {
         : null
     }
 
+  const hasItem = key => webStorage.getItem(key) !== null
+  const setItem = (key, value) => { webStorage.setItem(key, encode(value)) }
+  const removeItem = key => { webStorage.removeItem(key) }
+
   return {
-    has: key => webStorage.getItem(key) !== null,
+    has: hasItem, // TODO: remove in Qv3
+    hasItem,
     getLength: () => webStorage.length,
     getItem: get,
     getIndex: index => {
@@ -129,8 +137,10 @@ export function getStorage (type) {
 
       return result
     },
-    set: (key, value) => { webStorage.setItem(key, encode(value)) },
-    remove: key => { webStorage.removeItem(key) },
+    set: setItem, // TODO: remove in Qv3
+    setItem,
+    remove: removeItem, // TODO: remove in Qv3
+    removeItem,
     clear: () => { webStorage.clear() },
     isEmpty: () => webStorage.length === 0
   }
