@@ -35,8 +35,7 @@ function getMatch (userAgent, platformMatch) {
 
   return {
     browser: match[ 5 ] || match[ 3 ] || match[ 1 ] || '',
-    version: match[ 2 ] || match[ 4 ] || '0',
-    versionNumber: match[ 4 ] || match[ 2 ] || '0',
+    version: match[ 4 ] || match[ 2 ] || '0',
     platform: platformMatch[ 0 ] || ''
   }
 }
@@ -75,7 +74,7 @@ function getPlatform (UA) {
   if (matched.browser) {
     browser[ matched.browser ] = true
     browser.version = matched.version
-    browser.versionNumber = parseInt(matched.versionNumber, 10)
+    browser.versionNumber = parseInt(matched.version, 10)
   }
 
   if (matched.platform) {
