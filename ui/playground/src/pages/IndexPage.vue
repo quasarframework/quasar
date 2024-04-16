@@ -7,9 +7,12 @@
       <div class="text-caption text-center">
         Quasar v{{ $q.version }}
       </div>
+      <div class="text-caption text-center">
+        Vue v{{ vueVersion }}
+      </div>
 
       <div class="q-pt-md">
-        <q-input ref="filter" clearable outlined v-model="filter">
+        <q-input ref="filterRef" clearable outlined v-model="filter">
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
@@ -38,7 +41,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useQuasar } from 'quasar'
+import {
+  version as vueVersion,
+  ref,
+  computed,
+  onMounted,
+  onBeforeUnmount
+} from 'vue'
+
 import { pagesRoutes } from 'src/router/pages'
 
 const STORAGE_KEY = 'index-filter'
@@ -63,127 +75,115 @@ list.Meta = [
 
 list[ 'web-tests' ].push({ route: '/tabs-router', title: 'Tabs Router' })
 
-export default {
-  created () {
-    this.list = list
+const $q = useQuasar()
+const filterRef = ref(null)
+const store = ref({ filter: '' })
+
+if (process.env.MODE !== 'ssr') {
+  clientInitStore(store)
+}
+
+onMounted(() => {
+  if (process.env.MODE === 'ssr') {
+    clientInitStore(store)
+  }
+
+  window.addEventListener('keydown', onKeyup, { passive: false, capture: true })
+  $q.platform.is.desktop === true && filterRef.value.focus()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onKeyup, { passive: false, capture: true })
+})
+
+const filteredList = computed(() => {
+  if (!filter.value) {
+    return list
+  }
+
+  const newList = {}
+  const localFilter = filter.value.toLowerCase()
+
+  Object.keys(list).forEach(categName => {
+    const filtered = list[ categName ]
+      .filter(feature => feature.title.toLowerCase().indexOf(localFilter) > -1)
+
+    if (filtered.length > 0) {
+      newList[ categName ] = filtered
+    }
+  })
+
+  return newList
+})
+
+const filter = computed({
+  get () {
+    return store.value.filter
   },
 
-  mounted () {
-    if (process.env.MODE === 'ssr') {
-      this.clientInitStore(this.store)
+  set (val) {
+    const filter = val || ''
+    store.value.filter = filter
+    $q.localStorage.set(STORAGE_KEY, filter)
+  }
+})
+
+function onKeyup (evt) {
+  if (evt.keyCode === 38) { // up
+    moveSelection(evt, 'previousSibling')
+  }
+  else if (evt.keyCode === 40) { // down
+    moveSelection(evt, 'nextSibling')
+  }
+}
+
+function moveSelection (evt, op) {
+  evt.preventDefault()
+
+  let el = document.activeElement
+
+  if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
+    let nextEl
+    if (op === 'nextSibling') {
+      nextEl = document.querySelector('.q-item')
+    }
+    else {
+      const nodes = document.querySelectorAll('.q-item')
+      if (nodes.length > 0) {
+        nextEl = nodes[ nodes.length - 1 ]
+      }
     }
 
-    window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
-    this.$q.platform.is.desktop === true && this.$refs.filter.focus()
-  },
-
-  beforeUnmount () {
-    window.removeEventListener('keydown', this.onKeyup, { passive: false, capture: true })
-  },
-
-  data () {
-    const store = { filter: '' }
-
-    if (process.env.MODE !== 'ssr') {
-      this.clientInitStore(store)
+    if (nextEl) {
+      focus(nextEl)
     }
+    return
+  }
 
-    return { store }
-  },
-
-  computed: {
-    filteredList () {
-      if (!this.filter) {
-        return this.list
-      }
-
-      const newList = {}
-      const filter = this.filter.toLowerCase()
-
-      Object.keys(this.list).forEach(categName => {
-        const filtered = this.list[ categName ]
-          .filter(feature => feature.title.toLowerCase().indexOf(filter) > -1)
-
-        if (filtered.length > 0) {
-          newList[ categName ] = filtered
-        }
-      })
-
-      return newList
-    },
-
-    filter: {
-      get () {
-        return this.store.filter
-      },
-
-      set (val) {
-        const filter = val || ''
-        this.store.filter = filter
-        this.$q.localStorage.set(STORAGE_KEY, filter)
-      }
+  if (el[ op ]) {
+    do {
+      el = el[ op ]
     }
-  },
+    while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
 
-  methods: {
-    onKeyup (evt) {
-      if (evt.keyCode === 38) { // up
-        this.moveSelection(evt, 'previousSibling')
-      }
-      else if (evt.keyCode === 40) { // down
-        this.moveSelection(evt, 'nextSibling')
-      }
-    },
-
-    moveSelection (evt, op) {
-      evt.preventDefault()
-
-      let el = document.activeElement
-
-      if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
-        let nextEl
-        if (op === 'nextSibling') {
-          nextEl = document.querySelector('.q-item')
-        }
-        else {
-          const nodes = document.querySelectorAll('.q-item')
-          if (nodes.length > 0) {
-            nextEl = nodes[ nodes.length - 1 ]
-          }
-        }
-
-        if (nextEl) {
-          this.focus(nextEl)
-        }
-        return
-      }
-
-      if (el[ op ]) {
-        do {
-          el = el[ op ]
-        }
-        while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
-
-        if (!el || el.nodeType === 3) {
-          this.focus(this.$refs.filter.$el)
-        }
-        else if (el.tagName.toUpperCase() === 'A') {
-          this.focus(el)
-        }
-      }
-    },
-
-    focus (el) {
-      el.focus()
-      el.scrollIntoView(false)
-    },
-
-    clientInitStore (store) {
-      const filter = this.$q.localStorage.getItem(STORAGE_KEY)
-      if (filter) {
-        store.filter = filter
-      }
+    if (!el || el.nodeType === 3) {
+      focus(filterRef.value.$el)
     }
+    else if (el.tagName.toUpperCase() === 'A') {
+      focus(el)
+    }
+  }
+}
+
+function focus (el) {
+  el.focus()
+  el.scrollIntoView(false)
+}
+
+function clientInitStore (store) {
+  const filter = $q.localStorage.getItem(STORAGE_KEY)
+  if (filter) {
+    store.value.filter = filter
   }
 }
 </script>
