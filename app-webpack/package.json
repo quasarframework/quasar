@@ -118,15 +118,15 @@
     "electron-builder": "^24.12.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.57.0",
-    "eslint-config-quasar": "^0.0.1",
+    "eslint-config-quasar": "workspace:*",
     "pinia": "^2.1.3",
     "quasar": "workspace:^",
     "ts-essentials": "^9.1.2",
     "ts-loader": "^9.2.6",
     "typescript": "^5.2.2",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.1",
-    "vuex": "^4.0.0"
+    "vue": "^3",
+    "vue-router": "^4",
+    "vuex": "^4"
   },
   "peerDependencies": {
     "electron-builder": ">= 22",

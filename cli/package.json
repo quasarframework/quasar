@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "eslint-config-quasar": "^0.0.1"
+    "eslint-config-quasar": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
