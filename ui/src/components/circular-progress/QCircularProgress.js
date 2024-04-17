@@ -1,7 +1,7 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
 import useSize from '../../composables/private.use-size/use-size.js'
-import { useCircularCommonProps } from './use-circular-progress.js'
+import { useCircularCommonProps } from './circular-progress.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hMergeSlotSafely } from '../../utils/private.render/render.js'

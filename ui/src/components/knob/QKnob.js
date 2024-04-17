@@ -9,7 +9,7 @@ import { between, normalizeToInterval } from '../../utils/format/format.js'
 import { hDir } from '../../utils/private.render/render.js'
 
 import { useFormProps, useFormAttrs } from '../../composables/use-form/private.use-form.js'
-import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
+import { useCircularCommonProps } from '../circular-progress/circular-progress.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
