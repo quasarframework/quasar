@@ -174,5 +174,14 @@ export default {
     }
 
     return acc.join('\n')
+  },
+  getGenericTest: ({ ctx }) => {
+    return `
+  describe('[Generic]', () => {
+    test('should not throw error when installed', () => {
+      const wrapper = mountPlugin()
+      expect(wrapper).toBeDefined() // this is here for lint only
+    })
+  })\n`
   }
 }
