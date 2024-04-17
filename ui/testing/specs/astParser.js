@@ -433,10 +433,9 @@ export function readAstJson (ctx) {
         if (content[ ref ] === void 0) {
           // <key>: <some_imported_identifier>
           if (type === 'Identifier') {
-            json.variables[ name ] = {
-              // should match parseVar().def
-              type: 'Any', // we can't infer type without
-                           // significant additional work
+            json.variables[ name ] = { // should match parseVar().def
+              // we can't infer type without significant additional work
+              type: 'Any',
               accessor: `${ ctx.pascalName }.${ name }`
             }
             return
@@ -475,6 +474,15 @@ export function readAstJson (ctx) {
       json.defaultExport = true
       json.classes.default = {
         ...parseClass({ declaration, isExported: false }).def,
+        accessor: ctx.pascalName
+      }
+    }
+    // export default fn(...)
+    else if (declaration.type === 'CallExpression') {
+      json.defaultExport = true
+      json.variables.default = {
+        // we can't infer type without significant additional work
+        type: 'Any',
         accessor: ctx.pascalName
       }
     }
