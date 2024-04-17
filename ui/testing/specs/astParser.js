@@ -380,14 +380,34 @@ export function readAstJson (ctx) {
           return
         }
 
+        // <key>: []
+        if (type === 'ArrayExpression') {
+          json.variables[ name ] = {
+            // should match parseVar().def
+            type: 'Array',
+            accessor: `${ ctx.pascalName }.${ name }`
+          }
+          return
+        }
+
+        if (type === 'ObjectExpression') {
+          json.variables[ name ] = {
+            // should match parseVar().def
+            type: 'Object',
+            accessor: `${ ctx.pascalName }.${ name }`
+          }
+          return
+        }
+
         // <key>: fn () {}
         if (
           type === 'FunctionDeclaration'
           || type === 'ArrowFunctionExpression'
+          || type === 'FunctionExpression'
         ) {
           json.functions[ name ] = {
             // should match parseFunction().def
-            accessor: ctx.pascalName,
+            accessor: `${ ctx.pascalName }.${ name }`,
             params: getParams(prop.value.params)
           }
 
@@ -411,6 +431,17 @@ export function readAstJson (ctx) {
         const { name: ref } = (prop.value || prop.key)
 
         if (content[ ref ] === void 0) {
+          // <key>: <some_imported_identifier>
+          if (type === 'Identifier') {
+            json.variables[ name ] = {
+              // should match parseVar().def
+              type: 'Any', // we can't infer type without
+                           // significant additional work
+              accessor: `${ ctx.pascalName }.${ name }`
+            }
+            return
+          }
+
           console.error(
             'AST: unregistered ExportDefaultDeclaration > ObjectExpression > properties:',
             name,
