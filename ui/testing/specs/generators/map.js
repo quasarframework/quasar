@@ -11,3 +11,5 @@ export function getGenerator (target) {
   if (/src[\\/]plugins[\\/][^\\/]+[\\/][^\\/]+\.js$/.test(target) === true) return plugin
   return generic
 }
+
+export { generic }

@@ -2,15 +2,13 @@ import fse from 'fs-extra'
 import { Parser } from 'acorn'
 
 import { pascalCase } from './specs.utils.js'
-import { getGenerator } from './generators/map.js'
+import { getGenerator, generic as genericGenerator } from './generators/map.js'
 
 const ignoreCommentLineMaxLen = 100
 const ignoreCommentRE = /^(\/\*.*\n\s*\*\s*Ignored specs:\s*\n.+\n\s*\*\/\s*\n?\n?)/s
 const ignoreCommentEntryRE = /(\[[^\]]+\])/g
 
 const testIdRE = /\[\((?<token>[^)]+)\)(?<name>.+)\]/
-
-const NO_ASSOCIATED_JSON = '/* No associated JSON so we cannot generate anything */'
 
 function getIgnoreCommentIds (ignoreComment) {
   if (ignoreComment === void 0) return []
@@ -121,15 +119,21 @@ function getTestFileMisconfiguration ({
 
   if (content === null) return { errors, warnings }
 
-  if (Object.keys(testTree).length !== 1) {
-    const msg = content === NO_ASSOCIATED_JSON
-      ? 'No associated JSON so nothing was generated'
-      : (
-          'Should only have one (and only one) root describe(),'
-          + ` which should be: describe('${ testTreeRootId }')`
-        )
+  if (Object.keys(testTree).length === 0) {
+    errors.push(
+      'Should have one root describe(),'
+      + ` which should be: describe('${ testTreeRootId }')`
+    )
 
-    errors.push(msg)
+    // early exit... this is fatal
+    return { errors, warnings }
+  }
+
+  if (Object.keys(testTree).length !== 1) {
+    errors.push(
+      'Should only have one (and only one) root describe(),'
+      + ` which should be: describe('${ testTreeRootId }')`
+    )
 
     // early exit... this is fatal
     return { errors, warnings }
@@ -360,8 +364,6 @@ function generateTestFileSection ({ ctx, generator, json, jsonPath }) {
 }
 
 function createTestFileContent ({ ctx, json, generator }) {
-  if (json === void 0) return NO_ASSOCIATED_JSON
-
   const { identifiers, getFileHeader } = generator
 
   let hasContent = false
@@ -446,6 +448,11 @@ export function getTestFile (ctx) {
   const init = () => {
     generator = getGenerator(ctx.targetRelative)
     json = generator.getJson(ctx)
+
+    if (json === void 0) {
+      generator = genericGenerator
+      json = generator.getJson(ctx)
+    }
   }
 
   const save = content => {
