@@ -6,11 +6,12 @@
     "preinstall": "npx only-allow@1.2.1 pnpm",
     "lint:root": "eslint .eslintrc.cjs --report-unused-disable-directives --fix",
     "lint": "pnpm lint:root && pnpm --recursive run lint",
-    "test": "pnpm vite-ecosystem-ci:build && pnpm vite-ecosystem-ci:test && pnpm vue-ecosystem-ci:test",
-    "vite-ecosystem-ci:build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar test:build",
+    "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test",
+    "build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar build",
+    "vite-ecosystem-ci:build": "pnpm build",
     "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",
-    "vue-ecosystem-ci:build": "pnpm vite-ecosystem-ci:build",
-    "vue-ecosystem-ci:test": "pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:e2e:ci"
+    "vue-ecosystem-ci:build": "pnpm build",
+    "vue-ecosystem-ci:test": "pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:e2e:ci"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
