@@ -440,8 +440,13 @@ function getInitialState (file) {
 export function getTestFile (ctx) {
   const file = ctx.testFileAbsolute
 
-  const generator = getGenerator(ctx.targetRelative)
-  const json = generator.getJson(ctx)
+  let generator = null
+  let json = null
+
+  const init = () => {
+    generator = getGenerator(ctx.targetRelative)
+    json = generator.getJson(ctx)
+  }
 
   const save = content => {
     testFile.testTree = getTestTree(content)
@@ -452,18 +457,22 @@ export function getTestFile (ctx) {
     ...getInitialState(file),
 
     createContent () {
+      generator === null && init()
       return createTestFileContent({ ctx, json, generator })
     },
 
     generateSection (jsonPath) {
+      generator === null && init()
       return generateTestFileSection({ ctx, generator, json, jsonPath })
     },
 
     getMissingTests () {
+      generator === null && init()
       return getTestFileMissingTests({ ctx, generator, json, testFile: this })
     },
 
     getMisconfiguration (opts) {
+      generator === null && init()
       return getTestFileMisconfiguration({ ctx, generator, json, testFile: this, opts })
     },
 
