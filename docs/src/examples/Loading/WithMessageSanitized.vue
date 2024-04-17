@@ -23,7 +23,7 @@ export default {
     return {
       showLoading () {
         $q.loading.show({
-          message: 'Some important <b>process</b> is in progress.<br/><span class="text-amber text-italic">Please wait...</span>',
+          message: 'Some important <b>process</b> is in progress.<br><span class="text-amber text-italic">Please wait...</span>',
           html: true
         })
 

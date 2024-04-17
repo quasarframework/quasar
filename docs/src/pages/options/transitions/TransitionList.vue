@@ -3,7 +3,7 @@
     <img
       class="transition-list-box__ensure-img-loaded no-pointer-events absolute-bottom-left"
       src="https://cdn.quasar.dev/img/parallax1.jpg"
-    />
+    >
 
     <q-btn
       class="call-to-action-btn q-mb-lg"
@@ -25,7 +25,7 @@
             class="transition-list-box__img absolute-full"
             :key="transition.name + '|' + transition.url"
             :src="transition.url"
-          />
+          >
         </transition>
 
         <div class="transition-list-box__label absolute-bottom q-pa-sm text-center text-body2">

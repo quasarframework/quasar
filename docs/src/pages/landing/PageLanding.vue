@@ -71,7 +71,7 @@
           <h2 class="heading heading--large q-my-lg">What our community thinks of Quasar</h2>
           <q class="heading heading--small">
             You've never heard of Quasar? It's the framework that made a mobile app,
-            <br />desktop app and browser extension altogether in less than 12 minutes.
+            <br>desktop app and browser extension altogether in less than 12 minutes.
           </q>
         </div>
 
