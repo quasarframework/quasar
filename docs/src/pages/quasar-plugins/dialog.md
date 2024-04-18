@@ -87,6 +87,13 @@ There is a basic validation system that you can use so that the user won't be ab
 
 <DocExample title="Showing progress" file="Progress" />
 
+### Hide await async task <q-badge label="Quasar 2.15.3+" />
+
+Don't to close the dialog immediately after clicking the OK or Cancel button
+
+<DocExample title="Hide await Async task" file="Async" />
+
+
 ### Using HTML
 You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 

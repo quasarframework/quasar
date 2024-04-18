@@ -173,11 +173,11 @@ export default createComponent({
 
     function onOk () {
       emit('ok', toRaw(model.value))
-      hide()
+      if(!props.ok?.notHide)  hide()
     }
 
     function onCancel () {
-      hide()
+      if(!props.cancel?.notHide) hide()
     }
 
     function onDialogHide () {
