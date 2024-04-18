@@ -455,7 +455,6 @@ testPattern.hexColor('#fff') // true
 testPattern.hexColor('#ffffff') // true
 testPattern.hexColor('#FFF') // true
 testPattern.hexColor('#gggggg') // false
-
-// See the full list of patterns here:
-// https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js
 ```
+
+See the full list of patterns [here](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).
