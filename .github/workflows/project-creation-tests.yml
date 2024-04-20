@@ -175,8 +175,9 @@ jobs:
             echo $WAIT_ON_CONFIG > wait-on.json
             npx wait-on@7.2.0 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           else
+            PORT=$([[ '${{ matrix.app-engine }}' == 'webpack-4' ]] && echo '9000' || echo '8080')
             # 15s is almost enough, but due to possible fluctuations in the CI environment, we set it higher than that
-            npx wait-on@7.2.0 --timeout 20000 http-get://127.0.0.1:8080
+            npx wait-on@7.2.0 --timeout 20000 http-get://127.0.0.1:$PORT
           fi
 
           kill $!
