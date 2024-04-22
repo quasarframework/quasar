@@ -25,7 +25,7 @@ export default function () {
     },
 
     hasCache (key) {
-      return cache.hasOwnProperty(key)
+      return Object.hasOwnProperty.call(cache, key)
     },
 
     clearCache (key) {
@@ -33,7 +33,7 @@ export default function () {
         delete cache[ key ]
       }
       else {
-        cache = {}
+        cache = Object.create(null)
       }
     }
   }
