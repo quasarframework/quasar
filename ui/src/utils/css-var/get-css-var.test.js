@@ -27,6 +27,18 @@ describe('[getCssVar API]', () => {
 
         el.remove()
       })
+
+      test('should throw if propName is not a string', () => {
+        expect(() => {
+          getCssVar(5)
+        }).toThrow(TypeError)
+      })
+
+      test('should throw if element is not a DOM element', () => {
+        expect(() => {
+          getCssVar('prop', {})
+        }).toThrow(TypeError)
+      })
     })
   })
 })
