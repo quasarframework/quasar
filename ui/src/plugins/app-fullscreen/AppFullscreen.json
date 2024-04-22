@@ -13,12 +13,14 @@
 
     "isActive": {
       "type": "Boolean",
-      "desc": "Is Fullscreen active?"
+      "desc": "Is Fullscreen active?",
+      "reactive": true
     },
 
     "activeEl": {
       "type": [ "Element", "null" ],
       "desc": "The DOM element used as root for fullscreen, otherwise 'null'",
+      "reactive": true,
       "examples": [ "document.fullscreenElement", "null" ]
     }
   },
