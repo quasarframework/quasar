@@ -126,12 +126,12 @@ importers:
         specifier: ^5.9.0
         version: 5.10.0
     devDependencies:
+      '@electron/packager':
+        specifier: ^18.3.2
+        version: 18.3.2
       electron-builder:
         specifier: ^24.12.0
         version: 24.13.3(electron-builder-squirrel-windows@24.13.3)
-      electron-packager:
-        specifier: ^17.1.1
-        version: 17.1.2
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -179,7 +179,7 @@ importers:
         version: 3.0.1
       '@rollup/pluginutils':
         specifier: ^5.0.4
-        version: 5.1.0
+        version: 5.1.0(rollup@2.79.1)
       '@types/chrome':
         specifier: ^0.0.262
         version: 0.0.262
@@ -2172,6 +2172,23 @@ packages:
       - supports-color
     dev: true
 
+  /@electron/get@3.0.0:
+    resolution: {integrity: sha512-hLv4BYFiyrNRI+U0Mm2X7RxCCdJLkDUn8GCEp9QJzbLpZRko+UaLlCjOMkj6TEtirNLPyBA7y1SeGfnpOB21aQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+      env-paths: 2.2.1
+      fs-extra: 8.1.0
+      got: 11.8.6
+      progress: 2.0.3
+      semver: 6.3.1
+      sumchecker: 3.0.1
+    optionalDependencies:
+      global-agent: 3.0.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@electron/notarize@1.2.4:
     resolution: {integrity: sha512-W5GQhJEosFNafewnS28d3bpQ37/s91CDWqxVchHfmv2dQSTWpOzNlUVQwYzC1ay5bChRV/A9BTL68yj0Pa+TSg==}
     engines: {node: '>= 10.0.0'}
@@ -2208,6 +2225,34 @@ packages:
       - supports-color
     dev: true
 
+  /@electron/packager@18.3.2:
+    resolution: {integrity: sha512-orjylavppgIh24qkNpWm2B/LQUpCS/YLOoKoU+eMK/hJgIhShLDsusPIQzgUGVwNCichu8/zPAGfdQZXHG0gtw==}
+    engines: {node: '>= 16.13.0'}
+    hasBin: true
+    dependencies:
+      '@electron/asar': 3.2.9
+      '@electron/get': 3.0.0
+      '@electron/notarize': 2.2.1
+      '@electron/osx-sign': 1.0.5
+      '@electron/universal': 2.0.1
+      '@electron/windows-sign': 1.1.2
+      debug: 4.3.4(supports-color@8.1.1)
+      extract-zip: 2.0.1(supports-color@8.1.1)
+      filenamify: 4.3.0
+      fs-extra: 11.2.0
+      galactus: 1.0.0
+      get-package-info: 1.0.0
+      junk: 3.1.0
+      parse-author: 2.0.0
+      plist: 3.1.0
+      resedit: 2.0.2
+      resolve: 1.22.8
+      semver: 7.6.0
+      yargs-parser: 21.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@electron/universal@1.5.1:
     resolution: {integrity: sha512-kbgXxyEauPJiQQUNG2VgUeyfQNFk6hBF11ISN2PNI6agUgPl55pv4eQmaqHzTAzchBvqZ2tQuRVaPStGf0mxGw==}
     engines: {node: '>=8.6'}
@@ -2219,6 +2264,35 @@ packages:
       fs-extra: 9.1.0
       minimatch: 3.1.2
       plist: 3.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@electron/universal@2.0.1:
+    resolution: {integrity: sha512-fKpv9kg4SPmt+hY7SVBnIYULE9QJl8L3sCfcBsnqbJwwBwAeTLokJ9TRt9y7bK0JAzIW2y78TVVjvnQEms/yyA==}
+    engines: {node: '>=16.4'}
+    dependencies:
+      '@electron/asar': 3.2.9
+      '@malept/cross-spawn-promise': 2.0.0
+      debug: 4.3.4(supports-color@8.1.1)
+      dir-compare: 4.2.0
+      fs-extra: 11.2.0
+      minimatch: 9.0.4
+      plist: 3.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@electron/windows-sign@1.1.2:
+    resolution: {integrity: sha512-eXEiZjDtxW3QORCWfRUarANPRTlH9B6At4jqBZJ0NzokSGutXQUVLPA6WmGpIhDW6w2yCMdHW1EJd1HrXtU5sg==}
+    engines: {node: '>=14.14'}
+    hasBin: true
+    dependencies:
+      cross-dirname: 0.1.0
+      debug: 4.3.4(supports-color@8.1.1)
+      fs-extra: 11.2.0
+      minimist: 1.2.8
+      postject: 1.0.0-alpha.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2962,6 +3036,13 @@ packages:
       cross-spawn: 7.0.3
     dev: true
 
+  /@malept/cross-spawn-promise@2.0.0:
+    resolution: {integrity: sha512-1DpKU0Z5ThltBwjNySMC14g0CkbyhCaz9FkhxqNsZI6uAPJXFS8cMXlBKo26FJ8ZuW6S9GCMcR9IO5k2X5/9Fg==}
+    engines: {node: '>= 12.13.0'}
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: true
+
   /@malept/flatpak-bundler@0.4.0:
     resolution: {integrity: sha512-9QOtNffcOF/c1seMCDnjckb3R9WHcG34tky+FHpNKKCW0wc/scYLwMtO+ptyGUfMW0/b/n4qRiALlaFHc9Oj7Q==}
     engines: {node: '>= 10.0.0'}
@@ -3120,7 +3201,7 @@ packages:
       picomatch: 2.3.1
       rollup: 2.79.1
 
-  /@rollup/pluginutils@5.1.0:
+  /@rollup/pluginutils@5.1.0(rollup@2.79.1):
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -3132,6 +3213,7 @@ packages:
       '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
+      rollup: 2.79.1
     dev: false
 
   /@rollup/rollup-android-arm-eabi@4.12.1:
@@ -5387,6 +5469,11 @@ packages:
     resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
     engines: {node: '>= 12'}
 
+  /commander@9.5.0:
+    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
+    engines: {node: ^12.20.0 || >=14}
+    dev: true
+
   /common-path-prefix@3.0.0:
     resolution: {integrity: sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w==}
     dev: false
@@ -5594,6 +5681,10 @@ packages:
       buffer: 5.7.1
     dev: true
     optional: true
+
+  /cross-dirname@0.1.0:
+    resolution: {integrity: sha512-+R08/oI0nl3vfPcqftZRpytksBXDzOUveBq/NBVx0sUp1axwzPQrKinNx5yd5sxPu8j1wIy8AfnVQ+5eFdha6Q==}
+    dev: true
 
   /cross-env@7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
@@ -6202,6 +6293,13 @@ packages:
     dependencies:
       buffer-equal: 1.0.1
       minimatch: 3.1.2
+    dev: true
+
+  /dir-compare@4.2.0:
+    resolution: {integrity: sha512-2xMCmOoMrdQIPHdsTawECdNPwlVFB9zGcz3kuhmBO6U3oU+UQjsue0i8ayLKpgBcm+hcXPMVSGUN9d+pvJ6+VQ==}
+    dependencies:
+      minimatch: 3.1.2
+      p-limit: 3.1.0
     dev: true
 
   /dir-glob@3.0.1:
@@ -9949,6 +10047,11 @@ packages:
       through: 2.3.8
     dev: true
 
+  /pe-library@1.0.1:
+    resolution: {integrity: sha512-nh39Mo1eGWmZS7y+mK/dQIqg7S1lp38DpRxkyoHf0ZcUs/HDc+yyTjuOtTvSMZHmfSLuSQaX945u05Y2Q6UWZg==}
+    engines: {node: '>=14', npm: '>=7'}
+    dev: true
+
   /pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: true
@@ -10703,6 +10806,14 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.2.0
 
+  /postject@1.0.0-alpha.6:
+    resolution: {integrity: sha512-b9Eb8h2eVqNE8edvKdwqkrY6O7kAwmI8kcnBv1NScolYJbo59XUF0noFq+lxbC1yN20bmC0WBEbDC5H/7ASb0A==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      commander: 9.5.0
+    dev: true
+
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -11070,6 +11181,13 @@ packages:
 
   /requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
+
+  /resedit@2.0.2:
+    resolution: {integrity: sha512-UKTnq602iVe+W5SyRAQx/WdWMnlDiONfXBLFg/ur4QE4EQQ8eP7Jgm5mNXdK12kKawk1vvXPja2iXKqZiGDW6Q==}
+    engines: {node: '>=14', npm: '>=7'}
+    dependencies:
+      pe-library: 1.0.1
+    dev: true
 
   /reselect@4.1.8:
     resolution: {integrity: sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==}

@@ -1,9 +1,16 @@
 import { getPackage } from '../utils/get-package.js'
 import { fatal } from '../utils/logger.js'
 
-const versions = {
-  packager: '17.1.1',
-  builder: '24.3.0'
+const bundlerMap = {
+  packager: {
+    pkg: '@electron/packager',
+    version: '18.3.2'
+  },
+
+  builder: {
+    pkg: 'electron-builder',
+    version: '24.3.0'
+  }
 }
 
 function isValidName (bundlerName) {
@@ -11,10 +18,19 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName, nodePackager) {
+  const bundler = bundlerMap[ bundlerName ]
+
   nodePackager.installPackage(
-    `electron-${ bundlerName }@^${ versions[ bundlerName ] }`,
-    { isDevDependency: true, displayName: `electron-${ bundlerName }` }
+    `${ bundler.pkg }@^${ bundler.version }`,
+    { isDevDependency: true, displayName: bundler.pkg }
   )
+}
+
+function hasPackage (pkgName, appPkg) {
+  return (
+    (appPkg.devDependencies && appPkg.devDependencies[ pkgName ])
+    || (appPkg.dependencies && appPkg.dependencies[ pkgName ])
+  ) !== void 0
 }
 
 export async function createInstance ({
@@ -25,11 +41,9 @@ export async function createInstance ({
   const nodePackager = await cacheProxy.getModule('nodePackager')
 
   function bundlerIsInstalled (bundlerName) {
-    const pgkName = `electron-${ bundlerName }`
-    return (
-      (appPkg.devDependencies && appPkg.devDependencies[ pgkName ])
-      || (appPkg.dependencies && appPkg.dependencies[ pgkName ])
-    ) !== void 0
+    return bundlerName === 'packager'
+      ? (hasPackage('@electron/packager', appPkg) || hasPackage('electron-packager', appPkg))
+      : hasPackage('electron-builder', appPkg)
   }
 
   function ensureInstall (bundlerName) {
@@ -54,10 +68,14 @@ export async function createInstance ({
     return 'packager'
   }
 
-  function getBundler (bundlerName) {
-    // May return "{ default }" (electron-packager) or directly the package (electron-builder);
-    // The getPackage() fn is async, so the result of getBundler() should be awaited
-    return getPackage(`electron-${ bundlerName }`, appPaths.appDir)
+  // May return "{ default }" (@electron/packager) or directly the package (electron-builder);
+  async function getBundler (bundlerName) {
+    if (bundlerName === 'packager') {
+      const newPkg = await getPackage('@electron/packager', appPaths.appDir)
+      return newPkg || getPackage('electron-packager', appPaths.appDir)
+    }
+
+    return getPackage('electron-builder', appPaths.appDir)
   }
 
   return {
