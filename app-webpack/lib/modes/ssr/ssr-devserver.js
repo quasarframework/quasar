@@ -275,15 +275,16 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     const templatePath = appPaths.resolve.app(quasarConf.sourceFiles.indexHtmlTemplate)
 
-    function updateTemplate () {
+    async function updateTemplate () {
       renderer.updateRenderTemplate(
-        getSsrHtmlTemplateFn(readFileSync(templatePath, 'utf-8'), quasarConf)
+        await getSsrHtmlTemplateFn(readFileSync(templatePath, 'utf-8'), quasarConf)
       )
     }
 
     const htmlWatcher = chokidar.watch(templatePath).on('change', () => {
-      updateTemplate()
-      logServerMessage('Updated', 'index.html')
+      updateTemplate().then(() => {
+        logServerMessage('Updated', 'index.html')
+      })
     })
 
     this.#webpackWatcherList.push(() => htmlWatcher.close())

@@ -89,7 +89,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     )
 
     const html = this.readFile(htmlFile)
-    const templateFn = getSsrHtmlTemplateFn(html, this.quasarConf)
+    const templateFn = await getSsrHtmlTemplateFn(html, this.quasarConf)
 
     this.writeFile(
       'render-template.js',
