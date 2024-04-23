@@ -121,16 +121,17 @@ module.exports = class DevServer {
     const { getIndexHtml } = require('./ssr/html-template')
     const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
 
-    function updateTemplate () {
-      renderTemplate = getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
+    async function updateTemplate () {
+      renderTemplate = await getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
     }
 
     this.htmlWatcher = chokidar.watch(templatePath).on('change', () => {
-      updateTemplate()
-      console.log(`${ banner } index.template.html template updated.`)
+      updateTemplate().then(() => {
+        console.log(`${ banner } index.template.html template updated.`)
+      })
     })
 
-    updateTemplate()
+    await updateTemplate()
 
     const renderOptions = {
       vueRenderToString: renderToString,

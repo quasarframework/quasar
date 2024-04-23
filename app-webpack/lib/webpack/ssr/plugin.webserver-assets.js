@@ -9,11 +9,15 @@ module.exports = class WebserverAssetsPlugin {
   constructor (cfg = {}) {
     this.cfg = cfg
     this.initPackageJson()
-    this.initHtmlTemplate()
+    this.htmlTemplate = null
   }
 
   apply (compiler) {
-    compiler.hooks.thisCompilation.tap('package.json', compilation => {
+    compiler.hooks.afterCompile.tapPromise('package.json', async compilation => {
+      if (this.htmlTemplate === null) {
+        await this.initHtmlTemplate()
+      }
+
       compilation.emitAsset('package.json', new sources.RawSource(this.pkg))
       compilation.emitAsset('render-template.js', new sources.RawSource(this.htmlTemplate))
     })
@@ -62,9 +66,9 @@ module.exports = class WebserverAssetsPlugin {
     this.pkg = JSON.stringify(pkg, null, 2)
   }
 
-  initHtmlTemplate () {
+  async initHtmlTemplate () {
     const htmlFile = appPaths.resolve.app(this.cfg.sourceFiles.indexHtmlTemplate)
-    const renderTemplate = getIndexHtml(fs.readFileSync(htmlFile, 'utf-8'), this.cfg)
+    const renderTemplate = await getIndexHtml(fs.readFileSync(htmlFile, 'utf-8'), this.cfg)
     this.htmlTemplate = `module.exports=${ renderTemplate.source }`
   }
 }

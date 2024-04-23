@@ -240,7 +240,7 @@ interface QuasarDynamicBuildConfiguration {
   /** Minify code (html, js, css). */
   minify?: boolean;
   /**
-   * Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier)
+   * Minification options for html-minifier-terser: https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference
    * @default
    *  {
    *    removeComments: true,

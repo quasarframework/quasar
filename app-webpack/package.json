@@ -75,7 +75,7 @@
     "fork-ts-checker-webpack-plugin": "6.5.0",
     "fs-extra": "11.1.0",
     "hash-sum": "2.0.0",
-    "html-minifier": "4.0.0",
+    "html-minifier-terser": "^7.2.0",
     "html-webpack-plugin": "5.5.0",
     "inquirer": "8.2.2",
     "isbinaryfile": "5.0.0",
@@ -126,8 +126,8 @@
   "peerDependencies": {
     "electron-builder": ">= 22",
     "electron-packager": ">= 15",
-    "quasar": "^2.14.0",
     "pinia": "^2.0.0",
+    "quasar": "^2.14.0",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",

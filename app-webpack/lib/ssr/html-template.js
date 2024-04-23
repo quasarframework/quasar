@@ -130,7 +130,7 @@ function htmlTagObjectToString (tagDefinition) {
     + (tagDefinition.voidTag ? '' : '</' + tagDefinition.tagName + '>')
 }
 
-module.exports.getIndexHtml = function (template, cfg) {
+module.exports.getIndexHtml = async function (template, cfg) {
   const compiled = compileTemplate(template)
   let html = compiled(cfg.htmlVariables)
 
@@ -156,8 +156,8 @@ module.exports.getIndexHtml = function (template, cfg) {
   }
 
   if (cfg.build.minify) {
-    const { minify } = require('html-minifier')
-    html = minify(html, {
+    const { minify } = require('html-minifier-terser')
+    html = await minify(html, {
       ...cfg.build.htmlMinifyOptions,
       ignoreCustomFragments: [ /{{ [\s\S]*? }}/ ]
     })
