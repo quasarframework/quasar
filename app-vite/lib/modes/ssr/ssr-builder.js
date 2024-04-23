@@ -123,14 +123,14 @@ class SsrBuilder extends AppBuilder {
     const htmlFile = join(clientDir, 'index.html')
     const html = this.readFile(htmlFile)
 
-    const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
+    const templateFn = await getProdSsrTemplateFn(html, this.quasarConf)
 
     this.writeFile('render-template.js', `module.exports=${ templateFn.source }`)
 
     if (this.quasarConf.ssr.pwa === true) {
       this.writeFile(
         `client/${ this.quasarConf.ssr.ssrPwaHtmlFilename }`,
-        transformProdSsrPwaOfflineHtml(html, this.quasarConf)
+        await transformProdSsrPwaOfflineHtml(html, this.quasarConf)
       )
     }
 

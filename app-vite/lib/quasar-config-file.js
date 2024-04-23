@@ -438,7 +438,7 @@ class QuasarConfFile {
         collapseBooleanAttributes: true,
         removeScriptTypeAttributes: true
         // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
+        // https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference
       },
 
       rawDefine: {

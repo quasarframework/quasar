@@ -65,7 +65,7 @@
     "express": "^4.17.3",
     "fast-glob": "3.2.12",
     "fs-extra": "^11.1.0",
-    "html-minifier": "^4.0.0",
+    "html-minifier-terser": "^7.2.0",
     "inquirer": "^8.2.1",
     "isbinaryfile": "^5.0.0",
     "kolorist": "^1.5.1",
