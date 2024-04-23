@@ -53,7 +53,7 @@ if (argv.help) {
                         [android|ios]
                       - Capacitor
                         [android|ios]
-                      - Electron with default "electron-packager" bundler (default: yours)
+                      - Electron with default "@electron/packager" bundler (default: yours)
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
@@ -72,10 +72,10 @@ if (argv.help) {
                     terminal/console-only build
 
     ONLY for Electron mode:
-    --bundler, -b   Bundler (electron-packager or electron-builder)
+    --bundler, -b   Bundler (@electron/packager or electron-builder)
                       [packager|builder]
     --arch, -A      App architecture (default: yours)
-                      - with default "electron-packager" bundler:
+                      - with default "@electron/packager" bundler:
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]

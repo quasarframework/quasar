@@ -60,10 +60,10 @@ module.exports.ensureElectronArgv = function (bundlerName, argv) {
 
   if (bundlerName === 'packager') {
     if (![ undefined, 'all', 'darwin', 'win32', 'linux', 'mas' ].includes(argv.target)) {
-      fatal(`Unknown target "${ argv.target }" for electron-packager`)
+      fatal(`Unknown target "${ argv.target }" for @electron/packager`)
     }
     if (![ undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'mips64el', 'all' ].includes(argv.arch)) {
-      fatal(`Unknown architecture "${ argv.arch }" for electron-packager`)
+      fatal(`Unknown architecture "${ argv.arch }" for @electron/packager`)
     }
   }
   else { // electron-builder bundler

@@ -1,6 +1,6 @@
 import * as ElectronBuilderUtil from "builder-util";
 import * as ElectronBuilder from "electron-builder";
-import * as ElectronPackager from "electron-packager";
+import * as ElectronPackager from "@electron/packager";
 import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
 import { LiteralUnion } from "quasar";
@@ -63,7 +63,7 @@ interface QuasarElectronPackagerConfiguration
   bundler: "packager";
 
   /**
-   * Electron-packager options.
+   * @electron/packager options.
    * `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
    */
   packager?: Omit<ElectronPackagerOptions, "dir" | "out">;

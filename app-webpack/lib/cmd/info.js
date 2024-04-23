@@ -85,6 +85,7 @@ print({ key: 'Important local packages', section: true })
   'vuex',
   'electron',
   'electron-packager',
+  '@electron/packager',
   'electron-builder',
   '@babel/core',
   'webpack',

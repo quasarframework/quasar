@@ -116,10 +116,10 @@ class ElectronRunner {
     const bundlerName = cfg.electron.bundler
     const bundlerConfig = cfg.electron[ bundlerName ]
     const bundler = require('./bundler').getBundler(bundlerName)
-    const pkgName = `electron-${ bundlerName }`
+    const pkgBanner = `electron/${ bundlerName }`
 
     return new Promise((resolve, reject) => {
-      log(`Bundling app with electron-${ bundlerName }...`)
+      log(`Bundling app with ${ pkgBanner }...`)
       log()
 
       const bundlePromise = bundlerName === 'packager'
@@ -132,13 +132,13 @@ class ElectronRunner {
       bundlePromise
         .then(() => {
           log()
-          success(`${ pkgName } built the app`, 'SUCCESS')
+          success(`${ pkgBanner } built the app`, 'SUCCESS')
           log()
           resolve()
         })
         .catch(err => {
           log()
-          warn(`${ pkgName } could not build`, 'FAIL')
+          warn(`${ pkgBanner } could not build`, 'FAIL')
           log()
           console.error(err + '\n')
           reject()
