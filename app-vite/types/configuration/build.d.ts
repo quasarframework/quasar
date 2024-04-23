@@ -305,9 +305,9 @@ interface QuasarDynamicBuildConfiguration {
    */
   minify?: boolean | 'terser' | 'esbuild';
   /**
-   * Minification options for html-minifier.
+   * Minification options for html-minifier-terser.
    *
-   * @see https://github.com/kangax/html-minifier#options-quick-reference for complete list of options
+   * @see https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference for complete list of options
    *
    * @default
    *  {

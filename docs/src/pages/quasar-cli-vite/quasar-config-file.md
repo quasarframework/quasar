@@ -584,7 +584,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * Minification options for html-minifier.
    *
-   * @see https://github.com/kangax/html-minifier#options-quick-reference for complete list of options
+   * @see https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference for complete list of options
    *
    * @default
    *  {
@@ -652,7 +652,7 @@ See these references for more info:
 - [Adding Vite plugins](/quasar-cli-vite/handling-vite#adding-vite-plugins)
 - [Folder Aliases](/quasar-cli-vite/handling-vite#folder-aliases)
 - [Handling Process Env](/quasar-cli-vite/handling-process-env)
-- [html-minifier options](https://github.com/kangax/html-minifier#options-quick-reference)
+- [html-minifier-terser options](https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference)
 
 ### sourceFiles
 
