@@ -114,10 +114,10 @@ class ElectronBuilder extends AppBuilder {
     const bundlerName = this.quasarConf.electron.bundler
     const bundlerConfig = this.quasarConf.electron[ bundlerName ]
     const bundler = require('./bundler').getBundler(bundlerName)
-    const pkgName = `electron-${ bundlerName }`
+    const pkgBanner = `electron/${ bundlerName }`
 
     return new Promise((resolve, reject) => {
-      const done = progress('Bundling app with ___...', `electron-${ bundlerName }`)
+      const done = progress('Bundling app with ___...', pkgBanner)
 
       const bundlePromise = bundlerName === 'packager'
         ? bundler({
@@ -129,13 +129,13 @@ class ElectronBuilder extends AppBuilder {
       bundlePromise
         .then(() => {
           log()
-          done(`${ pkgName } built the app`)
+          done(`${ pkgBanner } built the app`)
           log()
           resolve()
         })
         .catch(err => {
           log()
-          warn(`${ pkgName } could not build`, 'FAIL')
+          warn(`${ pkgBanner } could not build`, 'FAIL')
           log()
           console.error(err + '\n')
           reject()

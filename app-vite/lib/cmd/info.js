@@ -86,6 +86,7 @@ print({ key: 'Important local packages', section: true })
   'eslint',
   'electron',
   'electron-packager',
+  '@electron/packager',
   'electron-builder',
   'register-service-worker'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
