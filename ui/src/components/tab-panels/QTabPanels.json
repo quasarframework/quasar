@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-panel" ],
+  "mixins": [ "composables/private.use-panel/use-panel" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/tab-panels"

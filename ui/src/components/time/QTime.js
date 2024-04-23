@@ -3,16 +3,16 @@ import { h, ref, computed, watch, withDirectives, Transition, nextTick, getCurre
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import { useFormProps, useFormAttrs, useFormInject } from '../../composables/use-form/private.use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { formatDate, __splitDate } from '../../utils/date.js'
-import { position } from '../../utils/event.js'
-import { pad } from '../../utils/format.js'
-import { vmIsDestroyed } from '../../utils/private/vm.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { formatDate, __splitDate } from '../../utils/date/date.js'
+import { position } from '../../utils/event/event.js'
+import { pad } from '../../utils/format/format.js'
+import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 
 function getViewByModel (model, withSeconds) {
   if (model.hour !== null) {

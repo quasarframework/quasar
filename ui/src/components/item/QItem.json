@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-router-link" ],
+  "mixins": [ "composables/private.use-router-link/use-router-link" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
@@ -8,7 +8,7 @@
   "props": {
     "active": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "Put item into 'active' state",
       "category": "state"
     },
@@ -30,7 +30,7 @@
     "inset-level": {
       "type": "Number",
       "desc": "Apply an inset; Useful when avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
-      "examples": [ ":inset-level=\"1\"" ],
+      "examples": [ "1" ],
       "category": "content"
     },
 
@@ -41,8 +41,8 @@
     "tag": {
       "extends": "tag",
       "desc": "HTML tag to render; Suggestion: use 'label' when encapsulating a QCheckbox/QRadio/QToggle so that when user clicks/taps on the whole item it will trigger a model change for the mentioned components",
-      "default": "div",
-      "examples": [ "a", "label", "div" ]
+      "default": "'div'",
+      "examples": [ "'a'", "'label'", "'div'" ]
     },
 
     "manual-focus": {
@@ -88,7 +88,7 @@
                   "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
                   "required": false,
                   "examples": [
-                    "/home/dashboard",
+                    "'/home/dashboard'",
                     "{ name: 'my-route-name' }"
                   ]
                 },

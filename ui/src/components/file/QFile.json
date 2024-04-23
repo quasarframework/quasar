@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field", "composables/private/use-file", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-field/use-field", "composables/private.use-file/use-file", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/file"
@@ -10,7 +10,7 @@
       "extends": "model-value",
       "type": [ "File", "FileList", "Array", "null", "undefined" ],
       "desc": "Model of the component; Must be FileList or Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"myModel\"" ]
+      "examples": [ "# v-model=\"myModel\"" ]
     },
 
     "append": {
@@ -22,7 +22,7 @@
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'file' or 'selected' scoped slots and if not using 'use-chips' prop",
-      "examples": [ "Options: x, y, z" ],
+      "examples": [ "'Options: x, y, z'" ],
       "category": "selection"
     },
 
@@ -44,7 +44,7 @@
               "type": "String",
               "required": true,
               "desc": "The total size of files in human readable format",
-              "examples": [ "1.42MB" ]
+              "examples": [ "'1.42MB'" ]
             },
             "filesNumber": {
               "type": "Number",
@@ -63,9 +63,7 @@
         "type": "String",
         "desc": "String to display for the counter label"
       },
-      "examples": [
-        ":counter-label=\"counterLabelFn\""
-      ],
+      "examples": [ "(totalSize, filesNumber, maxFiles) => `${ filesNumber }${ maxFiles !== void 0 ? ' / ' + maxFiles : '' } (${ totalSize })`" ],
       "category": "behavior"
     },
 
@@ -78,8 +76,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the underlying selection container",
       "examples": [
-        "my-special-class",
-        ":input-class=\"{ 'my-special-class': <condition> }\""
+        "'my-special-class'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -89,10 +87,14 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the underlying selection container",
       "examples": [
-        "background-color: #ff0000",
-        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
+    },
+
+    "name": {
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists"
     }
   },
 
@@ -122,7 +124,7 @@
       "desc": "Override default selection slot; Suggestion: QChip",
       "scope": {
         "files": {
-          "type": [ "FileList", "Array" ],
+          "type": [ "Array", "FileList" ],
           "desc": "Array of File objects"
         },
 
@@ -150,7 +152,8 @@
           "desc": "Index at which to remove selection",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "removeFile": {
@@ -161,11 +164,13 @@
           "desc": "File to remove (instance of File)",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "getNativeElement": {
       "desc": "DEPRECATED; Access 'nativeEl' directly; Gets the native input DOM Element",
+      "params": null,
       "returns": {
         "type": "Element",
         "tsType": "QFileNativeElement",

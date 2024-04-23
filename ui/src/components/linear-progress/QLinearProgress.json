@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size" ],
+  "mixins": [ "composables/private.use-size/use-size" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/linear-progress"
@@ -9,7 +9,7 @@
     "value": {
       "type": "Number",
       "desc": "Progress value (0.0 < x < 1.0)",
-      "default": 0,
+      "default": "0",
       "category": "model"
     },
 
@@ -68,7 +68,7 @@
 
     "animation-speed": {
       "extends": "animation-speed",
-      "default": 2100,
+      "default": "2100",
       "addedIn": "v2.3"
     }
   },

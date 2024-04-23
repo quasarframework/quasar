@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-size/use-size", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/rating"
@@ -9,13 +9,13 @@
     "model-value": {
       "extends": "model-value",
       "type": "Number",
-      "examples": [ "v-model=\"rating\"", ":model-value=\"rating\"", ":model-value=\"2\"" ]
+      "examples": [ "# v-model=\"rating\"", "# :model-value=\"rating\"", "# :model-value=\"2\"" ]
     },
 
     "max": {
       "type": [ "Number", "String" ],
       "desc": "Number of icons to display",
-      "default": 5,
+      "default": "5",
       "category": "general"
     },
 
@@ -23,10 +23,10 @@
       "type": [ "String", "Array" ],
       "desc": "Icon name following Quasar convention; make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
       "examples": [
-        "map",
-        "ion-add",
-        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:path/to/some_image.png"
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
       ],
       "category": "content"
     },
@@ -35,10 +35,10 @@
       "type": [ "String", "Array" ],
       "desc": "Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
       "examples": [
-        "map",
-        "ion-add",
-        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:path/to/some_image.png"
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
       ],
       "category": "content"
     },
@@ -47,10 +47,10 @@
       "type": [ "String", "Array" ],
       "desc": "Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
       "examples": [
-        "map",
-        "ion-add",
-        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:path/to/some_image.png"
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
       ],
       "category": "content"
     },
@@ -58,10 +58,7 @@
     "icon-aria-label": {
       "type": [ "String", "Array" ],
       "desc": "Label to be set on aria-label for Icon; If an array is provided each rating value will use the corresponding aria-label in the array (0 based); If string value is provided the rating value will be appended; If not provided the name of the icon will be used",
-      "examples": [
-        "Rating",
-        "[\"Bad\", \"Normal\", \"Good\"]"
-      ],
+      "examples": [ "'Rating'", "[ 'Bad', 'Normal', 'Good' ]" ],
       "category": "accessibility",
       "addedIn": "v1.20.3"
     },
@@ -70,7 +67,7 @@
       "extends": "color",
       "type": [ "String", "Array" ],
       "desc": "Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)",
-      "examples": [ "primary", "teal-10", "[\"accent\", \"grey-7\"] "]
+      "examples": [ "[ 'accent', 'grey-7' ]" ]
     },
 
     "color-selected": {

@@ -7,13 +7,13 @@
     "model-value": {
       "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"myValue\"" ]
+      "examples": [ "# v-model=\"myValue\"" ]
     },
 
     "title": {
       "type": "String",
       "desc": "Optional title (unless 'title' slot is used)",
-      "examples": [ "Calories" ],
+      "examples": [ "'Calories'" ],
       "category": "content"
     },
 
@@ -26,14 +26,14 @@
     "label-set": {
       "type": "String",
       "desc": "Override Set button label",
-      "examples": [ "OK" ],
+      "examples": [ "'OK'" ],
       "category": "content"
     },
 
     "label-cancel": {
       "type": "String",
       "desc": "Override Cancel button label",
-      "examples": [ "Cancel" ],
+      "examples": [ "'Cancel'" ],
       "category": "content"
     },
 
@@ -45,7 +45,7 @@
 
     "color": {
       "extends": "color",
-      "default": "primary"
+      "default": "'primary'"
     },
 
     "validate": {
@@ -55,16 +55,14 @@
         "value": {
           "type": "Any",
           "desc": "Model to validate",
-          "examples": [ "My car" ]
+          "examples": [ "'My car'" ]
         }
       },
       "returns": {
         "type": "Boolean",
         "desc": "Is the model valid or not?"
       },
-      "examples": [
-        ":validate=\"myValidation\""
-      ],
+      "examples": [ "# :validate=\"myValidation\"" ],
       "category": "model"
     },
 
@@ -75,12 +73,13 @@
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
-      "category": "position"
+      "category": "position",
+      "passthrough": true
     },
 
     "cover": {
       "type": "Boolean",
-      "default": true,
+      "default": "true",
       "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
       "category": "position"
     },
@@ -89,65 +88,74 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "category": "position"
+      "category": "position",
+      "passthrough": true
     },
 
     "self": {
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "category": "position"
+      "category": "position",
+      "passthrough": true
     },
 
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
-      "examples": [ "[8, 8]", "[5, 10]" ],
-      "category": "style"
+      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
+      "category": "style",
+      "passthrough": true
     },
 
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
-      "category": "behavior"
+      "category": "behavior",
+      "passthrough": true
     },
 
     "persistent": {
       "type": "Boolean",
       "desc": "Avoid menu closing by hitting ESC key or by clicking/tapping outside of the Popup",
-      "category": "behavior"
+      "category": "behavior",
+      "passthrough": true
     },
 
     "separate-close-popup": {
       "type": "Boolean",
       "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
-      "category": "behavior"
+      "category": "behavior",
+      "passthrough": true
     },
 
     "square": {
       "type": "Boolean",
       "desc": "Forces menu to have squared borders",
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     },
 
     "max-height": {
       "extends": "size",
       "desc": "The maximum height of the menu; Size in CSS units, including unit name",
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     },
 
     "max-width": {
       "extends": "size",
       "desc": "The maximum width of the menu; Size in CSS units, including unit name",
-      "category": "style"
+      "category": "style",
+      "passthrough": true
     }
   },
 
@@ -158,12 +166,12 @@
         "initialValue": {
           "type": "Any",
           "desc": "Initial value",
-          "examples": [ 0.241, "Text" ]
+          "examples": [ "0.241", "'Text'" ]
         },
         "value": {
           "type": "Any",
           "desc": "Current value",
-          "examples": [ 0.241, "Text" ]
+          "examples": [ "0.241", "'Text'" ]
         },
         "validate": {
           "type": "Function",
@@ -173,7 +181,7 @@
               "type": "Any",
               "required": true,
               "desc": "Value to be checked",
-              "examples": [ 0, "Changed text" ]
+              "examples": [ "0", "'Changed text'" ]
             }
           },
           "returns": {
@@ -256,11 +264,15 @@
 
   "methods": {
     "set": {
-      "desc": "Trigger a model update; Validates model (and emits 'save' event if it's the case) then closes Popup"
+      "desc": "Trigger a model update; Validates model (and emits 'save' event if it's the case) then closes Popup",
+      "params": null,
+      "returns": null
     },
 
     "cancel": {
-      "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup"
+      "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup",
+      "params": null,
+      "returns": null
     },
 
     "show": {
@@ -272,7 +284,9 @@
     },
 
     "updatePosition": {
-      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+      "params": null,
+      "returns": null
     }
   }
 }

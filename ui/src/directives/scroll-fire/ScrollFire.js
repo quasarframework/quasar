@@ -1,9 +1,9 @@
-import { createDirective } from '../../utils/private/create.js'
-import debounce from '../../utils/debounce.js'
-import { height, offset } from '../../utils/dom.js'
-import { getScrollTarget } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
-import getSSRProps from '../../utils/private/noop-ssr-directive-transform.js'
+import { createDirective } from '../../utils/private.create/create.js'
+import debounce from '../../utils/debounce/debounce.js'
+import { height, offset } from '../../utils/dom/dom.js'
+import { getScrollTarget } from '../../utils/scroll/scroll.js'
+import { listenOpts } from '../../utils/event/event.js'
+import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
 
 const { passive } = listenOpts
 

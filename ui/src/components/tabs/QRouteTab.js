@@ -1,9 +1,9 @@
 import { computed, watch } from 'vue'
 
-import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
 import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 export default createComponent({
   name: 'QRouteTab',

@@ -11,7 +11,7 @@
     "size": {
       "type": "String",
       "desc": "QChip size name or a CSS unit including unit name",
-      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
+      "examples": [ "'xs'", "'sm'", "'md'", "'lg'", "'xl'", "'25px'", "'2rem'" ],
       "category": "style"
     },
 
@@ -38,7 +38,7 @@
     "label": {
       "type": [ "String", "Number" ],
       "desc": "Chip's content as string; overrides default slot if specified",
-      "examples": [ "John Doe", "Book" ],
+      "examples": [ "'John Doe'", "'Book'" ],
       "category": "content"
     },
 
@@ -55,17 +55,15 @@
       "type": "Boolean",
       "desc": "Model of the component determining if QChip should be rendered or not",
       "required": false,
-      "default": true
+      "default": "true"
     },
 
     "selected": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "sync": true,
       "desc": "Model for QChip if it's selected or not",
-      "examples": [
-        "v-model:selected=\"myState\""
-      ],
+      "examples": [ "# v-model:selected=\"myState\"" ],
       "category": "model"
     },
 
@@ -99,7 +97,7 @@
     "remove-aria-label": {
       "type": "String",
       "desc": "aria-label to be used on the remove icon",
-      "examples": [ "Remove item" ],
+      "examples": [ "'Remove item'" ],
       "category": "accessibility",
       "addedIn": "v2.8.4"
     },
@@ -127,6 +125,10 @@
           "extends": "evt"
         }
       }
+    },
+
+    "update:model-value": {
+      "extends": "update:model-value"
     },
 
     "update:selected": {

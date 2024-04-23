@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-file", "components/uploader/xhr-uploader-plugin" ],
+  "mixins": [ "composables/private.use-file/use-file", "components/uploader/xhr-uploader-plugin" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/uploader"
@@ -9,7 +9,7 @@
     "label": {
       "type": "String",
       "desc": "Label for the uploader",
-      "examples": ["Upload photo here"],
+      "examples": [ "'Upload photo here'" ],
       "category": "content"
     },
 
@@ -120,23 +120,33 @@
 
   "methods": {
     "upload": {
-      "desc": "Start uploading (same as clicking the upload button)"
+      "desc": "Start uploading (same as clicking the upload button)",
+      "params": null,
+      "returns": null
     },
 
     "abort": {
-      "desc": "Abort upload of all files (same as clicking the abort button)"
+      "desc": "Abort upload of all files (same as clicking the abort button)",
+      "params": null,
+      "returns": null
     },
 
     "reset": {
-      "desc": "Resets uploader to default; Empties queue, aborts current uploads"
+      "desc": "Resets uploader to default; Empties queue, aborts current uploads",
+      "params": null,
+      "returns": null
     },
 
     "removeUploadedFiles": {
-      "desc": "Removes already uploaded files from the list"
+      "desc": "Removes already uploaded files from the list",
+      "params": null,
+      "returns": null
     },
 
     "removeQueuedFiles": {
-      "desc": "Remove files that are waiting for upload to start (same as clicking the left clear button)"
+      "desc": "Remove files that are waiting for upload to start (same as clicking the left clear button)",
+      "params": null,
+      "returns": null
     },
 
     "removeFile": {
@@ -147,7 +157,8 @@
           "desc": "The file to remove",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "updateFileStatus": {
@@ -161,7 +172,7 @@
         "status": {
           "type": "String",
           "desc": "Status of file",
-          "values": [ "idle", "failed", "uploading", "uploaded" ],
+          "values": [ "'idle'", "'failed'", "'uploading'", "'uploaded'" ],
           "required": true
         },
         "uploadedSize": {
@@ -169,11 +180,13 @@
           "desc": "The number of uploaded bytes of the file; Is required explicitly only when status is NOT 'uploaded'",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "isAlive": {
       "desc": "Is the component alive (activated but not unmounted); Useful to determine if you still need to compute anything going further",
+      "params": null,
       "returns": {
         "type": "Boolean",
         "desc": "If true, the current component is still activated and mounted"
@@ -188,7 +201,8 @@
           "required": true,
           "desc": "JS event object of the original user interaction handler"
         }
-      }
+      },
+      "returns": null
     },
 
     "addFiles": {
@@ -199,7 +213,8 @@
           "required": true,
           "desc": "Must be an array of instances of JS File type"
         }
-      }
+      },
+      "returns": null
     }
   },
 
@@ -227,13 +242,13 @@
     "uploadSizeLabel": {
       "type": "String",
       "desc": "Label for the size total of all files",
-      "examples": [ "1.0MB" ]
+      "examples": [ "'1.0MB'" ]
     },
 
     "uploadProgressLabel": {
       "type": "String",
       "desc": "Label for the upload progress (in %)",
-      "examples": [ "52.76%" ]
+      "examples": [ "'52.76%'" ]
     },
 
     "canAddFiles": {

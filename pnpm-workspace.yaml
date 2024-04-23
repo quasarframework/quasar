@@ -9,7 +9,8 @@ packages:
   - utils/ssl-certificate
   - extras
   - ui
-  - ui/dev
+  - ui/playground
+  - ui/testing
   - create-quasar
   - cli
   - docs

@@ -1,17 +1,22 @@
 import { createApp } from 'vue'
 
-import Platform, { isRuntimeSsrPreHydration } from './plugins/Platform.js'
-import Screen from './plugins/Screen.js'
-import Dark from './plugins/Dark.js'
-import History from './history.js'
-import Lang from './lang.js'
-import Body from './body.js'
-import IconSet from './icon-set.js'
+import Platform, { isRuntimeSsrPreHydration } from './plugins/platform/Platform.js'
+import Screen from './plugins/screen/Screen.js'
+import Dark from './plugins/dark/Dark.js'
+import Body from './plugins/private.body/Body.js'
+import History from './plugins/private.history/History.js'
+import Lang from './plugins/lang/Lang.js'
+import IconSet from './plugins/icon-set/IconSet.js'
 
-import { quasarKey } from './utils/private/symbols.js'
-import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
-import { isObject } from './utils/is.js'
+import { quasarKey } from './utils/private.symbols/symbols.js'
+import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private.global/global-config.js'
+import { isObject } from './utils/is/is.js'
 
+/**
+ * If the list below changes, make sure
+ * to also edit /ui/testing/specs/generators/generator.plugin.js
+ * on the "autoInstalledPlugins" array
+ */
 const autoInstalledPlugins = [
   Platform,
   Body,

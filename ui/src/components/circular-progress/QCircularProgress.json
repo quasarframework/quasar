@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size" ],
+  "mixins": [ "composables/private.use-size/use-size" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/circular-progress"
@@ -8,21 +8,21 @@
   "props": {
     "value": {
       "type": "Number",
-      "default": 0,
+      "default": "0",
       "desc": "Current progress (must be between min/max)",
       "category": "model"
     },
 
     "min": {
       "type": "Number",
-      "default": 0,
+      "default": "0",
       "desc": "Minimum value defining 'no progress' (must be lower than 'max')",
       "category": "model"
     },
 
     "max": {
       "type": "Number",
-      "default": 100,
+      "default": "100",
       "desc": "Maximum value defining 100% progress made (must be higher than 'min')",
       "category": "model"
     },
@@ -45,8 +45,8 @@
     "font-size": {
       "type": "String",
       "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
-      "default": "0.25em",
-      "examples": [ "1em", "16px", "2rem" ],
+      "default": "'0.25em'",
+      "examples": [ "'1em'", "'16px'", "'2rem'" ],
       "category": "style"
     },
 
@@ -59,7 +59,7 @@
 
     "thickness": {
       "type": "Number",
-      "default": 0.2,
+      "default": "0.2",
       "desc": "Thickness of progress arc as a ratio (0.0 < x < 1.0) of component size",
       "category": "style"
     },
@@ -67,7 +67,7 @@
     "angle": {
       "type": "Number",
       "desc": "Angle to rotate progress arc by",
-      "default": 0,
+      "default": "0",
       "category": "content"
     },
 
@@ -97,7 +97,7 @@
 
     "animation-speed": {
       "extends": "animation-speed",
-      "default": 600,
+      "default": "600",
       "addedIn": "v2.3"
     }
   },

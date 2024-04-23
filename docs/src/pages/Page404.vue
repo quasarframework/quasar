@@ -4,8 +4,8 @@
     <div>
       <div class="page404__hero flex flex-center no-wrap q-gutter-sm text-brand-primary">
         <div>4</div>
-        <img class="page404__logo-light" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
-        <img class="page404__logo-dark" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" />
+        <img class="page404__logo-light" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+        <img class="page404__logo-dark" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg">
         <div>4</div>
       </div>
       <div class="letter-spacing-225 q-mb-xl">

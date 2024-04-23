@@ -9,8 +9,8 @@
     "type": {
       "type": "String",
       "desc": "The type of content: list (default) or table",
-      "default": "list",
-      "values": [ "list", "table" ],
+      "default": "'list'",
+      "values": [ "'list'", "'table'" ],
       "category": "content"
     },
 
@@ -19,8 +19,8 @@
       "desc": "Available list items that will be passed to the scoped slot; For best performance freeze the list of items; Required if 'itemsFn' is not supplied",
       "default": "[]",
       "examples": [
-        ":items=\"[ 'BMW', 'Samsung Phone' ]\"",
-        ":items=\"[ { label: 'BMW', value: 'car' }, { label: 'Samsung Phone', value: 'phone' } ]\""
+        "[ 'Tesla', 'iPhone' ]",
+        "[ { label: 'Tesla', value: 'car' }, { label: 'iPhone', value: 'phone' } ]"
       ],
       "category": "content"
     },
@@ -28,11 +28,8 @@
     "items-size": {
       "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
-      "default": "void 0",
-      "examples": [
-        ":items-size=\"100000\"",
-        ":items-size=\"500\""
-      ],
+      "default": "# void 0",
+      "examples": [ "100000" ],
       "category": "content"
     },
 
@@ -54,7 +51,7 @@
         "desc": "List of scope for items to be displayed"
       },
       "examples": [
-        ":items-fn=\"(from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push('Item ' + i) }; return items }\""
+        "(from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push('Item ' + i) }; return items }"
       ],
       "category": "content"
     },
@@ -70,6 +67,7 @@
         "details": {
           "definition": {
             "ref": {
+              "type": "Component",
               "tsType": "QVirtualScroll",
               "desc": "Vue reference to the QVirtualScroll"
             }

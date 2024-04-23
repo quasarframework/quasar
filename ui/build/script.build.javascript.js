@@ -201,7 +201,19 @@ function build (builds) {
     })
 }
 
-function addUmdAssets (builds, type, injectName) {
+function convertExternalImports (content) {
+  return content.replace(
+    /import\s*\{([\w,\s]+)\}\s*from\s*(['"])([a-zA-Z0-9-@/]+)\2;?/g,
+    (_, importIdMatch, __, packageMatch) => {
+      const list = require(packageMatch)
+      return importIdMatch.match(/[^\s,]+/g)
+        .map(id => `const ${ id } = '${ list[ id ] }'\n`)
+        .join('')
+    }
+  )
+}
+
+function addUmdAssets (builds, type, injectName, convertImports) {
   const files = fse.readdirSync(resolve(type))
 
   files.forEach(file => {
@@ -218,7 +230,11 @@ function addUmdAssets (builds, type, injectName) {
 
     fse.writeFileSync(
       tempFile,
-      inputCode.replace('export default ', `window.Quasar.${ injectName }.${ name } = `),
+      (
+        convertImports === true
+          ? convertExternalImports(inputCode)
+          : inputCode
+      ).replace('export default ', `window.Quasar.${ injectName }.${ name } = `),
       'utf-8'
     )
 
@@ -244,8 +260,8 @@ const runBuild = {
     require('./build.transforms').generate({ compact: true })
     require('./build.icon-sets').generate()
 
-    addUmdAssets(builds, 'lang', 'lang')
-    addUmdAssets(builds, 'icon-set', 'iconSet')
+    addUmdAssets(builds, 'lang', 'Lang')
+    addUmdAssets(builds, 'icon-set', 'IconSet', true)
 
     build(builds)
 
@@ -256,6 +272,23 @@ const runBuild = {
 
     const quasarLangIndex = await require('./build.lang').generate()
     require('./build.types').generate({ api, quasarLangIndex })
+  },
+
+  async fast () { // does NOT builds types
+    require('./build.transforms').generate({ compact: true })
+    require('./build.icon-sets').generate()
+
+    addUmdAssets(builds, 'lang', 'Lang')
+    addUmdAssets(builds, 'icon-set', 'IconSet', true)
+
+    build(builds)
+
+    const api = await require('./build.api').generate({ compact: true })
+
+    require('./build.vetur').generate({ api, compact: true })
+    require('./build.web-types').generate({ api, compact: true })
+
+    await require('./build.lang').generate()
   },
 
   async types () {

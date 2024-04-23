@@ -48,12 +48,12 @@ scope:
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 
 ::: tip
-We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
+We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html or /src/index.template.html file.
 :::
 
 Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
@@ -70,7 +70,7 @@ $ icongenie generate -m ssr,pwa -i /path/to/source/icon.png [-b /path/to/backgro
 
 <DocTree :def="scope.spaTree" />
 
-The required HTML code that goes into `/src/index.template.html` to reference the above files:
+The required HTML code that goes into /index.html or /src/index.template.html to reference the above files:
 
 ```html
 <link rel="icon" type="image/ico" href="favicon.ico">
@@ -84,7 +84,7 @@ However, if you are developing with SSR + PWA mode, then you'll also need the PW
 
 <DocTree :def="scope.ssrTree" />
 
-And the corresponding HTML code to go into `/src/index.template.html` file (notice not all files need to be manually referenced as Quasar CLI automatically injects the other ones):
+And the corresponding HTML code to go into /index.html or /src/index.template.html file (notice not all files need to be manually referenced as Quasar CLI automatically injects the other ones):
 
 ```html
 <!-- iPhone XR -->

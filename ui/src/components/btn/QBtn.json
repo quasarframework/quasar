@@ -42,7 +42,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "returns": null
     }
   },
 
@@ -70,7 +71,7 @@
                   "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
                   "required": false,
                   "examples": [
-                    "/home/dashboard",
+                    "'/home/dashboard'",
                     "{ name: 'my-route-name' }"
                   ]
                 },

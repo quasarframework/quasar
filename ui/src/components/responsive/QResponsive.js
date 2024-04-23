@@ -1,9 +1,9 @@
 import { h } from 'vue'
 
-import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
+import useRatio, { useRatioProps } from '../../composables/private.use-ratio/use-ratio.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QResponsive',

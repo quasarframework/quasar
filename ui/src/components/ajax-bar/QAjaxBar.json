@@ -7,14 +7,14 @@
     "position": {
       "type": "String",
       "desc": "Position within window of where QAjaxBar should be displayed",
-      "default": "top",
-      "values": [ "top", "right", "bottom", "left" ],
+      "default": "'top'",
+      "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
       "category": "style"
     },
 
     "size": {
       "extends": "size",
-      "default": "2px"
+      "default": "'2px'"
     },
 
     "color": {
@@ -40,7 +40,7 @@
         "url": {
           "type": "String",
           "desc": "The URL being triggered",
-          "examples": [ "https://some.url/path" ]
+          "examples": [ "'https://some.url/path'" ]
         }
       },
       "returns": {
@@ -68,7 +68,7 @@
       "params": {
         "speed": {
           "type": "Number",
-          "default": 300,
+          "default": "300",
           "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing"
         }
       },
@@ -94,6 +94,7 @@
 
     "stop": {
       "desc": "Notify bar that one process you were waiting has finished",
+      "params": null,
       "returns": {
         "type": "Number",
         "desc": "Number of active simultaneous sessions"

@@ -96,7 +96,7 @@ else {
 }
 
 function getEventParams (event) {
-  const params = event.params === void 0 || event.params.length === 0
+  const params = !event.params || event.params.length === 0
     ? ''
     : Object.keys(event.params).join(', ')
 
@@ -152,6 +152,10 @@ function printProp (prop, propName, indentLevel) {
   }
 
   console.log(`${ indent }Description: ${ prop.desc }`)
+
+  if (prop.alias) {
+    console.log(`${ indent }Alias: ${ prop.alias }`)
+  }
   if (type === 'Function') {
     console.log(`${ indent }Function form:${ getMethodParams(prop, true) }${ getMethodReturnValue(prop) }`)
   }
@@ -318,14 +322,14 @@ function printMethods ({ methods }) {
     const method = methods[ methodName ]
     console.log('\n   ' + green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
     console.log('     ' + method.desc)
-    if (method.params !== void 0) {
+    if (method.params) {
       console.log('     Parameters:')
       for (const paramName in method.params) {
         printProp(method.params[ paramName ], paramName, 7)
       }
     }
 
-    if (method.returns !== void 0) {
+    if (method.returns) {
       console.log(`     Returns ${ getStringType(method.returns.type) }:`)
       printProp(method.returns, void 0, 7)
     }

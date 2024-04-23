@@ -218,6 +218,10 @@ Below is an example with the user being able to edit “in place” with the hel
 
 <DocExample title="Popup editing" file="PopupEditing" />
 
+## Editing with an input
+
+<DocExample title="Input editing" file="InputEditing" />
+
 ## Grid style
 
 ::: tip

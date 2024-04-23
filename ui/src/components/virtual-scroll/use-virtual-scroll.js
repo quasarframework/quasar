@@ -1,8 +1,8 @@
 import { h, ref, computed, watch, onActivated, onDeactivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
-import debounce from '../../utils/debounce.js'
-import { noop } from '../../utils/event.js'
-import { rtlHasScrollBug } from '../../utils/private/rtl.js'
+import debounce from '../../utils/debounce/debounce.js'
+import { noop } from '../../utils/event/event.js'
+import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 
 const aggBucketSize = 1000
 

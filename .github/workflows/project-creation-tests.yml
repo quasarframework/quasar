@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         script-type: [js, ts]
-        app-engine: [vite, webpack]
+        app-engine: [vite-1, vite-2, webpack-3, webpack-4]
         node-version: [18, 20]
         package-manager: [yarn, npm, pnpm]
 
@@ -167,15 +167,18 @@ jobs:
               }
             }
 
+        # wait-on is pinned for stability and safety reasons, it can be updated manually after testing a new version
         run: |
           ${{ matrix.package-manager }} run dev &
 
-          if [ '${{ matrix.app-engine }}' = 'vite' ]; then
+          if [[ '${{ matrix.app-engine }}' == vite* ]]; then
             echo $WAIT_ON_CONFIG > wait-on.json
-            npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
+            npx wait-on@7.2.0 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           else
+            PORT=$([[ '${{ matrix.app-engine }}' == 'webpack-4' ]] && echo '9000' || echo '8080')
             # 15s is almost enough, but due to possible fluctuations in the CI environment, we set it higher than that
-            npx wait-on@7.0.1 --timeout 20000 http-get://127.0.0.1:8080
+            npx wait-on@7.2.0 --timeout 20000 http-get://127.0.0.1:$PORT
           fi
 
           kill $!
+

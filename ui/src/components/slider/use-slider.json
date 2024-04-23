@@ -1,19 +1,18 @@
 {
-  "mixins": [ "composables/private/use-form" ],
+  "mixins": [ "composables/use-form/private.use-form" ],
 
   "props": {
     "min": {
       "type": "Number",
       "desc": "Minimum value of the model; Set track's minimum value",
-      "default": 0,
-      "examples": [ ":min=\"0\"" ],
+      "default": "0",
       "category": "model"
     },
 
     "max": {
       "type": "Number",
       "desc": "Maximum value of the model; Set track's maximum value",
-      "default": 100,
+      "default": "100",
       "category": "model"
     },
 
@@ -34,7 +33,7 @@
     "step": {
       "type": "Number",
       "desc": "Specify step amount between valid values (> 0.0); When step equals to 0 it defines infinite granularity",
-      "default": 1,
+      "default": "1",
       "category": "model"
     },
 
@@ -70,7 +69,7 @@
       "type": "String",
       "desc": "Apply a pattern image on the track",
       "transformAssetUrls": true,
-      "examples": [ "~assets/my-pattern.png" ],
+      "examples": [ "'~assets/my-pattern.png'" ],
       "category": "style",
       "addedIn": "v2.4"
     },
@@ -85,7 +84,7 @@
       "type": "String",
       "desc": "Apply a pattern image on the inner track",
       "transformAssetUrls": true,
-      "examples": [ "~assets/my-pattern.png" ],
+      "examples": [ "'~assets/my-pattern.png'" ],
       "category": "style",
       "addedIn": "v2.4"
     },
@@ -100,7 +99,7 @@
       "type": "String",
       "desc": "Apply a pattern image on the selection bar",
       "transformAssetUrls": true,
-      "examples": [ "~assets/my-pattern.png" ],
+      "examples": [ "'~assets/my-pattern.png'" ],
       "category": "style",
       "addedIn": "v2.4"
     },
@@ -136,10 +135,7 @@
       "type": [ "Boolean", "Number" ],
       "desc": "Display markers on the track, one for each possible value for the model or using a custom step (when specifying a Number)",
       "category": "content",
-      "examples": [
-        "markers",
-        ":markers=\"5\""
-      ]
+      "examples": [ "5", "true" ]
     },
 
     "marker-labels": {
@@ -160,7 +156,7 @@
           "type": [ "String", "Array", "Object" ],
           "tsType": "VueClassProp",
           "desc": "CSS classes to be attributed to the marker label",
-          "examples": [ "my-class-name" ]
+          "examples": [ "'my-class-name'" ]
         },
         "style": {
           "type": "Object",
@@ -192,7 +188,7 @@
             "type": [ "String", "Array", "Object" ],
             "tsType": "VueClassProp",
             "desc": "CSS classes to be attributed to the marker label",
-            "examples": [ "my-class-name" ]
+            "examples": [ "'my-class-name'" ]
           },
           "style": {
             "type": "Object",
@@ -204,7 +200,7 @@
       },
       "category": "content",
       "examples": [
-        true,
+        "true",
         "[ { value: 0, label: '0%' }, { value: 5, classes: 'my-class', style: { width: '24px' } } ]",
         "{ 0: '0%', 5: { label: '5%', classes: 'my-class', style: { width: '24px' } } }",
         "val => (10 * val) + '%'",
@@ -216,7 +212,7 @@
     "marker-labels-class": {
       "type": "String",
       "desc": "CSS class(es) to apply to the marker labels container",
-      "examples": [ "text-orange" ],
+      "examples": [ "'text-orange'" ],
       "category": "style",
       "addedIn": "v2.4"
     },
@@ -231,8 +227,8 @@
     "track-size": {
       "type": "String",
       "desc": "Track size (including CSS unit)",
-      "default": "4px",
-      "examples": [ "35px" ],
+      "default": "'4px'",
+      "examples": [ "'35px'" ],
       "category": "style",
       "addedIn": "v2.4"
     },
@@ -240,8 +236,8 @@
     "thumb-size": {
       "type": "String",
       "desc": "Thumb size (including CSS unit)",
-      "default": "20px",
-      "examples": [ "20px" ],
+      "default": "'20px'",
+      "examples": [ "'20px'" ],
       "category": "style",
       "addedIn": "v2.4"
     },
@@ -254,8 +250,8 @@
     "thumb-path": {
       "type": "String",
       "desc": "Set custom thumb svg path",
-      "default": "M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0",
-      "examples": [ "M5 5 h10 v10 h-10 v-10" ],
+      "default": "'M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0'",
+      "examples": [ "'M5 5 h10 v10 h-10 v-10'" ],
       "category": "style"
     },
 
@@ -510,7 +506,7 @@
         "phase": {
           "type": "String",
           "desc": "Phase of panning",
-          "values": [ "start", "end" ]
+          "values": [ "'start'", "'end'" ]
         }
       }
     }

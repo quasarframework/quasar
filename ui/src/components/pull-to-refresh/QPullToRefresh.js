@@ -4,11 +4,11 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll.js'
-import { between } from '../../utils/format.js'
-import { prevent } from '../../utils/event.js'
-import { hSlot, hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll/scroll.js'
+import { between } from '../../utils/format/format.js'
+import { prevent } from '../../utils/event/event.js'
+import { hSlot, hDir } from '../../utils/private.render/render.js'
 
 const
   PULLER_HEIGHT = 40,

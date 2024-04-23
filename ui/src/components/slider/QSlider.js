@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import { useFormAttrs } from '../../composables/private/use-form.js'
+import { useFormAttrs } from '../../composables/use-form/private.use-form.js'
 
 import useSlider, {
   useSliderProps,
@@ -8,9 +8,9 @@ import useSlider, {
   keyCodes
 } from './use-slider.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { between } from '../../utils/format.js'
-import { stopAndPrevent } from '../../utils/event.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { between } from '../../utils/format/format.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
 
 const getNodeData = () => ({})
 

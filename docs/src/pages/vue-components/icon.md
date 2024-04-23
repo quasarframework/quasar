@@ -525,7 +525,7 @@ img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQV
 
 Should you want, you can customize the mapping of icon names. This can be done by providing a custom icon map function. There are several ways to provide one:
 
-- Set `Quasar.iconSet.iconMapFn` in an entry file:
+- Set `IconSet.iconMapFn` in an entry file:
   - In a boot file if using Quasar CLI (with Vite or Webpack)
   - In `main.js`/`main.ts`(_or similar_) if using Vite plugin and Vue CLI
   - In any suitable file or script tag if using UMD

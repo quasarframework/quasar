@@ -6,6 +6,7 @@ dist/
 /icon-set/svg-*.mjs
 /lang/*.js
 /quasar.config.*.temporary.compiled*
-/dev/.quasar
-/dev/src-capacitor
-/dev/src-cordova
+/playground/.quasar
+/playground/dist
+/playground/src-capacitor
+/playground/src-cordova

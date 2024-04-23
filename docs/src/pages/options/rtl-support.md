@@ -86,7 +86,7 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
     -->
     <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/he.umd.prod.js"></script>
     <script>
-      Quasar.lang.set(Quasar.lang.he)
+      Quasar.Lang.set(Quasar.Lang.he)
     </script>
   </body>
 </html>

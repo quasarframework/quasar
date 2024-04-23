@@ -1,9 +1,9 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
-import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot, hMergeSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot, hMergeSlot } from '../../utils/private.render/render.js'
 
 const defaultViewBox = '0 0 24 24'
 

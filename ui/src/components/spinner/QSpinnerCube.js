@@ -2,7 +2,7 @@ import { h } from 'vue'
 
 import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 const svg = [
   h('rect', {

@@ -26,7 +26,7 @@ For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-uti
 
 <DocExample title="Input" file="Input" />
 
-There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js). You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#internal-validation).
+There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js). You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#internal-validation).
 
 Examples: "hexColor", "rgbOrRgbaColor", "anyColor".
 

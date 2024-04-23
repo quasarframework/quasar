@@ -8,12 +8,12 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
-import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 

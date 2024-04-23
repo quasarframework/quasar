@@ -7,8 +7,8 @@
     "debounce": {
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
-      "default": 100,
-      "examples": [ "0", "530" ],
+      "default": "100",
+      "examples": [ "0", "'530'" ],
       "category": "behavior"
     }
   },
@@ -45,7 +45,8 @@
           "type": "Boolean",
           "desc": "Skip over the debounce amount"
         }
-      }
+      },
+      "returns": null
     }
   }
 }

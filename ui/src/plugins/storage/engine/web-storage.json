@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/web-storage"
+  },
+
+  "methods": {
+    "hasItem": {
+      "desc": "Check if storage item exists",
+      "alias": "has",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": [ "'userId'" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Does the item exists or not?"
+      }
+    },
+
+    "getLength": {
+      "desc": "Get storage number of entries",
+      "params": null,
+      "returns": {
+        "type": "Number",
+        "desc": "Number of entries"
+      }
+    },
+
+    "getItem": {
+      "tsType": "WebStorageGetItemMethodType",
+      "desc": "Get a storage item value",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": [ "'userId'" ]
+        }
+      },
+      "returns": {
+        "type": [ "Number", "Boolean", "Date", "RegExp", "Function", "Object", "Array", "String", "null" ],
+        "desc": "Storage item value",
+        "examples": [ "'john12'", "702" ]
+      }
+    },
+
+    "getIndex": {
+      "tsType": "WebStorageGetIndexMethodType",
+      "desc": "Get the storage item value at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Entry index",
+          "required": true
+        }
+      },
+      "returns": {
+        "type": [ "Number", "Boolean", "Date", "RegExp", "Function", "Object", "Array", "String", "null" ],
+        "desc": "Storage item index"
+      }
+    },
+
+    "getKey": {
+      "tsType": "WebStorageGetKeyMethodType",
+      "desc": "Get the storage key at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Entry index",
+          "required": true
+        }
+      },
+      "returns": {
+        "type": [ "String", "null" ],
+        "desc": "Storage key",
+        "examples": [ "'userId'" ]
+      }
+    },
+
+    "getAll": {
+      "desc": "Retrieve all items in storage",
+      "params": null,
+      "returns": {
+        "type": "Object",
+        "desc": "Object syntax: item name as Object key and its value",
+        "examples": [ "{ userId: 'rstoenescu', timesLoggedIn: 14 }" ]
+      }
+    },
+
+    "getAllKeys": {
+      "tsType": "WebStorageGetAllKeysMethodType",
+      "desc": "Retrieve all keys in storage",
+      "params": null,
+      "returns": {
+        "type": "Array",
+        "desc": "Storage keys (Array of Strings)",
+        "examples": [ "[ 'userId', 'password' ]" ]
+      }
+    },
+
+    "setItem": {
+      "desc": "Set item in storage",
+      "alias": "set",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": [ "'userId'" ]
+        },
+
+        "value": {
+          "type": [ "Number", "Boolean", "Date", "RegExp", "Function", "Object", "Array", "String", "null" ],
+          "desc": "Entry value",
+          "required": true,
+          "params": {
+            "...params": {
+              "type": "Any",
+              "__exemption": [ "desc" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "__exemption": [ "desc" ]
+          },
+          "examples": [ "'john12'" ]
+        }
+      },
+      "returns": null
+    },
+
+    "removeItem": {
+      "desc": "Remove a storage item",
+      "alias": "remove",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Storage key",
+          "required": true,
+          "examples": [ "'userId'" ]
+        }
+      },
+      "returns": null
+    },
+
+    "clear": {
+      "desc": "Remove everything from the storage",
+      "params": null,
+      "returns": null
+    },
+
+    "isEmpty": {
+      "desc": "Determine if storage has any items",
+      "params": null,
+      "returns": {
+        "type": "Boolean",
+        "desc": "Tells if storage is empty or not"
+      }
+    }
+  }
+}

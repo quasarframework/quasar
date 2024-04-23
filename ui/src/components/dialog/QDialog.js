@@ -1,19 +1,19 @@
 import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import useHistory from '../../composables/private/use-history.js'
-import useTimeout from '../../composables/use-timeout.js'
-import useTick from '../../composables/use-tick.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
-import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import usePortal from '../../composables/private/use-portal.js'
-import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
+import useHistory from '../../composables/private.use-history/use-history.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useTick from '../../composables/use-tick/use-tick.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
+import useTransition, { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
+import usePortal from '../../composables/private.use-portal/use-portal.js'
+import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { childHasFocus } from '../../utils/dom.js'
-import { hSlot } from '../../utils/private/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { childHasFocus } from '../../utils/dom/dom.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private.keyboard/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private.focus/focusout.js'
+import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 
 let maximizedModals = 0
 
@@ -235,6 +235,7 @@ export default createComponent({
           ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
           : void 0
         ) || refocusTarget).focus()
+
         refocusTarget = null
       }
 
@@ -250,16 +251,26 @@ export default createComponent({
       addFocusFn(() => {
         let node = innerRef.value
 
-        if (node === null || node.contains(document.activeElement) === true) {
-          return
+        if (node === null) return
+
+        if (selector !== void 0) {
+          const target = node.querySelector(selector)
+          if (target !== null) {
+            target.focus({ preventScroll: true })
+            return
+          }
         }
 
-        node = (selector !== '' ? node.querySelector(selector) : null)
-          || node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
-          || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
-          || node.querySelector('[autofocus], [data-autofocus]')
-          || node
-        node.focus({ preventScroll: true })
+        if (node.contains(document.activeElement) !== true) {
+          node = (
+            node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+            || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+            || node.querySelector('[autofocus], [data-autofocus]')
+            || node
+          )
+
+          node.focus({ preventScroll: true })
+        }
       })
     }
 

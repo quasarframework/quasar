@@ -7,23 +7,23 @@
     "separator": {
       "type": "String",
       "desc": "The string used to separate the breadcrumbs",
-      "default": "/",
-      "examples": [ "-", "|", ">" ],
+      "default": "'/'",
+      "examples": [ "'-'", "'|'", "'>'" ],
       "category": "content"
     },
 
     "active-color": {
       "extends": "color",
       "desc": "The color of the active breadcrumb, which can be any color from the Quasar Color Palette",
-      "default": "primary",
+      "default": "'primary'",
       "category": "style"
     },
 
     "gutter": {
       "type": "String",
       "desc": "The gutter value allows you control over the space between the breadcrumb elements.",
-      "default": "sm",
-      "values": [ "none", "xs", "sm", "md", "lg", "xl" ],
+      "default": "'sm'",
+      "values": [ "'none'", "'xs'", "'sm'", "'md'", "'lg'", "'xl'" ],
       "category": "content"
     },
 
@@ -35,9 +35,9 @@
 
     "align": {
       "type": "String",
-      "default": "left",
+      "default": "'left'",
       "desc": "Specify how to align the breadcrumbs horizontally",
-      "values": [ "left", "center", "right", "between", "around", "evenly" ],
+      "values": [ "'left'", "'center'", "'right'", "'between'", "'around'", "'evenly'" ],
       "category": "content"
     }
   },

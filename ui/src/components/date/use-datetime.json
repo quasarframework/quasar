@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-form" ],
+  "mixins": [ "composables/use-form/private.use-form" ],
 
   "props": {
     "landscape": {
@@ -17,27 +17,27 @@
     "locale": {
       "type": "Object",
       "desc": "Locale formatting options",
-      "examples": [ ":locale=\"{ monthsShort: ['Ian', 'Feb', 'Mar', '...'] }\"" ],
+      "examples": [ "{ monthsShort: [ 'Ian', 'Feb', 'Mar', '...' ] }" ],
       "definition": {
         "days": {
           "type": "Array",
           "desc": "List of full day names (DDDD), starting with Sunday",
-          "examples": [ "['Duminica', 'Luni', 'Marti', '...']" ]
+          "examples": [ "[ 'Duminica', 'Luni', 'Marti', '...' ]" ]
         },
         "daysShort": {
           "type": "Array",
           "desc": "List of short day names (DDD), starting with Sunday",
-          "examples": [ "['Dum', 'Lun', 'Mar', '...']" ]
+          "examples": [ "[ 'Dum', 'Lun', 'Mar', '...' ]" ]
         },
         "months": {
           "type": "Array",
           "desc": "List of full month names (MMMM), starting with January",
-          "examples": [ "['Ianuarie', 'Februarie', 'Martie', '...']" ]
+          "examples": [ "[ 'Ianuarie', 'Februarie', 'Martie', '...' ]" ]
         },
         "monthsShort": {
           "type": "Array",
           "desc": "List of short month names (MMM), starting with January",
-          "examples": [ "['Ian', 'Feb', 'Mar', '...']" ]
+          "examples": [ "[ 'Ian', 'Feb', 'Mar', '...' ]" ]
         }
       },
       "category": "model"
@@ -46,8 +46,8 @@
     "calendar": {
       "type": "String",
       "desc": "Specify calendar type",
-      "default": "gregorian",
-      "values": [ "gregorian", "persian" ],
+      "default": "'gregorian'",
+      "values": [ "'gregorian'", "'persian'" ],
       "category": "model"
     },
 

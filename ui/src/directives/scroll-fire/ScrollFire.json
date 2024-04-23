@@ -13,6 +13,6 @@
       }
     },
     "returns": null,
-    "examples": [ "v-scroll-fire=\"fnToCall\"", "v-scroll-fire=\"undefined\"" ]
+    "examples": [ "el => { console.log('Element:', el) }" ]
   }
 }

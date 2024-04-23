@@ -1,9 +1,9 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QCard',

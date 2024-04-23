@@ -12,7 +12,7 @@
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for custom styling the scrollbars (both vertical and horizontal)",
-      "examples": [ ":bar-style=\"{ borderRadius: '5px', background: 'red', opacity: 1 }\"" ],
+      "examples": [ "{ borderRadius: '5px', background: 'red', opacity: 1 }" ],
       "category": "style"
     },
 
@@ -20,7 +20,7 @@
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for custom styling the vertical scrollbar; Is applied on top of 'bar-style' prop",
-      "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "examples": [ "{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }" ],
       "category": "style"
     },
 
@@ -28,7 +28,7 @@
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for custom styling the horizontal scrollbar; Is applied on top of 'bar-style' prop",
-      "examples": [ ":bar-style=\"{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }\"" ],
+      "examples": [ "{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }" ],
       "category": "style"
     },
 
@@ -36,7 +36,7 @@
       "type": "Object",
       "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for custom styling the thumb of scrollbars (both vertical and horizontal)",
-      "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "examples": [ "{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }" ],
       "category": "style"
     },
 
@@ -44,7 +44,7 @@
       "type": "Object",
       "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for custom styling the thumb of the vertical scrollbar; Is applied on top of 'thumb-style' prop",
-      "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "examples": [ "{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }" ],
       "category": "style"
     },
 
@@ -52,7 +52,7 @@
       "type": "Object",
       "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for custom styling the thumb of the horizontal scrollbar; Is applied on top of 'thumb-style' prop",
-      "examples": [ ":thumb-style=\"{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }\"" ],
+      "examples": [ "{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }" ],
       "category": "style"
     },
 
@@ -60,7 +60,7 @@
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for styling the container of QScrollArea",
-      "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
+      "examples": [ "{ backgroundColor: '#C0C0C0' }" ],
       "category": "style"
     },
 
@@ -68,13 +68,13 @@
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered)",
-      "examples": [ ":content-active-style=\"{ backgroundColor: 'white' }\"" ],
+      "examples": [ "{ backgroundColor: 'white' }" ],
       "category": "style"
     },
 
     "visible": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
       "category": "behavior"
     },
@@ -82,7 +82,7 @@
     "delay": {
       "type": [ "Number", "String" ],
       "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars disappear again (if component is not hovered)",
-      "default": 1000,
+      "default": "1000",
       "category": "behavior"
     },
 
@@ -162,6 +162,7 @@
   "methods": {
     "getScrollTarget": {
       "desc": "Get the scrolling DOM element target",
+      "params": null,
       "returns": {
         "type": "Element",
         "desc": "DOM element upon which scrolling takes place"
@@ -170,6 +171,7 @@
 
     "getScroll": {
       "desc": "Get the current scroll information",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "Scroll information",
@@ -221,6 +223,7 @@
 
     "getScrollPosition": {
       "desc": "Get current scroll position",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "An object containing scroll position information",
@@ -242,6 +245,7 @@
 
     "getScrollPercentage": {
       "desc": "Get current scroll position in percentage (0.0 <= x <= 1.0)",
+      "params": null,
       "returns": {
         "type": "Object",
         "desc": "An object containing scroll position information in percentage",
@@ -268,7 +272,7 @@
           "type": "String",
           "required": true,
           "desc": "Scroll axis",
-          "values": [ "vertical", "horizontal" ]
+          "values": [ "'vertical'", "'horizontal'" ]
         },
         "offset": {
           "type": "Number",
@@ -279,7 +283,8 @@
           "type": "Number",
           "desc": "Duration (in milliseconds) enabling animated scroll"
         }
-      }
+      },
+      "returns": null
     },
 
     "setScrollPercentage": {
@@ -288,7 +293,7 @@
         "axis": {
           "type": "String",
           "desc": "Scroll axis",
-          "values": [ "vertical", "horizontal" ],
+          "values": [ "'vertical'", "'horizontal'" ],
           "required": true
         },
         "offset": {
@@ -300,7 +305,8 @@
           "type": "Number",
           "desc": "Duration (in milliseconds) enabling animated scroll"
         }
-      }
+      },
+      "returns": null
     }
   }
 }

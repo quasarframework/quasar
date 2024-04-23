@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle", "components/fab/use-fab" ],
+  "mixins": [ "composables/private.use-model-toggle/use-model-toggle", "components/fab/use-fab" ],
 
   "props": {
     "model-value": {
@@ -26,16 +26,16 @@
     "direction": {
       "type": "String",
       "desc": "Direction to expand Fab Actions to",
-      "default": "right",
-      "values": [ "up", "right", "down", "left" ],
+      "default": "'right'",
+      "values": [ "'up'", "'right'", "'down'", "'left'" ],
       "category": "behavior"
     },
 
     "vertical-actions-align": {
       "type": "String",
       "desc": "The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')",
-      "default": "center",
-      "values": [ "left", "center", "right" ],
+      "default": "'center'",
+      "values": [ "'left'", "'center'", "'right'" ],
       "category": "style|content"
     },
 

@@ -3,16 +3,14 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/video"
   },
 
-  "mixins": [ "composables/private/use-ratio" ],
+  "mixins": [ "composables/private.use-ratio/use-ratio" ],
 
   "props": {
     "src": {
       "type": "String",
       "desc": "The source url to display in an iframe",
       "required": true,
-      "examples": [
-        "https://www.youtube.com/embed/k3_tw44QsZQ"
-      ],
+      "examples": [ "'https://www.youtube.com/embed/k3_tw44QsZQ'" ],
       "category": "model"
     },
 
@@ -20,9 +18,7 @@
       "type": "String",
       "desc": "(Accessibility) Set the native 'title' attribute value of the inner iframe being used",
       "required": false,
-      "examples": [
-        "My Daily Marathon"
-      ],
+      "examples": [ "'My Daily Marathon'" ],
       "category": "accessibility",
       "addedIn": "v2.4.3"
     },
@@ -30,8 +26,8 @@
     "fetchpriority": {
       "type": "String",
       "desc": "Provides a hint of the relative priority to use when fetching the iframe document",
-      "default": "auto",
-      "values": [ "high", "low", "auto" ],
+      "default": "'auto'",
+      "values": [ "'high'", "'low'", "'auto'" ],
       "category": "behavior",
       "addedIn": "v2.6.6"
     },
@@ -39,8 +35,8 @@
     "loading": {
       "type": "String",
       "desc": "Indicates how the browser should load the iframe",
-      "default": "eager",
-      "values": [ "eager", "lazy" ],
+      "default": "'eager'",
+      "values": [ "'eager'", "'lazy'" ],
       "category": "behavior",
       "addedIn": "v2.6.6"
     },
@@ -48,16 +44,16 @@
     "referrerpolicy": {
       "type": "String",
       "desc": "Indicates which referrer to send when fetching the frame's resource",
-      "default": "strict-origin-when-cross-origin",
+      "default": "'strict-origin-when-cross-origin'",
       "values": [
-        "no-referrer",
-        "no-referrer-when-downgrade",
-        "origin",
-        "origin-when-cross-origin",
-        "same-origin",
-        "strict-origin",
-        "strict-origin-when-cross-origin",
-        "unsafe-url"
+        "'no-referrer'",
+        "'no-referrer-when-downgrade'",
+        "'origin'",
+        "'origin-when-cross-origin'",
+        "'same-origin'",
+        "'strict-origin'",
+        "'strict-origin-when-cross-origin'",
+        "'unsafe-url'"
       ],
       "category": "behavior",
       "addedIn": "v2.6.6"

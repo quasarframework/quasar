@@ -1,0 +1,33 @@
+{
+  "name": "quasar-ui-playground",
+  "version": "1.0.0",
+  "description": "Quasar Playground",
+  "productName": "Quasar Playground",
+  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "workspace:*",
+    "quasar": "workspace:^",
+    "vue": "^3",
+    "vue-router": "^4"
+  },
+  "devDependencies": {
+    "vite-plugin-checker": "^0.6.4",
+    "eslint": "^8.11.0",
+    "eslint-config-quasar": "workspace:*",
+    "@quasar/app-vite": "workspace:*",
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.14"
+  },
+  "engines": {
+    "node": "^24 || ^22 || ^20 || ^18",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

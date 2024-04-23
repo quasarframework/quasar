@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-form" ],
+  "mixins": [ "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/button-toggle"
@@ -10,7 +10,7 @@
       "extends": "model-value",
       "type": "Any",
       "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"selected\"" ]
+      "examples": [ "# v-model=\"selected\"" ]
     },
 
     "options": {
@@ -27,7 +27,7 @@
         "label": {
           "type": "String",
           "desc": "Label of option button; Use this prop and/or 'icon', but at least one is required",
-          "examples": [ "Option 1" ]
+          "examples": [ "'Option 1'" ]
         },
         "icon": {
           "extends": "icon",
@@ -41,7 +41,7 @@
         "slot": {
           "type": "String",
           "desc": "Slot name to use for this button content; Useful for customizing content or even add tooltips",
-          "examples": [ "mySlot" ]
+          "examples": [ "'mySlot'" ]
         },
         "...props": {
           "type": "Any",
@@ -49,7 +49,7 @@
         }
       },
       "examples": [
-        "[ {label: 'One', value: 'one'}, {label: 'Two', value: 'two'} ]"
+        "[ { label: 'One', value: 'one' }, { label: 'Two', value: 'two' } ]"
       ],
       "category": "model"
     },
@@ -64,7 +64,7 @@
 
     "toggle-color": {
       "extends": "color",
-      "default": "primary"
+      "default": "'primary'"
     },
 
     "toggle-text-color": {
@@ -116,14 +116,14 @@
     "size": {
       "type": "String",
       "desc": "Button size name or a CSS unit including unit name",
-      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
+      "examples": [ "'xs'", "'sm'", "'md'", "'lg'", "'xl'", "'25px'", "'2rem'" ],
       "category": "style"
     },
 
     "padding": {
       "type": "String",
       "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
-      "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg", "2px 2px 5px 7px" ],
+      "examples": [ "'16px'", "'10px 5px'", "'2rem'", "'xs'", "'md lg'", "'2px 2px 5px 7px'" ],
       "category": "style"
     },
 

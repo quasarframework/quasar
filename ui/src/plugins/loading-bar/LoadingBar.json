@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/loading-bar"
+  },
+
+  "injection": "$q.loadingBar",
+
+  "quasarConfOptions": {
+    "propName": "loadingBar",
+    "type": "Object",
+    "tsType": "QLoadingBarOptions",
+    "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter' in quasar.config file (if using Quasar CLI)",
+    "examples": [ "{ position: 'bottom', reverse: true }" ]
+  },
+
+  "props": {
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is LoadingBar active?",
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "start": {
+      "desc": "Notify bar you've started a background activity",
+      "params": {
+        "speed": {
+          "type": "Number",
+          "desc": "Delay (in milliseconds) between bar progress increments",
+          "default": "300"
+        }
+      },
+      "returns": null
+    },
+
+    "stop": {
+      "desc": "Notify bar one background activity has finalized",
+      "params": null,
+      "returns": null
+    },
+
+    "increment": {
+      "desc": "Manually trigger a bar progress increment",
+      "params": {
+        "amount": {
+          "type": "Number",
+          "desc": "Amount (0.0 < x < 1.0) to increment with"
+        }
+      },
+      "returns": null
+    },
+
+    "setDefaults": {
+      "desc": "Set the inner QAjaxBar's props",
+      "params": {
+        "props": {
+          "type": "Object",
+          "tsType": "QLoadingBarOptions",
+          "required": true,
+          "desc": "QAjaxBar component props",
+          "examples": [ "{ position: 'bottom', reverse: true }" ]
+        }
+      },
+      "returns": null
+    }
+  }
+}

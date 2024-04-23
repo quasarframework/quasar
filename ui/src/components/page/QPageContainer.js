@@ -1,8 +1,8 @@
 import { h, computed, provide, inject, getCurrentInstance } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { pageContainerKey, layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { pageContainerKey, layoutKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 
 export default createComponent({
   name: 'QPageContainer',

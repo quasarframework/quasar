@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-transition" ],
+  "mixins": [ "composables/private.use-model-toggle/use-model-toggle", "composables/private.use-portal/use-portal", "composables/private.use-transition/use-transition" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/dialog"
@@ -46,16 +46,16 @@
       "type": "String",
       "desc": "Apply a backdrop filter; The value needs to be the same as in the CSS specs for backdrop-filter; The examples are not an exhaustive list",
       "examples": [
-        "blur(4px)",
-        "blur(4px) saturate(150%)",
-        "brightness(60%)",
-        "invert(70%)",
-        "grayscale(100%)",
-        "contrast(40%)",
-        "hue-rotate(120deg)",
-        "sepia(90%)",
-        "saturate(80%)",
-        "none"
+        "'blur(4px)'",
+        "'blur(4px) saturate(150%)'",
+        "'brightness(60%)'",
+        "'invert(70%)'",
+        "'grayscale(100%)'",
+        "'contrast(40%)'",
+        "'hue-rotate(120deg)'",
+        "'sepia(90%)'",
+        "'saturate(80%)'",
+        "'none'"
       ],
       "category": "style",
       "addedIn": "v2.15"
@@ -82,8 +82,8 @@
     "position": {
       "type": "String",
       "desc": "Stick dialog to one of the sides (top, right, bottom or left)",
-      "default": "standard",
-      "values": [ "standard", "top", "right", "bottom", "left" ],
+      "default": "'standard'",
+      "values": [ "'standard'", "'top'", "'right'", "'bottom'", "'left'" ],
       "category": "content"
     },
 
@@ -138,10 +138,11 @@
           "type": "String",
           "required": false,
           "desc": "Optional CSS selector to override default focusable element",
-          "examples": [ "[tabindex]:not([tabindex=\"-1\"])" ],
+          "examples": [ "'[tabindex]:not([tabindex=\"-1\"])'" ],
           "addedIn": "v2.6.5"
         }
-      }
+      },
+      "returns": null
     },
 
     "shake": {
@@ -153,7 +154,8 @@
           "examples": [ "document.getElementById('example')" ],
           "addedIn": "v2.10.1"
         }
-      }
+      },
+      "returns": null
     }
   },
 

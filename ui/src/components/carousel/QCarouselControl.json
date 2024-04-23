@@ -7,11 +7,11 @@
     "position": {
       "type": "String",
       "desc": "Side/corner to stick to",
-      "default": "bottom-right",
+      "default": "'bottom-right'",
       "values": [
-        "top-right", "top-left",
-        "bottom-right", "bottom-left",
-        "top", "right", "bottom", "left"
+        "'top-right'", "'top-left'",
+        "'bottom-right'", "'bottom-left'",
+        "'top'", "'right'", "'bottom'", "'left'"
       ],
       "category": "position"
     },
@@ -19,8 +19,8 @@
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the component horizontally and vertically (in pixels)",
-      "default": "[18, 18]",
-      "examples": [ "[8, 8]", "[5, 10]" ],
+      "default": "[ 18, 18 ]",
+      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
       "category": "position"
     }
   },

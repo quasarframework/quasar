@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field", "components/input/use-mask", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-field/use-field", "components/input/use-mask", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/input"
@@ -10,24 +10,24 @@
       "extends": "model-value",
       "type": [ "String", "Number", "null", "undefined" ],
       "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"myText\"" ]
+      "examples": [ "# v-model=\"myText\"" ]
     },
 
     "shadow-text": {
       "type": "String",
       "desc": "Text to be displayed as shadow at the end of the text in the control; Does NOT applies to type=file",
-      "examples": [ "rest of the fill value" ],
+      "examples": [ "'rest of the fill value'" ],
       "category": "content"
     },
 
     "type": {
       "type": "String",
       "desc": "Input type",
-      "default": "text",
+      "default": "'text'",
       "values": [
-        "text", "password", "textarea", "email", "search",
-        "tel", "file", "number", "url", "time", "date",
-        "datetime-local"
+        "'text'", "'password'", "'textarea'", "'email'", "'search'",
+        "'tel'", "'file'", "'number'", "'url'", "'time'", "'date'",
+        "'datetime-local'"
       ],
       "category": "general"
     },
@@ -55,8 +55,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the underlying input tag",
       "examples": [
-        "my-special-class",
-        ":input-class=\"{ 'my-special-class': <condition> }\""
+        "'my-special-class'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -66,10 +66,14 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the underlying input tag",
       "examples": [
-        "background-color: #ff0000",
-        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
+    },
+
+    "name": {
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists"
     }
   },
 
@@ -104,19 +108,26 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus underlying input tag"
+      "desc": "Focus underlying input tag",
+      "params": null,
+      "returns": null
     },
 
     "blur": {
-      "desc": "Lose focus on underlying input tag"
+      "desc": "Lose focus on underlying input tag",
+      "params": null,
+      "returns": null
     },
 
     "select": {
-      "desc": "Select input text"
+      "desc": "Select input text",
+      "params": null,
+      "returns": null
     },
 
     "getNativeElement": {
       "desc": "DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element",
+      "params": null,
       "returns": {
         "type": "Element",
         "tsType": "QInputNativeElement",

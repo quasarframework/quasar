@@ -16,7 +16,7 @@
       "type": "String",
       "tsType": "NamedColor",
       "desc": "Color name for component from the Quasar Color Palette",
-      "examples": [ "primary", "teal", "teal-10" ],
+      "examples": [ "'primary'", "'teal'", "'teal-10'" ],
       "category": "style"
     },
 
@@ -24,7 +24,7 @@
       "type": "String",
       "tsType": "NamedColor",
       "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
-      "examples": [ "primary", "teal", "teal-10" ],
+      "examples": [ "'primary'", "'teal'", "'teal-10'" ],
       "category": "style"
     },
 
@@ -37,13 +37,13 @@
     "size": {
       "type": "String",
       "desc": "Size in CSS units, including unit name",
-      "examples": [ "16px", "2rem" ],
+      "examples": [ "'16px'", "'2rem'" ],
       "category": "style"
     },
 
     "dark": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "Notify the component that the background is a dark color",
       "category": "style"
     },
@@ -52,10 +52,10 @@
       "type": "String",
       "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
       "examples": [
-        "map",
-        "ion-add",
-        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:path/to/some_image.png"
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
       ],
       "category": "content"
     },
@@ -87,21 +87,21 @@
     "tabindex": {
       "type": [ "Number", "String" ],
       "desc": "Tabindex HTML attribute value",
-      "examples": [ "0", "100" ],
+      "examples": [ "100", "'0'" ],
       "category": "general"
     },
 
     "transition": {
       "type": "String",
       "desc": "One of Quasar's embedded transitions",
-      "examples": [ "fade", "slide-down" ],
+      "examples": [ "'fade'", "'slide-down'" ],
       "category": "transition"
     },
 
     "animation-speed": {
       "type": [ "String", "Number" ],
       "desc": "Animation speed (in milliseconds, without unit)",
-      "examples": [ 500, "1200" ],
+      "examples": [ "500", "'1200'" ],
       "category": "style"
     },
 
@@ -121,7 +121,6 @@
     "tag": {
       "type": "String",
       "desc": "HTML tag to use",
-      "examples": [ "div", "span" ],
       "category": "content"
     },
 
@@ -129,10 +128,10 @@
       "type": [ "Element", "String" ],
       "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
       "examples": [
-        ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\".scroll-target-class\"",
-        "scroll-target=\"#scroll-target-id\"",
-        "scroll-target=\"body\""
+        ".scroll-target-class",
+        "#scroll-target-id",
+        "$refs.scrollTarget",
+        "document.body"
       ],
       "category": "behavior"
     },
@@ -140,8 +139,8 @@
     "ripple": {
       "type": [ "Boolean", "Object" ],
       "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
-      "default": true,
-      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+      "default": "true",
+      "examples": [ "false", "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
       "category": "style"
     },
 
@@ -236,7 +235,8 @@
           "extends": "evt",
           "required": false
         }
-      }
+      },
+      "returns": null
     },
 
     "hide": {
@@ -246,17 +246,19 @@
           "extends": "evt",
           "required": false
         }
-      }
+      },
+      "returns": null
     },
 
     "toggle": {
+      "desc": "Triggers component to toggle between show/hide",
       "params": {
         "evt": {
           "extends": "evt",
           "required": false
         }
       },
-      "desc": "Triggers component to toggle between show/hide"
+      "returns": null
     }
   }
 }

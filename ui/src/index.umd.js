@@ -3,8 +3,8 @@
  */
 
 import installQuasar from './install-quasar.js'
-import lang from './lang.js'
-import iconSet from './icon-set.js'
+import Lang from './plugins/lang/Lang.js'
+import IconSet from './plugins/icon-set/IconSet.js'
 
 import * as components from './components.js'
 import * as directives from './directives.js'
@@ -18,6 +18,7 @@ if (window.Vue === void 0) {
 
 window.Quasar = {
   version: __QUASAR_VERSION__,
+
   install (app, opts) {
     installQuasar(app, {
       components,
@@ -26,8 +27,15 @@ window.Quasar = {
       ...opts
     })
   },
-  lang,
-  iconSet,
+
+  // TODO: remove in Qv3 (should only be used through the plugin)
+  // We provide a deprecated fallback here
+  lang: Lang,
+
+  // TODO: remove in Qv3 (should only be used through the plugin)
+  // We provide a deprecated fallback here
+  iconSet: IconSet,
+
   ...components,
   ...directives,
   ...plugins,

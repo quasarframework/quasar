@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-form" ],
+  "mixins": [ "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/color-picker"
@@ -9,39 +9,37 @@
     "model-value": {
       "extends": "model-value",
       "type": [ "String", "null", "undefined" ],
-      "examples": [ "v-model=\"myColor\"" ]
+      "examples": [ "# v-model=\"myColor\"" ]
     },
 
     "default-value": {
       "type": "String",
       "desc": "The default value to show when the model doesn't have one",
-      "examples": [ "default-value=\"#c0c0c0\"" ],
+      "examples": [ "'#c0c0c0'" ],
       "category": "model"
     },
 
     "default-view": {
       "type": "String",
       "desc": "The default view of the picker",
-      "default": "spectrum",
-      "values": [ "spectrum", "tune", "palette" ],
+      "default": "'spectrum'",
+      "values": [ "'spectrum'", "'tune'", "'palette'" ],
       "category": "behavior"
     },
 
     "format-model": {
       "type": "String",
       "desc": "Forces a certain model format upon the model",
-      "default": "auto",
-      "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
+      "default": "'auto'",
+      "values": [ "'auto'", "'hex'", "'rgb'", "'hexa'", "'rgba'" ],
       "category": "model"
     },
 
     "palette": {
       "type": "Array",
       "desc": "Use a custom palette of colors for the palette tab",
-      "default": "(hard-coded palette)",
-      "examples": [
-        ":palette=\"[ '#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A' ]\""
-      ],
+      "default": "# hard-coded palette",
+      "examples": [ "[ '#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A' ]" ],
       "category": "content"
     },
 

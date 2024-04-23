@@ -40,7 +40,7 @@
           "direction": {
             "type": "String",
             "desc": "Direction of movement",
-            "values": [ "up", "right", "down", "left" ]
+            "values": [ "'up'", "'right'", "'down'", "'left'" ]
           },
           "isFirst": {
             "type": "Boolean",
@@ -75,12 +75,12 @@
               "x": {
                 "type": "Number",
                 "desc": "Distance horizontally",
-                "examples": [ -231, 110 ]
+                "examples": [ "-231", "110" ]
               },
               "y": {
                 "type": "Number",
                 "desc": "Distance vertically",
-                "examples": [ -231, 110 ]
+                "examples": [ "-231", "110" ]
               }
             }
           },
@@ -102,7 +102,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-pan=\"fnToCall\"", "v-touch-pan=\"undefined\"" ]
+    "examples": [ "({ evt, touch, mouse, position, direction, isFirst, isFinal, distance, offset, delta }) => { /* ... */ }" ]
   },
 
   "modifiers": {

@@ -18,7 +18,7 @@ Take full advantage of this feature by using it with **Quasar CLI**, especially 
 What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.
 
 ::: warning Important!
-Make sure not to duplicate content that already exists in `/src/index.template.html`. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
+Make sure not to duplicate content that already exists in /index.html or /src/index.template.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
 :::
 
 ### Composition API

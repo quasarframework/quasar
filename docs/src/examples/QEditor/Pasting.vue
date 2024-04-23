@@ -27,7 +27,7 @@ export default {
       editor: ref(
         'Try pasting some rich text here,' +
         ' such as from Discord or Webstorm.' +
-        '<br/>You can\'t paste images either!!!'
+        '<br>You can\'t paste images either!!!'
       ),
 
       /**

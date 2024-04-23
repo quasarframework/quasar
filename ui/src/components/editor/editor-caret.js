@@ -1,4 +1,4 @@
-import { noop } from '../../utils/event.js'
+import { noop } from '../../utils/event/event.js'
 
 function getBlockElement (el, parent) {
   if (parent && el === parent) {

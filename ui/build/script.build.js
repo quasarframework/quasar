@@ -8,7 +8,7 @@ const { green } = require('chalk')
 /*
   Build:
   * all: pnpm build
-  * js:  pnpm build js
+  * js:  pnpm build js [fast|types|api|vetur|webtypes|transforms]
   * css: pnpm build css
  */
 

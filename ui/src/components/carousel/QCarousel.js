@@ -2,13 +2,13 @@ import { h, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } fr
 
 import QBtn from '../btn/QBtn.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private.use-panel/use-panel.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { isNumber } from '../../utils/is.js'
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { isNumber } from '../../utils/is/is.js'
+import { hMergeSlot, hDir } from '../../utils/private.render/render.js'
 
 const navigationPositionOptions = [ 'top', 'right', 'bottom', 'left' ]
 const controlTypeOptions = [ 'regular', 'flat', 'outline', 'push', 'unelevated' ]

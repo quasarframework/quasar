@@ -1,0 +1,1100 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/options/quasar-language-packs"
+  },
+
+  "injection": "$q.lang",
+
+  "quasarConfOptions": {
+    "propName": "lang",
+    "type": "Object",
+    "definition": {
+      "noHtmlAttrs": {
+        "type": "Boolean",
+        "addedIn": "v2.11.3",
+        "desc": "Whether to disable 'dir' and 'lang' HTML attributes getting added to the '<html>' tag. The 'dir' attribute is crucial when using RTL support. Disable this only if you need to handle these yourself for some reason."
+      }
+    }
+  },
+
+  "props": {
+    "props": {
+      "type": "Object",
+      "desc": "Quasar language pack",
+      "definition": {
+        "isoName": {
+          "type": "String",
+          "desc": "The ISO name of the Quasar language pack",
+          "examples": [ "'en-US'" ]
+        },
+        "nativeName": {
+          "type": "String",
+          "desc": "The native name of the Quasar language pack",
+          "examples": [ "'English (US)'" ]
+        },
+        "rtl": {
+          "type": "Boolean",
+          "desc": "Whether the language is RTL (right-to-left)",
+          "examples": [ "false" ]
+        },
+        "label": {
+          "type": "Object",
+          "desc": "Generic labels",
+          "definition": {
+            "clear": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Clear'" ]
+            },
+            "ok": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'OK'" ]
+            },
+            "cancel": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Cancel'" ]
+            },
+            "close": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Close'" ]
+            },
+            "set": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Set'" ]
+            },
+            "select": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Select'" ]
+            },
+            "reset": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Reset'" ]
+            },
+            "remove": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Remove'" ]
+            },
+            "update": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Update'" ]
+            },
+            "create": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Create'" ]
+            },
+            "search": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Search'" ]
+            },
+            "filter": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Filter'" ]
+            },
+            "refresh": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Refresh'" ]
+            },
+            "expand": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "label": {
+                  "type": "String",
+                  "desc": "Item to expand"
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": [ "'Expand'" ]
+              },
+              "examples": [ "label => (label ? `Expand '${ label }'` : 'Expand')" ]
+            },
+            "collapse": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "label": {
+                  "type": "String",
+                  "desc": "Item to collapse"
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": [ "'Collapse'" ]
+              },
+              "examples": [ "label => (label ? `Collapse '${ label }'` : 'Collapse')" ]
+            }
+          }
+        },
+        "date": {
+          "type": "Object",
+          "desc": "QDate labels",
+          "definition": {
+            "days": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [ "[ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]" ]
+            },
+            "daysShort": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [ "[ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ]" ]
+            },
+            "months": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [ "[ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]" ]
+            },
+            "monthsShort": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [ "[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
+            },
+            "firstDayOfWeek": {
+              "type": "Number",
+              "desc": "0-6, 0 - Sunday, 1 Monday, ...",
+              "examples": [ "0" ]
+            },
+            "format24h": {
+              "type": "Boolean",
+              "desc": "Uses 24-hour format"
+            },
+            "pluralDay": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'days'" ]
+            }
+          }
+        },
+        "table": {
+          "type": "Object",
+          "desc": "QTable labels",
+          "definition": {
+            "noData": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'No data available'" ]
+            },
+            "noResults": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'No matching records found'" ]
+            },
+            "loading": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Loading...'" ]
+            },
+            "selectedRecords": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "rows": {
+                  "type": "Number",
+                  "desc": "Number of selected rows",
+                  "required": true,
+                  "examples": [ "5" ]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": [ "'5 records selected'" ]
+              },
+              "examples": [ "rows => `${ rows } records selected`" ]
+            },
+            "recordsPerPage": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Records per page:'" ]
+            },
+            "allRows": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'All'" ]
+            },
+            "pagination": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "start": {
+                  "type": "Number",
+                  "desc": "Page start index",
+                  "required": true,
+                  "examples": [ "5" ]
+                },
+                "end": {
+                  "type": "Number",
+                  "desc": "Page end index",
+                  "required": true,
+                  "examples": [ "10" ]
+                },
+                "total": {
+                  "type": "Number",
+                  "desc": "Total number of rows",
+                  "required": true,
+                  "examples": [ "50" ]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": [ "'5-10 of 50'" ]
+              },
+              "examples": [ "(start, end, total) => start + '-' + end + ' of ' + total" ]
+            },
+            "columns": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Columns'" ]
+            }
+          }
+        },
+        "editor": {
+          "type": "Object",
+          "desc": "QEditor labels",
+          "definition": {
+            "url": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'URL'" ]
+            },
+            "bold": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Bold'" ]
+            },
+            "italic": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Italic'" ]
+            },
+            "strikethrough": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Strikethrough'" ]
+            },
+            "underline": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Underline'" ]
+            },
+            "unorderedList": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Unordered List'" ]
+            },
+            "orderedList": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Ordered List'" ]
+            },
+            "subscript": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Subscript'" ]
+            },
+            "superscript": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Superscript'" ]
+            },
+            "hyperlink": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Hyperlink'" ]
+            },
+            "toggleFullscreen": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Toggle Fullscreen'" ]
+            },
+            "quote": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Quote'" ]
+            },
+            "left": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Left align'" ]
+            },
+            "center": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Center align'" ]
+            },
+            "right": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Right align'" ]
+            },
+            "justify": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Justify align'" ]
+            },
+            "print": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Print'" ]
+            },
+            "outdent": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Decrease indentation'" ]
+            },
+            "indent": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Increase indentation'" ]
+            },
+            "removeFormat": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Remove formatting'" ]
+            },
+            "formatting": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Formatting'" ]
+            },
+            "fontSize": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Font Size'" ]
+            },
+            "align": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Align'" ]
+            },
+            "hr": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Insert Horizontal Rule'" ]
+            },
+            "undo": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Undo'" ]
+            },
+            "redo": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Redo'" ]
+            },
+            "heading1": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Heading 1'" ]
+            },
+            "heading2": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Heading 2'" ]
+            },
+            "heading3": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Heading 3'" ]
+            },
+            "heading4": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Heading 4'" ]
+            },
+            "heading5": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Heading 5'" ]
+            },
+            "heading6": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Heading 6'" ]
+            },
+            "paragraph": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Paragraph'" ]
+            },
+            "code": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Code'" ]
+            },
+            "size1": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Very small'" ]
+            },
+            "size2": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'A bit small'" ]
+            },
+            "size3": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Normal'" ]
+            },
+            "size4": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Medium-large'" ]
+            },
+            "size5": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Big'" ]
+            },
+            "size6": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Very big'" ]
+            },
+            "size7": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Maximum'" ]
+            },
+            "defaultFont": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'Default Font'" ]
+            },
+            "viewSource": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'View Source'" ]
+            }
+          }
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree labels",
+          "definition": {
+            "noNodes": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'No nodes available'" ]
+            },
+            "noResults": {
+              "type": "String",
+              "desc": "Label",
+              "examples": [ "'No matching nodes found'" ]
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc":  "Set another Quasar Language Pack",
+      "params": {
+        "quasarLanguagePack": {
+          "type": "Object",
+          "desc":  "Usually you will import such an object directly from quasar (eg: import qIconSet from 'quasar/lang/<lang-name>')",
+          "required": true,
+          "definition": {
+            "isoName": {
+              "type": "String",
+              "desc": "The ISO name of the Quasar language pack",
+              "required": true,
+              "examples": [ "'en-US'" ]
+            },
+            "nativeName": {
+              "type": "String",
+              "desc": "The native name of the Quasar language pack",
+              "required": true,
+              "examples": [ "'English (US)'" ]
+            },
+            "rtl": {
+              "type": "Boolean",
+              "default": "true",
+              "desc": "Whether the language is RTL (right-to-left)",
+              "examples": [ "false" ]
+            },
+            "label": {
+              "type": "Object",
+              "desc": "Generic labels",
+              "required": true,
+              "definition": {
+                "clear": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Clear'" ]
+                },
+                "ok": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'OK'" ]
+                },
+                "cancel": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Cancel'" ]
+                },
+                "close": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Close'" ]
+                },
+                "set": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Set'" ]
+                },
+                "select": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Select'" ]
+                },
+                "reset": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Reset'" ]
+                },
+                "remove": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Remove'" ]
+                },
+                "update": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Update'" ]
+                },
+                "create": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Create'" ]
+                },
+                "search": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Search'" ]
+                },
+                "filter": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Filter'" ]
+                },
+                "refresh": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Refresh'" ]
+                },
+                "expand": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "label": {
+                      "type": "String",
+                      "desc": "Item to expand"
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": [ "'Expand'" ]
+                  },
+                  "examples": [ "label => (label ? `Expand '${ label }'` : 'Expand')" ]
+                },
+                "collapse": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "label": {
+                      "type": "String",
+                      "desc": "Item to collapse"
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": [ "'Collapse'" ]
+                  },
+                  "examples": [ "label => (label ? `Collapse '${ label }'` : 'Collapse')" ]
+                }
+              }
+            },
+            "date": {
+              "type": "Object",
+              "desc": "QDate labels",
+              "required": true,
+              "definition": {
+                "days": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "[ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]" ]
+                },
+                "daysShort": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "[ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ]" ]
+                },
+                "months": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "[ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]" ]
+                },
+                "monthsShort": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
+                },
+                "firstDayOfWeek": {
+                  "type": "Number",
+                  "desc": "0-6, 0 - Sunday, 1 Monday, ...",
+                  "required": true,
+                  "examples": [ "0" ]
+                },
+                "format24h": {
+                  "type": "Boolean",
+                  "desc": "Uses 24-hour format",
+                  "required": true
+                },
+                "pluralDay": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'days'" ]
+                }
+              }
+            },
+            "table": {
+              "type": "Object",
+              "desc": "QTable labels",
+              "required": true,
+              "definition": {
+                "noData": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'No data available'" ]
+                },
+                "noResults": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'No matching records found'" ]
+                },
+                "loading": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Loading...'" ]
+                },
+                "selectedRecords": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "rows": {
+                      "type": "Number",
+                      "desc": "Number of selected rows",
+                      "required": true,
+                      "examples": [ "5" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": [ "'5 records selected'" ]
+                  },
+                  "examples": [ "rows => `${ rows } records selected`" ]
+                },
+                "recordsPerPage": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Records per page:'" ]
+                },
+                "allRows": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'All'" ]
+                },
+                "pagination": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "start": {
+                      "type": "Number",
+                      "desc": "Page start index",
+                      "required": true,
+                      "examples": [ "5" ]
+                    },
+                    "end": {
+                      "type": "Number",
+                      "desc": "Page end index",
+                      "required": true,
+                      "examples": [ "10" ]
+                    },
+                    "total": {
+                      "type": "Number",
+                      "desc": "Total number of rows",
+                      "required": true,
+                      "examples": [ "50" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": [ "'5-10 of 50'" ]
+                  },
+                  "examples": [ "(start, end, total) => start + '-' + end + ' of ' + total" ]
+                },
+                "columns": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Columns'" ]
+                }
+              }
+            },
+            "editor": {
+              "type": "Object",
+              "desc": "QEditor labels",
+              "required": true,
+              "definition": {
+                "url": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'URL'" ]
+                },
+                "bold": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Bold'" ]
+                },
+                "italic": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Italic'" ]
+                },
+                "strikethrough": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Strikethrough'" ]
+                },
+                "underline": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Underline'" ]
+                },
+                "unorderedList": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Unordered List'" ]
+                },
+                "orderedList": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Ordered List'" ]
+                },
+                "subscript": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Subscript'" ]
+                },
+                "superscript": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Superscript'" ]
+                },
+                "hyperlink": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Hyperlink'" ]
+                },
+                "toggleFullscreen": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Toggle Fullscreen'" ]
+                },
+                "quote": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Quote'" ]
+                },
+                "left": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Left align'" ]
+                },
+                "center": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Center align'" ]
+                },
+                "right": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Right align'" ]
+                },
+                "justify": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Justify align'" ]
+                },
+                "print": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Print'" ]
+                },
+                "outdent": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Decrease indentation'" ]
+                },
+                "indent": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Increase indentation'" ]
+                },
+                "removeFormat": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Remove formatting'" ]
+                },
+                "formatting": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Formatting'" ]
+                },
+                "fontSize": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Font Size'" ]
+                },
+                "align": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Align'" ]
+                },
+                "hr": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Insert Horizontal Rule'" ]
+                },
+                "undo": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Undo'" ]
+                },
+                "redo": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Redo'" ]
+                },
+                "heading1": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Heading 1'" ]
+                },
+                "heading2": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Heading 2'" ]
+                },
+                "heading3": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Heading 3'" ]
+                },
+                "heading4": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Heading 4'" ]
+                },
+                "heading5": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Heading 5'" ]
+                },
+                "heading6": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Heading 6'" ]
+                },
+                "paragraph": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Paragraph'" ]
+                },
+                "code": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Code'" ]
+                },
+                "size1": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Very small'" ]
+                },
+                "size2": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'A bit small'" ]
+                },
+                "size3": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Normal'" ]
+                },
+                "size4": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Medium-large'" ]
+                },
+                "size5": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Big'" ]
+                },
+                "size6": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Very big'" ]
+                },
+                "size7": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Maximum'" ]
+                },
+                "defaultFont": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'Default Font'" ]
+                },
+                "viewSource": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'View Source'" ]
+                }
+              }
+            },
+            "tree": {
+              "type": "Object",
+              "desc": "QTree labels",
+              "required": true,
+              "definition": {
+                "noNodes": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'No nodes available'" ]
+                },
+                "noResults": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [ "'No matching nodes found'" ]
+                }
+              }
+            }
+          }
+        },
+        "ssrContent": {
+          "type": "Object",
+          "desc": "Required for SSR only",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": null
+    },
+
+    "getLocale": {
+      "desc": "Get the browser locale ISO name; Returns undefined when it cannot determine current browser locale or when running on server in SSR mode",
+      "params": null,
+      "returns": {
+        "type": [ "String", "undefined" ],
+        "desc": "Browser locale ISO name",
+        "examples": [ "'en-US'" ]
+      }
+    }
+  }
+}

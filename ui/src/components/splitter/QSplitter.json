@@ -8,7 +8,7 @@
       "extends": "model-value",
       "type": "Number",
       "desc": "Model of the component defining the size of first panel (or second if using reverse) in the unit specified (for '%' it's the split ratio percent - 0.0 < x < 100.0; for 'px' it's the size in px); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"ratio\"" ]
+      "examples": [ "# v-model=\"ratio\"" ]
     },
 
     "reverse": {
@@ -20,8 +20,8 @@
     "unit": {
       "type": "String",
       "desc": "CSS unit for the model",
-      "default": "%",
-      "values": [ "%", "px" ],
+      "default": "'%'",
+      "values": [ "'%'", "'px'" ],
       "category": "model"
     },
 
@@ -39,9 +39,9 @@
 
     "limits": {
       "type": "Array",
-      "desc": "An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side",
-      "default": "For '%' unit: [10, 90]; For 'px' unit: [50, Infinity]",
-      "examples": [ ":limits=\"[30, 70]\"", ":limits=\"[0, Infinity]\"" ],
+      "desc": "An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side; Default value: for '%' unit it is [10, 90], while for 'px' unit it is [50, Infinity]",
+      "default": "# [10, 90]/[50, Infinity]",
+      "examples": [ "[ 30, 70 ]", "[ 0, Infinity ]" ],
       "category": "content|model"
     },
 
@@ -54,8 +54,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the 'before' panel",
       "examples": [
-        "bg-deep-orange",
-        ":before-class=\"{ 'my-special-class': <condition> }\""
+        "'bg-deep-orange'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -65,8 +65,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the 'after' panel",
       "examples": [
-        "bg-deep-orange",
-        ":after-class=\"{ 'my-special-class': <condition> }\""
+        "'bg-deep-orange'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -76,8 +76,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the splitter separator",
       "examples": [
-        "bg-deep-orange",
-        ":separator-class=\"{ 'my-special-class': <condition> }\""
+        "'bg-deep-orange'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -87,8 +87,8 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the splitter separator",
       "examples": [
-        "background-color: #ff0000",
-        ":separator-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
     },

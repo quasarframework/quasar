@@ -1,7 +1,7 @@
 import { h, computed, inject, getCurrentInstance } from 'vue'
 
-import { hSlot } from '../../utils/private/render.js'
-import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 
 export const usePageStickyProps = {
   position: {

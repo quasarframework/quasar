@@ -1,9 +1,9 @@
 import { h, onMounted, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
 
-import useHydration from '../../composables/use-hydration.js'
+import useHydration from '../../composables/use-hydration/use-hydration.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { listenOpts, noop } from '../../utils/event.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { listenOpts, noop } from '../../utils/event/event.js'
 
 const hasObserver = typeof ResizeObserver !== 'undefined'
 const resizeProps = hasObserver === true

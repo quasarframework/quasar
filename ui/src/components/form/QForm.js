@@ -1,11 +1,11 @@
 import { h, ref, onActivated, onDeactivated, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
-import { hSlot } from '../../utils/private/render.js'
-import { formKey } from '../../utils/private/symbols.js'
-import { vmIsDestroyed } from '../../utils/private/vm.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { formKey } from '../../utils/private.symbols/symbols.js'
+import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 
 export default createComponent({
   name: 'QForm',

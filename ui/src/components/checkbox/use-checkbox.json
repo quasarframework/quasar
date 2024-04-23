@@ -1,49 +1,49 @@
 {
-  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-size/use-size", "composables/use-form/private.use-form" ],
 
   "props": {
     "model-value": {
       "extends": "model-value",
       "type": [ "Any", "Array" ],
-      "examples": [ "false", "['car', 'building']" ]
+      "examples": [ "false", "[ 'car', 'building' ]" ]
     },
 
     "val": {
       "type": "Any",
       "desc": "Works when model ('value') is Array. It tells the component which value should add/remove when ticked/unticked",
-      "examples": [ "car" ],
+      "examples": [ "'car'" ],
       "category": "model"
     },
 
     "true-value": {
       "type": "Any",
       "desc": "What model value should be considered as checked/ticked/on?",
-      "default": true,
-      "examples": [ "Agreed" ],
+      "default": "true",
+      "examples": [ "'Agreed'" ],
       "category": "model"
     },
 
     "false-value": {
       "type": "Any",
       "desc": "What model value should be considered as unchecked/unticked/off?",
-      "default": false,
-      "examples": [ "Disagree" ],
+      "default": "false",
+      "examples": [ "'Disagree'" ],
       "category": "model"
     },
 
     "indeterminate-value": {
       "type": "Any",
       "desc": "What model value should be considered as 'indeterminate'?",
-      "default": null,
-      "examples": [ 0, "not_answered" ],
+      "default": "null",
+      "examples": [ "0", "'not_answered'" ],
       "category": "model"
     },
 
     "toggle-order": {
       "type": "String",
       "desc": "Determines toggle order of the two states ('t' stands for state of true, 'f' for state of false); If 'toggle-indeterminate' is true, then the order is: indet -> first state -> second state -> indet (and repeat), otherwise: indet -> first state -> second state -> first state -> second state -> ...",
-      "default": "tf",
-      "values": [ "tf", "ft" ],
+      "default": "'tf'",
+      "values": [ "'tf'", "'ft'" ],
       "category": "behavior"
     },
 
@@ -56,7 +56,7 @@
     "label": {
       "type": "String",
       "desc": "Label to display along the component (or use the default slot instead of this prop)",
-      "examples": [ "I agree with the Terms and Conditions" ],
+      "examples": [ "'I agree with the Terms and Conditions'" ],
       "category": "label"
     },
 
@@ -68,19 +68,19 @@
 
     "checked-icon": {
       "type": "String",
-      "examples": [ "visibility" ],
+      "examples": [ "'visibility'" ],
       "category": "icons"
     },
 
     "unchecked-icon": {
       "type": "String",
-      "examples": [ "visibility_off" ],
+      "examples": [ "'visibility_off'" ],
       "category": "icons"
     },
 
     "indeterminate-icon": {
       "type": "String",
-      "examples": [ "help" ],
+      "examples": [ "'help'" ],
       "category": "icons"
     },
 
@@ -130,7 +130,9 @@
 
   "methods": {
     "toggle": {
-      "desc": "Toggle the state (of the model)"
+      "desc": "Toggle the state (of the model)",
+      "params": null,
+      "returns": null
     }
   },
 

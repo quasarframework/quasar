@@ -20,7 +20,7 @@
     "url": {
       "type": [ "String", "Function" ],
       "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "https://example.com/path", "files => `https://example.com?count=${files.length}`" ],
+      "examples": [ "'https://example.com/path'", "files => `https://example.com?count=${ files.length }`" ],
       "params": {
         "files": {
           "type": "Array",
@@ -36,10 +36,10 @@
 
     "method": {
       "type": [ "String", "Function" ],
-      "default": "POST",
+      "default": "'POST'",
       "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "values": [ "POST", "PUT" ],
-      "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ],
+      "values": [ "'POST'", "'PUT'" ],
+      "examples": [ "'POST'", "files => (files.length > 10 ? 'POST' : 'PUT')" ],
       "params": {
         "files": {
           "type": "Array",
@@ -56,10 +56,10 @@
     "field-name": {
       "type": [ "String", "Function" ],
       "desc": "Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name=\"__HERE__\"; filename=\"somefile.png\"; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "(file) => file.name",
+      "default": "file => file.name",
       "examples": [
-        "backgroundFile",
-        ":field-name=\"(file) => 'background' + file.name\""
+        "'backgroundFile'",
+        "file => ('background' + file.name)"
       ],
       "params": {
         "files": {
@@ -82,19 +82,19 @@
           "type": "String",
           "required": true,
           "desc": "Header name",
-          "examples": [ "Content-Type", "Accept", "Cache-Control" ]
+          "examples": [ "'Content-Type'", "'Accept'", "'Cache-Control'" ]
         },
         "value": {
           "type": "String",
           "required": true,
           "desc": "Header value",
-          "examples": [ "application/json", "no-cache" ]
+          "examples": [ "'application/json'", "'no-cache'" ]
         }
       },
       "examples": [
-        "[{name: 'Content-Type', value: 'application/json'}, {name: 'Accept', value: 'application/json'}]",
-        "() => [{name: 'X-Custom-Timestamp', value: Date.now()}]",
-        "files => [{name: 'X-Custom-Count', value: files.length}]"
+        "[ { name: 'Content-Type', value: 'application/json' }, { name: 'Accept', value: 'application/json' } ]",
+        "() => [ { name: 'X-Custom-Timestamp', value: Date.now() } ]",
+        "files => [ { name: 'X-Custom-Count', value: files.length } ]"
       ],
       "params": {
         "files": {
@@ -117,19 +117,19 @@
           "type": "String",
           "required": true,
           "desc": "Field name",
-          "examples": [ "Some field" ]
+          "examples": [ "'Some field'" ]
         },
         "value": {
           "type": "String",
           "required": true,
           "desc": "Field value",
-          "examples": [ "some-value" ]
+          "examples": [ "'some-value'" ]
         }
       },
       "examples": [
-        "[{name: 'my-field', value: 'my-value'}]",
-        "() => [{name: 'my-field', value: 'my-value'}]",
-        "files => [{name: 'my-field', value: 'my-value' + files.length}]"
+        "[ { name: 'my-field', value: 'my-value' } ]",
+        "() => [ { name: 'my-field', value: 'my-value' } ]",
+        "files => [ { name: 'my-field', value: 'my-value' + files.length } ]"
       ],
       "params": {
         "files": {
@@ -147,7 +147,7 @@
     "with-credentials": {
       "type": [ "Boolean", "Function" ],
       "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ],
+      "examples": [ "true", "files => (files.length === 2)" ],
       "params": {
         "files": {
           "type": "Array",
@@ -164,7 +164,7 @@
     "send-raw": {
       "type": [ "Boolean", "Function" ],
       "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "send-raw", ":send-raw=\"files => ...\"" ],
+      "examples": [ "true", "files => (files.length > 2)" ],
       "params": {
         "files": {
           "type": "Array",

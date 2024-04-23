@@ -7,10 +7,31 @@ const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
 const dest = path.join(root, 'dist/api')
 const extendApi = require(resolvePath('src/api.extends.json'))
-const { logError, writeFile, kebabCase, filterTestFiles } = require('./build.utils')
+const { logError, writeFile, kebabCase } = require('./build.utils')
 const ast = require('./ast')
 
 const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
+const apiIgnoreValueRegex = /^# /
+const apiValuePromiseRegex = /\.then\(/
+const apiValueRegex = {
+  Number: /^-?\d/,
+  String: /^'[^']+'$/,
+  Array: /^\[.*\]$/,
+  Object: /^{.*}$/,
+  Boolean: /^(true|false)$/,
+  Function: / => /,
+  RegExp: /^\/.*\/[gimuy]*$/,
+  Element: /(^document\.|^\..+|^#.+|.+El$|\$refs)/,
+  Component: /^[A-Z][A-Za-z]+$/,
+  'Promise<any>': apiValuePromiseRegex,
+  'Promise<void>': apiValuePromiseRegex,
+  'Promise<boolean>': apiValuePromiseRegex,
+  'Promise<number>': apiValuePromiseRegex,
+  'Promise<string>': apiValuePromiseRegex,
+  'Promise<object>': apiValuePromiseRegex,
+  null: /^null$/,
+  undefined: /^void 0$/
+}
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -37,15 +58,13 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  // also update /ui/test/generators/generator.plugin.js
+  // also update /ui/testing/generators/generator.plugin.js
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods', 'internal' ],
 
-  // also update:
-  //  * /ui/test/generators/generator.component.js
-  //  * /ui/test/generators/generator.composable.js
+  // also update: /ui/testing/generators/generator.component.js
   component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'computedProps' ],
 
-  // also update /ui/test/generators/generator.directive.js
+  // also update /ui/testing/generators/generator.directive.js
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
@@ -53,66 +72,73 @@ const nativeTypes = [ 'Component', 'Error', 'Element', 'File', 'FileList', 'Even
 
 const objectTypes = {
   Boolean: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isArray: [ 'examples' ]
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal' ],
-    isArray: [ 'examples', 'values' ]
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal', 'passthrough' ],
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Number: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isArray: [ 'examples', 'values' ]
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     recursive: [ 'definition' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'params', 'returns' ],
-    canBeNull: [ 'params', 'returns' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'passthrough', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
-    isArray: [ 'examples', 'values' ]
+    isArray: [ 'examples', 'values' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   },
 
   meta: {
@@ -122,18 +148,20 @@ const objectTypes = {
 
   // component only
   slots: {
-    props: [ 'desc', 'link', 'scope', 'addedIn', 'internal' ],
+    props: [ 'tsType', 'desc', 'link', 'scope', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isObject: [ 'scope' ],
-    isBoolean: [ 'internal' ]
+    isBoolean: [ 'internal' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   },
 
   // component only
   events: {
-    props: [ 'desc', 'link', 'params', 'addedIn', 'internal' ],
+    props: [ 'tsType', 'desc', 'link', 'params', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
     isObject: [ 'params' ],
-    isBoolean: [ 'internal' ]
+    isBoolean: [ 'passthrough', 'internal' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   },
 
   // component only
@@ -141,31 +169,46 @@ const objectTypes = {
     props: [ 'desc', 'tsType', 'examples', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'internal' ],
-    isArray: [ 'examples' ]
+    isArray: [ 'examples' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   },
 
   methods: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn' ],
-    required: [ 'desc' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn', 'alias' ],
+    required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint' ],
-    isObject: [ 'params', 'returns' ]
+    isObject: [ 'params', 'returns' ],
+    isString: [ 'tsType', 'desc', 'link', 'addedIn', 'alias' ]
   },
 
   quasarConfOptions: {
-    props: [ 'propName', 'definition', 'values', 'tsType', 'desc', 'examples', 'link', 'addedIn' ],
+    props: [ 'tsType', 'desc', 'propName', 'definition', 'values', 'examples', 'link', 'addedIn' ],
     required: [ 'propName' ],
     isObject: [ 'definition' ],
-    isArray: [ 'values' ]
+    isArray: [ 'values' ],
+    isString: [ 'tsType', 'desc', 'addedIn' ]
   }
 }
 
 nativeTypes.forEach(name => {
   objectTypes[ name ] = {
-    props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'passthrough', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
+    isBoolean: [ 'passthrough', 'internal' ],
+    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
   }
 })
+
+/**
+ * Also update /ui/testing/specs/specs.utils.js on the "typeMap" object
+ */
+const typeList = [
+  'Number', 'String', 'Array', 'Object', 'Boolean', 'Function', 'RegExp',
+  'Date', 'Element', 'Any', 'Event', 'SubmitEvent', 'File', 'FileList',
+  'Promise<any>', 'Promise<void>', 'Promise<boolean>', 'Promise<number>',
+  'Promise<string>', 'Promise<object>', 'Error',
+  'Component', 'null', 'undefined'
+]
 
 // assumes type does NOT have any duplicates
 function isClassStyleType (type) {
@@ -241,9 +284,13 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
   const def = objectTypes[ type ]
 
   if (obj.internal !== true) {
+    const regexList = Array.isArray(obj.type)
+      ? (obj.type.includes('Any') ? [] : obj.type.map(t => apiValueRegex[ t ]).filter(v => v))
+      : (obj.type === 'Any' ? [] : [ apiValueRegex[ obj.type ] ].filter(v => v))
+
     for (const prop in obj) {
       // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
-      if ([ 'type', '__exemption' ].includes(prop)) {
+      if ([ 'type', '__exemption' ].includes(prop) === true) {
         continue
       }
 
@@ -277,6 +324,91 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
       }
     })
 
+    if (obj.type) {
+      const list = Array.isArray(obj.type) ? obj.type : [ obj.type ]
+      list.forEach(t => {
+        if (typeList.includes(t) === false) {
+          logError(`${ banner } object has unrecognized type "${ t }"; if this is a new type, then add it to the "typeList" array in build.api.js`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      })
+    }
+
+    if (obj.default) {
+      if (typeof obj.default !== 'string') {
+        logError(`${ banner } object: stringify "default" value`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      if (
+        regexList.length !== 0
+        && apiIgnoreValueRegex.test(obj.default) === false
+        && regexList.every(regex => regex.test(obj.default) === false)
+      ) {
+        logError(`${ banner } object: "default" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    }
+
+    if (obj.values) {
+      if (obj.values.some(val => typeof val !== 'string')) {
+        logError(`${ banner } object: stringify each of "values" entries`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      if (regexList.length !== 0) {
+        obj.values.forEach(val => {
+          if (
+            apiIgnoreValueRegex.test(val) === false
+            && regexList.every(regex => regex.test(val) === false)
+          ) {
+            logError(`${ banner } object: "values" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+            console.error(obj)
+            console.log()
+            process.exit(1)
+          }
+        })
+      }
+    }
+
+    if (obj.examples) {
+      if (obj.examples.some(val => typeof val !== 'string')) {
+        logError(`${ banner } object: stringify each of "examples" entries`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      if (regexList.length !== 0) {
+        obj.examples.forEach(val => {
+          if (
+            apiIgnoreValueRegex.test(val) === false
+            && regexList.every(regex => regex.test(val) === false)
+          ) {
+            logError(`${ banner } object: "examples" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`)
+            console.error(obj)
+            console.log()
+            process.exit(1)
+          }
+        })
+      }
+
+      if ((new Set(obj.examples)).size !== obj.examples.length) {
+        logError(`${ banner } object has "examples" Array with duplicates`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    }
+
     // Since we processed '__exemption', we can strip it
     if (obj.__exemption !== void 0) {
       const { __exemption, ...p } = obj
@@ -302,6 +434,14 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
     def.isArray && def.isArray.forEach(prop => {
       if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
         logError(`${ banner }/"${ prop }" is not an Array`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+    def.isString && def.isString.forEach(prop => {
+      if (obj[ prop ] && typeof obj[ prop ] !== 'string') {
+        logError(`${ banner }/"${ prop }" is not a String`)
         console.error(obj)
         console.log()
         process.exit(1)
@@ -529,7 +669,7 @@ function arrayHasError (name, key, property, expected, propApi) {
     || !expectedVal.every(t => apiVal.includes(t))
   ) {
     console.log(key, name, propApi[ key ], expectedVal)
-    logError(`${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
+    logError(`[1] ${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
     return true
   }
 }
@@ -587,7 +727,7 @@ function fillAPI (apiType, list, encodeFn) {
           if (definition) {
             const propApi = api[ prop ][ key ]
             if (typeof definition === 'string' && propApi.type !== definition) {
-              logError(`${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
+              logError(`[2] ${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
               hasError = true // keep looping through to find as many as can be found before exiting
             }
             else if (Array.isArray(definition)) {
@@ -625,18 +765,24 @@ function fillAPI (apiType, list, encodeFn) {
                   }
                 }
                 else if (propApiType !== definition.type) {
-                  logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
+                  logError(`[3] ${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }
 
               if (key !== 'model-value' && definition.required && Boolean(definition.required) !== propApi.required) {
-                logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
+                logError(`[4] ${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
                 hasError = true // keep looping through to find as many as can be found before exiting
               }
 
               if (definition.validator && Array.isArray(definition.validator)) {
-                if (arrayHasError(name, key, 'values', definition.validator, propApi)) {
+                const validator = definition.validator.map(entry => (
+                  typeof entry === 'string'
+                    ? `'${ entry }'`
+                    : entry
+                ))
+
+                if (arrayHasError(name, key, 'values', validator, propApi)) {
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }
@@ -727,19 +873,17 @@ module.exports.generate = function ({ compact = false } = {}) {
     const list = []
 
     const plugins = glob.sync([
-      'src/plugins/*.json',
-      'src/Brand.json',
-      'src/Lang.json'
+      'src/plugins/*/*.json',
+      'src/Brand.json'
     ], { cwd: root, absolute: true })
-      .filter(filterTestFiles)
       .map(fillAPI('plugin', list, encodeFn))
 
-    const directives = glob.sync('src/directives/**/*.json', { cwd: root, absolute: true })
-      .filter(filterTestFiles)
+    const directives = glob
+      .sync('src/directives/*/*.json', { cwd: root, absolute: true })
       .map(fillAPI('directive', list, encodeFn))
 
-    const components = glob.sync('src/components/**/Q*.json', { cwd: root, absolute: true })
-      .filter(filterTestFiles)
+    const components = glob
+      .sync('src/components/*/Q*.json', { cwd: root, absolute: true })
       .map(fillAPI('component', list, encodeFn))
 
     writeTransformAssetUrls(components, encodeFn)

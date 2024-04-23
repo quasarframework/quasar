@@ -169,5 +169,5 @@ module.exports.clone = function clone (data) {
   }
 }
 
-const testFileRE = /test/
-module.exports.filterTestFiles = file => testFileRE.test(file) === false
+const privateFileRE = /test|private/
+module.exports.filterOutPrivateFiles = file => privateFileRE.test(file) === false

@@ -1,0 +1,1417 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/options/quasar-icon-sets"
+  },
+
+  "injection": "$q.iconSet",
+
+  "props": {
+    "props": {
+      "type": "Object",
+      "desc": "Contents (icons) of the Quasar icon set",
+      "required": true,
+      "definition": {
+        "name": {
+          "type": "String",
+          "desc":  "Name of the Quasar icon set",
+          "required": true,
+          "examples": [ "'material-icons'", "'eva-icons'" ]
+        },
+        "type": {
+          "type": "Object",
+          "desc": "Generic types",
+          "definition": {
+            "positive": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'check_circle'" ]
+            },
+            "negative": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'warning'" ]
+            },
+            "info": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'info'" ]
+            },
+            "warning": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'priority_high'" ]
+            }
+          }
+        },
+        "arrow": {
+          "type": "Object",
+          "desc": "Arrow types",
+          "definition": {
+            "up": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_upward'" ]
+            },
+            "right": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_forward'" ]
+            },
+            "down": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_downward'" ]
+            },
+            "left": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_back'" ]
+            },
+            "dropdown": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_drop_down'" ]
+            }
+          }
+        },
+        "chevron": {
+          "type": "Object",
+          "desc": "Chevron types",
+          "definition": {
+            "left": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_left'" ]
+            },
+            "right": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_right'" ]
+            }
+          }
+        },
+        "colorPicker": {
+          "type": "Object",
+          "desc": "Used by QColorPicker",
+          "definition": {
+            "spectrum": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'gradient'" ]
+            },
+            "tune": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'tune'" ]
+            },
+            "palette": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'style'" ]
+            }
+          }
+        },
+        "pullToRefresh": {
+          "type": "Object",
+          "desc": "Used by QPullToRefresh",
+          "definition": {
+            "icon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'refresh'" ]
+            }
+          }
+        },
+        "carousel": {
+          "type": "Object",
+          "desc": "Used by QCarousel",
+          "definition": {
+            "left": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_left'" ]
+            },
+            "right": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_right'" ]
+            },
+            "up": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_up'" ]
+            },
+            "down": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_down'" ]
+            },
+            "navigationIcon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'lens'" ]
+            }
+          }
+        },
+        "chip": {
+          "type": "Object",
+          "desc": "Used by QChip",
+          "definition": {
+            "remove": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'cancel'" ]
+            },
+            "selected": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'check'" ]
+            }
+          }
+        },
+        "datetime": {
+          "type": "Object",
+          "desc": "Used by QDate/QTime",
+          "definition": {
+            "arrowLeft": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_left'" ]
+            },
+            "arrowRight": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_right'" ]
+            },
+            "now": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'access_time'" ]
+            },
+            "today": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'today'" ]
+            }
+          }
+        },
+        "editor": {
+          "type": "Object",
+          "desc": "Used by QEditor",
+          "definition": {
+            "bold": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_bold'" ]
+            },
+            "italic": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_italic'" ]
+            },
+            "strikethrough": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'strikethrough_s'" ]
+            },
+            "underline": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_underlined'" ]
+            },
+            "unorderedList": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_list_bulleted'" ]
+            },
+            "orderedList": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_list_numbered'" ]
+            },
+            "subscript": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'vertical_align_bottom'" ]
+            },
+            "superscript": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'vertical_align_top'" ]
+            },
+            "hyperlink": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'link'" ]
+            },
+            "toggleFullscreen": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'fullscreen'" ]
+            },
+            "quote": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_quote'" ]
+            },
+            "left": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_align_left'" ]
+            },
+            "center": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_align_center'" ]
+            },
+            "right": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_align_right'" ]
+            },
+            "justify": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_align_justify'" ]
+            },
+            "print": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'print'" ]
+            },
+            "outdent": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_indent_decrease'" ]
+            },
+            "indent": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_indent_increase'" ]
+            },
+            "removeFormat": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_clear'" ]
+            },
+            "formatting": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'text_format'" ]
+            },
+            "fontSize": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "align": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'format_align_left'" ]
+            },
+            "hr": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'remove'" ]
+            },
+            "undo": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'undo'" ]
+            },
+            "redo": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'redo'" ]
+            },
+            "heading": {
+              "type": "String",
+              "desc":  "Used only when headingX is missing; Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "heading1": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "heading2": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "heading3": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "heading4": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "heading5": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "heading6": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "code": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'code'" ]
+            },
+            "size": {
+              "type": "String",
+              "desc":  "Used only when sizeX is missing; Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size1": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size2": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size3": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size4": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size5": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size6": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "size7": {
+              "type": "String",
+              "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+              "examples": [ "'format_size'" ]
+            },
+            "font": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'font_download'" ]
+            },
+            "viewSource": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'code'" ]
+            }
+          }
+        },
+        "expansionItem": {
+          "type": "Object",
+          "desc": "Used by QExpansionItem",
+          "definition": {
+            "icon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_down'" ]
+            },
+            "denseIcon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_drop_down'" ]
+            }
+          }
+        },
+        "fab": {
+          "type": "Object",
+          "desc": "Used by QFab",
+          "definition": {
+            "icon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'add'" ]
+            },
+            "activeIcon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'close'" ]
+            }
+          }
+        },
+        "field": {
+          "type": "Object",
+          "desc": "Used by QField/QInput/QSelect/...",
+          "definition": {
+            "clear": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'cancel'" ]
+            },
+            "error": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'error'" ]
+            }
+          }
+        },
+        "pagination": {
+          "type": "Object",
+          "desc": "Used by QPagination",
+          "definition": {
+            "first": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'first_page'" ]
+            },
+            "prev": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_left'" ]
+            },
+            "next": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_right'" ]
+            },
+            "last": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'last_page'" ]
+            }
+          }
+        },
+        "rating": {
+          "type": "Object",
+          "desc": "Used by QRating",
+          "definition": {
+            "icon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'grade'" ]
+            }
+          }
+        },
+        "stepper": {
+          "type": "Object",
+          "desc": "Used by QStepper",
+          "definition": {
+            "done": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'check'" ]
+            },
+            "active": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'edit'" ]
+            },
+            "error": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'warning'" ]
+            }
+          }
+        },
+        "tabs": {
+          "type": "Object",
+          "desc": "Used by QTabs",
+          "definition": {
+            "left": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_left'" ]
+            },
+            "right": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_right'" ]
+            },
+            "up": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_up'" ]
+            },
+            "down": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'keyboard_arrow_down'" ]
+            }
+          }
+        },
+        "table": {
+          "type": "Object",
+          "desc": "Used by QTable",
+          "definition": {
+            "arrowUp": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'arrow_upward'" ]
+            },
+            "warning": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'warning'" ]
+            },
+            "firstPage": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'first_page'" ]
+            },
+            "prevPage": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_left'" ]
+            },
+            "nextPage": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'chevron_right'" ]
+            },
+            "lastPage": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'last_page'" ]
+            }
+          }
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "Used by QTree",
+          "definition": {
+            "icon": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'play_arrow'" ]
+            }
+          }
+        },
+        "uploader": {
+          "type": "Object",
+          "desc": "Used by QUploader",
+          "definition": {
+            "done": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'done'" ]
+            },
+            "clear": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'clear'" ]
+            },
+            "add": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'add_box'" ]
+            },
+            "upload": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'cloud_upload'" ]
+            },
+            "removeQueue": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'clear_all'" ]
+            },
+            "removeUploaded": {
+              "type": "String",
+              "desc":  "Icon name following Quasar convention",
+              "examples": [ "'done_all'" ]
+            }
+          }
+        }
+      }
+    },
+
+    "iconMapFn": {
+      "type": [ "Function", "null" ],
+      "desc":  "Function to map icon names to other icon names; It is designed to be used internally by Quasar only; Only assign a function to it, but do not call it yourself",
+      "params": {
+        "iconName": {
+          "type": "String",
+          "desc":  "Icon name to test",
+          "required": true
+        }
+      },
+      "returns": {
+        "type": [ "Object", "undefined" ],
+        "desc":  "The icon  following Quasar convention",
+        "definition": {
+          "icon": {
+            "type": "String",
+            "desc":  "The mapped icon string, which will be handled by Quasar as if the original icon name was this value; ; Either use only 'icon' or 'cls' + 'content'",
+            "examples": [ "'favorite'" ]
+          },
+          "cls": {
+            "type": "String",
+            "desc":  "CSS classes to apply to the created DOM element; Either use 'cls' + 'content' or only 'icon'",
+            "examples": [ "'material-icons'"]
+          },
+          "content": {
+            "type": "String",
+            "desc":  "Optional, in case you are using a ligature font and you need it as content of the created DOM element; Either use 'cls' + 'content' or only 'icon'",
+            "examples": [ "'favorite'"]
+          }
+        }
+      },
+      "examples": [ "iconName => (myIcons[ iconName ] !== void 0? { icon: myIcons[ iconName ] } : void 0)" ]
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc":  "Set another Quasar Icon Set",
+      "params": {
+        "iconSet": {
+          "type": "Object",
+          "desc":  "Usually you will import such an object directly from quasar (eg: import qIconSet from 'quasar/icon-set/<icon-set-name>')",
+          "required": true,
+          "definition": {
+            "name": {
+              "type": "String",
+              "desc":  "Name of the Quasar icon set",
+              "required": true,
+              "examples": [ "'material-icons'", "'eva-icons'" ]
+            },
+            "type": {
+              "type": "Object",
+              "desc": "Generic types",
+              "required": true,
+              "definition": {
+                "positive": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'check_circle'" ]
+                },
+                "negative": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'warning'" ]
+                },
+                "info": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'info'" ]
+                },
+                "warning": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'priority_high'" ]
+                }
+              }
+            },
+            "arrow": {
+              "type": "Object",
+              "desc": "Arrow types",
+              "required": true,
+              "definition": {
+                "up": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_upward'" ]
+                },
+                "right": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_forward'" ]
+                },
+                "down": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_downward'" ]
+                },
+                "left": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_back'" ]
+                },
+                "dropdown": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_drop_down'" ]
+                }
+              }
+            },
+            "chevron": {
+              "type": "Object",
+              "desc": "Chevron types",
+              "required": true,
+              "definition": {
+                "left": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_left'" ]
+                },
+                "right": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_right'" ]
+                }
+              }
+            },
+            "colorPicker": {
+              "type": "Object",
+              "desc": "Used by QColorPicker",
+              "definition": {
+                "spectrum": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'gradient'" ]
+                },
+                "tune": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'tune'" ]
+                },
+                "palette": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'style'" ]
+                }
+              }
+            },
+            "pullToRefresh": {
+              "type": "Object",
+              "desc": "Used by QPullToRefresh",
+              "required": true,
+              "definition": {
+                "icon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'refresh'" ]
+                }
+              }
+            },
+            "carousel": {
+              "type": "Object",
+              "desc": "Used by QCarousel",
+              "required": true,
+              "definition": {
+                "left": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_left'" ]
+                },
+                "right": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_right'" ]
+                },
+                "up": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_up'" ]
+                },
+                "down": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_down'" ]
+                },
+                "navigationIcon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'lens'" ]
+                }
+              }
+            },
+            "chip": {
+              "type": "Object",
+              "desc": "Used by QChip",
+              "required": true,
+              "definition": {
+                "remove": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'cancel'" ]
+                },
+                "selected": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'check'" ]
+                }
+              }
+            },
+            "datetime": {
+              "type": "Object",
+              "desc": "Used by QDate/QTime",
+              "required": true,
+              "definition": {
+                "arrowLeft": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_left'" ]
+                },
+                "arrowRight": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_right'" ]
+                },
+                "now": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'access_time'" ]
+                },
+                "today": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'today'" ]
+                }
+              }
+            },
+            "editor": {
+              "type": "Object",
+              "desc": "Used by QEditor",
+              "required": true,
+              "definition": {
+                "bold": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_bold'" ]
+                },
+                "italic": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_italic'" ]
+                },
+                "strikethrough": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'strikethrough_s'" ]
+                },
+                "underline": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_underlined'" ]
+                },
+                "unorderedList": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_list_bulleted'" ]
+                },
+                "orderedList": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_list_numbered'" ]
+                },
+                "subscript": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'vertical_align_bottom'" ]
+                },
+                "superscript": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'vertical_align_top'" ]
+                },
+                "hyperlink": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'link'" ]
+                },
+                "toggleFullscreen": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'fullscreen'" ]
+                },
+                "quote": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_quote'" ]
+                },
+                "left": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_align_left'" ]
+                },
+                "center": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_align_center'" ]
+                },
+                "right": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_align_right'" ]
+                },
+                "justify": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_align_justify'" ]
+                },
+                "print": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'print'" ]
+                },
+                "outdent": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_indent_decrease'" ]
+                },
+                "indent": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_indent_increase'" ]
+                },
+                "removeFormat": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_clear'" ]
+                },
+                "formatting": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'text_format'" ]
+                },
+                "fontSize": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_size'" ]
+                },
+                "align": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_align_left'" ]
+                },
+                "hr": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'remove'" ]
+                },
+                "undo": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'undo'" ]
+                },
+                "redo": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'redo'" ]
+                },
+                "heading": {
+                  "type": "String",
+                  "desc":  "Used only when headingX is missing; Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_size'" ]
+                },
+                "heading1": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "heading2": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "heading3": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "heading4": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "heading5": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "heading6": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'heading' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "code": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'code'" ]
+                },
+                "size": {
+                  "type": "String",
+                  "desc":  "Used only when sizeX is missing; Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'format_size'" ]
+                },
+                "size1": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "size2": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "size3": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "size4": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "size5": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "size6": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "size7": {
+                  "type": "String",
+                  "desc":  "(Can be omitted; defaults to 'size' instead) Icon name following Quasar convention",
+                  "examples": [ "'format_size'" ]
+                },
+                "font": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'font_download'" ]
+                },
+                "viewSource": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'code'" ]
+                }
+              }
+            },
+            "expansionItem": {
+              "type": "Object",
+              "desc": "Used by QExpansionItem",
+              "required": true,
+              "definition": {
+                "icon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_down'" ]
+                },
+                "denseIcon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_drop_down'" ]
+                }
+              }
+            },
+            "fab": {
+              "type": "Object",
+              "desc": "Used by QFab",
+              "required": true,
+              "definition": {
+                "icon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'add'" ]
+                },
+                "activeIcon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'close'" ]
+                }
+              }
+            },
+            "field": {
+              "type": "Object",
+              "desc": "Used by QField/QInput/QSelect/...",
+              "required": true,
+              "definition": {
+                "clear": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'cancel'" ]
+                },
+                "error": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'error'" ]
+                }
+              }
+            },
+            "pagination": {
+              "type": "Object",
+              "desc": "Used by QPagination",
+              "required": true,
+              "definition": {
+                "first": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'first_page'" ]
+                },
+                "prev": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_left'" ]
+                },
+                "next": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_right'" ]
+                },
+                "last": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'last_page'" ]
+                }
+              }
+            },
+            "rating": {
+              "type": "Object",
+              "desc": "Used by QRating",
+              "required": true,
+              "definition": {
+                "icon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'grade'" ]
+                }
+              }
+            },
+            "stepper": {
+              "type": "Object",
+              "desc": "Used by QStepper",
+              "required": true,
+              "definition": {
+                "done": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'check'" ]
+                },
+                "active": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'edit'" ]
+                },
+                "error": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'warning'" ]
+                }
+              }
+            },
+            "tabs": {
+              "type": "Object",
+              "desc": "Used by QTabs",
+              "required": true,
+              "definition": {
+                "left": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_left'" ]
+                },
+                "right": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_right'" ]
+                },
+                "up": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_up'" ]
+                },
+                "down": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'keyboard_arrow_down'" ]
+                }
+              }
+            },
+            "table": {
+              "type": "Object",
+              "desc": "Used by QTable",
+              "required": true,
+              "definition": {
+                "arrowUp": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'arrow_upward'" ]
+                },
+                "warning": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'warning'" ]
+                },
+                "firstPage": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'first_page'" ]
+                },
+                "prevPage": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_left'" ]
+                },
+                "nextPage": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'chevron_right'" ]
+                },
+                "lastPage": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'last_page'" ]
+                }
+              }
+            },
+            "tree": {
+              "type": "Object",
+              "desc": "Used by QTree",
+              "required": true,
+              "definition": {
+                "icon": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'play_arrow'" ]
+                }
+              }
+            },
+            "uploader": {
+              "type": "Object",
+              "desc": "Used by QUploader",
+              "required": true,
+              "definition": {
+                "done": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'done'" ]
+                },
+                "clear": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'clear'" ]
+                },
+                "add": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'add_box'" ]
+                },
+                "upload": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'cloud_upload'" ]
+                },
+                "removeQueue": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'clear_all'" ]
+                },
+                "removeUploaded": {
+                  "type": "String",
+                  "desc":  "Icon name following Quasar convention",
+                  "required": true,
+                  "examples": [ "'done_all'" ]
+                }
+              }
+            }
+          }
+        },
+        "ssrContent": {
+          "type": "Object",
+          "desc": "Required for SSR only",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": null
+    }
+  }
+}

@@ -7,15 +7,15 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useId from '../../composables/use-id.js'
-import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useId from '../../composables/use-id/use-id.js'
+import { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/private/render.js'
-import uid from '../../utils/uid.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import uid from '../../utils/uid/uid.js'
 
 const itemGroups = shallowReactive({})
 const LINK_PROPS = Object.keys(useRouterLinkProps)

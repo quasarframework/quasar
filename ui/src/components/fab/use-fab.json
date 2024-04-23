@@ -7,10 +7,8 @@
     "type":{
       "type": "String",
       "desc": "Define the button HTML DOM type",
-      "default": "a",
-      "values": [
-        "a", "submit", "button", "reset"
-      ],
+      "default": "'a'",
+      "values": [ "'a'", "'submit'", "'button'", "'reset'" ],
       "category": "general"
     },
 
@@ -41,7 +39,7 @@
     "padding": {
       "type": "String",
       "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
-      "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg" ],
+      "examples": [ "'16px'", "'10px 5px'", "'2rem'", "'xs'", "'md lg'" ],
       "category": "style"
     },
 
@@ -68,20 +66,20 @@
     "label": {
       "type": [ "String", "Number" ],
       "desc": "The label that will be shown when Fab is extended",
-      "examples": [ "Button Label" ],
+      "examples": [ "'Button Label'" ],
       "category": "content"
     },
 
     "label-position": {
       "type": "String",
       "desc": "Position of the label around the icon",
-      "values": [ "top", "right", "bottom", "left" ],
+      "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
       "category": "style|content"
     },
 
     "hide-label": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "Hide the label; Useful for animation purposes where you toggle the visibility of the label",
       "category": "style|content"
     },
@@ -91,8 +89,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the label container",
       "examples": [
-        "my-special-class",
-        ":input-class=\"{ 'my-special-class': <condition> }\""
+        "'my-special-class'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -102,8 +100,8 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the label container",
       "examples": [
-        "background-color: #ff0000",
-        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
     },

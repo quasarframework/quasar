@@ -2,13 +2,13 @@ import { h, ref, computed, watch, onMounted, Transition, getCurrentInstance } fr
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
-import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
+import useRatio, { useRatioProps } from '../../composables/private.use-ratio/use-ratio.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { vmIsDestroyed } from '../../utils/private/vm.js'
-import useTimeout from '../../composables/use-timeout.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 const defaultRatio = 1.7778 /* 16/9 */
 

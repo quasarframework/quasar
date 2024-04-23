@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-router-link" ],
+  "mixins": [ "composables/private.use-model-toggle/use-model-toggle", "composables/private.use-router-link/use-router-link" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/expansion-item"
@@ -29,14 +29,14 @@
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueClassProp",
       "desc": "Apply custom class(es) to the expand icon item section",
-      "examples": [ "text-purple" ],
+      "examples": [ "'text-purple'" ],
       "category": "style"
     },
 
     "toggle-aria-label": {
       "type": "String",
       "desc": "aria-label to be used on the expansion toggle element",
-      "examples": [ "Open details" ],
+      "examples": [ "'Open details'" ],
       "category": "accessibility",
       "addedIn": "v2.8.4"
     },
@@ -44,28 +44,28 @@
     "label": {
       "type": "String",
       "desc": "Header label (unless using 'header' slot)",
-      "examples": [ "My expansion item" ],
+      "examples": [ "'My expansion item'" ],
       "category": "content"
     },
 
     "label-lines": {
       "type": [ "Number", "String" ],
       "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
-      "examples": [ "1", "3", ":label-lines=\"2\"" ],
+      "examples": [ "1", "'3'" ],
       "category": "content"
     },
 
     "caption": {
       "type": "String",
       "desc": "Header sub-label (unless using 'header' slot)",
-      "examples": [ "Unread message: 5" ],
+      "examples": [ "'Unread message: 5'" ],
       "category": "content"
     },
 
     "caption-lines": {
       "type": [ "Number", "String" ],
       "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
-      "examples": [ "1", "3", ":caption-lines=\"2\"" ],
+      "examples": [ "1", "'3'" ],
       "category": "content"
     },
 
@@ -80,21 +80,21 @@
     "duration": {
       "type": "Number",
       "desc": "Animation duration (in milliseconds)",
-      "default": 300,
+      "default": "300",
       "category": "behavior"
     },
 
     "header-inset-level": {
       "type": "Number",
       "desc": "Apply an inset to header (unless using 'header' slot); Useful when header avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
-      "examples": [ ":header-inset-level=\"1\"" ],
+      "examples": [ "1" ],
       "category": "content"
     },
 
     "content-inset-level": {
       "type": "Number",
       "desc": "Apply an inset to content (changes content padding)",
-      "examples": [ ":content-inset-level=\"1\"" ],
+      "examples": [ "1" ],
       "category": "content"
     },
 
@@ -138,7 +138,7 @@
     "group": {
       "type": "String",
       "desc": "Register expansion item into a group (unique name that must be applied to all expansion items in that group) for coordinated open/close state within the group a.k.a. 'accordion mode'",
-      "examples": [ "my-emails" ],
+      "examples": [ "'my-emails'" ],
       "category": "content|behavior"
     },
 
@@ -153,8 +153,8 @@
       "tsType": "VueStyleProp",
       "desc": "Apply custom style to the header",
       "examples": [
-        "background: '#ff0000'",
-        ":header-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
     },
@@ -164,8 +164,8 @@
       "tsType": "VueClassProp",
       "desc": "Apply custom class(es) to the header",
       "examples": [
-        "my-custom-class",
-        ":header-class=\"{ 'my-custom-class': someCondition }\""
+        "'my-custom-class'",
+        "{ 'my-custom-class': true }"
       ],
       "category": "style"
     }

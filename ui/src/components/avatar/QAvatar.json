@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size" ],
+  "mixins": [ "composables/private.use-size/use-size" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/avatar"
@@ -9,7 +9,7 @@
     "font-size": {
       "type": "String",
       "desc": "The size in CSS units, including unit name, of the content (icon, text)",
-      "examples": [ "18px", "2rem" ],
+      "examples": [ "'18px'", "'2rem'" ],
       "category": "style"
     },
 

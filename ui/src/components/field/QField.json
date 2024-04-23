@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field" ],
+  "mixins": [ "composables/private.use-field/use-field" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/field"
@@ -20,8 +20,8 @@
 
     "tag": {
       "extends": "tag",
-      "default": "label",
-      "examples": [ "div", "label" ],
+      "default": "'label'",
+      "examples": [ "'div'", "'label'" ],
       "addedIn": "v2.13.1"
     }
   },
@@ -33,7 +33,7 @@
         "id": {
           "type": "String",
           "desc": "Element id used in the 'for' attribute of the field label. Can be used to link the control to the label",
-          "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
+          "examples": [ "'qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa'" ]
         },
         "field": {
           "type": "Element",
@@ -54,7 +54,7 @@
         "modelValue": {
           "type": "Any",
           "desc": "Field's value",
-          "examples": [ 0.241, "Text" ]
+          "examples": [ "0.241", "'Text'" ]
         },
         "emitValue": {
           "type": "Function",
@@ -64,7 +64,7 @@
               "type": "Any",
               "required": true,
               "desc": "Value to be emitted",
-              "examples": [ 0, "Changed text" ]
+              "examples": [ "0", "'Changed text'" ]
             }
           },
           "returns": null
@@ -104,11 +104,15 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus field"
+      "desc": "Focus field",
+      "params": null,
+      "returns": null
     },
 
     "blur": {
-      "desc": "Blur field (lose focus)"
+      "desc": "Blur field (lose focus)",
+      "params": null,
+      "returns": null
     }
   }
 }

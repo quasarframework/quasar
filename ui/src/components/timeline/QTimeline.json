@@ -11,16 +11,16 @@
     "side": {
       "type": "String",
       "desc": "Side to place the timeline entries in dense and comfortable layout; For loose layout it gets overridden by QTimelineEntry side prop",
-      "default": "right",
-      "values": [ "left", "right" ],
+      "default": "'right'",
+      "values": [ "'left'", "'right'" ],
       "category": "behavior"
     },
 
     "layout": {
       "type": "String",
       "desc": "Layout of the timeline. Dense keeps content and labels on one side. Comfortable keeps content on one side and labels on the opposite side. Loose puts content on both sides.",
-      "default": "dense",
-      "values": [ "dense", "comfortable", "loose" ],
+      "default": "'dense'",
+      "values": [ "'dense'", "'comfortable'", "'loose'" ],
       "category": "behavior"
     },
 

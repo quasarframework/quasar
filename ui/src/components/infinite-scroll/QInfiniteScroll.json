@@ -7,21 +7,21 @@
     "offset": {
       "type": "Number",
       "desc": "Offset (pixels) to bottom of Infinite Scroll container from which the component should start loading more content in advance",
-      "default": 500,
+      "default": "500",
       "category": "behavior"
     },
 
     "debounce": {
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
-      "default": 100,
+      "default": "100",
       "category": "behavior"
     },
 
     "initial-index": {
       "type": "Number",
       "desc": "Initialize the pagination index (used for the @load event)",
-      "default": 0,
+      "default": "0",
       "category": "behavior"
     },
 
@@ -75,23 +75,33 @@
 
   "methods": {
     "poll": {
-      "desc": "Checks scroll position and loads more content if necessary"
+      "desc": "Checks scroll position and loads more content if necessary",
+      "params": null,
+      "returns": null
     },
 
     "trigger": {
-      "desc": "Tells Infinite Scroll to load more content, regardless of the scroll position"
+      "desc": "Tells Infinite Scroll to load more content, regardless of the scroll position",
+      "params": null,
+      "returns": null
     },
 
     "reset": {
-      "desc": "Resets calling index to 0"
+      "desc": "Resets calling index to 0",
+      "params": null,
+      "returns": null
     },
 
     "stop": {
-      "desc": "Stops working, regardless of scroll position"
+      "desc": "Stops working, regardless of scroll position",
+      "params": null,
+      "returns": null
     },
 
     "resume": {
-      "desc": "Starts working. Checks scroll position upon call and if trigger is hit, it loads more content"
+      "desc": "Starts working. Checks scroll position upon call and if trigger is hit, it loads more content",
+      "params": null,
+      "returns": null
     },
 
     "setIndex": {
@@ -102,11 +112,14 @@
           "desc": "New pagination index",
           "required": true
         }
-      }
+      },
+      "returns": null
     },
 
     "updateScrollTarget": {
-      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes",
+      "params": null,
+      "returns": null
     }
   }
 }

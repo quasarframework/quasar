@@ -4,12 +4,12 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
-import useId from '../../composables/use-id.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import useId from '../../composables/use-id/use-id.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot, hMergeSlot } from '../../utils/private/render.js'
-import { fabKey } from '../../utils/private/symbols.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot, hMergeSlot } from '../../utils/private.render/render.js'
+import { fabKey } from '../../utils/private.symbols/symbols.js'
 
 const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]

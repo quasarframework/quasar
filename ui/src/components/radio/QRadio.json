@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
+  "mixins": [ "composables/private.use-size/use-size", "composables/use-form/private.use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/radio"
@@ -9,21 +9,21 @@
     "model-value": {
       "extends": "model-value",
       "type": [ "Number", "String", "null", "undefined" ],
-      "examples": [ "v-model=\"option\"" ]
+      "examples": [ "# v-model=\"option\"" ]
     },
 
     "val": {
       "type": [ "Number", "String", "null", "undefined" ],
       "required": true,
       "desc": "The actual value of the option with which model value is changed",
-      "examples": [ "opt1", 50 ],
+      "examples": [ "'opt1'", "50" ],
       "category": "model"
     },
 
     "label": {
       "type": "String",
       "desc": "Label to display along the radio control (or use the default slot instead of this prop)",
-      "examples": [ "label=\"Option 1\"" ],
+      "examples": [ "'Option 1'" ],
       "category": "label"
     },
 
@@ -36,7 +36,7 @@
     "checked-icon": {
       "type": "String",
       "desc": "The icon to be used when selected (instead of the default design)",
-      "examples": [ "visibility" ],
+      "examples": [ "'visibility'" ],
       "category": "icons",
       "addedIn": "v2.5"
     },
@@ -44,7 +44,7 @@
     "unchecked-icon": {
       "type": "String",
       "desc": "The icon to be used when un-selected (instead of the default design)",
-      "examples": [ "visibility_off" ],
+      "examples": [ "'visibility_off'" ],
       "category": "icons",
       "addedIn": "v2.5"
     },
@@ -101,7 +101,9 @@
 
   "methods": {
     "set": {
-      "desc": "Sets the Radio's v-model to equal the val"
+      "desc": "Sets the Radio's v-model to equal the val",
+      "params": null,
+      "returns": null
     }
   }
 }

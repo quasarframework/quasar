@@ -10,14 +10,12 @@
       "extends": "model-value",
       "type": [ "String", "null", "undefined" ],
       "desc": "Time of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [
-        "v-model=\"currentTime\""
-      ]
+      "examples": [ "# v-model=\"currentTime\"" ]
     },
 
     "format24h": {
       "type": [ "Boolean", "null" ],
-      "default": null,
+      "default": "null",
       "desc": "Forces 24 hour time display instead of AM/PM system; If prop is not set, then the default is based on Quasar lang language being used",
       "category": "behavior"
     },
@@ -25,17 +23,15 @@
     "default-date": {
       "type": "String",
       "desc": "The default date to use (in YYYY/MM/DD format) when model is unfilled (undefined or null)",
-      "default": "current day",
-      "examples": [
-        "1995/02/23"
-      ],
+      "default": "# current day",
+      "examples": [ "'1995/02/23'" ],
       "category": "model"
     },
 
     "mask": {
       "type": [ "String", "null" ],
-      "default": "HH:mm",
-      "examples": [ "HH:mm:ss", "YYYY-MM-DD HH:mm:ss", "HH:mm MMMM Do, YYYY" ]
+      "default": "'HH:mm'",
+      "examples": [ "'HH:mm:ss'", "'YYYY-MM-DD HH:mm:ss'", "'HH:mm MMMM Do, YYYY'" ]
     },
 
     "options": {
@@ -59,36 +55,28 @@
         "type": [ "Boolean", "null", "undefined" ],
         "desc": "Is the user allowed to set the specified time?"
       },
-      "examples": [
-        ":options=\"(hr, min, sec) => hr <= 6\""
-      ],
+      "examples": [ "(hr, min, sec) => hr <= 6" ],
       "category": "behavior"
     },
 
     "hour-options": {
       "type": "Array",
       "desc": "Optionally configure what hours is the user allowed to set; Overrides 'options' prop if that is also set",
-      "examples": [
-        ":hour-options=\"[ 3, 6, 9 ]\""
-      ],
+      "examples": [ "[ 3, 6, 9 ]" ],
       "category": "behavior"
     },
 
     "minute-options": {
       "type": "Array",
       "desc": "Optionally configure what minutes is the user allowed to set; Overrides 'options' prop if that is also set",
-      "examples": [
-        ":minute-options=\"[0, 15, 30, 45]\""
-      ],
+      "examples": [ "[ 0, 15, 30, 45 ]" ],
       "category": "behavior"
     },
 
     "second-options": {
       "type": "Array",
       "desc": "Optionally configure what seconds is the user allowed to set; Overrides 'options' prop if that is also set",
-      "examples": [
-        ":second-options=\"[0, 7, 10, 23]\""
-      ],
+      "examples": [ "[ 0, 7, 10, 23 ]" ],
       "category": "behavior"
     },
 
@@ -170,7 +158,9 @@
 
   "methods": {
     "setNow": {
-      "desc": "Change model to current moment"
+      "desc": "Change model to current moment",
+      "params": null,
+      "returns": null
     }
   }
 }

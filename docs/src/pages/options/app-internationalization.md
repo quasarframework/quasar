@@ -220,8 +220,8 @@ There's also a method to determine user locale which is supplied by Quasar out o
 
 ```js
 // outside of a Vue file
-import { Quasar } from 'quasar'
-Quasar.lang.getLocale() // returns a string
+import { Lang } from 'quasar'
+Lang.getLocale() // returns a string
 
 // inside of a Vue file
 import { useQuasar } from 'quasar'

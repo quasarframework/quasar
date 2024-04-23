@@ -4,9 +4,9 @@ import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
 const components = {
   radio: QRadio,

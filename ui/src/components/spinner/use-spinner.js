@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useSizeDefaults } from '../../composables/private/use-size.js'
+import { useSizeDefaults } from '../../composables/private.use-size/use-size.js'
 
 export const useSpinnerProps = {
   size: {
