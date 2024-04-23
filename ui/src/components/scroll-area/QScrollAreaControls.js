@@ -4,7 +4,7 @@ import { dirProps } from './use-scroll-area.js'
 
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 const panOpts = {
   prevent: true,
