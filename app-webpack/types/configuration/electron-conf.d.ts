@@ -1,6 +1,6 @@
 import * as ElectronBuilderUtil from "builder-util";
 import * as ElectronBuilder from "electron-builder";
-import * as ElectronPackager from "electron-packager";
+import * as ElectronPackager from "@electron/packager";
 import { LiteralUnion } from "quasar";
 import { BuildOptions as EsbuildConfiguration } from "esbuild";
 

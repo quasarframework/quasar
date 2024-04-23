@@ -116,11 +116,11 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const bundlerConfig = this.quasarConf.electron[ bundlerName ]
 
     const { getBundler } = cacheProxy.getModule('electron')
-    const bundler = await getBundler(bundlerName)
-    const pkgName = `electron-${ bundlerName }`
+    const bundler = getBundler(bundlerName)
+    const pkgBanner = `electron/${ bundlerName }`
 
     return new Promise((resolve, reject) => {
-      const done = progress('Bundling app with ___...', `electron-${ bundlerName }`)
+      const done = progress('Bundling app with ___...', pkgBanner)
 
       const bundlePromise = bundlerName === 'packager'
         ? bundler({
@@ -132,13 +132,13 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       bundlePromise
         .then(() => {
           log()
-          done(`${ pkgName } built the app`)
+          done(`${ pkgBanner } built the app`)
           log()
           resolve()
         })
         .catch(err => {
           log()
-          warn(`${ pkgName } could not build`, 'FAIL')
+          warn(`${ pkgBanner } could not build`, 'FAIL')
           log()
           console.error(err + '\n')
           reject()
