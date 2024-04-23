@@ -124,8 +124,9 @@ function getPlatform (UA) {
     browser.firefox = true
     matched.browser = 'firefox'
   }
+
   // Set iOS if on iPod, iPad or iPhone
-  else if (browser.ipod || browser.ipad || browser.iphone) {
+  if (browser.ipod || browser.ipad || browser.iphone) {
     browser.ios = true
   }
 
