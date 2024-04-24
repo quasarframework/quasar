@@ -45,7 +45,7 @@ export default defineConfig(() => {
         include: [ /.+/ ]
       },
       include: [
-        './testing/runtime/tests/*.test.js'
+        './testing/runtime/tests/*.test.{js,ts}'
       ],
       setupFiles: [
         './testing/runtime/vitest.setup.js'
