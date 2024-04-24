@@ -12,7 +12,7 @@
   <slot />
 </template>
 
-<script setup type="ts">
+<script setup lang="ts">
 import { QBtn } from 'quasar'
 
 defineProps({

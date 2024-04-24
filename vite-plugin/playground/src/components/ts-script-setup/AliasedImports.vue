@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup type="ts">
+<script setup lang="ts">
 import { QBtn as SomeComponent, Notify } from 'quasar'
 
 console.log(SomeComponent)

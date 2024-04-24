@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script type="ts">
+<script lang="ts">
 import { QIcon as Bibi } from 'quasar'
 import { defineComponent } from 'vue'
 

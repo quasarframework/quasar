@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script setup type="ts">
+<script setup lang="ts">
 import { QBtn, Notify } from 'quasar'
 import CustomComponent from './custom-component.ts'
 

@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script type="ts">
+<script lang="ts">
 import { QBtn as SomeComponent, Notify } from 'quasar'
 import { defineComponent } from 'vue'
 

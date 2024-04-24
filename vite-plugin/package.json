@@ -48,6 +48,7 @@
     "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.2.0",
     "jsdom": "^24.0.0",
+    "pug": "^3.0.2",
     "quasar": "workspace:*",
     "rollup": "^4.16.4",
     "vite": "^5.2.10",
