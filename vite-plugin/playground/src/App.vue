@@ -6,8 +6,6 @@
   <!-- TODO: Add tests for 'pascal' and 'combined' too -->
   <!-- TODO: Add tests for TypeScript and Pug -->
 
-  <!-- TODO: Add JS transforms (currently only covered through custom-component.js in vue transforms a bit) -->
-
   <!-- TODO: Add SCSS Transforms -->
 </template>
 

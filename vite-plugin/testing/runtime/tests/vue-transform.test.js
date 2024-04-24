@@ -9,7 +9,7 @@ describe('Vue Transformations', () => {
   describe.each([
     [ 'With <script>', 'regular-script' ],
     [ 'With <script setup>', 'script-setup' ]
-  ])(`%s`, (_, folder) => {
+  ])('%s', (_, folder) => {
     test.each([
       [ 'BasicTest' ],
       [ 'ImportsTest' ],
