@@ -1,4 +1,6 @@
 <template>
+  <SassTransform />
+
   <AssetTransform />
 
   <JsScriptSetup />
@@ -8,12 +10,11 @@
   <TsScript />
 
   <JsPug />
-
-  <!-- TODO: Add tests for 'pascal' and 'combined' too -->
-  <!-- TODO: Add SCSS Transforms -->
 </template>
 
 <script setup>
+import SassTransform from './components/SassTransform.vue'
+
 import AssetTransform from './components/AssetTransform.vue'
 
 import JsScriptSetup from './components/JsScriptSetup.vue'
