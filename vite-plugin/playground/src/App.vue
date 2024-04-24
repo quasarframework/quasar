@@ -1,18 +1,24 @@
 <template>
   <AssetTransform />
-  <ScriptSetup />
-  <RegularScript />
+
+  <JsScriptSetup />
+  <JsScript />
+
+  <TsScriptSetup />
+  <TsScript />
 
   <!-- TODO: Add tests for 'pascal' and 'combined' too -->
-  <!-- TODO: Add tests for TypeScript and Pug -->
+  <!-- TODO: Add tests for Pug -->
 
   <!-- TODO: Add SCSS Transforms -->
 </template>
 
 <script setup>
 import AssetTransform from './components/AssetTransform.vue'
-import ScriptSetup from './components/ScriptSetup.vue'
-import RegularScript from './components/RegularScript.vue'
+import JsScriptSetup from './components/JsScriptSetup.vue'
+import JsScript from './components/JsScript.vue'
+import TsScriptSetup from './components/TsScriptSetup.vue'
+import TsScript from './components/TsScript.vue'
 </script>
 
 <style>
