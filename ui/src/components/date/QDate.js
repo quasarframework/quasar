@@ -24,6 +24,8 @@ function getMonthHash (date) {
   return date.year + '/' + pad(date.month)
 }
 
+console.log('test')
+
 export default createComponent({
   name: 'QDate',
 
