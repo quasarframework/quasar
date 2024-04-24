@@ -9,6 +9,17 @@ const resolve = _path => join(rootFolder, _path)
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
+function getReporterConfig () {
+  if (process.env.GITHUB_ACTIONS) {
+    return {
+      outputFile: 'test-results/report.xml',
+      reporters: 'junit'
+    }
+  }
+
+  return {}
+}
+
 export default defineConfig(() => {
   return {
     plugins: [
@@ -31,6 +42,7 @@ export default defineConfig(() => {
     },
 
     test: {
+      ...getReporterConfig(),
       globals: true,
       environment: 'jsdom',
       environmentOptions: {

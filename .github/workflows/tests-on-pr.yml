@@ -104,7 +104,7 @@ jobs:
           path: vite-plugin/dist
 
       - name: Run tests
-        run: pnpm test:workflow
+        run: pnpm test
 
       # Upload required artifacts to be used in tests-on-pr-report.yml
 

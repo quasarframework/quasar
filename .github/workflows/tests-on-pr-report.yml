@@ -70,5 +70,5 @@ jobs:
           commit: ${{ github.event.workflow_run.head_sha }}
           event_file: event-data/event.json
           event_name: ${{ github.event.workflow_run.event }}
-          files: 'test-results/*.json'
+          files: 'test-results/*.xml'
           check_name: 'UI Tests Results'

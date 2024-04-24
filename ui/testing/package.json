@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "test:workflow": "vitest run --reporter=json --outputFile=./test-results/vitest.json",
     "test:watch": "vitest watch",
     "test:watch:ui": "vitest watch --ui",
     "coverage": "vitest run --coverage"

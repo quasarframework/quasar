@@ -26,7 +26,6 @@
     "lint": "eslint --ext .js,.cjs,.mjs,.vue ./ --fix --report-unused-disable-directives",
     "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
     "test": "pnpm --filter quasar-ui-test test",
-    "test:workflow": "pnpm --filter quasar-ui-test test:workflow",
     "test:watch": "pnpm --filter quasar-ui-test test:watch",
     "test:watch:ui": "pnpm --filter quasar-ui-test test:watch:ui",
     "test:specs": "node ./testing/specs/script.js",
