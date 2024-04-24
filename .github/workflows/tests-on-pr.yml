@@ -1,6 +1,8 @@
 name: UI tests
 
 on:
+  workflow_dispatch:
+
   pull_request:
     types: [opened, synchronize]
     branches:
@@ -9,7 +11,7 @@ on:
       - '.github/workflows/tests-on-pr.yml'
       - 'ui/**/*.js'
       - 'ui/package.json'
-      - 'ui/dev/package.json'
+      - 'ui/playground/package.json'
 
 jobs:
   build:
@@ -63,7 +65,7 @@ jobs:
 
     permissions:
       contents: read # to fetch code (actions/checkout)
-      actions: read # to correctly identify workflow run (cypress-io/github-action)
+      actions: read # to correctly identify workflow run
 
     runs-on: ubuntu-latest
 
@@ -73,10 +75,8 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix:
-        browser: [chrome, firefox]
 
-    name: Tests on ${{ matrix.browser }}
+    name: Tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -93,25 +93,6 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
-      # We have to cache Cypress binary as well (https://on.cypress.io/not-installed-ci-error)
-      - name: Get Cypress version
-        id: cypress-version
-        working-directory: ui
-        run: |
-          echo "CYPRESS_VERSION=$(pnpm why cypress --depth 0 --json | jq -r '.[0].devDependencies.cypress.version')" > $GITHUB_OUTPUT
-      - name: Cache Cypress binary
-        id: cypress-cache
-        uses: actions/cache@v4
-        with:
-          # https://docs.cypress.io/guides/references/advanced-installation#Skipping-installation
-          path: ~/.cache/Cypress
-          key: cypress-cache-${{ steps.cypress-version.outputs.CYPRESS_VERSION }}
-          restore-keys: |
-            cypress-cache-
-      - name: Install Cypress
-        if: steps.cypress-cache.outputs.cache-hit != 'true'
-        run: pnpm cypress install
-
       - name: Download UI build artifact
         uses: actions/download-artifact@v4
         with:
@@ -124,13 +105,10 @@ jobs:
           name: vite-plugin-build
           path: vite-plugin/dist
 
-      - name: Run tests in ${{ matrix.browser }} browser
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_JUNIT_RESULTS_FILENAME: test-results/${{ matrix.browser }}/[hash].xml
+      - name: Run tests
         with:
           install: false
-          command: pnpm test:component:run --browser ${{ matrix.browser }}
+          command: pnpm test:workflow
           working-directory: ui
 
       # Upload required artifacts to be used in tests-on-pr-report.yml
@@ -139,8 +117,8 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.browser }}
-          path: ui/dev/test-results
+          name: test-results
+          path: ui/testing/test-results
 
       - name: Upload GitHub Actions event data
         if: ${{ always() }}

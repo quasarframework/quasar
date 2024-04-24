@@ -38,7 +38,7 @@ jobs:
               run_id: context.payload.workflow_run.id,
             });
 
-            const resultArtifacts = artifacts.filter(({ name }) => name.startsWith('test-results-'));
+            const resultArtifacts = artifacts.filter(({ name }) => name.startsWith('test-results'));
             for (const artifact of resultArtifacts) {
               const { data: artifactData } = await github.rest.actions.downloadArtifact({
                 owner: context.repo.owner,
@@ -70,5 +70,5 @@ jobs:
           commit: ${{ github.event.workflow_run.head_sha }}
           event_file: event-data/event.json
           event_name: ${{ github.event.workflow_run.event }}
-          files: 'test-results/*/*.xml'
+          files: 'test-results/*.json'
           check_name: 'UI Tests Results'
