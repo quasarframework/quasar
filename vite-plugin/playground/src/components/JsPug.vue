@@ -10,6 +10,7 @@
     <MixedCase />
     <MixedCaseWithDuplicates />
     <MixedCaseWithDuplicatesAndAliasedImports />
+    <WithDirective />
 
     <ExtendBtn label="Click me">
       <q-icon name="map" />
@@ -26,5 +27,6 @@ import CustomWithAliasedImports from './js-pug/CustomWithAliasedImports.vue'
 import MixedCase from './js-pug/MixedCase.vue'
 import MixedCaseWithDuplicates from './js-pug/MixedCaseWithDuplicates.vue'
 import MixedCaseWithDuplicatesAndAliasedImports from './js-pug/MixedCaseWithDuplicatesAndAliasedImports.vue'
+import WithDirective from './js-pug/WithDirective.vue'
 import ExtendBtn from './js-pug/ExtendBtn.vue'
 </script>

@@ -26,6 +26,7 @@ describe('Vue Transformations', () => {
         [ 'MixedCase' ],
         [ 'MixedCaseWithDuplicates' ],
         [ 'MixedCaseWithDuplicatesAndAliasedImports' ],
+        [ 'WithDirective' ],
         [ 'ExtendBtn' ]
       ])('transforms %s.vue', async filename => {
         const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
