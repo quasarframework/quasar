@@ -105,8 +105,6 @@ jobs:
 
       - name: Run tests
         run: pnpm test:workflow
-        with:
-          working-directory: ui
 
       # Upload required artifacts to be used in tests-on-pr-report.yml
 
