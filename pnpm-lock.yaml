@@ -812,7 +812,7 @@ importers:
         specifier: ^1.29.0
         version: 1.29.0
       quasar:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../ui
       vue:
         specifier: ^3.4.24
