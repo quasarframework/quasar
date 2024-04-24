@@ -6,6 +6,7 @@ import installQuasar from './install-quasar.js'
 import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'
 
+console.log('test')
 export * from './components.js'
 export * from './directives.js'
 export * from './plugins.js'
