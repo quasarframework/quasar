@@ -13,15 +13,13 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
     "lint": "eslint --ext .js,.vue ./ --fix --report-unused-disable-directives",
-    "test": "pnpm test:unit:ci && pnpm test:e2e:ci",
-    "test:unit:dev": "vitest",
-    "test:unit:ci": "vitest run",
-    "test:e2e:start:dev": "cd ./playground && pnpm dev --port 9000",
-    "test:e2e:start:serve": "cd ./playground && pnpm start --port 9000",
-    "test:e2e:dev": "start-test \"pnpm test:e2e:start:dev\" http-get://localhost:9000 \"pnpm cypress open --e2e\"",
-    "test:e2e:ci": "start-test \"pnpm test:e2e:start:serve\" http-get://localhost:9000 \"pnpm cypress run --e2e\""
+    "dev": "cd ./playground && pnpm dev",
+    "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
+    "test": "pnpm test:usage && pnpm test:runtime",
+    "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
+    "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
+    "test:runtime": "vitest run --config ./testing/runtime/vitest.config.js"
   },
   "files": [
     "dist",
@@ -45,16 +43,17 @@
     "url": "https://github.com/quasarframework/quasar"
   },
   "devDependencies": {
-    "cypress": "^13.8.1",
+    "@vue/test-utils": "^2.4.5",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.2.0",
-    "quasar": "workspace:^",
+    "jsdom": "^24.0.0",
+    "quasar": "workspace:*",
     "rollup": "^4.16.4",
-    "start-server-and-test": "^2.0.0",
-    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
     "vite-plugin-checker": "^0.6.4",
-    "vitest": "^1.5.0"
+    "vitest": "^1.5.0",
+    "vue": "^3.4.24"
   },
   "peerDependencies": {
     "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0",

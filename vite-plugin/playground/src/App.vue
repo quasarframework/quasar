@@ -1,8 +1,8 @@
 <template>
-  <VueTransformAssetUrls />
-
+  <AssetTransform />
   <ScriptSetup />
   <RegularScript />
+
   <!-- TODO: Add tests for 'pascal' and 'combined' too -->
   <!-- TODO: Add tests for TypeScript and Pug -->
 
@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import VueTransformAssetUrls from './components/VueTransformAssetUrls.vue'
-import ScriptSetup from './components/script-setup/ScriptSetup.vue'
-import RegularScript from './components/regular-script/RegularScript.vue'
+import AssetTransform from './components/AssetTransform.vue'
+import ScriptSetup from './components/ScriptSetup.vue'
+import RegularScript from './components/RegularScript.vue'
 </script>
 
 <style>

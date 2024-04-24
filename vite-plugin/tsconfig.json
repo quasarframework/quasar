@@ -1,6 +1,0 @@
-{
-  "references": [
-    { "path": "./tsconfig.cypress.json" },
-    { "path": "./tsconfig.vitest.json" },
-  ]
-}

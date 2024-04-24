@@ -4,10 +4,10 @@ import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-const rootFolder = fileURLToPath(new URL('.', import.meta.url))
-const resolve = _path => join(rootFolder, _path)
+import { quasar, transformAssetUrls } from '../../src/index.js'
 
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+const playgroundFolder = fileURLToPath(new URL('../../playground', import.meta.url))
+const resolve = _path => join(playgroundFolder, _path)
 
 export default defineConfig(() => {
   return {
@@ -25,8 +25,8 @@ export default defineConfig(() => {
 
     resolve: {
       alias: {
-        testing: resolve('.'),
-        quasar: resolve('..')
+        assets: resolve('src/assets'),
+        playground: resolve('src/components')
       }
     },
 
@@ -45,10 +45,10 @@ export default defineConfig(() => {
         include: [ /.+/ ]
       },
       include: [
-        '../src/**/*.test.js'
+        './testing/runtime/tests/*.test.js'
       ],
       setupFiles: [
-        './vitest.setup.js'
+        './testing/runtime/vitest.setup.js'
       ]
     }
   }

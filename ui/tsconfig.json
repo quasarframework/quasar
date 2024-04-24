@@ -8,5 +8,5 @@
     "moduleResolution": "node",
     "outDir": "./dist"
   },
-  "include": ["./src/**/*", "./test/cypress/**/*.d.ts", "./test/cypress/support/commands.js"]
+  "include": ["./src/**/*"]
 }

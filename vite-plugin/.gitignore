@@ -9,7 +9,3 @@ debug.log
 yarn.lock
 package-lock.json
 .vscode
-
-test/cypress/videos/
-test/cypress/screenshots/
-test/cypress/downloads/

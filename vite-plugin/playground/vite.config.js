@@ -36,6 +36,10 @@ export default defineConfig(() => {
       alias: {
         assets: '/src/assets'
       }
+    },
+
+    server: {
+      open: '/'
     }
   }
 })
