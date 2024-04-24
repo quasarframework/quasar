@@ -40,14 +40,14 @@
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
     "@quasar/extras": "workspace:*",
-    "autoprefixer": "^10.4.17",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.1.1",
-    "postcss": "^8.4.35",
+    "postcss": "^8.4.38",
     "prismjs": "^1.29.0",
     "quasar": "workspace:^",
-    "vue": "^3",
-    "vue-router": "^4"
+    "vue": "^3.4.24",
+    "vue-router": "^4.3.2"
   }
 }

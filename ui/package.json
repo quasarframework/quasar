@@ -68,10 +68,10 @@
     "cli-highlight": "^2.1.11",
     "cross-env": "^7.0.3",
     "cssnano": "^6.1.2",
-    "cypress": "^13.7.3",
+    "cypress": "^13.8.1",
     "diff": "^5.2.0",
     "esbuild": "^0.20.2",
-    "eslint": "^9.0.0",
+    "eslint": "^9.1.1",
     "eslint-config-quasar": "workspace:*",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
@@ -81,7 +81,7 @@
     "recast": "^0.23.6",
     "table": "^6.8.2",
     "typescript": "^5.4.5",
-    "vue": "^3"
+    "vue": "^3.4.24"
   },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",

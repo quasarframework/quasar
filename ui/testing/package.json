@@ -12,17 +12,17 @@
     "@quasar/extras": "workspace:*",
     "@quasar/vite-plugin": "workspace:^",
     "@vitejs/plugin-vue": "^5",
-    "@vitest/ui": "^1.4.0",
+    "@vitest/ui": "^1.5.0",
     "@vue/test-utils": "^2.4.5",
     "acorn": "^8.11.3",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
     "jsdom": "latest",
     "prompts": "^2.4.2",
-    "vite": "^5",
+    "vite": "^5.2.10",
     "vite-plugin-checker": "^0.6.4",
-    "vitest": "^1.4.0",
-    "vue": "^3"
+    "vitest": "^1.5.0",
+    "vue": "^3.4.24"
   },
   "dependencies": {
     "clipboardy": "^4.0.0",

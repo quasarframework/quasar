@@ -38,12 +38,12 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.202",
+    "@types/lodash": "^4.17.0",
     "@types/prompts": "^2.4.7",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
     "eslint-plugin-lodash-template": "^1.0.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.2.2"
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
   }
 }
