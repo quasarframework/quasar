@@ -114,6 +114,7 @@ export class QuasarModeBuilder extends AppBuilder {
         + ' Files have not been copied to /dist. You will need'
         + ' to manually extract the Cordova distributables.'
       )
+      log()
     }
   }
 
