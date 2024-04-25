@@ -60,7 +60,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     const args = this.argv[ 'skip-pkg' ] || this.argv.ide
       ? [ 'prepare', target ]
-      : [ 'build', this.quasarConf.metaConf.debugging ? '--debug' : '--release', target ]
+      : [ 'build', this.quasarConf.metaConf.debugging ? '--debug' : '--release', '--device', target ]
 
     await this.#runCordovaCommand(
       args.concat(this.argv._),
