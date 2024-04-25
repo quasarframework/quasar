@@ -183,7 +183,7 @@ class Pnpm extends PackageManager {
   getInstallPackageParams (names, isDevDependency) {
     return [
       'add',
-      isDevDependency ? '-D' : '',
+      isDevDependency ? '--save-dev' : '',
       ...names
     ]
   }

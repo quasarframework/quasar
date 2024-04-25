@@ -191,27 +191,11 @@ export class AppExtensionInstance {
     log(`${ skipPkgInstall ? 'Invoking' : 'Installing' } "${ this.extId }" Quasar App Extension`)
     log()
 
-    // verify if already installed
-    if (skipPkgInstall === true) {
-      if (!this.isInstalled) {
-        fatal(`Tried to invoke App Extension "${ this.extId }" but its npm package is not installed`)
-      }
-    }
-    else if (this.isInstalled) {
-      const answer = await inquirer.prompt([ {
-        name: 'reinstall',
-        type: 'confirm',
-        message: 'Already installed. Reinstall?',
-        default: false
-      } ])
-
-      if (!answer.reinstall) {
-        return
-      }
-    }
-
     if (skipPkgInstall !== true) {
       await this.#installPackage()
+    }
+    else if (!this.isInstalled) {
+      fatal(`Tried to invoke App Extension "${ this.extId }" but its npm package is not installed`)
     }
 
     const prompts = await this.#getScriptPrompts()
