@@ -5,12 +5,24 @@ const { join } = require('path')
 const AppBuilder = require('../../app-builder')
 const config = require('./cordova-config')
 
-const { fatal } = require('../../helpers/logger')
+const { log, warn, fatal } = require('../../helpers/logger')
 const appPaths = require('../../app-paths')
 const CordovaConfigFile = require('./config-file')
 const { spawn } = require('../../helpers/spawn')
 const openIde = require('../../helpers/open-ide')
 const onShutdown = require('../../helpers/on-shutdown')
+
+const cordovaOutputFiles = {
+  ios: [
+    'platforms/ios/build/Release-iphoneos', // ios-cordova 7+
+    'platforms/ios/build/device', // ios-cordova 6
+    'platforms/ios/build/emulator' // ios-cordova 6
+  ],
+
+  android: [
+    'platforms/android/app/build/outputs'
+  ]
+}
 
 class CapacitorBuilder extends AppBuilder {
   #cordovaConfigFile = new CordovaConfigFile()
@@ -52,14 +64,12 @@ class CapacitorBuilder extends AppBuilder {
       require('../../helpers/fix-android-cleartext')('cordova')
     }
 
-    const buildPath = appPaths.resolve.cordova(
-      target === 'android'
-        ? 'platforms/android/app/build/outputs'
-        : 'platforms/ios/build/emulator'
-    )
-
     // Remove old build output
-    fse.removeSync(buildPath)
+    cordovaOutputFiles[ target ].forEach(outputFile => {
+      fse.removeSync(
+        appPaths.resolve.cordova(outputFile)
+      )
+    })
 
     onShutdown(() => {
       this.#cleanup()
@@ -69,7 +79,7 @@ class CapacitorBuilder extends AppBuilder {
 
     const args = this.argv[ 'skip-pkg' ] || this.argv.ide
       ? [ 'prepare', target ]
-      : [ 'build', this.ctx.debug ? '--debug' : '--release', target ]
+      : [ 'build', this.ctx.debug ? '--debug' : '--release', '--device', target ]
 
     await this.#runCordovaCommand(
       args.concat(this.argv._),
@@ -82,7 +92,24 @@ class CapacitorBuilder extends AppBuilder {
         process.exit(0)
       }
 
-      fse.copySync(buildPath, join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName))
+      const targetFolder = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
+
+      for (const folder of cordovaOutputFiles[ target ]) {
+        const outputFolder = appPaths.resolve.cordova(folder)
+        if (fse.existsSync(outputFolder)) {
+          log(`Copying Cordova distributables from ${ outputFolder } to ${ targetFolder }`)
+          log()
+          fse.copySync(outputFolder, targetFolder)
+          return
+        }
+      }
+
+      warn(
+        `No output folder found for target "${ target }".`
+        + ' Files have not been copied to /dist. You will need'
+        + ' to manually extract the Cordova distributables.'
+      )
+      log()
     }
   }
 
