@@ -787,12 +787,12 @@ importers:
         specifier: ^1.0.0-pre2
         version: 1.0.0-pre2
     devDependencies:
-      '@quasar/app-vite':
-        specifier: workspace:*
-        version: link:../../app-vite
       '@quasar/extras':
         specifier: workspace:*
         version: link:../../extras
+      '@quasar/vite-plugin':
+        specifier: workspace:^
+        version: link:../../vite-plugin
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -814,6 +814,9 @@ importers:
       quasar:
         specifier: workspace:*
         version: link:../../ui
+      vite:
+        specifier: ^5.2.10
+        version: 5.2.10(sass@1.75.0)
       vue:
         specifier: ^3.4.24
         version: 3.4.24(typescript@5.4.5)

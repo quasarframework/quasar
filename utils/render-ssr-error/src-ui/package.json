@@ -1,5 +1,6 @@
 {
   "name": "do-not-publish-this-folder",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "type": "module"
 }

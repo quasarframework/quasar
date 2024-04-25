@@ -7,9 +7,9 @@
   "module": "src/index.js",
   "scripts": {
     "lint": "eslint ./ --ext .js,.vue --fix --report-unused-disable-directives",
-    "dev": "cd src-ui && quasar dev",
+    "dev": "cd src-ui && vite",
     "build": "pnpm build:ui && pnpm build:package",
-    "build:ui": "cd src-ui && quasar build",
+    "build:ui": "cd src-ui && vite build",
     "build:package": "node ./build/index.js"
   },
   "author": {
@@ -38,8 +38,8 @@
     "stack-trace": "^1.0.0-pre2"
   },
   "devDependencies": {
-    "@quasar/app-vite": "workspace:*",
     "@quasar/extras": "workspace:*",
+    "@quasar/vite-plugin": "workspace:^",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
@@ -47,6 +47,7 @@
     "postcss": "^8.4.38",
     "prismjs": "^1.29.0",
     "quasar": "workspace:*",
+    "vite": "^5.2.10",
     "vue": "^3.4.24",
     "vue-router": "^4.3.2"
   }
