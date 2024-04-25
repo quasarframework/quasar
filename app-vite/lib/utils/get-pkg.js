@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { getPackageJson } from '../utils/get-package-json.js'
 
 export function getPkg (appPaths) {
-  const { appDir } = appPaths
+  const { appDir, cliDir } = appPaths
   const appPkgPath = appPaths.resolve.app('package.json')
 
   function readAppPackageJson () {
@@ -18,7 +18,10 @@ export function getPkg (appPaths) {
       acc.appPkg = readAppPackageJson()
     },
     quasarPkg: getPackageJson('quasar', appDir),
-    vitePkg: getPackageJson('vite', appDir)
+    vitePkg: (
+      getPackageJson('vite', appDir)
+      || getPackageJson('vite', cliDir)
+    )
   }
 
   return acc
