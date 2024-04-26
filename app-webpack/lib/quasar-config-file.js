@@ -307,7 +307,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     let firstBuildIsDone
 
     const { appPaths } = this.#ctx
-    const { updateAppPackageJson } = this.#ctx.pkg
     const tempFile = this.#tempFile
 
     esbuildConfig.plugins.push({
@@ -319,7 +318,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           if (isFirst === false) {
             log()
             log('The quasar.config file (or its dependencies) changed. Reading it again...')
-            updateAppPackageJson()
           }
         })
 
