@@ -1,5 +1,6 @@
 
 const { join } = require('path')
+const { existsSync } = require('fs-extra')
 
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
@@ -14,7 +15,7 @@ class ElectronBuilder extends AppBuilder {
   async build () {
     await this.#buildFiles()
     await this.#writePackageJson()
-    await this.#copyElectronFiles()
+    this.#copyElectronFiles()
 
     this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
 
@@ -65,9 +66,8 @@ class ElectronBuilder extends AppBuilder {
     this.writeFile('UnPackaged/package.json', JSON.stringify(pkg))
   }
 
-  async #copyElectronFiles () {
+  #copyElectronFiles () {
     const patterns = [
-      '.npmrc',
       '.yarnrc',
       'package-lock.json',
       'yarn.lock',
@@ -85,6 +85,26 @@ class ElectronBuilder extends AppBuilder {
     })
 
     this.copyFiles(patterns)
+
+    // handle .npmrc separately
+    const npmrc = this.ctx.appPaths.resolve.app('.npmrc')
+    if (existsSync(npmrc)) {
+      let content = this.readFile(npmrc)
+
+      if (content.indexOf('shamefully-hoist') === -1) {
+        content += '\nshamefully-hoist=true'
+      }
+      // very important, otherwise PNPM creates symlinks which is NOT
+      // what we want for an Electron app that should run cross-platform
+      if (content.indexOf('node-linker') === -1) {
+        content += '\nnode-linker=hoisted'
+      }
+
+      this.writeFile(
+        join(this.quasarConf.build.distDir, 'UnPackaged/.npmrc'),
+        content
+      )
+    }
   }
 
   async #packageFiles () {
