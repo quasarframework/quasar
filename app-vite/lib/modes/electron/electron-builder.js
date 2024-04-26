@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import fse from 'fs-extra'
 import { merge } from 'webpack-merge'
 
 import { log, warn, progress } from '../../utils/logger.js'
@@ -11,7 +12,7 @@ export class QuasarModeBuilder extends AppBuilder {
   async build () {
     await this.#buildFiles()
     await this.#writePackageJson()
-    await this.#copyElectronFiles()
+    this.#copyElectronFiles()
 
     this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
 
@@ -62,14 +63,13 @@ export class QuasarModeBuilder extends AppBuilder {
     )
   }
 
-  async #copyElectronFiles () {
+  #copyElectronFiles () {
     const patterns = [
-      '.npmrc',
       '.yarnrc',
       'package-lock.json',
       'yarn.lock',
       'pnpm-lock.yaml'
-      // bun.lockb should be ignored since it error out with devDeps in package.json
+      // bun.lockb should be ignored since it errors out with devDeps in package.json
       // (error: lockfile has changes, but lockfile is frozen)
     ].map(filename => ({
       from: filename,
@@ -82,6 +82,26 @@ export class QuasarModeBuilder extends AppBuilder {
     })
 
     this.copyFiles(patterns)
+
+    // handle .npmrc separately
+    const npmrc = this.ctx.appPaths.resolve.app('.npmrc')
+    if (fse.existsSync(npmrc)) {
+      let content = this.readFile(npmrc)
+
+      if (content.indexOf('shamefully-hoist') === -1) {
+        content += '\nshamefully-hoist=true'
+      }
+      // very important, otherwise PNPM creates symlinks which is NOT
+      // what we want for an Electron app that should run cross-platform
+      if (content.indexOf('node-linker') === -1) {
+        content += '\nnode-linker=hoisted'
+      }
+
+      this.writeFile(
+        join(this.quasarConf.build.distDir, 'UnPackaged/.npmrc'),
+        content
+      )
+    }
   }
 
   async #packageFiles () {
