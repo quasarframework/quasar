@@ -182,9 +182,6 @@ module.exports.InstallAPI = class InstallAPI extends BaseAPI {
       'utf-8'
     )
 
-    // we mingled with it, time to notify there's a need to update it
-    this.ctx.pkg.updateAppPackageJson()
-
     if (
       extPkg.dependencies
       || extPkg.devDependencies
