@@ -21,11 +21,12 @@ module.exports = function (cfg, configName) {
 
     const patterns = [
       appPaths.resolve.app('.npmrc'),
-      appPaths.resolve.app('package-lock.json'),
       appPaths.resolve.app('.yarnrc'),
+      appPaths.resolve.app('package-lock.json'),
       appPaths.resolve.app('yarn.lock'),
-      appPaths.resolve.app('pnpm-lock.yaml'),
-      appPaths.resolve.app('bun.lockb')
+      appPaths.resolve.app('pnpm-lock.yaml')
+      // bun.lockb should be ignored since it error out with devDeps in package.json
+      // (error: lockfile has changes, but lockfile is frozen)
     ].map(filename => ({
       from: filename,
       to: '.',

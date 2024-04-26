@@ -68,11 +68,12 @@ class ElectronBuilder extends AppBuilder {
   async #copyElectronFiles () {
     const patterns = [
       '.npmrc',
-      'package-lock.json',
       '.yarnrc',
+      'package-lock.json',
       'yarn.lock',
-      'pnpm-lock.yaml',
-      'bun.lockb'
+      'pnpm-lock.yaml'
+      // bun.lockb should be ignored since it error out with devDeps in package.json
+      // (error: lockfile has changes, but lockfile is frozen)
     ].map(filename => ({
       from: filename,
       to: './UnPackaged'
