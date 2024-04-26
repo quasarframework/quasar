@@ -7,16 +7,23 @@ const onShutdown = require('../helpers/on-shutdown')
 const appPaths = require('../app-paths')
 const openIde = require('../helpers/open-ide')
 
-const cordovaOutputFiles = {
+const cordovaOutputFolders = {
   ios: [
     'platforms/ios/build/Release-iphoneos', // ios-cordova 7+
-    'platforms/ios/build/device', // ios-cordova 6
-    'platforms/ios/build/emulator' // ios-cordova 6
+    'platforms/ios/build/Debug-iphoneos', // ios-cordova 7+
+    'platforms/ios/build/Release-iphonesimulator', // ios-cordova 7+
+    'platforms/ios/build/Debug-iphonesimulator', // ios-cordova 7+
+    'platforms/ios/build/device',
+    'platforms/ios/build/emulator'
   ],
 
   android: [
     'platforms/android/app/build/outputs'
   ]
+}
+
+function ensureArray (val) {
+  return (!val || Array.isArray(val)) ? val : [ val ]
 }
 
 class CordovaRunner {
@@ -77,8 +84,18 @@ class CordovaRunner {
   async build (quasarConfFile, argv) {
     const cfg = quasarConfFile.quasarConf
 
+    const cordovaContext = {
+      debug: this.ctx.debug === true,
+      target: this.target
+    }
+
+    const outputTargetList = (
+      ensureArray(this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext))
+      || cordovaOutputFolders[ this.target ]
+    )
+
     // Remove old build output
-    cordovaOutputFiles[ this.target ].forEach(outputFile => {
+    outputTargetList.forEach(outputFile => {
       fse.removeSync(
         appPaths.resolve.cordova(outputFile)
       )
@@ -86,7 +103,10 @@ class CordovaRunner {
 
     const args = argv[ 'skip-pkg' ] || argv.ide
       ? [ 'prepare', this.target ]
-      : [ 'build', this.ctx.debug ? '--debug' : '--release', '--device', this.target ]
+      : (
+          this.quasarConf.cordova.getCordovaBuildParams?.(cordovaContext)
+          || [ 'build', this.ctx.debug ? '--debug' : '--release', '--device', this.target ]
+        )
 
     await this.__runCordovaCommand(
       cfg,
@@ -104,7 +124,7 @@ class CordovaRunner {
 
     const targetFolder = cfg.build.packagedDistDir
 
-    for (const folder of cordovaOutputFiles[ this.target ]) {
+    for (const folder of outputTargetList) {
       const outputFolder = appPaths.resolve.cordova(folder)
       if (fse.existsSync(outputFolder)) {
         log(`Copying Cordova distributables from ${ outputFolder } to ${ targetFolder }`)

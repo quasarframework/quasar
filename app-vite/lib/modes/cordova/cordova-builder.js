@@ -12,16 +12,23 @@ const { spawn } = require('../../helpers/spawn')
 const openIde = require('../../helpers/open-ide')
 const onShutdown = require('../../helpers/on-shutdown')
 
-const cordovaOutputFiles = {
+const cordovaOutputFolders = {
   ios: [
     'platforms/ios/build/Release-iphoneos', // ios-cordova 7+
-    'platforms/ios/build/device', // ios-cordova 6
-    'platforms/ios/build/emulator' // ios-cordova 6
+    'platforms/ios/build/Debug-iphoneos', // ios-cordova 7+
+    'platforms/ios/build/Release-iphonesimulator', // ios-cordova 7+
+    'platforms/ios/build/Debug-iphonesimulator', // ios-cordova 7+
+    'platforms/ios/build/device',
+    'platforms/ios/build/emulator'
   ],
 
   android: [
     'platforms/android/app/build/outputs'
   ]
+}
+
+function ensureArray (val) {
+  return (!val || Array.isArray(val)) ? val : [ val ]
 }
 
 class CapacitorBuilder extends AppBuilder {
@@ -64,8 +71,18 @@ class CapacitorBuilder extends AppBuilder {
       require('../../helpers/fix-android-cleartext')('cordova')
     }
 
+    const cordovaContext = {
+      debug: this.ctx.debug === true,
+      target
+    }
+
+    const outputTargetList = (
+      ensureArray(this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext))
+      || cordovaOutputFolders[ target ]
+    )
+
     // Remove old build output
-    cordovaOutputFiles[ target ].forEach(outputFile => {
+    outputTargetList.forEach(outputFile => {
       fse.removeSync(
         appPaths.resolve.cordova(outputFile)
       )
@@ -79,7 +96,10 @@ class CapacitorBuilder extends AppBuilder {
 
     const args = this.argv[ 'skip-pkg' ] || this.argv.ide
       ? [ 'prepare', target ]
-      : [ 'build', this.ctx.debug ? '--debug' : '--release', '--device', target ]
+      : (
+        this.quasarConf.cordova.getCordovaBuildParams?.(cordovaContext)
+        || [ 'build', this.ctx.debug ? '--debug' : '--release', '--device', target ]
+      )
 
     await this.#runCordovaCommand(
       args.concat(this.argv._),
@@ -94,7 +114,7 @@ class CapacitorBuilder extends AppBuilder {
 
       const targetFolder = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
 
-      for (const folder of cordovaOutputFiles[ target ]) {
+      for (const folder of outputTargetList) {
         const outputFolder = appPaths.resolve.cordova(folder)
         if (fse.existsSync(outputFolder)) {
           log(`Copying Cordova distributables from ${ outputFolder } to ${ targetFolder }`)
