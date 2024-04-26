@@ -125,3 +125,7 @@ $ quasar build -m [ios|android] -d
 # ..or the longer form
 $ quasar build -m [ios|android] --debug
 ```
+
+::: tip
+Also check `getCordovaBuildParams()` and `getCordovaBuildOutputFolder()` (quasar.config > cordova options) from [Configuring Cordova](/quasar-cli-webpack/developing-cordova-apps/configuring-cordova#quasar-config-file) page.
+:::

@@ -11,16 +11,23 @@ const { openIDE } = require('../../utils/open-ide.js')
 const { onShutdown } = require('../../utils/on-shutdown.js')
 const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
 
-const cordovaOutputFiles = {
+const cordovaOutputFolders = {
   ios: [
     'platforms/ios/build/Release-iphoneos', // ios-cordova 7+
-    'platforms/ios/build/device', // ios-cordova 6
-    'platforms/ios/build/emulator' // ios-cordova 6
+    'platforms/ios/build/Debug-iphoneos', // ios-cordova 7+
+    'platforms/ios/build/Release-iphonesimulator', // ios-cordova 7+
+    'platforms/ios/build/Debug-iphonesimulator', // ios-cordova 7+
+    'platforms/ios/build/device',
+    'platforms/ios/build/emulator'
   ],
 
   android: [
     'platforms/android/app/build/outputs'
   ]
+}
+
+function ensureArray (val) {
+  return (!val || Array.isArray(val)) ? val : [ val ]
 }
 
 module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
@@ -45,8 +52,18 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       fixAndroidCleartext(appPaths, 'cordova')
     }
 
+    const cordovaContext = {
+      debug: this.quasarConf.metaConf.debugging === true,
+      target
+    }
+
+    const outputTargetList = (
+      ensureArray(this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext))
+      || cordovaOutputFolders[ target ]
+    )
+
     // Remove old build output
-    cordovaOutputFiles[ target ].forEach(outputFile => {
+    outputTargetList.forEach(outputFile => {
       fse.removeSync(
         appPaths.resolve.cordova(outputFile)
       )
@@ -60,7 +77,10 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     const args = this.argv[ 'skip-pkg' ] || this.argv.ide
       ? [ 'prepare', target ]
-      : [ 'build', this.quasarConf.metaConf.debugging ? '--debug' : '--release', '--device', target ]
+      : (
+          this.quasarConf.cordova.getCordovaBuildParams?.(cordovaContext)
+          || [ 'build', this.quasarConf.metaConf.debugging ? '--debug' : '--release', '--device', target ]
+        )
 
     await this.#runCordovaCommand(
       args.concat(this.argv._),
@@ -80,7 +100,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
       const targetFolder = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
 
-      for (const folder of cordovaOutputFiles[ target ]) {
+      for (const folder of outputTargetList) {
         const outputFolder = appPaths.resolve.cordova(folder)
         if (fse.existsSync(outputFolder)) {
           log(`Copying Cordova distributables from ${ outputFolder } to ${ targetFolder }`)
