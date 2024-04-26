@@ -113,8 +113,8 @@ export default createComponent({
     const view = ref(props.defaultView)
 
     const direction = $q.lang.rtl === true ? 'right' : 'left'
-    const monthDirection = ref(direction.value)
-    const yearDirection = ref(direction.value)
+    const monthDirection = ref(direction)
+    const yearDirection = ref(direction)
 
     const year = viewModel.value.year
     const startYear = ref(year - (year % yearsInterval) - (year < 0 ? yearsInterval : 0))
