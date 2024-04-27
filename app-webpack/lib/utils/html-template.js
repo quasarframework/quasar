@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const { HtmlTransformPlugin } = require('../plugins/webpack.html-transform.js')
 
-const absoluteUrlRE = /^(https?:\/\/|\/)/i
+const absoluteUrlRE = /^(https?:\/\/|\/|data:)/i
 const ssrInterpolationsRE = /{{([\s\S]+?)}}/g
 
 const htmlStartTagRE = /(<html[^>]*)(>)/i

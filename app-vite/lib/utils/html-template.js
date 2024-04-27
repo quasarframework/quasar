@@ -1,7 +1,7 @@
 import compileTemplate from 'lodash/template.js'
 import { minify } from 'html-minifier-terser'
 
-const absoluteUrlRE = /^(https?:\/\/|\/)/i
+const absoluteUrlRE = /^(https?:\/\/|\/|data:)/i
 const ssrInterpolationsRE = /{{([\s\S]+?)}}/g
 
 const htmlStartTagRE = /(<html[^>]*)(>)/i
