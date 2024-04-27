@@ -14,13 +14,15 @@ Quasar documentation assumes you are already familiar with [Vue Router](https://
 
 The `/src/router/routes.js` needs to import your website/app's Pages and Layouts. Read more on [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages) documentation page.
 
-When using Vuex the store is not directly importable from other scripts, but it is passed to the exported function of `/src/router/index.js`, so it can be accessed from there. For example you can use the `Router.beforeEach` method to check authentication in the router:
+When using Pinia, the store is not directly importable from other scripts, but it is passed to the exported function of `/src/router/index.js`, so it can be accessed from there. For example you can use the `Router.beforeEach` method to check authentication in the router:
 
 ```js
 export default function ({ store /*, ssrContext */ }) {
   // ...
+  const userStore = useUserStore(store);
+  
   Router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth) && !store.getters['auth/isSignedIn']) {
+    if (to.matched.some(record => record.meta.requiresAuth) && !userStore.isSignedIn) {
       next({ name: 'account-signin', query: { next: to.fullPath } })
     } else {
       next()
