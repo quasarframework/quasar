@@ -87,17 +87,17 @@ class ElectronBuilder extends AppBuilder {
     this.copyFiles(patterns)
 
     // handle .npmrc separately
-    const npmrc = this.ctx.appPaths.resolve.app('.npmrc')
+    const npmrc = appPaths.resolve.app('.npmrc')
     if (existsSync(npmrc)) {
       let content = this.readFile(npmrc)
 
       if (content.indexOf('shamefully-hoist') === -1) {
-        content += '\nshamefully-hoist=true'
+        content += '\n# needed by pnpm\nshamefully-hoist=true'
       }
       // very important, otherwise PNPM creates symlinks which is NOT
       // what we want for an Electron app that should run cross-platform
       if (content.indexOf('node-linker') === -1) {
-        content += '\nnode-linker=hoisted'
+        content += '\n# pnpm needs this otherwise it creates symlinks\nnode-linker=hoisted'
       }
 
       this.writeFile(

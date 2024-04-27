@@ -14,13 +14,14 @@ module.exports = function (cfg, configName) {
 
   if (cfg.ctx.prod) {
     const ElectronPackageJson = require('./plugin.electron-package-json')
-
-    // write package.json file
     chain.plugin('package-json')
       .use(ElectronPackageJson, [ cfg ])
 
+    const NpmrcPlugin = require('./plugin.npmrc')
+    chain.plugin('npmrc')
+      .use(NpmrcPlugin, [ cfg ])
+
     const patterns = [
-      appPaths.resolve.app('.npmrc'),
       appPaths.resolve.app('.yarnrc'),
       appPaths.resolve.app('package-lock.json'),
       appPaths.resolve.app('yarn.lock'),
