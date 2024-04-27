@@ -14,6 +14,7 @@ import { getPackageMajorVersion } from './utils/get-package-major-version.js'
 import { resolveExtension } from './utils/resolve-extension.js'
 import { ensureElectronArgv } from './utils/ensure-argv.js'
 import { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } from './plugins/esbuild.inject-replacements.js'
+import { quasarEsbuildVueShimPlugin } from './plugins/esbuild.vue-shim.js'
 
 const urlRegex = /^http(s)?:\/\//i
 import { findClosestOpenPort, localHostList } from './utils/net.js'
@@ -260,7 +261,10 @@ export class QuasarConfigFile {
       resolveExtensions: [ appPaths.quasarConfigOutputFormat === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
       entryPoints: [ appPaths.quasarConfigFilename ],
       outfile: this.#tempFile,
-      plugins: [ quasarEsbuildInjectReplacementsPlugin ]
+      plugins: [
+        quasarEsbuildInjectReplacementsPlugin,
+        quasarEsbuildVueShimPlugin
+      ]
     }
   }
 
