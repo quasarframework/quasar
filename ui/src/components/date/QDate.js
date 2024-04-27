@@ -112,7 +112,7 @@ export default createComponent({
 
     const view = ref(props.defaultView)
 
-    const direction = $q.lang.rtl === true ? 'right' : 'left'
+    const direction = computed(() => ($q.lang.rtl === true ? 'right' : 'left'))
     const monthDirection = ref(direction.value)
     const yearDirection = ref(direction.value)
 
@@ -931,7 +931,7 @@ export default createComponent({
       const newHash = year + '/' + pad(month) + '/01'
 
       if (newHash !== viewModel.value.dateHash) {
-        monthDirection.value = (viewModel.value.dateHash < newHash) === ($q.lang.rtl !== true) ? 'left' : 'right'
+        monthDirection.value = (viewModel.value.dateHash < newHash) === direction.value
         if (year !== viewModel.value.year) {
           yearDirection.value = monthDirection.value
         }
