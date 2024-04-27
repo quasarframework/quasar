@@ -1,7 +1,7 @@
 const compileTemplate = require('lodash/template')
 const { minify } = require('html-minifier-terser')
 
-const absoluteUrlRE = /^(https?:\/\/|\/)/i
+const absoluteUrlRE = /^(https?:\/\/|\/|data:)/i
 const entryPointMarkup = '<!-- quasar:entry-point -->'
 const entryScript = '<script type="module" src="/.quasar/client-entry.js"></script>'
 const attachMarkup = '<div id="q-app"></div>'
