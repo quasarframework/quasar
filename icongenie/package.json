@@ -42,7 +42,7 @@
   },
   "homepage": "https://quasar.dev/icongenie/introduction",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.13.0",
     "cross-spawn": "^7.0.2",
     "elementtree": "^0.1.7",
     "fast-glob": "^3.3.2",
