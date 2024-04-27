@@ -83,13 +83,13 @@ The linting for a TS project is based on vite-plugin-checker + ESLint + vue-tsc:
 
 ```tabs
 <<| bash Yarn |>>
-$ yarn add --dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+$ yarn add --dev vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
 <<| bash NPM |>>
-$ npm install --save-dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+$ npm install --save-dev vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
 <<| bash PNPM |>>
-$ pnpm add -D vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+$ pnpm add -D vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
 <<| bash Bun |>>
-$ bun add --dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+$ bun add --dev vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
 ```
 
 ::: warning
