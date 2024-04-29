@@ -87,9 +87,9 @@ if (scope.skipDepsInstall !== true) {
             ]
           : [
               { title: 'Yes, use Yarn (recommended)', value: 'yarn' },
+              { title: 'Yes, use PNPM (recommended)', value: 'pnpm' },
               { title: 'Yes, use NPM', value: 'npm' },
-              { title: 'Yes, use PNPM (experimental support)', value: 'pnpm' },
-              { title: 'Yes, use Bun (experimental support)', value: 'bun' },
+              { title: 'Yes, use Bun', value: 'bun' },
               { title: 'No, I will handle that myself', value: false }
             ]
       )
