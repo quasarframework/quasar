@@ -131,15 +131,8 @@ Preparations:
   }
   ```
   <br>
-  Rename some tools config files (in the root project folder):
+  Remember to convert to ESM the `postcss.config.js` file should you use it. Also, rename `.eslintrc.js` to `.eslintrc.cjs` (with no change to its content).
   <br><br>
-
-  | Old name | New name |
-  | -------- | -------- |
-  | postcss.config.js | postcss.config.cjs |
-  | .eslintrc.js | .eslintrc.cjs |
-
-  <br>
 
 * You might want to add the following to your `/.gitignore` file. The `/quasar.config.*.temporary.compiled*` entry refers to files that are left for inspection purposes when something fails with your `/quasar.config` file (and can be removed by the `quasar clean` command):
 

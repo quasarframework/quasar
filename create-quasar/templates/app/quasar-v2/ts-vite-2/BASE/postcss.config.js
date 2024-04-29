@@ -1,10 +1,13 @@
 /* eslint-disable */
 // https://github.com/michael-ciniawsky/postcss-load-config
 
-module.exports = {
+import autoprefixer from 'autoprefixer'
+// import rtlcss from 'postcss-rtlcss'
+
+export default {
   plugins: [
     // https://github.com/postcss/autoprefixer
-    require('autoprefixer')({
+    autoprefixer({
       overrideBrowserslist: [
         'last 4 Chrome versions',
         'last 4 Firefox versions',
@@ -15,13 +18,13 @@ module.exports = {
         'last 4 FirefoxAndroid versions',
         'last 4 iOS versions'
       ]
-    })
+    }),
 
     // https://github.com/elchininet/postcss-rtlcss
     // If you want to support RTL css, then
-    // 1. yarn/npm install postcss-rtlcss
+    // 1. yarn/pnpm/bun/npm install postcss-rtlcss
     // 2. optionally set quasar.config.js > framework > lang to an RTL language
-    // 3. uncomment the following line:
-    // require('postcss-rtlcss')
+    // 3. uncomment the following line (and its import statement above):
+    // rtlcss()
   ]
 }
