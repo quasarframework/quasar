@@ -17,7 +17,6 @@
     <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
     <% if (preset.i18n) { %>"vue-i18n": "^9.2.2",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
-    <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.16.4",
     "core-js": "^3.6.5",
     "quasar": "^2.6.0",

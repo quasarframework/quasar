@@ -5,8 +5,7 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from 'vue-router';
-<% if (preset.vuex) { %>import { StateInterface } from '../store';
-<% } %>import routes from './routes';
+import routes from './routes';
 
 /*
  * If not building with SSR mode, you can
@@ -17,7 +16,7 @@ import {
  * with the Router instance.
  */
 
-export default route<% if (preset.vuex) { %><StateInterface><% } %>(function (/* { store, ssrContext } */) {
+export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
