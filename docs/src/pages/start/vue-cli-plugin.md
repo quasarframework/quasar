@@ -3,6 +3,10 @@ title: Vue CLI Quasar Plugin
 desc: How to embed Quasar into a Vue CLI app.
 ---
 
+::: danger
+The Vue CLI is in [maintenance mode](https://cli.vuejs.org). You should probably start your work with [Quasar CLI](/start/quasar-cli) instead.
+:::
+
 ::: warning
 Cross-platform support with Vue CLI is handled by a number of community plugins. This means, putting together what Quasar offers out-of-the-box will take you extra time and effort, will not guarantee you the best experience and you won't have access to a number of features which only Quasar CLI has. Quasar was also not specifically tested with these plugins and thus you could possibly run into issues. This, however, will be valid for any component library, unless they specifically mention having tested their components with third-party plugins.
 

@@ -44,9 +44,9 @@ const gettingStarted = {
           separator: true
         },
         { name: 'Quasar CLI', path: '/start/quasar-cli' },
+        { name: 'Vite Plugin', path: '/start/vite-plugin' },
         { name: 'UMD / Standalone', path: '/start/umd' },
-        { name: 'Vue CLI Plugin', path: '/start/vue-cli-plugin' },
-        { name: 'Vite Plugin', path: '/start/vite-plugin' }
+        { name: 'Vue CLI Plugin', path: '/start/vue-cli-plugin' }
       ]
     },
     { name: 'How to use Vue', path: '/start/how-to-use-vue' },
