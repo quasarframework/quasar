@@ -20,7 +20,7 @@
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
     "autoprefixer": "^10.4.19",
-    "eslint": "^8.11.0",
+    "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
     "postcss": "^8.4.38",
     "vite-plugin-checker": "^0.6.4"

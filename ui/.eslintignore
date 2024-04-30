@@ -10,3 +10,4 @@ dist/
 /playground/dist
 /playground/src-capacitor
 /playground/src-cordova
+*.cy.js
