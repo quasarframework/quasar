@@ -91,19 +91,20 @@ import { Lang } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
-const langList = import.meta.glob('../../node_modules/quasar/lang/*.mjs')
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.js')
 // or just a select few (example below with only DE and FR):
-// import.meta.glob('../../node_modules/quasar/lang/(de|fr).mjs')
+// import.meta.glob('../../node_modules/quasar/lang/(de|fr).js')
 
 export default async () => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
+    langList[ `../../node_modules/quasar/lang/${ langIso }.js` ]().then(lang => {
       Lang.set(lang.default)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
@@ -123,6 +124,7 @@ export default async () => {
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
@@ -150,20 +152,21 @@ import { Lang } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
-const langList = import.meta.glob('../../node_modules/quasar/lang/*.mjs')
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.js')
 // or just a select few (example below with only DE and FR):
-// import.meta.glob('../../node_modules/quasar/lang/(de|fr).mjs')
+// import.meta.glob('../../node_modules/quasar/lang/(de|fr).js')
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
+    langList[ `../../node_modules/quasar/lang/${ langIso }.js` ]().then(lang => {
       Lang.set(lang.default, ssrContext)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
@@ -184,6 +187,7 @@ export default async ({ ssrContext }) => {
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
@@ -196,7 +200,57 @@ export default async ({ ssrContext }) => {
 
 Example with a QSelect to dynamically change the Quasar components language:
 
-```html
+```tabs
+<<| html With @quasar/app-vite |>>
+<template>
+  <q-select
+    v-model="lang"
+    :options="langOptions"
+    label="Quasar Language"
+    dense
+    borderless
+    emit-value
+    map-options
+    options-dense
+    style="min-width: 150px"
+  />
+  <div>{{ $q.lang.label.close }}</div>
+</template>
+
+<script>
+import { useQuasar } from 'quasar'
+import languages from 'quasar/lang/index.json'
+import { ref, watch } from 'vue'
+
+const modules = import.meta.glob('../../node_modules/quasar/lang/(de|en-US|es).js')
+
+const appLanguages = languages.filter(lang =>
+  ['de', 'en-US', 'es'].includes(lang.isoName)
+)
+
+const langOptions = appLanguages.map(lang => ({
+  label: lang.nativeName, value: lang.isoName
+}))
+
+export default {
+  setup () {
+    const $q = useQuasar()
+    const lang = ref($q.lang.isoName)
+
+    watch(lang, val => {
+      modules[`../../node_modules/quasar/lang/${val}.js`]().then(lang => {
+        $q.lang.set(lang.default)
+      })
+    })
+
+    return {
+      lang,
+      langOptions
+    }
+  }
+}
+</script>
+<<| html With @quasar/app-webpack |>>
 <template>
   <q-select
     v-model="lang"

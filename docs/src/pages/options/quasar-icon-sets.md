@@ -116,19 +116,20 @@ import { IconSet } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
-const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.mjs')
+const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.js')
 // or just a select few (example below with only mdi-v7 and fontawesome-v6):
-// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).mjs')
+// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).js')
 
 export default async () => {
   const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.mjs` ]().then(lang => {
+    iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.js` ]().then(lang => {
       IconSet.set(setDefinition.default)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Icon Set does not exist,
     // let's not break the app, so catching error
   }
@@ -175,20 +176,21 @@ import { IconSet } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
-const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.mjs')
+const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.js')
 // or just a select few (example below with only mdi-v7 and fontawesome-v6):
-// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).mjs')
+// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).js')
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
   const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.mjs` ]().then(lang => {
+    iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.js` ]().then(lang => {
       IconSet.set(setDefinition.default, ssrContext)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Icon Set does not exist,
     // let's not break the app, so catching error
   }
@@ -209,6 +211,7 @@ export default async ({ ssrContext }) => {
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Icon Set does not exist,
     // let's not break the app, so catching error
   }
