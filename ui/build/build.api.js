@@ -1,14 +1,23 @@
-const path = require('node:path')
-const glob = require('fast-glob')
-const { merge } = require('webpack-merge')
-const fse = require('fs-extra')
+import { join, basename } from 'node:path'
+import glob from 'fast-glob'
+import { merge } from 'webpack-merge'
+import fse from 'fs-extra'
 
-const root = path.resolve(__dirname, '..')
-const resolvePath = file => path.resolve(root, file)
-const dest = path.join(root, 'dist/api')
-const extendApi = require(resolvePath('src/api.extends.json'))
-const { logError, writeFile, kebabCase } = require('./build.utils')
-const ast = require('./ast')
+import {
+  rootFolder,
+  resolveToRoot,
+  relativeToRoot,
+  logError,
+  readJsonFile,
+  writeFile,
+  kebabCase
+} from './build.utils.js'
+
+const dest = resolveToRoot('dist/api')
+
+const extendApi = readJsonFile(
+  resolveToRoot('src/api.extends.json')
+)
 
 const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
 const apiIgnoreValueRegex = /^# /
@@ -35,14 +44,14 @@ const apiValueRegex = {
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
-    const mixinFile = resolvePath('src/' + mixin + '.json')
+    const mixinFile = resolveToRoot('src/' + mixin + '.json')
 
     if (!fse.existsSync(mixinFile)) {
-      logError(`build.api.js: ${ path.relative(root, mainFile) } -> no such mixin ${ mixin }`)
+      logError(`build.api.js: ${ relativeToRoot(mainFile) } -> no such mixin ${ mixin }`)
       process.exit(1)
     }
 
-    const content = require(mixinFile)
+    const content = readJsonFile(mixinFile)
 
     api = merge(
       {},
@@ -563,13 +572,13 @@ function handleAddedIn (addedIn, banner) {
 }
 
 function parseAPI (file, apiType) {
-  let api = require(file)
+  let api = readJsonFile(file)
 
   if (api.mixins !== void 0) {
     api = getMixedInAPI(api, file)
   }
 
-  const banner = `build.api.js: ${ path.relative(root, file) } -> `
+  const banner = `build.api.js: ${ relativeToRoot(file) } -> `
 
   if (api.meta === void 0 || api.meta.docsUrl === void 0) {
     logError(`${ banner } API file does not contain meta > docsUrl`)
@@ -654,32 +663,10 @@ function orderAPI (api, apiType) {
   return ordered
 }
 
-function arrayHasError (name, key, property, expected, propApi) {
-  const apiVal = propApi[ property ]
-
-  if (expected.length === 1 && expected[ 0 ] === apiVal) {
-    return
-  }
-
-  const expectedVal = expected.filter(t => t.startsWith('__') === false)
-
-  if (
-    !Array.isArray(apiVal)
-    || apiVal.length !== expectedVal.length
-    || !expectedVal.every(t => apiVal.includes(t))
-  ) {
-    console.log(key, name, propApi[ key ], expectedVal)
-    logError(`[1] ${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
-    return true
-  }
-}
-
 function fillAPI (apiType, list, encodeFn) {
   return file => {
-    const
-      name = path.basename(file),
-      filePath = path.join(dest, name)
-
+    const name = basename(file)
+    const filePath = join(dest, name)
     const api = orderAPI(parseAPI(file, apiType), apiType)
 
     if (apiType === 'component') {
@@ -703,92 +690,6 @@ function fillAPI (apiType, list, encodeFn) {
             delete api.slots[ slotName ]
           }
         }
-
-        ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
-          if (prop === 'props') {
-            if (!key && ('' + definition.type) === 'Function,Array') {
-              // TODO
-              // wrong evaluation; example: QTabs: props > 'onUpdate:modelValue'
-              return
-            }
-
-            key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
-              .replace(/\s+/g, '-')
-              .toLowerCase()
-
-            if (/^on-/.test(key) === true) return
-          }
-
-          if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
-            logError(`${ name }: missing "${ prop }" -> "${ key }" definition`)
-            hasError = true // keep looping through to find as many as can be found before exiting
-          }
-
-          if (definition) {
-            const propApi = api[ prop ][ key ]
-            if (typeof definition === 'string' && propApi.type !== definition) {
-              logError(`[2] ${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
-              hasError = true // keep looping through to find as many as can be found before exiting
-            }
-            else if (Array.isArray(definition)) {
-              if (arrayHasError(name, key, 'type', definition, propApi)) {
-                hasError = true // keep looping through to find as many as can be found before exiting
-              }
-            }
-            else {
-              if (definition.type) {
-                let propApiType
-
-                // null is implicit for Vue, so we normalize the type
-                // so the other validations won't break
-                if (
-                  key === 'model-value'
-                  && Array.isArray(propApi.type)
-                  && (propApi.type.includes('null') || propApi.type.includes('undefined'))
-                ) {
-                  propApiType = propApi.type.filter(v => v !== 'null' && v !== 'undefined')
-                  if (propApiType.length === 1) {
-                    propApiType = propApiType[ 0 ]
-                  }
-                }
-                else {
-                  propApiType = propApi.type
-                }
-
-                if (Array.isArray(definition.type)) {
-                  const pApi = key === 'model-value'
-                    ? { ...propApi, type: propApiType }
-                    : propApi
-
-                  if (arrayHasError(name, key, 'type', definition.type, pApi)) {
-                    hasError = true
-                  }
-                }
-                else if (propApiType !== definition.type) {
-                  logError(`[3] ${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
-                  hasError = true // keep looping through to find as many as can be found before exiting
-                }
-              }
-
-              if (key !== 'model-value' && definition.required && Boolean(definition.required) !== propApi.required) {
-                logError(`[4] ${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
-                hasError = true // keep looping through to find as many as can be found before exiting
-              }
-
-              if (definition.validator && Array.isArray(definition.validator)) {
-                const validator = definition.validator.map(entry => (
-                  typeof entry === 'string'
-                    ? `'${ entry }'`
-                    : entry
-                ))
-
-                if (arrayHasError(name, key, 'values', validator, propApi)) {
-                  hasError = true // keep looping through to find as many as can be found before exiting
-                }
-              }
-            }
-          }
-        })
       }
 
       Object.keys(api).forEach(section => {
@@ -852,19 +753,19 @@ function writeTransformAssetUrls (components, encodeFn) {
   })
 
   writeFile(
-    path.join(root, 'dist/transforms/loader-asset-urls.json'),
+    resolveToRoot('dist/transforms/loader-asset-urls.json'),
     encodeFn(transformAssetUrls)
   )
 }
 
 function writeApiIndex (list, encodeFn) {
   writeFile(
-    path.join(root, 'dist/transforms/api-list.json'),
+    resolveToRoot('dist/transforms/api-list.json'),
     encodeFn(list)
   )
 }
 
-module.exports.generate = function ({ compact = false } = {}) {
+export function generate ({ compact = false } = {}) {
   const encodeFn = compact === true
     ? JSON.stringify
     : json => JSON.stringify(json, null, 2)
@@ -875,15 +776,15 @@ module.exports.generate = function ({ compact = false } = {}) {
     const plugins = glob.sync([
       'src/plugins/*/*.json',
       'src/Brand.json'
-    ], { cwd: root, absolute: true })
+    ], { cwd: rootFolder, absolute: true })
       .map(fillAPI('plugin', list, encodeFn))
 
     const directives = glob
-      .sync('src/directives/*/*.json', { cwd: root, absolute: true })
+      .sync('src/directives/*/*.json', { cwd: rootFolder, absolute: true })
       .map(fillAPI('directive', list, encodeFn))
 
     const components = glob
-      .sync('src/components/*/Q*.json', { cwd: root, absolute: true })
+      .sync('src/components/*/Q*.json', { cwd: rootFolder, absolute: true })
       .map(fillAPI('component', list, encodeFn))
 
     writeTransformAssetUrls(components, encodeFn)

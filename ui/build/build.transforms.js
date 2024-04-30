@@ -1,15 +1,20 @@
 // Partly used with babel-plugin-transform-imports
 // and by @quasar/app-* auto-import feature
 
-const path = require('node:path')
-const glob = require('fast-glob')
+import path from 'node:path'
+import glob from 'fast-glob'
 
-const root = path.resolve(__dirname, '..')
-const resolvePath = file => path.resolve(root, file)
-const { writeFile, kebabCase, filterOutPrivateFiles } = require('./build.utils')
+import {
+  rootFolder,
+  resolveToRoot,
+  relativeToRoot,
+  writeFile,
+  kebabCase,
+  filterOutPrivateFiles
+} from './build.utils.js'
 
 function relative (name) {
-  return path.relative(root, name).split('\\').join('/')
+  return relativeToRoot(name).split('\\').join('/')
 }
 
 function getWithoutExtension (filename) {
@@ -22,7 +27,7 @@ function lowerCamelCase (name) {
 }
 
 function addComponents (map, autoImport) {
-  glob.sync('src/components/*/Q*.js', { cwd: root, absolute: true })
+  glob.sync('src/components/*/Q*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
@@ -40,7 +45,7 @@ function addComponents (map, autoImport) {
 }
 
 function addDirectives (map, autoImport) {
-  glob.sync('src/directives/*/*.js', { cwd: root, absolute: true })
+  glob.sync('src/directives/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
@@ -56,7 +61,7 @@ function addDirectives (map, autoImport) {
 }
 
 function addPlugins (map) {
-  glob.sync('src/plugins/*/*.js', { cwd: root, absolute: true })
+  glob.sync('src/plugins/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
@@ -66,7 +71,7 @@ function addPlugins (map) {
 }
 
 function addComposables (map) {
-  glob.sync('src/composables/*/*.js', { cwd: root, absolute: true })
+  glob.sync('src/composables/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
@@ -76,26 +81,13 @@ function addComposables (map) {
 }
 
 function addUtils (map) {
-  glob.sync('src/utils/*/*.js', { cwd: root, absolute: true })
+  glob.sync('src/utils/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[ name === 'open-url' ? 'openURL' : lowerCamelCase(name) ] = file
     })
-}
-
-function getImportTransformationsContent () {
-  return `const map = require('./import-map.json')
-
-module.exports = function (importName) {
-  const file = map[importName]
-  if (file === void 0) {
-    throw new Error('Unknown import from Quasar: ' + importName)
-  }
-  return 'quasar/' + file
-}
-`
 }
 
 function getAutoImportFile (autoImport, encodeFn) {
@@ -115,13 +107,13 @@ function getAutoImportFile (autoImport, encodeFn) {
   })
 }
 
-module.exports.generate = function ({ compact = false } = {}) {
+export function generate ({ compact = false } = {}) {
   const encodeFn = compact === true
     ? JSON.stringify
     : json => JSON.stringify(json, null, 2)
 
   const map = {
-    Quasar: relative(resolvePath('src/vue-plugin.js'))
+    Quasar: relative('src/vue-plugin.js')
   }
   const autoImport = {
     kebabComponents: [],
@@ -137,17 +129,12 @@ module.exports.generate = function ({ compact = false } = {}) {
   addUtils(map)
 
   writeFile(
-    resolvePath('dist/transforms/import-map.json'),
+    resolveToRoot('dist/transforms/import-map.json'),
     encodeFn(map)
   )
 
   writeFile(
-    resolvePath('dist/transforms/import-transformation.js'),
-    getImportTransformationsContent()
-  )
-
-  writeFile(
-    resolvePath('dist/transforms/auto-import.json'),
+    resolveToRoot('dist/transforms/auto-import.json'),
     getAutoImportFile(autoImport, encodeFn)
   )
 }

@@ -1,9 +1,10 @@
 process.env.NODE_ENV = 'production'
 
+import { green } from 'kolorist'
+import { version, createFolder } from './build.utils.js'
+
 const type = process.argv[ 2 ]
 const subtype = process.argv[ 3 ]
-const { createFolder } = require('./build.utils')
-const { green } = require('chalk')
 
 /*
   Build:
@@ -15,7 +16,7 @@ const { green } = require('chalk')
 console.log()
 
 if (!type) {
-  require('./script.clean.js')
+  await import('./script.clean.js')
 }
 else if ([ 'js', 'css' ].includes(type) === false) {
   console.error(` Unrecognized build type specified: ${ type }`)
@@ -24,7 +25,7 @@ else if ([ 'js', 'css' ].includes(type) === false) {
   process.exit(1)
 }
 
-console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').version) }...\n`)
+console.log(` 📦 Building Quasar ${ green(`v${ version }`) }...\n`)
 
 createFolder('dist')
 
@@ -37,9 +38,13 @@ if (!type || type === 'js') {
   createFolder('dist/types')
   createFolder('dist/web-types')
 
-  require('./script.build.javascript')(subtype || 'full')
+  import('./script.build.javascript.js').then(
+    ({ buildJavascript }) => buildJavascript(subtype || 'full')
+  )
 }
 
 if (!type || type === 'css') {
-  require('./script.build.css')(/* with diff */ type === 'css')
+  import('./script.build.css.js').then(
+    ({ buildCss }) => buildCss(/* with diff */ type === 'css')
+  )
 }

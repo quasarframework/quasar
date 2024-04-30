@@ -479,8 +479,7 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     minify: quasarConf.build.minify !== false,
     alias: {
-      ...quasarConf.build.alias,
-      'quasar/wrappers': format === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
+      ...quasarConf.build.alias
     },
     resolveExtensions: [ format === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
     // we use a fresh list since this can be tampered with by the user:

@@ -5,6 +5,7 @@ import { createServer } from 'vite'
 import chokidar from 'chokidar'
 import debounce from 'lodash/debounce.js'
 import serialize from 'serialize-javascript'
+import { green } from 'kolorist'
 
 import { AppDevserver } from '../../app-devserver.js'
 import { getPackage } from '../../utils/get-package.js'
@@ -20,7 +21,7 @@ const autoRemove = 'document.currentScript.remove()'
 
 function logServerMessage (title, msg, additional) {
   log()
-  info(`${ msg }${ additional !== void 0 ? ` ${ dot } ${ additional }` : '' }`, title)
+  info(`${ msg }${ additional !== void 0 ? ` ${ green(dot) } ${ additional }` : '' }`, title)
 }
 
 let renderSSRError

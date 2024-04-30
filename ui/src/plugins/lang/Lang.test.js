@@ -231,13 +231,13 @@ describe('[Lang API]', () => {
 
       test('should work with an imported lang pack', async () => {
         const { vm: { $q } } = mountPlugin()
-        const { default: deLang } = await import('quasar/lang/de-DE.mjs')
+        const { default: deLang } = await import('quasar/lang/de-DE.js')
 
         Lang.set(deLang)
         expect(Lang.props.nativeName).toBe(deLang.nativeName)
         expect($q.lang.nativeName).toBe(deLang.nativeName)
 
-        const { default: itLang } = await import('quasar/lang/it.mjs')
+        const { default: itLang } = await import('quasar/lang/it.js')
         $q.lang.set(itLang)
         expect(Lang.props.nativeName).toBe(itLang.nativeName)
         expect($q.lang.nativeName).toBe(itLang.nativeName)

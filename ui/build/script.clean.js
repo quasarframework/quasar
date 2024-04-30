@@ -1,7 +1,9 @@
-const path = require('node:path')
-const fse = require('fs-extra')
+import fse from 'fs-extra'
 
-const targetFolder = path.resolve(__dirname, '../dist')
+import { resolveToRoot } from './build.utils.js'
+
+const targetFolder = resolveToRoot('dist')
+
 fse.removeSync(targetFolder)
 fse.ensureDirSync(targetFolder)
 console.log(' 💥 Cleaned build artifacts.\n')

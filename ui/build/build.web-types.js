@@ -1,9 +1,6 @@
-const path = require('node:path')
-const { logError, writeFile, kebabCase } = require('./build.utils')
+import { version, resolveToRoot, logError, writeFile, kebabCase } from './build.utils.js'
 
-const { version } = require('../package.json')
-
-const resolve = file => path.resolve(__dirname, '../dist/web-types', file)
+const resolve = file => resolveToRoot('dist/web-types', file)
 
 function resolveType ({ type, values }) {
   // TODO transform Object with "values" and arrays Objects with values
@@ -28,7 +25,7 @@ function getDescription (propApi) {
     : propApi.desc
 }
 
-module.exports.generate = function ({ api, compact = false }) {
+export function generate ({ api, compact = false }) {
   const encodeFn = compact === true
     ? JSON.stringify
     : json => JSON.stringify(json, null, 2)

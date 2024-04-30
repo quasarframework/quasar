@@ -1,9 +1,8 @@
 {
   "name": "quasar",
-  "version": "2.15.4",
+  "version": "2.16.0",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
-  "main": "dist/quasar.cjs.prod.js",
-  "module": "dist/quasar.esm.prod.js",
+  "type": "module",
   "unpkg": "dist/quasar.umd.prod.js",
   "jsdelivr": "dist/quasar.umd.prod.js",
   "typings": "dist/types/index.d.ts",
@@ -14,6 +13,18 @@
     "src",
     "wrappers"
   ],
+  "exports": {
+    ".": {
+      "require": "./dist/quasar.server.prod.cjs",
+      "node": "./dist/quasar.server.prod.js",
+      "import": "./dist/quasar.client.js"
+    },
+    "./wrappers": {
+      "require": "./wrappers/index.cjs",
+      "import": "./wrappers/index.js"
+    },
+    "./*": "./*"
+  },
   "scripts": {
     "clean": "node build/script.clean.js",
     "build": "node build/script.build.js",
@@ -74,10 +85,11 @@
     "eslint-config-quasar": "workspace:*",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
+    "kolorist": "^1.8.0",
     "open": "^10.1.0",
     "postcss-rtlcss": "^5.1.2",
     "prettier": "^3.2.5",
-    "recast": "^0.23.6",
+    "sass-embedded": "^1.75.0",
     "table": "^6.8.2",
     "typescript": "^5.4.5",
     "vue": "^3.4.24"

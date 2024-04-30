@@ -1,7 +1,6 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 
-// no extension on purpose for next one:
-import defaultLang from '../../../lang/en-US'
+import defaultLang from '../../../lang/en-US.js'
 
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) return

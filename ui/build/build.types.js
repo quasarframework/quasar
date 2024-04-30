@@ -1,10 +1,12 @@
-const path = require('node:path')
-const fse = require('fs-extra')
-const prettier = require('prettier')
+import path from 'node:path'
+import fse from 'fs-extra'
+import prettier from 'prettier'
+import ts from 'typescript'
 
-const { logError, writeFile, clone } = require('./build.utils')
-const typeRoot = path.resolve(__dirname, '../types')
-const distRoot = path.resolve(__dirname, '../dist/types')
+import { resolveToRoot, logError, writeFile, clone } from './build.utils.js'
+
+const typeRoot = resolveToRoot('types')
+const distRoot = resolveToRoot('dist/types')
 const resolvePath = file => path.resolve(distRoot, file)
 const toCamelCase = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
 
@@ -681,8 +683,6 @@ function getIndexDts (apis, quasarLangIndex) {
   }
 }
 
-const ts = require('typescript')
-
 /**
  * @throws {Error} if TypeScript validation fails
  */
@@ -713,7 +713,7 @@ function ensureTypeScriptValidity () {
   throw error
 }
 
-module.exports.generate = async function ({ api, quasarLangIndex }) {
+export async function generate ({ api, quasarLangIndex }) {
   const apiList = api.plugins
     .concat(api.directives)
     .concat(api.components)

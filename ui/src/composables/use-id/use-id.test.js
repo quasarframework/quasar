@@ -58,7 +58,6 @@ describe('[useId API]', () => {
           defineComponent({
             template: '<div />',
             setup () {
-              // eslint-disable-next-line
               const result = useId()
               return { result }
             }

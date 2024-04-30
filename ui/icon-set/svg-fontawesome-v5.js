@@ -5,7 +5,7 @@
  * Edit that file instead (fontawesome-v5.mjs).
  */
 
-const {
+import {
   fasCheck,
   fasExclamationTriangle,
   fasInfoCircle,
@@ -65,9 +65,9 @@ const {
   fasUpload,
   fasStream,
   fasClipboardCheck
-} = require('@quasar/extras/fontawesome-v5')
+} from '@quasar/extras/fontawesome-v5'
 
-module.exports = {
+export default {
   name: 'svg-fontawesome-v5',
   type: {
     positive: fasCheck,

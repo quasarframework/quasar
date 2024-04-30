@@ -97,9 +97,6 @@ const quasarSsrConfig = {
         appPaths.resolve.entry('server-entry.js')
       )
 
-    webpackChain.resolve.alias
-      .set('quasar$', 'quasar/dist/quasar.cjs.prod.js')
-
     webpackChain.target('node')
 
     if (quasarConf.metaConf.debugging) {

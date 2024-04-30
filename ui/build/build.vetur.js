@@ -1,7 +1,6 @@
-const path = require('node:path')
+import { resolveToRoot, logError, writeFile, kebabCase } from './build.utils.js'
 
-const { logError, writeFile, kebabCase } = require('./build.utils')
-const resolve = file => path.resolve(__dirname, '../dist/vetur', file)
+const resolve = file => resolveToRoot('dist/vetur', file)
 
 function getTags (data) {
   const tags = {}
@@ -35,7 +34,7 @@ function getAttributes (data) {
   return attrs
 }
 
-module.exports.generate = function ({ api, compact = false }) {
+export function generate ({ api, compact = false }) {
   const encodeFn = compact === true
     ? JSON.stringify
     : json => JSON.stringify(json, null, 2)

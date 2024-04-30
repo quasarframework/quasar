@@ -1,8 +1,7 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
-// no extension on purpose for next one:
-import materialIcons from '../../../icon-set/material-icons'
+import materialIcons from '../../../icon-set/material-icons.js'
 
 const Plugin = createReactivePlugin({
   iconMapFn: null,

@@ -257,9 +257,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       format: appPaths.quasarConfigOutputFormat,
       bundle: true,
       packages: 'external',
-      alias: {
-        'quasar/wrappers': appPaths.quasarConfigOutputFormat === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
-      },
       banner: {
         js: quasarConfigBanner
       },
@@ -697,6 +694,20 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     cfg.framework.components = getUniqueArray(cfg.framework.components)
     cfg.framework.directives = getUniqueArray(cfg.framework.directives)
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
+
+    const { lang, iconSet } = cfg.framework
+
+    if (lang !== void 0) {
+      cfg.framework.lang = lang.indexOf('/') === true
+        ? lang
+        : `quasar/lang/${ lang }.js`
+    }
+
+    if (iconSet !== void 0) {
+      cfg.framework.iconSet = iconSet.indexOf('/') === true
+        ? iconSet
+        : `quasar/icon-set/${ iconSet }.js`
+    }
 
     Object.assign(cfg.metaConf, {
       hasLoadingBarPlugin: cfg.framework.plugins.includes('LoadingBar'),
