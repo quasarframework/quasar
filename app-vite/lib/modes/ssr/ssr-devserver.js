@@ -4,6 +4,7 @@ const { createServer } = require('vite')
 const chokidar = require('chokidar')
 const debounce = require('lodash/debounce')
 const serialize = require('serialize-javascript')
+const { green } = require('kolorist')
 
 const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
@@ -32,7 +33,7 @@ const autoRemove = 'document.currentScript.remove()'
 
 function logServerMessage (title, msg, additional) {
   log()
-  info(`${ msg }${ additional !== void 0 ? ` ${ dot } ${ additional }` : '' }`, title)
+  info(`${ msg }${ additional !== void 0 ? ` ${ green(dot) } ${ additional }` : '' }`, title)
 }
 
 let renderSSRError

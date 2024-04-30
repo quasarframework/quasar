@@ -28,8 +28,6 @@ module.exports = function (chain, cfg) {
     .clear()
     .add(appPaths.resolve.app('.quasar/server-entry.js'))
 
-  chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.cjs.prod.js')
-
   chain.target('node')
   chain.devtool('source-map')
 

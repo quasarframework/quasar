@@ -128,7 +128,7 @@
     "electron-builder": ">= 22",
     "electron-packager": ">= 15",
     "pinia": "^2.0.0",
-    "quasar": "^2.14.0",
+    "quasar": "^2.16.0",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",

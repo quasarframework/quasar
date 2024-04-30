@@ -2,10 +2,18 @@ const hash = require('hash-sum')
 
 const getPackage = require('../helpers/get-package')
 
+const importMap = getPackage('quasar/dist/transforms/import-map.json')
 const autoImportData = getPackage('quasar/dist/transforms/auto-import.json')
-const importTransformation = getPackage('quasar/dist/transforms/import-transformation.js')
 const autoImportRuntimePath = require.resolve('./runtime.auto-import.js')
 const injectModuleIdRuntimePath = require.resolve('./runtime.inject-module-id.js')
+
+function importTransformation (importName) {
+  const file = importMap[ importName ]
+  if (file === void 0) {
+    throw new Error('Unknown import from Quasar: ' + importName)
+  }
+  return 'quasar/' + file
+}
 
 const compRegex = {
   kebab: new RegExp(autoImportData.regex.kebabComponents || autoImportData.regex.components, 'g'),

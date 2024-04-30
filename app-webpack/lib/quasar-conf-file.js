@@ -454,6 +454,20 @@ class QuasarConfFile {
     cfg.framework.directives = getUniqueArray(cfg.framework.directives)
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
 
+    const { lang, iconSet } = cfg.framework
+
+    if (lang !== void 0) {
+      cfg.framework.lang = lang.indexOf('/') === true
+        ? lang
+        : `quasar/lang/${ lang }.js`
+    }
+
+    if (iconSet !== void 0) {
+      cfg.framework.iconSet = iconSet.indexOf('/') === true
+        ? iconSet
+        : `quasar/icon-set/${ iconSet }.js`
+    }
+
     cfg.build = merge({
       vueLoaderOptions: {
         transformAssetUrls: clone(transformAssetUrls)

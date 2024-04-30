@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@quasar/render-ssr-error": "^1.0.3",
-    "@quasar/vite-plugin": "^1.3.3",
+    "@quasar/vite-plugin": "/Users/razvan/work/v2/vite-plugin",
     "@rollup/pluginutils": "^4.1.2",
     "@types/chrome": "^0.0.208",
     "@types/compression": "^1.7.2",
@@ -99,12 +99,12 @@
     "workbox-build": "^7.0.0"
   },
   "peerDependencies": {
+    "@electron/packager": ">= 18",
     "electron-builder": ">= 22",
     "electron-packager": ">= 15",
-    "@electron/packager": ">= 18",
     "eslint": "^8.11.0",
     "pinia": "^2.0.0",
-    "quasar": "^2.14.0",
+    "quasar": "^2.16.0",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",
