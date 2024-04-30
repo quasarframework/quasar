@@ -13,6 +13,8 @@ import {
   kebabCase
 } from './build.utils.js'
 
+import { astEvaluate } from './ast.js'
+
 const dest = resolveToRoot('dist/api')
 
 const extendApi = readJsonFile(
@@ -663,6 +665,26 @@ function orderAPI (api, apiType) {
   return ordered
 }
 
+function arrayHasError (name, key, property, expected, propApi) {
+  const apiVal = propApi[ property ]
+
+  if (expected.length === 1 && expected[ 0 ] === apiVal) {
+    return
+  }
+
+  const expectedVal = expected.filter(t => t.startsWith('__') === false)
+
+  if (
+    !Array.isArray(apiVal)
+    || apiVal.length !== expectedVal.length
+    || !expectedVal.every(t => apiVal.includes(t))
+  ) {
+    console.log(key, name, propApi[ key ], expectedVal)
+    logError(`[1] ${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
+    return true
+  }
+}
+
 function fillAPI (apiType, list, encodeFn) {
   return file => {
     const name = basename(file)
@@ -674,7 +696,7 @@ function fillAPI (apiType, list, encodeFn) {
 
       // QUploader has different definition
       if (name !== 'QUploader.json') {
-        const filePath = file.replace('.json', fse.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
+        const filePath = file.replace('.json', '.js')
 
         const definition = fse.readFileSync(filePath, 'utf-8')
 
@@ -690,6 +712,92 @@ function fillAPI (apiType, list, encodeFn) {
             delete api.slots[ slotName ]
           }
         }
+
+        astEvaluate(definition, topSections[ apiType ], (prop, key, definition) => {
+          if (prop === 'props') {
+            if (!key && ('' + definition.type) === 'Function,Array') {
+              // TODO
+              // wrong evaluation; example: QTabs: props > 'onUpdate:modelValue'
+              return
+            }
+
+            key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
+              .replace(/\s+/g, '-')
+              .toLowerCase()
+
+            if (/^on-/.test(key) === true) return
+          }
+
+          if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
+            logError(`${ name }: missing "${ prop }" -> "${ key }" definition`)
+            hasError = true // keep looping through to find as many as can be found before exiting
+          }
+
+          if (definition) {
+            const propApi = api[ prop ][ key ]
+            if (typeof definition === 'string' && propApi.type !== definition) {
+              logError(`[2] ${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
+              hasError = true // keep looping through to find as many as can be found before exiting
+            }
+            else if (Array.isArray(definition)) {
+              if (arrayHasError(name, key, 'type', definition, propApi)) {
+                hasError = true // keep looping through to find as many as can be found before exiting
+              }
+            }
+            else {
+              if (definition.type) {
+                let propApiType
+
+                // null is implicit for Vue, so we normalize the type
+                // so the other validations won't break
+                if (
+                  key === 'model-value'
+                  && Array.isArray(propApi.type)
+                  && (propApi.type.includes('null') || propApi.type.includes('undefined'))
+                ) {
+                  propApiType = propApi.type.filter(v => v !== 'null' && v !== 'undefined')
+                  if (propApiType.length === 1) {
+                    propApiType = propApiType[ 0 ]
+                  }
+                }
+                else {
+                  propApiType = propApi.type
+                }
+
+                if (Array.isArray(definition.type)) {
+                  const pApi = key === 'model-value'
+                    ? { ...propApi, type: propApiType }
+                    : propApi
+
+                  if (arrayHasError(name, key, 'type', definition.type, pApi)) {
+                    hasError = true
+                  }
+                }
+                else if (propApiType !== definition.type) {
+                  logError(`[3] ${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
+                  hasError = true // keep looping through to find as many as can be found before exiting
+                }
+              }
+
+              if (key !== 'model-value' && definition.required && Boolean(definition.required) !== propApi.required) {
+                logError(`[4] ${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
+                hasError = true // keep looping through to find as many as can be found before exiting
+              }
+
+              if (definition.validator && Array.isArray(definition.validator)) {
+                const validator = definition.validator.map(entry => (
+                  typeof entry === 'string'
+                    ? `'${ entry }'`
+                    : entry
+                ))
+
+                if (arrayHasError(name, key, 'values', validator, propApi)) {
+                  hasError = true // keep looping through to find as many as can be found before exiting
+                }
+              }
+            }
+          }
+        })
       }
 
       Object.keys(api).forEach(section => {
