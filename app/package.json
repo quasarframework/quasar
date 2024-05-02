@@ -117,8 +117,7 @@
     "webpack-dev-server": "^3.11.3",
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^2.5.2",
-    "write-file-webpack-plugin": "4.5.1",
-    "zlib": "1.0.5"
+    "write-file-webpack-plugin": "4.5.1"
   },
   "engines": {
     "node": ">= 10.0.0",
