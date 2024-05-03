@@ -8,12 +8,12 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": [ "Number", "String", "null", "undefined" ],
+      "type": [ "Any" ],
       "examples": [ "# v-model=\"option\"" ]
     },
 
     "val": {
-      "type": [ "Number", "String", "null", "undefined" ],
+      "type": [ "Any" ],
       "required": true,
       "desc": "The actual value of the option with which model value is changed",
       "examples": [ "'opt1'", "50" ],
