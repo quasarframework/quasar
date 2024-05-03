@@ -9,7 +9,6 @@
     </div>
 
     <div class="row items-center no-wrap q-gutter-md">
-      <div>Gutter</div>
       <q-slider
         v-model="model"
         v-bind="props"

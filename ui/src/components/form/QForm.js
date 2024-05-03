@@ -36,7 +36,7 @@ export default createComponent({
       const index = ++validateIndex
 
       const emitEvent = (res, ref) => {
-        emit('validation' + (res === true ? 'Success' : 'Error'), ref)
+        emit(`validation${ res === true ? 'Success' : 'Error' }`, ref)
       }
 
       const validateComponent = comp => {
