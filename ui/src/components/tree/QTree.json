@@ -165,6 +165,7 @@
       "type": "Number",
       "desc": "Toggle animation duration (in milliseconds)",
       "default": "300",
+      "passthrough": "child",
       "category": "style"
     },
 

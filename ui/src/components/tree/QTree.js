@@ -66,7 +66,7 @@ export default createComponent({
     filter: String,
     filterMethod: Function,
 
-    duration: Number,
+    duration: {},
     noConnectors: Boolean,
     noTransition: Boolean,
 
