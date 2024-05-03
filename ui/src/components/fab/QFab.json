@@ -3,10 +3,7 @@
 
   "props": {
     "model-value": {
-      "extends": "model-value",
-      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'update:modelValue' event",
-      "category": "model",
-      "required": false
+      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'update:modelValue' event"
     },
 
     "icon": {
