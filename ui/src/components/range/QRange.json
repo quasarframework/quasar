@@ -20,6 +20,7 @@
           "desc": "Model value for right thumb"
         }
       },
+      "default": "{ min: null, max: null }",
       "examples": [ "# v-model=\"positionModel\"" ]
     },
 
