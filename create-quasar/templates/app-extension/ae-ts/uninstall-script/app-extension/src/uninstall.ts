@@ -6,6 +6,6 @@
 
 import { UninstallAPI } from './quasar';
 
-export default function (api: UninstallAPI) {
+export default function (_api: UninstallAPI) {
   //
 }

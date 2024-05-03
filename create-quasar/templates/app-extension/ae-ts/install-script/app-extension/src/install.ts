@@ -6,6 +6,6 @@
 
 import { InstallAPI } from './quasar';
 
-export default function (api: InstallAPI) {
+export default function (_api: InstallAPI) {
   //
 }

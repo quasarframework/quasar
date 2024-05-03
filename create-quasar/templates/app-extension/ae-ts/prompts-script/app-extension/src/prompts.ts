@@ -41,6 +41,6 @@
 
 import { PromptsAPI } from './quasar';
 
-export default function (api: PromptsAPI) {
+export default function (_api: PromptsAPI) {
   return []
 }
