@@ -3,7 +3,8 @@ import { describe, test, expect } from 'vitest'
 import { defineComponent } from 'vue'
 
 import useBtn, {
-  btnPadding, defaultSizes, btnDesignOptions, useBtnProps,
+  btnPadding, defaultSizes, btnDesignOptions,
+  useBtnProps, nonRoundBtnProps,
   getBtnDesign, getBtnDesignAttr
 } from './use-btn.js'
 
@@ -34,6 +35,13 @@ describe('[useBtn API]', () => {
       test('is defined correctly', () => {
         expect(useBtnProps).toBeTypeOf('object')
         expect(Object.keys(useBtnProps)).not.toHaveLength(0)
+      })
+    })
+
+    describe('[(variable)nonRoundBtnProps]', () => {
+      test('is defined correctly', () => {
+        expect(nonRoundBtnProps).toBeTypeOf('object')
+        expect(Object.keys(nonRoundBtnProps)).not.toHaveLength(0)
       })
     })
   })

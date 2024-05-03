@@ -2,7 +2,7 @@ import { computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private.use-align/use-align.js'
 import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
-import useRouterLink, { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
+import useRouterLink, { useRouterLinkNonMatchingProps } from '../../composables/private.use-router-link/use-router-link.js'
 
 export const btnPadding = {
   none: 0,
@@ -41,9 +41,9 @@ export function getBtnDesignAttr (props) {
     : {}
 }
 
-export const useBtnProps = {
+export const nonRoundBtnProps = {
   ...useSizeProps,
-  ...useRouterLinkProps,
+  ...useRouterLinkNonMatchingProps,
 
   type: {
     type: String,
@@ -60,7 +60,6 @@ export const useBtnProps = {
   ),
 
   square: Boolean,
-  round: Boolean,
   rounded: Boolean,
   glossy: Boolean,
 
@@ -93,6 +92,11 @@ export const useBtnProps = {
     default: null
   },
   disable: Boolean
+}
+
+export const useBtnProps = {
+  ...nonRoundBtnProps,
+  round: Boolean
 }
 
 export default function (props) {

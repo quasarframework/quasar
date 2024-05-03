@@ -5,7 +5,7 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { getBtnDesignAttr, useBtnProps } from '../btn/use-btn.js'
+import { getBtnDesignAttr, nonRoundBtnProps } from '../btn/use-btn.js'
 import useId from '../../composables/use-id/use-id.js'
 import { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
 
@@ -13,7 +13,7 @@ import { createComponent } from '../../utils/private.create/create.js'
 import { stop } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-const btnPropsList = Object.keys(useBtnProps)
+const btnPropsList = Object.keys(nonRoundBtnProps)
 
 export function passBtnProps (props) {
   return btnPropsList.reduce((acc, key) => {
@@ -29,7 +29,7 @@ export default createComponent({
   name: 'QBtnDropdown',
 
   props: {
-    ...useBtnProps,
+    ...nonRoundBtnProps,
     ...useTransitionProps,
 
     modelValue: Boolean,

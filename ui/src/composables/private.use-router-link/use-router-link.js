@@ -77,10 +77,23 @@ function isSameRouteLocationParams (a, b) {
   return true
 }
 
-export const useRouterLinkProps = {
+export const useRouterLinkNonMatchingProps = {
   // router-link
   to: [ String, Object ],
   replace: Boolean,
+
+  // regular <a> link
+  href: String,
+  target: String,
+
+  // state
+  disable: Boolean
+}
+
+export const useRouterLinkProps = {
+  ...useRouterLinkNonMatchingProps,
+
+  // router-link
   exact: Boolean,
   activeClass: {
     type: String,
@@ -89,14 +102,7 @@ export const useRouterLinkProps = {
   exactActiveClass: {
     type: String,
     default: 'q-router-link--exact-active'
-  },
-
-  // regular <a> link
-  href: String,
-  target: String,
-
-  // state
-  disable: Boolean
+  }
 }
 
 // external props: type, tag
