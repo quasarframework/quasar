@@ -45,7 +45,7 @@
     },
 
     "virtual-scroll-slice-size": {
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null" ],
       "desc": "Minimum number of rows to render in the virtual list",
       "default": "30",
       "category": "virtual-scroll"
@@ -661,7 +661,6 @@
         "type": "Array",
         "desc": "Filtered rows"
       },
-      "default": "# see source code",
       "examples": [ "# see source code" ],
       "category": "filter"
     },
@@ -703,7 +702,7 @@
     "rows-per-page-options": {
       "type": "Array",
       "desc": "Options for user to pick (Numbers); Number 0 means 'Show all rows in one page'",
-      "default": "[ 3, 5, 7, 10, 15, 20, 25, 50, 0 ]",
+      "default": "[ 5, 7, 10, 15, 20, 25, 50, 0 ]",
       "examples": [ "[ 10, 20 ]" ],
       "category": "pagination"
     },
@@ -728,7 +727,6 @@
     "expanded": {
       "type": "Array",
       "desc": "Keeps the array with expanded rows keys",
-      "default": "[]",
       "syncable": true,
       "examples": [ "# v-model:expanded=\"expanded\"" ],
       "category": "expansion"
@@ -756,7 +754,6 @@
         "type": "Array",
         "desc": "Sorted rows"
       },
-      "default": "# see source code",
       "examples": [ "# see source code" ],
       "category": "sorting"
     }
