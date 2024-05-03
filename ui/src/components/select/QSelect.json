@@ -237,16 +237,22 @@
       "addedIn": "v2.15"
     },
 
+    "use-chips": {
+      "type": "Boolean",
+      "desc": "Use QChip to show what is currently selected",
+      "category": "selection"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type",
       "category": "content"
     },
 
-    "use-chips": {
-      "type": "Boolean",
-      "desc": "Use QChip to show what is currently selected",
-      "category": "selection"
+    "maxlength": {
+      "type": [ "String", "Number" ],
+      "desc": "Specify a max length for the inner input tag (if 'use-input' is enabled)",
+      "category": "content"
     },
 
     "fill-input": {
@@ -304,7 +310,8 @@
     },
 
     "tabindex": {
-      "extends": "tabindex"
+      "extends": "tabindex",
+      "default": "0"
     },
 
     "autocomplete": {
