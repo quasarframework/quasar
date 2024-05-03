@@ -35,13 +35,13 @@
       "type": "String",
       "desc": "Type of button to use for controls (arrows, navigation)",
       "values": [ "'regular'", "'flat'", "'outline'", "'push'", "'unelevated'" ],
+      "default": "'flat'",
       "category": "style"
     },
 
     "autoplay": {
       "type": [ "Number", "Boolean" ],
       "desc": "Jump to next slide (if 'true' or val > 0) or previous slide (if val < 0) at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
-      "default": "false",
       "examples": [
         "true",
         "false",
