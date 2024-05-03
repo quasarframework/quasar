@@ -18,7 +18,7 @@ export default createComponent({
 
     size: {
       type: [ String, Number ],
-      default: 42
+      default: '42px'
     },
 
     label: String,

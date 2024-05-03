@@ -18,6 +18,7 @@
     },
 
     "size": {
+      "type": [ "String", "Number" ],
       "desc": "Size in CSS units, including unit name, or standard size name (xs|sm|md|lg|xl), for the inner Spinner (unless using the default slot)",
       "default": "'42px'"
     },
