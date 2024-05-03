@@ -5,6 +5,7 @@
     "model-value": {
       "extends": "model-value",
       "type": [ "Any", "Array" ],
+      "default": "null",
       "examples": [ "false", "[ 'car', 'building' ]" ]
     },
 
@@ -42,7 +43,6 @@
     "toggle-order": {
       "type": "String",
       "desc": "Determines toggle order of the two states ('t' stands for state of true, 'f' for state of false); If 'toggle-indeterminate' is true, then the order is: indet -> first state -> second state -> indet (and repeat), otherwise: indet -> first state -> second state -> first state -> second state -> ...",
-      "default": "'tf'",
       "values": [ "'tf'", "'ft'" ],
       "category": "behavior"
     },
