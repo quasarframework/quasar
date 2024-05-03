@@ -9,7 +9,7 @@ import useTick from '../../composables/use-tick/use-tick.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { getScrollTarget } from '../../utils/scroll/scroll.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event/event.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -60,9 +60,7 @@ export default createComponent({
       validator: validateOffset
     },
 
-    scrollTarget: {
-      default: void 0
-    },
+    scrollTarget: scrollTargetProp,
 
     delay: {
       type: Number,

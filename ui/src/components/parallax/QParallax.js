@@ -3,7 +3,7 @@ import { h, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { createComponent } from '../../utils/private.create/create.js'
 import { height, offset } from '../../utils/dom/dom.js'
 import frameDebounce from '../../utils/frame-debounce/frame-debounce.js'
-import { getScrollTarget } from '../../utils/scroll/scroll.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { listenOpts } from '../../utils/event/event.js'
 
@@ -24,9 +24,7 @@ export default createComponent({
       validator: v => v >= 0 && v <= 1
     },
 
-    scrollTarget: {
-      default: void 0
-    },
+    scrollTarget: scrollTargetProp,
 
     onScroll: Function
   },

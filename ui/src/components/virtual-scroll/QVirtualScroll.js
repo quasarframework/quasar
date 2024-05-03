@@ -7,7 +7,7 @@ import getTableMiddle from '../table/get-table-middle.js'
 import { useVirtualScroll, useVirtualScrollProps } from './use-virtual-scroll.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { getScrollTarget } from '../../utils/scroll/scroll.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { listenOpts } from '../../utils/event/event.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
 
@@ -38,9 +38,7 @@ export default createComponent({
     itemsFn: Function,
     itemsSize: Number,
 
-    scrollTarget: {
-      default: void 0
-    }
+    scrollTarget: scrollTargetProp
   },
 
   setup (props, { slots, attrs }) {

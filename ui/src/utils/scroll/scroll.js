@@ -1,5 +1,9 @@
 import { css, getElement } from '../dom/dom.js'
 
+export const scrollTargetProp = __QUASAR_SSR_SERVER__
+  ? {} /* SSR does not know about Element */
+  : [ Element, String ]
+
 const scrollTargets = __QUASAR_SSR_SERVER__
   ? []
   : [ null, document, document.body, document.scrollingElement, document.documentElement ]

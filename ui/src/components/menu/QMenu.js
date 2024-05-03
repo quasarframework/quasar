@@ -11,7 +11,7 @@ import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { closePortalMenus } from '../../utils/private.portal/portal.js'
-import { getScrollTarget } from '../../utils/scroll/scroll.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event/event.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/private.keyboard/escape-key.js'
@@ -61,9 +61,7 @@ export default createComponent({
       validator: validateOffset
     },
 
-    scrollTarget: {
-      default: void 0
-    },
+    scrollTarget: scrollTargetProp,
 
     touchPosition: Boolean,
 

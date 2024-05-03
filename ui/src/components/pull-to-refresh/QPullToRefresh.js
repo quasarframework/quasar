@@ -5,7 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { between } from '../../utils/format/format.js'
 import { prevent } from '../../utils/event/event.js'
 import { hSlot, hDir } from '../../utils/private.render/render.js'
@@ -24,9 +24,7 @@ export default createComponent({
     noMouse: Boolean,
     disable: Boolean,
 
-    scrollTarget: {
-      default: void 0
-    }
+    scrollTarget: scrollTargetProp
   },
 
   emits: [ 'refresh' ],
