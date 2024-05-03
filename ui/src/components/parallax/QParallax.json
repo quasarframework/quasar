@@ -27,6 +27,7 @@
     "speed": {
       "type": "Number",
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
+      "default": "1",
       "category": "behavior"
     },
 
