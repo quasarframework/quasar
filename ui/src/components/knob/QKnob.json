@@ -16,12 +16,14 @@
     "min": {
       "type": "Number",
       "desc": "The minimum value that the model (the knob value) should start at",
+      "default": "0",
       "category": "model"
     },
 
     "max": {
       "type": "Number",
       "desc": "The maximum value that the model (the knob value) should go to",
+      "default": "100",
       "category": "model"
     },
 
@@ -75,7 +77,6 @@
     "font-size": {
       "type": "String",
       "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
-      "default": "'0.25em'",
       "examples": [ "'1em'", "'16px'", "'2rem'" ],
       "category": "style"
     },
@@ -101,7 +102,8 @@
     },
 
     "tabindex": {
-      "extends": "tabindex"
+      "extends": "tabindex",
+      "default": "0"
     },
 
     "disable": {
