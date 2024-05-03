@@ -42,7 +42,7 @@ export default createComponent({
     expandIcon: String,
     expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
-    duration: Number,
+    duration: {},
 
     headerInsetLevel: Number,
     contentInsetLevel: Number,

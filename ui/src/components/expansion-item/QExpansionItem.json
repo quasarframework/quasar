@@ -75,6 +75,7 @@
       "type": "Number",
       "desc": "Animation duration (in milliseconds)",
       "default": "300",
+      "passthrough": "child",
       "category": "behavior"
     },
 
