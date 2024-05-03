@@ -38,9 +38,11 @@ export default createComponent({
     },
 
     transitionShow: {
+      ...useTransitionProps.transitionShow,
       default: 'jump-down'
     },
     transitionHide: {
+      ...useTransitionProps.transitionHide,
       default: 'jump-up'
     },
 
