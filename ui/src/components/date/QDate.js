@@ -34,7 +34,7 @@ export default createComponent({
 
     modelValue: {
       required: true,
-      validator: val => typeof val === 'string' || Array.isArray(val) === true || Object(val) === val || val === null
+      validator: val => (typeof val === 'string' || Array.isArray(val) === true || Object(val) === val || val === null)
     },
 
     multiple: Boolean,

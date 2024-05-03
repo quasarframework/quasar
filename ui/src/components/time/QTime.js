@@ -48,7 +48,7 @@ export default createComponent({
 
     modelValue: {
       required: true,
-      validator: val => typeof val === 'string' || val === null
+      validator: val => (typeof val === 'string' || val === null)
     },
 
     mask: {

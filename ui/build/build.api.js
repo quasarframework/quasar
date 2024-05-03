@@ -1391,7 +1391,7 @@ export async function generate ({ compact = false } = {}) {
     resetRuntimeImports()
 
     writeTransformAssetUrls(components, encodeFn)
-    writeApiIndex(list, encodeFn)
+    writeApiIndex(list.sort(), encodeFn)
 
     return { components, directives, plugins }
   }

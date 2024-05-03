@@ -69,8 +69,7 @@ export default createComponent({
     position: {
       type: String,
       default: 'standard',
-      validator: val => val === 'standard'
-        || [ 'top', 'bottom', 'left', 'right' ].includes(val)
+      validator: val => (val === 'standard' || [ 'top', 'bottom', 'left', 'right' ].includes(val))
     }
   },
 
