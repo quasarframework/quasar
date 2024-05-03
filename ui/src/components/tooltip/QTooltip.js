@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import useAnchor, { useAnchorProps } from '../../composables/private.use-anchor/use-anchor.js'
+import useAnchor, { useAnchorStaticProps } from '../../composables/private.use-anchor/use-anchor.js'
 import useScrollTarget from '../../composables/private.use-scroll-target/use-scroll-target.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
 import usePortal from '../../composables/private.use-portal/use-portal.js'
@@ -24,7 +24,7 @@ export default createComponent({
   inheritAttrs: false,
 
   props: {
-    ...useAnchorProps,
+    ...useAnchorStaticProps,
     ...useModelToggleProps,
     ...useTransitionProps,
 

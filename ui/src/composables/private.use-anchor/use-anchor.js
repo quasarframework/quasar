@@ -4,11 +4,20 @@ import { clearSelection } from '../../utils/private.selection/selection.js'
 import { addEvt, cleanEvt, prevent } from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 
+export const useAnchorStaticProps = {
+  /* SSR does not know about Element */
+  target: __QUASAR_SSR_SERVER__
+    ? { default: true }
+    : {
+        type: [ Boolean, String, Element ],
+        default: true
+      },
+
+  noParentEvent: Boolean
+}
+
 export const useAnchorProps = {
-  target: {
-    default: true
-  },
-  noParentEvent: Boolean,
+  ...useAnchorStaticProps,
   contextMenu: Boolean
 }
 

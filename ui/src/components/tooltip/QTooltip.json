@@ -1,5 +1,10 @@
 {
-  "mixins": [ "composables/private.use-model-toggle/use-model-toggle", "composables/private.use-portal/use-portal", "composables/private.use-transition/use-transition" ],
+  "mixins": [
+    "composables/private.use-model-toggle/use-model-toggle",
+    "composables/private.use-anchor/use-anchor-static",
+    "composables/private.use-portal/use-portal",
+    "composables/private.use-transition/use-transition"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/tooltip"
@@ -64,20 +69,6 @@
 
     "scroll-target": {
       "extends": "scroll-target"
-    },
-
-    "target": {
-      "type": [ "Boolean", "String" ],
-      "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
-      "default": "true",
-      "examples": [ "# :target=\"false\"", "# target=\".my-parent\"" ],
-      "category": "behavior"
-    },
-
-    "no-parent-event": {
-      "type": "Boolean",
-      "desc": "Skips attaching events to the target DOM element (that trigger the element to get shown)",
-      "category": "behavior"
     },
 
     "delay": {
