@@ -87,6 +87,10 @@ export default createComponent({
 
     const direction = computed(() => (props.vertical === true ? 'vertical' : 'horizontal'))
 
+    const navigationPosition = computed(() => props.navigationPosition
+      || (props.vertical === true ? 'right' : 'bottom')
+    )
+
     const classes = computed(() =>
       `q-carousel q-panel-parent q-carousel--with${ props.padding === true ? '' : 'out' }-padding`
       + (inFullscreen.value === true ? ' fullscreen' : '')
@@ -108,9 +112,6 @@ export default createComponent({
 
     const navIcon = computed(() => props.navigationIcon || $q.iconSet.carousel.navigationIcon)
     const navActiveIcon = computed(() => props.navigationActiveIcon || navIcon.value)
-    const navigationPosition = computed(() => props.navigationPosition
-      || (props.vertical === true ? 'right' : 'bottom')
-    )
 
     const controlProps = computed(() => ({
       color: props.controlColor,
