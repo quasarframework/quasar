@@ -62,7 +62,8 @@
         "type": "Boolean",
         "desc": "Is the model valid or not?"
       },
-      "examples": [ "# :validate=\"myValidation\"" ],
+      "default": "() => true",
+      "examples": [ "value => value !== 0" ],
       "category": "model"
     },
 
