@@ -24,6 +24,7 @@ export default createComponent({
     },
 
     offset: {
+      ...usePageStickyProps.offset,
       default: () => [ 18, 18 ]
     }
   },
