@@ -8,6 +8,11 @@
   "props": {
     "color": {
       "extends": "color"
+    },
+
+    "size": {
+      "type": [ "String", "Number" ],
+      "default": "'1em'"
     }
   }
 }
