@@ -257,7 +257,7 @@
             "desc": "Comparison result of term 'a' with term 'b'. Less than 0 when 'a' should come first; greater than 0 if 'b' should come first; equal to 0 if their position must not be changed with respect to each other",
             "examples": [ "-1", "0", "1" ]
           },
-          "addedIn": "v2.13.0"
+          "addedIn": "v2.13"
         },
         "sortOrder": {
           "type": "String",
