@@ -32,6 +32,11 @@ export default createComponent({
     ...useFormProps,
     ...useDarkProps,
 
+    modelValue: {
+      required: true,
+      validator: val => typeof val === 'string' || Array.isArray(val) === true || Object(val) === val || val === null
+    },
+
     multiple: Boolean,
     range: Boolean,
 
@@ -39,6 +44,7 @@ export default createComponent({
     subtitle: String,
 
     mask: {
+      ...useDatetimeProps.mask,
       // this mask is forced
       // when using persian calendar
       default: 'YYYY/MM/DD'

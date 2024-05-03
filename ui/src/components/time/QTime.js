@@ -46,7 +46,13 @@ export default createComponent({
     ...useFormProps,
     ...useDatetimeProps,
 
+    modelValue: {
+      required: true,
+      validator: val => typeof val === 'string' || val === null
+    },
+
     mask: {
+      ...useDatetimeProps.mask,
       default: null
     },
 

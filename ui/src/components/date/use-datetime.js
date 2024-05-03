@@ -6,9 +6,7 @@ import { pad } from '../../utils/format/format.js'
 const calendars = [ 'gregorian', 'persian' ]
 
 export const useDatetimeProps = {
-  modelValue: {
-    required: true
-  },
+  // should define modelValue in the target component
 
   mask: {
     type: String
