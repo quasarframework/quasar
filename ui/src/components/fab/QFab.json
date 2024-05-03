@@ -17,6 +17,10 @@
       "extends": "icon"
     },
 
+    "hide-label": {
+      "default": "null"
+    },
+
     "hide-icon": {
       "type": "Boolean",
       "desc": "Hide the icon (don't use any)",

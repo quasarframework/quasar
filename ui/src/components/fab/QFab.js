@@ -26,6 +26,7 @@ export default createComponent({
 
     hideIcon: Boolean,
     hideLabel: {
+      ...useFabProps.hideLabel,
       default: null
     },
 

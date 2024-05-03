@@ -67,6 +67,7 @@
       "type": [ "String", "Number" ],
       "desc": "The label that will be shown when Fab is extended",
       "examples": [ "'Button Label'" ],
+      "default": "''",
       "category": "content"
     },
 
@@ -74,12 +75,12 @@
       "type": "String",
       "desc": "Position of the label around the icon",
       "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
+      "default": "'right'",
       "category": "style|content"
     },
 
     "hide-label": {
       "type": [ "Boolean", "null" ],
-      "default": "null",
       "desc": "Hide the label; Useful for animation purposes where you toggle the visibility of the label",
       "category": "style|content"
     },
