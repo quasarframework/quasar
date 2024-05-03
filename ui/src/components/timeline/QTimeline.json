@@ -5,7 +5,8 @@
 
   "props": {
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "default": "'primary'"
     },
 
     "side": {
