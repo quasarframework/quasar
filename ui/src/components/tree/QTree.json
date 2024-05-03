@@ -143,7 +143,6 @@
     "filter-method": {
       "type": "Function",
       "desc": "The function to use to filter the tree nodes; For best performance, reference it from your scope and do not define it inline",
-      "default": "# see source code",
       "params": {
         "node": {
           "type": "Object",
@@ -158,6 +157,7 @@
         "type": "Boolean",
         "desc": "Matches or not"
       },
+      "examples": [ "(node, filter) => node.label.toLowerCase().indexOf(filter.toLowerCase()) !== -1" ],
       "category": "filter"
     },
 
