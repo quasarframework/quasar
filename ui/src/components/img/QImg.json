@@ -73,7 +73,7 @@
     "initial-ratio": {
       "type": [ "String", "Number" ],
       "desc": "Use it when not specifying 'ratio' but still wanting an initial aspect ratio",
-      "default": "1.77778",
+      "default": "1.7778",
       "examples": [
         "# (Number format) :initial-ratio=\"16/9\"",
         "# (String format) initial-ratio=\"1\""
