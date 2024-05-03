@@ -39,13 +39,8 @@ export default createComponent({
     toolbar: {
       type: Array,
       validator: v => v.length === 0 || v.every(group => group.length),
-      default () {
-        return [
-          [ 'left', 'center', 'right', 'justify' ],
-          [ 'bold', 'italic', 'underline', 'strike' ],
-          [ 'undo', 'redo' ]
-        ]
-      }
+      // long line on purpose for API validation purposes:
+      default: () => [ [ 'left', 'center', 'right', 'justify' ], [ 'bold', 'italic', 'underline', 'strike' ], [ 'undo', 'redo' ] ]
     },
     toolbarColor: String,
     toolbarBg: String,
@@ -75,7 +70,7 @@ export default createComponent({
   emits: [
     ...useFullscreenEmits,
     'update:modelValue',
-    'keydown', 'click', 'mouseup', 'keyup', 'touchend',
+    'keydown', 'click',
     'focus', 'blur',
     'dropdownShow',
     'dropdownHide',
