@@ -193,7 +193,7 @@ function sumSize (sizeAgg, size, from, to) {
 const commonVirtScrollProps = {
   virtualScrollSliceSize: {
     type: [ Number, String ],
-    default: null
+    default: 10
   },
 
   virtualScrollSliceRatioBefore: {
@@ -224,7 +224,7 @@ const commonVirtScrollProps = {
   tableColspan: [ Number, String ]
 }
 
-export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
+export const commonVirtScrollPropsList = Object.keys(commonVirtScrollProps)
 
 export const useVirtualScrollProps = {
   virtualScrollHorizontal: Boolean,

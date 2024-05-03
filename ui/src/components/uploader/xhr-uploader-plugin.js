@@ -16,9 +16,7 @@ const props = {
   },
   fieldName: {
     type: [ Function, String ],
-    default: () => {
-      return file => file.name
-    }
+    default: () => file => file.name
   },
   headers: [ Function, Array ],
   formFields: [ Function, Array ],

@@ -28,7 +28,6 @@
     "items-size": {
       "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
-      "default": "# void 0",
       "examples": [ "100000" ],
       "category": "content"
     },
