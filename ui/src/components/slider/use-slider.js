@@ -47,8 +47,6 @@ export const useSliderProps = {
   vertical: Boolean,
   reverse: Boolean,
 
-  hideSelection: Boolean,
-
   color: String,
   markerLabelsClass: String,
 
