@@ -25,6 +25,7 @@
     "active-class": {
       "type": "String",
       "desc": "Equivalent to Vue Router <router-link> 'active-class' property; Superseded by 'href' prop if used",
+      "default": "'q-router-link--active'",
       "examples": [ "'my-active-class'" ],
       "category": "navigation"
     },
@@ -32,6 +33,7 @@
     "exact-active-class": {
       "type": "String",
       "desc": "Equivalent to Vue Router <router-link> 'active-class' property; Superseded by 'href' prop if used",
+      "default": "'q-router-link--exact-active'",
       "examples": [ "'my-exact-active-class'" ],
       "category": "navigation"
     },
