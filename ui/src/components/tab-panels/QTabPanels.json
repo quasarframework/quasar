@@ -5,6 +5,12 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/tab-panels"
   },
 
+  "props": {
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
   "slots": {
     "default": {
       "extends": "default"
