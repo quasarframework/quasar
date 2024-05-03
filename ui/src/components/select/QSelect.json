@@ -325,6 +325,7 @@
       "extends": "transition",
       "desc": "Transition when showing the menu/dialog; One of Quasar's embedded transitions",
       "default": "'fade'",
+      "passthrough": "child",
       "category": "behavior"
     },
 
@@ -332,6 +333,7 @@
       "extends": "transition",
       "desc": "Transition when hiding the menu/dialog; One of Quasar's embedded transitions",
       "default": "'fade'",
+      "passthrough": "child",
       "category": "behavior"
     },
 
@@ -339,6 +341,7 @@
       "type": [ "String", "Number" ],
       "desc": "Transition duration when hiding the menu/dialog (in milliseconds, without unit)",
       "default": "300",
+      "passthrough": "child",
       "category": "behavior"
     },
 
@@ -482,10 +485,6 @@
   },
 
   "events": {
-    "update:model-value": {
-      "extends": "update:model-value"
-    },
-
     "input-value": {
       "desc": "Emitted when the value in the text input changes",
       "params": {
@@ -653,12 +652,6 @@
   },
 
   "methods": {
-    "focus": {
-      "desc": "Focus component",
-      "params": null,
-      "returns": null
-    },
-
     "showPopup": {
       "desc": "Focus and open popup",
       "params": null,

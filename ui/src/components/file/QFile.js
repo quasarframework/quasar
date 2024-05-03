@@ -2,7 +2,7 @@ import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
-import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private.use-field/use-field.js'
+import useField, { useFieldState, useNonInputFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private.use-field/use-field.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/use-form/private.use-form.js'
 import useFile, { useFileProps, useFileEmits } from '../../composables/private.use-file/use-file.js'
 import useFileFormDomProps from '../../composables/private.use-file/use-file-dom-props.js'
@@ -18,7 +18,7 @@ export default createComponent({
   inheritAttrs: false,
 
   props: {
-    ...useFieldProps,
+    ...useNonInputFieldProps,
     ...useFormProps,
     ...useFileProps,
 

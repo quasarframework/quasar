@@ -68,7 +68,8 @@
     },
 
     "tabindex": {
-      "extends": "tabindex"
+      "extends": "tabindex",
+      "default": "0"
     },
 
     "input-class": {
@@ -134,12 +135,6 @@
           "desc": "Reference to the QFile component"
         }
       }
-    }
-  },
-
-  "events": {
-    "update:model-value": {
-      "extends": "update:model-value"
     }
   },
 

@@ -21,7 +21,8 @@ export default createComponent({
     ...useMaskProps,
     ...useFormProps,
 
-    modelValue: { required: false },
+    // override of useFieldProps > modelValue
+    modelValue: [ String, Number ],
 
     shadowText: String,
 

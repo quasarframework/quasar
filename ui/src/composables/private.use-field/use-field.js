@@ -18,7 +18,7 @@ export function fieldValueIsFilled (val) {
     && ('' + val).length !== 0
 }
 
-export const useFieldProps = {
+export const useNonInputFieldProps = {
   ...useDarkProps,
   ...useValidateProps,
 
@@ -61,12 +61,15 @@ export const useFieldProps = {
 
   autofocus: Boolean,
 
-  for: String,
+  for: String
+}
 
+export const useFieldProps = {
+  ...useNonInputFieldProps,
   maxlength: [ Number, String ]
 }
 
-export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
+export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur' ]
 
 export function useFieldState ({ requiredForAttr = true, tagProp } = {}) {
   const { props, proxy } = getCurrentInstance()

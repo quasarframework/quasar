@@ -212,6 +212,28 @@
   },
 
   "events": {
+    "update:model-value": {
+      "extends": "update:model-value"
+    },
+
+    "focus": {
+      "desc": "Emitted when component gets focused",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      }
+    },
+
+    "blur": {
+      "desc": "Emitted when component loses focus",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      }
+    },
+
     "clear": {
       "desc": "When using the 'clearable' property, this event is emitted when the clear icon is clicked",
       "params": {

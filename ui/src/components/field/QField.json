@@ -12,12 +12,6 @@
       "category": "model"
     },
 
-    "max-values": {
-      "type": [ "Number", "String" ],
-      "desc": "Used internally by QSelect",
-      "internal": true
-    },
-
     "tag": {
       "extends": "tag",
       "default": "'label'",
@@ -79,40 +73,7 @@
 
   "events": {
     "update:model-value": {
-      "extends": "update:model-value",
       "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot."
-    },
-
-    "focus": {
-      "desc": "Emitted when component gets focused",
-      "params": {
-        "evt": {
-          "extends": "evt"
-        }
-      }
-    },
-
-    "blur": {
-      "desc": "Emitted when component loses focus",
-      "params": {
-        "evt": {
-          "extends": "evt"
-        }
-      }
-    }
-  },
-
-  "methods": {
-    "focus": {
-      "desc": "Focus field",
-      "params": null,
-      "returns": null
-    },
-
-    "blur": {
-      "desc": "Blur field (lose focus)",
-      "params": null,
-      "returns": null
     }
   }
 }

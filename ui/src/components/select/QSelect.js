@@ -37,6 +37,7 @@ export default createComponent({
     ...useFormProps,
     ...useFieldProps,
 
+    // override of useFieldProps > modelValue
     modelValue: {
       required: true
     },
@@ -107,9 +108,9 @@ export default createComponent({
 
     autocomplete: String,
 
-    transitionShow: String,
-    transitionHide: String,
-    transitionDuration: [ String, Number ],
+    transitionShow: {},
+    transitionHide: {},
+    transitionDuration: {},
 
     behavior: {
       type: String,
@@ -117,10 +118,8 @@ export default createComponent({
       default: 'default'
     },
 
-    virtualScrollItemSize: {
-      type: [ Number, String ],
-      default: void 0
-    },
+    // override of useVirtualScrollProps > virtualScrollItemSize (no default)
+    virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
 
     onNewValue: Function,
     onFilter: Function
@@ -130,6 +129,7 @@ export default createComponent({
     ...useFieldEmits,
     'add', 'remove', 'inputValue',
     'keyup', 'keypress', 'keydown',
+    'popupShow', 'popupHide',
     'filterAbort'
   ],
 
