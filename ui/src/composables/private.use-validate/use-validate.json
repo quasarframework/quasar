@@ -47,6 +47,7 @@
     "lazy-rules": {
       "type": [ "Boolean", "String" ],
       "desc": "If set to boolean true then it checks validation status against the 'rules' only after field loses focus for first time; If set to 'ondemand' then it will trigger only when component's validate() method is manually called or when the wrapper QForm submits itself",
+      "default": "false",
       "values": [ "true", "false", "'ondemand'" ],
       "category": "behavior"
     }
