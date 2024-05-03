@@ -33,6 +33,7 @@ export default createComponent({
     name: String,
 
     type: {
+      type: String,
       default: 'radio',
       validator: v => typeValues.includes(v)
     },
