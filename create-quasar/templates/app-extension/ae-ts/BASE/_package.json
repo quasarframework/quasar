@@ -1,7 +1,7 @@
 {
   "name": "quasar-app-extension-<%= name %>-monorepo",
   "private": true,
-  "packageManager": "pnpm@8.15.7",
+  "packageManager": "pnpm@8.15.8",
   "author": "<%= author %>",
   "type": "module",
   "scripts": {
@@ -10,15 +10,15 @@
     "format": "pnpm format:root && pnpm --recursive format"
   },
   "devDependencies": {
-    "@eslint/js": "^9.0.0",
-    "@types/eslint": "^8.56.9",
+    "@eslint/js": "^9.1.1",
+    "@types/eslint": "^8.56.10",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^20.12.7",
-    "eslint": "^9.0.0",
+    "@types/node": "^20.12.8",
+    "eslint": "^9.1.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.25.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.6.0"
+    "typescript-eslint": "^7.8.0"
   }
 }
