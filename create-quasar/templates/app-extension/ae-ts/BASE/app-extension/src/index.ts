@@ -30,7 +30,7 @@ export default function (api: IndexAPI) {
     if (api.hasWebpack) {
       const config = conf as WebpackQuasarConfProxy;
       config.build.webpackTranspileDependencies.push(
-        /<%= pkgName.replace('/', '\\/') %>[\\/]dist/,
+        /<%= pkgName.replace('/', '[\\\\/]') %>[\\/]dist/,
       );
     }
   });
