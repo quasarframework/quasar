@@ -117,6 +117,14 @@
       "desc": "Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus",
       "category": "behavior",
       "addedIn": "v2.7.2"
+    },
+
+    "transition-show": {
+      "__runtimeDefault": true
+    },
+
+    "transition-hide": {
+      "__runtimeDefault": true
     }
   },
 
@@ -127,7 +135,9 @@
 
     "escape-key": {
       "desc": "Emitted when ESC key is pressed; Does not get emitted if Dialog is 'persistent' or it has 'no-esc-key' set"
-    }
+    },
+
+    "click": { "internal": true }
   },
 
   "methods": {

@@ -89,7 +89,6 @@
     "open": "^10.1.0",
     "postcss-rtlcss": "^5.1.2",
     "prettier": "^3.2.5",
-    "recast": "^0.23.6",
     "sass-embedded": "^1.75.0",
     "table": "^6.8.2",
     "typescript": "^5.4.5",

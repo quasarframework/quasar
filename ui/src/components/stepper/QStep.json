@@ -94,5 +94,11 @@
     "default": {
       "desc": "The content of the step; Can also contain a QStepperNavigation if you want to handle step navigation and don't have a global navigation in place"
     }
+  },
+
+  "events": {
+    "scroll": {
+      "internal": true
+    }
   }
 }

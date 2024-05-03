@@ -181,7 +181,9 @@
 
     "clear": {
       "desc": "When using the 'clearable' property, this event is emitted when the already selected button is clicked"
-    }
+    },
+
+    "click": { "internal": true }
   },
 
   "slots": {

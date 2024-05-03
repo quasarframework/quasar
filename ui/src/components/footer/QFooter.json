@@ -52,6 +52,8 @@
           "desc": "New 'reveal' state"
         }
       }
-    }
+    },
+
+    "focusin": { "internal": true }
   }
 }

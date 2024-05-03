@@ -62,6 +62,7 @@
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
       "default": "# slide-right/slide-down",
+      "__runtimeDefault": true,
       "category": "transition"
     },
 
@@ -69,6 +70,7 @@
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
       "default": "# slide-left/slide-up",
+      "__runtimeDefault": true,
       "category": "transition"
     },
 

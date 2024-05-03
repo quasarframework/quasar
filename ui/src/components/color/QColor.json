@@ -39,6 +39,7 @@
       "type": "Array",
       "desc": "Use a custom palette of colors for the palette tab",
       "default": "# hard-coded palette",
+      "__runtimeDefault": true,
       "examples": [ "[ '#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A' ]" ],
       "category": "content"
     },

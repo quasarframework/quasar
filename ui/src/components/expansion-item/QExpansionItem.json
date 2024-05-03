@@ -238,6 +238,10 @@
 
     "after-hide": {
       "extends": "after-hide"
+    },
+
+    "click": {
+      "internal": true
     }
   }
 }

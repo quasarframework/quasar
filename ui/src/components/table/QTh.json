@@ -22,5 +22,9 @@
     "default": {
       "extends": "default"
     }
+  },
+
+  "events": {
+    "click": { "internal": true }
   }
 }

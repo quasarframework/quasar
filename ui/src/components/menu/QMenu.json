@@ -129,7 +129,9 @@
   "events": {
     "escape-key": {
       "desc": "Emitted when ESC key is pressed; Does not get emitted if Menu is 'persistent'"
-    }
+    },
+
+    "click": { "internal": true }
   },
 
   "methods": {

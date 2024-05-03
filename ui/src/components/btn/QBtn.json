@@ -96,6 +96,11 @@
           }
         }
       }
-    }
+    },
+
+    "touchstart": { "internal": true },
+    "keydown": { "internal": true },
+    "keyup": { "internal": true },
+    "mousedown": { "internal": true }
   }
 }

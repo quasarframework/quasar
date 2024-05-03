@@ -1,22 +1,22 @@
 export const testIndent = '        '
 
-const pascalRegex = /((-|\.)\w)/g
-const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const ignoreKeyRE = /\.\.\./
 const newlineRE = /\n/g
 
+const pascalRE = /((-|\.)\w)/g
+const pascalInnerRE = /-|\./
 export function pascalCase (str) {
+  // assumes kebab case "str"
   return str.replace(
-    pascalRegex,
-    text => text.replace(/-|\./, '').toUpperCase()
+    pascalRE,
+    text => text.replace(pascalInnerRE, '').toUpperCase()
   )
 }
 
+const kebabRE = /([a-zA-Z])([A-Z])/g
 export function kebabCase (str) {
-  return str.replace(
-    kebabRegex,
-    match => '-' + match.toLowerCase()
-  ).substring(1)
+  // assumes pascal case "str"
+  return str.replace(kebabRE, '$1-$2').toLowerCase()
 }
 
 export function plural (num) {

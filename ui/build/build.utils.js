@@ -5,13 +5,36 @@ import zlib from 'zlib'
 import { red, green, blue, magenta, gray, underline } from 'kolorist'
 import { table } from 'table'
 
-const kebabRE = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const jsRE = /\.c?js$/
 const cssRE = /\.(css|sass)$/
 const tsRE = /\.ts$/
 const jsonRE = /\.json$/
 
 const tableData = []
+
+export function plural (num) {
+  return num === 1 ? '' : 's'
+}
+
+const pascalRE = /((-|\.)\w)/g
+const pascalInnerRE = /-|\./
+export function pascalCase (str) {
+  // assumes kebab case "str"
+  return str.replace(
+    pascalRE,
+    text => text.replace(pascalInnerRE, '').toUpperCase()
+  )
+}
+
+const kebabRE = /([a-zA-Z])([A-Z])/g
+export function kebabCase (str) {
+  // assumes pascal case "str"
+  return str.replace(kebabRE, '$1-$2').toLowerCase()
+}
+
+export function capitalize (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
 
 export const rootFolder = fileURLToPath(
   new URL('..', import.meta.url)
@@ -176,13 +199,6 @@ export function writeFileIfChanged (dest, newContent, zip) {
 export function logError (err) {
   console.error('\n' + red('[Error]'), err)
   console.log()
-}
-
-export function kebabCase (str) {
-  return str.replace(
-    kebabRE,
-    match => '-' + match.toLowerCase()
-  ).substring(1)
 }
 
 export function clone (data) {

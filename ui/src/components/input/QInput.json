@@ -79,7 +79,6 @@
 
   "events": {
     "update:model-value": {
-      "extends": "update:model-value",
       "params": {
         "value": {
           "type": [ "String", "Number", "null" ]
@@ -87,36 +86,20 @@
       }
     },
 
-    "focus": {
-      "desc": "Emitted when component gets focused",
-      "params": {
-        "evt": {
-          "extends": "evt"
-        }
-      }
-    },
-
-    "blur": {
-      "desc": "Emitted when component loses focus",
-      "params": {
-        "evt": {
-          "extends": "evt"
-        }
-      }
-    }
+    "click": { "internal": true },
+    "paste": { "internal": true },
+    "animationend": { "internal": true },
+    "change": { "internal": true },
+    "keydown": { "internal": true }
   },
 
   "methods": {
     "focus": {
-      "desc": "Focus underlying input tag",
-      "params": null,
-      "returns": null
+      "desc": "Focus underlying input tag"
     },
 
     "blur": {
-      "desc": "Lose focus on underlying input tag",
-      "params": null,
-      "returns": null
+      "desc": "Lose focus on underlying input tag"
     },
 
     "select": {

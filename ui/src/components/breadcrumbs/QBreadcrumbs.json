@@ -35,9 +35,10 @@
 
     "align": {
       "type": "String",
-      "default": "'left'",
       "desc": "Specify how to align the breadcrumbs horizontally",
       "values": [ "'left'", "'center'", "'right'", "'between'", "'around'", "'evenly'" ],
+      "default": "'left'",
+      "__runtimeDefault": true,
       "category": "content"
     }
   },

@@ -74,6 +74,7 @@
       "type": "String",
       "desc": "Side to stick navigation to",
       "default": "# 'bottom'/'right'",
+      "__runtimeDefault": true,
       "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
       "category": "content"
     },
@@ -94,11 +95,13 @@
     },
 
     "transition-prev": {
-      "default": "'fade'"
+      "default": "'fade'",
+      "__delete": [ "__runtimeDefault" ]
     },
 
     "transition-next": {
-      "default": "'fade'"
+      "default": "'fade'",
+      "__delete": [ "__runtimeDefault" ]
     }
   },
 

@@ -190,6 +190,7 @@
       "type": "String",
       "desc": "Toolbar background color (from Quasar Palette)",
       "default": "'grey-3'",
+      "__runtimeDefault": true,
       "examples": [ "'secondary'", "'blue-3'" ],
       "category": "toolbar"
     },
@@ -306,7 +307,12 @@
     "link-hide": {
       "desc": "Emitted when the toolbar for editing a link is hidden",
       "addedIn": "v2.11.9"
-    }
+    },
+
+    "keydown": { "internal": true },
+    "click": { "internal": true },
+    "blur": { "internal": true },
+    "focus": { "internal": true }
   },
 
   "methods": {

@@ -41,13 +41,15 @@
     },
 
     "virtual-scroll-target": {
-      "extends": "scroll-target"
+      "extends": "scroll-target",
+      "passthrough": "child"
     },
 
     "virtual-scroll-slice-size": {
       "type": [ "Number", "String", "null" ],
       "desc": "Minimum number of rows to render in the virtual list",
       "default": "30",
+      "passthrough": "child",
       "category": "virtual-scroll"
     },
 
@@ -55,6 +57,7 @@
       "type": [ "Number", "String" ],
       "desc": "Ratio of number of rows in visible zone to render before it",
       "default": "1",
+      "passthrough": "child",
       "category": "virtual-scroll"
     },
 
@@ -62,6 +65,7 @@
       "type": [ "Number", "String" ],
       "desc": "Ratio of number of rows in visible zone to render after it",
       "default": "1",
+      "passthrough": "child",
       "category": "virtual-scroll"
     },
 
@@ -69,6 +73,7 @@
       "type": [ "Number", "String" ],
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row; Default value: 48 (24 if dense)",
       "default": "# 48/24",
+      "passthrough": "child",
       "category": "virtual-scroll"
     },
 
@@ -76,6 +81,7 @@
       "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision; Will be also used for non-virtual-scroll tables for fixing top alignment when using scrollTo method",
       "default": "0",
+      "passthrough": "child",
       "category": "virtual-scroll|behavior"
     },
 
@@ -83,13 +89,15 @@
       "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
+      "passthrough": "child",
       "category": "virtual-scroll"
     },
 
     "table-colspan": {
       "type": [ "Number", "String" ],
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
-      "category": "virtual-scroll|content"
+      "category": "virtual-scroll|content",
+      "passthrough": "child"
     },
 
     "color": {

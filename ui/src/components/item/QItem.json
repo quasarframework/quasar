@@ -113,6 +113,8 @@
           }
         }
       }
-    }
+    },
+
+    "keyup": { "internal": true }
   }
 }

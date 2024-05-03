@@ -47,6 +47,7 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "'value'",
+      "__runtimeDefault": true,
       "params": {
         "option": {
           "type": [ "String", "Object" ],
@@ -74,6 +75,7 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "'label'",
+      "__runtimeDefault": true,
       "params": {
         "option": {
           "type": [ "String", "Object" ],
@@ -101,6 +103,7 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "'disable'",
+      "__runtimeDefault": true,
       "params": {
         "option": {
           "type": [ "String", "Object" ],
@@ -355,6 +358,10 @@
 
     "name": {
       "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists"
+    },
+
+    "virtual-scroll-item-size": {
+      "__runtimeDefault": true
     }
   },
 
@@ -648,7 +655,11 @@
           }
         }
       }
-    }
+    },
+
+    "keyup": { "internal": true },
+    "keydown": { "internal": true },
+    "keypress": { "internal": true }
   },
 
   "methods": {
