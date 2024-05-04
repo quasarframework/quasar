@@ -70,6 +70,8 @@ export class QuasarModeDevserver extends AppDevserver {
       capBin
     )
 
+		if (!this.argv.ide) return
+
     await openIDE({
       mode: 'capacitor',
       bin: quasarConf.bin,
