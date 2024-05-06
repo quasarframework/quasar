@@ -43,10 +43,12 @@ function convertArrayToObject (arr) {
 
 const runningPackageManager = (() => {
   const userAgent = process.env.npm_config_user_agent
-
-  if (userAgent) {
-    return userAgent.split(' ')[ 0 ].split('/')[ 0 ]
+  if (!userAgent) {
+    return
   }
+
+  const [ name, version ] = userAgent.split(' ')[ 0 ].split('/')
+  return { name, version }
 })()
 
 function getCallerPath () {

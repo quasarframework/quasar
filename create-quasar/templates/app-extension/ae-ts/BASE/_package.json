@@ -1,9 +1,13 @@
 {
   "name": "quasar-app-extension-<%= name %>-monorepo",
   "private": true,
-  "packageManager": "pnpm@8.15.8",
+  <% if (packageManagerField) { %>"packageManager": "<%= packageManagerField %>",<% } %>
   "author": "<%= author %>",
   "type": "module",
+  <% if (!packageManagerField?.startsWith('pnpm')) { %>"workspaces": [
+    "app-extension",
+    "playground/*"
+  ],<% } %>
   "scripts": {
     "lint": "eslint",
     "format:root": "prettier --write \"./*.{json,md,vue,js,ts,yml}\" \"./.vscode/*.json\" --ignore-path .gitignore",

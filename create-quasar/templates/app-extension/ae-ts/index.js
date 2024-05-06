@@ -73,9 +73,15 @@ export async function script ({ scope, utils }) {
   ])
 
   scope.pkgName = scope.needOrgName ? `@${scope.orgName}/quasar-app-extension-${scope.name}` : `quasar-app-extension-${scope.name}`
+  const packageManager = utils.runningPackageManager
+  scope.packageManagerField = packageManager ? `${packageManager.name}@${packageManager.version}` : undefined
 
   utils.createTargetDir(scope)
   utils.renderTemplate('BASE', scope)
+  // If the package manager is not known, render pnpm stuff just in case
+  if (!packageManager || packageManager.name === 'pnpm') {
+    utils.renderTemplate('pnpm', scope)
+  }
 
   if (scope.preset.prompts) utils.renderTemplate('prompts-script', scope)
   if (scope.preset.install) utils.renderTemplate('install-script', scope)
