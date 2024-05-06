@@ -97,7 +97,6 @@ function getNonRequiredPropTest ({ mountCall, pascalName, cls, jsonEntry }) {
     return `test.todo('${ testStrPrefix } has effect', async () => {
         ${ preMount }${ mountCall }
 
-        // eslint-disable-next-line no-unused-vars
         const target = wrapper.get('.${ cls }')
 
         // TODO: write expectations without the prop
@@ -106,7 +105,7 @@ function getNonRequiredPropTest ({ mountCall, pascalName, cls, jsonEntry }) {
         ${ assignment }
 
         // TODO: test the effect of the prop
-        expect(wrapper).toBeDefined() // this is here for linting only
+        expect(target).toBeDefined() // this is here for linting only
       })`
   }
 }
