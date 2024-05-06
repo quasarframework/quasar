@@ -14,6 +14,8 @@ module.exports = {
       'repositoryURL',
       'homepage',
       'bugs',
+
+      'packageManagerField',
     ]
   },
 }

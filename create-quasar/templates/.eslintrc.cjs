@@ -76,7 +76,8 @@ module.exports = {
 
     {
       files: [
-        './*/*/*/**/_eslint.config.js'
+        './*/*/*/**/_eslint.config.js',
+        './*/*/*/**/postcss.config.js'
       ],
 
       parserOptions: {
