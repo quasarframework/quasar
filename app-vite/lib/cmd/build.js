@@ -115,7 +115,7 @@ const ctx = getCtx({
 const { displayBanner } = await import('../utils/banner.js')
 await displayBanner({ argv, ctx, cmd: 'build' })
 
-const { log } = await import('../utils/logger.js')
+const { log, fatal } = await import('../utils/logger.js')
 
 // install mode if it's missing
 const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
@@ -156,46 +156,51 @@ await ctx.appExt.runAppExtensionHook('beforeBuild', async hook => {
   await hook.fn(hook.api, { quasarConf })
 })
 
-appBuilder.build().then(async () => {
-  outputFolder = argv.mode === 'cordova'
-    ? path.join(outputFolder, '..')
-    : outputFolder
-
-  await displayBanner({
-    argv,
-    ctx,
-    cmd: 'build',
-    details: {
-      buildOutputFolder: outputFolder,
-      target: quasarConf.build.target
-    }
+appBuilder.build()
+  .catch(err => {
+    console.error(err)
+    fatal('App build failed (check the log above)', 'FAIL')
   })
+  .then(async () => {
+    outputFolder = argv.mode === 'cordova'
+      ? path.join(outputFolder, '..')
+      : outputFolder
 
-  if (typeof quasarConf.build.afterBuild === 'function') {
-    await quasarConf.build.afterBuild({ quasarConf })
-  }
-
-  // run possible beforeBuild hooks
-  await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
-    log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
-    await hook.fn(hook.api, { quasarConf })
-  })
-
-  if (argv.publish !== void 0) {
-    const opts = {
-      arg: argv.publish,
-      distDir: outputFolder,
-      quasarConf
-    }
-
-    if (typeof quasarConf.build.onPublish === 'function') {
-      await quasarConf.build.onPublish(opts)
-    }
-
-    // run possible onPublish hooks
-    await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
-      log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
-      await hook.fn(hook.api, opts)
+    await displayBanner({
+      argv,
+      ctx,
+      cmd: 'build',
+      details: {
+        buildOutputFolder: outputFolder,
+        target: quasarConf.build.target
+      }
     })
-  }
-})
+
+    if (typeof quasarConf.build.afterBuild === 'function') {
+      await quasarConf.build.afterBuild({ quasarConf })
+    }
+
+    // run possible beforeBuild hooks
+    await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
+      log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
+      await hook.fn(hook.api, { quasarConf })
+    })
+
+    if (argv.publish !== void 0) {
+      const opts = {
+        arg: argv.publish,
+        distDir: outputFolder,
+        quasarConf
+      }
+
+      if (typeof quasarConf.build.onPublish === 'function') {
+        await quasarConf.build.onPublish(opts)
+      }
+
+      // run possible onPublish hooks
+      await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
+        log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
+        await hook.fn(hook.api, opts)
+      })
+    }
+  })

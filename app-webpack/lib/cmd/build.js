@@ -113,7 +113,7 @@ const ctx = getCtx({
   publish: argv.publish
 })
 
-const { log } = require('../utils/logger.js')
+const { log, fatal } = require('../utils/logger.js')
 async function runBuild () {
   // install mode if it's missing
   const { addMode } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
@@ -154,50 +154,55 @@ async function runBuild () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  appBuilder.build().then(async () => {
-    outputFolder = argv.mode === 'cordova'
-      ? path.join(outputFolder, '..')
-      : outputFolder
-
-    await displayBanner({
-      argv,
-      ctx,
-      cmd: 'build',
-      details: {
-        buildOutputFolder: outputFolder,
-        esbuildTarget: quasarConf.build.esbuildTarget,
-        webpackTranspileBanner: quasarConf.metaConf.webpackTranspileBanner
-      }
+  appBuilder.build()
+    .catch(err => {
+      console.error(err)
+      fatal('App build failed (check the log above)', 'FAIL')
     })
+    .then(async () => {
+      outputFolder = argv.mode === 'cordova'
+        ? path.join(outputFolder, '..')
+        : outputFolder
 
-    if (typeof quasarConf.build.afterBuild === 'function') {
-      await quasarConf.build.afterBuild({ quasarConf })
-    }
-
-    // run possible beforeBuild hooks
-    await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
-      log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
-      await hook.fn(hook.api, { quasarConf })
-    })
-
-    if (argv.publish !== void 0) {
-      const opts = {
-        arg: argv.publish,
-        distDir: outputFolder,
-        quasarConf
-      }
-
-      if (typeof quasarConf.build.onPublish === 'function') {
-        await quasarConf.build.onPublish(opts)
-      }
-
-      // run possible onPublish hooks
-      await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
-        log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
-        await hook.fn(hook.api, opts)
+      await displayBanner({
+        argv,
+        ctx,
+        cmd: 'build',
+        details: {
+          buildOutputFolder: outputFolder,
+          esbuildTarget: quasarConf.build.esbuildTarget,
+          webpackTranspileBanner: quasarConf.metaConf.webpackTranspileBanner
+        }
       })
-    }
-  })
+
+      if (typeof quasarConf.build.afterBuild === 'function') {
+        await quasarConf.build.afterBuild({ quasarConf })
+      }
+
+      // run possible beforeBuild hooks
+      await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
+        log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
+        await hook.fn(hook.api, { quasarConf })
+      })
+
+      if (argv.publish !== void 0) {
+        const opts = {
+          arg: argv.publish,
+          distDir: outputFolder,
+          quasarConf
+        }
+
+        if (typeof quasarConf.build.onPublish === 'function') {
+          await quasarConf.build.onPublish(opts)
+        }
+
+        // run possible onPublish hooks
+        await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
+          log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
+          await hook.fn(hook.api, opts)
+        })
+      }
+    })
 }
 
 const { displayBanner } = require('../utils/banner.js')
