@@ -125,6 +125,7 @@ Some of the work below has already been backported to the old @quasar/app-webpac
 * feat(app-webpack): Improve quasarConfOptions, generate types for it, improve docs (fix: #14069) (#15945)
 * feat(app-webpack): reload app if one of the imports from quasar.config file changes
 * feat(app-webpack): TS detection should keep account of quasar.config file format too (quasar.config.ts)
+* feat(app-webpack): The shorthand CLI command "quasar dev/build -m ios/android" is now targeting Capacitor mode instead of Cordova (4.0.0-beta.13+)
 * feat(app-webpack): env dotfiles support #15303
 * feat(app-webpack): New quasar.config file props: build > envFolder (string) and envFiles (string[])
 * feat(app-webpack): support for postcss config file in multiple formats: postcss.config.cjs, .postcssrc.js, postcss.config.js, postcss.config.mjs, .postcssrc.cjs, .postcssrc.mjs
@@ -303,7 +304,7 @@ Preparations:
   ```
 
 ### SPA / Capacitor / Cordova modes changes
-* No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
+No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
 
 ### PWA mode changes
 

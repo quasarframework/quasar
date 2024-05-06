@@ -3,18 +3,18 @@ const { fatal } = require('./logger.js')
 module.exports.ensureArgv = function ensureArgv (argv, cmd) {
   if (argv.mode) {
     if (argv.mode === 'ios') {
-      argv.m = argv.mode = 'cordova'
+      argv.m = argv.mode = 'capacitor'
       argv.T = argv.target = 'ios'
 
       console.log()
-      console.log(' Converting to long form: -m cordova -T ios')
+      console.log(' Converting to long form: -m capacitor -T ios')
     }
     else if (argv.mode === 'android') {
-      argv.m = argv.mode = 'cordova'
+      argv.m = argv.mode = 'capacitor'
       argv.T = argv.target = 'android'
 
       console.log()
-      console.log(' Converting to long form: -m cordova -T android')
+      console.log(' Converting to long form: -m capacitor -T android')
     }
   }
 

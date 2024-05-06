@@ -47,6 +47,7 @@ Some of the work below has already been backported to the old @quasar/app-vite v
 * feat(app-vite): Improve quasarConfOptions, generate types for it, improve docs (fix: #14069) (#15945)
 * feat(app-vite): reload app if one of the imports from quasar.config file changes
 * feat(app-vite): TS detection should keep account of quasar.config file format too (quasar.config.ts)
+* feat(app-vite): The shorthand CLI command "quasar dev/build -m ios/android" is now targeting Capacitor mode instead of Cordova (2.0.0-beta.12+)
 * feat(app-vite): support for SSR development with HTTPS
 * feat(app-vite): env dotfiles support #15303
 * feat(app-vite): New quasar.config file props: build > envFolder (string) and envFiles (string[])
@@ -295,7 +296,8 @@ $ bun add --dev vite-plugin-checker
 ```
 
 ### SPA / Capacitor / Cordova modes changes
-* No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
+
+No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
 
 ### PWA mode changes
 
