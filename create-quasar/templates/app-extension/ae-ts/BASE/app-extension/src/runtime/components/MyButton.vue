@@ -12,6 +12,13 @@ import { defineComponent, SlotsType } from 'vue';
 import { QBtn, QBtnProps, QBtnSlots } from 'quasar';
 import { PropOptions } from './types';
 
+// You can also use <script setup lang="ts">, but it won't work in app-webpack JS apps
+// without extra configuration in the app's webpack config
+// If https://github.com/unjs/mkdist/pull/210 gets released, you will be able to use
+// <script setup lang="ts"> if not using type-only macros, e.g. defineProps<QBtnProps>()
+// If you will only use the app-extension by yourself or within your organization, and you
+// don't have JS app-webpack apps, then you can freely use <script setup lang="ts">
+
 export default defineComponent({
   name: 'MyButton',
   props: {
