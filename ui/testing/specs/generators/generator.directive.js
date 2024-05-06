@@ -43,8 +43,8 @@ function createValueTest ({
 
     return `test.todo('as ${ type }', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.pascalName) }${ valExists ? '="val"' : '' } />',
-        directives: { ${ ctx.pascalName } }${ valExists ? `,
+        template: '<div v-${ kebabCase(ctx.camelCaseName) }${ valExists ? '="val"' : '' } />',
+        directives: { ${ ctx.camelCaseName } }${ valExists ? `,
         setup () {
           return {
             val: ${ val }
@@ -73,8 +73,8 @@ function createArgTest ({
   describe('${ categoryId }', () => {
     test.todo('has effect', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.pascalName) }:...... />',
-        directives: { ${ ctx.pascalName } }
+        template: '<div v-${ kebabCase(ctx.camelCaseName) }:...... />',
+        directives: { ${ ctx.camelCaseName } }
       })
 
       const wrapper = mount(TestComponent)
@@ -100,8 +100,8 @@ function createModifierTest ({
     describe('${ testId }', () => {
       test.todo('has effect', () => {
         const TestComponent = defineComponent({
-          template: '<div v-${ kebabCase(ctx.pascalName) }.${ val } />',
-          directives: { ${ ctx.pascalName } }
+          template: '<div v-${ kebabCase(ctx.camelCaseName) }.${ val } />',
+          directives: { ${ ctx.camelCaseName } }
         })
 
         const wrapper = mount(TestComponent)
@@ -121,7 +121,7 @@ export default {
       'import { describe, test, expect } from \'vitest\'',
       'import { defineComponent } from \'vue\'',
       '',
-      `import ${ ctx.pascalName } from './${ ctx.localName }'`
+      `import ${ ctx.camelCaseName } from './${ ctx.localName }'`
     ].join('\n')
   },
   getGenericTest: ({ ctx }) => {
@@ -129,8 +129,8 @@ export default {
   describe('[Generic]', () => {
     test('should not throw error on render', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.pascalName) } />',
-        directives: { ${ ctx.pascalName } }
+        template: '<div v-${ kebabCase(ctx.camelCaseName) } />',
+        directives: { ${ ctx.camelCaseName } }
       })
 
       const wrapper = mount(TestComponent)

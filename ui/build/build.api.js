@@ -11,7 +11,7 @@ import {
   readJsonFile,
   writeFile,
   kebabCase,
-  pascalCase,
+  camelCase,
   capitalize,
   plural
 } from './build.utils.js'
@@ -24,8 +24,9 @@ const extendApi = readJsonFile(
 
 const passthroughValues = [ true, false, 'child' ]
 
-const slotRegex = /slots\[\s*['"](\S+)['"]\s*\]|slots\.([A-Za-z]+)/g
-const emitRegex = /emit\(\s*['"](\S+)['"]/g
+const slotRE = /slots\[\s*['"](\S+)['"]\s*\]|slots\.([A-Za-z]+)/g
+const emitRE = /emit\(\s*['"](\S+)['"]/g
+const upperCaseRE = /[A-Z]/
 
 const apiIgnoreValueRegex = /^# /
 const apiValuePromiseRegex = /\.then\(/
@@ -98,7 +99,7 @@ Object.keys(topSections).forEach(section => {
 
 // https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // https://regex101.com/r/vkijKf/1/
-const SEMANTIC_REGEX = /^v(0|[1-9]\d*)\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+const semanticRE = /^v(0|[1-9]\d*)\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
 function parseAddedIn (val) {
   if (val === void 0 || val === null) {
@@ -117,7 +118,7 @@ function parseAddedIn (val) {
     return `"addedIn" value (${ val }) must start with "v"`
   }
 
-  if (SEMANTIC_REGEX.test(val) !== true) {
+  if (semanticRE.test(val) !== true) {
     return `"addedIn" value (${ val }) must follow semantic versioning`
   }
 
@@ -135,14 +136,14 @@ function parseObjectWithPascalCaseProps (obj, objName) {
 
   const invalidProps = []
   for (const key in obj) {
-    if (key !== pascalCase(key)) {
+    if (key !== camelCase(key)) {
       invalidProps.push(key)
     }
   }
 
   return (
     invalidProps.length === 0
-    || `"${ objName }" has non pascalCase key${ plural(invalidProps.length) }: ${ invalidProps.join(', ') }`
+    || `"${ objName }" has non camelCase key${ plural(invalidProps.length) }: ${ invalidProps.join(', ') }`
   )
 }
 
@@ -954,7 +955,7 @@ function fillAPI (apiType, list, encodeFn) {
 
       let match
 
-      while ((match = slotRegex.exec(componentContent)) !== null) {
+      while ((match = slotRE.exec(componentContent)) !== null) {
         const slotName = (match[ 1 ] || match[ 2 ]).replace(/(\${.+})/g, '[name]')
 
         if (apiSlots[ slotName ] === void 0) {
@@ -963,7 +964,7 @@ function fillAPI (apiType, list, encodeFn) {
         }
       }
 
-      while ((match = emitRegex.exec(componentContent)) !== null) {
+      while ((match = emitRE.exec(componentContent)) !== null) {
         const matchedEmit = match[ 1 ]
         const emitName = kebabCase(deCapitalize(matchedEmit)) // deCapitalize because: QTable > emit('RowClick')
         const propName = `on${ capitalize(matchedEmit) }`
@@ -991,6 +992,14 @@ function fillAPI (apiType, list, encodeFn) {
       for (const runtimePropName in runtimeProps) {
         const apiPropName = kebabCase(runtimePropName)
         const apiEntry = apiProps[ apiPropName ]
+
+        if (runtimePropName.indexOf('-') !== -1) {
+          logError(
+            `${ componentName }: prop "${ runtimePropName }" should be `
+            + 'in camelCase (found kebab-case)'
+          )
+          hasError = true
+        }
 
         if (/^on[A-Z]/.test(runtimePropName) === true) {
           const strippedPropName = runtimePropName.slice(2) // strip "on" prefix
@@ -1165,7 +1174,7 @@ function fillAPI (apiType, list, encodeFn) {
       // API defined props should exist in the component
       for (const apiPropName in apiProps) {
         const apiEntry = apiProps[ apiPropName ]
-        const runtimeName = pascalCase(apiPropName)
+        const runtimeName = camelCase(apiPropName)
 
         if (apiEntry.passthrough === true) {
           if (runtimeProps[ runtimeName ] !== void 0) {
@@ -1215,7 +1224,7 @@ function fillAPI (apiType, list, encodeFn) {
       for (const apiEventName in apiEvents) {
         const apiEntry = apiEvents[ apiEventName ]
 
-        const runtimeEmitName = pascalCase(apiEventName)
+        const runtimeEmitName = camelCase(apiEventName)
         const runtimePropName = `on${ capitalize(runtimeEmitName) }`
 
         if (apiEntry.passthrough === true) {

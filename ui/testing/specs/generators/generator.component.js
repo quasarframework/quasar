@@ -76,9 +76,9 @@ function getRequiredPropTest ({ mountCall }) {
   }
 }
 
-function getNonRequiredPropTest ({ mountCall, pascalName, cls, jsonEntry }) {
+function getNonRequiredPropTest ({ mountCall, camelCaseName, cls, jsonEntry }) {
   const assignmentCall = getComponentPropAssignment({
-    pascalName,
+    camelCaseName,
     jsonEntry,
     indent: testIndent
   })
@@ -110,7 +110,7 @@ function getNonRequiredPropTest ({ mountCall, pascalName, cls, jsonEntry }) {
   }
 }
 
-function getPropTest ({ name, pascalName, jsonEntry, json, ctx }) {
+function getPropTest ({ name, camelCaseName, jsonEntry, json, ctx }) {
   const mountCall = getComponentMount({
     ctx,
     json,
@@ -122,8 +122,8 @@ function getPropTest ({ name, pascalName, jsonEntry, json, ctx }) {
     ? getRequiredPropTest({ mountCall })
     : getNonRequiredPropTest({
       mountCall,
-      pascalName,
-      cls: kebabCase(ctx.pascalName),
+      camelCaseName,
+      cls: kebabCase(ctx.camelCaseName),
       jsonEntry
     })
 
@@ -152,13 +152,13 @@ function getPropTest ({ name, pascalName, jsonEntry, json, ctx }) {
 
 function createPropTest ({
   name,
-  pascalName,
+  camelCaseName,
   testId,
   jsonEntry,
   json,
   ctx
 }) {
-  const propTest = getPropTest({ name, pascalName, jsonEntry, json, ctx })
+  const propTest = getPropTest({ name, camelCaseName, jsonEntry, json, ctx })
 
   return `
     describe('${ testId }', () => {
@@ -232,16 +232,16 @@ function getEventParamsTest (jsonEntry, varName) {
 }
 
 function createEventTest ({
-  pascalName,
+  camelCaseName,
   testId,
   jsonEntry,
   json,
   ctx
 }) {
-  const emitAccessor = pascalName.indexOf(':') === -1
-    ? `.${ pascalName }`
+  const emitAccessor = camelCaseName.indexOf(':') === -1
+    ? `.${ camelCaseName }`
     // example: 'update:modelValue'
-    : `[ '${ pascalName }' ]`
+    : `[ '${ camelCaseName }' ]`
 
   const varName = `eventList${ emitAccessor }`
   const paramsTest = jsonEntry.params !== void 0
@@ -262,7 +262,7 @@ function createEventTest ({
         // TODO: trigger the event
 
         const eventList = wrapper.emitted()
-        expect(eventList).toHaveProperty('${ pascalName }')
+        expect(eventList).toHaveProperty('${ camelCaseName }')
         expect(${ varName }).toHaveLength(1)
 
         ${ paramsTest }
@@ -271,7 +271,7 @@ function createEventTest ({
 }
 
 function createMethodTest ({
-  pascalName,
+  camelCaseName,
   testId,
   jsonEntry,
   json,
@@ -285,7 +285,7 @@ function createMethodTest ({
 
   const callTest = getFunctionCallTest({
     jsonEntry: { ...jsonEntry, type: 'Function' },
-    ref: `wrapper.vm.${ pascalName }`,
+    ref: `wrapper.vm.${ camelCaseName }`,
     indent: testIndent
   })
 
@@ -302,7 +302,7 @@ function createMethodTest ({
 }
 
 function createComputedPropTest ({
-  pascalName,
+  camelCaseName,
   testId,
   jsonEntry,
   json,
@@ -316,7 +316,7 @@ function createComputedPropTest ({
 
   const typeTest = getTypeTest({
     jsonEntry,
-    ref: `wrapper.vm.${ pascalName }`,
+    ref: `wrapper.vm.${ camelCaseName }`,
     indent: testIndent
   })
 
@@ -344,14 +344,14 @@ export default {
       `import { mount${ flushPromises } } from '@vue/test-utils'`,
       'import { describe, test, expect } from \'vitest\'',
       '',
-      `import ${ ctx.pascalName } from './${ ctx.localName }'`
+      `import ${ ctx.camelCaseName } from './${ ctx.localName }'`
     ].join('\n')
   },
   getGenericTest: ({ ctx }) => {
     return `
   describe('[Generic]', () => {
     test('should not throw error on render', () => {
-      const wrapper = mount(${ ctx.pascalName })
+      const wrapper = mount(${ ctx.camelCaseName })
 
       expect(
         wrapper.get('div')

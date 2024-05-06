@@ -2,7 +2,7 @@ import { resolve, dirname, basename, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fse from 'fs-extra'
 
-import { pascalCase } from './specs.utils.js'
+import { camelCase } from './specs.utils.js'
 
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
 const jsRE = /\.js$/
@@ -13,14 +13,14 @@ export function createCtx (target) {
   const testName = rootName + '.test.js'
   const targetAbsolute = resolve(rootFolder, target)
   const testFileAbsolute = resolve(dirname(targetAbsolute), testName)
-  const pascalName = pascalCase(rootName)
+  const camelCaseName = camelCase(rootName)
 
   const ctx = {
     targetRelative: target,
     targetAbsolute,
     localName,
-    pascalName,
-    testTreeRootId: `[${ pascalName } API]`,
+    camelCaseName,
+    testTreeRootId: `[${ camelCaseName } API]`,
     testFileAbsolute,
     testFileRelative: relative(rootFolder, testFileAbsolute)
   }

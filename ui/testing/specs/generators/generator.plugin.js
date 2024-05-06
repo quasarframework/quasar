@@ -54,10 +54,10 @@ function getInjectionTest ({ jsonEntry, json, ctx }) {
 
   // we're sniffing... we might make a wrong assumption
   if (json.methods?.create !== void 0) {
-    return `expect(${ ctx.pascalName }.create).toBe(${ ref })`
+    return `expect(${ ctx.camelCaseName }.create).toBe(${ ref })`
   }
 
-  return `expect(${ ctx.pascalName }).toMatchObject(${ ref })`
+  return `expect(${ ctx.camelCaseName }).toMatchObject(${ ref })`
 }
 
 function createInjection ({ categoryId, jsonEntry, json, ctx }) {
@@ -85,12 +85,12 @@ function getReactivePropTest ({ ref }) {
 }
 
 function createPropTest ({
-  pascalName,
+  camelCaseName,
   testId,
   jsonEntry,
   ctx
 }) {
-  const ref = `${ ctx.pascalName }.${ pascalName }`
+  const ref = `${ ctx.camelCaseName }.${ camelCaseName }`
 
   const typeTest = getTypeTest({
     jsonEntry,
@@ -112,14 +112,14 @@ function createPropTest ({
 }
 
 function createMethodTest ({
-  pascalName,
+  camelCaseName,
   testId,
   jsonEntry,
   ctx
 }) {
   const callTest = getFunctionCallTest({
     jsonEntry: { ...jsonEntry, type: 'Function' },
-    ref: `${ ctx.pascalName }.${ pascalName }`,
+    ref: `${ ctx.camelCaseName }.${ camelCaseName }`,
     indent: testIndent
   })
 
@@ -139,7 +139,7 @@ export default {
   getJson: readAssociatedJsonFile,
   getFileHeader: ({ ctx, json }) => {
     const hasQuasarInstallOverride = (
-      autoInstalledPlugins.includes(ctx.pascalName) === false
+      autoInstalledPlugins.includes(ctx.camelCaseName) === false
     )
 
     const acc = [
@@ -158,7 +158,7 @@ export default {
 
     acc.push(
       '',
-      `import ${ ctx.pascalName } from './${ ctx.localName }'`,
+      `import ${ ctx.camelCaseName } from './${ ctx.localName }'`,
       '',
       'const mountPlugin = () => mount({ template: \'<div />\' })'
     )
@@ -169,7 +169,7 @@ export default {
         '// We override Quasar install so it installs this plugin',
         'const quasarVuePlugin = config.global.plugins.find(entry => entry.name === \'Quasar\')',
         'const { install } = quasarVuePlugin',
-        `quasarVuePlugin.install = app => install(app, { plugins: { ${ ctx.pascalName } } })`
+        `quasarVuePlugin.install = app => install(app, { plugins: { ${ ctx.camelCaseName } } })`
       )
     }
 

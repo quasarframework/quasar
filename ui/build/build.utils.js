@@ -16,13 +16,13 @@ export function plural (num) {
   return num === 1 ? '' : 's'
 }
 
-const pascalRE = /((-|\.)\w)/g
-const pascalInnerRE = /-|\./
-export function pascalCase (str) {
+const camelCaseRE = /((-|\.)\w)/g
+const camelCaseInnerRE = /-|\./
+export function camelCase (str) {
   // assumes kebab case "str"
   return str.replace(
-    pascalRE,
-    text => text.replace(pascalInnerRE, '').toUpperCase()
+    camelCaseRE,
+    text => text.replace(camelCaseInnerRE, '').toUpperCase()
   )
 }
 

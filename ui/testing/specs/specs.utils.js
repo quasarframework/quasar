@@ -3,13 +3,13 @@ export const testIndent = '        '
 const ignoreKeyRE = /\.\.\./
 const newlineRE = /\n/g
 
-const pascalRE = /((-|\.)\w)/g
-const pascalInnerRE = /-|\./
-export function pascalCase (str) {
+const camelCaseRE = /((-|\.)\w)/g
+const camelCaseInnerRE = /-|\./
+export function camelCase (str) {
   // assumes kebab case "str"
   return str.replace(
-    pascalRE,
-    text => text.replace(pascalInnerRE, '').toUpperCase()
+    camelCaseRE,
+    text => text.replace(camelCaseInnerRE, '').toUpperCase()
   )
 }
 
@@ -321,15 +321,15 @@ export function filterDefExceptionTypes (type) {
 }
 
 export function getComponentPropAssignment ({
-  pascalName,
+  camelCaseName,
   jsonEntry,
   indent
 }) {
-  const keyList = [ `${ pascalName }: propVal` ]
+  const keyList = [ `${ camelCaseName }: propVal` ]
 
   if (jsonEntry.sync === true) {
     keyList.push(
-      `'onUpdate:${ pascalName }': val => { wrapper.setProps({ ${ pascalName }: val }) }`
+      `'onUpdate:${ camelCaseName }': val => { wrapper.setProps({ ${ camelCaseName }: val }) }`
     )
   }
 
@@ -362,9 +362,9 @@ export function getComponentMount ({
   if (props.length !== 0) {
     target.props = props.reduce((acc, propName) => {
       const jsonEntry = json.props[ propName ]
-      const pascalName = pascalCase(propName)
+      const camelCaseName = camelCase(propName)
 
-      acc[ pascalName ] = prop === propName
+      acc[ camelCaseName ] = prop === propName
         ? 'propVal'
         : getTestValue({
           jsonEntry,
@@ -372,8 +372,8 @@ export function getComponentMount ({
         })
 
       if (jsonEntry.sync === true) {
-        acc[ `'onUpdate:${ pascalName }'` ] = (
-          `val => { wrapper.setProps({ ${ pascalName }: val }) }`
+        acc[ `'onUpdate:${ camelCaseName }'` ] = (
+          `val => { wrapper.setProps({ ${ camelCaseName }: val }) }`
         )
       }
 
@@ -398,7 +398,7 @@ export function getComponentMount ({
   const keyList = Object.keys(target)
 
   if (keyList.length === 0) {
-    return `const wrapper = mount(${ ctx.pascalName })`
+    return `const wrapper = mount(${ ctx.camelCaseName })`
   }
 
   const mountOpts = joinObject({
@@ -414,7 +414,7 @@ export function getComponentMount ({
     indent
   })
 
-  return `const wrapper = mount(${ ctx.pascalName }, ${ mountOpts })`
+  return `const wrapper = mount(${ ctx.camelCaseName }, ${ mountOpts })`
 }
 
 function getExpectMatcher ({ jsonEntry, indent }) {

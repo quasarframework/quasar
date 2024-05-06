@@ -225,7 +225,7 @@ function injectVariableDeclaration ({
 export function getImportStatement ({ ctx, json }) {
   const list = []
   if (json.defaultExport === true) {
-    list.push(ctx.pascalName)
+    list.push(ctx.camelCaseName)
   }
   if (json.namedExports.size !== 0) {
     list.push(`{ ${ Array.from(json.namedExports).join(', ') } }`)
@@ -375,7 +375,7 @@ export function readAstJson (ctx) {
           json.variables[ name ] = {
             // should match parseVar().def
             type: extractValueType(prop.value.raw),
-            accessor: `${ ctx.pascalName }.${ name }`
+            accessor: `${ ctx.camelCaseName }.${ name }`
           }
           return
         }
@@ -385,7 +385,7 @@ export function readAstJson (ctx) {
           json.variables[ name ] = {
             // should match parseVar().def
             type: 'Array',
-            accessor: `${ ctx.pascalName }.${ name }`
+            accessor: `${ ctx.camelCaseName }.${ name }`
           }
           return
         }
@@ -394,7 +394,7 @@ export function readAstJson (ctx) {
           json.variables[ name ] = {
             // should match parseVar().def
             type: 'Object',
-            accessor: `${ ctx.pascalName }.${ name }`
+            accessor: `${ ctx.camelCaseName }.${ name }`
           }
           return
         }
@@ -407,7 +407,7 @@ export function readAstJson (ctx) {
         ) {
           json.functions[ name ] = {
             // should match parseFunction().def
-            accessor: `${ ctx.pascalName }.${ name }`,
+            accessor: `${ ctx.camelCaseName }.${ name }`,
             params: getParams(prop.value.params)
           }
 
@@ -422,7 +422,7 @@ export function readAstJson (ctx) {
               isExported: false
             }).def,
 
-            accessor: ctx.pascalName
+            accessor: ctx.camelCaseName
           }
 
           return
@@ -436,7 +436,7 @@ export function readAstJson (ctx) {
             json.variables[ name ] = { // should match parseVar().def
               // we can't infer type without significant additional work
               type: 'Any',
-              accessor: `${ ctx.pascalName }.${ name }`
+              accessor: `${ ctx.camelCaseName }.${ name }`
             }
             return
           }
@@ -454,7 +454,7 @@ export function readAstJson (ctx) {
         const { jsonKey, def } = content[ ref ]
         delete content[ ref ]
 
-        def.accessor = `${ ctx.pascalName }.${ name }`
+        def.accessor = `${ ctx.camelCaseName }.${ name }`
         json[ jsonKey ][ name ] = def
       })
     }
@@ -466,7 +466,7 @@ export function readAstJson (ctx) {
       json.defaultExport = true
       json.functions.default = {
         ...parseFunction({ declaration, isExported: false }).def,
-        accessor: ctx.pascalName
+        accessor: ctx.camelCaseName
       }
     }
     // export default class X {}
@@ -474,7 +474,7 @@ export function readAstJson (ctx) {
       json.defaultExport = true
       json.classes.default = {
         ...parseClass({ declaration, isExported: false }).def,
-        accessor: ctx.pascalName
+        accessor: ctx.camelCaseName
       }
     }
     // export default fn(...)
@@ -483,7 +483,7 @@ export function readAstJson (ctx) {
       json.variables.default = {
         // we can't infer type without significant additional work
         type: 'Any',
-        accessor: ctx.pascalName
+        accessor: ctx.camelCaseName
       }
     }
   })

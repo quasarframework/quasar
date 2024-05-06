@@ -1,7 +1,7 @@
 import fse from 'fs-extra'
 import { Parser } from 'acorn'
 
-import { pascalCase } from './specs.utils.js'
+import { camelCase } from './specs.utils.js'
 import { getGenerator, generic as genericGenerator } from './generators/map.js'
 
 const ignoreCommentLineMaxLen = 100
@@ -159,7 +159,7 @@ function getTestFileMisconfiguration ({
   const targetImport = `from './${ ctx.localName }'`
   if (content.indexOf(targetImport) === -1) {
     errors.push(
-      `Should contain: import ${ ctx.pascalName } ${ targetImport }`
+      `Should contain: import ${ ctx.camelCaseName } ${ targetImport }`
     )
   }
 
@@ -307,7 +307,7 @@ function getTestFileMissingTests ({ ctx, generator, json, testFile }) {
 
       const scope = {
         name: entryName,
-        pascalName: pascalCase(entryName),
+        camelCaseName: camelCase(entryName),
         testId,
         jsonEntry,
         json,
@@ -355,7 +355,7 @@ function generateTestFileSection ({ ctx, generator, json, jsonPath }) {
 
   return createTestFn({
     name: entryName,
-    pascalName: pascalCase(entryName),
+    camelCaseName: camelCase(entryName),
     testId,
     jsonEntry,
     json,
@@ -391,7 +391,7 @@ function createTestFileContent ({ ctx, json, generator }) {
 
         const scope = {
           name: entryName,
-          pascalName: pascalCase(entryName),
+          camelCaseName: camelCase(entryName),
           testId,
           jsonEntry,
           json,
