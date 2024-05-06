@@ -120,14 +120,14 @@ $ quasar dev -h
     $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
+    --devtools, -d   Open remote Vue Devtools
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
 
     Only for Cordova mode:
-    --target, -T     (required) App target
-                        [android|ios]
+    --target, -T     (required) App target [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
@@ -135,11 +135,8 @@ $ quasar dev -h
                         booting up the emulator, in which case the "--emulator"
                         param will have no effect
 
-    --devtools, -d   Open remote Vue Devtools
-
     Only for Capacitor mode:
-    --target, -T     (required) App target
-                        [android|ios]
+    --target, -T     (required) App target [android|ios]
 ```
 
 The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
@@ -237,7 +234,7 @@ $ quasar build -h
     $ quasar build -m ios '--' some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios]

@@ -69,7 +69,7 @@ if (argv.help) {
 
     ONLY for Cordova and Capacitor mode:
     --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a
-                    terminal/console-only build
+                      terminal/console-only build
 
     ONLY for Electron mode:
     --bundler, -b   Bundler (@electron/packager or electron-builder)
