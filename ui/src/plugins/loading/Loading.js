@@ -5,7 +5,7 @@ import QSpinner from '../../components/spinner/QSpinner.js'
 import { createChildApp } from '../../install-quasar.js'
 
 import { createReactivePlugin } from '../../utils/private.create/create.js'
-import { createGlobalNode, removeGlobalNode } from '../../utils/private.global/global-nodes.js'
+import { createGlobalNode, removeGlobalNode } from '../../utils/private.config/nodes.js'
 import preventScroll from '../../utils/scroll/prevent-scroll.js'
 import { isObject } from '../../utils/is/is.js'
 

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "utils/private.global/global-dialog" ],
+  "mixins": [ "utils/private.dialog/create-dialog" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/quasar-plugins/dialog"

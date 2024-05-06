@@ -1,4 +1,4 @@
-import { globalConfig } from '../private.global/global-config.js'
+import { globalConfig } from '../private.config/instance-config.js'
 
 const nodesList = []
 const portalTypeList = []

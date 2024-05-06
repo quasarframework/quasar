@@ -1,7 +1,7 @@
 import { h, ref, nextTick } from 'vue'
 
 import { createChildApp } from '../../install-quasar.js'
-import { createGlobalNode, removeGlobalNode } from '../private.global/global-nodes.js'
+import { createGlobalNode, removeGlobalNode } from '../private.config/nodes.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,

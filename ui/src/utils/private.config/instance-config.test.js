@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { mount, config } from '@vue/test-utils'
 
-import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './global-config.js'
+import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './instance-config.js'
 
 // We override Quasar install so we have a custom $q.config
 const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')
@@ -12,7 +12,7 @@ function mountWithConfig (config) {
   mount({ template: '<div />' })
 }
 
-describe('[globalConfig API]', () => {
+describe('[instanceConfig API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)globalConfig]', () => {
       test('is defined correctly', () => {

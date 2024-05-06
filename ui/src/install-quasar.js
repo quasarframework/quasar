@@ -9,7 +9,7 @@ import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'
 
 import { quasarKey } from './utils/private.symbols/symbols.js'
-import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private.global/global-config.js'
+import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private.config/instance-config.js'
 import { isObject } from './utils/is/is.js'
 
 /**

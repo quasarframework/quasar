@@ -1,7 +1,7 @@
 import { describe, test, expect, afterEach } from 'vitest'
 
-import { createGlobalNode, removeGlobalNode, changeGlobalNodesTarget } from './global-nodes.js'
-import { globalConfig } from './global-config.js'
+import { createGlobalNode, removeGlobalNode, changeGlobalNodesTarget } from './nodes.js'
+import { globalConfig } from './instance-config.js'
 
 let el = null
 
@@ -14,7 +14,7 @@ afterEach(() => {
   }
 })
 
-describe('[globalNodes API]', () => {
+describe('[nodes API]', () => {
   describe('[Functions]', () => {
     describe('[(function)createGlobalNode]', () => {
       test('createGlobalNode(id)', () => {

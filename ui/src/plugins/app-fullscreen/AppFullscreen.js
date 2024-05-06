@@ -1,5 +1,5 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
-import { changeGlobalNodesTarget } from '../../utils/private.global/global-nodes.js'
+import { changeGlobalNodesTarget } from '../../utils/private.config/nodes.js'
 
 const prefixes = {}
 
