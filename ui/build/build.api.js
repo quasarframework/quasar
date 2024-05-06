@@ -1201,6 +1201,14 @@ function fillAPI (apiType, list, encodeFn) {
           )
           hasError = true
         }
+
+        if (runtimeEmitName.indexOf('-') !== -1) {
+          logError(
+            `${ componentName }: "emits" -> "${ runtimeEmitName }" should be`
+            + ' in camelCase (found kebab-case)'
+          )
+          hasError = true
+        }
       }
 
       // API defined events should exist in the component
