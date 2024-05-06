@@ -26,7 +26,6 @@ const passthroughValues = [ true, false, 'child' ]
 
 const slotRE = /slots\[\s*['"](\S+)['"]\s*\]|slots\.([A-Za-z]+)/g
 const emitRE = /emit\(\s*['"](\S+)['"]/g
-const upperCaseRE = /[A-Z]/
 
 const apiIgnoreValueRegex = /^# /
 const apiValuePromiseRegex = /\.then\(/
