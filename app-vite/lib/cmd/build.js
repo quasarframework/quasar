@@ -83,7 +83,6 @@ if (argv.help) {
     ONLY for electron-builder (when using "publish" parameter):
     --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
                      - see https://www.electron.build/configuration/publish
-
   `)
   process.exit(0)
 }

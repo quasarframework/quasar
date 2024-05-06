@@ -54,12 +54,12 @@ if (argv.help) {
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
+    --devtools, -d   Open remote Vue Devtools
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
 
     Only for Cordova mode:
-    --target, -T     (required) App target
-                        [android|ios]
+    --target, -T     (required) App target [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
@@ -67,11 +67,8 @@ if (argv.help) {
                         booting up the emulator, in which case the "--emulator"
                         param will have no effect
 
-    --devtools, -d   Open remote Vue Devtools
-
     Only for Capacitor mode:
-    --target, -T     (required) App target
-                        [android|ios]
+    --target, -T     (required) App target [android|ios]
   `)
   process.exit(0)
 }
