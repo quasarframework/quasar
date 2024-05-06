@@ -19,7 +19,7 @@
     <% if (preset.i18n) { %>"vue-i18n": "^9.0.0",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     "@quasar/extras": "^1.16.4",
-    "quasar": "^2.6.0",
+    "quasar": "^2.16.0",
     "vue": "^3.4.18",
     "vue-router": "^4.0.0"
   },
@@ -41,7 +41,7 @@
     "prettier": "^3.0.3",
     <% } } %>
     <% if (preset.i18n) { %>"@intlify/unplugin-vue-i18n": "^2.0.0",<% } %>
-    "@quasar/app-vite": "^2.0.0-beta.5",
+    "@quasar/app-vite": "^2.0.0-beta.12",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.14"
   },

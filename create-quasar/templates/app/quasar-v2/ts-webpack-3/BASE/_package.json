@@ -20,7 +20,7 @@
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.16.4",
     "core-js": "^3.31.1",
-    "quasar": "^2.8.0",
+    "quasar": "^2.16.0",
     "vue": "^3.4.18",
     "vue-router": "^4.0.12"
   },
@@ -43,7 +43,7 @@
     "prettier": "^2.5.1",
     <% } } %>
     "@types/node": "^12.20.21",
-    "@quasar/app-webpack": "^3.9.2"
+    "@quasar/app-webpack": "^3.13.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

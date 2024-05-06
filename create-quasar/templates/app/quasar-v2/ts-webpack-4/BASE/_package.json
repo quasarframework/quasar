@@ -19,7 +19,7 @@
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     "@quasar/extras": "^1.16.4",
     "core-js": "^3.6.5",
-    "quasar": "^2.6.0",
+    "quasar": "^2.16.0",
     "vue": "^3.4.18",
     "vue-router": "^4.0.0"
   },
@@ -43,7 +43,7 @@
     "prettier": "^3.0.3",
     <% } } %>
     "@types/node": "^20.5.9",
-    "@quasar/app-webpack": "^4.0.0-beta.1",
+    "@quasar/app-webpack": "^4.0.0-beta.13",
     "ts-loader": "^9.4.2",
     "typescript": "^5.2.2"
   },
