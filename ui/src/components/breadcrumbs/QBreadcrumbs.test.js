@@ -1,7 +1,7 @@
 import { mount, flushPromises } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 
-import QBreadcrumbs from './QBreadcrumbs.js'
+// import QBreadcrumbs from './QBreadcrumbs.js'
 
 import { alignMap } from 'quasar/src/composables/private.use-align/use-align.js'
 
@@ -11,10 +11,6 @@ import BreadcrumbWithSeparatorSlot from './test/BreadcrumbWithSeparatorSlot.vue'
 describe('[QBreadcrumbs API]', () => {
   describe('[Props]', () => {
     describe('[(prop)separator]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbs.props.separator).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = '>'
         const wrapper = mount(BasicBreadcrumbs)
@@ -35,10 +31,6 @@ describe('[QBreadcrumbs API]', () => {
     })
 
     describe('[(prop)active-color]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbs.props.activeColor).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'red'
         const wrapper = mount(BasicBreadcrumbs)
@@ -59,10 +51,6 @@ describe('[QBreadcrumbs API]', () => {
     })
 
     describe('[(prop)gutter]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbs.props.gutter).toBeDefined()
-      })
-
       test('value "none" has effect', async () => {
         const propVal = 'none'
         const wrapper = mount(BasicBreadcrumbs)
@@ -116,10 +104,6 @@ describe('[QBreadcrumbs API]', () => {
     })
 
     describe('[(prop)separator-color]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbs.props.separatorColor).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'red'
         const wrapper = mount(BasicBreadcrumbs)
@@ -139,10 +123,6 @@ describe('[QBreadcrumbs API]', () => {
     })
 
     describe('[(prop)align]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbs.props.align).toBeDefined()
-      })
-
       test.each([
         [ 'left' ],
         [ 'center' ],

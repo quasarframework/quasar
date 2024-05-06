@@ -7,10 +7,6 @@ import { useSizeDefaults } from 'quasar/src/composables/private.use-size/use-siz
 describe('[QAvatar API]', () => {
   describe('[Props]', () => {
     describe('[(prop)size]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.size).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const wrapper = mount(QAvatar)
         const target = wrapper.get('.q-avatar')
@@ -36,10 +32,6 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)font-size]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.fontSize).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const size = '200px'
         const fontSize = '100px'
@@ -75,10 +67,6 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)color]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.color).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'red'
         const wrapper = mount(QAvatar)
@@ -106,10 +94,6 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)text-color]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.textColor).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'red'
         const wrapper = mount(QAvatar)
@@ -137,10 +121,6 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)icon]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.icon).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QAvatar)
@@ -163,10 +143,6 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)square]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.square).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QAvatar)
         const target = wrapper.get('.q-avatar')
@@ -189,10 +165,6 @@ describe('[QAvatar API]', () => {
     })
 
     describe('[(prop)rounded]', () => {
-      test('is defined correctly', () => {
-        expect(QAvatar.props.rounded).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QAvatar)
         const target = wrapper.get('.q-avatar')

@@ -6,10 +6,6 @@ import QToolbarTitle from './QToolbarTitle.js'
 describe('[QToolbarTitle API]', () => {
   describe('[Props]', () => {
     describe('[(prop)shrink]', () => {
-      test('is defined correctly', () => {
-        expect(QToolbarTitle.props.shrink).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QToolbarTitle)
         const target = wrapper.get('.q-toolbar__title')

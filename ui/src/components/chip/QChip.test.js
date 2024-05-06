@@ -6,10 +6,6 @@ import QChip, { defaultSizes } from './QChip.js'
 describe('[QChip API]', () => {
   describe('[Props]', () => {
     describe('[(prop)dense]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.dense).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -28,10 +24,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)size]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.size).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -56,10 +48,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)dark]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.dark).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -94,10 +82,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)icon]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.icon).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QChip)
@@ -116,10 +100,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)icon-right]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.iconRight).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QChip)
@@ -138,10 +118,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)icon-remove]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.iconRemove).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QChip)
@@ -164,10 +140,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)icon-selected]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.iconSelected).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QChip)
@@ -191,10 +163,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)label]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.label).toBeDefined()
-      })
-
       test.each([
         [ 'String', 'John Doe' ],
         [ 'Number', 22 ]
@@ -217,10 +185,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)color]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.color).toBeDefined()
-      })
-
       test('with default design', async () => {
         const propVal = 'red'
         const wrapper = mount(QChip)
@@ -262,10 +226,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)text-color]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.textColor).toBeDefined()
-      })
-
       test('with default design', async () => {
         const propVal = 'red'
         const wrapper = mount(QChip)
@@ -368,10 +328,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)model-value]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.modelValue).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip, {
           props: {
@@ -394,10 +350,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)selected]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.selected).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -438,10 +390,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)square]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.square).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -464,10 +412,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)outline]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.outline).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -486,10 +430,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)clickable]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.clickable).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
         const target = wrapper.get('.q-chip')
@@ -512,10 +452,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)removable]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.removable).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
 
@@ -535,10 +471,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)ripple]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.ripple).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
 
@@ -580,10 +512,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)remove-aria-label]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.removeAriaLabel).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'Remove item'
         const wrapper = mount(QChip, {
@@ -612,10 +540,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)tabindex]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.tabindex).toBeDefined()
-      })
-
       test.each([
         [ 'Number', 100 ],
         [ 'String', '100' ]
@@ -677,10 +601,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(prop)disable]', () => {
-      test('is defined correctly', () => {
-        expect(QChip.props.disable).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QChip)
 
@@ -715,13 +635,6 @@ describe('[QChip API]', () => {
 
   describe('[Events]', () => {
     describe('[(event)click]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QChip.emits?.includes('click')
-          ^ (QChip.props?.onClick !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting when clickable', async () => {
         const wrapper = mount(QChip, {
           props: {
@@ -795,13 +708,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(event)update:selected]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QChip.emits?.includes('update:selected')
-          ^ (QChip.props?.[ 'onUpdate:selected' ] !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         const wrapper = mount(QChip, {
           props: {
@@ -843,13 +749,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(event)remove]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QChip.emits?.includes('remove')
-          ^ (QChip.props?.onRemove !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         const wrapper = mount(QChip, {
           props: {
@@ -869,13 +768,6 @@ describe('[QChip API]', () => {
     })
 
     describe('[(event)update:model-value]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QChip.emits?.includes('update:modelValue')
-          ^ (QChip.props?.[ 'onUpdate:modelValue' ] !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         const wrapper = mount(QChip, {
           props: {

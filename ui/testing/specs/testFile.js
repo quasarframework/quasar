@@ -5,7 +5,7 @@ import { pascalCase } from './specs.utils.js'
 import { getGenerator, generic as genericGenerator } from './generators/map.js'
 
 const ignoreCommentLineMaxLen = 100
-const ignoreCommentRE = /^(\/\*.*\n\s*\*\s*Ignored specs:\s*\n.+\n\s*\*\/\s*\n?\n?)/s
+const ignoreCommentRE = /^(\/\*.*\n\s*\*\s*Ignored specs:\s*\n.+\n\s*\*\/\s*\n?\n?)/
 const ignoreCommentEntryRE = /(\[[^\]]+\])/g
 
 const testIdRE = /\[\((?<token>[^)]+)\)(?<name>.+)\]/

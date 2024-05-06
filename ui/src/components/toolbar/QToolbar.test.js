@@ -6,10 +6,6 @@ import QToolbar from './QToolbar.js'
 describe('[QToolbar API]', () => {
   describe('[Props]', () => {
     describe('[(prop)inset]', () => {
-      test('is defined correctly', () => {
-        expect(QToolbar.props.inset).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QToolbar)
         const target = wrapper.get('.q-toolbar')

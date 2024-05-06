@@ -7,10 +7,6 @@ import { getRouter } from 'testing/runtime/router.js'
 describe('[QBreadcrumbsEl API]', () => {
   describe('[Props]', () => {
     describe('[(prop)to]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.to).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const testRoute = '/home/dashboard'
         const router = await getRouter(testRoute)
@@ -82,10 +78,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)exact]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.exact).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const activeClass = 'it-is-active'
         const exactActiveClass = 'it-is-exact-active'
@@ -141,10 +133,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)replace]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.replace).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const testRoute = '/test-route'
         const router = await getRouter(testRoute)
@@ -184,10 +172,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)active-class]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.activeClass).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const activeClass = 'it-is-active'
         const router = await getRouter({ '/route': 'subRoute' })
@@ -235,10 +219,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)exact-active-class]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.exactActiveClass).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const exactActiveClass = 'it-is-exact-active'
         const router = await getRouter({
@@ -295,10 +275,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)href]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.href).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'https://quasar.dev'
         const wrapper = mount(QBreadcrumbsEl)
@@ -317,10 +293,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)target]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.target).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = '_blank'
         const href = 'https://quasar.dev'
@@ -350,10 +322,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)disable]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.disable).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const testRoute = '/home'
         const router = await getRouter(testRoute)
@@ -388,10 +356,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)label]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.label).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'Home'
         const wrapper = mount(QBreadcrumbsEl)
@@ -406,10 +370,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)icon]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.icon).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QBreadcrumbsEl)
@@ -428,10 +388,6 @@ describe('[QBreadcrumbsEl API]', () => {
     })
 
     describe('[(prop)tag]', () => {
-      test('is defined correctly', () => {
-        expect(QBreadcrumbsEl.props.tag).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'div'
         const wrapper = mount(QBreadcrumbsEl)
@@ -468,13 +424,6 @@ describe('[QBreadcrumbsEl API]', () => {
 
   describe('[Events]', () => {
     describe('[(event)click]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QBreadcrumbsEl.emits?.includes('click')
-          ^ (QBreadcrumbsEl.props?.onClick !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting without router', async () => {
         const wrapper = mount(QBreadcrumbsEl)
 

@@ -6,10 +6,6 @@ import QBar from './QBar.js'
 describe('[QBar API]', () => {
   describe('[Props]', () => {
     describe('[(prop)dense]', () => {
-      test('is defined correctly', () => {
-        expect(QBar.props.dense).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBar)
         const target = wrapper.get('.q-bar')
@@ -28,10 +24,6 @@ describe('[QBar API]', () => {
     })
 
     describe('[(prop)dark]', () => {
-      test('is defined correctly', () => {
-        expect(QBar.props.dark).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBar)
         const target = wrapper.get('.q-bar')

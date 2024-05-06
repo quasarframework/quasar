@@ -6,10 +6,6 @@ import QBadge from './QBadge.js'
 describe('[QBadge API]', () => {
   describe('[Props]', () => {
     describe('[(prop)color]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.color).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'red'
         const wrapper = mount(QBadge)
@@ -37,10 +33,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)text-color]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.textColor).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'red'
         const wrapper = mount(QBadge)
@@ -68,10 +60,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)floating]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.floating).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBadge)
         const target = wrapper.get('.q-badge')
@@ -95,10 +83,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)transparent]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.transparent).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBadge)
         const target = wrapper.get('.q-badge')
@@ -121,10 +105,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)multi-line]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.multiLine).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBadge)
         const target = wrapper.get('.q-badge')
@@ -147,10 +127,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)label]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.label).toBeDefined()
-      })
-
       test.each([
         [ 'String', 'John Doe' ],
         [ 'Number', 22 ]
@@ -172,10 +148,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)align]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.align).toBeDefined()
-      })
-
       test.each([
         [ 'top' ],
         [ 'middle' ],
@@ -198,10 +170,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)outline]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.outline).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBadge)
         const target = wrapper.get('.q-badge')
@@ -224,10 +192,6 @@ describe('[QBadge API]', () => {
     })
 
     describe('[(prop)rounded]', () => {
-      test('is defined correctly', () => {
-        expect(QBadge.props.rounded).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBadge)
         const target = wrapper.get('.q-badge')

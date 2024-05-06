@@ -6,10 +6,6 @@ import QBanner from './QBanner.js'
 describe('[QBanner API]', () => {
   describe('[Props]', () => {
     describe('[(prop)inline-actions]', () => {
-      test('is defined correctly', () => {
-        expect(QBanner.props.inlineActions).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBanner, {
           slots: {
@@ -35,10 +31,6 @@ describe('[QBanner API]', () => {
     })
 
     describe('[(prop)dense]', () => {
-      test('is defined correctly', () => {
-        expect(QBanner.props.dense).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBanner)
         const target = wrapper.get('.q-banner')
@@ -57,10 +49,6 @@ describe('[QBanner API]', () => {
     })
 
     describe('[(prop)rounded]', () => {
-      test('is defined correctly', () => {
-        expect(QBanner.props.rounded).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBanner)
         const target = wrapper.get('.q-banner')
@@ -83,10 +71,6 @@ describe('[QBanner API]', () => {
     })
 
     describe('[(prop)dark]', () => {
-      test('is defined correctly', () => {
-        expect(QBanner.props.dark).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBanner)
         const target = wrapper.get('.q-banner')

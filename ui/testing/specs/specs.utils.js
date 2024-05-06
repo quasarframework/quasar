@@ -313,14 +313,11 @@ function joinList ({
 }
 
 export function filterDefExceptionTypes (type) {
-  if (Array.isArray(type) === true) {
-    const list = type.filter(type => type !== 'FileList')
-    return list.length === 1
-      ? list[ 0 ]
-      : list
-  }
+  const typeList = Array.isArray(type) === true
+    ? type
+    : [ type ]
 
-  if (type !== 'FileList') return type
+  return typeList.filter(type => type !== 'FileList')
 }
 
 export function getComponentPropAssignment ({

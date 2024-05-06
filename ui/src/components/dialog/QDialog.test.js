@@ -1,3 +1,8 @@
+/**
+ * Ignored specs:
+ * [(prop)backdrop-filter]
+ */
+
 import { mount, flushPromises } from '@vue/test-utils'
 import {
   describe, test, expect, vi,
@@ -49,10 +54,6 @@ function createFocusEl () {
 describe('[QDialog API]', () => {
   describe('[Props]', () => {
     describe('[(prop)transition-show]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.transitionShow).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -72,10 +73,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)transition-hide]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.transitionHide).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -105,10 +102,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)transition-duration]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.transitionDuration).toBeDefined()
-      })
-
       test.each([
         [ 'String', '1000' ],
         [ 'Number', 1000 ]
@@ -134,10 +127,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)model-value]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.modelValue).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -162,10 +151,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)persistent]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.persistent).toBeDefined()
-      })
-
       test.each([
         [ 'Backdrop click', triggerBackdropClick ],
         [ 'ESC key', triggerEscKey ]
@@ -208,10 +193,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)no-esc-dismiss]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.noEscDismiss).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -251,10 +232,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)no-backdrop-dismiss]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.noBackdropDismiss).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -294,10 +271,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)no-route-dismiss]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.noRouteDismiss).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const router = await getRouter([ '/home', '/account' ])
 
@@ -338,10 +311,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)auto-close]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.autoClose).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(DialogWrapper, {
           props: {
@@ -387,10 +356,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)seamless]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.seamless).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -419,47 +384,41 @@ describe('[QDialog API]', () => {
       })
     })
 
-    describe('[(prop)backdrop-filter]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.backdropFilter).toBeDefined()
-      })
+    /**
+     * Commented because jsdom doesn't understand backdrop-filter
+     *
+        describe('[(prop)backdrop-filter]', () => {
+          test('type String has effect', async () => {
+            const propVal = 'blur(4px)'
+            wrapper = mount(QDialog, {
+              props: {
+                modelValue: true,
+                backdropFilter: propVal
+              }
+            })
 
-      // Commented because jsdom doesn't understand backdrop-filter
+            await flushPromises()
+            await vi.runAllTimers()
 
-      // test('type String has effect', async () => {
-      //   const propVal = 'blur(4px)'
-      //   wrapper = mount(QDialog, {
-      //     props: {
-      //       modelValue: true,
-      //       backdropFilter: propVal
-      //     }
-      //   })
+            expect(
+              wrapper.findComponent({ name: 'QPortal' })
+                .get('.q-dialog__backdrop')
+                .$style('backdrop-filter')
+            ).toBe(propVal)
 
-      //   await flushPromises()
-      //   await vi.runAllTimers()
+            await wrapper.setProps({ backdropFilter: void 0 })
+            await flushPromises()
 
-      //   expect(
-      //     wrapper.findComponent({ name: 'QPortal' })
-      //       .get('.q-dialog__backdrop')
-      //       .$style('backdrop-filter')
-      //   ).toBe(propVal)
-
-      //   await wrapper.setProps({ backdropFilter: void 0 })
-      //   await flushPromises()
-
-      //   expect(
-      //     wrapper.findComponent({ name: 'QPortal' })
-      //       .get('.q-dialog__backdrop')
-      //       .$style('backdrop-filter')
-      //   ).toBeUndefined()
-      // })
-    })
+            expect(
+              wrapper.findComponent({ name: 'QPortal' })
+                .get('.q-dialog__backdrop')
+                .$style('backdrop-filter')
+            ).toBeUndefined()
+          })
+        })
+    */
 
     describe('[(prop)maximized]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.maximized).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -489,10 +448,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)full-width]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.fullWidth).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -522,10 +477,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)full-height]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.fullHeight).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -555,10 +506,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)position]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.position).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -585,10 +532,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)square]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.square).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(DialogWrapper, {
           props: {
@@ -620,10 +563,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)no-refocus]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.noRefocus).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const el = createFocusEl()
 
@@ -678,10 +617,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)no-focus]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.noFocus).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const el = createFocusEl()
 
@@ -730,10 +665,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)no-shake]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.noShake).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -770,10 +701,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(prop)allow-focus-outside]', () => {
-      test('is defined correctly', () => {
-        expect(QDialog.props.allowFocusOutside).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const el = createFocusEl()
 
@@ -840,13 +767,6 @@ describe('[QDialog API]', () => {
 
   describe('[Events]', () => {
     describe('[(event)update:model-value]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('update:modelValue')
-          ^ (QDialog.props?.[ 'onUpdate:modelValue' ] !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -876,13 +796,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(event)show]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('show')
-          ^ (QDialog.props?.onShow !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog)
         const event = new MouseEvent('click')
@@ -906,13 +819,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(event)before-show]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('beforeShow')
-          ^ (QDialog.props?.onBeforeShow !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog)
         const event = new MouseEvent('click')
@@ -936,13 +842,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(event)hide]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('hide')
-          ^ (QDialog.props?.onHide !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -973,13 +872,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(event)before-hide]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('beforeHide')
-          ^ (QDialog.props?.onBeforeHide !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -1010,13 +902,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(event)shake]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('shake')
-          ^ (QDialog.props?.onShake !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog, {
           props: {
@@ -1045,13 +930,6 @@ describe('[QDialog API]', () => {
     })
 
     describe('[(event)escape-key]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QDialog.emits?.includes('escapeKey')
-          ^ (QDialog.props?.onEscapeKey !== void 0)
-        ).toBe(1)
-      })
-
       test('is emitting', async () => {
         wrapper = mount(QDialog, {
           props: {

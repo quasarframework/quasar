@@ -6,10 +6,6 @@ import QVideo from './QVideo.js'
 describe('[QVideo API]', () => {
   describe('[Props]', () => {
     describe('[(prop)ratio]', () => {
-      test('is defined correctly', () => {
-        expect(QVideo.props.ratio).toBeDefined()
-      })
-
       test.each([
         [ 'String', '5' ],
         [ 'Number', 5 ]
@@ -36,10 +32,6 @@ describe('[QVideo API]', () => {
     })
 
     describe('[(prop)src]', () => {
-      test('is defined correctly', () => {
-        expect(QVideo.props.src).toBeDefined()
-      })
-
       test('type String has effect', () => {
         const propVal = 'https://www.youtube.com/embed/k3_tw44QsZQ'
         const wrapper = mount(QVideo, {
@@ -56,10 +48,6 @@ describe('[QVideo API]', () => {
     })
 
     describe('[(prop)title]', () => {
-      test('is defined correctly', () => {
-        expect(QVideo.props.title).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const wrapper = mount(QVideo, {
           props: {
@@ -84,10 +72,6 @@ describe('[QVideo API]', () => {
     })
 
     describe('[(prop)fetchpriority]', () => {
-      test('is defined correctly', () => {
-        expect(QVideo.props.fetchpriority).toBeDefined()
-      })
-
       test.each([
         [ 'high' ],
         [ 'low' ],
@@ -115,10 +99,6 @@ describe('[QVideo API]', () => {
     })
 
     describe('[(prop)loading]', () => {
-      test('is defined correctly', () => {
-        expect(QVideo.props.loading).toBeDefined()
-      })
-
       test.each([
         [ 'eager' ],
         [ 'lazy' ]
@@ -145,10 +125,6 @@ describe('[QVideo API]', () => {
     })
 
     describe('[(prop)referrerpolicy]', () => {
-      test('is defined correctly', () => {
-        expect(QVideo.props.referrerpolicy).toBeDefined()
-      })
-
       test.each([
         [ 'no-referrer' ],
         [ 'no-referrer-when-downgrade' ],

@@ -10,10 +10,6 @@ import { getRouter } from 'testing/runtime/router.js'
 describe('[QBtn API]', () => {
   describe('[Props]', () => {
     describe('[(prop)size]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.size).toBeDefined()
-      })
-
       test('type String has effect (in pixels)', async () => {
         const propVal = '50px'
         const wrapper = mount(QBtn)
@@ -50,10 +46,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)type]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.type).toBeDefined()
-      })
-
       test.each([
         [ 'button' ],
         [ 'a' ]
@@ -109,10 +101,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)to]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.to).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const testRoute = '/home/dashboard'
         const router = await getRouter(testRoute)
@@ -184,10 +172,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)replace]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.replace).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const testRoute = '/test-route'
         const router = await getRouter(testRoute)
@@ -221,10 +205,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)href]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.href).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'https://quasar.dev'
         const wrapper = mount(QBtn)
@@ -243,10 +223,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)target]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.target).toBeDefined()
-      })
-
       test('type String has effect', () => {
         const propVal = '_blank'
         const href = 'https://quasar.dev'
@@ -270,10 +246,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)label]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.label).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'Button Label'
         const wrapper = mount(QBtn)
@@ -300,10 +272,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)icon]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.icon).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QBtn)
@@ -322,10 +290,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)icon-right]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.iconRight).toBeDefined()
-      })
-
       test('type String has effect', async () => {
         const propVal = 'map'
         const wrapper = mount(QBtn)
@@ -344,10 +308,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)outline]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.outline).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -370,10 +330,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)flat]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.flat).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -392,10 +348,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)unelevated]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.unelevated).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -414,10 +366,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)rounded]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.rounded).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -440,10 +388,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)push]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.push).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -470,10 +414,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)square]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.square).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -496,10 +436,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)glossy]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.glossy).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -518,10 +454,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)fab]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.fab).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -540,10 +472,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)fab-mini]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.fabMini).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -562,10 +490,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)padding]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.padding).toBeDefined()
-      })
-
       test.each([
         [ 'pixels; single value', '50px' ],
         [ 'pixels; multiple values', '50px 100px' ]
@@ -643,10 +567,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)color]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.color).toBeDefined()
-      })
-
       test('(default design) is applied correctly', async () => {
         const propVal = 'red'
         const wrapper = mount(QBtn)
@@ -710,10 +630,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)text-color]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.textColor).toBeDefined()
-      })
-
       test('is applied correctly with no "color" prop', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -818,10 +734,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)no-caps]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.noCaps).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -844,10 +756,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)no-wrap]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.noWrap).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
 
@@ -865,10 +773,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)dense]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.dense).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -887,10 +791,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)ripple]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.ripple).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
 
@@ -932,10 +832,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)tabindex]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.tabindex).toBeDefined()
-      })
-
       test.each([
         [ 'Number', 100 ],
         [ 'String', '100' ]
@@ -975,10 +871,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)align]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.align).toBeDefined()
-      })
-
       test.each([
         [ 'left' ],
         [ 'center' ],
@@ -1007,10 +899,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)stack]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.stack).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn__content')
@@ -1029,10 +917,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)stretch]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.stretch).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -1051,10 +935,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)loading]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.loading).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -1136,10 +1016,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)disable]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.disable).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -1214,10 +1090,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)round]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.round).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const wrapper = mount(QBtn)
         const target = wrapper.get('.q-btn')
@@ -1240,10 +1112,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)percentage]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.percentage).toBeDefined()
-      })
-
       test('type Number has effect', async () => {
         const propVal = 58
         const wrapper = mount(QBtn)
@@ -1297,10 +1165,6 @@ describe('[QBtn API]', () => {
     })
 
     describe('[(prop)dark-percentage]', () => {
-      test('is defined correctly', () => {
-        expect(QBtn.props.darkPercentage).toBeDefined()
-      })
-
       test('type Boolean has effect', async () => {
         const propVal = 58
         const wrapper = mount(QBtn)
@@ -1370,13 +1234,6 @@ describe('[QBtn API]', () => {
 
   describe('[Events]', () => {
     describe('[(event)click]', () => {
-      test('is defined correctly', () => {
-        expect(
-          QBtn.emits?.includes('click')
-          ^ (QBtn.props?.onClick !== void 0)
-        ).toBe(1)
-      })
-
       test('(with route) is emitting', async () => {
         const testRoute = '/home/dashboard'
         const router = await getRouter(testRoute)
