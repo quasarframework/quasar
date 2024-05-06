@@ -23,12 +23,11 @@ export default function (api: IndexAPI) {
   }
 
   api.extendQuasarConf((conf, api) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     conf.boot!.push('~<%= pkgName %>/boot/register');
 
     // make sure app extension files get transpiled
     if (api.hasWebpack) {
-      const config = conf as WebpackQuasarConfProxy;
+      const config = conf as unknown as WebpackQuasarConfProxy;
       config.build.webpackTranspileDependencies.push(
         /<%= pkgName.replace('/', '[\\\\/]') %>[\\/]dist/,
       );

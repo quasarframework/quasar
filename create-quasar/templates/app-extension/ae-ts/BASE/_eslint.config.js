@@ -11,7 +11,10 @@ export default tseslint.config(
     ...eslint.configs.recommended,
   },
 
-  ...tseslint.configs.strictTypeChecked,
+  // Recommended rules
+  ...tseslint.configs.recommendedTypeChecked,
+  // Strict rules (recommended if have good TS knowledge)
+  // ...tseslint.configs.strictTypeChecked, // disable recommended above if you enable this
   ...tseslint.configs.stylisticTypeChecked,
 
   ...pluginVue.configs['flat/recommended'],
