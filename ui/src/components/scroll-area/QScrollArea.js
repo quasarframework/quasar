@@ -30,6 +30,15 @@ export default createComponent({
     verticalBarStyle: [ Array, String, Object ],
     horizontalBarStyle: [ Array, String, Object ],
 
+    verticalOffset: {
+      type: Array,
+      default: [ 0, 0 ]
+    },
+    horizontalOffset: {
+      type: Array,
+      default: [ 0, 0 ]
+    },
+
     contentStyle: [ Array, String, Object ],
     contentActiveStyle: [ Array, String, Object ],
 
@@ -57,7 +66,13 @@ export default createComponent({
     // other...
     const container = {
       vertical: ref(0),
-      horizontal: ref(0)
+      verticalNet: computed(() =>
+        container.vertical.value - props.verticalOffset[ 0 ] - props.verticalOffset[ 1 ]
+      ),
+      horizontal: ref(0),
+      horizontalNet: computed(() =>
+        container.horizontal.value - props.horizontalOffset[ 0 ] - props.horizontalOffset[ 1 ]
+      )
     }
 
     const scroll = {
@@ -100,15 +115,15 @@ export default createComponent({
         && panning.value === false
       ) || scroll.vertical.size.value <= container.vertical.value + 1
     )
-    scroll.vertical.thumbStart = computed(() =>
-      scroll.vertical.percentage.value * (container.vertical.value - scroll.vertical.thumbSize.value)
-    )
+    scroll.vertical.thumbStart = computed(() => {
+      return props.verticalOffset[ 0 ] + scroll.vertical.percentage.value * (container.verticalNet.value - scroll.vertical.thumbSize.value)
+    })
     scroll.vertical.thumbSize = computed(() =>
       Math.round(
         between(
-          container.vertical.value * container.vertical.value / scroll.vertical.size.value,
-          getMinThumbSize(container.vertical.value),
-          container.vertical.value
+          container.verticalNet.value * container.verticalNet.value / scroll.vertical.size.value,
+          getMinThumbSize(container.verticalNet.value),
+          container.verticalNet.value
         )
       )
     )
@@ -143,14 +158,14 @@ export default createComponent({
       ) || scroll.horizontal.size.value <= container.horizontal.value + 1
     )
     scroll.horizontal.thumbStart = computed(() =>
-      scroll.horizontal.percentage.value * (container.horizontal.value - scroll.horizontal.thumbSize.value)
+      scroll.horizontal.percentage.value * (container.horizontalNet.value - scroll.horizontal.thumbSize.value)
     )
     scroll.horizontal.thumbSize = computed(() =>
       Math.round(
         between(
-          container.horizontal.value * container.horizontal.value / scroll.horizontal.size.value,
-          getMinThumbSize(container.horizontal.value),
-          container.horizontal.value
+          container.horizontalNet.value * container.horizontalNet.value / scroll.horizontal.size.value,
+          getMinThumbSize(container.horizontalNet.value),
+          container.horizontalNet.value
         )
       )
     )

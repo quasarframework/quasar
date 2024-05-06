@@ -86,6 +86,20 @@
       "category": "behavior"
     },
 
+    "vertical-offset": {
+      "type": "Array",
+      "desc": "Adds [top, bottom] offset to vertical thumb",
+      "default": [0, 0],
+      "category": "style"
+    },
+
+    "horizontal-offset": {
+      "type": "Array",
+      "desc": "Adds [top, bottom] offset to horizontal thumb",
+      "default": [0, 0],
+      "category": "style"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     }

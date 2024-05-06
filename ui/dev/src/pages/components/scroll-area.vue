@@ -5,6 +5,7 @@
     <q-toggle v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
     <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
     <q-toggle v-model="focusable" label="Focusable" />
+    <q-slider v-model="topOffset" :min="0" :max="100"/>
 
     <div style="height: 100px;" />
 
@@ -15,6 +16,7 @@
         ref="scroll"
         style="width: 400px; height: 500px;"
         class="bg-yellow"
+        :vertical-offset="[topOffset, 100]"
         :visible="alwaysVisible"
         :bar-style="customBarStyle"
         :vertical-bar-style="customVBarStyle"
@@ -147,7 +149,8 @@ export default {
       alwaysVisible: true,
       customStyle: false,
       focusable: true,
-      scrollDetails: null
+      scrollDetails: null,
+      topOffset: 50
     }
   },
 
