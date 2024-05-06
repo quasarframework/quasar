@@ -159,46 +159,51 @@ async function build () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  appBuilder.build().then(async () => {
-    artifacts.add(outputFolder)
-
-    outputFolder = argv.mode === 'cordova'
-      ? path.join(outputFolder, '..')
-      : outputFolder
-
-    banner(argv, 'build', {
-      buildOutputFolder: outputFolder,
-      target: quasarConf.build.target
+  appBuilder.build()
+    .catch(err => {
+      console.error(err)
+      fatal('App build failed (check the log above)', 'FAIL')
     })
+    .then(async () => {
+      artifacts.add(outputFolder)
 
-    if (typeof quasarConf.build.afterBuild === 'function') {
-      await quasarConf.build.afterBuild({ quasarConf })
-    }
+      outputFolder = argv.mode === 'cordova'
+        ? path.join(outputFolder, '..')
+        : outputFolder
 
-    // run possible beforeBuild hooks
-    await extensionRunner.runHook('afterBuild', async hook => {
-      log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
-      await hook.fn(hook.api, { quasarConf })
-    })
-
-    if (argv.publish !== void 0) {
-      const opts = {
-        arg: argv.publish,
-        distDir: outputFolder,
-        quasarConf
-      }
-
-      if (typeof quasarConf.build.onPublish === 'function') {
-        await quasarConf.build.onPublish(opts)
-      }
-
-      // run possible onPublish hooks
-      await extensionRunner.runHook('onPublish', async hook => {
-        log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
-        await hook.fn(hook.api, opts)
+      banner(argv, 'build', {
+        buildOutputFolder: outputFolder,
+        target: quasarConf.build.target
       })
-    }
-  })
+
+      if (typeof quasarConf.build.afterBuild === 'function') {
+        await quasarConf.build.afterBuild({ quasarConf })
+      }
+
+      // run possible beforeBuild hooks
+      await extensionRunner.runHook('afterBuild', async hook => {
+        log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
+        await hook.fn(hook.api, { quasarConf })
+      })
+
+      if (argv.publish !== void 0) {
+        const opts = {
+          arg: argv.publish,
+          distDir: outputFolder,
+          quasarConf
+        }
+
+        if (typeof quasarConf.build.onPublish === 'function') {
+          await quasarConf.build.onPublish(opts)
+        }
+
+        // run possible onPublish hooks
+        await extensionRunner.runHook('onPublish', async hook => {
+          log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
+          await hook.fn(hook.api, opts)
+        })
+      }
+    })
 }
 
 build()
