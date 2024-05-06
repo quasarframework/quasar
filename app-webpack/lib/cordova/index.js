@@ -46,8 +46,8 @@ class CordovaRunner {
   }
 
   async run (quasarConfFile, argv) {
-    const cfg = quasarConfFile.quasarConf
-    const url = cfg.build.APP_URL
+    const { quasarConf } = quasarConfFile
+    const url = quasarConf.build.APP_URL
 
     if (this.url === url) {
       return
@@ -61,11 +61,11 @@ class CordovaRunner {
 
     if (argv.ide) {
       await this.__runCordovaCommand(
-        cfg,
+        quasarConf,
         [ 'prepare', this.target ].concat(argv._)
       )
 
-      await openIde('cordova', cfg.bin, this.target, true)
+      await openIde('cordova', quasarConf.bin, this.target, true)
       return
     }
 
@@ -76,13 +76,13 @@ class CordovaRunner {
     }
 
     await this.__runCordovaCommand(
-      cfg,
+      quasarConf,
       args.concat(argv._)
     )
   }
 
   async build (quasarConfFile, argv) {
-    const cfg = quasarConfFile.quasarConf
+    const { quasarConf } = quasarConfFile
 
     const cordovaContext = {
       debug: this.ctx.debug === true,
@@ -90,7 +90,7 @@ class CordovaRunner {
     }
 
     const outputTargetList = (
-      ensureArray(this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext))
+      ensureArray(quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext))
       || cordovaOutputFolders[ this.target ]
     )
 
@@ -104,12 +104,12 @@ class CordovaRunner {
     const args = argv[ 'skip-pkg' ] || argv.ide
       ? [ 'prepare', this.target ]
       : (
-          this.quasarConf.cordova.getCordovaBuildParams?.(cordovaContext)
+          quasarConf.cordova.getCordovaBuildParams?.(cordovaContext)
           || [ 'build', this.ctx.debug ? '--debug' : '--release', '--device', this.target ]
         )
 
     await this.__runCordovaCommand(
-      cfg,
+      quasarConf,
       args.concat(argv._)
     )
 
@@ -118,11 +118,11 @@ class CordovaRunner {
     }
 
     if (argv.ide) {
-      await openIde('cordova', cfg.bin, this.target)
+      await openIde('cordova', quasarConf.bin, this.target)
       process.exit(0)
     }
 
-    const targetFolder = cfg.build.packagedDistDir
+    const targetFolder = quasarConf.build.packagedDistDir
 
     for (const folder of outputTargetList) {
       const outputFolder = appPaths.resolve.cordova(folder)
@@ -150,10 +150,10 @@ class CordovaRunner {
     this.__cleanup()
   }
 
-  __runCordovaCommand (cfg, args) {
-    this.cordovaConfig.prepare(cfg)
+  __runCordovaCommand (quasarConf, args) {
+    this.cordovaConfig.prepare(quasarConf)
 
-    if (this.target === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
+    if (this.target === 'ios' && quasarConf.cordova.noIosLegacyBuildFlag !== true) {
       args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
