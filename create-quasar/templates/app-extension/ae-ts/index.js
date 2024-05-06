@@ -90,5 +90,8 @@ export async function script ({ scope, utils }) {
   if (scope.scriptType === 'js') {
     // nothing to install, so we'll skip it
     scope.skipDepsInstall = true
+  } else {
+    // enable linting after deps installation for the TS template
+    scope.preset.lint = true
   }
 }
