@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar"
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@quasar/render-ssr-error": "^1.0.3",
-    "@quasar/vite-plugin": "/Users/razvan/work/v2/vite-plugin",
+    "@quasar/vite-plugin": "^1.7.0",
     "@rollup/pluginutils": "^4.1.2",
     "@types/chrome": "^0.0.208",
     "@types/compression": "^1.7.2",
