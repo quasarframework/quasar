@@ -40,7 +40,7 @@ We are updating this section constantly in order to keep you up to date with our
 * Release of the new major version of `@quasar/app-vite`
 * Release of the new major version of `@quasar/app-webpack`
 * Rewrite Quasar UI automation testing (switching to vitest included)
-* Rewrite internal build system for Quasar UI itself
+* Rewrite internal build system for Quasar UI itself (q/app work included)
 
 ### Q3 2024
 * CLI SSG mode ([#2299](https://github.com/quasarframework/quasar/issues/2299)) ([community support](https://github.com/freddy38510/quasar-app-extension-ssg))
