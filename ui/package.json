@@ -15,6 +15,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "require": "./dist/quasar.server.prod.cjs",
       "node": "./dist/quasar.server.prod.js",
       "import": "./dist/quasar.client.js"
