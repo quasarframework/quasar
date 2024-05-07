@@ -24,7 +24,7 @@ importers:
         specifier: ^1.0.0
         version: link:../utils/ssl-certificate
       '@quasar/vite-plugin':
-        specifier: ^1.6.0
+        specifier: ^1.7.0
         version: link:../vite-plugin
       '@types/chrome':
         specifier: ^0.0.262
