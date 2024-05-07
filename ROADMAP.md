@@ -34,21 +34,22 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Evergreens
 * 🚧 (WIP) Gradually add more automated tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our [Discord server](https://chat.quasar.dev/) if you're willing to help!
-* 🚧 (WIP) Gather feedback about new Quasar website. [Let us know what do you like and what not!](https://github.com/quasarframework/quasar/discussions/15168)
-
-### Q1 2024
-* New `@quasar/app-vite` major version -- beta release
-* New `@quasar/app-webpack` major version -- beta release
 
 ### Q2 2024
 * CLI Auto-routing
 * Release of the new major version of `@quasar/app-vite`
 * Release of the new major version of `@quasar/app-webpack`
+* Rewrite Quasar UI automation testing (switching to vitest included)
+* Rewrite internal build system for Quasar UI itself
 
 ### Q3 2024
 * CLI SSG mode ([#2299](https://github.com/quasarframework/quasar/issues/2299)) ([community support](https://github.com/freddy38510/quasar-app-extension-ssg))
 
 ## Archive
+
+### Q1 2024
+* New `@quasar/app-vite` major version -- beta release
+* New `@quasar/app-webpack` major version -- beta release
 
 ### Q2-4 2023
 * Support Capacitor 4 and related bugfixes ([#14226](https://github.com/quasarframework/quasar/pull/14226))
