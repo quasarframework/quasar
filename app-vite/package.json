@@ -49,7 +49,7 @@
   "dependencies": {
     "@quasar/render-ssr-error": "^1.0.2",
     "@quasar/ssl-certificate": "^1.0.0",
-    "@quasar/vite-plugin": "^1.6.0",
+    "@quasar/vite-plugin": "^1.7.0",
     "@types/chrome": "^0.0.262",
     "@types/compression": "^1.7.3",
     "@types/cordova": "^11.0.0",
