@@ -91,6 +91,17 @@ function uniquePathFilter (value, index, self) {
   return self.map(obj => obj.path).indexOf(value.path) === index
 }
 
+const extRE = /\.[m|c]?[j|t]s$/
+function formatQuasarAssetPath (asset, type) {
+  return asset.indexOf('/') !== -1
+    ? (
+        extRE.test(asset) === true
+          ? asset
+          : `${ asset }.js`
+      )
+    : `quasar/${ type }/${ asset }.js`
+}
+
 async function onAddress ({ host, port }, mode) {
   if (this.chosenHost) {
     host = this.chosenHost
@@ -415,15 +426,11 @@ class QuasarConfFile {
     const { lang, iconSet } = cfg.framework
 
     if (lang !== void 0) {
-      cfg.framework.lang = lang.indexOf('/') === true
-        ? lang
-        : `quasar/lang/${ lang }.js`
+      cfg.framework.lang = formatQuasarAssetPath(lang, 'lang')
     }
 
     if (iconSet !== void 0) {
-      cfg.framework.iconSet = iconSet.indexOf('/') === true
-        ? iconSet
-        : `quasar/icon-set/${ iconSet }.js`
+      cfg.framework.iconSet = formatQuasarAssetPath(iconSet, 'icon-set')
     }
 
     Object.assign(cfg.metaConf, {
