@@ -20,7 +20,7 @@ It would also be wise to check the changelog of Capacitor itself to see what bre
 
 ::: warning Requirements
 * Xcode 15+ (for iOS)
-* Android Studio Flamingo 2022.2.1 or newer (for Android)
+* Android Studio Jellyfish 2023.3.1.18 or newer (for Android)
 :::
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in /src-capacitor/package.json should look like:
