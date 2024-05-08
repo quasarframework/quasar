@@ -20,10 +20,7 @@ export default createComponent({
 
   setup () {
     return useField(
-      useFieldState({
-        requiredForAttr: false,
-        tagProp: true
-      })
+      useFieldState({ tagProp: true })
     )
   }
 })

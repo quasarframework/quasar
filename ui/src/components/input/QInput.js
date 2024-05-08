@@ -71,7 +71,7 @@ export default createComponent({
 
     const onComposition = useKeyComposition(onInput)
 
-    const state = useFieldState({ hasChangeEvent: true })
+    const state = useFieldState({ changeEvent: true })
 
     const isTextarea = computed(() =>
       props.type === 'textarea' || props.autogrow === true
