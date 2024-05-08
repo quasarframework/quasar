@@ -42,7 +42,8 @@ export default configure(ctx => {
         'quasar/dist/quasar.sass': resolve('../src/css/index.sass'),
         'quasar/icon-set': resolve('../icon-set'),
         'quasar/lang': resolve('../lang'),
-        'quasar/src': resolve('../src')
+        'quasar/src': resolve('../src'),
+        'quasar/wrappers': resolve('../wrappers/index.js')
       },
 
       vitePlugins: [
