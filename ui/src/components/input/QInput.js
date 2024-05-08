@@ -22,7 +22,9 @@ export default createComponent({
     ...useFormProps,
 
     // override of useFieldProps > modelValue
-    modelValue: [ String, Number ],
+    modelValue: __QUASAR_SSR_SERVER__
+      ? {} // SSR does not know about FileList
+      : [ String, Number, FileList ],
 
     shadowText: String,
 
