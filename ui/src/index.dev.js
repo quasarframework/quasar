@@ -1,7 +1,9 @@
 /**
  * client entry-point used by @quasar/vite-plugin for DEV only
+ * but also pointed to as entry-point in package.json
  */
 
+import './flags.dev.js'
 import installQuasar from './install-quasar.js'
 import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'

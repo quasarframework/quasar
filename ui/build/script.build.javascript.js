@@ -67,11 +67,13 @@ const quasarEsbuildPluginUmdGlobalExternals = {
 }
 
 const builds = [
-  // client entry-point used by @quasar/vite-plugin for DEV only
-  // (has flags untouched; required to replace them)
+  // Client entry-point used by @quasar/vite-plugin for DEV only.
+  // Also used as entry-point in package.json.
   {
     format: 'esm',
     define: {
+      // Any change to the flags should be reflected
+      // to src/flags.dev.js as well.
       __QUASAR_VERSION__: `'${ version }'`,
       __QUASAR_SSR_SERVER__: 'false'
     },
