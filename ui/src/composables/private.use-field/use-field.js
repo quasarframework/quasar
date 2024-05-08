@@ -352,6 +352,10 @@ export default function (state) {
     })
   }
 
+  function onClearableKeyup (evt) {
+    [ 13, 32 ].includes(evt.keyCode) && clearValue(evt)
+  }
+
   function getContent () {
     const node = []
 
@@ -390,12 +394,11 @@ export default function (state) {
         getInnerAppendNode('inner-clearable-append', [
           h(QIcon, {
             class: 'q-field__focusable-action',
-            tag: 'button',
             name: props.clearIcon || $q.iconSet.field.clear,
             tabindex: 0,
-            type: 'button',
-            'aria-hidden': null,
-            role: null,
+            role: 'button',
+            'aria-label': $q.lang.label.clear,
+            onKeyup: onClearableKeyup,
             onClick: clearValue
           })
         ])
