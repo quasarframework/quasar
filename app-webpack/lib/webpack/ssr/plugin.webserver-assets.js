@@ -13,11 +13,16 @@ module.exports = class WebserverAssetsPlugin {
   }
 
   apply (compiler) {
-    compiler.hooks.afterCompile.tapPromise('package.json', async compilation => {
+    compiler.hooks.beforeCompile.tapAsync('prepare-ssrWebserverAssets', (_, callback) => {
       if (this.htmlTemplate === null) {
-        await this.initHtmlTemplate()
+        this.initHtmlTemplate().then(() => { callback() })
       }
+      else {
+        callback()
+      }
+    })
 
+    compiler.hooks.thisCompilation.tap('ssrWebserverAssets', compilation => {
       compilation.emitAsset('package.json', new sources.RawSource(this.pkg))
       compilation.emitAsset('render-template.js', new sources.RawSource(this.htmlTemplate))
     })
