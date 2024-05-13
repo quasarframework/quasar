@@ -937,7 +937,7 @@ export default createComponent({
       const newHash = year + '/' + pad(month) + '/01'
 
       if (newHash !== viewModel.value.dateHash) {
-        monthDirection.value = (viewModel.value.dateHash < newHash) === direction.value
+        monthDirection.value = (viewModel.value.dateHash < newHash) === ($q.lang.rtl !== true) ? 'left' : 'right'
         if (year !== viewModel.value.year) {
           yearDirection.value = monthDirection.value
         }
