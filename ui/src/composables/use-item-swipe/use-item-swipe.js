@@ -19,7 +19,7 @@ import { onBeforeUnmount } from 'vue'
  *  const onLeft = useListItemSwipe(doSomething, 300)
  * <script>
  * <template>
- *    <q-slide-item @left="onLeft({ reset: $event.reset, param: 1234 })">List Item</q-slide-item>
+ *    <q-slide-item @left="onLeft({ resetFn: $event.reset, param: 1234 })">List Item</q-slide-item>
  * </template>
  */
 export default function (fn, ms) {
@@ -42,7 +42,7 @@ export default function (fn, ms) {
     removeTimeout()
   })
 
-  return ({resetFn, param}) => {
+  return ({ resetFn, param }) => {
     fn(param)
     finalize(resetFn)
   }
