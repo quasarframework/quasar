@@ -7,7 +7,7 @@ desc: (@quasar/app-vite) How to upgrade Quasar CLI with Vite from older versions
 
 ::: warning CLI is currently in beta
 * Please help test the CLI so we can get it out of the `beta` status. We thank you in advance for your help!
-* Although we do not plan on adding any further breaking changes, there is still a slight change that we will be forced to do one, based on your feedback.
+* Although we do not plan on adding any further breaking changes, there is still a slight chance that we will be forced to do one, based on your feedback.
 :::
 
 ::: danger
