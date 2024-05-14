@@ -37,11 +37,11 @@ export function useSlideItemSwipe({ resetFn, param }: { resetFn: () => void, par
 </template>
 ```
 ```js
-import { useListItemSwipe } from 'quasar'
+import { useSlideItemSwipe } from 'quasar'
 
 function doSomething(param?) {
   console.log(`Wow! You just swiped left and passed value: ${param}`)
   // will print out to console: "Wow! You just swiped left and passed value: 1234"
 }
-const onLeft = useListItemSwipe(doSomething, 300)
+const onLeft = useSlideItemSwipe(doSomething, 300)
 ```

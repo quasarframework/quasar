@@ -12,12 +12,12 @@ import { onBeforeUnmount } from 'vue'
  *    param - parameter of any type that you want to pass
  * @example
  * <script setup>
- *  import { useListItemSwipe } from 'quasar'
+ *  import { useSlideItemSwipe } from 'quasar'
  *  function doSomething(param?) {
  *     console.log(`Wow! You just swiped left and passed value: ${param}`)
  *     // will print out to console: "Wow! You just swiped left and passed value: 1234"
  *  }
- *  const onLeft = useListItemSwipe(doSomething, 300)
+ *  const onLeft = useSlideItemSwipe(doSomething, 300)
  * <script>
  * <template>
  *    <q-slide-item @left="onLeft({ resetFn: $event.reset, param: 1234 })">List Item</q-slide-item>
