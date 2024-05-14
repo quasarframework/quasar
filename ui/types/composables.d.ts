@@ -68,3 +68,8 @@ export function useTimeout(): {
   registerTimeout(fn: () => void, delay?: string | number): void;
   removeTimeout(): void;
 };
+
+export function useSlideItemSwipe<T>({ resetFn, param }: {
+  resetFn: () => void,
+  param?: T
+}) : void
