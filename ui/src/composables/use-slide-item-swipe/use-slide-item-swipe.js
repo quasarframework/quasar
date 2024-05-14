@@ -1,13 +1,14 @@
 import { onBeforeUnmount } from 'vue'
 
 /**
- * Composable that encapsulates the reset of the <a href="https://quasar.dev/vue-components/slide-item">Slide Item</a>
- * swipe action by the preset time elapsed.
+ * Composable that encapsulates invoking user defined method on swipe, setting timeout for reset, and resetting
+ * of the <a href="https://quasar.dev/vue-components/slide-item">Slide Item</a>
+ * to the initial state by the timer.
  * @param fn - method that should be invoked when item is swiped
  * @param ms - time in milliseconds until the Slide Item will reset to initial state
  * @return invokable method, that should be passed to the swipe event of the list item.
- * This method accepts ({reset, param}), where:
- *    reset - is the method that passed from the event;
+ * This method accepts ({resetFn, param}), where:<br>
+ *    resetFn - is the method that passed from the event;<br>
  *    param - parameter of any type that you want to pass
  * @example
  * <script setup>
