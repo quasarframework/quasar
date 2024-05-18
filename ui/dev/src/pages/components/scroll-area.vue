@@ -5,9 +5,20 @@
     <q-toggle v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
     <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
     <q-toggle v-model="focusable" label="Focusable" />
-    <q-slider v-model="topOffset" :min="0" :max="100"/>
 
-    <div style="height: 100px;" />
+    <div class="row items-center">
+      <div class="q-mr-md">
+        <div>Top offset</div>
+        <q-slider v-model="topOffset" :min="0" :max="100" label-always switch-label-side style="width: 200px"/>
+      </div>
+
+      <div>
+        <div>Bottom offset</div>
+        <q-slider v-model="bottomOffset" :min="0" :max="100" label-always switch-label-side style="width: 200px"/>
+      </div>
+    </div>
+
+    <div style="height: 50px;" />
 
     <keep-alive>
       <q-scroll-area
@@ -16,7 +27,7 @@
         ref="scroll"
         style="width: 400px; height: 500px;"
         class="bg-yellow"
-        :vertical-offset="[topOffset, 100]"
+        :vertical-offset="[topOffset, bottomOffset]"
         :visible="alwaysVisible"
         :bar-style="customBarStyle"
         :vertical-bar-style="customVBarStyle"
@@ -26,13 +37,19 @@
         :horizontal-thumb-style="customHThumbStyle"
         :tabindex="focusable === true ? 0 : void 0"
       >
-        <div :class="{ 'flex no-wrap' : horizontal }">
-          <div style="margin-top: 150px" />
-          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+        <div v-if="topOffset" :style="`height: ${topOffset}px`" class="flex flex-center text-white fixed-top" style="backdrop-filter: blur(8px);background: #0008;z-index: 1;">User-Defined Header</div>
+
+        <div :class="{ 'flex no-wrap' : horizontal }" :style="{
+          'padding-top': topOffset ? ` ${topOffset}px` : void 0,
+          'padding-bottom': bottomOffset ? ` ${bottomOffset}px` : void 0,
+        }">
+          <div style="margin-block: 12px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
             {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             <q-btn label="Click" color="primary" />
           </div>
         </div>
+
+        <div v-if="bottomOffset" :style="`height: ${bottomOffset}px`" class="flex flex-center text-white fixed-bottom" style="backdrop-filter: blur(8px);background: #0008;z-index: 1;">User-Defined Footer</div>
       </q-scroll-area>
 
       <q-scroll-area
@@ -144,13 +161,14 @@ export default {
   data () {
     return {
       darkVariant: false,
-      number: 10,
+      number: 3,
       horizontal: false,
       alwaysVisible: true,
       customStyle: false,
       focusable: true,
       scrollDetails: null,
-      topOffset: 50
+      topOffset: 100,
+      bottomOffset: 100
     }
   },
 

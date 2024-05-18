@@ -410,6 +410,9 @@ export default createComponent({
           verticalBarStyle: props.verticalBarStyle,
           horizontalBarStyle: props.horizontalBarStyle,
 
+          verticalOffset: props.verticalOffset,
+          horizontalOffset: props.horizontalOffset,
+
           visible: props.visible,
 
           scroll,
