@@ -5,6 +5,7 @@ import { dirProps } from './use-scroll-area.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
+import { between } from '../../utils/format.js'
 
 const panOpts = {
   prevent: true,
@@ -90,8 +91,9 @@ export default createComponent({
       if (data.thumbHidden.value !== true) {
         const offset = evt[ dirProps[ axis ].offset ]
         if (offset < data.thumbStart.value || offset > data.thumbStart.value + data.thumbSize.value) {
-          const pos = offset - data.thumbSize.value / 2
-          setScroll(pos / props.container[ axis ].value * data.size.value, axis)
+          const targetThumbStart = offset - data.thumbSize.value / 2
+          const percentage = between(targetThumbStart / (props.container[ axis ].value - data.thumbSize.value), 0, 1)
+          setScroll(percentage * Math.max(0, data.size.value - props.container[ axis ].value), axis)
         }
 
         // activate thumb pan
