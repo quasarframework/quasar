@@ -1,4 +1,4 @@
-import { h, ref, withDirectives } from 'vue'
+import { h, ref, computed, withDirectives } from 'vue'
 
 import { dirProps } from './use-scroll-area.js'
 
@@ -64,6 +64,22 @@ export default createComponent({
       void 0,
       { horizontal: true, ...panOpts }
     ] ]
+
+    const verticalBarStyle = computed(() => {
+      return {
+        top: `${ props.verticalOffset[ 0 ] }px`,
+        bottom: `${ props.verticalOffset[ 1 ] }px`,
+        right: `${ props.horizontalOffset[ 1 ] }px`
+      }
+    })
+
+    const horizontalBarStyle = computed(() => {
+      return {
+        left: `${ props.horizontalOffset[ 0 ] }px`,
+        right: `${ props.horizontalOffset[ 1 ] }px`,
+        bottom: `${ props.verticalOffset[ 1 ] }px`
+      }
+    })
 
     function onPanThumb (e, axis) {
       const data = props.scroll[ axis ]
@@ -132,14 +148,14 @@ export default createComponent({
     return () => [
       h('div', {
         class: props.scroll.vertical.barClass.value,
-        style: [ props.barStyle, props.verticalBarStyle ],
+        style: [ verticalBarStyle.value, props.barStyle, props.verticalBarStyle ],
         'aria-hidden': 'true',
         onMousedown: onVerticalMousedown
       }),
 
       h('div', {
         class: props.scroll.horizontal.barClass.value,
-        style: [ props.barStyle, props.horizontalBarStyle ],
+        style: [ horizontalBarStyle.value, props.barStyle, props.horizontalBarStyle ],
         'aria-hidden': 'true',
         onMousedown: onHorizontalMousedown
       }),

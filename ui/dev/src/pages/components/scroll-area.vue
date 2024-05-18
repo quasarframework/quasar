@@ -96,7 +96,38 @@
     <pre class="inline-block" dir="ltr">{{ scrollDetails }}</pre>
     <q-separator spaced />
 
-    <div style="height: 250px" />
+    <div style="height: 100px" />
+
+    <div class="row q-gutter-md">
+      <q-scroll-area
+        class="bg-yellow"
+        style="width: 800px; height: 300px;"
+        :visible="alwaysVisible"
+        :bar-style="customBarStyle"
+        :vertical-bar-style="customVBarStyle"
+        :horizontal-bar-style="customHBarStyle"
+        :thumbStyle="customThumbStyle"
+        :vertical-thumb-style="customVThumbStyle"
+        :horizontal-thumb-style="customHThumbStyle"
+        :horizontal-offset="[topOffset, bottomOffset]"
+      >
+        <div v-if="topOffset" :style="`width: ${topOffset}px`" class="flex flex-center text-center text-white fixed-left" style="backdrop-filter: blur(8px);background: #0008;z-index: 1;">User-Defined Panel</div>
+
+        <div class="flex no-wrap" :style="{
+          'padding-left': topOffset ? ` ${topOffset}px` : void 0,
+          'padding-right': bottomOffset ? ` ${bottomOffset}px` : void 0,
+        }">
+          <div style="margin: 12px; width: 300px" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
+        </div>
+
+        <div v-if="bottomOffset" :style="`width: ${bottomOffset}px`" class="flex flex-center text-center text-white fixed-right" style="backdrop-filter: blur(8px);background: #0008;z-index: 1;">User-Defined Panel</div>
+      </q-scroll-area>
+    </div>
+
+    <div style="height: 100px" />
 
     <div class="row q-gutter-md">
       <q-scroll-area
@@ -161,7 +192,7 @@ export default {
   data () {
     return {
       darkVariant: false,
-      number: 3,
+      number: 5,
       horizontal: false,
       alwaysVisible: true,
       customStyle: false,

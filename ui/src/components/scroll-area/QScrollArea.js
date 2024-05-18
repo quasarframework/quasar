@@ -132,7 +132,8 @@ export default createComponent({
         ...props.thumbStyle,
         ...props.verticalThumbStyle,
         top: `${ scroll.vertical.thumbStart.value }px`,
-        height: `${ scroll.vertical.thumbSize.value }px`
+        height: `${ scroll.vertical.thumbSize.value }px`,
+        right: `${ props.horizontalOffset[ 1 ] }px`
       }
     })
     scroll.vertical.thumbClass = computed(() =>
@@ -157,9 +158,9 @@ export default createComponent({
         && panning.value === false
       ) || scroll.horizontal.size.value <= container.horizontal.value + 1
     )
-    scroll.horizontal.thumbStart = computed(() =>
-      scroll.horizontal.percentage.value * (container.horizontalNet.value - scroll.horizontal.thumbSize.value)
-    )
+    scroll.horizontal.thumbStart = computed(() => {
+      return props.horizontalOffset[ 0 ] + scroll.horizontal.percentage.value * (container.horizontalNet.value - scroll.horizontal.thumbSize.value)
+    })
     scroll.horizontal.thumbSize = computed(() =>
       Math.round(
         between(
@@ -174,7 +175,8 @@ export default createComponent({
         ...props.thumbStyle,
         ...props.horizontalThumbStyle,
         [ proxy.$q.lang.rtl === true ? 'right' : 'left' ]: `${ scroll.horizontal.thumbStart.value }px`,
-        width: `${ scroll.horizontal.thumbSize.value }px`
+        width: `${ scroll.horizontal.thumbSize.value }px`,
+        bottom: `${ props.verticalOffset[ 1 ] }px`
       }
     })
     scroll.horizontal.thumbClass = computed(() =>
