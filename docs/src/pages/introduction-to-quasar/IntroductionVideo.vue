@@ -1,32 +1,19 @@
 <template>
-  <div class="introduction-video rounded-borders overflow-hidden" style="max-width: 530px">
-    <div class="introduction-video__thumbnail relative-position" @click="showVideo">
-      <q-img v-if="!video" src="https://cdn.quasar.dev/img/quasar-app-in-30-min.jpg" :ratio="1.78">
+  <a href="https://youtu.be/PjCqsf87Z1Y?si=D1OXvGozN__Y0E8K" class="introduction-video rounded-borders overflow-hidden" style="max-width: 530px" target="_blank"
+  >
+    <div class="introduction-video__thumbnail relative-position">
+      <q-img v-if="!video" src="https://i.ibb.co/k4jkggH/thumbnail-quasar-docs.jpg" :ratio="1.78">
         <q-icon class="play-button absolute-center" color="white" name="play_circle_outline" size="150px" />
       </q-img>
     </div>
-    <div v-if="video" class="introduction-video__container">
-      <iframe
-        src="https://www.youtube.com/embed/GV-D85D9KJQ?autoplay=1"
-        frameborder="0"
-        allowfullscreen
-      />
-    </div>
-  </div>
+  </a>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-
-const video = ref(false)
-
-function showVideo () {
-  video.value = true
-}
-</script>
 
 <style lang="sass">
 .introduction-video
+
+  display: block
+  margin-bottom: 16px
 
   &__thumbnail
     cursor: pointer
