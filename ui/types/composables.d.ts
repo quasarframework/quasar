@@ -32,8 +32,8 @@ export function useHydration(): {
 };
 
 export function useInterval(): {
-  registerInterval(fn: () => void, interval: string | number): void;
-  removeInterval(): void;
+  registerInterval: (fn: () => void, interval: string | number) => void;
+  removeInterval: () => void;
 };
 
 export function useId(opts?: {
@@ -60,11 +60,11 @@ export function useSplitAttrs(): {
 };
 
 export function useTick(): {
-  registerTick(fn: () => void): void;
-  removeTick(): void;
+  registerTick: (fn: () => void) => void;
+  removeTick: () => void;
 };
 
 export function useTimeout(): {
-  registerTimeout(fn: () => void, delay?: string | number): void;
-  removeTimeout(): void;
+  registerTimeout: (fn: () => void, delay?: string | number) => void;
+  removeTimeout: () => void;
 };
