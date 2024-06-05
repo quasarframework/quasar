@@ -8,7 +8,7 @@ It's important to note that the Service Worker (which gets automatically generat
 
 ## Interacting with Service Worker
 
-Add the [register-service-worker](https://github.com/yyx990803/register-service-worker) npm package in your package.json file as a dependency.
+Add the [register-service-worker](https://github.com/yyx990803/register-service-worker) npm package in your package.json file as a dependency (if it's not already there).
 
 ```js /src-pwa/register-service-worker.js file
 import { register } from 'register-service-worker'
