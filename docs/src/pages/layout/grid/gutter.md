@@ -71,7 +71,7 @@ The `q-gutter-*` classes **do not change** the internal dimensions of the childr
 :::
 
 ::: warning
-The `q-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.
+The `q-col-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.
 :::
 
 <DocExample title="Children size compare" file="ChildrenSizeCompare" />
