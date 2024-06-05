@@ -40,8 +40,6 @@ export type SliderMarkerLabelConfig = {
   style: VueStyleObjectProp;
 };
 
-export type SliderMarkerLabelArrayConfig = SliderMarkerLabelConfig[];
-
 export interface SliderMarkerLabelObjectConfig {
   [value: number]: SliderMarkerLabelConfig;
 }
