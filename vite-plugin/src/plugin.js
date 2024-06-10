@@ -41,8 +41,8 @@ function getConfigPlugin (opts) {
       }
     },
 
-    config (viteConf, { mode }) {
-      return getViteConfig(opts.runMode, mode, viteConf)
+    config (viteConf, { command }) {
+      return getViteConfig(opts.runMode, command, viteConf)
     }
   }
 }
@@ -95,7 +95,7 @@ function getScriptTransformsPlugin (opts) {
     name: 'vite:quasar:script',
 
     configResolved (resolvedConfig) {
-      if (opts.devTreeshaking === false && resolvedConfig.mode !== 'production') {
+      if (opts.devTreeshaking === false && resolvedConfig.command === 'serve') {
         useTreeshaking = false
       }
     },
