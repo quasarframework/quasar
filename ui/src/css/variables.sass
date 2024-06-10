@@ -525,93 +525,211 @@ $dark-shadow-up-24 : 0 -11px 15px -7px $elevation-dark-umbra, 0 -24px 38px 3px $
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $dark-shadows-up: ($dark-shadow-up-1, $dark-shadow-up-2, $dark-shadow-up-3, $dark-shadow-up-4, $dark-shadow-up-5, $dark-shadow-up-6, $dark-shadow-up-7, $dark-shadow-up-8, $dark-shadow-up-9, $dark-shadow-up-10, $dark-shadow-up-11, $dark-shadow-up-12, $dark-shadow-up-13, $dark-shadow-up-14, $dark-shadow-up-15, $dark-shadow-up-16, $dark-shadow-up-17, $dark-shadow-up-18, $dark-shadow-up-19, $dark-shadow-up-20, $dark-shadow-up-21, $dark-shadow-up-22, $dark-shadow-up-23, $dark-shadow-up-24)
 
-$generic-border-radius          : 4px !default
-$generic-hover-transition       : .3s cubic-bezier(.25, .8, .5, 1) !default
-$typography-font-family         : 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif !default
-$min-line-height                : 1.12 !default
+$generic-border-radius                    : 4px !default
+$generic-hover-transition                 : .3s cubic-bezier(.25, .8, .5, 1) !default
+$typography-font-family                   : 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif !default
+$min-line-height                          : 1.12 !default
 
-$button-border-radius           : 3px !default
-$button-padding                 : 4px 16px !default
-$button-dense-padding           : .285em !default
-$button-transition              : $generic-hover-transition !default
-$button-font-size               : 14px !default
-$button-line-height             : 1.715em !default
-$button-font-weight             : 500 !default
-$button-shadow                  : $shadow-2 !default
-$button-shadow-active           : $shadow-5 !default
-$button-rounded-border-radius   : 28px !default
-$button-push-border-radius      : 7px !default
+$avatar-font-size                         : 48px !default
+$avatar-content-font-size                 : .5em !default
+$avatar-content-line-height               : .5em !default
 
-$chat-message-received-color    : #000 !default
-$chat-message-received-bg       : $green-4 !default
-$chat-message-sent-color        : #000 !default
-$chat-message-sent-bg           : $grey-4 !default
-$chat-message-avatar-size       : 48px !default
-$chat-message-border-radius     : $generic-border-radius !default
-$chat-message-distance          : 8px !default
-$chat-message-text-padding      : 8px !default
+$badge-font-size                          : 12px !default
+$badge-line-height                        : 1 !default
+$badge-min-height                         : $badge-font-size * $badge-line-height !default
 
-$item-base-color                : $grey-5 !default
+$banner-avatar-font-size                  : 46px !default
+$banner-avatar-icon-font-size             : 40px !default
+$banner-avatar-dense-font-size            : 28px !default
 
-$editor-border-color            : $separator-color !default
-$editor-border-dark-color       : $separator-dark-color !default
-$editor-content-padding         : 10px !default
-$editor-content-min-height      : 10em !default
-$editor-toolbar-padding         : 4px !default
-$editor-hr-color                : $editor-border-color !default
-$editor-hr-dark-color           : $editor-border-dark-color !default
-$editor-button-gutter           : 4px !default
+$bar-inner-font-size                      : 16px !default
+$bar-button-font-size                     : 11px !default
+$bar-dense-font-size                      : 14px !default
+$bar-dense-button-font-size               : 8px !default
+$bar-height                               : $bar-inner-font-size * 2 !default
+$bar-dense-height                         : $bar-dense-font-size + 10px !default
 
-$table-transition               : $generic-hover-transition !default
-$table-border-radius            : $generic-border-radius !default
-$table-box-shadow               : $shadow-2 !default
+$breadcrumbs-icon-font-size               : 125% !default
 
-$table-border-color             : $separator-color !default
-$table-hover-background         : rgba(0, 0, 0, .03) !default
-$table-selected-background      : rgba(0, 0, 0, .06) !default
+$button-border-radius                     : 3px !default
+$button-padding                           : 4px 16px !default
+$button-dense-padding                     : .285em !default
+$button-fab-icon-font-size                : 24px !default
+$button-transition                        : $generic-hover-transition !default
+$button-font-size                         : 14px !default
+$button-line-height                       : 1.715em !default
+$button-font-weight                       : 500 !default
+$button-shadow                            : $shadow-2 !default
+$button-shadow-active                     : $shadow-5 !default
+$button-rounded-border-radius             : 28px !default
+$button-push-border-radius                : 7px !default
 
-$table-dark-border-color        : $separator-dark-color !default
-$table-dark-hover-background    : rgba(255, 255, 255, .07) !default
-$table-dark-selected-background : rgba(255, 255, 255, .1) !default
-$table-box-shadow-dark          : $dark-shadow-2 !default
+$carousel-arrow-icon-font-size            : 28px !default
 
-$toolbar-min-height             : 50px !default
-$toolbar-padding                : 0 12px !default
-$toolbar-inset-size             : 58px !default
-$toolbar-title-font-size        : 21px !default
-$toolbar-title-font-weight      : normal !default
-$toolbar-title-letter-spacing   : .01em !default
-$toolbar-title-padding          : 0 12px !default
+$chat-message-name-font-size              : small !default
+$chat-message-stamp-font-size             : $chat-message-name-font-size !default
+$chat-message-label-font-size             : $chat-message-name-font-size !default
+$chat-message-received-color              : #000 !default
+$chat-message-received-bg                 : $green-4 !default
+$chat-message-sent-color                  : #000 !default
+$chat-message-sent-bg                     : $grey-4 !default
+$chat-message-avatar-size                 : 48px !default
+$chat-message-border-radius               : $generic-border-radius !default
+$chat-message-distance                    : 8px !default
+$chat-message-text-padding                : 8px !default
 
-$layout-border                  : 1px solid $separator-color !default
-$layout-shadow                  : 0 0 10px 2px rgba($shadow-color,0.2), 0 0px 10px rgba($shadow-color,0.24) !default
-$layout-shadow-dark             : 0 0 10px 2px rgba($dark-shadow-color,.2), 0 0px 10px rgba($dark-shadow-color,.24) !default
+$checkbox-inner-font-size                 : 40px !default
 
-$menu-background                : #fff !default
-$menu-box-shadow                : $shadow-2 !default
-$menu-box-shadow-dark           : $dark-shadow-2 !default
-$menu-max-width                 : 95vw !default
+$chip-height                              : 2em !default
+$chip-font-size                           : 14px !default
+$chip-avatar-font-size                    : $chip-height !default
+$chip-dense-height                        : 1.5em !default
+$chip-dense-avatar-font-size              : $chip-dense-height !default
 
-$rating-grade-color             : $yellow !default
-$rating-shadow                  : 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24) !default
+$color-picker-tune-tab-input-font-size    : 11px !default
 
-$tooltip-color                  : #fafafa !default
-$tooltip-background             : $grey-7 !default
-$tooltip-padding                : 6px 10px !default
-$tooltip-border-radius          : $generic-border-radius !default
-$tooltip-fontsize               : 10px !default
-$tooltip-mobile-padding         : 8px 16px !default
-$tooltip-mobile-fontsize        : 14px !default
+$date-header-subtitle-font-size           : 14px !default
+$date-header-subtitle-line-height         : 1.75 !default
+$date-header-subtitle-letter-spacing      : .00938em !default
+$date-header-title-label-font-size        : 24px !default
+$date-header-title-label-line-height      : 1.2 !default
+$date-header-title-label-letter-spacing   : .00735em !default
+$date-calendar-weekdays-inner-font-size   : 12px !default
 
-$option-focus-transition        : .22s cubic-bezier(0,0,.2,1) !default
+$dialog-title-font-size                   : 1.25rem !default
+$dialog-title-line-height                 : 1.6 !default
+$dialog-title-letter-spacing              : .0125em !default
+$dialog-progress-font-size                : 4rem !default
 
-$input-font-size                : 14px !default
-$input-text-color               : rgba(0,0,0,.87) !default
-$input-label-color              : rgba(0,0,0,.6) !default
-$input-autofill-color           : inherit !default
+$field-marginal-font-size                 : 24px !default
+$field-marginal-avatar-font-size          : 32px !default
+$field-bottom-font-size                   : 12px !default
+$field-bottom-line-height                 : 1 !default
+$field-with-bottom-padding-bottom         : $field-bottom-font-size * $field-bottom-line-height + 8px !default
+$field-label-font-size                    : 16px !default
+$field-label-line-height                  : 1.25 !default
+$field-label-top                          : 18px !default
+$field-label-letter-spacing               : .00937em !default
+$field-dense-bottom-font-size             : 11px !default
+$field-dense-with-bottom-padding-bottom   : $field-dense-bottom-font-size * $field-bottom-line-height + 8px !default
+$field-dense-label-font-size              : 14px !default
+$field-dense-label-top                    : 10px !default
+$field-dense-marginal-avatar-font-size    : 24px !default
 
-$img-loading-font-size          : 50px !default
-$img-content-position           : absolute !default
-$img-content-padding            : 16px !default
-$img-content-color              : #fff !default
-$img-content-background         : rgba(0, 0, 0, .47) !default
+$item-base-color                          : $grey-5 !default
+$item-section-side-icon-font-size         : 24px !default
+$item-section-side-avatar-font-size       : 40px !default
+$item-label-header-font-size              : .875rem !default
+$item-label-header-line-height            : 1.25rem !default
+$item-label-header-letter-spacing         : .01786em !default
+
+$editor-border-color                      : $separator-color !default
+$editor-border-dark-color                 : $separator-dark-color !default
+$editor-content-padding                   : 10px !default
+$editor-content-min-height                : 10em !default
+$editor-toolbar-padding                   : 4px !default
+$editor-hr-color                          : $editor-border-color !default
+$editor-hr-dark-color                     : $editor-border-dark-color !default
+$editor-button-gutter                     : 4px !default
+
+$knob-font-size                           : 48px !default
+
+$radio-inner-font-size                    : 40px !default
+
+$slide-item-active-text-font-size         : 14px !default
+$slide-item-active-icon-font-size         : 1.714em !default
+
+$slider-text-font-size                    : 12px !default
+
+$stepper-title-font-size                  : 14px !default
+$stepper-title-line-height                : 1.285714 !default
+$stepper-title-letter-spacing             : .1px !default
+$stepper-caption-font-size                : 12px !default
+$stepper-caption-line-height              : 1.16667 !default
+$stepper-dot-font-size                    : 14px !default
+$stepper-tab-font-size                    : 14px !default
+$stepper-dot-error-with-icon-font-size    : 24px !default
+
+$tabs-icon-font-size                      : 24px !default
+$tabs-icon-font-width                     : $tabs-icon-font-size !default
+$tabs-icon-font-height                    : $tabs-icon-font-size !default
+$tabs-alert-icon-font-size                : 18px !default
+$tabs-arrow-font-size                     : 32px !default
+
+$table-transition                         : $generic-hover-transition !default
+$table-border-radius                      : $generic-border-radius !default
+$table-box-shadow                         : $shadow-2 !default
+$table-th-font-size                       : 12px !default
+$table-tbody-td-font-size                 : 13px !default
+$table-title-font-size                    : 20px !default
+$table-bottom-font-size                   : 12px !default
+$table-nodata-icon-font-size              : 200% !default
+$table-sort-icon-font-size                : 120% !default
+$table-grid-item-title-font-size          : 12px !default
+$table-grid-item-value-font-size          : 13px !default
+$table-dense-sort-icon-font-size          : 110% !default
+
+$table-border-color                       : $separator-color !default
+$table-hover-background                   : rgba(0, 0, 0, .03) !default
+$table-selected-background                : rgba(0, 0, 0, .06) !default
+
+$table-dark-border-color                  : $separator-dark-color !default
+$table-dark-hover-background              : rgba(255, 255, 255, .07) !default
+$table-dark-selected-background           : rgba(255, 255, 255, .1) !default
+$table-box-shadow-dark                    : $dark-shadow-2 !default
+
+$time-header-label-font-size              : 28px !default
+$time-clock-position-font-size            : 12px !default
+
+$timeline-subtitle-font-size              : 12px !default
+$timeline-subtitle-letter-spacing         : 1px !default
+$timeline-dot-icon-font-size              : 16px !default
+$timeline-comfortable-heading-font-size   : 200% !default
+
+$toolbar-min-height                       : 50px !default
+$toolbar-padding                          : 0 12px !default
+$toolbar-inset-size                       : 58px !default
+$toolbar-title-font-size                  : 21px !default
+$toolbar-title-font-weight                : normal !default
+$toolbar-title-letter-spacing             : .01em !default
+$toolbar-title-padding                    : 0 12px !default
+
+$tree-icon-font-size                      : 21px !default
+
+$layout-border                            : 1px solid $separator-color !default
+$layout-shadow                            : 0 0 10px 2px rgba($shadow-color,0.2), 0 0px 10px rgba($shadow-color,0.24) !default
+$layout-shadow-dark                       : 0 0 10px 2px rgba($dark-shadow-color,.2), 0 0px 10px rgba($dark-shadow-color,.24) !default
+
+$menu-background                          : #fff !default
+$menu-box-shadow                          : $shadow-2 !default
+$menu-box-shadow-dark                     : $dark-shadow-2 !default
+$menu-max-width                           : 95vw !default
+
+$rating-grade-color                       : $yellow !default
+$rating-shadow                            : 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24) !default
+
+$tooltip-color                            : #fafafa !default
+$tooltip-background                       : $grey-7 !default
+$tooltip-padding                          : 6px 10px !default
+$tooltip-border-radius                    : $generic-border-radius !default
+$tooltip-fontsize                         : 10px !default
+$tooltip-mobile-padding                   : 8px 16px !default
+$tooltip-mobile-fontsize                  : 14px !default
+
+$uploader-title-font-size                 : 14px !default
+$uploader-title-line-height               : 1.285714 !default
+$uploader-subtitle-font-size              : 12px !default
+$uploader-subtitle-line-height            : 1.5 !default
+
+$option-focus-transition                  : .22s cubic-bezier(0,0,.2,1) !default
+
+$input-font-size                          : 14px !default
+$input-text-color                         : rgba(0,0,0,.87) !default
+$input-label-color                        : rgba(0,0,0,.6) !default
+$input-autofill-color                     : inherit !default
+
+$img-loading-font-size                    : 50px !default
+$img-content-position                     : absolute !default
+$img-content-padding                      : 16px !default
+$img-content-color                        : #fff !default
+$img-content-background                   : rgba(0, 0, 0, .47) !default

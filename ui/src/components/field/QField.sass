@@ -11,18 +11,18 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     display: none
 
   &--with-bottom
-    padding-bottom: 20px
+    padding-bottom: $field-with-bottom-padding-bottom
 
   &__marginal
     height: 56px
     color: rgba(0,0,0,.54)
-    font-size: 24px
+    font-size: $field-marginal-font-size
 
     > * + *
       margin-left: 2px
 
     .q-avatar
-      font-size: 32px
+      font-size: $field-marginal-avatar-font-size
 
   &__before, &__prepend
     padding-right: 12px
@@ -40,9 +40,9 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     text-align: left
 
   &__bottom
-    font-size: 12px
+    font-size: $field-bottom-font-size
     min-height: 20px
-    line-height: 1
+    line-height: $field-bottom-line-height
     color: rgba(0,0,0,.54)
     padding: 8px 12px 0
     backface-visibility: hidden
@@ -188,13 +188,13 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
   &__label
     left: 0
-    top: 18px
+    top: $field-label-top
     max-width: 100%
     color: $input-label-color
-    font-size: 16px
-    line-height: 20px
+    font-size: $field-label-font-size
+    line-height: $field-label-line-height
     font-weight: 400
-    letter-spacing: .00937em
+    letter-spacing: $field-label-letter-spacing
     text-decoration: inherit
     text-transform: inherit
     transform-origin: left top
@@ -418,16 +418,19 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         padding-bottom: 2px
 
   &--dense
+    .q-field--with-bottom
+      padding-bottom: $field-dense-with-bottom-padding-bottom
+
     .q-field__shadow
       top: 0
     .q-field__control, .q-field__marginal
       height: 40px
     .q-field__bottom
-      font-size: 11px
+      font-size: $field-dense-bottom-font-size
 
     .q-field__label
-      font-size: 14px
-      top: 10px
+      font-size: $field-dense-label-font-size
+      top: $field-dense-label-top
     .q-field__before, .q-field__prepend
       padding-right: 6px
     .q-field__after, .q-field__append
@@ -437,7 +440,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
     .q-field__marginal
       .q-avatar
-        font-size: 24px
+        font-size: $field-dense-marginal-avatar-font-size
 
     &.q-field--float .q-field__label
       transform: translateY(-30%) scale(.75)
