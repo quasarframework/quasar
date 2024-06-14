@@ -304,12 +304,13 @@ export default function (state) {
     focusoutTimer = setTimeout(() => {
       focusoutTimer = null
 
+      const rootNode = state.rootRef.value.getRootNode()
       if (
         document.hasFocus() === true && (
           state.hasPopupOpen === true
           || state.controlRef === void 0
           || state.controlRef.value === null
-          || state.controlRef.value.contains(document.activeElement) !== false
+          || state.controlRef.value.contains(rootNode.activeElement) !== false
         )
       ) {
         return
