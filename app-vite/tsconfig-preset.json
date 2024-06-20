@@ -1,23 +1,20 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     // `baseUrl` must be placed on the extending configuration in devland, or paths won't be recognized
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36
     "noEmit": true,
     "resolveJsonModule": true,
-    // Avoid cross-os errors due to inconsistent file casing
-    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "isolatedModules": true,
-    "useDefineForClassFields": true,
-    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
-    "jsx": "preserve",
     "lib": ["esnext", "dom"],
+    "isolatedModules": true,
+
     "paths": {
       "src/*": ["src/*"],
       "app/*": ["*"],
@@ -27,6 +24,18 @@
       "assets/*": ["src/assets/*"],
       "boot/*": ["src/boot/*"],
       "stores/*": ["src/stores/*"]
-    }
+    },
+
+    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
+    "jsx": "preserve",
+
+    // Rules preventing code smells and enforcing best practices, partially overlapping with linting
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    // Avoid cross-os errors due to inconsistent file casing
+    "forceConsistentCasingInFileNames": true,
   }
 }
