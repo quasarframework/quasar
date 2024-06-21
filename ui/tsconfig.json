@@ -3,9 +3,8 @@
     "jsx": "preserve",
     "allowJs": true,
     "target": "esnext",
-    "module": "esnext",
+    "module": "nodenext",
     "skipLibCheck": true,
-    "moduleResolution": "node",
     "outDir": "./dist"
   },
   "include": ["./src/**/*"]
