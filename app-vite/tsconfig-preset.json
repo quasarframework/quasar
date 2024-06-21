@@ -33,7 +33,6 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noImplicitOverride": true,
-    "noImplicitReturns": true,
     "noUnusedLocals": true,
     // Avoid cross-os errors due to inconsistent file casing
     "forceConsistentCasingInFileNames": true,

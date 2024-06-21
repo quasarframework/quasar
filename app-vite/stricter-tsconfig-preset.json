@@ -2,6 +2,7 @@
   "extends": "./tsconfig-preset.json",
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true
   }
