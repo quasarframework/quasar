@@ -302,7 +302,7 @@ const vitePluginOptions = computed(() => {
   }
 
   if (useSassVariables.value === true) {
-    acc.push('      sassVariables: \'src/quasar-variables.sass\'')
+    acc.push('      sassVariables: \'src/css/quasar.variables.sass\'')
   }
 
   return acc.length === 0
@@ -333,7 +333,7 @@ export default defineConfig({
 })
 
 const fileSassVariables = computed(() => {
-  return `// FILE (create it): src/quasar-variables.sass
+  return `// FILE (create it): src/css/quasar.variables.sass
 
 $primary   : #1976D2
 $secondary : #26A69A
