@@ -39,9 +39,7 @@ export function useInterval(): {
 export function useId(opts?: {
   getValue?: () => string | null | undefined;
   required?: boolean;
-}): {
-  id: Ref<string>;
-};
+}): Ref<string | null>;
 
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
