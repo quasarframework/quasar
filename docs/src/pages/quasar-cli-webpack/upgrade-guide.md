@@ -1,5 +1,5 @@
 ---
-title: Upgrade Guide for Quasar CLI with Vite
+title: Upgrade Guide for Quasar CLI with Webpack
 desc: (@quasar/app-webpack) How to upgrade Quasar CLI with Webpack from older versions to the latest one.
 scope:
   oldBexTree:
@@ -92,8 +92,8 @@ api.compatibleWith(
 ### Notable breaking changes
 * Minimum Node.js version is now 18.12
 * We have shifted towards an ESM style for the whole Quasar project folder, so many default project files now require ESM code (although using `.cjs` as an extension for these files is supported, but you will most likely need to rename the extension should you not wish to change anything). One example is the `/quasar.config.js` file which now it's assumed to be ESM too (so change from `.js` to `.cjs` should you still want a CommonJs file).
-* Ported and adapted the superior devserver implementation from @quasar/app-vite for all Quasar modes. The benefits are huge.
-* Ported the superior implementation of SSR, PWA, Electron & BEX modes from @quasar/app-vite. We will detail each Quasar mode changes on this docs page.
+* Ported and adapted the superior devserver implementation from @quasar/app-webpack for all Quasar modes. The benefits are huge.
+* Ported the superior implementation of SSR, PWA, Electron & BEX modes from @quasar/app-webpack. We will detail each Quasar mode changes on this docs page.
   * SSR - some of the noticeable improvements:
     * Improved reliability: same server code runs in dev and prod
     * More target webserver options: you can replace express() with whatever else you are using
@@ -107,7 +107,7 @@ api.compatibleWith(
     * Faster & better compilation for files in /src-electron (now built with Esbuild instead of Webpack)
     * Support for multiple preload scripts
   * BEX - some of the noticeable improvements:
-    * Ported the superior implementation from @quasar/app-vite, which also means that when you spawn the mode you can choose between extension Manifest v2 and Manifest v3
+    * Ported the superior implementation from @quasar/app-webpack, which also means that when you spawn the mode you can choose between extension Manifest v2 and Manifest v3
     * The manifest is now held in a file of its own (/src-pwa/manifest.json) instead of inside the /quasar.config file
 * Webpack will now only compile the contents of `/src` folder, while the rest (/src-pwa, /src-electron, etc) are now handled by Esbuild. This translates to a superior build speed and handling of Node.js formats.
 * The "test" cmd was removed due to latest updates for @quasar/testing-* packages. See [here](https://testing.quasar.dev/packages/testing/)
@@ -131,10 +131,10 @@ Some of the work below has already been backported to the old @quasar/app-webpac
 * feat(app-webpack): support for postcss config file in multiple formats: postcss.config.cjs, .postcssrc.js, postcss.config.js, postcss.config.mjs, .postcssrc.cjs, .postcssrc.mjs
 * feat(app-webpack): support for babel config file in multiple formats: babel.config.cjs, babel.config.js, babel.config.mjs, .babelrc.js, .babelrc.cjs, .babelrc.mjs, .babelrc
 * feat(app-webpack): reopen browser (if configured so) when changing app url through quasar.config file
-* feat(app-webpack): port quasar.config file > electron > inspectPort prop from q/app-vite
-* feat(app-webpack): port quasar.config file > build > rawDefine from q/app-vite
+* feat(app-webpack): port quasar.config file > electron > inspectPort prop from q/app-webpack
+* feat(app-webpack): port quasar.config file > build > rawDefine from q/app-webpack
 * feat&perf(app-webpack): faster & more accurate algorithm for determining node package manager to use
-* feat(app-webpack): highly improve SSR perf + mem usage (especially for prod); major refactoring of ssr-helpers; also include renderPreloadTag() from q/app-vite
+* feat(app-webpack): highly improve SSR perf + mem usage (especially for prod); major refactoring of ssr-helpers; also include renderPreloadTag() from q/app-webpack
 * feat(app-webpack): support for SSR development with HTTPS
 * feat(app-webpack): SSR - ability to replace express() with any other connect-like webserver
 * feat(app-webpack): SSR - no longer recompile everything when changing code in /src-ssr
@@ -210,7 +210,7 @@ Preparations:
   You can now write this file in TS too should you wish (rename `/quasar.config.js` to `/quasar.config.ts` -- notice the `.ts` file extension).
   :::
 
-* For consistency with @quasar/app-vite (and easy switch between @quasar/app-webpack and it) move `/src/index.template.html` to `/index.html` and do the following changes:
+* For consistency with @quasar/app-webpack (and easy switch between @quasar/app-webpack and it) move `/src/index.template.html` to `/index.html` and do the following changes:
   ```diff /index.html
   <body>
   - <!-- DO NOT touch the following DIV -->
@@ -288,7 +288,7 @@ Preparations:
 
   ```json [highlight=6-13]
   {
-    "extends": "@quasar/app-vite/tsconfig-preset",
+    "extends": "@quasar/app-webpack/tsconfig-preset",
     "compilerOptions": {
       "baseUrl": "."
     },
@@ -608,7 +608,7 @@ function createWindow () {
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
+      // More info: https://v2.quasar.dev/quasar-cli-webpack/developing-electron-apps/electron-preload-script
       preload: path.resolve(
         currentDir,
         path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER, 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION)
@@ -925,7 +925,7 @@ ssr: {
 ```
 
 ### Bex mode changes
-The implementation of the BEX mode has been ported from @quasar/app-vite, so when you spawn this Quasar mode it will now ask you what extension Manifest version you want (v2 or v3).
+The implementation of the BEX mode has been ported from @quasar/app-webpack, so when you spawn this Quasar mode it will now ask you what extension Manifest version you want (v2 or v3).
 
 But this also means that your `/src-bex` folder has suffered significant files and folders structure changes. It would be best to temporarily copy your /src-bex folder to a safe place, then remove and add back the BEX mode:
 
@@ -957,7 +957,7 @@ bex: {
 Some of the changes, like moving the background script from `/js/background.js` directly to the root folder, were required by external factors in order for future-proofing the extension structure.
 
 ::: tip
-**Temporarily**, until this version of @quasar/app-webpack gets out of beta status, it would be a good idea to check the Quasar CLI with Vite docs on BEX since they will now mostly match.
+**Temporarily**, until this version of @quasar/app-webpack gets out of beta status, it would be a good idea to check the Quasar CLI with Webpack docs on BEX since they will now mostly match.
 :::
 
 Click on the blocks below to expand and see the old and the new folder structure:
