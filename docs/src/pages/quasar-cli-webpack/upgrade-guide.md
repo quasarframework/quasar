@@ -1,5 +1,5 @@
 ---
-title: Upgrade Guide for Quasar CLI with Vite
+title: Upgrade Guide for Quasar CLI with Webpack
 desc: (@quasar/app-webpack) How to upgrade Quasar CLI with Webpack from older versions to the latest one.
 scope:
   oldBexTree:
@@ -288,7 +288,7 @@ Preparations:
 
   ```json [highlight=6-13]
   {
-    "extends": "@quasar/app-vite/tsconfig-preset",
+    "extends": "@quasar/app-webpack/tsconfig-preset",
     "compilerOptions": {
       "baseUrl": "."
     },
@@ -608,7 +608,7 @@ function createWindow () {
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
+      // More info: https://v2.quasar.dev/quasar-cli-webpack/developing-electron-apps/electron-preload-script
       preload: path.resolve(
         currentDir,
         path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER, 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION)
