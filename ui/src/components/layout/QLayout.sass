@@ -131,14 +131,14 @@
 
 body.q-ios-padding
   .q-layout--standard .q-header > .q-toolbar:nth-child(1),
-  .q-layout--standard .q-header > .q-tabs:nth-child(1) .q-tabs-head,
+  .q-layout--standard .q-header > .q-tabs:nth-child(1) .q-tabs__content,
   .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-top: $ios-statusbar-height
     min-height: ($toolbar-min-height + $ios-statusbar-height)
     padding-top: env(safe-area-inset-top)
     min-height: calc(env(safe-area-inset-top) + #{$toolbar-min-height})
   .q-layout--standard .q-footer > .q-toolbar:last-child,
-  .q-layout--standard .q-footer > .q-tabs:last-child .q-tabs-head,
+  .q-layout--standard .q-footer > .q-tabs:nth-last-child(1 of :not(.q-layout__shadow)) .q-tabs__content,
   .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-bottom: env(safe-area-inset-bottom)
     min-height: calc(env(safe-area-inset-bottom) + #{$toolbar-min-height})
