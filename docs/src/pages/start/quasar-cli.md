@@ -36,7 +36,6 @@ $ yarn create quasar
 $ npm i -g @quasar/cli
 $ npm init quasar
 <<| bash PNPM |>>
-# experimental support
 $ pnpm add -g @quasar/cli
 $ pnpm create quasar
 <<| bash Bun |>>
@@ -68,7 +67,6 @@ Pick `Quasar CLI with Vite` if you want:
     <<| bash NPM |>>
     $ npm init quasar
     <<| bash PNPM |>>
-    # experimental support
     $ pnpm create quasar
     <<| bash Bun |>>
     # experimental support
@@ -104,7 +102,6 @@ Pick `Quasar CLI with Vite` if you want:
     <<| bash NPM |>>
     $ npm i -g @quasar/cli
     <<| bash PNPM |>>
-    # experimental support
     $ pnpm add -g @quasar/cli
     <<| bash Bun |>>
     # experimental support

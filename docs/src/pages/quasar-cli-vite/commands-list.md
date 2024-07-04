@@ -722,7 +722,6 @@ $ npm i -g @quasar/legacy-create
 $ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]
 <<| bash PNPM |>>
 # globally install the @quasar/legacy-create CLI
-# experimental support
 $ pnpm add -g @quasar/legacy-create
 
 # then:

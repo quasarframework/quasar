@@ -170,7 +170,6 @@ $ yarn create quasar
 <<| bash NPM |>>
 $ npm init quasar
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 <<| bash Bun |>>
 # experimental support

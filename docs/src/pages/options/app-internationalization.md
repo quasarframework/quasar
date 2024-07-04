@@ -28,7 +28,6 @@ $ yarn add vue-i18n@next
 <<| bash NPM |>>
 $ npm install --save vue-i18n@next
 <<| bash PNPM |>>
-# experimental support
 $ pnpm add vue-i18n@next
 <<| bash Bun |>>
 $ bun add vue-i18n@next

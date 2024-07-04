@@ -22,7 +22,6 @@ $ yarn create quasar
 <<| bash NPM |>>
 $ npm init quasar
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 <<| bash Bun |>>
 # experimental support
@@ -40,7 +39,6 @@ $ yarn global add @quasar/cli
 <<| bash NPM |>>
 $ npm i -g @quasar/cli
 <<| bash PNPM |>>
-# experimental support
 $ pnpm add -g @quasar/cli
 <<| bash Bun |>>
 # experimental support
