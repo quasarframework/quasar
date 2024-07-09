@@ -277,6 +277,12 @@
       "category": "options"
     },
 
+    "disable-tab-selection": {
+      "type": "Boolean",
+      "desc": "Prevents the tab key from confirming the currently hovered option",
+      "category": "options"
+    },
+
     "emit-value": {
       "type": "Boolean",
       "desc": "Update model with the value of the selected option instead of the whole option",
