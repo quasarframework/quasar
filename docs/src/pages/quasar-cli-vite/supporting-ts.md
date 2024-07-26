@@ -19,6 +19,7 @@ Create `/tsconfig.json` file at the root of you project with this content:
 {
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
+    // `baseUrl` should be set to the current folder to allow Quasar TypeScript preset to manage paths on your behalf
     "baseUrl": "."
   },
   "exclude": [
