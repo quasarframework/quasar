@@ -80,7 +80,7 @@ interface SsrCreateParams {
 
 export type SsrCreateCallback = (
   params: SsrCreateParams
-) => Express | any;
+) => Express | Promise<Express> | any | Promise<any>;
 
 interface SsrMiddlewareParams extends SsrCreateParams {
   app: Express;
@@ -98,11 +98,6 @@ interface SsrHandlerParams {
 
 interface SsrListenParams extends SsrMiddlewareParams {
   /**
-   * Wait for app to be initialized (run all SSR middlewares)
-   * before starting to listen for clients
-   */
-  isReady(): Promise<void>;
-  /**
    * If you use HTTPS in development, this will be the
    * actual server that listens for clients.
    * It is a Node https.Server instance wrapper over the original "app".
@@ -119,7 +114,7 @@ interface SsrListenParams extends SsrMiddlewareParams {
 
 export type SsrListenCallback = (
   params: SsrListenParams
-) => Promise<Server>;
+) => Server | Promise<Server>;
 
 interface SsrCloseParams extends SsrListenParams {
   listenResult: Server;
@@ -127,7 +122,7 @@ interface SsrCloseParams extends SsrListenParams {
 
 export type SsrCloseCallback = (
   params: SsrCloseParams
-) => void;
+) => void | Promise<void>;
 
 export type SsrServeStaticContentCallback = (
   path: string,

@@ -523,9 +523,11 @@ Most changes refer to editing your `/src-ssr/server.js` file. Since you can now 
 
 ```diff /src-ssr/server.js
 - export const listen = ssrListen(async ({ app, port, isReady }) => {
-+ // notice devHttpsApp param which will be a Node httpsServer (on DEV only) and if https is enabled
-+ export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-    await isReady()
++ // notice: devHttpsApp param which will be a Node httpsServer (on DEV only) and if https is enabled
++ // notice: no "isReady" param (starting with 2.0.0-beta.16+)
++ // notice: ssrListen() param can be async (below it isn't)
++ export const listen = ssrListen(({ app, devHttpsApp, port }) => {
+-   await isReady()
 -   return app.listen(port, () => {
 +   const server = devHttpsApp || app
 +   return server.listen(port, () => {
@@ -539,8 +541,7 @@ Most changes refer to editing your `/src-ssr/server.js` file. Since you can now 
 Finally, this is how it should look like now:
 
 ```js /src-ssr/server.js file
-export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-  await isReady()
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {

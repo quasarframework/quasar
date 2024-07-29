@@ -314,7 +314,7 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     }
 
-    const app = middlewareParams.app = create(middlewareParams)
+    const app = middlewareParams.app = await create(middlewareParams)
     const { proxy: proxyConf } = quasarConf.devServer
 
     if (Object(proxyConf) === proxyConf) {
@@ -379,18 +379,13 @@ export class QuasarModeDevserver extends AppDevserver {
       next()
     })
 
-    const isReady = () => Promise.resolve()
-
     if (quasarConf.devServer.https) {
       const https = await import('node:https')
       middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.https, app)
     }
 
     const listenResult = await listen({
-      isReady,
-      ssrHandler: (req, res, next) => {
-        return isReady().then(() => app(req, res, next))
-      },
+      ssrHandler: (req, res, next) => app(req, res, next),
       ...middlewareParams
     })
 

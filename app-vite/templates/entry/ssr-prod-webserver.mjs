@@ -144,7 +144,7 @@ const middlewareParams = {
   }
 }
 
-const app = create(middlewareParams)
+const app = await create(middlewareParams)
 
 // fill in "app" for next calls
 middlewareParams.app = app
@@ -157,14 +157,11 @@ app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilenam
 // serve "client" folder (includes the "public" folder)
 app.use(resolveUrlPath('/'), serveStatic('.'))
 
-const isReady = () => injectMiddlewares(middlewareParams)
+await injectMiddlewares(middlewareParams)
 
-const ssrHandler = (req, res, next) => {
-  return isReady().then(() => app(req, res, next))
-}
-
-export default listen({
-  isReady,
-  ssrHandler,
+const listenResult = await listen({
+  ssrHandler: (req, res, next) => app(req, res, next),
   ...middlewareParams
 })
+
+export default listenResult

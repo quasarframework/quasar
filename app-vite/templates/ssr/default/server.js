@@ -24,7 +24,7 @@ import {
  * If needed, prepare your webserver to receive
  * connect-like middlewares.
  *
- * Should NOT be async!
+ * Can be async: ssrCreate(async ({ ... }) => { ... })
  */
 export const create = ssrCreate((/* { ... } */) => {
   const app = express()
@@ -52,9 +52,10 @@ export const create = ssrCreate((/* { ... } */) => {
  *
  * For production, you can instead export your
  * handler for serverless use or whatever else fits your needs.
+ *
+ * Can be async: ssrListen(async ({ app, devHttpsApp, port }) => { ... })
  */
-export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-  await isReady()
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {
@@ -71,7 +72,7 @@ export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
  * Should you need the result of the "listen()" call above,
  * you can use the "listenResult" param.
  *
- * Can be async.
+ * Can be async: ssrClose(async ({ listenResult }) => { ... })
  */
 export const close = ssrClose(({ listenResult }) => {
   return listenResult.close()
