@@ -39,9 +39,8 @@ export function create (/* { ... } */) {
   * For production, you can instead export your
   * handler for serverless use or whatever else fits your needs.
   */
-export async function listen ({ app, port, isReady }) {
-  await isReady()
-  return await app.listen(port, () => {
+export function listen ({ app, port }) {
+  return app.listen(port, () => {
     if (process.env.PROD) {
       // eslint-disable-next-line no-console
       console.log('Server listening at port ' + port)
