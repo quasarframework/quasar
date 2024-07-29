@@ -1,6 +1,6 @@
 {
   "name": "create-quasar",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
   "type": "module",
   "author": {
