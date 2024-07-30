@@ -159,9 +159,6 @@ app.use(resolveUrlPath('/'), serveStatic('.'))
 
 await injectMiddlewares(middlewareParams)
 
-const listenResult = await listen({
-  ssrHandler: (req, res, next) => app(req, res, next),
-  ...middlewareParams
-})
+const listenResult = await listen(middlewareParams)
 
 export default listenResult

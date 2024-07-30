@@ -90,12 +90,6 @@ export type SsrMiddlewareCallback = (
   params: SsrMiddlewareParams
 ) => void | Promise<void>;
 
-interface SsrHandlerParams {
-  req: Request;
-  res: Response;
-  next: NextFunction;
-}
-
 interface SsrListenParams extends SsrMiddlewareParams {
   /**
    * If you use HTTPS in development, this will be the
@@ -103,13 +97,6 @@ interface SsrListenParams extends SsrMiddlewareParams {
    * It is a Node https.Server instance wrapper over the original "app".
    */
   devHttpsApp?: HttpsServer;
-  /**
-   * SSR handler to be used on production should
-   * you wish to use a serverless approach.
-   */
-  ssrHandler(
-    params: SsrHandlerParams
-  ): Promise<void>;
 }
 
 export type SsrListenCallback = (

@@ -375,15 +375,9 @@ export class QuasarModeDevserver extends AppDevserver {
       middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.https, app)
     }
 
-    const listenResult = await listen({
-      ssrHandler: (req, res, next) => app(req, res, next),
-      ...middlewareParams
-    })
+    middlewareParams.listenResult = await listen(middlewareParams)
 
-    this.#closeWebserver = () => close({
-      ...middlewareParams,
-      listenResult
-    })
+    this.#closeWebserver = () => close(middlewareParams)
 
     done('Webserver is ready')
 
