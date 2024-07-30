@@ -144,7 +144,7 @@ const middlewareParams = {
   }
 }
 
-const app = await create(middlewareParams)
+export const app = await create(middlewareParams)
 
 // fill in "app" for next calls
 middlewareParams.app = app
@@ -159,6 +159,5 @@ app.use(resolveUrlPath('/'), serveStatic('.'))
 
 await injectMiddlewares(middlewareParams)
 
-const listenResult = await listen(middlewareParams)
-
-export default listenResult
+export const listenResult = await listen(middlewareParams)
+export const handler = listenResult?.handler
