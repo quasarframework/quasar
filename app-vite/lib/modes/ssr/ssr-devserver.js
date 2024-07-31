@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, isAbsolute } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createServer } from 'vite'
 import chokidar from 'chokidar'
@@ -98,7 +98,10 @@ export class QuasarModeDevserver extends AppDevserver {
       serverFile: appPaths.resolve.entry('compiled-dev-webserver.mjs'),
       serverEntryFile: appPaths.resolve.entry('server-entry.mjs'),
       resolvePublicFolder () {
-        return join(publicFolder, ...arguments)
+        const dir = join(...arguments)
+        return isAbsolute(dir) === true
+          ? dir
+          : join(publicFolder, dir)
       }
     }
 
@@ -307,14 +310,16 @@ export class QuasarModeDevserver extends AppDevserver {
         root: this.#pathMap.rootFolder,
         public: this.#pathMap.publicFolder
       },
-      render: this.#appOptions.render,
-      serve: {
-        static: (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts),
-        error: renderError
-      }
+      render: this.#appOptions.render
     }
 
     const app = middlewareParams.app = await create(middlewareParams)
+
+    const serveStatic = await serveStaticContent(middlewareParams)
+    middlewareParams.serve = {
+      static: serveStatic,
+      error: renderError
+    }
 
     // vite devmiddleware modifies req.url to account for publicPath
     // but we'll break usage in the webserver if we do so

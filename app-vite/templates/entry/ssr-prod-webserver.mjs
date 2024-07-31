@@ -4,7 +4,7 @@
  * DO NOT EDIT.
  **/
 
-import { join, basename } from 'node:path'
+import { join, basename, isAbsolute } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { renderToString } from 'vue/server-renderer'
@@ -36,7 +36,10 @@ const clientManifest = JSON.parse(
 )
 
 function resolvePublicFolder () {
-  return join(publicFolder, ...arguments)
+  const dir = join(...arguments)
+  return isAbsolute(dir) === true
+    ? dir
+    : join(publicFolder, dir)
 }
 
 function renderModulesPreload (modules, opts) {
@@ -124,8 +127,6 @@ async function render (ssrContext) {
   }
 }
 
-const serveStatic = (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts)
-
 const middlewareParams = {
   port,
   resolve: {
@@ -138,10 +139,7 @@ const middlewareParams = {
     root: rootFolder,
     public: publicFolder
   },
-  render: ssrContext => render(ssrContext),
-  serve: {
-    static: serveStatic
-  }
+  render: ssrContext => render(ssrContext)
 }
 
 export const app = await create(middlewareParams)
@@ -149,13 +147,16 @@ export const app = await create(middlewareParams)
 // fill in "app" for next calls
 middlewareParams.app = app
 
+const serveStatic = await serveStaticContent(middlewareParams)
+middlewareParams.serve = { static: serveStatic }
+
 <% if (ssr.pwa) { %>
 // serve the service worker with no cache
-app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilename %>', { maxAge: 0 }))
+serveStatic({ urlPath: '/<%= pwa.swFilename %>', pathToServe: '<%= pwa.swFilename %>', opts: { maxAge: 0 } })
 <% } %>
 
 // serve "client" folder (includes the "public" folder)
-app.use(resolveUrlPath('/'), serveStatic('.'))
+serveStatic({ urlPath: '/', pathToServe: '.' })
 
 await injectMiddlewares(middlewareParams)
 
