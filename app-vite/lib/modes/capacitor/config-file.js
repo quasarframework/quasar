@@ -51,6 +51,13 @@ public class EnableHttpsSelfSigned {
 }`
 }
 
+const sslSkipVersion = {
+  4: '^0.2.0',
+  5: '^0.3.0',
+  6: '^0.4.0',
+  default: '^0.4.0'
+}
+
 export class CapacitorConfigFile {
   #ctx
   #tamperedFiles = []
@@ -165,7 +172,8 @@ export class CapacitorConfigFile {
       }
 
       const fn = `${ add ? '' : 'un' }installPackage`
-      const nameParam = add ? '@jcesarmobile/ssl-skip@^0.2.0' : '@jcesarmobile/ssl-skip'
+      const version = sslSkipVersion[ capVersion ] || sslSkipVersion.default
+      const nameParam = add ? `@jcesarmobile/ssl-skip@^${ version }` : '@jcesarmobile/ssl-skip'
 
       const nodePackager = await cacheProxy.getModule('nodePackager')
       nodePackager[ fn ](nameParam, {
