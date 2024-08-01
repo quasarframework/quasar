@@ -54,9 +54,9 @@ public class EnableHttpsSelfSigned {
 }
 
 const sslSkipVersion = {
-  '4': '^0.2.0',
-  '5': '^0.3.0',
-  '6': '^0.4.0',
+  4: '^0.2.0',
+  5: '^0.3.0',
+  6: '^0.4.0',
   default: '^0.4.0'
 }
 
@@ -152,7 +152,7 @@ class CapacitorConfig {
       }
 
       const fn = `${ add ? '' : 'un' }installPackage`
-      const version = sslSkipVersion[ '' + capVersion ] || sslSkipVersion.default
+      const version = sslSkipVersion[ capVersion ] || sslSkipVersion.default
       const nameParam = add ? `@jcesarmobile/ssl-skip@^${ version }` : '@jcesarmobile/ssl-skip'
 
       nodePackager[ fn ](nameParam, {
