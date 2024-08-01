@@ -158,7 +158,7 @@ Let's take an example. You want to be able to import `.json` files. **Out of the
 
 So, you need a loader for it. You search Google to see what webpack loader you need. In this case, it's "json-loader". We first install it:
 
-``` bash
+```bash
 $ yarn add --dev json-loader
 ```
 
