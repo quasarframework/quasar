@@ -1,4 +1,4 @@
-import { Express, Request, RequestHandler, Response, NextFunction } from "express";
+import { Express, Application, Request, Response } from "express";
 import { Server } from "http";
 import { Server as HttpsServer } from "https";
 import { ServeStaticOptions } from "serve-static";
@@ -59,10 +59,10 @@ interface SsrCreateParams {
 
 export type SsrCreateCallback = (
   params: SsrCreateParams
-) => Express | Promise<Express> | any | Promise<any>;
+) => Express | Application | any | Promise<Express> | Promise<Application> | Promise<any>;
 
 interface ssrServeStaticContentParams extends SsrCreateParams {
-  app: Express;
+  app: Express | Application | any;
 }
 
 interface SsrServeStaticFnParams {
@@ -118,20 +118,20 @@ export type SsrMiddlewareCallback = (
 ) => void | Promise<void>;
 
 interface SsrListenHandlerResult {
-  handler: Server;
+  handler: Server | Application | void;
 }
 
 export type SsrListenCallback = (
   params: SsrMiddlewareParams
-) => Server | Promise<Server> | SsrListenHandlerResult | Promise<SsrListenHandlerResult>;
+) => Server | Application | SsrListenHandlerResult | any | Promise<Server> | Promise<Application> | Promise<SsrListenHandlerResult> | Promise<any>;
 
 interface SsrCloseParams extends SsrMiddlewareParams {
-  listenResult: Server | SsrListenHandlerResult;
+  listenResult: Server | Application | SsrListenHandlerResult | any;
 }
 
 export type SsrCloseCallback = (
   params: SsrCloseParams
-) => void | Promise<void>;
+) => Server | Application | SsrListenHandlerResult | any | Promise<Server> | Promise<Application> | Promise<SsrListenHandlerResult> | Promise<any>;
 
 interface SsrRenderPreloadTagCallbackOptions {
   ssrContext: RenderVueParams;
