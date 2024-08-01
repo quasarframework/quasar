@@ -399,6 +399,7 @@ export default function (state) {
             name: props.clearIcon || $q.iconSet.field.clear,
             tabindex: 0,
             role: 'button',
+            'aria-hidden': 'false',
             'aria-label': $q.lang.label.clear,
             onKeyup: onClearableKeyup,
             onClick: clearValue
