@@ -356,7 +356,7 @@
 </template>
 
 <script>
-const langList = import.meta.glob('../../../../lang/*.mjs')
+const langList = import.meta.glob('../../../../lang/*.js')
 
 export default {
   data () {
