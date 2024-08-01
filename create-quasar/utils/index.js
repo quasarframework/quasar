@@ -221,6 +221,33 @@ function lintFolder (scope) {
   )
 }
 
+function hasGit () {
+  try {
+    exec('git --version')
+    return true
+  }
+  catch (e) {}
+}
+
+function initializeGit (projectFolder) {
+  if (hasGit() !== true) {
+    logger.log('Git is not present on the system, skipping repo initialization...')
+    return
+  }
+
+  try {
+    exec('git init', { cwd: projectFolder })
+    exec('git add -A', { cwd: projectFolder })
+    exec('git commit -m "Initialize the project 🚀" --no-verify', { cwd: projectFolder })
+  }
+  catch (e) {
+    logger.warn('Could not initialize git repository. Please do this manually.')
+    return
+  }
+
+  logger.log('Initialized git repository 🚀')
+}
+
 const quasarConfigFilenameList = [
   'quasar.config.js',
   'quasar.config.mjs',
@@ -341,6 +368,7 @@ export default {
   installDeps,
   lintFolder,
   ensureOutsideProject,
+  initializeGit,
 
   commonPrompts
 }

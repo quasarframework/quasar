@@ -88,7 +88,7 @@
     "lodash": "^4.17.21",
     "log-update": "^6.0.0",
     "mini-css-extract-plugin": "^2.9.0",
-    "minimist": "^1.2.6",
+    "minimist": "^1.2.8",
     "node-loader": "^2.0.0",
     "null-loader": "^4.0.1",
     "open": "^10.1.0",
