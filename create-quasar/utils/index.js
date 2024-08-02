@@ -90,6 +90,7 @@ function renderTemplate (relativePath, scope) {
       const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
 
       const newContent = extension === '.json'
+        // This prevents us to add comments into JSONC files, like tsconfig ones
         ? JSON.stringify(JSON.parse(template(scope)), null, 2)
         : template(scope)
 
