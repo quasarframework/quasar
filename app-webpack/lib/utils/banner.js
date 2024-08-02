@@ -85,9 +85,9 @@ module.exports.displayBanner = async function displayBanner ({ argv, ctx, cmd, d
       are already installed, then you can skip this step.
 
  Tip: Notice the package.json generated, where there's a script defined:
-        "start": "node index.js"
+        "start": "node index.mjs"
       Running "$ ${ packager.name === 'npm' ? 'npm run' : packager.name } start" from the output folder will
-      start the webserver. Alternatively you can call "$ node index.js"
+      start the webserver. Alternatively you can call "$ node index.mjs"
       yourself.`
     }
     else if (argv.mode === 'cordova') {
