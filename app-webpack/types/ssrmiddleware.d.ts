@@ -82,7 +82,7 @@ interface SsrServeStaticFnParams {
   opts?: ServeStaticOptions<Response>;
 }
 
-type SsrServeStaticFn = (params: SsrServeStaticFnParams) => void;
+type SsrServeStaticFn = (params: SsrServeStaticFnParams) => void | Promise<void>;
 
 export type SsrServeStaticContentCallback = (
   params: ssrServeStaticContentParams
