@@ -99,7 +99,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       minimist:
-        specifier: ^1.2.6
+        specifier: ^1.2.8
         version: 1.2.8
       open:
         specifier: ^10.1.0
@@ -295,7 +295,7 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0(webpack@5.92.1)
       minimist:
-        specifier: ^1.2.6
+        specifier: ^1.2.8
         version: 1.2.8
       node-loader:
         specifier: ^2.0.0
@@ -5335,7 +5335,7 @@ packages:
     resolution: {integrity: sha512-E6OCaRmAe4WDmWNsL/9RMqdkkzDCY1etutkflWk4c+AcjDU07Pcz1fQwTX0TQz+Pxqn9i4L1TU3UFpjnrcDgxA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.11.25
+      '@types/node': 20.14.10
       xmlbuilder: 15.1.1
     dev: true
     optional: true
