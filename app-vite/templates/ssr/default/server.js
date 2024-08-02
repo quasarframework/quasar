@@ -87,6 +87,9 @@ const maxAge = process.env.DEV
  * to serve static content at "urlPath" from "pathToServe" folder/file.
  *
  * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
+ *
+ * Can be async: ssrServeStaticContent(async ({ app, resolve }) => {
+ * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
 export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
   return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {

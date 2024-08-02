@@ -152,11 +152,11 @@ middlewareParams.serve = { static: serveStatic }
 
 <% if (ssr.pwa) { %>
 // serve the service worker with no cache
-serveStatic({ urlPath: '/<%= pwa.swFilename %>', pathToServe: '<%= pwa.swFilename %>', opts: { maxAge: 0 } })
+await serveStatic({ urlPath: '/<%= pwa.swFilename %>', pathToServe: '<%= pwa.swFilename %>', opts: { maxAge: 0 } })
 <% } %>
 
 // serve "client" folder (includes the "public" folder)
-serveStatic({ urlPath: '/', pathToServe: '.' })
+await serveStatic({ urlPath: '/', pathToServe: '.' })
 
 await injectMiddlewares(middlewareParams)
 
