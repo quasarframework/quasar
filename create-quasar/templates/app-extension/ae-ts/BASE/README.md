@@ -11,6 +11,17 @@ Compatible with:
 - [/app-extension](app-extension) - App Extension for Quasar CLI
 - [/playground](playground) - collection of playground apps to test the UI and App Extension
 
+# Development
+
+```bash
+$ pnpm i # install the dependencies
+
+$ pnpm build # build the app-extension. Run this after making any change in ./app-extension
+
+$ pnpm dev:vite # start the app-vite playground
+$ pnpm dev:webpack # start the app-webpack playground
+```
+
 # Donate
 
 If you appreciate the work that went into this project, please consider [donating to Quasar](https://donate.quasar.dev).

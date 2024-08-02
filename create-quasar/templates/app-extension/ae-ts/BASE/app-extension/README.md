@@ -31,6 +31,10 @@ quasar ext remove <%= name %>
 
 > Add other information that's not as important to know
 
+# Development
+
+See [the root README](../README.md) for more information.
+
 # Donate
 
 If you appreciate the work that went into this App Extension, please consider [donating to Quasar](https://donate.quasar.dev).
