@@ -521,11 +521,11 @@ The distributables (your production code) will be compiled to ESM form.
 
 Most changes refer to editing your `/src-ssr/server.js` file. Since you can now use HTTPS while developing your app too, you need to make the following changes to the file:
 
-```diff /src-ssr/server.js
+```diff /src-ssr/server.js > listen
 - export const listen = ssrListen(async ({ app, port, isReady }) => {
 + // notice: devHttpsApp param which will be a Node httpsServer (on DEV only) and if https is enabled
 + // notice: no "isReady" param (starting with 2.0.0-beta.16+)
-+ // notice: ssrListen() param can be async (below it isn't)
++ // notice: ssrListen() param can still be async (below it isn't)
 + export const listen = ssrListen(({ app, devHttpsApp, port }) => {
 -   await isReady()
 -   return app.listen(port, () => {
@@ -540,7 +540,7 @@ Most changes refer to editing your `/src-ssr/server.js` file. Since you can now 
 
 Finally, this is how it should look like now:
 
-```js /src-ssr/server.js file
+```js /src-ssr/server.js > listen
 export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
@@ -551,12 +551,63 @@ export const listen = ssrListen(({ app, devHttpsApp, port }) => {
 })
 ```
 
+For a serverless approach, this is how the "listen" part should look like:
+
+```js /src-ssr/server.js > listen
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
+  if (process.env.DEV) {
+    const server = devHttpsApp || app;
+    return server.listen(port, () => {
+      console.log('Server listening at port ' + port)
+    })
+  }
+  else { // in production
+    // return an object with a "handler" property
+    // that the server script will named-export
+    return { handler: app }
+  }
+})
+```
+
+Next, the `serveStaticContent` function has changed:
+
+```diff /src-ssr/server.js > serveStaticContent
+- export const serveStaticContent = ssrServeStaticContent((path, opts) => {
+-  return express.static(path, { maxAge, ...opts })
+- })
+
++ /**
++ * Should return a function that will be used to configure the webserver
++ * to serve static content at "urlPath" from "pathToServe" folder/file.
++ *
++ * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
++ *
++ * Can be async: ssrServeStaticContent(async ({ app, resolve }) => {
++ * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
++ */
++ export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
++  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
++    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
++    app.use(resolve.urlPath(urlPath), serveFn)
++  }
++ })
+```
+
 Also, the `renderPreloadTag()` function can now take an additional parameter (`ssrContext`):
 
 ```js /src-ssr/server.js
 export const renderPreloadTag = ssrRenderPreloadTag((file, { ssrContext }) => {
   // ...
 })
+```
+
+For TS devs, you should also make a small change to your /src-ssr/middlewares files, like this:
+
+```diff For TS devs
++ import { Request, Response } from 'express';
+// ...
+- app.get(resolve.urlPath('*'), (req, res) => {
++ app.get(resolve.urlPath('*'), (req: Request, res: Response) => {
 ```
 
 There are some additions to the `/quasar.config` file too:
