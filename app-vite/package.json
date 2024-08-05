@@ -100,7 +100,6 @@
   "peerDependencies": {
     "@electron/packager": ">= 18",
     "electron-builder": ">= 22",
-    "electron-packager": ">= 15",
     "pinia": "^2.0.0",
     "quasar": "^2.16.0",
     "vue": "^3.2.29",
@@ -110,9 +109,6 @@
   },
   "peerDependenciesMeta": {
     "electron-builder": {
-      "optional": true
-    },
-    "electron-packager": {
       "optional": true
     },
     "@electron/packager": {
