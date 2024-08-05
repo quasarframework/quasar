@@ -13,6 +13,7 @@
     "lib",
     "templates",
     "types",
+    "stricter-tsconfig-preset.json",
     "tsconfig-preset.json"
   ],
   "keywords": [
