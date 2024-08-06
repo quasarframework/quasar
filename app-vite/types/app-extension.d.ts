@@ -13,14 +13,14 @@ type ExtractQuasarConfParameters<
   ? Parameters<MaybeFunction>
   : never;
 
-type extendVite = (
+type ExtendViteConfHandler = (
   fn: (
     ...args: [...ExtractQuasarConfParameters<"build", "extendViteConf">, IndexAPI]
   ) => void
 ) => void;
 
-type getPersistentConf = () => Record<string, unknown>;
-type hasExtension = (extId: string) => boolean;
+type GetPersistentConfHandler = () => Record<string, unknown>;
+type HasExtensionHandler = (extId: string) => boolean;
 
 interface BaseAPI {
   engine: '@quasar/app-vite';
@@ -40,58 +40,60 @@ interface BaseAPI {
 }
 
 interface SharedIndexInstallAPI {
-  getPersistentConf: getPersistentConf;
+  getPersistentConf: GetPersistentConfHandler;
   setPersistentConf: (cfg: Record<string, unknown>) => void;
   mergePersistentConf: (cfg: Record<string, unknown>) => void;
   compatibleWith: (packageName: string, semverCondition?: string) => void;
   hasPackage: (packageName: string, semverCondition?: string) => boolean;
-  hasExtension: hasExtension;
+  hasExtension: HasExtensionHandler;
   getPackageVersion: (packageName: string) => string | undefined;
 }
+
+type Callback<T> = (callback: T) => void;
 
 export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
   prompts: Record<string, unknown>;
 
-  extendQuasarConf: (cfg: QuasarConf, api: IndexAPI) => void;
+  extendQuasarConf: Callback<(cfg: QuasarConf, api: IndexAPI) => void>;
 
-  extendViteConf: extendVite;
+  extendViteConf: ExtendViteConfHandler;
 
-  extendBexScriptsConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
-  extendElectronMainConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
-  extendElectronPreloadConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
-  extendPWACustomSWConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
-  extendSSRWebserverConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
+  extendBexScriptsConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
+  extendElectronMainConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
+  extendElectronPreloadConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
+  extendPWACustomSWConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
+  extendSSRWebserverConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
 
   registerCommand: (
     commandName: string,
-    fn: { args: string[]; params: Record<string, any> }
+    fn: (params: { args: string[]; params: Record<string, any> }) => Promise<void> | void
   ) => void;
 
   registerDescribeApi: (name: string, relativePath: string) => void;
 
-  beforeDev: (
+  beforeDev: Callback<(
     api: IndexAPI,
     payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void;
-  afterDev: (
+  ) => Promise<void> | void>;
+  afterDev: Callback<(
     api: IndexAPI,
     payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void;
-  beforeBuild: (
+  ) => Promise<void> | void>;
+  beforeBuild: Callback<(
     api: IndexAPI,
     payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void;
-  afterBuild: (
+  ) => Promise<void> | void>;
+  afterBuild: Callback<(
     api: IndexAPI,
     payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void;
-  onPublish: (
+  ) => Promise<void> | void>;
+  onPublish: Callback<(
     api: IndexAPI,
     opts: { arg: string; distDir: string }
-  ) => Promise<void> | void;
+  ) => Promise<void> | void>;
 }
 
-type onExitLog = (msg: string) => void;
+type ExitLogHandler = (msg: string) => void;
 export interface InstallAPI extends BaseAPI, SharedIndexInstallAPI {
   prompts: Record<string, unknown>;
 
@@ -103,21 +105,21 @@ export interface InstallAPI extends BaseAPI, SharedIndexInstallAPI {
     relativeTargetPath: string,
     scope?: object
   ) => void;
-  onExitLog: onExitLog;
+  onExitLog: ExitLogHandler;
 }
 
 export interface UninstallAPI extends BaseAPI {
   prompts: Record<string, unknown>;
 
-  getPersistentConf: getPersistentConf;
-  hasExtension: hasExtension;
+  getPersistentConf: GetPersistentConfHandler;
+  hasExtension: HasExtensionHandler;
   removePath: (__path: string) => void;
-  onExitLog: onExitLog;
+  onExitLog: ExitLogHandler;
 }
 
 export interface PromptsAPI extends BaseAPI {
   compatibleWith: (packageName: string, semverCondition?: string) => void;
   hasPackage: (packageName: string, semverCondition?: string) => boolean;
-  hasExtension: hasExtension;
+  hasExtension: HasExtensionHandler;
   getPackageVersion: (packageName: string) => string | undefined;
 }
