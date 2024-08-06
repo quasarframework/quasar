@@ -24,7 +24,7 @@ $ pnpm dev:webpack # start the app-webpack playground
 
 For more development-related explanation, see:
 - [`app-extension/src/runtime/README.md`](app-extension/src/runtime/README.md)
-- [`app-extension/src/templates/README.md`](app-extension/src/templates/README.md)
+<% if (preset.install) { %>- [`app-extension/src/templates/README.md`](app-extension/src/templates/README.md)<% } %>
 
 # Donate
 

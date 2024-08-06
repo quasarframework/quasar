@@ -27,9 +27,9 @@
   },
   "scripts": {
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "build:code": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts' --pattern='!templates/**'",
+    <% if (preset.install) { %>"build:code": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts' --pattern='!templates/**'",
     "build:templates": "mkdist ./ --src ./src/templates --dist ./dist/templates --loaders='raw'",
-    "build": "pnpm build:code && pnpm build:templates"
+    "build": "pnpm build:code && pnpm build:templates"<% } else { %>"build": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts'"<% } %>
   },
   "devDependencies": {
     "@quasar/app-vite": "^2.0.0-beta.5",
