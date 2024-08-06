@@ -83,18 +83,14 @@ The linting for a TS project is based on vite-plugin-checker + ESLint + vue-tsc:
 
 ```tabs
 <<| bash Yarn |>>
-$ yarn add --dev vite-plugin-checker vue-tsc@2 typescript@^5.5.3
+$ yarn add --dev vite-plugin-checker vue-tsc@2 typescript
 <<| bash NPM |>>
-$ npm install --save-dev vite-plugin-checker vue-tsc@2 typescript@^5.5.3
+$ npm install --save-dev vite-plugin-checker vue-tsc@2 typescript
 <<| bash PNPM |>>
-$ pnpm add -D vite-plugin-checker vue-tsc@2 typescript@^5.5.3
+$ pnpm add -D vite-plugin-checker vue-tsc@2 typescript
 <<| bash Bun |>>
-$ bun add --dev vite-plugin-checker vue-tsc@2 typescript@^5.5.3
+$ bun add --dev vite-plugin-checker vue-tsc@2 typescript
 ```
-
-::: warning
-Notice the `typescript` dependency is <= 5.3. There is currently an issue with ESLint and newer TS (5.4+). This is only a temporary thing until upstream fixes it.
-:::
 
 Create a file called `tsconfig.vue-tsc.json` in the root of your project folder:
 
