@@ -22,6 +22,10 @@ $ pnpm dev:vite # start the app-vite playground
 $ pnpm dev:webpack # start the app-webpack playground
 ```
 
+For more development-related explanation, see:
+- [`app-extension/src/runtime/README.md`](app-extension/src/runtime/README.md)
+- [`app-extension/src/templates/README.md`](app-extension/src/templates/README.md)
+
 # Donate
 
 If you appreciate the work that went into this project, please consider [donating to Quasar](https://donate.quasar.dev).
