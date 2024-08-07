@@ -161,7 +161,12 @@ appBuilder.build()
     console.error(err)
     fatal('App build failed (check the log above)', 'FAIL')
   })
-  .then(async () => {
+  .then(async signal => {
+    if (signal !== void 0) {
+      const { SIGNAL__BUILD_SHOULD_EXIT } = await import('../utils/signals.js')
+      if (signal === SIGNAL__BUILD_SHOULD_EXIT) return
+    }
+
     outputFolder = argv.mode === 'cordova'
       ? path.join(outputFolder, '..')
       : outputFolder

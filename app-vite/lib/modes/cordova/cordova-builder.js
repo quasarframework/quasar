@@ -10,6 +10,7 @@ import { spawn } from '../../utils/spawn.js'
 import { openIDE } from '../../utils/open-ide.js'
 import { onShutdown } from '../../utils/on-shutdown.js'
 import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
+import { SIGNAL__BUILD_SHOULD_EXIT } from '../../utils/signals.js'
 
 const cordovaOutputFolders = {
   ios: [
@@ -35,7 +36,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async build () {
     await this.#buildFiles()
-    await this.#packageFiles()
+    return this.#packageFiles()
   }
 
   async #buildFiles () {
@@ -114,7 +115,8 @@ export class QuasarModeBuilder extends AppBuilder {
           target,
           appPaths
         })
-        process.exit(0)
+
+        return SIGNAL__BUILD_SHOULD_EXIT
       }
 
       const targetFolder = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
