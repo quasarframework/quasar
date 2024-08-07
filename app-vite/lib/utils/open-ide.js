@@ -148,7 +148,7 @@ function runWindows (mode, bin, target, appPaths) {
 export function openIDE ({ mode, bin, target, dev, appPaths }) {
   console.log()
   console.log(' ⚠️  ')
-  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
+  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE. It might take a few seconds...`)
 
   if (dev) {
     console.log(' ⚠️  From there, use the IDE to run the app.')
