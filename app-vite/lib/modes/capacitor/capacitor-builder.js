@@ -10,6 +10,7 @@ const CapacitorConfigFile = require('./config-file')
 const { spawn, spawnSync } = require('../../helpers/spawn')
 const openIde = require('../../helpers/open-ide')
 const onShutdown = require('../../helpers/on-shutdown')
+const { SIGNAL__BUILD_SHOULD_EXIT } = require('../../helpers/signals.js')
 
 const { capBin } = require('./cap-cli')
 
@@ -21,7 +22,7 @@ class CapacitorBuilder extends AppBuilder {
     this.#packagedDir = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
 
     await this.#buildFiles()
-    await this.#packageFiles()
+    return this.#packageFiles()
   }
 
   async #buildFiles () {
@@ -48,7 +49,7 @@ class CapacitorBuilder extends AppBuilder {
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide === true) {
         await openIde('capacitor', this.quasarConf.bin, target)
-        process.exit(0)
+        return SIGNAL__BUILD_SHOULD_EXIT
       }
 
       if (target === 'ios') {

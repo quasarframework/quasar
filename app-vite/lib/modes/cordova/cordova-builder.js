@@ -11,6 +11,7 @@ const CordovaConfigFile = require('./config-file')
 const { spawn } = require('../../helpers/spawn')
 const openIde = require('../../helpers/open-ide')
 const onShutdown = require('../../helpers/on-shutdown')
+const { SIGNAL__BUILD_SHOULD_EXIT } = require('../../helpers/signals.js')
 
 const cordovaOutputFolders = {
   ios: [
@@ -36,7 +37,7 @@ class CapacitorBuilder extends AppBuilder {
 
   async build () {
     await this.#buildFiles()
-    await this.#packageFiles()
+    return this.#packageFiles()
   }
 
   async #buildFiles () {
@@ -109,7 +110,7 @@ class CapacitorBuilder extends AppBuilder {
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide) {
         await openIde('cordova', this.quasarConf.bin, target)
-        process.exit(0)
+        return SIGNAL__BUILD_SHOULD_EXIT
       }
 
       const targetFolder = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
