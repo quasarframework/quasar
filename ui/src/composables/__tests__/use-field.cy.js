@@ -82,7 +82,7 @@ describe('use-field API', () => {
 
     describe('Category: behavior|content', () => {
       describe('(prop): loading', () => {
-        it('should should set the component into a loading state', () => {
+        it('should set the component into a loading state', () => {
           mountQFieldWrapper({
             props: {
               loading: true
