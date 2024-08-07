@@ -30,9 +30,9 @@
       right: -16px
 
   &__icon
-    width: 24px
-    height: 24px
-    font-size: 24px
+    width: $tabs-icon-font-width
+    height: $tabs-icon-font-height
+    font-size: $tabs-icon-font-size
 
   &__label
     font-size: $button-font-size
@@ -57,7 +57,7 @@
   &__alert-icon
     top: 2px
     right: -12px
-    font-size: 18px
+    font-size: $tabs-alert-icon-font-size
 
   &__indicator
     opacity: 0
@@ -105,8 +105,8 @@
 
   &__arrow
     cursor: pointer
-    font-size: 32px
-    min-width: 36px
+    font-size: $tabs-arrow-font-size
+    min-width: calc($tabs-arrow-font-size + 4px)
     text-shadow: 0 0 3px #fff, 0 0 1px #fff, 0 0 1px #000
     transition: opacity .3s
 
