@@ -17,7 +17,7 @@ describe('Field API', () => {
       describe('(prop): maxlength', () => {
         it.skip(' ', () => {
           // It is tricky to test this since it will require that we setup a control slot with v-model.
-          // This is already tested in QInput and others using use-field composable, so are not not testing it.
+          // This is already tested in QInput and others using use-field composable, so are not testing it.
         })
       })
     })
