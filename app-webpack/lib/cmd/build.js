@@ -261,7 +261,12 @@ async function build () {
         console.error(err)
         fatal('Failed to finalize build (check the log above)', 'FAIL')
       })
-      .then(async () => {
+      .then(async signal => {
+        if (signal !== void 0) {
+          const { SIGNAL__BUILD_SHOULD_EXIT } = await import('../helpers/signals.js')
+          if (signal === SIGNAL__BUILD_SHOULD_EXIT) return
+        }
+
         outputFolder = argv.mode === 'cordova'
           ? path.join(outputFolder, '..')
           : outputFolder

@@ -24,20 +24,19 @@ function runMacOS (mode, target) {
       ? appPaths.resolve.cordova('platforms/ios')
       : appPaths.resolve.capacitor('ios/App')
 
-    open(findXcodeWorkspace(folder), {
+    return open(findXcodeWorkspace(folder), {
       wait: false
     })
   }
-  else {
-    const folder = mode === 'cordova'
-      ? appPaths.resolve.cordova('platforms/android')
-      : appPaths.resolve.capacitor('android')
 
-    open(folder, {
-      app: { name: 'android studio' },
-      wait: false
-    })
-  }
+  const folder = mode === 'cordova'
+    ? appPaths.resolve.cordova('platforms/android')
+    : appPaths.resolve.capacitor('android')
+
+  return open(folder, {
+    app: { name: 'android studio' },
+    wait: false
+  })
 }
 
 function getLinuxPath (bin) {
@@ -69,12 +68,10 @@ function runLinux (mode, bin, target) {
         ? appPaths.resolve.cordova('platforms/android')
         : appPaths.resolve.capacitor('android')
 
-      open(folder, {
+      return open(folder, {
         app: { name: studioPath },
         wait: false
       })
-
-      return
     }
   }
   else if (target === 'ios') {
@@ -122,15 +119,9 @@ function runWindows (mode, bin, target) {
         ? appPaths.resolve.cordova('platforms/android')
         : appPaths.resolve.capacitor('android')
 
-      open(folder, {
+      return open(folder, {
         app: { name: studioPath },
         wait: false
-      })
-
-      // pause required, otherwise Windows fails
-      // to open the process
-      return new Promise(resolve => {
-        setTimeout(resolve, 300)
       })
     }
   }
@@ -144,10 +135,12 @@ function runWindows (mode, bin, target) {
   process.exit(1)
 }
 
-module.exports = function (mode, bin, target, dev) {
+// openIde() returns the result of an open() call (which is a Promise)
+// so this function should be treated as async
+module.exports = function openIde (mode, bin, target, dev) {
   console.log()
   console.log(' ⚠️  ')
-  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
+  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE. It might take a few seconds...`)
 
   if (dev) {
     console.log(' ⚠️  From there, use the IDE to run the app.')
