@@ -32,17 +32,16 @@
     "build": "pnpm build:code && pnpm build:templates"<% } else { %>"build": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts'"<% } %>
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-beta.5",
-    "@quasar/app-webpack": "^4.0.0-beta.7",
-    "mkdist": "^1.4.0",
-    "quasar": "^2.15.2",
-    "ts-essentials": "^9.4.1",
-    "vue": "^3.4.22"
+    "@quasar/app-vite": "^2.0.0-beta.18",
+    "@quasar/app-webpack": "^4.0.0-beta.19",
+    "mkdist": "^1.5.4",
+    "quasar": "^2.16.7",
+    "vue": "^3.4.36"
   },
   "peerDependencies": {
     "@quasar/app-vite": "^2.0.0-beta.1",
     "@quasar/app-webpack": "^4.0.0-beta.2",
-    "quasar": "^2.14.0",
+    "quasar": "^2.16.0",
     "vue": "^3.4.0"
   },
   "peerDependenciesMeta": {

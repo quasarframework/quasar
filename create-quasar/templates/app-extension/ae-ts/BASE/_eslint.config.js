@@ -48,7 +48,7 @@ export default tseslint.config(
       parserOptions: {
         parser: tseslint.parser,
         extraFileExtensions: ['.vue'],
-        project: true,
+        projectService: true,
       },
 
       globals: {

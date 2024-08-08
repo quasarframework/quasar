@@ -12,16 +12,16 @@
     "build": "quasar build"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.11",
-    "core-js": "^3.6.5",
-    "quasar": "^2.15.2",
-    "<%= pkgName %>": "workspace:*",
-    "vue": "^3.4.22",
-    "vue-router": "^4.3.0"
+    "@quasar/extras": "^1.16.12",
+    "core-js": "^3.38.0",
+    "quasar": "^2.16.7",
+    "vue": "^3.4.36",
+    "vue-router": "^4.4.3",
+    "<%= pkgName %>": "workspace:*"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^4.0.0-beta.7",
-    "ts-loader": "^9.4.2"
+    "@quasar/app-webpack": "^4.0.0-beta.19",
+    "ts-loader": "^9.5.1"
   },
   "browserslist": [
     "last 10 Chrome versions",

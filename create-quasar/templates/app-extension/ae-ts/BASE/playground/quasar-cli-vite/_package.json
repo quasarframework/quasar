@@ -13,15 +13,15 @@
     "build": "quasar build"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.11",
-    "quasar": "^2.15.2",
-    "<%= pkgName %>": "workspace:*",
-    "vue": "^3.4.22",
-    "vue-router": "^4.3.0"
+    "@quasar/extras": "^1.16.12",
+    "quasar": "^2.16.7",
+    "vue": "^3.4.36",
+    "vue-router": "^4.4.3",
+    "<%= pkgName %>": "workspace:*"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-beta.5",
-    "autoprefixer": "^10.4.17"
+    "@quasar/app-vite": "^2.0.0-beta.18",
+    "autoprefixer": "^10.4.20"
   },
   "engines": {
     "node": "^20 || ^18"
