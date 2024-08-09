@@ -8,6 +8,8 @@ export function ensureTypesFeatureFlags (quasarConf) {
   // We rely on the wildcard entry, so we use a deep import, instead of let's say `quasar/feature-flags`
   // When using TypeScript `moduleResolution: "bundler"`, it requires the file extension.
   // This may sound unusual, but that's because it seems to treat wildcard entries differently.
+
+  // Keep in sync with `create-quasar/templates/**/store-flag.d.ts`
   const template = `/* eslint-disable */
 /*
   WARNING: DO NOT MODIFY OR DELETE
