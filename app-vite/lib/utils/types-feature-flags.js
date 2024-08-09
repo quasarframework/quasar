@@ -3,7 +3,7 @@ import { writeFileSync, existsSync } from 'node:fs'
 
 import { log } from './logger.js'
 
-export async function regenerateTypesFeatureFlags (quasarConf) {
+export function ensureTypesFeatureFlags (quasarConf) {
   // We don't have a specific entry for the augmenting file in `package.json > exports`
   // We rely on the wildcard entry, so we use a deep import, instead of let's say `quasar/feature-flags`
   // When using TypeScript `moduleResolution: "bundler"`, it requires the file extension.
