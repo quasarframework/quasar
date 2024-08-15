@@ -192,7 +192,7 @@ export function writeFileIfChanged (dest, newContent, zip) {
   catch (e) {}
 
   return newContent.split(/[\n\r]+/).join('\n') !== currentContent.split(/[\n\r]+/).join('\n')
-    ? module.exports.writeFile(dest, newContent, zip)
+    ? writeFile(dest, newContent, zip)
     : Promise.resolve()
 }
 
