@@ -130,8 +130,8 @@ async function runBuild () {
 
   const quasarConf = await quasarConfFile.read()
 
-  const { regenerateTypesFeatureFlags } = require('../utils/types-feature-flags.js')
-  await regenerateTypesFeatureFlags(quasarConf)
+  const { ensureTypesFeatureFlags } = require('../utils/types-feature-flags.js')
+  ensureTypesFeatureFlags(quasarConf)
 
   const { QuasarModeBuilder } = require(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
   const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
