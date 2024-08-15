@@ -64,13 +64,23 @@
       <div class="col-md-5 q-px-sm q-py-xs" v-html="highlight(endOfDate[type], date)"/>
       <div class="col-md-5 q-px-sm q-py-xs" v-html="highlight(endOfDateUTC[type], date)"/>
     </div>
+
+    <div class="q-mt-xl">
+      <div class="text-h6">Test: encode+decode "now" with specific mask</div>
+      <q-input filled label="Mask:" v-model="userMask" class="q-my-md" style="min-width: 18em" />
+      <div>{{ testEncode }}</div>
+      <div>{{ testDecode }}</div>
+      <div>
+        <q-badge :color="testPassed ? 'green' : 'red'" :label="testPassed ? 'PASSED' : 'FAILED'" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { date } from 'quasar'
 
-const { startOfDate, endOfDate, formatDate, adjustDate, buildDate } = date
+const { startOfDate, endOfDate, formatDate, extractDate, adjustDate, buildDate } = date
 const format = d => formatDate(d, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
 const formatUTC = d => d.toISOString().replace(/Z$/, '+00:00')
 
@@ -112,7 +122,8 @@ export default {
 
   data () {
     return {
-      date: format(new Date())
+      date: format(new Date()),
+      userMask: 'YYYY-MM-DDTHH:mm:ss.SSSZ Do Mo w wo DDDo DDD'
     }
   },
   computed: {
@@ -170,6 +181,21 @@ export default {
         minute: formatUTC(endOfDate(this.date, 'minute', true)),
         second: formatUTC(endOfDate(this.date, 'second', true))
       }
+    },
+
+    testEncode () {
+      return formatDate(this.date, this.userMask)
+    },
+
+    testDecode () {
+      return formatDate(
+        extractDate(this.testEncode, this.userMask),
+        this.userMask
+      )
+    },
+
+    testPassed () {
+      return this.testEncode === this.testDecode
     }
   },
 
