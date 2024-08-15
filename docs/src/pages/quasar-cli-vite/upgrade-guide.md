@@ -193,6 +193,28 @@ Preparations:
   }
   ```
 
+  <br>
+
+* The feature flag files must be deleted from your project folder. They need to be generated again (will happen automatically).
+
+  ```tabs
+  <<| bash rimraf through npx |>>
+  # in project folder root:
+  $ npx rimraf -g ./**/*-flag.d.ts
+  $ quasar build # or dev
+  <<| bash Unix-like (Linux, macOS) |>>
+  # in project folder root:
+  $ rm ./**/*-flag.d.ts
+  $ quasar build # or dev
+  <<| bash Windows (CMD) |>>
+  # in project folder root:
+  $ del /s *-flag.d.ts
+  $ quasar build &:: or dev
+  <<| bash Windows (PowerShell) |>>
+  # in project folder root:
+  $ Remove-Item -Recurse -Filter *-flag.d.ts
+  $ quasar build # or dev
+  ```
 
 ### Linting (TS or JS)
 
