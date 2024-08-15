@@ -165,9 +165,9 @@ async function runBuild () {
         if (signal === SIGNAL__BUILD_SHOULD_EXIT) return
       }
 
-      outputFolder = argv.mode === 'cordova'
-        ? path.join(outputFolder, '..')
-        : outputFolder
+      if (argv.mode === 'cordova') {
+        outputFolder = path.join(outputFolder, '..')
+      }
 
       await displayBanner({
         argv,
