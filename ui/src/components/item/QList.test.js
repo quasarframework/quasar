@@ -11,7 +11,6 @@ describe('[QList API]', () => {
 
         const target = wrapper.get('.q-list')
 
-        expect(target.element.getAttribute('role')).toBeDefined()
         expect(target.element.getAttribute('role')).toBe('list')
       })
 
