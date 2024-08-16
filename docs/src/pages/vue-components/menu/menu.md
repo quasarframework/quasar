@@ -30,6 +30,10 @@ Alternatively, you can use the QMenu's property `auto-close` or handle closing t
 
 <DocExample title="Toggle through v-model" file="VModel" />
 
+::: warning
+If you want to conditionally activate or de-activate a QMenu, please use `v-if` on it instead of `v-show`.
+:::
+
 ### Submenus
 
 <DocExample title="Menus in menus" file="MenuInMenu" />
