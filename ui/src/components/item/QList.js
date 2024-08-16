@@ -34,11 +34,7 @@ export default createComponent({
       + (props.padding === true ? ' q-list--padding' : '')
     )
 
-    const role = computed(() => {
-      if (props.tag === 'ul') return undefined
-      if (props.tag === 'ol') return undefined
-      return 'list'
-    })
+    const role = computed(() => props.tag === 'ul' || props.tag === 'ol' ? undefined : 'list')
 
     return () => h(props.tag, { class: classes.value, role: role.value }, hSlot(slots.default))
   }
