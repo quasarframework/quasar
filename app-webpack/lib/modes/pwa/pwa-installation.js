@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const { log, warn } = require('../../utils/logger.js')
+const { generateTypesFeatureFlag } = require('../../utils/types-feature-flags.js')
 
 const pwaDevDeps = {
   'workbox-webpack-plugin': '^7.0.0'
@@ -50,10 +51,7 @@ module.exports.addMode = function addMode ({
     hasEslint === true ? { filter: src => !src.endsWith('/.eslintrc.cjs') } : void 0
   )
 
-  fse.copySync(
-    appPaths.resolve.cli('templates/pwa/pwa-flag.d.ts'),
-    appPaths.resolve.pwa('pwa-flag.d.ts')
-  )
+  generateTypesFeatureFlag('pwa', appPaths)
 
   log('Copying PWA icons to /public/icons/ (if they are not already there)...')
   fse.copySync(

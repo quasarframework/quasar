@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const { log, warn } = require('../../utils/logger.js')
+const { generateTypesFeatureFlag } = require('../../utils/types-feature-flags.js')
 
 function isModeInstalled (appPaths) {
   return fs.existsSync(appPaths.ssrDir)
@@ -27,10 +28,7 @@ module.exports.addMode = function addMode ({
     appPaths.ssrDir
   )
 
-  fse.copySync(
-    appPaths.resolve.cli('templates/ssr/ssr-flag.d.ts'),
-    appPaths.resolve.ssr('ssr-flag.d.ts')
-  )
+  generateTypesFeatureFlag('ssr', appPaths)
 
   log('SSR support was added')
 }
