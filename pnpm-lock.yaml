@@ -761,18 +761,18 @@ importers:
         version: 8.57.0
       eslint-config-standard:
         specifier: ^17.1.0
-        version: 17.1.0(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint-plugin-n@16.6.2(eslint@8.57.0))(eslint-plugin-promise@6.6.0(eslint@8.57.0))(eslint@8.57.0)
+        version: 17.1.0(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint-plugin-n@17.10.2(eslint@8.57.0))(eslint-plugin-promise@7.1.0(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-import:
         specifier: ^2.29.1
         version: 2.29.1(eslint@8.57.0)
       eslint-plugin-n:
-        specifier: ^16.6.2
-        version: 16.6.2(eslint@8.57.0)
+        specifier: ^17.10.2
+        version: 17.10.2(eslint@8.57.0)
       eslint-plugin-promise:
-        specifier: ^6.1.1
-        version: 6.6.0(eslint@8.57.0)
+        specifier: ^7.1.0
+        version: 7.1.0(eslint@8.57.0)
       eslint-plugin-vue:
-        specifier: ^9.25.0
+        specifier: ^9.27.0
         version: 9.27.0(eslint@8.57.0)
 
   utils/render-ssr-error:
@@ -2959,9 +2959,6 @@ packages:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
     engines: {node: '>=6'}
 
-  builtins@5.1.0:
-    resolution: {integrity: sha512-SW9lzGTLvWTP1AY8xeAMZimqDrIaSdLQUcVr9DMef51niJ022Ri87SwRRKYm4A6iHfkPaiVUu/Duw2Wc4J7kKg==}
-
   bundle-name@3.0.0:
     resolution: {integrity: sha512-PKA4BeSvBpQKQ8iPOGCSiell+N8P+Tf1DlwqmYhpe2gAhKPHn8EYOxVT+ShuGmhg8lN8XiSlS80yiExKXrURlw==}
     engines: {node: '>=12'}
@@ -3843,15 +3840,15 @@ packages:
     peerDependencies:
       eslint: '>=8.0.0'
 
-  eslint-plugin-n@16.6.2:
-    resolution: {integrity: sha512-6TyDmZ1HXoFQXnhCTUjVFULReoBPOAjpuiKELMkeP40yffI/1ZRO+d9ug/VC6fqISo2WkuIBk3cvuRPALaWlOQ==}
-    engines: {node: '>=16.0.0'}
+  eslint-plugin-n@17.10.2:
+    resolution: {integrity: sha512-e+s4eAf5NtJaxPhTNu3qMO0Iz40WANS93w9LQgYcvuljgvDmWi/a3rh+OrNyMHeng6aOWGJO0rCg5lH4zi8yTw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: '>=7.0.0'
+      eslint: '>=8.23.0'
 
-  eslint-plugin-promise@6.6.0:
-    resolution: {integrity: sha512-57Zzfw8G6+Gq7axm2Pdo3gW/Rx3h9Yywgn61uE/3elTCOePEHVrn2i5CdfBwA1BLK0Q0WqctICIUSqXZW/VprQ==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  eslint-plugin-promise@7.1.0:
+    resolution: {integrity: sha512-8trNmPxdAy3W620WKDpaS65NlM5yAumod6XeC4LOb+jxlkG4IVcp68c6dXY2ev+uT4U1PtG57YDV6EGAXN0GbQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
 
@@ -4234,6 +4231,10 @@ packages:
   globals@13.24.0:
     resolution: {integrity: sha512-AhO5QUcj8llrbG09iWhPU2B204J1xnPeL8kQmVorSsy+Sjj1sk8gIyh6cUocGmH4L0UuhAJy+hJMRA4mgA4mFQ==}
     engines: {node: '>=8'}
+
+  globals@15.9.0:
+    resolution: {integrity: sha512-SmSKyLLKFbSr6rptvP8izbyxJL4ILwqO9Jg23UA0sDlGlu58V59D1//I3vlc0KJphVdUR7vMjHIplYnzBxorQA==}
+    engines: {node: '>=18'}
 
   globalthis@1.0.4:
     resolution: {integrity: sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==}
@@ -9957,10 +9958,6 @@ snapshots:
 
   builtin-modules@3.3.0: {}
 
-  builtins@5.1.0:
-    dependencies:
-      semver: 7.6.3
-
   bundle-name@3.0.0:
     dependencies:
       run-applescript: 5.0.0
@@ -10918,12 +10915,12 @@ snapshots:
       eslint: 8.57.0
       semver: 7.6.3
 
-  eslint-config-standard@17.1.0(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint-plugin-n@16.6.2(eslint@8.57.0))(eslint-plugin-promise@6.6.0(eslint@8.57.0))(eslint@8.57.0):
+  eslint-config-standard@17.1.0(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint-plugin-n@17.10.2(eslint@8.57.0))(eslint-plugin-promise@7.1.0(eslint@8.57.0))(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
-      eslint-plugin-n: 16.6.2(eslint@8.57.0)
-      eslint-plugin-promise: 6.6.0(eslint@8.57.0)
+      eslint-plugin-n: 17.10.2(eslint@8.57.0)
+      eslint-plugin-promise: 7.1.0(eslint@8.57.0)
 
   eslint-import-resolver-node@0.3.9:
     dependencies:
@@ -10981,22 +10978,19 @@ snapshots:
       esquery: 1.6.0
       parse5: 7.1.2
 
-  eslint-plugin-n@16.6.2(eslint@8.57.0):
+  eslint-plugin-n@17.10.2(eslint@8.57.0):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
-      builtins: 5.1.0
+      enhanced-resolve: 5.17.1
       eslint: 8.57.0
       eslint-plugin-es-x: 7.8.0(eslint@8.57.0)
       get-tsconfig: 4.7.6
-      globals: 13.24.0
+      globals: 15.9.0
       ignore: 5.3.1
-      is-builtin-module: 3.2.1
-      is-core-module: 2.15.0
-      minimatch: 3.1.2
-      resolve: 1.22.8
+      minimatch: 9.0.5
       semver: 7.6.3
 
-  eslint-plugin-promise@6.6.0(eslint@8.57.0):
+  eslint-plugin-promise@7.1.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
 
@@ -11503,6 +11497,8 @@ snapshots:
   globals@13.24.0:
     dependencies:
       type-fest: 0.20.2
+
+  globals@15.9.0: {}
 
   globalthis@1.0.4:
     dependencies:
