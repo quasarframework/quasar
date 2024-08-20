@@ -753,7 +753,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       htmlFilename: 'index.html',
       webpackShowProgress: true,
       webpackDevtool: this.#ctx.dev
-        ? 'eval-cheap-module-source-map'
+        // eval does not suit CSP of browser extensions
+        ? (this.#ctx.mode.bex ? 'cheap-source-map' : 'eval-cheap-module-source-map')
         : 'source-map',
 
       uglifyOptions: {
