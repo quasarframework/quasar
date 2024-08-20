@@ -465,7 +465,7 @@ interface MyUploaderProps extends QUploaderProps {
   onFreeze: boolean;
 }
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   interface GlobalComponents {
     MyUploader: GlobalComponentConstructor<MyUploaderProps, QUploaderSlots>;
   }
