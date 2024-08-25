@@ -7,7 +7,7 @@ const { version } = JSON.parse(
   readFileSync(join(quasarPath, 'package.json'), 'utf-8')
 )
 
-export function getViteConfig (runMode, viteCommand, externalViteCfg) {
+export function getViteConfig (runMode, viteCfgEnv, externalViteCfg) {
   const viteCfg = {
     define: {
       __QUASAR_VERSION__: `'${ version }'`,
@@ -32,7 +32,7 @@ export function getViteConfig (runMode, viteCommand, externalViteCfg) {
   else {
     // Alias "quasar" package to its dev file (which has flags)
     // to reduce the number of HTTP requests while in DEV mode
-    if (viteCommand === 'serve') {
+    if (viteCfgEnv.command === 'serve' && viteCfgEnv.mode === 'development') {
       viteCfg.resolve = {
         alias: [
           { find: /^quasar$/, replacement: 'quasar/dist/quasar.client.js' }

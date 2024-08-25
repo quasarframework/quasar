@@ -41,8 +41,8 @@ function getConfigPlugin (opts) {
       }
     },
 
-    config (viteConf, { command }) {
-      return getViteConfig(opts.runMode, command, viteConf)
+    config (viteConf, viteConfEnv) {
+      return getViteConfig(opts.runMode, viteConfEnv, viteConf)
     }
   }
 }
