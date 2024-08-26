@@ -139,7 +139,7 @@ const middlewareParams = {
     root: rootFolder,
     public: publicFolder
   },
-  render: ssrContext => render(ssrContext)
+  render
 }
 
 export const app = await create(middlewareParams)
