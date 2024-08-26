@@ -28,16 +28,17 @@ export default tseslint.config(
     name: 'ignored',
 
     ignores: [
-      '**/dist',
-      '**/.quasar',
-      'quasar.config.*.temporary.compiled*',
-      'src-cordova',
-      'src-capacitor',
-      'src-ssr',
+      "**/dist",
 
-      // app-webpack
-      'src-bex/www',
-      'babel.config.cjs',
+      "playground/*/.quasar",
+      "playground/*/quasar.config.*.temporary.compiled*",
+      "playground/*/src-cordova",
+      "playground/*/src-capacitor",
+      "playground/*/src-ssr",
+      "playground/*/postcss.config.cjs",
+
+      "playground/quasar-cli-webpack/src-bex/www",
+      "playground/quasar-cli-webpack/babel.config.cjs",
     ],
   },
 
