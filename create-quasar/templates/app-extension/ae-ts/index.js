@@ -74,6 +74,7 @@ export async function script ({ scope, utils }) {
 
   scope.pkgName = scope.needOrgName ? `@${scope.orgName}/quasar-app-extension-${scope.name}` : `quasar-app-extension-${scope.name}`
   const packageManager = utils.runningPackageManager
+  scope.packageManager = packageManager
   scope.packageManagerField = packageManager ? `${packageManager.name}@${packageManager.version}` : undefined
 
   utils.createTargetDir(scope)

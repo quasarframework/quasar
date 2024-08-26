@@ -4,17 +4,24 @@
   <% if (packageManagerField) { %>"packageManager": "<%= packageManagerField %>",<% } %>
   "author": "<%= author %>",
   "type": "module",
-  <% if (!packageManagerField?.startsWith('pnpm')) { %>"workspaces": [
+  <% if (packageManager?.name !== 'pnpm') { %>"workspaces": [
     "app-extension",
     "playground/*"
   ],<% } %>
   "scripts": {
+    <% if (packageManager) { %>
+    "build": <% if (['pnpm', 'bun'].includes(packageManager.name)) { %>"<%= packageManager.name %> --filter ./app-extension build"<% } else if (packageManager.name === 'yarn') { %>"yarn workspace <%= pkgName %> build"<% } else { %>"npm run --workspace <%= pkgName %> build"<% } %>,
+    "dev:vite": <% if (['pnpm', 'bun'].includes(packageManager.name)) { %>"<%= packageManager.name %> --filter ./playground/quasar-cli-vite dev"<% } else if (packageManager.name === 'yarn') { %>"yarn workspace playground-quasar-cli-vite dev"<% } else { %>"npm run --workspace playground-quasar-cli-vite dev"<% } %>,
+    "dev:webpack": <% if (['pnpm', 'bun'].includes(packageManager.name)) { %>"<%= packageManager.name %> --filter ./playground/quasar-cli-webpack dev"<% } else if (packageManager.name === 'yarn') { %>"yarn workspace playground-quasar-cli-webpack dev"<% } else { %>"npm run --workspace playground-quasar-cli-webpack dev"<% } %>,
+    "format": <% if (packageManager.name === 'pnpm') { %>"pnpm format:root && pnpm --recursive format"<% } else if (packageManager.name === 'bun') { %>"bun format:root && bun --filter '*' format"<% } else if (packageManager.name === 'yarn') { %>"yarn format:root && yarn workspace <%= pkgName %> format"<% } else { %>"npm run format:root && npm run --workspaces format"<% } %>,
+    <% } else { %>
     "build": "pnpm --filter ./app-extension build",
     "dev:vite": "pnpm --filter ./playground/quasar-cli-vite dev",
     "dev:webpack": "pnpm --filter ./playground/quasar-cli-webpack dev",
+    "format": "pnpm format:root && pnpm --recursive format",
+    <% } %>
     "lint": "eslint",
-    "format:root": "prettier --write \"./*.{json,md,vue,js,ts,yml}\" \"./.vscode/*.json\" --ignore-path .gitignore",
-    "format": "pnpm format:root && pnpm --recursive format"
+    "format:root": "prettier --write \"./*.{json,md,vue,js,ts,yml}\" \"./.vscode/*.json\" --ignore-path .gitignore"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
