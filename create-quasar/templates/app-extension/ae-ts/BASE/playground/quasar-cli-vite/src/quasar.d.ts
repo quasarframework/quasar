@@ -6,4 +6,5 @@
 //  augmentations (eg. adds `$q` into Vue component context)
 /// <reference types="@quasar/app-vite" />
 
+// Load global component typings
 /// <reference types="<%= pkgName %>" />
