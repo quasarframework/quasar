@@ -242,8 +242,8 @@ For those who don't want to manually reload the page when the service worker is 
 ```js /quasar.config file
 pwa: {
   extendGenerateSWOptions (cfg) {
-    cfg.skipWaiting = false
-    cfg.clientsClaim = false
+    cfg.skipWaiting = true
+    cfg.clientsClaim = true
   }
 }
 ```
