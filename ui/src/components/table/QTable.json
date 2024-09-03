@@ -48,7 +48,7 @@
     "virtual-scroll-slice-size": {
       "type": [ "Number", "String", "null" ],
       "desc": "Minimum number of rows to render in the virtual list",
-      "default": "30",
+      "default": "10",
       "passthrough": "child",
       "category": "virtual-scroll"
     },
