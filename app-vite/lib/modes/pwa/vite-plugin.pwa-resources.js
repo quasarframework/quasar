@@ -1,4 +1,3 @@
-
 import { static as serveStatic } from 'express'
 
 import { createHeadTags } from './utils.js'
@@ -25,7 +24,7 @@ export function quasarVitePluginPwaResources (quasarConf) {
     enforce: 'pre',
 
     transformIndexHtml: {
-      transform: html => {
+      handler: html => {
         updateCache()
         return html.replace(
           /(<\/head>)/i,

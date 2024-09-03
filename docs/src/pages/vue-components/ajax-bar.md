@@ -18,7 +18,7 @@ QAjaxBar is a component which displays a loading bar (like Youtube) whenever an 
 If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
 :::
 
-<doc-api file="QAjaxBar" />
+<DocApi file="QAjaxBar" />
 
 ## Usage
 The QAjaxBar component captures Ajax calls automatically (unless told not to).
@@ -27,7 +27,7 @@ The example below triggers events manually for demonstrating purposes only. This
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 Please check out the API section for all properties that you can use.
 
@@ -58,3 +58,4 @@ export default {
 
 * If multiple events are captured by Ajax Bar simultaneously, `@start` and `@stop` will still be triggered only once: when bar starts showing up and when it becomes hidden.
 * Each Ajax call makes a `start()` call when it is triggered. When it ends, it calls `stop()`. So yes, if you also manually trigger QAjaxBar you must call `start()` each time a new event is starting and `stop()` each time an event finished. QAjaxBar knows to handle multiple events simultaneously.
+* The automatic capture is designed to function exclusively with libraries utilizing [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest). Consequently, if you opt for the native browser [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), it won't initiate the loading bar automatically.

@@ -11,7 +11,7 @@ function devLoad (id) {
   if (id.startsWith(resolvedIdPrefix) === true) {
     const query = `'/src/examples/${ id.substring(id.indexOf(':') + 1) }/*.vue'`
     return `export const code = import.meta.glob(${ query }, { eager: true })` +
-      `\nexport const source = import.meta.glob(${ query }, { as: 'raw', eager: true })`
+      `\nexport const source = import.meta.glob(${ query }, { query: '?raw', import: 'default', eager: true })`
   }
 }
 

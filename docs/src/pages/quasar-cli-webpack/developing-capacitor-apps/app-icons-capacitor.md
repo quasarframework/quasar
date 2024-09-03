@@ -113,12 +113,12 @@ Capacitor is one of the most complicated of all of the build targets as far as i
 
 If you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 
 ::: tip
-We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
+We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html or /src/index.template.html file.
 :::
 
 Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
@@ -127,10 +127,10 @@ Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list 
 $ icongenie generate -m capacitor -i /path/to/source/icon.png [-b /path/to/background.png]
 ```
 
-Depending on what packager (electron-packager or electron-builder) you will be using, please see their docs on how to hook the icons.
+Depending on what packager (@electron/packager or electron-builder) you will be using, please see their docs on how to hook the icons.
 
 ## Manual instructions
 
 Unless you are using the Icon Genie app extension, these are the files that you need to replace:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

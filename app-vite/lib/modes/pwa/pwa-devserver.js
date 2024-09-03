@@ -19,6 +19,12 @@ export class QuasarModeDevserver extends AppDevserver {
     super(opts)
 
     // also update ssr-devserver.js when changing here
+    this.registerDiff('pwaManifest', quasarConf => [
+      quasarConf.pwa.manifestFilename,
+      quasarConf.pwa.extendManifestJson
+    ])
+
+    // also update ssr-devserver.js when changing here
     this.registerDiff('vitePWA', (quasarConf, diffMap) => [
       quasarConf.pwa.injectPwaMetaTags,
       quasarConf.pwa.manifestFilename,
@@ -109,7 +115,7 @@ export class QuasarModeDevserver extends AppDevserver {
       inject()
 
       if (this.#server !== void 0) {
-        this.#server.ws.send({
+        this.#server.hot.send({
           type: 'full-reload',
           path: '*'
         })

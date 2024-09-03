@@ -1,4 +1,1 @@
-
-const lintConfig = require('../.eslintrc.cjs')
-
-module.exports = lintConfig
+module.exports = require('../.eslintrc.cjs')

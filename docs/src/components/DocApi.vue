@@ -1,7 +1,7 @@
 <template>
   <q-card class="doc-api q-my-xl" flat bordered>
     <div class="header-toolbar row items-center q-pr-sm">
-      <doc-card-title :title="nameBanner" />
+      <DocCardTitle :title="nameBanner" />
 
       <div
         class="col doc-api__search-field row items-center no-wrap"
@@ -11,6 +11,7 @@
           class="col doc-api__search text-right"
           ref="inputRef"
           v-model="filter"
+          name="filter"
           placeholder="Filter..."
         >
         <q-btn
@@ -65,12 +66,12 @@
 
             <q-tab-panels class="col" v-model="currentInnerTab" animated transition-prev="slide-down" transition-next="slide-up">
               <q-tab-panel class="q-pa-none" v-for="innerTab in innerTabsList[tab]" :name="innerTab" :key="innerTab">
-                <doc-api-entry :type="tab" :definition="filteredApi[tab][innerTab]" />
+                <DocApiEntry :type="tab" :definition="filteredApi[tab][innerTab]" />
               </q-tab-panel>
             </q-tab-panels>
           </div>
           <div class="doc-api__container" v-else>
-            <doc-api-entry :type="tab" :definition="filteredApi[tab][defaultInnerTabName]" />
+            <DocApiEntry :type="tab" :definition="filteredApi[tab][defaultInnerTabName]" />
           </div>
         </q-tab-panel>
       </q-tab-panels>

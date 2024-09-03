@@ -14,16 +14,15 @@ Web Storage API only retrieves strings. **Quasar retrieves data with its origina
 When running the code server-side on SSR builds, this feature can't work. Web Storage is a browser API only. You can however make use of it on the client-side with SSR.
 :::
 
-<doc-api file="LocalStorage" />
+<DocApi file="LocalStorage" />
 
-<doc-api file="SessionStorage" />
+<DocApi file="SessionStorage" />
 
-<doc-installation :plugins="['LocalStorage', 'SessionStorage']" />
+<DocInstallation :plugins="['LocalStorage', 'SessionStorage']" />
 
 ## Usage
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { LocalStorage, SessionStorage } from 'quasar'
 
 LocalStorage.set(key, value)
@@ -33,8 +32,7 @@ SessionStorage.set(key, value)
 let value = SessionStorage.getItem(key)
 ```
 
-```js
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {

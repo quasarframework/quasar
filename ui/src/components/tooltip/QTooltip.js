@@ -1,22 +1,22 @@
 import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
-import useScrollTarget from '../../composables/private/use-scroll-target.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
-import usePortal from '../../composables/private/use-portal.js'
-import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useTick from '../../composables/private/use-tick.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useAnchor, { useAnchorStaticProps } from '../../composables/private.use-anchor/use-anchor.js'
+import useScrollTarget from '../../composables/private.use-scroll-target/use-scroll-target.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
+import usePortal from '../../composables/private.use-portal/use-portal.js'
+import useTransition, { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
+import useTick from '../../composables/use-tick/use-tick.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { getScrollTarget } from '../../utils/scroll.js'
-import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event.js'
-import { clearSelection } from '../../utils/private/selection.js'
-import { hSlot } from '../../utils/private/render.js'
-import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
+import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event/event.js'
+import { clearSelection } from '../../utils/private.selection/selection.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { addClickOutside, removeClickOutside } from '../../utils/private.click-outside/click-outside.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/private/position-engine.js'
+} from '../../utils/private.position-engine/position-engine.js'
 
 export default createComponent({
   name: 'QTooltip',
@@ -24,7 +24,7 @@ export default createComponent({
   inheritAttrs: false,
 
   props: {
-    ...useAnchorProps,
+    ...useAnchorStaticProps,
     ...useModelToggleProps,
     ...useTransitionProps,
 
@@ -38,9 +38,11 @@ export default createComponent({
     },
 
     transitionShow: {
+      ...useTransitionProps.transitionShow,
       default: 'jump-down'
     },
     transitionHide: {
+      ...useTransitionProps.transitionHide,
       default: 'jump-up'
     },
 
@@ -60,9 +62,7 @@ export default createComponent({
       validator: validateOffset
     },
 
-    scrollTarget: {
-      default: void 0
-    },
+    scrollTarget: scrollTargetProp,
 
     delay: {
       type: Number,
@@ -72,7 +72,9 @@ export default createComponent({
     hideDelay: {
       type: Number,
       default: 0
-    }
+    },
+
+    persistent: Boolean
   },
 
   emits: [
@@ -241,7 +243,7 @@ export default createComponent({
     }
 
     function configureAnchorEl () {
-      if (props.noParentEvent === true || anchorEl.value === null) { return }
+      if (props.noParentEvent === true || anchorEl.value === null) return
 
       const evts = $q.platform.is.mobile === true
         ? [

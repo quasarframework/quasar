@@ -1,11 +1,11 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
-import useSize from '../../composables/private/use-size.js'
-import { useCircularCommonProps } from './use-circular-progress.js'
+import useSize from '../../composables/private.use-size/use-size.js'
+import { useCircularCommonProps } from './circular-progress.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hMergeSlotSafely } from '../../utils/private/render.js'
-import { between } from '../../utils/format.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hMergeSlotSafely } from '../../utils/private.render/render.js'
+import { between } from '../../utils/format/format.js'
 
 const
   radius = 50,
@@ -60,11 +60,16 @@ export default createComponent({
 
     const normalized = computed(() => between(props.value, props.min, props.max))
 
-    const strokeDashOffset = computed(() => circumference * (
-      1 - (normalized.value - props.min) / (props.max - props.min)
-    ))
-
+    const range = computed(() => props.max - props.min)
     const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
+    const strokeDashOffset = computed(() => {
+      const dashRatio = (props.max - normalized.value) / range.value
+      const dashGap = props.rounded === true && normalized.value < props.max && dashRatio < 0.25
+        ? strokeWidth.value / 2 * (1 - dashRatio / 0.25)
+        : 0
+
+      return circumference * dashRatio + dashGap
+    })
 
     function getCircle ({ thickness, offset, color, cls, rounded }) {
       return h('circle', {

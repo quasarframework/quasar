@@ -34,15 +34,14 @@ To see an example of what we will build, head over to [MyDirective full example]
 
 Create a folder structure to keep your code modularized and organized. For instance, for a directive, create a structure that looks like this:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 Now, you need to handle registering your Vue directive. You do this with the `/index.js` file (described in the [Index API](/app-extensions/development-guide/index-api)) that was created when you set up your new App Extension.
 
 Let's break it down.
 
-```js
-// file: /index.js
-module.exports = function (api) {
+```js File: /index.js
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
@@ -50,10 +49,10 @@ module.exports = function (api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite === true) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+    api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
   }
   else { // api.hasWebpack === true
-    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+    api.compatibleWith('@quasar/app-webpack', '^4.0.0-beta.1')
   }
 
   // Here we extend the /quasar.config file, so we can add
@@ -71,8 +70,7 @@ Not only can you do a `api.compatibleWith()` to check against Quasar packages, b
 
 The second group tells Quasar to call our custom function when the `extendQuasarConf` CLI life-cycle hook is called. It would look something like this:
 
-```js
-// file: /index.js
+```js File: /index.js
 function extendConf (conf, api) {
   // make sure my-directive boot file is registered
   conf.boot.push('~quasar-app-extension-my-directive/src/boot/register-my-directive.js')
@@ -87,8 +85,7 @@ function extendConf (conf, api) {
 
 Finally, let's see how the boot file would look like. Make sure that you read the [@quasar/app-vite Boot files](/quasar-cli-vite/boot-files) / [@quasar/app-webpack Boot files](/quasar-cli-webpack/boot-files) documentation and understand what a Boot file is first.
 
-```js
-// file: /src/boot/my-directive.js
+```js File: /src/boot/my-directive.js
 import MyDirective from '../directive/MyDirective.js'
 
 // We globally register our directive with Vue;

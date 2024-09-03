@@ -2,7 +2,7 @@ const xmldom = require('@xmldom/xmldom')
 const Parser = new xmldom.DOMParser()
 
 const { resolve, basename } = require('path')
-const { readFileSync, writeFileSync } = require('fs')
+const { readFileSync, writeFileSync, existsSync } = require('fs')
 
 const cjsReplaceRE = /export const /g
 const typeExceptions = [ 'g', 'svg', 'defs', 'style', 'title' ]
@@ -203,14 +203,26 @@ function parseSvgContent(name, content) {
   return result
 }
 
+function getPackageJson (packageName) {
+  let file = resolve(__dirname, `../../node_modules/${packageName}/package.json`)
+  if (existsSync(file)) return file
+  file = resolve(__dirname, `../../node_modules/${packageName}/bower.json`)
+  if (existsSync(file)) return file
+
+  console.error('Could not locate package.json or bower.json for ' + packageName)
+  process.exit(1)
+}
+
 function getBanner(iconSetName, versionOrPackageName) {
   const version =
   versionOrPackageName === '' || versionOrPackageName.match(/^\d/)
     ? versionOrPackageName === '' ? versionOrPackageName : 'v' + versionOrPackageName
-    : 'v' + require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
+    : 'v' + require(getPackageJson(versionOrPackageName)).version
 
   return `/* ${iconSetName} ${version} */\n\n`
 }
+
+module.exports.getBanner = getBanner
 
 module.exports.defaultNameMapper = (filePath, prefix) => {
   return (prefix + '-' + basename(filePath, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase());
@@ -375,3 +387,21 @@ class Queue {
 }
 
 module.exports.Queue = Queue
+
+module.exports.copyCssFile = function copyCssFile ({
+  from,
+  to,
+  replaceFn
+}) {
+  if (existsSync(from) === false) {
+    console.error(`[Error] ${from} does not exist`)
+    process.exit(1)
+  }
+
+  const content = readFileSync(from, 'utf-8')
+  const newContent = replaceFn !== void 0
+    ? replaceFn(content)
+    : content
+
+  writeFileSync(to, newContent, 'utf-8')
+}

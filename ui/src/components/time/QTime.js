@@ -1,18 +1,18 @@
 import { h, ref, computed, watch, withDirectives, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import { useFormProps, useFormAttrs, useFormInject } from '../../composables/use-form/private.use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { formatDate, __splitDate } from '../../utils/date.js'
-import { position } from '../../utils/event.js'
-import { pad } from '../../utils/format.js'
-import { vmIsDestroyed } from '../../utils/private/vm.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { formatDate, __splitDate } from '../../utils/date/date.js'
+import { position } from '../../utils/event/event.js'
+import { pad } from '../../utils/format/format.js'
+import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 
 function getViewByModel (model, withSeconds) {
   if (model.hour !== null) {
@@ -46,7 +46,13 @@ export default createComponent({
     ...useFormProps,
     ...useDatetimeProps,
 
+    modelValue: {
+      required: true,
+      validator: val => (typeof val === 'string' || val === null)
+    },
+
     mask: {
+      ...useDatetimeProps.mask,
       default: null
     },
 
@@ -567,7 +573,7 @@ export default createComponent({
             ? validHours.value.values
             : validHours.value[ isAM.value === true ? 'am' : 'pm' ].values
 
-          if (values.length === 0) { return }
+          if (values.length === 0) return
 
           if (innerModel.value.hour === null) {
             setHour(values[ 0 ])
@@ -603,7 +609,7 @@ export default createComponent({
         if (validMinutes.value !== null) {
           const values = validMinutes.value.values
 
-          if (values.length === 0) { return }
+          if (values.length === 0) return
 
           if (innerModel.value.minute === null) {
             setMinute(values[ 0 ])
@@ -635,7 +641,7 @@ export default createComponent({
         if (validSeconds.value !== null) {
           const values = validSeconds.value.values
 
-          if (values.length === 0) { return }
+          if (values.length === 0) return
 
           if (innerModel.value.seconds === null) {
             setSecond(values[ 0 ])
@@ -706,23 +712,36 @@ export default createComponent({
       }
     }
 
+    function goToViewWhenHasModel (newView) {
+      const model = props.modelValue
+      if (
+        view.value !== newView
+        && model !== void 0
+        && model !== null
+        && model !== ''
+        && typeof model !== 'string'
+      ) {
+        view.value = newView
+      }
+    }
+
     function verifyAndUpdate () {
       if (hourInSelection.value !== null && hourInSelection.value(innerModel.value.hour) !== true) {
         innerModel.value = __splitDate()
-        view.value = 'hour'
+        goToViewWhenHasModel('hour')
         return
       }
 
       if (minuteInSelection.value !== null && minuteInSelection.value(innerModel.value.minute) !== true) {
         innerModel.value.minute = null
         innerModel.value.second = null
-        view.value = 'minute'
+        goToViewWhenHasModel('minute')
         return
       }
 
       if (props.withSeconds === true && secondInSelection.value !== null && secondInSelection.value(innerModel.value.second) !== true) {
         innerModel.value.second = null
-        view.value = 'second'
+        goToViewWhenHasModel('second')
         return
       }
 

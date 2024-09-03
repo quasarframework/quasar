@@ -26,7 +26,7 @@ export namespace colors {
   function brightness(color: string | colorsRgba): number;
   function blend(
     foregroundColor: string | colorsRgba,
-    backgroundColor: string | colorsRgba
+    backgroundColor: string | colorsRgba,
   ): string;
   function changeAlpha(color: string, offset: number): string;
   function getPaletteColor(colorName: NamedColor): string;

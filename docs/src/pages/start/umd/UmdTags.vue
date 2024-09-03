@@ -245,11 +245,11 @@ const postCreateApp = computed(() => {
   let str = ''
 
   if (lang.value !== 'en-US') {
-    str += `Quasar.lang.set(Quasar.lang.${lang.value.replace(/-/g, '')})\n      `
+    str += `Quasar.Lang.set(Quasar.Lang.${lang.value.replace(/-/g, '')})\n      `
   }
 
   if (iconSet.value !== 'material-icons') {
-    str += `Quasar.iconSet.set(Quasar.iconSet.${camelize(iconSet.value)})\n      `
+    str += `Quasar.IconSet.set(Quasar.IconSet.${camelize(iconSet.value)})\n      `
   }
 
   return str

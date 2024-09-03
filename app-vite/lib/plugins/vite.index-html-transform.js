@@ -1,4 +1,3 @@
-
 import { transformHtml } from '../utils/html-template.js'
 
 export function quasarViteIndexHtmlTransformPlugin (quasarConf) {
@@ -7,7 +6,7 @@ export function quasarViteIndexHtmlTransformPlugin (quasarConf) {
     enforce: 'pre',
     transformIndexHtml: {
       order: 'pre',
-      transform: html => transformHtml(html, quasarConf)
+      handler: html => transformHtml(html, quasarConf)
     }
   }
 }

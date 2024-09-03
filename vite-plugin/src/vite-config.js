@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -36,7 +35,7 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
     if (viteMode !== 'production') {
       viteCfg.resolve = {
         alias: [
-          { find: /^quasar$/, replacement: 'quasar/dist/quasar.esm.js' }
+          { find: /^quasar$/, replacement: 'quasar/dist/quasar.client.js' }
         ]
       }
     }

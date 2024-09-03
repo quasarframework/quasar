@@ -6,10 +6,12 @@ related:
   - /layout/header-and-footer
   - /layout/drawer
   - /layout/page
-components:
-  - ./LayoutGallery
 ---
 
 As a way to help you get started quicker, we've written a few ready Quasar Layouts for you. Please also take time to learn each Quasar component, otherwise you'll be missing a lot of features.
 
-<layout-gallery class="q-mt-md" />
+<script doc>
+import LayoutGallery from './LayoutGallery.vue'
+</script>
+
+<LayoutGallery class="q-mt-md" />

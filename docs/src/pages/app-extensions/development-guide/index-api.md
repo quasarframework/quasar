@@ -8,7 +8,8 @@ This page refers to `src/index.js` file, which is executed on `quasar dev` and `
 Example of basic structure of the file:
 
 ```js
-module.exports = function (api) {
+// can be async
+export default function (api) {
   // props & methods for "api" Object described below
 }
 ```
@@ -70,10 +71,49 @@ api.resolve.electron('some-file.js')
 
 // resolves to root/src-electron of app
 api.resolve.electron('some-file.js')
+
+// resolves to root/src-bex of app
+api.resolve.bex('some-file.js')
 ```
 
 ### api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
+
+### api.hasTypescript <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<boolean>} host project has Typescript active or not
+ */
+await api.hasTypescript()
+```
+
+### api.hasLint <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<boolean>} host project has ESLint or not
+ */
+await api.hasLint()
+```
+
+### api.getStorePackageName <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ */
+await api.getStorePackageName()
+```
+
+### api.getNodePackagerName <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
+ */
+await api.getNodePackagerName()
+```
 
 ### api.compatibleWith
 
@@ -91,13 +131,12 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 api.compatibleWith('@quasar/app', '1.x')
 ```
 
-```js
-// a more complex example:
+```js A more complex example
 if (api.hasVite === true) {
-  api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+  api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
 }
 else {
-  api.compatbileWith('@quasar/app-webpack', '^3.4.0')
+  api.compatbileWith('@quasar/app-webpack', '^4.0.0-beta.1')
 }
 ```
 
@@ -116,8 +155,8 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
-if (api.hasPackage('quasar', '^1.0.0')) {
-  // hey, this app has v1 installed
+if (api.hasPackage('quasar', '^2.0.0')) {
+  // hey, this app has Quasar UI v2 installed
 }
 ```
 
@@ -165,8 +204,7 @@ api.extendQuasarConf ((conf, api) => {
 })
 ```
 
-```js
-// a more complex example:
+```js A more complex example:
 api.extendQuasarConf ((conf, api) => {
   if (api.hasVite === true) {
     // do something with quasar.config file that is specific
@@ -182,7 +220,7 @@ api.extendQuasarConf ((conf, api) => {
 #### Registering boot and css files
 
 ```js
-module.exports = function (api, ctx) {
+export default function (api, ctx) {
   api.extendQuasarConf((conf, api) => {
     // make sure my-ext boot file is registered
     conf.boot.push('~quasar-app-extension-my-ext/src/boot/my-ext-bootfile.js')

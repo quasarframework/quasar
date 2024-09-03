@@ -60,7 +60,7 @@ function getRedirectUrl (url, router) {
     return url
   }
 
-  try { return <%= build.publicPath === '/' ? 'router.resolve(url).href' : 'addPublicPath(router.resolve(url).href)' %> }
+  try { return router.resolve(url).href }
   catch (err) {}
 
   return url
@@ -71,7 +71,7 @@ const { components, directives, ...qUserOptions } = quasarUserOptions
 <%
   const bootEntries = boot.filter(asset => asset.server !== false)
   if (bootEntries.length !== 0) { %>
-const bootFiles = Promise.all([
+const bootFunctions = await Promise.all([
   <% bootEntries.forEach((asset, index) => { %>
   import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
   <% }) %>
@@ -84,10 +84,6 @@ const bootFiles = Promise.all([
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    <% if (bootEntries.length !== 0) { %>
-    const bootFunctions = await bootFiles
-    <% } %>
-
     const {
       app, router<%= metaConf.hasStore ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
     } = await createQuasarApp(createApp, qUserOptions, ssrContext)

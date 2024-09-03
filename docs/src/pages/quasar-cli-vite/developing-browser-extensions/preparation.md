@@ -61,6 +61,6 @@ The `src-bex` folder is just a standard browser extension folder so you are free
 
 The new folder has the following structure:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 The next section will discuss these in more detail.

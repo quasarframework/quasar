@@ -1,8 +1,8 @@
 import { h, computed } from 'vue'
 
-import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
+import useRatio, { useRatioProps } from '../../composables/private.use-ratio/use-ratio.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 export default createComponent({
   name: 'QVideo',

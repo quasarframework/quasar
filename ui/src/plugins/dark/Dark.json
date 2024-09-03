@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dark"
+  },
+
+  "injection": "$q.dark",
+
+  "quasarConfOptions": {
+    "propName": "dark",
+    "type": [ "Boolean", "String" ],
+    "desc": "\"'auto'\" uses the OS/browser preference. \"true\" forces dark mode. \"false\" forces light mode.",
+    "values": [ "'auto'", "true", "false" ]
+  },
+
+  "props": {
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is Dark mode active?",
+      "reactive": true
+    },
+
+    "mode": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Dark mode configuration (not status)",
+      "values": [ "'auto'", "true", "false" ],
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Set dark mode status",
+      "params": {
+        "status": {
+          "type": [ "Boolean", "String" ],
+          "desc": "Dark mode status",
+          "values": [ "true", "false", "'auto'" ],
+          "required": true
+        }
+      },
+      "returns": null
+    },
+
+    "toggle": {
+      "desc": "Toggle dark mode status",
+      "params": null,
+      "returns": null
+    }
+  }
+}

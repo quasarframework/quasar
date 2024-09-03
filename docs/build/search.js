@@ -8,8 +8,8 @@ import { parseFrontMatter } from './md/md-parse-utils.js'
 
 import { slugify, capitalize } from './utils.js'
 
-const apiRE = /<doc-api .*file="([^"]+)".*\n/
-const installationRE = /<doc-installation /
+const apiRE = /<DocApi .*file="([^"]+)".*\n/
+const installationRE = /<DocInstallation /
 const hiddenPageRE = /[\\/]__[a-zA-Z0-9_-]+\.md$/
 
 const thisFolder = fileURLToPath(new URL('.', import.meta.url))
@@ -20,7 +20,7 @@ const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md'))
   .filter(file => hiddenPageRE.test(file) === false)
   .map(key => {
     if (key.indexOf('elements') !== -1) {
-      console.log(key)
+      console.error('Not element:', key)
     }
     const parts = key.substring(mdPagesLen, key.length - 3).split('/')
     const len = parts.length
@@ -155,9 +155,12 @@ const processNode = (node, prefix = '') => {
     node.type === 'codeSpan') {
     text.push(prefix + node.text)
   }
+  else if (node.type === 'linkDef') {
+    // do nothing
+  }
   else {
     // unknown/unprocessed node type
-    console.log(node)
+    console.error('Unprocessed:', node)
   }
 
   return { text: text.join(' ').replace(/\n/g, ''), type }
@@ -296,6 +299,13 @@ const run = () => {
 
   const fileName = resolve(thisFolder, '../dist/indices.json')
   const content = JSON.stringify(entries, null, 2)
+
+  try {
+    // create the folder if it doesn't exists yet
+    fs.mkdirSync(resolve(thisFolder, '../dist'))
+  }
+  catch (_) {}
+
   fs.writeFileSync(fileName, content, () => {})
 
   const end = new Date().getTime()

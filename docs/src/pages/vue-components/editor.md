@@ -12,10 +12,10 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 - [execCommand() reference](https://developer.mozilla.org/en-US/docs/Web/API/document/execCommand)
 - [contentEditable spec](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
 
-<doc-api file="QEditor" />
+<DocApi file="QEditor" />
 
 ## Examples
-<doc-example title="Default editor" file="Basic" />
+<DocExample title="Default editor" file="Basic" />
 
 ::: warning
 In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
@@ -31,17 +31,17 @@ Each of these commands is pre-configured with icons and their own internationali
 }"
 ```
 
-<doc-example title="Redefine bold command" file="NewBold" />
+<DocExample title="Redefine bold command" file="NewBold" />
 
 The following is an example that adds custom definitions. In such cases, make sure you don’t overlap the default commands:
 
-<doc-example title="Add new commands" file="NewCommands" />
+<DocExample title="Add new commands" file="NewCommands" />
 
-<doc-example title="Kitchen sink" file="KitchenSink" />
+<DocExample title="Kitchen sink" file="KitchenSink" />
 
-<doc-example title="Custom style" file="Custom" />
+<DocExample title="Custom style" file="Custom" />
 
-<doc-example title="Using toolbar slots" file="ToolbarSlot" />
+<DocExample title="Using toolbar slots" file="ToolbarSlot" />
 
 ## Dropdowns
 
@@ -150,7 +150,7 @@ Pasting from the buffer and drag & dropping images into the editor is unfortunat
 ### Plaintext pasting
 If the paste event content type is text and depending on the source of text, there may already be a great deal of markup that the contentEditable automatically parses. If you want to paste only "clean, markup-free" text, then you can use the approach in this example (which also turns off spelling correction as mentioned above):
 
-<doc-example title="Paste Event Override" file="Pasting" />
+<DocExample title="Paste Event Override" file="Pasting" />
 
 ### Printing
 If you don't set a font (or the user doesn't choose one), the print dialogue will default to the system font, which can vary depending on browser and underlying operating system. Make sure to take this into consideration.

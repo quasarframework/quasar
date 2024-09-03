@@ -19,12 +19,12 @@ There are multiple types of icons in Quasar: webfont-based, svg-based and image-
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-<doc-api file="QIcon" />
+<DocApi file="QIcon" />
 
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 For `icon` properties on different Quasar components you won't have the means to specify an icon for each platform, but you can achieve the same effect with:
 
@@ -34,7 +34,7 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
-<doc-example title="Standard sizes" file="StandardSizes" />
+<DocExample title="Standard sizes" file="StandardSizes" />
 
 ## Webfont icons
 
@@ -58,7 +58,6 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-symbols-rounded | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space |
 | material-symbols-sharp | sym_s_ | sym_s_thumb_up | Notice the underline character instead of dash or space |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
-| ionicons-v5/v6 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v6 | fa-[solid,regular,brands] fa- | "fa-solid fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | fontawesome-v6 Pro| fa-[solid,regular,brands,thin,light,duotone] fa- | "fa-solid fa-ambulance" | Note: a license must be purchased from Fontawesome for this functionality) |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
@@ -90,8 +89,8 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 #### Ionicons
 
 * Icon names are in hyphen-separated case and always begin with "ion-", "ion-md-", "ion-ios-" or "ion-logo-" prefixes.
-* Go to [Ionicons (v6)](https://ionicons.com/) or [Ionicons (v4)](https://ionicons.com/v4), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
-* **Note:** Starting with v5, Ionicons no longer supplies a webfont. Also,they no longer do Material or IOS variants.
+* Go to [Ionicons (v4)](https://ionicons.com/v4), look for your desired icon, and click on it. At the bottom of the page, a popup will appear. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material, or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
+* **Note:** Starting with v5, Ionicons no longer supplies a webfont. Also, they no longer have Material or IOS variants.
 
 #### Eva Icons
 
@@ -512,7 +511,7 @@ It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically
 <q-icon name="img:data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' height='140' width='500'><ellipse cx='200' cy='80' rx='100' ry='50' style='fill:yellow;stroke:purple;stroke-width:2' /></svg>" />
 ```
 
-<doc-example title="Dynamic SVG" file="DynamicSvg" />
+<DocExample title="Dynamic SVG" file="DynamicSvg" />
 
 You can also base64 encode an image and supply it. The example below is with a QBtn, but the same principle is involved when dealing with any icon prop or with QIcon:
 
@@ -523,67 +522,94 @@ img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQV
 
 ## Custom mapping
 
-Should you want, you can customize the mapping of icon names. This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
+Should you want, you can customize the mapping of icon names. This can be done by providing a custom icon map function. There are several ways to provide one:
 
-The syntax for `$q.iconMapFn` is as follows:
+- Set `IconSet.iconMapFn` in an entry file:
+  - In a boot file if using Quasar CLI (with Vite or Webpack)
+  - In `main.js`/`main.ts`(_or similar_) if using Vite plugin and Vue CLI
+  - In any suitable file or script tag if using UMD
+- Set `$q.iconMapFn` in the root component, e.g. `App.vue`:
+  - At the top-level if using Composition API with `<script setup>`
+  - In the `setup()` function if using Composition API
+  - In the `created()` hook if using Options API
+- Set `iconMapFn` in Quasar Vue plugin options, e.g. `app.use(Quasar, { iconMapFn: () => { /* ... */ } })` (for flavours other than Quasar CLI).
 
-```js
-/* Syntax */
-iconMapFn (String: iconName) => Object / void 0 (undefined)
+We will use the `$q.iconMapFn` approach using `<script setup>` in the use case examples below, but the same principle applies to the other methods.
 
-/*
- The returned Object (if any) must be one of the following forms:
+The structure of `iconMapFn` is as follows:
 
- 1. Defines how to interpret icon
- {
-   cls: String // class name(s)
-   content: String // optional, in case you are using a ligature font
-                   // and you need it as content of the QIcon
-  }
-
-  2. Acts essentially as a map to another icon
+```ts
+type GlobalQuasarIconMapFn = (
+  iconName: string
+) =>
+  // Map to another existing icon
   {
-    icon: String // the mapped icon String, which will be handled
-                 // by Quasar as if the original QIcon name was this value
-  }
-*/
+    icon: string  // the mapped icon string, which will be handled
+                  // by Quasar as if the original QIcon name was this value
+  } |
+  // Define how to interpret the icon
+  {
+    cls: string;     // class name(s)
+    content?: string // optional, in case you are using a ligature font
+                     // and you need it as content of the QIcon
+  } |
+  // Leave it as is, default Quasar handling
+  void;
 ```
 
-Let's take both cases now.
+Mapping icons will not only affect QIcon, but also any other Quasar component that uses icons like QBtn, QInput, and more.
 
-#### Step 1: Support for custom icon library
+#### Use case 1: Simply mapping a few icons
+
+```js
+import { useQuasar } from 'quasar'
+
+const myIcons = {
+  'app:icon1': 'img:/path/to/icon1.svg',
+  'app:icon2': 'img:/path/to/icon2.svg',
+  'app:copy': 'fas fa-copy',
+}
+
+// ...
+const $q = useQuasar()
+
+$q.iconMapFn = (iconName) => {
+  const icon = myIcons[iconName]
+  if (icon !== undefined) {
+    return { icon }
+  }
+}
+```
+
+Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg". The same applies to any other Quasar component that uses icons, e.g. `<q-btn icon="app:copy" />`.
+
+#### Use case 2: Support for custom icon library
 
 This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
 
 ```js
 import { useQuasar } from 'quasar'
 
-setup () {
-  const $q = useQuasar()
+const $q = useQuasar()
 
-  // Example of adding support for
-  // <q-icon name="app:...." />
-  // This includes support for all "icon" props
-  // of Quasar components
+// Example of adding support for `<q-icon name="app:...." />`
+// This includes support for all "icon" props of Quasar components
 
-  $q.iconMapFn = (iconName) => {
-    // iconName is the content of QIcon "name" prop
+$q.iconMapFn = (iconName) => {
+  // iconName is the content of QIcon "name" prop (or related icon prop of other Quasar components)
 
-    // your custom approach, the following
-    // is just an example:
-    if (iconName.startsWith('app:') === true) {
-      // we strip the "app:" part
-      const name = iconName.substring(4)
+  // can be any logic you want, but for this example:
+  if (iconName.startsWith('app:') === true) {
+    // we strip the "app:" part
+    const name = iconName.substring(4)
 
-      return {
-        cls: 'my-app-icon ' + name
-      }
+    return {
+      cls: 'my-app-icon ' + name
     }
-
-    // when we don't return anything from our
-    // iconMapFn, the default Quasar icon mapping
-    // takes over
   }
+
+  // when we don't return anything from our iconMapFn,
+  // the default Quasar icon mapping takes over
 }
 ```
 
@@ -610,39 +636,27 @@ Let's assume we have our own webfont called "My App Icon".
 }
 ```
 
-We should then edit our `/quasar.config` file (if using Quasar CLI) to add the newly created CSS file into our app:
+We should then add the newly created CSS file into our app:
 
-```js
-css: [
-  // ....
-  'my-app-icon.css'
-]
-```
+- Quasar CLI: Add it to the `css` array in quasar.config file
+  ```js
+  // quasar.config file
+  css: [
+    // ....
+    'my-app-icon.css'
+  ]
+  ```
+- Other: Add it to your CSS file, import it in your `main.js`/`main.ts` or include it in your HTML file:
+
+  ```
+  // in your main.js/main.ts
+  import 'src/css/my-app-icon.css'
+
+  // or in the main css file
+  @import url('./my-app-icon.css');
+
+  // or in your HTML file (UMD)
+  <link rel="stylesheet" href="/css/my-app-icon.css">
+  ```
 
 And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same folder as "my-app-icon.css" (or somewhere else, but edit the relative paths (see "src:" above) to the woff/woff2 files).
-
-#### Step 2: Simply mapping a few icons
-
-```js
-import { useQuasar } from 'quasar'
-
-const myIcons = {
-  'app:icon1': 'img:/path/to/icon1.svg',
-  'app:icon2': 'img:/path/to/icon2.svg',
-  'app:copy': 'fas fa-copy',
-}
-
-// ...
-setup () {
-  const $q = useQuasar()
-
-  $q.iconMapFn = (iconName) => {
-    const icon = myIcons[iconName]
-    if (icon !== void 0) {
-      return { icon: icon }
-    }
-  }
-}
-```
-
-Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg".

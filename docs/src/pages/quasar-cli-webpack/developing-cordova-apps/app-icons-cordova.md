@@ -99,12 +99,12 @@ Cordova is one of the most complicated of all of the build targets as far as ico
 
 If you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 
 ::: tip
-We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
+We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html or /src/index.template.html file.
 :::
 
 Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
@@ -123,7 +123,7 @@ $ cordova plugin add cordova-plugin-splashscreen
 $ cordova plugin save
 ```
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 And here is part of what your config.xml should look like:
 

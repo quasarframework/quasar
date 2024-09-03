@@ -1,5 +1,9 @@
-const rimraf = require('rimraf')
-const path = require('path')
+import fse from 'fs-extra'
 
-rimraf.sync(path.resolve(__dirname, '../dist/*'))
+import { resolveToRoot } from './build.utils.js'
+
+const targetFolder = resolveToRoot('dist')
+
+fse.removeSync(targetFolder)
+fse.ensureDirSync(targetFolder)
 console.log(' 💥 Cleaned build artifacts.\n')

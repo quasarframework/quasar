@@ -46,7 +46,7 @@ The recommended way to go if you want components sharing state is Vuex. Take a l
 
 We won't go into details on how to configure or use Vuex since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 By default, if you choose to use Vuex when you create a project folder with Quasar CLI, it will set you up on using Vuex modules. Each sub-folder of `/src/store` represents a Vuex Module.
 
@@ -67,7 +67,7 @@ It will create a folder in `/src/store` named by "store_name" from the command a
 
 Let's say that you want to create a "showcase" Vuex Module. You issue `$ quasar new store showcase`. You then notice the newly created `/src/store/showcase` folder, which holds the following files:
 
-<doc-tree :def="scope.newStore" />
+<DocTree :def="scope.newStore" />
 
 We've created the new Vuex Module, but we haven't yet informed Vuex to use it. So we edit `/src/store/index.js` and add a reference to it:
 
@@ -96,8 +96,7 @@ If you are developing a SSR app, then you can check out the [ssrContext](/quasar
 
 Now we can use this Vuex Module in our Vue files. Here is a quick example. Assume we configured `drawerState` in the state and added `updateDrawerState` mutation.
 
-```js
-// src/store/showcase/mutations.js
+```js /src/store/showcase/mutations.js
 export const updateDrawerState = (state, opened) => {
   state.drawerState = opened
 }
@@ -173,8 +172,15 @@ With Vuex, currently, only the state is strongly typed. If you want to use typed
 ### Using Vuex Smart Module
 One of the options for a fully typed store is a package called `vuex-smart-module`. You can add this package by running the following command:
 
-```bash
-yarn add vuex-smart-module
+```tabs
+<<| bash Yarn |>>
+$ yarn add vuex-smart-module
+<<| bash NPM |>>
+$ npm install --save vuex-smart-module
+<<| bash PNPM |>>
+$ pnpm add vuex-smart-module
+<<| bash Bun |>>
+$ bun add vuex-smart-module
 ```
 
 Once installed, you need to edit your `src/store/index.ts` file to use this package to create the store. Edit your store index file to resemble the following:
@@ -242,7 +248,7 @@ Just import the module in `src/store/index.ts` and add it to your `rootConfig`. 
 
 Using the typed store inside Vue files is pretty straightforward, here is an example:
 
-```vue
+```html
 <template>
   <q-page class="column items-center justify-center">
     <q-btn @click="store.mutations.add(3)" label="Add count" />
@@ -305,8 +311,7 @@ Code splitting with Vuex Smart Module works slightly different compared to regul
 
 Suppose we have the following module example:
 
-```js
-// store/modules/index.ts
+```js store/modules/index.ts
 // simple module example, with everything in one file
 import { Getters, Mutations, Actions, Module, createComposable } from 'vuex-smart-module';
 

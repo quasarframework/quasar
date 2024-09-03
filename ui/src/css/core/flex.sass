@@ -1,3 +1,5 @@
+@use 'sass:math'
+
 @import '../helpers/string.sass'
 
 @mixin fg($name, $size)
@@ -30,13 +32,13 @@
       .row
         #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height: auto
-          width: toFixed(percentage($i / $flex-cols), 10000)
+          width: toFixed(percentage(math.div($i, $flex-cols)), 10000)
         @if $i != 0 or $name != ''
           #{str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
-            margin-left: toFixed(percentage($i / $flex-cols), 10000)
+            margin-left: toFixed(percentage(math.div($i, $flex-cols)), 10000)
       .column
         #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-          height: toFixed(percentage($i / $flex-cols), 10000)
+          height: toFixed(percentage(math.div($i, $flex-cols)), 10000)
           width: auto
       @if $size == 0 and $i == $flex-cols
         .row > .col-all

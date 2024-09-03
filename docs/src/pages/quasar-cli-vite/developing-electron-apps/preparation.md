@@ -22,7 +22,7 @@ scope:
 Before we dive in to the actual development, we need to do some preparation work.
 
 ## Step 1: Add Quasar Electron Mode
-In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it yarn installs some Electron packages and creates `/src-electron` folder.
+In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it yarn/npm/pnpm/bun installs some Electron packages and creates `/src-electron` folder.
 
 ```bash
 $ quasar mode add electron
@@ -32,7 +32,7 @@ Every Electron app has two threads: the main thread (deals with the window and i
 
 The new folder has the following structure:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ### A note for Windows Users
 If you run into errors during npm install about node-gyp, then you most likely do not have the proper build tools installed on your system. Build tools include items like Python and Visual Studio. Fortunately, there are a few packages to help simplify this process.

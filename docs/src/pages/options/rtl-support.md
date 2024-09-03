@@ -15,18 +15,18 @@ RTL is referring to "right to left" UI for languages that need it.
 * Yarn/npm install the `postcss-rtlcss` package.
 * If you are already running "quasar dev" command, restart it.
 
-```
+```js [highlight=10-11]
 module.exports = {
   plugins: [
     // https://github.com/postcss/autoprefixer
-    require('autoprefixer')(...)
+    require('autoprefixer')(...),
 
     // https://github.com/elchininet/postcss-rtlcss
     // If you want to support RTL css, then
     // 1. yarn/npm install postcss-rtlcss
     // 2. optionally set quasar.config file > framework > lang to an RTL language
     // 3. uncomment the following line:
-    // require('postcss-rtlcss')
+    require('postcss-rtlcss')
   ]
 }
 ```
@@ -44,17 +44,20 @@ build: {
 
 You first need to install `postcss-rtlcss` package:
 
-``` bash
-$ yarn add -D postcss-rtlcss
-# or
-$ npm install -D postcss-rtlcss
-# or
-$ pnpm add quasar -D postcss-rtlcss # experimental support
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev postcss-rtlcss
+<<| bash NPM |>>
+$ npm install --save-dev postcss-rtlcss
+<<| bash PNPM |>>
+$ pnpm add -D postcss-rtlcss
+<<| bash Bun |>>
+$ bun add --dev postcss-rtlcss
 ```
 
 Then create `/postcss.config.cjs` file if you don't have it already, and add this to it:
 
-``` js
+```js
 module.exports = {
   plugins: [
     require('postcss-rtlcss')({ /* opts */ }) // <<<< in "plugins"
@@ -83,7 +86,7 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
     -->
     <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/he.umd.prod.js"></script>
     <script>
-      Quasar.lang.set(Quasar.lang.he)
+      Quasar.Lang.set(Quasar.Lang.he)
     </script>
   </body>
 </html>

@@ -4,8 +4,7 @@ desc: (@quasar/app-webpack) How to configure your Quasar server-side rendered ap
 ---
 With Quasar CLI you can build your app with the killer combo of SSR + PWA. In order to enable PWA for SSR builds, you need to edit your `/quasar.config` file first:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   // ...
   ssr: {

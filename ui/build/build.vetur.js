@@ -1,7 +1,6 @@
-const path = require('path')
+import { resolveToRoot, logError, writeFile, kebabCase } from './build.utils.js'
 
-const { logError, writeFile, kebabCase } = require('./build.utils')
-const resolve = file => path.resolve(__dirname, '../dist/vetur', file)
+const resolve = file => resolveToRoot('dist/vetur', file)
 
 function getTags (data) {
   const tags = {}
@@ -35,8 +34,12 @@ function getAttributes (data) {
   return attrs
 }
 
-module.exports.generate = function ({ components }) {
-  const data = components.map(c => ({
+export function generate ({ api, compact = false }) {
+  const encodeFn = compact === true
+    ? JSON.stringify
+    : json => JSON.stringify(json, null, 2)
+
+  const data = api.components.map(c => ({
     name: kebabCase(c.name),
     props: c.api.props || {}
   }))
@@ -44,12 +47,12 @@ module.exports.generate = function ({ components }) {
   try {
     writeFile(
       resolve('quasar-tags.json'),
-      JSON.stringify(getTags(data), null, 2)
+      encodeFn(getTags(data))
     )
 
     writeFile(
       resolve('quasar-attributes.json'),
-      JSON.stringify(getAttributes(data), null, 2)
+      encodeFn(getAttributes(data))
     )
   }
   catch (err) {

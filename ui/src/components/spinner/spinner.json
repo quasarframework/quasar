@@ -1,0 +1,18 @@
+{
+  "mixins": [ "composables/private.use-size/use-size" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/spinners"
+  },
+
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "size": {
+      "type": [ "String", "Number" ],
+      "default": "'1em'"
+    }
+  }
+}

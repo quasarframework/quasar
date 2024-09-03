@@ -46,9 +46,7 @@ The linting rules can be removed, changed, or added. Notice some things:
 You can add/remove/change rules by first visiting [https://eslint.org/docs/rules/](https://eslint.org/docs/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).
 
 Example of ESLint rules below:
-```js
-// .eslintrc.cjs
-
+```js /.eslintrc.cjs
 'rules': {
   'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
 

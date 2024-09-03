@@ -1,4 +1,3 @@
-
 import { static as serveStatic } from 'express'
 
 import { entryPointMarkup } from '../../utils/html-template.js'
@@ -21,7 +20,7 @@ export function quasarVitePluginDevCordovaPlatformInject (quasarConf) {
 
     transformIndexHtml: {
       order: 'pre',
-      transform: html => html.replace(
+      handler: html => html.replace(
         entryPointMarkup,
         `<script src="cordova.js"></script>${ entryPointMarkup }`
       )

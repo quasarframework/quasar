@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 import { mergeConfig as mergeViteConfig } from 'vite'
 
@@ -85,8 +84,9 @@ export const quasarSsrConfig = {
     return extendViteConfig(cfg, quasarConf, { isServer: true })
   },
 
-  webserver: async quasarConf => {
-    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-ssr-webserver', format: 'esm' })
+  // returns a Promise
+  webserver: quasarConf => {
+    const cfg = createNodeEsbuildConfig(quasarConf, { compileId: 'node-ssr-webserver', format: 'esm' })
     const { appPaths } = quasarConf.ctx
 
     Object.assign(cfg.define, getBuildSystemDefine({

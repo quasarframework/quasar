@@ -10,6 +10,7 @@
       :to="entry.path"
       :href="entry.external ? entry.path : void 0"
       :target="entry.external ? '_blank' : void 0"
+      :aria-label="entry.name"
     />
   </div>
 </template>

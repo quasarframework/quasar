@@ -5,7 +5,7 @@
   "description": "<%= description %>",
   "author": "<%= author %>",
   "license": "<%= license %>",
-  "main": "src/index.js",
+  "type": "<%= codeFormat === 'esm' ? 'module' : 'commonjs' %>",
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
   },

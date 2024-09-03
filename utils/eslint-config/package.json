@@ -1,0 +1,15 @@
+{
+  "name": "eslint-config-quasar",
+  "description": "ESLint config for Quasar monorepo",
+  "version": "0.0.1",
+  "dependencies": {
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^17.10.2",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-vue": "^9.27.0"
+  },
+  "peerDependencies": {
+    "eslint": "^8.57.0"
+  }
+}

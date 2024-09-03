@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 import { progress } from '../../utils/logger.js'
@@ -74,5 +73,5 @@ export async function buildPwaServiceWorker (quasarConf, workboxConfig) {
 
   await workboxBuild[ buildMethod ](workboxConfig)
 
-  done('The ___ compiled with success')
+  done('The ___ compiled with success by Workbox')
 }

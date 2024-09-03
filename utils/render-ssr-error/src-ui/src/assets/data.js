@@ -1,4 +1,4 @@
-export default process.env.DEV
+export default import.meta.env.DEV
   ? {
       error: {
         name: 'ReferenceError',

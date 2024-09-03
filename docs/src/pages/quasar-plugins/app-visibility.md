@@ -7,14 +7,13 @@ examples: AppVisibility
 
 Quasar makes use of the Web [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) which lets you know when a website/app is visible or in focus.
 
-<doc-api file="AppVisibility" />
+<DocApi file="AppVisibility" />
 
-<doc-installation plugins="AppVisibility" scrollable />
+<DocInstallation plugins="AppVisibility" scrollable />
 
 ## Usage
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { AppVisibility } from 'quasar'
 AppVisibility.appVisible // Boolean
 
@@ -26,11 +25,11 @@ setup () {
 }
 ```
 
-<doc-example title="AppVisibility" file="Basic" />
+<DocExample title="AppVisibility" file="Basic" />
 
 ## Watching for status change
 
-```vue
+```html
 <template>...</template>
 
 <script>

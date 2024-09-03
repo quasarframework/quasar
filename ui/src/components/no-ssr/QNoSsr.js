@@ -1,9 +1,9 @@
 import { h } from 'vue'
 
-import useCanRender from '../../composables/private/use-can-render.js'
+import useHydration from '../../composables/use-hydration/use-hydration.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QNoSsr',
@@ -18,19 +18,19 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const canRender = useCanRender()
+    const { isHydrated } = useHydration()
 
     return () => {
-      const data = {}
-
-      if (canRender.value === true) {
+      if (isHydrated.value === true) {
         const node = hSlot(slots.default)
         return node === void 0
           ? node
-          : (node.length > 1 ? h(props.tag, data, node) : node[ 0 ])
+          : (node.length > 1 ? h(props.tag, {}, node) : node[ 0 ])
       }
 
-      data.class = 'q-no-ssr-placeholder'
+      const data = {
+        class: 'q-no-ssr-placeholder'
+      }
 
       const node = hSlot(slots.placeholder)
       if (node !== void 0) {

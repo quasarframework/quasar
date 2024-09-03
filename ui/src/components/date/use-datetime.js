@@ -1,14 +1,12 @@
 import { computed } from 'vue'
 
-import { toJalaali } from '../../utils/private/date-persian.js'
-import { pad } from '../../utils/format.js'
+import { toJalaali } from '../../utils/date/private.persian.js'
+import { pad } from '../../utils/format/format.js'
 
 const calendars = [ 'gregorian', 'persian' ]
 
 export const useDatetimeProps = {
-  modelValue: {
-    required: true
-  },
+  // should define modelValue in the target component
 
   mask: {
     type: String

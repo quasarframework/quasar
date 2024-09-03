@@ -13,15 +13,15 @@
     "tag": {
       "extends": "tag",
       "desc": "Tag to use, if of type 'heading' only",
-      "default": "h3",
-      "examples": [ "h1" ]
+      "default": "'h3'",
+      "examples": [ "'h1'" ]
     },
 
     "side": {
       "type": "String",
       "desc": "Side to place the timeline entry; Works only if QTimeline layout is loose.",
-      "default": "right",
-      "values": [ "left", "right" ],
+      "default": "'right'",
+      "values": [ "'left'", "'right'" ],
       "category": "behavior"
     },
 
@@ -34,10 +34,10 @@
       "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar",
       "transformAssetUrls": true,
       "examples": [
-        "(public folder) src=\"img/my-bg.png\"",
-        "(assets folder) src=\"~assets/my-img.png\"",
-        "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) src=\"https://picsum.photos/500/300\""
+        "# (public folder) src=\"img/my-bg.png\"",
+        "# (assets folder) src=\"~assets/my-img.png\"",
+        "# (relative path format) :src=\"require('./my_img.jpg')\"",
+        "# (URL) src=\"https://picsum.photos/500/300\""
       ],
       "category": "content"
     },
@@ -49,21 +49,21 @@
     "title": {
       "type": "String",
       "desc": "Title of timeline entry; Is overridden if using 'title' slot",
-      "examples": [ "December party" ],
+      "examples": [ "'December party'" ],
       "category": "content"
     },
 
     "subtitle": {
       "type": "String",
       "desc": "Subtitle of timeline entry; Is overridden if using 'subtitle' slot",
-      "examples": [ "All invited" ],
+      "examples": [ "'All invited'" ],
       "category": "content"
     },
 
     "body": {
       "type": "String",
       "desc": "Body content of timeline entry; Use this prop or the default slot",
-      "examples": [ "Lorem ipsum dolor sit amet, consectetur adipisicing elit." ],
+      "examples": [ "'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'" ],
       "category": "content"
     }
   },

@@ -1,19 +1,23 @@
-const fs = require('fs')
-const { resolve } = require('path')
-const open = require('open')
-const rimraf = require('rimraf').sync
+import fse from 'fs-extra'
 
-const src = resolve(__dirname, '../dist')
-const dest = resolve(__dirname, '../dev-umd/dist')
+import { resolveToRoot } from './build.utils.js'
 
-if (!fs.existsSync(src)) {
-  console.error('ERROR: please "yarn build" or "npm run build" first')
+const src = resolveToRoot('dist')
+const dest = resolveToRoot('playground-umd/dist')
+
+if (!fse.existsSync(src)) {
+  console.error('\nERROR: please run "pnpm build" first\n')
   process.exit(0)
 }
 
-rimraf(dest)
-fs.symlinkSync(src, dest, 'dir')
+fse.removeSync(dest)
+fse.symlinkSync(src, dest, 'dir')
 
-open(
-  resolve(__dirname, '../dev-umd/index.umd.html')
-)
+import('open').then(({ default: open }) => {
+  open(
+    resolveToRoot('playground-umd/index.umd.html'),
+    {
+      app: { name: 'google chrome' }
+    }
+  )
+})

@@ -1,6 +1,6 @@
 import * as ElectronBuilderUtil from "builder-util";
 import * as ElectronBuilder from "electron-builder";
-import * as ElectronPackager from "electron-packager";
+import * as ElectronPackager from "@electron/packager";
 import { LiteralUnion } from "quasar";
 import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
@@ -10,6 +10,15 @@ type ElectronBuilderConfiguration = ElectronBuilder.Configuration;
 type ElectronPackagerOptions = ElectronPackager.Options;
 
 interface QuasarBaseElectronConfiguration {
+  /**
+   * The list of content scripts (js/ts) that you want embedded.
+   * Each entry in the list should be a filename (WITHOUT its extension) from /src-electron/
+   *
+   * @default [ 'electron-preload' ]
+   * @example [ 'my-other-preload-script' ]
+   */
+  preloadScripts?: string[];
+
   /**
    * Add/remove/change properties of production generated package.json
    */
@@ -43,7 +52,7 @@ interface QuasarBaseElectronConfiguration {
   bundler: QuasarElectronBundlersInternal;
 
   /**
-   * Specify additional parameters when yarn/npm installing
+   * Specify additional parameters when installing dependencies in
    * the UnPackaged folder, right before bundling with either
    * electron packager or electron builder;
    * Example: [ 'install', '--production', '--ignore-optional', '--some-other-param' ]

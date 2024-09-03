@@ -42,7 +42,7 @@ $ quasar build -m electron
 $ quasar build --mode electron
 ```
 
-It builds your app for production and then uses electron-packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli-webpack/developing-electron-apps/configuring-electron) page.
+It builds your app for production and then uses @electron/packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli-webpack/developing-electron-apps/configuring-electron) page.
 
 If you want a production build with debugging enabled for the UI code:
 
@@ -64,7 +64,7 @@ $ quasar build -m electron -P always
 $ quasar build --mode electron --publish always
 ```
 
-You can specify using `electron-builder` to build your app either directly on the command line (`--bundler builder`) or by setting it explicitly within the `/quasar.config` file at `electron.bundler`. This flag has no effect when using `electron-packager`.
+You can specify using `electron-builder` to build your app either directly on the command line (`--bundler builder`) or by setting it explicitly within the `/quasar.config` file at `electron.bundler`. This flag has no effect when using `@electron/packager`.
 
 Currently (June 2019) supported publishing destinations include GitHub, Bintray, S3, Digital Ocean Spaces, or a generic HTTPS server. More information, including how to create valid publishing instructions, can be found [here](https://www.electron.build/configuration/publish).
 
@@ -72,9 +72,7 @@ Valid options for `-P` are "onTag", "onTagOrDraft", "always" and "never" which a
 
 A very basic configuration to publish a Windows EXE setup file to Amazon S3 might look like this:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 electron: {
   bundler: 'builder', // set here instead of using command line flag --bundler
   builder: {

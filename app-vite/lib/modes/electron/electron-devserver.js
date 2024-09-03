@@ -17,8 +17,7 @@ function wait (time) {
 export class QuasarModeDevserver extends AppDevserver {
   #pid = 0
   #server
-  #stopMain
-  #stopPreload
+  #watcherList = []
   #killedPid = false
   #electronExecutable
 
@@ -37,8 +36,8 @@ export class QuasarModeDevserver extends AppDevserver {
       quasarConf.electron.extendElectronMainConf,
       quasarConf.electron.extendElectronPreloadConf,
       quasarConf.electron.inspectPort,
+      quasarConf.electron.preloadScripts,
       quasarConf.sourceFiles.electronMain,
-      quasarConf.sourceFiles.electronPreload,
 
       // extends 'esbuild' diff
       ...diffMap.esbuild(quasarConf)
@@ -69,41 +68,31 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   async #runElectronFiles (quasarConf) {
-    if (this.#stopMain) {
-      this.#stopMain()
-      this.#stopMain = null
-    }
+    this.#watcherList.forEach(watcher => { watcher.close() })
+    this.#watcherList = []
 
-    if (this.#stopPreload) {
-      this.#stopPreload()
-      this.#stopPreload = null
-    }
-
-    let mainReady = false
-    let preloadReady = false
+    let isReady = false
 
     const cfgMain = await quasarElectronConfig.main(quasarConf)
-    const cfgPreload = await quasarElectronConfig.preload(quasarConf)
+    const cfgPreloadList = await quasarElectronConfig.preloadScriptList(quasarConf)
 
-    return Promise.all([
-      this.watchWithEsbuild('Electron Main', cfgMain, () => {
-        if (preloadReady === true) {
-          this.#runElectron(quasarConf)
-        }
-      }).then(esbuildCtx => {
-        mainReady = true
-        this.#stopMain = esbuildCtx.dispose
-      }),
-
-      this.watchWithEsbuild('Electron Preload', cfgPreload, () => {
-        if (mainReady === true) {
-          this.#runElectron(quasarConf)
-        }
-      }).then(esbuildCtx => {
-        preloadReady = true
-        this.#stopPreload = esbuildCtx.dispose
+    const cfgList = [
+      { banner: 'Electron Main', cfg: cfgMain },
+      ...cfgPreloadList.map(preloadScript => {
+        return { banner: `Electron Preload (${ preloadScript.scriptName })`, cfg: preloadScript.esbuildConfig }
       })
-    ]).then(() => {
+    ].map(({ banner, cfg }) => {
+      return this.watchWithEsbuild(banner, cfg, () => {
+        if (isReady === true) {
+          this.#runElectron(quasarConf)
+        }
+      }).then(esbuildCtx => {
+        this.#watcherList.push({ close: esbuildCtx.dispose })
+      })
+    })
+
+    return Promise.all(cfgList).then(() => {
+      isReady = true
       return this.#runElectron(quasarConf)
     })
   }
@@ -125,7 +114,9 @@ export class QuasarModeDevserver extends AppDevserver {
       this.#electronExecutable,
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        this.ctx.appPaths.resolve.entry('electron-main.cjs')
+        this.ctx.appPaths.resolve.entry(
+          `electron-main.${ quasarConf.metaConf.packageTypeBasedExtension }`
+        )
       ].concat(this.argv._),
       { cwd: this.ctx.appPaths.appDir },
       code => {

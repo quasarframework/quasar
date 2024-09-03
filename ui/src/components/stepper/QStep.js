@@ -3,12 +3,12 @@ import { h, ref, computed, inject, getCurrentInstance, KeepAlive } from 'vue'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
-import { usePanelChildProps } from '../../composables/private/use-panel.js'
-import useCache from '../../composables/private/use-cache.js'
+import { usePanelChildProps } from '../../composables/private.use-panel/use-panel.js'
+import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stepperKey, emptyRenderFn } from '../../utils/private/symbols.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stepperKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 function getStepWrapper (slots) {
   return h('div', {
@@ -67,7 +67,7 @@ export default createComponent({
       return emptyRenderFn
     }
 
-    const { getCacheWithFn } = useCache()
+    const { getCache } = useRenderCache()
 
     const rootRef = ref(null)
 
@@ -106,7 +106,7 @@ export default createComponent({
             ? [
                 h(
                   $stepper.value.needsUniqueKeepAliveWrapper.value === true
-                    ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                    ? getCache(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                     : PanelWrapper,
                   { key: contentKey.value },
                   slots.default

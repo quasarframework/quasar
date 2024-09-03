@@ -1,4 +1,4 @@
-module.exports = async function ({ scope, utils }) {
-  const script = require('./ae-v1')
+export async function script ({ scope, utils }) {
+  const { script } = await import('./ae-v1/index.js')
   await script({ scope, utils })
 }

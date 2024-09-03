@@ -15,7 +15,7 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-repeat` on the lines below.
 
-<doc-api file="TouchRepeat" />
+<DocApi file="TouchRepeat" />
 
 ## Usage
 Click and hold with your mouse on the area below to see it in action.
@@ -23,15 +23,15 @@ Notice that on touch capable devices the scrolling is not blocked.
 
 > The default repeat pattern is 0:600:300 (ms).
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:300:200 (ms) repeat pattern. Hit & hold keys, or click/tap and hold.
 
-<doc-example title="Custom keys" file="Keys" />
+<DocExample title="Custom keys" file="Keys" />
 
 Below is an example of applying TouchRepeat to QBtn. Notice how we play with the directive arguments in order to make the blue buttons increment slower than the red ones.
 
-<doc-example title="Applied to QBtn" file="Buttons" />
+<DocExample title="Applied to QBtn" file="Buttons" />
 
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:

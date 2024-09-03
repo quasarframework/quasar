@@ -3,10 +3,10 @@ import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
-import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
+import useAnchor, { useAnchorProps } from '../../composables/private.use-anchor/use-anchor.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QPopupProxy',

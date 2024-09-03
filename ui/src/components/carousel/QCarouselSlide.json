@@ -3,14 +3,11 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/carousel"
   },
 
-  "mixins": [ "composables/private/use-panel.child" ],
+  "mixins": [ "composables/private.use-panel/use-panel.child" ],
 
   "props": {
     "name": {
       "desc": "Slide name",
-      "examples": [
-        "accounts", "firstSlide", ":name=\"1\""
-      ],
       "category": "model"
     },
 
@@ -19,10 +16,10 @@
       "desc": "URL pointing to a slide background image (use public folder)",
       "transformAssetUrls": true,
       "examples": [
-        "(public folder) src=\"img/my-bg.png\"",
-        "(assets folder) src=\"~assets/my-img.png\"",
-        "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) src=\"https://picsum.photos/500/300\""
+        "# (public folder) src=\"img/my-bg.png\"",
+        "# (assets folder) src=\"~assets/my-img.png\"",
+        "# (relative path format) :src=\"require('./my_img.jpg')\"",
+        "# (URL) src=\"https://picsum.photos/500/300\""
       ],
       "category": "model"
     }

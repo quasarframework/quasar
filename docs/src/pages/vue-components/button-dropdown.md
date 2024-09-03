@@ -11,26 +11,26 @@ QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/
 
 In case you are looking for a dropdown "input" instead of "button" use [Select](/vue-components/select) instead.
 
-<doc-api file="QBtnDropdown" />
+<DocApi file="QBtnDropdown" />
 
 ## Usage
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Various content" file="VariousContent" />
+<DocExample title="Various content" file="VariousContent" />
 
-<doc-example title="Split" file="Split" />
+<DocExample title="Split" file="Split" />
 
-<doc-example title="Custom button" file="CustomButton" />
+<DocExample title="Custom button" file="CustomButton" />
 
-<doc-example title="Custom dropdown icon" file="CustomDropdownIcon" />
+<DocExample title="Custom dropdown icon" file="CustomDropdownIcon" />
 
-<doc-example title="Label slot" file="LabelSlot" />
+<DocExample title="Label slot" file="LabelSlot" />
 
-<doc-example title="Using v-model" file="Model" />
+<DocExample title="Using v-model" file="Model" />
 
-<doc-example title="Disable" file="Disable" />
+<DocExample title="Disable" file="Disable" />
 
 The following example won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
 
-<doc-example title="Split and router link on main" file="Link" no-edit />
+<DocExample title="Split and router link on main" file="Link" no-edit />

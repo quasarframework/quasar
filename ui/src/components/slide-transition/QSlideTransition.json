@@ -13,7 +13,7 @@
     "duration": {
       "type": "Number",
       "desc": "Duration (in milliseconds) enabling animated scroll.",
-      "default": 300,
+      "default": "300",
       "category": "behavior"
     }
   },

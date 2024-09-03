@@ -1,4 +1,3 @@
-
 const routes = [
   {
     path: '/',

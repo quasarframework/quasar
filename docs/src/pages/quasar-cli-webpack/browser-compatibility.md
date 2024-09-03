@@ -12,9 +12,7 @@ Babel will look for exactly the JS features that need transpiling (based on the 
 
 The following is the default "browserslist" when you create a Quasar project:
 
-```js
-// package.json
-
+```js package.json
 "browserslist": [
   "last 10 Chrome versions",
   "last 10 Firefox versions",

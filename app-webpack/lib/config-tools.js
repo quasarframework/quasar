@@ -184,30 +184,11 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
       .use('ts-loader')
       .loader('ts-loader')
       .options({
-        // custom config is merged if present, but vue setup and type checking disable are always applied
-        ...quasarConf.build.tsLoaderOptions,
         appendTsSuffixTo: [ /\.vue$/ ],
-        // Type checking is handled by fork-ts-checker-webpack-plugin
-        transpileOnly: true
+        transpileOnly: true,
+        // custom config is merged if present, but vue setup and type checking disable are always applied
+        ...quasarConf.build.tsLoaderOptions
       })
-
-    const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-    chain
-      .plugin('ts-checker')
-      // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
-      .use(ForkTsCheckerWebpackPlugin, [
-        // custom config is merged if present, but vue option is always enabled
-        merge({}, quasarConf.build.tsCheckerOptions, {
-          typescript: {
-            extensions: {
-              vue: {
-                enabled: true,
-                compiler: 'vue/compiler-sfc'
-              }
-            }
-          }
-        })
-      ])
   }
 
   chain.module.rule('images')
@@ -432,14 +413,12 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     }
   }
 
-  if (hasTypescript === false) {
-    const { hasEslint, EslintWebpackPlugin } = cacheProxy.getModule('eslint')
-    if (hasEslint === true && EslintWebpackPlugin !== void 0) {
-      const { warnings, errors } = quasarConf.eslint
-      if (warnings === true || errors === true) {
-        const { injectESLintPlugin } = require('./utils/inject-eslint-plugin.js')
-        injectESLintPlugin(chain, quasarConf, compileId)
-      }
+  const { hasEslint, EslintWebpackPlugin } = cacheProxy.getModule('eslint')
+  if (hasEslint === true && EslintWebpackPlugin !== void 0) {
+    const { warnings, errors } = quasarConf.eslint
+    if (warnings === true || errors === true) {
+      const { injectESLintPlugin } = require('./utils/inject-eslint-plugin.js')
+      injectESLintPlugin(chain, quasarConf, compileId)
     }
   }
 
@@ -492,7 +471,7 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     ...Object.keys(appPkg.devDependencies || {})
   ])
 
-  const cfg = {
+  const esbuildConfig = {
     platform: 'node',
     target: quasarConf.build.esbuildTarget.node,
     format,
@@ -500,8 +479,7 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     minify: quasarConf.build.minify !== false,
     alias: {
-      ...quasarConf.build.alias,
-      'quasar/wrappers': format === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
+      ...quasarConf.build.alias
     },
     resolveExtensions: [ format === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
     // we use a fresh list since this can be tampered with by the user:
@@ -510,7 +488,8 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
       buildEnv: quasarConf.build.env,
       buildRawDefine: quasarConf.build.rawDefine,
       fileEnv: quasarConf.metaConf.fileEnv
-    })
+    }),
+    plugins: []
   }
 
   const { hasEslint, ESLint } = cacheProxy.getModule('eslint')
@@ -519,17 +498,17 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
       const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
-      cfg.plugins = [
+      esbuildConfig.plugins.push(
         await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      ]
+      )
     }
   }
 
-  return cfg
+  return esbuildConfig
 }
 
 module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
-  const cfg = {
+  const esbuildConfig = {
     platform: 'browser',
     target: quasarConf.build.esbuildTarget.browser,
     format: 'iife',
@@ -541,7 +520,8 @@ module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildC
       buildEnv: quasarConf.build.env,
       buildRawDefine: quasarConf.build.rawDefine,
       fileEnv: quasarConf.metaConf.fileEnv
-    })
+    }),
+    plugins: []
   }
 
   const { hasEslint, ESLint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
@@ -550,13 +530,13 @@ module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildC
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
       const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
-      cfg.plugins = [
+      esbuildConfig.plugins.push(
         await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      ]
+      )
     }
   }
 
-  return cfg
+  return esbuildConfig
 }
 
 module.exports.extendEsbuildConfig = function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, methodName) {

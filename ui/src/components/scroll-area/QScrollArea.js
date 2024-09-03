@@ -1,17 +1,17 @@
 import { h, ref, computed, watch, withDirectives, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { between } from '../../utils/format.js'
-import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/private/render.js'
-import debounce from '../../utils/debounce.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { between } from '../../utils/format/format.js'
+import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll/scroll.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
+import debounce from '../../utils/debounce/debounce.js'
 
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {
@@ -352,11 +352,26 @@ export default createComponent({
       targetRef.value[ dirProps[ axis ].scroll ] = offset
     }
 
+    let mouseEventTimer = null
+
     function onMouseenter () {
-      hover.value = true
+      if (mouseEventTimer !== null) {
+        clearTimeout(mouseEventTimer)
+      }
+
+      // setTimeout needed for iOS; see ticket #16210
+      mouseEventTimer = setTimeout(() => {
+        mouseEventTimer = null
+        hover.value = true
+      }, proxy.$q.platform.is.ios ? 50 : 0)
     }
 
     function onMouseleave () {
+      if (mouseEventTimer !== null) {
+        clearTimeout(mouseEventTimer)
+        mouseEventTimer = null
+      }
+
       hover.value = false
     }
 
@@ -379,7 +394,7 @@ export default createComponent({
     })
 
     onActivated(() => {
-      if (scrollPosition === null) { return }
+      if (scrollPosition === null) return
 
       const scrollTarget = targetRef.value
 

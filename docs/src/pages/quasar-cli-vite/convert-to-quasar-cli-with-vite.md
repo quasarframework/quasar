@@ -7,14 +7,20 @@ This page will guide you on how to convert a Quasar CLI with Webpack (`@quasar/a
 
 ### Step 1: Create a Quasar CLI with Vite project folder:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn create quasar
-# or:
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
+<<| bash NPM |>>
 $ npm init quasar
-# or:
-$ pnpm create quasar # experimental support
-
-# pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
+<<| bash PNPM |>>
+$ pnpm create quasar
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
+<<| bash Bun |>>
+# experimental support
+$ bun create quasar
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
 ```
 
 There are significant changes to the root files so it's easier to generate a new project folder rather than explaining each of the many changes.
@@ -32,21 +38,19 @@ From your original project folder, copy these as they are:
 
 Move `/src/index.template.html` to `/index.html`. And make the following change:
 
-```
-<!-- DO NOT touch the following DIV -->
-<div id="q-app"></div>
-
-// replace with:
-
-<!-- quasar:entry-point -->
+```diff
+- <!-- DO NOT touch the following DIV -->
+- <div id="q-app"></div>
++ <!-- quasar:entry-point -->
 ```
 
 Also, edit `/src/router/index.js`:
 
 ```js
-// Change:
+// old way
 history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
-// Into:
+
+// new way
 history: createHistory(process.env.VUE_ROUTER_BASE)
 ```
 
@@ -67,9 +71,13 @@ import MyComponent from './MyComponent.vue'
 
 There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in the [quasar.config file](/quasar-cli-vite/quasar-config-file) page. You will have to manually port your configuration to the Quasar CLI with Vite architecture.
 
+#### TypeScript Aliases
+
+If you are using TypeScript and defined custom path aliases in `tsconfig.json > compilerOptions > paths`, they will no longer be processed automatically. See [Folder aliases | Handling Vite](quasar-cli-vite/handling-vite#folder-aliases) for available ways to handle this.
+
 ### Step 5: Browser compatibility
 
-A Quasar CLI with Webpack project relies on `/package.json > browserslist` to specify which browsers you are targetting. That property no longer has any meaning. Projects managed by Quasar CLI with Vite work completely different and you might want to check the [Browser Compatibility](/quasar-cli-vite/browser-compatibility) page.
+A Quasar CLI with Webpack project relies on `/package.json > browserslist` to specify which browsers you are targeting. That property no longer has any meaning. Projects managed by Quasar CLI with Vite work completely different and you might want to check the [Browser Compatibility](/quasar-cli-vite/browser-compatibility) page.
 
 ### Step 6: SSR related
 
@@ -85,8 +93,7 @@ More info: [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr)
 * Quasar CLI with Webpack relies on `quasar.config file > manifest` to specify the manifest, but you will need to use `/src-pwa/manifest.json` to declare it for Quasar CLI with Vite. After declaring the manifest in `/src-pwa/manifest.json`, delete `quasar.config file > manifest` section.
 * There were also some props in the `quasar.config` file that are no longer available. Most notably: `metaVariables`, `metaVariablesFn`. Simply edit `/index.html` and add those tags directly there.
 
-```html
-<!-- index.html -->
+```html /index.html
 <head>
   <% if (ctx.mode.pwa) { %>
     <!-- Define your custom PWA-related meta/link tags here. -->

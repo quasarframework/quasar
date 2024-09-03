@@ -16,7 +16,7 @@
           src="https://cdn.quasar.dev/img/parallax1.jpg"
           :width="width"
           class="absolute-top-left"
-        />
+        >
       </template>
 
       <template v-slot:after>
@@ -24,7 +24,7 @@
           src="https://cdn.quasar.dev/img/parallax1-bw.jpg"
           :width="width"
           class="absolute-top-right"
-        />
+        >
       </template>
 
     </q-splitter>

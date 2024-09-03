@@ -86,7 +86,7 @@ export interface QuasarPwaConfiguration {
   swFilename?: string;
 
   /**
-   * PWA manifest filename to use (relative to /src-pwa or absolute path)
+   * PWA manifest filename to use on your browser
    * @default manifest.json
    */
   manifestFilename?: string;
@@ -105,6 +105,7 @@ export interface QuasarPwaConfiguration {
 
   /**
    * Auto inject the PWA meta tags?
+   * If using the function form, return HTML tags as one single string.
    * @default true
    */
   injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);

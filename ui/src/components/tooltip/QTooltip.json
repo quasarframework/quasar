@@ -1,5 +1,10 @@
 {
-  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-transition" ],
+  "mixins": [
+    "composables/private.use-model-toggle/use-model-toggle",
+    "composables/private.use-anchor/use-anchor-static",
+    "composables/private.use-portal/use-portal",
+    "composables/private.use-transition/use-transition"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/tooltip"
@@ -8,33 +13,37 @@
   "props": {
     "max-height": {
       "extends": "size",
+      "type": [ "String", "null" ],
+      "default": "null",
       "desc": "The maximum height of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
 
     "max-width": {
       "extends": "size",
+      "type": [ "String", "null" ],
+      "default": "null",
       "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
 
     "transition-show": {
-      "default": "jump-down"
+      "default": "'jump-down'"
     },
 
     "transition-hide": {
-      "default": "jump-up"
+      "default": "'jump-up'"
     },
 
     "anchor": {
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "default": "bottom middle",
+      "default": "'bottom middle'",
       "category": "position"
     },
 
@@ -42,19 +51,19 @@
       "type": "String",
       "desc": "Two values setting the Tooltip's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "default": "top middle",
+      "default": "'top middle'",
       "category": "position"
     },
 
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
-      "default": "[14, 14]",
-      "examples": [ "[8, 8]", "[5, 10]" ],
+      "default": "[ 14, 14 ]",
+      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
       "category": "position"
     },
 
@@ -62,35 +71,23 @@
       "extends": "scroll-target"
     },
 
-    "target": {
-      "type": [ "Boolean", "String" ],
-      "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
-      "default": true,
-      "values": [ "(Boolean) true", "(Boolean) false", "(CSS selector)" ],
-      "examples": [
-        ":target=\"false\"",
-        "target=\".my-parent\""
-      ],
-      "category": "behavior"
-    },
-
-    "no-parent-event": {
-      "type": "Boolean",
-      "desc": "Skips attaching events to the target DOM element (that trigger the element to get shown)",
-      "category": "behavior"
-    },
-
     "delay": {
       "type": "Number",
       "desc": "Configure Tooltip to appear with delay",
-      "default": 0,
+      "default": "0",
       "category": "behavior"
     },
 
     "hide-delay": {
       "type": "Number",
       "desc": "Configure Tooltip to disappear with delay",
-      "default": 0,
+      "default": "0",
+      "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Prevents Tooltip from auto-closing when app's route changes",
       "category": "behavior"
     }
   },
@@ -103,7 +100,9 @@
 
   "methods": {
     "updatePosition": {
-      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+      "params": null,
+      "returns": null
     }
   }
 }

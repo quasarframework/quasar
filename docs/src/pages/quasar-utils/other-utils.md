@@ -31,9 +31,7 @@ If running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/E
 
 The optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not defers to using `window.open()`.
 
-```js
-// example of openURL() with windowFeatures:
-
+```js Example of openURL() with windowFeatures:
 openURL(
   'http://...',
   undefined, // in this example we don't care about the rejectFn()
@@ -441,41 +439,6 @@ let uid = uid()
 // Example: 501e7ae1-7e6f-b923-3e84-4e946bff31a8
 ```
 
-## Handling event on a DOM event handler
-It's cross-browser.
-
-```js
-import { event } from 'quasar'
-
-node.addEventListener('click', evt => {
-  // left clicked?
-  (Boolean) event.leftClick(evt)
-
-  // middle clicked?
-  (Boolean) event.middleClick(evt)
-
-  // right clicked?
-  (Boolean) event.rightClick(evt)
-
-  // key in number format
-  (Number) event.getEventKey(evt)
-
-  // Mouse wheel distance (in pixels)
-  (Object {x, y}) event.getMouseWheelDistance(evt)
-
-  // position on viewport
-  // works both for mouse and touch events!
-  (Object {top, left}) event.position(evt)
-
-  // get target DOM Element on which mouse or touch
-  // event has fired upon
-  (DOM Element) event.targetElement(evt)
-
-  // call stopPropagation and preventDefault
-  event.stopAndPrevent(evt)
-})
-```
-
 ## testPattern
 
 Test against particular patterns.
@@ -492,7 +455,6 @@ testPattern.hexColor('#fff') // true
 testPattern.hexColor('#ffffff') // true
 testPattern.hexColor('#FFF') // true
 testPattern.hexColor('#gggggg') // false
-
-// See the full list of patterns here:
-// https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js
 ```
+
+See the full list of patterns [here](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).

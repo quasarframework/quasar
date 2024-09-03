@@ -1,4 +1,3 @@
-
 import { AppTool } from './app-tool.js'
 import { printDevRunningBanner } from './utils/banner.js'
 import { encodeForDiff } from './utils/encode-for-diff.js'
@@ -42,7 +41,6 @@ export class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('vite', quasarConf => ([
-      quasarConf.eslint,
       quasarConf.htmlVariables,
       quasarConf.devServer,
       quasarConf.build,
@@ -50,7 +48,6 @@ export class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('esbuild', quasarConf => [
-      quasarConf.eslint,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
       quasarConf.metaConf.fileEnv,

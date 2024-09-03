@@ -8,41 +8,40 @@
   "type": "module",
   "scripts": {
     "prepare-docs": "node build/copy-quasar-api.js",
-    "dev": "yarn prepare-docs && quasar dev",
-    "dev:ssr": "yarn prepare-docs && quasar dev -m ssr",
-    "build": "yarn prepare-docs && node build/search.js && quasar build -m ssr && node build/fix-ssr-manifest.js && mkdir -p dist/quasar.dev/client/examples/ && cp -R src/examples/* dist/quasar.dev/client/examples/",
+    "dev": "pnpm prepare-docs && quasar dev",
+    "dev:ssr": "pnpm prepare-docs && quasar dev -m ssr",
+    "build": "pnpm prepare-docs && node build/search.js && quasar build -m ssr && node build/fix-ssr-manifest.js && mkdir -p dist/quasar.dev/client/examples/ && cp -R src/examples/* dist/quasar.dev/client/examples/ && node build/ssg.js",
     "relnotes": "node build/release-notes/index.js",
-    "lint": "eslint --ext .js,.vue ./ --fix",
+    "lint": "eslint --ext .js,.vue ./ --report-unused-disable-directives --fix",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1",
     "prismjs": "^1.26.0",
-    "quasar": "^2.11.5",
-    "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "quasar": "^2",
+    "register-service-worker": "^1",
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-alpha.0",
-    "autoprefixer": "^10.4.13",
-    "axios": "^1.2.2",
-    "eslint": "^8.31.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.4",
-    "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1",
+    "@quasar/app-vite": "^2.0.0-beta.5",
+    "autoprefixer": "^10.4.19",
+    "axios": "^1.7.2",
+    "eslint": "^8.57.0",
+    "eslint-config-quasar": "^0.0.1",
     "eslint-plugin-quasar": "^1.1.0",
-    "eslint-plugin-vue": "^9.8.0",
     "fast-glob": "^3.2.12",
+    "fs-extra": "^11.2.0",
     "gray-matter": "^4.0.2",
-    "markdown-ast": "^0.2.1",
-    "markdown-it": "^12.3.2",
-    "markdown-it-container": "^3.0.0",
+    "markdown-ast": "^0.3.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-container": "^4.0.0",
     "toml": "^3.0.0",
-    "workbox-build": "^7.0.0"
+    "vite-plugin-checker": "^0.7.1",
+    "workbox-build": "^7.1.1"
   },
   "engines": {
-    "node": ">= 14.19.0",
+    "node": "^20 || ^18 || ^16",
     "npm": ">= 6.14.12",
     "yarn": ">= 1.17.3"
   }

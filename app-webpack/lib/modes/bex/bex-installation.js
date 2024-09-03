@@ -1,8 +1,8 @@
 const fs = require('node:fs')
 const fse = require('fs-extra')
-const inquirer = require('inquirer')
 
 const { log, warn } = require('../../utils/logger.js')
+const { generateTypesFeatureFlag } = require('../../utils/types-feature-flags.js')
 
 const bexDeps = {
   events: '^3.3.0'
@@ -31,6 +31,7 @@ module.exports.addMode = async function addMode ({
   )
 
   console.log()
+  const { default: inquirer } = await import('inquirer')
   const answer = await inquirer.prompt([ {
     name: 'manifestVersion',
     type: 'list',
@@ -44,7 +45,7 @@ module.exports.addMode = async function addMode ({
   log('Creating Browser Extension source folder...')
 
   fse.copySync(appPaths.resolve.cli('templates/bex/common'), appPaths.bexDir)
-  fse.copySync(appPaths.resolve.cli('templates/bex/bex-flag.d.ts'), appPaths.resolve.bex('bex-flag.d.ts'))
+  generateTypesFeatureFlag('bex', appPaths)
 
   const hasTypescript = cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'default'

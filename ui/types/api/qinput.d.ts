@@ -4,7 +4,7 @@ type QInputType = NonNullable<QInputProps["type"]>;
 
 type WithKnownType<
   TElement extends HTMLInputElement | HTMLTextAreaElement,
-  TType extends QInputType
+  TType extends QInputType,
 > = Omit<TElement, "type"> & { type: TType };
 
 /**

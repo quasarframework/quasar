@@ -89,7 +89,7 @@ export function createAppExt (ctx) {
       hooksMap = {}
       for (const ext of appExt.extensionList) {
         const extHooks = await ext.run()
-        merge(hooksMap, extHooks)
+        hooksMap = merge(hooksMap, extHooks)
       }
     },
 

@@ -1,8 +1,6 @@
 ---
 title: Quasar UMD - CDN install
 desc: How to use the Unified Module Definition form of Quasar.
-components:
-  - ./UmdTags
 ---
 
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
@@ -11,7 +9,11 @@ If you want to embed Quasar into your existing website project, integrating it i
 
 UMD is all about adding Quasar style and javascript tags. Please select what you will be using and check out the output below it.
 
-<umd-tags />
+<script doc>
+import UmdTags from './UmdTags.vue'
+</script>
+
+<UmdTags />
 
 ::: warning
 * Please notice the `<!DOCTYPE html>` at the beginning of the document. Do not forget to add it, or else some browsers (notably Safari) will use some compatibility mode that breaks flex.
@@ -120,7 +122,7 @@ Quasar.openURL('https://quasar.dev')
 Assuming you have already included the CDN link to your favorite Quasar Icon Set (unless you're using Material Icons which is used by default), you can then tell Quasar to use it:
 
 ```js
-Quasar.iconSet.set(Quasar.iconSet.fontawesomeV6)
+Quasar.IconSet.set(Quasar.IconSet.fontawesomeV6)
 ```
 
 The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
@@ -131,10 +133,10 @@ Assuming you have already included the CDN link to your desired Quasar I18n Lang
 ```js
 // example setting German language,
 // using ISO 2 letter code:
-Quasar.lang.set(Quasar.lang.de)
+Quasar.Lang.set(Quasar.Lang.de)
 
 // example setting Portuguese (Brazil) language:
-Quasar.lang.set(Quasar.lang.ptBR)
+Quasar.Lang.set(Quasar.Lang.ptBR)
 ```
 
 The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

@@ -8,11 +8,9 @@ It's important to note that the Service Worker (which gets automatically generat
 
 ## Interacting with Service Worker
 
-Notice the [register-service-worker](https://github.com/yyx990803/register-service-worker) npm package, which comes out of the box along with Quasar CLI (so don't install it yourself).
+Add the [register-service-worker](https://github.com/yyx990803/register-service-worker) npm package in your package.json file as a dependency (if it's not already there).
 
-```js
-// src-pwa/register-service-worker.js file
-
+```js /src-pwa/register-service-worker.js file
 import { register } from 'register-service-worker'
 
 register(process.env.SERVICE_WORKER_FILE, {
@@ -69,9 +67,7 @@ https://b8ootd-ip-157-211-195-182.tunnelmole.com is forwarding to localhost:80
 
 When you set `devServer > https: true` in your `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > https` should look like this:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   server: {
     type: 'https', // NECESSARY

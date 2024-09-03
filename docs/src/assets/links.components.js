@@ -1,4 +1,3 @@
-
 const components = [
   { name: 'Ajax-bar', short: 'ajaxbar', description: 'A loading bar for ajax calls in progress', tag: 'loading' },
   { name: 'Avatar', description: 'A space for your portrait, icon or text', tag: 'media' },
@@ -20,7 +19,7 @@ const components = [
   { name: 'Dialogs', description: 'To show actions and info only when needed', tag: 'panel', path: 'dialog' },
   { name: 'Editor WYSIWYG', description: 'To write text and style it directly', tag: 'other', path: 'editor' },
   { name: 'Expansion Panels', short: 'expansionitem', description: 'To show hidden extra info and actions', tag: 'panel', path: 'expansion-item' },
-  { name: 'File Pickers', description: 'To access and choose a file from users\' device', tag: 'media', path: 'file-picker' },
+  { name: 'File Pickers', description: 'To access and choose a file from users\' device', tag: 'media', path: 'file' },
   { name: 'Floating Action Button', short: 'fab', description: 'To display the page primary action', tag: 'button' },
   { name: 'Forms', description: 'A system to submit validated inputs', tag: 'input', path: 'form' },
   { name: 'Form Fields', description: 'Wrapper for your own custom form elements', tag: 'input', path: 'field' },

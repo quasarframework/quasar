@@ -50,18 +50,23 @@ interface InvokeParams {
 
 interface BuildTargetOptions {
   /**
-   * @default ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1']
+   * @default ['es2022', 'firefox115', 'chrome115', 'safari14']
    */
   browser?: string[];
   /**
-   * @example 'node16'
+   * @example 'node20'
    */
   node?: string;
 }
 
+interface PluginEntryRunOptions {
+  server?: boolean;
+  client?: boolean;
+}
+
 type PluginEntry =
-  | [pluginName: string, options?: any]
-  | [pluginFactory: (options?: any) => Plugin, options?: any]
+  | [pluginName: string, options?: any, runOptions?: PluginEntryRunOptions]
+  | [pluginFactory: (options?: any) => Plugin, options?: any, runOptions?: PluginEntryRunOptions]
   | Plugin
   | null
   | undefined
@@ -70,10 +75,10 @@ type PluginEntry =
 interface QuasarStaticBuildConfiguration {
   /**
    * @example
-   *    {
-   *      browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-   *      node: 'node16'
-   *    }
+   * {
+   *   browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
+   *   node: 'node20'
+   * }
    */
   target?: BuildTargetOptions;
   /**
@@ -85,6 +90,8 @@ interface QuasarStaticBuildConfiguration {
   ) => void;
   /**
    * Options to supply to @vitejs/plugin-vue
+   *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#vite-vue-plugin-options
    */
   viteVuePluginOptions?: VuePluginOptions;
   /**
@@ -97,25 +104,39 @@ interface QuasarStaticBuildConfiguration {
    * import { somePlugin } from 'some-plugin'
    * // ...
    * [
-   *   [ 'some-plugin', { ...options... } ],
+   *   [ 'some-plugin', { ...pluginOptions... } ],
    *
-   *   [ somePlugin, { ...options... } ],
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ 'some-plugin', { ...pluginOptions... }, { server: true, client: true } ],
    *
-   *   somePlugin(options)
+   *   [ somePlugin, { ...pluginOptions... } ],
+   *
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ somePlugin, { ...pluginOptions... }, { server: true, client: true } ],
+   *
+   *   somePlugin({ ...pluginOptions... })
    * ]
    *
    * @example
    * // CJS
    * [
-   *   [ 'some-plugin', { ...options... } ],
+   *   [ 'some-plugin', { ...pluginOptions... } ],
    *
-   *   [ require('some-plugin'), { ...options... } ],
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ 'some-plugin', { ...pluginOptions... }, { server: true, client: true } ],
    *
-   *   require('some-plugin')(options)
+   *   [ require('some-plugin'), { ...pluginOptions... } ],
+   *
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ require('some-plugin'), { ...pluginOptions... }, { server: true, client: true } ],
+   *
+   *   require('some-plugin')({ ...pluginOptions... })
    * ]
    */
   vitePlugins?: PluginEntry[];
   /**
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#folder-aliases
+   *
    * @example
    * {
    *   // import { ... } from 'locales/...'
@@ -157,7 +178,8 @@ interface QuasarStaticBuildConfiguration {
   vueOptionsAPI?: boolean;
   /**
    * Do you want to analyze the production bundles?
-   * Generates and opens an html report.
+   * Generates and opens an HTML report.
+   *
    * @default false
    */
   analyze?: boolean;
@@ -172,6 +194,8 @@ interface QuasarStaticBuildConfiguration {
 
   /**
    * Add properties to `process.env` that you can use in your website/app JS code.
+   *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-process-env
    *
    * @example { SOMETHING: 'someValue' }
    */
@@ -232,13 +256,6 @@ interface QuasarStaticBuildConfiguration {
   ignorePublicFolder?: boolean;
 
   /**
-   * Treeshake Quasar's UI on dev too?
-   * Recommended to leave this as false for performance reasons.
-   * @default false
-   */
-  devQuasarTreeshaking?: boolean;
-
-  /**
    * Prepare external services before `$ quasar dev` command runs
    * like starting some backend or any other service that the app relies on.
    * Can use async/await or directly return a Promise.
@@ -288,7 +305,10 @@ interface QuasarDynamicBuildConfiguration {
    */
   minify?: boolean | 'terser' | 'esbuild';
   /**
-   * Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier)
+   * Minification options for html-minifier-terser.
+   *
+   * @see https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference for complete list of options
+   *
    * @default
    *  {
    *    removeComments: true,

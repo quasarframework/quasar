@@ -22,8 +22,8 @@
 
     "tag": {
       "extends": "tag",
-      "default": "div",
-      "examples": [ "div", "form" ]
+      "default": "'div'",
+      "examples": [ "'div'", "'form'" ]
     }
   },
 

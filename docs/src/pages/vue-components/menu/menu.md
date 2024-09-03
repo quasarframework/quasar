@@ -7,13 +7,11 @@ related:
   - /vue-directives/close-popup
   - /options/transitions
   - /vue-components/popup-proxy
-components:
-  - ./MenuPositioning
 ---
 
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.
 
-<doc-api file="QMenu" />
+<DocApi file="QMenu" />
 
 ## Usage
 
@@ -26,53 +24,61 @@ Alternatively, you can use the QMenu's property `auto-close` or handle closing t
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Idea for content" file="VariousContent" />
+<DocExample title="Idea for content" file="VariousContent" />
 
-<doc-example title="Toggle through v-model" file="VModel" />
+<DocExample title="Toggle through v-model" file="VModel" />
+
+::: warning
+If you want to conditionally activate or de-activate a QMenu, please use `v-if` on it instead of `v-show`.
+:::
 
 ### Submenus
 
-<doc-example title="Menus in menus" file="MenuInMenu" />
+<DocExample title="Menus in menus" file="MenuInMenu" />
 
 ### Sizing and styling
 
-<doc-example title="Sizing" file="Sizing" />
+<DocExample title="Sizing" file="Sizing" />
 
-<doc-example title="Style" file="Style" />
+<DocExample title="Style" file="Style" />
 
 ### Context menu
 
 You can also set QMenu to act as a context menu. On desktop, you need to right click the parent target to trigger it, and on mobile a long tap will do the job.
 
-<doc-example title="Context Menu" file="ContextMenu" />
+<DocExample title="Context Menu" file="ContextMenu" />
 
 ### Persistent
 
 If you want the QMenu to not close if app route changes or if hitting ESCAPE key or if clicking/tapping outside of the menu, then use `persistent` prop:
 
-<doc-example title="Persistent" file="Persistent" />
+<DocExample title="Persistent" file="Persistent" />
 
 ### Transitions
 
 In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
 
-<doc-example title="Transition examples" file="Transitions" />
+<DocExample title="Transition examples" file="Transitions" />
 
 ### Reusable
 
 The example below shows how to create a re-usable menu that can be shared with different targets.
 
-<doc-example title="Using target" file="Target" />
+<DocExample title="Using target" file="Target" />
 
 ### Positioning
 
-<doc-example title="Position examples" file="Positions" />
+<DocExample title="Position examples" file="Positions" />
 
 The position of QMenu can be customized. It keeps account of the `anchor` and `self` optional props.
 The final position of QMenu popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
 
 For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
-<menu-positioning />
+<script doc>
+import MenuPositioning from './MenuPositioning.vue'
+</script>
+
+<MenuPositioning />

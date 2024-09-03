@@ -1,4 +1,3 @@
-
 export function encodeForDiff (obj) {
   return JSON.stringify(obj, (_, value) => {
     return typeof value === 'function'

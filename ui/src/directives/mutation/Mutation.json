@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/mutation"
+  },
+
+  "value": {
+    "type": [ "Function" ],
+    "desc": "Function to call when mutation occurs; It is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
+    "examples": [ "# v-intersection=\"myHandler\"" ],
+
+    "returns": {
+      "type": "Boolean",
+      "desc": "If you return Boolean false from the handler, the observer stops"
+    },
+
+    "params": {
+      "mutationList": {
+        "type": "Array",
+        "desc": "Array of MutationRecord items",
+        "definition": {
+          "type": {
+            "type": "String",
+            "desc": "Type of mutation",
+            "values": [ "'childList'", "'attributes'", "'characterData'" ]
+          },
+
+          "target": {
+            "type": "Element",
+            "desc": "The DOM element that the mutation affected, depending on the mutation type"
+          },
+
+          "addedNodes": {
+            "type": "Array",
+            "desc": "The NodeList of the nodes that have been added"
+          },
+
+          "removedNodes": {
+            "type": "Array",
+            "desc": "The NodeList of the nodes that have been removed"
+          },
+
+          "previousSibling": {
+            "type": "Object",
+            "desc": "The previous sibling of the added or removed nodes, or null"
+          },
+
+          "nextSibling": {
+            "type": "Object",
+            "desc": "The next sibling of the added or removed nodes, or null"
+          },
+
+          "attributeName": {
+            "type": "String",
+            "desc": "The local name of the changed attribute, or null",
+            "examples": [ "'some-attribute'" ]
+          },
+
+          "attributeNamespace": {
+            "type": "String",
+            "desc": "The namespace of the changed attribute, or null"
+          },
+
+          "oldValue": {
+            "type": "String",
+            "desc": "Value depends on the mutation type; For attributes, it is the value of the changed attribute before the change; For characterData it is data of the changed node before the change; For childList it is null; Note that for this to work as expected, attributeOldValue or characterDataOldValue must be set"
+          }
+        }
+      }
+    }
+  },
+
+  "modifiers": {
+    "once": {
+      "type": "Boolean",
+      "desc": "Call handler only once, when the first mutation was triggered, then stop monitoring",
+      "examples": [ "# v-mutation.once" ]
+    },
+
+    "childList": {
+      "type": "Boolean",
+      "desc": "Monitor the target node (and, if 'subtree' is also set, its descendants) for the addition of new child nodes or removal of existing child nodes",
+      "examples": [ "# v-mutation.childList" ]
+    },
+
+    "subtree": {
+      "type": "Boolean",
+      "desc": "Extend monitoring to the entire subtree of nodes rooted at target",
+      "examples": [ "# v-mutation.subtree" ]
+    },
+
+    "attributes": {
+      "type": "Boolean",
+      "desc": "Watch for changes to the value of attributes on the node or nodes being monitored",
+      "examples": [ "# v-mutation.attributes" ]
+    },
+
+    "characterData": {
+      "type": "Boolean",
+      "desc": "Monitor the specified target node or subtree for changes to the character data contained within the node or nodes",
+      "examples": [ "# v-mutation.characterData" ]
+    },
+
+    "attributeOldValue": {
+      "type": "Boolean",
+      "desc": "Record the previous value of any attribute that changes when monitoring the node or nodes for attribute changes",
+      "examples": [ "# v-mutation.attributeOldValue" ]
+    },
+
+    "characterDataOldValue": {
+      "type": "Boolean",
+      "desc": "Record the previous value of a node's text whenever the text changes on nodes being monitored",
+      "examples": [ "# v-mutation.characterDataOldValue" ]
+    }
+  }
+}

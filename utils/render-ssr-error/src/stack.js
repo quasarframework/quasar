@@ -1,9 +1,12 @@
-
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { parse } from 'stack-trace'
 
 function getFilename (filename) {
+  if (!filename) {
+    return filename
+  }
+
   if (existsSync(filename)) {
     return filename
   }

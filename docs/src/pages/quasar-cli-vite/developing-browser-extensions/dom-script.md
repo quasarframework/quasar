@@ -76,9 +76,7 @@ export default function detectQuasar (bridge) {
 }
 ```
 
-```js
-// src-bex/dom.js:
-
+```js /src-bex/dom.js:
 import { bexDom } from 'quasar/wrappers'
 import detectQuasar from './dom/detect-quasar'
 

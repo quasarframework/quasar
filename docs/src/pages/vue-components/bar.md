@@ -12,7 +12,7 @@ The QBar is a small component for creating the top bar on different types of mob
 
 QBar is especially useful for frame-less Electron apps where you integrate it in the QHeader.
 
-<doc-api file="QBar" />
+<DocApi file="QBar" />
 
 ## Usage
 
@@ -22,21 +22,21 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 
 ### Styling
 
-<doc-example title="MacOS style" file="MacOS" no-edit />
+<DocExample title="MacOS style" file="MacOS" no-edit />
 
-<doc-example title="Windows style" file="Windows" />
+<DocExample title="Windows style" file="Windows" />
 
-<doc-example title="iOS style" file="iOS" no-edit />
+<DocExample title="iOS style" file="iOS" no-edit />
 
-<doc-example title="Android style" file="Android" />
+<DocExample title="Android style" file="Android" />
 
 ### With other components
 
-<doc-example title="QMenu" file="Menu" />
+<DocExample title="QMenu" file="Menu" />
 
-<doc-example title="QDialog" file="Dialog" />
+<DocExample title="QDialog" file="Dialog" />
 
-<doc-example title="QHeader with QToolbar" file="Header" />
+<DocExample title="QHeader with QToolbar" file="Header" />
 
 ### Frameless Electron Window
 QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.

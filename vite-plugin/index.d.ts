@@ -13,6 +13,18 @@ export interface QuasarPluginOpts {
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
 
   /**
+   * Auto import - which file extensions should be interpreted as referring to Vue SFC?
+   * @default [ 'vue' ]
+   */
+  autoImportVueExtensions?: string[];
+
+  /**
+   * Auto import - which file extensions should be interpreted as referring to script files?
+   * @default [ 'js', 'jsx', 'ts', 'tsx' ]
+   */
+  autoImportScriptExtensions?: string[];
+
+  /**
    * Would you like to use Quasar's SCSS/Sass variables?
    *   true
    *      --> yes, all my vue files will be able to use $primary etc

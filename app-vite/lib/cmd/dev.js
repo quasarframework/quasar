@@ -36,41 +36,39 @@ if (argv.help) {
 
     $ quasar dev -m ssr
 
-    # alias for "quasar dev -m cordova -T ios"
+    # alias for "quasar dev -m capacitor -T ios"
     $ quasar dev -m ios
 
-    # alias for "quasar dev -m cordova -T android"
+    # alias for "quasar dev -m capacitor -T android"
     $ quasar dev -m android
 
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
-    $ quasar dev -m ios -- some params --and options --here
+    $ quasar dev -m cordova -T ios -- some params --and options --here
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
     # when on Windows and using Powershell:
-    $ quasar dev -m ios '--' some params --and options --here
+    $ quasar dev -m cordova -T ios '--' some params --and options --here
     $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
+    --devtools, -d   Open remote Vue Devtools
     --help, -h       Displays this message
 
     Only for Cordova mode:
-    --target, -T     (required) App target
-                        [android|ios]
+    --target, -T     (required) App target [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
     --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
-                        booting up the emulator, in which case the "--emulator"
-                        param will have no effect
+                       boot up the emulator / building in terminal, in which case
+                       the "--emulator" param will have no effect
 
-    --devtools, -d   Open remote Vue Devtools
 
     Only for Capacitor mode:
-    --target, -T     (required) App target
-                        [android|ios]
+    --target, -T     (required) App target [android|ios]
   `)
   process.exit(0)
 }
@@ -93,7 +91,7 @@ async function startVueDevtools (ctx, devtoolsPort) {
   const { spawn } = await import('../utils/spawn.js')
   const { getPackagePath } = await import('../utils/get-package-path.js')
 
-  let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
+  let vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
 
   function run () {
     log('Booting up remote Vue Devtools...')
@@ -119,9 +117,9 @@ async function startVueDevtools (ctx, devtoolsPort) {
   nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
-  // after a yarn/npm install will fail
+  // after a installing the dependencies will fail
   return new Promise(resolve => {
-    vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
+    vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
     run().then(resolve)
   })
 }
@@ -155,8 +153,8 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-import { regenerateTypesFeatureFlags } from '../utils/types-feature-flags.js'
-await regenerateTypesFeatureFlags(quasarConf)
+import { ensureTypesFeatureFlags } from '../utils/types-feature-flags.js'
+ensureTypesFeatureFlags(quasarConf)
 
 if (quasarConf.metaConf.vueDevtools !== false) {
   await startVueDevtools(ctx, quasarConf.metaConf.vueDevtools.port)

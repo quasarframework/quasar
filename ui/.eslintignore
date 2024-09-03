@@ -1,2 +1,13 @@
-# We don't have TS-related plugins&rules, so disable to avoid annoyance
-types/
+node_modules/
+dist/
+/test
+/types
+/icon-set/*.js
+/icon-set/svg-*.mjs
+/lang/*.js
+/quasar.config.*.temporary.compiled*
+/playground/.quasar
+/playground/dist
+/playground/src-capacitor
+/playground/src-cordova
+*.cy.js

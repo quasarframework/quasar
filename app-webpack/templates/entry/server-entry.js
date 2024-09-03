@@ -60,7 +60,7 @@ function getRedirectUrl (url, router) {
     return url
   }
 
-  try { return <%= build.publicPath === '/' ? 'router.resolve(url).href' : 'addPublicPath(router.resolve(url).href)' %> }
+  try { return router.resolve(url).href }
   catch (err) {}
 
   return url

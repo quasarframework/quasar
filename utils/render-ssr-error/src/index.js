@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 import { getErrorDetails } from './error-details.js'

@@ -1,0 +1,61 @@
+{
+  "props": {
+    "to": {
+      "type": [ "String", "Object" ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
+      "examples": [
+        "'/home/dashboard'",
+        "{ name: 'my-route-name' }"
+      ],
+      "category": "navigation"
+    },
+
+    "exact": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'exact' property; Superseded by 'href' prop if used",
+      "category": "navigation"
+    },
+
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseded by 'href' prop if used",
+      "category": "navigation"
+    },
+
+    "active-class": {
+      "type": "String",
+      "desc": "Equivalent to Vue Router <router-link> 'active-class' property; Superseded by 'href' prop if used",
+      "default": "'q-router-link--active'",
+      "examples": [ "'my-active-class'" ],
+      "category": "navigation"
+    },
+
+    "exact-active-class": {
+      "type": "String",
+      "desc": "Equivalent to Vue Router <router-link> 'active-class' property; Superseded by 'href' prop if used",
+      "default": "'q-router-link--exact-active'",
+      "examples": [ "'my-exact-active-class'" ],
+      "category": "navigation"
+    },
+
+    "href": {
+      "type": "String",
+      "desc": "Native <a> link href attribute; Has priority over the 'to'/'exact'/'replace'/'active-class'/'exact-active-class' props",
+      "examples": [ "'https://quasar.dev'" ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+
+    "target": {
+      "type": "String",
+      "desc": "Native <a> link target attribute; Use it only along with 'href' prop; Has priority over the 'to'/'exact'/'replace'/'active-class'/'exact-active-class' props",
+      "examples": [ "'_blank'", "'_self'", "'_parent'", "'_top'" ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}

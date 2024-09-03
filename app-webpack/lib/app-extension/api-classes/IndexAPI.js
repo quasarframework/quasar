@@ -4,14 +4,19 @@ const { merge } = require('webpack-merge')
 const { fatal } = require('../../utils/logger.js')
 const { getPackageJson } = require('../../utils/get-package-json.js')
 const { getCallerPath } = require('../../utils/get-caller-path.js')
+const { getBackwardCompatiblePackageName } = require('../utils.app-extension.js')
 const { BaseAPI } = require('./BaseAPI.js')
 
 /**
  * API for extension's /index.js script
  */
 module.exports.IndexAPI = class IndexAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 
@@ -62,14 +67,15 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {string} semverCondition
    */
   compatibleWith (packageName, semverCondition) {
-    const json = getPackageJson(packageName, this.appDir)
+    const name = getBackwardCompatiblePackageName(packageName)
+    const json = getPackageJson(name, this.appDir)
 
     if (json === void 0) {
-      fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
+      fatal(`Extension(${ this.extId }): Dependency not found - ${ name }. Please install it.`)
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${ this.extId }): is not compatible with ${ packageName } v${ json.version }. Required version: ${ semverCondition }`)
+      fatal(`Extension(${ this.extId }): is not compatible with ${ name } v${ json.version }. Required version: ${ semverCondition }`)
     }
   }
 
@@ -85,7 +91,8 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {
-    const json = getPackageJson(packageName, this.appDir)
+    const name = getBackwardCompatiblePackageName(packageName)
+    const json = getPackageJson(name, this.appDir)
 
     if (json === void 0) {
       return false
@@ -114,7 +121,8 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @return {string|undefined} version of app's package
    */
   getPackageVersion (packageName) {
-    const json = getPackageJson(packageName, this.appDir)
+    const name = getBackwardCompatiblePackageName(packageName)
+    const json = getPackageJson(name, this.appDir)
     return json !== void 0
       ? json.version
       : void 0
@@ -137,7 +145,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
    */
   chainWebpack (fn) {
-    this.__addHook('chainWebpack', fn)
+    this.#addHook('chainWebpack', fn)
   }
 
   /**
@@ -147,7 +155,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
    */
   extendWebpack (fn) {
-    this.__addHook('extendWebpack', fn)
+    this.#addHook('extendWebpack', fn)
   }
 
   /**

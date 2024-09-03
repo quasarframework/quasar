@@ -4,7 +4,7 @@ desc: The QVirtualScroll component renders a big list of items as the user scrol
 keys: QVirtualScroll
 examples: QVirtualScroll
 related:
-  - /vue-components/select
+  - /vue-components/intersection
   - /vue-components/infinite-scroll
 ---
 
@@ -12,7 +12,7 @@ The QVirtualScroll component allows you to display only a part of a long list of
 
 There are currently two types of QVirtualScroll: "list" (using QItems) and "table" (using a tabular style to display rows of data).
 
-<doc-api file="QVirtualScroll" />
+<DocApi file="QVirtualScroll" />
 
 ## Usage
 
@@ -31,36 +31,36 @@ Scroll the examples below to see QVirtualScroll in action.
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ### Horizontal
 
-<doc-example title="Horizontal" file="BasicHorizontal" />
+<DocExample title="Horizontal" file="BasicHorizontal" />
 
 ### Different templates
 
-<doc-example title="Different templates for items" file="VariousContent" />
+<DocExample title="Different templates for items" file="VariousContent" />
 
-<doc-example title="Different templates for horizontal items" file="VariousContentHorizontal" />
+<DocExample title="Different templates for horizontal items" file="VariousContentHorizontal" />
 
 ### Table type
 
 Notice the `type="table"` property.
 
-<doc-example title="Basic table" file="TableBasic" />
+<DocExample title="Basic table" file="TableBasic" />
 
 
 With header that scrolls along with content (doesn't stay in place).
 
-<doc-example title="Table with scrolling header/footer" file="TableBasicHeader" />
+<DocExample title="Table with scrolling header/footer" file="TableBasicHeader" />
 
 Notice (in the example below) the CSS required to make the table header and footer "sticky". Also note the additional scoped slots which define the header and footer content.
 
-<doc-example title="Sticky headers table" file="TableSticky" />
+<DocExample title="Sticky headers table" file="TableSticky" />
 
 A more involved example below, playing with sticky headers and footers.
 
-<doc-example title="Playing with sticky headers" file="TableSticky2" />
+<DocExample title="Playing with sticky headers" file="TableSticky2" />
 
 ### Scroll target
 
@@ -77,15 +77,15 @@ If you need to use the virtual list with the whole page as the scrolling element
 If you want to use a Vue reference for `scroll-target`, please take care to set it after mounting the component, like in the example below.
 :::
 
-<doc-example title="Custom scroll target by id" file="ScrollTargetId" />
+<DocExample title="Custom scroll target by id" file="ScrollTargetId" />
 
-<doc-example title="Custom scroll target by ref" file="ScrollTargetRef" />
+<DocExample title="Custom scroll target by ref" file="ScrollTargetRef" />
 
-<doc-example title="Using QScrollArea" file="ScrollArea" />
+<DocExample title="Using QScrollArea" file="ScrollArea" />
 
 ### Scroll to position
 
-<doc-example title="Scroll to position" file="ScrollTo" />
+<DocExample title="Scroll to position" file="ScrollTo" />
 
 ### Sync and async
 
@@ -97,7 +97,7 @@ Make sure to use a synchronous function that returns the list of items to be dis
 
 If you need async data use a component that retrieves and renders the data.
 
-<doc-example title="Generate items on the fly" file="GenerateItems" />
+<DocExample title="Generate items on the fly" file="GenerateItems" />
 
 ### Utility classes
 
@@ -105,6 +105,6 @@ There are two CSS classes that you can use (should you need to) to control Virtu
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate the element size should be ignored in size calculations.
 
-<doc-example title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
+<DocExample title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
 
-<doc-example title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
+<DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />

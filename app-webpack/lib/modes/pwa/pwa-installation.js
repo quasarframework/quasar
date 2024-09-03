@@ -2,9 +2,14 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const { log, warn } = require('../../utils/logger.js')
+const { generateTypesFeatureFlag } = require('../../utils/types-feature-flags.js')
+
+const pwaDevDeps = {
+  'workbox-webpack-plugin': '^7.0.0'
+}
 
 const pwaDeps = {
-  'workbox-webpack-plugin': '^7.0.0'
+  'register-service-worker': '^1.7.2'
 }
 
 function isModeInstalled (appPaths) {
@@ -25,8 +30,12 @@ module.exports.addMode = function addMode ({
 
   const nodePackager = cacheProxy.getModule('nodePackager')
   nodePackager.installPackage(
+    Object.entries(pwaDevDeps).map(([ name, version ]) => `${ name }@${ version }`),
+    { isDevDependency: true, displayName: 'PWA dev dependencies' }
+  )
+  nodePackager.installPackage(
     Object.entries(pwaDeps).map(([ name, version ]) => `${ name }@${ version }`),
-    { isDevDependency: true, displayName: 'PWA dependencies' }
+    { displayName: 'PWA dependencies' }
   )
 
   log('Creating PWA source folder...')
@@ -42,10 +51,7 @@ module.exports.addMode = function addMode ({
     hasEslint === true ? { filter: src => !src.endsWith('/.eslintrc.cjs') } : void 0
   )
 
-  fse.copySync(
-    appPaths.resolve.cli('templates/pwa/pwa-flag.d.ts'),
-    appPaths.resolve.pwa('pwa-flag.d.ts')
-  )
+  generateTypesFeatureFlag('pwa', appPaths)
 
   log('Copying PWA icons to /public/icons/ (if they are not already there)...')
   fse.copySync(
@@ -69,6 +75,9 @@ module.exports.removeMode = function removeMode ({
   fse.removeSync(appPaths.pwaDir)
 
   const nodePackager = cacheProxy.getModule('nodePackager')
+  nodePackager.uninstallPackage(Object.keys(pwaDevDeps), {
+    displayName: 'PWA dev dependencies'
+  })
   nodePackager.uninstallPackage(Object.keys(pwaDeps), {
     displayName: 'PWA dependencies'
   })

@@ -1,8 +1,7 @@
-
 import compileTemplate from 'lodash/template.js'
-import { minify } from 'html-minifier'
+import { minify } from 'html-minifier-terser'
 
-const absoluteUrlRE = /^(https?:\/\/|\/)/i
+const absoluteUrlRE = /^(https?:\/\/|\/|data:)/i
 const ssrInterpolationsRE = /{{([\s\S]+?)}}/g
 
 const htmlStartTagRE = /(<html[^>]*)(>)/i
@@ -81,7 +80,7 @@ function injectVueDevtools (html, { host, port }, nonce = '') {
   )
 }
 
-export function transformHtml (template, quasarConf) {
+export async function transformHtml (template, quasarConf) {
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
@@ -104,7 +103,7 @@ export function transformHtml (template, quasarConf) {
   }
 
   if (quasarConf.ctx.mode.ssr !== true && quasarConf.build.minify !== false) {
-    html = minify(html, quasarConf.build.htmlMinifyOptions)
+    html = await minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
   return html
@@ -114,14 +113,14 @@ export function transformHtml (template, quasarConf) {
  * Used by production SSR only.
  * Gets index.html generated content as param.
  */
-export function transformProdSsrPwaOfflineHtml (html, quasarConf) {
+export async function transformProdSsrPwaOfflineHtml (html, quasarConf) {
   html = html.replace(
     entryPointMarkup,
     attachMarkup
   )
 
   if (quasarConf.build.minify !== false) {
-    html = minify(html, quasarConf.build.htmlMinifyOptions)
+    html = await minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
   return html
@@ -165,12 +164,12 @@ export function getDevSsrTemplateFn (template, quasarConf) {
  * const viteHtmlContent = // ...vite client generated index.html
  *                         // which went through transformHtml() already
  *
- * const fn = getProdSsrTemplateFn(viteHtmlContent, quasarConf)
+ * const fn = await getProdSsrTemplateFn(viteHtmlContent, quasarConf)
  *
  * // ... at runtime:
  * const html = fn(ssrContext)
  */
-export function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
+export async function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
   let html = injectSsrRuntimeInterpolation(viteHtmlContent)
 
   html = html.replace(
@@ -179,7 +178,7 @@ export function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
   )
 
   if (quasarConf.build.minify !== false) {
-    html = minify(html, {
+    html = await minify(html, {
       ...quasarConf.build.htmlMinifyOptions,
       ignoreCustomFragments: [ ssrInterpolationsRE ]
     })

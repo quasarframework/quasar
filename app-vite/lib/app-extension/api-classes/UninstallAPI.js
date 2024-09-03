@@ -8,8 +8,12 @@ import { BaseAPI } from './BaseAPI.js'
  * API for extension's /uninstall.js script
  */
 export class UninstallAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 

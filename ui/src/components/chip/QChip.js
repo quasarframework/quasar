@@ -2,14 +2,14 @@ import { h, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import Ripple from '../../directives/Ripple.js'
+import Ripple from '../../directives/ripple/Ripple.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { hMergeSlotSafely, hDir } from '../../utils/private.render/render.js'
 
 export const defaultSizes = {
   xs: 8,
@@ -106,6 +106,7 @@ export default createComponent({
       const chip = props.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: props.tabindex || 0 }
+
       const remove = {
         ...chip,
         role: 'button',
@@ -182,7 +183,7 @@ export default createComponent({
     }
 
     return () => {
-      if (props.modelValue === false) { return }
+      if (props.modelValue === false) return
 
       const data = {
         class: classes.value,

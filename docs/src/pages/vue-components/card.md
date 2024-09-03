@@ -13,11 +13,11 @@ With so much content to display at once, and often so little screen real-estate,
 
 The QCard component is intentionally lightweight and essentially a containing element that is capable of "hosting" any other component that is appropriate.
 
-<doc-api file="QCard" />
+<DocApi file="QCard" />
 
-<doc-api file="QCardSection" />
+<DocApi file="QCardSection" />
 
-<doc-api file="QCardActions" />
+<DocApi file="QCardActions" />
 
 ## Usage
 
@@ -26,21 +26,21 @@ You can play with the typography within your cards to create beautiful cards.
 :::
 
 ### Basic
-<doc-example title="Basic cards" file="Basic" />
+<DocExample title="Basic cards" file="Basic" />
 
 ### With actions
-<doc-example title="Cards with actions" file="Actions" />
+<DocExample title="Cards with actions" file="Actions" />
 
 Below are some of the custom alignments that you can use for the actions through the `align` property:
 
-<doc-example title="Aligning actions" file="ActionsAlignment" />
+<DocExample title="Aligning actions" file="ActionsAlignment" />
 
 ### Media content
-<doc-example title="Cards with media content" file="Media" />
+<DocExample title="Cards with media content" file="Media" />
 
-<doc-example title="Card with video" file="Video" />
+<DocExample title="Card with video" file="Video" />
 
-<doc-example title="Card with parallax" file="Parallax" />
+<DocExample title="Card with parallax" file="Parallax" />
 
 ### Horizontal
 
@@ -48,19 +48,19 @@ On the examples below, notice the QCardSection with `horizontal` prop on it that
 
 It's recommended that you use QImg component instead of native `<img>` when dealing with horizontal QCardSections.
 
-<doc-example title="Basic horizontal" file="HorizontalBasic" />
+<DocExample title="Basic horizontal" file="HorizontalBasic" />
 
-<doc-example title="More involved examples" file="HorizontalMoreInvolved" />
+<DocExample title="More involved examples" file="HorizontalMoreInvolved" />
 
 ### Various content
-<doc-example title="Various content" file="VariousContent" />
+<DocExample title="Various content" file="VariousContent" />
 
-<doc-example title="Table" file="Table" />
+<DocExample title="Table" file="Table" />
 
-<doc-example title="Tabs" file="Tabs" />
+<DocExample title="Tabs" file="Tabs" />
 
 ### Expandable
 
 On the example below, click on the round button on the bottom right to see the expansion in action.
 
-<doc-example title="Expandable" file="Expandable" />
+<DocExample title="Expandable" file="Expandable" />

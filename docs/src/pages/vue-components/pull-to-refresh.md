@@ -11,7 +11,7 @@ related:
 
 The QPullToRefresh is a component that allows the user to pull down in order to refresh page content (or retrieve the newest content).
 
-<doc-api file="QPullToRefresh" />
+<DocApi file="QPullToRefresh" />
 
 ## Usage
 
@@ -23,15 +23,15 @@ In your `@refresh` function, don't forget to call the passed in `done()` functio
 
 To refresh, pull down (with mouse or through finger touch) on the content below when the inner scroll position is the top.
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ### Custom icon
 
-<doc-example title="Custom icon" file="Icon" />
+<DocExample title="Custom icon" file="Icon" />
 
 ### Custom coloring
 
-<doc-example title="Custom coloring" file="CustomColoring" />
+<DocExample title="Custom coloring" file="CustomColoring" />
 
 ## Tips
 

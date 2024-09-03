@@ -51,6 +51,18 @@ setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools"
 
 You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed. After you've installed it, open Xcode in order to get the license prompt. Accept the license, then you can close it.
 
+#### CocoaPods
+If you haven't installed [CocoaPods](https://cocoapods.org/), please install it by using the command: `sudo gem install cocoapods`. Otherwise, you may encounter errors during development or building, such as:
+
+::: warning terminal warning
+[warn] Skipping pod install because CocoaPods is not installed,
+:::
+
+::: danger Xcode Error
+/path-to/your-project/src-capacitor/ios/App/Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig:1:1 unable to open configuration settings file
+::: 
+
+
 ## Step 2: Add Capacitor Quasar Mode
 
 In order to develop/build a Mobile app, we need to add the Capacitor mode to our Quasar project. This will use the Capacitor CLI to generate a Capacitor project in `/src-capacitor` folder.

@@ -28,6 +28,10 @@ Node.js >=10.0.0 is required.
 $ yarn global add @quasar/icongenie
 # or
 $ npm install -g @quasar/icongenie
+# or
+$ pnpm add -g @quasar/icongenie
+# or
+$ bun add -g @quasar/icongenie
 ```
 
 ## Usage

@@ -1,18 +1,9 @@
-const fs = require('fs')
-const path = require('path')
-const { sync: fastGlob, convertPathToPattern } = require('fast-glob')
-const { createPatch } = require('diff')
-const { highlight } = require('cli-highlight')
+import fse from 'fs-extra'
+import glob from 'fast-glob'
+import { createPatch } from 'diff'
+import { highlight } from 'cli-highlight'
 
-const rootFolder = path.resolve(__dirname, '..')
-
-function resolve (_path) {
-  return path.resolve(rootFolder, _path)
-}
-
-function relative (_path) {
-  return path.relative(rootFolder, _path)
-}
+import { resolveToRoot, relativeToRoot } from './build.utils.js'
 
 /**
  * Call this with the path to file (or folder) you want to track, before the file gets updated.
@@ -20,22 +11,22 @@ function relative (_path) {
  *
  * @param {string} locationPath
  */
-module.exports = function prepareDiff (locationPath) {
-  const absolutePath = resolve(locationPath)
+export default function prepareDiff (locationPath) {
+  const absolutePath = resolveToRoot(locationPath)
 
   // If there is no "old" file/folder, then there is no diff (everything will be new)
-  if (!fs.existsSync(absolutePath)) {
+  if (!fse.existsSync(absolutePath)) {
     return
   }
 
-  let pattern = convertPathToPattern(absolutePath)
+  let pattern = glob.convertPathToPattern(absolutePath)
   // If it's a directory, then query all files in it
-  if (fs.lstatSync(absolutePath).isDirectory()) {
+  if (fse.lstatSync(absolutePath).isDirectory()) {
     pattern += '/*'
   }
 
   const originalsMap = new Map()
-  const originalFiles = fastGlob(pattern)
+  const originalFiles = glob.sync(pattern)
 
   // If no files, then there is no diff (everything will be new)
   if (originalFiles.length === 0) {
@@ -44,20 +35,20 @@ module.exports = function prepareDiff (locationPath) {
 
   // Read the current (old) contents
   originalFiles.forEach(filePath => {
-    originalsMap.set(filePath, fs.readFileSync(filePath, { encoding: 'utf-8' }))
+    originalsMap.set(filePath, fse.readFileSync(filePath, 'utf-8'))
   })
 
   // Before exiting the process, read the new contents and output the diff
   process.on('exit', code => {
-    if (code !== 0) { return }
+    if (code !== 0) return
 
-    const currentFiles = fastGlob(pattern)
+    const currentFiles = glob.sync(pattern)
     const currentMap = new Map()
 
     let somethingChanged = false
 
     currentFiles.forEach(filePath => {
-      const relativePath = relative(filePath)
+      const relativePath = relativeToRoot(filePath)
       currentMap.set(filePath, true)
 
       if (originalsMap.has(filePath) === false) {
@@ -66,7 +57,7 @@ module.exports = function prepareDiff (locationPath) {
         return
       }
 
-      const currentContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
+      const currentContent = fse.readFileSync(filePath, 'utf-8')
       const originalContent = originalsMap.get(filePath)
 
       if (originalContent !== currentContent) {
@@ -80,7 +71,7 @@ module.exports = function prepareDiff (locationPath) {
 
     originalsMap.forEach((_, filePath) => {
       if (currentMap.has(filePath) === false) {
-        console.log(`\n 📜 Removed file: ${ relative(filePath) }\n`)
+        console.log(`\n 📜 Removed file: ${ relativeToRoot(filePath) }\n`)
         somethingChanged = true
       }
     })

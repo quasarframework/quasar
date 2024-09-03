@@ -332,13 +332,6 @@ export default {
 <template>
   <!-- Case 1. Direct assignment. -->
   <q-bogus :columns="{key: 'value', anotherKey: 'another value'}" />
-  <!-- or a more elegant way for Case 1: -->
-  <q-bogus
-    :columns="{
-      key: 'value',
-      anotherKey: 'another value'
-    }"
-  />
 
   <!-- Case 2. Assignment through a scope variable -->
   <q-bogus :columns="myColumns" />

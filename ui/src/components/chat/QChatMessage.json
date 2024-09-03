@@ -13,7 +13,7 @@
     "label": {
       "type": "String",
       "desc": "Renders a label header/section only",
-      "examples": [ "Friday, 18th" ],
+      "examples": [ "'Friday, 18th'" ],
       "category": "content"
     },
 
@@ -32,7 +32,7 @@
     "name": {
       "type": "String",
       "desc": "Author's name",
-      "examples": [ "John Doe" ],
+      "examples": [ "'John Doe'" ],
       "category": "content"
     },
 
@@ -41,10 +41,10 @@
       "desc": "URL to the avatar image of the author",
       "transformAssetUrls": true,
       "examples": [
-        "(public folder) src=\"boy-avatar.png\"",
-        "(assets folder) src=\"~assets/boy-avatar.png\"",
-        "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) src=\"https://picsum.photos/500/300\""
+        "# (public folder) src=\"boy-avatar.png\"",
+        "# (assets folder) src=\"~assets/boy-avatar.png\"",
+        "# (relative path format) :src=\"require('./my_img.jpg')\"",
+        "# (URL) src=\"https://picsum.photos/500/300\""
       ],
       "category": "content"
     },
@@ -52,21 +52,21 @@
     "text": {
       "type": "Array",
       "desc": "Array of strings that are the message body. Strings are not sanitized (see details in docs)",
-      "examples": [ ":text=\"['How are you?']\"", ":text=\"['I\\'m good, thank you!', 'And you?']\"" ],
+      "examples": [ "[ 'How are you?' ]", "[ 'I\\'m good, thank you!', 'And you?' ]" ],
       "category": "content"
     },
 
     "stamp": {
       "type": "String",
       "desc": "Creation timestamp",
-      "examples": [ "13:55", "Yesterday at 13:51" ],
+      "examples": [ "'13:55'", "'Yesterday at 13:51'" ],
       "category": "content"
     },
 
     "size": {
       "type": "String",
       "desc": "1-12 out of 12 (same as col-*)",
-      "examples": [ "4", "6", "12" ],
+      "examples": [ "'4'", "'6'", "'12'" ],
       "category": "style"
     },
 

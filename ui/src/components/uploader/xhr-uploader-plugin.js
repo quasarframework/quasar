@@ -6,6 +6,8 @@ function getFn (prop) {
     : () => prop
 }
 
+const name = 'QUploader'
+
 const props = {
   url: [ Function, String ],
   method: {
@@ -14,9 +16,7 @@ const props = {
   },
   fieldName: {
     type: [ Function, String ],
-    default: () => {
-      return file => file.name
-    }
+    default: () => file => file.name
   },
   headers: [ Function, Array ],
   formFields: [ Function, Array ],
@@ -156,7 +156,7 @@ function injectPlugin ({ props, emit, helpers }) {
       aborted
 
     xhr.upload.addEventListener('progress', e => {
-      if (aborted === true) { return }
+      if (aborted === true) return
 
       const loaded = Math.min(maxUploadSize, e.loaded)
 
@@ -251,7 +251,7 @@ function injectPlugin ({ props, emit, helpers }) {
 }
 
 export default {
-  name: 'QUploader',
+  name,
   props,
   emits,
   injectPlugin

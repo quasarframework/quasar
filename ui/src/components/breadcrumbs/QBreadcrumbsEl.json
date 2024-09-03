@@ -3,13 +3,13 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
 
-  "mixins": [ "composables/private/use-router-link" ],
+  "mixins": [ "composables/private.use-router-link/use-router-link" ],
 
   "props": {
     "label": {
       "type": "String",
       "desc": "The label text for the breadcrumb",
-      "examples": [ "Home", "Index" ],
+      "examples": [ "'Home'", "'Index'" ],
       "category": "content"
     },
 
@@ -19,8 +19,8 @@
 
     "tag": {
       "extends": "tag",
-      "default": "span",
-      "examples": [ "div", "span" ]
+      "default": "'span'",
+      "examples": [ "'div'", "'span'" ]
     }
   },
 
@@ -54,7 +54,7 @@
                   "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
                   "required": false,
                   "examples": [
-                    "/home/dashboard",
+                    "'/home/dashboard'",
                     "{ name: 'my-route-name' }"
                   ]
                 },

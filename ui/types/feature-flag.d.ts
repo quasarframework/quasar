@@ -44,7 +44,7 @@ export interface QuasarFeatureFlags {
 export type IsFeatureEnabled<
   O extends string,
   T,
-  U = {}
+  U = {},
 > = QuasarFeatureFlags[O] extends true ? T : U;
 
 export type HasSsr<T, U = {}> = IsFeatureEnabled<"ssr", T, U>;

@@ -9,24 +9,23 @@ related:
 **Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
 ::: tip
-Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) builds**. It also makes sense to use it for SPA (Single Page Applications). Although the meta information in this case will be added at run-time and not supplied directly by the webserver (as on SSR builds), modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) will render dynamic pages and extract out the dynamically set meta information.
+Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.
 :::
 
-<doc-installation plugins="Meta" />
+<DocInstallation plugins="Meta" />
 
 ## Usage
 What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.
 
 ::: warning Important!
-Make sure not to duplicate content that already exists in `/src/index.template.html`. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
+Make sure not to duplicate content that already exists in /index.html or /src/index.template.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
 :::
 
 ### Composition API
 
 We will be using the [useMeta](/vue-composables/use-meta) composable.
 
-```js
-// some .vue file
+```js Some .vue file
 import { useMeta } from 'quasar'
 
 const metaData = {
@@ -93,8 +92,7 @@ If you depend on the state of the component to compute the meta Object, then you
 
 ### Options API
 
-```js
-// some .vue file
+```js Some .vue file
 import { createMetaMixin } from 'quasar'
 
 const metaData = {
@@ -240,8 +238,7 @@ setup () {
 
 In the section above, you noticed all of the meta props are "static". But they can be dynamic (reactive) instead, should you wish. This is how you can manage them just as with a Vue computed property:
 
-```js
-// some .vue file
+```js Some .vue file
 import { useMeta } from 'quasar'
 import { ref } from 'vue'
 

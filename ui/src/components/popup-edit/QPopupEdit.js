@@ -3,10 +3,10 @@ import { h, ref, computed, nextTick, getCurrentInstance } from 'vue'
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import clone from '../../utils/clone.js'
-import { isDeepEqual } from '../../utils/is.js'
-import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import clone from '../../utils/clone/clone.js'
+import { isDeepEqual } from '../../utils/is/is.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QPopupEdit',
@@ -171,7 +171,7 @@ export default createComponent({
     })
 
     return () => {
-      if (props.disable === true) { return }
+      if (props.disable === true) return
 
       return h(QMenu, {
         ref: menuRef,

@@ -14,7 +14,7 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-pan` on the lines below.
 
-<doc-api file="TouchPan" />
+<DocApi file="TouchPan" />
 
 ## Usage
 Click then pan in a direction with your mouse on the area below to see it in action.
@@ -24,7 +24,7 @@ Page scrolling is prevented, but you can opt out if you wish.
 If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-<doc-example title="All directions" file="Basic" />
+<DocExample title="All directions" file="Basic" />
 
 Panning works both with a mouse or a native touch action.
 You can also capture pan to certain directions (any) only as you'll see below.
@@ -32,15 +32,15 @@ You can also capture pan to certain directions (any) only as you'll see below.
 Example on capturing only horizontal panning.
 Notice that on touch capable devices the scrolling is automatically not blocked, since we are only capturing horizontally.
 
-<doc-example title="Horizontally" file="Horizontal" />
+<DocExample title="Horizontally" file="Horizontal" />
 
 Example on capturing only vertically panning. Page scrolling is prevented, but you can opt out if you wish.
 
-<doc-example title="Vertically" file="Vertical" />
+<DocExample title="Vertically" file="Vertical" />
 
 Example on capturing panning on custom directions. For this, use modifiers: `up`, `down`, `left`, `right`. Page scrolling is prevented, but you can opt out if you wish.
 
-<doc-example title="Custom directions" file="Custom" />
+<DocExample title="Custom directions" file="Custom" />
 
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
@@ -82,7 +82,7 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 
 Below is a nice example on using TouchPan on a QFab. You can drag it across the screen.
 
-<doc-example title="Draggable" file="Draggable" />
+<DocExample title="Draggable" file="Draggable" />
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

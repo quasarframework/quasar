@@ -33,8 +33,17 @@ Then create `/tsconfig.json` file at the root of you project with this content:
 {
   "extends": "@quasar/app-webpack/tsconfig-preset",
   "compilerOptions": {
+    // `baseUrl` should be set to the current folder to allow Quasar TypeScript preset to manage paths on your behalf
     "baseUrl": "."
-  }
+  },
+  "exclude": [
+    "./dist",
+    "./.quasar",
+    "./node_modules",
+    "./src-capacitor",
+    "./src-cordova",
+    "./quasar.config.*.temporary.compiled*"
+  ]
 }
 ```
 
@@ -48,12 +57,11 @@ Remember that you must change the extension of your JavaScript files to `.ts` to
 If you fail to add the `tsconfig.json` file, the application will break at compile time!
 :::
 
-## Handling TS Webpack loaders <q-badge label="@quasar/app-webpack v4+" />
+## Handling TS Webpack loaders <q-badge label="@quasar/app-webpack =v3" />
 
 Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `build` property like so:
 
-```js
-// quasar.config file
+```js /quasar.config file
 module.exports = function (ctx) {
   return {
     supportTS: {
@@ -73,16 +81,26 @@ module.exports = function (ctx) {
 
 ### Linting setup
 
-First add needed dependencies:
+First add the needed dependencies:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
+<<| bash NPM |>>
+$ npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
+<<| bash PNPM |>>
+$ pnpm add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
+<<| bash Bun |>>
+$ bun add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
 ```
 
 Then update your ESLint configuration accordingly, like in the following example:
 
-```js
-// .eslintrc.cjs
+```js /.eslintrc.cjs
 const { resolve } = require('node:path');
 
 module.exports = {
@@ -160,8 +178,7 @@ TypeScript Linting is really slow due to type-checking overhead, we suggest you 
 
 If you setup TypeScript linting and want `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to take it into account then you should make use of `tsCheckerConfig` property:
 
-```js
-// quasar.config file
+```js /quasar.config file
 module.exports = function (ctx) {
   return {
     supportTS: {

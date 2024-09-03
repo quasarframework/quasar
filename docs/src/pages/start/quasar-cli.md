@@ -24,23 +24,24 @@ You will also be able to use the command line, so it will be almost identical to
 ## TL;DR
 
 ::: tip Requirements:
-* Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
-* Yarn v1 (strongly recommended), PNPM, or NPM.
+* Node 14+
+* Yarn v1 (strongly recommended), PNPM, NPM or Bun
 :::
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn global add @quasar/cli
 $ yarn create quasar
-
-# or:
-
+<<| bash NPM |>>
 $ npm i -g @quasar/cli
 $ npm init quasar
-
-# or:
-
-$ pnpm add -g @quasar/cli # experimental support
-$ pnpm create quasar # experimental support
+<<| bash PNPM |>>
+$ pnpm add -g @quasar/cli
+$ pnpm create quasar
+<<| bash Bun |>>
+# experimental support
+$ bun install -g @quasar/cli
+$ bun create quasar
 ```
 
 Pick `Quasar CLI with Vite` if you want:
@@ -60,13 +61,18 @@ Pick `Quasar CLI with Vite` if you want:
 
 1. Let's create a Quasar app:
 
-    ```bash
+    ```tabs
+    <<| bash Yarn |>>
     $ yarn create quasar
-    # or:
+    <<| bash NPM |>>
     $ npm init quasar
-    # or:
-    $ pnpm create quasar # experimental support
+    <<| bash PNPM |>>
+    $ pnpm create quasar
+    <<| bash Bun |>>
+    # experimental support
+    $ bun create quasar
     ```
+
     <br>
 
     ::: tip
@@ -90,12 +96,16 @@ Pick `Quasar CLI with Vite` if you want:
 
     We strongly recommend to pick the first choice and be able to run commands directly. Actually, you'll be able to do even more than just this (eg. "quasar upgrade" or "quasar serve" commands). For this, you'll need to globally install the `@quasar/cli` package:
 
-    ```bash
+    ```tabs
+    <<| bash Yarn |>>
     $ yarn global add @quasar/cli
-    # or
-    $ npm install -g @quasar/cli
-    # or
-    $ pnpm add -g @quasar/cli # experimental support
+    <<| bash NPM |>>
+    $ npm i -g @quasar/cli
+    <<| bash PNPM |>>
+    $ pnpm add -g @quasar/cli
+    <<| bash Bun |>>
+    # experimental support
+    $ bun install -g @quasar/cli
     ```
 
     ::: tip
@@ -119,7 +129,7 @@ Pick `Quasar CLI with Vite` if you want:
     setx path "%path%;%LocalAppData%\yarn\bin"
 
     # Or if you're using NPM:
-    setx path "%path%;%AppData%\npm",
+    setx path "%path%;%AppData%\npm"
     ```
     :::
 

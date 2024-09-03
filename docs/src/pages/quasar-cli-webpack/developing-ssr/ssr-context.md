@@ -8,7 +8,7 @@ The `ssrContext` Object is the SSR context with which all the app's Vue componen
 ## Usage
 
 ::: warning
-The `ssrContext` Object is available only on SSR builds, on the server-side compilation (when `process.env.SERVER === true`).
+The `ssrContext` Object is available only on SSR builds, on the server-side compilation (when `process∙env∙SERVER === true`).
 :::
 
 Among other places, it is supplied as parameter to [boot files](/quasar-cli-webpack/boot-files), to the [Vuex store](/quasar-cli-webpack/state-management-pinia-vuex) and [Vue Router](/quasar-cli-webpack/routing) initialization functions, and to the [preFetch](/quasar-cli-webpack/prefetch-feature) method:
@@ -29,8 +29,8 @@ preFetch ({ ..., ssrContext }) { /* ... */ }
 
 You can also access the ssrContext in your Vue components. Below are two examples, one with Composition API and one with Options API:
 
-```js
-// Composition API
+```tabs
+<<| js Composition API |>>
 import { useSSRContext } from 'vue'
 
 export default {
@@ -41,10 +41,7 @@ export default {
     // ...do something with it
   }
 }
-```
-
-```js
-// Options API
+<<| js Options API |>>
 export default {
   // ...
   created () { // can be any other Vue component lifecycle hook

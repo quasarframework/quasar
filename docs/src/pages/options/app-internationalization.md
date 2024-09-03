@@ -18,14 +18,19 @@ Quasar documentation assumes you are already familiar with [vue-i18n](https://gi
 
 ## Setup manually
 
-If you missed enabling i18n during `yarn create quasar` (or `npm init quasar`) wizard, here is how you can set it up manually.
+If you missed enabling i18n during `yarn create quasar` (or `npm init quasar` or the pnpm or Bun equivalent) wizard, here is how you can set it up manually.
 
 1. Install the `vue-i18n` dependency into your app.
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add vue-i18n@next
-// or:
-$ npm install vue-i18n@next
+<<| bash NPM |>>
+$ npm install --save vue-i18n@next
+<<| bash PNPM |>>
+$ pnpm add vue-i18n@next
+<<| bash Bun |>>
+$ bun add vue-i18n@next
 ```
 
 2. Create a file `src/boot/i18n.js` with following content:
@@ -38,7 +43,7 @@ export default ({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     locale: 'en-US',
-    globalInjection: true,
+    legacy: false, // comment this out if not using Composition API
     messages
   })
 
@@ -51,8 +56,7 @@ export default ({ app }) => {
 
 4. Now reference this file in `quasar.config` one in the `boot` section:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   boot: [
     // ...
@@ -71,17 +75,20 @@ If we want to add support to the `<i18n>` tag inside a SFC (single file componen
 
 We first install the `@intlify/vue-i18n-loader` package:
 
-``` bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add --dev @intlify/vue-i18n-loader
-# or
-$ npm i --save-dev @intlify/vue-i18n-loader
+<<| bash NPM |>>
+$ npm install --save-dev @intlify/vue-i18n-loader
+<<| bash PNPM |>>
+$ pnpm add -D @intlify/vue-i18n-loader
+<<| bash Bun |>>
+$ bun add --dev @intlify/vue-i18n-loader
 ```
 
 We then edit the `quasar.config` file at the root of our project. We have to include the following:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 const path = require('node:path')
 
 build: {
@@ -106,31 +113,59 @@ build: {
 
 ## How to use
 
-There are 3 main cases:
+Here is an example displaying the main use cases:
 
 ```html
 <template>
   <q-page>
-    <q-btn :label="$t('mykey2')">
-    {{ $t('mykey1') }}
+    <!-- text interpolation, reactive -->
+    {{ $t('hello') }}
+
+    <!-- prop/attr binding, reactive -->
+    <q-btn :label="$t('hello')" />
+
+    <!-- v-html directive usage -->
     <span v-html="content"></span>
   </q-page>
 </template>
 
+<script setup>
+// Composition API variant
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+// bound to a static variable, non-reactive
+// const staticContent = t('hello')
+// bound to a reactive variable, but one-time assignment, locale changes will not update the value
+// const reactiveStaticContent = ref(t('hello'))
+
+// bound to a reactive variable, locale changes will reflect the value
+const content = computed(() => t('hello'))
+
+function notify() {
+  Notify.create({
+    type: 'positive',
+    message: t('hello')
+  })
+}
+</script>
+```
+
+```html
 <script>
+// Options API variant
 export default {
   data() {
     return {
-      content: this.$t('mykey3')
+      // bound to a reactive variable, but one-time assignment, locale changes will not update the value
+      content: this.$t('hello')
     }
   }
 }
 </script>
 ```
-
-1. `mykey1` in HTML body
-2. `mykey2` in attribute
-3. `mykey3` programmatically
 
 ## Add new language
 
@@ -151,9 +186,7 @@ export default {
 
 ## Create language switcher
 
-```html
-<!-- some .vue file -->
-
+```html Some Vue file
 <template>
   <!-- ...... -->
   <q-select
@@ -202,8 +235,8 @@ There's also a method to determine user locale which is supplied by Quasar out o
 
 ```js
 // outside of a Vue file
-import { Quasar } from 'quasar'
-Quasar.lang.getLocale() // returns a string
+import { Lang } from 'quasar'
+Lang.getLocale() // returns a string
 
 // inside of a Vue file
 import { useQuasar } from 'quasar'

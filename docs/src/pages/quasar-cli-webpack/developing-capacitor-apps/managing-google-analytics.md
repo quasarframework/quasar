@@ -9,7 +9,7 @@ Follow this guide to implement Google Analytics into your Capacitor powered Quas
 You may also want to read this great tutorial: [Google Tag Manager and Analytics Setup for an SPA Website](https://jannerantala.com/tutorials/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website/)
 
 ::: warning
-You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
+You'll need to include a `<script>` tag provided by Google in /index.html or /src/index.template.html, which will make your App depend on an Internet connection!
 :::
 
 ## Prerequisites

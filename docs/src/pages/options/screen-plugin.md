@@ -4,7 +4,7 @@ desc: Quasar plugin that helps in writing a dynamic and responsive UI through Ja
 ---
 The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#window-width-related) instead, for performance reasons.
 
-<doc-api file="Screen" />
+<DocApi file="Screen" />
 
 ## Usage
 Notice `$q.screen` below. This is just a simple usage example.
@@ -82,9 +82,7 @@ Or a sexy variant in Sass:
 
 In order to enable the behavior above, edit your /quasar.config file like below. Please note that this will increase a bit the time for First Meaningful Paint.
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 framework: {
   config: {
     screen: {
@@ -104,8 +102,7 @@ There are a few methods that can be used to tweak how Screen plugin works:
 
 Examples:
 
-```js
-// inside a Vue component:
+```js Inside a Vue component
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -113,8 +110,9 @@ setup () {
 
   $q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 }
+```
 
-// outside of a Vue component:
+```js Outside of a Vue component
 import { Screen } from 'quasar'
 Screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 ```

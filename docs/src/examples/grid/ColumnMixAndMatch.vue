@@ -1,4 +1,3 @@
-
 <template>
   <div class="q-pa-md example-column-mix-and-match">
     <!-- Stack the columns on mobile by making one full-width and the other half-width -->

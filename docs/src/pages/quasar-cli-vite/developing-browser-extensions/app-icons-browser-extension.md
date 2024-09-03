@@ -17,7 +17,7 @@ scope:
 
 This build target includes the icons required for browser extensions. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 
@@ -33,4 +33,4 @@ $ icongenie generate -m bex -i /path/to/source/icon.png
 
 ## Manual instructions
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

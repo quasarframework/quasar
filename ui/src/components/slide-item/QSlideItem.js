@@ -1,12 +1,12 @@
 import { h, ref, computed, withDirectives, onBeforeUnmount, onBeforeUpdate, getCurrentInstance } from 'vue'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/private/use-cache.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],
@@ -36,7 +36,7 @@ export default createComponent({
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
-    const { getCacheWithFn } = useCache()
+    const { getCache } = useRenderCache()
 
     const contentRef = ref(null)
 
@@ -187,6 +187,7 @@ export default createComponent({
         if (slots[ dir ] !== void 0) {
           content.push(
             h('div', {
+              key: dir,
               ref: el => { dirRefs[ dir ] = el },
               class: `q-slide-item__${ dir } absolute-full row no-wrap items-${ slotName[ 1 ] } justify-${ slotName[ 2 ] }`
                 + (props[ dir + 'Color' ] !== void 0 ? ` bg-${ props[ dir + 'Color' ] }` : '')
@@ -208,7 +209,7 @@ export default createComponent({
       }
       else {
         content.push(
-          withDirectives(node, getCacheWithFn('dir#' + dirs.join(''), () => {
+          withDirectives(node, getCache('dir#' + dirs.join(''), () => {
             const modifiers = {
               prevent: true,
               stop: true,

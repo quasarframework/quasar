@@ -271,8 +271,11 @@ describe('Menu API', () => {
           })
           cy.dataCy('wrapper')
             .click()
+
           cy.dataCy('menu')
             .checkVerticalPosition('wrapper', 'center', 'center')
+
+          cy.dataCy('menu')
             .checkHorizontalPosition('wrapper', 'middle', 'middle')
         })
 
@@ -285,8 +288,11 @@ describe('Menu API', () => {
           })
           cy.dataCy('other-target')
             .click()
+
           cy.dataCy('menu')
             .checkVerticalPosition('other-target', 'center', 'center')
+
+          cy.dataCy('menu')
             .checkHorizontalPosition('other-target', 'middle', 'middle')
         })
 
@@ -300,8 +306,11 @@ describe('Menu API', () => {
           })
           cy.dataCy('other-target')
             .click()
+
           cy.dataCy('menu')
             .checkVerticalPosition('other-target', 'center', 'center')
+
+          cy.dataCy('menu')
             .checkHorizontalPosition('other-target', 'middle', 'middle')
         })
       })
@@ -312,8 +321,11 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .click()
+
           cy.dataCy('menu')
             .checkVerticalPosition('wrapper', 'bottom', 'top')
+
+          cy.dataCy('menu')
             .checkHorizontalPosition('wrapper', 'left', 'left')
         })
 
@@ -335,8 +347,11 @@ describe('Menu API', () => {
 
                   cy.dataCy('wrapper')
                     .click()
+
                   cy.dataCy('menu')
                     .checkVerticalPosition('wrapper', vA, vS)
+
+                  cy.dataCy('menu')
                     .checkHorizontalPosition('wrapper', hA, hS)
                 })
               })
@@ -535,12 +550,17 @@ describe('Menu API', () => {
         cy.dataCy('menu')
           .should('exist')
           .checkVerticalPosition('wrapper', 'bottom', 'bottom')
+
+        cy.dataCy('menu')
           .checkHorizontalPosition('wrapper', 'left', 'left')
+
+        cy.dataCy('menu')
           .then(($el) => {
             const rect = $el[ 0 ].getBoundingClientRect()
             bottom = rect.bottom
             left = rect.left
           })
+
         cy.dataCy('div')
           .then(($el) => {
             $el[ 0 ].style.height = '100px'
@@ -550,12 +570,16 @@ describe('Menu API', () => {
                 expect(rect.bottom).to.equal(bottom - 100)
                 expect(rect.left).to.equal(left)
               })
+
             cy.dataCy('wrapper')
               .then(() => {
                 Cypress.vueWrapper.vm.updatePosition()
               })
+
             cy.dataCy('menu')
               .checkVerticalPosition('wrapper', 'bottom', 'bottom')
+
+            cy.dataCy('menu')
               .checkHorizontalPosition('wrapper', 'left', 'left')
           })
       })

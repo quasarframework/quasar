@@ -18,23 +18,23 @@ Also check out [QBadge](/vue-components/badge).
 :::
 
 
-<doc-api file="QChip" />
+<DocApi file="QChip" />
 
 ## Usage
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Dense" file="Dense" />
+<DocExample title="Dense" file="Dense" />
 
-<doc-example title="Custom size" file="Sizes" />
+<DocExample title="Custom size" file="Sizes" />
 
-<doc-example title="Square" file="Square" />
+<DocExample title="Square" file="Square" />
 
-<doc-example title="Outline" file="Outline" />
+<DocExample title="Outline" file="Outline" />
 
-<doc-example title="Clickable" file="Clickable" />
+<DocExample title="Clickable" file="Clickable" />
 
-<doc-example title="Selected" file="Selected" />
+<DocExample title="Selected" file="Selected" />
 
-<doc-example title="Removable" file="Removable" />
+<DocExample title="Removable" file="Removable" />
 
-<doc-example title="Long label truncation" file="LongLabel" />
+<DocExample title="Long label truncation" file="LongLabel" />

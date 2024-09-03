@@ -7,7 +7,7 @@ export namespace scroll {
       | string
       | Element
       | Window
-      | Ref<ComponentPublicInstance | undefined>
+      | Ref<ComponentPublicInstance | undefined>,
   ): Element | Window;
 
   function getScrollHeight(el: Element | Window): number;
@@ -19,23 +19,23 @@ export namespace scroll {
   function animVerticalScrollTo(
     el: Element | Window,
     to: number,
-    duration: number
+    duration: number,
   ): void;
   function animHorizontalScrollTo(
     el: Element | Window,
     to: number,
-    duration: number
+    duration: number,
   ): void;
 
   function setVerticalScrollPosition(
     scrollTarget: Element | Window,
     offset: number,
-    duration?: number
+    duration?: number,
   ): void;
   function setHorizontalScrollPosition(
     scrollTarget: Element | Window,
     offset: number,
-    duration?: number
+    duration?: number,
   ): void;
 
   function getScrollbarWidth(): number;

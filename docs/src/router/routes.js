@@ -1,4 +1,3 @@
-
 import mdPageList from 'src/pages/listing.js'
 
 import layoutGallery from 'assets/layout-gallery.js'
@@ -22,11 +21,15 @@ const routes = [
   { path: '/quasar-cli-webpack/quasar-config-js', redirect: '/quasar-cli-webpack/quasar-config-file' },
   { path: '/quasar-cli-vite/quasar-config-js', redirect: '/quasar-cli-vite/quasar-config-file' },
 
+  { path: '/vue-components/file-picker', redirect: '/vue-components/file' },
+
   // shortcuts
   { path: '/start', redirect: '/start/quick-start' },
   { path: '/vue-components', redirect: '/components' },
   { path: '/vue-directives', redirect: '/components' },
+  { path: '/quasar-plugins', redirect: '/components' },
   { path: '/plugins', redirect: '/components' },
+  { path: '/quasar-utils', redirect: '/components' },
   { path: '/utils', redirect: '/components' },
 
   // docs

@@ -5,8 +5,6 @@ const { sync: crossSpawnSync } = require('cross-spawn')
 const { log, fatal } = require('../utils/logger.js')
 const { spawnSync } = require('../utils/spawn.js')
 
-const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
-
 function run ({ name, params, cwd, onFail, env = 'development' }) {
   spawnSync(
     name,
@@ -54,10 +52,6 @@ class PackageManager {
 
   getUninstallPackageParams (_names) {
     return []
-  }
-
-  getPackageVersionList (_packageName) {
-    return null
   }
 
   /**
@@ -112,34 +106,6 @@ class PackageManager {
       onFail: () => fatal(`Failed to uninstall ${ displayName }`, 'FAIL')
     })
   }
-
-  getPackageLatestVersion ({
-    packageName,
-    currentVersion = null,
-    majorVersion = false,
-    preReleaseVersion = false
-  }) {
-    const versionList = this.getPackageVersionList(packageName)
-
-    if (versionList === null) {
-      return null
-    }
-
-    if (currentVersion === null) {
-      return versionList[ versionList.length - 1 ]
-    }
-
-    const [ , major, prerelease ] = currentVersion.match(versionRegex)
-    const majorSyntax = majorVersion ? '(\\d+)' : major
-    const regex = new RegExp(
-      prerelease || preReleaseVersion
-        ? `^${ majorSyntax }\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
-        : `^${ majorSyntax }\\.(\\d+)\\.(\\d+)$`
-    )
-
-    const list = versionList.filter(version => regex.test(version))
-    return list[ list.length - 1 ] || null
-  }
 }
 
 class Npm extends PackageManager {
@@ -166,27 +132,6 @@ class Npm extends PackageManager {
 
   getUninstallPackageParams (names) {
     return [ 'uninstall', ...names ]
-  }
-
-  getPackageVersionList (packageName) {
-    let versionList
-
-    try {
-      const child = crossSpawnSync(this.name, [ 'info', packageName, 'versions', '--json' ])
-      if (child.status === 0) {
-        versionList = JSON.parse(String(child.output[ 1 ]))
-      }
-    }
-    catch (_) {
-      return null
-    }
-
-    if (!versionList) return null
-    if (versionList.type === 'error') return null
-
-    return !versionList || !Array.isArray(versionList) || versionList.length === 0
-      ? null
-      : versionList
   }
 }
 
@@ -223,33 +168,6 @@ class Yarn extends PackageManager {
   getUninstallPackageParams (names) {
     return [ 'remove', ...names ]
   }
-
-  getPackageVersionList (packageName) {
-    let versionList
-
-    try {
-      const params = this.majorVersion >= 2
-        ? [ 'npm', 'info', packageName, '--fields', 'versions', '--json' ]
-        : [ 'info', packageName, 'versions', '--json' ]
-
-      const child = crossSpawnSync(this.name, params)
-      if (child.status === 0) {
-        versionList = JSON.parse(String(child.output[ 1 ]))
-      }
-    }
-    catch (_) {
-      return null
-    }
-
-    if (!versionList) return null
-    if (versionList.type === 'error') return null
-
-    versionList = versionList[ this.majorVersion >= 2 ? 'versions' : 'data' ]
-
-    return !versionList || !Array.isArray(versionList) || versionList.length === 0
-      ? null
-      : versionList
-  }
 }
 
 class Pnpm extends PackageManager {
@@ -273,26 +191,28 @@ class Pnpm extends PackageManager {
   getUninstallPackageParams (names) {
     return [ 'remove', ...names ]
   }
+}
 
-  getPackageVersionList (packageName) {
-    let versionList
+class Bun extends PackageManager {
+  name = 'bun'
+  lockFile = 'bun.lockb'
 
-    try {
-      const child = crossSpawnSync(this.name, [ 'info', packageName, 'versions', '--json' ])
-      if (child.status === 0) {
-        versionList = JSON.parse(String(child.output[ 1 ]))
-      }
-    }
-    catch (_) {
-      return null
-    }
+  getInstallParams (env) {
+    return env === 'development'
+      ? [ 'install' ]
+      : [ 'install', '--production' ]
+  }
 
-    if (!versionList) return null
-    if (versionList.type === 'error') return null
+  getInstallPackageParams (names, isDevDependency) {
+    return [
+      'add',
+      isDevDependency ? '--dev' : '',
+      ...names
+    ]
+  }
 
-    return !versionList || !Array.isArray(versionList) || versionList.length === 0
-      ? null
-      : versionList
+  getUninstallPackageParams (names) {
+    return [ 'remove', ...names ]
   }
 }
 
@@ -319,7 +239,8 @@ module.exports.createInstance = function createInstance ({ appPaths }) {
   const packageManagersList = [
     new Yarn(appDir),
     new Pnpm(appDir),
-    new Npm(appDir)
+    new Npm(appDir),
+    new Bun(appDir)
   ]
 
   const projectPackageManager = getProjectPackageManager(packageManagersList, appDir)
@@ -337,5 +258,5 @@ module.exports.createInstance = function createInstance ({ appPaths }) {
     }
   }
 
-  fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
+  fatal('Please install Yarn, PNPM, NPM or Bun before running this command.\n')
 }

@@ -53,7 +53,7 @@ if (argv.help) {
                         [android|ios]
                       - Capacitor
                         [android|ios]
-                      - Electron with default "electron-packager" bundler (default: yours)
+                      - Electron with default "@electron/packager" bundler (default: yours)
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
@@ -62,20 +62,20 @@ if (argv.help) {
                         electron-builder as bundler
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables)
-                      - Cordova (it only fills in /src/cordova/www folder with the UI code)
-                      - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
+                      - Cordova (it only fills in /src-cordova/www folder with the UI code)
+                      - Capacitor (it only fills in /src-capacitor/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
 
     ONLY for Cordova and Capacitor mode:
     --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a
-                    terminal/console-only build
+                      terminal/console-only build
 
     ONLY for Electron mode:
-    --bundler, -b   Bundler (electron-packager or electron-builder)
+    --bundler, -b   Bundler (@electron/packager or electron-builder)
                       [packager|builder]
     --arch, -A      App architecture (default: yours)
-                      - with default "electron-packager" bundler:
+                      - with default "@electron/packager" bundler:
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
@@ -113,9 +113,9 @@ const ctx = getCtx({
 })
 
 const { displayBanner } = await import('../utils/banner.js')
-displayBanner({ argv, ctx, cmd: 'build' })
+await displayBanner({ argv, ctx, cmd: 'build' })
 
-const { log } = await import('../utils/logger.js')
+const { log, fatal } = await import('../utils/logger.js')
 
 // install mode if it's missing
 const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
@@ -132,8 +132,8 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { regenerateTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
-await regenerateTypesFeatureFlags(quasarConf)
+const { ensureTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
+ensureTypesFeatureFlags(quasarConf)
 
 const { QuasarModeBuilder } = await import(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
@@ -156,46 +156,56 @@ await ctx.appExt.runAppExtensionHook('beforeBuild', async hook => {
   await hook.fn(hook.api, { quasarConf })
 })
 
-appBuilder.build().then(async () => {
-  outputFolder = argv.mode === 'cordova'
-    ? path.join(outputFolder, '..')
-    : outputFolder
-
-  displayBanner({
-    argv,
-    ctx,
-    cmd: 'build',
-    details: {
-      buildOutputFolder: outputFolder,
-      target: quasarConf.build.target
-    }
+appBuilder.build()
+  .catch(err => {
+    console.error(err)
+    fatal('App build failed (check the log above)', 'FAIL')
   })
-
-  if (typeof quasarConf.build.afterBuild === 'function') {
-    await quasarConf.build.afterBuild({ quasarConf })
-  }
-
-  // run possible beforeBuild hooks
-  await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
-    log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
-    await hook.fn(hook.api, { quasarConf })
-  })
-
-  if (argv.publish !== void 0) {
-    const opts = {
-      arg: argv.publish,
-      distDir: outputFolder,
-      quasarConf
+  .then(async signal => {
+    if (signal !== void 0) {
+      const { SIGNAL__BUILD_SHOULD_EXIT } = await import('../utils/signals.js')
+      if (signal === SIGNAL__BUILD_SHOULD_EXIT) return
     }
 
-    if (typeof quasarConf.build.onPublish === 'function') {
-      await quasarConf.build.onPublish(opts)
+    if (argv.mode === 'cordova') {
+      outputFolder = path.join(outputFolder, '..')
     }
 
-    // run possible onPublish hooks
-    await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
-      log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
-      await hook.fn(hook.api, opts)
+    await displayBanner({
+      argv,
+      ctx,
+      cmd: 'build',
+      details: {
+        buildOutputFolder: outputFolder,
+        target: quasarConf.build.target
+      }
     })
-  }
-})
+
+    if (typeof quasarConf.build.afterBuild === 'function') {
+      await quasarConf.build.afterBuild({ quasarConf })
+    }
+
+    // run possible beforeBuild hooks
+    await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
+      log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
+      await hook.fn(hook.api, { quasarConf })
+    })
+
+    if (argv.publish !== void 0) {
+      const opts = {
+        arg: argv.publish,
+        distDir: outputFolder,
+        quasarConf
+      }
+
+      if (typeof quasarConf.build.onPublish === 'function') {
+        await quasarConf.build.onPublish(opts)
+      }
+
+      // run possible onPublish hooks
+      await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
+        log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
+        await hook.fn(hook.api, opts)
+      })
+    }
+  })

@@ -1,17 +1,67 @@
-const fs = require('fs')
-const path = require('path')
-const zlib = require('zlib')
-const { green, blue, red, magenta, grey, underline } = require('chalk')
+import { join, resolve, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import fse from 'fs-extra'
+import zlib from 'zlib'
+import { red, green, blue, magenta, gray, underline } from 'kolorist'
+import { table } from 'table'
 
-const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
+const jsRE = /\.c?js$/
+const cssRE = /\.(css|sass)$/
+const tsRE = /\.ts$/
+const jsonRE = /\.json$/
+
 const tableData = []
 
-const { version } = require('../package.json')
+export function plural (num) {
+  return num === 1 ? '' : 's'
+}
+
+const camelCaseRE = /((-|\.)\w)/g
+const camelCaseInnerRE = /-|\./
+export function camelCase (str) {
+  // assumes kebab case "str"
+  return str.replace(
+    camelCaseRE,
+    text => text.replace(camelCaseInnerRE, '').toUpperCase()
+  )
+}
+
+const kebabRE = /([a-zA-Z])([A-Z])/g
+export function kebabCase (str) {
+  // assumes pascal case "str"
+  return str.replace(kebabRE, '$1-$2').toLowerCase()
+}
+
+export function capitalize (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+export const rootFolder = fileURLToPath(
+  new URL('..', import.meta.url)
+)
+
+export function resolveToRoot (...pathList) {
+  return resolve(rootFolder, ...pathList)
+}
+
+export function relativeToRoot (...pathList) {
+  return relative(rootFolder, ...pathList)
+}
+
+export const { version } = readJsonFile(
+  new URL('../package.json', import.meta.url)
+)
+
+export const banner = (
+  '/*!\n'
+  + ' * Quasar Framework v' + version + '\n'
+  + ' * (c) 2015-present Razvan Stoenescu\n'
+  + ' * Released under the MIT License.\n'
+  + ' */\n'
+)
 
 process.on('exit', code => {
   if (code === 0 && tableData.length > 0) {
-    const { table } = require('table')
-
     tableData.sort((a, b) => {
       return a[ 0 ] === b[ 0 ]
         ? a[ 1 ] < b[ 1 ] ? -1 : 1
@@ -19,7 +69,7 @@ process.on('exit', code => {
     })
 
     tableData.unshift([
-      underline('Ext'),
+      underline('Type'),
       underline('Filename'),
       underline('Size'),
       underline('Gzipped')
@@ -44,31 +94,29 @@ function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
 }
 
-module.exports.createFolder = function (folder) {
-  const dir = path.join(__dirname, '..', folder)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
-  }
+export function createFolder (folder) {
+  const dir = join(rootFolder, folder)
+  fse.ensureDirSync(dir)
 }
 
 function getDestinationInfo (dest) {
-  if (dest.endsWith('.json')) {
+  if (jsonRE.test(dest)) {
     return {
-      banner: grey('[json]'),
-      tableEntryType: grey('json'),
+      banner: gray('[json]'),
+      tableEntryType: gray('json'),
       toTable: false
     }
   }
 
-  if (dest.endsWith('.js') || dest.endsWith('.mjs')) {
+  if (jsRE.test(dest)) {
     return {
       banner: green('[js]  '),
       tableEntryType: green('js'),
-      toTable: dest.indexOf('dist/quasar') > -1
+      toTable: dest.indexOf('dist/quasar') !== -1
     }
   }
 
-  if (dest.endsWith('.css') || dest.endsWith('.styl') || dest.endsWith('.sass')) {
+  if (cssRE.test(dest)) {
     return {
       banner: blue('[css] '),
       tableEntryType: blue('css'),
@@ -76,7 +124,7 @@ function getDestinationInfo (dest) {
     }
   }
 
-  if (dest.endsWith('.ts')) {
+  if (tsRE.test(dest)) {
     return {
       banner: magenta('[ts]  '),
       tableEntryType: magenta('ts'),
@@ -88,11 +136,11 @@ function getDestinationInfo (dest) {
   process.exit(1)
 }
 
-module.exports.writeFile = function (dest, code, zip) {
+export function writeFile (dest, code, zip) {
   const { banner, tableEntryType, toTable } = getDestinationInfo(dest)
 
   const fileSize = getSize(code)
-  const filePath = path.relative(process.cwd(), dest)
+  const filePath = relative(process.cwd(), dest)
 
   return new Promise((resolve, reject) => {
     function report (gzippedString, gzippedSize) {
@@ -110,7 +158,7 @@ module.exports.writeFile = function (dest, code, zip) {
       resolve(code)
     }
 
-    fs.writeFile(dest, code, err => {
+    fse.writeFile(dest, code, err => {
       if (err) return reject(err)
       if (zip) {
         zlib.gzip(code, (err, zipped) => {
@@ -126,47 +174,43 @@ module.exports.writeFile = function (dest, code, zip) {
   })
 }
 
-module.exports.readFile = function (file) {
-  return fs.readFileSync(file, 'utf-8')
+export function readFile (file) {
+  return fse.readFileSync(file, 'utf-8')
 }
 
-module.exports.writeFileIfChanged = function (dest, newContent, zip) {
+export function readJsonFile (file) {
+  return JSON.parse(
+    fse.readFileSync(file, 'utf-8')
+  )
+}
+
+export function writeFileIfChanged (dest, newContent, zip) {
   let currentContent = ''
   try {
-    currentContent = fs.readFileSync(dest, 'utf-8')
+    currentContent = fse.readFileSync(dest, 'utf-8')
   }
   catch (e) {}
 
   return newContent.split(/[\n\r]+/).join('\n') !== currentContent.split(/[\n\r]+/).join('\n')
-    ? module.exports.writeFile(dest, newContent, zip)
+    ? writeFile(dest, newContent, zip)
     : Promise.resolve()
 }
 
-module.exports.convertToCjs = function (content, banner = '') {
-  return banner + content
-    .replace(/export default {/, 'module.exports = {')
-    .replace(/import {/g, 'const {')
-    .replace(/} from '(.*)'/g, (_, pkg) => `} = require('${ pkg }')`)
-}
-
-function logError (err) {
+export function logError (err) {
   console.error('\n' + red('[Error]'), err)
   console.log()
 }
 
-module.exports.logError = logError
-
-module.exports.kebabCase = function (str) {
-  return str.replace(
-    kebabRegex,
-    match => '-' + match.toLowerCase()
-  ).substring(1)
-}
-
-module.exports.clone = function clone (data) {
+export function clone (data) {
   const str = JSON.stringify(data)
 
   if (str) {
     return JSON.parse(str)
   }
+}
+
+const privateFileRE = /test|private/
+
+export function filterOutPrivateFiles (file) {
+  return privateFileRE.test(file) === false
 }

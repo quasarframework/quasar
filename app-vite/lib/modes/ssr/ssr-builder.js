@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 import { writeFileSync } from 'node:fs'
 import { merge } from 'webpack-merge'
@@ -26,8 +25,12 @@ export class QuasarModeBuilder extends AppBuilder {
     await this.buildWithVite('SSR Client', viteClientConfig)
 
     this.moveFile(
-      viteClientConfig.build.outDir + '/ssr-manifest.json',
+      join(viteClientConfig.build.outDir, '.vite/ssr-manifest.json'),
       'quasar.manifest.json'
+    )
+
+    this.removeFile(
+      join(viteClientConfig.build.outDir, '.vite')
     )
 
     await this.#writeRenderTemplate(viteClientConfig.build.outDir)
@@ -126,7 +129,7 @@ export class QuasarModeBuilder extends AppBuilder {
     const htmlFile = join(clientDir, 'index.html')
     const html = this.readFile(htmlFile)
 
-    const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
+    const templateFn = await getProdSsrTemplateFn(html, this.quasarConf)
 
     this.writeFile(
       'render-template.js',
@@ -136,7 +139,7 @@ export class QuasarModeBuilder extends AppBuilder {
     if (this.quasarConf.ssr.pwa === true) {
       this.writeFile(
         `client/${ this.quasarConf.ssr.pwaOfflineHtmlFilename }`,
-        transformProdSsrPwaOfflineHtml(html, this.quasarConf)
+        await transformProdSsrPwaOfflineHtml(html, this.quasarConf)
       )
     }
 

@@ -12,8 +12,12 @@ import { BaseAPI } from './BaseAPI.js'
  * API for extension's /install.js script
  */
 export class InstallAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 
@@ -173,9 +177,6 @@ export class InstallAPI extends BaseAPI {
       JSON.stringify(pkg, null, 2),
       'utf-8'
     )
-
-    // we mingled with it, time to notify there's a need to update it
-    this.ctx.pkg.updateAppPackageJson()
 
     if (
       extPkg.dependencies

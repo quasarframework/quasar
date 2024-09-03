@@ -9,16 +9,16 @@ The QBanner component creates a banner element to display a prominent message an
 
 According to the Material Design spec, the banner should be "displayed at the top of the screen, below a top app bar" - but of course you can put one anywhere that makes sense, even in a QDialog.
 
-<doc-api file="QBanner" />
+<DocApi file="QBanner" />
 
 ## Usage
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Rounded border" file="Rounded" />
+<DocExample title="Rounded border" file="Rounded" />
 
-<doc-example title="With an image" file="Image" />
+<DocExample title="With an image" file="Image" />
 
-<doc-example title="Inline actions" file="Inline" />
+<DocExample title="Inline actions" file="Inline" />
 
-<doc-example title="Dense" file="Dense" />
+<DocExample title="Dense" file="Dense" />

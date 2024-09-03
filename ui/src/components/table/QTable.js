@@ -12,9 +12,9 @@ import QBtn from '../btn/QBtn.js'
 
 import getTableMiddle from './get-table-middle.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import { commonVirtScrollPropsList } from '../virtual-scroll/use-virtual-scroll.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
@@ -23,13 +23,13 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
-import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
-import { createComponent } from '../../utils/private/create.js'
+import { injectProp, injectMultipleProps } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 
-const commonVirtPropsObj = {}
-commonVirtPropsList.forEach(p => { commonVirtPropsObj[ p ] = {} })
+const virtScrollPassthroughProps = {}
+commonVirtScrollPropsList.forEach(p => { virtScrollPassthroughProps[ p ] = {} })
 
 export default createComponent({
   name: 'QTable',
@@ -37,7 +37,7 @@ export default createComponent({
   props: {
     rows: {
       type: Array,
-      default: () => []
+      required: true
     },
     rowKey: {
       type: [ String, Function ],
@@ -71,10 +71,8 @@ export default createComponent({
     wrapCells: Boolean,
 
     virtualScroll: Boolean,
-    virtualScrollTarget: {
-      default: void 0
-    },
-    ...commonVirtPropsObj,
+    virtualScrollTarget: {},
+    ...virtScrollPassthroughProps,
 
     noDataLabel: String,
     noResultsLabel: String,
@@ -266,7 +264,7 @@ export default createComponent({
     const virtProps = computed(() => {
       const acc = {}
 
-      commonVirtPropsList
+      commonVirtScrollPropsList
         .forEach(p => { acc[ p ] = props[ p ] })
 
       if (acc.virtualScrollItemSize === void 0) {
@@ -435,21 +433,21 @@ export default createComponent({
       if (props.onRowClick !== void 0) {
         data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
-          emit('RowClick', evt, row, pageIndex)
+          emit('rowClick', evt, row, pageIndex)
         }
       }
 
       if (props.onRowDblclick !== void 0) {
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
-          emit('RowDblclick', evt, row, pageIndex)
+          emit('rowDblclick', evt, row, pageIndex)
         }
       }
 
       if (props.onRowContextmenu !== void 0) {
         data.class[ 'cursor-pointer' ] = true
         data.onContextmenu = evt => {
-          emit('RowContextmenu', evt, row, pageIndex)
+          emit('rowContextmenu', evt, row, pageIndex)
         }
       }
 

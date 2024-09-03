@@ -5,7 +5,7 @@
  **/
 
 import { EventEmitter } from 'events'
-import uid from 'quasar/src/utils/uid'
+import uid from 'quasar/src/utils/uid/uid.js'
 
 const
   typeSizes = {

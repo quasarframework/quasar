@@ -7,16 +7,15 @@ examples: Notify
 
 Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.
 
-<doc-api file="Notify" />
+<DocApi file="Notify" />
 
-<doc-installation plugins="Notify" config="notify" />
+<DocInstallation plugins="Notify" config="notify" />
 
 ## Usage
 
 ### Basic
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Notify } from 'quasar'
 
 Notify.create('Danger, Will Robinson! Danger!')
@@ -24,8 +23,9 @@ Notify.create('Danger, Will Robinson! Danger!')
 Notify.create({
   message: 'Danger, Will Robinson! Danger!'
 })
+```
 
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -37,7 +37,7 @@ setup () {
 }
 ```
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ::: tip
 If you define any actions, the notification will automatically be dismissed when the user picks it.
@@ -45,27 +45,27 @@ If you define any actions, the notification will automatically be dismissed when
 
 ### With caption
 
-<doc-example title="Caption" file="Caption" />
+<DocExample title="Caption" file="Caption" />
 
 ### With icon, avatar or spinner
 
-<doc-example title="With icon" file="Icon" />
+<DocExample title="With icon" file="Icon" />
 
-<doc-example title="With avatar" file="Avatar" />
+<DocExample title="With avatar" file="Avatar" />
 
-<doc-example title="With spinner" file="Spinner" />
+<DocExample title="With spinner" file="Spinner" />
 
 ### With actions
 
-<doc-example title="With actions" file="Actions" />
+<DocExample title="With actions" file="Actions" />
 
 ### Multiline
 
-<doc-example title="Multiline" file="Multiline" />
+<DocExample title="Multiline" file="Multiline" />
 
 ### Positioning
 
-<doc-example title="Positioning & different options" file="Positioning" />
+<DocExample title="Positioning & different options" file="Positioning" />
 
 ::: tip
 For a full list of options, check the API section.
@@ -77,15 +77,15 @@ Each notification has an underlying unique group which is computed out of the me
 
 However, if you wish to disable this behavior, specify `group: false`. In the example below, the first button triggers the same notification twice each time is clicked. The second button has grouping disabled. The third button, however, has a custom group name so each subsequent notification replaces the old one and increments the badge number.
 
-<doc-example title="Grouping" file="Grouping" />
+<DocExample title="Grouping" file="Grouping" />
 
-<doc-example title="Custom badge" file="GroupingCustomBadge" />
+<DocExample title="Custom badge" file="GroupingCustomBadge" />
 
 ### Timeout progress
 
 Should you wish, there is a way to tell the user when the notification will disappear from the screen. That's for the cases when timeout is not set to 0.
 
-<doc-example title="Timeout progress" file="TimeoutProgress" />
+<DocExample title="Timeout progress" file="TimeoutProgress" />
 
 ### Updatable notifications
 
@@ -93,21 +93,19 @@ Should you have an ongoing process and you want to inform the user of its progre
 
 Please note in the example below that we are explicitly setting "group: false" (because only non-grouped notifications can be updated) and "timeout: 0" (because we want to be in full control when the notification will be dismissed).
 
-<doc-example title="Updatable" file="Updatable" />
+<DocExample title="Updatable" file="Updatable" />
 
 ### Predefined types
 
 There are four predefined types out of the box that you can use: "positive", "negative", "warning" and "info":
 
-<doc-example title="Out of the box types" file="PredefinedTypesDefault" />
+<DocExample title="Out of the box types" file="PredefinedTypesDefault" />
 
 Furthermore, you can register your own types or even override the predefined ones. The best place to do this would be in a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files).
 
-<doc-example title="Custom type" file="PredefinedTypesCustom" />
+<DocExample title="Custom type" file="PredefinedTypesCustom" />
 
-```js
-// How to register in a boot file:
-
+```js How to register in a boot file:
 import { Notify } from 'quasar'
 
 Notify.registerType('my-notif', {
@@ -122,7 +120,7 @@ Notify.registerType('my-notif', {
 ### Using HTML
 You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
-<doc-example title="Unsafe HTML message" file="UnsafeHtml" />
+<DocExample title="Unsafe HTML message" file="UnsafeHtml" />
 
 ### Setting attributes
 You can set custom HTML attributes on the notification itself by setting the `attrs` Object property. For individual notification actions, you can directly pass them just like any other prop.
@@ -202,8 +200,7 @@ You can only set default `actions` through this method. Specifying `actions` wit
 
 We could also set the defaults in some Vue file:
 
-```js
-// inside of a Vue component
+```js Inside of a Vue component
 import { useQuasar } from 'quasar'
 
 setup () {

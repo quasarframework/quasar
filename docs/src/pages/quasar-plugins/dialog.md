@@ -24,20 +24,19 @@ However, **you can also supply a component for the Dialog Plugin to render** (se
 With the QDialog plugin, you can programmatically build three types of dialogs with the following form content:
  1. A prompt dialog - asking the user to fill in some sort of data in an input field.
  2. A set of options for the user to select from using either radio buttons or toggles (singular selection only) or check boxes (for multiple selections).
- 3. A simple confirmation dialog, where the user can cancel or give her "ok" for a particular action or input.
+ 3. A simple confirmation dialog, where the user can cancel or give their "ok" for a particular action or input.
 
 In order to create #1, the prompting input form, you have the `prompt` property within the `opts` object.
 
 In order to create #2, the options selection form, you have the `options` property within the `opts` object.
 
-<doc-api file="Dialog" />
+<DocApi file="Dialog" />
 
-<doc-installation plugins="Dialog" />
+<DocInstallation plugins="Dialog" />
 
 ## Built-in component
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Dialog } from 'quasar'
 (Object) Dialog.create({ ... })
 
@@ -62,36 +61,36 @@ For all the examples below, also see the browser console while you check them ou
 This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins. For further exploration check out the API section.
 :::
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Force dark mode" file="Dark" />
+<DocExample title="Force dark mode" file="Dark" />
 
-<doc-example title="Radios, Checkboxes, Toggles" file="Pickers" />
+<DocExample title="Radios, Checkboxes, Toggles" file="Pickers" />
 
-<doc-example title="Other options" file="OtherOptions" />
+<DocExample title="Other options" file="OtherOptions" />
 
 ### Native attributes
 
 You can also supply native HTML attributes to the inner QInput or QOptionGroup components, like in the example below.
 
-<doc-example title="Using native attributes" file="NativeAttributes" />
+<DocExample title="Using native attributes" file="NativeAttributes" />
 
 ### User input validation
 
 There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
 
-<doc-example title="Prompt with validation" file="ValidationPrompt" />
+<DocExample title="Prompt with validation" file="ValidationPrompt" />
 
-<doc-example title="Options with validation" file="ValidationOptions" />
+<DocExample title="Options with validation" file="ValidationOptions" />
 
 ### Progress
 
-<doc-example title="Showing progress" file="Progress" />
+<DocExample title="Showing progress" file="Progress" />
 
 ### Using HTML
 You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
-<doc-example title="Unsafe HTML message" file="UnsafeHtml" />
+<DocExample title="Unsafe HTML message" file="UnsafeHtml" />
 
 ## Invoking custom component
 
@@ -353,13 +352,13 @@ Quasar handles the back button for you by default so it can hide any opened Dial
 
 However, should you wish to disable this behavior, edit your `/quasar.config` file:
 
-```js
-// quasar.config file;
-// for Cordova (only!):
+```tabs
+<<| js For Capacitor |>>
+// quasar.config file
 return {
   framework: {
     config: {
-      cordova: {
+      capacitor: {
         // Quasar handles app exit on mobile phone back button.
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 
@@ -370,13 +369,12 @@ return {
     }
   }
 }
-
-// quasar.config file;
-// for Capacitor (only!)
+<<| js For Cordova |>>
+// quasar.config file
 return {
   framework: {
     config: {
-      capacitor: {
+      cordova: {
         // Quasar handles app exit on mobile phone back button.
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 

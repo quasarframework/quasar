@@ -13,7 +13,7 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 
 Edit the `/quasar.config` file:
 
-```js
+```js /quasar.config file
 // embedding all animations
 animations: 'all'
 
@@ -27,7 +27,8 @@ animations: [
 If you are building a website, you can also skip configuring the quasar.config file and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within the quasar.config file.
 
 ```html
-<!-- src/index.template.html -->
+<!-- @quasar/app-vite: /index.html -->
+<!-- @quasar/app-webpack: src/index.template.html -->
 <head>
   ...
 
@@ -40,7 +41,9 @@ If you are building a website, you can also skip configuring the quasar.config f
 ```
 
 ::: warning
-It should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import the [compat version](https://animate.style/#migration). However, if you're using the **Quasar CLI**, no additional changes are needed.
+It should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import the [compat version](https://animate.style/#migration).
+<br><br>
+However, if you're using the **Quasar CLI**, no additional changes are needed.
 :::
 
 ::: warning
@@ -54,13 +57,167 @@ Try changing **Visual Effects** to **Adjust for Best Appearance**.
 :::
 
 ## Usage
-Notice the string "animated" in front of the actual animation name.
 
-```html
-<!-- Example with wrapping only one DOM element / component -->
+::: warning
+Notice the string `animated` in front of the actual animation class name.
+:::
+
+```html Example with wrapping only one DOM element / component
 <transition
   appear
   enter-active-class="animated fadeIn"
+  leave-active-class="animated fadeOut"
+>
+  <!-- Wrapping only one DOM element, defined by QBtn -->
+  <q-btn
+    color="secondary"
+    icon="mail"
+    label="Email"
+  />
+</transition>
+```
+### Built-in animation classes
+Quasar also provides some built-in classes to animate the active state between both enter and leave transitions. The animations provided are separated into three groups (click on them to expand):
+
+::: details General classes
+```
+bounce
+flash
+flip
+headShake
+heartBeat
+hinge
+jello
+pulse
+rubberBand
+shake
+shakeX
+shakeY
+swing
+tada
+wobble
+```
+:::
+
+
+::: details "In" classes
+```
+backInDown
+backInLeft
+backInRight
+backInUp
+bounceIn
+bounceInDown
+bounceInLeft
+bounceInRight
+bounceInUp
+fadeIn
+fadeInBottomLeft
+fadeInBottomRight
+fadeInDown
+fadeInDownBig
+fadeInLeft
+fadeInLeftBig
+fadeInRight
+fadeInRightBig
+fadeInTopLeft
+fadeInTopRight
+fadeInUp
+fadeInUpBig
+flipInX
+flipInY
+jackInTheBox
+lightSpeedInLeft
+lightSpeedInRight
+rollIn
+rotateIn
+rotateInDownLeft
+rotateInDownRight
+rotateInUpLeft
+rotateInUpRight
+slideInDown
+slideInLeft
+slideInRight
+slideInUp
+zoomIn
+zoomInDown
+zoomInLeft
+zoomInRight
+zoomInUp
+```
+:::
+
+::: details "Out" classes
+```
+backOutDown
+backOutLeft
+backOutRight
+backOutUp
+bounceOut
+bounceOutDown
+bounceOutLeft
+bounceOutRight
+bounceOutUp
+fadeOut
+fadeOutBottomLeft
+fadeOutBottomRight
+fadeOutDown
+fadeOutDownBig
+fadeOutLeft
+fadeOutLeftBig
+fadeOutRight
+fadeOutRightBig
+fadeOutTopLeft
+fadeOutTopRight
+fadeOutUp
+fadeOutUpBig
+flipOutX
+flipOutY
+lightSpeedOutLeft
+lightSpeedOutRight
+rollOut
+rotateOut
+rotateOutDownLeft
+rotateOutDownRight
+rotateOutUpLeft
+rotateOutUpRight
+slideOutDown
+slideOutLeft
+slideOutRight
+slideOutUp
+zoomOut
+zoomOutDown
+zoomOutLeft
+zoomOutRight
+zoomOutUp
+```
+:::
+
+You can also go to the [official Vue documention](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for more information about the use of these classes.
+
+### Modifier classes
+There are additional classes which delay or repeat or change the speed of the animations (click to expand):
+
+::: details Modifier classes
+```js
+repeat
+repeat-1
+repeat-2
+delay-1s
+delay-5s
+slower
+slow
+fast
+faster
+```
+:::
+
+Example:
+
+```html
+<transition
+  appear
+  enter-active-class="animated fadeIn slower delay-5s repeat-2"
   leave-active-class="animated fadeOut"
 >
   <!-- Wrapping only one DOM element, defined by QBtn -->
@@ -75,8 +232,7 @@ Notice the string "animated" in front of the actual animation name.
 ### Wrapping Multiple Elements
 You can also group components or DOM elements in a transition so that the same effects are applied to all of them simultaneously.
 
-```html
-<!-- Example with wrapping multiple DOM elements / components -->
+```html Example with wrapping multiple DOM elements / components
 <transition-group
   appear
   enter-active-class="animated fadeIn"

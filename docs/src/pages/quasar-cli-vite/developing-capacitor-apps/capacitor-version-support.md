@@ -3,7 +3,7 @@ title: Capacitor versions
 desc: (@quasar/app-vite) Supported Capacitor versions in Quasar. How to upgrade to a newer Capacitor version.
 ---
 
-The officially supported versions of Capacitor are v1 through v5.
+The officially supported versions of Capacitor are v1 through v6.
 
 ## Upgrading Capacitor
 
@@ -15,6 +15,26 @@ If you previously used a lower version of Capacitor and you want to upgrade to a
 4. At this point, you will have Capacitor installed. Now you can run `quasar dev -m capacitor -T [ios|android]` or `quasar build -m capacitor -T [ios|android]` and it will add the upgraded iOS/Android platform that corresponds to your Capacitor version.
 
 It would also be wise to check the changelog of Capacitor itself to see what breaking changes it has.
+
+## Capacitor v6 <q-badge label="@quasar/app-vite v1.4+" />
+
+::: warning Requirements
+* Xcode 15+ (for iOS)
+* Android Studio Jellyfish 2023.3.1.18 or newer (for Android)
+:::
+
+Assuming that you've installed Capacitor mode already, this is how your dependencies in /src-capacitor/package.json should look like:
+
+```
+dependencies: {
+  "@capacitor/app": "^6.0.0",
+  "@capacitor/cli": "^6.0.0",
+  "@capacitor/core": "^6.0.0",
+  "@capacitor/splash-screen": "^6.0.0"
+}
+```
+
+The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Quasar with some UI functionality if they are installed.
 
 ## Capacitor v5 <q-badge label="@quasar/app-vite v1.4+" />
 

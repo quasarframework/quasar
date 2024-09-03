@@ -1,5 +1,4 @@
-
-module.exports = async function ({ scope, utils }) {
+export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
     utils.commonPrompts.quasarVersion,
 
@@ -41,7 +40,7 @@ module.exports = async function ({ scope, utils }) {
       type: 'text',
       name: 'packageDescription',
       message: 'Package description',
-      initial: 'My awesome component',
+      initial: 'My awesome component'
     },
 
     {
@@ -52,7 +51,7 @@ module.exports = async function ({ scope, utils }) {
     },
 
     {
-      type: (_, { features }) => features.component ? 'text' : null,
+      type: (_, { features }) => (features.component ? 'text' : null),
       name: 'componentName',
       message: 'Component name (PascalCase)',
       initial: 'MyComponent',
@@ -60,7 +59,7 @@ module.exports = async function ({ scope, utils }) {
     },
 
     {
-      type: (_, { features }) => features.directive ? 'text' : null,
+      type: (_, { features }) => (features.directive ? 'text' : null),
       name: 'directiveName',
       message: 'Directive name (kebab-case, without "v-" prefix)',
       initial: 'my-directive',
@@ -68,7 +67,7 @@ module.exports = async function ({ scope, utils }) {
     },
 
     {
-      type: (_, { features }) => features.ae ? 'text' : null,
+      type: (_, { features }) => (features.ae ? 'text' : null),
       name: 'aeDescription',
       message: 'App Extension description',
       initial: 'A Quasar App Extension',
@@ -76,7 +75,7 @@ module.exports = async function ({ scope, utils }) {
     },
 
     {
-      type: (_, { features }) => features.ae ? 'multiselect' : null,
+      type: (_, { features }) => (features.ae ? 'multiselect' : null),
       name: 'preset',
       message: 'Pick the needed App Extension scripts:',
       format: utils.convertArrayToObject,
@@ -96,13 +95,24 @@ module.exports = async function ({ scope, utils }) {
       ]
     },
 
+    {
+      type: (_, { quasarVersion, features }) => (quasarVersion === 'v2' && features.ae ? 'select' : null),
+      name: 'aeCodeFormat',
+      message: 'Pick the App Extension format:',
+      initial: 0,
+      choices: [
+        { title: 'ESM (q/app-vite >= 1.5, q/app-webpack >= 3.10)', value: 'esm', description: 'recommended' },
+        { title: 'CommonJS', value: 'commonjs' }
+      ]
+    },
+
     utils.commonPrompts.repositoryType,
     utils.commonPrompts.repositoryURL,
     utils.commonPrompts.homepage,
     utils.commonPrompts.bugs
   ])
 
-  const script = require(`./quasar-${scope.quasarVersion}`)
+  const { script } = await import(`./quasar-${ scope.quasarVersion }/index.js`)
   await script({ scope, utils })
 
   // we don't want to install

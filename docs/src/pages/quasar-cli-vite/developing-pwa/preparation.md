@@ -33,7 +33,7 @@ This will add PWA mode automatically, if it is missing.
 
 A new folder will appear in your project folder (which is explained in detail on the [Configuring PWA](/quasar-cli-vite/developing-pwa/configuring-pwa) page):
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 All the files above are going to be detailed in the next pages, but the high overview is:
 
@@ -43,9 +43,7 @@ All the files above are going to be detailed in the next pages, but the high ove
 
 Should you want to use different filenames, you can do so by editing the `/quasar.config` file:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 sourceFiles: {
   pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
   pwaServiceWorker: 'src-pwa/custom-service-worker',

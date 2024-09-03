@@ -3,31 +3,36 @@
  * (runs on each dev/build)
  *
  * Docs: https://quasar.dev/app-extensions/development-guide/index-api
- * API: https://github.com/quasarframework/quasar/blob/master/app/lib/app-extension/IndexAPI.js
  */
 
-function extendConf (conf) {
+function extendConf (conf, api) {
   // register our boot file
   conf.boot.push('~quasar-app-extension-<%= name %>/src/boot/register.js')
 
-  // make sure app extension files & ui package gets transpiled
-  conf.build.transpileDependencies.push(/quasar-app-extension-<%= name %>[\\/]src/)
+  if (api.hasWebpack) {
+    // make sure app extension files & ui package gets transpiled
+    const transpileTarget = (
+      conf.build.webpackTranspileDependencies // q/app-webpack >= v4
+      || conf.build.transpileDependencies // q/app-webpack v3
+    )
+    transpileTarget.push(/quasar-app-extension-<%= name %>[\\/]src/)
+  }
 
   // make sure the stylesheet goes through webpack to avoid SSR issues
   conf.css.push('~quasar-ui-<%= name %>/src/index.sass')
 }
 
-module.exports = function (api) {
+<%= aeCodeFormat === 'esm' ? 'export default' : 'module.exports =' %> function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app-*" CLI
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0')
+    api.compatibleWith('@quasar/app-vite', '^1.5.0 || ^2.0.0-beta.1')
   }
   else if (api.hasWebpack) {
-    api.compatibleWith('@quasar/app-webpack', '^3.4.0')
+    api.compatibleWith('@quasar/app-webpack', '^3.10.0 || ^4.0.0-beta.1')
   }
 
 <% if (features.component) { %>

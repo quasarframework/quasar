@@ -82,7 +82,7 @@ import('./categories.json')
 One advantage of using dynamic imports as opposed to regular imports is that the import path can be determined at runtime:
 
 ```js
-import('pages/' + pageName + '/' + 'id')
+import('pages/' + pageName + '/' + id)
 ```
 
 ## Caveat with vendor imports
@@ -100,8 +100,7 @@ import('my-package')
 
 However, should you want to make Quasar CLI put `my-package` in its own chunk you'll have to edit the `/quasar.config` file:
 
-````js
-// quasar.config file
+````js /quasar.config file
 return {
   vendor: {
     remove: [ 'my-package' ]
@@ -142,7 +141,7 @@ So how can we limit the number of chunks created in this case? The idea is to li
     'quasar/lang/' + langIso
   )
     .then(lang => {
-      Quasar.lang.set(lang.default)
+      Lang.set(lang.default)
     })
   ```
   will result in bundling only the language packs you need for your site/app, instead of bundling all the language packs (more than 40!) which might hamper the performance of the commands `quasar dev` and `quasar build`.

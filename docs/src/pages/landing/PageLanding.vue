@@ -71,7 +71,7 @@
           <h2 class="heading heading--large q-my-lg">What our community thinks of Quasar</h2>
           <q class="heading heading--small">
             You've never heard of Quasar? It's the framework that made a mobile app,
-            <br />desktop app and browser extension altogether in less than 12 minutes.
+            <br>desktop app and browser extension altogether in less than 12 minutes.
           </q>
         </div>
 
@@ -192,6 +192,8 @@ const scrollSectionIntoView = {
 </script>
 
 <style lang="sass">
+@use 'sass:math'
+
 $support-quasar-background-padding: 35vw
 
 .landing-page
@@ -226,7 +228,7 @@ $support-quasar-background-padding: 35vw
     &:before
       background-image: url(https://cdn.quasar.dev/img/landing-page/astronaut-left-hand.png), url(https://cdn.quasar.dev/img/landing-page/astronaut-right-hand.png)
       background-size: 47%, 47%
-      background-position: left bottom, calc(100% + 25px) calc(100% - #{$support-quasar-background-padding / 3})
+      background-position: left bottom, calc(100% + 25px) calc(100% - #{math.div($support-quasar-background-padding, 3)})
       background-repeat: no-repeat, no-repeat
       bottom: 0px
       content: ''

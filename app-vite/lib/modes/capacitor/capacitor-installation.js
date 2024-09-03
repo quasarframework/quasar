@@ -1,4 +1,3 @@
-
 import fs from 'node:fs'
 import fse from 'fs-extra'
 import compileTemplate from 'lodash/template.js'

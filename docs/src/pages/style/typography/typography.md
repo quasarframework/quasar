@@ -1,9 +1,6 @@
 ---
 title: Typography
 desc: The typography of a Quasar app and its helper CSS classes.
-components:
-  - ./TypographyHeadings
-  - ./TypographyWeights
 related:
   - /style/visibility
   - /style/positioning
@@ -13,10 +10,20 @@ related:
 We'll handle the typography supplied by Quasar in the sections below.
 
 ## Headings
-<typography-headings />
+
+<script doc>
+import TypographyHeadings from './TypographyHeadings.vue'
+</script>
+
+<TypographyHeadings />
 
 ## Font Weights
-<typography-weights />
+
+<script doc>
+import TypographyWeights from './TypographyWeights.vue'
+</script>
+
+<TypographyWeights />
 
 ## CSS Helper Classes
 | Class Name | Description |
@@ -36,12 +43,11 @@ We'll handle the typography supplied by Quasar in the sections below.
 ## Default Font
 The default webfont embedded is [Roboto](https://fonts.google.com/specimen/Roboto). **But it is not required**. You can use whatever font(s) you like.
 
-Roboto comes with 5 different font weights you can use: 100, 300, 400, 500, 700.
+Roboto comes with 6 different font weights you can use: 100, 300, 400, 500, 700, 900.
 
 This is where Roboto font comes embedded by default, if you are looking to remove it:
 
-```js
-// quasar.config file
+```js /quasar.config file
 extras: [
   'roboto-font'
 ]

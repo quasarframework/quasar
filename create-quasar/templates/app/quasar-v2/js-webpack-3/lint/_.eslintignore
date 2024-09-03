@@ -1,0 +1,9 @@
+/dist
+/src-bex/www
+/src-capacitor
+/src-cordova
+/.quasar
+/node_modules
+.eslintrc.cjs
+babel.config.cjs
+/quasar.config.*.temporary.compiled*

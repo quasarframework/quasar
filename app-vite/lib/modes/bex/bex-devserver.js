@@ -1,4 +1,3 @@
-
 import debounce from 'lodash/debounce.js'
 import chokidar from 'chokidar'
 import fse from 'fs-extra'

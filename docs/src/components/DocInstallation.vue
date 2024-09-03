@@ -1,7 +1,7 @@
 <template>
   <q-card :id="id" class="doc-installation q-my-xl" flat bordered>
     <div class="header-toolbar row items-center">
-      <doc-card-title :title="props.title" />
+      <DocCardTitle :title="props.title" />
     </div>
 
     <q-tabs class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
@@ -14,15 +14,15 @@
 
     <q-tab-panels v-model="currentTab" animated>
       <q-tab-panel class="q-pa-none" name="Quasar CLI">
-        <doc-code :code="QuasarCli" />
+        <DocCode :code="QuasarCli" />
       </q-tab-panel>
 
       <q-tab-panel class="q-pa-none" name="Vite plugin / Vue CLI">
-        <doc-code :code="ExternalCli" />
+        <DocCode :code="ExternalCli" />
       </q-tab-panel>
 
       <q-tab-panel class="q-pa-none" name="UMD">
-        <doc-code :code="UMD" />
+        <DocCode :code="UMD" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -72,7 +72,7 @@ const QuasarCli = computed(() => {
   if (props.plugins === void 0 && quasarConf.value === null) {
     return `/*
  * No installation step is necessary.
- * It gets installed by default by @quasar/app.
+ * It gets installed by default by @quasar/app-vite or @quasar/app-webpack.
  */`
   }
 

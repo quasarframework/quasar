@@ -40,7 +40,7 @@ You may or may not have already had a `src-bex` folder, but you will definitely 
 
 While you develop your BEX, you will notice that Quasar CLI builds the actual extension in the dist folder (normally in `/dist/bex/`):
 
-<doc-tree :def="scope.devTree" />
+<DocTree :def="scope.devTree" />
 
 ### Chrome
 
@@ -115,7 +115,7 @@ $ quasar build --mode bex
 
 You will be instructed which is the output folder. Normally, it's `/dist/bex/`.
 
-<doc-tree :def="scope.prodTree" />
+<DocTree :def="scope.prodTree" />
 
 ::: tip
 If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.

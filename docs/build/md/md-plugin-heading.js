@@ -5,9 +5,9 @@
 import { slugify } from '../utils.js'
 
 const titleRE = /<\/?[^>]+(>|$)/g
-const apiRE = /^<doc-api /
+const apiRE = /^<DocApi /
 const apiNameRE = /file="([^"]+)"/
-const installationRE = /^<doc-installation(?:\s+title="([^"]*)")?\s*/
+const installationRE = /^<DocInstallation(?:\s+title="([^"]*)")?\s*/
 
 function parseContent (str) {
   const title = String(str)
@@ -35,10 +35,10 @@ export default function mdPluginHeading (md) {
     token.attrSet('@click', `copyHeading(\`${id}\`)`)
 
     if (token.tag === 'h2') {
-      md.$data.toc.push({ id, title })
+      md.$frontMatter.toc.push({ id, title })
     }
     else if (token.tag === 'h3') {
-      md.$data.toc.push({ id, title, sub: true })
+      md.$frontMatter.toc.push({ id, title, sub: true })
     }
 
     return self.renderToken(tokens, idx, options)
@@ -51,14 +51,14 @@ export default function mdPluginHeading (md) {
       const match = apiNameRE.exec(token.content)
       if (match !== null) {
         const title = `${ match[ 1 ] } API`
-        md.$data.toc.push({ id: slugify(title), title, deep: true })
+        md.$frontMatter.toc.push({ id: slugify(title), title, deep: true })
       }
     }
 
     const match = token.content.match(installationRE)
     if (match !== null) {
       const title = match[ 1 ] ?? 'Installation'
-      md.$data.toc.push({ id: slugify(title), title, deep: true })
+      md.$frontMatter.toc.push({ id: slugify(title), title, deep: true })
     }
 
     return tokens[ idx ].content

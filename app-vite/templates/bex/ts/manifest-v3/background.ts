@@ -1,19 +1,18 @@
 import { bexBackground } from 'quasar/wrappers';
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.action.onClicked.addListener((/* tab */) => {
-    // Opens our extension in a new browser window.
-    // Only if a popup isn't defined in the manifest.
-    chrome.tabs.create(
-      {
-        url: chrome.runtime.getURL('www/index.html'),
-      },
-      (/* newTab */) => {
-        // Tab opened.
-      }
-    );
-  });
-});
+function openExtension () {
+  chrome.tabs.create(
+    {
+      url: chrome.runtime.getURL('www/index.html')
+    },
+    (/* newTab */) => {
+      // Tab opened.
+    }
+  );
+}
+
+chrome.runtime.onInstalled.addListener(openExtension);
+chrome.action.onClicked.addListener(openExtension);
 
 declare module '@quasar/app-vite' {
   interface BexEventMap {

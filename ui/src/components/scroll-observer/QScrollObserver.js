@@ -1,8 +1,8 @@
 import { watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../../utils/scroll.js'
-import { listenOpts, noop } from '../../utils/event.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition, scrollTargetProp } from '../../utils/scroll/scroll.js'
+import { listenOpts, noop } from '../../utils/event/event.js'
 
 const { passive } = listenOpts
 const axisValues = [ 'both', 'horizontal', 'vertical' ]
@@ -19,9 +19,7 @@ export default createComponent({
 
     debounce: [ String, Number ],
 
-    scrollTarget: {
-      default: void 0
-    }
+    scrollTarget: scrollTargetProp
   },
 
   emits: [ 'scroll' ],

@@ -1,38 +1,107 @@
 .doc-code
   margin: 0
   position: relative
-  font-size: ($font-size - 2px)
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
-  line-height: 1.5em
-  tab-size: 2
-  text-align: left
-  white-space: pre
-  word-spacing: normal
-  word-break: normal
-  word-wrap: normal
-  hyphens: none
   overflow: auto
-  padding: 16px
   border-radius: inherit
 
-  &--prerendered
-    border-width: 1px 4px
-    border-style: solid
-    border-radius: $generic-border-radius
+  code
+    display: block
+    padding: 16px
+    width: fit-content
+    min-width: 100%
 
-  &__copy
-    top: 8px
-    right: 16px
+    font-size: ($font-size - 2px)
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    line-height: 1.5em
+    tab-size: 2
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    hyphens: none
+
+    color: inherit
+    background-color: inherit
+    border-radius: inherit
+
+  &--copying
+    .c-lpref,
+    .c-line,
+    .token.deleted-sign,
+    .token.prefix
+      display: none
+
+.c-line
+  position: relative
+  display: block
+  width: 100%
+  height: 0
+  &:before
+    content: ' '
+    position: absolute
+    pointer-events: none
+    top: 0
+    left: -16px
+    right: -16px
+    height: 1.5em
+
+.c-lpref
+  position: sticky
+  pointer-events: none
+  user-select: none
+  left: 8px
+  padding: 0 16px 0 8px
+  margin: -16px 0 -16px -8px
+  &:before
+    border-right: 1px solid
+    content: ''
+    position: absolute
+    pointer-events: none
+    top: -1px
+    left: -8px
+    right: 8px
+    bottom: -2px
+    z-index: -1
+
+.c-add:before,
+.token.inserted-sign:before
+  background: rgba($positive, .2)
+
+.token.deleted-sign,
+.token.inserted-sign
+  position: relative
+  display: block
+  width: 100%
+
+  &:before
+    content: ''
+    position: absolute
+    pointer-events: none
+    top: 0
+    left: -16px
+    right: -16px
+    bottom: 0
+
+.token.prefix
+  margin-right: 8px
 
 body.body--light
   .doc-code
     color: $grey-9
     background-color: $light-pill
 
-    &--prerendered
-      border-color: $separator-color
-      border-left-color: $brand-primary
-      border-right-color: $brand-primary
+  .c-highlight:before
+    background: rgba($grey, .2)
+  .c-rem:before,
+  .token.deleted-sign:before
+    background: rgba($negative, .2)
+
+  .c-lpref
+    color: $header-btn-color--light
+    &:before
+      border-right-color: $separator-color
+      background: $light-pill
 
   .token.comment,
   .token.block-comment,
@@ -106,10 +175,17 @@ body.body--dark
     color: #f8f8f2
     background-color: $dark-pill
 
-    &--prerendered
-      border-color: scale-color($brand-primary, $lightness: -50%)
-      border-left-color: scale-color($brand-primary, $lightness: -50%)
-      border-right-color: scale-color($brand-primary, $lightness: -50%)
+  .c-highlight:before
+    background: rgba($grey-3, .2)
+  .c-rem:before,
+  .token.deleted-sign:before
+    background: rgba($red, .3)
+
+  .c-lpref
+    color: $header-btn-color--dark
+    &:before
+      border-right-color: $separator-dark-color
+      background: $dark-pill
 
   .token.comment,
   .token.prolog,

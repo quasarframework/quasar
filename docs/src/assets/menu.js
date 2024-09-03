@@ -323,7 +323,7 @@ export default [
           },
           {
             name: 'File picker',
-            path: 'file-picker'
+            path: 'file'
           },
           {
             name: 'Form',
@@ -661,6 +661,41 @@ export default [
       {
         name: 'useMeta',
         path: 'use-meta'
+      },
+      {
+        name: 'useHydration',
+        badge: 'new',
+        path: 'use-hydration'
+      },
+      {
+        name: 'useId',
+        badge: 'new',
+        path: 'use-id'
+      },
+      {
+        name: 'useInterval',
+        badge: 'new',
+        path: 'use-interval'
+      },
+      {
+        name: 'useRenderCache',
+        badge: 'new',
+        path: 'use-render-cache'
+      },
+      {
+        name: 'useTick',
+        badge: 'new',
+        path: 'use-tick'
+      },
+      {
+        name: 'useTimeout',
+        badge: 'new',
+        path: 'use-timeout'
+      },
+      {
+        name: 'useSplitAttrs',
+        badge: 'new',
+        path: 'use-split-attrs'
       }
     ]
   },
@@ -684,6 +719,11 @@ export default [
     icon: 'build',
     path: 'quasar-cli-vite',
     children: [
+      {
+        name: 'Upgrade guide',
+        badge: 'NEW!',
+        path: 'upgrade-guide'
+      },
       {
         name: 'The quasar.config file',
         path: 'quasar-config-file'
@@ -1109,6 +1149,11 @@ export default [
     icon: 'build',
     path: 'quasar-cli-webpack',
     children: [
+      {
+        name: 'Upgrade guide',
+        badge: 'NEW!',
+        path: 'upgrade-guide'
+      },
       {
         name: 'The quasar.config file',
         path: 'quasar-config-file'
@@ -1664,17 +1709,14 @@ export default [
       },
       {
         name: 'Type Checking Utils',
-        badge: 'new',
         path: 'type-checking-utils'
       },
       {
         name: 'EventBus Util',
-        badge: 'new',
         path: 'event-bus-util'
       },
       {
         name: 'Other Utils',
-        badge: 'update',
         path: 'other-utils'
       }
     ]

@@ -68,16 +68,14 @@ We'll be creating an example App Extension which does the following:
 
 For the intents of this example, we'll be creating the following folder structure:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ## The install script
 
 The install script below is only rendering files into the hosted app. Notice the `src/templates` folder above, where we decided to keep these templates.
 
-```js
-// src/install.js
-
-module.exports = function (api) {
+```js src/install.js
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
@@ -85,10 +83,10 @@ module.exports = function (api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite === true) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+    api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
   }
   else { // api.hasWebpack === true
-    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+    api.compatibleWith('@quasar/app-webpack', '^4.0.0-beta.1')
   }
 
   // We render some files into the hosting project
@@ -116,10 +114,8 @@ Notice that we use the prompts to decide what to render into the hosting project
 
 We do a few things in the index script, like extending the /quasar.config file, hooking into one of the many Index API hooks (onPublish in this case), and chaining the Webpack configuration:
 
-```js
-// src/index.js
-
-module.exports = function (api) {
+```js src/index.js
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
@@ -127,10 +123,10 @@ module.exports = function (api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite === true) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+    api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
   }
   else { // api.hasWebpack === true
-    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+    api.compatibleWith('@quasar/app-webpack', '^4.0.0-beta.1')
   }
 
   // Here we extend the /quasar.config file;
@@ -222,7 +218,7 @@ When the App Extension gets uninstall, we need to do some cleanup. But beware wh
 // so we can import the following:
 const rimraf = require('rimraf')
 
-module.exports = function (api) {
+export default function (api) {
   // Careful when you remove folders!
   // You don't want to delete files that are still needed by the Project,
   // or files that are not owned by this app extension.

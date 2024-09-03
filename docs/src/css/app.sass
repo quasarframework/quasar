@@ -1,3 +1,5 @@
+@use 'sass:math'
+
 @import './fonts.sass'
 @import './prism-theme.sass'
 
@@ -110,6 +112,15 @@ ul
       color: $negative
     .doc-token
       border-color: $negative
+
+  &--details
+    .doc-note__title
+      cursor: pointer
+      display: list-item
+
+    &:not([open])
+      > .doc-note__title
+        padding-bottom: 0
 
   &__title
     font-weight: 700
@@ -396,7 +407,7 @@ $text-size-list: 12, 14, 16, 20, 24, 36
 $letter-spacing-list: 40, 100, 225, 263, 300, 375, 450
 @each $letter-spacing in $letter-spacing-list
   .letter-spacing-#{$letter-spacing}
-    letter-spacing: ($letter-spacing/100) + px !important
+    letter-spacing: math.div($letter-spacing,100) + px !important
 
 body.body--dark
   .doc-technical
@@ -464,3 +475,30 @@ body.body--dark
     color: $dark-text
     background: linear-gradient(-225deg,$brown,$brown-9)
     box-shadow: inset 0 -2px 0 0 $brown-10, inset 0 0 1px 1px $brown-8, -1px 0 0 0 $brown, 1px 0 0 0 $brown, 0 1px 0 0 $brown
+
+.doc-card-title
+  margin-left: -12px
+  padding: 4px 8px 4px 28px
+  position: relative
+  border-radius: 3px 5px 5px 0
+  background: $void-suit
+  color: $header-btn-color--light
+  font-size: ($font-size + 2px)
+  letter-spacing: $letter-spacing-brand
+
+  &:after
+    content: ''
+    position: absolute
+    top: 100%
+    left: 0
+    width: 0
+    height: 0
+    border: 0 solid transparent
+    border-width: 9px 0 0 11px
+    border-top-color: scale-color($void-suit, $lightness: -15%)
+
+body.body--dark .doc-card-title
+  background: $floating-rock
+  color: $dark-text
+  &:after
+    border-top-color: scale-color($floating-rock, $lightness: -30%)

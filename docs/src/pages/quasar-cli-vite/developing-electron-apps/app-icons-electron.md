@@ -14,7 +14,7 @@ scope:
 
 These images are used to display the icon of the application in the desktop operating system in the tray, on the desktop, in the file-browser and in relevant stores. The `icon.ico` file is for Windows and `icon.icns` is for MacOS. If you discover any that are missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 
@@ -30,4 +30,4 @@ $ icongenie generate -m electron -i /path/to/source/icon.png
 
 ## Manual instructions
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

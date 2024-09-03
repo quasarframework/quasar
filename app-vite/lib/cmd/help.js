@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 console.log(
@@ -39,9 +38,6 @@ console.log(`
     run, r        Run specific command provided by an installed
                     Quasar App Extension
     describe      Describe a Quasar API (component)
-    test, t       Run @quasar/testing App Extension command
-                    - requires @quasar/testing App Extension to be installed
-                    - this is an alias command for convenience purposes
     info, i       Display info about your machine and your App
     help, h       Displays this message
 

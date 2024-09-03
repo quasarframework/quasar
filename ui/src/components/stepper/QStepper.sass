@@ -4,21 +4,21 @@
   background: #fff
 
   &__title
-    font-size: 14px
-    line-height: 18px
-    letter-spacing: .1px
+    font-size: $stepper-title-font-size
+    line-height: $stepper-title-line-height
+    letter-spacing: $stepper-title-letter-spacing
 
   &__caption
-    font-size: 12px
-    line-height: 14px
+    font-size: $stepper-caption-font-size
+    line-height: $stepper-caption-line-height
 
   &__dot
     contain: layout
     margin-right: 8px
-    font-size: 14px
-    width: 24px
-    min-width: 24px
-    height: 24px
+    font-size: $stepper-dot-font-size
+    width: calc($stepper-dot-font-size + 10px)
+    min-width: calc($stepper-dot-font-size + 10px)
+    height: calc($stepper-dot-font-size + 10px)
     border-radius: 50%
     background: currentColor
 
@@ -27,7 +27,7 @@
 
   &__tab
     padding: 8px 24px
-    font-size: 14px
+    font-size: $stepper-tab-font-size
     color: $grey
     flex-direction: row
 
@@ -59,7 +59,7 @@
         background: transparent !important
         span
           color: currentColor
-          font-size: 24px
+          font-size: $stepper-dot-error-with-icon-font-size
 
   &__header
     border-top-left-radius: inherit

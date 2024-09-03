@@ -1,20 +1,29 @@
 <template>
-  <VueTransformAssetUrls />
+  <SassTransform />
 
-  <ScriptSetup />
-  <RegularScript />
-  <!-- TODO: Add tests for 'pascal' and 'combined' too -->
-  <!-- TODO: Add tests for TypeScript and Pug -->
+  <AssetTransform />
 
-  <!-- TODO: Add JS transforms (currently only covered through custom-component.js in vue transforms a bit) -->
+  <JsScriptSetup />
+  <JsScript />
 
-  <!-- TODO: Add SCSS Transforms -->
+  <TsScriptSetup />
+  <TsScript />
+
+  <JsPug />
 </template>
 
 <script setup>
-import VueTransformAssetUrls from './components/VueTransformAssetUrls.vue'
-import ScriptSetup from './components/script-setup/ScriptSetup.vue'
-import RegularScript from './components/regular-script/RegularScript.vue'
+import SassTransform from './components/SassTransform.vue'
+
+import AssetTransform from './components/AssetTransform.vue'
+
+import JsScriptSetup from './components/JsScriptSetup.vue'
+import JsScript from './components/JsScript.vue'
+
+import TsScriptSetup from './components/TsScriptSetup.vue'
+import TsScript from './components/TsScript.vue'
+
+import JsPug from './components/JsPug.vue'
 </script>
 
 <style>

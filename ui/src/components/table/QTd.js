@@ -1,7 +1,7 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QTd',
@@ -31,7 +31,7 @@ export default createComponent({
         || props.props.col
       )
 
-      if (col === void 0) { return }
+      if (col === void 0) return
 
       const { row } = props.props
 

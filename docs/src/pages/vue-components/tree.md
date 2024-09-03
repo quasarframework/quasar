@@ -7,25 +7,25 @@ examples: QTree
 
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
-<doc-api file="QTree" />
+<DocApi file="QTree" />
 
 ## Usage
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ### No connector lines
 
-<doc-example title="No connectors" file="NoConnectors" />
+<DocExample title="No connectors" file="NoConnectors" />
 
 ### Dense <q-badge label="v2.2.4+" />
 
-<doc-example title="Dense" file="DenseTree" />
+<DocExample title="Dense" file="DenseTree" />
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="Dark" />
+<DocExample title="Force dark mode" file="Dark" />
 
 ### Perf considerations <q-badge label="v2.9.2+" />
 When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement.
@@ -36,7 +36,7 @@ When using relatively large data, for performance we recommend using the `no-tra
 
 ### Integrated example
 
-<doc-example title="With QSplitter and QTabPanels" file="Splitter" />
+<DocExample title="With QSplitter and QTabPanels" file="Splitter" />
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
 
@@ -44,11 +44,11 @@ More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/t
 
 Notice (in the example below) the default header and body slot customization.
 
-<doc-example title="Default header and body slots" file="SlotsDefault" />
+<DocExample title="Default header and body slots" file="SlotsDefault" />
 
 Notice (in the example below) the custom header and body slots.
 
-<doc-example title="Customizing nodes" file="SlotsCustomized" />
+<DocExample title="Customizing nodes" file="SlotsCustomized" />
 
 ::: warning
 Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
@@ -60,15 +60,15 @@ If you don't want this to happen just wrap the content of the custom header in a
 
 In the example below, sibling nodes get contracted when one gets expanded.
 
-<doc-example title="Accordion mode" file="Accordion" />
+<DocExample title="Accordion mode" file="Accordion" />
 
-<doc-example title="Filtering nodes" file="FilterDefault" />
+<DocExample title="Filtering nodes" file="FilterDefault" />
 
-<doc-example title="Selectable nodes" file="Selectable" />
+<DocExample title="Selectable nodes" file="Selectable" />
 
 ### Lazy loading
 
-<doc-example title="Lazy loading nodes" file="LazyLoad" />
+<DocExample title="Lazy loading nodes" file="LazyLoad" />
 
 ### Selection vs ticking, expansion
 
@@ -78,7 +78,7 @@ In the example below, sibling nodes get contracted when one gets expanded.
 
 All properties above require to be dynamically bound using `v-model:<prop_name>` directive in order for them to work correctly (example: `v-model:expanded`).
 
-<doc-example title="Syncing node properties" file="Sync" />
+<DocExample title="Syncing node properties" file="Sync" />
 
 ### Tick strategy
 
@@ -92,12 +92,12 @@ There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an addi
 
 You can apply a global tick strategy for a QTree and locally change the ticking strategy for a certain node by specifying the `tickStrategy` in the `nodes` model.
 
-<doc-example title="Tick strategy" file="TickStrategy" />
+<DocExample title="Tick strategy" file="TickStrategy" />
 
 ### Custom filter method
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(*)':
 
-<doc-example title="Custom filter" file="FilterCustom" />
+<DocExample title="Custom filter" file="FilterCustom" />
 
 ### Nodes model structure
 The following describes a node's properties that are taken into account by QTree's v-model.

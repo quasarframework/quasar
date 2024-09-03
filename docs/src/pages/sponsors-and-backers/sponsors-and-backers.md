@@ -2,9 +2,6 @@
 title: Sponsors and Backers
 desc: The list of sponsors and backers who are donating to Quasar Framework development.
 keys: Sponsors,Backers
-components:
-  - ./SponsorList
-  - ./DonatingButtons
 ---
 
 ::: tip Author of Quasar Framework
@@ -18,7 +15,11 @@ Please read our manifesto on [Why donations are important](/why-donate).
 ## Donating
 You can help Quasar Development by making a monthly pledge through GitHub Sponsorship or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com` instead (or directly contact Razvan on our Discord).
 
-<donating-buttons />
+<script doc>
+import DonatingButtons from './DonatingButtons.vue'
+</script>
+
+<DonatingButtons />
 
 All donations are used for Quasar Development purposes exclusively.
 
@@ -28,7 +29,11 @@ For a full list of our wonderful people who make Quasar happen, visit the [Backe
 
 ## Platinum, Gold and Silver Sponsors
 
-<sponsor-list />
+<script doc>
+import SponsorList from './SponsorList.vue'
+</script>
+
+<SponsorList />
 
 ## Quasar artwork
 

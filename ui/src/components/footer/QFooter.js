@@ -1,12 +1,12 @@
 import { h, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hMergeSlot } from '../../utils/private/render.js'
-import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 
 export default createComponent({
   name: 'QFooter',
@@ -47,7 +47,7 @@ export default createComponent({
 
     const fixed = computed(() =>
       props.reveal === true
-      || $layout.view.value.indexOf('F') > -1
+      || $layout.view.value.indexOf('F') !== -1
       || ($q.platform.is.ios && $layout.isContainer.value === true)
     )
 
@@ -119,7 +119,7 @@ export default createComponent({
     }
 
     function updateRevealed () {
-      if (props.reveal !== true) { return }
+      if (props.reveal !== true) return
 
       const { direction, position, inflectionPoint } = $layout.scroll.value
 

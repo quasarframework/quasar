@@ -1,10 +1,10 @@
 const compileTemplate = require('lodash/template.js')
-const { minify } = require('html-minifier')
+const { minify } = require('html-minifier-terser')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const { HtmlTransformPlugin } = require('../plugins/webpack.html-transform.js')
 
-const absoluteUrlRE = /^(https?:\/\/|\/)/i
+const absoluteUrlRE = /^(https?:\/\/|\/|data:)/i
 const ssrInterpolationsRE = /{{([\s\S]+?)}}/g
 
 const htmlStartTagRE = /(<html[^>]*)(>)/i
@@ -110,7 +110,7 @@ function injectPwaTags (html, quasarConf) {
   )
 }
 
-function transformHtml ({ html, quasarConf, renderSsrPwaOffline }) {
+async function transformHtml ({ html, quasarConf, renderSsrPwaOffline }) {
   const { ctx } = quasarConf
 
   // should be dev only
@@ -159,7 +159,7 @@ function transformHtml ({ html, quasarConf, renderSsrPwaOffline }) {
       minifyOpts.ignoreCustomFragments = [ ssrInterpolationsRE ]
     }
 
-    html = minify(html, minifyOpts)
+    html = await minify(html, minifyOpts)
   }
 
   return html
@@ -191,13 +191,13 @@ module.exports.injectWebpackHtml = function injectWebpackHtml (webpackChain, qua
     ])
 }
 
-module.exports.getSsrHtmlTemplateFn = function getSsrHtmlTemplateFn (template, quasarConf) {
+module.exports.getSsrHtmlTemplateFn = async function getSsrHtmlTemplateFn (template, quasarConf) {
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
 
   html = injectSsrRuntimeInterpolation(html)
-  html = transformHtml({ html, quasarConf })
+  html = await transformHtml({ html, quasarConf })
 
   return compileTemplate(html, { interpolate: ssrInterpolationsRE, variable: 'ssrContext' })
 }

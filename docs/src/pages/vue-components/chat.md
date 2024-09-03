@@ -11,7 +11,7 @@ Quasar supplies a chat component called QChatMessage which is really a chat entr
 To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.
 :::
 
-<doc-api file="QChatMessage" />
+<DocApi file="QChatMessage" />
 
 ## Usage
 
@@ -21,27 +21,27 @@ To mix messages with avatar and without avatar in the same thread, use a placeho
 Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
 :::
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Name" file="Name" />
+<DocExample title="Name" file="Name" />
 
-<doc-example title="Avatar" file="Avatar" />
+<DocExample title="Avatar" file="Avatar" />
 
-<doc-example title="Stamp" file="Stamp" />
+<DocExample title="Stamp" file="Stamp" />
 
-<doc-example title="Label" file="Label" />
+<DocExample title="Label" file="Label" />
 
 ### Customization
 
-<doc-example title="Text and background color" file="Color" />
+<DocExample title="Text and background color" file="Color" />
 
-<doc-example title="Size" file="Size" />
+<DocExample title="Size" file="Size" />
 
 ### Slots
 
-<doc-example title="Default slot" file="SlotDefault" />
+<DocExample title="Default slot" file="SlotDefault" />
 
-<doc-example title="Avatar/Stamp/Name slots" file="SlotAvatarStampName" />
+<DocExample title="Avatar/Stamp/Name slots" file="SlotAvatarStampName" />
 
 ### Sanitization
 
@@ -49,4 +49,4 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 Always sanitize values if you do not trust the origin (if the value comes from user input).
 :::
 
-<doc-example title="Sanitized content" file="Sanitize" />
+<DocExample title="Sanitized content" file="Sanitize" />

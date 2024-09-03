@@ -11,17 +11,16 @@ Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozi
 Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
 :::
 
-<doc-api file="AppFullscreen" />
+<DocApi file="AppFullscreen" />
 
-<doc-installation plugins="AppFullscreen" />
+<DocInstallation plugins="AppFullscreen" />
 
 ## Usage
 ::: tip
 For an exhaustive list of properties and methods, please check out the API section.
 :::
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { AppFullscreen } from 'quasar'
 
 // Requesting fullscreen mode:
@@ -43,9 +42,7 @@ AppFullscreen.exit()
   })
 ```
 
-```js
-// inside of a Vue file
-
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -71,9 +68,9 @@ setup () {
 }
 ```
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="On custom element" file="Targeted" />
+<DocExample title="On custom element" file="Targeted" />
 
 ::: warning
 On some phones this will have little effect:
@@ -85,7 +82,7 @@ It all depends on the Web Fullscreen API support of the platform the code is run
 
 ## Watching for fullscreen changes
 
-```vue
+```html
 <template>...</template>
 
 <script>

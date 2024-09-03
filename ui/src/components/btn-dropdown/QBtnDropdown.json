@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/btn/use-btn", "composables/private/use-model-toggle", "composables/private/use-transition" ],
+  "mixins": [ "components/btn/use-btn", "composables/private.use-model-toggle/use-model-toggle", "composables/private.use-transition/use-transition" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
@@ -7,11 +7,8 @@
 
   "props": {
     "model-value": {
-      "extends": "model-value",
       "type": "Boolean",
-      "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "required": false,
-      "examples": [ "v-model=\"menuState\"" ]
+      "__delete": [ "default" ]
     },
 
     "split": {
@@ -47,8 +44,8 @@
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the menu",
       "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
       ],
       "category": "style"
     },
@@ -58,8 +55,8 @@
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the menu",
       "examples": [
-        "my-special-class",
-        ":content-class=\"{ 'my-special-class': <condition> }\""
+        "'my-special-class'",
+        "{ 'my-special-class': true }"
       ],
       "category": "style"
     },
@@ -72,7 +69,7 @@
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key",
+      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it",
       "category": "behavior"
     },
 
@@ -92,11 +89,11 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "default": "bottom end",
+      "default": "'bottom end'",
       "category": "position"
     },
 
@@ -104,25 +101,25 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right", "top start", "top end",
-        "center left", "center middle", "center right", "center start", "center end",
-        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
+        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
+        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
+        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
       ],
-      "default": "top end",
+      "default": "'top end'",
       "category": "position"
     },
 
     "menu-offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
-      "examples": [ "[8, 8]", "[5, 10]" ],
+      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
       "category": "position"
     },
 
     "toggle-aria-label": {
       "type": "String",
       "desc": "aria-label to be used on the dropdown toggle element",
-      "examples": [ "Open menu" ],
+      "examples": [ "'Open menu'" ],
       "category": "accessibility",
       "addedIn": "v2.8.4"
     }

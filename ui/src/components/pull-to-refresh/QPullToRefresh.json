@@ -56,11 +56,15 @@
 
   "methods": {
     "trigger": {
-      "desc": "Triggers a refresh"
+      "desc": "Triggers a refresh",
+      "params": null,
+      "returns": null
     },
 
     "updateScrollTarget": {
-      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes",
+      "params": null,
+      "returns": null
     }
   }
 }

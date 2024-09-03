@@ -1,0 +1,15 @@
+{
+  "props": {
+    "name": {
+      "type": "Any",
+      "desc": "Panel name",
+      "required": true,
+      "examples": [ "'accounts'", "'firstPanel'", "1" ],
+      "category": "general"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}

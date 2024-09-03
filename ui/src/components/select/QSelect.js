@@ -11,17 +11,17 @@ import QItemLabel from '../item/QItemLabel.js'
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
-import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
+import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private.use-field/use-field.js'
 import { useVirtualScroll, useVirtualScrollProps } from '../virtual-scroll/use-virtual-scroll.js'
-import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
-import useKeyComposition from '../../composables/private/use-key-composition.js'
+import { useFormProps, useFormInputNameAttr } from '../../composables/use-form/private.use-form.js'
+import useKeyComposition from '../../composables/private.use-key-composition/use-key-composition.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { isDeepEqual } from '../../utils/is.js'
-import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import { normalizeToInterval } from '../../utils/format.js'
-import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
-import { hMergeSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { isDeepEqual } from '../../utils/is/is.js'
+import { stop, prevent, stopAndPrevent } from '../../utils/event/event.js'
+import { normalizeToInterval } from '../../utils/format/format.js'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/private.keyboard/key-composition.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
 
 const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -37,6 +37,7 @@ export default createComponent({
     ...useFormProps,
     ...useFieldProps,
 
+    // override of useFieldProps > modelValue
     modelValue: {
       required: true
     },
@@ -79,6 +80,7 @@ export default createComponent({
 
     popupContentClass: String,
     popupContentStyle: [ String, Array, Object ],
+    popupNoRouteDismiss: Boolean,
 
     useInput: Boolean,
     useChips: Boolean,
@@ -106,9 +108,9 @@ export default createComponent({
 
     autocomplete: String,
 
-    transitionShow: String,
-    transitionHide: String,
-    transitionDuration: [ String, Number ],
+    transitionShow: {},
+    transitionHide: {},
+    transitionDuration: {},
 
     behavior: {
       type: String,
@@ -116,10 +118,8 @@ export default createComponent({
       default: 'default'
     },
 
-    virtualScrollItemSize: {
-      type: [ Number, String ],
-      default: void 0
-    },
+    // override of useVirtualScrollProps > virtualScrollItemSize (no default)
+    virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
 
     onNewValue: Function,
     onFilter: Function
@@ -127,8 +127,9 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'add', 'remove', 'inputValue', 'newValue',
+    'add', 'remove', 'inputValue',
     'keyup', 'keypress', 'keydown',
+    'popupShow', 'popupHide',
     'filterAbort'
   ],
 
@@ -143,7 +144,8 @@ export default createComponent({
     const dialogFieldFocused = ref(false)
     const innerLoadingIndicator = ref(false)
 
-    let inputTimer = null, innerValueCache,
+    let filterTimer = null, inputValueTimer = null,
+      innerValueCache,
       hasDialog, userInputValue, filterId = null, defaultInputValue,
       transitionShowComputed, searchBuffer, searchBufferExp
 
@@ -318,11 +320,12 @@ export default createComponent({
 
       return props.options.slice(from, to).map((opt, i) => {
         const disable = isOptionDisabled.value(opt) === true
+        const active = isOptionSelected(opt) === true
         const index = from + i
 
         const itemProps = {
           clickable: true,
-          active: false,
+          active,
           activeClass: computedOptionsSelectedClass.value,
           manualFocus: true,
           focused: false,
@@ -331,15 +334,13 @@ export default createComponent({
           dense: props.optionsDense,
           dark: isOptionsDark.value,
           role: 'option',
+          'aria-selected': active === true ? 'true' : 'false',
           id: `${ state.targetUid.value }_${ index }`,
           onClick: () => { toggleOption(opt) }
         }
 
         if (disable !== true) {
-          isOptionSelected(opt) === true && (itemProps.active = true)
           optionIndex.value === index && (itemProps.focused = true)
-
-          itemProps[ 'aria-selected' ] = itemProps.active === true ? 'true' : 'false'
 
           if ($q.platform.is.desktop === true) {
             itemProps.onMousemove = () => { menu.value === true && setOptionIndex(index) }
@@ -446,7 +447,7 @@ export default createComponent({
     }
 
     function removeAtIndex (index) {
-      if (index > -1 && index < innerValue.value.length) {
+      if (index !== -1 && index < innerValue.value.length) {
         if (props.multiple === true) {
           const model = props.modelValue.slice()
           emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
@@ -542,7 +543,7 @@ export default createComponent({
         model = props.modelValue.slice(),
         index = innerOptionsValue.value.findIndex(v => isDeepEqual(v, optValue))
 
-      if (index > -1) {
+      if (index !== -1) {
         emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
       }
       else {
@@ -560,9 +561,9 @@ export default createComponent({
     }
 
     function setOptionIndex (index) {
-      if ($q.platform.is.desktop !== true) { return }
+      if ($q.platform.is.desktop !== true) return
 
-      const val = index > -1 && index < virtualScrollLength.value
+      const val = index !== -1 && index < virtualScrollLength.value
         ? index
         : -1
 
@@ -588,9 +589,11 @@ export default createComponent({
           scrollTo(index)
 
           if (skipInputValue !== true && props.useInput === true && props.fillInput === true) {
-            setInputValue(index >= 0
-              ? getOptionLabel.value(props.options[ index ])
-              : defaultInputValue
+            setInputValue(
+              index >= 0
+                ? getOptionLabel.value(props.options[ index ])
+                : defaultInputValue,
+              true
             )
           }
         }
@@ -651,9 +654,13 @@ export default createComponent({
 
       e.target.value = ''
 
-      if (inputTimer !== null) {
-        clearTimeout(inputTimer)
-        inputTimer = null
+      if (filterTimer !== null) {
+        clearTimeout(filterTimer)
+        filterTimer = null
+      }
+      if (inputValueTimer !== null) {
+        clearTimeout(inputValueTimer)
+        inputValueTimer = null
       }
 
       resetInputValue()
@@ -710,7 +717,7 @@ export default createComponent({
 
       const tabShouldSelect = e.shiftKey !== true
         && props.multiple !== true
-        && (optionIndex.value > -1 || newValueModeValid === true)
+        && (optionIndex.value !== -1 || newValueModeValid === true)
 
       // escape
       if (e.keyCode === 27) {
@@ -728,7 +735,7 @@ export default createComponent({
         e.target === void 0
         || e.target.id !== state.targetUid.value
         || state.editable.value !== true
-      ) { return }
+      ) return
 
       // down
       if (
@@ -744,6 +751,10 @@ export default createComponent({
       // backspace
       if (
         e.keyCode === 8
+        && (
+          props.useChips === true
+          || props.clearable === true
+        )
         && props.hideSelected !== true
         && inputValue.value.length === 0
       ) {
@@ -818,7 +829,7 @@ export default createComponent({
           searchBuffer += char
         }
 
-        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => (reEscapeList.indexOf(l) > -1 ? '\\' + l : l)).join('.*'), 'i')
+        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => (reEscapeList.indexOf(l) !== -1 ? '\\' + l : l)).join('.*'), 'i')
 
         let index = optionIndex.value
 
@@ -838,7 +849,7 @@ export default createComponent({
             scrollTo(index)
 
             if (index >= 0 && props.useInput === true && props.fillInput === true) {
-              setInputValue(getOptionLabel.value(props.options[ index ]))
+              setInputValue(getOptionLabel.value(props.options[ index ]), true)
             }
           })
         }
@@ -852,11 +863,11 @@ export default createComponent({
         e.keyCode !== 13
         && (e.keyCode !== 32 || props.useInput === true || searchBuffer !== '')
         && (e.keyCode !== 9 || tabShouldSelect === false)
-      ) { return }
+      ) return
 
       e.keyCode !== 9 && stopAndPrevent(e)
 
-      if (optionIndex.value > -1 && optionIndex.value < optionsLength) {
+      if (optionIndex.value !== -1 && optionIndex.value < optionsLength) {
         toggleOption(props.options[ optionIndex.value ])
         return
       }
@@ -1024,9 +1035,13 @@ export default createComponent({
     }
 
     function onInput (e) {
-      if (inputTimer !== null) {
-        clearTimeout(inputTimer)
-        inputTimer = null
+      if (filterTimer !== null) {
+        clearTimeout(filterTimer)
+        filterTimer = null
+      }
+      if (inputValueTimer !== null) {
+        clearTimeout(inputValueTimer)
+        inputValueTimer = null
       }
 
       if (e && e.target && e.target.qComposing === true) {
@@ -1047,17 +1062,26 @@ export default createComponent({
       }
 
       if (props.onFilter !== void 0) {
-        inputTimer = setTimeout(() => {
-          inputTimer = null
+        filterTimer = setTimeout(() => {
+          filterTimer = null
           filter(inputValue.value)
         }, props.inputDebounce)
       }
     }
 
-    function setInputValue (val) {
+    function setInputValue (val, emitImmediately) {
       if (inputValue.value !== val) {
         inputValue.value = val
-        emit('inputValue', val)
+
+        if (emitImmediately === true || props.inputDebounce === 0 || props.inputDebounce === '0') {
+          emit('inputValue', val)
+        }
+        else {
+          inputValueTimer = setTimeout(() => {
+            inputValueTimer = null
+            emit('inputValue', val)
+          }, props.inputDebounce)
+        }
       }
     }
 
@@ -1065,7 +1089,7 @@ export default createComponent({
       userInputValue = internal !== true
 
       if (props.useInput === true) {
-        setInputValue(val)
+        setInputValue(val, true)
 
         if (noFiltering === true || internal !== true) {
           defaultInputValue = val
@@ -1163,6 +1187,7 @@ export default createComponent({
         noParentEvent: true,
         noRefocus: true,
         noFocus: true,
+        noRouteDismiss: props.popupNoRouteDismiss,
         square: squaredMenu.value,
         transitionShow: props.transitionShow,
         transitionHide: props.transitionHide,
@@ -1240,6 +1265,7 @@ export default createComponent({
         transitionShow: transitionShowComputed,
         transitionHide: props.transitionHide,
         transitionDuration: props.transitionDuration,
+        noRouteDismiss: props.popupNoRouteDismiss,
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onDialogBeforeHide,
         onHide: onDialogHide,
@@ -1418,7 +1444,8 @@ export default createComponent({
     updatePreState()
 
     onBeforeUnmount(() => {
-      inputTimer !== null && clearTimeout(inputTimer)
+      filterTimer !== null && clearTimeout(filterTimer)
+      inputValueTimer !== null && clearTimeout(inputValueTimer)
     })
 
     // expose public methods

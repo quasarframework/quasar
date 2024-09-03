@@ -23,18 +23,18 @@
 </template>
 
 <script lang="ts">
-<% if (typescriptConfig === 'composition') { %>
+<% if (sfcStyle === 'composition') { %>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ErrorNotFound',
 });
-<% } else if (typescriptConfig === 'class') { %>
+<% } else if (sfcStyle === 'class') { %>
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component
 export default class ErrorNotFound extends Vue {}
-<% } else if (typescriptConfig === 'options') { %>
+<% } else if (sfcStyle === 'options') { %>
 import Vue from 'vue';
 
 export default Vue.extend({

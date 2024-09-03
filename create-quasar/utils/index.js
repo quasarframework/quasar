@@ -1,33 +1,30 @@
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { sep, dirname, normalize, join, resolve, extname } from 'node:path'
+import { spawn, execSync as exec } from 'node:child_process'
 
-const { readFileSync, writeFileSync, existsSync } = require('fs')
-const { sep, normalize, join, resolve, extname } = require('path')
-const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
-const prompts = require('prompts')
-const compileTemplate = require('lodash/template')
-const fglob = require('fast-glob')
-const { yellow, green } = require('kolorist')
-const exec = require('child_process').execSync
-const spawn = require('child_process').spawn
+import { emptyDirSync, ensureDirSync, ensureFileSync, copySync } from 'fs-extra/esm'
+import promptUser from 'prompts'
+import compileTemplate from 'lodash/template.js'
+import fglob from 'fast-glob'
+import { yellow, green } from 'kolorist'
 
-const logger = require('./logger')
+import logger from './logger.js'
 
 const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.cjs', '.ts', '.vue', '.md', '.html', '.sass' ]
 
-module.exports.join = join
-module.exports.logger = logger
-
-module.exports.prompts = async function (scope, questions, opts) {
+async function prompts (scope, questions, opts) {
   const options = opts || {
     onCancel: () => {
       logger.fatal('Scaffolding cancelled')
     }
   }
 
-  const answers = await prompts(questions, options)
+  const answers = await promptUser(questions, options)
   Object.assign(scope, answers)
 }
 
-module.exports.createTargetDir = function (scope) {
+function createTargetDir (scope) {
   console.log()
   logger.log('Generating files...')
   console.log()
@@ -36,24 +33,38 @@ module.exports.createTargetDir = function (scope) {
   fn(scope.projectFolder)
 }
 
-module.exports.convertArrayToObject = function (arr) {
+function convertArrayToObject (arr) {
   const acc = {}
   arr.forEach(key => {
-    acc[key] = true
+    acc[ key ] = true
   })
   return acc
 }
 
-module.exports.runningPackageManager = (() => {
+const runningPackageManager = (() => {
   const userAgent = process.env.npm_config_user_agent
 
   if (userAgent) {
-    return userAgent.split(' ')[0].split('/')[0]
+    return userAgent.split(' ')[ 0 ].split('/')[ 0 ]
   }
 })()
 
-module.exports.renderTemplate = function (templateDir, scope) {
-  const files = fglob.sync(['**/*'], { cwd: templateDir })
+function getCallerPath () {
+  const _prepareStackTrace = Error.prepareStackTrace
+  Error.prepareStackTrace = (_, stack) => stack
+  const stack = new Error().stack.slice(1)
+  Error.prepareStackTrace = _prepareStackTrace
+  const filename = stack[ 1 ].getFileName()
+  return dirname(
+    filename.startsWith('file://')
+      ? fileURLToPath(filename)
+      : filename
+  )
+}
+
+function renderTemplate (relativePath, scope) {
+  const templateDir = join(getCallerPath(), relativePath)
+  const files = fglob.sync([ '**/*' ], { cwd: templateDir })
 
   for (const rawPath of files) {
     const targetRelativePath = rawPath.split('/').map(name => {
@@ -72,13 +83,14 @@ module.exports.renderTemplate = function (templateDir, scope) {
 
     ensureFileSync(targetPath)
 
-    console.log(` ${green('-')} ${targetRelativePath}`)
+    console.log(` ${ green('-') } ${ targetRelativePath }`)
 
     if (TEMPLATING_FILE_EXTENSIONS.includes(extension)) {
       const rawContent = readFileSync(sourcePath, 'utf-8')
-      const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
+      const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
 
       const newContent = extension === '.json'
+        // This prevents us to add comments into JSONC files, like tsconfig ones
         ? JSON.stringify(JSON.parse(template(scope)), null, 2)
         : template(scope)
 
@@ -90,13 +102,13 @@ module.exports.renderTemplate = function (templateDir, scope) {
   }
 }
 
-module.exports.isValidPackageName = function (projectName) {
+function isValidPackageName (projectName) {
   return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(
     projectName
   )
 }
 
-module.exports.inferPackageName = function (projectFolder) {
+function inferPackageName (projectFolder) {
   return projectFolder
     .trim()
     .toLowerCase()
@@ -105,7 +117,7 @@ module.exports.inferPackageName = function (projectFolder) {
     .replace(/[^a-z0-9-~]+/g, '-')
 }
 
-module.exports.escapeString = function (val) {
+function escapeString (val) {
   return JSON.stringify(val).slice(1, -1)
 }
 
@@ -130,28 +142,28 @@ function getGitUser () {
  *
  * @param {Object} scope Data from questionnaire.
  */
-module.exports.printFinalMessage = function (scope) {
+function printFinalMessage (scope) {
   const verPrefix = scope.quasarVersion ? scope.quasarVersion + '.' : ''
   const message = `
-To get started:
-${yellow(`
-  cd ${scope.projectFolderName}${ scope.skipDepsInstall !== true && scope.packageManager === false ? `
-  yarn #or: npm install
-  yarn lint --fix # or: npm run lint -- --fix` : '' }${ scope.skipDepsInstall !== true ? `
-  quasar dev # or: yarn quasar dev # or: npx quasar dev` : '' }
-`)}
-Documentation can be found at: https://${verPrefix}quasar.dev
+ To get started:
+ ${ yellow(`
+   cd ${ scope.projectFolderName }${ scope.skipDepsInstall !== true && scope.packageManager === false ? `
+   yarn #or: npm install
+   yarn lint --fix # or: npm run lint -- --fix` : '' }${ scope.skipDepsInstall !== true ? `
+   quasar dev # or: yarn quasar dev # or: npx quasar dev` : '' }
+ `) }
+ Documentation can be found at: https://${ verPrefix }quasar.dev
 
-Quasar is relying on donations to evolve. We'd be very grateful if you can
-read our manifest on "Why donations are important": https://${verPrefix}quasar.dev/why-donate
-Donation campaign: https://donate.quasar.dev
-Any amount is very welcome.
-If invoices are required, please first contact Razvan Stoenescu.
+ Quasar is relying on donations to evolve. We'd be very grateful if you can
+ read our manifest on "Why donations are important": https://${ verPrefix }quasar.dev/why-donate
+ Donation campaign: https://donate.quasar.dev
+ Any amount is very welcome.
+ If invoices are required, please first contact Razvan Stoenescu.
 
-Please give us a star on Github if you appreciate our work:
-  https://github.com/quasarframework/quasar
+ Please give us a star on Github if you appreciate our work:
+   https://github.com/quasarframework/quasar
 
-Enjoy! - Quasar Team
+ Enjoy! - Quasar Team
 `
 
   console.log(message)
@@ -166,7 +178,7 @@ function runCommand (cmd, args, options) {
       Object.assign({
         cwd: process.cwd(),
         stdio: 'inherit',
-        shell: true,
+        shell: true
       }, options)
     )
 
@@ -174,7 +186,7 @@ function runCommand (cmd, args, options) {
       console.log()
 
       if (code) {
-        console.log(` ${cmd} FAILED...`)
+        console.log(` ${ cmd } FAILED...`)
         console.log()
         reject()
       }
@@ -185,22 +197,69 @@ function runCommand (cmd, args, options) {
   })
 }
 
-module.exports.installDeps = function (scope) {
+function installDeps (scope) {
+  const args = [ 'install' ]
+  // Related to scripts/create-test-project.ts
+  if (process.env.CREATE_TEST_PROJECT_OVERRIDE === 'true') {
+    // If we don't use this flag, then the test project will become part of the monorepo and fail to install properly
+    args.push('--ignore-workspace')
+  }
+
   return runCommand(
     scope.packageManager,
-    [ 'install' ],
+    args,
     { cwd: scope.projectFolder }
   )
 }
 
-module.exports.lintFolder = function (scope) {
+function lintFolder (scope) {
   return runCommand(
     scope.packageManager,
     scope.packageManager === 'npm'
-      ? ['run', 'lint', '--', '--fix']
-      : ['run', 'lint', '--fix'],
+      ? [ 'run', 'lint', '--', '--fix' ]
+      : [ 'run', 'lint', '--fix' ],
     { cwd: scope.projectFolder }
   )
+}
+
+function hasGit () {
+  try {
+    exec('git --version')
+    return true
+  }
+  catch (_) {}
+}
+
+function folderHasGit (cwd) {
+  try {
+    exec('git status', { stdio: 'ignore', cwd })
+    return true
+  }
+  catch (_) {}
+}
+
+function initializeGit (projectFolder) {
+  if (hasGit() !== true) {
+    logger.log('Git is not installed on the system, so skipping Git repo initialization.')
+    return
+  }
+
+  if (folderHasGit(projectFolder) === true) {
+    logger.log('A parent of the project folder is already a Git repository, so skipping Git initialization.')
+    return
+  }
+
+  try {
+    exec('git init', { cwd: projectFolder })
+    exec('git add -A', { cwd: projectFolder })
+    exec('git commit -m "Initialize the project 🚀" --no-verify', { cwd: projectFolder })
+  }
+  catch (e) {
+    logger.warn('Could not initialize Git repository. Please do this manually.')
+    return
+  }
+
+  logger.log('Initialized Git repository 🚀')
 }
 
 const quasarConfigFilenameList = [
@@ -211,14 +270,14 @@ const quasarConfigFilenameList = [
   'quasar.conf.js' // legacy
 ]
 
-module.exports.ensureOutsideProject = function () {
+function ensureOutsideProject () {
   let dir = process.cwd()
 
-  while (dir.length && dir[dir.length - 1] !== sep) {
+  while (dir.length && dir[ dir.length - 1 ] !== sep) {
     for (const name of quasarConfigFilenameList) {
       const filename = join(dir, name)
       if (existsSync(filename)) {
-        logger.fatal(`Error. This command must NOT be executed inside of a Quasar project folder.`)
+        logger.fatal('Error. This command must NOT be executed inside of a Quasar project folder.')
       }
     }
 
@@ -235,7 +294,7 @@ const SCRIPT_TYPES = [
   { title: 'Typescript', value: 'ts' }
 ]
 
-module.exports.commonPrompts = {
+const commonPrompts = {
   quasarVersion: {
     type: 'select',
     name: 'quasarVersion',
@@ -258,7 +317,7 @@ module.exports.commonPrompts = {
     message: 'Project product name: (must start with letter if building mobile apps)',
     initial: 'Quasar App',
     validate: val =>
-      val && val.length > 0 || 'Invalid product name'
+      (val && val.length > 0) || 'Invalid product name'
   },
 
   description: {
@@ -266,7 +325,7 @@ module.exports.commonPrompts = {
     name: 'description',
     message: 'Project description:',
     initial: 'A Quasar Project',
-    format: module.exports.escapeString,
+    format: escapeString,
     validate: val =>
       val.length > 0 || 'Invalid project description'
   },
@@ -306,4 +365,24 @@ module.exports.commonPrompts = {
     name: 'bugs',
     message: 'Issue reporting URL: (eg https://github.com/quasarframework/quasar/issues)'
   }
+}
+
+export default {
+  logger,
+
+  prompts,
+  createTargetDir,
+  convertArrayToObject,
+  runningPackageManager,
+  renderTemplate,
+  isValidPackageName,
+  inferPackageName,
+
+  printFinalMessage,
+  installDeps,
+  lintFolder,
+  ensureOutsideProject,
+  initializeGit,
+
+  commonPrompts
 }

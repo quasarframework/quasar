@@ -2,9 +2,9 @@ import { h, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } 
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hUniqueSlot } from '../../utils/private/render.js'
-import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hUniqueSlot } from '../../utils/private.render/render.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 
 export default createComponent({
   name: 'QHeader',
@@ -44,7 +44,7 @@ export default createComponent({
 
     const fixed = computed(() =>
       props.reveal === true
-      || $layout.view.value.indexOf('H') > -1
+      || $layout.view.value.indexOf('H') !== -1
       || ($q.platform.is.ios && $layout.isContainer.value === true)
     )
 

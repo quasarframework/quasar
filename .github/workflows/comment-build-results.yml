@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Check current types build workflow run
         id: current-workflow-run
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { data: { workflow_runs: [workflowRun] } } = await github.rest.actions.listWorkflowRuns({
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Download the current types build
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
           CURRENT_RUN_ID: ${{ needs.check-current-build.outputs.run-id }}
         with:
@@ -85,7 +85,7 @@ jobs:
 
       - name: Download the PR information artifact
         id: pr-info
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { readFile, writeFile, unlink } = require('node:fs/promises');

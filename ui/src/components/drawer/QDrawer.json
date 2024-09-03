@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle" ],
+  "mixins": [ "composables/private.use-model-toggle/use-model-toggle" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/layout/drawer"
@@ -9,8 +9,8 @@
     "side": {
       "type": "String",
       "desc": "Side to attach to",
-      "values": [ "left", "right" ],
-      "default": "left",
+      "values": [ "'left'", "'right'" ],
+      "default": "'left'",
       "category": "behavior"
     },
 
@@ -23,8 +23,7 @@
     "width": {
       "type": "Number",
       "desc": "Width of drawer (in pixels)",
-      "default": 300,
-      "examples": [ ":width=\"350\"" ],
+      "default": "300",
       "category": "style"
     },
 
@@ -37,8 +36,7 @@
     "mini-width": {
       "type": "Number",
       "desc": "Width of drawer (in pixels) when in mini mode",
-      "default": 60,
-      "examples": [ ":mini-width=\"100\"" ],
+      "default": "57",
       "category": "style"
     },
 
@@ -52,7 +50,7 @@
       "type": "Boolean",
       "desc": "Disables animation of the drawer when toggling mini mode",
       "category": "behavior",
-      "addedIn": "v2.12.0"
+      "addedIn": "v2.12"
     },
 
     "dark": {
@@ -62,18 +60,16 @@
     "breakpoint": {
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
-      "default": 1023,
-      "examples": [ 1200, ":breakpoint=\"1400\"" ],
+      "default": "1023",
+      "examples": [ "1200" ],
       "category": "behavior"
     },
 
     "behavior": {
       "type": "String",
       "desc": "Overrides the default dynamic mode into which the drawer is put on",
-      "values": [
-        "default", "desktop", "mobile"
-      ],
-      "default": "default",
+      "values": [ "'default'", "'desktop'", "'mobile'" ],
+      "default": "'default'",
       "category": "behavior"
     },
 
@@ -89,7 +85,7 @@
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Prevents drawer from auto-closing when app's route changes",
+      "desc": "Prevents drawer from auto-closing when app's route changes; Also, an app route change won't hide it",
       "category": "behavior"
     },
 
@@ -141,17 +137,20 @@
 
     "click": {
       "extends": "click",
-      "desc": "Emitted when user clicks/taps on the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+      "desc": "Emitted when user clicks/taps on the component; Useful for when taking a decision to toggle mini mode",
+      "passthrough": true
     },
 
     "mouseover": {
       "extends": "click",
-      "desc": "Emitted when user moves mouse cursor over the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+      "desc": "Emitted when user moves mouse cursor over the component; Useful for when taking a decision to toggle mini mode",
+      "passthrough": true
     },
 
     "mouseout": {
       "extends": "click",
-      "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+      "desc": "Emitted when user moves mouse cursor out of the component; Useful for when taking a decision to toggle mini mode",
+      "passthrough": true
     },
 
     "mini-state": {

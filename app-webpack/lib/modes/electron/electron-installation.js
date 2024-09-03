@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const { log, warn } = require('../../utils/logger.js')
+const { generateTypesFeatureFlag } = require('../../utils/types-feature-flags.js')
 
 const electronDeps = {
   electron: 'latest'
@@ -37,10 +38,7 @@ module.exports.addMode = function addMode ({
     appPaths.electronDir
   )
 
-  fse.copySync(
-    appPaths.resolve.cli('templates/electron/electron-flag.d.ts'),
-    appPaths.resolve.electron('electron-flag.d.ts')
-  )
+  generateTypesFeatureFlag('electron', appPaths)
 
   log('Creating Electron icons folder...')
   fse.copySync(

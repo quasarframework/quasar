@@ -53,11 +53,11 @@ interface InvokeParams {
 
 interface EsbuildTargetOptions {
   /**
-   * @default ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1']
+   * @default ['es2022', 'firefox115', 'chrome115', 'safari14']
    */
   browser?: string[];
   /**
-   * @example 'node16'
+   * @example 'node20'
    */
   node?: string;
 }
@@ -76,10 +76,11 @@ interface QuasarStaticBuildConfiguration {
    */
   webpackTranspileDependencies?: (RegExp | string)[];
   /**
+   * Esbuild is used to build contents of /src-pwa, /src-ssr, /src-electron, /src-bex
    * @example
    *    {
-   *      browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-   *      node: 'node16'
+   *      browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
+   *      node: 'node20'
    *    }
    */
   esbuildTarget?: EsbuildTargetOptions;
@@ -270,8 +271,6 @@ interface QuasarStaticBuildConfiguration {
   vueLoaderOptions?: object;
   /** Options to supply to `ts-loader` */
   tsLoaderOptions?: object;
-  /** Options to supply to `ts-checker` */
-  tsCheckerOptions?: object;
   /**
    * RTL options. [Full list](https://github.com/vkalinichev/postcss-rtl).
    * When providing an object, it is the configuration for postcss-rtl plugin, and if fromRTL is present it will only be used for client styles
@@ -299,7 +298,7 @@ interface QuasarDynamicBuildConfiguration {
    */
   minify?: boolean | 'terser' | 'esbuild';
   /**
-   * Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier)
+   * Minification options for html-minifier-terser: https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference
    * @default
    *  {
    *    removeComments: true,

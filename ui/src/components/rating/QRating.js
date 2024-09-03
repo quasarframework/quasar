@@ -2,13 +2,13 @@ import { h, ref, computed, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useSize, { useSizeProps } from '../../composables/private/use-size.js'
-import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
+import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
+import { useFormProps, useFormAttrs, useFormInject } from '../../composables/use-form/private.use-form.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { between } from '../../utils/format.js'
-import { hMergeSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { between } from '../../utils/format/format.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QRating',

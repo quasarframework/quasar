@@ -9,12 +9,12 @@ There are many different situations where your icon might be seen: in the browse
 
 This means you need your logo in about 100+ different sizes with representative names, arcane formats, placed in the correct folders and probably some proper `<xml>` declarations for Cordova too. Even if you know exactly what you're doing, this is a tedious and error-prone task. To make your life easy and care-free, we've built the Icon Genie CLI tool to make this exhausting process **dead simple**.
 
-<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## How it helps you
 
 ::: tip
-We highly recommend using the Icon Genie CLI **for your Quasar CLI-generated projects** because it consumes a source icon and automatically clones, scales, minifies and places the icons and splash screens in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
+We highly recommend using the Icon Genie CLI **for your Quasar CLI-generated projects** because it consumes a source icon and automatically clones, scales, minifies and places the icons and splash screens in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html or /src/index.template.html file.
 :::
 
 ## Requirements

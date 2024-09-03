@@ -7,7 +7,7 @@ related:
 
 A common use case for Quasar applications is to **run code before the root Vue app instance is instantiated**, like injecting and initializing your own dependencies (examples: Vue components, libraries...) or simply configuring some startup code of your app.
 
-Since you won't have access to the `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
+Since you won't have access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
 
 In earlier Quasar versions, to run code before the root Vue instance was instantiated, you could alter the `/src/main.js` file and add any code you needed to execute.
 
@@ -360,9 +360,7 @@ Let's take the example of Axios. Sometimes you want to access your Axios instanc
 
 Consider the following boot file for axios:
 
-```js
-// axios boot file (src/boot/axios.js)
-
+```js Axios boot file (src/boot/axios.js)
 import axios from 'axios'
 
 // We create our own axios instance and set a custom base URL.

@@ -12,17 +12,20 @@ A nice combo is to use frameless Electron window along with [QBar](/vue-componen
 ### Setting frameless window
 Firstly, install the `@electron/remote` dependency into your app.
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add @electron/remote
-// or:
-$ npm install @electron/remote
+<<| bash NPM |>>
+$ npm install --save @electron/remote
+<<| bash PNPM |>>
+$ pnpm add @electron/remote
+<<| bash Bun |>>
+$ bun add @electron/remote
 ```
 
 Then, in your `src-electron/main-process/electron-main.js` file, make some edits to these lines:
 
-```js
-// src-electron/main-process/electron-main.js
-
+```js /src-electron/main-process/electron-main
 import { app, BrowserWindow, nativeTheme } from 'electron'
 import { initialize, enable } from '@electron/remote/main' // <-- add this
 import path from 'path'
@@ -54,9 +57,7 @@ Notice that we need to explicitly enable the remote module too. We'll be using i
 ### The preload script
 Since we can't directly access Electron from within the renderer thread, we'll need to provide the necessary functionality through the electron preload script (`src-electron/main-process/electron-preload.js`). So we edit it to:
 
-```js
-// src-electron/main-process/electron-preload.js
-
+```js /src-electron/main-process/electron-preload
 import { contextBridge } from 'electron'
 import { BrowserWindow } from '@electron/remote'
 
@@ -107,13 +108,11 @@ Example of adding an exception to an icon:
 
 ### Minimize, maximize and close app
 
-<doc-example title="Full example" file="StatusBar" />
+<DocExample title="Full example" file="StatusBar" />
 
 In the example above, notice that we add `q-electron-drag` to our QBar and we also add handlers for the minimize, maximize and close app buttons by using the injected `window.myWindowAPI` Object (from the Electron preload script).
 
-```js
-// some .vue file
-
+```js Some .vue file
 // We guard the Electron API calls, but this
 // is only needed if we build same app with other
 // Quasar Modes as well (SPA/PWA/Cordova/SSR...)

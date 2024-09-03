@@ -1,9 +1,9 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
-import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot, hMergeSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot, hMergeSlot } from '../../utils/private.render/render.js'
 
 const defaultViewBox = '0 0 24 24'
 
@@ -194,13 +194,13 @@ export default createComponent({
       }
 
       if (type.value.img === true) {
-        return h('span', data, hMergeSlot(slots.default, [
+        return h(props.tag, data, hMergeSlot(slots.default, [
           h('img', { src: type.value.src })
         ]))
       }
 
       if (type.value.svg === true) {
-        return h('span', data, hMergeSlot(slots.default, [
+        return h(props.tag, data, hMergeSlot(slots.default, [
           h('svg', {
             viewBox: type.value.viewBox || '0 0 24 24'
           }, type.value.nodes)
@@ -208,7 +208,7 @@ export default createComponent({
       }
 
       if (type.value.svguse === true) {
-        return h('span', data, hMergeSlot(slots.default, [
+        return h(props.tag, data, hMergeSlot(slots.default, [
           h('svg', {
             viewBox: type.value.viewBox
           }, [

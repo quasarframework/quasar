@@ -1,19 +1,15 @@
 {
-  "mixins": [ "composables/private/use-size" ],
+  "mixins": [ "components/spinner/spinner" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/spinners"
   },
 
   "props": {
-    "color": {
-      "extends": "color"
-    },
-
     "thickness": {
       "type": "Number",
       "desc": "Override value to use for stroke-width",
-      "default": 5,
+      "default": "5",
       "category": "style"
     }
   }

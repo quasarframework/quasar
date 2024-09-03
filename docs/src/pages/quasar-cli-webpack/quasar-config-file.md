@@ -135,7 +135,7 @@ Let's take each option one by one:
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
 | supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli-webpack/supporting-ts) |
-| htmlVariables | Object | Add variables that you can use in index.template.html. |
+| htmlVariables | Object | Add variables that you can use in /index.html or /src/index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
 | devServer | Object | Webpack devServer options. Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
@@ -150,8 +150,7 @@ Let's take each option one by one:
 ### Property: css
 Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default.
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   css: [
     'app.sass', // referring to /src/css/app.sass
@@ -163,8 +162,7 @@ return {
 ### Property: vendor
 By default, everything that comes from `node_modules` will be injected into the vendor chunk for performance & caching reasons. However, should you wish to add or remove something from this special chunk, you can do so:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   vendor: {
     /* optional;
@@ -181,8 +179,7 @@ Tells the CLI what Quasar components/directives/plugins to import, what Quasar I
 
 Filling "components" and "directives" is required only if "all" is set to `false`.
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   // a list with all options (all are optional)
   framework: {
@@ -231,8 +228,7 @@ Most used properties are:
 
 Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
 
-```js
-// quasar.config file
+```js /quasar.config file
 // (syntax below requires @quasar/app-webpack v3.3+)
 
 // opens Google Chrome
@@ -261,9 +257,7 @@ devServer: {
 
 When you set `devServer > server > type: 'https'` in your the `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > server` should look like this:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   server: {
     type: 'https', // NECESSARY (alternative is type 'http')
@@ -282,9 +276,7 @@ devServer: {
 
 You can also configure automatically opening remote Vue Devtools:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   vueDevtools: true
 }
@@ -295,9 +287,7 @@ If you are using a Docker Container, you may find HMR stops working. HMR relies 
 A stop-gap solution can be achieved by using the polling mode to check for filesystem changes.
 This can be enabled with:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 build: {
   // ...
   extendWebpack(cfg) {
@@ -337,7 +327,8 @@ build: {
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
-| uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
+| uglifyOptions | Object | JS minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify) |
+| htmlMinifyOptions | Object | (requires @quasar/app-webpack v3.10.2+) Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier) |
 | vueLoaderOptions | Object | Options (compilerOptions, compiler, transformAssetUrls, etc) for [vue-loader](https://vue-loader.vuejs.org/options.html). |
 | scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { additionalData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
@@ -356,9 +347,9 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 
 ### Property: htmlVariables
 
-You can define and then reference variables in `src/index.template.html`, like this:
-```js
-// quasar.config file
+You can define and then reference variables in /index.html or /src/index.template.html, like this:
+
+```js /quasar.config file
 module.exports = function (ctx) {
   return {
     htmlVariables: {
@@ -368,9 +359,10 @@ module.exports = function (ctx) {
       }
     }
 ```
+
 Then (just an example showing you how to reference a variable defined above, in this case `title`):
-```html
-<!-- src/index.template.html -->
+
+```html /index.html or /src/index.template.html
 <%= title %>
 <%= some.prop %>
 ```
@@ -378,7 +370,7 @@ Then (just an example showing you how to reference a variable defined above, in 
 ### Property: sourceFiles
 Use this property to change the default names of some files of your website/app if you have to. All paths must be relative to the root folder of your project.
 
-```js
+```js /quasar.config file
 // default values:
 sourceFiles: {
   rootComponent: 'src/App.vue',

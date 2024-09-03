@@ -2,7 +2,7 @@ import { h, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
 const bgNode = h('div', {

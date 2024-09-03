@@ -18,7 +18,7 @@ Under the hood, it uses the [Intersection Observer API](https://developer.mozill
 Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
 :::
 
-<doc-api file="Intersection" />
+<DocApi file="Intersection" />
 
 ## Usage
 
@@ -49,31 +49,31 @@ Scroll within the examples below until the observed element is in view. Then scr
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" no-edit />
+<DocExample title="Basic" file="Basic" no-edit />
 
 ### Trigger once
 
 The directive can be used with the `once` modifier (ex: `v-intersection.once`). Once the observed element comes into view, the handler Function will be called and the observing will stop. This allows you to control the processing overhead if all you need is to be notified when the observed element starts to be visible on screen.
 
-<doc-example title="Once" file="Once" no-edit />
+<DocExample title="Once" file="Once" no-edit />
 
 ### Using an Object
 
 By passing in an Object as the directive's value (instead of a Function), you can control all the options (like threshold) of the Intersection Observer.
 
-<doc-example title="Supplying configuration Object" file="ObjectForm" no-edit />
+<DocExample title="Supplying configuration Object" file="ObjectForm" no-edit />
 
 ### Advanced
 
-Below is a more advanced example of what you can do. The code takes advantage of the HTML `data` attribute. Basically, by setting `data-id` with the index of the element in a loop, this can be retrieved via the passed in `entry` to the handler as `entry.target.dataset.id`. If you are unfamiliar with the `data` attribute you can read more [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) about using the `data` attribute.
+Below is a more advanced example of what you can do. The code takes advantage of the HTML `data` attribute. Basically, by setting `data-id` with the index of the element in a loop, this can be retrieved via the passed in `entry` to the handler as `entry.target.dataset.id`. If you are unfamiliar with the `data` attribute you can read more [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) about using it.
 
-<doc-example title="Advanced" file="Advanced" no-edit />
+<DocExample title="Advanced" file="Advanced" no-edit />
 
 In the example below, we show multiple cards, but only the visible ones get rendered. The secret is in the wrapper which has `v-intersection` attached to it and a fixed height and width (which acts as a necessary filler when the inner content is not rendered -- so that scrolling won't erratically jump).
 
-> The example below can also be written by using [QIntersection](/vue-components/intersection) component which makes everything even more easy.
+> The example below can also be written by using [QIntersection](/vue-components/intersection) component which makes everything even easier.
 
-<doc-example title="Scrolling Cards" file="ScrollingCards" scrollable no-edit />
+<DocExample title="Scrolling Cards" file="ScrollingCards" scrollable no-edit />
 
 ::: tip
 In the example above we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.

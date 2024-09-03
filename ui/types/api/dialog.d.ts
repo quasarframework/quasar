@@ -65,7 +65,7 @@ export type QDialogSelectionPrompt<
   // Example: `options?: QDialogSelectionPrompt;` <- notice the missing type params.
   // We can't use "radio" as the default either, because that would make it the only value.
   TType extends SelectionPromptType = SelectionPromptType,
-  TModel = TType extends "radio" ? string : readonly any[]
+  TModel = TType extends "radio" ? string : readonly any[],
 > = {
   /**
    * The value of the selection

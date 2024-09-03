@@ -1,10 +1,8 @@
-
 import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
-import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-import { mapQuasarImports, removeQuasarImports } from './js-transform.js'
 import { quasarPath } from './quasar-path.js'
+import { mapQuasarImports, removeQuasarImports, importTransformation } from './js-transform.js'
 
 const autoImportData = JSON.parse(
   readFileSync(join(quasarPath, 'dist/transforms/auto-import.json'), 'utf-8')

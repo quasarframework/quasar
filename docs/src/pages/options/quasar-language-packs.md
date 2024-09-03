@@ -1,15 +1,16 @@
 ---
 title: Quasar Language Packs
 desc: How to configure the Quasar language packs in a Quasar app.
+keys: Lang,lang
 related:
   - /options/rtl-support
   - /options/app-internationalization
 ---
 A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.
 
-<doc-api file="Lang" />
+<DocApi file="Lang" />
 
-<doc-installation title="Configuration" config="lang" />
+<DocInstallation title="Configuration" config="lang" />
 
 ::: warning
 It should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.
@@ -32,7 +33,7 @@ If the default Quasar Language Pack is not dynamically determined (does not depe
 #### Quasar CLI
 Edit the `/quasar.config` file:
 
-```js
+```js /quasar.config file
 framework: {
   lang: 'de'
 }
@@ -75,7 +76,7 @@ Include the language pack JS tag for your Quasar version and also tell Quasar to
 <!-- include this after Quasar JS tag -->
 <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/de.umd.prod.js"></script>
 <script>
-  Quasar.lang.set(Quasar.lang.de)
+  Quasar.Lang.set(Quasar.Lang.de)
 </script>
 ```
 
@@ -84,36 +85,32 @@ Check what tags you need to include in your HTML files on [UMD / Standalone](/st
 ### Dynamical (non-SSR)
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack [--format ts]`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
-```js
-// -- With @quasar/app-vite --
-
-import { Quasar } from 'quasar'
+```tabs
+<<| js With @quasar/app-vite |>>
+import { Lang } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
-const langList = import.meta.glob('../../node_modules/quasar/lang/*.mjs')
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.js')
 // or just a select few (example below with only DE and FR):
-// import.meta.glob('../../node_modules/quasar/lang/(de|fr).mjs')
+// import.meta.glob('../../node_modules/quasar/lang/(de|fr).js')
 
 export default async () => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
-      Quasar.lang.set(lang.default)
+    langList[ `../../node_modules/quasar/lang/${ langIso }.js` ]().then(lang => {
+      Lang.set(lang.default)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
 }
-```
-
-```js
-// -- With @quasar/app-webpack --
-
-import { Quasar } from 'quasar'
+<<| js With @quasar/app-webpack |>>
+import { Lang } from 'quasar'
 
 export default async () => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
@@ -123,10 +120,11 @@ export default async () => {
       /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
     ).then(lang => {
-      Quasar.lang.set(lang.default)
+      Lang.set(lang.default)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
@@ -148,37 +146,33 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 ### Dynamical (SSR)
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
-```js
-// -- With @quasar/app-vite --
-
-import { Quasar } from 'quasar'
+```tabs
+<<| js With @quasar/app-vite |>>
+import { Lang } from 'quasar'
 
 // relative path to your node_modules/quasar/..
 // change to YOUR path
-const langList = import.meta.glob('../../node_modules/quasar/lang/*.mjs')
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.js')
 // or just a select few (example below with only DE and FR):
-// import.meta.glob('../../node_modules/quasar/lang/(de|fr).mjs')
+// import.meta.glob('../../node_modules/quasar/lang/(de|fr).js')
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
-    langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
-      Quasar.lang.set(lang.default, ssrContext)
+    langList[ `../../node_modules/quasar/lang/${ langIso }.js` ]().then(lang => {
+      Lang.set(lang.default, ssrContext)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
 }
-```
-
-```js
-// -- With @quasar/app-webpack --
-
-import { Quasar } from 'quasar'
+<<| js With @quasar/app-webpack |>>
+import { Lang } from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
@@ -189,10 +183,11 @@ export default async ({ ssrContext }) => {
       /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
     ).then(lang => {
-      Quasar.lang.set(lang.default, ssrContext)
+      Lang.set(lang.default, ssrContext)
     })
   }
   catch (err) {
+    console.error(err)
     // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
@@ -200,9 +195,62 @@ export default async ({ ssrContext }) => {
 ```
 
 ## Change Quasar Language Pack at Runtime
+
+### Changing Language Pack
+
 Example with a QSelect to dynamically change the Quasar components language:
 
-```html
+```tabs
+<<| html With @quasar/app-vite |>>
+<template>
+  <q-select
+    v-model="lang"
+    :options="langOptions"
+    label="Quasar Language"
+    dense
+    borderless
+    emit-value
+    map-options
+    options-dense
+    style="min-width: 150px"
+  />
+  <div>{{ $q.lang.label.close }}</div>
+</template>
+
+<script>
+import { useQuasar } from 'quasar'
+import languages from 'quasar/lang/index.json'
+import { ref, watch } from 'vue'
+
+const modules = import.meta.glob('../../node_modules/quasar/lang/(de|en-US|es).js')
+
+const appLanguages = languages.filter(lang =>
+  ['de', 'en-US', 'es'].includes(lang.isoName)
+)
+
+const langOptions = appLanguages.map(lang => ({
+  label: lang.nativeName, value: lang.isoName
+}))
+
+export default {
+  setup () {
+    const $q = useQuasar()
+    const lang = ref($q.lang.isoName)
+
+    watch(lang, val => {
+      modules[`../../node_modules/quasar/lang/${val}.js`]().then(lang => {
+        $q.lang.set(lang.default)
+      })
+    })
+
+    return {
+      lang,
+      langOptions
+    }
+  }
+}
+</script>
+<<| html With @quasar/app-webpack |>>
 <template>
   <q-select
     v-model="lang"
@@ -254,6 +302,40 @@ export default {
 </script>
 ```
 
+### Changing a Specific Label at Runtime
+If you want to change a specific label to another, you can. Here is an example:
+
+```tabs
+<<| js Composition API |>>
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  function changeLabel () {
+    $q.lang.table.noData = 'Hey... there is no data...'
+  }
+
+  return { changeLabel }
+}
+<<| js Options API |>>
+methods: {
+  changeLabel () {
+    this.$q.lang.table.noData = 'Hey... there is no data...'
+  }
+}
+```
+
+If you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can
+
+```js /src/boot/some-boot-file.js
+import { Lang } from 'quasar'
+
+export default () {
+  Lang.props.table.noData = 'Hey... there is no data...'
+}
+```
+
 ## Using Quasar Language Pack in App Space
 Although the Quasar Language Packs **are designed only for Quasar components internal usage**, you can still use their labels for your own website/app components too.
 
@@ -269,8 +351,8 @@ There's also a method to determine user locale which is supplied by Quasar out o
 
 ```js
 // outside of a Vue file
-import { Quasar } from 'quasar'
-Quasar.lang.getLocale() // returns a string
+import { Lang } from 'quasar'
+Lang.getLocale() // returns a string
 
 // inside of a Vue file
 import { useQuasar } from 'quasar'

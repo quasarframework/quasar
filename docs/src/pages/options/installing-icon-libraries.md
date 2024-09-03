@@ -48,9 +48,9 @@ For all available options, visit the [GitHub](https://github.com/quasarframework
 You're now ready to use the [QIcon](/vue-components/icon) component.
 
 ## Using CDN as alternative
-If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your `index.template.html` which point to the CDN URL.
+If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your /index.html or /src/index.template.html file which point to the CDN URL.
 
-In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
+In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit /index.html or /src/index.template.html as described there.
 
 ## Using Fontawesome-Pro
 If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
@@ -62,8 +62,15 @@ If you have a Fontawesome v6 Pro license and want to use it instead of the Fonta
   //npm.fontawesome.com/:_authToken=TOKENID
   ```
 3. Install Fontawesome webfonts:
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   $ yarn add @fortawesome/fontawesome-pro
+  <<| bash NPM |>>
+  $ npm install --save @fortawesome/fontawesome-pro
+  <<| bash PNPM |>>
+  $ pnpm add @fortawesome/fontawesome-pro
+  <<| bash Bun |>>
+  $ bun add @fortawesome/fontawesome-pro
   ```
 4. Create new boot file:
   ```bash
@@ -105,8 +112,7 @@ _First_, find the icon used for chip close in Quasar Fontawesome v6 Pro [icon-se
 
 (Alternatively, you can check inside the render function of the component you are overriding.)
 
-```js
-// example
+```js Example
 chip: {
   remove: 'fal fa-times-circle'
 ```

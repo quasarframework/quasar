@@ -1,6 +1,6 @@
-const path = require('path')
-const fs = require('fs')
-const { logError, writeFile, kebabCase } = require('./build.utils')
+import { version, resolveToRoot, logError, writeFile, kebabCase } from './build.utils.js'
+
+const resolve = file => resolveToRoot('dist/web-types', file)
 
 function resolveType ({ type, values }) {
   // TODO transform Object with "values" and arrays Objects with values
@@ -25,17 +25,22 @@ function getDescription (propApi) {
     : propApi.desc
 }
 
-module.exports.generate = function (data) {
+export function generate ({ api, compact = false }) {
+  const encodeFn = compact === true
+    ? JSON.stringify
+    : json => JSON.stringify(json, null, 2)
+
   try {
-    const webtypes = JSON.stringify({
+    const webtypes = encodeFn({
       $schema: '',
       framework: 'vue',
       name: 'quasar',
-      version: process.env.VERSION || require('../package.json').version,
+      version,
       contributions: {
         html: {
           'types-syntax': 'typescript',
-          tags: data.components.map(({ api: { events, props, scopedSlots, slots, meta }, name }) => {
+
+          tags: api.components.map(({ api: { events, props, scopedSlots, slots, meta }, name }) => {
             const slotTypes = []
             if (slots) {
               Object.entries(slots).forEach(([ name, slotApi ]) => {
@@ -120,7 +125,8 @@ module.exports.generate = function (data) {
 
             return result
           }),
-          attributes: data.directives.map(({ name, api: { modifiers, value, meta } }) => {
+
+          attributes: api.directives.map(({ name, api: { modifiers, value, meta } }) => {
             const valueType = value.type
             const result = {
               name: 'v-' + kebabCase(name),
@@ -149,13 +155,9 @@ module.exports.generate = function (data) {
           })
         }
       }
-    }, null, 2)
-    const webTypesPath = path.resolve(__dirname, '../dist/web-types')
+    })
 
-    if (!fs.existsSync(webTypesPath)) {
-      fs.mkdirSync(webTypesPath)
-    }
-    writeFile(path.resolve(webTypesPath, 'web-types.json'), webtypes)
+    writeFile(resolve('web-types.json'), webtypes)
   }
   catch (err) {
     logError('build.web-types.js: something went wrong...')

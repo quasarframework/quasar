@@ -13,9 +13,7 @@ This is the default way in which a BEX will run. It is accessed by clicking on t
 
 These all follow the same pattern, set up a route and configure the `manifest.json` file to look at that route when it's trying to show either one of the types. For instance:
 
-```js
-// routes.js:
-
+```js /src/router/routes.js
 const routes = [
   { path: '/options', component: () => import('pages/OptionsPage.vue') },
   { path: '/popup', component: () => import('pages/PopupPage.vue') },

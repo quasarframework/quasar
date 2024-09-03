@@ -1,6 +1,6 @@
 import markdownIt from 'markdown-it'
 
-import highlight from '../md/highlight.js'
+import highlight from './highlight.js'
 import mdPluginContainers from '../md/md-plugin-containers.js'
 import mdToken from '../md/md-plugin-token.js'
 import mdBlockquote from '../md/md-plugin-blockquote.js'

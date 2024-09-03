@@ -1,0 +1,72 @@
+{
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+
+    "label": {
+      "type": [ "Number", "String" ],
+      "desc": "A number or string to label the tab",
+      "examples": [ "'Home'" ],
+      "category": "content"
+    },
+
+    "alert": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Adds an alert symbol to the tab, notifying the user there are some updates; If its value is not a Boolean, then you can specify a color",
+      "examples": [ "'purple'" ],
+      "category": "content"
+    },
+
+    "alert-icon": {
+      "type": "String",
+      "desc": "Adds a floating icon to the tab, notifying the user there are some updates; It's displayed only if 'alert' is set; Can use the color specified by 'alert' prop",
+      "examples": [ "'alarm_on'" ],
+      "category": "content"
+    },
+
+    "name": {
+      "type": [ "Number", "String" ],
+      "desc": "Panel name",
+      "default": "# a random UUID",
+      "examples": [ "'home'", "1" ],
+      "category": "general"
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Turns off capitalizing all letters within the tab (which is the default)",
+      "category": "content"
+    },
+
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content wrapper",
+      "examples": [ "'my-special-class'" ],
+      "category": "style"
+    },
+
+    "ripple": {
+      "extends": "ripple"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QMenu, QTooltip"
+    }
+  },
+
+  "events": {
+    "click": { "internal": true },
+    "keydown": { "internal": true }
+  }
+}

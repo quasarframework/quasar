@@ -5,6 +5,7 @@ const argv = parseArgs(process.argv.slice(2), {
     i: 'install',
     p: 'prerelease',
     m: 'major',
+    r: 'registry',
     h: 'help'
   },
   boolean: [ 'h', 'i', 'p', 'm' ]
@@ -41,6 +42,9 @@ if (argv.help) {
     --install, -i     Also perform package upgrades
     --prerelease, -p  Allow pre-release versions (alpha/beta)
     --major, -m       Allow newer major versions (breaking changes)
+    --registry, -r    NPM registry URL
+                        * default is taken from your machine's npm config
+                        * example: https://registry.npmjs.org/
     --help, -h        Displays this message
   `)
   process.exit(0)
@@ -57,7 +61,7 @@ if (appPaths.appDir === void 0) {
 }
 
 if (!fs.existsSync(appPaths.resolve.app('node_modules'))) {
-  fatal('Please run "yarn" / "npm install" / "pnpm install" first\n', 'Error')
+  fatal('Please run npm/yarn/pnpm/bun install first\n', 'Error')
 }
 
 import { appPkg } from '../app-pkg.js'
@@ -70,8 +74,12 @@ const deps = {
 import { nodePackager } from '../node-packager.js'
 import { getPackageJson } from '../get-package-json.js'
 
+if (argv.registry) {
+  nodePackager.npmRegistryUrl = argv.registry
+}
+
 console.log()
-log(`Gathering information with ${ nodePackager.name }...`)
+log(`Gathering information from the NPM registry (${ nodePackager.npmRegistryUrl })...`)
 console.log()
 
 let quasarVersion = null
@@ -97,7 +105,7 @@ for (const type of Object.keys(deps)) {
       packageName = '@quasar/app-webpack'
     }
 
-    const latestVersion = nodePackager.getPackageLatestVersion({
+    const latestVersion = await nodePackager.getPackageLatestVersion({
       packageName,
       currentVersion,
       majorVersion: argv.major,
@@ -110,7 +118,7 @@ for (const type of Object.keys(deps)) {
 
     if (latestVersion === null) {
       console.log(` ${ green(packageName) }: ${ current } → ${ red('Skipping!') }`)
-      console.log('   (⚠️  NPM registry server returned an error, so we cannot detect latest version)')
+      console.log(`   (⚠️  NPM registry server (${ nodePackager.npmRegistryUrl }) an error, so we cannot detect latest version)`)
       skippedVersions = true
     }
     else if (currentVersion !== latestVersion) {
@@ -132,10 +140,10 @@ for (const type of Object.keys(deps)) {
 
 if (!updateAvailable) {
   if (skippedVersions) {
-    fatal('Some packages were skipped due to errors in the NPM registry server. Please try again later.\n')
+    fatal(`Some packages were skipped due to errors in the NPM registry server (${ nodePackager.npmRegistryUrl }). Please try again later.\n`)
   }
   else {
-    log('Congrats! All Quasar packages are up to date.\n')
+    log(`Congrats! All Quasar packages are up to date (according to ${ nodePackager.npmRegistryUrl }).\n`)
   }
 
   process.exit(0)
@@ -151,6 +159,9 @@ function getQuasarVersionPrefix (version) {
   return isNaN(major) ? '' : `v${ major }.`
 }
 
+console.log()
+console.log(` Used ${ nodePackager.npmRegistryUrl } to check for latest versions.`)
+
 if (!argv.install) {
   const params = [ '-i' ]
   argv.prerelease && params.push('-p')
@@ -160,7 +171,6 @@ if (!argv.install) {
     ? ''
     : getQuasarVersionPrefix(quasarVersion)
 
-  console.log()
   console.log(` See ${ green(`https://${ urlPrefix }quasar.dev/start/release-notes`) } for release notes.`)
   console.log(` Run "quasar upgrade ${ params.join(' ') }" to do the actual upgrade.`)
   console.log()
@@ -234,8 +244,8 @@ for (const type of Object.keys(deps)) {
 console.log()
 
 if (skippedVersions) {
-  fatal('Partially upgraded Quasar packages. Some of them were skipped due to errors in the NPM registry server. Please try again later for those ones.')
+  fatal(`Partially upgraded Quasar packages. Some of them were skipped due to errors in the NPM registry server (${ nodePackager.npmRegistryUrl }). Please try again later for those ones.`)
 }
 else {
-  success('Successfully upgraded Quasar packages.\n')
+  success(`Successfully upgraded Quasar packages (using npm registry: ${ nodePackager.npmRegistryUrl }).\n`)
 }

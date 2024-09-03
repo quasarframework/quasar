@@ -68,7 +68,7 @@ module.exports.CordovaConfigFile = class CordovaConfigFile {
     if (this.#appURL !== 'index.html' && !root.find(`allow-navigation[@href='${ this.#appURL }']`)) {
       et.SubElement(root, 'allow-navigation', { href: this.#appURL })
 
-      if (quasarConf.devServer.https && quasarConf.ctx.targetName === 'ios') {
+      if (quasarConf.devServer.server.type === 'https' && quasarConf.ctx.targetName === 'ios') {
         const node = root.find('name')
         if (node) {
           this.#prepareAppDelegate(node)

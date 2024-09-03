@@ -12,9 +12,7 @@ In `/src-electron/` folder, there is a file named `electron-preload.js`. Fill it
 
 Make sure that your `/src-electron/electron-main.[js|ts]` has the following (near the "webPreferences" section):
 
-```js
-// file: /src-electron/electron-main.[js|ts]
-
+```js File: /src-electron/electron-main
 // Add this at the top:
 import path from 'path'
 

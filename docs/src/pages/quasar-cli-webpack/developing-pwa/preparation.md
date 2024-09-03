@@ -31,7 +31,7 @@ This will add PWA mode automatically, if it is missing.
 
 A new folder will appear in your project folder (which is explained in detail on the [Configuring PWA](/quasar-cli-webpack/developing-pwa/configuring-pwa) page):
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 Both files are going to be detailed in the next pages, but the high overview is:
 

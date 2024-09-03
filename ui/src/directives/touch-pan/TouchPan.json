@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-pan"
+  },
+
+  "value": {
+    "type": ["Function", "undefined"],
+    "desc": "Handler for panning (use undefined to disable)",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Event details",
+        "definition": {
+          "evt": {
+            "extends": "evt",
+            "desc": "Original JS event Object"
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
+          },
+          "position": {
+            "type": "Object",
+            "desc": "Event Position Object",
+            "definition": {
+              "top": {
+                "type": "Number",
+                "desc": "Vertical offset from top of window"
+              },
+              "left": {
+                "type": "Number",
+                "desc": "Horizontal offset from left of window"
+              }
+            }
+          },
+          "direction": {
+            "type": "String",
+            "desc": "Direction of movement",
+            "values": [ "'up'", "'right'", "'down'", "'left'" ]
+          },
+          "isFirst": {
+            "type": "Boolean",
+            "desc": "Is first time the handler is called since movement started"
+          },
+          "isFinal": {
+            "type": "Boolean",
+            "desc": "Is last time the handler is called since movement ended"
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)"
+          },
+          "distance": {
+            "type": "Object",
+            "desc": "Absolute distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Absolute distance horizontally"
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Absolute distance vertically"
+              }
+            }
+          },
+          "offset": {
+            "type": "Object",
+            "desc": "Distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Distance horizontally",
+                "examples": [ "-231", "110" ]
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Distance vertically",
+                "examples": [ "-231", "110" ]
+              }
+            }
+          },
+          "delta": {
+            "type": "Object",
+            "desc": "Delta of distance (in pixels) since handler was called last time",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Distance horizontally"
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Distance vertically"
+              }
+            }
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "({ evt, touch, mouse, position, direction, isFirst, isFinal, distance, offset, delta }) => { /* ... */ }" ]
+  },
+
+  "modifiers": {
+    "stop": {
+      "type": "Boolean",
+      "desc": "Stop event propagation for touch events"
+    },
+
+    "prevent": {
+      "type": "Boolean",
+      "desc": "Calls event.preventDefault() for touch events"
+    },
+
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
+    "mouse": {
+      "type": "Boolean",
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "mouseAllDir": {
+      "type": "Boolean",
+      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)"
+    },
+
+    "preserveCursor": {
+      "type": "Boolean",
+      "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Catch horizontal (left/right) movement"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Catch vertical (up/down) movement"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch panning to up"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch panning to right"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch panning to down"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch panning to left"
+    }
+  }
+}

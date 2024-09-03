@@ -4,7 +4,7 @@
  * DO NOT EDIT.
  **/
 
-import { join, basename } from 'node:path'
+import { join, basename, isAbsolute } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { renderToString } from 'vue/server-renderer'
@@ -13,7 +13,7 @@ import serialize from 'serialize-javascript'
 <% } %>
 
 import renderTemplate from './render-template.js'
-import serverEntry from './server/server-entry.<%= metaConf.ssrServerEntryPointExtension %>'
+import serverEntry from './server/server-entry.<%= metaConf.packageTypeBasedExtension %>'
 
 import { create, listen, renderPreloadTag, serveStaticContent } from 'app/src-ssr/server'
 import injectMiddlewares from './ssr-middlewares'
@@ -36,7 +36,10 @@ const clientManifest = JSON.parse(
 )
 
 function resolvePublicFolder () {
-  return join(publicFolder, ...arguments)
+  const dir = join(...arguments)
+  return isAbsolute(dir) === true
+    ? dir
+    : join(publicFolder, dir)
 }
 
 function renderModulesPreload (modules, opts) {
@@ -124,8 +127,6 @@ async function render (ssrContext) {
   }
 }
 
-const serveStatic = (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts)
-
 const middlewareParams = {
   port,
   resolve: {
@@ -138,33 +139,26 @@ const middlewareParams = {
     root: rootFolder,
     public: publicFolder
   },
-  render: ssrContext => render(ssrContext),
-  serve: {
-    static: serveStatic
-  }
+  render
 }
 
-const app = create(middlewareParams)
+export const app = await create(middlewareParams)
 
 // fill in "app" for next calls
 middlewareParams.app = app
 
+const serveStatic = await serveStaticContent(middlewareParams)
+middlewareParams.serve = { static: serveStatic }
+
 <% if (ssr.pwa) { %>
 // serve the service worker with no cache
-app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilename %>', { maxAge: 0 }))
+await serveStatic({ urlPath: '/<%= pwa.swFilename %>', pathToServe: '<%= pwa.swFilename %>', opts: { maxAge: 0 } })
 <% } %>
 
 // serve "client" folder (includes the "public" folder)
-app.use(resolveUrlPath('/'), serveStatic('.'))
+await serveStatic({ urlPath: '/', pathToServe: '.' })
 
-const isReady = () => injectMiddlewares(middlewareParams)
+await injectMiddlewares(middlewareParams)
 
-const ssrHandler = (req, res, next) => {
-  return isReady().then(() => app(req, res, next))
-}
-
-export default listen({
-  isReady,
-  ssrHandler,
-  ...middlewareParams
-})
+export const listenResult = await listen(middlewareParams)
+export const handler = listenResult?.handler

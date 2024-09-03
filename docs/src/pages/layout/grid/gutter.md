@@ -28,15 +28,15 @@ The `q-gutter-*` classes apply a **negative top and left margins** to the parent
 
 These classes are to be used when the direct children don't have `col-*` or `offset-*` classes specifying a width.
 
-<doc-example title="Sizes for q-gutter" file="GutterSize" />
+<DocExample title="Sizes for q-gutter" file="GutterSize" />
 
 There's also the `q-gutter-none` class (equivalent to: no gutter applied) which wasn't included in the example above.
 
-<doc-example title="Horizontal only q-gutter" file="GutterHorizontal" />
+<DocExample title="Horizontal only q-gutter" file="GutterHorizontal" />
 
-<doc-example title="Vertical only q-gutter" file="GutterVertical" />
+<DocExample title="Vertical only q-gutter" file="GutterVertical" />
 
-<doc-example title="Mixed horizontal and vertical q-gutter" file="GutterMixed" />
+<DocExample title="Mixed horizontal and vertical q-gutter" file="GutterMixed" />
 
 ## Classes "q-col-gutter-{size}"
 
@@ -46,13 +46,13 @@ The `q-col-gutter-*` classes apply a **negative top and left margins** to the pa
 
 These classes are to be used when the direct children have `col-*` or `offset-*` classes that specify a width.
 
-<doc-example title="Sizes for q-col-gutter" file="ColGutterSize" />
+<DocExample title="Sizes for q-col-gutter" file="ColGutterSize" />
 
-<doc-example title="Horizontal only q-col-gutter" file="ColGutterHorizontal" />
+<DocExample title="Horizontal only q-col-gutter" file="ColGutterHorizontal" />
 
-<doc-example title="Vertical only q-col-gutter" file="ColGutterVertical" />
+<DocExample title="Vertical only q-col-gutter" file="ColGutterVertical" />
 
-<doc-example title="Mixed horizontal and vertical q-col-gutter" file="ColGutterMixed" />
+<DocExample title="Mixed horizontal and vertical q-col-gutter" file="ColGutterMixed" />
 
 ## Pros, cons and how to workaround problems - "q-gutter-{size}" vs. "q-col-gutter-{size}"
 
@@ -64,23 +64,23 @@ Because both `q-gutter-*` and `q-col-gutter-*` classes apply a **negative top an
 Instead you need to wrap them in a container, apply the styling on the container, and add `overflow-auto` or `row` class **on the container**
 :::
 
-<doc-example title="Parent styling" file="ParentStyling" />
+<DocExample title="Parent styling" file="ParentStyling" />
 
 ::: tip
 The `q-gutter-*` classes **do not change** the internal dimensions of the children, so you can use `background` or `border` directly on children.
 :::
 
 ::: warning
-The `q-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.
+The `q-col-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.
 :::
 
-<doc-example title="Children size compare" file="ChildrenSizeCompare" />
+<DocExample title="Children size compare" file="ChildrenSizeCompare" />
 
 ::: warning
 Because `q-col-gutter-*` classes apply a **negative top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.
 :::
 
-<doc-example title="Children styling" file="ChildrenStyling" />
+<DocExample title="Children styling" file="ChildrenStyling" />
 
 ## Flex Grid Playground
 To see the Flex in action, you can use the Flex Playground to interactively learn more.

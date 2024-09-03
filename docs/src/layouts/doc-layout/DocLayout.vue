@@ -20,7 +20,9 @@
     </q-page-container>
 
     <q-page-scroller>
-      <q-btn fab-mini color="brand-accent" :icon="mdiArrowUp" />
+      <q-btn fab-mini color="brand-accent" :icon="mdiArrowUp" aria-label="Back to top">
+        <q-tooltip>Back to top</q-tooltip>
+      </q-btn>
     </q-page-scroller>
 
     <q-no-ssr>

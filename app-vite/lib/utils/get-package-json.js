@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 import { getPackagePath } from './get-package-path.js'

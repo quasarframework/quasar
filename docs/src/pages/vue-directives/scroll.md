@@ -14,11 +14,11 @@ This is a Vue directive which takes one parameter (a Function) and fires when us
 * There is one more scrolling-related directive available called [Scroll Fire](/vue-directives/scroll-fire).
 :::
 
-<doc-api file="Scroll" />
+<DocApi file="Scroll" />
 
 ## Usage
 
-```vue
+```html
 <template>
   ...
   <div v-scroll="onScroll">...</div>

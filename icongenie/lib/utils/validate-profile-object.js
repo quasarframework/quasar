@@ -1,5 +1,5 @@
 
-import Joi from '@hapi/joi'
+import Joi from 'joi'
 import { red } from 'kolorist'
 
 import { generators } from '../generators/index.js'

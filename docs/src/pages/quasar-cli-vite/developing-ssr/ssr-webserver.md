@@ -13,7 +13,7 @@ The `/src-ssr/server.[js|ts]` file is a simple JavaScript/Typescript file which 
 The `/src-ssr/server.[js|ts]` file is used for both DEV and PROD, so please be careful on how you configure it. To differentiate between the two states you can use `process∙env∙DEV` and `process∙env∙PROD`.
 :::
 
-``` js
+```js
 /**
  * More info about this file:
  * https://v2.quasar.dev/quasar-cli-vite/developing-ssr/ssr-webserver
@@ -22,7 +22,7 @@ The `/src-ssr/server.[js|ts]` file is used for both DEV and PROD, so please be c
  */
 
 /**
- * Make sure to yarn add / npm install (in your project root)
+ * Make sure to yarn/npm/pnpm/bun install (in your project root)
  * anything you import here (except for express and compression).
  */
 import express from 'express'
@@ -151,7 +151,7 @@ Remember that whatever the `listen()` function returns (if anything) will be exp
 
 ## Parameters
 
-``` js
+```js
 export function <functionName> ({
   app, port, isReady, ssrHandler,
   resolve, publicPath, folders, render, serve
@@ -160,7 +160,7 @@ export function <functionName> ({
 
 Detailing the Object:
 
-``` js
+```js
 {
   app,     // Expressjs app instance (or whatever you return from create())
 
@@ -208,9 +208,7 @@ Detailing the Object:
 
 You can replace the default Express.js Node server with any other connect API compatible one. Just make sure to yarn/npm install its package first.
 
-```js
-// src-ssr/server.[js|ts]
-
+```js src-ssr/server.[js|ts]
 import connect from 'connect'
 
 export function create (/* { ... } */) {
@@ -230,9 +228,7 @@ export function create (/* { ... } */) {
 
 This is the default option that you get when adding SSR support in a Quasar CLI project. It starts listening on the configured port (process∙env∙PORT or quasar.config file > ssr > prodPort).
 
-``` js
-// src-ssr/server.[js|ts]
-
+```js src-ssr/server.[js|ts]
 export async function listen ({ app, port, isReady }) {
   await isReady()
   return await app.listen(port, () => {
@@ -249,15 +245,13 @@ If you have a serverless infrastructure, then you generally need to export a han
 
 Say that your serverless service requires you to:
 
-``` js
+```js
 module.exports.handler = __your_handler__
 ```
 
 Then what you'd need to do is:
 
-``` js
-// src-ssr/server.[js|ts]
-
+```js src-ssr/server.[js|ts]
 export async function listen ({ app, port, ssrHandler }) {
   if (process.env.DEV) {
     await isReady()
@@ -284,9 +278,7 @@ Should you require to export a handler of form `(event, context, callback) => vo
 
 You will need to manually yarn/npm install the `serverless-http` package.
 
-``` js
-// src-ssr/server.[js|ts]
-
+```js src-ssr/server.[js|ts]
 import serverless from 'serverless-http'
 
 export async function listen (({ app, port, ssrHandler }) => {
@@ -304,9 +296,7 @@ export async function listen (({ app, port, ssrHandler }) => {
 
 #### Example: Firebase function
 
-``` js
-// src-ssr/server.[js|ts]
-
+```js src-ssr/server.[js|ts]
 import * as functions from 'firebase-functions'
 
 export async function listen (({ app, port, ssrHandler }) => {

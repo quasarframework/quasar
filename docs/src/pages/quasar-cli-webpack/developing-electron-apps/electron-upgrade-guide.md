@@ -45,10 +45,19 @@ When you add the Electron mode in a Quasar project for the first time you will g
 
 Before upgrading Electron, please consult its release notes. Are there breaking changes?
 
-```bash
+```tabs
+<<| bash Yarn |>>
 # from the root of your Quasar project
 $ yarn upgrade electron@latest
-# or: npm install electron@latest
+<<| bash NPM |>>
+# from the root of your Quasar project
+$ npm install electron@latest
+<<| bash PNPM |>>
+# from the root of your Quasar project
+$ pnpm add electron@latest
+<<| bash Bun |>>
+# from the root of your Quasar project
+$ bun add electron@latest
 ```
 
 ## Upgrading from Quasar v1
@@ -66,19 +75,18 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
 
 The **old** structure was:
 
-<doc-tree :def="scope.oldStructure" />
+<DocTree :def="scope.oldStructure" />
 
 The **NEW** structure is:
 
-<doc-tree :def="scope.newStructure" />
+<DocTree :def="scope.newStructure" />
 
 Notice that there's no `electron-main.dev.js` file anymore (not needed anymore) and that the `electron-preload/main.js` files need to be moved directly under `/src-electron`.
 
 ### The electron-main.js file
 In order for us to be forward compatible with future versions of Electron, you'll need to do some small (but important!) changes:
 
-```js
-// OLD way
+```js OLD way
 mainWindow = new BrowserWindow({
   // ...
   webPreferences: {
@@ -87,8 +95,9 @@ mainWindow = new BrowserWindow({
     // preload: path.resolve(__dirname, 'electron-preload.js')
   }
 })
+```
 
-// NEW way
+```js NEW way
 mainWindow = new BrowserWindow({
   // ...
   webPreferences: {
@@ -134,8 +143,7 @@ This is the default content of `electron-preload.js`:
 
 ### quasar.config file changes
 
-```js
-// OLD way
+```js OLD way
 electron: {
   // it's gone now (upcoming upstream breaking change)
   // replaced by a change in electron-main.js documented earlier
@@ -147,8 +155,9 @@ electron: {
   // renamed to extendWebpackMain
   extendWebpack (cfg) { /* ... */ }
 }
+```
 
-// NEW way
+```js NEW way
 electron: {
   // was renamed from chainWebpack()
   chainWebpackMain (chain) {

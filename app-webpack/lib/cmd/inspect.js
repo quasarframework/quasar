@@ -60,26 +60,23 @@ const ctx = getCtx({
 })
 
 const { displayBanner } = require('../utils/banner.js')
-displayBanner({ argv, ctx, cmd: argv.cmd })
+displayBanner({ argv, ctx, cmd: argv.cmd }).then(async () => {
+  const { log, fatal } = require('../utils/logger.js')
 
-const { log, fatal } = require('../utils/logger.js')
+  const { isModeInstalled } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+  if (isModeInstalled(ctx.appPaths) !== true) {
+    fatal('Requested mode for inspection is NOT installed.')
+  }
 
-const { isModeInstalled } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+  const depth = parseInt(argv.depth, 10) || Infinity
 
-if (isModeInstalled(ctx.appPaths) !== true) {
-  fatal('Requested mode for inspection is NOT installed.')
-}
+  const { QuasarConfigFile } = require('../quasar-config-file.js')
+  const quasarConfFile = new QuasarConfigFile({
+    ctx,
+    port: argv.port,
+    host: argv.hostname
+  })
 
-const depth = parseInt(argv.depth, 10) || Infinity
-
-const { QuasarConfigFile } = require('../quasar-config-file.js')
-const quasarConfFile = new QuasarConfigFile({
-  ctx,
-  port: argv.port,
-  host: argv.hostname
-})
-
-async function run () {
   await quasarConfFile.init()
 
   const quasarConf = await quasarConfFile.read()
@@ -105,9 +102,9 @@ async function run () {
   }
 
   if (argv.path) {
-    const dot = require('dot-prop')
+    const { getProperty } = await import('dot-prop')
     cfgEntries.forEach(cfgEntry => {
-      cfgEntry.object = dot.get(cfgEntry.object, argv.path)
+      cfgEntry.object = getProperty(cfgEntry.object, argv.path)
     })
   }
 
@@ -132,6 +129,4 @@ async function run () {
   })
 
   console.log(`\n  Depth used: ${ depth }. You can change it with "-d" / "--depth" parameter.\n`)
-}
-
-run()
+})

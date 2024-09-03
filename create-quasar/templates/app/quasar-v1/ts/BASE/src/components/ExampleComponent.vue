@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-<% if (typescriptConfig === 'composition') { %>
+<% if (sfcStyle === 'composition') { %>
 import {
   defineComponent, PropType, computed, ref, toRef, Ref,
 } from 'vue';
@@ -57,7 +57,7 @@ export default defineComponent({
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
   },
 });
-<% } else if (typescriptConfig === 'class') { %>
+<% } else if (sfcStyle === 'class') { %>
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
 
@@ -78,7 +78,7 @@ export default class ClassComponent extends Vue {
     return this.todos.length;
   }
 }
-<% } else if (typescriptConfig === 'options') { %>
+<% } else if (sfcStyle === 'options') { %>
 import Vue, { PropType } from 'vue';
 import { Todo, Meta } from './models';
 

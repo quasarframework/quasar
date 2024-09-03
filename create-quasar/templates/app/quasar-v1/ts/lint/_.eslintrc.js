@@ -97,6 +97,7 @@ module.exports = {
     // does not work with type definitions
     'import/named': 'off',
     <% } else if (lintConfig === 'airbnb') { %>
+    'no-plusplus': 'off',
     'no-param-reassign': 'off',
     'no-void': 'off',
     'no-nested-ternary': 'off',

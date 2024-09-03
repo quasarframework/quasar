@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-size" ],
+  "mixins": [ "composables/private.use-size/use-size" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/option-group"
@@ -9,7 +9,7 @@
     "model-value": {
       "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"group\"" ]
+      "examples": [ "# v-model=\"group\"" ]
     },
 
     "options": {
@@ -20,13 +20,13 @@
           "type": "String",
           "desc": "Label to display along the component",
           "required": true,
-          "examples": [ "Option 1", "Option 2", "Option 3" ]
+          "examples": [ "'Option 1'", "'Option 2'", "'Option 3'" ]
         },
         "value": {
           "type": "Any",
           "desc": "Value of the option that will be used by the component model",
           "required": true,
-          "examples": [ "op1", "op2", "op3" ]
+          "examples": [ "'op1'", "'op2'", "'op3'" ]
         },
         "disable": {
           "type": "Boolean",
@@ -35,27 +35,25 @@
         "...props": {
           "type": "Any",
           "desc": "Any other props from QToggle, QCheckbox, or QRadio",
-          "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+          "examples": [ "# val=\"car\"", "# :true-value=\"trueValue\"", "# checked-icon=\"visibility\"" ]
         }
       },
-      "examples": [
-        ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3', disable: true } ]\""
-      ],
+      "examples": [ "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3', disable: true } ]" ],
       "category": "model"
     },
 
     "name": {
       "type": "String",
       "desc": "Used to specify the name of the controls; Useful if dealing with forms submitted directly to a URL",
-      "examples": [ "car_id" ],
+      "examples": [ "'car_id'" ],
       "category": "behavior"
     },
 
     "type": {
       "type": "String",
       "desc": "The type of input component to be used",
-      "values": [ "radio", "checkbox", "toggle" ],
-      "default": "radio",
+      "values": [ "'radio'", "'checkbox'", "'toggle'" ],
+      "default": "'radio'",
       "category": "content"
     },
 
@@ -106,13 +104,13 @@
               "type": "String",
               "desc": "Label to display along the component",
               "required": true,
-              "examples": [ "Option 1", "Option 2", "Option 3" ]
+              "examples": [ "'Option 1'", "'Option 2'", "'Option 3'" ]
             },
             "value": {
               "type": "Any",
               "desc": "Value of the option that will be used by the component model",
               "required": true,
-              "examples": [ "op1", "op2", "op3" ]
+              "examples": [ "'op1'", "'op2'", "'op3'" ]
             },
             "disable": {
               "type": "Boolean",
@@ -121,7 +119,7 @@
             "...props": {
               "type": "Any",
               "desc": "Any other props from QToggle, QCheckbox, or QRadio",
-              "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+              "examples": [ "# val=\"car\"", "# :true-value=\"trueValue\"", "# checked-icon=\"visibility\"" ]
             }
           }
         }
@@ -140,13 +138,13 @@
               "type": "String",
               "desc": "Label to display along the component",
               "required": true,
-              "examples": [ "Option 1", "Option 2", "Option 3" ]
+              "examples": [ "'Option 1'", "'Option 2'", "'Option 3'" ]
             },
             "value": {
               "type": "Any",
               "desc": "Value of the option that will be used by the component model",
               "required": true,
-              "examples": [ "op1", "op2", "op3" ]
+              "examples": [ "'op1'", "'op2'", "'op3'" ]
             },
             "disable": {
               "type": "Boolean",
@@ -155,7 +153,7 @@
             "...props": {
               "type": "Any",
               "desc": "Any other props from QToggle, QCheckbox, or QRadio",
-              "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+              "examples": [ "# val=\"car\"", "# :true-value=\"trueValue\"", "# checked-icon=\"visibility\"" ]
             }
           }
         }

@@ -60,7 +60,7 @@ const ctx = getCtx({
 })
 
 import { displayBanner } from '../utils/banner.js'
-displayBanner({ argv, ctx, cmd: argv.cmd })
+await displayBanner({ argv, ctx, cmd: argv.cmd })
 
 import { log, fatal } from '../utils/logger.js'
 
@@ -104,9 +104,9 @@ for (const name of threadList) {
 }
 
 if (argv.path) {
-  const dot = await import('dot-prop')
+  const { getProperty } = await import('dot-prop')
   cfgEntries.forEach(cfgEntry => {
-    cfgEntry.object = dot.get(cfgEntry.object, argv.path)
+    cfgEntry.object = getProperty(cfgEntry.object, argv.path)
   })
 }
 

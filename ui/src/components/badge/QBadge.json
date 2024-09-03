@@ -33,14 +33,14 @@
     "label": {
       "type": [ "String", "Number" ],
       "desc": "Badge's content as string; overrides default slot if specified",
-      "examples": [ "John Doe", 22 ],
+      "examples": [ "'John Doe'", "22" ],
       "category": "content"
     },
 
     "align": {
       "type": "String",
       "desc": "Sets vertical-align CSS prop",
-      "values": [ "top", "middle", "bottom" ],
+      "values": [ "'top'", "'middle'", "'bottom'" ],
       "category": "content"
     },
 

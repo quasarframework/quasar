@@ -15,7 +15,7 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-swipe` on the lines below.
 
-<doc-api file="TouchSwipe" />
+<DocApi file="TouchSwipe" />
 
 ## Usage
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
@@ -24,11 +24,11 @@ Swipe with your mouse on the area below to see it in action. If using a mouse, y
 If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-<doc-example title="All directions" file="Basic" />
+<DocExample title="All directions" file="Basic" />
 
-<doc-example title="One direction only" file="Right" />
+<DocExample title="One direction only" file="Right" />
 
-<doc-example title="Several directions" file="UpOrLeft" />
+<DocExample title="Several directions" file="UpOrLeft" />
 
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:

@@ -1,0 +1,287 @@
+{
+  "mixins": [ "utils/private.dialog/create-dialog" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dialog"
+  },
+
+  "injection": "$q.dialog",
+
+  "methods": {
+    "create": {
+      "tsInjectionPoint": true,
+      "params": {
+        "opts": {
+          "desc": "Dialog options",
+          "tsType": "QDialogOptions",
+          "autoDefineTsType": true,
+          "definition": {
+            "title": {
+              "type": "String",
+              "desc": "A text for the heading title of the dialog",
+              "examples": [ "'Continue?'" ]
+            },
+
+            "message": {
+              "type": "String",
+              "desc": "A text with more information about what needs to be input, selected or confirmed.",
+              "examples": [ "'Are you certain you want to continue?'" ]
+            },
+
+            "html": {
+              "type": "Boolean",
+              "desc": "Render title and message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
+            },
+
+            "position": {
+              "type": "String",
+              "desc": "Position of the Dialog on screen. Standard is centered.",
+              "values": [ "'top'", "'right'", "'bottom'", "'left'", "'standard'" ],
+              "default": "'standard'"
+            },
+
+            "prompt": {
+              "type": "Object",
+              "tsType": "QDialogInputPrompt",
+              "desc": "An object definition of the input field for the prompting question.",
+              "examples": [ "{ model: 'initial-value', type: 'number' }" ],
+              "definition": {
+                "model": {
+                  "type": "String",
+                  "required": true,
+                  "desc": "The initial value of the input"
+                },
+
+                "type": {
+                  "type": "String",
+                  "desc": "Optional property to determine the input field type",
+                  "default": "'text'",
+                  "examples": [ "'text'", "'number'", "'textarea'" ]
+                },
+
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is typed content valid?",
+                  "params": {
+                    "val": {
+                      "type": "String",
+                      "required": true,
+                      "desc": "The value of the input"
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The text passed validation or not"
+                  }
+                },
+
+                "...QInputProps": {
+                  "type": "Any",
+                  "desc": "Any QInput props, like color, label, stackLabel, filled, outlined, rounded, prefix etc",
+                  "examples": [
+                    "label: 'My Label'",
+                    "standout: true",
+                    "counter: true",
+                    "maxlength: 12"
+                  ]
+                },
+
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the prompt control",
+                  "examples": [ "# autocomplete: 'off'" ]
+                }
+              }
+            },
+
+            "options": {
+              "type": "Object",
+              "tsType": "QDialogSelectionPrompt",
+              "desc": "An object definition for creating the selection form content",
+              "examples": [ "{ model: null, type: 'radio', items: [ /* ...listOfItems */ ] }" ],
+              "definition": {
+                "model": {
+                  "type": [ "String", "Array" ],
+                  "required": true,
+                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
+                  "examples": [ "[]" ]
+                },
+
+                "type": {
+                  "type": "String",
+                  "desc": "The type of selection",
+                  "default": "'radio'",
+                  "values": [ "'radio'", "'checkbox'", "'toggle'" ]
+                },
+
+                "items": {
+                  "type": "Array",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionGroup component",
+                  "examples": [
+                    "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
+                  ]
+                },
+
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is the model valid?",
+                  "params": {
+                    "model": {
+                      "type": [ "String", "Array" ],
+                      "required": true,
+                      "desc": "The current model (String if it's of type radio or Array otherwise)",
+                      "examples": [
+                        "'opt2'",
+                        "[ 'opt1' ]",
+                        "[]",
+                        "[ 'opt1', 'opt3' ]"
+                      ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The selection passed validation or not"
+                  }
+                },
+
+                "...QOptionGroupProps": {
+                  "type": "Any",
+                  "desc": "Any QOptionGroup props",
+                  "examples": [
+                    "color: 'deep-purple-4'",
+                    "inline: true",
+                    "dense: true",
+                    "leftLabel: true"
+                  ]
+                },
+
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the inner QOptionGroup"
+                }
+              }
+            },
+
+            "progress": {
+              "type": [ "Boolean", "Object" ],
+              "desc": "Display a Quasar spinner (if value is true, then the defaults are used); Useful for conveying the idea that something is happening behind the covers; Tip: use along with persistent, ok: false and update() method",
+              "definition": {
+                "spinner": {
+                  "type": "Component",
+                  "desc": "One of the QSpinners"
+                },
+                "color": {
+                  "extends": "color"
+                }
+              }
+            },
+
+            "ok": {
+              "type": [ "String", "Object", "Boolean" ],
+              "desc": "Props for an 'OK' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props"
+                }
+              }
+            },
+
+            "cancel": {
+              "type": [ "String", "Object", "Boolean" ],
+              "desc": "Props for a 'CANCEL' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props"
+                }
+              }
+            },
+
+            "focus": {
+              "type": "String",
+              "desc": "What button to focus, unless you also have 'prompt' or 'options'",
+              "values": [ "'ok'", "'cancel'", "'none'" ],
+              "default": "'ok'"
+            },
+
+            "stackButtons": {
+              "type": "Boolean",
+              "desc": "Makes buttons be stacked instead of vertically aligned"
+            },
+
+            "color": {
+              "extends": "color"
+            },
+
+            "dark": {
+              "extends": "dark",
+              "desc": "Apply dark mode"
+            },
+
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
+            },
+
+            "noEscDismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by hitting ESC key; No need to set it if 'persistent' prop is also set"
+            },
+
+            "noBackdropDismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by clicking outside of it; No need to set it if 'persistent' prop is also set"
+            },
+
+            "noRouteDismiss": {
+              "type": "Boolean",
+              "desc": "Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set"
+            },
+
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
+            },
+
+            "maximized": {
+              "type": "Boolean",
+              "desc": "Put Dialog into maximized mode"
+            },
+
+            "fullWidth": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same width as the window"
+            },
+
+            "fullHeight": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same height as the window"
+            },
+
+            "transitionShow": {
+              "extends": "transition",
+              "default": "'scale'"
+            },
+
+            "transitionHide": {
+              "extends": "transition",
+              "default": "'scale'"
+            },
+
+            "component": {
+              "type": [ "Component", "String" ],
+              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible",
+              "examples": [ "CustomComponent", "'custom-component'" ]
+            },
+
+            "componentProps": {
+              "type": "Object",
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used"
+            }
+          }
+        }
+      }
+    }
+  }
+}

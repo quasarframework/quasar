@@ -5,10 +5,10 @@ import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { fabKey } from '../../utils/private/symbols.js'
-import { hMergeSlot } from '../../utils/private/render.js'
-import { noop } from '../../utils/event.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { fabKey } from '../../utils/private.symbols/symbols.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
+import { noop } from '../../utils/event/event.js'
 
 const anchorMap = {
   start: 'self-end',

@@ -1,0 +1,11 @@
+{
+  "mixins": [ "composables/private.use-anchor/use-anchor-static" ],
+
+  "props": {
+    "context-menu": {
+      "type": "Boolean",
+      "desc": "Allows the component to behave like a context menu, which opens with a right mouse click (or long tap on mobile)",
+      "category": "behavior"
+    }
+  }
+}

@@ -143,7 +143,7 @@
               "type": "String",
               "required": true,
               "desc": "Side to which sliding is taking effect",
-              "values": [ "left", "right", "top", "bottom" ]
+              "values": [ "'left'", "'right'", "'top'", "'bottom'" ]
             },
             "ratio": {
               "type": "Number",
@@ -171,7 +171,7 @@
               "type": "String",
               "required": true,
               "desc": "Side to which sliding has taken effect",
-              "values": [ "left", "right", "top", "bottom" ]
+              "values": [ "'left'", "'right'", "'top'", "'bottom'" ]
             },
             "reset": {
               "type": "Function",
@@ -188,7 +188,9 @@
 
   "methods": {
     "reset": {
-      "desc": "Reset to initial state (not swiped to any side)"
+      "desc": "Reset to initial state (not swiped to any side)",
+      "params": null,
+      "returns": null
     }
   }
 }

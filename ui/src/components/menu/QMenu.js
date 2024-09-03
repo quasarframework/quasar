@@ -1,28 +1,28 @@
 import { h, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
-import useScrollTarget from '../../composables/private/use-scroll-target.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import usePortal from '../../composables/private/use-portal.js'
-import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useTick from '../../composables/private/use-tick.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useAnchor, { useAnchorProps } from '../../composables/private.use-anchor/use-anchor.js'
+import useScrollTarget from '../../composables/private.use-scroll-target/use-scroll-target.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import usePortal from '../../composables/private.use-portal/use-portal.js'
+import useTransition, { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
+import useTick from '../../composables/use-tick/use-tick.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { closePortalMenus } from '../../utils/private/portal.js'
-import { getScrollTarget } from '../../utils/scroll.js'
-import { position, stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/private/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
-import { childHasFocus } from '../../utils/dom.js'
-import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { closePortalMenus } from '../../utils/private.portal/portal.js'
+import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
+import { position, stopAndPrevent } from '../../utils/event/event.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private.keyboard/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private.focus/focusout.js'
+import { childHasFocus } from '../../utils/dom/dom.js'
+import { addClickOutside, removeClickOutside } from '../../utils/private.click-outside/click-outside.js'
+import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/private/position-engine.js'
+} from '../../utils/private.position-engine/position-engine.js'
 
 export default createComponent({
   name: 'QMenu',
@@ -61,9 +61,7 @@ export default createComponent({
       validator: validateOffset
     },
 
-    scrollTarget: {
-      default: void 0
-    },
+    scrollTarget: scrollTargetProp,
 
     touchPosition: Boolean,
 

@@ -1,23 +1,20 @@
 {
   "name": "quasar-monorepo",
   "private": true,
-  "packageManager": "yarn@1.22.19",
-  "//": "Not all packages are included. Use individual folders for usual development of everything else.",
-  "workspaces": [
-    "app-vite",
-    "@quasar/extras",
-    "vite-plugin",
-    "vite-plugin/playground",
-    "utils/render-ssr-error",
-    "utils/ssl-certificate",
-    "ui",
-    "docs"
-  ],
+  "packageManager": "pnpm@9.6.0",
   "scripts": {
-    "test": "yarn vite-ecosystem-ci:build && yarn vite-ecosystem-ci:test && yarn vue-ecosystem-ci:test",
-    "vite-ecosystem-ci:build": "yarn workspace @quasar/vite-plugin build && yarn workspace quasar test:build",
-    "vite-ecosystem-ci:test": "yarn workspace @quasar/vite-plugin test",
-    "vue-ecosystem-ci:build": "yarn vite-ecosystem-ci:build",
-    "vue-ecosystem-ci:test": "yarn workspace quasar test:component:run && yarn workspace @quasar/vite-plugin test:e2e:ci"
+    "preinstall": "npx only-allow@1.2.1 pnpm",
+    "lint:root": "eslint .eslintrc.cjs --report-unused-disable-directives --fix",
+    "lint": "pnpm lint:root && pnpm --recursive run lint",
+    "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test",
+    "build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar build",
+    "vite-ecosystem-ci:build": "pnpm build",
+    "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",
+    "vue-ecosystem-ci:build": "pnpm build",
+    "vue-ecosystem-ci:test": "pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:runtime"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-quasar": "workspace:*"
   }
 }

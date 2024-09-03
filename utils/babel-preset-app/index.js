@@ -96,19 +96,19 @@ module.exports = (_, opts = {}) => {
       }
     ],
     [
-      require('@babel/plugin-proposal-class-properties'), {
+      require('@babel/plugin-transform-class-properties'), {
         loose
       }
     ],
     require('@babel/plugin-proposal-function-sent'),
-    require('@babel/plugin-proposal-export-namespace-from'),
-    require('@babel/plugin-proposal-numeric-separator'),
+    require('@babel/plugin-transform-export-namespace-from'),
+    require('@babel/plugin-transform-numeric-separator'),
     require('@babel/plugin-proposal-throw-expressions'),
 
     // Stage 3
     require('@babel/plugin-syntax-dynamic-import'),
     require('@babel/plugin-syntax-import-meta'),
-    require('@babel/plugin-proposal-json-strings'),
+    require('@babel/plugin-transform-json-strings'),
 
     // Transform runtime, but only for helpers
     [

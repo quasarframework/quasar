@@ -1,0 +1,22 @@
+{
+  "props": {
+    "target": {
+      "type": [ "Boolean", "String", "Element" ],
+      "desc": "Configure a target element to trigger component toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) or a DOM element it attaches the events to the specified DOM element (if it exists)",
+      "default": "true",
+      "examples": [
+        "false",
+        ".my-parent",
+        "#target-id",
+        "$refs.target"
+      ],
+      "category": "behavior"
+    },
+
+    "no-parent-event": {
+      "type": "Boolean",
+      "desc": "Skips attaching events to the target DOM element (that trigger the element to get shown)",
+      "category": "behavior"
+    }
+  }
+}

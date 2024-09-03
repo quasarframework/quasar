@@ -2,9 +2,9 @@ import { h, computed, Transition, getCurrentInstance } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
 
 export default createComponent({
   name: 'QInnerLoading',
@@ -18,7 +18,7 @@ export default createComponent({
 
     size: {
       type: [ String, Number ],
-      default: 42
+      default: '42px'
     },
 
     label: String,
@@ -33,7 +33,7 @@ export default createComponent({
     const { transitionProps, transitionStyle } = useTransition(props)
 
     const classes = computed(() =>
-      'q-inner-loading absolute-full column flex-center'
+      'q-inner-loading q--avoid-card-border absolute-full column flex-center'
       + (isDark.value === true ? ' q-inner-loading--dark' : '')
     )
 

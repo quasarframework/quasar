@@ -1,8 +1,6 @@
 ---
 title: Sass/SCSS Variables
 desc: How to use the Sass/SCSS variables defined by Quasar.
-components:
-  - ./SassVariables
 ---
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
@@ -63,6 +61,21 @@ If you want to customize the variables (or add your own) and your project does n
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 
+If you want more than to override a Quasar Sass variable, but to extend one, you can achieve it in the next way:
+
+```scss
+@use "quasar/src/css/variables" as q;
+@use "sass:map";
+
+$space-xxl: (x: 64px, y: 64px);
+
+$new-spaces: (
+  xxl: $space-xxl,
+);
+
+$spaces: map.merge(q.$spaces, $new-spaces);
+```
+
 ::: tip
 Quasar is very easy to customize without the need of tampering with the Sass/SCSS variables, so make sure that you really need to do that. Not having one of the two files will actually speed up your build while the default variables will still be supplied to .sass/.scss/.vue files.
 :::
@@ -76,4 +89,8 @@ Quasar's own CSS is compiled using the variables file (if it exists), but there 
 
 ## Variables list
 
-<sass-variables />
+<script doc>
+import SassVariables from './SassVariables.vue'
+</script>
+
+<SassVariables />

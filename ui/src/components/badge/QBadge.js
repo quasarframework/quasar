@@ -1,7 +1,7 @@
 import { h, computed } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hMergeSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hMergeSlot } from '../../utils/private.render/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 

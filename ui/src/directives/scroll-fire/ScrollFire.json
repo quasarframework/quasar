@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/scroll-fire"
+  },
+
+  "value": {
+    "type": ["Function", "undefined"],
+    "desc": "Function to call when scrolling and element comes into the viewport (use undefined to disable)",
+    "params": {
+      "el": {
+        "type": "Element",
+        "desc": "DOM element that scroll-fire is applied to"
+      }
+    },
+    "returns": null,
+    "examples": [ "el => { console.log('Element:', el) }" ]
+  }
+}

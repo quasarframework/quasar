@@ -2,15 +2,15 @@ import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
-import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
-import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
-import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
-import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
+import useField, { useFieldState, useNonInputFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private.use-field/use-field.js'
+import { useFormProps, useFormInputNameAttr } from '../../composables/use-form/private.use-form.js'
+import useFile, { useFileProps, useFileEmits } from '../../composables/private.use-file/use-file.js'
+import useFileFormDomProps from '../../composables/private.use-file/use-file-dom-props.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { humanStorageSize } from '../../utils/format.js'
-import { prevent } from '../../utils/event.js'
-import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { humanStorageSize } from '../../utils/format/format.js'
+import { prevent } from '../../utils/event/event.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QFile',
@@ -18,7 +18,7 @@ export default createComponent({
   inheritAttrs: false,
 
   props: {
-    ...useFieldProps,
+    ...useNonInputFieldProps,
     ...useFormProps,
     ...useFileProps,
 
@@ -121,7 +121,7 @@ export default createComponent({
 
     function removeFile (file) {
       const index = innerValue.value.indexOf(file)
-      if (index > -1) {
+      if (index !== -1) {
         removeAtIndex(index)
       }
     }
@@ -155,7 +155,7 @@ export default createComponent({
       }
 
       // if nothing to do...
-      if (files === void 0) { return }
+      if (files === void 0) return
 
       // protect against input @change being called in a loop
       // like it happens on Safari, so don't emit same thing:

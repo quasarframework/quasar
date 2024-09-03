@@ -97,9 +97,6 @@ const quasarSsrConfig = {
         appPaths.resolve.entry('server-entry.js')
       )
 
-    webpackChain.resolve.alias
-      .set('quasar$', 'quasar/dist/quasar.cjs.prod.js')
-
     webpackChain.target('node')
 
     if (quasarConf.metaConf.debugging) {
@@ -121,7 +118,7 @@ const quasarSsrConfig = {
       .chunkFilename('chunk-[name].js')
       .libraryTarget('commonjs2')
 
-    const additionalModuleDirs = cacheProxy.getRuntime('ssrServerAdditionalModuleDirst', () => {
+    const additionalModuleDirs = cacheProxy.getRuntime('ssrServerAdditionalModuleDirs', () => {
       return getModuleDirs(
         appPaths.resolve.app('..')
       )
@@ -186,7 +183,7 @@ const quasarSsrConfig = {
       ]
 
       cfg.entryPoints = [ appPaths.resolve.entry('ssr-prod-webserver.js') ]
-      cfg.outfile = join(quasarConf.build.distDir, 'index.js')
+      cfg.outfile = join(quasarConf.build.distDir, 'start.js')
     }
 
     return extendEsbuildConfig(cfg, quasarConf.ssr, ctx, 'extendSSRWebserverConf')

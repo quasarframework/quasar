@@ -1,5 +1,4 @@
-
-module.exports = async function ({ scope, utils }) {
+export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
     {
       type: 'text',
@@ -14,6 +13,6 @@ module.exports = async function ({ scope, utils }) {
     utils.commonPrompts.author
   ])
 
-  const script = require(`./${scope.scriptType}`)
+  const { script } = await import(`./${ scope.scriptType }/index.js`)
   await script({ scope, utils })
 }

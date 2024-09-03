@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
-import { sortDate } from '../../utils/private/sort.js'
-import { isNumber, isDate, isObject } from '../../utils/is.js'
+import { sortDate } from '../../utils/private.sort/sort.js'
+import { isNumber, isDate, isObject } from '../../utils/is/is.js'
 
 export const useTableSortProps = {
   sortMethod: Function,
@@ -42,6 +42,9 @@ export function useTableSort (props, computedPagination, colList, setPagination)
               A = val(a),
               B = val(b)
 
+            if (col.rawSort !== void 0) {
+              return col.rawSort(A, B, a, b) * dir
+            }
             if (A === null || A === void 0) {
               return -1 * dir
             }
@@ -49,6 +52,8 @@ export function useTableSort (props, computedPagination, colList, setPagination)
               return 1 * dir
             }
             if (col.sort !== void 0) {
+              // gets called without rows that have null/undefined as value
+              // due to the above two statements
               return col.sort(A, B, a, b) * dir
             }
             if (isNumber(A) === true && isNumber(B) === true) {

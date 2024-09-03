@@ -1,6 +1,6 @@
 import { ref, watch, nextTick } from 'vue'
 
-import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
 
 // leave NAMED_MASKS at top of file (code referenced from docs)
 const NAMED_MASKS = {
@@ -97,7 +97,7 @@ export default function (props, emit, emitValue, inputRef) {
     let pad = '', localMaskMarked = maskMarked
     const padPos = localMaskMarked.indexOf(MARKER)
 
-    if (padPos > -1) {
+    if (padPos !== -1) {
       for (let i = size - localMaskMarked.length; i > 0; i--) {
         pad += MARKER
       }
@@ -259,7 +259,7 @@ export default function (props, emit, emitValue, inputRef) {
         return
       }
 
-      if ([ 'deleteContentBackward', 'deleteContentForward' ].indexOf(inputType) > -1) {
+      if ([ 'deleteContentBackward', 'deleteContentForward' ].indexOf(inputType) !== -1) {
         const cursor = props.reverseFillMask === true
           ? (
               end === 0
@@ -304,7 +304,12 @@ export default function (props, emit, emitValue, inputRef) {
       ? unmaskValue(masked)
       : masked
 
-    String(props.modelValue) !== val && emitValue(val, true)
+    if (
+      String(props.modelValue) !== val
+      && (props.modelValue !== null || val !== '')
+    ) {
+      emitValue(val, true)
+    }
   }
 
   function moveCursorForPaste (inp, start, end) {
@@ -520,7 +525,7 @@ export default function (props, emit, emitValue, inputRef) {
 
     let valIndex = val.length - 1, output = ''
 
-    for (let maskIndex = mask.length - 1; maskIndex >= 0 && valIndex > -1; maskIndex--) {
+    for (let maskIndex = mask.length - 1; maskIndex >= 0 && valIndex !== -1; maskIndex--) {
       const maskDef = mask[ maskIndex ]
 
       let valChar = val[ valIndex ]

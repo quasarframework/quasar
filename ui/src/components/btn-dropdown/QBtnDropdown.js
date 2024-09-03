@@ -5,32 +5,31 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { getBtnDesignAttr, useBtnProps } from '../btn/use-btn.js'
-import { useTransitionProps } from '../../composables/private/use-transition.js'
+import { getBtnDesignAttr, nonRoundBtnProps } from '../btn/use-btn.js'
+import useId from '../../composables/use-id/use-id.js'
+import { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stop } from '../../utils/event.js'
-import uid from '../../utils/uid.js'
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stop } from '../../utils/event/event.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
-const btnPropsList = Object.keys(useBtnProps)
+const btnPropsList = Object.keys(nonRoundBtnProps)
 
-export const passBtnProps = props => btnPropsList.reduce(
-  (acc, key) => {
+export function passBtnProps (props) {
+  return btnPropsList.reduce((acc, key) => {
     const val = props[ key ]
     if (val !== void 0) {
       acc[ key ] = val
     }
     return acc
-  },
-  {}
-)
+  }, {})
+}
 
 export default createComponent({
   name: 'QBtnDropdown',
 
   props: {
-    ...useBtnProps,
+    ...nonRoundBtnProps,
     ...useTransitionProps,
 
     modelValue: Boolean,
@@ -70,13 +69,13 @@ export default createComponent({
 
     const showing = ref(props.modelValue)
     const menuRef = ref(null)
-    const targetUid = uid()
+    const targetUid = useId()
 
     const ariaAttrs = computed(() => {
       const acc = {
         'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
-        'aria-controls': targetUid,
+        'aria-controls': targetUid.value,
         'aria-label': props.toggleAriaLabel || proxy.$q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
       }
 
@@ -170,7 +169,7 @@ export default createComponent({
       props.disableDropdown !== true && Arrow.push(
         h(QMenu, {
           ref: menuRef,
-          id: targetUid,
+          id: targetUid.value,
           class: props.contentClass,
           style: props.contentStyle,
           cover: props.cover,

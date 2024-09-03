@@ -1,6 +1,6 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.4.1",
+  "version": "1.7.0",
   "description": "Vite plugin for Quasar Framework",
   "type": "module",
   "exports": {
@@ -13,15 +13,13 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "build": "rimraf ./dist/ && rollup --config rollup.config.js",
-    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "test": "yarn test:unit:ci && yarn test:e2e:ci",
-    "test:unit:dev": "vitest",
-    "test:unit:ci": "vitest run",
-    "test:e2e:start:dev": "cd ./playground && yarn dev --port 9000",
-    "test:e2e:start:serve": "cd ./playground && yarn start --port 9000",
-    "test:e2e:dev": "start-test \"yarn test:e2e:start:dev\" http-get://localhost:9000 \"yarn cypress open --e2e\"",
-    "test:e2e:ci": "start-test \"yarn test:e2e:start:serve\" http-get://localhost:9000 \"yarn cypress run --e2e\""
+    "lint": "eslint --ext .js,.vue ./ --fix --report-unused-disable-directives",
+    "dev": "cd ./playground && pnpm dev",
+    "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
+    "test": "pnpm test:usage && pnpm test:runtime",
+    "test:watch": "vitest run --watch --config ./testing/runtime/vitest.config.js",
+    "test:usage": "vitest run --config ./testing/usage/vitest.config.js",
+    "test:runtime": "vitest run --config ./testing/runtime/vitest.config.js"
   },
   "files": [
     "dist",
@@ -45,24 +43,23 @@
     "url": "https://github.com/quasarframework/quasar"
   },
   "devDependencies": {
-    "cypress": "^12.10.0",
-    "eslint": "^8.41.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-n": "^16.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-vue": "^9.14.1",
-    "quasar": "^2.11.10",
-    "rimraf": "^3.0.1",
-    "rollup": "^2.58.0",
-    "start-server-and-test": "^2.0.0",
-    "typescript": "^5.0.4",
-    "vitest": "^0.30.1"
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^8.57.0",
+    "eslint-config-quasar": "workspace:*",
+    "fs-extra": "^11.2.0",
+    "jsdom": "^24.1.0",
+    "pug": "^3.0.3",
+    "quasar": "workspace:*",
+    "rollup": "^4.18.1",
+    "vite": "^5.3.3",
+    "vite-plugin-checker": "^0.7.1",
+    "vitest": "^2.0.1",
+    "vue": "^3.4.31"
   },
   "peerDependencies": {
-    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",
-    "quasar": "^2.8.0",
-    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0",
+    "quasar": "^2.16.0",
+    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0",
     "vue": "^3.0.0"
   },
   "license": "MIT",
@@ -73,7 +70,7 @@
     "url": "https://donate.quasar.dev"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"

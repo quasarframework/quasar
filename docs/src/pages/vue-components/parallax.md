@@ -11,7 +11,7 @@ Parallax scrolling is a technique in computer graphics and web design, where bac
 
 QParallax takes care of a lot of quirks, including image/video size which can actually be smaller than the window width/height.
 
-<doc-api file="QParallax" />
+<DocApi file="QParallax" />
 
 ## Usage
 
@@ -21,7 +21,7 @@ Please read [here](/vue-components/scroll-observer#determining-scrolling-contain
 
 ### Image background
 
-<doc-example title="Image background" file="Image" />
+<DocExample title="Image background" file="Image" />
 
 ### Video background
 
@@ -33,12 +33,12 @@ On some iOS platforms there may be problems regarding the autoplay feature of th
 When using the `video` tag inside QParallax, you **must** provide the `width` and `height` attributes in order for QParallax to work properly because of the intrinsic resizing capabilities of this type of media. Also, be aware that the actual video width and height are not available until the video's metadata has been loaded.
 :::
 
-<doc-example title="Custom height with video background" file="Video" />
+<DocExample title="Custom height with video background" file="Video" />
 
 ### Custom speed
 
-<doc-example title="Custom speed" file="Speed" />
+<DocExample title="Custom speed" file="Speed" />
 
 ### Using slot
 
-<doc-example title="Using the slot" file="ScopedSlot" />
+<DocExample title="Using the slot" file="ScopedSlot" />

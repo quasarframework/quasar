@@ -19,9 +19,7 @@ This function is called automatically via the Quasar BEX build chain and injects
 
 For example, let's say we want to react to a button being pressed on our Quasar App and highlight some text on the underlying web page, this would be done via the content scripts like so:
 
-```js
-// Quasar App, /src
-
+```js Quasar App, /src
 setup () {
   const $q = useQuasar()
 
@@ -34,16 +32,13 @@ setup () {
 }
 ```
 
-```css
-/* src-bex/css/content-css.css */
-
+```css src-bex/css/content-css.css
 .bex-highlight {
     background-color: red;
 }
 ```
 
-```js
-// src-bex/js/content-hooks.js:
+```js /src-bex/js/content-hooks.js:
 import { bexContent } from 'quasar/wrappers'
 
 export default bexContent((bridge) => {

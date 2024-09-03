@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-field" ],
+  "mixins": [ "composables/private.use-field/use-field" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/field"
@@ -12,10 +12,11 @@
       "category": "model"
     },
 
-    "max-values": {
-      "type": [ "Number", "String" ],
-      "desc": "Used internally by QSelect",
-      "internal": true
+    "tag": {
+      "extends": "tag",
+      "default": "'label'",
+      "examples": [ "'div'", "'label'" ],
+      "addedIn": "v2.13.1"
     }
   },
 
@@ -25,8 +26,8 @@
       "scope": {
         "id": {
           "type": "String",
-          "desc": "Element id used in the `for` attribute of the field label. Can be used to link the control to the label",
-          "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
+          "desc": "Element id used in the 'for' attribute of the field label. Can be used to link the control to the label",
+          "examples": [ "'qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa'" ]
         },
         "field": {
           "type": "Element",
@@ -47,7 +48,7 @@
         "modelValue": {
           "type": "Any",
           "desc": "Field's value",
-          "examples": [ 0.241, "Text" ]
+          "examples": [ "0.241", "'Text'" ]
         },
         "emitValue": {
           "type": "Function",
@@ -57,7 +58,7 @@
               "type": "Any",
               "required": true,
               "desc": "Value to be emitted",
-              "examples": [ 0, "Changed text" ]
+              "examples": [ "0", "'Changed text'" ]
             }
           },
           "returns": null
@@ -72,36 +73,7 @@
 
   "events": {
     "update:model-value": {
-      "extends": "update:model-value",
       "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot."
-    },
-
-    "focus": {
-      "desc": "Emitted when component gets focused",
-      "params": {
-        "evt": {
-          "extends": "evt"
-        }
-      }
-    },
-
-    "blur": {
-      "desc": "Emitted when component loses focus",
-      "params": {
-        "evt": {
-          "extends": "evt"
-        }
-      }
-    }
-  },
-
-  "methods": {
-    "focus": {
-      "desc": "Focus field"
-    },
-
-    "blur": {
-      "desc": "Blur field (lose focus)"
     }
   }
 }

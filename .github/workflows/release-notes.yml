@@ -1,6 +1,8 @@
 name: Generate and Publish Release Notes JSON
 
 on:
+  workflow_dispatch:
+
   release:
     types:
       - released # A release was published, or a pre-release was changed to a release.
@@ -11,20 +13,23 @@ jobs:
       contents: read # to fetch code (actions/checkout) and to read releases (actions/github-script)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: dev
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-         # No caching because we are not checking lock files in
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
 
-      - run: yarn install
-        working-directory: docs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
 
       - name: Generate Release Notes
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { mkdir, writeFile } = require('node:fs/promises');
@@ -51,8 +56,8 @@ jobs:
               v2: {
                 versionPatterns: {
                   quasar: /^2./,
-                  '@quasar/app-webpack': /^3./,
-                  '@quasar/app-vite': /^1./,
+                  '@quasar/app-webpack': /^(3|4)./,
+                  '@quasar/app-vite': /^(1|2)./,
                 },
                 packages: {
                   quasar: [],
@@ -141,7 +146,7 @@ jobs:
             const writeJsonFile = (name, data) =>
               writeFile(
                 join(directory, `${name}.json`),
-                JSON.stringify(data, null, 2),
+                JSON.stringify(data),
                 'utf8'
               );
             await Promise.all(
@@ -149,7 +154,7 @@ jobs:
             );
 
       - name: Upload release notes JSON files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release-notes
           path: docs/dist/release-notes
@@ -162,21 +167,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: generate
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: quasarframework/cdn
           token: ${{ secrets.CDN_REPO_PAT }}
 
       - name: Download generated release notes JSON files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: release-notes
           path: release-notes
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: |
             Generated release notes for Quasar packages
-            Triggered after "${{ github.event.release.name }}" got released
+            Triggered by: ${{ github.event.release.name || 'manual execution' }}
 
             ${{ github.event.release.html_url }}

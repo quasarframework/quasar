@@ -1,11 +1,11 @@
 import { h, ref, computed, watch, onMounted, onActivated, onDeactivated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import debounce from '../../utils/debounce.js'
-import { height } from '../../utils/dom.js'
-import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
-import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import debounce from '../../utils/debounce/debounce.js'
+import { height } from '../../utils/dom/dom.js'
+import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition, scrollTargetProp } from '../../utils/scroll/scroll.js'
+import { listenOpts } from '../../utils/event/event.js'
+import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 const { passive } = listenOpts
 
@@ -23,11 +23,12 @@ export default createComponent({
       default: 100
     },
 
-    scrollTarget: {
-      default: void 0
-    },
+    scrollTarget: scrollTargetProp,
 
-    initialIndex: Number,
+    initialIndex: {
+      type: Number,
+      default: 0
+    },
 
     disable: Boolean,
     reverse: Boolean
@@ -41,7 +42,7 @@ export default createComponent({
     const rootRef = ref(null)
     const loadingRef = ref(null)
 
-    let index = props.initialIndex || 0
+    let index = props.initialIndex
     let localScrollTarget, poll
 
     const classes = computed(() =>
@@ -236,7 +237,7 @@ export default createComponent({
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
       poll: () => { poll !== void 0 && poll() },
-      trigger, stop, reset, resume, setIndex
+      trigger, stop, reset, resume, setIndex, updateScrollTarget
     })
 
     return () => {

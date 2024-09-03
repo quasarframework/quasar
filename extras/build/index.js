@@ -33,11 +33,11 @@ async function generate () {
           const lines = str.split('\n')
           lines.map(line => {
             if (line.endsWith('.woff2')) {
-              const parts = line.match(/.*\/(.*?)/)[0].split('/')
+              const parts = line.match(/.*\/(.*?)/)[ 0 ].split('/')
               if (parts.length) {
                 const version = parts[ parts.length - 2 ]
                 const name = parts[ parts.length - 3 ]
-                materialFontVersions[name] = version
+                materialFontVersions[ name ] = version
               }
             }
           })
@@ -54,7 +54,7 @@ async function generate () {
         await handleChild(child)
       })
     },
-    { concurrency: maxJobCount },
+    { concurrency: maxJobCount }
   )
 
   function runJob (scriptFile) {

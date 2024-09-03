@@ -13,7 +13,7 @@
 
   th
     font-weight: 500
-    font-size: 12px
+    font-size: $table-th-font-size
     user-select: none
     &.sortable
       cursor: pointer
@@ -33,7 +33,7 @@
     border-width: 0
 
   tbody td
-    font-size: 13px
+    font-size: $table-tbody-td-font-size
 
   &__card
     color: #000
@@ -68,7 +68,7 @@
       flex-wrap: wrap
 
   &__title
-    font-size: 20px
+    font-size: $table-title-font-size
     letter-spacing: .005em
     font-weight: 400
 
@@ -90,13 +90,13 @@
   &__bottom
     min-height: 50px
     padding: 4px 14px 4px 16px
-    font-size: 12px
+    font-size: $table-bottom-font-size
 
     .q-table__control
       min-height: 24px
 
   &__bottom-nodata-icon
-    font-size: 200%
+    font-size: $table-nodata-icon-font-size
     margin-right: 8px
 
   &__bottom-item
@@ -109,7 +109,7 @@
   &__sort-icon
     transition: transform $table-transition
     opacity: 0
-    font-size: 120%
+    font-size: $table-sort-icon-font-size
 
     &--left, &--center
       margin-left: 4px
@@ -176,10 +176,10 @@
   &__grid-item-title
     opacity: .54
     font-weight: 500
-    font-size: 12px
+    font-size: $table-grid-item-title-font-size
 
   &__grid-item-value
-    font-size: 13px
+    font-size: $table-grid-item-value-font-size
 
   &__grid-item
     padding: 4px
@@ -217,7 +217,7 @@
     min-height: 33px
 
   .q-table__sort-icon
-    font-size: 110%
+    font-size: $table-dense-sort-icon-font-size
   .q-table
     th, td
       padding: 4px 8px
@@ -241,10 +241,10 @@
 /*
  * On light background
  */
-.q-table__bottom // @stylint ignore
+.q-table__bottom
   border-top: 1px solid $table-border-color
 
-.q-table // @stylint ignore
+.q-table
   thead, tr, th, td
     border-color: $table-border-color
 

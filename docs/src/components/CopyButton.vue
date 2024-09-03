@@ -1,12 +1,10 @@
 <template>
-  <div class="relative">
-    <q-btn class="header-btn copy-button__action" color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
-      <q-tooltip>Copy to Clipboard</q-tooltip>
-    </q-btn>
+  <div class="doc-copy-btn">
+    <q-icon name="content_paste" color="brand-primary" @click="copy" />
 
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <q-badge
-        class="absolute copy-button__badge header-badge"
+        class="absolute header-badge"
         v-show="copied"
         label="Copied to clipboard"
       />
@@ -15,19 +13,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import { copyToClipboard } from 'quasar'
-import { mdiContentCopy } from '@quasar/extras/mdi-v6'
 
 const props = defineProps({
-  text: String
+  lang: String
 })
+
+const { proxy } = getCurrentInstance()
 
 let timer
 const copied = ref(false)
 
 function copy () {
-  copyToClipboard(props.text)
+  const target = proxy.$el.previousSibling
+
+  // We need to remove artifacts (like line numbers)
+  // before we copy the content.
+  // The doc-code--copying class will do that for us
+  target.classList.add('doc-code--copying')
+  let text = target.innerText
+  target.classList.remove('doc-code--copying')
+
+  if (props.lang === 'bash') {
+    const bashStartRE = /^\$ /
+    text = text.split('\n').map(line => line.replace(bashStartRE, '')).join('\n')
+  }
+
+  copyToClipboard(text)
     .then(() => {
       copied.value = true
       clearTimeout(timer)
@@ -41,13 +54,38 @@ function copy () {
 </script>
 
 <style lang="sass">
-.copy-button
+.doc-copy-btn
+  position: absolute
+  top: 8px
+  right: 16px // account for scrollbar
 
-  &__action
-    .q-icon
-      font-size: 18px !important
+  .q-icon
+    cursor: pointer
+    color: $brand-primary
+    font-size: 20px
+    padding: 4px
+    border-radius: $generic-border-radius
+    border: 1px solid $brand-primary
+    opacity: 0
+    transition: opacity .28s
 
-  &__badge
-    top: 5px
-    right: 38px
+  .q-badge
+    top: 4px
+    right: 34px
+
+body.body--light
+  .doc-copy-btn .q-icon
+    background-color: $light-pill
+    &:hover
+      background-color: #fff
+
+body.body--dark
+  .doc-copy-btn .q-icon
+    background-color: $dark-pill
+    &:hover
+      background-color: #000
+
+.copybtn-hover:hover
+  .doc-copy-btn .q-icon
+    opacity: 1
 </style>

@@ -1,8 +1,6 @@
 ---
 title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
-components:
-  - ./UpgradeVideoLink
 ---
 
 ::: tip Quasar CLI with Vite or Webpack
@@ -17,7 +15,11 @@ You will notice that all of our documentation examples are using Vue 3's Composi
 
 Clicking on the poster below will open a Youtube playlist on the process of upgrading your Quasar CLI project from Quasar v1 to Quasar v2. It may get out of sync as we progress with Quasar v2, but it may help you get started.
 
-<upgrade-video-link />
+<script doc>
+import UpgradeVideoLink from './UpgradeVideoLink.vue'
+</script>
+
+<UpgradeVideoLink />
 
 ## Older v2 to latest v2
 
@@ -39,9 +41,19 @@ $ quasar upgrade --install
 
 It's recommended to keep `vue` & `vue-router` packages up to date too:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 # optional, but recommended
 $ yarn add vue@3 vue-router@4
+<<| bash NPM |>>
+# optional, but recommended
+$ npm install --save vue@3 vue-router@4
+<<| bash PNPM |>>
+# optional, but recommended
+$ pnpm add vue@3 vue-router@4
+<<| bash Bun |>>
+# optional, but recommended
+$ bun add vue@3 vue-router@4
 ```
 
 ::: warning Note for code editor terminals
@@ -52,30 +64,52 @@ If you're using a code editor terminal instead of an external one and you run `q
 
 ```bash
 $ yarn upgrade quasar
+# or other package manager equivalent
 ```
 
 Optionally, you may also want to make sure that you have the latest `@quasar/vite-plugin` package.
 
 It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 # optional, but recommended
 $ yarn add vue@3 @quasar/extras@latest
+<<| bash NPM |>>
+# optional, but recommended
+$ npm install --save vue@3 @quasar/extras@latest
+<<| bash PNPM |>>
+# optional, but recommended
+$ pnpm add vue@3 @quasar/extras@latest
+<<| bash Bun |>>
+# optional, but recommended
+$ bun add vue@3 @quasar/extras@latest
 ```
 
 ### With Vue CLI
 
 ```bash
 $ yarn upgrade quasar
+# or other package manager equivalent
 ```
 
 Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
 It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 # optional, but recommended
 $ yarn add vue@3 @quasar/extras@latest
+<<| bash NPM |>>
+# optional, but recommended
+$ npm install --save vue@3 @quasar/extras@latest
+<<| bash PNPM |>>
+# optional, but recommended
+$ pnpm add vue@3 @quasar/extras@latest
+<<| bash Bun |>>
+# optional, but recommended
+$ bun add vue@3 @quasar/extras@latest
 ```
 
 ## Migrate to v2 from v1
@@ -132,14 +166,32 @@ This guide assumes that you are currently using a `@quasar/app` v2 project. You 
 Before starting, it is highly suggested to make a copy of your current working project or create a new branch with git.
 
 1) **Ensure** you have latest `@quasar/cli`:
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   $ yarn global add @quasar/cli@latest
-  # or: npm i -g @quasar/cli@latest
+  <<| bash NPM |>>
+  $ npm i -g @quasar/cli@latest
+  <<| bash PNPM |>>
+  $ pnpm add -g @quasar/cli@latest
+  <<| bash Bun |>>
+  # experimental support
+  $ bun install -g @quasar/cli@latest
   ```
+
 2) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   # only if you still want to use Stylus (but without Quasar Stylus variables)
-  $ yarn add --dev stylus stylus-loader
+  $ yarn add stylus stylus-loader
+  <<| bash NPM |>>
+  # only if you still want to use Stylus (but without Quasar Stylus variables)
+  $ npm install --save stylus stylus-loader
+  <<| bash PNPM |>>
+  # only if you still want to use Stylus (but without Quasar Stylus variables)
+  $ pnpm add stylus stylus-loader
+  <<| bash Bun |>>
+  # only if you still want to use Stylus (but without Quasar Stylus variables)
+  $ bun add stylus stylus-loader
   ```
 3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
   ```bash
@@ -156,15 +208,32 @@ Before starting, it is highly suggested to make a copy of your current working p
   ```
 4) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
 5) **Uninstall**: `@quasar/app`
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   $ yarn remove @quasar/app
+  <<| bash NPM |>>
+  $ npm uninstall --save-dev @quasar/app
+  <<| bash PNPM |>>
+  $ pnpm remove @quasar/app
+  <<| bash Bun |>>
+  $ bun remove @quasar/app
   ```
 6) **Install**: `@quasar/app-webpack` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   $ yarn add --dev @quasar/app-webpack@3
   $ yarn add quasar@2 vue@3 vue-router@4
+  <<| bash NPM |>>
+  $ npm install --save-dev @quasar/app-webpack@3
+  $ npm install --save quasar@2 vue@3 vue-router@4
+  <<| bash PNPM |>>
+  $ pnpm add -D @quasar/app-webpack@3
+  $ pnpm add quasar@2 vue@3 vue-router@4
+  <<| bash Bun |>>
+  $ bun add --dev @quasar/app-webpack@3
+  $ bun add quasar@2 vue@3 vue-router@4
   ```
-7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json` / `yarn.lock` file, then run `npm install` / `yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
+7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json` / `yarn.lock` / `pnpm-lock.yaml` / `bun.lockb` file, then run `yarn/npm/pnpm/bun install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 8) If you are using ESLint, then edit `/.eslintrc.cjs` (also rename from `/.eslintrc.js`):
   ```js
   // old way
@@ -188,7 +257,7 @@ Before starting, it is highly suggested to make a copy of your current working p
 
   ```js
   "@babel/eslint-parser": "^7.13.14",  // replaces babel-eslint !
-  "eslint": "^8.10.0",
+  "eslint": "^8.11.0",
   "eslint-plugin-vue": "^9.0.0",
   "eslint-webpack-plugin": "^3.1.1", // replaces eslint-loader !
   "eslint-config-standard": "^17.0.0",
@@ -212,10 +281,15 @@ Before starting, it is highly suggested to make a copy of your current working p
   }
   ```
 9) If you are using Vuex, you will need to manually install it:
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   $ yarn add vuex@4
-  # or
-  $ npm install vuex@4
+  <<| bash NPM |>>
+  $ npm install --save vuex@4
+  <<| bash PNPM |>>
+  $ pnpm add vuex@4
+  <<| bash Bun |>>
+  $ bun add vuex@4
   ```
 
 10) Edit quasar.config file > framework > lang. It will be explained in the "Quasar language packs" section on this page.
@@ -240,10 +314,24 @@ Second option is to create a fresh project and port to it bit by bit. We see thi
 
 You can generate a new Quasar v2 project as shown below and then you can port your app to it.
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn create quasar
-# pick "App with Quasar CLI" and "Quasar v2"
-# decide if you want "Quasar CLI with Vite" (beta) or "Quasar CLI with Webpack"
+# then pick "App with Quasar CLI" and "Quasar v2"
+# decide if you want "Quasar CLI with Vite" or "Quasar CLI with Webpack"
+<<| bash NPM |>>
+$ npm init quasar
+# then pick "App with Quasar CLI" and "Quasar v2"
+# decide if you want "Quasar CLI with Vite" or "Quasar CLI with Webpack"
+<<| bash PNPM |>>
+$ pnpm create quasar
+# then pick "App with Quasar CLI" and "Quasar v2"
+# decide if you want "Quasar CLI with Vite" or "Quasar CLI with Webpack"
+<<| bash Bun |>>
+# experimental support
+$ bun create quasar
+# then pick "App with Quasar CLI" and "Quasar v2"
+# decide if you want "Quasar CLI with Vite" or "Quasar CLI with Webpack"
 ```
 
 ### Webpack v5
@@ -344,9 +432,7 @@ One other breaking change is the drop of the event bus methods ($on, $once, $off
 
 This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
 
-```js
-// default src/router/index.js content:
-
+```js Default src/router/index.js content:
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
@@ -369,8 +455,7 @@ export default function (/* { store, ssrContext } */) {
 }
 ```
 
-```js
-// default src/router/routes.js content:
+```js Default src/router/routes.js content:
 const routes = [
   {
     path: '/',
@@ -397,16 +482,20 @@ If you use TypeScript, you must replace the `RouteConfig` interface occurrences 
 
 First step that you need to take is that you need to manually install Vuex into your app.
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add vuex@4
-# or:
-$ npm install vuex@4
+<<| bash NPM |>>
+$ npm i --save vuex@4
+<<| bash PNPM |>>
+$ pnpm add vuex@4
+<<| bash Bun |>>
+$ bun add vuex@4
 ```
 
 This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
-```js
-// default src/store/index.js content:
+```js Default src/store/index.js content:
 import { createStore } from 'vuex'
 // import example from './module-example'
 
@@ -431,9 +520,7 @@ This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file
 
 Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n`
 
-```js
-// default src/boot/i18n.js content:
-
+```js Default src/boot/i18n.js content:
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 // You'll need to create the src/i18n/index.js/.ts file too
@@ -457,20 +544,27 @@ If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it
 
 If you've been using Composition API package for Vue 2, you'll need to change all imports to point towards the Vue package.
 
-  ```js
+  ```diff
   // OLD, @vue/composition-api way
-  import { ref } from '@vue/composition-api'
+  - import { ref } from '@vue/composition-api'
 
   // New Vue 3 way
-  import { ref } from 'vue'
+  + import { ref } from 'vue'
   ```
 
 If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
 
 Delete `src/boot/composition-api` boot file and the corresponding entry from the `/quasar.config` file. Then uninstall the `@vue/composition-api` package:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn remove @vue/composition-api
+<<| bash NPM |>>
+$ npm uninstall --save @vue/composition-api
+<<| bash PNPM |>>
+$ pnpm remove @vue/composition-api
+<<| bash Bun |>>
+$ bun remove @vue/composition-api
 ```
 
 If you use TypeScript, prepare to reload VSCode many times, as all upgrades will cause typings cache problems.
@@ -503,17 +597,11 @@ The `href` prop is especially useful for UMD if you don't also inject Vue Router
 
 If you were using the `to` prop and delaying navigation in your `@click` handler:
 
-```
-// OLD way
+```diff
 function onClick (e, go) {
-  e.navigate = false // <<<--- this changed
-  // ...maybe later call go()?
-}
-
-// NEW way
-function onClick (e, go) {
-  e.preventDefault() // <<<--- this changed
-  // ...maybe later call go()?
+-  e.navigate = false // old way
++  e.preventDefault() // new way
+   // ...maybe later call go()?
 }
 ```
 
@@ -554,9 +642,7 @@ Removed the "append" property because Vue Router v4 [has also dropped it](https:
 
 Should you wish to create your own Vue components that need to connect to a parent QForm (for validation purposes), we've made it easier for you:
 
-```js
-// Composition API variant
-
+```js Composition API variant
 import { useFormChild } from 'quasar'
 
 useFormChild ({
@@ -585,9 +671,7 @@ export default {
 }
 ```
 
-```js
-// Options API variant
-
+```js Options API variant
 import { QFormChildMixin } from 'quasar'
 
 // some component
@@ -633,8 +717,7 @@ Added prop "gutter".
 
 Some performance improvements have been made on this component and as a result you will need to now use the default slot.
 
-```html
-<!-- old way -->
+```html The OLD way
 <q-popup-edit
   content-class="bg-primary text-white"
   buttons
@@ -653,7 +736,7 @@ Some performance improvements have been made on this component and as a result y
 
 The NEW way is below. Notice `v-slot="scope"` is applied directly on `<q-popup-edit>` and using `scope.value` instead of `myModel` for the inner `<q-input>` component:
 
-```html
+```html The NEW way
 <q-popup-edit
   class="bg-primary text-white"
   buttons
@@ -795,7 +878,6 @@ setup () {
 ```js
 // Options API variant inside your component
 this.$router.go(-1)
-}
 ```
 
 ### Quasar plugins
@@ -994,15 +1076,10 @@ Full list of changes:
 
 If you have configured a default Quasar language pack in your `/quasar.config` file, then you need to edit it:
 
-```js
-// old way
+```diff
 framework: {
-  lang: 'en-us'
-}
-
-// NEW way
-framework: {
-  lang: 'en-US'
+-  lang: 'en-us' // old way
++  lang: 'en-US' // new way
 }
 ```
 
@@ -1012,7 +1089,7 @@ You'll also need to edit all your dynamic imports from `quasar/lang/` to match t
 
 The color CSS variable names (all the brand related ones) have changed:
 
-```
+```js
 // old
 --q-color-primary, --q-color-secondary, ...
 
@@ -1032,7 +1109,7 @@ For an in-depth look at the necessary UMD scripts and tags, please use our [gene
 
 This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar UI v2.
 
-* Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
+* Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
 * New quasar.config file > build > vueLoaderOptions prop
 * Remove quasar.config file > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box

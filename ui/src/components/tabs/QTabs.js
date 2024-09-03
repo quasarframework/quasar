@@ -3,13 +3,13 @@ import { h, ref, computed, watch, onBeforeUnmount, onActivated, onDeactivated, g
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useTick from '../../composables/private/use-tick.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useTick from '../../composables/use-tick/use-tick.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
-import { tabsKey } from '../../utils/private/symbols.js'
-import { rtlHasScrollBug } from '../../utils/private/rtl.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { tabsKey } from '../../utils/private.symbols/symbols.js'
+import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -188,7 +188,7 @@ export default createComponent({
       // it can be called faster than component being initialized
       // so we need to protect against that case
       // (one example of such case is the docs release notes page)
-      if (domProps.value === void 0 || contentRef.value === null) { return }
+      if (domProps.value === void 0 || contentRef.value === null) return
 
       const
         size = domSize[ domProps.value.container ],
@@ -279,7 +279,7 @@ export default createComponent({
 
     function updateArrows () {
       const content = contentRef.value
-      if (content === null) { return }
+      if (content === null) return
 
       const
         rect = content.getBoundingClientRect(),
@@ -328,7 +328,7 @@ export default createComponent({
       )
 
       const len = tabs.length
-      if (len === 0) { return }
+      if (len === 0) return
 
       if (keyCode === 36) { // Home
         scrollToTabEl(tabs[ 0 ])

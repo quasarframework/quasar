@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
 import QSlider from '../slider/QSlider.js'
 import QIcon from '../icon/QIcon.js'
@@ -10,16 +10,16 @@ import QTab from '../tabs/QTab.js'
 import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/private/use-cache.js'
-import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
+import { useFormInject, useFormProps } from '../../composables/use-form/private.use-form.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { testPattern } from '../../utils/patterns.js'
-import throttle from '../../utils/throttle.js'
-import { stop } from '../../utils/event.js'
-import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
-import { hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { testPattern } from '../../utils/patterns/patterns.js'
+import throttle from '../../utils/throttle/throttle.js'
+import { stop } from '../../utils/event/event.js'
+import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors/colors.js'
+import { hDir } from '../../utils/private.render/render.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',
@@ -80,7 +80,7 @@ export default createComponent({
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
-    const { getCache } = useCache()
+    const { getCache } = useRenderCache()
 
     const spectrumRef = ref(null)
     const errorIconRef = ref(null)
@@ -88,13 +88,13 @@ export default createComponent({
     const forceHex = computed(() => (
       props.formatModel === 'auto'
         ? null
-        : props.formatModel.indexOf('hex') > -1
+        : props.formatModel.indexOf('hex') !== -1
     ))
 
     const forceAlpha = computed(() => (
       props.formatModel === 'auto'
         ? null
-        : props.formatModel.indexOf('a') > -1
+        : props.formatModel.indexOf('a') !== -1
     ))
 
     const topView = ref(
@@ -176,15 +176,11 @@ export default createComponent({
       + (isDark.value === true ? ' q-color-picker--dark q-dark' : '')
     )
 
-    const attributes = computed(() => {
-      if (props.disable === true) {
-        return { 'aria-disabled': 'true' }
-      }
-      if (props.readonly === true) {
-        return { 'aria-readonly': 'true' }
-      }
-      return {}
-    })
+    const attributes = computed(() => (
+      props.disable === true
+        ? { 'aria-disabled': 'true' }
+        : {}
+    ))
 
     const spectrumDirective = computed(() => {
       // if editable.value === true
@@ -234,7 +230,7 @@ export default createComponent({
         : (
             props.formatModel === 'auto'
               ? null
-              : props.formatModel.indexOf('a') > -1
+              : props.formatModel.indexOf('a') !== -1
           )
 
       if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {
@@ -265,7 +261,7 @@ export default createComponent({
 
     function changeSpectrum (left, top, change) {
       const panel = spectrumRef.value
-      if (panel === null) { return }
+      if (panel === null) return
 
       const
         width = panel.clientWidth,
@@ -294,7 +290,7 @@ export default createComponent({
       updateModel(rgb, change)
     }
 
-    function onHueChange (val, change) {
+    function onHue (val, change) {
       const h = Math.round(val)
       const rgb = hsvToRgb({
         h,
@@ -305,6 +301,10 @@ export default createComponent({
 
       model.value.h = h
       updateModel(rgb, change)
+    }
+
+    function onHueChange (val) {
+      onHue(val, true)
     }
 
     function onNumericChange (value, formatModel, max, evt, change) {
@@ -498,6 +498,10 @@ export default createComponent({
       }
     }
 
+    function setTopView (val) {
+      topView.value = val
+    }
+
     function getHeader () {
       const child = []
 
@@ -507,9 +511,7 @@ export default createComponent({
           modelValue: topView.value,
           dense: true,
           align: 'justify',
-          ...getCache('topVTab', {
-            'onUpdate:modelValue': val => { topView.value = val }
-          })
+          'onUpdate:modelValue': setTopView
         }, () => [
           h(QTab, {
             label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
@@ -590,6 +592,10 @@ export default createComponent({
       ])
     }
 
+    function setView (val) {
+      view.value = val
+    }
+
     function getFooter () {
       return h('div', {
         class: 'q-color-picker__footer relative-position overflow-hidden'
@@ -599,9 +605,7 @@ export default createComponent({
           modelValue: view.value,
           dense: true,
           align: 'justify',
-          ...getCache('ftIn', {
-            'onUpdate:modelValue': val => { view.value = val }
-          })
+          'onUpdate:modelValue': setView
         }, () => [
           h(QTab, {
             icon: $q.iconSet.colorPicker.spectrum,
@@ -664,10 +668,8 @@ export default createComponent({
           selectionColor: 'transparent',
           readonly: editable.value !== true,
           thumbPath,
-          'onUpdate:modelValue': onHueChange,
-          ...getCache('lazyhue', {
-            onChange: val => onHueChange(val, true)
-          })
+          'onUpdate:modelValue': onHue,
+          onChange: onHueChange
         })
       ]
 

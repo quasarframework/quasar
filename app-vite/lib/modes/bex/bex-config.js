@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 
@@ -14,8 +13,9 @@ const contentScriptTemplate = readFileSync(
   'utf-8'
 )
 
-async function createScript (quasarConf, scriptName, entry) {
-  const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: `browser-bex-${ scriptName }` })
+// returns a Promise
+function createScript (quasarConf, scriptName, entry) {
+  const cfg = createBrowserEsbuildConfig(quasarConf, { compileId: `browser-bex-${ scriptName }` })
 
   cfg.entryPoints = [
     entry || quasarConf.ctx.appPaths.resolve.entry(`bex-entry-${ scriptName }.js`)

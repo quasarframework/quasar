@@ -13,6 +13,10 @@
  * My dangerous message
  * :::
  *
+ * ::: details
+ * These are some details that need to be expanded to be seen.
+ * :::
+ *
  * Custom title:
  *
  * ::: warning WATCH OUT
@@ -22,20 +26,26 @@
 
 import container from 'markdown-it-container'
 
-function createContainer (className, defaultTitle) {
+function createContainer (containerType, defaultTitle) {
+  const containerTypeLen = containerType.length
+
   return [
     container,
-    className,
+    containerType,
     {
       render (tokens, idx) {
         const token = tokens[ idx ]
-        const info = token.info.trim().slice(className.length).trim()
-        if (token.nesting === 1) {
-          return `<div class="doc-note doc-note--${className}"><p class="doc-note__title">${info || defaultTitle}</p>\n`
+        const title = token.info.trim().slice(containerTypeLen).trim() || defaultTitle
+
+        if (containerType === 'details') {
+          return token.nesting === 1
+            ? `<details class="doc-note doc-note--${ containerType }"><summary class="doc-note__title">${ title }</summary>\n`
+            : '</details>\n'
         }
-        else {
-          return '</div>\n'
-        }
+
+        return token.nesting === 1
+          ? `<div class="doc-note doc-note--${ containerType }"><p class="doc-note__title">${ title }</p>\n`
+          : '</div>\n'
       }
     }
   ]
@@ -46,11 +56,5 @@ export default function mdPluginContainers (md) {
     .use(...createContainer('tip', 'TIP'))
     .use(...createContainer('warning', 'WARNING'))
     .use(...createContainer('danger', 'WARNING'))
-
-    // explicitly escape Vue syntax
-    .use(container, 'v-pre', {
-      render: (tokens, idx) => tokens[ idx ].nesting === 1
-        ? '<div v-pre>\n'
-        : '</div>\n'
-    })
+    .use(...createContainer('details', 'Details'))
 }

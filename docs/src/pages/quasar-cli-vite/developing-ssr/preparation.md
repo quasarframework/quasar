@@ -31,4 +31,4 @@ This will add SSR mode automatically, if it is missing.
 
 A new folder will appear in your project folder (which is explained in detail on the [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr) page):
 
-<doc-tree :def="scope.nodeJsTree" />
+<DocTree :def="scope.nodeJsTree" />

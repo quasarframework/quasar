@@ -68,6 +68,8 @@ print({ key: 'NodeJs', value: green(process.version.slice(1)) })
 print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })
 print({ key: '  yarn', value: getSpawnOutput('yarn') })
+print({ key: '  pnpm', value: getSpawnOutput('pnpm') })
+print({ key: '  bun', value: getSpawnOutput('bun') })
 print({ key: '  @quasar/cli', value: green(process.env.QUASAR_CLI_VERSION) })
 print({ key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
@@ -84,11 +86,15 @@ print({ key: 'Important local packages', section: true })
   'pinia',
   'vuex',
   'vite',
+  'vite-plugin-checker',
   'eslint',
+  'esbuild',
+  'typescript',
+  'workbox-build',
+  'register-service-worker',
   'electron',
-  'electron-packager',
-  'electron-builder',
-  'register-service-worker'
+  '@electron/packager',
+  'electron-builder'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
 
 ;[

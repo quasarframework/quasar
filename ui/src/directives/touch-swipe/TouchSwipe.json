@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-swipe"
+  },
+
+  "value": {
+    "type": ["Function", "undefined"],
+    "desc": "Handler for swipe (use undefined to disable)",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Event details",
+        "definition": {
+          "evt": {
+            "extends": "evt",
+            "desc": "Original JS event Object"
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
+          },
+          "direction": {
+            "type": "String",
+            "desc": "Direction of movement",
+            "values": [ "'up'", "'right'", "'down'", "'left'" ]
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)"
+          },
+          "distance": {
+            "type": "Object",
+            "desc": "Absolute distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Absolute distance horizontally"
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Absolute distance vertically"
+              }
+            }
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "({ evt, touch, mouse, direction, duration, distance }) => { /* ... */ }" ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "x:y:z, where x is minimum velocity (dist/time; please use float without a dot, example: 6e-2 which is equivalent to 6 * 10^-2 = 0.06), y is minimum distance on first move on mobile, z is minimum distance on desktop until deciding if it's a swipe indeed",
+    "default": "'6e-2:6:50'",
+    "examples": [ "# v-touch-swipe:7e-2:10:100=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
+    "mouse": {
+      "type": "Boolean",
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Catch horizontal (left/right) movement"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Catch vertical (up/down) movement"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch swipe to up"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch swipe to right"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch swipe to down"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch swipe to left"
+    }
+  }
+}

@@ -8,7 +8,8 @@ This page refers to `src/uninstall.js` file which is executed when the App Exten
 Example of basic structure of the file:
 
 ```js
-module.exports = function (api) {
+// can be async
+export default function (api) {
   // props and methods for "api" Object
   // are described below
 }
@@ -54,10 +55,49 @@ api.resolve.cordova('config.xml')
 
 // resolves to root/src-electron of app
 api.resolve.electron('some-file.js')
+
+// resolves to root/src-bex of app
+api.resolve.bex('some-file.js')
 ```
 
 ### api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
+
+### api.hasTypescript <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<boolean>} host project has Typescript active or not
+ */
+await api.hasTypescript()
+```
+
+### api.hasLint <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<boolean>} host project has ESLint or not
+ */
+await api.hasLint()
+```
+
+### api.getStorePackageName <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ */
+await api.getStorePackageName()
+```
+
+### api.getNodePackagerName <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
+ */
+await api.getNodePackagerName()
+```
 
 ### api.hasPackage
 
@@ -74,8 +114,8 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
-if (api.hasPackage('quasar', '^1.0.0')) {
-  // hey, this app has v1 installed
+if (api.hasPackage('quasar', '^2.0.0')) {
+  // hey, this app has Quasar UI v2 installed
 }
 ```
 

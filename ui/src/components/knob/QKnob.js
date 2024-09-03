@@ -1,15 +1,15 @@
 import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { position, stopAndPrevent } from '../../utils/event.js'
-import { between, normalizeToInterval } from '../../utils/format.js'
-import { hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { position, stopAndPrevent } from '../../utils/event/event.js'
+import { between, normalizeToInterval } from '../../utils/format/format.js'
+import { hDir } from '../../utils/private.render/render.js'
 
-import { useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
-import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
+import { useFormProps, useFormAttrs } from '../../composables/use-form/private.use-form.js'
+import { useCircularCommonProps } from '../circular-progress/circular-progress.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [ 34, 37, 40, 33, 39, 38 ]

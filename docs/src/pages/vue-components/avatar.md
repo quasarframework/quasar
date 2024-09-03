@@ -9,7 +9,7 @@ The QAvatar component creates a scalable, color-able element that can have text,
 
 It is often used with other components in their slots.
 
-<doc-api file="QAvatar" />
+<DocApi file="QAvatar" />
 
 ## Usage
 
@@ -17,14 +17,14 @@ It is often used with other components in their slots.
 The `size` property will determine the height and the width of the Avatar. The `font-size` property will set the size of the font used within the Avatar, which will have an effect on the size of letters and icons.
 :::
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Standard sizes" file="StandardSizes" />
+<DocExample title="Standard sizes" file="StandardSizes" />
 
-<doc-example title="Square" file="Square" />
+<DocExample title="Square" file="Square" />
 
-<doc-example title="Rounded" file="Rounded" />
+<DocExample title="Rounded" file="Rounded" />
 
-<doc-example title="With other components" file="Integrated" />
+<DocExample title="With other components" file="Integrated" />
 
-<doc-example title="Overlapping avatars" file="Overlapping" />
+<DocExample title="Overlapping avatars" file="Overlapping" />

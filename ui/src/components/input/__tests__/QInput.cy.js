@@ -57,7 +57,7 @@ describe('Input API', () => {
       })
 
       describe('(prop): loading', () => {
-        it('should should set the component into a loading state', () => {
+        it('should set the component into a loading state', () => {
           mountQInput({
             props: {
               loading: true

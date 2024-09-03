@@ -11,8 +11,7 @@ For cases where you need to tweak the default Webpack config you can do so by ed
 
 Example of adding ESLint loader to Webpack (assuming you've installed it):
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   extendWebpack (cfg, { isServer, isClient }) {
     cfg.module.rules.push({
@@ -29,8 +28,7 @@ Notice that you don't need to return anything. The parameter of extendWebpack(cf
 
 Equivalent quasar.conf for chainWebpack():
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   chainWebpack (chain, { isServer, isClient }) {
     chain.module.rule('eslint')
@@ -101,8 +99,7 @@ Also if you configure to build with the Vue compiler version (quasar.config file
 To add your own alias you can extend the webpack config and merge it with the existing alias.
 Use the `path.resolve` helper to resolve the path to your intended alias.
 
-```js
-// quasar.config file
+```js /quasar.config file
 const path = require('node:path')
 
 module.exports = function (ctx) {
@@ -123,8 +120,7 @@ module.exports = function (ctx) {
 
 Equivalent with chainWebpack():
 
-```js
-// quasar.config file
+```js /quasar.config file
 const path = require('node:path')
 
 module.exports = function (ctx) {
@@ -145,8 +141,7 @@ Quasar App CLI is using Webpack v5. If you are moving your existing project to Q
 
 These need to be addressed by the package owners. But if you prefer not to wait and just want to run your app/website (with a bit of risk), then you can manually install `node-polyfill-webpack-plugin` (`yarn add --dev node-polyfill-webpack-plugin`) and reference it in `quasar.config file > build > chainWebpack`. Example:
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   chainWebpack (chain) {
     const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
@@ -163,14 +158,13 @@ Let's take an example. You want to be able to import `.json` files. **Out of the
 
 So, you need a loader for it. You search Google to see what webpack loader you need. In this case, it's "json-loader". We first install it:
 
-``` bash
+```bash
 $ yarn add --dev json-loader
 ```
 
 After installing your new loader, we want to tell Webpack to use it. So we edit the `/quasar.config` file and change `build.extendWebpack()` to add entries to `module/rules` for this new loader:
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   extendWebpack (cfg) {
     cfg.module.rules.push({
@@ -183,8 +177,7 @@ build: {
 
 Equivalent with chainWebpack():
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   chainWebpack (chain) {
     chain.module.rule('json')
@@ -212,8 +205,7 @@ $ yarn add --dev pug pug-plain-loader
 
 Then you need to extend the webpack configuration through the `/quasar.config` file:
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   extendWebpack (cfg) {
     cfg.module.rules.push({
@@ -226,8 +218,7 @@ build: {
 
 Equivalent with chainWebpack():
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   chainWebpack (chain) {
     chain.module.rule('pug')

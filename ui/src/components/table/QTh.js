@@ -2,8 +2,8 @@ import { h, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QTh',
@@ -34,7 +34,7 @@ export default createComponent({
 
       if (name) {
         col = props.props.colsMap[ name ]
-        if (col === void 0) { return }
+        if (col === void 0) return
       }
       else {
         col = props.props.col

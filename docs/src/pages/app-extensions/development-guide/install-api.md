@@ -8,7 +8,8 @@ This page refers to `src/install.js` file which is executed on the installation 
 Example of basic structure of the file:
 
 ```js
-module.exports = function (api) {
+// can be async
+export default function (api) {
   // props and methods for "api" Object
   // are described below
 }
@@ -54,10 +55,49 @@ api.resolve.cordova('config.xml')
 
 // resolves to root/src-electron of app
 api.resolve.electron('some-file.js')
+
+// resolves to root/src-bex of app
+api.resolve.bex('some-file.js')
 ```
 
 ### api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
+
+### api.hasTypescript <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<boolean>} host project has Typescript active or not
+ */
+await api.hasTypescript()
+```
+
+### api.hasLint <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<boolean>} host project has ESLint or not
+ */
+await api.hasLint()
+```
+
+### api.getStorePackageName <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ */
+await api.getStorePackageName()
+```
+
+### api.getNodePackagerName <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
+
+```js
+/**
+ * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
+ */
+await api.getNodePackagerName()
+```
 
 ### api.compatibleWith
 
@@ -75,13 +115,12 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 api.compatibleWith(packageName, '1.x')
 ```
 
-```js
-// a more complex example:
+```js A more complex example:
 if (api.hasVite === true) {
-  api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+  api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
 }
 else {
-  api.compatbileWith('@quasar/app-webpack', '^3.4.0')
+  api.compatbileWith('@quasar/app-webpack', '^4.0.0-beta.1')
 }
 ```
 
@@ -101,7 +140,7 @@ if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
 if (api.hasPackage('quasar', '^2.0.0')) {
-  // hey, this app has v1 installed
+  // hey, this app has Quasar UI v2 installed
 }
 ```
 
@@ -213,8 +252,7 @@ You can also inject some decision-making code into the files to be rendered by i
 
 Example:
 
-```js
-// src/install.js
+```js src/install.js
 // (my-folder is located in same folder as
 // the file in which following call takes place)
 api.render('./my-folder', {
@@ -226,9 +264,7 @@ Let's imagine we use a [Prompts API](/app-extensions/development-guide/prompts-a
 
 We can take some decisions on what the files that we render look like, during rendering them. This removes the need of creating two folders and deciding which to render, based on some decision.
 
-```js
-// src/my-folder/some-file.js
-
+```js src/my-folder/some-file.js
 <% if (prompts.featureX) { %>
 const message = 'This is content when "Feature X" exists'
 <% } else { %>

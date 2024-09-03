@@ -7,14 +7,15 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useId from '../../composables/use-id/use-id.js'
+import { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/private/render.js'
-import uid from '../../utils/uid.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import uid from '../../utils/uid/uid.js'
 
 const itemGroups = shallowReactive({})
 const LINK_PROPS = Object.keys(useRouterLinkProps)
@@ -41,7 +42,7 @@ export default createComponent({
     expandIcon: String,
     expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
-    duration: Number,
+    duration: {},
 
     headerInsetLevel: Number,
     contentInsetLevel: Number,
@@ -75,7 +76,7 @@ export default createComponent({
     )
 
     const blurTargetRef = ref(null)
-    const targetUid = uid()
+    const targetUid = useId()
 
     const { show, hide, toggle } = useModelToggle({ showing })
 
@@ -129,7 +130,7 @@ export default createComponent({
 
     const headerSlotScope = computed(() => ({
       expanded: showing.value === true,
-      detailsId: props.targetUid,
+      detailsId: targetUid.value,
       toggle,
       show,
       hide
@@ -143,7 +144,7 @@ export default createComponent({
       return {
         role: 'button',
         'aria-expanded': showing.value === true ? 'true' : 'false',
-        'aria-controls': targetUid,
+        'aria-controls': targetUid.value,
         'aria-label': toggleAriaLabel
       }
     })
@@ -320,7 +321,7 @@ export default createComponent({
           key: 'e-content',
           class: 'q-expansion-item__content relative-position',
           style: contentStyle.value,
-          id: targetUid
+          id: targetUid.value
         }, hSlot(slots.default)),
         [ [
           vShow,

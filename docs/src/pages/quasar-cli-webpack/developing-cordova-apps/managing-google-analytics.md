@@ -6,12 +6,10 @@ Getting to know your users and measuring user behavior is an important step in A
 
 Follow this guide to implement Google Analytics into your Cordova powered Quasar App.
 
-You may also want to read these great tutorials:
-- [Google Tag Manager and Analytics Setup for an SPA Website](https://jannerantala.com/tutorials/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website/)
-- [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/)
+You may also want to read this tutorial: [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/).
 
 ::: warning
-You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
+You'll need to include a `<script>` tag provided by Google in /index.html or /src/index.template.html, which will make your App depend on an Internet connection!
 :::
 
 ## Prerequisites

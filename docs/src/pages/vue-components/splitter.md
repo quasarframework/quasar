@@ -12,7 +12,7 @@ related:
 The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.
 
 
-<doc-api file="QSplitter" />
+<DocApi file="QSplitter" />
 
 ## Usage
 
@@ -24,27 +24,27 @@ Click and drag on the splitter separator bar to see results.
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ### Horizontal
 
-<doc-example title="Horizontal" file="Horizontal" />
+<DocExample title="Horizontal" file="Horizontal" />
 
 ### Custom dragging limits
 
-<doc-example title="Custom dragging limits (50-100)" file="Limits" />
+<DocExample title="Custom dragging limits (50-100)" file="Limits" />
 
 ### Model units
 
 By default, the CSS `unit` used is '%' (percentage). But you can also use 'px' (pixels), as in the example below.
 
-<doc-example title="Model in pixels" file="PixelModel" />
+<DocExample title="Model in pixels" file="PixelModel" />
 
 ### Reverse model
 
 By default, the model is connected to the `before` slot size. But you can reverse that and make it connect to the `after` slot, as in the example below. This feature turns out especially useful if your `unit` is set to pixels and you want to control the `after` slot.
 
-<doc-example title="Reverse model" file="ReverseModel" />
+<DocExample title="Reverse model" file="ReverseModel" />
 
 ### Adding content to separator
 
@@ -52,20 +52,20 @@ By default, the model is connected to the `before` slot size. But you can revers
 If you use images as content for the separator slot, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-<doc-example title="Adding to separator" file="SeparatorSlot" />
+<DocExample title="Adding to separator" file="SeparatorSlot" />
 
 ### Dark design
 
-<doc-example title="On a dark background with customized separator" file="CustomizedSeparator" />
+<DocExample title="On a dark background with customized separator" file="CustomizedSeparator" />
 
 ### Embedded
 
 A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots, like shown in example below.
 
-<doc-example title="Embedded" file="Embedded" />
+<DocExample title="Embedded" file="Embedded" />
 
 ### Fun examples
 
-<doc-example title="Image Fun" file="ImageFun" />
+<DocExample title="Image Fun" file="ImageFun" />
 
-<doc-example title="Reactive Images" file="ReactiveImages" />
+<DocExample title="Reactive Images" file="ReactiveImages" />

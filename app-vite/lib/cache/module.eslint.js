@@ -1,4 +1,3 @@
-
 import { existsSync } from 'node:fs'
 
 import { getPackage } from '../utils/get-package.js'

@@ -1,6 +1,6 @@
 {
   "name": "@quasar/icongenie",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
   "bin": {
     "icongenie": "./bin/icongenie.js"
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/quasarframework/quasar.git"
   },
   "engines": {
-    "node": ">= 14.19.0"
+    "node": ">= 18.12.0"
   },
   "keywords": [
     "vuejs",
@@ -42,11 +42,11 @@
   },
   "homepage": "https://quasar.dev/icongenie/introduction",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.13.0",
     "cross-spawn": "^7.0.2",
     "elementtree": "^0.1.7",
-    "fast-glob": "^3.2.12",
-    "fs-extra": "^11.1.1",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
     "imagemin": "^8.0.1",
     "imagemin-pngquant": "^9.0.2",
     "is-png": "^3.0.1",
@@ -55,14 +55,14 @@
     "png2icons": "^2.0.1",
     "potrace": "^2.1.5",
     "read-chunk": "^4.0.3",
-    "sharp": "^0.32.1",
-    "svgo": "^3.0.2",
-    "untildify": "^4.0.0",
-    "update-notifier": "^6.0.2"
+    "sharp": "^0.32.6",
+    "svgo": "^3.2.0",
+    "untildify": "^5.0.0",
+    "update-notifier": "^7.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.31.0",
-    "eslint-plugin-n": "^15.6.1"
+    "eslint": "^8.57.0",
+    "eslint-plugin-n": "^16.6.2"
   },
   "resolutions": {
     "minimist": "^1.2.8"

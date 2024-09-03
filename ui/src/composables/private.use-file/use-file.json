@@ -1,0 +1,96 @@
+{
+  "props": {
+    "multiple": {
+      "type": "Boolean",
+      "desc": "Allow multiple file uploads",
+      "category": "behavior"
+    },
+
+    "accept": {
+      "type": "String",
+      "desc": "Comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element",
+      "examples": [ "'.jpg, .pdf, image/*'", "'image/jpeg, .pdf'" ],
+      "category": "behavior"
+    },
+
+    "capture": {
+      "type": "String",
+      "desc": "Optionally, specify that a new file should be captured, and which device should be used to capture that new media of a type defined by the 'accept' prop. Maps to 'capture' attribute of native input type=file element",
+      "values": [ "'user'", "'environment'" ],
+      "category": "behavior"
+    },
+
+    "max-file-size": {
+      "type": [ "Number", "String" ],
+      "desc": "Maximum size of individual file in bytes",
+      "examples": [ "1024", "'1048576'" ],
+      "category": "behavior"
+    },
+
+    "max-total-size": {
+      "type": [ "Number", "String" ],
+      "desc": "Maximum size of all files combined in bytes",
+      "category": "behavior"
+    },
+
+    "max-files": {
+      "type": [ "Number", "String" ],
+      "desc": "Maximum number of files to contain",
+      "category": "behavior"
+    },
+
+    "filter": {
+      "type": "Function",
+      "desc": "Custom filter for added files; Only files that pass this filter will be added to the queue and uploaded; For best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "files": {
+          "type": [ "Array", "FileList" ],
+          "desc": "Candidate files to be added to queue"
+        }
+      },
+      "returns": {
+        "type": "Array",
+        "desc": "Filtered files to be added to queue"
+      },
+      "examples": [ "files => files.filter(file => file.size === 1024)" ],
+      "category": "behavior"
+    }
+  },
+
+  "events": {
+    "rejected": {
+      "desc": "Emitted after files are picked and some do not pass the validation props (accept, max-file-size, max-total-size, filter, etc)",
+      "params": {
+        "rejectedEntries": {
+          "type": "Array",
+          "tsType": "QRejectedEntry",
+          "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "pickFiles": {
+      "desc": "Trigger file pick; Must be called as a direct consequence of user interaction (eg. in a click handler), due to browsers security policy",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "returns": null
+    },
+
+    "addFiles": {
+      "desc": "Add files programmatically",
+      "params": {
+        "files": {
+          "type": [ "Array", "FileList" ],
+          "desc": "Array of files (instances of File)",
+          "required": true
+        }
+      },
+      "returns": null
+    }
+  }
+}

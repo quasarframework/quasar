@@ -1,6 +1,5 @@
 {
   "appId": "<%= appId %>",
   "appName": "<%= appName %>",
-  "npmClient": "<%= nodePackager %>",
   "webDir": "www"
 }

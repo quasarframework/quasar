@@ -1,11 +1,11 @@
 import { h, ref, onActivated, onDeactivated, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
-import { hSlot } from '../../utils/private/render.js'
-import { formKey } from '../../utils/private/symbols.js'
-import { vmIsDestroyed } from '../../utils/private/vm.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import { hSlot } from '../../utils/private.render/render.js'
+import { formKey } from '../../utils/private.symbols/symbols.js'
+import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
 
 export default createComponent({
   name: 'QForm',
@@ -36,7 +36,7 @@ export default createComponent({
       const index = ++validateIndex
 
       const emitEvent = (res, ref) => {
-        emit('validation' + (res === true ? 'Success' : 'Error'), ref)
+        emit(`validation${ res === true ? 'Success' : 'Error' }`, ref)
       }
 
       const validateComponent = comp => {
@@ -136,12 +136,12 @@ export default createComponent({
 
     function focus () {
       addFocusFn(() => {
-        if (rootRef.value === null) { return }
+        if (rootRef.value === null) return
 
         const target = rootRef.value.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
           || rootRef.value.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
           || rootRef.value.querySelector('[autofocus], [data-autofocus]')
-          || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+          || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex !== -1)
 
         target !== null && target !== void 0 && target.focus({ preventScroll: true })
       })
@@ -154,7 +154,7 @@ export default createComponent({
 
       unbindComponent (vmProxy) {
         const index = registeredComponents.indexOf(vmProxy)
-        if (index > -1) {
+        if (index !== -1) {
           registeredComponents.splice(index, 1)
         }
       }

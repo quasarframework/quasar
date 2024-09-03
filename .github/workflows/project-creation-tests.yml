@@ -1,0 +1,184 @@
+name: Project creation tests
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - released # A release was published, or a pre-release was changed to a release.
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/project-creation-tests.yml'
+      - 'create-quasar/**'
+
+jobs:
+  lint:
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'pull_request' ||
+
+        startsWith(github.event.release.tag_name, 'quasar') ||
+        startsWith(github.event.release.tag_name, '@quasar/extras') ||
+        startsWith(github.event.release.tag_name, '@quasar/app-webpack') ||
+        startsWith(github.event.release.tag_name, '@quasar/app-vite')
+      }}
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: create-quasar
+
+    name: Lint create-quasar
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Lint the code
+        run: pnpm lint
+
+  test:
+    needs: lint
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    env:
+      # See https://github.com/yarnpkg/yarn/issues/9015
+      SKIP_YARN_COREPACK_CHECK: 1
+
+    defaults:
+      run:
+        working-directory: create-quasar
+
+    strategy:
+      fail-fast: false
+      matrix:
+        script-type: [js, ts]
+        app-engine: [vite-1, vite-2, webpack-3, webpack-4]
+        node-version: [18, 20]
+        package-manager: [yarn, npm, pnpm]
+
+    name: Test ${{ matrix.script-type }}-${{ matrix.app-engine }} (Node v${{ matrix.node-version }} - ${{ matrix.package-manager }})
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      # pnpm
+      - name: Get pnpm store directory
+        if: ${{ matrix.package-manager == 'pnpm' }}
+        id: pnpm-cache
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        if: ${{ matrix.package-manager == 'pnpm' }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
+          key: pnpm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
+          restore-keys: |
+            pnpm-cache-${{ matrix.app-engine }}-
+            pnpm-cache-
+
+      # yarn
+      - name: Get yarn cache directory
+        if: ${{ matrix.package-manager == 'yarn' }}
+        id: yarn-cache
+        run: |
+          echo "YARN_CACHE_PATH=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: Setup yarn cache
+        if: ${{ matrix.package-manager == 'yarn' }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.yarn-cache.outputs.YARN_CACHE_PATH }}
+          key: yarn-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
+          restore-keys: |
+            yarn-cache-${{ matrix.app-engine }}-
+            yarn-cache-
+
+      # npm
+      - name: Get npm cache directory
+        if: ${{ matrix.package-manager == 'npm' }}
+        id: npm-cache
+        run: |
+          echo "NPM_CACHE_PATH=$(npm config get cache)" >> $GITHUB_OUTPUT
+      - name: Setup npm cache
+        if: ${{ matrix.package-manager == 'npm' }}
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.npm-cache.outputs.NPM_CACHE_PATH }}
+          key: npm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
+          restore-keys: |
+            npm-cache-${{ matrix.app-engine }}-
+            npm-cache-
+
+      - name: Create the test project
+        run: pnpm create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
+
+      - name: Lint the project
+        working-directory: create-quasar/test-project
+        run: ${{ matrix.package-manager }} run lint
+
+      - name: Test the build
+        working-directory: create-quasar/test-project
+        run: ${{ matrix.package-manager }} run build
+
+      - name: Test the development server
+        working-directory: create-quasar/test-project
+        env:
+          # For Vite, see https://github.com/jeffbski/wait-on/issues/78#issuecomment-867813529
+          WAIT_ON_CONFIG: |
+            {
+              "headers": {
+                "accept": "text/html"
+              }
+            }
+
+        # wait-on is pinned for stability and safety reasons, it can be updated manually after testing a new version
+        run: |
+          ${{ matrix.package-manager }} run dev &
+
+          if [[ '${{ matrix.app-engine }}' == vite* ]]; then
+            echo $WAIT_ON_CONFIG > wait-on.json
+            npx wait-on@7.2.0 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
+          else
+            PORT=$([[ '${{ matrix.app-engine }}' == 'webpack-4' ]] && echo '9000' || echo '8080')
+            # 15s is almost enough, but due to possible fluctuations in the CI environment, we set it higher than that
+            npx wait-on@7.2.0 --timeout 20000 http-get://127.0.0.1:$PORT
+          fi
+
+          kill $!
+

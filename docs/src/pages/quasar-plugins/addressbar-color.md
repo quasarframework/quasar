@@ -12,16 +12,15 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 
 ![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
-<doc-api file="AddressbarColor" />
+<DocApi file="AddressbarColor" />
 
-<doc-installation plugins="AddressbarColor" />
+<DocInstallation plugins="AddressbarColor" />
 
 ## Usage
 
 We create boot file to initialize its usage: `$ quasar new boot addressbar-color [--format ts]`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
 
-```js
-// file: /src/boot/addressbar-color.js
+```js /src/boot/addressbar-color.js
 import { AddressbarColor } from 'quasar'
 
 export default () => {
@@ -30,8 +29,7 @@ export default () => {
 ```
 
 We then have to tell quasar to use this boot file we just created. To do this we edit the boot section of the quasar config:
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   boot: [
     'addressbar-color'
@@ -44,9 +42,7 @@ What this does is that it injects some `<meta>` tags into your `index.html` at r
 Because the meta tag doesn't get injected until run time you can dynamically change this color multiple times, based on the page the user is on (by calling the `set` method in the `created()` lifecycle hook on the respective pages):
 
 
-```js
-// a .vue file representing a page
-
+```js A .vue file representing a page
 import { useQuasar } from 'quasar'
 
 export default {

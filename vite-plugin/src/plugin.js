@@ -1,17 +1,31 @@
-
 import { normalizePath } from 'vite'
 
 import { getViteConfig } from './vite-config.js'
 import { vueTransform } from './vue-transform.js'
 import { createScssTransform } from './scss-transform.js'
-import { parseViteRequest } from './query.js'
+import { parseViteRequest, createExtMatcher } from './query.js'
 import { mapQuasarImports } from './js-transform.js'
 
 const defaultOptions = {
   runMode: 'web-client',
-  autoImportComponentCase: 'kebab',
   sassVariables: true,
-  devTreeshaking: false
+  devTreeshaking: false,
+  autoImportComponentCase: 'kebab',
+  autoImportVueExtensions: [ 'vue' ],
+  autoImportScriptExtensions: [ 'js', 'jsx', 'ts', 'tsx' ]
+}
+const defaultOptionsKeys = Object.keys(defaultOptions)
+
+function parsePluginOptions (userOpts = {}) {
+  const opts = { ...userOpts }
+
+  for (const key of defaultOptionsKeys) {
+    if (opts[ key ] === void 0) {
+      opts[ key ] = defaultOptions[ key ]
+    }
+  }
+
+  return opts
 }
 
 function getConfigPlugin (opts) {
@@ -33,6 +47,9 @@ function getConfigPlugin (opts) {
   }
 }
 
+const scssMatcher = createExtMatcher([ 'scss', 'module.scss' ])
+const sassMatcher = createExtMatcher([ 'sass', 'module.sass' ])
+
 function getScssTransformsPlugin (opts) {
   const sassVariables = typeof opts.sassVariables === 'string'
     ? normalizePath(opts.sassVariables)
@@ -40,8 +57,6 @@ function getScssTransformsPlugin (opts) {
 
   const scssTransform = createScssTransform('scss', sassVariables)
   const sassTransform = createScssTransform('sass', sassVariables)
-  const scssExt = [ '.scss', '.module.scss' ]
-  const sassExt = [ '.sass', '.module.sass' ]
 
   return {
     name: 'vite:quasar:scss',
@@ -49,16 +64,16 @@ function getScssTransformsPlugin (opts) {
     enforce: 'pre',
 
     transform (src, id) {
-      const { is } = parseViteRequest(id)
+      const is = parseViteRequest(id)
 
-      if (is.style(scssExt) === true) {
+      if (is.style(scssMatcher) === true) {
         return {
           code: scssTransform(src),
           map: null
         }
       }
 
-      if (is.style(sassExt) === true) {
+      if (is.style(sassMatcher) === true) {
         return {
           code: sassTransform(src),
           map: null
@@ -73,6 +88,9 @@ function getScssTransformsPlugin (opts) {
 function getScriptTransformsPlugin (opts) {
   let useTreeshaking = true
 
+  const vueMatcher = createExtMatcher(opts.autoImportVueExtensions)
+  const scriptMatcher = createExtMatcher(opts.autoImportScriptExtensions)
+
   return {
     name: 'vite:quasar:script',
 
@@ -83,16 +101,16 @@ function getScriptTransformsPlugin (opts) {
     },
 
     transform (src, id) {
-      const { is } = parseViteRequest(id)
+      const is = parseViteRequest(id)
 
-      if (is.template() === true) {
+      if (is.template(vueMatcher) === true) {
         return {
           code: vueTransform(src, opts.autoImportComponentCase, useTreeshaking),
           map: null // provide source map if available
         }
       }
 
-      if (useTreeshaking === true && is.script() === true) {
+      if (useTreeshaking === true && is.script(scriptMatcher) === true) {
         return {
           code: mapQuasarImports(src),
           map: null // provide source map if available
@@ -104,11 +122,8 @@ function getScriptTransformsPlugin (opts) {
   }
 }
 
-export default function (userOpts = {}) {
-  const opts = {
-    ...defaultOptions,
-    ...userOpts
-  }
+export default function (userOpts) {
+  const opts = parsePluginOptions(userOpts)
 
   const plugins = [
     getConfigPlugin(opts)

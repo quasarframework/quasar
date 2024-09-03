@@ -1,13 +1,14 @@
 {
+  "mixins": [ "components/tabs/use-tab", "composables/private.use-router-link/use-router-link" ],
+
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
-  "mixins": [ "components/tabs/QTab", "composables/private/use-router-link" ],
-
   "events": {
     "click": {
       "desc": "Emitted when the component is clicked",
+      "internal": false,
       "params": {
         "evt": {
           "extends": "evt",
@@ -28,7 +29,7 @@
                   "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
                   "required": false,
                   "examples": [
-                    "/home/dashboard",
+                    "'/home/dashboard'",
                     "{ name: 'my-route-name' }"
                   ]
                 },

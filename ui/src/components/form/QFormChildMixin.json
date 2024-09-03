@@ -6,17 +6,18 @@
   "methods": {
     "validate": {
       "desc": "Needs to be overwritten when getting extended/mixed in",
+      "params": null,
       "returns": {
         "type": [ "Boolean", "Promise<boolean>" ],
         "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
-        "examples": [
-          "validate().then(outcome => { ... })"
-        ]
+        "examples": [ "validate().then(outcome => { ... })" ]
       }
     },
 
     "resetValidation": {
-      "desc": "Needs to be overwritten when getting extended/mixed in"
+      "desc": "Needs to be overwritten when getting extended/mixed in",
+      "params": null,
+      "returns": null
     }
   }
 }

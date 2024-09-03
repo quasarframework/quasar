@@ -26,8 +26,8 @@ electron: {
 
   bundler: 'packager', // or 'builder'
 
-  // electron-packager options
-  // https://electron.github.io/electron-packager/main/
+  // @electron/packager options
+  // https://electron.github.io/packager/main/
   packager: {
     //...
   },
@@ -89,9 +89,16 @@ electron: {
 }
 ```
 
-The "packager" prop refers to [electron-packager options](https://electron.github.io/electron-packager/main/). The `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
+The "packager" prop refers to [@electron/packager options](https://electron.github.io/packager/main/). The `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
 
 The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration/configuration).
 
 ## Packager vs. Builder
 You have to choose to use either packager or builder. They are both excellent open-source projects, however they serve slightly different needs. With packager you will be able to build unsigned projects for all major platforms from one machine (with restrictions). Although this is great, if you just want something quick and dirty, there is more platform granularity (and general polish) in builder. Cross-compiling your binaries from one computer doesn't really work with builder (or we haven't found the recipe yet...)
+
+## Dependencies optimization
+By default, all `dependencies` from your root `package.json` file get installed and embedded into the production executable.
+
+This means that it will also include your UI-only deps, which are already bundled in the UI files (so it will duplicate them). From our CLI perspective, we don't have any generic way of telling whether a dependency is UI only or if it's used by the main/preload scripts, so we cannot reliably auto-remove them.
+
+However, you can do this by using quasar.conf > electron > extendPackageJson(pkg) and overwriting or tampering with the `dependencies` key from your `package.json` file. If you leave only the main & preload threads depdendencies then this will lead to a smaller production executable file.

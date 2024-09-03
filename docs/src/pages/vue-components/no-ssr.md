@@ -5,6 +5,7 @@ keys: QNoSsr
 related:
   - /quasar-cli-vite/developing-ssr/introduction
   - /quasar-cli-webpack/developing-ssr/introduction
+  - /vue-composables/use-hydration
 ---
 The QNoSsr component makes sense only if you are creating a SSR website/app.
 
@@ -12,7 +13,7 @@ It avoids rendering its content on the server and leaves that for client only. U
 
 Alternatively, you can also use it to render content only on server-side and it automatically removes it if it ends up running on a client browser.
 
-<doc-api file="QNoSsr" />
+<DocApi file="QNoSsr" />
 
 ## Usage
 

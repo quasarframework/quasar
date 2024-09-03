@@ -8,12 +8,12 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { stopAndPrevent } from '../../utils/event.js'
-import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
-import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 
@@ -66,7 +66,7 @@ export default createComponent({
     filter: String,
     filterMethod: Function,
 
-    duration: Number,
+    duration: {},
     noConnectors: Boolean,
     noTransition: Boolean,
 
@@ -129,7 +129,7 @@ export default createComponent({
         : (node, filter) => {
             const filt = filter.toLowerCase()
             return node[ props.labelKey ]
-            && node[ props.labelKey ].toLowerCase().indexOf(filt) > -1
+            && node[ props.labelKey ].toLowerCase().indexOf(filt) !== -1
           }
     ))
 
@@ -499,6 +499,7 @@ export default createComponent({
       let body = node.body
         ? slots[ `body-${ node.body }` ] || slots[ 'default-body' ]
         : slots[ 'default-body' ]
+
       const slotScope = header !== void 0 || body !== void 0
         ? getSlotScope(node, m, key)
         : null
@@ -522,6 +523,8 @@ export default createComponent({
             + (m.selected === true ? ' q-tree__node--selected' : '')
             + (m.disabled === true ? ' q-tree__node--disabled' : ''),
           tabindex: m.link === true ? 0 : -1,
+          ariaExpanded: children.length > 0 ? m.expanded : null,
+          role: 'treeitem',
           onClick: (e) => {
             onClick(node, m, e)
           },
@@ -586,16 +589,21 @@ export default createComponent({
         isParent === true
           ? (
               props.noTransition === true
-                ? h('div', {
-                  class: 'q-tree__node-collapsible' + textColorClass.value,
-                  key: `${ key }__q`
-                }, [
-                  body,
-                  h('div', {
-                    class: 'q-tree__children'
-                      + (m.disabled === true ? ' q-tree__node--disabled' : '')
-                  }, m.expanded ? children : null)
-                ])
+                ? (
+                    m.expanded === true
+                      ? h('div', {
+                        class: 'q-tree__node-collapsible' + textColorClass.value,
+                        key: `${ key }__q`
+                      }, [
+                        body,
+                        h('div', {
+                          class: 'q-tree__children'
+                            + (m.disabled === true ? ' q-tree__node--disabled' : ''),
+                          role: 'group'
+                        }, children)
+                      ])
+                      : null
+                  )
 
                 : h(QSlideTransition, {
                   duration: props.duration,
@@ -609,7 +617,8 @@ export default createComponent({
                     body,
                     h('div', {
                       class: 'q-tree__children'
-                        + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                        + (m.disabled === true ? ' q-tree__node--disabled' : ''),
+                      role: 'group'
                     }, children)
                   ]),
                   [ [ vShow, m.expanded ] ]
@@ -703,7 +712,8 @@ export default createComponent({
 
       return h(
         'div', {
-          class: classes.value
+          class: classes.value,
+          role: 'tree'
         },
         children.length === 0
           ? (

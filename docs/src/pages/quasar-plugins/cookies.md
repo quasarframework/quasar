@@ -9,16 +9,16 @@ This is a wrapper over the standardized `document.cookie`.
 In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 :::
 
-<doc-api file="Cookies" />
+<DocApi file="Cookies" />
 
 ::: tip
 With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
 :::
 
-<doc-installation plugins="Cookies" />
+<DocInstallation plugins="Cookies" />
 
 ## Notes on SSR
-When building for SSR, use only the `$q.cookies` form. If you need to use the `import { Cookies } from 'quasar'`, then you'll need to do it like this:
+When building for SSR, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:
 
 ```js
 import { Cookies } from 'quasar'
@@ -40,16 +40,14 @@ The reason for this is that in a client-only app, every user will be using a fre
 
 ## Read a Cookie
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Cookies } from 'quasar'
 const value = Cookies.get('cookie_name')
 ```
 
 When cookie is not set, the return value is `null`.
 
-```js
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -60,16 +58,14 @@ setup () {
 
 ## Read All Cookies
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Cookies } from 'quasar'
 const cookies = Cookies.getAll()
 ```
 
 `cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
 
-```js
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -80,14 +76,12 @@ setup () {
 
 ## Verify if Cookie is Set
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Cookies } from 'quasar'
 Cookies.has('cookie_name') // Boolean
 ```
 
-```js
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -98,8 +92,7 @@ setup () {
 
 ## Write a Cookie
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Cookies } from 'quasar'
 
 Cookies.set('cookie_name', cookie_value)
@@ -108,8 +101,7 @@ Cookies.set('cookie_name', cookie_value)
 Cookies.set('cookie_name', cookie_value, options)
 ```
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Cookies } from 'quasar'
 
 Cookies.set('quasar', 'framework', {
@@ -117,8 +109,7 @@ Cookies.set('quasar', 'framework', {
 })
 ```
 
-```js
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -207,8 +198,8 @@ other: 'SomeNewProp'
 Raw string for other cookie options. To be used as a last resort for possible newer props that are currently not yet implemented in Quasar.
 
 ## Remove a Cookie
-```js
-// outside of a Vue file
+
+```js Outside of a Vue file
 import { Cookies } from 'quasar'
 
 Cookies.remove('cookie_name')
@@ -218,8 +209,7 @@ Cookies.remove('cookie_name')
 Cookies.remove('cookie_name', options)
 ```
 
-```js
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {

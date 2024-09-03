@@ -7,45 +7,45 @@ const prefix = 'fa'
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { readFileSync, writeFileSync } = require('fs')
+const { writeFileSync } = require('fs')
 const { resolve, join } = require('path')
 
-let skipped = []
-const distFolder = resolve(__dirname, `../fontawesome-v6`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const skipped = []
+const distFolder = resolve(__dirname, '../fontawesome-v6')
+const { defaultNameMapper, extract, writeExports, copyCssFile } = require('./utils')
 
-const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svgs/`)
-const iconTypes = ['brands', 'regular', 'solid']
+const svgFolder = resolve(__dirname, `../node_modules/${ packageName }/svgs/`)
+const iconTypes = [ 'brands', 'regular', 'solid' ]
 let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
 
 iconTypes.forEach(type => {
-  const svgFiles = glob.sync(svgFolder + `/${type}/*.svg`)
+  const svgFiles = glob.sync(svgFolder + `/${ type }/*.svg`)
 
   svgFiles.forEach(file => {
     const name = defaultNameMapper(file, prefix + type.charAt(0))
-  
+
     if (iconNames.has(name)) {
       return
     }
-  
+
     try {
       const { svgDef, typeDef } = extract(file, name)
       svgExports.push(svgDef)
       typeExports.push(typeDef)
-  
+
       iconNames.add(name)
     }
-    catch(err) {
+    catch (err) {
       console.error(err)
       skipped.push(name)
     }
   })
 })
 
-iconNames = [...iconNames]
+iconNames = [ ...iconNames ]
 svgExports.sort((a, b) => {
   return ('' + a).localeCompare(b)
 })
@@ -73,28 +73,24 @@ const webfont = [
 
 webfont.forEach(file => {
   copySync(
-    resolve(__dirname, `../node_modules/${packageName}/webfonts/${file}`),
-    resolve(__dirname, `../fontawesome-v6/${file}`)
+    resolve(__dirname, `../node_modules/${ packageName }/webfonts/${ file }`),
+    resolve(__dirname, `../fontawesome-v6/${ file }`)
   )
 })
 
-copySync(
-  resolve(__dirname, `../node_modules/${packageName}/css/all.css`),
-  resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`)
-)
-
-const cssFile = resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`)
-let cssData = readFileSync(cssFile, 'utf-8')
-cssData = cssData.replace(/\.\.\/webfonts/g, '\.')
-writeFileSync(cssFile, cssData, 'utf-8')
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/${ packageName }/css/all.css`),
+  to: resolve(__dirname, '../fontawesome-v6/fontawesome-v6.css'),
+  replaceFn: content => content.replace(/\.\.\/webfonts/g, '\.')
+})
 
 copySync(
-  resolve(__dirname, `../node_modules/${packageName}/LICENSE.txt`),
-  resolve(__dirname, `../fontawesome-v6/LICENSE.txt`)
+  resolve(__dirname, `../node_modules/${ packageName }/LICENSE.txt`),
+  resolve(__dirname, '../fontawesome-v6/LICENSE.txt')
 )
 
 // write the JSON file
 const file = resolve(__dirname, join('..', distName, 'icons.json'))
-writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
+writeFileSync(file, JSON.stringify([ ...iconNames ].sort(), null, 2), 'utf-8')
 
-console.log(`${distName} done with ${iconNames.length} icons`)
+console.log(`${ distName } done with ${ iconNames.length } icons`)

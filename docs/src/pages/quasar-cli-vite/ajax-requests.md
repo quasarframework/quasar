@@ -8,9 +8,7 @@ desc: (@quasar/app-vite) Using Axios for fetching data in a Quasar app.
 If you haven't selected Axios during the project initialization then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
 
-```js
-// src/boot/axios.js
-
+```js /src/boot/axios.js
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 

@@ -1,16 +1,22 @@
-/* v1.1.3 */
+/* Eva Icons v1.1.3 */
 
 @font-face {
+font-display: block;
     font-family: Eva-Icons;
+    
     src: url("./Eva-Icons.woff2") format("woff2"), url("./Eva-Icons.woff") format("woff");
     font-style: normal;
     font-weight: 400;
-    font-display: block;
 }
 
 .eva {
+    display: inline-block;
+    transform: translate(0, 0);
     text-rendering: auto;
-    font: normal normal 400 1em Eva-Icons;
+    font: normal normal 400 14px/1 Eva-Icons;
+    font-size: inherit;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
 }
 
 .eva-lg {

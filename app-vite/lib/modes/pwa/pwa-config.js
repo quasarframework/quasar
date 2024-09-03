@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 
 import { escapeRegexString } from '../../utils/escape-regex-string.js'
@@ -23,11 +22,11 @@ export const quasarPwaConfig = {
 
   // exported to ssr-config.js as well
   workbox: async quasarConf => {
-    const { workboxMode } = quasarConf.pwa
-    const { appPaths, pkg } = quasarConf.ctx
+    const { ctx, pwa: { workboxMode } } = quasarConf
+    const { appPaths, pkg } = ctx
     const opts = {}
 
-    if (quasarConf.ctx.dev === true) {
+    if (ctx.dev === true) {
       // dev resources are not optimized (contain maps, unminified code)
       // so they might be larger than the default maximum size for caching
       opts.maximumFileSizeToCacheInBytes = Number.MAX_SAFE_INTEGER
@@ -45,7 +44,7 @@ export const quasarPwaConfig = {
         skipWaiting: true
       })
 
-      if (quasarConf.ctx.dev === true && quasarConf.build.ignorePublicFolder === true) {
+      if (ctx.dev === true && quasarConf.build.ignorePublicFolder === true) {
         // we don't have a public folder, so we can't use the glob* props,
         // but then we need a runtime caching at least
         opts.runtimeCaching = [ {
@@ -62,7 +61,7 @@ export const quasarPwaConfig = {
       }
       else {
         Object.assign(opts, {
-          globDirectory: quasarConf.ctx.dev === true
+          globDirectory: ctx.dev === true
             ? appPaths.publicDir
             : quasarConf.build.distDir,
           globPatterns: [ '**/*' ],
@@ -70,8 +69,8 @@ export const quasarPwaConfig = {
         })
       }
 
-      if (quasarConf.ctx.prod === true) {
-        opts.navigateFallback = quasarConf.ctx.mode.ssr === true
+      if (ctx.prod === true) {
+        opts.navigateFallback = ctx.mode.ssr === true
           ? quasarConf.ssr.pwaOfflineHtmlFilename
           : 'index.html'
 
@@ -90,20 +89,20 @@ export const quasarPwaConfig = {
       }
 
       if (
-        quasarConf.ctx.mode.ssr === true
+        ctx.mode.ssr === true
         && typeof quasarConf.ssr.pwaExtendGenerateSWOptions === 'function'
       ) {
         quasarConf.ssr.pwaExtendGenerateSWOptions(opts)
       }
 
-      opts.swDest = quasarConf.ctx.dev === true
+      opts.swDest = ctx.dev === true
         ? appPaths.resolve.entry(`service-worker/${ quasarConf.pwa.swFilename }`)
         : join(quasarConf.build.distDir, quasarConf.pwa.swFilename)
     }
     else { // else workboxMode is "InjectManifest"
-      if (quasarConf.ctx.prod === true || quasarConf.build.ignorePublicFolder !== true) {
+      if (ctx.prod === true || quasarConf.build.ignorePublicFolder !== true) {
         Object.assign(opts, {
-          globDirectory: quasarConf.ctx.dev === true
+          globDirectory: ctx.dev === true
             ? appPaths.publicDir
             : quasarConf.build.distDir,
           globPatterns: [ '**/*' ],
@@ -116,14 +115,14 @@ export const quasarPwaConfig = {
       }
 
       if (
-        quasarConf.ctx.mode.ssr === true
+        ctx.mode.ssr === true
         && typeof quasarConf.ssr.pwaExtendInjectManifestOptions === 'function'
       ) {
         quasarConf.ssr.pwaExtendInjectManifestOptions(opts)
       }
 
       opts.swSrc = appPaths.resolve.entry('compiled-custom-sw.js')
-      opts.swDest = quasarConf.ctx.dev === true
+      opts.swDest = ctx.dev === true
         ? appPaths.resolve.entry(`service-worker/${ quasarConf.pwa.swFilename }`)
         : join(quasarConf.build.distDir, quasarConf.pwa.swFilename)
     }
@@ -131,13 +130,16 @@ export const quasarPwaConfig = {
     return opts
   },
 
-  // exported to ssr-config.js as well
-  customSw: async quasarConf => {
-    const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: 'browser-custom-sw' })
-    const { appPaths } = quasarConf.ctx
+  // exported to ssr-config.js as well;
+  // returns a Promise
+  customSw: quasarConf => {
+    const { ctx } = quasarConf
+    const { appPaths } = ctx
+
+    const cfg = createBrowserEsbuildConfig(quasarConf, { compileId: 'browser-custom-sw' })
 
     cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = JSON.stringify(
-      quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
+      ctx.mode.ssr === true && ctx.prod === true
         ? quasarConf.ssr.pwaOfflineHtmlFilename
         : 'index.html'
     )
@@ -149,7 +151,7 @@ export const quasarPwaConfig = {
     cfg.entryPoints = [ quasarConf.sourceFiles.pwaServiceWorker ]
     cfg.outfile = appPaths.resolve.entry('compiled-custom-sw.js')
 
-    return extendEsbuildConfig(cfg, quasarConf.pwa, quasarConf.ctx, 'extendPWACustomSWConf')
+    return extendEsbuildConfig(cfg, quasarConf.pwa, ctx, 'extendPWACustomSWConf')
   }
 }
 

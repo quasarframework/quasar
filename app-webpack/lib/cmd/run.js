@@ -10,7 +10,7 @@ const argv = parseArgs(process.argv.slice(2), {
 const extId = argv._[ 0 ]
 const cmd = argv._[ 1 ]
 
-if (!extId && argv.help) {
+if (!extId || argv.help) {
   console.log(`
   Description
     Run app extension provided commands
@@ -49,39 +49,50 @@ const { appExt } = getCtx()
 
 const ext = appExt.getInstance(extId)
 
-const hooks = await ext.run()
-
-const list = () => {
-  if (Object.keys(hooks.commands).length === 0) {
-    warn(`"${ extId }" app extension has no commands registered`)
-    return
-  }
-
-  log(`Listing "${ extId }" app extension commands`)
-  log()
-
-  for (const cmd in hooks.commands) {
-    console.log(`  > ${ cmd }`)
-  }
-
-  console.log()
-}
-
-if (!cmd) {
-  list()
-  process.exit(0)
-}
-if (!hooks.commands[ cmd ]) {
+if (ext === void 0) {
   warn()
-  warn(`"${ extId }" app extension has no command called "${ cmd }"`)
+  warn(`"${ extId }" app extension is not installed`)
   warn()
-  list()
   process.exit(1)
 }
 
-const command = hooks.commands[ cmd ]
+async function run () {
+  const hooks = await ext.run()
 
-log(`Running "${ extId }" > "${ cmd }" command`)
-log()
+  const list = () => {
+    if (Object.keys(hooks.commands).length === 0) {
+      warn(`"${ extId }" app extension has no commands registered`)
+      return
+    }
 
-await command(getArgv(argv))
+    log(`Listing "${ extId }" app extension commands`)
+    log()
+
+    for (const cmd in hooks.commands) {
+      console.log(`  > ${ cmd }`)
+    }
+
+    console.log()
+  }
+
+  if (!cmd) {
+    list()
+    process.exit(0)
+  }
+  if (!hooks.commands[ cmd ]) {
+    warn()
+    warn(`"${ extId }" app extension has no command called "${ cmd }"`)
+    warn()
+    list()
+    process.exit(1)
+  }
+
+  const command = hooks.commands[ cmd ]
+
+  log(`Running "${ extId }" > "${ cmd }" command`)
+  log()
+
+  await command(getArgv(argv))
+}
+
+run()

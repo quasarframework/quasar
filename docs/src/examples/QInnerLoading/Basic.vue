@@ -60,5 +60,5 @@ export default {
 <style lang="sass" scoped>
 .card-example
   width: 288px
-  height: 290px
+  height: 315px
 </style>

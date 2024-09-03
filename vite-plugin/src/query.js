@@ -1,10 +1,13 @@
-
 /**
  * @typedef {{
- *  vue: () => boolean;
- *  template: () => boolean;
- *  script: (extensions?: string | string[]) => boolean;
- *  style: (extensions?: string | string[]) => boolean;
+ *  extensionsList: string[];
+ *  filenameRegex: RegExp;
+ * }} ExtMatcher
+ *
+ * @typedef {{
+ *  template: (extMatcher: ExtMatcher) => boolean;
+ *  script: (extMatcher: ExtMatcher) => boolean;
+ *  style: (extMatcher: ExtMatcher) => boolean;
  * }} ViteQueryIs
  */
 
@@ -24,59 +27,45 @@ export function parseViteRequest (id) {
   const [ filename, rawQuery ] = id.split('?', 2)
   const query = Object.fromEntries(new URLSearchParams(rawQuery))
 
-  const is = query.raw !== void 0
-    ? {
-        // if it's a ?raw request, then don't touch it at all
-        vue: () => false,
-        template: () => false,
-        script: () => false,
-        style: () => false
-      }
-    : (
-        query.vue !== void 0 // is vue query?
-          ? {
-            // Almost all code might get merged into a single request with no 'type' (App.vue?vue)
-            // or stay with their original 'type's (App.vue?vue&type=script&lang.ts)
-              vue: () => true,
-
-              template: () => (
-                query.type === void 0
-                || query.type === 'template'
-                // On prod, TS code turns into a separate 'script' request.
-                // See: https://github.com/vitejs/vite/pull/7909
-                || (query.type === 'script' && (query[ 'lang.ts' ] !== void 0 || query[ 'lang.tsx' ] !== void 0))
-              ),
-
-              script: (extensions = scriptExt) => (
-                (query.type === void 0 || query.type === 'script')
-                && isOfExt({ query, extensions }) === true
-              ),
-
-              style: (extensions = styleExt) => (
-                query.type === 'style'
-                && isOfExt({ query, extensions }) === true
-              )
-            }
-          : {
-              vue: () => isOfExt({ extensions: vueExt, filename }),
-              template: () => isOfExt({ filename, extensions: vueExt }),
-              script: (extensions = scriptExt) => isOfExt({ filename, extensions }),
-              style: (extensions = styleExt) => isOfExt({ filename, extensions })
-            }
-      )
-
-  return {
-    filename,
-    query,
-    is
+  if (query.raw !== void 0) {
+    return {
+      // if it's a ?raw request, then don't touch it at all
+      template: () => false,
+      script: () => false,
+      style: () => false
+    }
   }
+
+  return query.vue !== void 0 // is vue query?
+    ? {
+        template: () => (
+          query.type === void 0
+          || query.type === 'template'
+          // On prod, TS code turns into a separate 'script' request.
+          // See: https://github.com/vitejs/vite/pull/7909
+          || (query.type === 'script' && (query[ 'lang.ts' ] !== void 0 || query[ 'lang.tsx' ] !== void 0))
+        ),
+
+        script: matcher => (
+          (query.type === void 0 || query.type === 'script')
+          && matcher.extensionsList.some(ext => query[ `lang.${ ext }` ] !== void 0) === true
+        ),
+
+        style: matcher => (
+          query.type === 'style'
+          && matcher.extensionsList.some(ext => query[ `lang.${ ext }` ] !== void 0) === true
+        )
+      }
+    : {
+        template: matcher => matcher.filenameRegex.test(filename),
+        script: matcher => matcher.filenameRegex.test(filename),
+        style: matcher => matcher.filenameRegex.test(filename)
+      }
 }
 
-const vueExt = [ '.vue' ]
-const scriptExt = [ '.js', '.jsx', '.ts', '.tsx', '.vue' ]
-const styleExt = [ '.css', '.scss', '.module.scss', '.sass', '.module.sass' ]
-
-const isOfExt = ({ extensions, filename, query }) =>
-  extensions.some(
-    ext => filename?.endsWith(ext) || query?.[ `lang${ ext }` ] !== void 0
-  )
+export function createExtMatcher (extensionsList) {
+  return {
+    extensionsList,
+    filenameRegex: new RegExp(`\\.(${ extensionsList.join('|') })$`)
+  }
+}

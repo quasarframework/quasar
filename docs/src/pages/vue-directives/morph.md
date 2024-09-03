@@ -11,7 +11,7 @@ related:
 
 Under the hood, it uses the Quasar [Morph function util](/quasar-utils/morph-utils).
 
-<doc-api file="Morph" />
+<DocApi file="Morph" />
 
 ## Usage
 
@@ -24,6 +24,6 @@ This directive morphs one element in a group into another. The morphing is activ
 * If the value of the directive is in Object form, then "model" is also mandatory.
 :::
 
-<doc-example title="Morph between multiple elements in a group" file="BasicGroup" />
+<DocExample title="Morph between multiple elements in a group" file="BasicGroup" />
 
-<doc-example title="Morph a button into a card" file="Card" />
+<DocExample title="Morph a button into a card" file="Card" />

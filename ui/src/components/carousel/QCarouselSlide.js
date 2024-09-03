@@ -1,9 +1,9 @@
 import { h, computed } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
-import { usePanelChildProps } from '../../composables/private/use-panel.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { usePanelChildProps } from '../../composables/private.use-panel/use-panel.js'
 
-import { hSlot } from '../../utils/private/render.js'
+import { hSlot } from '../../utils/private.render/render.js'
 
 export default createComponent({
   name: 'QCarouselSlide',

@@ -15,7 +15,7 @@ export default function mdPluginLink (md) {
       link[ 1 ] = decodeURI(link[ 1 ])
 
       token.tag = 'doc-link'
-      md.$data.components.add('src/components/DocLink')
+      md.$frontMatter.pageScripts.add('import DocLink from \'src/components/DocLink.vue\'')
     }
 
     return self.renderToken(tokens, idx, options)

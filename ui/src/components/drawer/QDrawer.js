@@ -1,17 +1,17 @@
 import { h, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
-import useHistory from '../../composables/private/use-history.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
-import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
-import useTimeout from '../../composables/private/use-timeout.js'
-import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useHistory from '../../composables/private.use-history/use-history.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
+import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
+import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
-import TouchPan from '../../directives/TouchPan.js'
+import TouchPan from '../../directives/touch-pan/TouchPan.js'
 
-import { createComponent } from '../../utils/private/create.js'
-import { between } from '../../utils/format.js'
-import { hSlot, hDir } from '../../utils/private/render.js'
-import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
+import { createComponent } from '../../utils/private.create/create.js'
+import { between } from '../../utils/format/format.js'
+import { hSlot, hDir } from '../../utils/private.render/render.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 
 const duration = 150
 
@@ -193,7 +193,7 @@ export default createComponent({
     const fixed = computed(() =>
       props.overlay === true
       || props.miniToOverlay === true
-      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') > -1
+      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') !== -1
       || ($q.platform.is.ios === true && $layout.isContainer.value === true)
     )
 

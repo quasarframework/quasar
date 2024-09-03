@@ -5,6 +5,8 @@
 </template>
 
 <style lang="sass">
+@use 'sass:math'
+
 $max-viewport-height: 7000 // max height at which stars are spread
 
 @function generateRandomStars($number-of-stars, $max-viewport-height)
@@ -45,5 +47,5 @@ body.body--light
     transform: translateY(0px)
   to
     // animate at half the spread distance of stars
-    transform: translateY(-#{$max-viewport-height/2}px)
+    transform: translateY(-#{math.div($max-viewport-height,2)}px)
 </style>

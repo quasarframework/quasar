@@ -1,7 +1,24 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
-import importTransformation from 'quasar/dist/transforms/import-transformation.js'
+import { quasarPath } from './quasar-path.js'
+
+const importMap = JSON.parse(
+  readFileSync(
+    join(quasarPath, 'dist/transforms/import-map.json'),
+    'utf-8'
+  )
+)
 
 const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
+
+export function importTransformation (importName) {
+  const file = importMap[ importName ]
+  if (file === void 0) {
+    throw new Error('Unknown import from Quasar: ' + importName)
+  }
+  return 'quasar/' + file
+}
 
 /**
  * Transforms JS code where importing from 'quasar' package

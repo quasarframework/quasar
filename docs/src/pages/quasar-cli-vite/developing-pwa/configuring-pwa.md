@@ -18,7 +18,7 @@ scope:
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 You can freely edit these files. Notice a few things:
 
@@ -37,7 +37,7 @@ This is the place where you can configure Workbox behavior and also tweak your m
 pwa: {
   workboxMode: 'generateSW', // or 'injectManifest'
   injectPwaMetaTags: true, // boolean | (() => string)
-  swFilename: 'sw.js',
+  swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
   extendGenerateSWOptions (cfg) {},
@@ -55,8 +55,7 @@ sourceFiles: {
 
 Should you want to tamper with the Vite config for UI in /src:
 
-```js
-// quasar.config file
+```js /quasar.config file
 module.exports = function (ctx) {
   return {
     build: {
@@ -76,8 +75,7 @@ More information: [Workbox](https://developers.google.com/web/tools/workbox).
 
 Quasar CLI adds (dynamically) some PWA oriented meta tags into your index.html. Should you wish to customize the tags, first disable this behavior in the `/quasar.config` file:
 
-```js
-// quasar.config file
+```js /quasar.config file
 pwa: {
   injectPwaMetaTags: false
 }
@@ -109,8 +107,7 @@ Notice that you have access to your PWA manifest through `pwaManifest` above.
 
 Alternatively, you can assign a function to injectPwaMetaTags like below:
 
-```js
-// quasar.config file
+```js /quasar.config file
 pwa: {
   injectPwaMetaTags () {
     return `<meta name="apple-mobile-web-app-capable" content="yes">`
@@ -125,9 +122,7 @@ There are two Workbox operating modes: **generateSW** (default) and **injectMani
 
 Setting the mode that you want to use is done through the `/quasar.config` file:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 pwa: {
   workboxMode: 'generateSW',
   extendGenerateSWOptions (cfg) {
@@ -215,8 +210,7 @@ The Manifest file is located at `/src-pwa/manifest.json`. You can freely edit it
 
 Should you need to change it dynamically at build time, you can do so by editing the `/quasar.config` file:
 
-```js
-// quasar.config file
+```js /quasar.config file
 pwa: {
   extendManifestJson (json) {
     // tamper with the json
@@ -245,8 +239,7 @@ Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on 
 
 For those who don't want to manually reload the page when the service worker is updated **and are using the default generateSW workbox mode**, Quasar CLI has configured Workbox to activate it at once. Should you need to disable this behavior:
 
-```js
-// quasar.config file
+```js /quasar.config file
 pwa: {
   extendGenerateSWOptions (cfg) {
     cfg.skipWaiting = false
@@ -261,8 +254,7 @@ Due to how Rollup builds the assets (through Vite), when you change any of your 
 
 By default, Vite builds all filenames **with the hash part**. However, should you want your filenames to NOT contain the hash part, you need to edit the `/quasar.config` file:
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   useFilenameHashes: false // true by default
 }

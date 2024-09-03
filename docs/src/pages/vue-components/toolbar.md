@@ -13,26 +13,26 @@ related:
 
 QToolbar is a component usually part of Layout Header and Footer, but it can be used anywhere on the page.
 
-<doc-api file="QToolbar" />
+<DocApi file="QToolbar" />
 
-<doc-api file="QToolbarTitle" />
+<DocApi file="QToolbarTitle" />
 
 ## Usage
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="With Avatar" file="Avatar" />
+<DocExample title="With Avatar" file="Avatar" />
 
 You can use the `glossy` class to make the toolbar glossy.
 
-<doc-example title="Glossy" file="Glossy" />
+<DocExample title="Glossy" file="Glossy" />
 
-<doc-example title="Grouped vertically" file="GroupedVertically" />
+<DocExample title="Grouped vertically" file="GroupedVertically" />
 
-<doc-example title="Grouped horizontally" file="GroupedHorizontally" />
+<DocExample title="Grouped horizontally" file="GroupedHorizontally" />
 
-<doc-example title="With Tabs" file="WithTabs" />
+<DocExample title="With Tabs" file="WithTabs" />
 
-<doc-example title="With Button Dropdown" file="WithDropdown" />
+<DocExample title="With Button Dropdown" file="WithDropdown" />
 
-<doc-example title="With Button Toggle" file="WithBtnToggle" />
+<DocExample title="With Button Toggle" file="WithBtnToggle" />

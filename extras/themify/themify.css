@@ -1,9 +1,12 @@
+/* Themify Icons v0.1.2 */
+
 @font-face {
 	font-family: 'themify';
+	
 	src: url('./themify.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
-	font-display: block;
+  font-display: block;
 }
 
 .themify-icon {

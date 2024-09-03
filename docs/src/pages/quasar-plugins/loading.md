@@ -14,9 +14,9 @@ related:
 ---
 Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.
 
-<doc-api file="Loading" />
+<DocApi file="Loading" />
 
-<doc-installation plugins="Loading" config="loading" />
+<DocInstallation plugins="Loading" config="loading" />
 
 ## Usage
 Loading uses a delay (500ms) to display itself so that quick operations won't make the screen flicker. This happens by showing and then quickly hiding the progress spinner without the user having a chance to see what happens. The delay before showing it eliminates confusion.
@@ -62,21 +62,21 @@ Loading.hide()
 
 ### Default options
 
-<doc-example title="Default options" file="Default" />
+<DocExample title="Default options" file="Default" />
 
 ### Customization
 
-<doc-example title="With message" file="WithMessage" />
+<DocExample title="With message" file="WithMessage" />
 
-<doc-example title="With customized box" file="WithBox" />
+<DocExample title="With customized box" file="WithBox" />
 
-<doc-example title="Customized" file="Customized" />
+<DocExample title="Customized" file="Customized" />
 
-<doc-example title="Show and Change" file="ShowAndChange" />
+<DocExample title="Show and Change" file="ShowAndChange" />
 
 ### Content sanitization
 
-<doc-example title="With unsafe message, but sanitized" file="WithMessageSanitized" />
+<DocExample title="With unsafe message, but sanitized" file="WithMessageSanitized" />
 
 ### Multiple groups in parallel <q-badge label="v2.8+" />
 
@@ -88,7 +88,7 @@ Specify the `group` property when spawning each of your Loading instances and yo
 
 Obviously, we can only display one group at a time, so the order in which they are spawned determines the priority in which they are shown (the last one has priority over the previous ones; LIFO).
 
-<doc-example title="Multiple groups" file="MultipleGroups" />
+<DocExample title="Multiple groups" file="MultipleGroups" />
 
 You can play with the returning function to show/update/hide the group or just call `Loading.show({ group: '..group_name..', ... })` or `Loading.hide('..group_name..')`.
 

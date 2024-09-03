@@ -126,6 +126,13 @@ For a full list of our `wonderful` people who make Quasar happen, visit the [Bac
 * When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with  "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
 :::
 
+::: details Details container title
+For a full list of our `wonderful` people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.
+<br><br>
+* It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+* When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with  "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
+:::
+
 ## Call to action button
 
 <q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
@@ -136,10 +143,86 @@ For a full list of our `wonderful` people who make Quasar happen, visit the [Bac
 - Linux: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 - Windows: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 
-## Inline example
+## Code containers
 
 ```js
-module.exports = function (ctx) { // can be async too
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false [[! highlight]]
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
+```js [highlight=2,5]
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
+```js [highlight=2,5,9,10 numbered add=3,6-7]
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
+```js Titled code
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
+```bash
+/home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
+```
+
+```js [numbered]
+export default function (ctx) { // can be async too
   console.log(ctx)
 
   // Example output on console:
@@ -163,13 +246,159 @@ module.exports = function (ctx) { // can be async too
 }
 ```
 
-```bash
-/home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
+```json
+{
+  "min": 0,
+  "super": false,
+  "max": 100
+}
+```
+
+```json [rem=1]
+{
+  "min": 0,
+  "super": false, [[! rem]]
+  "super": true, [[! add]]
+  "max": 100
+}
+```
+
+```json [numbered]
+{
+  "min": 0,
+  "super": false, [[! rem]]
+  "super": true, [[! add]]
+  "max": 100
+}
+```
+
+```json [numbered]
+{
+  "min": 0,
+  "super": false, [[! highlight]]
+  "max": 100
+}
+```
+
+```diff
+@@ -13,6 +13,8 @@ const langList = [
+   { name: 'xml' },
+   { name: 'nginx' },
+   { name: 'html' },
++
++  // special grammars:
+   { name: 'diff' }
+ ]
+
+@@ -20,6 +22,12 @@ loadLanguages(langList.map(l => l.name))
+
+ const langMatch = langList.map(l => l.aliases || l.name).join('|')
+
++/**
++ * lang -> one of the supported languages (langList)
++ * attrs -> optional attributes:
++ *    * numbered - lines are numbered
++ * title -> optional card title
++ */
+ const definitionLineRE = new RegExp(
+   '^' +
+   `(?<lang>(tabs|${ langMatch }))` + // then a language name
+@@ -28,6 +36,10 @@ const definitionLineRE = new RegExp(
+   '$'
+ )
+
++/**
++ * <<| lang [attrs] [title] |>>
++ * ...content...
++ */
+ const tabsLineRE = new RegExp(
+   '^<<\\|\\s+' + // starts with "<<|" + at least one space char
+   `(?<lang>${ langMatch })` + // then a language name
+@@ -72,29 +84,65 @@ function extractTabs (content) {
+       const props = tabMap[ tabName ]
+       return (
+         `<q-tab-panel class="q-pa-none" name="${ tabName }">` +
+-        `<pre v-pre class="doc-code">${ highlight(props.content.join('\n'), props.attrs) }</pre>` +
+-        '<copy-button />' +
++        highlight(props.content.join('\n'), props.attrs) +
+         '</q-tab-panel>'
+       )
+     }).join('\n')
+   }
+ }
+
+-function highlight (content, attrs) {
+-  const { lang, numbered } = attrs
+-  const highlightedText = prism.highlight(content, prism.languages[ lang ], lang)
++const magicCommentRE = / *\/\/\[! (?<klass>[\w-]+)\] */
++const magicCommentGlobalRE = new RegExp(magicCommentRE, 'g')
+
+-  if (numbered === true) {
+-    const lines = highlightedText.split('\n')
+-    const lineCount = ('' + highlightedText.length).length
++function getLineClasses (content, highlightedLines) {
++  const lines = content.split('\n')
+```
+
+
+```tabs
+<<| js [numbered] Config file |>>
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+<<| js Other file |>>
+const x = {
+  dev: true,
+  prod: false
+}
+```
+
+```tabs quasar.config file
+<<| js One |>>
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+<<| js [numbered] Two (numbered) |>>
+const x = {
+  dev: true,
+  prod: false
+}
+<<| diff Three (with diff) |>>
+{
+  min: 0
+- super: false
++ super: true
+  max: 100
+}
 ```
 
 ## Tree
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ## Table
 
@@ -202,12 +431,12 @@ Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do *eiusmod* te
 
 Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do *eiusmod* tempor incididunt ut labore et dolore magna aliqua.
 
-<doc-installation plugins="AppFullscreen" />
+<DocInstallation plugins="AppFullscreen" />
 
-<doc-api file="QSelect" />
+<DocApi file="QSelect" />
 
-<doc-api file="TouchSwipe" />
+<DocApi file="TouchSwipe" />
 
-<doc-api file="Loading" />
+<DocApi file="Loading" />
 
-<doc-example title="Title for example card" file="StandardSizes" />
+<DocExample title="Title for example card" file="StandardSizes" />

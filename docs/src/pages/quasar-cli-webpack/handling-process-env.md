@@ -84,9 +84,7 @@ You can add your own definitions to `process.env` through the `/quasar.config` f
 
 But first, there's two concepts that need to be understood here. The env variables from the terminal that are available in the `/quasar.config` file itself and the environment variables that you pass to your UI code.
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 // Accessing terminal variables
 console.log(process.env)
 
@@ -130,8 +128,15 @@ build: {
 
 Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmjs.com/package/dotenv) package. The following is an example that passes env variables from the `.env` file to your UI code:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add --dev dotenv
+<<| bash NPM |>>
+$ npm install --save-dev dotenv
+<<| bash PNPM |>>
+$ pnpm add -D dotenv
+<<| bash Bun |>>
+$ bun add --dev dotenv
 ```
 
 Then, in your `/quasar.config` file:
@@ -148,9 +153,7 @@ Note that the approach above will pass only what's defined in the `.env` file an
 
 If you want to be able to override what's inside `.env` or want to make the `.env` file completely optional, you have to follow another approach. If you are using CI/CD, Docker, etc. you probably don't want to stay limited to the `.env` file. Here is an example:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 // This will load from `.env` if it exists, but not override existing `process∙env∙*` values
 require('dotenv').config()
 
@@ -180,8 +183,7 @@ You might be getting `process is not defined` errors in the browser console if y
 
 ### Wrong usage
 
-```js
-// quasar.config file > build
+```js /quasar.config file > build
 env: {
   FOO: 'hello',
 }
@@ -209,8 +211,7 @@ console.log(process.env.F0O) // ❌ Typo in the variable name (middle o is 0(zer
 
 #### Manual definition
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   env: {
     FOO: 'hello',
@@ -225,8 +226,7 @@ console.log(process.env.BAR) // ❌ It's not defined in `build > env`
 
 #### dotenv
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   env: require('dotenv').config(/* ... */).parsed
 }

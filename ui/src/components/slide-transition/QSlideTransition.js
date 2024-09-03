@@ -1,6 +1,6 @@
 import { h, onBeforeUnmount, Transition } from 'vue'
 
-import { createComponent } from '../../utils/private/create.js'
+import { createComponent } from '../../utils/private.create/create.js'
 
 export default createComponent({
   name: 'QSlideTransition',

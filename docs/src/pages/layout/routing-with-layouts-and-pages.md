@@ -43,12 +43,13 @@ $ quasar new page Profile Posts
 
 The commands above create the following folder structure:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ## Defining Routes
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.
 
 Example of `routes.js` using lazy-loading:
+
 ```js
 // we define our routes in this file
 
@@ -105,8 +106,7 @@ With Vue Router, it is very simple to express this relationship using nested rou
 
 Since User layout wraps inner pages, they need an injection point. This is supplied by the `<router-view>` component:
 
-```html
-<!-- /src/layouts/User.vue -->
+```html /src/layouts/User.vue
 <template>
   <q-layout>
     ...
@@ -121,8 +121,7 @@ Since User layout wraps inner pages, they need an injection point. This is suppl
 </template>
 ```
 
-```html
-<!-- /src/pages/Profile.vue or Posts.vue -->
+```html /src/pages/Profile.vue or Posts.vue
 <template>
   <q-page>
     ...page content...
@@ -132,9 +131,7 @@ Since User layout wraps inner pages, they need an injection point. This is suppl
 
 Our example has some routes specified (/user/profile and /user/posts). **So how can we put everything together now?** We edit the routes file. That's where we will configure routes, tell which components are Layouts and which are Pages and also reference/import them into our app:
 
-```js
-// src/router/routes.js
-
+```js src/router/routes.js
 import User from 'layouts/User'
 import Profile from 'pages/Profile'
 import Posts from 'pages/Posts'

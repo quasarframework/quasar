@@ -79,6 +79,12 @@ import('./categories.json')
   })
 ```
 
+One advantage of using dynamic imports as opposed to regular imports is that the import path can be determined at runtime:
+
+```js
+import('pages/' + pageName + '/' + idWithExtension)
+```
+
 ## Importing with Vite
 
 ### Dynamic import statements
