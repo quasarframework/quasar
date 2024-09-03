@@ -118,7 +118,7 @@
               "opts": {
                 "type": "Object",
                 "required": true,
-                "desc": "Props (except 'component') which will overwrite the initial create() params; If create() was invoked with a custom dialog component then this param should contain the new componentProps"
+                "desc": "If using with 'component' prop then the props to update the current 'componentProps' (will be shallowly merged on top of the previous 'componentProps'); Otherwise the props to be shallowly merged with the previous create() param Object"
               }
             },
             "returns": {

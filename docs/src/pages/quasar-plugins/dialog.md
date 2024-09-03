@@ -98,7 +98,40 @@ You can also invoke your own custom component rather than relying on the default
 
 This feature is actually the "bread and butter" of the Dialog plugin. It helps you keep your other vue components html templates clean by separating and reusing your dialog's functionality with ease.
 
-```js
+### Triggering the custom component
+
+```tabs
+<<| js By importing Dialog |>>
+/**
+ * This way of using it can reside outside
+ * of a Vue component as well
+ */
+
+import { Dialog } from 'quasar'
+import CustomComponent from '..path.to.component..'
+
+Dialog.create({
+  component: CustomComponent,
+
+  // props forwarded to your custom component
+  componentProps: {
+    text: 'something',
+    persistent: true,
+    // ...more..props...
+  }
+}).onOk(() => {
+  console.log('OK')
+}).onCancel(() => {
+  console.log('Cancel')
+}).onDismiss(() => {
+  console.log('Called on OK or Cancel')
+})
+<<| js With useQuasar() |>>
+/**
+ * This way of using it can reside ONLY
+ * inside of a Vue component
+ */
+
 import { useQuasar } from 'quasar'
 import CustomComponent from '..path.to.component..'
 
@@ -111,6 +144,7 @@ setup () {
     // props forwarded to your custom component
     componentProps: {
       text: 'something',
+      persistent: true,
       // ...more..props...
     }
   }).onOk(() => {
@@ -129,7 +163,9 @@ The equivalent of the above with Options API is by directly using `this.$q.dialo
 Your custom component however must follow the interface described below in order to perfectly hook into the Dialog plugin. **Notice the "REQUIRED" comments** and take it as is -- just a bare-bone example, nothing more.
 :::
 
-#### SFC with script setup (and Composition API) variant
+### Writing the custom component
+
+#### SFC with "script setup" and Composition API variant
 We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
 
 ```html
@@ -194,7 +230,7 @@ defineEmits({
 })
 ```
 
-#### Composition API variant
+#### SFC with "script" and Composition API variant
 
 We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
 
@@ -278,7 +314,7 @@ emits: {
 }
 ```
 
-#### Options API variant
+#### SFC with "script" and Options API variant
 
 ```html
 <template>

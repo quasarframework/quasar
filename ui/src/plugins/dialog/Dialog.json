@@ -277,7 +277,7 @@
 
             "componentProps": {
               "type": "Object",
-              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used"
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used; May also include any built-in QDialog option such as 'persistent' or 'seamless'"
             }
           }
         }
