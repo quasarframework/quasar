@@ -13,8 +13,8 @@
         show-if-above
 
         :mini="miniState"
-        @mouseover="miniState = false"
-        @mouseout="miniState = true"
+        @mouseenter="miniState = false"
+        @mouseleave="miniState = true"
 
         :width="200"
         :breakpoint="500"
