@@ -13,8 +13,8 @@
         show-if-above
 
         :mini="miniState"
-        @mouseover="miniState = false"
-        @mouseout="miniState = true"
+        @mouseenter="miniState = false"
+        @mouseleave="miniState = true"
         mini-to-overlay
 
         :width="200"
