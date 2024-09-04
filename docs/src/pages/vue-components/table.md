@@ -371,6 +371,10 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 <DocExample title="Synchronizing with server" file="Synchronizing" />
 
+A use case for managing pagination from outside QTable.
+
+<doc-example title="Synchronizing with server and synchronized pagination" file="QTable/SynchronizingPagination" />
+
 ## Exporting data
 
 Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
