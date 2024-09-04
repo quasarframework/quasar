@@ -245,13 +245,9 @@ export default createComponent({
     function configureAnchorEl () {
       if (props.noParentEvent === true || anchorEl.value === null) return
 
-      const evts = $q.platform.is.mobile === true
-        ? [
-            [ anchorEl.value, 'touchstart', 'delayShow', 'passive' ]
-          ]
-        : [
-            [ anchorEl.value, 'mouseenter', 'delayShow', 'passive' ],
-            [ anchorEl.value, 'mouseleave', 'delayHide', 'passive' ]
+      const evts = [
+            [ anchorEl.value, 'pointerenter', 'delayShow', 'passive' ],
+            [ anchorEl.value, 'pointerleave', 'delayHide', 'passive' ]
           ]
 
       addEvt(anchorEvents, 'anchor', evts)
