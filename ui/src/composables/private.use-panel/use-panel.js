@@ -117,9 +117,11 @@ export default function () {
     if (panelIndex.value !== index) {
       panelIndex.value = index
       emit('beforeTransition', newVal, oldVal)
-      nextTick(() => {
-        emit('transition', newVal, oldVal)
-      })
+      setTimeout(() => {
+        nextTick(() => {
+          emit('transition', newVal, oldVal)
+        })
+      }, props.transitionDuration);
     }
   })
 
