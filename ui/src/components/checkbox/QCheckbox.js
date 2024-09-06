@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
-const bgNode = h('div', {
+const createBgNode = () => h('div', {
   key: 'svg',
   class: 'q-checkbox__bg absolute'
 }, [
@@ -33,6 +33,8 @@ export default createComponent({
   emits: useCheckboxEmits,
 
   setup (props) {
+    const bgNode = createBgNode()
+
     function getInner (isTrue, isIndeterminate) {
       const icon = computed(() =>
         (isTrue.value === true
