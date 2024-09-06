@@ -4,7 +4,7 @@ import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
-const svg = [
+const createSvg = () => [
   h('rect', {
     x: '0',
     y: '0',
@@ -121,6 +121,7 @@ export default createComponent({
 
   setup (props) {
     const { cSize, classes } = useSpinner(props)
+    const svg = createSvg()
 
     return () => h('svg', {
       class: classes.value,
