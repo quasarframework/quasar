@@ -16,6 +16,7 @@ export default createComponent({
       default: 'div'
     },
 
+    dense: Boolean,
     square: Boolean,
     flat: Boolean,
     bordered: Boolean
@@ -28,6 +29,7 @@ export default createComponent({
     const classes = computed(() =>
       'q-card'
       + (isDark.value === true ? ' q-card--dark q-dark' : '')
+      + (props.dense === true ? ' q-card--dense' : '')
       + (props.bordered === true ? ' q-card--bordered' : '')
       + (props.square === true ? ' q-card--square no-border-radius' : '')
       + (props.flat === true ? ' q-card--flat no-shadow' : '')

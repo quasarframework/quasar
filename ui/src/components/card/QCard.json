@@ -20,6 +20,10 @@
       "extends": "bordered"
     },
 
+    "dense": {
+      "extends": "dense"
+    },
+
     "tag": {
       "extends": "tag",
       "default": "'div'",
