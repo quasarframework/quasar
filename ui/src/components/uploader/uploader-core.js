@@ -34,7 +34,10 @@ export const coreProps = {
   noThumbnails: Boolean,
   autoUpload: Boolean,
   hideUploadBtn: Boolean,
-
+  backgroundSize: {
+    type: String,
+    default: 'cover'
+  },
   disable: Boolean,
   readonly: Boolean
 }
@@ -389,7 +392,7 @@ export function getRenderer (getPlugin, expose) {
             : (file.__status === 'uploaded' ? ' q-uploader__file--uploaded' : '')
         ),
       style: props.noThumbnails !== true && file.__img !== void 0
-        ? { backgroundImage: 'url("' + file.__img.src + '")' }
+        ? { backgroundImage: 'url("' + file.__img.src + '")', backgroundSize: props.backgroundSize }
         : null
     }, [
       h('div', {
