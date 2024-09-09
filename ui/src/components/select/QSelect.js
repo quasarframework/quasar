@@ -93,6 +93,8 @@ export default createComponent({
     mapOptions: Boolean,
     emitValue: Boolean,
 
+    disableTabSelection: Boolean,
+
     inputDebounce: {
       type: [ Number, String ],
       default: 500
@@ -716,6 +718,7 @@ export default createComponent({
         && (props.newValueMode !== void 0 || props.onNewValue !== void 0)
 
       const tabShouldSelect = e.shiftKey !== true
+        && props.disableTabSelection !== true
         && props.multiple !== true
         && (optionIndex.value !== -1 || newValueModeValid === true)
 

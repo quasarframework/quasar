@@ -160,18 +160,18 @@ export default createComponent({
     watch(() => props.outsideArrows, recalculateScroll)
 
     function updateModel ({ name, setCurrent, skipEmit }) {
-      if (currentModel.value !== name) {
-        if (skipEmit !== true && props[ 'onUpdate:modelValue' ] !== void 0) {
-          emit('update:modelValue', name)
-        }
+      if (currentModel.value === name) return
 
-        if (
-          setCurrent === true
-          || props[ 'onUpdate:modelValue' ] === void 0
-        ) {
-          animate(currentModel.value, name)
-          currentModel.value = name
-        }
+      if (skipEmit !== true && props[ 'onUpdate:modelValue' ] !== void 0) {
+        emit('update:modelValue', name)
+      }
+
+      if (
+        setCurrent === true
+        || props[ 'onUpdate:modelValue' ] === void 0
+      ) {
+        animate(currentModel.value, name)
+        currentModel.value = name
       }
     }
 
@@ -219,7 +219,13 @@ export default createComponent({
           ? tabDataList.find(tab => tab.name.value === newName)
           : null
 
-      if (oldTab && newTab) {
+      if (hadActivated === true) {
+        // After the component has been re-activated
+        // we should not animate the transition.
+        // Consider it as if the component has just been mounted.
+        hadActivated = false
+      }
+      else if (oldTab && newTab) {
         const
           oldEl = oldTab.tabIndicatorRef.value,
           newEl = newTab.tabIndicatorRef.value
@@ -413,7 +419,8 @@ export default createComponent({
       return true
     }
 
-    // do not use directly; use verifyRouteModel() instead
+    // 1. Do not use directly; use verifyRouteModel() instead
+    // 2. Should set hadActivated to false upon exit
     function updateActiveRoute () {
       let name = null, bestScore = { matchedLen: 0, queryDiff: 9999, hrefLen: 0 }
 
@@ -506,6 +513,7 @@ export default createComponent({
         && tabDataList.some(tab => tab.routeData === void 0 && tab.name.value === currentModel.value) === true
       ) {
         // we shouldn't interfere if non-route tab is active
+        hadActivated = false
         return
       }
 
@@ -627,7 +635,7 @@ export default createComponent({
       unwatchRoute !== void 0 && unwatchRoute()
     }
 
-    let hadRouteWatcher
+    let hadRouteWatcher, hadActivated
 
     onBeforeUnmount(cleanup)
 
@@ -637,7 +645,12 @@ export default createComponent({
     })
 
     onActivated(() => {
-      hadRouteWatcher === true && watchRoute()
+      if (hadRouteWatcher === true) {
+        watchRoute()
+        hadActivated = true
+        verifyRouteModel()
+      }
+
       recalculateScroll()
     })
 

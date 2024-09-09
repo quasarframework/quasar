@@ -135,6 +135,10 @@ You can dynamically load new options when scroll reaches the end:
 
 <DocExample title="Menu covering component" file="OptionCover" />
 
+### Disable TAB telection
+
+<DocExample title="Disable Tab Selection" file="DisableTabSelection" />
+
 ## The display value
 
 <DocExample title="Custom display value" file="DisplayCustomValue" />
@@ -260,8 +264,8 @@ When the list of options is opened:
   - pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options
   - pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
   - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
-  - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
-    - select the option and close the list of options if `multiple` is not set
+  - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
+    - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
     - toggle the option if `multiple` is set
 
 ## Native form submit
