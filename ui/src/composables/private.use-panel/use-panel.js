@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, nextTick, getCurrentInstance, Transition, KeepAlive } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../../directives/touch-swipe/TouchSwipe.js'
 
