@@ -186,6 +186,30 @@
       "category": "options"
     },
 
+    "option-data-id": {
+      "type": [ "String", "Function" ],
+      "desc": "Add a 'data-id'-attribute to the option elements",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car' }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Use for custom data-id values"
+      },
+      "examples": [
+        "opt => (opt.value || opt).toLowerCase()"
+      ],
+      "category": "options"
+    },
+
     "menu-anchor": {
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)",
