@@ -91,8 +91,9 @@ export default createComponent({
     },
 
     mapOptions: Boolean,
-    disableTabSelection: Boolean,
     emitValue: Boolean,
+
+    disableTabSelection: Boolean,
 
     inputDebounce: {
       type: [ Number, String ],

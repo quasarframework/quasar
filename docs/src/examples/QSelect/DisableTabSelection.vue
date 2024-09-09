@@ -2,11 +2,11 @@
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
       <q-select
+        disable-tab-selection
         filled
         v-model="model"
         :options="options"
         stack-label
-        disable-tab-selection
         label="Standard"
       />
     </div>

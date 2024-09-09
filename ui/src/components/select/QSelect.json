@@ -280,7 +280,8 @@
     "disable-tab-selection": {
       "type": "Boolean",
       "desc": "Prevents the tab key from confirming the currently hovered option",
-      "category": "options"
+      "category": "options",
+      "addedIn": "v2.16.12"
     },
 
     "emit-value": {

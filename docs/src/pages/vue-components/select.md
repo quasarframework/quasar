@@ -135,7 +135,7 @@ You can dynamically load new options when scroll reaches the end:
 
 <DocExample title="Menu covering component" file="OptionCover" />
 
-### Disable tab telection
+### Disable TAB telection
 
 <DocExample title="Disable Tab Selection" file="DisableTabSelection" />
 
