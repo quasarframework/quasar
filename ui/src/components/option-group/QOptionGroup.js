@@ -7,6 +7,7 @@ import QToggle from '../toggle/QToggle.js'
 import { createComponent } from '../../utils/private.create/create.js'
 
 import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import { isObject } from '../../utils/is/is.js'
 
 const components = {
   radio: QRadio,
@@ -15,6 +16,16 @@ const components = {
 }
 
 const typeValues = Object.keys(components)
+
+function getPropValueFn (userPropName, defaultPropName) {
+  if (typeof userPropName === 'function') return userPropName
+
+  const propName = userPropName !== void 0
+    ? userPropName
+    : defaultPropName
+
+  return opt => opt[ propName ]
+}
 
 export default createComponent({
   name: 'QOptionGroup',
@@ -27,8 +38,13 @@ export default createComponent({
     },
     options: {
       type: Array,
-      validator: opts => opts.every(opt => 'value' in opt && 'label' in opt)
+      validator: opts => opts.every(isObject),
+      default: () => []
     },
+
+    optionValue: [ Function, String ],
+    optionLabel: [ Function, String ],
+    optionDisable: [ Function, String ],
 
     name: String,
 
@@ -66,8 +82,25 @@ export default createComponent({
     }
 
     const isDark = useDark(props, $q)
-
     const component = computed(() => components[ props.type ])
+
+    const getOptionValue = computed(() => getPropValueFn(props.optionValue, 'value'))
+    const getOptionLabel = computed(() => getPropValueFn(props.optionLabel, 'label'))
+    const getOptionDisable = computed(() => getPropValueFn(props.optionDisable, 'disable'))
+
+    const innerOptions = computed(() => props.options.map(opt => ({
+      val: getOptionValue.value(opt),
+      name: opt.name === void 0 ? props.name : opt.name,
+      disable: props.disable || getOptionDisable.value(opt),
+      leftLabel: opt.leftLabel === void 0 ? props.leftLabel : opt.leftLabel,
+      color: opt.color === void 0 ? props.color : opt.color,
+      checkedIcon: opt.checkedIcon,
+      uncheckedIcon: opt.uncheckedIcon,
+      dark: opt.dark === void 0 ? isDark.value : opt.dark,
+      size: opt.size === void 0 ? props.size : opt.size,
+      dense: props.dense,
+      keepColor: opt.keepColor === void 0 ? props.keepColor : opt.keepColor
+    })))
 
     const classes = computed(() =>
       'q-option-group q-gutter-x-sm'
@@ -109,20 +142,10 @@ export default createComponent({
 
       return h('div', [
         h(component.value, {
+          label: child === void 0 ? getOptionLabel.value(opt) : null,
           modelValue: props.modelValue,
-          val: opt.value,
-          name: opt.name === void 0 ? props.name : opt.name,
-          disable: props.disable || opt.disable,
-          label: child === void 0 ? opt.label : null,
-          leftLabel: opt.leftLabel === void 0 ? props.leftLabel : opt.leftLabel,
-          color: opt.color === void 0 ? props.color : opt.color,
-          checkedIcon: opt.checkedIcon,
-          uncheckedIcon: opt.uncheckedIcon,
-          dark: opt.dark || isDark.value,
-          size: opt.size === void 0 ? props.size : opt.size,
-          dense: props.dense,
-          keepColor: opt.keepColor === void 0 ? props.keepColor : opt.keepColor,
-          'onUpdate:modelValue': onUpdateModelValue
+          'onUpdate:modelValue': onUpdateModelValue,
+          ...innerOptions.value[ i ]
         }, child)
       ])
     }))
