@@ -27,6 +27,16 @@ const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
 const fieldPropsList = Object.keys(useFieldProps)
 
+function getPropValueFn (userPropName, defaultPropName) {
+  if (typeof userPropName === 'function') return userPropName
+
+  const propName = userPropName !== void 0
+    ? userPropName
+    : defaultPropName
+
+  return opt => ((opt !== null && typeof opt === 'object' && propName in opt) ? opt[ propName ] : opt)
+}
+
 export default createComponent({
   name: 'QSelect',
 
@@ -161,12 +171,7 @@ export default createComponent({
 
     const onComposition = useKeyComposition(onInput)
 
-    const virtualScrollLength = computed(() => (
-      Array.isArray(props.options)
-        ? props.options.length
-        : 0
-    ))
-
+    const virtualScrollLength = computed(() => props.options.length)
     const virtualScrollItemSizeComputed = computed(() => (
       props.virtualScrollItemSize === void 0
         ? (props.optionsDense === true ? 24 : 48)
@@ -195,7 +200,7 @@ export default createComponent({
           ? (props.multiple === true && Array.isArray(props.modelValue) ? props.modelValue : [ props.modelValue ])
           : []
 
-      if (props.mapOptions === true && Array.isArray(props.options) === true) {
+      if (props.mapOptions === true) {
         const cache = props.mapOptions === true && innerValueCache !== void 0
           ? innerValueCache
           : []
@@ -395,7 +400,7 @@ export default createComponent({
     // takes into account 'option-disable' prop
     const isOptionDisabled = computed(() => getPropValueFn(props.optionDisable, 'disable'))
 
-    const innerOptionsValue = computed(() => innerValue.value.map(opt => getOptionValue.value(opt)))
+    const innerOptionsValue = computed(() => innerValue.value.map(getOptionValue.value))
 
     const inputControlEvents = computed(() => {
       const evt = {
@@ -605,16 +610,6 @@ export default createComponent({
     function getOption (value, valueCache) {
       const fn = opt => isDeepEqual(getOptionValue.value(opt), value)
       return props.options.find(fn) || valueCache.find(fn) || value
-    }
-
-    function getPropValueFn (propValue, defaultVal) {
-      const val = propValue !== void 0
-        ? propValue
-        : defaultVal
-
-      return typeof val === 'function'
-        ? val
-        : opt => (opt !== null && typeof opt === 'object' && val in opt ? opt[ val ] : opt)
     }
 
     function isOptionSelected (opt) {
