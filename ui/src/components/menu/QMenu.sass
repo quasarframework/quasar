@@ -1,7 +1,8 @@
 .q-menu
   position: fixed !important
   display: inline-block
-  max-width: $menu-max-width
+  max-width: $menu-max-width // required by the position-engine
+  max-height: $menu-max-height // required by the position-engine
 
   box-shadow: $menu-box-shadow
   background: $menu-background
@@ -9,7 +10,6 @@
   overflow-y: auto
   overflow-x: hidden
   outline: 0
-  max-height: 65vh
   z-index: $z-menu
 
   &--square

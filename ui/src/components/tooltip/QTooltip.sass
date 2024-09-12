@@ -12,6 +12,8 @@
   overflow-y: auto
   overflow-x: hidden
   padding: $tooltip-padding
+  max-width: $tooltip-max-width // required by the position-engine
+  max-height: $tooltip-max-height // required by the position-engine
 
   @media (max-width: $breakpoint-xs-max)
     font-size: $tooltip-mobile-fontsize
