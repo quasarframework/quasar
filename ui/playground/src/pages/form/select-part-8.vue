@@ -46,7 +46,7 @@
                     <q-item v-bind="itemProps">
                       <q-item-section>
                         <q-item-label>
-                          <div v-html="scope.opt.label" />
+                          <div v-html="opt.label" />
                         </q-item-label>
                       </q-item-section>
                       <q-item-section side>
@@ -284,12 +284,12 @@ export default {
       mic: 8,
 
       quiz: {},
-      quizList: null
+      quizList: []
     }
   },
   methods: {
     getQuiz (value, update, abort) {
-      if (this.quizList !== null) {
+      if (this.quizList.length !== 0) {
         update()
         return
       }
