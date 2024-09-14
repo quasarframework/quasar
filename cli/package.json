@@ -47,13 +47,13 @@
     "yarn": ">= 1.6.0"
   },
   "dependencies": {
-    "@quasar/ssl-certificate": "^1.0.0",
+    "@quasar/ssl-certificate": "workspace:^",
     "ci-info": "^4.0.0",
     "compression": "^1.7.4",
     "connect-history-api-fallback": "^2.0.0",
     "cors": "^2.8.5",
     "cross-spawn": "^7.0.3",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "fs-extra": "^11.2.0",
     "http-proxy-middleware": "^2.0.6",
     "kolorist": "^1.8.0",
