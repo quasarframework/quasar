@@ -89,12 +89,12 @@ function getTableLines (assets, showGzipped) {
   totalSize['css'][1] = getHumanSize(totalSize['css'][1]);
 
   if (showGzipped === true) {
-    totalSize['js'][2] = '-';
-    totalSize['css'][2] = '-';
+    totalSize['js'][2] = '-'
+    totalSize['css'][2] = '-'
   }
 
-  tableLines.push(totalSize.js);
-  tableLines.push(totalSize.css);
+  tableLines.push(totalSize.js)
+  tableLines.push(totalSize.css)
 
   return tableLines;
 }
