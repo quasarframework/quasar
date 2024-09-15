@@ -51,13 +51,28 @@ function getGzippedSize (file) {
 }
 
 function getTableLines (assets, showGzipped) {
-  return assets.map(asset => {
+  const totalSize = {
+    js: [
+      colorFn["js"]('Total JS file size: '),
+      0,
+    ],
+    css: [
+      colorFn["css"]('Total CSS file size: '),
+      0,
+    ],
+  };
+
+  const tableLines = assets.map(asset => {
     const dir = dirname(asset.name)
 
     const acc = [
       (dir !== '.' ? gray(dir + '/') : '') + colorFn[ asset.type ](basename(asset.name)),
       getHumanSize(asset.size)
     ]
+
+    if (['js', 'css'].includes(asset.type)) {
+      totalSize[ asset.type ][1] += asset.size
+    }
 
     if (showGzipped === true) {
       acc.push(
@@ -69,6 +84,19 @@ function getTableLines (assets, showGzipped) {
 
     return acc
   })
+
+  totalSize['js'][1] = getHumanSize(totalSize['js'][1]);
+  totalSize['css'][1] = getHumanSize(totalSize['css'][1]);
+
+  if (showGzipped === true) {
+    totalSize['js'][2] = '-';
+    totalSize['css'][2] = '-';
+  }
+
+  tableLines.push(totalSize.js);
+  tableLines.push(totalSize.css);
+
+  return tableLines;
 }
 
 function getTableIndexDelimiters (assets) {
@@ -89,6 +117,8 @@ export function printBuildSummary (distDir, showGzipped) {
   const assets = getAssets(distDir)
   const tableLines = getTableLines(assets, showGzipped)
   const tableIndexDelimiters = getTableIndexDelimiters(assets)
+
+  tableIndexDelimiters.push(tableLines.length + 1);
 
   const header = [
     underline('Asset'),
