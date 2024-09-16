@@ -80,7 +80,6 @@
     "sass": "^1.78.0",
     "semver": "^7.6.3",
     "serialize-javascript": "^6.0.2",
-    "table": "^6.8.2",
     "ts-essentials": "^9.4.2",
     "vite": "^5.4.5",
     "webpack-merge": "^6.0.1"

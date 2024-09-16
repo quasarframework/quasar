@@ -1,18 +1,23 @@
 import { readFileSync, statSync } from 'node:fs'
 import { join, dirname, basename } from 'node:path'
 import { gzipSync } from 'zlib'
-import { table } from 'table'
 import { underline, green, blue, magenta, cyan, gray } from 'kolorist'
 import fglob from 'fast-glob'
 
+const highlightTypes = [ 'js', 'css' ]
+const delimiters = {
+  top: { start: ' ╔', middle: '═', end: '╗', join: '╦' },
+  separator: { start: ' ╟', middle: '─', end: '╢', join: '╫' },
+  thickSeparator: { start: ' ╠', middle: '═', end: '╣', join: '╬' },
+  line: { start: ' ║', middle: '─', end: '║', join: '║' },
+  bottom: { start: ' ╚', middle: '═', end: '╝', join: '╩' }
+}
 const colorFn = {
   js: green,
   css: blue,
   json: magenta,
   html: cyan
 }
-
-const highlightTypes = [ 'js', 'css' ]
 
 function getAssets (distDir) {
   const acc = []
@@ -50,21 +55,41 @@ function getGzippedSize (file) {
   }
 }
 
-function getTableLines (assets, showGzipped) {
+function getAssetLines (assetList, showGzipped) {
   const total = highlightTypes.reduce((acc, type) => {
     acc[ type ] = { size: 0, number: 0 }
     return acc
   }, {})
 
-  const tableLines = assets.map(asset => {
-    const dir = dirname(asset.name)
+  const lineList = []
+  let lastType = null
 
-    const acc = [
-      (dir !== '.' ? gray(dir + '/') : '') + colorFn[ asset.type ](basename(asset.name)),
-      getHumanSize(asset.size)
-    ]
+  assetList.forEach(asset => {
+    if (lastType !== asset.type) {
+      lastType = asset.type
+      lineList.push('separator')
+    }
 
+    const folder = dirname(asset.name)
+    const filename = basename(asset.name)
+    const size = getHumanSize(asset.size)
     const shouldHighlight = highlightTypes.includes(asset.type)
+
+    const acc = {
+      asset: (folder !== '.' ? gray(folder + '/') : '') + colorFn[ asset.type ](filename),
+      assetLen: ((folder !== '.' ? folder + '/' : '') + filename).length,
+      size,
+      sizeLen: size.length
+    }
+
+    if (showGzipped === true) {
+      const val = shouldHighlight === true
+        ? getHumanSize(getGzippedSize(asset.file))
+        : '-'
+
+      acc.gzipped = gray(val)
+      acc.gzippedLen = val.length
+    }
 
     if (shouldHighlight === true) {
       const target = total[ asset.type ]
@@ -72,76 +97,142 @@ function getTableLines (assets, showGzipped) {
       target.number++
     }
 
-    showGzipped === true && acc.push(
-      shouldHighlight === true
-        ? getHumanSize(getGzippedSize(asset.file))
-        : gray('-')
-    )
-
-    return acc
+    lineList.push(acc)
   })
 
-  const lines = highlightTypes.map(type => {
+  lineList.push('thickSeparator')
+
+  highlightTypes.forEach(type => {
     const target = total[ type ]
     const plural = target.number > 1 ? 's' : ''
-    return [
-      colorFn[ type ](`Total ${ type.toUpperCase() } (${ target.number } file${ plural })`),
-      getHumanSize(target.size)
-    ]
+
+    const asset = `Total ${ type.toUpperCase() } (${ target.number } file${ plural })`
+    const size = getHumanSize(target.size)
+
+    lineList.push({
+      asset: colorFn[ type ](asset),
+      assetLen: asset.length,
+      size,
+      sizeLen: size.length,
+      gzipped: gray('-'),
+      gzippedLen: 1
+    })
   })
 
-  if (showGzipped === true) {
-    lines.forEach(line => { line.push('-') })
-  }
-
-  return [ ...tableLines, ...lines ]
+  return lineList
 }
 
-function getTableIndexDelimiters (assets) {
-  let lastType
-  const delimiters = [ 0, assets.length + 1 ]
+function getAssetColumnWidth (assetList) {
+  const total = highlightTypes.reduce((acc, type) => {
+    acc[ type ] = 0
+    return acc
+  }, {})
 
-  assets.forEach((asset, index) => {
-    if (lastType !== asset.type) {
-      lastType = asset.type
-      delimiters.push(index + 1)
+  let maxAssetNameLen = assetList.reduce(
+    (acc, asset) => {
+      if (highlightTypes.includes(asset.type)) {
+        total[ asset.type ]++
+      }
+      return Math.max(acc, asset.name.length)
+    },
+    0
+  )
+
+  highlightTypes.forEach(type => {
+    const target = total[ type ]
+    const plural = target.number > 1 ? 's' : ''
+    const banner = `Total ${ type.toUpperCase() } (${ target.number } file${ plural })`
+
+    if (banner.length > maxAssetNameLen) {
+      maxAssetNameLen = banner.length
     }
   })
 
-  return delimiters
+  return /* spacing */ 2 + maxAssetNameLen
+}
+
+function capitalize (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+function getTable (widthMap) {
+  const acc = {}
+  const colKeys = Object.keys(widthMap)
+  const separatorLine = (
+    delimiters.separator.start
+    + colKeys.map(key => delimiters.separator.middle.repeat(widthMap[ key ])).join(delimiters.separator.join)
+    + delimiters.separator.end
+  )
+  const thickSeparatorLine = (
+    delimiters.thickSeparator.start
+    + colKeys.map(key => delimiters.thickSeparator.middle.repeat(widthMap[ key ])).join(delimiters.thickSeparator.join)
+    + delimiters.thickSeparator.end
+  )
+
+  acc.printLine = function (line) {
+    if (line === 'separator') {
+      console.log(separatorLine)
+      return
+    }
+
+    if (line === 'thickSeparator') {
+      console.log(thickSeparatorLine)
+      return
+    }
+
+    console.log(
+      delimiters.line.start
+      + colKeys.map(key => (' '.repeat(widthMap[ key ] - line[ key + 'Len' ] - 1) + line[ key ] + ' ')).join(delimiters.line.join)
+      + delimiters.line.end
+    )
+  }
+
+  acc.printHeader = function () {
+    console.log(
+      delimiters.top.start
+      + colKeys.map(key => delimiters.top.middle.repeat(widthMap[ key ])).join(delimiters.top.join)
+      + delimiters.top.end
+    )
+
+    acc.printLine(
+      colKeys.reduce((acc, key) => {
+        const val = capitalize(key)
+        acc[ key ] = underline(val)
+        acc[ key + 'Len' ] = val.length
+        return acc
+      }, {})
+    )
+  }
+
+  acc.printFooter = function () {
+    console.log(
+      delimiters.bottom.start
+      + colKeys.map(key => delimiters.bottom.middle.repeat(widthMap[ key ])).join(delimiters.bottom.join)
+      + delimiters.bottom.end
+      + '\n'
+    )
+  }
+
+  return acc
 }
 
 export function printBuildSummary (distDir, showGzipped) {
-  const assets = getAssets(distDir)
-  const tableLines = getTableLines(assets, showGzipped)
-  const tableIndexDelimiters = getTableIndexDelimiters(assets)
+  const assetList = getAssets(distDir)
 
-  tableIndexDelimiters.push(tableLines.length + 1)
-
-  const header = [
-    underline('Asset'),
-    underline('Size')
-  ]
-  const columns = {
-    0: { alignment: 'right' },
-    1: { alignment: 'right' }
+  const widthMap = {
+    asset: getAssetColumnWidth(assetList),
+    size: 14
   }
 
   if (showGzipped === true) {
-    header.push(underline('Gzipped'))
-    columns[ 2 ] = { alignment: 'right' }
+    widthMap.gzipped = widthMap.size
   }
 
-  const data = [
-    header,
-    ...tableLines
-  ]
-
-  const output = table(data, {
-    columns,
-    drawHorizontalLine: index => tableIndexDelimiters.includes(index)
-  })
+  const table = getTable(widthMap)
 
   console.log(' Build summary with important files:')
-  console.log(' ' + output.replace(/\n/g, '\n '))
+
+  table.printHeader()
+  getAssetLines(assetList, showGzipped).forEach(table.printLine)
+  table.printFooter()
 }
