@@ -113,9 +113,6 @@ importers:
       serialize-javascript:
         specifier: ^6.0.2
         version: 6.0.2
-      table:
-        specifier: ^6.8.2
-        version: 6.8.2
       ts-essentials:
         specifier: ^9.4.2
         version: 9.4.2(typescript@5.6.2)
@@ -321,9 +318,6 @@ importers:
       serialize-javascript:
         specifier: ^6.0.2
         version: 6.0.2
-      table:
-        specifier: ^6.8.2
-        version: 6.8.2
       terser-webpack-plugin:
         specifier: ^5.3.10
         version: 5.3.10(esbuild@0.23.1)(webpack@5.94.0(esbuild@0.23.1))
