@@ -85,23 +85,23 @@ export class QuasarModeBuilder extends AppBuilder {
 
     // handle .npmrc separately
     const npmrc = this.ctx.appPaths.resolve.app('.npmrc')
-    if (fse.existsSync(npmrc)) {
-      let content = this.readFile(npmrc)
+    let content = fse.existsSync(npmrc)
+      ? this.readFile(npmrc)
+      : ''
 
-      if (content.indexOf('shamefully-hoist') === -1) {
-        content += '\n# needed by pnpm\nshamefully-hoist=true'
-      }
-      // very important, otherwise PNPM creates symlinks which is NOT
-      // what we want for an Electron app that should run cross-platform
-      if (content.indexOf('node-linker') === -1) {
-        content += '\n# pnpm needs this otherwise it creates symlinks\nnode-linker=hoisted'
-      }
-
-      this.writeFile(
-        join(this.quasarConf.build.distDir, 'UnPackaged/.npmrc'),
-        content
-      )
+    if (content.indexOf('shamefully-hoist') === -1) {
+      content += '\n# needed by pnpm\nshamefully-hoist=true'
     }
+    // very important, otherwise PNPM creates symlinks which is NOT
+    // what we want for an Electron app that should run cross-platform
+    if (content.indexOf('node-linker') === -1) {
+      content += '\n# pnpm needs this otherwise it creates symlinks\nnode-linker=hoisted'
+    }
+
+    this.writeFile(
+      join(this.quasarConf.build.distDir, 'UnPackaged/.npmrc'),
+      content
+    )
   }
 
   async #packageFiles () {
