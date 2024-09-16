@@ -12,7 +12,7 @@ const colorFn = {
   html: cyan
 }
 
-const gzipTypes = [ 'js', 'css' ]
+const highlightTypes = [ 'js', 'css' ]
 
 function getAssets (distDir) {
   const acc = []
@@ -51,16 +51,10 @@ function getGzippedSize (file) {
 }
 
 function getTableLines (assets, showGzipped) {
-  const totalSize = {
-    js: [
-      colorFn["js"]('Total JS file size: '),
-      0,
-    ],
-    css: [
-      colorFn["css"]('Total CSS file size: '),
-      0,
-    ],
-  };
+  const total = highlightTypes.reduce((acc, type) => {
+    acc[ type ] = { size: 0, number: 0 }
+    return acc
+  }, {})
 
   const tableLines = assets.map(asset => {
     const dir = dirname(asset.name)
@@ -70,33 +64,37 @@ function getTableLines (assets, showGzipped) {
       getHumanSize(asset.size)
     ]
 
-    if (['js', 'css'].includes(asset.type)) {
-      totalSize[ asset.type ][1] += asset.size
+    const shouldHighlight = highlightTypes.includes(asset.type)
+
+    if (shouldHighlight === true) {
+      const target = total[ asset.type ]
+      target.size += asset.size
+      target.number++
     }
 
-    if (showGzipped === true) {
-      acc.push(
-        gzipTypes.includes(asset.type) === true
-          ? getHumanSize(getGzippedSize(asset.file))
-          : gray('-')
-      )
-    }
+    showGzipped === true && acc.push(
+      shouldHighlight === true
+        ? getHumanSize(getGzippedSize(asset.file))
+        : gray('-')
+    )
 
     return acc
   })
 
-  totalSize['js'][1] = getHumanSize(totalSize['js'][1]);
-  totalSize['css'][1] = getHumanSize(totalSize['css'][1]);
+  const lines = highlightTypes.map(type => {
+    const target = total[ type ]
+    const plural = target.number > 1 ? 's' : ''
+    return [
+      colorFn[ type ](`Total ${ type.toUpperCase() } (${ target.number } file${ plural })`),
+      getHumanSize(target.size)
+    ]
+  })
 
   if (showGzipped === true) {
-    totalSize['js'][2] = '-'
-    totalSize['css'][2] = '-'
+    lines.forEach(line => { line.push('-') })
   }
 
-  tableLines.push(totalSize.js)
-  tableLines.push(totalSize.css)
-
-  return tableLines;
+  return [ ...tableLines, ...lines ]
 }
 
 function getTableIndexDelimiters (assets) {
@@ -118,7 +116,7 @@ export function printBuildSummary (distDir, showGzipped) {
   const tableLines = getTableLines(assets, showGzipped)
   const tableIndexDelimiters = getTableIndexDelimiters(assets)
 
-  tableIndexDelimiters.push(tableLines.length + 1);
+  tableIndexDelimiters.push(tableLines.length + 1)
 
   const header = [
     underline('Asset'),
