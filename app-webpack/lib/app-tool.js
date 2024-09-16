@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 const webpack = require('webpack')
 const { build: esBuild, context: esContextBuild } = require('esbuild')
 
-const { fatal, progress } = require('./utils/logger.js')
+const { warn, fatal, progress } = require('./utils/logger.js')
 
 const cordovaWWW = join('src-cordova', 'www')
 const capacitorWWW = join('src-capacitor', 'www')
@@ -41,10 +41,13 @@ module.exports.AppTool = class AppTool {
           fatal(`for "${ threadName }" with ${ summary }. Please check the log above.`, 'COMPILATION FAILED')
         }
 
-        const { printWebpackStats } = require('./utils/print-webpack-stats.js')
-
         console.log()
-        printWebpackStats(stats, webpackConf.output.path, threadName)
+
+        if (stats.hasWarnings()) {
+          const { printWebpackWarnings } = require('./utils/print-webpack-issue/index.js')
+          const summary = printWebpackWarnings(threadName, stats)
+          warn(`Build succeeded, but with ${ summary }. Check log above.\n`)
+        }
 
         resolve()
       })

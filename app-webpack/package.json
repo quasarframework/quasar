@@ -100,7 +100,6 @@
     "sass-loader": "14.2.1",
     "semver": "^7.6.3",
     "serialize-javascript": "^6.0.2",
-    "table": "^6.8.2",
     "terser-webpack-plugin": "^5.3.10",
     "ts-essentials": "^9.4.2",
     "url-loader": "^4.1.1",
