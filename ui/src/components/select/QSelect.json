@@ -281,7 +281,7 @@
       "type": "Boolean",
       "desc": "Prevents the tab key from confirming the currently hovered option",
       "category": "options",
-      "addedIn": "v2.16.12"
+      "addedIn": "v2.17"
     },
 
     "emit-value": {

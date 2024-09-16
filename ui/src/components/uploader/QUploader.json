@@ -61,7 +61,7 @@
       "default": "'cover'",
       "examples": [ "'cover'", "'contain'", "'auto'", "'50%'" ],
       "category": "style",
-      "addedIn": "v2.16.12"
+      "addedIn": "v2.17"
     },
 
     "disable": {
