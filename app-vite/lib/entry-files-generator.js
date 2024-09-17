@@ -46,76 +46,8 @@ export class EntryFilesGenerator {
       }
     })
     this.#templateFiles.push({
-      /**
-       * @param {import('../types/configuration/conf').QuasarConf} quasarConf
-       * @returns {string}
-       */
-      template: (quasarConf) => {
-        const toTsPath = (path) => {
-          const relativePath = relative(appPaths.resolve.app('.quasar'), path)
-          if (relativePath.length === 0) {
-            return '.'
-          }
-          if (!relativePath.startsWith('.')) {
-            return './' + relativePath
-          }
-          return relativePath
-        }
-
-        const aliases = { ...quasarConf.build.alias }
-
-        const { mode } = quasarConf.ctx
-
-        if (mode.capacitor) {
-          // Can't use cacheProxy.getRuntime('runtimeCapacitorConfig') as it's not available here yet
-          const { dependencies } = JSON.parse(
-            readFileSync(appPaths.resolve.capacitor('package.json'), 'utf-8')
-          )
-          const target = appPaths.resolve.capacitor('node_modules')
-          const depsList = Object.keys(dependencies)
-          depsList.forEach(dep => {
-            aliases[ dep ] = join(target, dep)
-          })
-        }
-
-        // TODO: add a property/hook to quasar.conf file to allow user to customize this (for dynamic use cases)
-        return JSON.stringify({
-          // TODO: add a strict option to use the strict tsconfig preset
-          // TODO: consider embedding the tsconfig preset in the template for better control
-          extends: '@quasar/app-vite/tsconfig-preset',
-          compilerOptions: {
-            paths: Object.fromEntries(
-              Object.entries(aliases).flatMap(([ alias, path ]) => {
-                if (path.includes('/node_modules/')) {
-                  return [ alias, [ toTsPath(path) ] ]
-                }
-
-                const stats = statSync(path)
-                if (stats.isFile()) {
-                  return [
-                    [ alias, [ toTsPath(path) ] ]
-                  ]
-                }
-
-                return [
-                  // import ... from 'src' (resolves to 'src/index')
-                  [ alias, [ toTsPath(path) ] ],
-                  // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
-                  [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
-                ]
-              })
-            )
-          },
-          exclude: [
-            toTsPath('dist'),
-            toTsPath('.quasar/*/*.js'),
-            toTsPath('node_modules'),
-            toTsPath('src-capacitor'),
-            toTsPath('src-cordova'),
-            toTsPath('quasar.config.*.temporary.compiled*')
-          ]
-        }, null, 2)
-      },
+      template: (quasarConf) =>
+        JSON.stringify(this.#generateTsConfig(ctx, quasarConf), null, 2),
       dest: appPaths.resolve.app('.quasar/tsconfig.json')
     })
 
@@ -135,5 +67,77 @@ export class EntryFilesGenerator {
       fse.ensureFileSync(file.dest)
       fse.copySync(file.src, file.dest)
     })
+  }
+
+  /**
+   * @param {import('../types/configuration/context').QuasarContext} ctx
+   * @param {import('../types/configuration/conf').QuasarConf} quasarConf
+   * @returns {Record<string, unknown>}
+   */
+  #generateTsConfig (ctx, quasarConf) {
+    const { appPaths, mode } = ctx
+
+    const toTsPath = (path) => {
+      const relativePath = relative(appPaths.resolve.app('.quasar'), path)
+      if (relativePath.length === 0) {
+        return '.'
+      }
+      if (!relativePath.startsWith('.')) {
+        return './' + relativePath
+      }
+      return relativePath
+    }
+
+    const aliases = { ...quasarConf.build.alias }
+
+    if (mode.capacitor) {
+      // Can't use cacheProxy.getRuntime('runtimeCapacitorConfig') as it's not available here yet
+      const { dependencies } = JSON.parse(
+        readFileSync(appPaths.resolve.capacitor('package.json'), 'utf-8')
+      )
+      const target = appPaths.resolve.capacitor('node_modules')
+      const depsList = Object.keys(dependencies)
+      depsList.forEach(dep => {
+        aliases[ dep ] = join(target, dep)
+      })
+    }
+
+    // TODO: add a property/hook to quasar.conf file to allow user to customize this (for dynamic use cases)
+    return {
+      // TODO: add a strict option to use the strict tsconfig preset
+      // TODO: consider embedding the tsconfig preset in the template for better control
+      extends: '@quasar/app-vite/tsconfig-preset',
+      compilerOptions: {
+        paths: Object.fromEntries(
+          Object.entries(aliases).flatMap(([ alias, path ]) => {
+            if (path.includes('/node_modules/')) {
+              return [ alias, [ toTsPath(path) ] ]
+            }
+
+            const stats = statSync(path)
+            if (stats.isFile()) {
+              return [
+                [ alias, [ toTsPath(path) ] ]
+              ]
+            }
+
+            return [
+              // import ... from 'src' (resolves to 'src/index')
+              [ alias, [ toTsPath(path) ] ],
+              // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
+              [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
+            ]
+          })
+        )
+      },
+      exclude: [
+        'dist',
+        '.quasar/*/*.js',
+        'node_modules',
+        'src-capacitor',
+        'src-cordova',
+        'quasar.config.*.temporary.compiled*'
+      ].map(path => toTsPath(path))
+    }
   }
 }
