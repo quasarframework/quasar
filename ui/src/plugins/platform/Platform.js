@@ -65,11 +65,41 @@ const hasTouch = __QUASAR_SSR_SERVER__
   : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
 function getPlatform (UA) {
-  const
-    userAgent = UA.toLowerCase(),
-    platformMatch = getPlatformMatch(userAgent),
-    matched = getMatch(userAgent, platformMatch),
-    browser = {}
+  const userAgent = UA.toLowerCase()
+  const platformMatch = getPlatformMatch(userAgent)
+  const matched = getMatch(userAgent, platformMatch)
+  const browser = {
+    mobile: false,
+    cordova: false,
+    capacitor: false,
+    nativeMobile: false,
+    // nativeMobileWrapper: void 0,
+    electron: false,
+    desktop: false,
+    bex: false,
+    android: false,
+    blackberry: false,
+    cros: false,
+    ios: false,
+    ipad: false,
+    iphone: false,
+    ipod: false,
+    kindle: false,
+    linux: false,
+    mac: false,
+    win: false,
+    winphone: false,
+    playbook: false,
+    silk: false,
+    chrome: false,
+    firefox: false,
+    opera: false,
+    safari: false,
+    vivaldi: false,
+    edge: false,
+    ie: false,
+    webkit: false
+  }
 
   if (matched.browser) {
     browser[ matched.browser ] = true
