@@ -620,7 +620,7 @@ function getIndexDts (apis, quasarLangIndex) {
   writeLine(contents)
 
   // Extend Vue instance with injections
-  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
+  writeLine(contents, 'declare module \'vue\' {')
   writeLine(contents, 'interface ComponentCustomProperties {', 1)
 
   for (const key in injections) {
@@ -647,7 +647,7 @@ function getIndexDts (apis, quasarLangIndex) {
   }
   writeLine(contents, '}')
   writeLine(contents)
-  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
+  writeLine(contents, 'declare module \'vue\' {')
   writeLine(contents, 'interface GlobalComponents extends _GlobalComponents {}', 1)
   writeLine(contents, '}')
   writeLine(contents)
