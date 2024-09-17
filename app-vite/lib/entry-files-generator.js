@@ -75,7 +75,15 @@ export class EntryFilesGenerator {
                 return [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
               })
             )
-          }
+          },
+          exclude: [
+            toTsPath('dist'),
+            toTsPath('.quasar/*/*.js'),
+            toTsPath('node_modules'),
+            toTsPath('src-capacitor'),
+            toTsPath('src-cordova'),
+            toTsPath('quasar.config.*.temporary.compiled*')
+          ]
         }, null, 2)
       },
       dest: appPaths.resolve.app('.quasar/tsconfig.json')
