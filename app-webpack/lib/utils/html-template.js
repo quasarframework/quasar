@@ -90,7 +90,7 @@ function injectPwaTags (html, quasarConf) {
         ? `\n<meta name="theme-color" content="${ pwaManifest.theme_color }">`
           + `<link rel="mask-icon" href="${ publicPath }icons/safari-pinned-tab.svg" color="${ pwaManifest.theme_color }">`
         : '')
-      + '\n<meta name="apple-mobile-web-app-capable" content="yes">'
+      + '\n<meta name="mobile-web-app-capable" content="yes">'
       + '\n<meta name="apple-mobile-web-app-status-bar-style" content="default">'
       + (pwaManifest.name !== void 0 ? `\n<meta name="apple-mobile-web-app-title" content="${ pwaManifest.name }">` : '')
       + `\n<meta name="msapplication-TileImage" content="${ publicPath }icons/ms-icon-144x144.png">`
