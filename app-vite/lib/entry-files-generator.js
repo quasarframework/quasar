@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, statSync } from 'node:fs'
 import fse from 'fs-extra'
 import compileTemplate from 'lodash/template.js'
 import { join, relative } from 'node:path'
@@ -85,13 +85,24 @@ export class EntryFilesGenerator {
           extends: '@quasar/app-vite/tsconfig-preset',
           compilerOptions: {
             paths: Object.fromEntries(
-              Object.entries(aliases).map(([ alias, path ]) => {
-                // TODO: handle folder module aliases too (without the /*) (e.g. 'src' and not have to use 'src/index')
-                // TODO: handle file aliases too (without the /*) (use stats.isFile())
+              Object.entries(aliases).flatMap(([ alias, path ]) => {
                 if (path.includes('/node_modules/')) {
                   return [ alias, [ toTsPath(path) ] ]
                 }
-                return [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
+
+                const stats = statSync(path)
+                if (stats.isFile()) {
+                  return [
+                    [ alias, [ toTsPath(path) ] ]
+                  ]
+                }
+
+                return [
+                  // import ... from 'src' (resolves to 'src/index')
+                  [ alias, [ toTsPath(path) ] ],
+                  // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
+                  [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
+                ]
               })
             )
           },
