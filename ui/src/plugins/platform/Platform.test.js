@@ -37,6 +37,8 @@ describe('[Platform API]', () => {
           versionNumber: expect.any(Number),
 
           mobile: expect.any(Boolean),
+          desktop: expect.any(Boolean),
+
           cordova: expect.any(Boolean),
           capacitor: expect.any(Boolean),
           nativeMobile: expect.any(Boolean),
@@ -45,30 +47,33 @@ describe('[Platform API]', () => {
             'capacitor'
           ]),
           electron: expect.any(Boolean),
-          desktop: expect.any(Boolean),
           bex: expect.any(Boolean),
-          android: expect.any(Boolean),
-          blackberry: expect.any(Boolean),
-          cros: expect.any(Boolean),
-          ios: expect.any(Boolean),
-          ipad: expect.any(Boolean),
-          iphone: expect.any(Boolean),
-          ipod: expect.any(Boolean),
-          kindle: expect.any(Boolean),
+
           linux: expect.any(Boolean),
           mac: expect.any(Boolean),
           win: expect.any(Boolean),
-          winphone: expect.any(Boolean),
-          playbook: expect.any(Boolean),
-          silk: expect.any(Boolean),
+          cros: expect.any(Boolean),
+
           chrome: expect.any(Boolean),
           firefox: expect.any(Boolean),
           opera: expect.any(Boolean),
           safari: expect.any(Boolean),
           vivaldi: expect.any(Boolean),
           edge: expect.any(Boolean),
+          edgeChromium: expect.any(Boolean),
           ie: expect.any(Boolean),
-          webkit: expect.any(Boolean)
+          webkit: expect.any(Boolean),
+
+          android: expect.any(Boolean),
+          ios: expect.any(Boolean),
+          ipad: expect.any(Boolean),
+          iphone: expect.any(Boolean),
+          ipod: expect.any(Boolean),
+          kindle: expect.any(Boolean),
+          winphone: expect.any(Boolean),
+          blackberry: expect.any(Boolean),
+          playbook: expect.any(Boolean),
+          silk: expect.any(Boolean)
         }
 
         const actualKeys = Object.keys(Platform.is)

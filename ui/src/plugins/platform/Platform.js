@@ -70,35 +70,40 @@ function getPlatform (UA) {
   const matched = getMatch(userAgent, platformMatch)
   const browser = {
     mobile: false,
+    desktop: false,
+
     cordova: false,
     capacitor: false,
     nativeMobile: false,
     // nativeMobileWrapper: void 0,
     electron: false,
-    desktop: false,
     bex: false,
-    android: false,
-    blackberry: false,
-    cros: false,
-    ios: false,
-    ipad: false,
-    iphone: false,
-    ipod: false,
-    kindle: false,
+
     linux: false,
     mac: false,
     win: false,
-    winphone: false,
-    playbook: false,
-    silk: false,
+    cros: false,
+
     chrome: false,
     firefox: false,
     opera: false,
     safari: false,
     vivaldi: false,
     edge: false,
+    edgeChromium: false,
     ie: false,
-    webkit: false
+    webkit: false,
+
+    android: false,
+    ios: false,
+    ipad: false,
+    iphone: false,
+    ipod: false,
+    kindle: false,
+    winphone: false,
+    blackberry: false,
+    playbook: false,
+    silk: false
   }
 
   if (matched.browser) {
