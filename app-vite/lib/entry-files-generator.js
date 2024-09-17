@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import fse from 'fs-extra'
 import compileTemplate from 'lodash/template.js'
+import { relative } from 'node:path'
 
 export class EntryFilesGenerator {
   #templateFiles // templated
@@ -43,6 +44,41 @@ export class EntryFilesGenerator {
         template: compileTemplate(content),
         dest: appPaths.resolve.entry(file)
       }
+    })
+    this.#templateFiles.push({
+      /**
+       * @param {import('../types/configuration/conf').QuasarConf} quasarConf
+       * @returns {string}
+       */
+      template: (quasarConf) => {
+        const toTsPath = (path) => {
+          const relativePath = relative(appPaths.resolve.app('.quasar'), path)
+          if (relativePath.length === 0) {
+            return '.'
+          }
+          if (!relativePath.startsWith('.')) {
+            return './' + relativePath
+          }
+          return relativePath
+        }
+
+        // TODO: add a property/hook to quasar.conf file to allow user to customize this (for dynamic use cases)
+        return JSON.stringify({
+          // TODO: add a strict option to use the strict tsconfig preset
+          // TODO: consider embedding the tsconfig preset in the template for better control
+          extends: '@quasar/app-vite/tsconfig-preset',
+          compilerOptions: {
+            paths: Object.fromEntries(
+              Object.entries(quasarConf.build.alias).map(([ alias, path ]) => {
+                // TODO: handle folder module aliases too (without the /*) (e.g. 'src' and not have to use 'src/index')
+                // TODO: handle file aliases too (without the /*) (use stats.isFile())
+                return [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
+              })
+            )
+          }
+        }, null, 2)
+      },
+      dest: appPaths.resolve.app('.quasar/tsconfig.json')
     })
 
     this.#regularFiles = regularFiles.map(file => ({
