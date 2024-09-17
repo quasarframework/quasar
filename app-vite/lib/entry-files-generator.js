@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import fse from 'fs-extra'
 import compileTemplate from 'lodash/template.js'
-import { relative } from 'node:path'
+import { join, relative } from 'node:path'
 
 export class EntryFilesGenerator {
   #templateFiles // templated
@@ -62,6 +62,22 @@ export class EntryFilesGenerator {
           return relativePath
         }
 
+        const aliases = { ...quasarConf.build.alias }
+
+        const { mode } = quasarConf.ctx
+
+        if (mode.capacitor) {
+          // Can't use cacheProxy.getRuntime('runtimeCapacitorConfig') as it's not available here yet
+          const { dependencies } = JSON.parse(
+            readFileSync(appPaths.resolve.capacitor('package.json'), 'utf-8')
+          )
+          const target = appPaths.resolve.capacitor('node_modules')
+          const depsList = Object.keys(dependencies)
+          depsList.forEach(dep => {
+            aliases[ dep ] = join(target, dep)
+          })
+        }
+
         // TODO: add a property/hook to quasar.conf file to allow user to customize this (for dynamic use cases)
         return JSON.stringify({
           // TODO: add a strict option to use the strict tsconfig preset
@@ -69,9 +85,12 @@ export class EntryFilesGenerator {
           extends: '@quasar/app-vite/tsconfig-preset',
           compilerOptions: {
             paths: Object.fromEntries(
-              Object.entries(quasarConf.build.alias).map(([ alias, path ]) => {
+              Object.entries(aliases).map(([ alias, path ]) => {
                 // TODO: handle folder module aliases too (without the /*) (e.g. 'src' and not have to use 'src/index')
                 // TODO: handle file aliases too (without the /*) (use stats.isFile())
+                if (path.includes('/node_modules/')) {
+                  return [ alias, [ toTsPath(path) ] ]
+                }
                 return [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
               })
             )
