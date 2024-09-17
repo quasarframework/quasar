@@ -21,7 +21,7 @@ export function createHeadTags (quasarConf) {
         ? `<meta name="theme-color" content="${ pwaManifest.theme_color }">`
           + `<link rel="mask-icon" href="${ publicPath }icons/safari-pinned-tab.svg" color="${ pwaManifest.theme_color }">`
         : '')
-      + '<meta name="apple-mobile-web-app-capable" content="yes">'
+      + '<meta name="mobile-web-app-capable" content="yes">'
       + '<meta name="apple-mobile-web-app-status-bar-style" content="default">'
       + (pwaManifest.name !== void 0 ? `<meta name="apple-mobile-web-app-title" content="${ pwaManifest.name }">` : '')
       + `<meta name="msapplication-TileImage" content="${ publicPath }icons/ms-icon-144x144.png">`
