@@ -42,7 +42,7 @@
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
     <% } } %>
-    "@types/node": "^12.20.21",
+    "@types/node": "^20.14.8",
     "@quasar/app-webpack": "^3.13.0"
   },
   "overridesComments": {
