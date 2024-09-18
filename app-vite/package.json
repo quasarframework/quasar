@@ -12,9 +12,7 @@
     "bin",
     "lib",
     "templates",
-    "types",
-    "stricter-tsconfig-preset.json",
-    "tsconfig-preset.json"
+    "types"
   ],
   "types": "./types/index.d.ts",
   "exports": {
@@ -139,6 +137,7 @@
     "electron-builder": ">= 22",
     "pinia": "^2.0.0",
     "quasar": "^2.16.0",
+    "typescript": ">= 5.4",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",

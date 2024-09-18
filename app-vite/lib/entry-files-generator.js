@@ -87,6 +87,15 @@ export class EntryFilesGenerator {
 
     const aliases = { ...quasarConf.build.alias }
 
+    // TS aliases doesn't play well with package.json#exports: https://github.com/microsoft/TypeScript/issues/60460
+    // So, we had to specify each entry point separately here
+    const appVitePath = 'node_modules/@quasar/app-vite'
+    delete aliases[ '#q-app' ] // remove the existing one so that all the added ones are listed under each other
+    aliases[ '#q-app' ] = toTsPath(join(appVitePath, 'types/index.d.ts'))
+    aliases[ '#q-app/wrappers' ] = toTsPath(join(appVitePath, 'types/app-wrappers.d.ts'))
+    aliases[ '#q-app/bex/background' ] = toTsPath(join(appVitePath, 'types/bex/entrypoints/background.d.ts'))
+    aliases[ '#q-app/bex/content' ] = toTsPath(join(appVitePath, 'types/bex/entrypoints/content.d.ts'))
+
     if (mode.capacitor) {
       // Can't use cacheProxy.getRuntime('runtimeCapacitorConfig') as it's not available here yet
       const { dependencies } = JSON.parse(
@@ -99,28 +108,46 @@ export class EntryFilesGenerator {
       })
     }
 
+    const paths = Object.fromEntries(
+      Object.entries(aliases).flatMap(([ alias, path ]) => {
+        const stats = statSync(path)
+        if (stats.isFile()) {
+          return [
+            [ alias, [ toTsPath(path) ] ]
+          ]
+        }
+
+        return [
+          // import ... from 'src' (resolves to 'src/index')
+          [ alias, [ toTsPath(path) ] ],
+          // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
+          [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
+        ]
+      })
+    )
+
+    // See https://www.totaltypescript.com/tsconfig-cheat-sheet
+    // We use ESNext since we are transpiling and pretty much everything should work
     const tsConfig = {
       // TODO: add a strict option to use the strict tsconfig preset
-      // TODO: consider embedding the tsconfig preset in the template for better control
-      extends: '@quasar/app-vite/tsconfig-preset',
       compilerOptions: {
-        paths: Object.fromEntries(
-          Object.entries(aliases).flatMap(([ alias, path ]) => {
-            const stats = statSync(path)
-            if (stats.isFile()) {
-              return [
-                [ alias, [ toTsPath(path) ] ]
-              ]
-            }
+        esModuleInterop: true,
+        skipLibCheck: true,
+        target: 'esnext',
+        allowJs: true,
+        resolveJsonModule: true,
+        moduleDetection: 'force',
+        isolatedModules: true,
+        // force using `import type`/`export type`
+        verbatimModuleSyntax: true,
 
-            return [
-              // import ... from 'src' (resolves to 'src/index')
-              [ alias, [ toTsPath(path) ] ],
-              // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
-              [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
-            ]
-          })
-        )
+        // We are not transpiling with tsc, so leave it to the bundler
+        module: 'preserve', // implies `moduleResolution: 'bundler'`
+        noEmit: true,
+
+        lib: [ 'esnext', 'dom', 'dom.iterable' ],
+
+        paths
       },
       exclude: [
         'dist',
