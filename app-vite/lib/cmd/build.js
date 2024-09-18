@@ -144,7 +144,7 @@ fse.removeSync(outputFolder)
 
 const { EntryFilesGenerator } = await import('../entry-files-generator.js')
 const entryFiles = new EntryFilesGenerator(ctx)
-entryFiles.generate(quasarConf)
+await entryFiles.generate(quasarConf)
 
 if (typeof quasarConf.build.beforeBuild === 'function') {
   await quasarConf.build.beforeBuild({ quasarConf })

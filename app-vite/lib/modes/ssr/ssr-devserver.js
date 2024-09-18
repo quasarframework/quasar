@@ -144,8 +144,8 @@ export class QuasarModeDevserver extends AppDevserver {
     ])
   }
 
-  run (quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+  async run (quasarConf, __isRetry) {
+    const { diff, queue } = await super.run(quasarConf, __isRetry)
 
     if (quasarConf.ssr.pwa === true) {
       // also update pwa-devserver.js when changing here
@@ -302,6 +302,7 @@ export class QuasarModeDevserver extends AppDevserver {
       port: this.#appOptions.port,
       resolve: {
         urlPath: this.#appOptions.resolveUrlPath,
+        // FIXME: convert to arrow function so that `this` context is preserved
         root () { return join(this.#pathMap.rootFolder, ...arguments) },
         public: resolvePublicFolder
       },

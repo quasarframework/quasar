@@ -45,11 +45,6 @@ export class EntryFilesGenerator {
         dest: appPaths.resolve.entry(file)
       }
     })
-    this.#templateFiles.push({
-      template: (quasarConf) =>
-        JSON.stringify(this.#generateTsConfig(ctx, quasarConf), null, 2),
-      dest: appPaths.resolve.app('.quasar/tsconfig.json')
-    })
 
     this.#regularFiles = regularFiles.map(file => ({
       src: appPaths.resolve.cli(`templates/entry/${ file }`),
@@ -57,7 +52,7 @@ export class EntryFilesGenerator {
     }))
   }
 
-  generate (quasarConf) {
+  async generate (quasarConf) {
     this.#templateFiles.forEach(file => {
       fse.ensureFileSync(file.dest)
       fse.writeFileSync(file.dest, file.template(quasarConf), 'utf-8')
@@ -67,15 +62,22 @@ export class EntryFilesGenerator {
       fse.ensureFileSync(file.dest)
       fse.copySync(file.src, file.dest)
     })
+
+    const { appPaths, cacheProxy } = quasarConf.ctx
+    const hasTypescript = await cacheProxy.getModule('hasTypescript')
+    if (hasTypescript) {
+      const tsConfigPath = appPaths.resolve.app('.quasar/tsconfig.json')
+      fse.ensureFileSync(tsConfigPath)
+      fse.writeFileSync(tsConfigPath, JSON.stringify(this.#generateTsConfig(quasarConf), null, 2), 'utf-8')
+    }
   }
 
   /**
-   * @param {import('../types/configuration/context').QuasarContext} ctx
    * @param {import('../types/configuration/conf').QuasarConf} quasarConf
    * @returns {Record<string, unknown>}
    */
-  #generateTsConfig (ctx, quasarConf) {
-    const { appPaths, mode } = ctx
+  #generateTsConfig (quasarConf) {
+    const { appPaths, mode } = quasarConf.ctx
 
     const toTsPath = (path) => {
       const relativePath = relative(appPaths.resolve.app('.quasar'), path)

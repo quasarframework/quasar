@@ -58,9 +58,9 @@ export class AppDevserver extends AppTool {
   }
 
   // to be called from inheriting class
-  run (quasarConf, __isRetry) {
+  async run (quasarConf, __isRetry) {
     if (this.#diff('entryFiles', quasarConf)) {
-      this.#entryFiles.generate(quasarConf)
+      await this.#entryFiles.generate(quasarConf)
     }
 
     if (__isRetry !== true) {
