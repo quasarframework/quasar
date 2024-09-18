@@ -124,8 +124,8 @@ export class QuasarModeDevserver extends AppDevserver {
     ])
   }
 
-  run (quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+  async run (quasarConf, __isRetry) {
+    const { diff, queue } = await super.run(quasarConf, __isRetry)
 
     if (quasarConf.ssr.pwa === true) {
       // also update pwa-devserver.js when changing here
@@ -279,7 +279,7 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   async #bootWebserver (quasarConf) {
-    const done = progress(`Booting Webserver...`)
+    const done = progress('Booting Webserver...')
 
     if (this.#webserver !== null) {
       await this.#webserver.close()
