@@ -82,7 +82,7 @@ export class EntryFilesGenerator {
       if (relativePath.length === 0) {
         return '.'
       }
-      if (!relativePath.startsWith('.')) {
+      if (!relativePath.startsWith('./')) {
         return './' + relativePath
       }
       return relativePath
@@ -102,8 +102,7 @@ export class EntryFilesGenerator {
       })
     }
 
-    // TODO: add a property/hook to quasar.conf file to allow user to customize this (for dynamic use cases)
-    return {
+    const tsConfig = {
       // TODO: add a strict option to use the strict tsconfig preset
       // TODO: consider embedding the tsconfig preset in the template for better control
       extends: '@quasar/app-vite/tsconfig-preset',
@@ -135,5 +134,9 @@ export class EntryFilesGenerator {
         'quasar.config.*.temporary.compiled*'
       ].map(path => toTsPath(path))
     }
+
+    quasarConf.build.typescript.extendTsConfig?.(tsConfig)
+
+    return tsConfig
   }
 }
