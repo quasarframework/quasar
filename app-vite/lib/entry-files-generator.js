@@ -110,10 +110,6 @@ export class EntryFilesGenerator {
       compilerOptions: {
         paths: Object.fromEntries(
           Object.entries(aliases).flatMap(([ alias, path ]) => {
-            if (path.includes('/node_modules/')) {
-              return [ alias, [ toTsPath(path) ] ]
-            }
-
             const stats = statSync(path)
             if (stats.isFile()) {
               return [
