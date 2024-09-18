@@ -1,6 +1,7 @@
 import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
 import { QuasarHookParams } from "./conf";
+import { CompilerOptions, TypeAcquisition } from "typescript";
 
 interface HtmlMinifierOptions {
   caseSensitive?: boolean;
@@ -41,6 +42,30 @@ interface HtmlMinifierOptions {
   sortClassName?: boolean;
   trimCustomFragments?: boolean;
   useShortDoctype?: boolean;
+}
+
+// TSConfig type is adapted from https://github.com/unjs/pkg-types/blob/0bec64641468c9560dea95da2cff502ea8118286/src/types/tsconfig.ts
+type StripEnums<T extends Record<string, any>> = {
+  [K in keyof T]: T[K] extends boolean
+    ? T[K]
+    : T[K] extends string
+      ? T[K]
+      : T[K] extends object
+        ? T[K]
+        : T[K] extends Array<any>
+          ? T[K]
+          : T[K] extends undefined
+            ? undefined
+            : any;
+};
+interface TSConfig {
+  compilerOptions?: StripEnums<CompilerOptions>;
+  exclude?: string[];
+  compileOnSave?: boolean;
+  extends?: string | string[];
+  files?: string[];
+  include?: string[];
+  typeAcquisition?: TypeAcquisition;
 }
 
 interface InvokeParams {
@@ -144,6 +169,17 @@ interface QuasarStaticBuildConfiguration {
    * }
    */
   alias?: { [key: string]: string };
+  /**
+   * Configuration for TypeScript integration.
+   */
+  typescript?: {
+    /**
+     * Extend the generated `.quasar/tsconfig.json` file.
+     *
+     * If you don't have dynamic logic, you can directly modify your `tsconfig.json` file instead.
+     */
+    extendTsConfig?: (tsConfig: TSConfig) => void;
+  };
   /**
    * Public path of your app.
    * Use it when your public path is something else,

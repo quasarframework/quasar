@@ -755,7 +755,9 @@ export class QuasarConfigFile {
         assets: appPaths.resolve.src('assets'),
         boot: appPaths.resolve.src('boot'),
         stores: appPaths.resolve.src('stores')
-      }
+      },
+
+      typescript: {}
     }, cfg.build)
 
     if (!cfg.build.target.browser) {
