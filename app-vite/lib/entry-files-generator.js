@@ -102,28 +102,46 @@ export class EntryFilesGenerator {
       })
     }
 
+    const paths = Object.fromEntries(
+      Object.entries(aliases).flatMap(([ alias, path ]) => {
+        const stats = statSync(path)
+        if (stats.isFile()) {
+          return [
+            [ alias, [ toTsPath(path) ] ]
+          ]
+        }
+
+        return [
+          // import ... from 'src' (resolves to 'src/index')
+          [ alias, [ toTsPath(path) ] ],
+          // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
+          [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
+        ]
+      })
+    )
+
+    // See https://www.totaltypescript.com/tsconfig-cheat-sheet
+    // We use ESNext since we are transpiling and pretty much everything should work
     const tsConfig = {
       // TODO: add a strict option to use the strict tsconfig preset
-      // TODO: consider embedding the tsconfig preset in the template for better control
-      extends: '@quasar/app-vite/tsconfig-preset',
       compilerOptions: {
-        paths: Object.fromEntries(
-          Object.entries(aliases).flatMap(([ alias, path ]) => {
-            const stats = statSync(path)
-            if (stats.isFile()) {
-              return [
-                [ alias, [ toTsPath(path) ] ]
-              ]
-            }
+        esModuleInterop: true,
+        skipLibCheck: true,
+        target: 'esnext',
+        allowJs: true,
+        resolveJsonModule: true,
+        moduleDetection: 'force',
+        isolatedModules: true,
+        // force using `import type`/`export type`
+        verbatimModuleSyntax: true,
 
-            return [
-              // import ... from 'src' (resolves to 'src/index')
-              [ alias, [ toTsPath(path) ] ],
-              // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
-              [ `${ alias }/*`, [ `${ toTsPath(path) }/*` ] ]
-            ]
-          })
-        )
+        // We are not transpiling with tsc, so leave it to the bundler
+        module: 'preserve', // implies `moduleResolution: 'bundler'`
+        noEmit: true,
+
+        lib: [ 'esnext', 'dom', 'dom.iterable' ],
+
+        paths
       },
       exclude: [
         'dist',
