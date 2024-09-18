@@ -106,7 +106,12 @@ export class EntryFilesGenerator {
 
     const paths = Object.fromEntries(
       Object.entries(aliases).flatMap(([ alias, path ]) => {
-        const stats = statSync(path)
+        const stats = statSync(path, { throwIfNoEntry: false })
+        // If the path doesn't exist, don't add an alias for it yet (e.g. src/stores)
+        if (!stats) {
+          return []
+        }
+
         if (stats.isFile()) {
           return [
             [ alias, [ toTsPath(path) ] ]
