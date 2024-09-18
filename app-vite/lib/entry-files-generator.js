@@ -129,7 +129,6 @@ export class EntryFilesGenerator {
     // See https://www.totaltypescript.com/tsconfig-cheat-sheet
     // We use ESNext since we are transpiling and pretty much everything should work
     const tsConfig = {
-      // TODO: add a strict option to use the strict tsconfig preset
       compilerOptions: {
         esModuleInterop: true,
         skipLibCheck: true,
@@ -146,6 +145,20 @@ export class EntryFilesGenerator {
         noEmit: true,
 
         lib: [ 'esnext', 'dom', 'dom.iterable' ],
+
+        /**
+         * Keep in sync with the description of `typescript.strict` in {@link file://./../types/configuration/build.d.ts}
+         */
+        ...(quasarConf.build.typescript.strict
+          ? {
+              strict: true,
+              allowUnreachableCode: false,
+              allowUnusedLabels: false,
+              noImplicitOverride: true,
+              exactOptionalPropertyTypes: true,
+              noUncheckedIndexedAccess: true
+            }
+          : {}),
 
         paths
       },
