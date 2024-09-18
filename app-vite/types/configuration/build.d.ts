@@ -174,6 +174,23 @@ interface QuasarStaticBuildConfiguration {
    */
   typescript?: {
     /**
+     * Once your codebase is fully using TypeScript and all team members are comfortable with it,
+     * you can set this to `true` to enforce stricter type checking.
+     * It is recommended to set this to `true` and use stricter typescript-eslint rules.
+     *
+     * It will set the following TypeScript options:
+     * - "strict": true
+     * - "allowUnreachableCode": false
+     * - "allowUnusedLabels": false
+     * - "noImplicitOverride": true
+     * - "exactOptionalPropertyTypes": true
+     * - "noUncheckedIndexedAccess": true
+     *
+     * @see https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html#getting-stricter-checks
+     */
+    strict?: boolean;
+
+    /**
      * Extend the generated `.quasar/tsconfig.json` file.
      *
      * If you don't have dynamic logic, you can directly modify your `tsconfig.json` file instead.

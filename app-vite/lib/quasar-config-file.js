@@ -748,7 +748,9 @@ export class QuasarConfigFile {
         stores: appPaths.resolve.src('stores')
       },
 
-      typescript: {}
+      typescript: {
+        strict: false
+      }
     }, cfg.build)
 
     if (!cfg.build.target.browser) {
