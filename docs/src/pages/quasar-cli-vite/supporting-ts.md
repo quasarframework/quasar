@@ -5,15 +5,28 @@ related:
   - /quasar-cli-vite/quasar-config-file
 ---
 
-The Typescript support is not added by default to your project (unless you selected TS when you created your project folder), but it can be easily integrated by following the guide on this page.
+If you didn't select TypeScript support when creating your project, you can still add it later. This guide will show you how to add TypeScript support to your existing JavaScript-based Quasar project.
 
 ::: tip
-The following steps are only required when you **have not** selected TypeScript support when creating a fresh Quasar project. If you selected the TS option on project creation, TypeScript support is already enabled.
+If you selected TypeScript support when creating your project, you can skip this guide.
 :::
 
 ## Installation of TypeScript Support
 
-Create `/tsconfig.json` file at the root of you project with this content:
+Install the `typescript` package:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev typescript
+<<| bash NPM |>>
+$ npm install --save-dev typescript
+<<| bash PNPM |>>
+$ pnpm add -D typescript
+<<| bash Bun |>>
+$ bun add --dev typescript
+```
+
+Then, create `/tsconfig.json` file at the root of you project with this content:
 
 ```json
 {
@@ -33,34 +46,17 @@ Create `/tsconfig.json` file at the root of you project with this content:
 }
 ```
 
-Then install the `typescript` package:
-
-```tabs
-<<| bash Yarn |>>
-$ yarn add --dev typescript
-<<| bash NPM |>>
-$ npm install --save-dev typescript
-<<| bash PNPM |>>
-$ pnpm add -D typescript
-<<| bash Bun |>>
-$ bun add --dev typescript
-```
-
 Now you can start using TypeScript into your project. Note that some IDEs might require a restart for the new setup to fully kick in.
 
 ::: tip
-Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To write TS code into your components, instead, change the script opening tag like so `<script lang="ts">`.
+Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To use TypeScript in Vue files, you must update the script tag to include the `lang="ts"` attribute, like `<script lang="ts">` or `<script setup lang="ts">`
 :::
 
 ::: warning
-If you fail to add the `tsconfig.json` file, the application will break at compile time!
+If you forget to add the `tsconfig.json` file, the application will break at compile time!
 :::
 
 ### Linting setup
-
-::: tip
-TypeScript Linting is really slow due to type-checking overhead, we suggest you to disable it in `/quasar.config` file for dev builds.
-:::
 
 First add the needed dependencies:
 
@@ -94,15 +90,18 @@ module.exports = {
   // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
-    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser#configuration
-    // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
+    // https://typescript-eslint.io/packages/parser/#configuration
     // Needed to make the parser take into account 'vue' files
     extraFileExtensions: ['.vue'],
-    parser: '@typescript-eslint/parser',
+    parser: require.resolve('@typescript-eslint/parser'),
     project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
-    ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
+  },
+
+  env: {
+    browser: true,
+    es2021: true,
+    node: true
   },
 
   // Rules order is important, please avoid shuffling them
@@ -110,9 +109,8 @@ module.exports = {
     // Base ESLint recommended rules
     'eslint:recommended',
 
-    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
+    // https://typescript-eslint.io/getting-started/legacy-eslint-setup
     // ESLint typescript rules
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     // consider disabling this class of rules if linting takes too long
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -125,8 +123,6 @@ module.exports = {
     // https://github.com/prettier/eslint-config-prettier#installation
     // usage with Prettier, provided by 'eslint-config-prettier'.
     'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/vue',
   ],
 
   plugins: [
@@ -152,21 +148,17 @@ module.exports = {
 }
 ```
 
-If anything goes wrong, read the [typescript-eslint guide](https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md), on which this example is based.
+If anything goes wrong, read the [typescript-eslint guide](https://typescript-eslint.io/getting-started/legacy-eslint-setup), on which this example is based.
 
-As a last step, update your `yarn lint` command to also lint `.ts` files.
+As a last step, update your `package.json > scripts > lint` script to also lint `.ts` files. Example:
 
-Finally, edit your `/quasar.config` file:
-
-```js /quasar.config file
-eslint: {
-  // fix: true,
-  // include: [],
-  // exclude: [],
-  // rawOptions: {},
-  warnings: true,
-  errors: true
-},
+```diff /package.json
+{
+  "scripts": {
+-   "lint": "eslint --ext .js,.vue .",
++   "lint": "eslint --ext .js,.ts,.vue .",
+  }
+}
 ```
 
 ### TypeScript Declaration Files
@@ -211,7 +203,7 @@ declare namespace NodeJS {
 }
 ```
 
-See the following sections depending on the features and build modes you are using.
+See the following sections for the features and build modes you are using.
 
 #### Pinia
 
