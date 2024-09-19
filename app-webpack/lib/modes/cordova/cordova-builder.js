@@ -9,7 +9,7 @@ const { CordovaConfigFile } = require('./config-file.js')
 const { spawn } = require('../../utils/spawn.js')
 const { openIDE } = require('../../utils/open-ide.js')
 const { onShutdown } = require('../../utils/on-shutdown.js')
-const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
+const { fixAndroidCleartext } = require('./android-cleartext.js')
 const { SIGNAL__BUILD_SHOULD_EXIT } = require('../../utils/signals.js')
 
 const cordovaOutputFolders = {
@@ -50,7 +50,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const { appPaths } = this.ctx
 
     if (target === 'android') {
-      fixAndroidCleartext(appPaths, 'cordova')
+      fixAndroidCleartext(appPaths, 'cordova', 'remove')
     }
 
     const cordovaContext = {

@@ -8,7 +8,7 @@ const { spawn } = require('../../utils/spawn.js')
 const { onShutdown } = require('../../utils/on-shutdown.js')
 const { openIDE } = require('../../utils/open-ide.js')
 const { quasarCordovaConfig } = require('./cordova-config.js')
-const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
+const { fixAndroidCleartext } = require('./android-cleartext.js')
 
 module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
   #pid = 0
@@ -27,7 +27,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     this.#target = this.ctx.targetName
 
     if (this.#target === 'android') {
-      fixAndroidCleartext(this.ctx.appPaths, 'cordova')
+      fixAndroidCleartext(this.ctx.appPaths, 'cordova', 'add')
     }
 
     onShutdown(() => {
