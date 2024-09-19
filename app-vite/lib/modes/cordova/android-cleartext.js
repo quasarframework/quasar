@@ -4,11 +4,9 @@ import fs from 'node:fs'
  * To be used for Capacitor v1 & v2 only
  */
 
-export function fixAndroidCleartext (appPaths, mode, action) {
-  const androidManifestPath = appPaths.resolve[ mode ](
-    mode === 'cordova'
-      ? 'platforms/android/app/src/main/AndroidManifest.xml'
-      : 'android/app/src/main/AndroidManifest.xml'
+export function fixAndroidCleartext (appPaths, action) {
+  const androidManifestPath = appPaths.resolve.cordova(
+    'platforms/android/app/src/main/AndroidManifest.xml'
   )
 
   if (fs.existsSync(androidManifestPath) === false) return

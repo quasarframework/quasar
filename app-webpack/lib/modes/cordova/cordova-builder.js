@@ -50,7 +50,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const { appPaths } = this.ctx
 
     if (target === 'android') {
-      fixAndroidCleartext(appPaths, 'cordova', 'remove')
+      fixAndroidCleartext(appPaths, 'remove')
     }
 
     const cordovaContext = {

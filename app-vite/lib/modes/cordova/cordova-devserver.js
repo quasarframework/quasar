@@ -26,7 +26,7 @@ export class QuasarModeDevserver extends AppDevserver {
     this.#target = this.ctx.targetName
 
     if (this.#target === 'android') {
-      fixAndroidCleartext(this.ctx.appPaths, 'cordova', 'add')
+      fixAndroidCleartext(this.ctx.appPaths, 'add')
     }
 
     onShutdown(() => {

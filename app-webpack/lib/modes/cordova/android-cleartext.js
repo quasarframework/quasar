@@ -1,10 +1,8 @@
 const fs = require('node:fs')
 
-module.exports.fixAndroidCleartext = function fixAndroidCleartext (appPaths, mode, action) {
-  const androidManifestPath = appPaths.resolve[ mode ](
-    mode === 'cordova'
-      ? 'platforms/android/app/src/main/AndroidManifest.xml'
-      : 'android/app/src/main/AndroidManifest.xml'
+module.exports.fixAndroidCleartext = function fixAndroidCleartext (appPaths, action) {
+  const androidManifestPath = appPaths.resolve.cordova(
+    'platforms/android/app/src/main/AndroidManifest.xml'
   )
 
   if (fs.existsSync(androidManifestPath) === false) return
