@@ -27,10 +27,6 @@ class CapacitorDevServer extends AppDevserver {
 
     this.#target = opts.quasarConf.ctx.targetName
 
-    if (this.#target === 'android') {
-      require('../../helpers/fix-android-cleartext')('capacitor')
-    }
-
     onShutdown(() => {
       this.#stopCapacitor()
     })

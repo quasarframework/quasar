@@ -34,10 +34,6 @@ class CapacitorBuilder extends AppBuilder {
   async #packageFiles () {
     const target = this.ctx.targetName
 
-    if (target === 'android') {
-      require('../../helpers/fix-android-cleartext')('capacitor')
-    }
-
     onShutdown(() => {
       this.#cleanup()
     })
