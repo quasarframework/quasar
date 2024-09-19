@@ -153,7 +153,7 @@ class CapacitorConfig {
 
       const fn = `${ add ? '' : 'un' }installPackage`
       const version = sslSkipVersion[ capVersion ] || sslSkipVersion.default
-      const nameParam = add ? `@jcesarmobile/ssl-skip@^${ version }` : '@jcesarmobile/ssl-skip'
+      const nameParam = add ? `@jcesarmobile/ssl-skip@${ version }` : '@jcesarmobile/ssl-skip'
 
       nodePackager[ fn ](nameParam, {
         cwd: appPaths.capacitorDir,
