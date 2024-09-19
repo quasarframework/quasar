@@ -5,11 +5,9 @@ const appPaths = require('../../app-paths')
  * To be used for Capacitor v1 & v2 only
  */
 
-module.exports = function fixAndroidCleartext (mode, action) {
-  const androidManifestPath = appPaths.resolve[ mode ](
-    mode === 'cordova'
-      ? 'platforms/android/app/src/main/AndroidManifest.xml'
-      : 'android/app/src/main/AndroidManifest.xml'
+module.exports = function fixAndroidCleartext (action) {
+  const androidManifestPath = appPaths.resolve.cordova(
+    'platforms/android/app/src/main/AndroidManifest.xml'
   )
 
   if (fs.existsSync(androidManifestPath) === false) return

@@ -69,7 +69,7 @@ class CapacitorBuilder extends AppBuilder {
     const target = this.ctx.targetName
 
     if (target === 'android') {
-      require('./android-cleartext')('cordova', 'remove')
+      require('./android-cleartext')('remove')
     }
 
     const cordovaContext = {

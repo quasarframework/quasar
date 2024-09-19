@@ -28,7 +28,7 @@ class CordovaDevServer extends AppDevserver {
     this.#target = opts.quasarConf.ctx.targetName
 
     if (this.#target === 'android') {
-      require('./android-cleartext')('cordova', 'add')
+      require('./android-cleartext')('add')
     }
 
     onShutdown(() => {
