@@ -23,10 +23,6 @@ class CapacitorRunner {
   init (ctx) {
     this.ctx = ctx
     this.target = ctx.targetName
-
-    if (this.target === 'android') {
-      require('../helpers/fix-android-cleartext')('capacitor')
-    }
   }
 
   async run (quasarConfFile) {

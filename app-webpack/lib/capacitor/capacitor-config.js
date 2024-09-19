@@ -77,7 +77,7 @@ class CapacitorConfig {
     this.tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
-      content: this.#updateCapJson(quasarConf, capJson),
+      content: this.#updateCapJson(quasarConf, capJson, target),
       originalContent: JSON.stringify(capJson, null, 2)
     })
 
@@ -101,7 +101,7 @@ class CapacitorConfig {
     })
   }
 
-  #updateCapJson (quasarConf, originalCapCfg) {
+  #updateCapJson (quasarConf, originalCapCfg, target) {
     const capJson = { ...originalCapCfg }
 
     capJson.appName = quasarConf.capacitor.appName || this.pkg.productName || 'Quasar App'
@@ -113,13 +113,17 @@ class CapacitorConfig {
     if (quasarConf.ctx.dev) {
       capJson.server = capJson.server || {}
       capJson.server.url = quasarConf.build.APP_URL
+      if (target === 'android' && capVersion >= 2) {
+        capJson.server.cleartext = true
+      }
     }
     else {
       capJson.webDir = 'www'
 
       // ensure we don't run from a remote server
-      if (capJson.server && capJson.server.url) {
+      if (capJson.server) {
         delete capJson.server.url
+        delete capJson.server.cleartext
       }
     }
 
