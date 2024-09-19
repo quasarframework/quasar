@@ -74,7 +74,7 @@
     "open": "^8.4.0",
     "register-service-worker": "^1.7.2",
     "rollup-plugin-visualizer": "^5.5.4",
-    "sass": "^1.33.0",
+    "sass-embedded": "^1.79.1",
     "semver": "^7.3.5",
     "serialize-javascript": "^6.0.0",
     "table": "^6.8.0",
