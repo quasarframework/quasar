@@ -8,13 +8,9 @@ module.exports = class ElectronPackageJson {
     this.cfg = cfg
 
     const npmrc = appPaths.resolve.app('.npmrc')
-
-    if (existsSync(npmrc) === false) {
-      this.source = null
-      return
-    }
-
-    let content = readFileSync(npmrc, 'utf-8')
+    let content = existsSync(npmrc)
+      ? readFileSync(npmrc, 'utf-8')
+      : ''
 
     if (content.indexOf('shamefully-hoist') === -1) {
       content += '\n# needed by pnpm\nshamefully-hoist=true'
@@ -29,10 +25,8 @@ module.exports = class ElectronPackageJson {
   }
 
   apply (compiler) {
-    if (this.source !== null) {
-      compiler.hooks.thisCompilation.tap('package.json', compilation => {
-        compilation.emitAsset('.npmrc', new sources.RawSource(this.source))
-      })
-    }
+    compiler.hooks.thisCompilation.tap('npmrc', compilation => {
+      compilation.emitAsset('.npmrc', new sources.RawSource(this.source))
+    })
   }
 }
