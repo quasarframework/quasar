@@ -132,8 +132,9 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
       capJson.webDir = 'www'
 
       // ensure we don't run from a remote server
-      if (capJson.server && capJson.server.url) {
+      if (capJson.server) {
         delete capJson.server.url
+        delete capJson.server.cleartext
       }
     }
 
