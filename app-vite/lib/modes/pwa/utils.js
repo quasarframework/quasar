@@ -22,7 +22,7 @@ module.exports.createHeadTags = function createHeadTags (quasarConf) {
         ? `<meta name="theme-color" content="${ pwaManifest.theme_color }">`
           + `<link rel="mask-icon" href="${ publicPath }icons/safari-pinned-tab.svg" color="${ pwaManifest.theme_color }">`
         : '')
-      + '<meta name="apple-mobile-web-app-capable" content="yes">'
+      + '<meta name="mobile-web-app-capable" content="yes">'
       + '<meta name="apple-mobile-web-app-status-bar-style" content="default">'
       + `<meta name="msapplication-TileImage" content="${ publicPath }icons/ms-icon-144x144.png">`
       + '<meta name="msapplication-TileColor" content="#000000">'
