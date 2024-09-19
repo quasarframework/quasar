@@ -42,7 +42,7 @@ class CordovaRunner {
     this.target = ctx.targetName
 
     if (this.target === 'android') {
-      require('../helpers/fix-android-cleartext')('cordova')
+      require('./android-cleartext')(this.ctx.dev ? 'add' : 'remove')
     }
   }
 
