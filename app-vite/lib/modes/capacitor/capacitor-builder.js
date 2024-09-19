@@ -9,7 +9,6 @@ import { CapacitorConfigFile } from './config-file.js'
 import { spawn, spawnSync } from '../../utils/spawn.js'
 import { openIDE } from '../../utils/open-ide.js'
 import { onShutdown } from '../../utils/on-shutdown.js'
-import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
 import { SIGNAL__BUILD_SHOULD_EXIT } from '../../utils/signals.js'
 
 export class QuasarModeBuilder extends AppBuilder {
@@ -32,10 +31,6 @@ export class QuasarModeBuilder extends AppBuilder {
   async #packageFiles () {
     const target = this.ctx.targetName
     const { appPaths, cacheProxy } = this.ctx
-
-    if (target === 'android') {
-      fixAndroidCleartext(appPaths, 'capacitor')
-    }
 
     onShutdown(() => {
       this.#cleanup()

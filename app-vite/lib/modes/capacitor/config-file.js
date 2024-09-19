@@ -84,7 +84,7 @@ export class CapacitorConfigFile {
     this.#tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
-      content: this.#updateCapJson(quasarConf, capJson, capVersion),
+      content: this.#updateCapJson(quasarConf, capJson, capVersion, target),
       originalContent: JSON.stringify(capJson, null, 2)
     })
 
@@ -113,7 +113,7 @@ export class CapacitorConfigFile {
     })
   }
 
-  #updateCapJson (quasarConf, originalCapCfg, capVersion) {
+  #updateCapJson (quasarConf, originalCapCfg, capVersion, target) {
     const capJson = { ...originalCapCfg }
 
     capJson.appName = quasarConf.capacitor.appName || this.#ctx.pkg.appPkg.productName || 'Quasar App'
@@ -125,6 +125,9 @@ export class CapacitorConfigFile {
     if (quasarConf.ctx.dev) {
       capJson.server = capJson.server || {}
       capJson.server.url = quasarConf.metaConf.APP_URL
+      if (target === 'android' && capVersion >= 2) {
+        capJson.server.cleartext = true
+      }
     }
     else {
       capJson.webDir = 'www'
