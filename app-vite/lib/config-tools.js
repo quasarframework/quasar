@@ -147,12 +147,12 @@ export async function createViteConfig (quasarConf, { compileId }) {
 
     css: {
       preprocessorOptions: {
-        // Vite defaults to 'legacy' which produce warnings
+        // Use sass-embedded for better stability and performance
         sass: {
-          api: 'modern'
+          api: 'modern-compiler'
         },
         scss: {
-          api: 'modern'
+          api: 'modern-compiler'
         }
       }
     },
