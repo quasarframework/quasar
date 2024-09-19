@@ -8,7 +8,6 @@ const { spawn } = require('../../utils/spawn.js')
 const { onShutdown } = require('../../utils/on-shutdown.js')
 const { openIDE } = require('../../utils/open-ide.js')
 const { quasarCapacitorConfig } = require('./capacitor-config.js')
-const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
 
 module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
   #pid = 0
@@ -20,10 +19,6 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     super(opts)
 
     this.#target = this.ctx.targetName
-
-    if (this.#target === 'android') {
-      fixAndroidCleartext(this.ctx.appPaths, 'capacitor')
-    }
 
     onShutdown(() => {
       this.#stopCapacitor()
