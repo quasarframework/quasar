@@ -160,7 +160,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         })
 
       if (loader === 'sass-loader') {
-        if (loaderOptions && loaderOptions.sassOptions && loaderOptions.sassOptions.indentedSyntax) {
+        if (loaderOptions && loaderOptions.sassOptions && loaderOptions.sassOptions.syntax === 'indented') {
           rule.use('quasar-sass-variables-loader')
             .loader(cssVariables.loaders.sass)
         }
@@ -177,11 +177,17 @@ module.exports = function (chain, pref) {
   injectRule(chain, pref, 'css', /\.css$/)
   injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions)
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
-    { sassOptions: { outputStyle: /* required for RTL */ 'expanded' } },
+    {
+      sassOptions: { style: /* required for RTL */ 'expanded' },
+      api: 'modern-compiler'
+    },
     pref.scssLoaderOptions
   ))
   injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
-    { sassOptions: { indentedSyntax: true, outputStyle: /* required for RTL */ 'expanded' } },
+    {
+      sassOptions: { style: /* required for RTL */ 'expanded', syntax: 'indented' },
+      api: 'modern-compiler'
+    },
     pref.sassLoaderOptions
   ))
   injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
