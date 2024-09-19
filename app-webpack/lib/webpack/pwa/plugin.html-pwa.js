@@ -38,7 +38,7 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, u
 
       // Add to home screen for Safari on iOS
       makeTag('meta', {
-        name: 'apple-mobile-web-app-capable',
+        name: 'mobile-web-app-capable',
         content: metaVariables.appleMobileWebAppCapable
       }),
       makeTag('meta', {
