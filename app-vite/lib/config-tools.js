@@ -121,6 +121,9 @@ export async function createViteConfig (quasarConf, { compileId }) {
     build.viteVuePluginOptions
   )
 
+  /**
+   * @type {import('vite').UserConfig}
+   */
   const viteConf = {
     configFile: false,
     root: appPaths.appDir,
@@ -140,6 +143,18 @@ export async function createViteConfig (quasarConf, { compileId }) {
 
     resolve: {
       alias: build.alias
+    },
+
+    css: {
+      preprocessorOptions: {
+        // Vite defaults to 'legacy' which produce warnings
+        sass: {
+          api: 'modern'
+        },
+        scss: {
+          api: 'modern'
+        }
+      }
     },
 
     build: {
