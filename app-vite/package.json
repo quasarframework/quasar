@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "1.9.5",
+  "version": "1.10.0",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar"
