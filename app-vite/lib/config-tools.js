@@ -146,12 +146,12 @@ function createViteConfig (quasarConf, quasarRunMode) {
 
     css: {
       preprocessorOptions: {
-        // Use sass-embedded for better stability and performance
+        // Silence sass deprecations; Vite 2 does not know about sass-embedded or api=modern/modern-compiler
         sass: {
-          api: 'modern-compiler'
+          silenceDeprecations: [ 'legacy-js-api' ]
         },
         scss: {
-          api: 'modern-compiler'
+          silenceDeprecations: [ 'legacy-js-api' ]
         }
       }
     },
