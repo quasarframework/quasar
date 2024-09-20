@@ -16,7 +16,7 @@ export type PrefetchCallback<TState = any> = (
   options: PreFetchOptions<TState>
 ) => void | Promise<void> | Promise<{}>;
 
-declare module "@vue/runtime-core" {
+declare module "vue" {
   interface ComponentCustomOptions {
     preFetch?: PrefetchCallback;
   }
