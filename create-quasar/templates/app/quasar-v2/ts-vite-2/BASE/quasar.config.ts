@@ -48,6 +48,11 @@ export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% }
         node: 'node20'
       },
 
+      typescript: {
+        strict: true
+        // extendTsConfig(tsConfig) {}
+      },
+
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
