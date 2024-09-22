@@ -11,12 +11,8 @@
 <% if (sfcStyle === 'composition-setup') { %>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Todo, Meta } from 'components/models';
+import type { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
-
-defineOptions({
-  name: 'IndexPage'
-});
 
 const todos = ref<Todo[]>([
   {
@@ -47,7 +43,7 @@ const meta = ref<Meta>({
 </script><% } else if (sfcStyle === 'composition') { %>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { Todo, Meta } from 'components/models';
+import type { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 
 export default defineComponent({
@@ -91,7 +87,7 @@ export default defineComponent({
 </script><% } else if (sfcStyle === 'options') { %>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Todo, Meta } from 'components/models';
+import type { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 
 export default defineComponent({

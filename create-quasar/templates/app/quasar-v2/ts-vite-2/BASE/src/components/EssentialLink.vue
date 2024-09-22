@@ -20,10 +20,6 @@
 </template>
 <% if (sfcStyle === 'composition-setup') { %>
 <script setup lang="ts">
-defineOptions({
-  name: 'EssentialLink'
-});
-
 export interface EssentialLinkProps {
   title: string;
   caption?: string;

@@ -3,9 +3,7 @@
 </template>
 <% if (sfcStyle === 'composition-setup') { %>
 <script setup lang="ts">
-defineOptions({
-  name: 'App'
-});
+//
 </script><% } else if (sfcStyle === 'composition' || sfcStyle === 'options') { %>
 <script lang="ts">
 import { defineComponent } from 'vue';
