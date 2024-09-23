@@ -87,9 +87,7 @@ export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% }
           include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
         }]<% } %><% if (preset.lint) { %><% if (preset.i18n) { %>,<% } %>
         ['vite-plugin-checker', {
-          vueTsc: {
-            tsconfigPath: 'tsconfig.vue-tsc.json'
-          },
+          vueTsc: true,
           eslint: {
             lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"'
           }
