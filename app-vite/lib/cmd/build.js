@@ -132,9 +132,6 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { ensureTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
-ensureTypesFeatureFlags(quasarConf)
-
 const { QuasarModeBuilder } = await import(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 

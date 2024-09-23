@@ -11,7 +11,8 @@ export async function generateTypes (quasarConf) {
     writeFileSync(tsConfigPath, JSON.stringify(generateTsConfig(quasarConf), null, 2), 'utf-8')
   }
 
-  // TODO: generate types feature flags within .quasar folder instead
+  await writeFeatureFlags(quasarConf)
+
   // TODO: generate types files, e.g. src/quasar.d.ts, src/shims-vue.d.ts
 }
 
@@ -118,4 +119,53 @@ function generateTsConfig (quasarConf) {
   quasarConf.build.typescript.extendTsConfig?.(tsConfig)
 
   return tsConfig
+}
+
+// We don't have a specific entry for the augmenting file in `package.json > exports`
+// We rely on the wildcard entry, so we use a deep import, instead of let's say `quasar/feature-flags`
+// When using TypeScript `moduleResolution: "bundler"`, it requires the file extension.
+// This may sound unusual, but that's because it seems to treat wildcard entries differently.
+const featureFlagsTemplate = `/* eslint-disable */
+import "quasar/dist/types/feature-flag.d.ts";
+
+declare module "quasar/dist/types/feature-flag.d.ts" {
+  interface QuasarFeatureFlags {
+    __INJECTION_POINT__
+  }
+}
+`
+
+/**
+ * Flags are also available in JS codebases because feature flags still
+ * benefit JS users by providing autocomplete.
+ *
+ * @param {import('../types/configuration/conf').QuasarConf} quasarConf
+ */
+async function writeFeatureFlags (quasarConf) {
+  const { appPaths } = quasarConf.ctx
+
+  const featureFlags = new Set()
+
+  if (quasarConf.metaConf.hasStore === true) {
+    featureFlags.add('store')
+  }
+
+  // spa does not have a feature flag, so we skip it
+  const modes = [ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ]
+  for (const modeName of modes) {
+    const { isModeInstalled } = await import(`./modes/${ modeName }/${ modeName }-installation.js`)
+    if (isModeInstalled(quasarConf.ctx.appPaths)) {
+      featureFlags.add(modeName)
+    }
+  }
+
+  const flagDefinitions = Array.from(featureFlags)
+    .map(flag => `${ flag }: true;`)
+    .join('\n    ')
+  const contents = featureFlagsTemplate.replace(
+    '__INJECTION_POINT__',
+    flagDefinitions || '// no feature flags'
+  )
+
+  writeFileSync(appPaths.resolve.app('.quasar/feature-flags.d.ts'), contents)
 }
