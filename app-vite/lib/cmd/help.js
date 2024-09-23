@@ -28,6 +28,7 @@ console.log(`
   Commands
     dev, d        Start a dev server for your App
     build, b      Build your app for production
+    prepare, p    Prepare the app for linting, type-checking, IDE integration, etc.
     clean, c      Clean dev/build cache, /dist folder & entry points
     new, n        Quickly scaffold page/layout/component/... vue file
     mode, m       Add/remove Quasar Modes for your App
