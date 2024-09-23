@@ -156,9 +156,6 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-import { ensureTypesFeatureFlags } from '../utils/types-feature-flags.js'
-ensureTypesFeatureFlags(quasarConf)
-
 if (quasarConf.metaConf.vueDevtools !== false) {
   await startVueDevtools(ctx, quasarConf.metaConf.vueDevtools.port)
 }

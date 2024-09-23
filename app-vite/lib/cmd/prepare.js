@@ -55,9 +55,6 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { ensureTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
-ensureTypesFeatureFlags(quasarConf)
-
 const { generateTypes } = await import('../types-generator.js')
 await generateTypes(quasarConf)
 
