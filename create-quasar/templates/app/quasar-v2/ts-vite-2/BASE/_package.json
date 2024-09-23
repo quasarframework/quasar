@@ -12,7 +12,8 @@
     <% } %>
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build"
+    "build": "quasar build",
+    "postinstall": "quasar prepare"
   },
   "dependencies": {
     <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
