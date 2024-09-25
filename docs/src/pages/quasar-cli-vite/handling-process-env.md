@@ -84,7 +84,7 @@ if (process.env.MODE === 'electron') {
 
 ## Adding to process.env
 
-You can add your own definitions to `process.env` through the the `/quasar.config` file.
+You can add your own definitions to `process.env` through the `/quasar.config` file.
 
 It's important to understand the different types of environment variables.
 

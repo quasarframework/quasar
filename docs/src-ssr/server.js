@@ -10,15 +10,22 @@
  * anything you import here (except for express and compression).
  */
 import express from 'express'
+import {
+  ssrClose,
+  ssrCreate,
+  ssrListen,
+  ssrServeStaticContent,
+  ssrRenderPreloadTag
+} from 'quasar/wrappers'
 
 /**
-  * Create your webserver and return its instance.
-  * If needed, prepare your webserver to receive
-  * connect-like middlewares.
-  *
-  * Should NOT be async!
-  */
-export function create (/* { ... } */) {
+ * Create your webserver and return its instance.
+ * If needed, prepare your webserver to receive
+ * connect-like middlewares.
+ *
+ * Should NOT be async!
+ */
+export const create = ssrCreate((/* { ... } */) => {
   const app = express()
 
   // attackers can use this header to detect apps running Express
@@ -26,57 +33,59 @@ export function create (/* { ... } */) {
   app.disable('x-powered-by')
 
   return app
-}
+})
 
 /**
-  * You need to make the server listen to the indicated port
-  * and return the listening instance or whatever you need to
-  * close the server with.
-  *
-  * The "listenResult" param for the "close()" definition below
-  * is what you return here.
-  *
-  * For production, you can instead export your
-  * handler for serverless use or whatever else fits your needs.
-  */
-export async function listen ({ app, port, isReady }) {
-  await isReady()
-  return await app.listen(port, () => {
+ * You need to make the server listen to the indicated port
+ * and return the listening instance or whatever you need to
+ * close the server with.
+ *
+ * The "listenResult" param for the "close()" definition below
+ * is what you return here.
+ *
+ * For production, you can instead export your
+ * handler for serverless use or whatever else fits your needs.
+ */
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
+  const server = devHttpsApp || app
+  return server.listen(port, () => {
     if (process.env.PROD) {
       // eslint-disable-next-line no-console
       console.log('Server listening at port ' + port)
     }
   })
-}
+})
 
 /**
-  * Should close the server and free up any resources.
-  * Will be used on development only when the server needs
-  * to be rebooted.
-  *
-  * Should you need the result of the "listen()" call above,
-  * you can use the "listenResult" param.
-  *
-  * Can be async.
-  */
-export function close ({ listenResult }) {
+ * Should close the server and free up any resources.
+ * Will be used on development only when the server needs
+ * to be rebooted.
+ *
+ * Should you need the result of the "listen()" call above,
+ * you can use the "listenResult" param.
+ *
+ * Can be async.
+ */
+export const close = ssrClose(({ listenResult }) => {
   return listenResult.close()
-}
+})
 
 const maxAge = process.env.DEV
   ? 0
   : 1000 * 60 * 60 * 1
 
 /**
-  * Should return middleware that serves the indicated path
-  * with static content.
-  */
-export function serveStaticContent (path, opts) {
-  return express.static(path, {
-    maxAge,
-    ...opts
-  })
-}
+ * Should return a function that will be used to configure the webserver
+ * to serve static content at "urlPath" from "pathToServe" folder/file.
+ *
+ * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
+ */
+export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
+  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
+    app.use(resolve.urlPath(urlPath), serveFn)
+  }
+})
 
 const jsRE = /\.js$/
 const cssRE = /\.css$/
@@ -87,37 +96,37 @@ const jpgRE = /\.jpe?g$/
 const pngRE = /\.png$/
 
 /**
-  * Should return a String with HTML output
-  * (if any) for preloading indicated file
-  */
-export function renderPreloadTag (file) {
+ * Should return a String with HTML output
+ * (if any) for preloading indicated file
+ */
+export const renderPreloadTag = ssrRenderPreloadTag((file/* , { ssrContext } */) => {
   if (jsRE.test(file) === true) {
-    return `<link rel="modulepreload" href="${file}" crossorigin>`
+    return `<link rel="modulepreload" href="${ file }" crossorigin>`
   }
 
   if (cssRE.test(file) === true) {
-    return `<link rel="stylesheet" href="${file}">`
+    return `<link rel="stylesheet" href="${ file }" crossorigin>`
   }
 
   if (woffRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
+    return `<link rel="preload" href="${ file }" as="font" type="font/woff" crossorigin>`
   }
 
   if (woff2RE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
+    return `<link rel="preload" href="${ file }" as="font" type="font/woff2" crossorigin>`
   }
 
   if (gifRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/gif">`
+    return `<link rel="preload" href="${ file }" as="image" type="image/gif" crossorigin>`
   }
 
   if (jpgRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/jpeg">`
+    return `<link rel="preload" href="${ file }" as="image" type="image/jpeg" crossorigin>`
   }
 
   if (pngRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/png">`
+    return `<link rel="preload" href="${ file }" as="image" type="image/png" crossorigin>`
   }
 
   return ''
-}
+})

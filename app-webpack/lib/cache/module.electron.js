@@ -41,9 +41,8 @@ module.exports.createInstance = function createInstance ({
   const nodePackager = cacheProxy.getModule('nodePackager')
 
   function bundlerIsInstalled (bundlerName) {
-    return bundlerName === 'packager'
-      ? (hasPackage('@electron/packager', appPkg) || hasPackage('electron-packager', appPkg))
-      : hasPackage('electron-builder', appPkg)
+    const bundler = bundlerMap[ bundlerName ]
+    return hasPackage(bundler.pkg, appPkg)
   }
 
   function ensureInstall (bundlerName) {
@@ -70,13 +69,9 @@ module.exports.createInstance = function createInstance ({
 
   function getBundler (bundlerName) {
     const { appDir } = appPaths
+    const bundler = bundlerMap[ bundlerName ]
 
-    return bundlerName === 'packager'
-      ? (
-          getPackage('@electron/packager', appDir)
-          || getPackage('electron-packager', appDir)
-        )
-      : getPackage('electron-builder', appDir)
+    return getPackage(bundler.pkg, appDir)
   }
 
   return {

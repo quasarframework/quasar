@@ -58,7 +58,6 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-symbols-rounded | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space |
 | material-symbols-sharp | sym_s_ | sym_s_thumb_up | Notice the underline character instead of dash or space |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
-| ionicons-v5/v6 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v6 | fa-[solid,regular,brands] fa- | "fa-solid fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | fontawesome-v6 Pro| fa-[solid,regular,brands,thin,light,duotone] fa- | "fa-solid fa-ambulance" | Note: a license must be purchased from Fontawesome for this functionality) |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
@@ -90,8 +89,8 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 #### Ionicons
 
 * Icon names are in hyphen-separated case and always begin with "ion-", "ion-md-", "ion-ios-" or "ion-logo-" prefixes.
-* Go to [Ionicons (v6)](https://ionicons.com/) or [Ionicons (v4)](https://ionicons.com/v4), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
-* **Note:** Starting with v5, Ionicons no longer supplies a webfont. Also,they no longer do Material or IOS variants.
+* Go to [Ionicons (v4)](https://ionicons.com/v4), look for your desired icon, and click on it. At the bottom of the page, a popup will appear. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material, or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
+* **Note:** Starting with v5, Ionicons no longer supplies a webfont. Also, they no longer have Material or IOS variants.
 
 #### Eva Icons
 

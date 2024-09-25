@@ -76,13 +76,13 @@ const url = await tunnelmole({
 ## Using localhost.run
 
 1. Assuming you have an SSH shell, you only need issue the following command (substituting your details)
-``` bash
+```bash
 $ ssh -R 80:localhost:8080 ssh.localhost.run
 # In case your development server doesn't run on port 8080 you need to change the number to the correct port
 ```
 
 2. That's it, and you will now have a random subdomain based on your current system username assigned to you like so:
-``` bash
+```bash
 $ ssh -R 80:localhost:8080 ssh.localhost.run
 # Connect to http://fakeusername-random4chars.localhost.run or https://fakeusername-random4chars.localhost.run
 # Press ctrl-c to quit.
@@ -96,18 +96,18 @@ It's not currently possible to request your own subdomain.
 (Please note that the ngrok executable file does not need to be placed in or run from inside your cordova folder. When on a mac it's best to place the ngrok executable file inside `/usr/local/bin` to be able to run it globally.)
 
 2. Start your Dev server
-``` bash
+```bash
 $ quasar dev
 ```
 
 3. Create your ngrok connection
-``` bash
+```bash
 $ ngrok http 8080
 # In case your development server doesn't run on port 8080 you need to change the number to the correct port
 ```
 
 4. ngrok shows the url in the command line when it started.
-``` bash
+```bash
 Tunnel Status                 online
 Version                       2.0/2.0
 Web Interface                 http://127.0.0.1:4040

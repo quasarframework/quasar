@@ -55,6 +55,15 @@
       "category": "behavior"
     },
 
+    "thumbnail-fit": {
+      "type": "String",
+      "desc": "How the thumbnail image will fit into the container; Equivalent of the background-size prop",
+      "default": "'cover'",
+      "examples": [ "'cover'", "'contain'", "'auto'", "'50%'" ],
+      "category": "style",
+      "addedIn": "v2.17"
+    },
+
     "disable": {
       "extends": "disable"
     },

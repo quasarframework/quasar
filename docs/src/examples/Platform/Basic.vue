@@ -4,7 +4,7 @@
       Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong>"
     </div>
 
-    <q-markup-table flat bordered>
+    <q-markup-table flat bordered dense>
       <thead>
         <tr>
           <th class="text-left">Property</th>
@@ -13,7 +13,11 @@
       </thead>
 
       <tbody>
-        <tr v-for="(value, prop) in $q.platform.is" :key="prop">
+        <tr
+          v-for="(value, prop) in $q.platform.is"
+          :key="prop"
+          :class="value ? 'text-weight-bold platform-detection--row-highlight' : ''"
+        >
           <td>{{ prop }}</td>
           <td>{{ value }}</td>
         </tr>
@@ -40,3 +44,13 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+body
+  &.body--light
+    .platform-detection--row-highlight
+      background-color: rgba(0,0,0,.05)
+  &.body--dark
+    .platform-detection--row-highlight
+      background-color: rgba(255,255,255,.05)
+</style>

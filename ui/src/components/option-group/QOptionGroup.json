@@ -15,6 +15,7 @@
     "options": {
       "type": "Array",
       "desc": "Array of objects with value, label, and disable (optional) props. The binary components will be created according to this array; Props from QToggle, QCheckbox or QRadio can also be added as key/value pairs to control the components singularly",
+      "default": "[]",
       "definition": {
         "label": {
           "type": "String",
@@ -39,7 +40,93 @@
         }
       },
       "examples": [ "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3', disable: true } ]" ],
-      "category": "model"
+      "category": "options"
+    },
+
+    "option-value": {
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
+      "default": "'value'",
+      "__runtimeDefault": true,
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Value of the current option",
+        "examples": [ "'car'", "34" ]
+      },
+      "examples": [
+        "'modelNumber'",
+        "item => (item === null ? null : item.modelNumber)"
+      ],
+      "category": "options",
+      "addedIn": "v2.17"
+    },
+
+    "option-label": {
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
+      "default": "'label'",
+      "__runtimeDefault": true,
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label of the current option",
+        "examples": [ "'Tesla'", "'iPhone'" ]
+      },
+      "examples": [
+        "'itemName'",
+        "item => (item === null ? 'Null value' : item.itemName)"
+      ],
+      "category": "options",
+      "addedIn": "v2.17"
+    },
+
+    "option-disable": {
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
+      "default": "'disable'",
+      "__runtimeDefault": true,
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'Tesla'",
+            "'iPhone'",
+            "{ label: 'Tesla', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current option will be disabled"
+      },
+      "examples": [
+        "item => (item === null ? true : item.cannotSelect)",
+        "# option-disable=\"cannotSelect\""
+      ],
+      "category": "options",
+      "addedIn": "v2.17"
     },
 
     "name": {

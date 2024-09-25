@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) The entire list of Quasar CLI commands.
 
 Familiarize yourself with the list of available commands inside a Quasar project:
 
-``` bash
+```bash
 $ quasar
 
   Example usage
@@ -46,7 +46,7 @@ $ quasar
 
 See help for any command:
 
-``` bash
+```bash
 $ quasar [command name] --help
 ```
 
@@ -86,7 +86,7 @@ The Quasar CLI is equipped with a stable combination of multiple NPM build packa
 
 In order for you to see what versions of Node, Quasar CLI, Quasar, Vue (and many others) you are using, issue this command in a Quasar project folder:
 
-``` bash
+```bash
 $ quasar info
 ```
 
@@ -145,7 +145,7 @@ The Quasar development server allows you to develop your App by compiling and ma
 
 Based on what you want to develop, you can start the development server by using "quasar dev" command as follows:
 
-``` bash
+```bash
 # Developing a SPA
 $ quasar dev
 # ...or
@@ -190,7 +190,7 @@ If you wish to change the hostname or port serving your App you have 3 options:
   ```
 * Through '-H' (hostname) and '-p' (port) command options.
 * If this is a one time thing, specify the hostname and/or port as an environment variable:
-  ``` bash
+  ```bash
   $ PORT=3000 quasar dev
   $ HOSTNAME=1.1.1.14 quasar dev
   ```
@@ -274,7 +274,7 @@ $ quasar build -h
 
 The Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.
 
-``` bash
+```bash
 # Build a SPA for production
 $ quasar build
 # ...or
@@ -311,7 +311,7 @@ $ quasar build -d [-m <mode>]
 ## Clean
 Cleans up all the build assets:
 
-``` bash
+```bash
 $ quasar clean
 ```
 
@@ -722,7 +722,6 @@ $ npm i -g @quasar/legacy-create
 $ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]
 <<| bash PNPM |>>
 # globally install the @quasar/legacy-create CLI
-# experimental support
 $ pnpm add -g @quasar/legacy-create
 
 # then:

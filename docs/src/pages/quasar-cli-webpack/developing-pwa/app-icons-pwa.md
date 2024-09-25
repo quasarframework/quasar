@@ -28,16 +28,16 @@ scope:
       - l: apple-icon-152x152.png
       - l: apple-icon-167x167.png
       - l: apple-icon-180x180.png
-      - l: apple-icon-828x1792.png
-      - l: apple-icon-1125x2436.png
-      - l: apple-icon-1242x2688.png
-      - l: apple-icon-750x1334.png
-      - l: apple-icon-1242x2208.png
-      - l: apple-icon-640x1136.png
-      - l: apple-icon-1536x2048.png
-      - l: apple-icon-1668x2224.png
-      - l: apple-icon-1668x2388.png
-      - l: apple-icon-2048x2732.png
+      - l: apple-launch-828x1792.png
+      - l: apple-launch-1125x2436.png
+      - l: apple-launch-1242x2688.png
+      - l: apple-launch-750x1334.png
+      - l: apple-launch-1242x2208.png
+      - l: apple-launch-640x1136.png
+      - l: apple-launch-1536x2048.png
+      - l: apple-launch-1668x2224.png
+      - l: apple-launch-1668x2388.png
+      - l: apple-launch-2048x2732.png
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).

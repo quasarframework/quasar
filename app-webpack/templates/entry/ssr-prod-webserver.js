@@ -61,27 +61,30 @@ const middlewareParams = {
   }
 }
 
-const app = create(middlewareParams)
+export async function startServer () {
+  const app = await create(middlewareParams)
 
-// fill in "app" for next calls
-middlewareParams.app = app
+  // fill in "app" for next calls
+  middlewareParams.app = app
 
-<% if (ssr.pwa) { %>
-// serve the service worker with no cache
-app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilename %>', { maxAge: 0 }))
-<% } %>
+  const serveStatic = await serveStaticContent(middlewareParams)
+  middlewareParams.serve = { static: serveStatic }
 
-// serve "client" folder (includes the "public" folder)
-app.use(resolveUrlPath('/'), serveStatic('.'))
+  <% if (ssr.pwa) { %>
+  // serve the service worker with no cache
+  await serveStatic({ urlPath: '/<%= pwa.swFilename %>', pathToServe: '<%= pwa.swFilename %>', opts: { maxAge: 0 } })
+  <% } %>
 
-const isReady = () => injectMiddlewares(middlewareParams)
+  // serve "client" folder (includes the "public" folder)
+  await serveStatic({ urlPath: '/', pathToServe: '.' })
 
-const ssrHandler = (req, res, next) => {
-  return isReady().then(() => app(req, res, next))
+  await injectMiddlewares(middlewareParams)
+
+  const listenResult = await listen(middlewareParams)
+
+  return {
+    app,
+    listenResult,
+    handler: listenResult?.handler
+  }
 }
-
-export default listen({
-  isReady,
-  ssrHandler,
-  ...middlewareParams
-})

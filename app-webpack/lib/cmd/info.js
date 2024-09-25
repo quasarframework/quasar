@@ -94,7 +94,6 @@ print({ key: 'Important local packages', section: true })
   'workbox-webpack-plugin',
   'register-service-worker',
   'electron',
-  'electron-packager',
   '@electron/packager',
   'electron-builder'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))

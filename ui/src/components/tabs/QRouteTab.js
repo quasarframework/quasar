@@ -30,9 +30,10 @@ export default createComponent({
       }
     )
 
-    watch(() => `${ props.name } | ${ props.exact } | ${ (routeData.resolvedLink.value || {}).href }`, () => {
-      $tabs.verifyRouteModel()
-    })
+    watch(
+      () => `${ props.name } | ${ props.exact } | ${ (routeData.resolvedLink.value || {}).href }`,
+      $tabs.verifyRouteModel
+    )
 
     return () => renderTab(routeData.linkTag.value, routeData.linkAttrs.value)
   }

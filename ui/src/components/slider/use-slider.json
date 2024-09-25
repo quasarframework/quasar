@@ -313,7 +313,7 @@
 
         "markerList": {
           "type": "Array",
-          "tsType": "SliderMarkerLabelArrayConfig",
+          "tsType": "SliderMarkerLabelConfig",
           "desc": "Array of marker label configs",
           "definition": {
             "index": {
@@ -406,7 +406,7 @@
       "scope": {
         "markerList": {
           "type": "Array",
-          "tsType": "SliderMarkerLabelArrayConfig",
+          "tsType": "SliderMarkerLabelConfig",
           "desc": "Array of marker label configs",
           "definition": {
             "index": {

@@ -51,6 +51,13 @@ public class EnableHttpsSelfSigned {
 }`
 }
 
+const sslSkipVersion = {
+  4: '^0.2.0',
+  5: '^0.3.0',
+  6: '^0.4.0',
+  default: '^0.4.0'
+}
+
 module.exports.CapacitorConfigFile = class CapacitorConfigFile {
   #ctx
   #tamperedFiles = []
@@ -77,7 +84,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     this.#tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
-      content: this.#updateCapJson(quasarConf, capJson, capVersion),
+      content: this.#updateCapJson(quasarConf, capJson, capVersion, target),
       originalContent: JSON.stringify(capJson, null, 2)
     })
 
@@ -105,7 +112,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     })
   }
 
-  #updateCapJson (quasarConf, originalCapCfg, capVersion) {
+  #updateCapJson (quasarConf, originalCapCfg, capVersion, target) {
     const capJson = { ...originalCapCfg }
 
     capJson.appName = quasarConf.capacitor.appName || this.#ctx.pkg.appPkg.productName || 'Quasar App'
@@ -117,13 +124,17 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     if (quasarConf.ctx.dev) {
       capJson.server = capJson.server || {}
       capJson.server.url = quasarConf.metaConf.APP_URL
+      if (target === 'android' && capVersion >= 2) {
+        capJson.server.cleartext = true
+      }
     }
     else {
       capJson.webDir = 'www'
 
       // ensure we don't run from a remote server
-      if (capJson.server && capJson.server.url) {
+      if (capJson.server) {
         delete capJson.server.url
+        delete capJson.server.cleartext
       }
     }
 
@@ -164,7 +175,8 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
       }
 
       const fn = `${ add ? '' : 'un' }installPackage`
-      const nameParam = add ? '@jcesarmobile/ssl-skip@^0.2.0' : '@jcesarmobile/ssl-skip'
+      const version = sslSkipVersion[ capVersion ] || sslSkipVersion.default
+      const nameParam = add ? `@jcesarmobile/ssl-skip@${ version }` : '@jcesarmobile/ssl-skip'
 
       const nodePackager = cacheProxy.getModule('nodePackager')
       nodePackager[ fn ](nameParam, {

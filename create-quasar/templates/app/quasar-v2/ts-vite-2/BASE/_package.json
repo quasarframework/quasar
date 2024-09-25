@@ -25,10 +25,10 @@
   },
   "devDependencies": {
     <% if (preset.lint) { %>
-    "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@typescript-eslint/parser": "^6.6.0",
-    "vite-plugin-checker": "^0.6.4",
-    "vue-tsc": "^1.8.22",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "vite-plugin-checker": "^0.8.0",
+    "vue-tsc": "^2.0.29",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
@@ -47,7 +47,7 @@
     <% if (preset.i18n) { %>"@intlify/unplugin-vue-i18n": "^2.0.0",<% } %>
     "@quasar/app-vite": "^2.0.0-beta.12",
     "autoprefixer": "^10.4.2",
-    "typescript": "~5.3.0"
+    "typescript": "~5.5.3"
   },
   "engines": {
     "node": "^24 || ^22 || ^20 || ^18",

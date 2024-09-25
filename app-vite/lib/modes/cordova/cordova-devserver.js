@@ -7,7 +7,7 @@ import { spawn } from '../../utils/spawn.js'
 import { onShutdown } from '../../utils/on-shutdown.js'
 import { openIDE } from '../../utils/open-ide.js'
 import { quasarCordovaConfig } from './cordova-config.js'
-import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
+import { fixAndroidCleartext } from './android-cleartext.js'
 
 export class QuasarModeDevserver extends AppDevserver {
   #pid = 0
@@ -26,7 +26,7 @@ export class QuasarModeDevserver extends AppDevserver {
     this.#target = this.ctx.targetName
 
     if (this.#target === 'android') {
-      fixAndroidCleartext(this.ctx.appPaths, 'cordova')
+      fixAndroidCleartext(this.ctx.appPaths, 'add')
     }
 
     onShutdown(() => {

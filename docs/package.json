@@ -17,28 +17,28 @@
   },
   "dependencies": {
     "@quasar/extras": "^1",
-    "prismjs": "^1.26.0",
     "quasar": "^2",
-    "register-service-worker": "^1",
-    "vue": "^3.4.24",
-    "vue-router": "^4.3.2"
+    "prismjs": "^1.29.0",
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.5.5",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@quasar/app-vite": "^2.0.0-beta.5",
-    "autoprefixer": "^10.4.19",
-    "axios": "^1.6.8",
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.7",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "^0.0.1",
     "eslint-plugin-quasar": "^1.1.0",
-    "fast-glob": "^3.2.12",
+    "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
-    "gray-matter": "^4.0.2",
+    "gray-matter": "^4.0.3",
     "markdown-ast": "^0.3.0",
     "markdown-it": "^14.1.0",
     "markdown-it-container": "^4.0.0",
     "toml": "^3.0.0",
-    "vite-plugin-checker": "^0.6.4",
-    "workbox-build": "^7.1.0"
+    "vite-plugin-checker": "^0.7.2",
+    "workbox-build": "^7.1.1"
   },
   "engines": {
     "node": "^20 || ^18 || ^16",

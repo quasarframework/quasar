@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.16.11",
+  "version": "1.16.12",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -152,7 +152,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "6.5.1",
+    "@fortawesome/fontawesome-free": "6.5.2",
     "@mdi/font": "7.4.47",
     "@mdi/svg": "7.4.47",
     "@xmldom/xmldom": "0.8.10",
@@ -162,8 +162,8 @@
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",
     "fs-extra": "11.2.0",
-    "glob": "10.3.10",
-    "ionicons": "7.3.1",
+    "glob": "10.4.3",
+    "ionicons": "7.4.0",
     "line-awesome": "1.3.0",
     "themify-icons": "github:lykmapipo/themify-icons"
   }

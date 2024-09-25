@@ -27,7 +27,9 @@ const routes = [
   { path: '/start', redirect: '/start/quick-start' },
   { path: '/vue-components', redirect: '/components' },
   { path: '/vue-directives', redirect: '/components' },
+  { path: '/quasar-plugins', redirect: '/components' },
   { path: '/plugins', redirect: '/components' },
+  { path: '/quasar-utils', redirect: '/components' },
   { path: '/utils', redirect: '/components' },
 
   // docs

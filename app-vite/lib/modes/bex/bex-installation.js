@@ -3,6 +3,7 @@ import fse from 'fs-extra'
 import inquirer from 'inquirer'
 
 import { log, warn } from '../../utils/logger.js'
+import { generateTypesFeatureFlag } from '../../utils/types-feature-flags.js'
 
 const bexDeps = {
   events: '^3.3.0'
@@ -43,7 +44,7 @@ export async function addMode ({
   log('Creating Browser Extension source folder...')
 
   fse.copySync(appPaths.resolve.cli('templates/bex/common'), appPaths.bexDir)
-  fse.copySync(appPaths.resolve.cli('templates/bex/bex-flag.d.ts'), appPaths.resolve.bex('bex-flag.d.ts'))
+  generateTypesFeatureFlag('bex', appPaths)
 
   const hasTypescript = await cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'default'

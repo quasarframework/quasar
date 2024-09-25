@@ -90,6 +90,7 @@ function renderTemplate (relativePath, scope) {
       const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
 
       const newContent = extension === '.json'
+        // This prevents us to add comments into JSONC files, like tsconfig ones
         ? JSON.stringify(JSON.parse(template(scope)), null, 2)
         : template(scope)
 
@@ -144,25 +145,25 @@ function getGitUser () {
 function printFinalMessage (scope) {
   const verPrefix = scope.quasarVersion ? scope.quasarVersion + '.' : ''
   const message = `
-To get started:
-${ yellow(`
-  cd ${ scope.projectFolderName }${ scope.skipDepsInstall !== true && scope.packageManager === false ? `
-  yarn #or: npm install
-  yarn lint --fix # or: npm run lint -- --fix` : '' }${ scope.skipDepsInstall !== true ? `
-  quasar dev # or: yarn quasar dev # or: npx quasar dev` : '' }
-`) }
-Documentation can be found at: https://${ verPrefix }quasar.dev
+ To get started:
+ ${ yellow(`
+   cd ${ scope.projectFolderName }${ scope.skipDepsInstall !== true && scope.packageManager === false ? `
+   yarn #or: npm install
+   yarn lint --fix # or: npm run lint -- --fix` : '' }${ scope.skipDepsInstall !== true ? `
+   quasar dev # or: yarn quasar dev # or: npx quasar dev` : '' }
+ `) }
+ Documentation can be found at: https://${ verPrefix }quasar.dev
 
-Quasar is relying on donations to evolve. We'd be very grateful if you can
-read our manifest on "Why donations are important": https://${ verPrefix }quasar.dev/why-donate
-Donation campaign: https://donate.quasar.dev
-Any amount is very welcome.
-If invoices are required, please first contact Razvan Stoenescu.
+ Quasar is relying on donations to evolve. We'd be very grateful if you can
+ read our manifest on "Why donations are important": https://${ verPrefix }quasar.dev/why-donate
+ Donation campaign: https://donate.quasar.dev
+ Any amount is very welcome.
+ If invoices are required, please first contact Razvan Stoenescu.
 
-Please give us a star on Github if you appreciate our work:
-  https://github.com/quasarframework/quasar
+ Please give us a star on Github if you appreciate our work:
+   https://github.com/quasarframework/quasar
 
-Enjoy! - Quasar Team
+ Enjoy! - Quasar Team
 `
 
   console.log(message)
@@ -219,6 +220,46 @@ function lintFolder (scope) {
       : [ 'run', 'lint', '--fix' ],
     { cwd: scope.projectFolder }
   )
+}
+
+function hasGit () {
+  try {
+    exec('git --version')
+    return true
+  }
+  catch (_) {}
+}
+
+function folderHasGit (cwd) {
+  try {
+    exec('git status', { stdio: 'ignore', cwd })
+    return true
+  }
+  catch (_) {}
+}
+
+function initializeGit (projectFolder) {
+  if (hasGit() !== true) {
+    logger.log('Git is not installed on the system, so skipping Git repo initialization.')
+    return
+  }
+
+  if (folderHasGit(projectFolder) === true) {
+    logger.log('A parent of the project folder is already a Git repository, so skipping Git initialization.')
+    return
+  }
+
+  try {
+    exec('git init', { cwd: projectFolder })
+    exec('git add -A', { cwd: projectFolder })
+    exec('git commit -m "Initialize the project 🚀" --no-verify', { cwd: projectFolder })
+  }
+  catch (e) {
+    logger.warn('Could not initialize Git repository. Please do this manually.')
+    return
+  }
+
+  logger.log('Initialized Git repository 🚀')
 }
 
 const quasarConfigFilenameList = [
@@ -341,6 +382,7 @@ export default {
   installDeps,
   lintFolder,
   ensureOutsideProject,
+  initializeGit,
 
   commonPrompts
 }

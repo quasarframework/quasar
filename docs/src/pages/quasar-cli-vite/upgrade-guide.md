@@ -85,7 +85,6 @@ $ yarn create quasar
 <<| bash NPM |>>
 $ npm init quasar
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 <<| bash Bun |>>
 # experimental support
@@ -194,6 +193,28 @@ Preparations:
   }
   ```
 
+  <br>
+
+* The feature flag files must be deleted from your project folder. They need to be generated again (will happen automatically).
+
+  ```tabs
+  <<| bash rimraf through npx |>>
+  # in project folder root:
+  $ npx rimraf -g ./**/*-flag.d.ts
+  $ quasar build # or dev
+  <<| bash Unix-like (Linux, macOS) |>>
+  # in project folder root:
+  $ rm ./**/*-flag.d.ts
+  $ quasar build # or dev
+  <<| bash Windows (CMD) |>>
+  # in project folder root:
+  $ del /s *-flag.d.ts
+  $ quasar build &:: or dev
+  <<| bash Windows (PowerShell) |>>
+  # in project folder root:
+  $ Remove-Item -Recurse -Filter *-flag.d.ts
+  $ quasar build # or dev
+  ```
 
 ### Linting (TS or JS)
 
@@ -203,18 +224,14 @@ We dropped support for our internal linting (quasar.config file > eslint) in fav
 
 ```tabs
 <<| bash Yarn |>>
-$ yarn add --dev vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
+$ yarn add --dev vite-plugin-checker vue-tsc@2 typescript
 <<| bash NPM |>>
-$ npm install --save-dev vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
+$ npm install --save-dev vite-plugin-checker vue-tsc@2 typescript
 <<| bash PNPM |>>
-$ pnpm add -D vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
+$ pnpm add -D vite-plugin-checker vue-tsc@2 typescript
 <<| bash Bun |>>
-$ bun add --dev vite-plugin-checker vue-tsc@^1.8.22 typescript@~5.3.0
+$ bun add --dev vite-plugin-checker vue-tsc@2 typescript
 ```
-
-::: warning
-Notice the `typescript` dependency is <= 5.3. There is currently an issue with ESLint and newer TS (5.4+). This is only a temporary thing until upstream fixes it.
-:::
 
 ```bash [highlight=6,7] /.eslintignore
 /dist
@@ -522,11 +539,13 @@ The distributables (your production code) will be compiled to ESM form.
 
 Most changes refer to editing your `/src-ssr/server.js` file. Since you can now use HTTPS while developing your app too, you need to make the following changes to the file:
 
-```diff /src-ssr/server.js
+```diff /src-ssr/server.js > listen
 - export const listen = ssrListen(async ({ app, port, isReady }) => {
-+ // notice devHttpsApp param which will be a Node httpsServer (on DEV only) and if https is enabled
-+ export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-    await isReady()
++ // notice: devHttpsApp param which will be a Node httpsServer (on DEV only) and if https is enabled
++ // notice: no "isReady" param (starting with 2.0.0-beta.16+)
++ // notice: ssrListen() param can still be async (below it isn't)
++ export const listen = ssrListen(({ app, devHttpsApp, port }) => {
+-   await isReady()
 -   return app.listen(port, () => {
 +   const server = devHttpsApp || app
 +   return server.listen(port, () => {
@@ -539,9 +558,8 @@ Most changes refer to editing your `/src-ssr/server.js` file. Since you can now 
 
 Finally, this is how it should look like now:
 
-```js /src-ssr/server.js file
-export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-  await isReady()
+```js /src-ssr/server.js > listen
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {
@@ -551,12 +569,63 @@ export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
 })
 ```
 
+For a serverless approach, this is how the "listen" part should look like:
+
+```js /src-ssr/server.js > listen
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
+  if (process.env.DEV) {
+    const server = devHttpsApp || app;
+    return server.listen(port, () => {
+      console.log('Server listening at port ' + port)
+    })
+  }
+  else { // in production
+    // return an object with a "handler" property
+    // that the server script will named-export
+    return { handler: app }
+  }
+})
+```
+
+Next, the `serveStaticContent` function has changed:
+
+```diff /src-ssr/server.js > serveStaticContent
+- export const serveStaticContent = ssrServeStaticContent((path, opts) => {
+-  return express.static(path, { maxAge, ...opts })
+- })
+
++ /**
++ * Should return a function that will be used to configure the webserver
++ * to serve static content at "urlPath" from "pathToServe" folder/file.
++ *
++ * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
++ *
++ * Can be async: ssrServeStaticContent(async ({ app, resolve }) => {
++ * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
++ */
++ export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
++  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
++    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
++    app.use(resolve.urlPath(urlPath), serveFn)
++  }
++ })
+```
+
 Also, the `renderPreloadTag()` function can now take an additional parameter (`ssrContext`):
 
 ```js /src-ssr/server.js
 export const renderPreloadTag = ssrRenderPreloadTag((file, { ssrContext }) => {
   // ...
 })
+```
+
+For TS devs, you should also make a small change to your /src-ssr/middlewares files, like this:
+
+```diff For TS devs
++ import { Request, Response } from 'express';
+// ...
+- app.get(resolve.urlPath('*'), (req, res) => {
++ app.get(resolve.urlPath('*'), (req: Request, res: Response) => {
 ```
 
 There are some additions to the `/quasar.config` file too:

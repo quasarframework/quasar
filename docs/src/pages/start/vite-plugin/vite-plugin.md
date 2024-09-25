@@ -72,16 +72,3 @@ The full list of options can be found [here](https://github.com/quasarframework/
 ## RTL support
 
 For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.
-
-## Warning when building for production
-
-When building for production, you may notice the warning below. You can safely ignore it. This is a known [Vite issue](https://github.com/vitejs/vite/issues/4625).
-
-```
-warnings when minifying css:
- > <stdin>:32:0: warning: "@charset" must be the first rule in the file
-    32 │ @charset "UTF-8";
-       ╵ ~~~~~~~~
-   <stdin>:9:0: note: This rule cannot come before a "@charset" rule
-     9 │ .material-icons {
-```

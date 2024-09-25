@@ -15,18 +15,18 @@ RTL is referring to "right to left" UI for languages that need it.
 * Yarn/npm install the `postcss-rtlcss` package.
 * If you are already running "quasar dev" command, restart it.
 
-```
+```js [highlight=10-11]
 module.exports = {
   plugins: [
     // https://github.com/postcss/autoprefixer
-    require('autoprefixer')(...)
+    require('autoprefixer')(...),
 
     // https://github.com/elchininet/postcss-rtlcss
     // If you want to support RTL css, then
     // 1. yarn/npm install postcss-rtlcss
     // 2. optionally set quasar.config file > framework > lang to an RTL language
     // 3. uncomment the following line:
-    // require('postcss-rtlcss')
+    require('postcss-rtlcss')
   ]
 }
 ```
@@ -57,7 +57,7 @@ $ bun add --dev postcss-rtlcss
 
 Then create `/postcss.config.cjs` file if you don't have it already, and add this to it:
 
-``` js
+```js
 module.exports = {
   plugins: [
     require('postcss-rtlcss')({ /* opts */ }) // <<<< in "plugins"

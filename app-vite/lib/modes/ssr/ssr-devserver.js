@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, isAbsolute } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createServer } from 'vite'
 import chokidar from 'chokidar'
@@ -98,7 +98,10 @@ export class QuasarModeDevserver extends AppDevserver {
       serverFile: appPaths.resolve.entry('compiled-dev-webserver.mjs'),
       serverEntryFile: appPaths.resolve.entry('server-entry.mjs'),
       resolvePublicFolder () {
-        return join(publicFolder, ...arguments)
+        const dir = join(...arguments)
+        return isAbsolute(dir) === true
+          ? dir
+          : join(publicFolder, dir)
       }
     }
 
@@ -307,23 +310,15 @@ export class QuasarModeDevserver extends AppDevserver {
         root: this.#pathMap.rootFolder,
         public: this.#pathMap.publicFolder
       },
-      render: this.#appOptions.render,
-      serve: {
-        static: (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts),
-        error: renderError
-      }
+      render: this.#appOptions.render
     }
 
-    const app = middlewareParams.app = create(middlewareParams)
-    const { proxy: proxyConf } = quasarConf.devServer
+    const app = middlewareParams.app = await create(middlewareParams)
 
-    if (Object(proxyConf) === proxyConf) {
-      const { createProxyMiddleware } = await import('http-proxy-middleware')
-
-      Object.keys(proxyConf).forEach(path => {
-        const cfg = quasarConf.devServer.proxy[ path ]
-        app.use(path, createProxyMiddleware(cfg))
-      })
+    const serveStatic = await serveStaticContent(middlewareParams)
+    middlewareParams.serve = {
+      static: serveStatic,
+      error: renderError
     }
 
     // vite devmiddleware modifies req.url to account for publicPath
@@ -351,7 +346,8 @@ export class QuasarModeDevserver extends AppDevserver {
         res.end()
         return
       }
-      else if (req.headers.accept && req.headers.accept.includes('text/html')) {
+
+      if (req.headers.accept && req.headers.accept.includes('text/html')) {
         const parsedPath = pathname.slice(1)
         const redirectPaths = [ publicPath + parsedPath ]
         const splitted = parsedPath.split('/')
@@ -379,25 +375,14 @@ export class QuasarModeDevserver extends AppDevserver {
       next()
     })
 
-    const isReady = () => Promise.resolve()
-
     if (quasarConf.devServer.https) {
       const https = await import('node:https')
       middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.https, app)
     }
 
-    const listenResult = await listen({
-      isReady,
-      ssrHandler: (req, res, next) => {
-        return isReady().then(() => app(req, res, next))
-      },
-      ...middlewareParams
-    })
+    middlewareParams.listenResult = await listen(middlewareParams)
 
-    this.#closeWebserver = () => close({
-      ...middlewareParams,
-      listenResult
-    })
+    this.#closeWebserver = () => close(middlewareParams)
 
     done('Webserver is ready')
 

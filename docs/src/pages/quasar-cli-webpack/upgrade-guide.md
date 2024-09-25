@@ -1,5 +1,5 @@
 ---
-title: Upgrade Guide for Quasar CLI with Vite
+title: Upgrade Guide for Quasar CLI with Webpack
 desc: (@quasar/app-webpack) How to upgrade Quasar CLI with Webpack from older versions to the latest one.
 scope:
   oldBexTree:
@@ -170,7 +170,6 @@ $ yarn create quasar
 <<| bash NPM |>>
 $ npm init quasar
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 <<| bash Bun |>>
 # experimental support
@@ -288,7 +287,7 @@ Preparations:
 
   ```json [highlight=6-13]
   {
-    "extends": "@quasar/app-vite/tsconfig-preset",
+    "extends": "@quasar/app-webpack/tsconfig-preset",
     "compilerOptions": {
       "baseUrl": "."
     },
@@ -301,6 +300,29 @@ Preparations:
       "./quasar.config.*.temporary.compiled*"
     ]
   }
+  ```
+
+  <br>
+
+* The feature flag files must be deleted from your project folder. They need to be generated again (will happen automatically).
+
+  ```tabs
+  <<| bash rimraf through npx |>>
+  # in project folder root:
+  $ npx rimraf -g ./**/*-flag.d.ts
+  $ quasar build # or dev
+  <<| bash Unix-like (Linux, macOS) |>>
+  # in project folder root:
+  $ rm ./**/*-flag.d.ts
+  $ quasar build # or dev
+  <<| bash Windows (CMD) |>>
+  # in project folder root:
+  $ del /s *-flag.d.ts
+  $ quasar build &:: or dev
+  <<| bash Windows (PowerShell) |>>
+  # in project folder root:
+  $ Remove-Item -Recurse -Filter *-flag.d.ts
+  $ quasar build # or dev
   ```
 
 ### SPA / Capacitor / Cordova modes changes
@@ -608,7 +630,7 @@ function createWindow () {
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
-      // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
+      // More info: https://v2.quasar.dev/quasar-cli-webpack/developing-electron-apps/electron-preload-script
       preload: path.resolve(
         currentDir,
         path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER, 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION)
@@ -712,6 +734,13 @@ The support for `/src-ssr/production-export.js` has been dropped (delete it). Th
 
 ```js /src-ssr/server.js
 /**
+ * More info about this file:
+ * https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/ssr-webserver
+ *
+ * Runs in Node context.
+ */
+
+/**
  * Make sure to yarn add / npm install (in your project root)
  * anything you import here (except for express and compression).
  */
@@ -730,7 +759,7 @@ import {
  * If needed, prepare your webserver to receive
  * connect-like middlewares.
  *
- * Should NOT be async!
+ * Can be async: ssrCreate(async ({ ... }) => { ... })
  */
 export const create = ssrCreate((/* { ... } */) => {
   const app = express()
@@ -758,9 +787,10 @@ export const create = ssrCreate((/* { ... } */) => {
  *
  * For production, you can instead export your
  * handler for serverless use or whatever else fits your needs.
+ *
+ * Can be async: ssrListen(async ({ app, devHttpsApp, port }) => { ... })
  */
-export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-  await isReady()
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {
@@ -777,7 +807,7 @@ export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
  * Should you need the result of the "listen()" call above,
  * you can use the "listenResult" param.
  *
- * Can be async.
+ * Can be async: ssrClose(async ({ listenResult }) => { ... })
  */
 export const close = ssrClose(({ listenResult }) => {
   return listenResult.close()
@@ -788,14 +818,19 @@ const maxAge = process.env.DEV
   : 1000 * 60 * 60 * 24 * 30
 
 /**
- * Should return middleware that serves the indicated path
- * with static content.
+ * Should return a function that will be used to configure the webserver
+ * to serve static content at "urlPath" from "pathToServe" folder/file.
+ *
+ * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
+ *
+ * Can be async: ssrServeStaticContent(async ({ app, resolve }) => {
+ * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
-export const serveStaticContent = ssrServeStaticContent((path, opts) => {
-  return express.static(path, {
-    maxAge,
-    ...opts
-  })
+export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
+  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
+    app.use(resolve.urlPath(urlPath), serveFn)
+  }
 })
 
 const jsRE = /\.js$/
@@ -843,6 +878,24 @@ export const renderPreloadTag = ssrRenderPreloadTag((file/* , { ssrContext } */)
 })
 ```
 
+For a serverless approach, this is how the "listen" part should look like:
+
+```js /src-ssr/server.js > listen
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
+  if (process.env.DEV) {
+    const server = devHttpsApp || app;
+    return server.listen(port, () => {
+      console.log('Server listening at port ' + port)
+    })
+  }
+  else { // in production
+    // return an object with a "handler" property
+    // that the server script will named-export
+    return { handler: app }
+  }
+})
+```
+
 If you have `/src-ssr/middlewares/compression.js` file, delete it because this code is now embedded into `/src-ssr/server.js`. Then edit your `/quasar.config` file to remove the reference to the old file:
 
 ```diff /quasar.config file
@@ -852,6 +905,78 @@ ssr: {
     'render' // keep this as last one
   ]
 }
+```
+
+Example of `/src-ssr/middlewares/render.js` file content:
+
+```js /src-ssr/middlewares/render.js
+import { ssrMiddleware } from 'quasar/wrappers'
+
+// This middleware should execute as last one
+// since it captures everything and tries to
+// render the page with Vue
+
+export default ssrMiddleware(({ app, resolve, render, serve }) => {
+  // we capture any other Express route and hand it
+  // over to Vue and Vue Router to render our page
+  app.get(resolve.urlPath('*'), (req, res) => {
+    res.setHeader('Content-Type', 'text/html')
+
+    render(/* the ssrContext: */ { req, res })
+      .then(html => {
+        // now let's send the rendered html to the client
+        res.send(html)
+      })
+      .catch(err => {
+        // oops, we had an error while rendering the page
+
+        // we were told to redirect to another URL
+        if (err.url) {
+          if (err.code) {
+            res.redirect(err.code, err.url)
+          } else {
+            res.redirect(err.url)
+          }
+        } else if (err.code === 404) {
+          // hmm, Vue Router could not find the requested route
+
+          // Should reach here only if no "catch-all" route
+          // is defined in /src/routes
+          res.status(404).send('404 | Page Not Found')
+        } else if (process.env.DEV) {
+          // well, we treat any other code as error;
+          // if we're in dev mode, then we can use Quasar CLI
+          // to display a nice error page that contains the stack
+          // and other useful information
+
+          // serve.error is available on dev only
+          serve.error({ err, req, res })
+        } else {
+          // we're in production, so we should have another method
+          // to display something to the client when we encounter an error
+          // (for security reasons, it's not ok to display the same wealth
+          // of information as we do in development)
+
+          // Render Error Page on production or
+          // create a route (/src/routes) for an error page and redirect to it
+          res.status(500).send('500 | Internal Server Error')
+
+          if (process.env.DEBUGGING) {
+            console.error(err.stack)
+          }
+        }
+      })
+  })
+})
+```
+
+For TS devs, you should also make a small change to your /src-ssr/middlewares files, like this:
+
+```diff For TS devs
++ import { Request, Response } from 'express';
+// ...
+- app.get(resolve.urlPath('*'), (req, res) => {
++ app.get(resolve.urlPath('*'), (req: Request, res: Response) => {
 ```
 
 There are some additional changes to the `/quasar.config` file:

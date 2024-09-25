@@ -13,7 +13,7 @@ The `/src-ssr/server.[js|ts]` file is a simple JavaScript/Typescript file which 
 The `/src-ssr/server.[js|ts]` file is used for both DEV and PROD, so please be careful on how you configure it. To differentiate between the two states you can use `process∙env∙DEV` and `process∙env∙PROD`.
 :::
 
-``` js
+```js
 /**
  * More info about this file:
  * https://v2.quasar.dev/quasar-cli-vite/developing-ssr/ssr-webserver
@@ -151,7 +151,7 @@ Remember that whatever the `listen()` function returns (if anything) will be exp
 
 ## Parameters
 
-``` js
+```js
 export function <functionName> ({
   app, port, isReady, ssrHandler,
   resolve, publicPath, folders, render, serve
@@ -160,7 +160,7 @@ export function <functionName> ({
 
 Detailing the Object:
 
-``` js
+```js
 {
   app,     // Expressjs app instance (or whatever you return from create())
 

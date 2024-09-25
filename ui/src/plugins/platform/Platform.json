@@ -38,39 +38,25 @@
           "desc": "Major browser version as a number"
         },
 
-        "desktop": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the platform is desktop"
-        },
         "mobile": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the platform is mobile"
         },
-        "electron": {
+        "desktop": {
           "type": "Boolean",
-          "required": false,
-          "desc": "Whether the platform is Electron"
+          "desc": "Whether the platform is desktop"
         },
-        "bex": {
+
+        "cordova": {
           "type": "Boolean",
-          "required": false,
-          "desc": "Whether the platform is BEX(Browser Extension)"
+          "desc": "Whether the platform is Cordova"
         },
         "capacitor": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the platform is Capacitor"
-        },
-        "cordova": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the platform is Cordova"
         },
         "nativeMobile": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the platform is a native mobile wrapper"
         },
         "nativeMobileWrapper": {
@@ -79,110 +65,107 @@
           "values": [ "'cordova'", "'capacitor'" ],
           "desc": "Type of the native mobile wrapper"
         },
-
-        "webkit": {
+        "electron": {
           "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is a Webkit one"
+          "desc": "Whether the platform is Electron"
+        },
+        "bex": {
+          "type": "Boolean",
+          "desc": "Whether the platform is BEX(Browser Extension)"
         },
 
-        "chrome": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Google Chrome"
-        },
-        "firefox": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Firefox"
-        },
-        "safari": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Safari"
-        },
-        "edgeChromium": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Microsoft Edge (Chromium)"
-        },
-        "edge": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Microsoft Edge Legacy"
-        },
-        "opera": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Opera"
-        },
-        "vivaldi": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the browser is Vivaldi"
-        },
-
-        "win": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the operating system is Windows"
-        },
         "linux": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the operating system is Linux"
         },
         "mac": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the operating system is Mac OS"
+        },
+        "win": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Windows"
         },
         "cros": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the operating system is Chrome OS"
+        },
+
+        "chrome": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Google Chrome"
+        },
+        "firefox": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Firefox"
+        },
+        "opera": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Opera"
+        },
+        "safari": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Safari"
+        },
+        "vivaldi": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Vivaldi"
+        },
+        "edge": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Microsoft Edge Legacy"
+        },
+        "edgeChromium": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Microsoft Edge (Chromium)"
+        },
+        "ie": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Internet Explorer"
+        },
+        "webkit": {
+          "type": "Boolean",
+          "desc": "Whether the browser is a Webkit or Webkit-based one"
         },
 
         "android": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the operating system is Android"
         },
         "ios": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the operating system is iOS"
-        },
-        "winphone": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the operating system is Windows Phone"
-        },
-
-        "iphone": {
-          "type": "Boolean",
-          "required": false,
-          "desc": "Whether the device is an iPhone"
         },
         "ipad": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the device is an iPad"
+        },
+        "iphone": {
+          "type": "Boolean",
+          "desc": "Whether the device is an iPhone"
         },
         "ipod": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the device is an iPod"
         },
-
         "kindle": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the device is a Kindle"
+        },
+        "winphone": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Windows Phone"
+        },
+        "blackberry": {
+          "type": "Boolean",
+          "desc": "Whether the device is a Blackberry"
+        },
+        "playbook": {
+          "type": "Boolean",
+          "desc": "Whether the device is a Blackberry Playbook"
         },
         "silk": {
           "type": "Boolean",
-          "required": false,
           "desc": "Whether the browser is Amazon Silk"
         }
       },

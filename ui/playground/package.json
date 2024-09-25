@@ -14,16 +14,16 @@
   "dependencies": {
     "@quasar/extras": "workspace:*",
     "quasar": "workspace:^",
-    "vue": "^3.4.24",
-    "vue-router": "^4.3.2"
+    "vue": "^3.5.5",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
-    "postcss": "^8.4.38",
-    "vite-plugin-checker": "^0.6.4"
+    "postcss": "^8.4.45",
+    "vite-plugin-checker": "^0.7.2"
   },
   "engines": {
     "node": "^24 || ^22 || ^20 || ^18",

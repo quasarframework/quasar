@@ -1,4 +1,4 @@
-import { Express, Request, RequestHandler, Response, NextFunction } from "express";
+import { Express, Application, Request, Response } from "express";
 import { Server } from "http";
 import { Server as HttpsServer } from "https";
 import { ServeStaticOptions } from "serve-static";
@@ -19,31 +19,6 @@ interface RenderErrorParams extends RenderParams {
   err: RenderError;
 }
 
-interface SsrMiddlewareServe {
-  /**
-   * It's essentially a wrapper over express.static() with a few convenient tweaks:
-   * - the pathFromPublicFolder is a path resolved to the "public" folder out of the box
-   * - the opts are the same as for express.static()
-   * - opts.maxAge is used by default, taking into account the quasar.config file > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
-   */
-  static(
-    path: string,
-    options?: ServeStaticOptions<Response>
-  ): RequestHandler<Response>;
-  /**
-   * Displays a wealth of useful debug information (including the stack trace).
-   * Warning: It's available only in development and NOT in production.
-   */
-  error(ssrContext: RenderErrorParams): void;
-}
-
-type SsrMiddlewareRender = (ssrContext: RenderVueParams) => Promise<string>;
-
-interface SsrMiddlewareFolders {
-  root: string;
-  public: string;
-}
-
 interface SsrMiddlewareResolve {
   /**
    * Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the resolve.urlPath() method so that you'll also keep into account the configured publicPath (quasar.config file > build > publicPath).
@@ -61,6 +36,11 @@ interface SsrMiddlewareResolve {
   public(...paths: string[]): string;
 }
 
+interface SsrMiddlewareFolders {
+  root: string;
+  public: string;
+}
+
 interface SsrCreateParams {
   /**
    * Terminal PORT env var or the default configured port
@@ -74,65 +54,84 @@ interface SsrCreateParams {
    * Uses Vue and Vue Router to render the requested URL path.
    * @returns the rendered HTML string to return to the client
    */
-  render: SsrMiddlewareRender;
-  serve: SsrMiddlewareServe;
+  render: (ssrContext: RenderVueParams) => Promise<string>;
 }
 
 export type SsrCreateCallback = (
   params: SsrCreateParams
-) => Express | any;
+) => Express | Application | any | Promise<Express> | Promise<Application> | Promise<any>;
 
-interface SsrMiddlewareParams extends SsrCreateParams {
-  app: Express;
+interface ssrServeStaticContentParams extends SsrCreateParams {
+  app: Express | Application | any;
 }
 
-export type SsrMiddlewareCallback = (
-  params: SsrMiddlewareParams
-) => void | Promise<void>;
-
-interface SsrHandlerParams {
-  req: Request;
-  res: Response;
-  next: NextFunction;
-}
-
-interface SsrListenParams extends SsrMiddlewareParams {
+interface SsrServeStaticFnParams {
   /**
-   * Wait for app to be initialized (run all SSR middlewares)
-   * before starting to listen for clients
+   * The URL path to serve the static content at (without publicPath).
+  * @default '/'
    */
-  isReady(): Promise<void>;
+  urlPath?: string;
+  /**
+   * The sub-path from the publicFolder or an absolute path.
+   * @default '.' (public folder itself)
+   */
+  pathToServe?: string;
+  /**
+   * Other custom options...
+   */
+  opts?: ServeStaticOptions<Response>;
+}
+
+type SsrServeStaticFn = (params: SsrServeStaticFnParams) => void | Promise<void>;
+
+export type SsrServeStaticContentCallback = (
+  params: ssrServeStaticContentParams
+) => SsrServeStaticFn;
+
+interface SsrMiddlewareServe {
+  /**
+   * It's essentially a wrapper over express.static() with a few convenient tweaks:
+   * - the pathToServe is a path resolved to the "public" folder out of the box
+   * - the opts are the same as for express.static()
+   * - opts.maxAge is used by default, taking into account the quasar.config file > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
+   */
+  static: SsrServeStaticFn;
+  /**
+   * Displays a wealth of useful debug information (including the stack trace).
+   * Warning: It's available only in development and NOT in production.
+   */
+  error(ssrContext: RenderErrorParams): void;
+}
+
+interface SsrMiddlewareParams extends ssrServeStaticContentParams {
+  serve: SsrMiddlewareServe;
   /**
    * If you use HTTPS in development, this will be the
    * actual server that listens for clients.
    * It is a Node https.Server instance wrapper over the original "app".
    */
   devHttpsApp?: HttpsServer;
-  /**
-   * SSR handler to be used on production should
-   * you wish to use a serverless approach.
-   */
-  ssrHandler(
-    params: SsrHandlerParams
-  ): Promise<void>;
+}
+
+export type SsrMiddlewareCallback = (
+  params: SsrMiddlewareParams
+) => void | Promise<void>;
+
+interface SsrListenHandlerResult {
+  handler: Server | Application | void;
 }
 
 export type SsrListenCallback = (
-  params: SsrListenParams
-) => Promise<Server>;
+  params: SsrMiddlewareParams
+) => Server | Application | SsrListenHandlerResult | any | Promise<Server> | Promise<Application> | Promise<SsrListenHandlerResult> | Promise<any>;
 
-interface SsrCloseParams extends SsrListenParams {
-  listenResult: Server;
+interface SsrCloseParams extends SsrMiddlewareParams {
+  listenResult: Server | Application | SsrListenHandlerResult | any;
 }
 
 export type SsrCloseCallback = (
   params: SsrCloseParams
-) => void;
-
-export type SsrServeStaticContentCallback = (
-  path: string,
-  opts?: ServeStaticOptions<Response>
-) => RequestHandler<Response>;
+) => Server | Application | SsrListenHandlerResult | any | Promise<Server> | Promise<Application> | Promise<SsrListenHandlerResult> | Promise<any>;
 
 interface SsrRenderPreloadTagCallbackOptions {
   ssrContext: RenderVueParams;

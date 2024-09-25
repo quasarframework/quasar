@@ -10,7 +10,7 @@ If you are a more advanced Vue developer, we invite you to start off by [decidin
 :::
 
 ## Prerequisites
-Make sure that you have Node >=14 (or any newer **LTS Node.js version**) and NPM >=6.14.12 or Yarn >= 1.21.1 installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/previous-releases).
+Make sure that you have Node >=14 (or any newer **LTS Node.js version**) and NPM v6+ or Yarn v1 (classic) or PNPM v8+ installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/previous-releases).
 
 ## Step 1: Create a Project
 
@@ -22,7 +22,6 @@ $ yarn create quasar
 <<| bash NPM |>>
 $ npm init quasar
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 <<| bash Bun |>>
 # experimental support
@@ -40,7 +39,6 @@ $ yarn global add @quasar/cli
 <<| bash NPM |>>
 $ npm i -g @quasar/cli
 <<| bash PNPM |>>
-# experimental support
 $ pnpm add -g @quasar/cli
 <<| bash Bun |>>
 # experimental support

@@ -43,6 +43,9 @@ $ pnpm test:specs --target <target_file>
 # withOUT Vitest UI:
 $ pnpm test:watch
 
+# to watch only a specific file pattern
+$ pnpm test:watch "QList"
+
 # with Vitest UI:
 $ pnpm test:watch:ui
 ```

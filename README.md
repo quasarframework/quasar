@@ -25,78 +25,61 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://mio.se/" target="_blank">
-          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/mio-ab.svg">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://dreamonkey.com/" target="_blank">
-          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/dreamonkey.png">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Dreamonkey.svg">
         </a>
       </td>
-    </tr>
-    <tr></tr>
-    <tr>
       <td align="center" valign="middle">
         <a href="https://www.hapag-lloyd.com/en/landingpage/quasar.html" target="_blank">
-          <img width="300px" src="https://cdn.quasar.dev/sponsors/hapag-lloyd.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="http://campuscloudservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/campus-cloud-services.png">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/HapagLloyd.svg">
         </a>
       </td>
     </tr>
     <tr></tr>
     <tr>
-      <td align="center" valign="middle">
-        <a href="https://platformpurple.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/platform-purple.png">
-        </a>
-      </td>
       <td align="center" valign="middle">
         <a href="https://irewind.com" target="_blank">
-          <img width="300px" src="https://cdn.quasar.dev/sponsors/irewind.png">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/iRewind.svg">
+        </a>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://qintil.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Qintil.svg">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://synestia.pl/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Synestia.svg">
         </a>
       </td>
     </tr>
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://truelogic.com" target="_blank">
-          <img width="300px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
+        <a href="https://letsbutterfly.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Letsbutterfly.svg">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.jugglestreet.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/juggle-street.png">
-        </a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://digitalocean.com" target="_blank">
-          <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/digitalocean.svg">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="http://comcomservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/com-com-services.png">
+        <a href="https://kalisio.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Kalisio.svg">
         </a>
       </td>
     </tr>
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="http://www.kalisio.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/kalisio.png">
+        <a href="https://comcomservices.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/COMCOMService.svg">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.letsbutterfly.com/" target="_blank">
-          <img width="170px" src="https://cdn.quasar.dev/sponsors/letsbutterfly.png">
+        <a href="https://digitalocean.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/DigitalOcean.svg">
         </a>
       </td>
     </tr>
@@ -104,50 +87,49 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.projectfinance.io/" target="_blank">
-          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/project-finance.png">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/ProjectFinance.svg">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://ib-langenthal.ch/" target="_blank">
-          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/ib-langenthal.svg">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/iBL.svg">
         </a>
       </td>
     </tr>
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://debricked.com/" target="_blank">
-          <img width="222px" height="35px" src="https://cdn.quasar.dev/sponsors/debricked.png">
+        <a href="https://jugglestreet.com.au/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/JuggleSt.svg">
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://qintil.com/" target="_blank">
-          <img width="222px" height="52px" src="https://cdn.quasar.dev/sponsors/qintil.png">
-        </a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://synestia.pl" target="_blank">
-          <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/synestia.svg">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://www.nodesol.com" target="_blank">
-          <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/nodesol.svg">
+        <a href="https://www.nodesol.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Nodesol.svg">
         </a>
       </td>
     </tr>
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.certible.com" target="_blank">
-          <img width="222px" height="74px" style="background-color:white;" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Certible.svg">
+        <a href="https://www.acornfinance.com" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/AcornFinance.svg">
         </a>
       </td>
       <td align="center" valign="middle">
+        <a href="https://www.certible.com/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Certible.svg">
+        </a>
       </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.bairesdev.com/sponsoring-open-source-projects/" target="_blank">
+          <img width="200px" height="100px" src="https://cdn.quasar.dev/logo-sponsors-v2/light/BairesDev.svg">
+        </a>
+      </td>
+      <td>&nbsp;</td>
     </tr>
   </tbody>
 </table>

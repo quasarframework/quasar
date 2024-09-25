@@ -24,7 +24,7 @@ import {
  * If needed, prepare your webserver to receive
  * connect-like middlewares.
  *
- * Should NOT be async!
+ * Can be async: ssrCreate(async ({ ... }) => { ... })
  */
 export const create = ssrCreate((/* { ... } */) => {
   const app = express();
@@ -52,9 +52,10 @@ export const create = ssrCreate((/* { ... } */) => {
  *
  * For production, you can instead export your
  * handler for serverless use or whatever else fits your needs.
+ *
+ * Can be async: ssrListen(async ({ app, devHttpsApp, port }) => { ... })
  */
-export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-  await isReady();
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app;
   return server.listen(port, () => {
     if (process.env.PROD) {
@@ -71,7 +72,7 @@ export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
  * Should you need the result of the "listen()" call above,
  * you can use the "listenResult" param.
  *
- * Can be async.
+ * Can be async: ssrClose(async ({ listenResult }) => { ... }))
  */
 export const close = ssrClose(({ listenResult }) => {
   return listenResult.close();
@@ -80,14 +81,19 @@ export const close = ssrClose(({ listenResult }) => {
 const maxAge = process.env.DEV ? 0 : 1000 * 60 * 60 * 24 * 30;
 
 /**
- * Should return middleware that serves the indicated path
- * with static content.
+ * Should return a function that will be used to configure the webserver
+ * to serve static content at "urlPath" from "pathToServe" folder/file.
+ *
+ * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
+ *
+ * Can be async: ssrServeStaticContent(async ({ app, resolve }) => {
+ * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
-export const serveStaticContent = ssrServeStaticContent((path, opts) => {
-  return express.static(path, {
-    maxAge,
-    ...opts,
-  });
+export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
+  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts });
+    app.use(resolve.urlPath(urlPath), serveFn);
+  };
 });
 
 const jsRE = /\.js$/;

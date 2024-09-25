@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     <% if (preset.lint) { %>
-    "@typescript-eslint/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/parser": "^5.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
@@ -42,8 +42,22 @@
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
     <% } } %>
-    "@types/node": "^12.20.21",
+    "@types/node": "^20.14.8",
     "@quasar/app-webpack": "^3.13.0"
+  },
+  "overridesComments": {
+    "typescript-1": "npm and pnpm hoist newer version of TypeScript, which is incompatible with app-webpack v3 due to fork-ts-checker-webpack-plugin",
+    "typescript-2": "this hoisting of newer version of TypeScript breaks linting performed by @typescript-eslint packages",
+    "typescript-3": "yarn hoists the correct version of TypeScript, so we don't need to add a resolutions field",
+    "typescript-4": "app-webpack v4 doesn't use fork-ts-checker-webpack-plugin and thus supports newer versions of TypeScript"
+  },
+  "overrides": {
+    "typescript": "^4.9.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "^4.9.5"
+    }
   },
   "browserslist": [
     "last 10 Chrome versions",

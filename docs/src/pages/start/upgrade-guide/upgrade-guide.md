@@ -172,7 +172,6 @@ Before starting, it is highly suggested to make a copy of your current working p
   <<| bash NPM |>>
   $ npm i -g @quasar/cli@latest
   <<| bash PNPM |>>
-  # experimental support
   $ pnpm add -g @quasar/cli@latest
   <<| bash Bun |>>
   # experimental support
@@ -325,7 +324,6 @@ $ npm init quasar
 # then pick "App with Quasar CLI" and "Quasar v2"
 # decide if you want "Quasar CLI with Vite" or "Quasar CLI with Webpack"
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 # then pick "App with Quasar CLI" and "Quasar v2"
 # decide if you want "Quasar CLI with Vite" or "Quasar CLI with Webpack"

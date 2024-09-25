@@ -40,15 +40,15 @@
   "devDependencies": {
     "@quasar/extras": "workspace:*",
     "@quasar/vite-plugin": "workspace:^",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
-    "fs-extra": "^11.1.1",
-    "postcss": "^8.4.38",
+    "fs-extra": "^11.2.0",
+    "postcss": "^8.4.45",
     "prismjs": "^1.29.0",
     "quasar": "workspace:*",
-    "vite": "^5.2.10",
-    "vue": "^3.4.24",
-    "vue-router": "^4.3.2"
+    "vite": "^5.4.5",
+    "vue": "^3.5.5",
+    "vue-router": "^4.4.5"
   }
 }

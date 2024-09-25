@@ -5,7 +5,7 @@ keys: useId
 badge: Quasar v2.15+
 ---
 
-The `useId()` composable returns an "id" which is a ref() that can be used as a unique identifier to apply to a DOM node attribute.
+The `useId()` composable returns a Vue Ref holding a string that can be used as a unique identifier to apply to a DOM node attribute.
 
 Should you supply a function (`getValue` from the typing below) to get the value that the id might have, it will make sure to keep it updated.
 
@@ -17,7 +17,7 @@ On SSR, it takes into account the process of hydration so that your component wo
 import { useId } from 'quasar'
 
 setup () {
-  const { id } = useId()
+  const id = useId()
   // ...
 }
 ```
@@ -28,9 +28,7 @@ function useId(
     getValue?: () => string | null | undefined;
     required?: boolean; // default: true
   }
-): {
-  id: Ref<string>;
-};
+): Ref<string | null>;
 ```
 
 ## Example
@@ -51,7 +49,7 @@ export default {
   },
 
   setup () {
-    const { id } = useId({
+    const id = useId({
       getValue: () => props.for,
       required: true
     })

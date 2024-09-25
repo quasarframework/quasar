@@ -22,20 +22,19 @@ function runMacOS ({ mode, target, appPaths, open }) {
       ? appPaths.resolve.cordova('platforms/ios')
       : appPaths.resolve.capacitor('ios/App')
 
-    open(findXcodeWorkspace(folder), {
+    return open(findXcodeWorkspace(folder), {
       wait: false
     })
   }
-  else {
-    const folder = mode === 'cordova'
-      ? appPaths.resolve.cordova('platforms/android')
-      : appPaths.resolve.capacitor('android')
 
-    open(folder, {
-      app: { name: 'android studio' },
-      wait: false
-    })
-  }
+  const folder = mode === 'cordova'
+    ? appPaths.resolve.cordova('platforms/android')
+    : appPaths.resolve.capacitor('android')
+
+  return open(folder, {
+    app: { name: 'android studio' },
+    wait: false
+  })
 }
 
 function getLinuxPath (bin) {
@@ -67,12 +66,10 @@ function runLinux ({ mode, bin, target, appPaths, open }) {
         ? appPaths.resolve.cordova('platforms/android')
         : appPaths.resolve.capacitor('android')
 
-      open(folder, {
+      return open(folder, {
         app: { name: studioPath },
         wait: false
       })
-
-      return
     }
   }
   else if (target === 'ios') {
@@ -120,15 +117,17 @@ function runWindows ({ mode, bin, target, appPaths, open }) {
         ? appPaths.resolve.cordova('platforms/android')
         : appPaths.resolve.capacitor('android')
 
-      open(folder, {
+      /**
+       * On Windows, after calling the below function, the Node.js process
+       * should NOT exit by calling process.exit(_any_code_) under any form, otherwise the
+       * IDE will not get a chance to be opened.
+       *
+       * However, if process.exit() must still be called, a significant delay
+       * (30-60 seconds, the more the better) is needed before calling it.
+       */
+      return open(folder, {
         app: { name: studioPath },
         wait: false
-      })
-
-      // pause required, otherwise Windows fails
-      // to open the process
-      return new Promise(resolve => {
-        setTimeout(resolve, 300)
       })
     }
   }
@@ -145,7 +144,7 @@ function runWindows ({ mode, bin, target, appPaths, open }) {
 module.exports.openIDE = async function openIDE ({ mode, bin, target, dev, appPaths }) {
   console.log()
   console.log(' ⚠️  ')
-  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
+  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE. It might take a few seconds...`)
 
   if (dev) {
     console.log(' ⚠️  From there, use the IDE to run the app.')
@@ -158,7 +157,7 @@ module.exports.openIDE = async function openIDE ({ mode, bin, target, dev, appPa
 
   if (target === 'android') {
     console.log(' ⚠️  ')
-    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps if Android Studio will suggest.')
+    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps if Android Studio will suggest it.')
     console.log(' ⚠️  If you encounter any IDE errors then click on File > Invalidate caches and restart.')
   }
 

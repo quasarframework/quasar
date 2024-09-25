@@ -17,6 +17,10 @@ The idea with QTooltip is to place it inside your DOM element / component that y
 
 <DocExample title="Toggle through v-model" file="VModel" />
 
+::: warning
+If you want to conditionally activate or de-activate a QTooltip, please use `v-if` on it instead of `v-show`.
+:::
+
 ### Customize
 
 <DocExample title="Customize" file="Coloring" />

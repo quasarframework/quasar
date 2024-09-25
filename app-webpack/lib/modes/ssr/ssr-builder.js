@@ -6,6 +6,13 @@ const { cliPkg } = require('../../utils/cli-runtime.js')
 const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
 const { getSsrHtmlTemplateFn } = require('../../utils/html-template.js')
 
+const indexFile = `
+const { startServer } = await import('./start.js')
+const { app, listenResult, handler } = await startServer()
+
+export { app, listenResult, handler }
+`
+
 module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   async build () {
     await this.#buildWebserver()
@@ -44,6 +51,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     }))
 
     this.copyFiles(patterns)
+    this.writeFile('index.mjs', indexFile)
   }
 
   async #writePackageJson () {
@@ -61,7 +69,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       type: 'commonjs',
       module: 'index.js',
       scripts: {
-        start: 'node index.js'
+        start: 'node index.mjs'
       },
       dependencies: Object.assign(appDeps, {
         compression: cliPkg.dependencies.compression,

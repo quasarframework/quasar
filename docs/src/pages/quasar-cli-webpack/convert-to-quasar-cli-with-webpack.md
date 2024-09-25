@@ -15,7 +15,6 @@ $ yarn create quasar
 $ npm init quasar
 # then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 # then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
 <<| bash Bun |>>

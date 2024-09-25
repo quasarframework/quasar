@@ -183,7 +183,7 @@ const quasarSsrConfig = {
       ]
 
       cfg.entryPoints = [ appPaths.resolve.entry('ssr-prod-webserver.js') ]
-      cfg.outfile = join(quasarConf.build.distDir, 'index.js')
+      cfg.outfile = join(quasarConf.build.distDir, 'start.js')
     }
 
     return extendEsbuildConfig(cfg, quasarConf.ssr, ctx, 'extendSSRWebserverConf')

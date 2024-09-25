@@ -28,7 +28,6 @@ $ yarn add vue-i18n@next
 <<| bash NPM |>>
 $ npm install --save vue-i18n@next
 <<| bash PNPM |>>
-# experimental support
 $ pnpm add vue-i18n@next
 <<| bash Bun |>>
 $ bun add vue-i18n@next
@@ -114,43 +113,59 @@ build: {
 
 ## How to use
 
-There are 4 main cases:
+Here is an example displaying the main use cases:
 
 ```html
 <template>
   <q-page>
-    <q-btn :label="$t('mykey2')">
-    {{ $t('mykey1') }}
+    <!-- text interpolation, reactive -->
+    {{ $t('hello') }}
+
+    <!-- prop/attr binding, reactive -->
+    <q-btn :label="$t('hello')" />
+
+    <!-- v-html directive usage -->
     <span v-html="content"></span>
   </q-page>
 </template>
 
-<script>
-// Options API variant
-export default {
-  data() {
-    return {
-      content: this.$t('mykey3')
-    }
-  }
+<script setup>
+// Composition API variant
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+// bound to a static variable, non-reactive
+// const staticContent = t('hello')
+// bound to a reactive variable, but one-time assignment, locale changes will not update the value
+// const reactiveStaticContent = ref(t('hello'))
+
+// bound to a reactive variable, locale changes will reflect the value
+const content = computed(() => t('hello'))
+
+function notify() {
+  Notify.create({
+    type: 'positive',
+    message: t('hello')
+  })
 }
 </script>
 ```
 
 ```html
-<script setup>
-// Composition API variant
-import { useI18n } from "vue-i18n"
-const { t } = useI18n()
-
-const content = ref(t('mykey4'))
+<script>
+// Options API variant
+export default {
+  data() {
+    return {
+      // bound to a reactive variable, but one-time assignment, locale changes will not update the value
+      content: this.$t('hello')
+    }
+  }
+}
 </script>
 ```
-
-1. `mykey1` in HTML body
-2. `mykey2` in attribute
-3. `mykey3` programmatically with option api
-4. `mykey4` programmatically with composition api
 
 ## Add new language
 

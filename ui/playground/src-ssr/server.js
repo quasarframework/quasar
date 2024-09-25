@@ -53,8 +53,7 @@ export const create = ssrCreate((/* { ... } */) => {
  * For production, you can instead export your
  * handler for serverless use or whatever else fits your needs.
  */
-export const listen = ssrListen(async ({ app, devHttpsApp, port, isReady }) => {
-  await isReady()
+export const listen = ssrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {
@@ -82,14 +81,16 @@ const maxAge = process.env.DEV
   : 1000 * 60 * 60 * 24 * 30
 
 /**
- * Should return middleware that serves the indicated path
- * with static content.
+ * Should return a function that will be used to configure the webserver
+ * to serve static content at "urlPath" from "pathToServe" folder/file.
+ *
+ * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
  */
-export const serveStaticContent = ssrServeStaticContent((path, opts) => {
-  return express.static(path, {
-    maxAge,
-    ...opts
-  })
+export const serveStaticContent = ssrServeStaticContent(({ app, resolve }) => {
+  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
+    app.use(resolve.urlPath(urlPath), serveFn)
+  }
 })
 
 const jsRE = /\.js$/

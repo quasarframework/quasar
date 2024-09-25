@@ -17,6 +17,16 @@ import utils from './utils/index.js'
 // should error out if already inside of a Quasar project
 utils.ensureOutsideProject()
 
+import parseArgs from 'minimist'
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    n: 'nogit',
+  },
+
+  boolean: [ 'n' ],
+})
+
 const defaultProjectFolder = 'quasar-project'
 const scope = {}
 
@@ -72,6 +82,21 @@ console.log()
 utils.logger.success('The project has been scaffolded')
 console.log()
 
+function finalize () {
+  if (scope.projectFolder) {
+    console.log()
+
+    if (argv.nogit) {
+      utils.logger.log('Skipping git initialization as --nogit flag was provided')
+    }
+    else {
+      utils.initializeGit(scope.projectFolder)
+    }
+  }
+
+  utils.printFinalMessage(scope)
+}
+
 if (scope.skipDepsInstall !== true) {
   await utils.prompts(scope, [
     {
@@ -97,7 +122,7 @@ if (scope.skipDepsInstall !== true) {
   ], {
     onCancel: () => {
       scope.packageManager = false
-      utils.printFinalMessage(scope)
+      finalize()
       process.exit(0)
     }
   })
@@ -109,7 +134,7 @@ if (scope.skipDepsInstall !== true) {
     catch {
       utils.logger.warn('Could not auto install dependencies. Probably a temporary npm registry issue?')
       scope.packageManager = false
-      utils.printFinalMessage(scope)
+      finalize()
       process.exit(0)
     }
 
@@ -124,4 +149,4 @@ if (scope.skipDepsInstall !== true) {
   }
 }
 
-utils.printFinalMessage(scope)
+finalize()

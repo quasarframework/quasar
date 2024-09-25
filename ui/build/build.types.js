@@ -620,7 +620,7 @@ function getIndexDts (apis, quasarLangIndex) {
   writeLine(contents)
 
   // Extend Vue instance with injections
-  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
+  writeLine(contents, 'declare module \'vue\' {')
   writeLine(contents, 'interface ComponentCustomProperties {', 1)
 
   for (const key in injections) {
@@ -640,14 +640,23 @@ function getIndexDts (apis, quasarLangIndex) {
   writeLine(contents)
 
   // Provide `GlobalComponents`, expected to be used for Volar
-  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
-  writeLine(contents, 'interface GlobalComponents {', 1)
-
+  // See: https://github.com/vuejs/language-tools/issues/4170#issuecomment-2025528945
+  writeLine(contents, 'interface _GlobalComponents {')
   for (const [ typeName, { props: propsTypeName, slots: slotsTypeName } ] of Object.entries(componentToSubTypeMap)) {
-    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }, ${ slotsTypeName }>`, 2)
+    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }, ${ slotsTypeName }>`, 1)
   }
-
-  writeLine(contents, '}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
+  writeLine(contents, 'declare module \'vue\' {')
+  writeLine(contents, 'interface GlobalComponents extends _GlobalComponents {}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
+  writeLine(contents, 'declare module \'@vue/runtime-dom\' {')
+  writeLine(contents, 'interface GlobalComponents extends _GlobalComponents {}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
+  writeLine(contents, 'declare module \'vue\' {')
+  writeLine(contents, 'interface GlobalComponents extends _GlobalComponents {}', 1)
   writeLine(contents, '}')
   writeLine(contents)
 

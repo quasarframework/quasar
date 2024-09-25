@@ -1,23 +1,26 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowJs": true,
-    // `baseUrl` must be placed on the extending configuration in devland, or paths won't be recognized
+
+    // `"baseUrl": "."` option should be defined in the tsconfig file in devland which extends this preset
+    // That way, the `paths` we defined in this preset are resolved starting from the devland project root
+    // instead of this TS preset file's location
+    // This allows Quasar to centralize the management of default paths in the preset,
+    // instead of asking the dev to keep them in sync when something changes
+
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36
     "noEmit": true,
     "resolveJsonModule": true,
-    // Avoid cross-os errors due to inconsistent file casing
-    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "isolatedModules": true,
-    "useDefineForClassFields": true,
-    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
-    "jsx": "preserve",
     "lib": ["esnext", "dom"],
+    "isolatedModules": true,
+
     "paths": {
       "src/*": ["src/*"],
       "app/*": ["*"],
@@ -27,6 +30,17 @@
       "assets/*": ["src/assets/*"],
       "boot/*": ["src/boot/*"],
       "stores/*": ["src/stores/*"]
-    }
+    },
+
+    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
+    "jsx": "preserve",
+
+    // Rules preventing code smells and enforcing best practices, partially overlapping with linting
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    // Avoid cross-os errors due to inconsistent file casing
+    "forceConsistentCasingInFileNames": true,
   }
 }

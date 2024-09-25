@@ -1432,7 +1432,7 @@ describe('QSelect API', () => {
     })
 
     describe('(event): filter-abort', () => {
-      it('should emit event when the the filterFn has not called the doneFn yet and a new filter is requested', () => {
+      it('should emit event when the filterFn has not called the doneFn yet and a new filter is requested', () => {
         const fn = cy.stub()
         const filterFn = cy.stub()
         mountQSelect({

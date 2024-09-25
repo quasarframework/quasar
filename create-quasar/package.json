@@ -1,6 +1,6 @@
 {
   "name": "create-quasar",
-  "version": "1.8.4",
+  "version": "1.9.3",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
   "type": "module",
   "author": {
@@ -33,17 +33,18 @@
   "dependencies": {
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
-    "kolorist": "^1.5.1",
+    "kolorist": "^1.8.0",
     "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.0",
-    "@types/prompts": "^2.4.7",
-    "@typescript-eslint/eslint-plugin": "^7.7.1",
-    "@typescript-eslint/parser": "^7.7.1",
-    "eslint-plugin-lodash-template": "^1.0.0",
-    "tsx": "^4.7.2",
-    "typescript": "^5.4.5"
+    "@types/lodash": "^4.17.7",
+    "@types/prompts": "^2.4.9",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint-plugin-lodash-template": "^1.1.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
   }
 }

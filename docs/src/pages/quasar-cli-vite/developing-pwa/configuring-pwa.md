@@ -89,7 +89,7 @@ Then, edit your `/index.html` file. The following are the actual meta tags that 
   <% if (ctx.mode.pwa) { %>
     <meta name="theme-color" content="<%= pwaManifest.theme_color %>">
     <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="<%= pwaManifest.theme_color %>">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
     <meta name="msapplication-TileColor" content="#000000">
@@ -110,7 +110,7 @@ Alternatively, you can assign a function to injectPwaMetaTags like below:
 ```js /quasar.config file
 pwa: {
   injectPwaMetaTags () {
-    return `<meta name="apple-mobile-web-app-capable" content="yes">`
+    return `<meta name="mobile-web-app-capable" content="yes">`
       + `<meta name="apple-mobile-web-app-status-bar-style" content="default">`
   }
 }

@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import fse from 'fs-extra'
 
 import { log, warn } from '../../utils/logger.js'
+import { generateTypesFeatureFlag } from '../../utils/types-feature-flags.js'
 
 const defaultVersion = '^7.0.0'
 
@@ -57,10 +58,7 @@ export async function addMode ({
     hasEslint === true ? { filter: src => !src.endsWith('/.eslintrc.cjs') } : void 0
   )
 
-  fse.copySync(
-    appPaths.resolve.cli('templates/pwa/pwa-flag.d.ts'),
-    appPaths.resolve.pwa('pwa-flag.d.ts')
-  )
+  generateTypesFeatureFlag('pwa', appPaths)
 
   log('Copying PWA icons to /public/icons/ (if they are not already there)...')
   fse.copySync(

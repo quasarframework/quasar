@@ -365,31 +365,22 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
         root: this.#pathMap.rootFolder,
         public: this.#pathMap.publicFolder
       },
-      render: this.#appOptions.render,
-      serve: {
-        static: (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts),
-        error: renderError
-      }
+      render: this.#appOptions.render
     }
 
-    const app = middlewareParams.app = create(middlewareParams)
+    const app = middlewareParams.app = await create(middlewareParams)
+
+    const serveStatic = await serveStaticContent(middlewareParams)
+    middlewareParams.serve = {
+      static: serveStatic,
+      error: renderError
+    }
 
     clientHMR === true && app.use(webpackClientHMRMiddleware)
     app.use(webpackClientMiddleware)
 
     if (quasarConf.build.ignorePublicFolder !== true) {
-      app.use(resolveUrlPath('/'), middlewareParams.serve.static('.'))
-    }
-
-    const { proxy: proxyConf } = quasarConf.devServer
-
-    if (Object(proxyConf) === proxyConf) {
-      const { createProxyMiddleware } = require('http-proxy-middleware')
-
-      Object.keys(proxyConf).forEach(path => {
-        const cfg = quasarConf.devServer.proxy[ path ]
-        app.use(path, createProxyMiddleware(cfg))
-      })
+      serveStatic({ urlPath: '/', pathToServe: '.' })
     }
 
     await injectMiddlewares(middlewareParams)
@@ -435,25 +426,14 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       next()
     })
 
-    const isReady = () => Promise.resolve()
-
     if (quasarConf.devServer.server.type === 'https') {
       const https = require('node:https')
       middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.server.options, app)
     }
 
-    const listenResult = await listen({
-      isReady,
-      ssrHandler: (req, res, next) => {
-        return isReady().then(() => app(req, res, next))
-      },
-      ...middlewareParams
-    })
+    middlewareParams.listenResult = await listen(middlewareParams)
 
-    this.#closeWebserver = () => close({
-      ...middlewareParams,
-      listenResult
-    })
+    this.#closeWebserver = () => close(middlewareParams)
 
     done('Webserver is ready')
 

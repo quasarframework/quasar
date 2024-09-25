@@ -132,8 +132,8 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { regenerateTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
-await regenerateTypesFeatureFlags(quasarConf)
+const { ensureTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
+ensureTypesFeatureFlags(quasarConf)
 
 const { QuasarModeBuilder } = await import(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
@@ -161,10 +161,15 @@ appBuilder.build()
     console.error(err)
     fatal('App build failed (check the log above)', 'FAIL')
   })
-  .then(async () => {
-    outputFolder = argv.mode === 'cordova'
-      ? path.join(outputFolder, '..')
-      : outputFolder
+  .then(async signal => {
+    if (signal !== void 0) {
+      const { SIGNAL__BUILD_SHOULD_EXIT } = await import('../utils/signals.js')
+      if (signal === SIGNAL__BUILD_SHOULD_EXIT) return
+    }
+
+    if (argv.mode === 'cordova') {
+      outputFolder = path.join(outputFolder, '..')
+    }
 
     await displayBanner({
       argv,

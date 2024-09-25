@@ -23,7 +23,7 @@ import {
   symSharpRefresh,
   symSharpKeyboardArrowUp,
   symSharpKeyboardArrowDown,
-  symSharpLens,
+  symSharpCircle,
   symSharpCancel,
   symSharpCheck,
   symSharpSchedule,
@@ -64,7 +64,6 @@ import {
   symSharpGrade,
   symSharpEdit,
   symSharpPlayArrow,
-  symSharpDone,
   symSharpAddBox,
   symSharpCloudUpload,
   symSharpClearAll,
@@ -103,7 +102,7 @@ export default {
     right: symSharpChevronRight,
     up: symSharpKeyboardArrowUp,
     down: symSharpKeyboardArrowDown,
-    navigationIcon: symSharpLens
+    navigationIcon: symSharpCircle
   },
   chip: {
     remove: symSharpCancel,
@@ -191,7 +190,7 @@ export default {
     icon: symSharpPlayArrow
   },
   uploader: {
-    done: symSharpDone,
+    done: symSharpCheck,
     clear: symSharpClose,
     add: symSharpAddBox,
     upload: symSharpCloudUpload,

@@ -11,18 +11,18 @@
   "devDependencies": {
     "@quasar/extras": "workspace:*",
     "@quasar/vite-plugin": "workspace:^",
-    "@vitejs/plugin-vue": "^5",
-    "@vitest/ui": "^1.5.0",
-    "@vue/test-utils": "^2.4.5",
-    "acorn": "^8.11.3",
+    "@vitejs/plugin-vue": "^5.1.3",
+    "@vitest/ui": "^2.1.1",
+    "@vue/test-utils": "^2.4.6",
+    "acorn": "^8.12.1",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
-    "jsdom": "latest",
+    "jsdom": "^24.1.3",
     "prompts": "^2.4.2",
-    "vite": "^5.2.10",
-    "vite-plugin-checker": "^0.6.4",
-    "vitest": "^1.5.0",
-    "vue": "^3.4.24"
+    "vite": "^5.4.5",
+    "vite-plugin-checker": "^0.7.2",
+    "vitest": "^2.1.1",
+    "vue": "^3.5.5"
   },
   "dependencies": {
     "clipboardy": "^4.0.0",

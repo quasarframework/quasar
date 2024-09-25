@@ -41,9 +41,8 @@ export async function createInstance ({
   const nodePackager = await cacheProxy.getModule('nodePackager')
 
   function bundlerIsInstalled (bundlerName) {
-    return bundlerName === 'packager'
-      ? (hasPackage('@electron/packager', appPkg) || hasPackage('electron-packager', appPkg))
-      : hasPackage('electron-builder', appPkg)
+    const bundler = bundlerMap[ bundlerName ]
+    return hasPackage(bundler.pkg, appPkg)
   }
 
   function ensureInstall (bundlerName) {
@@ -70,12 +69,8 @@ export async function createInstance ({
 
   // May return "{ default }" (@electron/packager) or directly the package (electron-builder);
   async function getBundler (bundlerName) {
-    if (bundlerName === 'packager') {
-      const newPkg = await getPackage('@electron/packager', appPaths.appDir)
-      return newPkg || getPackage('electron-packager', appPaths.appDir)
-    }
-
-    return getPackage('electron-builder', appPaths.appDir)
+    const bundler = bundlerMap[ bundlerName ]
+    return getPackage(bundler.pkg, appPaths.appDir)
   }
 
   return {

@@ -1,4 +1,4 @@
-/* Ionicons v7.3.1 */
+/* Ionicons v7.4.0 */
 
 export declare const ionAccessibility: string;
 export declare const ionAccessibilityOutline: string;
@@ -825,6 +825,7 @@ export declare const ionLogoWechat: string;
 export declare const ionLogoWhatsapp: string;
 export declare const ionLogoWindows: string;
 export declare const ionLogoWordpress: string;
+export declare const ionLogoX: string;
 export declare const ionLogoXbox: string;
 export declare const ionLogoXing: string;
 export declare const ionLogoYahoo: string;

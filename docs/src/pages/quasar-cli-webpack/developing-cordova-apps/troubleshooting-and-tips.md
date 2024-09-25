@@ -37,7 +37,7 @@ The environmental variable `ANDROID_HOME` has been deprecated and replaced with 
 
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment. The output might look similar to this:
 
-``` bash
+```bash
 $ cordova requirements
 
 Requirements check results for android:
@@ -53,7 +53,7 @@ Error: Some of requirements check failed
 
 This could have two different reasons: Usually the paths aren't configured correctly. The first step is to verify if your paths are set correctly. This can be done by running the following commands:
 
-``` bash
+```bash
 $ echo $ANDROID_HOME
 
 # or
@@ -64,7 +64,7 @@ $ echo $ANDROID_SDK_ROOT
 The expected output should be a path similar to this `$HOME/Android/Sdk`. After this run:
 
 
-``` bash
+```bash
 $ ls -la $ANDROID_HOME
 
 # or
@@ -74,13 +74,13 @@ $ ls -la $ANDROID_SDK_ROOT
 
 To ensure the folder contains the SDK. The expected output should contain folders like 'tools', 'sources', 'platform-tools', etc.
 
-``` bash
+```bash
 $ echo $PATH
 ```
 
 The output should contain each one entry for the Android SDK 'tools'-folder and 'platform-tools'-tools. This could look like this:
 
-``` bash
+```bash
 /home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
 ```
 

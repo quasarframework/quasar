@@ -163,15 +163,22 @@ export function setPosition (cfg, retryNumber = 0) {
     ? getAnchorProps(anchorEl, cover === true ? [ 0, 0 ] : offset)
     : getAbsoluteAnchorProps(anchorEl, absoluteOffset, offset)
 
-  // we "reset" the critical CSS properties
-  // so we can take an accurate measurement
+  /**
+   * We "reset" the critical CSS properties
+   * so we can take an accurate measurement.
+   *
+   * Ensure that targetEl has a max-width & max-height
+   * set in CSS and that the value does NOT exceeds 100vw/vh.
+   * All users of the position-engine (currently QMenu & QTooltip)
+   * have CSS for this.
+   */
   Object.assign(targetEl.style, {
     top: 0,
     left: 0,
     minWidth: null,
     minHeight: null,
-    maxWidth: maxWidth || '100vw',
-    maxHeight: maxHeight || '100vh',
+    maxWidth,
+    maxHeight,
     visibility: 'visible'
   })
 

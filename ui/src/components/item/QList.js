@@ -4,6 +4,8 @@ import { createComponent } from '../../utils/private.create/create.js'
 import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
+const roleAttrExceptions = [ 'ul', 'ol' ]
+
 export default createComponent({
   name: 'QList',
 
@@ -25,6 +27,10 @@ export default createComponent({
     const vm = getCurrentInstance()
     const isDark = useDark(props, vm.proxy.$q)
 
+    const role = computed(() => (
+      roleAttrExceptions.includes(props.tag) ? null : 'list')
+    )
+
     const classes = computed(() =>
       'q-list'
       + (props.bordered === true ? ' q-list--bordered' : '')
@@ -34,6 +40,6 @@ export default createComponent({
       + (props.padding === true ? ' q-list--padding' : '')
     )
 
-    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
+    return () => h(props.tag, { class: classes.value, role: role.value }, hSlot(slots.default))
   }
 })

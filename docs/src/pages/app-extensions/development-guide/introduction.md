@@ -103,7 +103,6 @@ $ yarn create quasar
 $ npm init quasar
 # then pick the AppExtension option
 <<| bash PNPM |>>
-# experimental support
 $ pnpm create quasar
 # then pick the AppExtension option
 <<| bash Bun |>>
