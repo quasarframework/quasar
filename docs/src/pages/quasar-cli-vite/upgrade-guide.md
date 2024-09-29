@@ -15,6 +15,7 @@ All other docs pages will refer to the old @quasar/app-vite version (v1) specs. 
 :::
 
 ### A note to App Extensions owners
+
 You might want to release new versions of your Quasar App Extensions with support for the new @quasar/app-vite. If you are not touching the quasar.config configuration, then it will be as easy as just changing the following:
 
 ```diff
@@ -26,17 +27,20 @@ api.compatibleWith(
 ```
 
 ### Notable breaking changes
+
 * Minimum Node.js version is now 18 (mainly due to Vite 5)
 * We have shifted towards an ESM style for the whole Quasar project folder, so many default project files now require ESM code (although using `.cjs` as an extension for these files is supported, but you will most likely need to rename the extension should you not wish to change anything). One example is the `/quasar.config.js` file which now it's assumed to be ESM too (so change from `.js` to `.cjs` should you still want a CommonJs file).
 * The "test" cmd was removed due to latest updates for @quasar/testing-* packages. See [here](https://testing.quasar.dev/packages/testing/)
 * The "clean" cmd has been re-designed. Type "quasar clean -h" in your upgraded Quasar project folder for more info.
-* Typescript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
+* TypeScript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
+* TypeScript `tsconfig.json` presets have been replaced by an auto-generated `.quasar/tsconfig.json` file. This is more flexible and brings new features, more on this below.
 * feat+refactor(app-vite): ability to run multiple modes + dev/build simultaneously (huge effort!)
 * SSR and Electron modes now build in ESM format.
 * Dropped support for our internal linting system (quasar.config file > eslint). Should use [vite-plugin-checker](https://vite-plugin-checker.netlify.app/) instead.
 * **We will detail more breaking changes for each of the Quasar modes below**.
 
 ### Highlights on what's new
+
 Some of the work below has already been backported to the old @quasar/app-vite v1, but posting here for reader's awareness.
 
 * feat(app-vite): upgrade to Vite 5
@@ -120,7 +124,7 @@ Preparations:
   })
   ```
 
-  ::: tip Tip on Typescript
+  ::: tip Tip on TypeScript
   You can now write this file in TS too should you wish (rename `/quasar.config.js` to `/quasar.config.ts` -- notice the `.ts` file extension).
   :::
 
@@ -174,22 +178,41 @@ Preparations:
 
   <br>
 
-* If using Typescript, then ensure that your `/tsconfig.json` file looks like this:
+* If using TypeScript: `@quasar/app-vite/tsconfig-preset` has been dropped, so update your `/tsconfig.json` file to extend the new auto-generated `.quasar/tsconfig.json` file. The underlying configuration is different, so also review the new options in the generated file to see if you need to adjust the rest of your `tsconfig.json` file.
 
-  ```json [highlight=6-13]
+  ```json /tsconfig.json
   {
-    "extends": "@quasar/app-vite/tsconfig-preset",
-    "compilerOptions": {
-      "baseUrl": "."
-    },
-    "exclude": [
-      "./dist",
-      "./.quasar",
-      "./node_modules",
-      "./src-capacitor",
-      "./src-cordova",
-      "./quasar.config.*.temporary.compiled*"
-    ]
+    "extends": ".quasar/tsconfig.json"
+  }
+  ```
+
+  You can use `quasar.config file > build > typescript` to control the generation of the `.quasar/tsconfig.json` file:
+
+  ```ts /quasar.config.ts
+  build: {
+    typescript: {
+      strict: true, // (recommended) enables strict settings for TypeScript
+      extendTsConfig(tsConfig) {
+        // You can use this hook to extend tsConfig dynamically
+        // For basic use cases, you can still update the usual tsconfig.json file to override some settings
+      }
+    }
+  }
+  ```
+
+  Properly running typechecking and linting requires the `.quasar/tsconfig.json` to be present. The file will be auto-generated when running `quasar dev` or `quasar build` commands. But, as a lightweight alternative, there is a new CLI command `quasar prepare` that will generate the `.quasar/tsconfig.json` file and some types files. It is especially useful for CI/CD pipelines.
+
+  ```bash
+  $ quasar prepare
+  ```
+
+  You can add it as a `postinstall` script to make sure it's run after installing the dependencies. This would be helpful when pulling the project for the first time or when upgrading the Quasar CLI which may have new TypeScript features.
+
+  ```json /package.json
+  {
+    "scripts": {
+      "postinstall": "quasar prepare"
+    }
   }
   ```
 
@@ -220,7 +243,7 @@ Preparations:
 
 We dropped support for our internal linting (quasar.config file > eslint) in favor of the [vite-plugin-checker](https://vite-plugin-checker.netlify.app/) package. We will detail below the changes that you need to make based on if you use TS or not.
 
-#### Typescript projects linting
+#### TypeScript projects linting
 
 ```tabs
 <<| bash Yarn |>>
@@ -243,17 +266,6 @@ $ bun add --dev vite-plugin-checker vue-tsc@2 typescript
 /quasar.config.*.temporary.compiled*
 ```
 
-Create a new file called `tsconfig.vue-tsc.json` in the root of your project folder:
-
-```json /tsconfig.vue-tsc.json
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "skipLibCheck": true
-  }
-}
-```
-
 ```diff /quasar.config file
 - eslint: {
 -   // ...
@@ -262,9 +274,7 @@ Create a new file called `tsconfig.vue-tsc.json` in the root of your project fol
   build: {
     vitePlugins: [
 +    ['vite-plugin-checker', {
-+       vueTsc: {
-+         tsconfigPath: 'tsconfig.vue-tsc.json'
-+       },
++       vueTsc: true,
 +       eslint: {
 +         lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"'
 +       }
@@ -273,7 +283,7 @@ Create a new file called `tsconfig.vue-tsc.json` in the root of your project fol
   }
 ```
 
-#### Javascript projects linting
+#### JavaScript projects linting
 
 ```tabs
 <<| bash Yarn |>>
@@ -672,6 +682,7 @@ ssr: {
 ```
 
 ### Bex mode changes
+
 No need to change anything, however we are highlighting here an addition to the `/quasar.conf` file:
 
 ```diff /quasar.config file
@@ -821,6 +832,7 @@ build: {
 ```
 
 ### Other considerations
+
 You might want to upgrade/switch from `@intlify/vite-plugin-vue-i18n` to the newer `@intlify/unplugin-vue-i18n`.
 
 After removing the old package and installing the new one then update your `/quasar.config` file as follows:
@@ -846,6 +858,7 @@ export default configure((ctx) => {
 ```
 
 ### The env dotfiles support
+
 Expanding a bit on the env dotfiles support. These files will be detected and used (the order matters):
 
 ```
