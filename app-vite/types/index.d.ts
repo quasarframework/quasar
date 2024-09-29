@@ -1,10 +1,6 @@
-// These imports force TS compiler to evaluate contained declarations
-//  which by defaults would be ignored because inside node_modules
-//  and not directly referenced by any file
-// These types had to be moved from `quasar` to `@quasar/app-vite` to avoid generating TS errors
-//  in Vue CLI projects, given that these features are only available for Quasar CLI projects
-// TS doesn't allow re-exports into module augmentation, so we were forced to
-//  manually declare every file as a `quasar` augmentation
+// `quasar` package has some Quasar CLI-specific features, e.g. $q.cordova, 'quasar/wrappers', etc.
+// Those types should not be available in there when not using Quasar CLI
+// So, we augment the `quasar` package with these features from each engine (app-vite, app-webpack)
 
 import "./globals";
 export * from "./bex";

@@ -13,7 +13,7 @@ export async function generateTypes (quasarConf) {
 
   await writeFeatureFlags(quasarConf)
 
-  // TODO: generate types files, e.g. src/quasar.d.ts, src/shims-vue.d.ts
+  writeDeclarations(quasarConf)
 }
 
 /**
@@ -168,4 +168,36 @@ async function writeFeatureFlags (quasarConf) {
   )
 
   writeFileSync(appPaths.resolve.app('.quasar/feature-flags.d.ts'), contents)
+}
+
+/*
+  Load app-vite's augmentations for `quasar` package.
+  It will augment CLI-specific features.
+
+  Load Vite's client types, see https://vitejs.dev/guide/features#client-types
+*/
+const declarationsTemplate = `/* eslint-disable */
+/// <reference types="@quasar/app-vite" />
+
+/// <reference types="vite/client" />
+`
+
+// Mocks all files ending in `.vue` showing them as plain Vue instances
+const vueShimsTemplate = `/* eslint-disable */
+declare module '*.vue' {
+  import { DefineComponent } from 'vue';
+  const component: DefineComponent;
+  export default component;
+}
+`
+
+/**
+ * @param {import('../types/configuration/conf').QuasarConf} quasarConf
+ */
+function writeDeclarations (quasarConf) {
+  const { appPaths } = quasarConf.ctx
+
+  writeFileSync(appPaths.resolve.app('.quasar/quasar.d.ts'), declarationsTemplate)
+  // TODO: make this optional
+  writeFileSync(appPaths.resolve.app('.quasar/shims-vue.d.ts'), vueShimsTemplate)
 }
