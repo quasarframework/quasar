@@ -198,6 +198,7 @@ function writeDeclarations (quasarConf) {
   const { appPaths } = quasarConf.ctx
 
   writeFileSync(appPaths.resolve.app('.quasar/quasar.d.ts'), declarationsTemplate)
-  // TODO: make this optional
-  writeFileSync(appPaths.resolve.app('.quasar/shims-vue.d.ts'), vueShimsTemplate)
+  if (quasarConf.build.typescript.vueShim) {
+    writeFileSync(appPaths.resolve.app('.quasar/shims-vue.d.ts'), vueShimsTemplate)
+  }
 }

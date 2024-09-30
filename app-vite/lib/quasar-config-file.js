@@ -756,7 +756,8 @@ export class QuasarConfigFile {
       },
 
       typescript: {
-        strict: false
+        strict: false,
+        vueShim: false
       }
     }, cfg.build)
 

@@ -196,6 +196,17 @@ interface QuasarStaticBuildConfiguration {
      * If you don't have dynamic logic, you can directly modify your `tsconfig.json` file instead.
      */
     extendTsConfig?: (tsConfig: TSConfig) => void;
+
+    /**
+     * Generate a shim file for `*.vue` files to process them as plain Vue component instances.
+     *
+     * Vue Language Tools VS Code extension can analyze `*.vue` files in a better way, without the shim file.
+     * So, you can disable the shim file generation and let the extension handle the types.
+     *
+     * However, some tools like ESLint can't work with `*.vue` files without the shim file.
+     * So, if your tooling is not properly working, enable this option.
+     */
+    vueShim?: boolean;
   };
   /**
    * Public path of your app.
