@@ -189,7 +189,7 @@ Preparations:
 
   ```json /tsconfig.json
   {
-    "extends": ".quasar/tsconfig.json"
+    "extends": "./.quasar/tsconfig.json"
   }
   ```
 
