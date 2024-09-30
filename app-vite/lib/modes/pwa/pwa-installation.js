@@ -7,7 +7,9 @@ const nodePackager = require('../../helpers/node-packager')
 const hasTypescript = require('../../helpers/has-typescript')
 const { hasEslint } = require('../../helpers/has-eslint')
 
-const defaultVersion = '^7.0.0'
+// https://github.com/GoogleChrome/workbox/issues/3357
+// 7.0.0 is the only current working version, but using 7.0.x in hopes of future updates
+const defaultVersion = '7.0.x'
 
 const pwaDeps = {
   'workbox-core': defaultVersion,

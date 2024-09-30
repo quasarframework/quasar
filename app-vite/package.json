@@ -96,7 +96,7 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.0",
-    "workbox-build": "^7.0.0"
+    "workbox-build": "7.0.x"
   },
   "peerDependencies": {
     "@electron/packager": ">= 18",
@@ -108,7 +108,7 @@
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",
-    "workbox-build": ">= 6"
+    "workbox-build": "^6 || 7.0.x"
   },
   "peerDependenciesMeta": {
     "electron-builder": {
