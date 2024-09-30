@@ -49,7 +49,8 @@ export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% }
       },
 
       typescript: {
-        strict: true
+        strict: true,
+        vueShim: true
         // extendTsConfig(tsConfig) {}
       },
 
