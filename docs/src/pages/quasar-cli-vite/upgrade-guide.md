@@ -186,7 +186,7 @@ Preparations:
   }
   ```
 
-  You can use `quasar.config file > build > typescript` to control the generation of the `.quasar/tsconfig.json` file:
+  You can use `quasar.config file > build > typescript` to control the TypeScript-related behavior:
 
   ```ts /quasar.config.ts
   build: {
@@ -195,30 +195,17 @@ Preparations:
       extendTsConfig(tsConfig) {
         // You can use this hook to extend tsConfig dynamically
         // For basic use cases, you can still update the usual tsconfig.json file to override some settings
-      }
+      },
+      vueShim: true, // required when using ESLint with type-checked rules, will generate a shim file for `*.vue` files
     }
   }
   ```
 
-  Properly running typechecking and linting requires the `.quasar/tsconfig.json` to be present. The file will be auto-generated when running `quasar dev` or `quasar build` commands. But, as a lightweight alternative, there is a new CLI command `quasar prepare` that will generate the `.quasar/tsconfig.json` file and some types files. It is especially useful for CI/CD pipelines.
+  You should be able to set the `strict` option to `true` without facing much trouble as it's close the the previous preset. But, if you face any issues, you can either update your code to satisfy the stricter rules or set the "problematic" options to `false` in your `tsconfig.json` file, at least until you can fix them.
 
-  ```bash
-  $ quasar prepare
-  ```
+  `src/quasar.d.ts` and `src/shims-vue.d.ts` files will now be auto-generated in the `.quasar` folder. So, you must delete those files. If you are using ESLint with type-check rules, enable the `vueShim` option to preserve the previous behavior with the shim file. If your project is working fine without that option, you don't need to enable it.
 
-  You can add it as a `postinstall` script to make sure it's run after installing the dependencies. This would be helpful when pulling the project for the first time or when upgrading the Quasar CLI which may have new TypeScript features.
-
-  ```json /package.json
-  {
-    "scripts": {
-      "postinstall": "quasar prepare"
-    }
-  }
-  ```
-
-  <br>
-
-* The feature flag files must be deleted from your project folder. They need to be generated again (will happen automatically).
+  The types feature flag files will now be auto-generated in the `.quasar` folder. So, you must delete them:
 
   ```tabs
   <<| bash rimraf through npx |>>
@@ -237,6 +224,22 @@ Preparations:
   # in project folder root:
   $ Remove-Item -Recurse -Filter *-flag.d.ts
   $ quasar build # or dev
+  ```
+
+  Properly running typechecking and linting requires the `.quasar/tsconfig.json` to be present. The file will be auto-generated when running `quasar dev` or `quasar build` commands. But, as a lightweight alternative, there is a new CLI command `quasar prepare` that will generate the `.quasar/tsconfig.json` file and some types files. It is especially useful for CI/CD pipelines.
+
+  ```bash
+  $ quasar prepare
+  ```
+
+  You can add it as a `postinstall` script to make sure it's run after installing the dependencies. This would be helpful when pulling the project for the first time or when upgrading the Quasar CLI which may have new TypeScript features.
+
+  ```json /package.json
+  {
+    "scripts": {
+      "postinstall": "quasar prepare"
+    }
+  }
   ```
 
 ### Linting (TS or JS)
