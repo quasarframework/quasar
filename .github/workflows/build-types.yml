@@ -79,6 +79,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: types-build
+          include-hidden-files: true # to include the .pr-number file
           path: |
             ui/dist/api
             ui/dist/types
