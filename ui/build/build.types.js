@@ -670,7 +670,12 @@ function getIndexDts (apis, quasarLangIndex) {
 
   writeLine(contents, 'declare module \'./plugin\' {')
   writeInterface(contents, 'QuasarComponents', components)
-  writeInterface(contents, 'QuasarDirectives', directives)
+  writeInterface(
+    contents,
+    'QuasarDirectives',
+    // example: `vTouchSwipe: TouchSwipe` -> `TouchSwipe: TouchSwipe`
+    directives.map(directive => directive.replace(/(\s?)(v)([A-Z]\w+:)/, '$1$3'))
+  )
   writeInterface(contents, 'QuasarPlugins', plugins)
   writeLine(contents, '}')
   writeLine(contents)
