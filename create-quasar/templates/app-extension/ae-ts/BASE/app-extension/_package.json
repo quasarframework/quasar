@@ -1,0 +1,56 @@
+{
+  "name": "<%= pkgName %>",
+  "version": "0.0.1",
+  "description": "<%= description %>",
+  "author": "<%= author %>",
+  "license": "<%= license %>",
+  "type": "module",
+  "repository": {
+    "type": "<%= repositoryType %>",
+    "url": "<%= repositoryURL %>"
+  },
+  "bugs": "<%= bugs %>",
+  "homepage": "<%= homepage %>",
+  "main": "./dist/runtime/index.js",
+  "module": "./dist/runtime/index.js",
+  "types": "./dist/runtime/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/runtime/index.d.ts",
+      "import": "./dist/runtime/index.js"
+    },
+    "./boot/register": {
+      "types": "./dist/runtime/boot/register.d.ts",
+      "import": "./dist/runtime/boot/register.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    <% if (preset.install) { %>"build:code": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts' --pattern='!templates/**'",
+    "build:templates": "mkdist ./ --src ./src/templates --dist ./dist/templates --loaders='raw'",
+    "build": "<%= packageManager?.name ?? 'pnpm' %> run build:code && <%= packageManager?.name ?? 'pnpm' %> run build:templates"<% } else { %>"build": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts'"<% } %>
+  },
+  "devDependencies": {
+    "@quasar/app-vite": "^2.0.0-beta.18",
+    "@quasar/app-webpack": "^4.0.0-beta.19",
+    "mkdist": "^1.5.4",
+    "quasar": "^2.16.7",
+    "vue": "^3.4.36",
+    "vue-tsc": "^2.0.29"
+  },
+  "peerDependencies": {
+    "@quasar/app-vite": "^2.0.0-beta.1",
+    "@quasar/app-webpack": "^4.0.0-beta.2",
+    "quasar": "^2.16.0",
+    "vue": "^3.4.0"
+  },
+  "peerDependenciesMeta": {
+    "@quasar/app-vite": {
+      "optional": true
+    },
+    "@quasar/app-webpack": {
+      "optional": true
+    }
+  }
+}

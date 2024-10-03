@@ -43,10 +43,12 @@ function convertArrayToObject (arr) {
 
 const runningPackageManager = (() => {
   const userAgent = process.env.npm_config_user_agent
-
-  if (userAgent) {
-    return userAgent.split(' ')[ 0 ].split('/')[ 0 ]
+  if (!userAgent) {
+    return
   }
+
+  const [ name, version ] = userAgent.split(' ')[ 0 ].split('/')
+  return { name, version }
 })()
 
 function getCallerPath () {
@@ -89,10 +91,15 @@ function renderTemplate (relativePath, scope) {
       const rawContent = readFileSync(sourcePath, 'utf-8')
       const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
 
-      const newContent = extension === '.json'
-        // This prevents us to add comments into JSONC files, like tsconfig ones
-        ? JSON.stringify(JSON.parse(template(scope)), null, 2)
-        : template(scope)
+      let newContent = template(scope)
+      if (extension === '.json') {
+        try {
+          // try to format the JSON
+          newContent = JSON.stringify(JSON.parse(newContent), null, 2)
+        } catch {
+          // noop, the JSON might be containing comments, leave it unformatted
+        }
+      }
 
       writeFileSync(targetPath, newContent, 'utf-8')
     }

@@ -1,0 +1,29 @@
+{
+  "name": "playground-quasar-cli-vite",
+  "version": "0.0.1",
+  "description": "Playground for Quasar AE <%= name %>",
+  "productName": "Quasar AE <%= name %> Playground",
+  "author": "<%= author %>",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.12",
+    "quasar": "^2.16.7",
+    "vue": "^3.4.36",
+    "vue-router": "^4.4.3",
+    "<%= pkgName %>": <% if (['pnpm', 'bun'].includes(packageManager?.name)) { %>"workspace:*"<% } else { %>"*"<% } %>
+  },
+  "devDependencies": {
+    "@quasar/app-vite": "^2.0.0-beta.18",
+    "autoprefixer": "^10.4.20"
+  },
+  "engines": {
+    "node": "^20 || ^18"
+  }
+}

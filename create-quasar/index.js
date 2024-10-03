@@ -107,7 +107,7 @@ if (scope.skipDepsInstall !== true) {
       choices: () => (
         utils.runningPackageManager
           ? [
-              { title: `Yes, use ${ utils.runningPackageManager }`, value: utils.runningPackageManager },
+              { title: `Yes, use ${ utils.runningPackageManager.name }`, value: utils.runningPackageManager.name },
               { title: 'No, I will handle that myself', value: false }
             ]
           : [
