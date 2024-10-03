@@ -10,11 +10,11 @@ export interface QuasarDirectives {}
 export interface QuasarPlugins {}
 
 export interface QuasarPluginOptions {
-  lang: QuasarLanguage;
-  config: QuasarUIConfiguration;
-  iconSet: QuasarIconSet;
-  components: QuasarComponents;
-  directives: QuasarDirectives;
-  plugins: Partial<QuasarPlugins>;
-  iconMapFn: GlobalQuasarIconMapFn;
+  lang?: QuasarLanguage;
+  config?: QuasarUIConfiguration;
+  iconSet?: QuasarIconSet;
+  components?: Partial<QuasarComponents>;
+  directives?: Partial<QuasarDirectives>;
+  plugins?: Partial<QuasarPlugins>;
+  iconMapFn?: GlobalQuasarIconMapFn;
 }

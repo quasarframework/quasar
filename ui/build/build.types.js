@@ -328,7 +328,7 @@ function getIndexDts (apis, quasarLangIndex) {
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
     const typeValue = `${ extendsVue ? `ComponentConstructor<${ typeName }>` : typeName }`
     // Add Type to the appropriate section of types
-    const propTypeDef = `${ typeName }?: ${ typeValue }`
+    const propTypeDef = `${ typeName }: ${ typeValue }`
 
     if (content.quasarConfOptions) {
       const confOptions = content.quasarConfOptions
@@ -681,7 +681,7 @@ function getIndexDts (apis, quasarLangIndex) {
   writeLine(contents)
 
   writeLine(contents, 'import { QuasarPluginOptions } from \'./plugin\'')
-  writeLine(contents, 'export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any } & QSingletonGlobals')
+  writeLine(contents, 'export const Quasar: { install: (app: App, options?: QuasarPluginOptions) => any } & QSingletonGlobals')
   writeLine(contents, 'export default Quasar')
   writeLine(contents)
 
