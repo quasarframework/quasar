@@ -40,23 +40,27 @@ type QuasarIconSetEditor =
   | "undo"
   | "redo"
   | "heading"
+  | "code"
+  | "size"
+  | "font"
+  | "viewSource";
+type QuasarIconSetEditorOptional =
+  // defaults to "heading"
   | "heading1"
   | "heading2"
   | "heading3"
   | "heading4"
   | "heading5"
   | "heading6"
-  | "code"
-  | "size"
+
+  // defaults to "size"
   | "size1"
   | "size2"
   | "size3"
   | "size4"
   | "size5"
   | "size6"
-  | "size7"
-  | "font"
-  | "viewSource";
+  | "size7";
 type QuasarIconSetExpansionItem = "icon" | "denseIcon";
 type QuasarIconSetFab = "icon" | "activeIcon";
 type QuasarIconSetField = "clear" | "error";
@@ -90,7 +94,8 @@ export interface QuasarIconSet {
   carousel: StringDictionary<QuasarIconSetCarousel>;
   chip: StringDictionary<QuasarIconSetChip>;
   datetime: StringDictionary<QuasarIconSetDatetime>;
-  editor: StringDictionary<QuasarIconSetEditor>;
+  editor: StringDictionary<QuasarIconSetEditor> &
+    Partial<StringDictionary<QuasarIconSetEditorOptional>>;
   expansionItem: StringDictionary<QuasarIconSetExpansionItem>;
   fab: StringDictionary<QuasarIconSetFab>;
   field: StringDictionary<QuasarIconSetField>;
