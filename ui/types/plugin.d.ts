@@ -15,6 +15,6 @@ export interface QuasarPluginOptions {
   iconSet: QuasarIconSet;
   components: QuasarComponents;
   directives: QuasarDirectives;
-  plugins: QuasarPlugins;
+  plugins: Partial<QuasarPlugins>;
   iconMapFn: GlobalQuasarIconMapFn;
 }
