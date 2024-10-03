@@ -328,7 +328,7 @@ function getIndexDts (apis, quasarLangIndex) {
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
     const typeValue = `${ extendsVue ? `ComponentConstructor<${ typeName }>` : typeName }`
     // Add Type to the appropriate section of types
-    const propTypeDef = `${ typeName }?: ${ typeValue }`
+    const propTypeDef = `${ typeName }: ${ typeValue }`
 
     if (content.quasarConfOptions) {
       const confOptions = content.quasarConfOptions
@@ -670,13 +670,18 @@ function getIndexDts (apis, quasarLangIndex) {
 
   writeLine(contents, 'declare module \'./plugin\' {')
   writeInterface(contents, 'QuasarComponents', components)
-  writeInterface(contents, 'QuasarDirectives', directives)
+  writeInterface(
+    contents,
+    'QuasarDirectives',
+    // example: `vTouchSwipe: TouchSwipe` -> `TouchSwipe: TouchSwipe`
+    directives.map(directive => directive.replace(/(\s?)(v)([A-Z]\w+:)/, '$1$3'))
+  )
   writeInterface(contents, 'QuasarPlugins', plugins)
   writeLine(contents, '}')
   writeLine(contents)
 
   writeLine(contents, 'import { QuasarPluginOptions } from \'./plugin\'')
-  writeLine(contents, 'export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any } & QSingletonGlobals')
+  writeLine(contents, 'export const Quasar: { install: (app: App, options?: QuasarPluginOptions) => any } & QSingletonGlobals')
   writeLine(contents, 'export default Quasar')
   writeLine(contents)
 
