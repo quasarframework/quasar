@@ -63,7 +63,7 @@ const routes = [
 export default routes
 ```
 
-Example of `routes.js` using on-demand loading:
+Example of `routes.js` using eager loading:
 
 ```js
 // we define our routes in this file
