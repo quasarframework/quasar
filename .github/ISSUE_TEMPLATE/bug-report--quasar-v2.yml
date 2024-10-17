@@ -42,8 +42,8 @@ body:
         Fork one of the following, hit save then copy-paste the URL here:
           - [Codepen](https://codepen.quasar.dev)
           - [jsFiddle](https://jsfiddle.quasar.dev)
-          - [StackBlitz - app-vite](https://stackblitz.com/fork/quasarframework)
-          - [StackBlitz - app-webpack](https://stackblitz.com/fork/quasarframework-webpack)
+          - [StackBlitz - app-vite](https://stackblitz-vite.quasar.dev)
+          - [StackBlitz - app-webpack](https://stackblitz-webpack.quasar.dev)
           - [Codesandbox](https://codesandbox.quasar.dev)
         _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
       placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR - DO NOT use this example value or a random URL
