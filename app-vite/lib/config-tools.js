@@ -148,10 +148,10 @@ function createViteConfig (quasarConf, quasarRunMode) {
       preprocessorOptions: {
         // Silence sass deprecations; Vite 2 does not know about sass-embedded or api=modern/modern-compiler
         sass: {
-          silenceDeprecations: [ 'legacy-js-api' ]
+          silenceDeprecations: [ 'legacy-js-api', 'import', 'global-builtin' ]
         },
         scss: {
-          silenceDeprecations: [ 'legacy-js-api' ]
+          silenceDeprecations: [ 'legacy-js-api', 'import', 'global-builtin' ]
         }
       }
     },
