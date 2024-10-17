@@ -1,6 +1,7 @@
 import { ref, watch, nextTick } from 'vue'
 
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
+import { useTimeout } from '../../composables.js'
 
 // leave NAMED_MASKS at top of file (code referenced from docs)
 const NAMED_MASKS = {
@@ -44,6 +45,8 @@ export const useMaskProps = {
 }
 
 export default function (props, emit, emitValue, inputRef) {
+  const { registerTimeout } = useTimeout()
+
   let maskMarked, maskReplaced, computedMask, computedUnmask, pastedTextStart, selectionAnchor
 
   const hasMask = ref(null)
@@ -304,12 +307,14 @@ export default function (props, emit, emitValue, inputRef) {
       ? unmaskValue(masked)
       : masked
 
-    if (
-      String(props.modelValue) !== val
-      && (props.modelValue !== null || val !== '')
-    ) {
-      emitValue(val, true)
-    }
+    registerTimeout(() => {
+      if (
+        String(props.modelValue) !== val
+        && (props.modelValue !== null || val !== '')
+      ) {
+        emitValue(val, true)
+      }
+    }, props.debounce)
   }
 
   function moveCursorForPaste (inp, start, end) {

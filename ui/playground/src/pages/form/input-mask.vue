@@ -6,6 +6,9 @@
       <div>Model: {{ text1 }}</div>
       <q-input mask="date" v-model="text1" filled hint="Date ####/##/##" label="Label" />
 
+      <div>Model with debounce: {{ text1 }}</div>
+      <q-input mask="date" v-model="text1" :debounce="500" filled hint="Date ####/##/##" label="Label" />
+
       <div>Model: {{ text2 }}</div>
       <q-input mask="((###) ### - ####)" v-model="text2" filled hint="Phone ((###) ### - ####)" counter label="Label" />
 
