@@ -149,10 +149,12 @@ export async function createViteConfig (quasarConf, { compileId }) {
       preprocessorOptions: {
         // Use sass-embedded for better stability and performance
         sass: {
-          api: 'modern-compiler'
+          api: 'modern-compiler',
+          silenceDeprecations: [ 'import', 'global-builtin' ]
         },
         scss: {
-          api: 'modern-compiler'
+          api: 'modern-compiler',
+          silenceDeprecations: [ 'import', 'global-builtin' ]
         }
       }
     },
