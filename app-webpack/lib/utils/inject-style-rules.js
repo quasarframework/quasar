@@ -178,14 +178,21 @@ module.exports.injectStyleRules = function injectStyleRules (chain, pref) {
   injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions)
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
     {
-      sassOptions: { style: /* required for RTL */ 'expanded' },
+      sassOptions: {
+        style: /* required for RTL */ 'expanded',
+        silenceDeprecations: [ 'import', 'global-builtin' ]
+      },
       api: 'modern-compiler'
     },
     pref.scssLoaderOptions
   ))
   injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
     {
-      sassOptions: { style: /* required for RTL */ 'expanded', syntax: 'indented' },
+      sassOptions: {
+        style: /* required for RTL */ 'expanded',
+        syntax: 'indented',
+        silenceDeprecations: [ 'import', 'global-builtin' ]
+      },
       api: 'modern-compiler'
     },
     pref.sassLoaderOptions
