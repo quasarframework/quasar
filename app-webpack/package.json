@@ -91,7 +91,7 @@
     "postcss-loader": "7.0.2",
     "postcss-rtlcss": "4.0.1",
     "register-service-worker": "1.7.2",
-    "sass-embedded": "^1.33.0",
+    "sass-embedded": "^1.80.2",
     "sass-loader": "^16.0.1",
     "semver": "^7.6.0",
     "table": "6.8.2",
