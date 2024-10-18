@@ -14,6 +14,20 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
       __QUASAR_SSR__: false,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false
+    },
+
+    css: {
+      preprocessorOptions: {
+        // Use sass-embedded for better stability and performance
+        sass: {
+          api: 'modern-compiler',
+          silenceDeprecations: [ 'import', 'global-builtin' ]
+        },
+        scss: {
+          api: 'modern-compiler',
+          silenceDeprecations: [ 'import', 'global-builtin' ]
+        }
+      }
     }
   }
 
