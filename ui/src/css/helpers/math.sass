@@ -23,7 +23,7 @@ $PI: 3.14159265359
 // toFixed(0.12345, 100) -> 0.12
 // toFixed(0.12345, 1000) -> 0.123
 @function toFixed($number, $power)
-  @return math.div(round($number * $power), $power)
+  @return math.div(math.round($number * $power), $power)
 
 @function sin($angle)
   $sin: 0

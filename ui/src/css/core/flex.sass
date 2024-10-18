@@ -1,6 +1,5 @@
 @use 'sass:math'
-
-@import '../helpers/string.sass'
+@use 'sass:string'
 
 @mixin fg($name, $size)
   $noProcNotZero: $size > 0
@@ -26,19 +25,19 @@
         flex: 0 1 auto
 
     @for $i from 0 through $flex-cols
-      $ic: quote('' + $i)
+      $ic: string.quote('' + $i)
       #{str-fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
         @extend .col#{$name}-auto
       .row
         #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height: auto
-          width: toFixed(percentage(math.div($i, $flex-cols)), 10000)
+          width: toFixed(math.percentage(math.div($i, $flex-cols)), 10000)
         @if $i != 0 or $name != ''
           #{str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
-            margin-left: toFixed(percentage(math.div($i, $flex-cols)), 10000)
+            margin-left: toFixed(math.percentage(math.div($i, $flex-cols)), 10000)
       .column
         #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-          height: toFixed(percentage(math.div($i, $flex-cols)), 10000)
+          height: toFixed(math.percentage(math.div($i, $flex-cols)), 10000)
           width: auto
       @if $size == 0 and $i == $flex-cols
         .row > .col-all

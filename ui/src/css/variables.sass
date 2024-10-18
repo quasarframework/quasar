@@ -1,3 +1,5 @@
+@use 'sass:map'
+
 $space-base   : 16px !default
 $space-x-base : $space-base !default
 $space-y-base : $space-base !default
@@ -39,18 +41,18 @@ $flex-gutter: ('none': 0, 'xs': $flex-gutter-xs, 'sm': $flex-gutter-sm, 'md': $f
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $sizes: ('xs': 0, 'sm': ($breakpoint-xs + 1), 'md': ($breakpoint-sm + 1), 'lg': ($breakpoint-md + 1), 'xl': ($breakpoint-lg + 1)) !default
 
-$breakpoint-xs-max: (map-get($sizes, "sm") - 0.02) !default
+$breakpoint-xs-max: (map.get($sizes, "sm") - 0.02) !default
 
-$breakpoint-sm-min: map-get($sizes, "sm") !default
-$breakpoint-sm-max: (map-get($sizes, "md") - 0.02) !default
+$breakpoint-sm-min: map.get($sizes, "sm") !default
+$breakpoint-sm-max: (map.get($sizes, "md") - 0.02) !default
 
-$breakpoint-md-min: map-get($sizes, "md") !default
-$breakpoint-md-max: (map-get($sizes, "lg") - 0.02) !default
+$breakpoint-md-min: map.get($sizes, "md") !default
+$breakpoint-md-max: (map.get($sizes, "lg") - 0.02) !default
 
-$breakpoint-lg-min: map-get($sizes, "lg") !default
-$breakpoint-lg-max: (map-get($sizes, "xl") - 0.02) !default
+$breakpoint-lg-min: map.get($sizes, "lg") !default
+$breakpoint-lg-max: (map.get($sizes, "xl") - 0.02) !default
 
-$breakpoint-xl-min: map-get($sizes, "xl") !default
+$breakpoint-xl-min: map.get($sizes, "xl") !default
 
 $h1:        (size: 6rem,     line-height: 6rem,     letter-spacing: -.01562em, weight: 300) !default
 $h2:        (size: 3.75rem,  line-height: 3.75rem,  letter-spacing: -.00833em, weight: 300) !default
@@ -69,7 +71,7 @@ $caption:   (size: .75rem,   line-height: 1.25rem,  letter-spacing: .03333em,  w
 $headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6, 'subtitle1': $subtitle1, 'subtitle2': $subtitle2, 'body1': $body1, 'body2': $body2, 'overline': $overline, 'caption': $caption) !default
 
 // sorry for long line; we need .sass and it doesn't support multi-line list
-$h-tags: (h1: map-get($headings, "h1"), h2: map-get($headings, "h2"), h3: map-get($headings, "h3"), h4: map-get($headings, "h4"), h5: map-get($headings, "h5"), h6: map-get($headings, "h6")) !default
+$h-tags: (h1: map.get($headings, "h1"), h2: map.get($headings, "h2"), h3: map.get($headings, "h3"), h4: map.get($headings, "h4"), h5: map.get($headings, "h5"), h6: map.get($headings, "h6")) !default
 
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $text-weights: (thin: 100, light: 300, regular: 400, medium: 500, bold: 700, bolder: 900) !default

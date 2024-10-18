@@ -1,11 +1,13 @@
+@use 'sass:list'
+
 .shadow-transition
   transition: $shadow-transition !important
 
 @for $z from 1 through 24
   .shadow-#{$z}
-    box-shadow: nth($shadows, $z)
+    box-shadow: list.nth($shadows, $z)
   .shadow-up-#{$z}
-    box-shadow: nth($shadows-up, $z)
+    box-shadow: list.nth($shadows-up, $z)
 
 .inset-shadow
   box-shadow: $inset-shadow
@@ -15,9 +17,9 @@
 body.body--dark
   @for $z from 1 through 24
     .shadow-#{$z}
-      box-shadow: nth($dark-shadows, $z)
+      box-shadow: list.nth($dark-shadows, $z)
     .shadow-up-#{$z}
-      box-shadow: nth($dark-shadows-up, $z)
+      box-shadow: list.nth($dark-shadows-up, $z)
 
   .inset-shadow
     box-shadow: $inset-dark-shadow

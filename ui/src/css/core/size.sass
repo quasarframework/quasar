@@ -1,3 +1,5 @@
+@use 'sass:map'
+
 \:root
   @each $name, $size in $sizes
     #{"--q-size-"}#{$name}: #{$size}
@@ -29,38 +31,38 @@
 @each $space, $value in $spaces
 
   .q-pa-#{$space}
-    padding: map-get($value, "y") map-get($value, "x")
+    padding: map.get($value, "y") map.get($value, "x")
   .q-pl-#{$space}
-    padding-left: map-get($value, "x")
+    padding-left: map.get($value, "x")
   .q-pr-#{$space}
-    padding-right: map-get($value, "x")
+    padding-right: map.get($value, "x")
   .q-pt-#{$space}
-    padding-top: map-get($value, "y")
+    padding-top: map.get($value, "y")
   .q-pb-#{$space}
-    padding-bottom: map-get($value, "y")
+    padding-bottom: map.get($value, "y")
   .q-px-#{$space}
-    padding-left: map-get($value, "x")
-    padding-right: map-get($value, "x")
+    padding-left: map.get($value, "x")
+    padding-right: map.get($value, "x")
   .q-py-#{$space}
-    padding-top: map-get($value, "y")
-    padding-bottom: map-get($value, "y")
+    padding-top: map.get($value, "y")
+    padding-bottom: map.get($value, "y")
 
   .q-ma-#{$space}
-    margin: map-get($value, "y") map-get($value, "x")
+    margin: map.get($value, "y") map.get($value, "x")
   .q-ml-#{$space}
-    margin-left: map-get($value, "x")
+    margin-left: map.get($value, "x")
   .q-mr-#{$space}
-    margin-right: map-get($value, "x")
+    margin-right: map.get($value, "x")
   .q-mt-#{$space}
-    margin-top: map-get($value, "y")
+    margin-top: map.get($value, "y")
   .q-mb-#{$space}
-    margin-bottom: map-get($value, "y")
+    margin-bottom: map.get($value, "y")
   .q-mx-#{$space}
-    margin-left: map-get($value, "x")
-    margin-right: map-get($value, "x")
+    margin-left: map.get($value, "x")
+    margin-right: map.get($value, "x")
   .q-my-#{$space}
-    margin-top: map-get($value, "y")
-    margin-bottom: map-get($value, "y")
+    margin-top: map.get($value, "y")
+    margin-bottom: map.get($value, "y")
 
 .q-mt-auto, .q-my-auto
   margin-top: auto

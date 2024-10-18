@@ -1,3 +1,5 @@
+@use 'sass:map'
+
 body
   min-width: 100px
   min-height: 100%
@@ -12,21 +14,21 @@ body
 
 @each $heading, $value in $h-tags
   #{$heading}
-    font-size: map-get($value, "size")
-    font-weight: map-get($value, "weight")
-    line-height: map-get($value, "line-height")
-    letter-spacing: map-get($value, "letter-spacing")
+    font-size: map.get($value, "size")
+    font-weight: map.get($value, "weight")
+    line-height: map.get($value, "line-height")
+    letter-spacing: map.get($value, "letter-spacing")
 
 p
-  margin: 0 0 map-get(map-get($spaces, "md"), "y")
+  margin: 0 0 map.get(map.get($spaces, "md"), "y")
 
 .text-
   @each $heading, $value in $headings
     &#{$heading}
-      font-size: map-get($value, "size")
-      font-weight: map-get($value, "weight")
-      line-height: map-get($value, "line-height")
-      letter-spacing: map-get($value, "letter-spacing")
+      font-size: map.get($value, "size")
+      font-weight: map.get($value, "weight")
+      line-height: map.get($value, "line-height")
+      letter-spacing: map.get($value, "letter-spacing")
 
   &uppercase
     text-transform: uppercase

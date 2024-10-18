@@ -1,4 +1,4 @@
-@import '../../css/helpers/math.sass'
+@use 'sass:math'
 
 .q-time
   box-shadow: $shadow-2
@@ -129,8 +129,8 @@
     $left: (1 + cos($angle))
 
     &__clock-pos-#{$pos}
-      top: toFixed(percentage($top * 0.5), 100)
-      left: toFixed(percentage($left * 0.5), 100) #{"/* rtl:ignore */"}
+      top: toFixed(math.percentage($top * 0.5), 100)
+      left: toFixed(math.percentage($left * 0.5), 100) #{"/* rtl:ignore */"}
 
   @for $pos from 12 through 23
     $angle: (270 + 30 * $pos)
@@ -138,8 +138,8 @@
     $left: (1 + cos($angle))
 
     &__clock-pos-#{$pos}
-      top: toFixed(percentage(.15 + $top * .35), 100)
-      left: toFixed(percentage(.15 + $left * .35), 100) #{"/* rtl:ignore */"}
+      top: toFixed(math.percentage(.15 + $top * .35), 100)
+      left: toFixed(math.percentage(.15 + $left * .35), 100) #{"/* rtl:ignore */"}
 
   &__now-button
     background-color: var(--q-primary)

@@ -1,4 +1,6 @@
 @use 'sass:math'
+@use 'sass:map'
+@use 'sass:string'
 
 @import './helpers/string.sass'
 @import './helpers/math.sass'
@@ -18,38 +20,38 @@
 
     @each $space, $value in $spaces
       .q-pa#{$name}-#{$space}
-        padding: map-get($value, "y") map-get($value, "x")
+        padding: map.get($value, "y") map.get($value, "x")
       .q-pl#{$name}-#{$space}
-        padding-left: map-get($value, "x")
+        padding-left: map.get($value, "x")
       .q-pr#{$name}-#{$space}
-        padding-right: map-get($value, "x")
+        padding-right: map.get($value, "x")
       .q-pt#{$name}-#{$space}
-        padding-top: map-get($value, "y")
+        padding-top: map.get($value, "y")
       .q-pb#{$name}-#{$space}
-        padding-bottom: map-get($value, "y")
+        padding-bottom: map.get($value, "y")
       .q-px#{$name}-#{$space}
-        padding-left: map-get($value, "x")
-        padding-right: map-get($value, "x")
+        padding-left: map.get($value, "x")
+        padding-right: map.get($value, "x")
       .q-py#{$name}-#{$space}
-        padding-top: map-get($value, "y")
-        padding-bottom: map-get($value, "y")
+        padding-top: map.get($value, "y")
+        padding-bottom: map.get($value, "y")
 
       .q-ma#{$name}-#{$space}
-        margin: map-get($value, "y") map-get($value, "x")
+        margin: map.get($value, "y") map.get($value, "x")
       .q-ml#{$name}-#{$space}
-        margin-left: map-get($value, "x")
+        margin-left: map.get($value, "x")
       .q-mr#{$name}-#{$space}
-        margin-right: map-get($value, "x")
+        margin-right: map.get($value, "x")
       .q-mt#{$name}-#{$space}
-        margin-top: map-get($value, "y")
+        margin-top: map.get($value, "y")
       .q-mb#{$name}-#{$space}
-        margin-bottom: map-get($value, "y")
+        margin-bottom: map.get($value, "y")
       .q-mx#{$name}-#{$space}
-        margin-left: map-get($value, "x")
-        margin-right: map-get($value, "x")
+        margin-left: map.get($value, "x")
+        margin-right: map.get($value, "x")
       .q-my#{$name}-#{$space}
-        margin-top: map-get($value, "y")
-        margin-bottom: map-get($value, "y")
+        margin-top: map.get($value, "y")
+        margin-bottom: map.get($value, "y")
 
     .q-ml#{$name}-auto
       margin-left: auto
@@ -195,8 +197,8 @@
         $noProcNotZero2: ($size2 > 0)
 
         @for $i from 0 through $flex-cols
-          $ic: quote('' + $i)
-          $internal-size: toFixed(percentage(math.div($i, $flex-cols)), 10000)
+          $ic: string.quote('' + $i)
+          $internal-size: toFixed(math.percentage(math.div($i, $flex-cols)), 10000)
 
           #{str-fr('.row<name>', $name)}
             #{str-fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}

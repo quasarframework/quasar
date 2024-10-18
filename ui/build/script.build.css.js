@@ -32,7 +32,7 @@ function moveUseStatementsToTop (code) {
 
 function compileSass (src) {
   return compileAsync(src, {
-    silenceDeprecations: [ 'import', 'global-builtin' ]
+    silenceDeprecations: [ 'import' ]
   })
 }
 
@@ -52,12 +52,12 @@ function getConcatenatedContent (src, noBanner) {
       .replace(/@import\s+'[^']+'[\s\r\n]+/g, '')
       // remove comments
       .replace(/(\/\*[\w'-.,`\s\r\n*@]*\*\/)|(\/\/[^\r\n]*)/g, '')
+
+    code = moveUseStatementsToTop(code)
       // remove unnecessary newlines
       .replace(/[\r\n]+/g, '\r\n')
 
-    resolve(
-      localBanner + moveUseStatementsToTop(code)
-    )
+    resolve(localBanner + code)
   })
 }
 

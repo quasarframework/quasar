@@ -1,9 +1,12 @@
+@use 'sass:list'
+@use 'sass:string'
+
 @function str-replace($string, $search, $replace: '')
-  $index: str-index($string, $search)
+  $index: string.index($string, $search)
 
   @if $index
-    $start: str-slice($string, 1, $index - 1)
-    $end: str-replace(str-slice($string, $index + str-length($search)), $search, $replace)
+    $start: string.slice($string, 1, $index - 1)
+    $end: str-replace(string.slice($string, $index + string.length($search)), $search, $replace)
     @return $start + $replace + $end
 
   @return $string
@@ -14,4 +17,4 @@
 @function str-fe($selector, $name, $noProc, $i: '')
   @if $noProc
     @return str-fr($selector, $name, $i)
-  @return join(str-fr($selector, '', $i), str-fr($selector, $name, $i), $separator: comma)
+  @return list.join(str-fr($selector, '', $i), str-fr($selector, $name, $i), $separator: comma)
