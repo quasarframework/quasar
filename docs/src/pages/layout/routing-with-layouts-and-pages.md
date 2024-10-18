@@ -53,27 +53,27 @@ Example of `routes.js` using lazy-loading:
 ```js
 // we define our routes in this file
 
-import LandingPage from 'pages/Landing'
-
 const routes = [
   {
     path: '/',
-    component: LandingPage
+    component: () => import('pages/Landing')
   }
 ]
 
 export default routes
 ```
 
-Example of `routes.js` using on-demand loading:
+Example of `routes.js` using eager loading:
 
 ```js
 // we define our routes in this file
 
+import LandingPage from 'pages/Landing'
+
 const routes = [
   {
     path: '/',
-    component: () => import('pages/Landing')
+    component: LandingPage
   }
 ]
 
