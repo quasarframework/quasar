@@ -376,56 +376,76 @@ export default createComponent({
       ]
     }
 
-    function getTBodyTR (row, bodySlot, pageIndex) {
-      const
-        key = getRowKey.value(row),
+    function getTBodyTR (row, bodySlot, pageIndex) {      
+      const key = getRowKey.value(row),
         selected = isRowSelected(key)
-
-      if (bodySlot !== void 0) {
-        return bodySlot(
-          getBodyScope({
-            key,
-            row,
-            pageIndex,
-            __trClass: selected ? 'selected' : ''
-          })
-        )
-      }
-
-      const
-        bodyCell = slots[ 'body-cell' ],
-        child = computedCols.value.map(col => {
-          const
-            bodyCellCol = slots[ `body-cell-${ col.name }` ],
-            slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
-
-          return slot !== void 0
-            ? slot(getBodyCellScope({ key, row, pageIndex, col }))
-            : h('td', {
-              class: col.__tdClass(row),
-              style: col.__tdStyle(row)
-            }, getCellValue(col, row))
-        })
+      let selectionNode = null
 
       if (hasSelectionMode.value === true) {
         const slot = slots[ 'body-selection' ]
-        const content = slot !== void 0
-          ? slot(getBodySelectionScope({ key, row, pageIndex }))
-          : [
-              h(QCheckbox, {
-                modelValue: selected,
-                color: props.color,
-                dark: isDark.value,
-                dense: props.dense,
-                'onUpdate:modelValue': (adding, evt) => {
-                  updateSelection([ key ], [ row ], adding, evt)
-                }
-              })
-            ]
+        const content
+                    = slot !== void 0
+                      ? slot(getBodySelectionScope({ key, row, pageIndex }))
+                      : [
+                          h(QCheckbox, {
+                            modelValue: selected,
+                            color: props.color,
+                            dark: isDark.value,
+                            dense: props.dense,
+                            'onUpdate:modelValue': (adding, evt) => {
+                              updateSelection([ key ], [ row ], adding, evt)
+                            }
+                          })
+                        ]
 
-        child.unshift(
-          h('td', { class: 'q-table--col-auto-width' }, content)
-        )
+        selectionNode = h('td', { class: 'q-table--col-auto-width' }, content)
+      }
+
+      // fixed selection bug with body slot, trNode iss children type  ┄┄  () => h('q-tr') []
+      if (bodySlot !== void 0) {
+        const bodyNodes = bodySlot(getBodyScope({ key, row, pageIndex, __trClass: selected ? 'selected' : '' }))
+        const trNode = bodyNodes[ 0 ]
+
+        if (hasSelectionMode.value === true && selectionNode) {
+          if (trNode.children && typeof trNode.children.default === 'function' && trNode.type.name === 'QTr') {
+            const originalDefaultSlot = trNode.children.default
+            // Lazy evaluation keep compatibility after bug fixes
+            trNode.children.default = () => {
+              console.log('ccc_1', originalDefaultSlot)
+              const originalChildren = originalDefaultSlot()
+
+              // Check if the originalChildren length is less than expected
+              // Adjust this check based on your exact requirements
+              if (originalChildren[ 0 ].children.length === computedCols.value.length) {
+                return [ selectionNode, ...originalChildren ]
+              }
+              // If length is as expected, return originalChildren
+              return originalChildren
+            }
+          }
+        }
+        return bodyNodes
+      }
+
+      const bodyCell = slots[ 'body-cell' ]
+      const child = computedCols.value.map(col => {
+        const bodyCellCol = slots[ `body-cell-${ col.name }` ]
+        const slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
+
+        return slot !== void 0
+          ? slot(getBodyCellScope({ key, row, pageIndex, col }))
+          : h(
+            'td',
+            {
+              class: col.__tdClass(row),
+              style: col.__tdStyle(row)
+            },
+            getCellValue(col, row)
+          )
+      })
+
+      if (hasSelectionMode.value === true) {
+        child.unshift(selectionNode)
       }
 
       const data = { key, class: { selected } }
@@ -625,52 +645,77 @@ export default createComponent({
     }
 
     function getTHeadTR () {
-      const
-        header = slots.header,
+      const header = slots.header,
         headerCell = slots[ 'header-cell' ]
+      let selectionNode
+
+      if (singleSelection.value === true && props.grid !== true) {
+        selectionNode = h('th', { class: 'q-table--col-auto-width' }, ' ')
+      }
+      else if (multipleSelection.value === true) {
+        const slot = slots[ 'header-selection' ]
+        const content
+                    = slot !== void 0
+                      ? slot(getHeaderScope({}))
+                      : [
+                          h(QCheckbox, {
+                            color: props.color,
+                            modelValue: headerSelectedValue.value,
+                            dark: isDark.value,
+                            dense: props.dense,
+                            'onUpdate:modelValue': onMultipleSelectionSet
+                          })
+                        ]
+        selectionNode = h('th', { class: 'q-table--col-auto-width' }, content)
+      }
 
       if (header !== void 0) {
-        return header(
-          getHeaderScope({ header: true })
-        ).slice()
+        const headerNodes = header(getHeaderScope({ header: true })).slice()
+        const trNode = headerNodes[ 0 ]
+
+        if (hasSelectionMode.value === true && selectionNode) {
+          if (trNode.children && typeof trNode.children.default === 'function' && trNode.type.name === 'QTr') {
+            const originalDefaultSlot = trNode.children.default
+
+            // Lazy evaluation keep compatibility after bug fixes
+            trNode.children.default = () => {
+              const originalChildren = originalDefaultSlot()
+
+              // Check if the originalChildren length is less than expected
+              // Adjust this check based on your exact requirements
+              if (originalChildren[ 0 ].children.length === computedCols.value.length) {
+                return [ selectionNode, ...originalChildren ]
+              }
+              // If length is as expected, return originalChildren
+              return originalChildren
+            }
+          }
+        }
+        return headerNodes.slice()
       }
 
       const child = computedCols.value.map(col => {
-        const
-          headerCellCol = slots[ `header-cell-${ col.name }` ],
+        const headerCellCol = slots[ `header-cell-${ col.name }` ],
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
           props = getHeaderScope({ col })
 
         return slot !== void 0
           ? slot(props)
-          : h(QTh, {
-            key: col.name,
-            props
-          }, () => col.label)
+          : h(
+            QTh,
+            {
+              key: col.name,
+              props
+            },
+            () => col.label
+          )
       })
 
       if (singleSelection.value === true && props.grid !== true) {
-        child.unshift(
-          h('th', { class: 'q-table--col-auto-width' }, ' ')
-        )
+        child.unshift(h('th', { class: 'q-table--col-auto-width' }, ' '))
       }
       else if (multipleSelection.value === true) {
-        const slot = slots[ 'header-selection' ]
-        const content = slot !== void 0
-          ? slot(getHeaderScope({}))
-          : [
-              h(QCheckbox, {
-                color: props.color,
-                modelValue: headerSelectedValue.value,
-                dark: isDark.value,
-                dense: props.dense,
-                'onUpdate:modelValue': onMultipleSelectionSet
-              })
-            ]
-
-        child.unshift(
-          h('th', { class: 'q-table--col-auto-width' }, content)
-        )
+        child.unshift(selectionNode)
       }
 
       return [
