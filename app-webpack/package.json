@@ -96,7 +96,7 @@
     "postcss-loader": "^8.1.1",
     "postcss-rtlcss": "^5.4.0",
     "rollup-plugin-visualizer": "^5.12.0",
-    "sass-embedded": "^1.79.1",
+    "sass-embedded": "^1.80.2",
     "sass-loader": "^16.0.1",
     "semver": "^7.6.3",
     "serialize-javascript": "^6.0.2",
