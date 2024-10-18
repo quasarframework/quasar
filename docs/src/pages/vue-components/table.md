@@ -345,6 +345,15 @@ There are a few properties that you can use to hide the bottom layer or specific
 
 <DocExample title="Custom sorting" file="CustomSorting" />
 
+## Drag & Drop rows reordering
+
+Quasar doesn't integrate a drag & drop library because it is really difficult to define an API flexible enough to covers the majority of use cases.
+
+That said, you can still use one of your choice on top of Quasar components to add any fancy drag & drop functionality.
+Here's an example using [SortableJS](https://github.com/SortableJS/Sortable) to reorder rows in a table.
+
+<doc-example title="Drag & Drop rows reordering" file="DragAndDropRowsReordering" />
+
 ## Responsive tables
 
 In order to create responsive tables, we have two tools at our disposal: `dense` and `grid` properties. We can connect these with `$q.screen`. More info: [Screen Plugin](/options/screen-plugin).
