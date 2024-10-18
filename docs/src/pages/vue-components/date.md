@@ -182,6 +182,9 @@ Examples: "date", "time", "fulltime".
 More info: [QInput](/vue-components/input).
 
 ### Persian calendar
+
+You have to set `calendar` to `persian` to use this feature .
+
 ::: tip
 You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-IR`) to have the QDate strings translated too, for the full experience.
 :::
