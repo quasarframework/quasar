@@ -4,7 +4,12 @@
 
     <div>
       <div class="column items-center intro-section letter-spacing-300">
-        <q-img src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical-dark.svg" width="250px" height="255px" />
+        <q-img
+          src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical-dark.svg"
+          loading="eager"
+          width="250px"
+          height="255px"
+        />
 
         <h1 class="letter-spacing-375 landing-my-large text-center text-white text-size-20 primary-line-height">
           The enterprise-ready cross-platform VueJs framework
@@ -31,7 +36,7 @@
         </div>
         <div class="row justify-center full-width">
           <sponsor-tile
-            v-for="({src, name, href}, platinumSponsorIndex) in sponsors.platinum"
+            v-for="({ src, name, href }, platinumSponsorIndex) in sponsors.platinum"
             :key="platinumSponsorIndex"
             :src="src"
             :name="name"
