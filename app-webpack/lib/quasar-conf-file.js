@@ -247,8 +247,7 @@ class QuasarConfFile {
         lessLoaderOptions: {},
         env: {},
         uglifyOptions: {
-          compress: {},
-          mangle: {}
+          compress: {}
         },
         htmlMinifyOptions: {}
       },
@@ -505,7 +504,6 @@ class QuasarConfFile {
           arrows: false,
           collapse_vars: false, // 0.3kb
           comparisons: false,
-          computed_props: false,
           hoist_funs: false,
           hoist_props: false,
           hoist_vars: false,
@@ -530,9 +528,6 @@ class QuasarConfFile {
           conditionals: true,
           dead_code: true,
           evaluate: true
-        },
-        mangle: {
-          safari10: true
         }
       },
       htmlMinifyOptions: {
