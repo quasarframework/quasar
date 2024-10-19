@@ -523,8 +523,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         envFiles: [],
         webpackTranspileDependencies: [],
         uglifyOptions: {
-          compress: {},
-          mangle: {}
+          compress: {}
         },
         htmlMinifyOptions: {}
       },
@@ -763,7 +762,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           arrows: false,
           collapse_vars: false, // 0.3kb
           comparisons: false,
-          computed_props: false,
           hoist_funs: false,
           hoist_props: false,
           hoist_vars: false,
