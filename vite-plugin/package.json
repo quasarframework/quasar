@@ -1,6 +1,6 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Vite plugin for Quasar Framework",
   "type": "module",
   "exports": {
