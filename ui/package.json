@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.17.0",
+  "version": "2.17.1",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "type": "module",
   "module": "dist/quasar.client.js",
