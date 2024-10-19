@@ -82,7 +82,7 @@
     "cross-env": "^7.0.3",
     "cssnano": "^7.0.6",
     "diff": "^5.2.0",
-    "esbuild": "^0.23.1",
+    "esbuild": "^0.24.0",
     "eslint": "^8.57.0",
     "eslint-config-quasar": "workspace:*",
     "fast-glob": "^3.3.2",

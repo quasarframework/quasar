@@ -39,9 +39,7 @@ export function removeGlobalNode (el) {
 }
 
 export function changeGlobalNodesTarget (newTarget) {
-  if (newTarget === target) {
-    return
-  }
+  if (newTarget === target) return
 
   target = newTarget
 
