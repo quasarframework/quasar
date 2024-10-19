@@ -788,9 +788,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           conditionals: true,
           dead_code: true,
           evaluate: true
-        },
-        mangle: {
-          safari10: true
         }
       },
 
