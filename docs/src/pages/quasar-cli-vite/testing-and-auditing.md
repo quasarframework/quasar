@@ -35,6 +35,24 @@ If you ever need to review your installation choices you can take a look at `qua
 
 > Note that we previously suggested to use `@quasar/testing` AE to manage all testing harnesses in a project. This is no longer the case, as [it is now deprecated](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing/README.md#DEPRECATION-NOTICE). Please use the above commands instead.
 
+> [!TIP]
+> If using both Cypress and Jest/Vitest, you may need to exclude `cypress.config.ts` in your `tsconfig.json`:
+> ```jsonc
+> {
+>   // [...]
+>   "exclude": [
+>     "./dist",
+>     "./.quasar",
+>     "./node_modules",
+>     "./src-capacitor",
+>     "./src-cordova",
+>     "./quasar.config.*.temporary.compiled*",
+>     // https://stackoverflow.com/a/72663546/1424662
+>     "./cypress.config.ts"
+>   ]
+> }
+> ```
+
 ## Further Reading
 
 ### Books
