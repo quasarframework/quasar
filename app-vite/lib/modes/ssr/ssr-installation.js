@@ -2,7 +2,6 @@ import fs from 'node:fs'
 import fse from 'fs-extra'
 
 import { log, warn } from '../../utils/logger.js'
-import { generateTypesFeatureFlag } from '../../utils/types-feature-flags.js'
 
 export function isModeInstalled (appPaths) {
   return fs.existsSync(appPaths.ssrDir)
@@ -26,8 +25,6 @@ export async function addMode ({
     appPaths.resolve.cli(`templates/ssr/${ format }`),
     appPaths.ssrDir
   )
-
-  generateTypesFeatureFlag('ssr', appPaths)
 
   log('SSR support was added')
 }

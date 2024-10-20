@@ -5,6 +5,7 @@ import '../lib/node-version-check.js'
 const commands = [
   'dev',
   'build',
+  'prepare',
   'clean',
   'inspect',
   'describe',
@@ -23,6 +24,7 @@ if (cmd) {
     const mapToCmd = {
       d: 'dev',
       b: 'build',
+      p: 'prepare',
       e: 'ext',
       r: 'run',
       c: 'clean',

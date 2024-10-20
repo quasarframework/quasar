@@ -7,8 +7,8 @@ import { quasarSpaConfig } from './spa-config.js'
 export class QuasarModeDevserver extends AppDevserver {
   #server
 
-  run (quasarConf, __isRetry) {
-    const { diff, queue } = super.run(quasarConf, __isRetry)
+  async run (quasarConf, __isRetry) {
+    const { diff, queue } = await super.run(quasarConf, __isRetry)
 
     if (diff('vite', quasarConf) === true) {
       return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))

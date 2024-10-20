@@ -1,6 +1,7 @@
 import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
 import { QuasarHookParams } from "./conf";
+import { CompilerOptions, TypeAcquisition } from "typescript";
 
 interface HtmlMinifierOptions {
   caseSensitive?: boolean;
@@ -41,6 +42,30 @@ interface HtmlMinifierOptions {
   sortClassName?: boolean;
   trimCustomFragments?: boolean;
   useShortDoctype?: boolean;
+}
+
+// TSConfig type is adapted from https://github.com/unjs/pkg-types/blob/0bec64641468c9560dea95da2cff502ea8118286/src/types/tsconfig.ts
+type StripEnums<T extends Record<string, any>> = {
+  [K in keyof T]: T[K] extends boolean
+    ? T[K]
+    : T[K] extends string
+      ? T[K]
+      : T[K] extends object
+        ? T[K]
+        : T[K] extends Array<any>
+          ? T[K]
+          : T[K] extends undefined
+            ? undefined
+            : any;
+};
+interface TSConfig {
+  compilerOptions?: StripEnums<CompilerOptions>;
+  exclude?: string[];
+  compileOnSave?: boolean;
+  extends?: string | string[];
+  files?: string[];
+  include?: string[];
+  typeAcquisition?: TypeAcquisition;
 }
 
 interface InvokeParams {
@@ -144,6 +169,45 @@ interface QuasarStaticBuildConfiguration {
    * }
    */
   alias?: { [key: string]: string };
+  /**
+   * Configuration for TypeScript integration.
+   */
+  typescript?: {
+    /**
+     * Once your codebase is fully using TypeScript and all team members are comfortable with it,
+     * you can set this to `true` to enforce stricter type checking.
+     * It is recommended to set this to `true` and use stricter typescript-eslint rules.
+     *
+     * It will set the following TypeScript options:
+     * - "strict": true
+     * - "allowUnreachableCode": false
+     * - "allowUnusedLabels": false
+     * - "noImplicitOverride": true
+     * - "exactOptionalPropertyTypes": true
+     * - "noUncheckedIndexedAccess": true
+     *
+     * @see https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html#getting-stricter-checks
+     */
+    strict?: boolean;
+
+    /**
+     * Extend the generated `.quasar/tsconfig.json` file.
+     *
+     * If you don't have dynamic logic, you can directly modify your `tsconfig.json` file instead.
+     */
+    extendTsConfig?: (tsConfig: TSConfig) => void;
+
+    /**
+     * Generate a shim file for `*.vue` files to process them as plain Vue component instances.
+     *
+     * Vue Language Tools VS Code extension can analyze `*.vue` files in a better way, without the shim file.
+     * So, you can disable the shim file generation and let the extension handle the types.
+     *
+     * However, some tools like ESLint can't work with `*.vue` files without the shim file.
+     * So, if your tooling is not properly working, enable this option.
+     */
+    vueShim?: boolean;
+  };
   /**
    * Public path of your app.
    * Use it when your public path is something else,

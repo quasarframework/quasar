@@ -47,11 +47,7 @@
 <% if (sfcStyle === 'composition-setup') { %>
 <script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
-
-defineOptions({
-  name: 'MainLayout'
-});
+import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -106,7 +102,7 @@ function toggleLeftDrawer () {
 </script><% } else if (sfcStyle === 'composition') { %>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
 
 const linksList: EssentialLinkProps[] = [
   {
@@ -175,7 +171,7 @@ export default defineComponent({
 </script><% } else if (sfcStyle === 'options') { %>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
 
 const linksList: EssentialLinkProps[] = [
   {

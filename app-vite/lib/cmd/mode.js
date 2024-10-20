@@ -44,10 +44,12 @@ if (argv._.length !== 0 && argv._.length !== 2) {
 import { green, gray } from 'kolorist'
 
 import { getCtx } from '../utils/get-ctx.js'
-const ctx = getCtx()
+import { generateTypes } from '../types-generator.js'
 
 async function run () {
   const [ action, mode ] = argv._
+
+  const ctx = getCtx({ mode })
 
   if (![ 'add', 'remove' ].includes(action)) {
     console.log()
@@ -83,9 +85,23 @@ async function run () {
   }
 
   await actionMap[ action ]({ ctx })
+
+  // Ensure types are re-generated accordingly
+  const { QuasarConfigFile } = await import('../quasar-config-file.js')
+  const quasarConfFile = new QuasarConfigFile({
+    ctx,
+    // host and port don't matter for this command
+    port: 9000,
+    host: 'localhost'
+  })
+  await quasarConfFile.init()
+  const quasarConf = await quasarConfFile.read()
+  generateTypes(quasarConf)
 }
 
 async function displayModes () {
+  const ctx = getCtx()
+
   log('Detecting installed modes...')
 
   const info = []

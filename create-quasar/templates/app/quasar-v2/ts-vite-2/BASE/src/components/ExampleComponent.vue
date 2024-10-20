@@ -14,7 +14,7 @@
 <% if (sfcStyle === 'composition-setup') { %>
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Todo, Meta } from './models';
+import type { Todo, Meta } from './models';
 
 interface Props {
   title: string;
@@ -38,13 +38,13 @@ const todoCount = computed(() => props.todos.length);
 <script lang="ts">
 import {
   defineComponent,
-  PropType,
   computed,
   ref,
   toRef,
-  Ref,
+  type PropType,
+  type Ref,
 } from 'vue';
-import { Todo, Meta } from './models';
+import type { Todo, Meta } from './models';
 
 function useClickCount() {
   const clickCount = ref(0);
@@ -88,8 +88,8 @@ export default defineComponent({
 });
 </script><% } else if (sfcStyle === 'options') { %>
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Todo, Meta } from './models';
+import { defineComponent, type PropType } from 'vue';
+import type { Todo, Meta } from './models';
 
 export default defineComponent({
   name: 'ExampleComponent',

@@ -2,6 +2,7 @@ import { AppTool } from './app-tool.js'
 import { printDevRunningBanner } from './utils/banner.js'
 import { encodeForDiff } from './utils/encode-for-diff.js'
 import { EntryFilesGenerator } from './entry-files-generator.js'
+import { generateTypes } from './types-generator.js'
 
 function getConfSnapshot (extractFn, quasarConf, diffExtractFnMap) {
   return extractFn(quasarConf, diffExtractFnMap).map(item => (item ? encodeForDiff(item) : ''))
@@ -36,6 +37,11 @@ export class AppDevserver extends AppTool {
       quasarConf.ssr.manualPostHydrationTrigger
     ]))
 
+    this.registerDiff('types', quasarConf => ([
+      quasarConf.build.typescript,
+      quasarConf.build.alias
+    ]))
+
     this.registerDiff('viteUrl', quasarConf => ([
       quasarConf.metaConf.APP_URL
     ]))
@@ -58,9 +64,13 @@ export class AppDevserver extends AppTool {
   }
 
   // to be called from inheriting class
-  run (quasarConf, __isRetry) {
+  async run (quasarConf, __isRetry) {
     if (this.#diff('entryFiles', quasarConf)) {
       this.#entryFiles.generate(quasarConf)
+    }
+
+    if (this.#diff('types', quasarConf)) {
+      await generateTypes(quasarConf)
     }
 
     if (__isRetry !== true) {

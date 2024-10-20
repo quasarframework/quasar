@@ -132,9 +132,6 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { ensureTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
-ensureTypesFeatureFlags(quasarConf)
-
 const { QuasarModeBuilder } = await import(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 
@@ -145,6 +142,9 @@ fse.removeSync(outputFolder)
 const { EntryFilesGenerator } = await import('../entry-files-generator.js')
 const entryFiles = new EntryFilesGenerator(ctx)
 entryFiles.generate(quasarConf)
+
+const { generateTypes } = await import('../types-generator.js')
+await generateTypes(quasarConf)
 
 if (typeof quasarConf.build.beforeBuild === 'function') {
   await quasarConf.build.beforeBuild({ quasarConf })
