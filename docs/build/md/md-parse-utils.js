@@ -1,15 +1,43 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import fs from 'node:fs'
 import matter from 'gray-matter'
 import toml from 'toml'
+
+const rootFolder = fileURLToPath(new URL('../../../', import.meta.url))
+
+const typesDir = path.resolve(rootFolder, 'node_modules/quasar/dist/types/api')
+const typeFiles = fs.readdirSync(typesDir)
+
+const extEndRE = /\.(js|vue)$/
+
+function getComponentsImport (componentsList) {
+  return componentsList
+    .map((c) => {
+      const parts = c.split('/')
+      const file = extEndRE.test(c) === false ? `${c}.vue` : c
+
+      return `import ${parts[ parts.length - 1 ].replace(
+        extEndRE,
+        ''
+      )} from '${file}'\n`
+    })
+    .join('')
+}
 
 function parseToc (toc) {
   let wasHeader = true // Introduction is auto prepended
   let headerIndex = 1 // Introduction is auto prepended
   let subheaderIndex
 
-  const list = toc.map(entry => {
+  const list = toc.map((entry) => {
     if (entry.sub === true) {
-      if (wasHeader === true) { subheaderIndex = 1 }
-      else { subheaderIndex++ }
+      if (wasHeader === true) {
+        subheaderIndex = 1
+      }
+      else {
+        subheaderIndex++
+      }
 
       wasHeader = false
     }
@@ -20,9 +48,10 @@ function parseToc (toc) {
 
     return {
       ...entry,
-      title: entry.sub === true
-        ? `${ headerIndex }.${ subheaderIndex }. ${ entry.title }`
-        : `${ headerIndex }. ${ entry.title }`
+      title:
+        entry.sub === true
+          ? `${headerIndex}.${subheaderIndex}. ${entry.title}`
+          : `${headerIndex}. ${entry.title}`
     }
   })
 
@@ -66,4 +95,48 @@ export function parseFrontMatter (content) {
       excerpt: false
     }
   })
+}
+
+/** Add types if quasar/dist/types/api/ have it */
+export function addTypeDeclarations (code, id) {
+  const fileName = path.basename(id).replace('.md', '')
+
+  let typeFile = typeFiles.find((typeFile) => {
+    return typeFile.includes(fileName)
+  })
+
+  // some special
+  if (fileName === 'color-palette') typeFile = 'color.d.ts'
+  if (fileName === 'touch-swipe') typeFile = 'touchswipe.d.ts'
+  if (fileName === 'field') typeFile = 'validation.d.ts'
+
+  if (typeFile) {
+    let typeCode = fs.readFileSync(path.join(typesDir, typeFile), 'utf-8')
+
+    // clean up types
+    typeCode = typeCode
+      .replace(/import\(.*?\)\./g, '')
+      .replace(/import[\s\S]+?from ?["'][\s\S]+?["'];/g, '')
+      .replace(/export {}/g, '')
+      .replace(/\/\/.*/g, '')
+
+    typeCode = `\`\`\` typescript\n${typeCode.trim()}\n\`\`\``
+
+    const typingSection =
+      typeCode.length > 1000
+        ? `
+## Type Declarations
+
+::: details Show Type Declarations
+
+${typeCode}
+
+:::
+    `
+        : `\n## Type Declarations\n\n${typeCode}`
+
+    return code + typingSection
+  }
+
+  return code
 }
