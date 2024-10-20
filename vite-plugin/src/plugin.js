@@ -5,6 +5,7 @@ import { vueTransform } from './vue-transform.js'
 import { createScssTransform } from './scss-transform.js'
 import { parseViteRequest, createExtMatcher } from './query.js'
 import { mapQuasarImports } from './js-transform.js'
+import { viteCheckDevMode } from './vite-check-dev-mode.js'
 
 const defaultOptions = {
   runMode: 'web-client',
@@ -41,8 +42,8 @@ function getConfigPlugin (opts) {
       }
     },
 
-    config (viteConf, { mode }) {
-      return getViteConfig(opts.runMode, mode, viteConf)
+    config (viteConf, viteConfEnv) {
+      return getViteConfig(opts.runMode, viteConfEnv, viteConf)
     }
   }
 }
@@ -95,7 +96,7 @@ function getScriptTransformsPlugin (opts) {
     name: 'vite:quasar:script',
 
     configResolved (resolvedConfig) {
-      if (opts.devTreeshaking === false && resolvedConfig.mode !== 'production') {
+      if (opts.devTreeshaking === false && viteCheckDevMode(resolvedConfig)) {
         useTreeshaking = false
       }
     },
