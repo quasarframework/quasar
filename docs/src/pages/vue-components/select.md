@@ -11,6 +11,12 @@ In case you are looking for a dropdown "button" instead of "input" use [Button D
 
 <DocApi file="QSelect" />
 
+## Video Explanation
+
+If you are learning Quasar you may find this video introduction extremely helpful.
+
+[Learn Quasar Components - QSelect - YouTube by Luke Diebold](https://www.youtube.com/watch?v=hNWFazdTWug)
+
 ## Design
 
 ### Overview
