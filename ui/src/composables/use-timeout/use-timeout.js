@@ -26,7 +26,7 @@ export default function () {
     removeTimeout,
 
     registerTimeout (fn, delay) {
-      removeTimeout(timer)
+      removeTimeout()
 
       if (vmIsDestroyed(vm) === false) {
         timer = setTimeout(() => {
