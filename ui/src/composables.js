@@ -10,6 +10,7 @@ import useRenderCache from './composables/use-render-cache/use-render-cache.js'
 import useSplitAttrs from './composables/use-split-attrs/use-split-attrs.js'
 import useTick from './composables/use-tick/use-tick.js'
 import useTimeout from './composables/use-timeout/use-timeout.js'
+import useSlideItemSwipe from "./composables/use-slide-item-swipe/use-slide-item-swipe.js";
 
 export {
   useDialogPluginComponent,
@@ -23,5 +24,6 @@ export {
   useRenderCache,
   useSplitAttrs,
   useTick,
-  useTimeout
+  useTimeout,
+  useSlideItemSwipe
 }

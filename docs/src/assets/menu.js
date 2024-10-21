@@ -696,6 +696,11 @@ export default [
         name: 'useSplitAttrs',
         badge: 'new',
         path: 'use-split-attrs'
+      },
+      {
+        name: 'useSlideItemSwipe',
+        badge: 'new',
+        path: 'use-slide-item-swipe'
       }
     ]
   },
