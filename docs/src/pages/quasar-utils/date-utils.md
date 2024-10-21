@@ -67,6 +67,7 @@ Available format tokens:
 | Day of Week | <ul><li>**d**: 0 1 ... 5 6</li><li>**do**: 0th 1st ... 5th 6th</li><li>**dd**: Su Mo ... Fr Sa</li><li>**ddd**: Sun Mon ... Fri Sat</li><li>**dddd**: Sunday Monday ... Friday Saturday</li></ul> |
 | Day of Week (ISO) | <ul><li>**E**: 1 2 ... 6 7</li></ul> |
 | Week of Year | <ul><li>**w**: 1 2 ... 52 53</li><li>**wo**: 1st 2nd ... 52nd 53rd</li><li>**ww**: 01 02 ... 52 53</li></ul> |
+| ISO Week Year | <ul><li>**GG**: 70 71 ... 29 30</li><li>**GGGG**: 1970 1971 ... 2029 2030</li></ul> |
 | Hour | <ul><li>**H**: 0 1 ... 22 23</li><li>**HH**: 00 01 ... 22 23</li><li>**h**: 0 ... 11 12</li><li>**hh**: 01 02 ... 11 12</li></ul> |
 | Minute | <ul><li>**m**: 0 1 ... 58 59</li><li>**mm**: 00 01 ... 58 59</li></ul> |
 | Second | <ul><li>**s**: 0 1 ... 58 59</li><li>**ss**: 00 01 ... 58 59</li></ul> |
@@ -305,6 +306,16 @@ import { date } from 'quasar'
 
 const newDate = new Date(2017, 0, 4)
 const week = date.getWeekOfYear(newDate) // `week` is 1
+```
+
+To get the [ISO week year](https://en.wikipedia.org/wiki/ISO_week_date) for a given date object use:
+
+```js
+import { date } from 'quasar'
+
+const newDate = new Date(2022, 0, 1) // End of the last week of 2021
+const year = date.getISOWeekYear(newDate) // `year` is 2021
+const week = date.getWeekOfYear(newDate) // `week` is 52
 ```
 
 To get the day number in year for a given date object use:
