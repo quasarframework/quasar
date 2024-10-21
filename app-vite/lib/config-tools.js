@@ -168,9 +168,7 @@ export async function createViteConfig (quasarConf, { compileId }) {
         : { polyfill: false },
       emptyOutDir: false,
       minify: build.minify,
-      sourcemap: build.sourcemap === true
-        ? 'inline'
-        : build.sourcemap || false
+      sourcemap: build.sourcemap || false
     },
 
     optimizeDeps: {
