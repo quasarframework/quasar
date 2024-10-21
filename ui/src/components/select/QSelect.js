@@ -134,7 +134,8 @@ export default createComponent({
     virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
 
     onNewValue: Function,
-    onFilter: Function
+    onFilter: Function,
+    optionDataId: [ String, Function ]
   },
 
   emits: [
@@ -346,6 +347,9 @@ export default createComponent({
           onClick: () => { toggleOption(opt) }
         }
 
+        if (props.optionDataId) {
+          itemProps[ 'data-id' ] = typeof props.optionDataId === 'string' ? `${ props.optionDataId }-${ i }` : props.optionDataId(opt)
+        }
         if (disable !== true) {
           optionIndex.value === index && (itemProps.focused = true)
 
