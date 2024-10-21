@@ -85,6 +85,16 @@
         }
       }
     },
+    "input": {
+      "desc": "Emitted when inputs new value; Also emitted during IME composition process; No debounce",
+      "params": {
+        "value": {
+          "type": [ "String", "null" ],
+          "desc": "New input value",
+          "required": true
+        }
+      }
+    },
 
     "click": { "internal": true },
     "paste": { "internal": true },

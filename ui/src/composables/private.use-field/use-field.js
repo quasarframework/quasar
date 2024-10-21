@@ -71,7 +71,7 @@ export const useFieldProps = {
 
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur' ]
 
-export function useFieldState ({ requiredForAttr = true, tagProp, changeEvent = false } = {}) {
+export function useFieldState ({ requiredForAttr = true, tagProp, changeEvent = false, inputEvent = false } = {}) {
   const { props, proxy } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
@@ -83,6 +83,7 @@ export function useFieldState ({ requiredForAttr = true, tagProp, changeEvent = 
   return {
     requiredForAttr,
     changeEvent,
+    inputEvent,
     tag: tagProp === true
       ? computed(() => props.tag)
       : { value: 'label' },
@@ -345,6 +346,7 @@ export default function (state) {
 
     emit('update:modelValue', null)
     state.changeEvent === true && emit('change', null)
+    state.inputEvent === true && emit('input', null)
     emit('clear', props.modelValue)
 
     nextTick(() => {

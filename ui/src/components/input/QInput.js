@@ -43,7 +43,7 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'paste', 'change',
+    'paste', 'change', 'input',
     'keydown', 'click', 'animationend'
   ],
 
@@ -71,7 +71,7 @@ export default createComponent({
 
     const onComposition = useKeyComposition(onInput)
 
-    const state = useFieldState({ changeEvent: true })
+    const state = useFieldState({ changeEvent: true, inputEvent: true })
 
     const isTextarea = computed(() =>
       props.type === 'textarea' || props.autogrow === true
@@ -225,21 +225,22 @@ export default createComponent({
 
       if (props.type === 'file') {
         emit('update:modelValue', e.target.files)
+        emit('input', e.target.files)
         return
       }
 
       const val = e.target.value
 
-      if (e.target.qComposing === true) {
-        temp.value = val
-
-        return
-      }
-
       if (hasMask.value === true) {
         updateMaskValue(val, false, e.inputType)
       }
       else {
+        if (e.target.qComposing === true) {
+          temp.value = val
+          emit('input', val)
+
+          return
+        }
         emitValue(val)
 
         if (isTypeText.value === true && e.target === document.activeElement) {
@@ -266,6 +267,8 @@ export default createComponent({
     }
 
     function emitValue (val, stopWatcher) {
+      emit('input', val)
+
       emitValueFn = () => {
         emitTimer = null
 

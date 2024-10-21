@@ -24,6 +24,11 @@
       <q-input class="gigi" v-bind="props" outlined :model-value="text" @change="val => { text = val }" label="Label" label-color="green" />
 
       <div class="text-h6">
+        Always (@input)
+      </div>
+      <q-input class="gigi" v-bind="props" outlined :model-value="text" @input="val => { text = val }" label="Label" label-color="green" />
+
+      <div class="text-h6">
         Standard
       </div>
 
