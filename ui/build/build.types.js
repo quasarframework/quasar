@@ -220,7 +220,8 @@ function copyPredefinedTypes (dir, parentDir) {
 
 // Add types that should not be imported from ./api, but rather defined globally or generated in the final index.d.ts
 const extraInterfaceExclusions = [
-  'IntersectionObserverEntry'
+  'IntersectionObserverEntry',
+  'File'
 ]
 function addToExtraInterfaces (def) {
   if (def !== void 0 && def !== null && def.tsType !== void 0) {

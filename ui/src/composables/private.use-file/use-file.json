@@ -44,12 +44,14 @@
       "desc": "Custom filter for added files; Only files that pass this filter will be added to the queue and uploaded; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "files": {
-          "type": [ "Array", "FileList" ],
+          "type": "Array",
+          "tsType": "File",
           "desc": "Candidate files to be added to queue"
         }
       },
       "returns": {
         "type": "Array",
+        "tsType": "File",
         "desc": "Filtered files to be added to queue"
       },
       "examples": [ "files => files.filter(file => file.size === 1024)" ],
@@ -86,7 +88,7 @@
       "params": {
         "files": {
           "type": [ "Array", "FileList" ],
-          "desc": "Array of files (instances of File)",
+          "desc": "Array of files (instances of File) or FileList",
           "required": true
         }
       },
