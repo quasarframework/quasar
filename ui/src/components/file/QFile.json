@@ -125,7 +125,8 @@
       "desc": "Override default selection slot; Suggestion: QChip",
       "scope": {
         "files": {
-          "type": [ "Array", "FileList" ],
+          "type": "Array",
+          "tsType": "File",
           "desc": "Array of File objects"
         },
 
