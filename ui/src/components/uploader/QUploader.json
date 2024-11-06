@@ -212,18 +212,6 @@
         }
       },
       "returns": null
-    },
-
-    "addFiles": {
-      "desc": "Manually add files to the queue",
-      "params": {
-        "files": {
-          "type": "Array",
-          "required": true,
-          "desc": "Must be an array of instances of JS File type"
-        }
-      },
-      "returns": null
     }
   },
 

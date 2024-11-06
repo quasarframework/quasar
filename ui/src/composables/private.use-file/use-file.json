@@ -88,6 +88,7 @@
       "params": {
         "files": {
           "type": [ "Array", "FileList" ],
+          "tsType": "QUseFileAddInput",
           "desc": "Array of files (instances of File) or FileList",
           "required": true
         }
