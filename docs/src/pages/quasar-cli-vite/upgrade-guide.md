@@ -193,24 +193,98 @@ Preparations:
   }
   ```
 
-  You can use `quasar.config file > build > typescript` to control the TypeScript-related behavior:
+  Here is an example of the generated tsconfig (non-`strict`):
 
-  ```ts /quasar.config.ts
-  build: {
-    typescript: {
-      strict: true, // (recommended) enables strict settings for TypeScript
-      extendTsConfig(tsConfig) {
-        // You can use this hook to extend tsConfig dynamically
-        // For basic use cases, you can still update the usual tsconfig.json file to override some settings
-      },
-      vueShim: true, // required when using ESLint with type-checked rules, will generate a shim file for `*.vue` files
-    }
+  ```json /.quasar/tsconfig.json
+  {
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "target": "esnext",
+      "allowJs": true,
+      "resolveJsonModule": true,
+      "moduleDetection": "force",
+      "isolatedModules": true,
+      "verbatimModuleSyntax": true,
+      "module": "preserve",
+      "noEmit": true,
+      "lib": [
+        "esnext",
+        "dom",
+        "dom.iterable"
+      ],
+      "paths": { ... }
+    },
+    "exclude": [ ... ]
   }
   ```
 
-  You should be able to set the `strict` option to `true` without facing much trouble as it's close the the previous preset. But, if you face any issues, you can either update your code to satisfy the stricter rules or set the "problematic" options to `false` in your `tsconfig.json` file, at least until you can fix them.
+  The most impactful change would be the `verbatimModuleSyntax` option being `true`. So, you need to update all your type-only imports to use the `import type { X }`/`import { type X }` syntax. To understand what this option does and the difference between the two syntaxes, please check [TypeScript Docs](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax). Example:
 
-  `src/quasar.d.ts` and `src/shims-vue.d.ts` files will now be auto-generated in the `.quasar` folder. So, you must delete those files. If you are using ESLint with type-check rules, enable the `vueShim` option to preserve the previous behavior with the shim file. If your project is working fine without that option, you don't need to enable it.
+  ```diff /src/router/routes.ts
+  - import { RouteRecordRaw } from 'vue-router'
+  + import type { RouteRecordRaw } from 'vue-router'
+  // or
+  + import { type RouteRecordRaw } from 'vue-router'
+  ```
+
+  Here is another example:
+
+  ```diff
+  - import defaultImport, { namedImport, NamedTypeImport } from 'module'
+  + import defaultImport, { namedImport, type NamedTypeImport } from 'module'
+  ```
+
+  If you don't update your imports accordingly, you will get runtime errors similar to this:
+
+  ```
+  Uncaught SyntaxError: The requested module '/node_modules/.q-cache/dev-spa/vite-spa/deps/vue-router.js?v=4b500381' does not provide an export named 'RouteRecordRaw' (at routes.ts:1:10)
+  ```
+
+  You can use `quasar.config file > build > typescript` to control the TypeScript-related behavior. Add this section into your configuration:
+
+  ```diff /quasar.config.ts
+  build: {
+  +  typescript: {
+  +    strict: true, // (recommended) enables strict settings for TypeScript
+  +    extendTsConfig(tsConfig) {
+  +      // You can use this hook to extend tsConfig dynamically
+  +      // For basic use cases, you can still update the usual tsconfig.json file to override some settings
+  +    },
+  +    vueShim: true, // required when using ESLint with type-checked rules, will generate a shim file for `*.vue` files
+  +  }
+  }
+  ```
+
+  Most of the strict options were already enabled in the previous preset. So,
+  you should be able to set the `strict` option to `true` without facing much trouble. But, if you face any issues, you can either update your code to satisfy the stricter rules or set the "problematic" options to `false` in your `tsconfig.json` file, at least until you can fix them.
+
+  `src/quasar.d.ts` and `src/shims-vue.d.ts` files will now be auto-generated in the `.quasar` folder. So, you must delete those files:
+
+  ```tabs
+  <<| bash rimraf through npx |>>
+  # in project folder root:
+  $ npx rimraf src/quasar.d.ts src/shims-vue.d.ts
+  <<| bash Unix-like (Linux, macOS) |>>
+  # in project folder root:
+  $ rm src/quasar.d.ts src/shims-vue.d.ts
+  <<| bash Windows (CMD) |>>
+  # in project folder root:
+  $ del src\quasar.d.ts src\shims-vue.d.ts
+  <<| bash Windows (PowerShell) |>>
+  # in project folder root:
+  $ Remove-Item src/quasar.d.ts, src/shims-vue.d.ts
+  ```
+
+  If you are using ESLint with type-check rules, enable the `vueShim` option to preserve the previous behavior with the shim file. If your project is working fine without that option, you don't need to enable it.
+
+  ```diff /quasar.config.ts
+  build: {
+    typescript: {
+  +    vueShim: true // required when using ESLint with type-checked rules, will generate a shim file for `*.vue` files
+    }
+  }
+  ```
 
   The types feature flag files will now be auto-generated in the `.quasar` folder. So, you must delete them:
 
