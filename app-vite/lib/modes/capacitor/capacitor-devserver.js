@@ -29,8 +29,8 @@ export class QuasarModeDevserver extends AppDevserver {
     ])
   }
 
-  async run (quasarConf, __isRetry) {
-    const { diff, queue } = await super.run(quasarConf, __isRetry)
+  run (quasarConf, __isRetry) {
+    const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('vite', quasarConf)) {
       return queue(() => this.#runVite(quasarConf))

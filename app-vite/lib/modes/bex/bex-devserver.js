@@ -42,7 +42,7 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   async run (quasarConf, __isRetry) {
-    const { diff, queue } = await super.run(quasarConf, __isRetry)
+    const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('distDir', quasarConf)) {
       return queue(() => this.#stopWatchers(quasarConf))

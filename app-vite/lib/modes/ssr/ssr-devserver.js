@@ -124,8 +124,8 @@ export class QuasarModeDevserver extends AppDevserver {
     ])
   }
 
-  async run (quasarConf, __isRetry) {
-    const { diff, queue } = await super.run(quasarConf, __isRetry)
+  run (quasarConf, __isRetry) {
+    const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (quasarConf.ssr.pwa === true) {
       // also update pwa-devserver.js when changing here
