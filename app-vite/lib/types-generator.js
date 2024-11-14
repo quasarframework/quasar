@@ -2,14 +2,14 @@ import { readFileSync, writeFileSync, statSync } from 'node:fs'
 import { ensureFileSync } from 'fs-extra'
 import { join, relative } from 'node:path'
 
+// We generate all the files for JS projects as well, because they provide
+// better autocomplete and type checking in the IDE.
 export async function generateTypes (quasarConf) {
-  const { appPaths, cacheProxy } = quasarConf.ctx
-  const hasTypescript = await cacheProxy.getModule('hasTypescript')
-  if (hasTypescript) {
-    const tsConfigPath = appPaths.resolve.app('.quasar/tsconfig.json')
-    ensureFileSync(tsConfigPath)
-    writeFileSync(tsConfigPath, JSON.stringify(generateTsConfig(quasarConf), null, 2), 'utf-8')
-  }
+  const { appPaths } = quasarConf.ctx
+
+  const tsConfigPath = appPaths.resolve.app('.quasar/tsconfig.json')
+  ensureFileSync(tsConfigPath)
+  writeFileSync(tsConfigPath, JSON.stringify(generateTsConfig(quasarConf), null, 2), 'utf-8')
 
   await writeFeatureFlags(quasarConf)
 
