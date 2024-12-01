@@ -13,6 +13,12 @@
   },
 
   "props": {
+    "isEnabled": {
+      "type": "Boolean",
+      "desc": "Is Dark mode enabled?",
+      "reactive": true
+    },
+    
     "isActive": {
       "type": "Boolean",
       "desc": "Is Dark mode active?",
