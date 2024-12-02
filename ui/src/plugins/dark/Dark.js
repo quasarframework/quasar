@@ -1,6 +1,7 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 
 const Plugin = createReactivePlugin({
+  isPreferred: false,
   isActive: false,
   mode: false
 }, {
@@ -9,11 +10,13 @@ const Plugin = createReactivePlugin({
   set (val) {
     if (__QUASAR_SSR_SERVER__) return
 
+    const matchMedia = window.matchMedia('(prefers-color-scheme: dark)')
     Plugin.mode = val
+    Plugin.isPreferred = matchMedia.matches
 
     if (val === 'auto') {
       if (Plugin.__media === void 0) {
-        Plugin.__media = window.matchMedia('(prefers-color-scheme: dark)')
+        Plugin.__media = matchMedia
         Plugin.__updateMedia = () => { Plugin.set('auto') }
         Plugin.__media.addListener(Plugin.__updateMedia)
       }
@@ -42,8 +45,10 @@ const Plugin = createReactivePlugin({
 
     if (__QUASAR_SSR_SERVER__) {
       this.isActive = dark === true
+      this.isPreferred = matchMedia.matches
 
       $q.dark = {
+        isPreferred: false,
         isActive: false,
         mode: false,
         set: val => {
@@ -51,6 +56,7 @@ const Plugin = createReactivePlugin({
             .replace(' body--light', '')
             .replace(' body--dark', '') + ` body--${ val === true ? 'dark' : 'light' }`
 
+          $q.dark.isPreferred = false
           $q.dark.isActive = val === true
           $q.dark.mode = val
         },
