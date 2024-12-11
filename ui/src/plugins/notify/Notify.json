@@ -187,7 +187,7 @@
           },
           "...": {
             "type": "Any",
-            "desc": "Any other QBtn prop expect 'onClick' (use 'handler' instead, only possible with UI config)",
+            "desc": "Any other QBtn prop except 'onClick' (use 'handler' instead, only possible with UI config)",
             "examples": [ "label: 'Learn more'", "color: 'primary'" ]
           }
         },
@@ -405,7 +405,7 @@
                 },
                 "...": {
                   "type": "Any",
-                  "desc": "Any other QBtn prop expect 'onClick' (use 'handler' instead)",
+                  "desc": "Any other QBtn prop except 'onClick' (use 'handler' instead)",
                   "examples": [ "label: 'Learn more'", "color: 'primary'" ]
                 }
               },
