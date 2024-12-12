@@ -1,5 +1,5 @@
 ---
-title: Quick Start
+title: MyHHUB
 desc: Get up and developing a Quasar app in less than 3 minutes.
 ---
 
