@@ -142,8 +142,8 @@ Pasting from the buffer and drag & dropping images into the editor is unfortunat
 ```html
 <q-editor
   v-model="editor"
-  @paste.native="evt => pasteCapture(evt)"
-  @drop.native="evt => dropCapture(evt)"
+  @paste="evt => pasteCapture(evt)"
+  @drop="evt => dropCapture(evt)"
  />
 ```
 
