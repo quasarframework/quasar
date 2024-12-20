@@ -157,7 +157,7 @@ export default defineConfig((/* ctx */) => {
     pwa: {
       workboxMode: 'GenerateSW' // 'GenerateSW' or 'InjectManifest'
       // swFilename: 'sw.js',
-      // manifestFilename: 'manifest.json'
+      // manifestFilename: 'manifest.json',
       // extendManifestJson (json) {},
       // useCredentialsForManifestTag: true,
       // injectPwaMetaTags: false,
