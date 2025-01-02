@@ -3,7 +3,7 @@ const fse = require('fs-extra')
 const archiver = require('archiver')
 
 const { AppBuilder } = require('../../app-builder.js')
-const { progress } = require('../../utils/logger.js')
+const { progress, warn } = require('../../utils/logger.js')
 const { quasarBexConfig } = require('./bex-config.js')
 const { createManifest, copyBexAssets } = require('./bex-utils.js')
 
@@ -39,14 +39,30 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     archive.pipe(output)
     archive.directory(dir, false, entryData => ((entryData.name !== zipName) ? entryData : false))
 
-    await archive.finalize()
+    return new Promise((resolve, reject) => {
+      archive.on('warning', (error) => {
+        /*
+          It could be any of the following:
+          - stat failures (e.g. ENOENT)
+          - symlink/directory not supported by module (e.g. zip), but it is supported, so it won't happen
+          - given file is not a file/directory/symlink, but something else (e.g. socket)
+        */
+        if (error instanceof archiver.ArchiverError && error.code === 'ENTRYNOTSUPPORTED') {
+          warn(error)
+        }
+        else {
+          reject(error)
+          archive.abort()
+        }
+      })
+      archive.on('error', error => reject(error))
 
-    // wait a bit more, otherwise archiver
-    // doesn't finishes correctly
-    await new Promise(resolve => {
-      setTimeout(resolve, 1)
+      output.on('close', () => {
+        done(`Bundle has been generated at: ${ file }`)
+        resolve()
+      })
+
+      archive.finalize()
     })
-
-    done(`Bundle has been generated at: ${ file }`)
   }
 }
