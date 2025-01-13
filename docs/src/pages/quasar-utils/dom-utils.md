@@ -9,8 +9,7 @@ You will notice all examples import different parts of Quasar. However, if you n
 
 Example with `dom` utils:
 ```js
-import { dom } from 'quasar'
-const { offset } = dom
+import { dom: { offset } } = quasar from 'quasar'
 
 // Offset on screen
 console.log(offset(DomElement))
