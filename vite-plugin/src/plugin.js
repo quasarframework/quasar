@@ -4,7 +4,7 @@ import { getViteConfig } from './vite-config.js'
 import { vueTransform } from './vue-transform.js'
 import { createScssTransform } from './scss-transform.js'
 import { parseViteRequest, createExtMatcher } from './query.js'
-import { mapQuasarImports } from './js-transform.js'
+import { loadQuasarImportMap, mapQuasarImports } from './js-transform.js'
 
 const defaultOptions = {
   runMode: 'web-client',
@@ -97,6 +97,8 @@ function getScriptTransformsPlugin (opts) {
     configResolved (resolvedConfig) {
       if (opts.devTreeshaking === false && resolvedConfig.mode !== 'production') {
         useTreeshaking = false
+      } else {
+        loadQuasarImportMap()
       }
     },
 
