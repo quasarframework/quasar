@@ -1349,6 +1349,11 @@
               "type": "Number",
               "required": true,
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
@@ -1428,6 +1433,11 @@
               "type": "Number",
               "required": true,
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
@@ -1507,6 +1517,11 @@
               "type": "Number",
               "required": true,
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
@@ -1586,6 +1601,11 @@
               "type": "Number",
               "required": true,
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
@@ -1665,6 +1685,11 @@
               "type": "Number",
               "required": true,
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
@@ -1744,6 +1769,11 @@
               "type": "Number",
               "required": true,
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
@@ -1903,6 +1933,11 @@
                   "type": "Number",
                   "required": true,
                   "desc": "How many rows per page? 0 means Infinite"
+                },
+                "rowsNumber": {
+                  "type": "Number",
+                  "required": false,
+                  "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
                 }
               }
             },
@@ -2177,6 +2212,11 @@
             "rowsPerPage": {
               "type": "Number",
               "desc": "How many rows per page? 0 means Infinite"
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         },
