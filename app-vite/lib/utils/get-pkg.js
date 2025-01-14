@@ -2,6 +2,7 @@ import { readFileSync, statSync } from 'node:fs'
 
 import { warning } from './logger.js'
 import { getPackageJson } from '../utils/get-package-json.js'
+import { parseJSON } from 'confbox'
 
 export function getPkg (appPaths) {
   const { appDir, cliDir } = appPaths
@@ -16,7 +17,8 @@ export function getPkg (appPaths) {
     if (mtime !== lastAppPkgModifiedTime) {
       lastAppPkgModifiedTime = mtime
       try {
-        appPkg = JSON.parse(
+        // This may get updated and written, so use parseJSON to preserve formatting
+        appPkg = parseJSON(
           readFileSync(appPkgPath, 'utf-8')
         )
       }

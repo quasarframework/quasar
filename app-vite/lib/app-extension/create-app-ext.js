@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { merge } from 'webpack-merge'
+import { parseJSON, stringifyJSON } from 'confbox'
 
 import { log, fatal } from '../utils/logger.js'
 import { AppExtensionInstance } from './AppExtensionInstance.js'
@@ -10,7 +11,7 @@ function readJson (file) {
   }
 
   try {
-    return JSON.parse(
+    return parseJSON(
       readFileSync(file, 'utf-8')
     )
   }
@@ -21,10 +22,13 @@ function readJson (file) {
 }
 
 function getAppExtJson ({ file, json, onListUpdate }) {
+  const fileExists = Object.keys(json).length > 0
+
   function save () {
     writeFileSync(
       file,
-      JSON.stringify(json, null, 2),
+      // if file exists, preserve indentation, otherwise use 2 spaces
+      stringifyJSON(json, { indent: fileExists ? undefined : 2 }),
       'utf-8'
     )
   }

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 import { globSync } from 'tinyglobby'
+import { parseJSON, stringifyJSON } from 'confbox'
 
 import { log, warn } from '../../utils/logger.js'
 import { ensureConsistency } from './ensure-consistency.js'
@@ -74,8 +75,9 @@ export class CapacitorConfigFile {
 
     this.#tamperedFiles = []
 
+    // TODO: support other formats: .js and .ts
     const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
-    const capJson = JSON.parse(
+    const capJson = parseJSON(
       fs.readFileSync(capJsonPath, 'utf-8')
     )
 
@@ -85,7 +87,7 @@ export class CapacitorConfigFile {
       path: capJsonPath,
       name: 'capacitor.config.json',
       content: this.#updateCapJson(quasarConf, capJson, capVersion, target),
-      originalContent: JSON.stringify(capJson, null, 2)
+      originalContent: stringifyJSON(capJson)
     })
 
     this.#save()
@@ -137,7 +139,7 @@ export class CapacitorConfigFile {
       }
     }
 
-    return JSON.stringify(capJson, null, 2)
+    return stringifyJSON(capJson)
   }
 
   #updateCapPkg (quasarConf) {
@@ -147,7 +149,7 @@ export class CapacitorConfigFile {
     } = this.#ctx
 
     const capPkgPath = appPaths.resolve.capacitor('package.json')
-    const capPkg = JSON.parse(
+    const capPkg = parseJSON(
       fs.readFileSync(capPkgPath, 'utf-8')
     )
 
@@ -158,7 +160,7 @@ export class CapacitorConfigFile {
       author: appPkg.author
     })
 
-    fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
+    fs.writeFileSync(capPkgPath, stringifyJSON(capPkg), 'utf-8')
   }
 
   async #updateSSL (quasarConf, target, capVersion) {

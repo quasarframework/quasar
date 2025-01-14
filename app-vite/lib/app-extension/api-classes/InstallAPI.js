@@ -7,6 +7,7 @@ import { warn, fatal } from '../../utils/logger.js'
 import { getPackageJson } from '../../utils/get-package-json.js'
 import { getCallerPath } from '../../utils/get-caller-path.js'
 import { BaseAPI } from './BaseAPI.js'
+import { parseJSON, stringifyJSON } from 'confbox'
 
 /**
  * API for extension's /install.js script
@@ -173,7 +174,7 @@ export class InstallAPI extends BaseAPI {
 
     fs.writeFileSync(
       this.resolve.app('package.json'),
-      JSON.stringify(pkg, null, 2),
+      stringifyJSON(pkg),
       'utf-8'
     )
 
@@ -204,12 +205,15 @@ export class InstallAPI extends BaseAPI {
       //  which usually means we are dealing with an extended JSON flavour,
       //  for example JSON with comments or JSON5.
       // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
+      // TODO: use parseJSONC/stringifyJSONC from confbox
       try {
-        const data = merge({}, fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf-8')) : {}, newData)
+        const existingData = fs.existsSync(filePath) ? parseJSON(fs.readFileSync(filePath, 'utf-8')) : {}
+        const data = merge({}, existingData, newData)
 
         fs.writeFileSync(
           this.resolve.app(file),
-          JSON.stringify(data, null, 2),
+          // if file exists, preserve indentation, otherwise use 2 spaces
+          stringifyJSON(data, { indent: Object.keys(existingData).length > 0 ? undefined : 2 }),
           'utf-8'
         )
       }
