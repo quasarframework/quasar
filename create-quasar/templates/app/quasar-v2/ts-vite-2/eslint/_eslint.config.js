@@ -35,18 +35,14 @@ export default [
    */
   ...pluginVue.configs[ 'flat/essential' ],
 
-  // this rule needs to be above the vueTsEslintConfig to avoid error: 'You have used a rule which requires type information, but don't have parserOptions set to generate type information for this file.'
-  { 
+  {
+    files: ['**/*.ts', '**/*.vue'],
     rules: {
-        'prefer-promise-reject-errors': 'off',
-        '@typescript-eslint/consistent-type-imports': [
-          'error',
-          { prefer: 'type-imports' }
-        ],
-  
-        // allow debugger during development only
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-      }
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports' }
+      ],
+    }
   },
   // https://github.com/vuejs/eslint-config-typescript
   ...vueTsEslintConfig({
