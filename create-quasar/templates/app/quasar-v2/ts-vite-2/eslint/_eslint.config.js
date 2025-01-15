@@ -54,7 +54,7 @@ export default [
     // Supports all the configurations in
     // https://typescript-eslint.io/users/configs#recommended-configurations
     extends: [
-      // By default, only the 'recommendedTypeChecked' rules are enabled on typescript projects.
+      // By default, only the 'recommendedTypeChecked' rules are enabled.
       'recommendedTypeChecked'
       // You can also manually enable the stylistic rules.
       // "stylistic",
