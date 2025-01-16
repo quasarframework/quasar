@@ -19,3 +19,6 @@ packages:
 
   # private packages
   - utils/eslint-config
+
+catalog:
+  eslint: ^9.18.0

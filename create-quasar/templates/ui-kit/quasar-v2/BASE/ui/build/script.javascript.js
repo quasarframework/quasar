@@ -194,7 +194,6 @@ function buildEntry (config) {
 }
 
 function injectVueRequirement (code) {
-  // eslint-disable-next-line
   const index = code.indexOf(`Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue`)
 
   if (index === -1) {

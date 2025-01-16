@@ -158,7 +158,7 @@ export class InstallAPI extends BaseAPI {
           fs.readFileSync(source, 'utf-8')
         )
       }
-      catch (e) {
+      catch (_) {
         warn(`Extension(${ this.extId }): extendPackageJson() - "${ extPkg }" is malformed`)
         warn()
         process.exit(1)
@@ -217,7 +217,7 @@ export class InstallAPI extends BaseAPI {
           'utf-8'
         )
       }
-      catch (e) {
+      catch (_) {
         warn()
         warn(`Extension(${ this.extId }): extendJsonFile() - "${ filePath }" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
         warn(`Extension(${ this.extId }): extendJsonFile() - The extension tried to apply these updates to "${ filePath }" file: ${ JSON.stringify(newData) }`)

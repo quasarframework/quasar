@@ -12,7 +12,7 @@
     "dev:ssr": "pnpm prepare-docs && quasar dev -m ssr",
     "build": "pnpm prepare-docs && node build/search.js && quasar build -m ssr && node build/fix-ssr-manifest.js && mkdir -p dist/quasar.dev/client/examples/ && cp -R src/examples/* dist/quasar.dev/client/examples/ && node build/ssg.js",
     "relnotes": "node build/release-notes/index.js",
-    "lint": "eslint --ext .js,.vue ./ --report-unused-disable-directives --fix",
+    "lint": "eslint --fix",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
@@ -27,9 +27,8 @@
     "@quasar/app-vite": "^2.0.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
-    "eslint": "^8.57.1",
-    "eslint-config-quasar": "^0.0.1",
-    "eslint-plugin-quasar": "^1.1.0",
+    "eslint": "catalog:",
+    "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.2.0",
     "gray-matter": "^4.0.3",
     "markdown-ast": "^0.3.0",

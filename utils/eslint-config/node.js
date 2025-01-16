@@ -1,13 +1,21 @@
-module.exports = {
-  env: {
-    node: true
-  },
+import pluginN from 'eslint-plugin-n'
+import globals from 'globals'
 
-  extends: [
-    'plugin:n/recommended'
-  ],
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  pluginN.configs[ 'flat/recommended' ],
 
-  rules: {
-    'n/no-process-exit': 'off'
+  {
+    name: 'quasar/node',
+
+    languageOptions: {
+      globals: {
+        ...globals.node
+      }
+    },
+
+    rules: {
+      'n/no-process-exit': 'off'
+    }
   }
-}
+]

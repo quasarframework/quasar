@@ -3,7 +3,7 @@
   "version": "1.16.17",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
-    "lint": "eslint --ext .js,.cjs ./ --fix --report-unused-disable-directives",
+    "lint": "eslint --fix",
     "build": "node build/index.js"
   },
   "main": "index.js",
@@ -153,7 +153,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*",
     "@fortawesome/fontawesome-free": "6.7.2",
     "@mdi/font": "7.4.47",

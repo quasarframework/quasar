@@ -22,7 +22,7 @@ function ensureDeps ({ appPaths, cacheProxy }) {
   nodePackager.install({
     cwd: appPaths.capacitorDir,
     // See https://github.com/orgs/pnpm/discussions/4735
-    params: nodePackager.name === 'pnpm' ? ['i', '--ignore-workspace'] : undefined,
+    params: nodePackager.name === 'pnpm' ? [ 'i', '--ignore-workspace' ] : undefined,
     displayName: 'Capacitor'
   })
 }

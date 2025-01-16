@@ -79,7 +79,7 @@
     "url": "https://donate.quasar.dev"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.cjs ./ --fix --report-unused-disable-directives"
+    "lint": "eslint --fix"
   },
   "dependencies": {
     "@quasar/render-ssr-error": "workspace:^",
@@ -123,7 +123,7 @@
   "devDependencies": {
     "@electron/packager": "^18.3.5",
     "electron-builder": "^24.13.3",
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*",
     "pinia": "^3.0.1",
     "quasar": "workspace:^",

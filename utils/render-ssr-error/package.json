@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
-    "lint": "eslint ./ --ext .js,.vue --fix --report-unused-disable-directives",
+    "lint": "eslint --fix",
     "dev": "cd src-ui && vite",
     "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && vite build",
@@ -41,7 +41,7 @@
     "@quasar/extras": "workspace:*",
     "@quasar/vite-plugin": "workspace:^",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.2.0",
     "postcss": "^8.4.45",

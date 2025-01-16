@@ -39,6 +39,6 @@
 
  */
 
-export default function (api) {
+export default function (_api) {
   return []
 }

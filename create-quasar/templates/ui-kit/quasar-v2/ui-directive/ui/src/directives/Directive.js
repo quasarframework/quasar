@@ -1,7 +1,7 @@
 export default {
   name: '<%= directiveName %>',
 
-  mounted (el) {
+  mounted (_el) {
     //
   }
 }

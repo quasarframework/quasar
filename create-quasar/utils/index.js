@@ -136,7 +136,7 @@ function getGitUser () {
     name = exec('git config --get user.name')
     email = exec('git config --get user.email')
   }
-  catch (e) {}
+  catch (_) {}
 
   name = name && JSON.stringify(name.toString().trim()).slice(1, -1)
   email = email && (' <' + email.toString().trim() + '>')
@@ -261,7 +261,7 @@ function initializeGit (projectFolder) {
     exec('git add -A', { cwd: projectFolder })
     exec('git commit -m "Initialize the project 🚀" --no-verify', { cwd: projectFolder })
   }
-  catch (e) {
+  catch (_) {
     logger.warn('Could not initialize Git repository. Please do this manually.')
     return
   }

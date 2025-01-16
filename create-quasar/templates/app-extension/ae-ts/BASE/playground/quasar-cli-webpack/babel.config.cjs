@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 module.exports = api => {
   return {
     presets: [

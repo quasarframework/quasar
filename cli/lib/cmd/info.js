@@ -33,7 +33,7 @@ function getSpawnOutput (command) {
       ? green(String(child.output[ 1 ]).trim())
       : red('Not installed')
   }
-  catch (err) {
+  catch (_) {
     return red('Not installed')
   }
 }

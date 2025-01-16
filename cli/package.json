@@ -7,7 +7,7 @@
     "quasar": "./bin/quasar.js"
   },
   "scripts": {
-    "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
+    "lint": "eslint --fix"
   },
   "files": [
     "assets",
@@ -63,7 +63,7 @@
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*"
   },
   "publishConfig": {

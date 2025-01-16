@@ -27,7 +27,7 @@
     "node": ">=16"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.ts ./ --fix",
+    "lint": "eslint --flag unstable_config_lookup_from_file",
     "create-test-project": "tsx scripts/create-test-project.ts"
   },
   "dependencies": {
@@ -41,10 +41,9 @@
   "devDependencies": {
     "@types/lodash": "^4.17.7",
     "@types/prompts": "^2.4.9",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-lodash-template": "^1.1.0",
+    "@yusufkandemir/eslint-plugin-lodash-template": "^2.0.0",
+    "typescript-eslint": "^7.18.0",
+    "eslint": "catalog:",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2"
   }

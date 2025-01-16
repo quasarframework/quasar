@@ -25,7 +25,7 @@ module.exports.PwaManifestPlugin = class PwaManifestPlugin {
         readFileSync(this.#quasarConf.metaConf.pwaManifestFile, 'utf-8')
       )
     }
-    catch (err) {
+    catch (_) {
       warn('Could not compile PWA manifest.json. Please check its syntax.')
       json = {}
     }

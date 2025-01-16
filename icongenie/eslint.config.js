@@ -1,0 +1,27 @@
+import eslintJs from '@eslint/js'
+import quasar from 'eslint-config-quasar'
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+{
+    name: 'eslint/recommended',
+
+    ...eslintJs.configs.recommended
+  },
+
+  ...quasar.configs.base,
+  ...quasar.configs.node,
+
+  {
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module'
+    },
+
+    rules: {
+      'no-empty': 'off',
+      'no-useless-escape': 'off',
+      'no-unused-vars': [ 'error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' } ]
+    }
+  }
+]

@@ -50,7 +50,6 @@ export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
   const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {
-      // eslint-disable-next-line no-console
       console.log('Server listening at port ' + port)
     }
   })

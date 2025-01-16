@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+// eslint-disable-next-line import-x/default -- can't detect `as default`
 import vitePluginChecker from 'vite-plugin-checker'
 
 const rootFolder = fileURLToPath(new URL('.', import.meta.url))

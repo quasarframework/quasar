@@ -79,7 +79,7 @@
     "url": "https://donate.quasar.dev"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.mjs ./ --fix --report-unused-disable-directives"
+    "lint": "eslint --fix"
   },
   "dependencies": {
     "@quasar/babel-preset-app": "^2.0.3",
@@ -152,7 +152,7 @@
   "devDependencies": {
     "@electron/packager": "^18.3.5",
     "electron-builder": "^25.0.5",
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*",
     "pinia": "^3.0.1",
     "quasar": "workspace:^",
@@ -164,7 +164,7 @@
   "peerDependencies": {
     "@electron/packager": ">= 18",
     "electron-builder": ">= 22",
-    "eslint": ">= 8.57.1",
+    "eslint": "^8.57.1 || ^9.0.0",
     "pinia": "^2.0.0 || ^3.0.0",
     "quasar": "^2.16.0",
     "typescript": ">= 5.4",

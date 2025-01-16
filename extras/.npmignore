@@ -7,5 +7,4 @@ roboto-font-latin-ext/update.sh
 build/
 .vscode
 .prettierrc.json
-.eslintrc.cjs
-.eslintignore
+eslint.config.mjs

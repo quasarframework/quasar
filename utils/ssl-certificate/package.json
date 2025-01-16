@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
-    "lint": "eslint ./ --ext .js --fix --report-unused-disable-directives"
+    "lint": "eslint --fix"
   },
   "author": {
     "name": "Razvan Stoenescu",
@@ -35,7 +35,7 @@
     "selfsigned": "^2.4.1"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*"
   }
 }

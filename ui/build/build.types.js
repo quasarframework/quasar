@@ -1,5 +1,6 @@
 import path from 'node:path'
 import fse from 'fs-extra'
+// eslint-disable-next-line import-x/default -- can't detect `as default`
 import prettier from 'prettier'
 import ts from 'typescript'
 

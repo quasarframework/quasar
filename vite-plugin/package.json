@@ -13,7 +13,7 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "lint": "eslint --ext .js,.vue ./ --fix --report-unused-disable-directives",
+    "lint": "eslint --fix",
     "dev": "cd ./playground && pnpm dev",
     "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
     "test": "pnpm test:usage && pnpm test:runtime",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@vue/test-utils": "^2.4.6",
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-config-quasar": "workspace:*",
     "fs-extra": "^11.2.0",
     "jsdom": "^24.1.3",

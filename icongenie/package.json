@@ -61,7 +61,7 @@
     "update-notifier": "^7.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "catalog:",
     "eslint-plugin-n": "^16.6.2"
   },
   "resolutions": {
