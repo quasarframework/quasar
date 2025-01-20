@@ -40,7 +40,7 @@ class PackageManager {
    * To be declared by subclasses
    */
   name = 'unknown'
-  lockFile = 'unknown'
+  lockFiles = [ 'unknown' ]
 
   getInstallParams (_env) {
     return []
@@ -110,7 +110,7 @@ class PackageManager {
 
 class Npm extends PackageManager {
   name = 'npm'
-  lockFile = 'package-lock.json'
+  lockFiles = [ 'package-lock.json' ]
 
   getInstallParams (env) {
     if (env === 'development') {
@@ -137,7 +137,7 @@ class Npm extends PackageManager {
 
 class Yarn extends PackageManager {
   name = 'yarn'
-  lockFile = 'yarn.lock'
+  lockFiles = [ 'yarn.lock' ]
 
   getInstallParams (env) {
     if (env === 'development') {
@@ -172,7 +172,7 @@ class Yarn extends PackageManager {
 
 class Pnpm extends PackageManager {
   name = 'pnpm'
-  lockFile = 'pnpm-lock.yaml'
+  lockFiles = [ 'pnpm-lock.yaml' ]
 
   getInstallParams (env) {
     return env === 'development'
@@ -195,7 +195,7 @@ class Pnpm extends PackageManager {
 
 class Bun extends PackageManager {
   name = 'bun'
-  lockFile = 'bun.lockb'
+  lockFiles = [ 'bun.lock', 'bun.lockb' ]
 
   getInstallParams (env) {
     return env === 'development'
@@ -224,7 +224,7 @@ function getProjectPackageManager (packageManagersList, dir) {
   // the dir tree up to the root
   while (dir.length && dir[ dir.length - 1 ] !== sep) {
     for (const pm of packageManagersList) {
-      if (fs.existsSync(join(dir, pm.lockFile))) {
+      if (pm.lockFiles.some(lockFile => fs.existsSync(join(dir, lockFile)))) {
         return pm
       }
     }
