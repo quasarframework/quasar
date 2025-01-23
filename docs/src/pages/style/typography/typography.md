@@ -26,19 +26,12 @@ import TypographyWeights from './TypographyWeights.vue'
 <TypographyWeights />
 
 ## CSS Helper Classes
-| Class Name | Description |
-| --- | --- |
-| `text-right` | Align text to the right |
-| `text-left` | Align text to the left |
-| `text-center` | Align text to the center |
-| `text-justify` | Text will be justified |
-| `text-bold` | Text will be in bold |
-| `text-italic` | Text will be in italic |
-| `text-no-wrap` | Non wrappable text (applies `white-space: nowrap`) |
-| `text-strike` | Applies `text-decoration: line-through` |
-| `text-uppercase` | Transform text to uppercase |
-| `text-lowercase` | Transform text to lowercase |
-| `text-capitalize` | Capitalize first letter of the text |
+
+<script doc>
+import TypographyClasses from './TypographyClasses.vue'
+</script>
+
+<TypographyClasses />
 
 ## Default Font
 The default webfont embedded is [Roboto](https://fonts.google.com/specimen/Roboto). **But it is not required**. You can use whatever font(s) you like.
