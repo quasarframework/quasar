@@ -16,7 +16,7 @@
             color="brand-primary cursor-pointer"
             outline
             :label="props.row.name"
-            @click="copyToClipboard(props.row.name)"
+            @click="copy(props.row.name)"
             class="text-subtitle1"
           />
         </q-td>
@@ -59,7 +59,7 @@ export default {
     }
   },
   methods: {
-    copyToClipboard (text) {
+    copy (text) {
       copyToClipboard(text)
         .then(() => {
           this.$q.notify('Copied to clipboard')
