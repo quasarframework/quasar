@@ -67,6 +67,12 @@
       "category": "behavior"
     },
 
+    "no-esc-dismiss": {
+      "type": "Boolean",
+      "desc": "User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set",
+      "category": "behavior"
+    },
+
     "no-route-dismiss": {
       "type": "Boolean",
       "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
