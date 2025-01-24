@@ -38,7 +38,7 @@ export default createComponent({
     persistent: Boolean,
     autoClose: Boolean,
     separateClosePopup: Boolean,
-
+    noEscDismiss: Boolean,
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
@@ -322,7 +322,7 @@ export default createComponent({
 
     function onEscapeKey (evt) {
       emit('escapeKey')
-      hide(evt)
+      if (!props.noEscDismiss) hide(evt)
     }
 
     function updatePosition () {
