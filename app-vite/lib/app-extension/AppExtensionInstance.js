@@ -339,10 +339,12 @@ export class AppExtensionInstance {
   #getScriptFile (scriptName) {
     if (this.isInstalled === false) return
 
+    const { appDir } = this.#ctx.appPaths;
+
     return getPackageScriptPath(
       this.packageFullName,
       scriptName,
-      this.#packagePath
+      appDir
     )
   }
 
