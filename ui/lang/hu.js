@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Elemek száma oldalanként:',
     allRows: 'Összes',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Oszlopok'
+    columns: 'Oszlopok',
+    pgFirst: 'Első oldal',
+    pgPrev: 'Előző oldal',
+    pgNext: 'Következő oldal',
+    pgLast: 'Utolsó oldal'
   },
   editor: {
     url: 'URL',

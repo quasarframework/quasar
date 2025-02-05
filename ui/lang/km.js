@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'ជួរដេកក្នុងមួយទំព័រ:',
     allRows: 'ទាំងអស់',
     pagination: (start, end, total) => start + '-' + end + ' នៃ ' + total,
-    columns: 'ជួរឈរ'
+    columns: 'ជួរឈរ',
+    pgFirst: 'ទំព័រដំបូង',
+    pgPrev: 'ទំព័រមុន',
+    pgNext: 'ទំព័របន្ទាប់',
+    pgLast: 'ទំព័រចុងក្រោយ'
   },
   editor: {
     url: 'URL',

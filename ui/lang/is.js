@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
-    columns: 'Dálkar'
+    columns: 'Dálkar',
+    pgFirst: 'Fyrsta blaðsíða',
+    pgPrev: 'Fyrri blaðsíða',
+    pgNext: 'Næsta blaðsíða',
+    pgLast: 'Síðasta blaðsíða'
   },
   editor: {
     url: 'Slóð',

@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Errenkadak orrialde bakoitzeko:',
     allRows: 'Denak',
     pagination: (start, end, total) => start + 'tik -' + end + 'ra, guztira ' + total,
-    columns: 'Zutabeak'
+    columns: 'Zutabeak',
+    pgFirst: 'Lehen orria',
+    pgPrev: 'Aurreko orria',
+    pgNext: 'Hurrengo orria',
+    pgLast: 'Azken orria'
   },
   editor: {
     url: 'URL',

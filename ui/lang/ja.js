@@ -38,7 +38,11 @@ export default {
     recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
     pagination: (start, end, total) => start + '-' + end + ' ／ ' + total,
-    columns: '列' // 'Columns'
+    columns: '列', // 'Columns'
+    pgFirst: '最初のページ', // First page
+    pgPrev: '前のページ', // Previous page
+    pgNext: '次のページ', // Next page
+    pgLast: '最後のページ' // Last page
   },
   editor: {
     url: 'URL', // 'URL',

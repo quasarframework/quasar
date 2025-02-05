@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Linhas por página:',
     allRows: 'Todas',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Colunas'
+    columns: 'Colunas',
+    pgFirst: 'Primeira página',
+    pgPrev: 'Página anterior',
+    pgNext: 'Próxima página',
+    pgLast: 'Última página'
   },
   editor: {
     url: 'URL',

@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Редове на страница:',
     allRows: 'Всички',
     pagination: (start, end, total) => start + '-' + end + ' от ' + total,
-    columns: 'Колони'
+    columns: 'Колони',
+    pgFirst: 'Първа страница',
+    pgPrev: 'Предишна страница',
+    pgNext: 'Следваща страница',
+    pgLast: 'Последна страница'
   },
   editor: {
     url: 'URL',

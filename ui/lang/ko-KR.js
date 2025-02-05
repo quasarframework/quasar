@@ -39,7 +39,11 @@ export default {
     recordsPerPage: '페이지 당 개수:',
     allRows: '전체',
     pagination: (start, end, total) => total + ' 중 ' + start + '-' + end,
-    columns: '열'
+    columns: '열',
+    pgFirst: '첫 페이지',
+    pgPrev: '이전 페이지',
+    pgNext: '다음 페이지',
+    pgLast: '마지막 페이지'
   },
   editor: {
     url: 'URL',

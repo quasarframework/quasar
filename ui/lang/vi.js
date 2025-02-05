@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Hàng trên mỗi trang:',
     allRows: 'Tất cả',
     pagination: (start, end, total) => start + '-' + end + ' của ' + total,
-    columns: 'Cột'
+    columns: 'Cột',
+    pgFirst: 'Trang đầu tiên',
+    pgPrev: 'Trang trước',
+    pgNext: 'Trang tiếp theo',
+    pgLast: 'Trang cuối cùng'
   },
   editor: {
     url: 'URL',

@@ -43,7 +43,11 @@ export default {
     recordsPerPage: 'ഓരോ പേജിലും റെക്കോർഡുകൾ:',
     allRows: 'എല്ലാം',
     pagination: (start, end, total) => start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
-    columns: 'നിരകൾ'
+    columns: 'നിരകൾ',
+    pgFirst: 'ആദ്യ പേജ്',
+    pgPrev: 'മുമ്പത്തെ പേജ്',
+    pgNext: 'അടുത്ത പേജ്',
+    pgLast: 'അവസാന പേജ്'
   },
   editor: {
     url: 'യുആർഎൽ',

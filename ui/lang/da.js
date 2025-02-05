@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
-    columns: 'Kolonner'
+    columns: 'Kolonner',    
+    pgFirst: 'Første side',
+    pgPrev: 'Forrige side',
+    pgNext: 'Næste side',
+    pgLast: 'Sidste side'
   },
   editor: {
     url: 'URL',

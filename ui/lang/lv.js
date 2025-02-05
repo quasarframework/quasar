@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
     pagination: (start, end, total) => start + '-' + end + ' no ' + total,
-    columns: 'Kolonnas'
+    columns: 'Kolonnas',
+    pgFirst: 'Pirmā lapa',
+    pgPrev: 'Iepriekšējā lapa',
+    pgNext: 'Nākamā lapa',
+    pgLast: 'Pēdējā lapa'
   },
   editor: {
     url: 'URL',

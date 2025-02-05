@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
     pagination: (start, end, total) => start + '-' + end + ' vun ' + total,
-    columns: 'Kolonnen'
+    columns: 'Kolonnen',
+    pgFirst: 'Éischt Säit',
+    pgPrev: 'Virdrun Säit',
+    pgNext: 'Nächst Säit',
+    pgLast: 'Lescht Säit'
   },
   editor: {
     url: 'URL',

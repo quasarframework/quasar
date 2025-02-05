@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Kirjed lehel:',
     allRows: 'Kõik',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Veerud'
+    columns: 'Veerud',
+    pgFirst: 'Esimene leht',
+    pgPrev: 'Eelmine leht',
+    pgNext: 'Järgmine leht',
+    pgLast: 'Viimane leht'
   },
   editor: {
     url: 'URL',

@@ -35,7 +35,11 @@ export default {
     recordsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
     pagination: (start, end, total) => start + '-' + end + ' toplam ' + total,
-    columns: 'Sütunlar'
+    columns: 'Sütunlar',
+    pgFirst: 'İlk sayfa',
+    pgPrev: 'Önceki sayfa',
+    pgNext: 'Sonraki Sayfa',
+    pgLast: 'Son Sayfa'
   },
   editor: {
     url: 'URL',

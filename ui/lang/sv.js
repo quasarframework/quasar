@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Rader per sida:',
     allRows: 'Alla',
     pagination: (start, end, total) => start + '-' + end + ' av ' + total,
-    columns: 'Kolumner'
+    columns: 'Kolumner',
+    pgFirst: 'Första sidan',
+    pgPrev: 'Föregående sida',
+    pgNext: 'Nästa sida',
+    pgLast: 'Sista sidan'
   },
   editor: {
     url: 'URL',

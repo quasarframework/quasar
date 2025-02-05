@@ -41,7 +41,11 @@ export default {
     recordsPerPage: 'Сахифадаги қаторлар:',
     allRows: 'Барчаси',
     pagination: (start, end, total) => start + '-' + end + ' жами ' + total,
-    columns: 'Устунлар'
+    columns: 'Устунлар',
+    pgFirst: 'Биринчи саҳифа',
+    pgPrev: 'Олдинги саҳифа',
+    pgNext: 'Кейинги саҳифа',
+    pgLast: 'Сўнгги саҳифа'
   },
   editor: {
     url: 'УРЛ',

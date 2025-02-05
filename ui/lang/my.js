@@ -38,7 +38,11 @@ export default {
     recordsPerPage: 'baris setiap muka surat:',
     allRows: 'semua',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Senaraikan'
+    columns: 'Senaraikan',
+    pgFirst: 'Halaman pertama',
+    pgPrev: 'Halaman sebelumnya',
+    pgNext: 'Halaman seterusnya',
+    pgLast: 'Halaman terakhir'
   },
   editor: {
     url: 'URL',

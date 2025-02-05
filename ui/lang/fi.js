@@ -40,7 +40,11 @@ export default {
     recordsPerPage: 'Rivejä sivulla:',
     allRows: 'Kaikki',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Sarakkeet'
+    columns: 'Sarakkeet',
+    pgFirst: 'Ensimmäinen sivu',
+    pgPrev: 'Edellinen sivu',
+    pgNext: 'Seuraava sivu',
+    pgLast: 'Viimeinen sivu'
   },
   editor: {
     url: 'URL',

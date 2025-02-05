@@ -38,7 +38,11 @@ export default {
     recordsPerPage: '每頁列數：',
     allRows: '全部',
     pagination: (start, end, total) => start + '-' + end + ' 列，共 ' + total + ' 列',
-    columns: '欄位'
+    columns: '欄位',
+    pgFirst: '首頁',
+    pgPrev: '上一頁',
+    pgNext: '下一頁',
+    pgLast: '最後一頁'
   },
   editor: {
     url: '網址',

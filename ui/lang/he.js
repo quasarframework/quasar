@@ -40,7 +40,11 @@ export default {
     recordsPerPage: 'שורות בעמוד:',
     allRows: 'הכל',
     pagination: (start, end, total) => start + '-' + end + ' מתוך ' + total,
-    columns: 'עמודות'
+    columns: 'עמודות',
+    pgFirst: 'עמוד ראשון', 
+    pgPrev: 'עמוד קודם',
+    pgNext: 'העמוד הבא',
+    pgLast: 'העמוד האחרון'
   },
   editor: {
     url: 'כתובת אתר',

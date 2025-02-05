@@ -44,7 +44,11 @@ export default {
     recordsPerPage: 'عدد المُدخَلات في كل صفحة:',
     allRows: 'الكل',
     pagination: (start, end, total) => start + '-' + end + ' من ' + total,
-    columns: 'أعمدة'
+    columns: 'أعمدة',
+    pgFirst: 'الصفحة الأولى',
+    pgPrev: 'الصفحة السابقة',
+    pgNext: 'الصفحة التالية',
+    pgLast: 'الصفحة الأخيرة'
   },
   editor: {
     url: 'رابط',

@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Hər səhifədəki məlumat:',
     allRows: 'Bütün',
     pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,
-    columns: 'Sütun'
+    columns: 'Sütun',
+    pgFirst: 'İlk səhifə',
+    pgPrev: 'Əvvəlki səhifə',
+    pgNext: 'Növbəti səhifə',
+    pgLast: 'Son səhifə'
   },
   editor: {
     url: 'URL',

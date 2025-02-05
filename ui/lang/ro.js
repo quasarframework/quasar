@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => start + '-' + end + ' din ' + total,
-    columns: 'Coloane'
+    columns: 'Coloane',
+    pgFirst: 'Prima pagină',
+    pgPrev: 'Pagina anterioară',
+    pgNext: 'Pagina următoare',
+    pgLast: 'Ultima pagină'
   },
   editor: {
     url: 'URL',

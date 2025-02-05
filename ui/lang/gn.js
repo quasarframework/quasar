@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Fila por páhina:',
     allRows: 'Entero',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Columnakuéra'
+    columns: 'Columnakuéra',
+    pgFirst: 'Aña kuatia',
+    pgPrev: 'Kuatia ohasáva',
+    pgNext: 'Kuatia ohasáva',
+    pgLast: 'Kuatia última'
   },
   editor: {
     url: 'URL',

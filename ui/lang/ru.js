@@ -43,7 +43,11 @@ export default {
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
-    columns: 'Колонки'
+    columns: 'Колонки',
+    pgFirst: 'Первая страница',
+    pgPrev: 'Предыдущая страница',
+    pgNext: 'Следующая страница',
+    pgLast: 'Последняя страница'
   },
   editor: {
     url: 'URL',

@@ -38,7 +38,11 @@ export default {
     recordsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: '列'
+    columns: '列',
+    pgFirst: '第一页',
+    pgPrev: '上一页',
+    pgNext: '下一页',
+    pgLast: '最后一页'
   },
   editor: {
     url: 'URL',

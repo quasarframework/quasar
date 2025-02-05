@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Rekod per halaman:',
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
-    columns: 'Kolum'
+    columns: 'Kolum',
+    pgFirst: 'Halaman pertama',
+    pgPrev: 'Halaman sebelumnya',
+    pgNext: 'Halaman seterusnya',
+    pgLast: 'Halaman terakhir'
   },
   editor: {
     url: 'URL',

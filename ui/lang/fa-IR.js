@@ -40,7 +40,11 @@ export default {
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
     pagination: (start, end, total) => start + '-' + end + ' از ' + total,
-    columns: 'ستون'
+    columns: 'ستون',
+    pgFirst: 'صفحه اول',
+    pgPrev: 'صفحه قبلی',
+    pgNext: 'صفحه بعدی',
+    pgLast: 'صفحه آخر'
   },
   editor: {
     url: 'آدرس',

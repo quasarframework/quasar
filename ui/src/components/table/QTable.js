@@ -847,6 +847,7 @@ export default createComponent({
               ...btnProps,
               icon: navIcon.value[ 0 ],
               disable: isFirstPage.value,
+              ariaLabel: $q.lang.table.pgFirst,
               onClick: firstPage
             })
           )
@@ -857,6 +858,7 @@ export default createComponent({
               ...btnProps,
               icon: navIcon.value[ 1 ],
               disable: isFirstPage.value,
+              ariaLabel: $q.lang.table.pgPrev,
               onClick: prevPage
             }),
 
@@ -865,6 +867,7 @@ export default createComponent({
               ...btnProps,
               icon: navIcon.value[ 2 ],
               disable: isLastPage.value,
+              ariaLabel: $q.lang.table.pgNext,
               onClick: nextPage
             })
           )
@@ -875,6 +878,7 @@ export default createComponent({
               ...btnProps,
               icon: navIcon.value[ 3 ],
               disable: isLastPage.value,
+              ariaLabel: $q.lang.table.pgLast,
               onClick: lastPage
             })
           )

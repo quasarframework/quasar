@@ -39,7 +39,11 @@ export default {
     recordsPerPage: 'Mga tala sa bawat pahina:',
     allRows: 'Lahat',
     pagination: (start, end, total) => start + '-' + end + ' ng ' + total,
-    columns: 'Mga hanay'
+    columns: 'Mga hanay',
+    pgFirst: 'Unang pahina',
+    pgPrev: 'Nakaraang pahina',
+    pgNext: 'Susunod na pahina',
+    pgLast: 'Huling pahina'
   },
   editor: {
     url: 'URL',
