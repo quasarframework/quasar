@@ -176,6 +176,8 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .replace(/::: danger/g, '')
         .replace(/:::/g, '')
         .replace(/\s\s+/g, ' ') // change multi-space to 1 space
+        .replace(/<script doc>[\s\S]*?<\/script>/g, '') // remove script doc
+        // .replace(/```(?:js|ts|diff|tabs)[\s\S]*?```/g, '') // remove markdown fences
         .trim()
 
       if (text === '') {
@@ -268,8 +270,21 @@ function processPage (page, entries) {
 
   addItem(entries, entryItem)
 
+  let output = frontMatter.content || ''
+  output = output
+    // Remove <script doc>xxx</script>
+    .replace(/<script doc>[\s\S]*?<\/script>/g, '')
+    // Remove HTML tags
+    .replace(/<[^>]*>/g, '')
+    // Remove inline links
+    .replace(/\[(.*?)\][[(].*?[\])]/g, '$1')
+    // Remove code blocks
+    .replace(/(`{3,})(.*?)\1/gm, '')
+    // Remove inline code (leave content)
+    .replace(/`(.+?)`/g, '$1')
+
   // get markdown ast
-  const ast = md(frontMatter.content)
+  const ast = md(output)
 
   // process ast
   processMarkdown(ast, entries, entryItem)
