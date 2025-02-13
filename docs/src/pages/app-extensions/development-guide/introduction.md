@@ -11,9 +11,10 @@ It is assumed you have already installed one of the official App Extensions. Hav
 An App Extension is an npm package. There are two official kits for creating App Extensions. The official `App Extension` starter kit should be used to create App Extensions that do not provide a UI, like a component or directive, unless the objective is to install a 3rd-party library into Vue. The second official kit is the `UI` kit. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with Vue CLI or UMD.
 
 ```bash
-$ yarn create quasar
+npm init quasar@1
 # or:
-$ npm init quasar
+yarn global add create-quasar@1
+create quasar
 
 # ..then select App Extension and Quasar v1 options
 ```
@@ -87,9 +88,10 @@ Never yarn/npm install packages that are supplied by the Quasar CLI, because App
 We need to create a Quasar project folder to be able to test it while we develop the extension:
 
 ```bash
-$ yarn create quasar
+$ yarn global add create-quasar@1
+$ create-quasar
 # or:
-$ npm init quasar
+$ npm init quasar@1
 
 # ..then select "App with Quasar CLI" and "Quasar v1" options
 ```

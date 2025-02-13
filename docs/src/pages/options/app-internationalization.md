@@ -13,7 +13,7 @@ The recommended package for handling website/app is [vue-i18n](https://github.co
 
 ## Setup manually
 
-If you missed enabling i18n during `yarn create quasar`/`npm init quasar` wizard, here is how you can set it up manually.
+If you missed enabling i18n during "yarn global add create-quasar@1; create-quasar" / "npm init quasar@1" wizard, here is how you can set it up manually.
 
 1. Install the `vue-i18n` dependency into your app.
 

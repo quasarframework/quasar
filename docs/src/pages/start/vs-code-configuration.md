@@ -42,10 +42,11 @@ To edit the settings, use the command `Open Settings JSON` in the Command Palett
 
 ```bash
 # I selected default values for all options to create this guide
-$ yarn create quasar
+$ yarn global add create-quasar@1
+$ create-quasar
 # or:
-$ npm init quasar
-# ..then select "App with Quasar CLI" and "Quasar v1" options
+$ npm init quasar@1
+# ..then select "App with Quasar CLI" option
 # ..and project folder: qt
 
 # Verify it runs without error
@@ -86,10 +87,12 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 ```bash
 # I selected default values for all options to create this guide
 # except for the linting profile, I selected prettier instead of standard
-$ yarn create quasar
+$ yarn global add create-quasar@1
+$ create-quasar
 # or:
-$ npm init quasar
-# ..then select "App with Quasar CLI" and "Quasar v1" options
+$ npm init quasar@1
+
+# ..then select "App with Quasar CLI" option
 # ..and project folder: qtp
 
 # Verify it runs without error

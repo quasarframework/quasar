@@ -31,9 +31,10 @@ Under Windows, modify user's PATH environment variable. If you are using yarn th
 Then we create a project folder with Quasar CLI:
 
 ```bash
-$ yarn create quasar
+$ yarn global add create-quasar@1
+$ create-quasar
 # or:
-$ npm init quasar
+$ npm init quasar@1
 
 # ..then select "App with Quasar CLI" and "Quasar v1" options
 ```

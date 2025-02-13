@@ -244,7 +244,7 @@ The iOS theme is no longer available, BUT as you will see, it's also not necessa
 
 ### Quasar CLI
 
-- To create a new project use `yarn create quasar` or `npm init quasar` instead of `quasar create` or `quasar init`
+- To create a new project use  "yarn global add create-quasar@1; create-quasar" or "npm init quasar@1" instead of `quasar create` or `quasar init`
 - The `--theme, -t` option is no longer available as a build option.
 - `quasar describe` was added for command-line help with Quasar components, etc.
 - `quasar inspect` is a new option to see generated Webpack config.

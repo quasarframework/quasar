@@ -687,7 +687,7 @@ $ node my-server.js
 
 ### Scaffolding a Quasar project folder
 
-Please use `yarn create quasar` or `npm init quasar` instead of this command, which is now considered "legacy".
+Please use "yarn global add create-quasar@1; create-quasar" or "npm init quasar@1" instead of this command, which is now considered "legacy".
 
 ### Scaffolding from a custom starter kit <q-badge align="top" color="brand-primary" label="legacy" />
 

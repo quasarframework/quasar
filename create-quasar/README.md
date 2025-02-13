@@ -13,13 +13,14 @@
 This app is used to scaffold Quasar CLI project folders.
 
 ```bash
-npm init quasar
+npm init quasar@1
 # or:
-yarn create quasar
+yarn global add create-quasar@1
+create quasar
 # or:
-pnpm create quasar
+pnpm create quasar@1
 # or:
-bun create quasar
+bun create quasar@1
 ```
 
 ## Supporting Quasar
