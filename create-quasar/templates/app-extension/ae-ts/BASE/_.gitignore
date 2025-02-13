@@ -1,0 +1,8 @@
+.DS_Store
+.thumbs.db
+dist
+node_modules
+
+# package manager log files
+*-debug.log*
+*-error.log*

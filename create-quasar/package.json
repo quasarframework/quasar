@@ -1,0 +1,51 @@
+{
+  "name": "create-quasar",
+  "version": "1.12.0",
+  "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
+  "type": "module",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "create-quasar": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.ts ./ --fix",
+    "create-test-project": "tsx scripts/create-test-project.ts"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "kolorist": "^1.8.0",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
+    "prompts": "^2.4.2",
+    "tinyglobby": "^0.2.10"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.7",
+    "@types/prompts": "^2.4.9",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-lodash-template": "^1.1.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  }
+}

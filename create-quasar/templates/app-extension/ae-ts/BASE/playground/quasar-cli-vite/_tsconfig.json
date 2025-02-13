@@ -1,0 +1,9 @@
+{
+  "extends": "@quasar/app-vite/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  // Needed to avoid files copied into 'dist' folder (e.g. a `.d.ts` file inside `src-ssr` folder)
+  // to be evaluated by TS when their original files has been updated
+  "exclude": ["dist", ".quasar", "node_modules"]
+}
