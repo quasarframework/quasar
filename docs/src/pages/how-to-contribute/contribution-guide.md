@@ -251,7 +251,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 #### Development Setup
 
-You will need [Node.js](http://nodejs.org) version **v16+** along [pnpm](https://pnpm.io/). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) version **v18+** along [pnpm](https://pnpm.io/). Read `package.json` and take notice of the scripts you can use.
 
 After cloning the repo, run:
 
