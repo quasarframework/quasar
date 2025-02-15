@@ -153,6 +153,32 @@
       </q-knob>
 
       <p class="caption">
+        Dragging is automatically disabled on descendant image(s)
+      </p>
+      <q-knob
+        v-model="model"
+        show-value
+        font-size="10px"
+        class="q-ma-md"
+        size="80px"
+        :max="max"
+        :min="min"
+        :thickness="0.25"
+        color="primary"
+        track-color="grey-3"
+      >
+        <q-avatar v-if="imagesIndex === 0" size="60px">
+          <img :src="images[imagesIndex]">
+        </q-avatar>
+
+        <div v-else>
+          <q-avatar size="60px">
+            <img :src="images[imagesIndex]">
+          </q-avatar>
+        </div>
+      </q-knob>
+
+      <p class="caption">
         Inside Field
       </p>
       <q-field>
@@ -182,6 +208,9 @@
 export default {
   data () {
     return {
+      imagesIndex: 0,
+      imageIntervalHandle: null,
+      images: [ 'https://cdn.quasar.dev/img/custom-svg-icons/components.svg', 'https://cdn.quasar.dev/logo-v2/svg/logo.svg' ],
       model: 30,
       modelZero: 20.03,
       modelSmall: 1.1,
@@ -189,6 +218,14 @@ export default {
       max: 50,
       maxSmall: 2
     }
+  },
+  mounted () {
+    this.imageIntervalHandle = setInterval(() => {
+      this.imagesIndex = (new Date().getSeconds() % 2 === 0) ? 1 : 0
+    }, 1000)
+  },
+  beforeUnmount () {
+    clearInterval(this.imageIntervalHandle)
   },
   watch: {
     model (val, old) {

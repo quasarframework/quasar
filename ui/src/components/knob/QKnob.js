@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance, onMounted, onUpdated } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan/TouchPan.js'
@@ -251,6 +251,16 @@ export default createComponent({
       return h('input', formAttrs.value)
     }
 
+    const knob = ref(null)
+
+    const setChildImagesNonDraggable = () =>
+      knob.value?.$el.querySelectorAll('img')
+        .forEach(img =>
+          img.setAttribute('draggable', 'false'))
+
+    onMounted(setChildImagesNonDraggable)
+    onUpdated(setChildImagesNonDraggable)
+
     return () => {
       const data = {
         class: classes.value,
@@ -262,6 +272,7 @@ export default createComponent({
         ...circularProps.value,
         value: model.value,
         instantFeedback: instantFeedback.value,
+        ref: knob,
         ...onEvents.value
       }
 
