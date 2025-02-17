@@ -43,6 +43,11 @@ export default createComponent({
       type: [ String, Function ],
       default: 'id'
     },
+    resizableCols: {
+        type: Boolean,
+        default: false
+      },
+
 
     columns: Array,
     loading: Boolean,
@@ -115,6 +120,59 @@ export default createComponent({
     ...useTableRowSelectionProps,
     ...useTableSortProps
   },
+
+
+    data() {
+      return {
+        colWidths: {},
+        resizingCol: null,
+        startX: 0
+      }
+    },
+    mounted() {
+      // Initialize widths for each column
+      this.computedCols.forEach(col => {
+        this.$set(this.colWidths, col.name, 150)
+      })
+    },
+    methods: {
+      startResizing(colName, evt) {
+        this.resizingCol = colName
+        this.startX = evt.pageX
+        document.addEventListener('mousemove', this.handleResize)
+        document.addEventListener('mouseup', this.stopResizing)
+      },
+      handleResize(evt) {
+        if (!this.resizingCol) return
+        const diff = evt.pageX - this.startX
+        this.colWidths[this.resizingCol] += diff
+        this.startX = evt.pageX
+      },
+      stopResizing() {
+        document.removeEventListener('mousemove', this.handleResize)
+        document.removeEventListener('mouseup', this.stopResizing)
+        this.resizingCol = null
+      },
+      renderHeaderCell(h, col) {
+        const hasHandle = this.resizableCols
+        const handle = hasHandle
+          ? h('span', {
+              class: 'q-table__resize-handle',
+              onMousedown: evt => this.startResizing(col.name, evt)
+            })
+          : null
+
+        return h('th', {
+          style: { width: this.colWidths[col.name] + 'px' }
+        }, [
+          col.label,
+          handle
+        ])
+      }
+    },
+
+
+
 
   emits: [
     'request', 'virtualScroll',
