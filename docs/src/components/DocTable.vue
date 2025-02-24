@@ -30,50 +30,47 @@
   </div>
 </template>
 
-<script>
-import { copyToClipboard } from 'quasar'
+<script setup>
+import { ref, computed } from 'vue'
+import { copyToClipboard, useQuasar } from 'quasar'
 
-export default {
-  props: {
-    rows: {
-      type: Array,
-      required: true
-    },
-    additionalColumns: {
-      type: Array,
-      required: false,
-      default: () => []
-    }
+const props = defineProps({
+  rows: {
+    type: Array,
+    required: true
   },
-  data () {
-    return {
-      requiredColumns: [
-        { name: 'name', label: 'Class Name', align: 'left', field: row => row.name, headerStyle: 'font-weight: bold; font-size: 1rem;' },
-        { name: 'description', label: 'Description', align: 'left', field: row => row.description, headerStyle: 'font-weight: bold; font-size: 1rem;' }
-      ]
-    }
-  },
-  computed: {
-    validatedColumns () {
-      return [ ...this.requiredColumns, ...this.additionalColumns ]
-    }
-  },
-  methods: {
-    copy (text) {
-      copyToClipboard(text)
-        .then(() => {
-          this.$q.notify('Copied to clipboard')
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            message: 'Failed to copy to clipboard'
-          })
-        })
-    },
-    formatDescription (description) {
-      return description.replace(/`([^`]+)`/g, '<code class="doc-token">$1</code>')
-    }
+  additionalColumns: {
+    type: Array,
+    required: false,
+    default: () => []
   }
+})
+
+const $q = useQuasar()
+
+const requiredColumns = ref([
+  { name: 'name', label: 'Class Name', align: 'left', field: row => row.name, headerStyle: 'font-weight: bold; font-size: 1rem;' },
+  { name: 'description', label: 'Description', align: 'left', field: row => row.description, headerStyle: 'font-weight: bold; font-size: 1rem;' }
+])
+
+const validatedColumns = computed(() => {
+  return [ ...requiredColumns.value, ...props.additionalColumns ]
+})
+
+const copy = (text) => {
+  copyToClipboard(text)
+    .then(() => {
+      $q.notify('Copied to clipboard')
+    })
+    .catch(() => {
+      $q.notify({
+        color: 'negative',
+        message: 'Failed to copy to clipboard'
+      })
+    })
+}
+
+const formatDescription = (description) => {
+  return description.replace(/`([^`]+)`/g, '<code class="doc-token">$1</code>')
 }
 </script>

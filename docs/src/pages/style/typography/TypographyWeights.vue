@@ -22,28 +22,23 @@
   </div>
 </template>
 
-<script>
-import { copyToClipboard } from 'quasar'
+<script setup>
+import { ref } from 'vue'
+import { copyToClipboard, useQuasar } from 'quasar'
 
-export default {
-  data () {
-    return {
-      weights: [ 'thin', 'light', 'regular', 'medium', 'bold', 'bolder' ]
-    }
-  },
-  methods: {
-    copyWeigh (weight) {
-      copyToClipboard(weight)
-        .then(() => {
-          this.$q.notify('Copied to clipboard')
-        })
-        .catch(() => {
-          this.$q.notify({
-            color: 'negative',
-            message: 'Failed to copy to clipboard'
-          })
-        })
-    }
-  }
+const $q = useQuasar()
+const weights = ref([ 'thin', 'light', 'regular', 'medium', 'bold', 'bolder' ])
+
+const copyWeigh = (weight) => {
+  copyToClipboard(weight)
+    .then(() => {
+      $q.notify('Copied to clipboard')
+    })
+    .catch(() => {
+      $q.notify({
+        color: 'negative',
+        message: 'Failed to copy to clipboard'
+      })
+    })
 }
 </script>
