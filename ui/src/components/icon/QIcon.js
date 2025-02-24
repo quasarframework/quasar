@@ -186,7 +186,6 @@ export default createComponent({
         class: classes.value,
         style: sizeStyle.value,
         'aria-hidden': 'true',
-        role: 'presentation'
       }
 
       if (type.value.none === true) {
