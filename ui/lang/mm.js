@@ -41,10 +41,12 @@ export default {
     // eslint-disable-next-line no-useless-concat
     pagination: (start, end, total) => start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
     columns: 'ကော်လံ',
-    pgFirst: 'ပထမစာမျက်နှာ',
-    pgPrev: 'မူရင်းစာမျက်နှာ',
-    pgNext: 'နောက်စာမျက်နှာ',
-    pgLast: 'နောက်ဆုံးစာမျက်နှာ'
+  },
+  pagination: {
+    first: 'ပထမစာမျက်နှာ',
+    prev: 'မူရင်းစာမျက်နှာ',
+    next: 'နောက်စာမျက်နှာ',
+    last: 'နောက်ဆုံးစာမျက်နှာ'
   },
   editor: {
     url: 'URL',

@@ -40,10 +40,12 @@ export default {
     allRows: 'Összes',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Oszlopok',
-    pgFirst: 'Első oldal',
-    pgPrev: 'Előző oldal',
-    pgNext: 'Következő oldal',
-    pgLast: 'Utolsó oldal'
+  },
+  pagination: {
+    first: 'Első oldal',
+    prev: 'Előző oldal',
+    next: 'Következő oldal',
+    last: 'Utolsó oldal'
   },
   editor: {
     url: 'URL',

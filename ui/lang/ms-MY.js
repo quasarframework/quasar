@@ -43,10 +43,12 @@ export default {
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Senaraikan',
-    pgFirst: 'Halaman pertama',
-    pgPrev: 'Halaman sebelumnya',
-    pgNext: 'Halaman seterusnya',
-    pgLast: 'Halaman terakhir'
+  },
+  pagination: {
+    first: 'Halaman pertama',
+    prev: 'Halaman sebelumnya',
+    next: 'Halaman seterusnya',
+    last: 'Halaman terakhir'
   },
   editor: {
     url: 'URL',

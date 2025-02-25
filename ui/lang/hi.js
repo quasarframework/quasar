@@ -40,10 +40,12 @@ export default {
     allRows: 'सभी',
     pagination: (start, end, total) => start + '-' + end + ' कुल ' + total,
     columns: 'कॉलम',
-    pgFirst: 'पहला पृष्ठ',
-    pgPrev: 'पिछला पृष्ठ',
-    pgNext: 'अगला पृष्ठ',
-    pgLast: 'अंतिम पृष्ठ'
+  },
+  pagination: {
+    first: 'पहला पृष्ठ',
+    prev: 'पिछला पृष्ठ',
+    next: 'अगला पृष्ठ',
+    last: 'अंतिम पृष्ठ'
   },
   editor: {
     url: 'URL',

@@ -40,10 +40,12 @@ export default {
     allRows: 'Toate',
     pagination: (start, end, total) => start + '-' + end + ' din ' + total,
     columns: 'Coloane',
-    pgFirst: 'Prima pagină',
-    pgPrev: 'Pagina anterioară',
-    pgNext: 'Pagina următoare',
-    pgLast: 'Ultima pagină'
+  },
+  pagination: {
+    first: 'Prima pagină',
+    prev: 'Pagina anterioară',
+    next: 'Pagina următoare',
+    last: 'Ultima pagină'
   },
   editor: {
     url: 'URL',

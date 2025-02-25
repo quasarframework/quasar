@@ -40,10 +40,12 @@ export default {
     allRows: 'সব',
     pagination: (start, end, total) => start + '-' + end + ' মধ্যে ' + total,
     columns: 'কলাম',
-    pgFirst: 'প্রথম পৃষ্ঠা',
-    pgPrev: 'পূর্ববর্তী পৃষ্ঠা',
-    pgNext: 'পরবর্তী পৃষ্ঠা',
-    pgLast: 'শেষ পৃষ্ঠা'
+  },
+  pagination: {
+    first: 'প্রথম পৃষ্ঠা',
+    prev: 'পূর্ববর্তী পৃষ্ঠা',
+    next: 'পরবর্তী পৃষ্ঠা',
+    last: 'শেষ পৃষ্ঠা'
   },
   editor: {
     url: 'ইউ আর এল',

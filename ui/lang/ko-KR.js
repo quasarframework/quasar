@@ -40,10 +40,12 @@ export default {
     allRows: '전체',
     pagination: (start, end, total) => total + ' 중 ' + start + '-' + end,
     columns: '열',
-    pgFirst: '첫 페이지',
-    pgPrev: '이전 페이지',
-    pgNext: '다음 페이지',
-    pgLast: '마지막 페이지'
+  },
+  pagination: {
+    first: '첫 페이지',
+    prev: '이전 페이지',
+    next: '다음 페이지',
+    last: '마지막 페이지'
   },
   editor: {
     url: 'URL',

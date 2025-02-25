@@ -44,10 +44,12 @@ export default {
     allRows: 'Бәрі',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
     columns: 'Бағандар',
-    pgFirst: 'Бірінші бет',
-    pgPrev: 'Алдыңғы бет',
-    pgNext: 'Келесі бет',
-    pgLast: 'Соңғы бет'
+  },
+  pagination: {
+    first: 'Бірінші бет',
+    prev: 'Алдыңғы бет',
+    next: 'Келесі бет',
+    last: 'Соңғы бет'
   },
   editor: {
     url: 'URL',

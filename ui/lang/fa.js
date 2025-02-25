@@ -41,10 +41,12 @@ export default {
     allRows: 'همه',
     pagination: (start, end, total) => start + '-' + end + ' از ' + total,
     columns: 'ستون',
-    pgFirst: 'صفحه اول',
-    pgPrev: 'صفحه قبلی',
-    pgNext: 'صفحه بعدی',
-    pgLast: 'صفحه آخر'
+  },
+  pagination: {
+    first: 'صفحه اول',
+    prev: 'صفحه قبلی',
+    next: 'صفحه بعدی',
+    last: 'صفحه آخر'
   },
   editor: {
     url: 'آدرس',

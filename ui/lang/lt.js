@@ -52,10 +52,12 @@ export default {
     allRows: 'Visi',
     pagination: (start, end, total) => start + '-' + end + ' iš ' + total,
     columns: 'Stulpeliai',
-    pgFirst: 'Pirmasis puslapis',
-    pgPrev: 'Ankstesnis puslapis',
-    pgNext: 'Kitas puslapis',
-    pgLast: 'Paskutinis puslapis'
+  },
+  pagination: {
+    first: 'Pirmasis puslapis',
+    prev: 'Ankstesnis puslapis',
+    next: 'Kitas puslapis',
+    last: 'Paskutinis puslapis'
   },
   editor: {
     url: 'URL',

@@ -40,10 +40,12 @@ export default {
     allRows: 'Ĉiuj',
     pagination: (start, end, total) => start + '-' + end + ' el ' + total,
     columns: 'Kolumnoj',
-    pgFirst: 'Unua paĝo',
-    pgPrev: 'Antaŭa paĝo',
-    pgNext: 'Sekva paĝo',
-    pgLast: 'Lasta paĝo'
+  },
+  pagination: {
+    first: 'Unua paĝo',
+    prev: 'Antaŭa paĝo',
+    next: 'Sekva paĝo',
+    last: 'Lasta paĝo'
   },
   editor: {
     url: 'URL',

@@ -39,10 +39,12 @@ export default {
     allRows: '全部',
     pagination: (start, end, total) => start + '-' + end + ' 列，共 ' + total + ' 列',
     columns: '欄位',
-    pgFirst: '首頁',
-    pgPrev: '上一頁',
-    pgNext: '下一頁',
-    pgLast: '最後一頁'
+  },
+  pagination: {
+    first: '首頁',
+    prev: '上一頁',
+    next: '下一頁',
+    last: '最後一頁'
   },
   editor: {
     url: '網址',

@@ -40,10 +40,12 @@ export default {
     allRows: 'Laina \'uma',
     pagination: (start, end, total) => start + '-' + end + ' o ' + total,
     columns: 'Poutū',
-    pgFirst: 'Itulau muamua',
-    pgPrev: 'Itulau muamua',
-    pgNext: 'Isi Itulau',
-    pgLast: 'Itulau mulimuli'
+  },
+  pagination: {
+    first: 'Itulau muamua',
+    prev: 'Itulau muamua',
+    next: 'Isi Itulau',
+    last: 'Itulau mulimuli'
   },
   editor: {
     url: 'Tuātusi initaneti',

@@ -51,10 +51,12 @@ export default {
     allRows: 'Všechny',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,
     columns: 'Sloupce',
-    pgFirst: 'První stránka',
-    pgPrev: 'Předchozí stránka',
-    pgNext: 'Další stránka',
-    pgLast: 'Poslední stránka'
+  },
+  pagination: {
+    first: 'První stránka',
+    prev: 'Předchozí stránka',
+    next: 'Další stránka',
+    last: 'Poslední stránka'
   },
   editor: {
     url: 'URL',

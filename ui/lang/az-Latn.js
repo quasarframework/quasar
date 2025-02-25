@@ -40,10 +40,12 @@ export default {
     allRows: 'Bütün',
     pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,
     columns: 'Sütun',
-    pgFirst: 'İlk səhifə',
-    pgPrev: 'Əvvəlki səhifə',
-    pgNext: 'Növbəti səhifə',
-    pgLast: 'Son səhifə'
+  },
+  pagination: {
+    first: 'İlk səhifə',
+    prev: 'Əvvəlki səhifə',
+    next: 'Növbəti səhifə',
+    last: 'Son səhifə'
   },
   editor: {
     url: 'URL',

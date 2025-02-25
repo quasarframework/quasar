@@ -45,10 +45,12 @@ export default {
     allRows: 'الكل',
     pagination: (start, end, total) => start + '-' + end + ' من ' + total,
     columns: 'أعمدة',
-    pgFirst: 'الصفحة الأولى',
-    pgPrev: 'الصفحة السابقة',
-    pgNext: 'الصفحة التالية',
-    pgLast: 'الصفحة الأخيرة'
+  },
+  pagination: {
+    first: 'الصفحة الأولى',
+    prev: 'الصفحة السابقة',
+    next: 'الصفحة التالية',
+    last: 'الصفحة الأخيرة'
   },
   editor: {
     url: 'رابط',

@@ -42,10 +42,12 @@ export default {
     allRows: 'Барчаси',
     pagination: (start, end, total) => start + '-' + end + ' жами ' + total,
     columns: 'Устунлар',
-    pgFirst: 'Биринчи саҳифа',
-    pgPrev: 'Олдинги саҳифа',
-    pgNext: 'Кейинги саҳифа',
-    pgLast: 'Сўнгги саҳифа'
+  },
+  pagination: {
+    first: 'Биринчи саҳифа',
+    prev: 'Олдинги саҳифа',
+    next: 'Кейинги саҳифа',
+    last: 'Сўнгги саҳифа'
   },
   editor: {
     url: 'УРЛ',

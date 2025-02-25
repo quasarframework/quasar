@@ -40,10 +40,12 @@ export default {
     allRows: 'Сите',
     pagination: (start, end, total) => start + '-' + end + ' од ' + total,
     columns: 'Колони',
-    pgFirst: 'Прва страница',
-    pgPrev: 'Претходна страница',
-    pgNext: 'Следната страница',
-    pgLast: 'Последна страница'
+  },
+  pagination: {
+    first: 'Прва страница',
+    prev: 'Претходна страница',
+    next: 'Следната страница',
+    last: 'Последна страница'
   },
   editor: {
     url: 'URL',

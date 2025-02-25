@@ -40,10 +40,12 @@ export default {
     allRows: 'Allar',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
     columns: 'Dálkar',
-    pgFirst: 'Fyrsta blaðsíða',
-    pgPrev: 'Fyrri blaðsíða',
-    pgNext: 'Næsta blaðsíða',
-    pgLast: 'Síðasta blaðsíða'
+  },
+  pagination: {
+    first: 'Fyrsta blaðsíða',
+    prev: 'Fyrri blaðsíða',
+    next: 'Næsta blaðsíða',
+    last: 'Síðasta blaðsíða'
   },
   editor: {
     url: 'Slóð',

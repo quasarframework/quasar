@@ -39,10 +39,12 @@ export default {
     allRows: '全部',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: '列',
-    pgFirst: '第一页',
-    pgPrev: '上一页',
-    pgNext: '下一页',
-    pgLast: '最后一页'
+  },
+  pagination: {
+    first: '第一页',
+    prev: '上一页',
+    next: '下一页',
+    last: '最后一页'
   },
   editor: {
     url: 'URL',

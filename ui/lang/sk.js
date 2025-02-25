@@ -40,10 +40,12 @@ export default {
     allRows: 'Všetky',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,
     columns: 'Stĺpce',
-    pgFirst: 'Prvá stránka',
-    pgPrev: 'Predchádzajúca stránka',
-    pgNext: 'Ďalšia stránka',
-    pgLast: 'Posledná stránka'
+  },
+  pagination: {
+    first: 'Prvá stránka',
+    prev: 'Predchádzajúca stránka',
+    next: 'Ďalšia stránka',
+    last: 'Posledná stránka'
   },
   editor: {
     url: 'URL',

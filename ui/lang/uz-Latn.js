@@ -46,10 +46,12 @@ export default {
     allRows: 'Barchasi',
     pagination: (start, end, total) => start + '-' + end + ' jami ' + total,
     columns: 'Ustunlar',
-    pgFirst: 'Birinchi sahifa',
-    pgPrev: 'Oldingi sahifa',
-    pgNext: 'Keyingi sahifa',
-    pgLast: 'So\'nggi sahifa'
+  },
+  pagination: {
+    first: 'Birinchi sahifa',
+    prev: 'Oldingi sahifa',
+    next: 'Keyingi sahifa',
+    last: 'So\'nggi sahifa'
   },
   editor: {
     url: 'URL',

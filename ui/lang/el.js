@@ -40,10 +40,12 @@ export default {
     allRows: 'Όλες',
     pagination: (start, end, total) => start + '-' + end + ' από ' + total,
     columns: 'Στήλες',
-    pgFirst: 'Πρώτη σελίδα',
-    pgPrev: 'Προηγούμενη σελίδα',
-    pgNext: 'Επόμενη σελίδα',
-    pgLast: 'Τελευταία σελίδα'
+  },
+  pagination: {
+    first: 'Πρώτη σελίδα',
+    prev: 'Προηγούμενη σελίδα',
+    next: 'Επόμενη σελίδα',
+    last: 'Τελευταία σελίδα'
   },
   editor: {
     url: 'Διεύθυνση URL', // Needs Translation

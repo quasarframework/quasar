@@ -40,10 +40,12 @@ export default {
     allRows: 'Kõik',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Veerud',
-    pgFirst: 'Esimene leht',
-    pgPrev: 'Eelmine leht',
-    pgNext: 'Järgmine leht',
-    pgLast: 'Viimane leht'
+  },
+  pagination: {
+    first: 'Esimene leht',
+    prev: 'Eelmine leht',
+    next: 'Järgmine leht',
+    last: 'Viimane leht'
   },
   editor: {
     url: 'URL',

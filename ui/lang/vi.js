@@ -40,10 +40,12 @@ export default {
     allRows: 'Tất cả',
     pagination: (start, end, total) => start + '-' + end + ' của ' + total,
     columns: 'Cột',
-    pgFirst: 'Trang đầu tiên',
-    pgPrev: 'Trang trước',
-    pgNext: 'Trang tiếp theo',
-    pgLast: 'Trang cuối cùng'
+  },
+  pagination: {
+    first: 'Trang đầu tiên',
+    prev: 'Trang trước',
+    next: 'Trang tiếp theo',
+    last: 'Trang cuối cùng'
   },
   editor: {
     url: 'URL',

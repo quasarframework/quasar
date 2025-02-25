@@ -40,10 +40,12 @@ export default {
     allRows: 'Denak',
     pagination: (start, end, total) => start + 'tik -' + end + 'ra, guztira ' + total,
     columns: 'Zutabeak',
-    pgFirst: 'Lehen orria',
-    pgPrev: 'Aurreko orria',
-    pgNext: 'Hurrengo orria',
-    pgLast: 'Azken orria'
+  },
+  pagination: {
+    first: 'Lehen orria',
+    prev: 'Aurreko orria',
+    next: 'Hurrengo orria',
+    last: 'Azken orria'
   },
   editor: {
     url: 'URL',

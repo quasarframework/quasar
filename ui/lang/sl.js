@@ -40,10 +40,12 @@ export default {
     allRows: 'Vse',
     pagination: (start, end, total) => start + '-' + end + ' od ' + total,
     columns: 'Stolpci',
-    pgFirst: 'Prva stran',
-    pgPrev: 'Prejšnja stran',
-    pgNext: 'Naslednja stran',
-    pgLast: 'Zadnja stran'
+  },
+  pagination: {
+    first: 'Prva stran',
+    prev: 'Prejšnja stran',
+    next: 'Naslednja stran',
+    last: 'Zadnja stran'
   },
   editor: {
     url: 'URL',

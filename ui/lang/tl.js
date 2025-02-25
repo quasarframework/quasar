@@ -40,10 +40,12 @@ export default {
     allRows: 'Lahat',
     pagination: (start, end, total) => start + '-' + end + ' ng ' + total,
     columns: 'Mga hanay',
-    pgFirst: 'Unang pahina',
-    pgPrev: 'Nakaraang pahina',
-    pgNext: 'Susunod na pahina',
-    pgLast: 'Huling pahina'
+  },
+  pagination: {
+    first: 'Unang pahina',
+    prev: 'Nakaraang pahina',
+    next: 'Susunod na pahina',
+    last: 'Huling pahina'
   },
   editor: {
     url: 'URL',

@@ -40,10 +40,12 @@ export default {
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
     columns: 'Kolonner',    
-    pgFirst: 'Første side',
-    pgPrev: 'Forrige side',
-    pgNext: 'Næste side',
-    pgLast: 'Sidste side'
+  },
+  pagination: {
+    first: 'Første side',
+    prev: 'Forrige side',
+    next: 'Næste side',
+    last: 'Sidste side'
   },
   editor: {
     url: 'URL',

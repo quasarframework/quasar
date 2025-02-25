@@ -40,10 +40,12 @@ export default {
     allRows: 'All',
     pagination: (start, end, total) => start + '-' + end + ' vun ' + total,
     columns: 'Kolonnen',
-    pgFirst: 'Éischt Säit',
-    pgPrev: 'Virdrun Säit',
-    pgNext: 'Nächst Säit',
-    pgLast: 'Lescht Säit'
+  },
+  pagination: {
+    first: 'Éischt Säit',
+    prev: 'Virdrun Säit',
+    next: 'Nächst Säit',
+    last: 'Lescht Säit'
   },
   editor: {
     url: 'URL',

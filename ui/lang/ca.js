@@ -40,10 +40,12 @@ export default {
     allRows: 'Totes',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
     columns: 'Columnes',
-    pgFirst: 'Primera pàgina',
-    pgPrev: 'Pàgina anterior',
-    pgNext: 'Pàgina següent',
-    pgLast: 'Última pàgina'
+  },
+  pagination: {
+    first: 'Primera pàgina',
+    prev: 'Pàgina anterior',
+    next: 'Pàgina següent',
+    last: 'Última pàgina'
   },
   editor: {
     url: 'URL',

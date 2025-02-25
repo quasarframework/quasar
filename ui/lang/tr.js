@@ -36,10 +36,12 @@ export default {
     allRows: 'Tümü',
     pagination: (start, end, total) => start + '-' + end + ' toplam ' + total,
     columns: 'Sütunlar',
-    pgFirst: 'İlk sayfa',
-    pgPrev: 'Önceki sayfa',
-    pgNext: 'Sonraki Sayfa',
-    pgLast: 'Son Sayfa'
+  },
+  pagination: {
+    first: 'İlk sayfa',
+    prev: 'Önceki sayfa',
+    next: 'Sonraki Sayfa',
+    last: 'Son Sayfa'
   },
   editor: {
     url: 'URL',

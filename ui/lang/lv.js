@@ -40,10 +40,12 @@ export default {
     allRows: 'Visas',
     pagination: (start, end, total) => start + '-' + end + ' no ' + total,
     columns: 'Kolonnas',
-    pgFirst: 'Pirmā lapa',
-    pgPrev: 'Iepriekšējā lapa',
-    pgNext: 'Nākamā lapa',
-    pgLast: 'Pēdējā lapa'
+  },
+  pagination: {
+    first: 'Pirmā lapa',
+    prev: 'Iepriekšējā lapa',
+    next: 'Nākamā lapa',
+    last: 'Pēdējā lapa'
   },
   editor: {
     url: 'URL',

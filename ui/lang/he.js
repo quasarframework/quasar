@@ -41,10 +41,10 @@ export default {
     allRows: 'הכל',
     pagination: (start, end, total) => start + '-' + end + ' מתוך ' + total,
     columns: 'עמודות',
-    pgFirst: 'עמוד ראשון', 
-    pgPrev: 'עמוד קודם',
-    pgNext: 'העמוד הבא',
-    pgLast: 'העמוד האחרון'
+    first: 'עמוד ראשון', 
+    prev: 'עמוד קודם',
+    next: 'העמוד הבא',
+    last: 'העמוד האחרון'
   },
   editor: {
     url: 'כתובת אתר',

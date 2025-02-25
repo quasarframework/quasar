@@ -40,10 +40,12 @@ export default {
     allRows: 'Entero',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
     columns: 'Columnakuéra',
-    pgFirst: 'Aña kuatia',
-    pgPrev: 'Kuatia ohasáva',
-    pgNext: 'Kuatia ohasáva',
-    pgLast: 'Kuatia última'
+  },
+  pagination: {
+    first: 'Aña kuatia',
+    prev: 'Kuatia ohasáva',
+    next: 'Kuatia ohasáva',
+    last: 'Kuatia última'
   },
   editor: {
     url: 'URL',

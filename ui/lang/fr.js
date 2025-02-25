@@ -43,10 +43,12 @@ export default {
     allRows: 'Tous',
     pagination: (start, end, total) => start + '-' + end + ' sur ' + total,
     columns: 'Colonnes',
-    pgFirst: 'Première page',
-    pgPrev: 'Page précédente',
-    pgNext: 'Page suivante',
-    pgLast: 'Dernière page'
+  },
+  pagination: {
+    first: 'Première page',
+    prev: 'Page précédente',
+    next: 'Page suivante',
+    last: 'Dernière page'
   },
   editor: {
     url: 'URL',

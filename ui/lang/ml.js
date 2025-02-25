@@ -44,10 +44,12 @@ export default {
     allRows: 'എല്ലാം',
     pagination: (start, end, total) => start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
     columns: 'നിരകൾ',
-    pgFirst: 'ആദ്യ പേജ്',
-    pgPrev: 'മുമ്പത്തെ പേജ്',
-    pgNext: 'അടുത്ത പേജ്',
-    pgLast: 'അവസാന പേജ്'
+  },
+  pagination: {
+    first: 'ആദ്യ പേജ്',
+    prev: 'മുമ്പത്തെ പേജ്',
+    next: 'അടുത്ത പേജ്',
+    last: 'അവസാന പേജ്'
   },
   editor: {
     url: 'യുആർഎൽ',

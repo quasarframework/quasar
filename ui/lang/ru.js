@@ -44,10 +44,12 @@ export default {
     allRows: 'Все',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
     columns: 'Колонки',
-    pgFirst: 'Первая страница',
-    pgPrev: 'Предыдущая страница',
-    pgNext: 'Следующая страница',
-    pgLast: 'Последняя страница'
+  },
+  pagination: {
+    first: 'Первая страница',
+    prev: 'Предыдущая страница',
+    next: 'Следующая страница',
+    last: 'Последняя страница'
   },
   editor: {
     url: 'URL',

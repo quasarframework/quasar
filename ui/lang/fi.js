@@ -41,10 +41,12 @@ export default {
     allRows: 'Kaikki',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Sarakkeet',
-    pgFirst: 'Ensimmäinen sivu',
-    pgPrev: 'Edellinen sivu',
-    pgNext: 'Seuraava sivu',
-    pgLast: 'Viimeinen sivu'
+  },
+  pagination: {
+    first: 'Ensimmäinen sivu',
+    prev: 'Edellinen sivu',
+    next: 'Seuraava sivu',
+    last: 'Viimeinen sivu'
   },
   editor: {
     url: 'URL',
