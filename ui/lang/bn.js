@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'প্রতি পৃষ্ঠায় রেকর্ড:',
     allRows: 'সব',
     pagination: (start, end, total) => start + '-' + end + ' মধ্যে ' + total,
-    columns: 'কলাম',
+    columns: 'কলাম'
   },
   pagination: {
     first: 'প্রথম পৃষ্ঠা',

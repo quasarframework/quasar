@@ -41,7 +41,7 @@ export default {
     recordsPerPage: 'Сахифадаги қаторлар:',
     allRows: 'Барчаси',
     pagination: (start, end, total) => start + '-' + end + ' жами ' + total,
-    columns: 'Устунлар',
+    columns: 'Устунлар'
   },
   pagination: {
     first: 'Биринчи саҳифа',

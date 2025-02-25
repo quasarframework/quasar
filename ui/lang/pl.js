@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Wierszy na stronę:',
     allRows: 'Wszystkie',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,
-    columns: 'Kolumny',
+    columns: 'Kolumny'
   },
   pagination: {
     first: 'Pierwsza strona',

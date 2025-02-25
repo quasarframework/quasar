@@ -42,7 +42,7 @@ export default {
     recordsPerPage: 'Lignes par page :',
     allRows: 'Tous',
     pagination: (start, end, total) => start + '-' + end + ' sur ' + total,
-    columns: 'Colonnes',
+    columns: 'Colonnes'
   },
   pagination: {
     first: 'Première page',

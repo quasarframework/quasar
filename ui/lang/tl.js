@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Mga tala sa bawat pahina:',
     allRows: 'Lahat',
     pagination: (start, end, total) => start + '-' + end + ' ng ' + total,
-    columns: 'Mga hanay',
+    columns: 'Mga hanay'
   },
   pagination: {
     first: 'Unang pahina',

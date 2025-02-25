@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
-    columns: 'Kolonner',    
+    columns: 'Kolonner'    
   },
   pagination: {
     first: 'Første side',

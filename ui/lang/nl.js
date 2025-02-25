@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Records per pagina:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' van ' + total,
-    columns: 'Kolommen',
+    columns: 'Kolommen'
   },
   pagination: {
     first: 'Eerste pagina',

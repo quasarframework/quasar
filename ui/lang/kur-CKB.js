@@ -50,6 +50,8 @@ export default {
     allRows: 'هەمووی',
     pagination: (start, end, total) => start + '-' + end + ' لە ' + total,
     columns: 'ڕیز',
+  },
+  pagination: {
     first: 'پەڕەی یەکەمی',
     prev: 'پەڕەی پێشوو',  
     next: 'پەڕەی داهاتوو',

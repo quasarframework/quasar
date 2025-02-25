@@ -43,7 +43,7 @@ export default {
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
-    columns: 'Колонки',
+    columns: 'Колонки'
   },
   pagination: {
     first: 'Первая страница',

@@ -38,7 +38,9 @@ export default {
     recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
     pagination: (start, end, total) => start + '-' + end + ' ／ ' + total,
-    columns: '列', // 'Columns'
+    columns: '列' // 'Columns'
+  },
+  pagination: {
     first: '最初のページ', // First page
     prev: '前のページ', // Previous page
     next: '次のページ', // Next page

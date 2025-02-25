@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Kirjed lehel:',
     allRows: 'Kõik',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Veerud',
+    columns: 'Veerud'
   },
   pagination: {
     first: 'Esimene leht',

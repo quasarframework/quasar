@@ -42,7 +42,7 @@ export default {
     recordsPerPage: 'Rekod setiap halaman:',
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Senaraikan',
+    columns: 'Senaraikan'
   },
   pagination: {
     first: 'Halaman pertama',

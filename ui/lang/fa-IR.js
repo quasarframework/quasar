@@ -40,7 +40,7 @@ export default {
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
     pagination: (start, end, total) => start + '-' + end + ' از ' + total,
-    columns: 'ستون',
+    columns: 'ستون'
   },
   pagination: {
     first: 'صفحه اول',

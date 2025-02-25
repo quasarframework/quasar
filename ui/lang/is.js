@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,
-    columns: 'Dálkar',
+    columns: 'Dálkar'
   },
   pagination: {
     first: 'Fyrsta blaðsíða',

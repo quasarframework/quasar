@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
     pagination: (start, end, total) => start + '-' + end + ' no ' + total,
-    columns: 'Kolonnas',
+    columns: 'Kolonnas'
   },
   pagination: {
     first: 'Pirmā lapa',

@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Baris per halaman:',
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
-    columns: 'Kolom',
+    columns: 'Kolom'
   },
   pagination: {
     first: 'Halaman pertama',

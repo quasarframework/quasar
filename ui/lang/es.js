@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Filas por página:',
     allRows: 'Todas',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Columnas',
+    columns: 'Columnas'
   },
   pagination: {
     first: 'Primera página',

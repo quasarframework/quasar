@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Records per page:',
     allRows: 'All',
     pagination: (start, end, total) => start + '-' + end + ' of ' + total,
-    columns: 'Columns',
+    columns: 'Columns'
   },
   pagination: {
     first: 'First page',

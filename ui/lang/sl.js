@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Vrstic na stran:',
     allRows: 'Vse',
     pagination: (start, end, total) => start + '-' + end + ' od ' + total,
-    columns: 'Stolpci',
+    columns: 'Stolpci'
   },
   pagination: {
     first: 'Prva stran',

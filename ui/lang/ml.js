@@ -43,7 +43,7 @@ export default {
     recordsPerPage: 'ഓരോ പേജിലും റെക്കോർഡുകൾ:',
     allRows: 'എല്ലാം',
     pagination: (start, end, total) => start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
-    columns: 'നിരകൾ',
+    columns: 'നിരകൾ'
   },
   pagination: {
     first: 'ആദ്യ പേജ്',

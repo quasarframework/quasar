@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
     pagination: (start, end, total) => start + '-' + end + ' από ' + total,
-    columns: 'Στήλες',
+    columns: 'Στήλες'
   },
   pagination: {
     first: 'Πρώτη σελίδα',

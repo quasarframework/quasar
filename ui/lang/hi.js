@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'प्रति पृष्ठ रिकॉर्ड:',
     allRows: 'सभी',
     pagination: (start, end, total) => start + '-' + end + ' कुल ' + total,
-    columns: 'कॉलम',
+    columns: 'कॉलम'
   },
   pagination: {
     first: 'पहला पृष्ठ',

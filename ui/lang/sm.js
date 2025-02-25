@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Laina \'i le ītūlau:',
     allRows: 'Laina \'uma',
     pagination: (start, end, total) => start + '-' + end + ' o ' + total,
-    columns: 'Poutū',
+    columns: 'Poutū'
   },
   pagination: {
     first: 'Itulau muamua',

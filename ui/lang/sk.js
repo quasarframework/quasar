@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,
-    columns: 'Stĺpce',
+    columns: 'Stĺpce'
   },
   pagination: {
     first: 'Prvá stránka',

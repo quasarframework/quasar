@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Fila por páhina:',
     allRows: 'Entero',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Columnakuéra',
+    columns: 'Columnakuéra'
   },
   pagination: {
     first: 'Aña kuatia',

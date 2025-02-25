@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'แถวต่อหน้า:',
     allRows: 'แถวทั้งหมด',
     pagination: (start, end, total) => start + '-' + end + ' of ' + total,
-    columns: 'คอลัมน์',
+    columns: 'คอลัมน์'
   },
   pagination: {
     first: 'หน้าแรก',

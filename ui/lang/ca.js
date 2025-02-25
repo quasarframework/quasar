@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
-    columns: 'Columnes',
+    columns: 'Columnes'
   },
   pagination: {
     first: 'Primera pàgina',

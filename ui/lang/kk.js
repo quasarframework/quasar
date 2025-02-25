@@ -43,7 +43,7 @@ export default {
     recordsPerPage: 'Беттегі жолдар:',
     allRows: 'Бәрі',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,
-    columns: 'Бағандар',
+    columns: 'Бағандар'
   },
   pagination: {
     first: 'Бірінші бет',

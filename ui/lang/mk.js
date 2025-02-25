@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Записи по страница:',
     allRows: 'Сите',
     pagination: (start, end, total) => start + '-' + end + ' од ' + total,
-    columns: 'Колони',
+    columns: 'Колони'
   },
   pagination: {
     first: 'Прва страница',

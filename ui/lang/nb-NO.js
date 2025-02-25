@@ -40,7 +40,7 @@ export default {
     recordsPerPage: 'Rader pr side:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' av ' + total,
-    columns: 'Kolonner',
+    columns: 'Kolonner'
   },
   pagination: {
     first: 'Første side',

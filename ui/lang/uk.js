@@ -43,7 +43,7 @@ export default {
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: (start, end, total) => start + '-' + end + ' з ' + total,
-    columns: 'Колонки',
+    columns: 'Колонки'
   },
   pagination: {
     first: 'Перша сторінка',

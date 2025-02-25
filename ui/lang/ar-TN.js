@@ -44,7 +44,7 @@ export default {
     recordsPerPage: 'عدد المُدخَلات في كل صفحة:',
     allRows: 'الكل',
     pagination: (start, end, total) => start + '-' + end + ' من ' + total,
-    columns: 'أعمدة',
+    columns: 'أعمدة'
   },
   pagination: {
     first: 'الصفحة الأولى',

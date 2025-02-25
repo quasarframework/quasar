@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'ஒரு பக்கத்திற்கு பதிவுகள்:',
     allRows: 'அனைத்தும்',
     pagination: (start, end, total) => start + '-' + end + ' மொத்தம் ' + total,
-    columns: 'பத்திகள்',
+    columns: 'பத்திகள்'
   },
   pagination: {
     first: 'முதல் பக்கம்',

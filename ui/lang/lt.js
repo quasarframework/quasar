@@ -51,7 +51,7 @@ export default {
     recordsPerPage: 'Puslapyje:',
     allRows: 'Visi',
     pagination: (start, end, total) => start + '-' + end + ' iš ' + total,
-    columns: 'Stulpeliai',
+    columns: 'Stulpeliai'
   },
   pagination: {
     first: 'Pirmasis puslapis',

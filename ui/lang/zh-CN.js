@@ -38,7 +38,7 @@ export default {
     recordsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: '列',
+    columns: '列'
   },
   pagination: {
     first: '第一页',

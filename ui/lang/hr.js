@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
     pagination: (start, end, total) => start + '-' + end + ' od ' + total,
-    columns: 'Stupci',
+    columns: 'Stupci'
   },
   pagination: {
     first: 'Prva stranica',

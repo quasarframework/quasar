@@ -40,7 +40,7 @@ export default {
     allRows: 'အားလုံး',
     // eslint-disable-next-line no-useless-concat
     pagination: (start, end, total) => start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
-    columns: 'ကော်လံ',
+    columns: 'ကော်လံ'
   },
   pagination: {
     first: 'ပထမစာမျက်နှာ',

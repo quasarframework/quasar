@@ -39,7 +39,7 @@ export default {
     recordsPerPage: 'Elemek száma oldalanként:',
     allRows: 'Összes',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,
-    columns: 'Oszlopok',
+    columns: 'Oszlopok'
   },
   pagination: {
     first: 'Első oldal',

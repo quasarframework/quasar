@@ -50,7 +50,7 @@ export default {
     recordsPerPage: 'Počet řádků na stránku:',
     allRows: 'Všechny',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,
-    columns: 'Sloupce',
+    columns: 'Sloupce'
   },
   pagination: {
     first: 'První stránka',
