@@ -172,6 +172,17 @@ export default createComponent({
       return $q.lang.rtl === true ? ico.reverse() : ico
     })
 
+    const ariaLabels = computed(() => {
+      const labels = [
+        $q.lang.pagination.first,
+        $q.lang.pagination.prev,
+        $q.lang.pagination.next,
+        $q.lang.pagination.last
+      ]
+
+      return $q.lang.rtl === true ? labels.reverse() : labels
+    })
+
     const attrs = computed(() => ({
       'aria-disabled': props.disable === true ? 'true' : 'false',
       role: 'navigation'
@@ -317,7 +328,8 @@ export default createComponent({
           getBtn({
             key: 'bls',
             disable: props.disable || props.modelValue <= minProp.value,
-            icon: icons.value[ 0 ]
+            icon: icons.value[ 0 ],
+            'aria-label': ariaLabels.value[ 0 ]
           }, minProp.value)
         )
 
@@ -325,7 +337,8 @@ export default createComponent({
           getBtn({
             key: 'ble',
             disable: props.disable || props.modelValue >= maxProp.value,
-            icon: icons.value[ 3 ]
+            icon: icons.value[ 3 ],
+            'aria-label': ariaLabels.value[ 3 ]
           }, maxProp.value)
         )
       }
@@ -335,7 +348,8 @@ export default createComponent({
           getBtn({
             key: 'bdp',
             disable: props.disable || props.modelValue <= minProp.value,
-            icon: icons.value[ 1 ]
+            icon: icons.value[ 1 ],
+            'aria-label': ariaLabels.value[ 1 ]
           }, props.modelValue - 1)
         )
 
@@ -343,7 +357,8 @@ export default createComponent({
           getBtn({
             key: 'bdn',
             disable: props.disable || props.modelValue >= maxProp.value,
-            icon: icons.value[ 2 ]
+            icon: icons.value[ 2 ],
+            'aria-label': ariaLabels.value[ 2 ]
           }, props.modelValue + 1)
         )
       }
