@@ -15,7 +15,7 @@
     },
     "resizable-cols": {
       "type": "Boolean",
-      "desc": "Enable column resizing functionality",
+      "desc": "Enabling allows for easy configuration of user resizable column widths by adding a customizable drag handle between each column specified in the 'columns' prop. By default the drag handle is a small vertical line between each column. The drag handle can be customized by using the 'column-resize-handle' slot. Double clicking the grabber sets the columns back to their default width",
       "category": "behavior"
     },
     "row-key": {
