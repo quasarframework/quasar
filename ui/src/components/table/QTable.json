@@ -13,7 +13,11 @@
       "examples": [ "# :rows=\"myData\"" ],
       "category": "general"
     },
-
+    "resizable-cols": {
+      "type": "Boolean",
+      "desc": "Enable column resizing functionality",
+      "category": "behavior"
+    },
     "row-key": {
       "type": [ "String", "Function" ],
       "desc": "Property of each row that defines the unique key of each row (the result must be a primitive, not Object, Array, etc); The value of property must be string or a function taking a row and returning the desired (nested) key in the row; If supplying a function then for best performance, reference it from your scope and do not define it inline",

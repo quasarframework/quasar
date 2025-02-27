@@ -118,8 +118,6 @@ export default createComponent({
     ...useTableSortProps
   },
 
-
-
   emits: [
     'request', 'virtualScroll',
     ...useFullscreenEmits,
@@ -131,7 +129,6 @@ export default createComponent({
     const vm = getCurrentInstance()
     const { proxy: { $q } } = vm
 
-
     const colWidths = reactive({})
     const resizingCol = ref(null)
     const startX = ref(0)
@@ -142,36 +139,37 @@ export default createComponent({
       })
     })
 
-  function resetColumnWidth(colName) {
-    colWidths[colName] = 150; // Reset to default width or any desired full size
-  }
+    function resetColumnWidth (colName) {
+      colWidths[colName] = 150 // Reset to default width or any desired full size
+    }
 
-  function startResizing(colName, evt) {
-    resizingCol.value = colName
-    startX.value = evt.pageX
-    document.addEventListener('mousemove', handleResize)
-    document.addEventListener('mouseup', stopResizing)
-      }
+    function startResizing (colName, evt) {
+      resizingCol.value = colName
+      startX.value = evt.pageX
+      document.addEventListener('mousemove', handleResize)
+      document.addEventListener('mouseup', stopResizing)
+    }
 
-  function handleResize(evt) {
-    if (!resizingCol.value) return
-    const diff = evt.pageX - startX.value
-    colWidths[resizingCol.value] += diff
-    startX.value = evt.pageX
-        }
+    function handleResize (evt) {
+      if (!resizingCol.value) return
+      const diff = evt.pageX - startX.value
+      colWidths[resizingCol.value] += diff
+      startX.value = evt.pageX
+    }
 
-  function stopResizing() {
-    document.removeEventListener('mousemove', handleResize);
-    document.removeEventListener('mouseup', stopResizing);
-    resizingCol.value = null;
-          }
+    function stopResizing () {
+      document.removeEventListener('mousemove', handleResize)
+      document.removeEventListener('mouseup', stopResizing)
+      resizingCol.value = null
+    }
 
-   return {
-     colWidths,
-     startResizing,
-     handleResize,
-     stopResizing,
-        };
+    return {
+      colWidths,
+      resetColumnWidth,
+      startResizing,
+      handleResize,
+      stopResizing,
+  };
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()
