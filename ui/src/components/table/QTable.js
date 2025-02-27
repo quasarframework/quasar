@@ -142,36 +142,36 @@ export default createComponent({
       })
     })
 
-    function startResizing(colName, evt) {
-      resizingCol.value = colName
-      startX.value = evt.pageX
-      document.addEventListener('mousemove', handleResize)
-      document.addEventListener('mouseup', stopResizing)
-    }
+  function resetColumnWidth(colName) {
+    colWidths[colName] = 150; // Reset to default width or any desired full size
+  }
 
-    function handleResize(evt) {
-      if (!resizingCol.value) return
-      const diff = evt.pageX - startX.value
-      colWidths[resizingCol.value] += diff
-      startX.value = evt.pageX
-    }
-
-  function stopResizing() {
-        document.removeEventListener('mousemove', handleResize);
-        document.removeEventListener('mouseup', stopResizing);
-        resizingCol.value = null;
+  function startResizing(colName, evt) {
+    resizingCol.value = colName
+    startX.value = evt.pageX
+    document.addEventListener('mousemove', handleResize)
+    document.addEventListener('mouseup', stopResizing)
       }
 
-      return {
-        colWidths,
-        startResizing,
-        handleResize,
-        stopResizing,
-      };
+  function handleResize(evt) {
+    if (!resizingCol.value) return
+    const diff = evt.pageX - startX.value
+    colWidths[resizingCol.value] += diff
+    startX.value = evt.pageX
+        }
 
+  function stopResizing() {
+    document.removeEventListener('mousemove', handleResize);
+    document.removeEventListener('mouseup', stopResizing);
+    resizingCol.value = null;
+          }
 
-
-
+   return {
+     colWidths,
+     startResizing,
+     handleResize,
+     stopResizing,
+        };
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()
@@ -667,68 +667,65 @@ export default createComponent({
       return h('thead', child)
     }
 
-    function getTHeadTR () {
-      const
-        header = slots.header,
-        headerCell = slots[ 'header-cell' ]
+ function getTHeadTR() {
+   const header = slots.header;
+   const headerCell = slots['header-cell'];
 
-      if (header !== void 0) {
-        return header(
-          getHeaderScope({ header: true })
-        ).slice()
-      }
+   if (header !== void 0) {
+     return header(
+       getHeaderScope({ header: true })
+     ).slice();
+   }
 
-      const child = computedCols.value.map(col => {
-        const
-          headerCellCol = slots[ `header-cell-${ col.name }` ],
-          slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
-          props = getHeaderScope({ col })
+   const child = computedCols.value.map(col => {
+     const headerCellCol = slots[`header-cell-${col.name}`];
+     const slot = headerCellCol !== void 0 ? headerCellCol : headerCell;
+     const props = getHeaderScope({ col });
 
-        return slot !== void 0
-              ? slot(props)
-              : h(QTh, {
-                  key: col.name,
-                  props
-                }, () => [
-                  col.label,
-                  props.resizableCols ? h('div', {
-                    class: 'q-table__resize-handle',
-                    onMousedown: evt => startResizing(col.name, evt)
-                  }) : null
-                ])
-          })
+     return slot !== void 0
+       ? slot(props)
+       : h(QTh, {
+           key: col.name,
+           props
+         }, () => [
+           col.label,
+           col.resizable ? h('div', {
+             class: 'q-table__resize-handle',
+             onMousedown: evt => startResizing(col.name, evt)
+           }) : null
+         ]);
+   });
 
-      if (singleSelection.value === true && props.grid !== true) {
-        child.unshift(
-          h('th', { class: 'q-table--col-auto-width' }, ' ')
-        )
-      }
-      else if (multipleSelection.value === true) {
-        const slot = slots[ 'header-selection' ]
-        const content = slot !== void 0
-          ? slot(getHeaderScope({}))
-          : [
-              h(QCheckbox, {
-                color: props.color,
-                modelValue: headerSelectedValue.value,
-                dark: isDark.value,
-                dense: props.dense,
-                'onUpdate:modelValue': onMultipleSelectionSet
-              })
-            ]
+   if (singleSelection.value === true && props.grid !== true) {
+     child.unshift(
+       h('th', { class: 'q-table--col-auto-width' }, ' ')
+     );
+   } else if (multipleSelection.value === true) {
+     const slot = slots['header-selection'];
+     const content = slot !== void 0
+       ? slot(getHeaderScope({}))
+       : [
+           h(QCheckbox, {
+             color: props.color,
+             modelValue: headerSelectedValue.value,
+             dark: isDark.value,
+             dense: props.dense,
+             'onUpdate:modelValue': onMultipleSelectionSet
+           })
+         ];
 
-        child.unshift(
-          h('th', { class: 'q-table--col-auto-width' }, content)
-        )
-      }
+     child.unshift(
+       h('th', { class: 'q-table--col-auto-width' }, content)
+     );
+   }
 
-      return [
-          h('tr', {
-            class: props.tableHeaderClass,
-            style: props.tableHeaderStyle
-          }, child)
-        ]
-      }
+   return [
+     h('tr', {
+       class: props.tableHeaderClass,
+       style: props.tableHeaderStyle
+     }, child)
+   ];
+ }
 
     function getHeaderScope (data) {
       Object.assign(data, {
