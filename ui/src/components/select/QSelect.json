@@ -260,7 +260,7 @@
 
     "fill-input": {
       "type": "Boolean",
-      "desc": "Fills the input with current value; Useful along with 'hide-selected'; Does NOT works along with 'multiple' selection",
+      "desc": "Fills the input with current value; Useful along with 'hide-selected'; Does NOT work along with 'multiple' selection",
       "category": "behavior"
     },
 
