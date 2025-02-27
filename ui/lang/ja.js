@@ -41,10 +41,10 @@ export default {
     columns: '列' // 'Columns'
   },
   pagination: {
-    first: '最初のページ', // First page
-    prev: '前のページ', // Previous page
-    next: '次のページ', // Next page
-    last: '最後のページ' // Last page
+    first: '最初のページ',
+    prev: '前のページ',
+    next: '次のページ',
+    last: '最後のページ'
   },
   editor: {
     url: 'URL', // 'URL',
