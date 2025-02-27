@@ -49,7 +49,7 @@ export default {
     recordsPerPage: 'ئەنجام بۆهەر پەڕەیەک:',
     allRows: 'هەمووی',
     pagination: (start, end, total) => start + '-' + end + ' لە ' + total,
-    columns: 'ڕیز',
+    columns: 'ڕیز'
   },
   pagination: {
     first: 'پەڕەی یەکەمی',
