@@ -70,7 +70,7 @@ By default, QOptionGroup looks at `label`, `value`, `disable` props of each opti
 <DocExample title="Custom Label, Value and Disable props with string" file="CustomOptionPropsWithString" />
 
 ::: warning
-If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
+If you use functions for custom props always check if the option is null.
 :::
 
 <DocExample title="Custom Label, Value and Disable props with function" file="CustomOptionPropsWithFunction" />
