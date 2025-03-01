@@ -21,7 +21,7 @@ const libMap = {
   'iconfont ': sameFn,
   'ti-': i => `themify-icon ${ i }`,
   'bi-': i => `bootstrap-icons ${ i }`,
-  'i-': sameFn
+  'i-': sameFn // UnoCSS pure icons
 }
 
 const matMap = {
