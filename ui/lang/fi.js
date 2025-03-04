@@ -25,7 +25,12 @@ export default {
     monthsShort: 'tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'päivää'
+    pluralDay: 'päivää',
+    prevMonth: 'Edellinen kuukausi',
+    nextMonth: 'Ensi kuussa',
+    prevYear: 'Edellinen vuosi',
+    nextYear: 'Ensi vuonna',
+    today: 'Tänään'
   },
   pullToRefresh: {
     pull: 'Vedä alas päivittääksesi',

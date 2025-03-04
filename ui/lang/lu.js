@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Jan_Feb_Mär_Abr_Mäi_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'deeg'
+    pluralDay: 'deeg',
+    prevMonth: 'Virdrun Mount',
+    nextMonth: 'Nächste Mount',
+    prevYear: 'Joer virdrun',
+    nextYear: 'Nächst Joer',
+    today: 'Haut'
   },
   table: {
     noData: 'Keng Donnéen do',

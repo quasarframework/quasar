@@ -26,7 +26,12 @@ export default {
     monthsShort: 'جان_فيف_مار_أفر_ماي_جوا_جوي_أوت_سبت_أكت_نوف_ديس'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    pluralDay: 'أيام'
+    pluralDay: 'أيام',
+    prevMonth: 'الشهر السابق',
+    nextMonth: 'الشهر القادم',
+    prevYear: 'السنة السابقة',
+    nextYear: 'السنة القادمة',
+    today: 'اليوم',
   },
   table: {
     noData: 'لا توجد بيانات',

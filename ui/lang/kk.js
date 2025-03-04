@@ -29,7 +29,12 @@ export default {
     monthsShort: 'Қаң_Ақп_Нау_Сәу_Мам_Мау_Шіл_Там_Қыр_Қаз_Қар_Жел'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'күн'
+    pluralDay: 'күн',
+    prevMonth: 'Алдыңғы ай',
+    nextMonth: 'Келесі ай',
+    prevYear: 'Алдыңғы жыл',
+    nextYear: 'Келесі жыл',
+    today: 'Бүгін'
   },
   table: {
     noData: 'Мәлімет жоқ',

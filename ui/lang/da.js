@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dage'
+    pluralDay: 'dage',
+    prevMonth: 'Forrige måned',
+    nextMonth: 'Næste måned',
+    prevYear: 'Forrige år',
+    nextYear: 'Næste år',
+    today: 'I dag'
   },
   table: {
     noData: 'Ingen data tilgængelig',

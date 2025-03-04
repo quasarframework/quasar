@@ -26,7 +26,12 @@ export default {
     monthsShort: 'Led_Úno_Bře_Dub_Kvě_Čvn_Čvc_Srp_Zář_Říj_Lis_Pro'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dny'
+    pluralDay: 'dny',
+    prevMonth: '"Předchozí měsíc',
+    nextMonth: 'Příští měsíc',
+    prevYear: 'Předchozí rok',
+    nextYear: 'Příští rok',
+    today: 'Dnes'
   },
   table: {
     noData: 'Žádná data k dispozici',

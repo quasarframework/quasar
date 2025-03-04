@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Jan_Feb_Mar_Apr_Maí_Jún_Júl_Ágú_Sep_Okt_Nóv_Des'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dagar'
+    pluralDay: 'dagar',
+    prevMonth: 'Fyrri mánuður',
+    nextMonth: 'Næsta mánuð',
+    prevYear: 'Fyrra ár',
+    nextYear: 'Á næsta ári',
+    today: 'Í dag'
   },
   table: {
     noData: 'Engin gögn tiltæk',

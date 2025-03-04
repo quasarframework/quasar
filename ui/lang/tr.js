@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'gün'
+    pluralDay: 'gün',
+    prevMonth: 'Önceki ay',
+    nextMonth: 'Sonraki ay',
+    prevYear: 'Önceki yıl',
+    nextYear: 'Sonraki yıl',
+    today: 'Bugün'
   },
   table: {
     noData: 'Veri yok',

@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Яну_Фев_Мар_Апр_Май_Юни_Юли_Авг_Сеп_Окт_Ное_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'дни'
+    pluralDay: 'дни',
+    prevMonth: 'Предишния месец',
+    nextMonth: 'Следващия месец',
+    prevYear: 'Предходната година',
+    nextYear: 'Догодина',
+    today: 'Днес'
   },
   table: {
     noData: 'Няма данни',

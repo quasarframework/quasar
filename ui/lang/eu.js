@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Urt_Ots_Mar_Api_Mai_Eka_Uzt_Abu_Ira_Urr_Aza_Abe'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'egun'
+    pluralDay: 'egun',
+    prevMonth: 'Aurreko hilabetea',
+    nextMonth: 'Datorren hilabetean',
+    prevYear: 'Aurreko urtean',
+    nextYear: 'Datorren urtean',
+    today: 'Gaur'
   },
   table: {
     noData: 'Daturik ez',

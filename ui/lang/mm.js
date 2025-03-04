@@ -25,7 +25,12 @@ export default {
     monthsShort: 'ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    pluralDay: 'ရက်'
+    pluralDay: 'ရက်',
+    prevMonth: 'အရင်လ',
+    nextMonth: 'နောက်လ',
+    prevYear: 'အရင်နှစ်',
+    nextYear: 'နောက်နှစ်',
+    today: 'ဒီနေ့'
   },
   table: {
     noData: 'ဒေတာမရှိပါ',

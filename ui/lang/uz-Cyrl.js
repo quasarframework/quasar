@@ -28,7 +28,12 @@ export default {
     monthsShort: 'Ян_Фев_Март_Апр_Май_Июнь_Июль_Авг_Сен_Окт_Ноя_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Якшанба, 1 Душанба, ...
     format24h: true,
-    pluralDay: 'Кунлар'
+    pluralDay: 'Кунлар',
+    prevMonth: 'Олдинги ой',
+    nextMonth: 'Кейинги ой',
+    prevYear: 'Ўтган йили',
+    nextYear: 'Кейинги йил',
+    today: 'Бугун'
   },
   table: {
     noData: 'Маълумот топилмади',

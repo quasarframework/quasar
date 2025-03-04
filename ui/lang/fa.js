@@ -30,7 +30,12 @@ export default {
     headerTitle: (date, model) => `${ days[ date.getDay() ] }، ${ model.day } ${ monthsShort[ model.month - 1 ] }`,
     firstDayOfWeek: 6,
     format24h: true,
-    pluralDay: 'روز'
+    pluralDay: 'روز',
+    prevMonth: 'ماه قبل',
+    nextMonth: 'ماه بعد',
+    prevYear: 'سال قبل',
+    nextYear: 'سال دیگر',
+    today: 'امروز'
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',

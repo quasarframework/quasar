@@ -25,7 +25,12 @@ export default {
     monthsShort: 'জানুয়ারি_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    pluralDay: 'দিন'
+    pluralDay: 'দিন',
+    prevMonth: 'আগের মাস',
+    nextMonth: 'পরের মাসে',
+    prevYear: 'আগের বছর',
+    nextYear: 'পরের বছর',
+    today: 'আজ'
   },
   table: {
     noData: 'কোন তথ্য নেই',

@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'zile'
+    pluralDay: 'zile',
+    prevMonth: 'Luna anterioară',
+    nextMonth: 'Luna viitoare',
+    prevYear: 'Anul precedent',
+    nextYear: 'Anul viitor',
+    today: 'Astăzi'
   },
   table: {
     noData: 'Nu sunt date disponibile',

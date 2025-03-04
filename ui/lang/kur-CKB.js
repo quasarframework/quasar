@@ -35,7 +35,12 @@ export default {
     firstDayOfWeek: 6, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     singleDay: 'ڕۆژ',
-    pluralDay: 'ڕۆژەکان'
+    pluralDay: 'ڕۆژەکان',
+    prevMonth: 'مێژووی مانگی پێشوو',
+    nextMonth: 'مانگی داهاتوو',
+    prevYear: 'ساڵی پێشوو',
+    nextYear: 'ساڵی داهاتوو',
+    today: 'ئه‌م ڕوژیە'
   },
   table: {
     noData: 'هیچ داتەیەک نییە',

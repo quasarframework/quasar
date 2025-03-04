@@ -29,7 +29,12 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     headerTitle: (date, model) => model.month + '-ئاينىڭ ' + model.day + '-كۈنى ، ' + days[ date.getDay() ],
-    pluralDay: 'كۈن'
+    pluralDay: 'كۈن',
+    prevMonth: 'ئالدىنقى ئاي',
+    nextMonth: 'كېيىنىكى ئاي',
+    prevYear: 'ئالدىنقى يىل',
+    nextYear: 'كېيىنىكى يىل',
+    today: 'بۈگۈن'
   },
   table: {
     noData: 'ئۇچۇر يوق',

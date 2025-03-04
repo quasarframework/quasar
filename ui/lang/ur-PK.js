@@ -38,7 +38,12 @@ export default {
       `${ days[ date.getDay() ] }، ${ model.day } ${ months[ model.month - 1 ] }`,
     firstDayOfWeek: 0, // 0-6; 0 = اتوار, 1 = پیر, etc.
     format24h: true,
-    pluralDay: 'دن'
+    pluralDay: 'دن',
+    prevMonth: 'پچھلا مہینہ',
+    nextMonth: 'اگلے مہینے',
+    prevYear: 'پچھلے سال',
+    nextYear: 'اگلے سال',
+    today: 'آج'
   },
   table: {
     noData: 'کوئی ڈیٹا دستیاب نہیں',

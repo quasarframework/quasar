@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    pluralDay: 'ngày'
+    pluralDay: 'ngày',
+    prevMonth: 'Tháng trước',
+    nextMonth: 'Tháng sau',
+    prevYear: 'Năm trước',
+    nextYear: 'Năm sau',
+    today: 'Hôm nay'
   },
   table: {
     noData: 'Không có dữ liệu',

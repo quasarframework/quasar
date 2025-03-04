@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Ian_Fep_Mat_Ape_Mē_Iun_Iul_Auk_Sēt_Oke_Nōv_Tēs'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    pluralDay: 'aso'
+    pluralDay: 'aso',
+    prevMonth: 'Masina Mai le masina talu ai',
+    nextMonth: 'Le masina fou',
+    prevYear: 'Tausaga talu ai',
+    nextYear: 'I Le Vafuapalo',
+    today: 'Le asō'
   },
   table: {
     noData: 'Lēai ni fa\'amatalaga o maua',

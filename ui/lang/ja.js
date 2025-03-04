@@ -28,7 +28,12 @@ export default {
     }).format(date),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true, // true
-    pluralDay: '日間'
+    pluralDay: '日間',
+    prevMonth: '前月',
+    nextMonth: '翌月',
+    prevYear: '前年',
+    nextYear: '来年',
+    today: '今日'
   },
   table: {
     noData: 'データがありません', // 'No data available',

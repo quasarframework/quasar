@@ -26,7 +26,12 @@ export default {
     monthsShort: 'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'ימים'
+    pluralDay: 'ימים',
+    prevMonth: 'החודש הקודם',
+    nextMonth: 'בחודש הבא',
+    prevYear: 'שנה קודמת',
+    nextYear: 'שנה הבאה',
+    today: 'הַיוֹם'
   },
   table: {
     noData: 'לא נמצאו נתונים',

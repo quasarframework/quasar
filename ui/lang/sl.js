@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Avg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Nedelja, 1 Ponedeljek, ...
     format24h: true,
-    pluralDay: 'dni'
+    pluralDay: 'dni',
+    prevMonth: 'Prejšnji mesec',
+    nextMonth: 'Naslednji mesec',
+    prevYear: 'Prejšnje leto',
+    nextYear: 'Naslednje leto',
+    today: 'Danes'
   },
   table: {
     noData: 'Ni dosegljivih podatkov',

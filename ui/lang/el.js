@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Ιαν_Φεβ_Μαρ_Απρ_Μαϊ_Ιουν_Ιουλ_Αυγ_Σεπ_Οκτ_Νοε_Δεκ'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'ημέρες'
+    pluralDay: 'ημέρες',
+    prevMonth: 'Προηγούμενος μήνας',
+    nextMonth: 'Τον επόμενο μήνα',
+    prevYear: 'Προηγούμενο έτος',
+    nextYear: 'Προσεχές έτος',
+    today: 'Σήμερα'
   },
   table: {
     noData: 'Χωρίς δεδομένα',

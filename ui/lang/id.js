@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'hari'
+    pluralDay: 'hari',
+    prevMonth: 'Bulan sebelumnya',
+    nextMonth: 'Bulan berikutnya',
+    prevYear: 'Tahun sebelumnya',
+    nextYear: 'Tahun berikutnya',
+    today: 'Hari ini'
   },
   table: {
     noData: 'Tidak ada data tersedia',

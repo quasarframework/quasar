@@ -29,7 +29,12 @@ export default {
     ),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    pluralDay: 'ദിവസങ്ങൾ'
+    pluralDay: 'ദിവസങ്ങൾ',
+    prevMonth: 'കഴിഞ്ഞ മാസം',
+    nextMonth: 'അടുത്ത മാസം',
+    prevYear: 'മുൻ വർഷം',
+    nextYear: 'അടുത്ത വർഷം',
+    today: 'ഇന്നേദിവസം'
   },
   table: {
     noData: 'ഡാറ്റ ലഭ്യമല്ല',

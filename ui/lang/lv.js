@@ -25,7 +25,12 @@ export default {
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jūn_Jūl_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dienas'
+    pluralDay: 'dienas',
+    prevMonth: 'Iepriekšējais mēnesis',
+    nextMonth: 'Nākamajā mēnesī',
+    prevYear: 'Iepriekšējais gads',
+    nextYear: 'Nākamgad',
+    today: 'Šodien'
   },
   table: {
     noData: 'Nav datu',

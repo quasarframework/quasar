@@ -37,7 +37,12 @@ export default {
     monthsShort: 'Sau_Vas_Kov_Bal_Geg_Bir_Lie_Rgp_Rgs_Spa_Lap_Gru'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dienos'
+    pluralDay: 'dienos',
+    prevMonth: 'Ankstesnis mėnuo',
+    nextMonth: 'Kitą mėnesį',
+    prevYear: 'Ankstesni metai',
+    nextYear: 'Kitais metais',
+    today: 'Šiandien'
   },
   table: {
     noData: 'Nėra duomenų',
