@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Következő hónapban',
     prevYear: 'Előző év',
     nextYear: 'Jövőre',
-    today: 'Ma'
+    today: 'Ma',
+    prevRangeYears: range => `Előző ${ range } évek`,
+    nextRangeYears: range => `Következő ${ range } évek`
   },
   table: {
     noData: 'Nincs elérhető adat',

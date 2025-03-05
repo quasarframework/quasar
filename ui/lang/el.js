@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Τον επόμενο μήνα',
     prevYear: 'Προηγούμενο έτος',
     nextYear: 'Προσεχές έτος',
-    today: 'Σήμερα'
+    today: 'Σήμερα',
+    prevRangeYears: range => `Προηγούμενο ${ range } χρόνια`,
+    nextRangeYears: range => `Επόμενο ${ range } χρόνια`
   },
   table: {
     noData: 'Χωρίς δεδομένα',

@@ -34,7 +34,9 @@ export default {
     nextMonth: 'Следующий месяц',
     prevYear: 'Предыдущий год',
     nextYear: 'Следующий год',
-    today: 'Сегодня'
+    today: 'Сегодня',
+    prevRangeYears: range => `Предыдущий ${ range } Годы`,
+    nextRangeYears: range => `Далее ${ range } годы`
   },
   table: {
     noData: 'Нет данных',

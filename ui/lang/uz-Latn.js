@@ -37,7 +37,9 @@ export default {
     nextMonth: 'Keyingi oy',
     prevYear: 'O\'tgan yili',
     nextYear: 'Keyingi yil',
-    today: 'Bugun'
+    today: 'Bugun',
+    prevRangeYears: range => `Oldingi ${ range } Yillar`,
+    nextRangeYears: range => `Keyingi ${ range } Yillar`
   },
   table: {
     noData: 'Ma\'lumotlar topilmadi',

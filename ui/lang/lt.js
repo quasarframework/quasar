@@ -42,7 +42,9 @@ export default {
     nextMonth: 'Kitą mėnesį',
     prevYear: 'Ankstesni metai',
     nextYear: 'Kitais metais',
-    today: 'Šiandien'
+    today: 'Šiandien',
+    prevRangeYears: range => `Ankstesnis ${ range } metai`,
+    nextRangeYears: range => `Kitas ${ range } metai`
   },
   table: {
     noData: 'Nėra duomenų',

@@ -34,7 +34,9 @@ export default {
     nextMonth: 'Келесі ай',
     prevYear: 'Алдыңғы жыл',
     nextYear: 'Келесі жыл',
-    today: 'Бүгін'
+    today: 'Бүгін',
+    prevRangeYears: range => `Алдыңғы ${ range } жыл`,
+    nextRangeYears: range => `Келесі ${ range } жыл`
   },
   table: {
     noData: 'Мәлімет жоқ',

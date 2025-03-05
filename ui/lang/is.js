@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Næsta mánuð',
     prevYear: 'Fyrra ár',
     nextYear: 'Á næsta ári',
-    today: 'Í dag'
+    today: 'Í dag',
+    prevRangeYears: range => `Fyrri ${ range } ár`,
+    nextRangeYears: range => `Næst ${ range } ár`
   },
   table: {
     noData: 'Engin gögn tiltæk',

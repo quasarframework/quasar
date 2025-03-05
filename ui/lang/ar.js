@@ -32,6 +32,8 @@ export default {
     prevYear: 'السنة السابقة',
     nextYear: 'السنة القادمة',
     today: 'اليوم',
+    prevRangeYears: range => `السابق ${ range } سنوات`,
+    nextRangeYears: range => `التالي ${ range } سنوات`
   },
   table: {
     noData: 'لا توجد بيانات',

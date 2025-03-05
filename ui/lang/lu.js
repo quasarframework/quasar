@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Nächste Mount',
     prevYear: 'Joer virdrun',
     nextYear: 'Nächst Joer',
-    today: 'Haut'
+    today: 'Haut',
+    prevRangeYears: range => `Prévisch ${ range } Joren`,
+    nextRangeYears: range => `Nächst ${ range } Joren`
   },
   table: {
     noData: 'Keng Donnéen do',

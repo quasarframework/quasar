@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Datorren hilabetean',
     prevYear: 'Aurreko urtean',
     nextYear: 'Datorren urtean',
-    today: 'Gaur'
+    today: 'Gaur',
+    prevRangeYears: range => `Aurrekoa ${ range } urteak`,
+    nextRangeYears: range => `Hurrengoa ${ range } urte`
   },
   table: {
     noData: 'Daturik ez',

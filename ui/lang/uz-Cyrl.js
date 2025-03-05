@@ -33,7 +33,9 @@ export default {
     nextMonth: 'Кейинги ой',
     prevYear: 'Ўтган йили',
     nextYear: 'Кейинги йил',
-    today: 'Бугун'
+    today: 'Бугун',
+    prevRangeYears: range => `Олдинги ${ range } Йиллар`,
+    nextRangeYears: range => `Кейинги ${ range } Йиллар`
   },
   table: {
     noData: 'Маълумот топилмади',

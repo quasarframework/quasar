@@ -40,7 +40,9 @@ export default {
     nextMonth: 'مانگی داهاتوو',
     prevYear: 'ساڵی پێشوو',
     nextYear: 'ساڵی داهاتوو',
-    today: 'ئه‌م ڕوژیە'
+    today: 'ئه‌م ڕوژیە',
+    prevRangeYears: range => `پێشوو ${ range } ساڵ`,
+    nextRangeYears: range => `nدواتر ${ range } ساڵ`
   },
   table: {
     noData: 'هیچ داتەیەک نییە',

@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Año próximo',
     prevYear: 'Aravó ary',
     nextYear: 'Año oúvo',
-    today: 'Ko\'ẽ'
+    today: 'Ko\'ẽ',
+    prevRangeYears: range => `Opa uvicha ${ range } ary`,
+    nextRangeYears: range => `Yvypóra ${ range } ary`
   },
   table: {
     noData: 'Ni peteĨ mba\'e',

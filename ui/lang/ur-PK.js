@@ -43,7 +43,9 @@ export default {
     nextMonth: 'اگلے مہینے',
     prevYear: 'پچھلے سال',
     nextYear: 'اگلے سال',
-    today: 'آج'
+    today: 'آج',
+    prevRangeYears: range => `پچھلا ${ range } سال`,
+    nextRangeYears: range => `اگلا ${ range } سال`
   },
   table: {
     noData: 'کوئی ڈیٹا دستیاب نہیں',

@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Sledeći mesec',
     prevYear: 'Prethodne godine',
     nextYear: 'Sljedeće godine',
-    today: 'Danas'
+    today: 'Danas',
+    prevRangeYears: range => `Prethodni ${ range } godina`,
+    nextRangeYears: range => `Sljedeći ${ range } Godina`
   },
   table: {
     noData: 'Nema podataka',

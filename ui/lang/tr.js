@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Sonraki ay',
     prevYear: 'Önceki yıl',
     nextYear: 'Sonraki yıl',
-    today: 'Bugün'
+    today: 'Bugün',
+    prevRangeYears: range => `Önceki ${ range } yıl`,
+    nextRangeYears: range => `Sonraki ${ range } yıl`
   },
   table: {
     noData: 'Veri yok',

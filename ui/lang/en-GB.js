@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Next month',
     prevYear: 'Previous year',
     nextYear: 'Next year',
-    today: 'Today'
+    today: 'Today',
+    prevRangeYears: range => `Previous ${range} years`,
+    nextRangeYears: range => `Next ${range} years`
   },
   table: {
     noData: 'No data available',

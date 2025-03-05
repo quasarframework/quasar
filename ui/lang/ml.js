@@ -34,7 +34,9 @@ export default {
     nextMonth: 'അടുത്ത മാസം',
     prevYear: 'മുൻ വർഷം',
     nextYear: 'അടുത്ത വർഷം',
-    today: 'ഇന്നേദിവസം'
+    today: 'ഇന്നേദിവസം',
+    prevRangeYears: range => `മുമ്പത്തെ ${ range } വർഷം`,
+    nextRangeYears: range => `അടുത്തത് ${ range } വർഷം`
   },
   table: {
     noData: 'ഡാറ്റ ലഭ്യമല്ല',

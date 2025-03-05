@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Gələn ay',
     prevYear: 'Ötən il',
     nextYear: 'Gələn il',
-    today: 'Bu gün'
+    today: 'Bu gün',
+    prevRangeYears: range => `Əvvəlki ${ range } illər`,
+    nextRangeYears: range => `Ardı ${ range } illər`
   },
   table: {
     noData: 'Məlumat yoxdur',

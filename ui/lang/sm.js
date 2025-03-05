@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Le masina fou',
     prevYear: 'Tausaga talu ai',
     nextYear: 'I Le Vafuapalo',
-    today: 'Le asō'
+    today: 'Le asō',
+    prevRangeYears: range => `Talu ai ${ range } tausaga`,
+    nextRangeYears: range => `Le isi ${ range } tausaga`
   },
   table: {
     noData: 'Lēai ni fa\'amatalaga o maua',

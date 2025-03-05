@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Järgmisel kuul',
     prevYear: 'Eelmine aasta',
     nextYear: 'Järgmisel aastal',
-    today: 'Täna'
+    today: 'Täna',
+    prevRangeYears: range => `Eelmine ${ range } aastad`,
+    nextRangeYears: range => `Järgmine ${ range } aastat`
   },
   table: {
     noData: 'Andmeid ei ole',

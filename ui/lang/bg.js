@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Следващия месец',
     prevYear: 'Предходната година',
     nextYear: 'Догодина',
-    today: 'Днес'
+    today: 'Днес',
+    prevRangeYears: range => `Предишен ${ range } години`,
+    nextRangeYears: range => `След това ${ range } години`
   },
   table: {
     noData: 'Няма данни',

@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Volgende maand',
     prevYear: 'Vorig jaar',
     nextYear: 'Volgend jaar',
-    today: 'Vandaag'
+    today: 'Vandaag',
+    prevRangeYears: range => `Vorige ${ range } jaren`,
+    nextRangeYears: range => `Volgende ${ range } jaren`
   },
   table: {
     noData: 'Geen gegevens beschikbaar',

@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Susunod na buwan',
     prevYear: 'Nakaraang taon',
     nextYear: 'Susunod na taon',
-    today: 'Ngayon'
+    today: 'Ngayon',
+    prevRangeYears: range => `Nakaraang ${ range } taon`,
+    nextRangeYears: range => `Susunod na ${ range } taon`
   },
   table: {
     noData: 'Walang available na data',

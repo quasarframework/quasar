@@ -35,7 +35,9 @@ export default {
     nextMonth: 'ماه بعد',
     prevYear: 'سال قبل',
     nextYear: 'سال دیگر',
-    today: 'امروز'
+    today: 'امروز',
+    prevRangeYears: range => `قبلی ${ range } سال`,
+    nextRangeYears: range => `بعد ${ range } سالها`
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',

@@ -33,7 +33,9 @@ export default {
     nextMonth: '翌月',
     prevYear: '前年',
     nextYear: '来年',
-    today: '今日'
+    today: '今日',
+    prevRangeYears: range => `前${ range }年`,
+    nextRangeYears: range => `次${ range }年`
   },
   table: {
     noData: 'データがありません', // 'No data available',

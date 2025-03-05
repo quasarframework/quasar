@@ -33,7 +33,9 @@ export default {
     nextMonth: '下个月',
     prevYear: '上一年',
     nextYear: '下一年',
-    today: '今天'
+    today: '今天',
+    prevRangeYears: range => `以前${ range }年`,
+    nextRangeYears: range => `接下来${ range }年`
   },
   table: {
     noData: '沒有資料',

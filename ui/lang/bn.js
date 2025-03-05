@@ -30,7 +30,9 @@ export default {
     nextMonth: 'পরের মাসে',
     prevYear: 'আগের বছর',
     nextYear: 'পরের বছর',
-    today: 'আজ'
+    today: 'আজ',
+    prevRangeYears: range => `পূর্ববর্তী ${ range } বছর`,
+    nextRangeYears: range => `পরবর্তী ${ range } বছর`
   },
   table: {
     noData: 'কোন তথ্য নেই',

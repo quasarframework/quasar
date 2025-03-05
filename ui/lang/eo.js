@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Venontan monaton',
     prevYear: 'Antaŭa jaro',
     nextYear: 'Venontjare',
-    today: 'Hodiaŭ'
+    today: 'Hodiaŭ',
+    prevRangeYears: range => `Antaŭ ${ range } jaroj`,
+    nextRangeYears: range => `Post ${ range } jaroj`
   },
   table: {
     noData: 'Neniu datumo afiŝenda',

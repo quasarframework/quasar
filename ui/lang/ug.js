@@ -34,7 +34,9 @@ export default {
     nextMonth: 'كېيىنىكى ئاي',
     prevYear: 'ئالدىنقى يىل',
     nextYear: 'كېيىنىكى يىل',
-    today: 'بۈگۈن'
+    today: 'بۈگۈن',
+    prevRangeYears: range => `ئالدىنقى ${ range } يىل`,
+    nextRangeYears: range => ` كىيىنكىسى ${ range } يىل`
   },
   table: {
     noData: 'ئۇچۇر يوق',

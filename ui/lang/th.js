@@ -30,7 +30,9 @@ export default {
     nextMonth: 'เดือนถัดไป',
     prevYear: 'ปีที่แล้ว',
     nextYear: 'ปีหน้า',
-    today: 'วันนี้'
+    today: 'วันนี้',
+    prevRangeYears: range => `ก่อนหน้านี้ ${ range } ปี`,
+    nextRangeYears: range => `ถัดไป ${ range } ปี`
   },
   table: {
     noData: 'ไม่มีข้อมูล',

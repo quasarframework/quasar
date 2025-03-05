@@ -31,7 +31,9 @@ export default {
     nextMonth: 'Příští měsíc',
     prevYear: 'Předchozí rok',
     nextYear: 'Příští rok',
-    today: 'Dnes'
+    today: 'Dnes',
+    prevRangeYears: range => `Předchozí ${ range } roky`,
+    nextRangeYears: range => `Další ${ range } roky`
   },
   table: {
     noData: 'Žádná data k dispozici',

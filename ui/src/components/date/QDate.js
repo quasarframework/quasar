@@ -1362,6 +1362,7 @@ export default createComponent({
               dense: true,
               flat: true,
               icon: dateArrow.value[ 0 ],
+              ariaLabel: $q.lang.date.prevRangeYears(yearsInterval),
               tabindex: tabindex.value,
               disable: isDisabled(start),
               ...getCache('y-', { onClick: () => { startYear.value -= yearsInterval } })
@@ -1380,6 +1381,7 @@ export default createComponent({
               dense: true,
               flat: true,
               icon: dateArrow.value[ 1 ],
+              ariaLabel: $q.lang.date.nextRangeYears(yearsInterval),
               tabindex: tabindex.value,
               disable: isDisabled(stop),
               ...getCache('y+', { onClick: () => { startYear.value += yearsInterval } })

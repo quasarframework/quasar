@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Ensi kuussa',
     prevYear: 'Edellinen vuosi',
     nextYear: 'Ensi vuonna',
-    today: 'Tänään'
+    today: 'Tänään',
+    prevRangeYears: range => `Edellinen ${ range } vuotta`,
+    nextRangeYears: range => `Seuraava ${ range } vuotta`
   },
   pullToRefresh: {
     pull: 'Vedä alas päivittääksesi',

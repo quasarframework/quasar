@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Luna viitoare',
     prevYear: 'Anul precedent',
     nextYear: 'Anul viitor',
-    today: 'Astăzi'
+    today: 'Astăzi',
+    prevRangeYears: range => `Anterior ${ range } ani`,
+    nextRangeYears: range => `Următorul ${ range } ani`
   },
   table: {
     noData: 'Nu sunt date disponibile',

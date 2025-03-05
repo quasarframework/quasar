@@ -31,7 +31,9 @@ export default {
     nextMonth: 'בחודש הבא',
     prevYear: 'שנה קודמת',
     nextYear: 'שנה הבאה',
-    today: 'הַיוֹם'
+    today: 'הַיוֹם',
+    prevRangeYears: range => `קודם ${ range } שנים`,
+    nextRangeYears: range => `הבא ${ range } שנים`
   },
   table: {
     noData: 'לא נמצאו נתונים',

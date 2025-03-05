@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Næste måned',
     prevYear: 'Forrige år',
     nextYear: 'Næste år',
-    today: 'I dag'
+    today: 'I dag',
+    prevRangeYears: range => `Forrige ... X ... år`,
+    nextRangeYears: range => `Næste ... X ... år`
   },
   table: {
     noData: 'Ingen data tilgængelig',

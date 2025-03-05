@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Budúci mesiac',
     prevYear: 'Predchádzajúci rok',
     nextYear: 'Budúci rok',
-    today: 'Dnes'
+    today: 'Dnes',
+    prevRangeYears: range => `Predchádzajúce ${ range } roky`,
+    nextRangeYears: range => `Ďalej ${ range } roky`
   },
   table: {
     noData: 'Nie sú dostupné údaje',

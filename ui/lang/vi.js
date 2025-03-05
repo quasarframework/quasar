@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Tháng sau',
     prevYear: 'Năm trước',
     nextYear: 'Năm sau',
-    today: 'Hôm nay'
+    today: 'Hôm nay',
+    prevRangeYears: range => `Trước ${ range } năm`,
+    nextRangeYears: range => `Tiếp theo ${ range } năm`
   },
   table: {
     noData: 'Không có dữ liệu',

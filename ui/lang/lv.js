@@ -30,7 +30,9 @@ export default {
     nextMonth: 'Nākamajā mēnesī',
     prevYear: 'Iepriekšējais gads',
     nextYear: 'Nākamgad',
-    today: 'Šodien'
+    today: 'Šodien',
+    prevRangeYears: range => `Iepriekšējie ${ range } gadi`,
+    nextRangeYears: range => `Nākamais ${ range } gadi`
   },
   table: {
     noData: 'Nav datu',

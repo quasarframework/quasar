@@ -30,7 +30,9 @@ export default {
     nextMonth: 'अगला महीना',
     prevYear: 'पिछला साल',
     nextYear: 'अगला साल',
-    today: 'आज'
+    today: 'आज',
+    prevRangeYears: range => `पिछला ${ range } साल`,
+    nextRangeYears: range => `अगला ${ range } साल`
   },
   table: {
     noData: 'कोई डेटा उपलब्ध नहीं है',

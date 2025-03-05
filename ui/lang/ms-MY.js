@@ -33,7 +33,9 @@ export default {
     nextMonth: 'Bulan depan',
     prevYear: 'Tahun sebelumnya',
     nextYear: 'Tahun depan',
-    today: 'Hari ini'
+    today: 'Hari ini',
+    prevRangeYears: range => `Sebelumnya ${ range } tahun`,
+    nextRangeYears: range => `Seterusnya ${ range } tahun`
   },
   table: {
     noData: 'Tiada data tersedia',

@@ -30,7 +30,9 @@ export default {
     nextMonth: 'နောက်လ',
     prevYear: 'အရင်နှစ်',
     nextYear: 'နောက်နှစ်',
-    today: 'ဒီနေ့'
+    today: 'ဒီနေ့',
+    prevRangeYears: range => `ယခင် ${ range } နှစ် များ`,
+    nextRangeYears: range => `နောက် ${ range } နှစ် များ`
   },
   table: {
     noData: 'ဒေတာမရှိပါ',

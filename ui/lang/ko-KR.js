@@ -30,7 +30,9 @@ export default {
     nextMonth: '다음 달',
     prevYear: '작년',
     nextYear: '내년',
-    today: '오늘'
+    today: '오늘',
+    prevRangeYears: range => `이전 ${ range } 년`,
+    nextRangeYears: range => `다음 ${ range } 년`
   },
   table: {
     noData: '데이터가 없습니다.',
