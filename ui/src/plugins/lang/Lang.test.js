@@ -54,7 +54,9 @@ describe('[Lang API]', () => {
             nextMonth: expect.any(String),
             prevYear: expect.any(String),
             nextYear: expect.any(String),
-            today: expect.any(String)
+            today: expect.any(String),
+            prevRangeYears: expect.any(Function),
+            nextRangeYears: expect.any(Function)
           },
           table: {
             noData: expect.any(String),
@@ -177,7 +179,9 @@ describe('[Lang API]', () => {
               nextMonth: expect.any(String),
               prevYear: expect.any(String),
               nextYear: expect.any(String),
-              today: expect.any(String)
+              today: expect.any(String),
+              prevRangeYears: expect.any(Function),
+              nextRangeYears: expect.any(Function)
             },
             table: {
               noData: 'No data available',
