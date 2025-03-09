@@ -266,7 +266,6 @@ export function getLinkEditor (eVm) {
       getGroup([
         h(QBtn, {
           key: 'qedt_btm_rem',
-          tabindex: -1,
           ...eVm.buttonProps.value,
           label: eVm.$q.lang.label.remove,
           noCaps: true,
