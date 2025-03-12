@@ -39,7 +39,7 @@ function getBtn (eVm, btn, clickHandler, active = false) {
       : null
     child.push(
       h(QTooltip, { delay: 1000 }, () => [
-        h('div', { innerHTML: btn.tip }),
+        h('div', { innerHTML: btn.htmlTip != null ? btn.htmlTip : void 0, textContent: btn.tip != null ? btn.tip : void 0 }),
         Key
       ])
     )
