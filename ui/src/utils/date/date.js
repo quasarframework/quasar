@@ -466,7 +466,7 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     }
   }
 
-  date.dateHash = pad(date.year, 6) + '/' + pad(date.month) + '/' + pad(date.day)
+  date.dateHash = pad(date.year, 4) + '/' + pad(date.month) + '/' + pad(date.day)
   date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second) + tzString
 
   return date
