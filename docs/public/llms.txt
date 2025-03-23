@@ -1,0 +1,14 @@
+*Note: This is an incomplete result, please enable full generation by entering a Firecrawl key.
+
+# https://quasar.dev llms.txt
+
+- [Cross-Platform Vue.js Framework](https://quasar.dev/): Quasar is a powerful Vue.js framework for cross-platform apps.
+- [Quasar Framework Docs](https://quasar.dev/docs/): Comprehensive Quasar framework documentation for developers and contributors.
+- [Quasar Components Overview](https://quasar.dev/components/): Explore Quasar's extensive components for building applications.
+- [Quasar Layout Gallery](https://quasar.dev/layout/gallery/): Explore various Quasar layout examples and components.
+- [Support Quasar Framework](https://quasar.dev/why-donate/): Support Quasar Framework's development through donations and sponsorships.
+- [Icon Genie CLI](https://quasar.dev/icongenie/introduction/): Simplify icon management for Quasar projects with Icon Genie.
+- [Quasar Layout Builder](https://quasar.dev/layout-builder/): Easily create and customize layouts with Quasar components.
+- [Quasar SEO Guide](https://quasar.dev/options/seo/): Learn how to optimize your Quasar app for SEO.
+- [CSS Visibility Classes](https://quasar.dev/style/visibility/): Explore CSS visibility classes for responsive design in Quasar.
+- [CSS Shadows Guide](https://quasar.dev/style/shadows/): Explore CSS shadows for depth effects in design.
