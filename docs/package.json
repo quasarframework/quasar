@@ -7,7 +7,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "quasar prepare",
+    "prepare:types": "quasar prepare",
     "prepare-docs": "node build/copy-quasar-api.js",
     "dev": "pnpm prepare-docs && quasar dev",
     "dev:ssr": "pnpm prepare-docs && quasar dev -m ssr",

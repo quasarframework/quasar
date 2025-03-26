@@ -7,7 +7,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prepare": "quasar prepare",
+    "prepare:types": "quasar prepare",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build"
