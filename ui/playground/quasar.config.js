@@ -49,7 +49,7 @@ export default defineConfig(ctx => {
         [ 'vite-plugin-checker', {
           eslint: {
             root: resolve('../'),
-            lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"',
+            lintCommand: 'eslint --cache "./**/*.{js,mjs,cjs,vue}"',
             useFlatConfig: true
           }
         }, { server: false } ]

@@ -79,7 +79,7 @@
     "url": "https://donate.quasar.dev"
   },
   "scripts": {
-    "lint": "eslint --fix"
+    "lint": "eslint --cache --fix"
   },
   "dependencies": {
     "@quasar/babel-preset-app": "^2.0.3",

@@ -13,7 +13,7 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "lint": "eslint --fix",
+    "lint": "eslint --cache --fix",
     "dev": "cd ./playground && pnpm dev",
     "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
     "test": "pnpm test:usage && pnpm test:runtime",

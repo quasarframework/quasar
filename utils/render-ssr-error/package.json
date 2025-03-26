@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
-    "lint": "eslint --fix",
+    "lint": "eslint --cache --fix",
     "dev": "cd src-ui && vite",
     "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && vite build",

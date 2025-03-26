@@ -3,7 +3,7 @@
   "version": "1.16.17",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
-    "lint": "eslint --fix",
+    "lint": "eslint --cache --fix",
     "build": "node build/index.js"
   },
   "main": "index.js",

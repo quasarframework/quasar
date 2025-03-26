@@ -7,7 +7,7 @@
     "quasar": "./bin/quasar.js"
   },
   "scripts": {
-    "lint": "eslint --fix"
+    "lint": "eslint --cache --fix"
   },
   "files": [
     "assets",
