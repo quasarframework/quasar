@@ -4,7 +4,6 @@
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "preinstall": "npx only-allow@1.2.1 pnpm",
-    "postinstall": "pnpm prepare",
     "prepare": "pnpm --recursive --parallel prepare",
     "lint:root": "eslint --cache --fix ./*.js ./*.mjs",
     "lint:non-workspace": "cd icongenie && pnpm lint && cd ..",
