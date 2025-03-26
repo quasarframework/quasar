@@ -2,15 +2,7 @@
   "eslint.format.enable": false,
   "editor.formatOnSave": false,
   "eslint.workingDirectories": [
-    "./app-vite",
-    "./app-webpack",
-    "./cli",
-    "./create-quasar",
-    "./docs",
-    "./ui",
-    "./utils/render-ssr-error",
-    "./utils/ssl-certificate",
-    "./vite-plugin"
+    { "mode": "auto" }
   ],
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
