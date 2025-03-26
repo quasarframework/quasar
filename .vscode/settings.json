@@ -8,5 +8,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "eslint.validate": ["javascript", "vue"]
+  "eslint.validate": ["javascript", "vue"],
+
+  "search.exclude": {
+    "**/dist": true,
+  }
 }
