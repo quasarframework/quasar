@@ -50,8 +50,6 @@ export default [
       // 'quasar/check-valid-props': 'warn',
 
       'vue/no-mutating-props': 'off',
-      'vue/no-v-model-argument': 'off',
-      'vue/multi-word-component-names': 'off',
       'vue/no-v-text-v-html-on-component': 'off',
       'vue/no-setup-props-destructure': 'off',
       'vue/require-toggle-inside-transition': 'off'

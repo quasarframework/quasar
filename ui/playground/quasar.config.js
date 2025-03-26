@@ -49,7 +49,8 @@ export default defineConfig(ctx => {
         [ 'vite-plugin-checker', {
           eslint: {
             root: resolve('../'),
-            lintCommand: 'eslint  --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
+            lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"',
+            useFlatConfig: true
           }
         }, { server: false } ]
       ],

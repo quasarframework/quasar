@@ -1,12 +1,8 @@
-# Not all packages are included.
-# Use individual folders for usual development of everything else.
 packages:
   - app-vite
   - app-webpack
   - vite-plugin
   - vite-plugin/playground
-  - utils/render-ssr-error
-  - utils/ssl-certificate
   - extras
   - ui
   - ui/playground
@@ -15,10 +11,16 @@ packages:
   - cli
   - docs
 
-  - playground/app-vite-ts
-
-  # private packages
+  - utils/render-ssr-error
+  - utils/ssl-certificate
   - utils/eslint-config
 
+  - playground/app-vite-ts
+
+  # The packages below are not included. Use their individual folders.
+  # - icongenie
+  # - utils/babel-preset-app
+  # - utils/ssr-helpers
+
 catalog:
-  eslint: ^9.18.0
+  eslint: ^9.23.0

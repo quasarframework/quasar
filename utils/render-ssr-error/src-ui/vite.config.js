@@ -2,7 +2,6 @@ import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// eslint-disable-next-line import-x/default -- can't detect `as default`
 import vitePluginChecker from 'vite-plugin-checker'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
@@ -26,7 +25,8 @@ export default defineConfig(() => {
       vitePluginChecker({
         root: resolve('../'),
         eslint: {
-          lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
+          lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"',
+          useFlatConfig: true
         }
       }),
 

@@ -5,7 +5,8 @@
   "scripts": {
     "preinstall": "npx only-allow@1.2.1 pnpm",
     "lint:root": "eslint --fix ./*.js ./*.mjs",
-    "lint": "pnpm lint:root && pnpm --recursive --parallel --aggregate-output --workspace-concurrency=6 run lint",
+    "lint:non-workspace": "cd icongenie && pnpm lint && cd ..",
+    "lint": "pnpm lint:root && pnpm lint:non-workspace && pnpm --recursive --parallel --workspace-concurrency=6 run lint",
     "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test",
     "build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar build",
     "vite-ecosystem-ci:build": "pnpm build",

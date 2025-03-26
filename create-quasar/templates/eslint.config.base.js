@@ -31,6 +31,13 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
+    },
+
+    linterOptions: {
+      // TS templates use recommendedTypeChecked which have extra rules
+      // We can't enable it here due to the complicated nature of the templates
+      // So, we simply disable unused disable directives to avoid false positives
+      reportUnusedDisableDirectives: 'off'
     }
   },
 
@@ -105,7 +112,9 @@ export default tseslint.config(
   {
     name: 'custom/templates/config-files/esm',
     files: [
+      '*/*/**/quasar.config.js',
       '*/*/**/_eslint.config.js',
+      '*/*/**/babel.config.js',
       '*/*/**/postcss.config.js'
     ],
 

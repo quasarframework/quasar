@@ -3,7 +3,7 @@ import globals from 'globals'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  ...pluginVue.configs['flat/essential'],
+  ...pluginVue.configs[ 'flat/essential' ],
 
   {
     name: 'quasar/vue',
@@ -27,7 +27,6 @@ export default [
       'vue/array-bracket-spacing': 'off',
       'vue/object-curly-spacing': 'off',
       'vue/script-indent': 'off',
-      'vue/no-v-model-argument': 'off',
       'vue/require-explicit-emits': 'off',
       'vue/multi-word-component-names': 'off'
     }

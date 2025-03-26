@@ -5,9 +5,16 @@
   "bin": {
     "icongenie": "./bin/icongenie.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "samples",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
   "scripts": {
-    "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
+    "lint": "eslint --fix"
   },
   "repository": {
     "type": "git",
@@ -61,8 +68,9 @@
     "update-notifier": "^7.0.0"
   },
   "devDependencies": {
-    "eslint": "catalog:",
-    "eslint-plugin-n": "^16.6.2"
+    "@eslint/js": "^9.23.0",
+    "eslint": "^9.23.0",
+    "eslint-plugin-n": "^17.16.2"
   },
   "resolutions": {
     "minimist": "^1.2.8"

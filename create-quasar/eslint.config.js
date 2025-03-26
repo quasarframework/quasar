@@ -13,7 +13,7 @@ export default tseslint.config(
   {
     name: 'custom/ignores',
 
-    ignores: [ 'test-project', 'templates/app' ]
+    ignores: [ 'test-project' ]
   },
 
   {
