@@ -4,20 +4,37 @@ import { readFileSync } from 'node:fs'
 import { quasarPath } from './quasar-path.js'
 import { mapQuasarImports, removeQuasarImports, importTransformation } from './js-transform.js'
 
-const autoImportData = JSON.parse(
-  readFileSync(join(quasarPath, 'dist/transforms/auto-import.json'), 'utf-8')
-)
+let transformState
+function useTransformState () {
+  if (transformState !== void 0) {
+    return transformState
+  }
 
-const compRegex = {
-  kebab: new RegExp(`_resolveComponent\\("${ autoImportData.regex.kebabComponents }"\\)`, 'g'),
-  pascal: new RegExp(`_resolveComponent\\("${ autoImportData.regex.pascalComponents }"\\)`, 'g'),
-  combined: new RegExp(`_resolveComponent\\("${ autoImportData.regex.components }"\\)`, 'g')
+  const autoImportData = JSON.parse(
+    readFileSync(join(quasarPath, 'dist/transforms/auto-import.json'), 'utf-8')
+  )
+
+  const compRegex = {
+    kebab: new RegExp(`_resolveComponent\\("${ autoImportData.regex.kebabComponents }"\\)`, 'g'),
+    pascal: new RegExp(`_resolveComponent\\("${ autoImportData.regex.pascalComponents }"\\)`, 'g'),
+    combined: new RegExp(`_resolveComponent\\("${ autoImportData.regex.components }"\\)`, 'g')
+  }
+
+  const dirRegex = new RegExp(`_resolveDirective\\("${ autoImportData.regex.directives.replace(/v-/g, '') }"\\)`, 'g')
+
+  transformState = {
+    autoImportData,
+    compRegex,
+    dirRegex
+  }
+  return transformState
 }
 
-const dirRegex = new RegExp(`_resolveDirective\\("${ autoImportData.regex.directives.replace(/v-/g, '') }"\\)`, 'g')
 const lengthSortFn = (a, b) => b.length - a.length
 
 export function vueTransform (content, autoImportComponentCase, useTreeshaking) {
+  const { autoImportData, compRegex, dirRegex } = useTransformState()
+
   const importSet = new Set()
   const importMap = {}
 
