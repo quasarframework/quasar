@@ -11,7 +11,7 @@
         </q-tooltip>
       </q-btn>
 
-      <q-btn color="primary" label="Scale Menu">
+      <q-btn color="primary" label="Scale">
         <q-tooltip
           transition-show="scale"
           transition-hide="scale"
