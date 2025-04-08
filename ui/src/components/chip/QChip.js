@@ -54,7 +54,10 @@ export default createComponent({
     removeAriaLabel: String,
 
     tabindex: [ String, Number ],
-    disable: Boolean,
+    disable: {
+      type: Boolean,
+      default: false
+    },
 
     ripple: {
       type: [ Boolean, Object ],

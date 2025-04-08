@@ -107,7 +107,8 @@
     },
 
     "disable": {
-      "extends": "disable"
+      "extends": "disable",
+      "default": "false"
     }
   },
 
