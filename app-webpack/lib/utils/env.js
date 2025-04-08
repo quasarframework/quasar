@@ -14,6 +14,13 @@ const readFileEnvCacheKey = 'readFileEnv'
 module.exports.readFileEnv = function readFileEnv ({ ctx, quasarConf }) {
   const { cacheProxy } = ctx
 
+  if (typeof quasarConf.build.envFiles === 'function') {
+    quasarConf.build.envFiles = quasarConf.build.envFiles(
+      quasarConf.build.envFolder || ctx.appPaths.appDir,
+      ctx
+    )
+  }
+
   const opts = {
     envFolder: quasarConf.build.envFolder,
     envFiles: quasarConf.build.envFiles,

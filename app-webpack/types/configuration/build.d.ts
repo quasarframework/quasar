@@ -3,6 +3,7 @@ import { Configuration as WebpackConfiguration } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import * as WebpackChain from "webpack-5-chain";
 import { DefinedDefaultAlgorithmAndOptions } from "compression-webpack-plugin";
+import { QuasarContext } from "./context";
 import { QuasarHookParams } from "./conf";
 import { CompilerOptions, TypeAcquisition } from "typescript";
 
@@ -291,8 +292,9 @@ interface QuasarStaticBuildConfiguration {
    * Each entry can be an absolute path or a relative path to quasar.config > build > envFolder.
    *
    * @example ['.env.somefile', '../.env.someotherfile']
+   * @example (envFolder, context) => context.dev ? [envFolder + '/some-folder/.env.some-mode'] : []
    */
-  envFiles?: string[];
+  envFiles?: string[] | ((envFolder: string, context: QuasarContext) => string[]);
   /**
    * Filter the env variables that are exposed to the client
    * through the env files. This does not account also for the definitions
