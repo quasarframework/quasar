@@ -25,7 +25,7 @@ const Plugin = createReactivePlugin({
       Plugin.__media = void 0
     }
 
-    val = [...document.body.classList].includes('body--dark')
+    if ([...document.body.classList].includes('body--dark')) val = true
     Plugin.isActive = val === true
     document.body.classList.remove(`body--${ val === true ? 'light' : 'dark' }`)
     document.body.classList.add(`body--${ val === true ? 'dark' : 'light' }`)
