@@ -25,7 +25,6 @@ const Plugin = createReactivePlugin({
       Plugin.__media = void 0
     }
 
-    if ([...document.body.classList].includes('body--dark')) val = true
     Plugin.isActive = val === true
     document.body.classList.remove(`body--${ val === true ? 'light' : 'dark' }`)
     document.body.classList.add(`body--${ val === true ? 'dark' : 'light' }`)
@@ -61,6 +60,8 @@ const Plugin = createReactivePlugin({
 
       $q.dark.set(dark)
       return
+    } else if (__QUASAR_SSR_CLIENT__) {
+      if ([...document.body.classList].includes('body--dark')) $q.dark.set(true)
     }
 
     $q.dark = this
