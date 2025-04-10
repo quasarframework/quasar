@@ -37,7 +37,11 @@ const Plugin = createReactivePlugin({
   },
 
   install ({ $q, ssrContext }) {
-    const { dark } = $q.config
+    let { dark } = $q.config
+
+    if (__QUASAR_SSR_CLIENT__) {
+      if ([...document.body.classList].includes('body--dark')) dark = true
+    }
 
     if (__QUASAR_SSR_SERVER__) {
       this.isActive = dark === true
@@ -60,8 +64,6 @@ const Plugin = createReactivePlugin({
 
       $q.dark.set(dark)
       return
-    } else if (__QUASAR_SSR_CLIENT__) {
-      if ([...document.body.classList].includes('body--dark')) $q.dark.set(true)
     }
 
     $q.dark = this
