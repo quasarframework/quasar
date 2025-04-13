@@ -93,6 +93,94 @@ As an example how this is done for Google Firebase, you would add the following 
 }
 ```
 
+## Deploying with Cloudflare Pages
+
+Cloudflare Pages offers a powerful platform for deploying Quasar SPAs with built-in performance, security, and scalability features. Let's set up your Quasar application for deployment.
+
+First, install the required dependencies:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add -D @cloudflare/vite-plugin wrangler
+<<| bash NPM |>>
+$ npm install -D @cloudflare/vite-plugin wrangler
+<<| bash PNPM |>>
+$ pnpm add -D @cloudflare/vite-plugin wrangler
+<<| bash Bun |>>
+$ bun add -D @cloudflare/vite-plugin wrangler
+```
+
+Next, modify your `quasar.config.ts` to include the Cloudflare Vite plugin:
+
+```typescript
+import { cloudflare } from "@cloudflare/vite-plugin";
+
+export default defineConfig(() => {
+  return {
+    build: {
+      vitePlugins: [
+        cloudflare()
+      ]
+    }
+    // ... rest of your config
+  }
+});
+```
+
+Create a `wrangler.jsonc` file in your project root:
+
+```json
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "your-project-name",
+  "compatibility_date": "2025-04-12",
+  "pages_build_output_dir": "./dist/spa"
+}
+```
+
+Add the deploy script to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "build": "quasar build",
+    "deploy": "wrangler pages deploy"
+  }
+}
+```
+
+Now you can build and deploy your application using:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn build
+$ yarn deploy
+<<| bash NPM |>>
+$ npm run build
+$ npm run deploy
+<<| bash PNPM |>>
+$ pnpm run build
+$ pnpm run deploy
+<<| bash Bun |>>
+$ bun run build
+$ bun run deploy
+```
+
+For existing Git repositories, you can set up continuous deployment by connecting your repository to Cloudflare Pages:
+
+```bash
+$ wrangler pages project create my-quasar-app
+$ git remote add cloudflare https://github.com/your-username/your-repo.git
+$ git push cloudflare main
+```
+
+Configure your build settings in the Cloudflare Pages dashboard:
+- Build command: `quasar build`
+- Build output directory: `dist/spa`
+- Environment variables (if needed)
+
+For more information about Cloudflare Pages features and configuration options, visit the [Cloudflare Pages documentation](https://developers.cloudflare.com/pages).
+
 ## Deploying with Vercel
 Deploying your Quasar application with [Vercel](https://vercel.com/) is really easy.
 All you have to do is to download the [vercel-cli](https://vercel.com/download#now-cli) and log in by running:
