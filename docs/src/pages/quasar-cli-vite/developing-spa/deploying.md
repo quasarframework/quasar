@@ -110,9 +110,9 @@ $ pnpm add -D @cloudflare/vite-plugin wrangler
 $ bun add -D @cloudflare/vite-plugin wrangler
 ```
 
-Next, modify your `quasar.config.ts` to include the Cloudflare Vite plugin:
+Next, modify your `quasar.config` file to include the Cloudflare Vite plugin:
 
-```typescript
+```js
 import { cloudflare } from "@cloudflare/vite-plugin";
 
 export default defineConfig(() => {
