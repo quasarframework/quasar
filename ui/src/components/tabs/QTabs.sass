@@ -20,6 +20,7 @@
     height: inherit
     padding: 4px 0
     min-width: 40px
+    z-index: 2
 
     &--inline
       .q-tab__icon + .q-tab__label
@@ -61,8 +62,18 @@
 
   &__indicator
     opacity: 0
-    height: 2px
     background: currentColor
+
+    &--line
+      height: 2px
+
+    &--pill
+      position: absolute
+      height: 32px
+      width: 52px
+      top: 8px
+      left: calc(50% - 26px)
+      border-radius: 16px
 
   &--active .q-tab__indicator
     opacity: 1
@@ -168,8 +179,9 @@
       padding: 0 8px
 
     .q-tab__indicator
-      height: unset
-      width: 2px
+      &--line
+        height: unset
+        width: 2px
 
   &--vertical.q-tabs--not-scrollable
     .q-tabs__content
@@ -185,3 +197,8 @@
       min-height: 36px
       &--full
         min-height: 52px
+        
+      &__indicator
+        &--pill
+          height: 24px
+          top: 4px

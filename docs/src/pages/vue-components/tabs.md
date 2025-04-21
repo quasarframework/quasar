@@ -62,7 +62,7 @@ QRouteTab won't and cannot work with the UMD version if you don't also install V
 
 ### Custom indicator
 
-In the examples below, please notice the last two QTabs: indicator at top and no indicator.
+In the examples below, please notice the last three QTabs: indicator at top, no indicator and pill shaped indicator.
 
 <DocExample title="Custom indicator" file="CustomIndicator" />
 

@@ -54,6 +54,17 @@
         <q-tab name="alarms" icon="alarm" label="Alarms" />
         <q-tab name="movies" icon="movie" label="Movies" />
       </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        indicator-shape="pill"
+        indicator-color="lime"
+        class="bg-red text-dark shadow-2"
+      >
+        <q-tab name="mails" icon="mail" label="Mails" />
+        <q-tab name="alarms" icon="alarm" label="Alarms" />
+        <q-tab name="movies" icon="movie" label="Movies" />
+      </q-tabs>
     </div>
   </div>
 </template>

@@ -11,15 +11,17 @@ import { hSlot } from '../../utils/private.render/render.js'
 import { tabsKey } from '../../utils/private.symbols/symbols.js'
 import { rtlHasScrollBug } from '../../utils/private.rtl/rtl.js'
 
-function getIndicatorClass (color, top, vertical) {
+function getIndicatorClass (color, top, vertical, shape) {
+  if (shape === 'pill') return `q-tab__indicator--pill${ color ? ` text-${ color }` : '' }`
   const pos = vertical === true
     ? [ 'left', 'right' ]
     : [ 'top', 'bottom' ]
 
-  return `absolute-${ top === true ? pos[ 0 ] : pos[ 1 ] }${ color ? ` text-${ color }` : '' }`
+  return `q-tab__indicator--line absolute-${ top === true ? pos[ 0 ] : pos[ 1 ] }${ color ? ` text-${ color }` : '' }`
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
+const indicatorShapeValues = [ 'line', 'pill' ]
 
 export default createComponent({
   name: 'QTabs',
@@ -45,6 +47,11 @@ export default createComponent({
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
+    indicatorShape: {
+      type: String,
+      default: 'line',
+      validator: v => indicatorShapeValues.includes(v)
+    },
     leftIcon: String,
     rightIcon: String,
 
@@ -97,7 +104,8 @@ export default createComponent({
       indicatorClass: getIndicatorClass(
         props.indicatorColor,
         props.switchIndicator,
-        props.vertical
+        props.vertical,
+        props.indicatorShape
       ),
       narrowIndicator: props.narrowIndicator,
       inlineLabel: props.inlineLabel,
