@@ -186,7 +186,7 @@ export default createComponent({
       const data = {
         class: classes.value,
         style: sizeStyle.value,
-        'aria-hidden': 'true',
+        'aria-hidden': 'true'
       }
 
       if (type.value.none === true) {
