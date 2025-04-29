@@ -31,15 +31,16 @@ function getBtn (eVm, btn, clickHandler, active = false) {
       : false),
     child = []
 
-  if (btn.tip && eVm.$q.platform.is.desktop) {
+  if (eVm.$q.platform.is.desktop && (btn.tip || btn.htmlTip)) {
     const Key = btn.key
       ? h('div', [
         h('small', `(CTRL + ${ String.fromCharCode(btn.key) })`)
       ])
       : null
+
     child.push(
       h(QTooltip, { delay: 1000 }, () => [
-        h('div', { innerHTML: btn.htmlTip != null ? btn.htmlTip : void 0, textContent: btn.tip != null ? btn.tip : void 0 }),
+        h('div', btn.htmlTip ? { innerHTML: btn.htmlTip } : btn.tip),
         Key
       ])
     )
