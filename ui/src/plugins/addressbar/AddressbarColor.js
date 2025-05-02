@@ -7,11 +7,7 @@ let metaValue
 function getProp () {
   return client.is.winphone
     ? 'msapplication-navbutton-color'
-    : (
-        client.is.safari
-          ? 'apple-mobile-web-app-status-bar-style'
-          : 'theme-color' // Chrome, Firefox OS, Opera, Vivaldi, ...
-      )
+    : 'theme-color' // Safari, Chrome, ...
 }
 
 function getMetaTag (v) {
