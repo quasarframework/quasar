@@ -52,7 +52,7 @@ function getBtn (eVm, btn, clickHandler, active = false) {
     color: toggled ? btn.toggleColor || eVm.props.toolbarToggleColor : btn.color || eVm.props.toolbarColor,
     textColor: toggled && !eVm.props.toolbarPush ? null : btn.textColor || eVm.props.toolbarTextColor,
     label: btn.label,
-    ariaLabel: btn.label == null ? btn.tip : void 0,
+    'aria-label': btn.label == null ? btn.tip : void 0,
     disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(eVm) : true) : false,
     size: 'sm',
     onClick (e) {

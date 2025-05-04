@@ -1136,7 +1136,7 @@ export default createComponent({
           props.todayBtn === true ? h(QBtn, {
             class: 'q-date__header-today self-start',
             icon: $q.iconSet.datetime.today,
-            ariaLabel: $q.lang.date.today,
+            'aria-label': $q.lang.date.today,
             flat: true,
             size: 'sm',
             round: true,
@@ -1158,7 +1158,7 @@ export default createComponent({
             size: 'sm',
             flat: true,
             icon: dateArrow.value[ 0 ],
-            ariaLabel: type === 'Years' ? $q.lang.date.prevYear : $q.lang.date.prevMonth,
+            'aria-label': type === 'Years' ? $q.lang.date.prevYear : $q.lang.date.prevMonth,
             tabindex: tabindex.value,
             disable: boundaries.prev === false,
             ...getCache('go-#' + type, { onClick () { goTo(-1) } })
@@ -1191,7 +1191,7 @@ export default createComponent({
             size: 'sm',
             flat: true,
             icon: dateArrow.value[ 1 ],
-            ariaLabel: type === 'Years' ? $q.lang.date.nextYear : $q.lang.date.nextMonth,
+            'aria-label': type === 'Years' ? $q.lang.date.nextYear : $q.lang.date.nextMonth,
             tabindex: tabindex.value,
             disable: boundaries.next === false,
             ...getCache('go+#' + type, { onClick () { goTo(1) } })
@@ -1362,7 +1362,7 @@ export default createComponent({
               dense: true,
               flat: true,
               icon: dateArrow.value[ 0 ],
-              ariaLabel: $q.lang.date.prevRangeYears(yearsInterval),
+              'aria-label': $q.lang.date.prevRangeYears(yearsInterval),
               tabindex: tabindex.value,
               disable: isDisabled(start),
               ...getCache('y-', { onClick: () => { startYear.value -= yearsInterval } })
@@ -1381,7 +1381,7 @@ export default createComponent({
               dense: true,
               flat: true,
               icon: dateArrow.value[ 1 ],
-              ariaLabel: $q.lang.date.nextRangeYears(yearsInterval),
+              'aria-label': $q.lang.date.nextRangeYears(yearsInterval),
               tabindex: tabindex.value,
               disable: isDisabled(stop),
               ...getCache('y+', { onClick: () => { startYear.value += yearsInterval } })
