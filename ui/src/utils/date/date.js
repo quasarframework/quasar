@@ -509,6 +509,16 @@ export function getWeekOfYear (date) {
   return 1 + Math.floor(weekDiff)
 }
 
+export function getISOWeekYear (date) {
+  // Remove time components of date
+  const thursday = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+  // Change date to Thursday same week
+  thursday.setDate(thursday.getDate() - ((thursday.getDay() + 6) % 7) + 3)
+
+  return thursday.getFullYear() 
+}
+
 function getDayIdentifier (date) {
   return date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate()
 }
@@ -762,6 +772,22 @@ const formatter = {
       : date.getFullYear()
   },
 
+  GG (date, dateLocale, forcedYear) {
+    // workaround for < 1900 with new Date()
+    const g = this.GGGG(date, dateLocale, forcedYear) % 100
+    return g >= 0
+      ? pad(g)
+      : '-' + pad(Math.abs(g))
+  },
+
+  // Year: 1900, 1901, ..., 2099
+  GGGG (date, _dateLocale, forcedYear) {
+    // workaround for < 1900 with new Date()
+    return forcedYear !== void 0 && forcedYear !== null
+      ? forcedYear
+      : getISOWeekYear(date)
+  },
+
   // Month: 1, 2, ..., 12
   M (date) {
     return date.getMonth() + 1
@@ -1013,6 +1039,7 @@ export default {
   buildDate,
   getDayOfWeek,
   getWeekOfYear,
+  getISOWeekYear,
   isBetweenDates,
   addToDate,
   subtractFromDate,
