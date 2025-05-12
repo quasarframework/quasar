@@ -1561,8 +1561,9 @@ export default createComponent({
           }
         }
 
-        if (nameProp.value !== void 0 && props.disable !== true && innerOptionsValue.value.length !== 0) {
-          const opts = innerOptionsValue.value.map(value => h('option', { value, selected: true }))
+        if (nameProp.value !== void 0 && props.disable !== true) {
+          const values = innerOptionsValue.value.length !== 0 ? innerOptionsValue.value : [ '' ]
+          const opts = values.map(value => h('option', { value, selected: true }))
 
           child.push(
             h('select', {
