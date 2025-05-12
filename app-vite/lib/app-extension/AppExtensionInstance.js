@@ -1,4 +1,4 @@
-import { join, relative, resolve, dirname } from 'node:path'
+import { relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import fse from 'fs-extra'
 import inquirer from 'inquirer'
@@ -12,22 +12,6 @@ import { InstallAPI } from './api-classes/InstallAPI.js'
 import { UninstallAPI } from './api-classes/UninstallAPI.js'
 import { PromptsAPI } from './api-classes/PromptsAPI.js'
 import { getPackagePath } from '../utils/get-package-path.js'
-
-const scriptsExtensionList = [ '', '.js', '.mjs', '.cjs' ]
-const scriptsTargetFolderList = [ 'dist', 'src' ]
-
-function getPackageScriptPath (packageFullName, scriptName, dir) {
-  for (const ext of scriptsExtensionList) {
-    for (const folder of scriptsTargetFolderList) {
-      const path = getPackagePath(
-        join(packageFullName, folder, `${ scriptName }${ ext }`),
-        dir
-      )
-
-      if (path !== void 0) return path
-    }
-  }
-}
 
 async function promptOverwrite ({ targetPath, options, ctx }) {
   const choices = [
@@ -125,7 +109,6 @@ export class AppExtensionInstance {
   packageName
 
   #isInstalled = null
-  #packagePath = null
 
   constructor ({ extName, ctx, appExtJson }) {
     this.#ctx = ctx
@@ -163,36 +146,30 @@ export class AppExtensionInstance {
     const { appDir } = this.#ctx.appPaths
 
     try {
-      const packagePath = (
+      const resolvedPath = (
+        // Try `import('quasar-app-extension-foo/package.json')`. It might not work if using `package.json > exports` and the file is not listed
         getPackagePath(
-          join(this.packageFullName, 'package.json'),
+          `${ this.packageFullName }/package.json`,
           appDir
         )
+        // Try `import('quasar-app-extension-foo')` to see if the root import is available (through `package.json > exports` or `package.json > main`)
         || getPackagePath(
           this.packageFullName,
           appDir
         )
-        || getPackageScriptPath(
-          this.packageFullName,
-          'index',
-          appDir
-        )
+        // As a last resort, try to resolve the index script. By not doing this as the only/first option, we can give a more precise error message
+        // if the package is installed but the index script is missing
+        || this.#getScriptPath('index')
       )
 
-      if (packagePath !== void 0) {
+      if (resolvedPath !== void 0) {
         this.#isInstalled = true
-        this.#packagePath = dirname(packagePath)
         return
       }
     }
     catch (_) {}
 
-    this.#markAsNotInstalled()
-  }
-
-  #markAsNotInstalled () {
     this.#isInstalled = false
-    this.#packagePath = false
   }
 
   async install (skipPkgInstall) {
@@ -326,30 +303,41 @@ export class AppExtensionInstance {
   async #uninstallPackage () {
     const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.uninstallPackage(this.packageFullName)
-    this.#markAsNotInstalled()
+    this.#isInstalled = false
   }
 
+  #scriptsTargetFolderList = [ 'dist', 'src' ]
+  #scriptsExtensionList = [ '', '.js', '.mjs', '.cjs' ]
   /**
-   * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
-   * searches it into the `dist` folder.
+   * Returns the absolute path to the script file.
    *
-   * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
-   * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
+   * It uses Node import resolution rather than filesystem-based resolution, so `package.json > exports` will affect the result, if exists.
+   * It will try to resolve the file with no extension, then with `.js`, `.mjs` and `.cjs`.
+   * For each extension, it will first check the `dist` directory, then the `src` directory.
+   * To give some examples to the import resolution:
+   * - `quasar-app-extension-foo/dist/index`
+   * - `quasar-app-extension-foo/dist/index.js`
+   *
+   * This allows to use preprocessors (e.g. TypeScript) for all AE files (including index, install, uninstall, etc. AE scripts)
    */
-  #getScriptFile (scriptName) {
+  #getScriptPath (scriptName) {
     if (this.isInstalled === false) return
 
-    return getPackageScriptPath(
-      this.packageFullName,
-      scriptName,
-      this.#packagePath
-    )
+    for (const ext of this.#scriptsExtensionList) {
+      for (const folder of this.#scriptsTargetFolderList) {
+        const path = getPackagePath(
+          `${ this.packageFullName }/${ folder }/${ scriptName }${ ext }`,
+          this.#ctx.appPaths.appDir
+        )
+
+        if (path !== void 0) return path
+      }
+    }
   }
 
   async #getScript (scriptName, fatalError) {
-    const script = this.#getScriptFile(scriptName)
-
-    if (!script) {
+    const scriptPath = this.#getScriptPath(scriptName)
+    if (!scriptPath) {
       if (fatalError) {
         fatal(`App Extension "${ this.extId }" has missing ${ scriptName } script...`)
       }
@@ -361,7 +349,7 @@ export class AppExtensionInstance {
 
     try {
       const { default: defaultFn } = await import(
-        pathToFileURL(script)
+        pathToFileURL(scriptPath)
       )
 
       fn = defaultFn
