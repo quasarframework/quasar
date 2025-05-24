@@ -499,7 +499,6 @@ export default function (props, emit, emitValue, inputRef) {
 
       if (typeof maskDef === 'string') {
         output += maskDef
-        valChar === maskDef && valIndex++
       }
       else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
         output += maskDef.transform !== void 0
@@ -529,7 +528,6 @@ export default function (props, emit, emitValue, inputRef) {
 
       if (typeof maskDef === 'string') {
         output = maskDef + output
-        valChar === maskDef && valIndex--
       }
       else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
         do {
