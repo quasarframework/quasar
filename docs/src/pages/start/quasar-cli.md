@@ -92,7 +92,9 @@ Pick `Quasar CLI with Vite` if you want:
 
 4. Answer the rest of the questions and you're almost done.
 
-5. Now, do you want to be able to run Quasar CLI commands directly (eg. `$ quasar dev/build`) or through yarn or npx (`$ yarn quasar dev/build` / `npx quasar dev/build`)?
+5. You can also use command-line parameters to create a project without interactive prompts. See the [Non-Interactive Mode](#non-interactive-mode) section below for details.
+
+6. Now, do you want to be able to run Quasar CLI commands directly (eg. `$ quasar dev/build`) or through yarn or npx (`$ yarn quasar dev/build` / `npx quasar dev/build`)?
 
     We strongly recommend to pick the first choice and be able to run commands directly. Actually, you'll be able to do even more than just this (eg. "quasar upgrade" or "quasar serve" commands). For this, you'll need to globally install the `@quasar/cli` package:
 
@@ -180,6 +182,97 @@ Here are the options:
     $ npx quasar inspect
     # ..etc
     ```
+
+## Non-Interactive Mode
+
+Quasar CLI supports creating projects in non-interactive mode by providing command-line parameters. This is particularly useful for automation, CI/CD pipelines, or when you want to quickly scaffold projects with predefined settings.
+
+### Basic Usage
+
+```bash
+# Using Yarn
+yarn create quasar --type app --folder my-project
+
+# Using NPM
+npm init quasar -- --type app --folder my-project
+
+# Using PNPM
+pnpm create quasar --type app --folder my-project
+
+# Using Bun
+bun create quasar --type app --folder my-project
+```
+
+### Fully Non-Interactive Mode
+
+To run in fully non-interactive mode, use the `--yes` flag. This will use default values for any parameters not explicitly specified:
+
+```bash
+yarn create quasar --type app --folder my-project --yes
+```
+
+### Template-Specific Options
+
+Quasar CLI supports three main template types: `app`, `app-extension`, and `ui-kit`. Each template type has its own set of specific options.
+
+To see the available options for a particular template type, use:
+
+```bash
+yarn create quasar --help --type <template-type>
+```
+
+For example:
+
+```bash
+yarn create quasar --help --type app
+yarn create quasar --help --type app-extension
+yarn create quasar --help --type ui-kit
+```
+
+### Common Options
+
+| Option | Description |
+| --- | --- |
+| `--type` | Project type (app, app-extension, ui-kit) |
+| `--folder` | Project folder name |
+| `--nogit` | Skip git initialization |
+| `--yes, -y` | Non-interactive mode, use default values for missing options |
+| `--help, -h` | Show help message |
+
+### App Template Options
+
+| Option | Description |
+| --- | --- |
+| `--script-type` | Script type (js, ts) |
+| `--engine` | Engine variant (vite-2, webpack-4) |
+| `--name` | Package name |
+| `--product-name` | Product name |
+| `--description` | Project description |
+| `--preset` | Features preset (comma-separated: eslint,pinia,axios,i18n) |
+| `--prettier` | Add Prettier for code formatting (boolean) |
+| `--sfc-style` | Vue component style (composition-setup, composition, options) |
+| `--css` | CSS preprocessor (scss, sass, css) |
+| `--package-manager` | Package manager to use (yarn, npm, pnpm, bun) |
+
+### Examples
+
+#### Creating a standard app with specific options:
+
+```bash
+yarn create quasar --type app --folder my-app --script-type js --engine vite-2 --preset eslint,pinia,axios --css scss --yes
+```
+
+#### Creating an app extension:
+
+```bash
+yarn create quasar --type app-extension --folder my-extension --name my-ext --description "My Quasar Extension" --preset prompts,install --yes
+```
+
+#### Creating a UI kit:
+
+```bash
+yarn create quasar --type ui-kit --folder my-ui-kit --name my-component --features component,ae --yes
+```
 
 ## What next?
 

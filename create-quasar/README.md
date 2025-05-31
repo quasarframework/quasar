@@ -22,6 +22,62 @@ pnpm create quasar
 bun create quasar
 ```
 
+## Command-Line Parameters
+
+The create-quasar tool supports both interactive and non-interactive modes. By default, it runs in interactive mode, prompting you for each option. However, you can also provide command-line parameters to automate the project creation process.
+
+### Basic Usage
+
+```bash
+npm init quasar -- --type app --folder my-project
+# or
+yarn create quasar --type app --folder my-project
+```
+
+### Non-Interactive Mode
+
+To run in fully non-interactive mode, use the `--yes` flag. This will use default values for any parameters not explicitly specified:
+
+```bash
+npm init quasar -- --type app --folder my-project --yes
+```
+
+### Template-Specific Options
+
+Each template type (app, app-extension, ui-kit) has its own set of specific options. To see the available options for a particular template type, use:
+
+```bash
+npm init quasar -- --help --type <template-type>
+```
+
+For example:
+
+```bash
+npm init quasar -- --help --type app
+npm init quasar -- --help --type app-extension
+npm init quasar -- --help --type ui-kit
+```
+
+### Examples
+
+#### Creating a standard app with specific options:
+
+```bash
+npm init quasar -- --type app --folder my-app --script-type js --engine vite-2 --preset eslint,pinia,axios --css scss --yes
+```
+
+#### Creating an app extension:
+
+```bash
+npm init quasar -- --type app-extension --folder my-extension --name my-ext --description "My Quasar Extension" --preset prompts,install --yes
+```
+
+#### Creating a UI kit:
+
+```bash
+npm init quasar -- --type ui-kit --folder my-ui-kit --name my-component --features component,ae --yes
+```
+
 ## Supporting Quasar
 
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
