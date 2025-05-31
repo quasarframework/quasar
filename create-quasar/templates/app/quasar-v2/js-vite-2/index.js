@@ -1,4 +1,9 @@
 export async function script ({ scope, utils }) {
+  // Initialize preset if it doesn't exist yet (for command-line usage)
+  if (!scope.preset) {
+    scope.preset = {}
+  }
+  
   await utils.prompts(scope, [
     {
       type: 'multiselect',
@@ -13,7 +18,7 @@ export async function script ({ scope, utils }) {
       format: utils.convertArrayToObject
     },
     {
-      type: (_, { preset }) => (preset.eslint ? 'confirm' : null),
+      type: (_, { preset }) => (preset && preset.eslint ? 'confirm' : null),
       name: 'prettier',
       initial: true,
       message: 'Add Prettier for code formatting?'

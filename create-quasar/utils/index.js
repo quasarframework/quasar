@@ -13,6 +13,14 @@ import logger from './logger.js'
 
 const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.cjs', '.ts', '.vue', '.md', '.html', '.sass' ]
 
+// Global argv reference for non-interactive mode
+let cliArgs = null
+
+// Function to set CLI args from outside
+function setCliArgs(args) {
+  cliArgs = args
+}
+
 async function prompts (scope, questions, opts) {
   const options = opts || {
     onCancel: () => {
@@ -20,8 +28,170 @@ async function prompts (scope, questions, opts) {
     }
   }
 
-  const answers = await promptUser(questions, options)
-  Object.assign(scope, answers)
+  // Mappings for CLI arguments to question names
+  const paramMap = {
+    // Main parameters
+    'projectType': 'type',
+    'projectFolder': 'folder',
+    'packageManager': 'package-manager',
+    'scriptType': 'script-type',
+    'engine': 'engine',
+    'name': 'name',
+    'productName': 'product-name',
+    'description': 'description',
+    'sfcStyle': 'sfc-style',
+    'css': 'css',
+    'preset': 'preset',
+    'prettier': 'prettier'
+  }
+
+  // Check if we have command-line arguments and if we're in non-interactive mode
+  const nonInteractive = cliArgs && cliArgs.yes === true
+
+  if (cliArgs) {
+    const answers = {}
+    
+    // Process each question to see if we have a CLI arg for it
+    for (const question of questions) {
+      const { name, type, choices, initial } = question
+      
+      // Skip conditional questions that would not be asked
+      if (typeof type === 'function') {
+        const shouldAsk = type(cliArgs, scope)
+        if (!shouldAsk) continue
+      }
+      
+      // Handle CLI arguments based on question name
+      let answered = false
+      
+      // Check if we have a direct mapping for this parameter
+      const cliArgName = paramMap[name] || name
+      
+      if (cliArgs[cliArgName] !== undefined) {
+        // We have a CLI argument for this parameter
+        if (type === 'multiselect' && name === 'preset') {
+          // Handle preset as comma-separated values
+          const presetValues = cliArgs[cliArgName].split(',')
+          answers[name] = convertArrayToObject(presetValues)
+        } else if (type === 'select' && choices) {
+          // Validate that the provided value is in the choices
+          // Handle both array choices and function choices
+          let choicesArray = choices
+          if (typeof choices === 'function') {
+            try {
+              choicesArray = choices()
+            } catch (e) {
+              // If we can't evaluate the choices function, just accept the provided value
+              answers[name] = cliArgs[cliArgName]
+              answered = true
+              continue
+            }
+          }
+
+          // Make sure choicesArray is actually an array
+          if (Array.isArray(choicesArray)) {
+            const validValues = choicesArray.map(choice => choice.value)
+            if (validValues.includes(cliArgs[cliArgName])) {
+              answers[name] = cliArgs[cliArgName]
+            } else {
+              // Use default value if provided value is not valid
+              const defaultChoice = choicesArray.find(choice => choice.selected) || choicesArray[0]
+              answers[name] = defaultChoice.value
+              logger.warn(`Invalid value for ${cliArgName}: ${cliArgs[cliArgName]}. Using default: ${defaultChoice.value}`)
+            }
+          } else {
+            // If choices isn't an array, just accept the provided value
+            answers[name] = cliArgs[cliArgName]
+          }
+        } else if (type === 'confirm') {
+          // Handle boolean values
+          answers[name] = cliArgs[cliArgName] === true || cliArgs[cliArgName] === 'true'
+        } else if (name === 'projectFolder') {
+          // Special handling for project folder
+          const folderName = (cliArgs[cliArgName] && cliArgs[cliArgName].trim()) || 'quasar-project'
+          scope.projectFolderName = folderName.split('/').pop()
+          answers[name] = join(process.cwd(), folderName)
+        } else {
+          // For all other types, use the value directly
+          answers[name] = cliArgs[cliArgName]
+        }
+        answered = true
+      }
+      
+      // For non-interactive mode, use default values if no CLI argument is provided
+      if (!answered && nonInteractive) {
+        // Use default values in non-interactive mode
+        if (type === 'select' || type === 'text') {
+          let defaultValue;
+          
+          // Get the default value from the choices or initial
+          if (type === 'select' && choices) {
+            let choicesArray = choices;
+            if (typeof choices === 'function') {
+              try {
+                choicesArray = choices();
+              } catch (e) {
+                choicesArray = [];
+              }
+            }
+            
+            if (Array.isArray(choicesArray)) {
+              const defaultChoice = choicesArray.find(choice => choice.selected) || choicesArray[0];
+              defaultValue = defaultChoice ? defaultChoice.value : undefined;
+            }
+          } else if (initial !== undefined) {
+            defaultValue = typeof initial === 'function' ? initial() : initial;
+          }
+          
+          if (defaultValue !== undefined) {
+            answers[name] = defaultValue;
+            answered = true;
+            logger.info(`Using default value for ${name}: ${defaultValue}`);
+          }
+        } else if (type === 'multiselect' && name === 'preset') {
+          // For preset in non-interactive mode, include all recommended options by default
+          if (Array.isArray(choices)) {
+            const recommendedChoices = choices
+              .filter(choice => choice.selected || choice.description === 'recommended')
+              .map(choice => choice.value);
+            
+            answers[name] = convertArrayToObject(recommendedChoices);
+            answered = true;
+            logger.info(`Using recommended options for ${name}: ${recommendedChoices.join(', ')}`);
+          }
+        } else if (type === 'confirm') {
+          // Default to true for confirmation questions in non-interactive mode
+          answers[name] = initial !== undefined ? initial : true;
+          answered = true;
+          logger.info(`Using default value for ${name}: ${answers[name]}`);
+        }
+      }
+      
+      // If we still haven't answered this question and we're not in non-interactive mode,
+      // we need to prompt the user
+      if (!answered && !nonInteractive) {
+        // Fallback to interactive mode for this question
+        const singleQuestion = {
+          ...question,
+          initial: question.initial instanceof Function ? question.initial() : question.initial
+        }
+        
+        const singleAnswer = await promptUser(singleQuestion, options)
+        Object.assign(answers, singleAnswer)
+      } else if (!answered && nonInteractive) {
+        // If we're in non-interactive mode and don't have an answer or default,
+        // log a warning and use a reasonable default
+        logger.warn(`No value or default for ${name} in non-interactive mode. Using empty string.`);
+        answers[name] = '';
+      }
+    }
+    
+    Object.assign(scope, answers)
+  } else {
+    // Original behavior - fully interactive mode
+    const answers = await promptUser(questions, options)
+    Object.assign(scope, answers)
+  }
 }
 
 function createTargetDir (scope) {
@@ -353,6 +523,7 @@ export async function injectAuthor (scope) {
 export default {
   logger,
 
+  setCliArgs,
   prompts,
   createTargetDir,
   convertArrayToObject,
