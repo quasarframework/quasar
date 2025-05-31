@@ -21,25 +21,14 @@ import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    n: 'nogit',
     h: 'help',
-    t: 'type',
-    f: 'folder',
-    p: 'preset',
-    pm: 'package-manager',
-    s: 'script-type',
-    e: 'engine',
-    name: 'name',
-    pn: 'product-name',
-    d: 'description',
-    ss: 'sfc-style',
-    c: 'css',
-    pr: 'prettier',
     y: 'yes'
+    // Removed all other short options as requested
   },
 
-  boolean: [ 'n', 'h', 'pr', 'y' ],
-  string: [ 't', 'f', 'p', 'pm', 's', 'e', 'name', 'pn', 'd', 'ss', 'c' ],
+  boolean: [ 'help', 'nogit', 'prettier', 'yes' ],
+  string: [ 'type', 'folder', 'preset', 'package-manager', 'script-type', 'engine',
+            'name', 'product-name', 'description', 'sfc-style', 'css' ],
 })
 
 // Show help if requested
@@ -48,19 +37,19 @@ if (argv.help) {
   Usage: create-quasar [options]
 
   Options:
-    --type, -t            Project type (app, app-extension, ui-kit)
-    --folder, -f          Project folder name
-    --script-type, -s     Script type (js, ts)
-    --engine, -e          Engine variant (vite-2, webpack-4)
-    --name               Package name
-    --product-name, -pn   Product name
-    --description, -d     Project description
-    --preset, -p          Features preset (comma-separated: eslint,pinia,axios,i18n)
-    --prettier, -pr       Add Prettier for code formatting (boolean)
-    --sfc-style, -ss      Vue component style (composition-setup, composition, options)
-    --css, -c             CSS preprocessor (scss, sass, css)
-    --package-manager, -pm Package manager to use (yarn, npm, pnpm, bun)
-    --nogit, -n           Skip git initialization
+    --type                Project type (app, app-extension, ui-kit)
+    --folder              Project folder name
+    --script-type         Script type (js, ts)
+    --engine              Engine variant (vite-2, webpack-4)
+    --name                Package name
+    --product-name        Product name
+    --description         Project description
+    --preset              Features preset (comma-separated: eslint,pinia,axios,i18n)
+    --prettier            Add Prettier for code formatting (boolean)
+    --sfc-style           Vue component style (composition-setup, composition, options)
+    --css                 CSS preprocessor (scss, sass, css)
+    --package-manager     Package manager to use (yarn, npm, pnpm, bun)
+    --nogit               Skip git initialization
     --yes, -y             Non-interactive mode, use default values for missing options
     --help, -h            Show this help message
   `)
