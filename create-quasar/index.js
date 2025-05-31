@@ -23,7 +23,6 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help',
     y: 'yes'
-    // Removed all other short options as requested
   },
 
   boolean: [ 'help', 'nogit', 'prettier', 'yes' ],
