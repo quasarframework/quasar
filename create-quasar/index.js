@@ -33,12 +33,11 @@ const argv = parseArgs(process.argv.slice(2), {
 
 // Show help if requested
 if (argv.help) {
-  // If user specified a type, show detailed help for that type
-  const selectedType = argv.type || 'app'
   const validTypes = ['app', 'app-extension', 'ui-kit']
   
   // Dynamic help text loading function
   const showHelp = async () => {
+    // Common options for all templates
     const baseOptions = [
       ['type', 'Project type (app, app-extension, ui-kit)'],
       ['folder', 'Project folder name'],
@@ -47,34 +46,58 @@ if (argv.help) {
       ['help, -h', 'Show this help message']
     ]
     
-    let templateSpecificOptions = []
-    
-    try {
-      // Load params from the selected template
-      const { default: params } = await import(`./templates/${selectedType}/params.js`)
-      if (params && params.helpText) {
-        templateSpecificOptions = Object.entries(params.helpText).map(([key, desc]) => [key, desc])
+    // If a specific type is selected, show detailed help for that type
+    if (argv.type && validTypes.includes(argv.type)) {
+      const selectedType = argv.type
+      let templateSpecificOptions = []
+      
+      try {
+        // Load params from the selected template
+        const { default: params } = await import(`./templates/${selectedType}/params.js`)
+        if (params && params.helpText) {
+          templateSpecificOptions = Object.entries(params.helpText).map(([key, desc]) => [key, desc])
+        }
+      } catch (err) {
+        console.error(`Could not load help text for template type: ${selectedType}`)
       }
-    } catch (err) {
-      console.error(`Could not load help text for template type: ${selectedType}`)
-    }
-    
-    // Print header
-    console.log(`
+      
+      // Print header for specific template
+      console.log(`
   Usage: create-quasar [options]
 
   Options for ${selectedType} projects:`)
-    
-    // Print all options
-    const allOptions = [...baseOptions, ...templateSpecificOptions]
-    allOptions.forEach(([key, desc]) => {
-      console.log(`    --${key.padEnd(20)} ${desc}`)
-    })
-    
-    // Print additional help if no type is specified
-    if (!argv.type) {
+      
+      // Print all options for the specific template
+      const allOptions = [...baseOptions, ...templateSpecificOptions]
+      allOptions.forEach(([key, desc]) => {
+        console.log(`    --${key.padEnd(20)} ${desc}`)
+      })
+    } else {
+      // General help without a specific template selected
       console.log(`
-  Use --type <template-type> to see specific options for each template type.`)
+  Usage: create-quasar [options]
+
+  Basic Options:`)
+      
+      // Print basic options
+      baseOptions.forEach(([key, desc]) => {
+        console.log(`    --${key.padEnd(20)} ${desc}`)
+      })
+      
+      // Show template selection information
+      console.log(`
+  Available Template Types:
+    app                   Standard Quasar application
+    app-extension         Quasar App Extension
+    ui-kit                UI component library
+
+  To see template-specific options, use:
+    create-quasar --help --type <template-type>
+
+  Examples:
+    create-quasar --help --type app
+    create-quasar --help --type app-extension
+    create-quasar --help --type ui-kit`)
     }
     
     console.log() // Empty line for better formatting
