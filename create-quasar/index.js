@@ -44,11 +44,24 @@ if (argv.help) {
     --name                Package name
     --product-name        Product name
     --description         Project description
-    --preset              Features preset (comma-separated: eslint,pinia,axios,i18n)
+    --preset              Features preset (comma-separated values)
+                          For app: eslint,pinia,axios,i18n
+                          For app-extension: prompts,install,uninstall
+                          For ui-kit: prompts,install,uninstall
     --prettier            Add Prettier for code formatting (boolean)
     --sfc-style           Vue component style (composition-setup, composition, options)
     --css                 CSS preprocessor (scss, sass, css)
     --package-manager     Package manager to use (yarn, npm, pnpm, bun)
+    --license             License type (MIT, Apache-2.0, etc.)
+    --need-org-name       For app-extension: Use organization name (boolean)
+    --org-name            For app-extension: Organization name
+    --code-format         For app-extension: Code format (esm, commonjs)
+    --features            For ui-kit: Features (comma-separated: component,directive,ae)
+    --package-description For ui-kit: Package description
+    --umd-export-name     For ui-kit: UMD export name
+    --component-name      For ui-kit: Component name
+    --directive-name      For ui-kit: Directive name
+    --ae-description      For ui-kit: App Extension description
     --nogit               Skip git initialization
     --yes, -y             Non-interactive mode, use default values for missing options
     --help, -h            Show this help message

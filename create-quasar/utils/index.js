@@ -30,7 +30,7 @@ async function prompts (scope, questions, opts) {
 
   // Mappings for CLI arguments to question names
   const paramMap = {
-    // Main parameters
+    // Main parameters for all templates
     'projectType': 'type',
     'projectFolder': 'folder',
     'packageManager': 'package-manager',
@@ -42,7 +42,21 @@ async function prompts (scope, questions, opts) {
     'sfcStyle': 'sfc-style',
     'css': 'css',
     'preset': 'preset',
-    'prettier': 'prettier'
+    'prettier': 'prettier',
+    'license': 'license',
+    
+    // App-extension specific parameters
+    'needOrgName': 'needOrgName',
+    'orgName': 'orgName',
+    'codeFormat': 'codeFormat',
+    
+    // UI-kit specific parameters
+    'features': 'features',
+    'packageDescription': 'packageDescription',
+    'umdExportName': 'umdExportName',
+    'componentName': 'componentName',
+    'directiveName': 'directiveName',
+    'aeDescription': 'aeDescription'
   }
 
   // Check if we have command-line arguments and if we're in non-interactive mode
