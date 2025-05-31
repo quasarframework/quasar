@@ -16,9 +16,28 @@ const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.cjs', '.ts', '.vue', 
 // Global argv reference for non-interactive mode
 let cliArgs = null
 
+// Global parameter mappings cache
+let templateParamMaps = {}
+
 // Function to set CLI args from outside
 function setCliArgs(args) {
   cliArgs = args
+}
+
+// Function to load parameter mappings for a specific template type
+async function loadTemplateParams(templateType) {
+  if (templateParamMaps[templateType]) {
+    return templateParamMaps[templateType]
+  }
+  
+  try {
+    const { default: params } = await import(`../templates/${templateType}/params.js`)
+    templateParamMaps[templateType] = params
+    return params
+  } catch (err) {
+    logger.warn(`Could not load parameters for template type: ${templateType}`)
+    return { paramMap: {} }
+  }
 }
 
 async function prompts (scope, questions, opts) {
@@ -27,37 +46,10 @@ async function prompts (scope, questions, opts) {
       logger.fatal('Scaffolding cancelled')
     }
   }
-
-  // Mappings for CLI arguments to question names
-  const paramMap = {
-    // Main parameters for all templates
-    'projectType': 'type',
-    'projectFolder': 'folder',
-    'packageManager': 'package-manager',
-    'scriptType': 'script-type',
-    'engine': 'engine',
-    'name': 'name',
-    'productName': 'product-name',
-    'description': 'description',
-    'sfcStyle': 'sfc-style',
-    'css': 'css',
-    'preset': 'preset',
-    'prettier': 'prettier',
-    'license': 'license',
-    
-    // App-extension specific parameters
-    'needOrgName': 'needOrgName',
-    'orgName': 'orgName',
-    'codeFormat': 'codeFormat',
-    
-    // UI-kit specific parameters
-    'features': 'features',
-    'packageDescription': 'packageDescription',
-    'umdExportName': 'umdExportName',
-    'componentName': 'componentName',
-    'directiveName': 'directiveName',
-    'aeDescription': 'aeDescription'
-  }
+  
+  // Get template-specific parameter mappings
+  const templateType = scope.projectType || (cliArgs && cliArgs.type) || 'app'
+  const { paramMap } = await loadTemplateParams(templateType)
 
   // Check if we have command-line arguments and if we're in non-interactive mode
   const nonInteractive = cliArgs && cliArgs.yes === true
@@ -83,10 +75,9 @@ async function prompts (scope, questions, opts) {
       
       if (cliArgs[cliArgName] !== undefined) {
         // We have a CLI argument for this parameter
-        if (type === 'multiselect' && name === 'preset') {
-          // Handle preset as comma-separated values
-          const presetValues = cliArgs[cliArgName].split(',')
-          answers[name] = convertArrayToObject(presetValues)
+        if (type === 'multiselect') {
+          const values = cliArgs[cliArgName].split(',')
+          answers[name] = convertArrayToObject(values)
         } else if (type === 'select' && choices) {
           // Validate that the provided value is in the choices
           // Handle both array choices and function choices

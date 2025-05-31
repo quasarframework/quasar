@@ -33,40 +33,55 @@ const argv = parseArgs(process.argv.slice(2), {
 
 // Show help if requested
 if (argv.help) {
-  console.log(`
+  // If user specified a type, show detailed help for that type
+  const selectedType = argv.type || 'app'
+  const validTypes = ['app', 'app-extension', 'ui-kit']
+  
+  // Dynamic help text loading function
+  const showHelp = async () => {
+    const baseOptions = [
+      ['type', 'Project type (app, app-extension, ui-kit)'],
+      ['folder', 'Project folder name'],
+      ['nogit', 'Skip git initialization'],
+      ['yes, -y', 'Non-interactive mode, use default values for missing options'],
+      ['help, -h', 'Show this help message']
+    ]
+    
+    let templateSpecificOptions = []
+    
+    try {
+      // Load params from the selected template
+      const { default: params } = await import(`./templates/${selectedType}/params.js`)
+      if (params && params.helpText) {
+        templateSpecificOptions = Object.entries(params.helpText).map(([key, desc]) => [key, desc])
+      }
+    } catch (err) {
+      console.error(`Could not load help text for template type: ${selectedType}`)
+    }
+    
+    // Print header
+    console.log(`
   Usage: create-quasar [options]
 
-  Options:
-    --type                Project type (app, app-extension, ui-kit)
-    --folder              Project folder name
-    --script-type         Script type (js, ts)
-    --engine              Engine variant (vite-2, webpack-4)
-    --name                Package name
-    --product-name        Product name
-    --description         Project description
-    --preset              Features preset (comma-separated values)
-                          For app: eslint,pinia,axios,i18n
-                          For app-extension: prompts,install,uninstall
-                          For ui-kit: prompts,install,uninstall
-    --prettier            Add Prettier for code formatting (boolean)
-    --sfc-style           Vue component style (composition-setup, composition, options)
-    --css                 CSS preprocessor (scss, sass, css)
-    --package-manager     Package manager to use (yarn, npm, pnpm, bun)
-    --license             License type (MIT, Apache-2.0, etc.)
-    --need-org-name       For app-extension: Use organization name (boolean)
-    --org-name            For app-extension: Organization name
-    --code-format         For app-extension: Code format (esm, commonjs)
-    --features            For ui-kit: Features (comma-separated: component,directive,ae)
-    --package-description For ui-kit: Package description
-    --umd-export-name     For ui-kit: UMD export name
-    --component-name      For ui-kit: Component name
-    --directive-name      For ui-kit: Directive name
-    --ae-description      For ui-kit: App Extension description
-    --nogit               Skip git initialization
-    --yes, -y             Non-interactive mode, use default values for missing options
-    --help, -h            Show this help message
-  `)
-  process.exit(0)
+  Options for ${selectedType} projects:`)
+    
+    // Print all options
+    const allOptions = [...baseOptions, ...templateSpecificOptions]
+    allOptions.forEach(([key, desc]) => {
+      console.log(`    --${key.padEnd(20)} ${desc}`)
+    })
+    
+    // Print additional help if no type is specified
+    if (!argv.type) {
+      console.log(`
+  Use --type <template-type> to see specific options for each template type.`)
+    }
+    
+    console.log() // Empty line for better formatting
+    process.exit(0)
+  }
+  
+  showHelp()
 }
 
 const defaultProjectFolder = 'quasar-project'
