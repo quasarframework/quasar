@@ -242,9 +242,8 @@
  * On light background
  */
 .q-table__bottom
-  border-top: 1px solid $table-border-color
-  &.q-table__bottom--nodata
-    border-top: none
+  &:not(&--nodata)
+    border-top: 1px solid $table-border-color
 
 .q-table
   thead, tr, th, td
