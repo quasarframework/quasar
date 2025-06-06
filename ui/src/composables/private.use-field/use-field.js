@@ -440,6 +440,12 @@ export default function (state) {
       )
     }
 
+    hasLabel.value === true && node.push(
+      h('div', {
+        class: labelClass.value
+      }, hSlot(slots.label, props.label))
+    )
+
     if (state.getControl !== void 0) {
       node.push(state.getControl())
     }
@@ -458,12 +464,6 @@ export default function (state) {
         }, slots.control(controlSlotScope.value))
       )
     }
-
-    hasLabel.value === true && node.push(
-      h('div', {
-        class: labelClass.value
-      }, hSlot(slots.label, props.label))
-    )
 
     props.suffix !== void 0 && props.suffix !== null && node.push(
       h('div', {
