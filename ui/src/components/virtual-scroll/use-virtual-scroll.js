@@ -522,7 +522,7 @@ export function useVirtualScroll ({
 
         diff = size - virtualScrollSizes[ index ]
 
-        if (diff !== 0) {
+        if (diff) {
           virtualScrollSizes[ index ] += diff
           virtualScrollSizesAgg[ Math.floor(index / aggBucketSize) ] += diff
         }
