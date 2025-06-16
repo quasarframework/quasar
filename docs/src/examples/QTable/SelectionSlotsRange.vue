@@ -167,7 +167,7 @@ export default {
 
         const oldSelectedRow = storedSelectedRow
         const [newSelectedRow] = rows
-        const { ctrlKey, shiftKey } = evt
+        const { ctrlKey, shiftKey, metaKey } = evt
 
         if (shiftKey !== true) {
           storedSelectedRow = newSelectedRow
@@ -196,7 +196,7 @@ export default {
               ? selectedRows.concat(rangeRows.filter(row => selectedRows.includes(row) === false))
               : selectedRows.filter(row => rangeRows.includes(row) === false)
           }
-          else if (ctrlKey !== true && added === true) {
+          else if ((ctrlKey || metaKey) !== true && added === true) {
             selected.value = [newSelectedRow]
           }
         })
