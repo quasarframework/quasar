@@ -72,7 +72,7 @@ Notice we are using the `hide` event to also revalidate the input. If we don't, 
 :::
 
 ::: tip Tip 2
-With this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using Vuelidate too. In other words, the value given to QPopupEdit's validate function can come from anywhere.
+With this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using [Regle](https://reglejs.dev/) external validation library too. In other words, the value given to QPopupEdit's validate function can come from anywhere.
 :::
 
 <DocExample title="Edit with validation" file="WithValidation" />
