@@ -38,6 +38,8 @@ export type DateUnitOptions =
   | "year"
   | "years";
 
+export type DateInput = Date | number | string;
+
 export namespace date {
   function isValid(date: number | string): boolean;
 
@@ -47,77 +49,72 @@ export namespace date {
 
   function getDayOfWeek(date: Date): number;
 
-  function getWeekOfYear(date: Date | number | string): number;
+  function getWeekOfYear(date: DateInput): number;
 
   function isBetweenDates(
-    date: Date | number | string,
-    from: Date | number | string,
-    to: Date | number | string,
+    date: DateInput,
+    from: DateInput,
+    to: DateInput,
     opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean },
   ): boolean;
 
-  function addToDate(date: Date | number | string, options: DateOptions): Date;
+  function addToDate(date: DateInput, options: DateOptions): Date;
 
-  function subtractFromDate(
-    date: Date | number | string,
-    options: DateOptions,
-  ): Date;
+  function subtractFromDate(date: DateInput, options: DateOptions): Date;
 
   function adjustDate(
-    date: Date | number | string,
+    date: DateInput,
     options: DateOptions,
     utc?: boolean,
   ): Date;
 
   function startOfDate(
-    date: Date | number | string,
+    date: DateInput,
     option: DateUnitOptions,
     utc?: boolean,
   ): Date;
 
   function endOfDate(
-    date: Date | number | string,
+    date: DateInput,
     option: DateUnitOptions,
     utc?: boolean,
   ): Date;
 
-  function getMaxDate(...args: (Date | number | string)[]): Date;
+  function getMaxDate(...args: DateInput[]): Date;
 
-  function getMinDate(...args: (Date | number | string)[]): Date;
+  function getMinDate(...args: DateInput[]): Date;
 
   function getDateDiff(
-    date: Date | number | string,
-    subtract: Date | number | string,
+    date: DateInput,
+    subtract: DateInput,
     unit?: `${DateUnitOptions}s`,
   ): number;
 
-  function getDayOfYear(date: Date | number | string): number;
+  function getDayOfYear(date: DateInput): number;
 
-  function inferDateFormat(
-    date: Date | number | string,
-  ): "date" | "number" | "string";
+  function inferDateFormat(date: DateInput): "date" | "number" | "string";
 
   function getDateBetween(
-    date: Date | number | string,
-    min?: Date | number | string,
-    max?: Date | number | string,
+    date: DateInput,
+    min?: DateInput,
+    max?: DateInput,
   ): Date;
 
   function isSameDate(
-    date: Date | number | string,
-    date2: Date | number | string,
+    date: DateInput,
+    date2: DateInput,
     unit?: DateUnitOptions,
   ): boolean;
 
-  function daysInMonth(date: Date | number | string): number;
+  function daysInMonth(date: DateInput): number;
 
   function formatDate(
-    date: Date | number | string | undefined,
+    date: DateInput | undefined,
     format?: string,
     locale?: DateLocale,
     __forcedYear?: number,
     __forcedTimezoneOffset?: number,
   ): string;
 
-  function clone<D extends Date | number | string>(date: D): D;
+  function clone<D extends DateInput>(date: D): D;
 }
