@@ -71,11 +71,9 @@ export namespace date {
     utc?: boolean,
   ): Date;
   function getMaxDate(
-    date: Date | number | string,
     ...args: (Date | number | string)[]
   ): Date;
   function getMinDate(
-    date: Date | number | string,
     ...args: (Date | number | string)[]
   ): Date;
   function getDateDiff(
