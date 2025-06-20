@@ -51,7 +51,7 @@ export const create = defineSsrCreate((/* { ... } */) => {
  * Can be async: defineSsrInjectDevMiddleware(async ({ app }) => { ... })
  */
 export const injectDevMiddleware = defineSsrInjectDevMiddleware(({ app }) => {
-  return ({ middleware }) => {
+  return (middleware) => {
     app.use(middleware)
   }
 })
