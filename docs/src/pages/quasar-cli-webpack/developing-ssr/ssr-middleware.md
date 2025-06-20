@@ -5,12 +5,12 @@ related:
   - /quasar-cli-webpack/quasar-config-file
 ---
 
-The SSR middleware files fulfill one special purpose: they prepare the Nodejs server that runs your SSR app with additional functionality (Expressjs compatible middleware).
+The SSR middleware files fulfill one special purpose: they prepare the Nodejs server that runs your SSR app with additional functionality (Express compatible middleware).
 
 With SSR middleware files, it is possible to split the middleware logic into self-contained, easy to maintain files. It is also trivial to disable any of the SSR middleware files or even contextually determine which of the SSR middleware files get into the build through the `/quasar.config` file configuration.
 
 ::: tip
-For more advanced usage, you will need to get acquainted to the [Expressjs API](https://expressjs.com/en/4x/api.html).
+For more advanced usage, you will need to get acquainted to the [Express API](https://expressjs.com/en/4x/api.html).
 :::
 
 ::: warning
@@ -19,7 +19,7 @@ You will need at least one SSR middleware file which handles the rendering of th
 
 ## Anatomy of a middleware file
 
-A SSR middleware file is a simple JavaScript file which exports a function. Quasar will then call the exported function when it prepares the Nodejs server (Expressjs) app and additionally pass an Object as param (which will be detailed in the next section).
+A SSR middleware file is a simple JavaScript file which exports a function. Quasar will then call the exported function when it prepares the Nodejs server (Express) app and additionally pass an Object as param (which will be detailed in the next section).
 
 ```js
 import { defineSsrMiddleware } from '#q-app/wrappers'
@@ -64,7 +64,7 @@ Detailing the Object:
 
 ```js
 {
-  app, // Expressjs app or whatever is returned from src-ssr/server -> create()
+  app, // Express app or whatever is returned from src-ssr/server -> create()
   port, // on dev: devServer port; on prod: process.env.PORT or quasar.config > ssr > prodPort
   resolve: {
     urlPath, // (url) => path string with publicPath ensured to be included,
@@ -302,7 +302,7 @@ Notice the `render` parameter (from the above code sample) that the exported fun
 
 ## Hot Module Reload
 
-While developing, whenever you change anything in the SSR middlewares, Quasar App CLI will automatically trigger a recompilation of client-side resources and apply the middleware changes to the Nodejs server (Expressjs).
+While developing, whenever you change anything in the SSR middlewares, Quasar App CLI will automatically trigger a recompilation of client-side resources and apply the middleware changes to the Nodejs server (Express).
 
 ## Examples of SSR middleware
 

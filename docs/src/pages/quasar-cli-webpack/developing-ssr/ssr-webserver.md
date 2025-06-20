@@ -41,6 +41,7 @@ import {
  *
  * Param: ({
  *   port, // on dev: devServer port; on prod: process.env.PORT or quasar.config > ssr > prodPort
+ *   devHttpsOptions, // DEV only, if using HTTPS; if using a custom server, you can use this to handle HTTPS on your own instead of using the devHttpsApp in listen()
  *   resolve: {
  *      urlPath, // (url) => path string with publicPath ensured to be included,
  *      root, // (pathPart1, ...pathPartN) => path string (joins to the root folder),
@@ -84,8 +85,9 @@ export const create = defineSsrCreate((/* { ... } */) => {
  * Can be async: defineSsrListen(async ({ app, devHttpsApp, port }) => { ... })
  *
  * Param: ({
- *   app, // Expressjs app or whatever is returned from create()
- *   devHttpsApp, // DEV only, if using HTTPS
+ *   app, // Express app or whatever is returned from create()
+ *   devHttpsApp, // DEV only, if using HTTPS; Node HTTPS server instance
+ *   devHttpsOptions, // DEV only, if using HTTPS; if you are using a custom server, you can use this to handle HTTPS on your own
  *   port, // on dev: devServer port; on prod: process.env.PORT or quasar.config > ssr > prodPort
  *   resolve: {
  *      urlPath, // (url) => path string with publicPath ensured to be included,
@@ -124,7 +126,7 @@ export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
  * Can be async: defineSsrClose(async ({ listenResult }) => { ... })
  *
  * Param: ({
- *   app, // Expressjs app or whatever is returned from create()
+ *   app, // Express app or whatever is returned from create()
  *   devHttpsApp, // DEV only, if using HTTPS
  *   port, // on dev: devServer port; on prod: process.env.PORT or quasar.config > ssr > prodPort
  *   resolve: {
@@ -163,7 +165,7 @@ const maxAge = process.env.DEV
  * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  *
  * Param: ({
- *   app, // Expressjs app or whatever is returned from create()
+ *   app, // Express app or whatever is returned from create()
  *   port, // on dev: devServer port; on prod: process.env.PORT or quasar.config > ssr > prodPort
  *   resolve: {
  *      urlPath: (url) => path string with publicPath ensured to be included,
