@@ -468,6 +468,11 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     return new Proxy({}, {
       get: (target, prop) => {
+        // If handling the result of this function as a Promise, we don't want to do anything
+        if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+          return
+        }
+
         if (!target.instance) {
           target.instance = createInstance()
         }
