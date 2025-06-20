@@ -70,13 +70,14 @@ function getUrlPath(ssrContext) {
   <% /* In case the `req.url` is not available or different due to a custom webserver, also check for `ssrContext.url` */ %>
   const url = ssrContext.url || ssrContext.req.url
 
-  <% /* Node IncomingMessage.url, used by Express and similar. It doesn't contain the protocol and host, only the path */ %>
-  if (!URL.canParse(url)) {
+  try {
+    <% /* Fetch API's Request.url, used by more modern web servers and runtime environments. Contains the full URL */ %>
+    const parsedUrl = new URL(url)
+    return parsedUrl.pathname + parsedUrl.search + parsedUrl.hash
+  } catch {
+    <% /* Node IncomingMessage.url, used by Express and similar. It doesn't contain the protocol and host, only the path, so new URL(url) above would fail */ %>
     return url
   }
-  <% /* Native Request.url, used by more modern web servers and runtime environments. Contains the full URL */ %>
-  const parsedUrl = URL.parse(url)
-  return parsedUrl.pathname + parsedUrl.search + parsedUrl.hash
 }
 
 const { components, directives, ...qUserOptions } = quasarUserOptions
