@@ -292,7 +292,7 @@ export const create = defineSsrCreate((/* { ... } */) => {
 
 #### Example: Fastify
 
-Fastify is considerable different from Express, so it requires a more thorough adaptation:
+Fastify is considerably different from Express, so it requires a more thorough adaptation:
 
 ```tabs
 <<| bash Yarn |>>
