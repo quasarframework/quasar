@@ -424,8 +424,10 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
 
     if (quasarConf.devServer.server.type === 'https') {
-      const https = require('node:https')
-      middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.server.options, app)
+      middlewareParams.devHttpsApp = await this.#createLazyDevHttpsServer(
+        quasarConf.devServer.server.options,
+        app
+      )
     }
 
     middlewareParams.listenResult = await listen(middlewareParams)
@@ -435,6 +437,41 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     done('Webserver is ready')
 
     this.printBanner(quasarConf)
+  }
+
+  /**
+   * Lazily create the devHttpsApp proxy when it's first accessed.
+   * This allows the user to handle the devHttpsApp manually if they need to.
+   * This is useful when they are using an custom SSR webserver such as Fastify and h3
+   */
+  async #createLazyDevHttpsServer(httpsOptions, app) {
+    const { createServer } = require('node:https')
+    const createInstance = () => {
+      try {
+        return createServer(httpsOptions, app)
+      } catch (error) {
+        if (error.code === 'ERR_INVALID_ARG_TYPE') {
+          warn(
+            'The SSR app instance is not compatible with automatic HTTPS support. '
+            + 'Please use `devHttpsOptions` property from callback scope in `create` or `listen` to set up HTTPS manually.'
+          )
+        } else {
+          warn(
+            `An error occurred while setting up HTTPS for the SSR app instance, devHttpsApp won't be available. Error: ${ error.message }`
+          )
+        }
+      }
+    }
+
+    return new Proxy({}, {
+      get: (target, prop) => {
+        if (!target.instance) {
+          target.instance = createInstance()
+        }
+
+        return target.instance?.[prop]
+      }
+    })
   }
 
   // also update ssr-devserver.js when changing here

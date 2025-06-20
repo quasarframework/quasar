@@ -2,6 +2,7 @@ import { Express, Application, Request, Response } from "express";
 import { Server } from "http";
 import { Server as HttpsServer } from "https";
 import { ServeStaticOptions } from "serve-static";
+import { ServerConfiguration } from "webpack-dev-server";
 
 interface RenderParams {
   req: Request;
@@ -47,6 +48,14 @@ interface SsrCreateParams {
    * for the SSR webserver
    */
   port: number;
+  /**
+   * `devHttpsApp` will be automatically made available in `listen`
+   * and middleware callback parameters if you use HTTPS in development.
+   *
+   * But, you can also ignore `devHttpsApp` and use this to configure
+   * the `app` to handle HTTPS requests.
+   */
+  devHttpsOptions: ServerConfiguration["options"];
   resolve: SsrMiddlewareResolve;
   publicPath: string;
   folders: SsrMiddlewareFolders;
