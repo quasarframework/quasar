@@ -17,6 +17,13 @@ function getFilename (filename) {
       return nodeFilename
     }
   }
+
+  if (process.env.FNM_DIR && process.versions.node) {
+    const nodeFilename = join(process.env.FNM_DIR, 'src/node-versions/v' + process.versions.node, 'installation/lib', filename)
+    if (existsSync(nodeFilename)) {
+      return nodeFilename
+    }
+  }
 }
 
 function getSource (entry) {
