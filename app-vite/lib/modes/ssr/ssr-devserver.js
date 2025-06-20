@@ -45,6 +45,7 @@ function renderStoreState (ssrContext) {
 
 export class QuasarModeDevserver extends AppDevserver {
   #webserver = null
+  /** @type {import('vite').ViteDevServer|null} */
   #viteClient = null
   #viteWatcherList = []
   #webserverWatcher = null
@@ -249,13 +250,15 @@ export class QuasarModeDevserver extends AppDevserver {
 
         let html = renderTemplate(ssrContext)
 
-        html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
+        const url = ssrContext.url || ssrContext.req.url
+        const originalUrl = ssrContext.originalUrl || ssrContext.req.originalUrl
+        html = await viteClient.transformIndexHtml(url, html, originalUrl)
         html = html.replace(
           entryPointMarkup,
           `<div id="q-app">${ runtimePageContent }</div>`
         )
 
-        logServerMessage('Rendered', ssrContext.req.url, `${ Date.now() - startTime }ms`)
+        logServerMessage('Rendered', url, `${ Date.now() - startTime }ms`)
 
         return html
       }
@@ -283,7 +286,14 @@ export class QuasarModeDevserver extends AppDevserver {
       await this.#webserver.close()
     }
 
-    const { create, listen, close, injectMiddlewares, serveStaticContent } = await import(
+    const {
+      create,
+      injectDevMiddleware = ({ app }) => (middleware) => app.use(middleware),
+      listen,
+      close,
+      injectMiddlewares,
+      serveStaticContent
+    } = await import(
       pathToFileURL(this.#pathMap.serverFile) + '?t=' + Date.now()
     )
     const { publicPath } = this.#appOptions
@@ -313,14 +323,17 @@ export class QuasarModeDevserver extends AppDevserver {
       error: renderError
     }
 
-    // vite devmiddleware modifies req.url to account for publicPath
-    // but we'll break usage in the webserver if we do so
-    app.use((req, res, next) => {
+    /** @type {import('../../../types').SsrInjectDevMiddlewareFn} */
+    const registerDevMiddleware = await injectDevMiddleware(middlewareParams)
+
+    await registerDevMiddleware((req, res, next) => {
       if (this.#viteClient === null) {
         next()
         return
       }
 
+      // Vite dev middleware modifies req.url to account for publicPath
+      // but we'll break usage in the webserver if we do so
       const { url } = req
       this.#viteClient.middlewares.handle(req, res, err => {
         req.url = url
@@ -330,7 +343,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
     await injectMiddlewares(middlewareParams)
 
-    publicPath !== '/' && app.use((req, res, next) => {
+    publicPath !== '/' && await registerDevMiddleware((req, res, next) => {
       const pathname = new URL(req.url, `http://${ req.headers.host }`).pathname || '/'
 
       if (pathname.startsWith(publicPath) === true) {

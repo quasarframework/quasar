@@ -13,6 +13,7 @@ module.exports.defineRouter = wrapper
 module.exports.defineStore = wrapper
 
 module.exports.defineSsrMiddleware = wrapper
+module.exports.defineSsrInjectDevMiddleware = wrapper
 module.exports.defineSsrCreate = wrapper
 module.exports.defineSsrListen = wrapper
 module.exports.defineSsrClose = wrapper

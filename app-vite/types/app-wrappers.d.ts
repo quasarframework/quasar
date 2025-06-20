@@ -7,12 +7,13 @@ import type { StoreCallback } from "./store";
 
 import type {
   SsrMiddlewareCallback,
+  SsrInjectDevMiddlewareCallback,
   SsrCreateCallback,
   SsrListenCallback,
   SsrCloseCallback,
   SsrServeStaticContentCallback,
   SsrRenderPreloadTagCallback
-} from "./ssrmiddleware";
+} from "./ssr";
 
 /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
 
@@ -39,6 +40,11 @@ export function defineSsrMiddleware(
 export function defineSsrCreate(
   callback: SsrCreateCallback
 ): SsrCreateCallback;
+
+export function defineSsrInjectDevMiddleware(
+  callback: SsrInjectDevMiddlewareCallback,
+): SsrInjectDevMiddlewareCallback;
+
 
 export function defineSsrListen(
   callback: SsrListenCallback

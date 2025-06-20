@@ -14,6 +14,7 @@ export const defineStore = wrapper
 
 export const defineSsrMiddleware = wrapper
 export const defineSsrCreate = wrapper
+export const defineSsrInjectDevMiddleware = wrapper
 export const defineSsrListen = wrapper
 export const defineSsrClose = wrapper
 export const defineSsrServeStaticContent = wrapper

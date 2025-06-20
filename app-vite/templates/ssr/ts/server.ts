@@ -9,20 +9,29 @@
  * Make sure to yarn add / npm install (in your project root)
  * anything you import here (except for express and compression).
  */
-import express from 'express';
+import { Server } from 'node:http';
 import compression from 'compression';
+import express, { Application, Request, Response } from 'express';
 import {
   defineSsrCreate,
+  defineSsrInjectDevMiddleware,
   defineSsrListen,
   defineSsrClose,
   defineSsrServeStaticContent,
   defineSsrRenderPreloadTag
 } from '#q-app/wrappers';
 
+declare module '#q-app' {
+  interface SsrDriver {
+    app: Application;
+    listenResult: Server;
+    request: Request;
+    response: Response;
+  }
+}
+
 /**
  * Create your webserver and return its instance.
- * If needed, prepare your webserver to receive
- * connect-like middlewares.
  *
  * Can be async: defineSsrCreate(async ({ ... }) => { ... })
  */
@@ -40,6 +49,19 @@ export const create = defineSsrCreate((/* { ... } */) => {
   }
 
   return app;
+});
+
+/**
+ * Used by Quasar SSR dev server to inject middleware into the webserver.
+ * It uses it to handle Vite dev server, handle public paths, etc.
+ * The given middleware is compatible with `node:http`'s Server, Express, Connect, etc.
+ *
+ * Can be async: defineSsrInjectDevMiddleware(async ({ app }) => { ... })
+ */
+export const injectDevMiddleware = defineSsrInjectDevMiddleware(({ app }) => {
+  return (middleware) => {
+    app.use(middleware);
+  };
 });
 
 /**

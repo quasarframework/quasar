@@ -4,12 +4,11 @@
 
 import "./globals";
 export * from "./bex";
-export * from "./ssr";
 export * from "./store";
 export * from "./prefetch";
 export * from "./boot";
 export * from "./configuration";
 export * from "./route";
-export * from "./ssrmiddleware";
+export * from "./ssr";
 export * from "./app-extension";
 import "./ui-wrappers";

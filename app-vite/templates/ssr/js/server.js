@@ -13,6 +13,7 @@ import express from 'express'
 import compression from 'compression'
 import {
   defineSsrCreate,
+  defineSsrInjectDevMiddleware,
   defineSsrListen,
   defineSsrClose,
   defineSsrServeStaticContent,
@@ -40,6 +41,19 @@ export const create = defineSsrCreate((/* { ... } */) => {
   }
 
   return app
+})
+
+/**
+ * Used by Quasar SSR dev server to inject middleware into the webserver.
+ * It uses it to handle Vite dev server, handle public paths, etc.
+ * The given middleware is compatible with `node:http`'s Server, Express, Connect, etc.
+ *
+ * Can be async: defineSsrInjectDevMiddleware(async ({ app }) => { ... })
+ */
+export const injectDevMiddleware = defineSsrInjectDevMiddleware(({ app }) => {
+  return (middleware) => {
+    app.use(middleware)
+  }
 })
 
 /**

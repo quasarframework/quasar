@@ -148,6 +148,7 @@ middlewareParams.serve = { static: serveStatic }
 
 <% if (ssr.pwa) { %>
 // serve the service worker with no cache
+<% /* Keep SsrServeStaticFnParams["opts"] in sync */ %>
 await serveStatic({ urlPath: '/<%= pwa.swFilename %>', pathToServe: '<%= pwa.swFilename %>', opts: { maxAge: 0 } })
 <% } %>
 

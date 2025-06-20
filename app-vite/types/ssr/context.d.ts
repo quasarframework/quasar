@@ -1,10 +1,12 @@
-import { Request, Response } from "express";
-import { HasSsr, QVueGlobals } from "quasar";
-import { HasStoreParam } from "./store";
+import { QVueGlobals } from "quasar";
+import { HasStoreParam } from "../store";
+import { SsrDriverTypes } from "./driver";
 
-interface QSsrContext extends HasStoreParam {
-  req: Request;
-  res: Response;
+export interface QSsrContext extends HasStoreParam {
+  url?: string;
+  originalUrl?: string;
+  req: SsrDriverTypes["request"];
+  res: SsrDriverTypes["response"];
 
   /**
    * The $q object
@@ -33,5 +35,3 @@ interface QSsrContext extends HasStoreParam {
    */
   rendered?: () => void;
 }
-
-export type HasSsrParam = HasSsr<{ ssrContext?: QSsrContext | null }>;
