@@ -22,8 +22,11 @@ const after = readFile('after')
  *  projectRootFolder?: string;
  * }} params
  */
-export default function renderSSRError ({ err, req, res, projectRootFolder }) {
+export default function renderSSRError ({ err, req, res, projectRootFolder = process.cwd() }) {
   const data = {
+    project: {
+      rootFolder: projectRootFolder,
+    },
     error: getErrorDetails(err),
     stack: getStack(err, projectRootFolder),
     env: getEnv(req)

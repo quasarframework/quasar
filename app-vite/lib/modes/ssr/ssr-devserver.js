@@ -24,15 +24,9 @@ function logServerMessage (title, msg, additional) {
   info(`${ msg }${ additional !== void 0 ? ` ${ green(dot) } ${ additional }` : '' }`, title)
 }
 
+/** @type {import('@quasar/render-ssr-error').default} */
 let renderSSRError = null
 let vueRenderToString = null
-
-function renderError ({ err, req, res }) {
-  log()
-  warn(req.url, 'Render failed')
-
-  renderSSRError({ err, req, res })
-}
 
 function renderStoreState (ssrContext) {
   const nonce = ssrContext.nonce !== void 0
@@ -320,7 +314,12 @@ export class QuasarModeDevserver extends AppDevserver {
     const serveStatic = await serveStaticContent(middlewareParams)
     middlewareParams.serve = {
       static: serveStatic,
-      error: renderError
+      error: ({ err, req, res }) => {
+        log()
+        warn(req.url, 'Render failed')
+
+        renderSSRError({ err, req, res, projectRootFolder: quasarConf.ctx.appPaths.appDir })
+      }
     }
 
     /** @type {import('../../../types').SsrInjectDevMiddlewareFn} */

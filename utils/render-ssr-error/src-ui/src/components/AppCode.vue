@@ -28,10 +28,12 @@ import { computed } from 'vue'
 import data from 'src/assets/data.js'
 import store from 'src/assets/store.js'
 
+const toAbsolutePath = path => `${ data.project.rootFolder }/${ path }`
+
 const editorList = [
-  { name: 'vscode', href: entry => `vscode://file/${ entry.fileName }:${ entry.lineNumber }${ entry.columnNumber !== null ? `:${ entry.columnNumber }` : '' }` },
-  { name: 'sublime', href: entry => `subl://open?url=file://${ encodeURIComponent(entry.fileName) }&line=${ entry.lineNumber }` },
-  { name: 'textmate', href: entry => `txmt://open?url=file://${ encodeURIComponent(entry.fileName) }&line=${ entry.lineNumber }` }
+  { name: 'vscode', href: entry => `vscode://file/${ toAbsolutePath(entry.fileName) }:${ entry.lineNumber }${ entry.columnNumber !== null ? `:${ entry.columnNumber }` : '' }` },
+  { name: 'sublime', href: entry => `subl://open?url=file://${ encodeURIComponent(toAbsolutePath(entry.fileName)) }&line=${ entry.lineNumber }` },
+  { name: 'textmate', href: entry => `txmt://open?url=file://${ encodeURIComponent(toAbsolutePath(entry.fileName)) }&line=${ entry.lineNumber }` }
 ]
 
 function highlight (sourceCode) {

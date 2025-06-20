@@ -28,13 +28,6 @@ function logServerMessage (title, msg, additional) {
 let renderSSRError = null
 let vueRenderToString = null
 
-function renderError ({ err, req, res }) {
-  log()
-  warn(req.url, 'Render failed')
-
-  renderSSRError({ err, req, res })
-}
-
 function getClientHMRScriptQuery (devServerCfg) {
   const { overlay } = devServerCfg.client
   const acc = []
@@ -381,7 +374,12 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     const serveStatic = await serveStaticContent(middlewareParams)
     middlewareParams.serve = {
       static: serveStatic,
-      error: renderError
+      error: ({ err, req, res }) => {
+        log()
+        warn(req.url, 'Render failed')
+
+        renderSSRError({ err, req, res, projectRootFolder: quasarConf.ctx.appPaths.appDir })
+      }
     }
 
     /** @type {import('../../../types').SsrInjectDevMiddlewareFn} */
