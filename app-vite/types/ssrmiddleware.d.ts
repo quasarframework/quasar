@@ -1,6 +1,6 @@
 import { Express, Application, Request, Response } from "express";
 import { Server } from "http";
-import { Server as HttpsServer } from "https";
+import { Server as HttpsServer, ServerOptions as HttpsServerOptions } from "https";
 import { ServeStaticOptions } from "serve-static";
 
 interface RenderParams {
@@ -47,11 +47,20 @@ interface SsrCreateParams {
    * for the SSR webserver
    */
   port: number;
+  /**
+   * `devHttpsApp` will be automatically made available in `listen`
+   * and middleware callback parameters if you use HTTPS in development.
+   *
+   * But, you can also ignore `devHttpsApp` and use this to configure
+   * the `app` to handle HTTPS requests.
+   */
+  devHttpsOptions: HttpsServerOptions;
   resolve: SsrMiddlewareResolve;
   publicPath: string;
   folders: SsrMiddlewareFolders;
   /**
    * Uses Vue and Vue Router to render the requested URL path.
+   *
    * @returns the rendered HTML string to return to the client
    */
   render: (ssrContext: RenderVueParams) => Promise<string>;

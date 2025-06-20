@@ -291,6 +291,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
     const middlewareParams = {
       port: this.#appOptions.port,
+      devHttpsOptions: quasarConf.devServer.https,
       resolve: {
         urlPath: this.#appOptions.resolveUrlPath,
         root: (...args) => join(this.#pathMap.rootFolder, ...args),
@@ -372,8 +373,10 @@ export class QuasarModeDevserver extends AppDevserver {
     })
 
     if (quasarConf.devServer.https) {
-      const https = await import('node:https')
-      middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.https, app)
+      middlewareParams.devHttpsApp = await this.#createLazyDevHttpsServer(
+        quasarConf.devServer.https,
+        app
+      )
     }
 
     middlewareParams.listenResult = await listen(middlewareParams)
@@ -389,6 +392,41 @@ export class QuasarModeDevserver extends AppDevserver {
 
     this.printBanner(quasarConf)
     this.#viteClient?.ws.send({ type: 'full-reload' })
+  }
+
+  /**
+   * Lazily create the devHttpsApp proxy when it's first accessed.
+   * This allows the user to handle the devHttpsApp manually if they need to.
+   * This is useful when they are using an custom SSR webserver such as Fastify and h3
+   */
+  async #createLazyDevHttpsServer(httpsOptions, app) {
+    const { createServer } = await import('node:https')
+    const createInstance = () => {
+      try {
+        return createServer(httpsOptions, app)
+      } catch (error) {
+        if (error.code === 'ERR_INVALID_ARG_TYPE') {
+          warn(
+            'The SSR app instance is not compatible with automatic HTTPS support. '
+            + 'Please use `devHttpsOptions` property from callback scope in `create` or `listen` to set up HTTPS manually.'
+          )
+        } else {
+          warn(
+            `An error occurred while setting up HTTPS for the SSR app instance, devHttpsApp won't be available. Error: ${ error.message }`
+          )
+        }
+      }
+    }
+
+    return new Proxy({}, {
+      get: (target, prop) => {
+        if (!target.instance) {
+          target.instance = createInstance()
+        }
+
+        return target.instance?.[prop]
+      }
+    })
   }
 
   // also update pwa-devserver.js when changing here
