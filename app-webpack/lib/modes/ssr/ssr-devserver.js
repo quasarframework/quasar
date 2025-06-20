@@ -292,7 +292,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
       return renderer.renderToString(ssrContext)
         .then(html => {
-          logServerMessage('Rendered', ssrContext.req.url, `${ Date.now() - startTime }ms`)
+          logServerMessage('Rendered', ssrContext.url || ssrContext.req.url, `${ Date.now() - startTime }ms`)
           return html
         })
     }
@@ -339,7 +339,15 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
 
     delete require.cache[ this.#pathMap.serverFile ]
-    const { create, listen, close, injectMiddlewares, serveStaticContent, renderPreloadTag } = require(this.#pathMap.serverFile)
+    const {
+      create,
+      injectDevMiddleware = ({ app }) => (middleware) => app.use(middleware),
+      listen,
+      close,
+      injectMiddlewares,
+      serveStaticContent,
+      renderPreloadTag
+    } = require(this.#pathMap.serverFile)
 
     this.#appOptions.renderer.updateRenderPreloadTag(renderPreloadTag)
 
@@ -376,16 +384,19 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       error: renderError
     }
 
-    clientHMR === true && app.use(webpackClientHMRMiddleware)
-    app.use(webpackClientMiddleware)
+    /** @type {import('../../../types').SsrInjectDevMiddlewareFn} */
+    const registerDevMiddleware = await injectDevMiddleware(middlewareParams)
+
+    clientHMR === true && await registerDevMiddleware(webpackClientHMRMiddleware)
+    await registerDevMiddleware(webpackClientMiddleware)
 
     if (quasarConf.build.ignorePublicFolder !== true) {
-      serveStatic({ urlPath: '/', pathToServe: '.' })
+      await serveStatic({ urlPath: '/', pathToServe: '.' })
     }
 
     await injectMiddlewares(middlewareParams)
 
-    publicPath !== '/' && app.use((req, res, next) => {
+    publicPath !== '/' && await registerDevMiddleware((req, res, next) => {
       const pathname = new URL(req.url, `http://${ req.headers.host }`).pathname || '/'
 
       if (pathname.startsWith(publicPath) === true) {
@@ -398,7 +409,8 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
         res.end()
         return
       }
-      else if (req.headers.accept && req.headers.accept.includes('text/html')) {
+
+      if (req.headers.accept && req.headers.accept.includes('text/html')) {
         const parsedPath = pathname.slice(1)
         const redirectPaths = [ publicPath + parsedPath ]
         const splitted = parsedPath.split('/')

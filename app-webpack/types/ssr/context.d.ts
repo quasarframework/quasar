@@ -1,10 +1,12 @@
-import { Request, Response } from "express";
-import { HasSsr, QVueGlobals } from "quasar";
-import { HasStoreParam } from "./store";
+import { QVueGlobals } from "quasar";
+import { HasStoreParam } from "../store";
+import { SsrDriverTypes } from "./driver";
 
-interface QSsrContext extends HasStoreParam {
-  req: Request;
-  res: Response;
+export interface QSsrContext extends HasStoreParam {
+  url?: string;
+  originalUrl?: string;
+  req: SsrDriverTypes["request"];
+  res: SsrDriverTypes["response"];
 
   /**
    * The $q object
@@ -26,12 +28,10 @@ interface QSsrContext extends HasStoreParam {
    * Set this to a function which will be executed server-side
    * after the app has been rendered with Vue.
    * We recommend using the "onRendered" instead.
-
+   *
    * Purpose: backward compatibility with Vue ecosystem packages
    * (like @vue/apollo-ssr)
    * Example: ssrContext.rendered = () => { ... }
    */
   rendered?: () => void;
 }
-
-export type HasSsrParam = HasSsr<{ ssrContext?: QSsrContext | null }>;

@@ -11,8 +11,9 @@ import type {
   SsrListenCallback,
   SsrCloseCallback,
   SsrServeStaticContentCallback,
-  SsrRenderPreloadTagCallback
-} from "./ssrmiddleware";
+  SsrRenderPreloadTagCallback,
+  SsrInjectDevMiddlewareCallback
+} from "./ssr";
 
 /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
 
@@ -55,3 +56,7 @@ export function defineSsrServeStaticContent(
 export function defineSsrRenderPreloadTag(
   callback: SsrRenderPreloadTagCallback
 ): SsrRenderPreloadTagCallback;
+
+export function defineSsrInjectDevMiddleware(
+  callback: SsrInjectDevMiddlewareCallback
+): SsrInjectDevMiddlewareCallback;

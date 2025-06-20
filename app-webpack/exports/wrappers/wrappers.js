@@ -14,6 +14,7 @@ module.exports.defineStore = wrapper
 
 module.exports.defineSsrMiddleware = wrapper
 module.exports.defineSsrCreate = wrapper
+module.exports.defineSsrInjectDevMiddleware = wrapper
 module.exports.defineSsrListen = wrapper
 module.exports.defineSsrClose = wrapper
 module.exports.defineSsrServeStaticContent = wrapper
