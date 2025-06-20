@@ -34,8 +34,6 @@ import {
 
 /**
  * Create your webserver and return its instance.
- * If needed, prepare your webserver to receive
- * connect-like middlewares.
  *
  * Can be async: defineSsrCreate(async ({ ... }) => { ... })
  *
@@ -69,6 +67,19 @@ export const create = defineSsrCreate((/* { ... } */) => {
   }
 
   return app
+})
+
+/**
+ * Used by Quasar SSR dev server to inject middleware into the webserver.
+ * It uses it to handle Webpack dev server, handle public paths, etc.
+ * The given middleware is compatible with `node:http`'s Server, Express, Connect, etc.
+ *
+ * Can be async: defineSsrInjectDevMiddleware(async ({ app }) => { ... })
+ */
+export const injectDevMiddleware = defineSsrInjectDevMiddleware(({ app }) => {
+  return (middleware) => {
+    app.use(middleware)
+  }
 })
 
 /**
@@ -243,9 +254,24 @@ Remember that whatever the `listen()` function returns (if anything) will be exp
 * This is usually not the place to add middlewares (but you can do it). Add middlewares by using the [SSR Middlewares](/quasar-cli-webpack/developing-ssr/ssr-middleware) instead. You can configure SSR Middlewares to run only for dev or only for production too.
 :::
 
-### Replacing express.js
+### Replacing Express
 
-You can replace the default Express.js Node server with any other connect API compatible one. Just make sure to yarn/npm install its package first.
+You can replace the default Express server with any other one such as Connect, Fastify, h3, etc. You need to install the relevant packages, then adapt `create`, `listen`, `close`, etc. accordingly.
+
+#### Example: Connect
+
+Since Express is a Connect-based server, you can use Connect as a simple drop-in replacement:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add connect
+<<| bash NPM |>>
+$ npm install --save connect
+<<| bash PNPM |>>
+$ pnpm add connect
+<<| bash Bun |>>
+$ bun add connect
+```
 
 ```js src-ssr/server.js
 import { defineSsrCreate } from '#q-app/wrappers'
@@ -255,13 +281,132 @@ import compression from 'compression'
 export const create = defineSsrCreate((/* { ... } */) => {
   const app = connect()
 
-  // place here any middlewares that
-  // absolutely need to run before anything else
+  // Place any middleware that needs to run before anything else
   if (process.env.PROD) {
     app.use(compression())
   }
 
   return app
+})
+```
+
+#### Example: Fastify
+
+Fastify is considerable different from Express, so it requires a more thorough adaptation:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add fastify @fastify/middie @fastify/compress @fastify/static
+<<| bash NPM |>>
+$ npm install --save fastify @fastify/middie @fastify/compress @fastify/static
+<<| bash PNPM |>>
+$ pnpm add fastify @fastify/middie @fastify/compress @fastify/static
+<<| bash Bun |>>
+$ bun add fastify @fastify/middie @fastify/compress @fastify/static
+```
+
+```js src-ssr/server.js
+import {
+  defineSsrCreate,
+  defineSsrInjectDevMiddleware,
+  defineSsrListen,
+  defineSsrClose,
+  defineSsrServeStaticContent
+} from '#q-app/wrappers'
+import Fastify from 'fastify'
+
+// If using TypeScript, also enable the following:
+/*
+import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
+
+import type { Server } from 'node:http'
+declare module '#q-app' {
+  interface SsrDriver {
+    app: FastifyInstance;
+    listenResult: Server;
+    request: FastifyRequest;
+    response: FastifyReply;
+  }
+}
+*/
+
+export const create = defineSsrCreate(async ({ devHttpsOptions }) => {
+  const app = Fastify({
+    https: devHttpsOptions ?? null,
+  })
+
+  // Place any middleware that needs to run before anything else
+  if (process.env.PROD) {
+    await app.register(import('@fastify/compress'))
+  }
+
+  return app
+})
+
+export const injectDevMiddleware = defineSsrInjectDevMiddleware(async ({ app }) => {
+  await app.register(import('@fastify/middie'))
+
+  return (middleware) => {
+    app.use(middleware)
+  }
+})
+
+export const listen = defineSsrListen(async ({ app, port }) => {
+  await app.listen({ port })
+  return app.server
+})
+
+export const close = defineSsrClose(({ listenResult }) => {
+  return listenResult.close()
+})
+
+const maxAge = process.env.DEV ? 0 : 1000 * 60 * 60 * 24 * 30
+
+export const serveStaticContent = defineSsrServeStaticContent(({ app, resolve }) => {
+  return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+    await app.register(import('@fastify/static'), {
+      root: resolve.public(pathToServe),
+      prefix: resolve.urlPath(urlPath),
+      maxAge: opts.maxAge ?? maxAge,
+      // To avoid conflicts with ./middlewares/render
+      wildcard: false,
+      index: false
+    })
+  }
+})
+
+// renderPreloadTag logic is the same
+```
+
+```js src-ssr/middlewares/render.js
+import { defineSsrMiddleware } from '#q-app/wrappers';
+
+export default defineSsrMiddleware(({ app, resolve, render, serve }) => {
+  app.get(resolve.urlPath('*'), async (req, res) => {
+    res.type('text/html');
+
+    try {
+      return await render({ req, res });
+    } catch (err) {
+      if (err.url) {
+        return res.redirect(err.url, err.code)
+      }
+
+      if (err.code === 404) {
+        return res.status(404).send('404 | Page Not Found')
+      }
+
+      if (process.env.DEV) {
+        serve.error({ err, req, res })
+      } else {
+        res.status(500).send('500 | Internal Server Error')
+
+        if (process.env.DEBUGGING) {
+          console.error(err.stack)
+        }
+      }
+    }
+  })
 })
 ```
 
