@@ -4,7 +4,6 @@ import {
   Server as HttpsServer,
   ServerOptions as HttpsServerOptions,
 } from "node:https";
-import { Request, Response } from "express";
 import { SsrDriverTypes } from "./driver";
 import { QSsrContext } from "./context";
 
@@ -18,14 +17,7 @@ export interface RenderError extends Error {
   url: string;
 }
 
-interface RenderErrorParams extends Omit<RenderParams, "req" | "res"> {
-  // TODO: move @quasar/render-ssr-error away from Express to be more generic,
-  // like using Node's IncomingMessage and ServerResponse instead.
-  // That way, custom webserver users have a better chance to use it,
-  // as some of them offer `req.raw: IncomingMessage`
-  req: Request;
-  res: Response;
-
+interface RenderErrorParams extends RenderParams {
   err: RenderError;
 }
 
