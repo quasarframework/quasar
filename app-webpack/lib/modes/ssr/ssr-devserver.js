@@ -352,6 +352,9 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     const middlewareParams = {
       port: this.#appOptions.port,
+      devHttpsOptions: quasarConf.devServer.server.type === 'https'
+        ? quasarConf.devServer.server.options
+        : void 0,
       resolve: {
         urlPath: resolveUrlPath,
         root: (...args) => join(this.#pathMap.rootFolder, ...args),
@@ -424,7 +427,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
 
     if (quasarConf.devServer.server.type === 'https') {
-      middlewareParams.devHttpsApp = await this.#createLazyDevHttpsServer(
+      middlewareParams.devHttpsApp = this.#createLazyDevHttpsServer(
         quasarConf.devServer.server.options,
         app
       )
@@ -444,7 +447,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
    * This allows the user to handle the devHttpsApp manually if they need to.
    * This is useful when they are using an custom SSR webserver such as Fastify and h3
    */
-  async #createLazyDevHttpsServer(httpsOptions, app) {
+  #createLazyDevHttpsServer(httpsOptions, app) {
     const { createServer } = require('node:https')
     const createInstance = () => {
       try {
