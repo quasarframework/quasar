@@ -430,6 +430,14 @@ export class QuasarModeDevserver extends AppDevserver {
         }
 
         return target.instance?.[prop]
+      },
+      set: (target, prop, value) => {
+        if (!target.instance) {
+          target.instance = createInstance()
+        }
+
+        target.instance[prop] = value
+        return true
       }
     })
   }

@@ -478,6 +478,14 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
         }
 
         return target.instance?.[prop]
+      },
+      set: (target, prop, value) => {
+        if (!target.instance) {
+          target.instance = createInstance()
+        }
+
+        target.instance[prop] = value
+        return true
       }
     })
   }
