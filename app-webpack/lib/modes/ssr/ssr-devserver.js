@@ -457,18 +457,20 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
    * This allows the user to handle the devHttpsApp manually if they need to.
    * This is useful when they are using an custom SSR webserver such as Fastify and h3
    */
-  #createLazyDevHttpsServer(httpsOptions, app) {
+  #createLazyDevHttpsServer (httpsOptions, app) {
     const { createServer } = require('node:https')
     const createInstance = () => {
       try {
         return createServer(httpsOptions, app)
-      } catch (error) {
+      }
+      catch (error) {
         if (error.code === 'ERR_INVALID_ARG_TYPE') {
           warn(
             'The SSR app instance is not compatible with automatic HTTPS support. '
             + 'Please use `devHttpsOptions` property from callback scope in `create` or `listen` to set up HTTPS manually.'
           )
-        } else {
+        }
+        else {
           warn(
             `An error occurred while setting up HTTPS for the SSR app instance, devHttpsApp won't be available. Error: ${ error.message }`
           )
@@ -487,14 +489,14 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
           target.instance = createInstance()
         }
 
-        return target.instance?.[prop]
+        return target.instance?.[ prop ]
       },
       set: (target, prop, value) => {
         if (!target.instance) {
           target.instance = createInstance()
         }
 
-        target.instance[prop] = value
+        target.instance[ prop ] = value
         return true
       }
     })
