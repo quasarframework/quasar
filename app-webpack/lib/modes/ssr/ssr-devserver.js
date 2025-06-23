@@ -25,6 +25,7 @@ function logServerMessage (title, msg, additional) {
   info(`${ msg }${ additional !== void 0 ? ` ${ green(dot) } ${ additional }` : '' }`, title)
 }
 
+/** @type {import('@quasar/render-ssr-error').default} */
 let renderSSRError = null
 let vueRenderToString = null
 
