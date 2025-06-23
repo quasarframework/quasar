@@ -28,7 +28,8 @@ import { computed } from 'vue'
 import data from 'src/assets/data.js'
 import store from 'src/assets/store.js'
 
-const toAbsolutePath = path => `${ data.project.rootFolder }/${ path }`
+// Protocols expect absolute paths, with forward slashes even on Windows
+const toAbsolutePath = path => `${ data.project.rootFolder }/${ path }`.replace(/\\/g, '/')
 
 const editorList = [
   { name: 'vscode', href: entry => `vscode://file/${ toAbsolutePath(entry.fileName) }:${ entry.lineNumber }${ entry.columnNumber !== null ? `:${ entry.columnNumber }` : '' }` },
