@@ -30,6 +30,8 @@
         side="right"
         v-model="drawer"
         bordered
+        aria-label="This is an ARIA-Label"
+        test-attribute="This is an Test attribute"
       >
         <div v-for="n in contentSize * 2 + 5" :key="n">
           Drawer {{ n }} / {{ contentSize * 2 + 5 }}

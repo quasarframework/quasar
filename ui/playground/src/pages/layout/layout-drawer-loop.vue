@@ -18,6 +18,8 @@
       side="right"
       v-model="drawer"
       bordered
+      aria-label="This is an ARIA-Label"
+      test-attribute="This is an Test attribute"
     >
       <div v-for="n in contentSize" :key="n">
         Drawer {{ n }} / {{ contentSize }}
