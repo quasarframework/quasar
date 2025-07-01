@@ -28,6 +28,8 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 
 <DocExample title="Label slot" file="LabelSlot" />
 
+<DocExample title="Arrow container slot" file="ArrowContainerSlot" />
+
 <DocExample title="Using v-model" file="Model" />
 
 <DocExample title="Disable" file="Disable" />
