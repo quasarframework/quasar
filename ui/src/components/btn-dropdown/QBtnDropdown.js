@@ -167,6 +167,10 @@ export default createComponent({
       menuRef.value?.hide(evt)
     }
 
+    function getSplitButtonMenu (menuContent) {
+      return props.disable !== true && props.disableDropdown !== true ? [ menuContent ] : []
+    }
+
     // expose public methods
     Object.assign(proxy, {
       show,
@@ -179,16 +183,12 @@ export default createComponent({
     })
 
     return () => {
-      const Arrow = [
-        h(QIcon, {
-          class: iconClass.value,
-          name: props.dropdownIcon || proxy.$q.iconSet.arrow.dropdown
-        })
-      ]
+      const icon = h(QIcon, {
+        class: iconClass.value,
+        name: props.dropdownIcon || proxy.$q.iconSet.arrow.dropdown
+      })
 
-      if (props.disableDropdown !== true) {
-        Arrow.push(
-          h(
+      const dropdownMenu = h(
             QMenu,
             {
               ref: menuRef,
@@ -217,6 +217,14 @@ export default createComponent({
             },
             slots.default
           )
+
+      const Arrow = [
+        icon
+      ]
+
+      if (props.disableDropdown !== true) {
+        Arrow.push(
+          dropdownMenu
         )
       }
 
@@ -281,7 +289,9 @@ export default createComponent({
               padding: props.padding,
               ripple: props.ripple
             },
-            () => Arrow
+            {
+              default: () => hSlot(slots[ 'arrow-container' ], [icon]).concat(getSplitButtonMenu(dropdownMenu))
+            }
           )
         ]
       )

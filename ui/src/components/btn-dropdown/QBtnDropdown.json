@@ -183,6 +183,10 @@
     "loading": {
       "desc": "Override the default QSpinner when in 'loading' state",
       "addedIn": "v2.8"
+    },
+
+    "arrow-container": {
+      "desc": "Customize arrow container button's content when using 'split' prop"
     }
   },
 
