@@ -18,6 +18,6 @@
     "@vitejs/plugin-vue": "^6.0.0",
     "pug": "^3.0.3",
     "sass-embedded": "^1.80.2",
-    "vite": "^7.0.2"
+    "vite": "^7.0.3"
   }
 }

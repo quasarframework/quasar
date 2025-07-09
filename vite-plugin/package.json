@@ -51,8 +51,8 @@
     "pug": "^3.0.3",
     "quasar": "workspace:*",
     "rollup": "^4.24.2",
-    "vite": "^7.0.0",
-    "vite-plugin-checker": "^0.9.3",
+    "vite": "^7.0.3",
+    "vite-plugin-checker": "^0.10.0",
     "vitest": "^3.2.4",
     "vue": "^3.5.5"
   },
