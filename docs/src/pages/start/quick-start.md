@@ -13,7 +13,12 @@ If you are a more advanced Vue developer, we invite you to start off by [decidin
 Make sure that you have Node >=14 (or any newer **LTS Node.js version**) and NPM v6+ or Yarn v1 (classic) or PNPM v8+ installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/previous-releases).
 
 ## Step 1: Create a Project
+Navigate to the folder above where you want your project to be. Quasar will later prompt you for the name of the project folder and create that folder within this.
 
+```bash
+# Navigate to the parent folder
+$ cd <parent_folder_name>
+```
 Enter the following command:
 
 ```tabs
@@ -47,12 +52,27 @@ $ bun install -g @quasar/cli
 
 ## Step 2: Start developing
 
-For the second and last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
+For the second and last step, navigate into the newly created project folder, initialize the project, and run the Quasar CLI command to start the dev server.
 
+Navigate to the project folder
 ```bash
 $ cd <project_folder_name>
+```
+Initialize the project.
+```tabs
+<<| bash Yarn |>>
+$ yarn init
+<<| bash NPM |>>
+$ npm init
+<<| bash PNPM |>>
+$ pnpm init
+<<| bash Bun |>>
+# experimental support
+$ bun init
+```
+Start quasar in development node
+```bash
 # then run:
-
 # if you have the global CLI:
 $ quasar dev
 # otherwise:
