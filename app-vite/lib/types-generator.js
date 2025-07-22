@@ -103,7 +103,12 @@ function generateTsConfig (quasarConf, fsUtils) {
   }
 
   const paths = {}
-  Object.keys(aliasMap).forEach(alias => {
+  Object.keys(aliasMap).sort((a,b) => // move the 'src' and 'app' entries to the end
+      b === 'app' ? -1 : 
+      a === 'app' ? 1 :
+      b === 'src' ? -1 :
+      a === 'src' ? 1 : 0
+    ).forEach(alias => {
     const rawPath = aliasMap[ alias ]
     const tsPath = toTsPath(rawPath)
 
