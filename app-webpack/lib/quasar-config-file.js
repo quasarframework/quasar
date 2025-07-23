@@ -830,9 +830,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       },
 
       alias: {
-        '#q-app': '@quasar/app-webpack',
-        src: appPaths.srcDir,
-        app: appPaths.appDir,
         components: appPaths.resolve.src('components'),
         layouts: appPaths.resolve.src('layouts'),
         pages: appPaths.resolve.src('pages'),
@@ -845,7 +842,17 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         strict: false,
         vueShim: false
       }
-    }, cfg.build)
+    }, 
+    cfg.build,
+    // these aliases should come at the end for clean IDE autoimports
+    // https://github.com/quasarframework/quasar/issues/18075
+    {
+      alias: { 
+        '#q-app': '@quasar/app-webpack',
+        src: appPaths.srcDir,
+        app: appPaths.appDir
+      }
+    })
 
     if (cfg.vendor.disable !== true) {
       cfg.vendor.add = cfg.vendor.add.length > 0

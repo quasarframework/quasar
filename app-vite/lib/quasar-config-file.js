@@ -776,9 +776,6 @@ export class QuasarConfigFile {
       },
 
       alias: {
-        '#q-app': '@quasar/app-vite',
-        src: appPaths.srcDir,
-        app: appPaths.appDir,
         components: appPaths.resolve.src('components'),
         layouts: appPaths.resolve.src('layouts'),
         pages: appPaths.resolve.src('pages'),
@@ -791,7 +788,17 @@ export class QuasarConfigFile {
         strict: false,
         vueShim: false
       }
-    }, cfg.build)
+    }, 
+    cfg.build,
+    // these aliases should come at the end for clean IDE autoimports
+    // https://github.com/quasarframework/quasar/issues/18075
+    {
+      alias: { 
+        '#q-app': '@quasar/app-vite',
+        src: appPaths.srcDir,
+        app: appPaths.appDir
+      }
+    })
 
     // TODO: remove when https://github.com/vuejs/core/issues/12549 is fixed
     temporaryFixVueFlags(cfg.build.rawDefine)
