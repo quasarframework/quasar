@@ -41,10 +41,15 @@ export default {
     noData: 'Маълумот топилмади',
     noResults: 'Қидирув бўйича маълумотлар топилмади',
     loading: 'Юкланмоқда...',
-    selectedRecords: (rows) =>
-      (rows === 1
-        ? '1 та маълумот танланди.'
-        : (rows === 0 ? 'Хеч қандай' : rows) + ' маълумотла танланмади.'),
+    selectedRecords: (rows) => {
+      if (rows === 0) {
+        return 'Хеч қандай маълумотлар танланмади.'
+      }
+      if (rows === 1) {
+        return '1 та маълумот танланди.'
+      }
+      return rows + ' та маълумотлар танланди.'
+    },
     recordsPerPage: 'Сахифадаги қаторлар:',
     allRows: 'Барчаси',
     pagination: (start, end, total) => start + '-' + end + ' жами ' + total,
