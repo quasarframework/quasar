@@ -2,6 +2,7 @@ import { h, ref, computed, Transition, nextTick, onActivated, onDeactivated, onB
 
 import QIcon from '../../components/icon/QIcon.js'
 import QSpinner from '../../components/spinner/QSpinner.js'
+import QBtn from '../../components/btn/QBtn.js'
 
 import useId from '../use-id/use-id.js'
 import useSplitAttrs from '../use-split-attrs/use-split-attrs.js'
@@ -392,12 +393,14 @@ export default function (state) {
     else if (props.clearable === true && state.hasValue.value === true && state.editable.value === true) {
       node.push(
         getInnerAppendNode('inner-clearable-append', [
-          h(QIcon, {
+          h(QBtn, {
             class: 'q-field__focusable-action',
-            name: props.clearIcon || $q.iconSet.field.clear,
-            tabindex: 0,
-            role: 'button',
-            'aria-hidden': 'false',
+            icon: props.clearIcon || $q.iconSet.field.clear,
+            flat: true,
+            unelevated: true,
+            padding: '0px 0px',
+            round: true,
+            dense: true,
             'aria-label': $q.lang.label.clear,
             onKeyup: onClearableKeyup,
             onClick: clearValue
