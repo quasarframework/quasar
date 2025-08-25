@@ -18,6 +18,12 @@
       "category": "behavior"
     },
 
+    "icon-size": {
+      "type": "String",
+      "desc": "Change icon size e.g. '16px' or '1rem'",
+      "category": "style"
+    },
+
     "dark-percentage": {
       "type": "Boolean",
       "desc": "Progress bar on the background should have dark color; To be used along with 'percentage' and 'loading' props",

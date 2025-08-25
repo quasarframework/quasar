@@ -53,6 +53,7 @@ export const nonRoundBtnProps = {
   label: [ Number, String ],
   icon: String,
   iconRight: String,
+  iconSize: String,
 
   ...btnDesignOptions.reduce(
     (acc, val) => (acc[ val ] = Boolean) && acc,

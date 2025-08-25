@@ -17,6 +17,12 @@
       "category": "content|behavior"
     },
 
+    "icon-size": {
+      "type": "String",
+      "desc": "Change icon size e.g. '16px' or '1rem'",
+      "category": "style"
+    },
+
     "dropdown-icon": {
       "extends": "icon"
     },
