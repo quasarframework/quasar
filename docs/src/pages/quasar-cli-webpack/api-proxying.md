@@ -12,16 +12,15 @@ To configure the proxy rules, edit the `/quasar.config` file in `devServer.proxy
 
 ```js /quasar.config file
 devServer: {
-  proxy: {
+  proxy: [
     // proxy all requests starting with /api to jsonplaceholder
-    '/api': {
-      target: 'http://some.api.target.com:7070',
-      changeOrigin: true,
-      pathRewrite: {
-        '^/api': ''
-      }
+    {
+        context: ['/api'],
+        target: 'http://some.api.target.com:7070',
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true
     }
-  }
+  ]
 }
 ```
 
