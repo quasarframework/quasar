@@ -264,10 +264,13 @@ export default createComponent({
       model.value = model.value + offset
     }
 
+    const qInputRef = ref(null)
+
     const inputEvents = computed(() => {
       function updateModel () {
         model.value = newPage.value
         newPage.value = null
+        qInputRef.value?.blur()
       }
 
       return {
@@ -428,6 +431,7 @@ export default createComponent({
 
           props.input === true
             ? h(QInput, {
+              ref: qInputRef,
               class: 'inline',
               style: { width: `${ inputPlaceholder.value.length / 1.5 }em` },
               type: 'number',
