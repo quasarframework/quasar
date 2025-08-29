@@ -434,6 +434,7 @@ export default createComponent({
               dense: true,
               value: newPage.value,
               disable: props.disable,
+              readonly: true,
               dark: isDark.value,
               borderless: true,
               inputClass: props.inputClass,
