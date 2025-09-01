@@ -25,26 +25,31 @@ const TOKENS = {
   x: { pattern: '[0-9a-zA-Z]', negate: '[^0-9a-zA-Z]', transform: v => v.toLocaleLowerCase() }
 }
 
-const KEYS = Object.keys(TOKENS)
-KEYS.forEach(key => {
-  TOKENS[ key ].regex = new RegExp(TOKENS[ key ].pattern)
-})
-
-const
-  tokenRegexMask = new RegExp('\\\\([^.*+?^${}()|([\\]])|([.*+?^${}()|[\\]])|([' + KEYS.join('') + '])|(.)', 'g'),
-  escRegex = /[.*+?^${}()|[\]\\]/g
-
 const MARKER = String.fromCharCode(1)
 
 export const useMaskProps = {
   mask: String,
   reverseFillMask: Boolean,
   fillMask: [ Boolean, String ],
-  unmaskedValue: Boolean
+  unmaskedValue: Boolean,
+  customTokens: Object
 }
 
 export default function (props, emit, emitValue, inputRef) {
   let maskMarked, maskReplaced, computedMask, computedUnmask, pastedTextStart, selectionAnchor
+
+  if (props.customTokens) {
+    Object.assign(TOKENS, props.customTokens)
+  }
+
+  const KEYS = Object.keys(TOKENS)
+  KEYS.forEach(key => {
+    TOKENS[ key ].regex = new RegExp(TOKENS[ key ].pattern)
+  })
+
+  const
+    tokenRegexMask = new RegExp('\\\\([^.*+?^${}()|([\\]])|([.*+?^${}()|[\\]])|([' + KEYS.join('') + '])|(.)', 'g'),
+    escRegex = /[.*+?^${}()|[\]\\]/g
 
   const hasMask = ref(null)
   const innerValue = ref(getInitialMaskedValue())

@@ -26,6 +26,13 @@
       "type": "Boolean",
       "desc": "Model will be unmasked (won't contain tokens/separation characters)",
       "category": "behavior"
+    },
+
+    "custom-tokens": {
+      "type": "Object",
+      "desc": "Object that contains a function to mask the value. Adds to the list of predefined masks",
+      "examples": [ "{ C: {pattern: '[\\D]', negate: '[^\\D]', transform: v => v.toLocaleUpperCase() } }" ],
+      "category": "behavior"
     }
   }
 }

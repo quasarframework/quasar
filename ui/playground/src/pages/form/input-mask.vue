@@ -54,6 +54,16 @@
         hint="Mask: NNNN - NNNN"
       />
 
+      <div>Custom tokens: {{ customTokens }}</div>
+      <q-input
+        filled
+        v-model="text10"
+        label="Custom tokens"
+        :mask="'CC-CC-CC'"
+        :custom-tokens="customTokens"
+        hint="Mask: CC-CC-CC (letters, uppercase)"
+      />
+
       <div class="text-h6">
         Live mask test: {{ textMask }}
       </div>
@@ -117,6 +127,7 @@ export default {
       text7: '',
       text8: '',
       text9: '',
+      text10: '',
       variableMaskValue1: '',
       variableMaskValue2: '',
       variableMaskValue3: '',
@@ -128,7 +139,8 @@ export default {
       fillRight: true,
       fillMask: true,
       fillUnmask: false,
-      fillMaskText: '0'
+      fillMaskText: '0',
+      customTokens: { C: { pattern: '[\\D]', negate: '[^\\D]', transform: v => v.toLocaleUpperCase() } }
     }
   },
 
