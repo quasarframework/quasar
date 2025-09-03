@@ -148,7 +148,10 @@ export default createComponent({
       ...props.verticalThumbStyle,
       top: `${ scroll.vertical.thumbStart.value }px`,
       height: `${ scroll.vertical.thumbSize.value }px`,
-      right: `${ props.horizontalOffset[ 1 ] }px`
+      right:
+        props.thumbStyle.right || props.verticalThumbStyle.right
+          ? `calc(${ props.thumbStyle.right || props.verticalThumbStyle.right } + ${ props.horizontalOffset[ 1 ] }px)`
+          : `${ props.horizontalOffset[ 1 ] }px`
     }))
     scroll.vertical.thumbClass = computed(() => (
       'q-scrollarea__thumb q-scrollarea__thumb--v absolute-right'
