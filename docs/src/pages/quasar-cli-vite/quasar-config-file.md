@@ -553,6 +553,7 @@ interface QuasarBuildConfiguration {
   /**
    * Sets [Vue Router mode](https://router.vuejs.org/guide/essentials/history-mode.html).
    * History mode requires configuration on your deployment web server too.
+   * For capacitor and electron, it's always 'hash' for [compatibility reasons](https://github.com/quasarframework/quasar/issues/17322#issuecomment-2191987962).
    *
    * @default 'hash'
    */
