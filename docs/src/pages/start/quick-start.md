@@ -15,10 +15,6 @@ Make sure that you have Node >=14 (or any newer **LTS Node.js version**) and NPM
 ## Step 1: Create a Project
 Navigate to the folder above where you want your project to be. Quasar will later prompt you for the name of the project folder and create that folder within this.
 
-```bash
-# Navigate to the parent folder
-$ cd <parent_folder_name>
-```
 Enter the following command:
 
 ```tabs
