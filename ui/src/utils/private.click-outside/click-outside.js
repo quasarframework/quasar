@@ -63,6 +63,11 @@ function globalHandler (evt) {
       // used to prevent refocus after menu close
       evt.qClickOutside = true
       state.onClickOutside(evt)
+
+      // used to prevent closing all if nested
+      if (evt.qSeparateClosePopup === true) {
+        return
+      }
     }
     else {
       return

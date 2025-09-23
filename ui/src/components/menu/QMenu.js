@@ -118,6 +118,11 @@ export default createComponent({
         if (props.persistent !== true && showing.value === true) {
           hide(e)
 
+          // prevent further processing of click-outside handlers
+          if (props.separateClosePopup === true) {
+            e.qSeparateClosePopup = true
+          }
+
           if (
             // always prevent touch event
             e.type === 'touchstart'
