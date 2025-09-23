@@ -507,7 +507,10 @@ export default createComponent({
       else {
         const fn = typeof props.events === 'function'
           ? props.events
-          : date => props.events.includes(date)
+          : (() => {
+              const normalizedEvents = props.events.map(e => String(e).replace(/[.\\-]/g, '/'))
+              return date => normalizedEvents.includes(date)
+            })()
 
         for (let i = 1; i <= daysInMonth.value; i++) {
           const dayHash = viewMonthHash.value + '/' + pad(i)
