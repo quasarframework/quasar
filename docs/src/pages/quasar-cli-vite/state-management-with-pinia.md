@@ -34,8 +34,7 @@ We won't go into details on how to configure or use Pinia since it has great doc
 
 When you scaffold a Quasar project folder you can choose to add Pinia. It will create all the necessary configuration for you. Like for example the creation of `/src/stores` which handles all the Pinia related code that you need.
 
-If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.js` file (it's automatically created when you run `quasar new store <name>`):
-
+If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.js` file 
 ```js /src/stores/index.js
 import { defineStore } from '#q-app/wrappers'
 import { createPinia } from 'pinia'
@@ -91,6 +90,84 @@ export const useCounterStore = defineStore('counter', {
   },
 })
 ```
+
+To properly set up Pinia in a Quasar app, you'll need to create the index.js file and then configure a Quasar boot file to use it. Here's a step-by-step guide:
+
+## Step 1: Create the index.js File
+First, create the src/stores/index.js file. This file will initialize Pinia and export the useStore function, which your boot file will use.
+
+In src/stores/index.js, add the following code:
+
+```js
+import { defineStore } from '#q-app/wrappers'
+import { createPinia } from 'pinia'
+
+/*
+ * If not building with SSR mode, you can
+ * directly export the Store instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Store instance.
+ */
+
+export default defineStore((/* { ssrContext } */) => {
+  const pinia = createPinia()
+
+  // You can add Pinia plugins here
+  // pinia.use(SomePiniaPlugin)
+
+  return pinia
+})
+```
+
+## Step 2: Create a Quasar Boot File
+Quasar uses boot files to execute code before the main Vue app is created. This is the ideal place to install Pinia.
+
+Generate a boot file: Use the Quasar CLI to create a new boot file.
+
+Bash
+
+$ quasar new boot pinia
+This command will create a new file at src/boot/pinia.js.
+
+Edit the boot file: Open src/boot/pinia.js and add the following code to install Pinia as a Vue plugin.
+
+JavaScript
+```js
+import { boot } from 'quasar/wrappers';
+import { createPinia } from 'pinia';
+
+export default boot(({ app }) => {
+  // You can also pass a Pinia instance to the boot file
+  const pinia = createPinia();
+  app.use(pinia);
+});
+```
+This code ensures that the Pinia instance is available throughout your application.
+
+## Step 3: Register the Boot File
+Finally, you must tell Quasar to use your new boot file.
+
+Open quasar.conf.js: Navigate to the src/quasar.conf.js file.
+
+Add the boot file: Find the boot array and add 'pinia' to it. The order matters, so place it early in the array to ensure your stores are ready before other parts of your app.
+
+JavaScript
+
+// quasar.conf.js
+```js
+module.exports = function (ctx) {
+  return {
+    // ...
+    boot: [
+      'pinia'
+    ],
+    // ...
+  };
+};
+```
+After completing these steps, Pinia will be correctly initialized and available across all components and files in your Quasar Electron app. You can now define and use your stores (like playlistStore.js) without any issues.
 
 We've created the new Pinia store, but we haven't yet used it in our app. In a Vue file:
 
