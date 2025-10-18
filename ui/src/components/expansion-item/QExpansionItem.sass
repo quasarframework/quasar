@@ -1,8 +1,16 @@
 .q-expansion-item
 
+  .q-item__section--avatar:has(> &__toggle-icon)
+    color: $grey-7
+
+  .q-item--dark .q-item__section--avatar:has(> &__toggle-icon)
+    color: rgba(255,255,255,.7)
+
+  .q-item__section--side:has(> .q-icon):not(:has(> &__toggle-icon))
+    color: inherit !important
+
   &__border
     opacity: 0
-
 
   &__toggle-icon
     position: relative
