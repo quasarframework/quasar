@@ -65,21 +65,15 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       const target = vm.$.subTree
 
       if (target?.component) {
-        // account for "script setup" way of declaring component
-        if (target.component.proxy && target.component.proxy[ cmd ]) {
-          target.component.proxy[ cmd ]()
-          return
-        }
+        let currentComponent = target.component
 
-        // account for "script setup" + async component way of declaring component
-        if (
-          target.component.subTree
-          && target.component.subTree.component
-          && target.component.subTree.component.proxy
-          && target.component.subTree.component.proxy[ cmd ]
-        ) {
-          target.component.subTree.component.proxy[ cmd ]()
-          return
+        while (currentComponent) {
+          if (currentComponent.proxy && currentComponent.proxy[ cmd ]) {
+            currentComponent.proxy[ cmd ]()
+            return
+          }
+
+          currentComponent = currentComponent.subTree?.component
         }
       }
 
