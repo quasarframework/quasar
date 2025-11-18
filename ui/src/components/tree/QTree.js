@@ -90,8 +90,9 @@ export default createComponent({
     const isDark = useDark(props, $q)
 
     const lazy = ref({})
-    const innerTicked = ref(props.ticked || [])
-    const innerExpanded = ref(props.expanded || [])
+    const innerTicked = ref(new Set(props.ticked || []))
+    const innerExpanded = ref(new Set(props.expanded || []))
+    const innerNodes = ref(new Map(getNodesPairs(props.nodes)))
 
     let blurTargets = {}
 
@@ -139,7 +140,7 @@ export default createComponent({
       const travel = (node, parent) => {
         const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : props.tickStrategy)
         const
-          key = node[ props.nodeKey ],
+          key = getNodeKey(node),
           isParent = node[ props.childrenKey ] && Array.isArray(node[ props.childrenKey ]) && node[ props.childrenKey ].length !== 0,
           selectable = node.disabled !== true && hasSelection.value === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
@@ -174,7 +175,7 @@ export default createComponent({
 
           selected: key === props.selected && selectable === true,
           selectable,
-          expanded: isParent === true ? innerExpanded.value.includes(key) : false,
+          expanded: isParent === true ? innerExpanded.value.has(key) : false,
           expandable,
           noTick: node.noTick === true || (strictTicking !== true && localLazy && localLazy !== 'loaded'),
           tickable,
@@ -184,8 +185,8 @@ export default createComponent({
           leafFilteredTicking,
           leafTicking,
           ticked: strictTicking === true
-            ? innerTicked.value.includes(key)
-            : (isParent === true ? false : innerTicked.value.includes(key))
+            ? innerTicked.value.has(key)
+            : (isParent === true ? false : innerTicked.value.has(key))
         }
 
         meta[ key ] = m
@@ -246,32 +247,39 @@ export default createComponent({
     })
 
     watch(() => props.ticked, val => {
-      innerTicked.value = val
+      innerTicked.value = new Set(val)
     })
 
     watch(() => props.expanded, val => {
-      innerExpanded.value = val
+      innerExpanded.value = new Set(val)
     })
 
-    function getNodeByKey (key) {
-      const reduce = [].reduce
+    watch(() => props.nodes, val => {
+      innerNodes.value = new Map(getNodesPairs(val))
+    })
 
-      const find = (result, node) => {
-        if (result || !node) {
-          return result
+    function getNodesPairs (nodes) {
+      const nodePairs = []
+
+      const travel = (node) => {
+        if (Array.isArray(node[ props.childrenKey ])) {
+          node[ props.childrenKey ].forEach(travel)
         }
-        if (Array.isArray(node) === true) {
-          return reduce.call(Object(node), find, result)
-        }
-        if (node[ props.nodeKey ] === key) {
-          return node
-        }
-        if (node[ props.childrenKey ]) {
-          return find(null, node[ props.childrenKey ])
-        }
+
+        nodePairs.push([ getNodeKey(node), node ])
       }
 
-      return find(null, props.nodes)
+      nodes.forEach(travel)
+
+      return nodePairs
+    }
+
+    function getNodeKey (node) {
+      return node[ props.nodeKey ]
+    }
+
+    function getNodeByKey (key) {
+      return innerNodes.value.get(key) ?? null
     }
 
     function getTickedNodes () {
@@ -293,28 +301,20 @@ export default createComponent({
         emit('update:expanded', [])
       }
       else {
-        innerExpanded.value = []
+        innerExpanded.value = new Set([])
       }
     }
 
     function expandAll () {
-      const expanded = []
-      const travel = node => {
-        if (node[ props.childrenKey ] && node[ props.childrenKey ].length !== 0) {
-          if (node.expandable !== false && node.disabled !== true) {
-            expanded.push(node[ props.nodeKey ])
-            node[ props.childrenKey ].forEach(travel)
-          }
-        }
-      }
+      const expanded = [ ...innerNodes.value.keys() ]
 
-      props.nodes.forEach(travel)
+      const shouldEmit = props.expanded !== void 0
 
-      if (props.expanded !== void 0) {
+      if (shouldEmit) {
         emit('update:expanded', expanded)
       }
       else {
-        innerExpanded.value = expanded
+        innerExpanded.value = new Set(expanded)
       }
     }
 
@@ -353,12 +353,7 @@ export default createComponent({
     }
 
     function localSetExpanded (key, state) {
-      let target = innerExpanded.value
       const shouldEmit = props.expanded !== void 0
-
-      if (shouldEmit === true) {
-        target = target.slice()
-      }
 
       if (state) {
         if (props.accordion) {
@@ -373,30 +368,25 @@ export default createComponent({
             }
             else {
               props.nodes.forEach(node => {
-                const k = node[ props.nodeKey ]
+                const k = getNodeKey(node)
                 if (k !== key) {
                   collapse.push(k)
                 }
               })
             }
             if (collapse.length !== 0) {
-              target = target.filter(k => collapse.includes(k) === false)
+              collapse.forEach(key => innerExpanded.value.delete(key))
             }
           }
         }
-
-        target = target.concat([ key ])
-          .filter((key, index, self) => self.indexOf(key) === index)
+        innerExpanded.value.add(key)
       }
       else {
-        target = target.filter(k => k !== key)
+        innerExpanded.value.delete(key)
       }
 
       if (shouldEmit === true) {
-        emit('update:expanded', target)
-      }
-      else {
-        innerExpanded.value = target
+        emit('update:expanded', [ ...innerExpanded.value ])
       }
     }
 
@@ -407,23 +397,17 @@ export default createComponent({
     }
 
     function setTicked (keys, state) {
-      let target = innerTicked.value
       const shouldEmit = props.ticked !== void 0
 
-      if (shouldEmit === true) {
-        target = target.slice()
-      }
-
       if (state) {
-        target = target.concat(keys)
-          .filter((key, index, self) => self.indexOf(key) === index)
+        keys.forEach(key => innerTicked.value.add(key))
       }
       else {
-        target = target.filter(k => keys.includes(k) === false)
+        keys.forEach(key => innerTicked.value.delete(key))
       }
 
       if (shouldEmit === true) {
-        emit('update:ticked', target)
+        emit('update:ticked', [ ...innerTicked.value ])
       }
     }
 
@@ -482,7 +466,7 @@ export default createComponent({
 
     function getNode (node) {
       const
-        key = node[ props.nodeKey ],
+        key = getNodeKey(node),
         m = meta.value[ key ],
         header = node.header
           ? slots[ `header-${ node.header }` ] || slots[ 'default-header' ]
