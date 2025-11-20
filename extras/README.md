@@ -77,6 +77,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Themify Icons](https://themify.me/themify-icons)                                        | 1.0.1    | `svg-themify`                   | `@quasar/extras/themify`                   |                                                     | [License](themify/LICENSE)                   |
 | [Line Awesome](https://icons8.com/line-awesome)                                          | 1.3.0    | `svg-line-awesome`              | `@quasar/extras/line-awesome`              | Requires: @quasar/extras 1.5+                       | [License](line-awesome/LICENSE.md)           |
 | [Bootstrap Icons](https://icons.getbootstrap.com/)                                       | 1.13.1   | `svg-bootstrap-icons`           | `@quasar/extras/bootstrap-icons`           | Requires: @quasar/extras 1.10+                      | [License](bootstrap-icons/LICENSE.md)        |
+| [Lucide Icons](https://lucide.dev/icons/)                                       | 0.554.0  | `svg-lucide-icons`           | `@quasar/extras/lucide-icons`           | Requires: @quasar/extras 1.17.1+                      | [License](lucide-icons/LICENSE.md)        |
 
 Example:
 

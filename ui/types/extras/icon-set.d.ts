@@ -138,6 +138,7 @@ export type QuasarIconSets =
   | "svg-ionicons-v5"
   | "svg-ionicons-v6"
   | "svg-line-awesome"
+  | "svg-lucide-icons"
   | "svg-material-icons"
   | "svg-material-icons-outlined"
   | "svg-material-icons-round"

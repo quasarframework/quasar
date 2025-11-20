@@ -80,6 +80,7 @@ async function generate () {
     './eva-icons.js',
     './themify.js',
     './line-awesome.js',
+    './lucide-icons.js',
     './bootstrap-icons.js',
     // './material-icons.js', // hasn't updated in 2 years
     './material-symbols.js',
