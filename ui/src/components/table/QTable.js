@@ -838,6 +838,7 @@ export default createComponent({
             dense: true,
             optionsDense: true,
             optionsCover: true,
+            'aria-label': props.rowsPerPageLabel || $q.lang.table.recordsPerPage,
             'onUpdate:modelValue': onPagSelection
           })
         ])
