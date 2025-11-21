@@ -249,6 +249,8 @@ export default createComponent({
 
     const { colList, computedCols, computedColsMap, computedColspan } = useTableColumnSelection(props, computedPagination, hasSelectionMode)
 
+    const { columnWidths, resizing, colsWithWidths, colsMapWithWidths, startResize, onDoubleClick } = useTableColumnResize(props, computedCols, emit)
+
     const { columnToSort, computedSortMethod, sort } = useTableSort(props, computedPagination, colList, setPagination)
 
     const {
@@ -414,7 +416,8 @@ export default createComponent({
 
       const
         bodyCell = slots[ 'body-cell' ],
-        child = computedCols.value.map(col => {
+        cols = props.resizableColumns ? colsWithWidths.value : computedCols.value,
+        child = cols.map(col => {
           const
             bodyCellCol = slots[ `body-cell-${ col.name }` ],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
@@ -663,17 +666,24 @@ export default createComponent({
         ).slice()
       }
 
-      const child = computedCols.value.map(col => {
+      // Usar columnas con anchos aplicados si resize está habilitado
+      const cols = props.resizableColumns ? colsWithWidths.value : computedCols.value
+
+      const child = cols.map(col => {
         const
           headerCellCol = slots[ `header-cell-${ col.name }` ],
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
-          props = getHeaderScope({ col })
+          scopeProps = getHeaderScope({ col })
 
         return slot !== void 0
-          ? slot(props)
+          ? slot(scopeProps)
           : h(QTh, {
             key: col.name,
-            props
+            props: scopeProps,
+            resizableColumns: props.resizableColumns,
+            resizing: resizing.value,
+            onStartResize: startResize,
+            onAutoResize: onDoubleClick
           }, () => col.label)
       })
 
@@ -703,6 +713,7 @@ export default createComponent({
 
       return [
         h('tr', {
+          key: props.resizableColumns ? JSON.stringify(columnWidths.value) : undefined,
           class: props.tableHeaderClass,
           style: props.tableHeaderStyle
         }, child)
@@ -710,10 +721,14 @@ export default createComponent({
     }
 
     function getHeaderScope (data) {
+      // Usar columnas con anchos si resize está habilitado
+      const cols = props.resizableColumns ? colsWithWidths.value : computedCols.value
+      const colsMap = props.resizableColumns ? colsMapWithWidths.value : computedColsMap.value
+
       Object.assign(data, {
-        cols: computedCols.value,
+        cols,
         sort,
-        colsMap: computedColsMap.value,
+        colsMap,
         color: props.color,
         dark: isDark.value,
         dense: props.dense
