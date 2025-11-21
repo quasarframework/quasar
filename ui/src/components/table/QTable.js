@@ -22,6 +22,7 @@ import { useTablePaginationState, useTablePagination, useTablePaginationProps } 
 import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEmits } from './table-row-selection.js'
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
+import { useTableColumnResize, useTableColumnResizeProps, useTableColumnResizeEmits } from './table-column-resize.js'
 
 import { injectProp, injectMultipleProps } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 import { createComponent } from '../../utils/private.create/create.js'
@@ -117,14 +118,16 @@ export default createComponent({
     ...useTablePaginationProps,
     ...useTableRowExpandProps,
     ...useTableRowSelectionProps,
-    ...useTableSortProps
+    ...useTableSortProps,
+    ...useTableColumnResizeProps
   },
 
   emits: [
     'request', 'virtualScroll',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
-    ...useTableRowSelectionEmits
+    ...useTableRowSelectionEmits,
+    ...useTableColumnResizeEmits
   ],
 
   setup (props, { slots, emit }) {
