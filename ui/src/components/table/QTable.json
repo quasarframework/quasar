@@ -366,6 +366,19 @@
       "category": "behavior|content"
     },
 
+    "resizable-columns": {
+      "type": "Boolean",
+      "desc": "Enable column resizing by dragging the column separator",
+      "category": "behavior"
+    },
+
+    "column-widths": {
+      "type": "Object",
+      "desc": "Object with column names as keys and their widths (in pixels) as values",
+      "examples": [ "{ name: 150, calories: 100 }" ],
+      "category": "model"
+    },
+
     "title": {
       "type": "String",
       "desc": "Table title",
@@ -1942,6 +1955,30 @@
   },
 
   "events": {
+    "column-resize": {
+      "desc": "Emitted when a column is resized",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Resize event details",
+          "definition": {
+            "col": {
+              "type": "Object",
+              "desc": "Column definition object"
+            },
+            "width": {
+              "type": [ "Number", "String" ],
+              "desc": "New width of the column in pixels, or 'auto'"
+            },
+            "widths": {
+              "type": "Object",
+              "desc": "Object with all current column widths"
+            }
+          }
+        }
+      }
+    },
+
     "row-click": {
       "desc": "Emitted when user clicks/taps on a row; Is not emitted when using body/row/item scoped slots",
       "params": {
