@@ -10,10 +10,12 @@ export default createComponent({
 
   props: {
     props: Object,
-    autoWidth: Boolean
+    autoWidth: Boolean,
+    resizableColumns: Boolean,
+    resizing: String
   },
 
-  emits: [ 'click' ],
+  emits: [ 'click', 'startResize', 'autoResize' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -59,12 +61,31 @@ export default createComponent({
 
       const data = {
         class: col.__thClass
-          + (props.autoWidth === true ? ' q-table--col-auto-width' : ''),
+          + (props.autoWidth === true ? ' q-table--col-auto-width' : '')
+          + (props.resizing === col.name ? ' is-resizing' : ''),
         style: col.headerStyle,
         onClick: evt => {
           col.sortable === true && props.props.sort(col)
           onClick(evt)
         }
+      }
+
+      // Agregar handle de resize si resizableColumns está habilitado
+      if (props.resizableColumns === true) {
+        const resizeHandle = h('div', {
+          class: 'q-table__column-resizer' + (props.resizing === col.name ? ' is-resizing' : ''),
+          onMousedown: evt => {
+            emit('startResize', evt, col)
+          },
+          onDblclick: evt => {
+            evt.stopPropagation()
+            emit('autoResize', col)
+          }
+        })
+
+        // Asegurar que child sea un array y agregar el handle
+        const children = Array.isArray(child) ? child : [ child ]
+        return h('th', data, [ ...children, resizeHandle ])
       }
 
       return h('th', data, child)

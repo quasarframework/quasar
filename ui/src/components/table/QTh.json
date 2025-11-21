@@ -15,6 +15,20 @@
       "type": "Boolean",
       "desc": "Tries to shrink header column width size; Useful for columns with a checkbox/radio/toggle",
       "category": "content"
+    },
+
+    "resizable-columns": {
+      "type": "Boolean",
+      "desc": "Enable column resizing (internal prop passed from QTable)",
+      "category": "behavior",
+      "internal": true
+    },
+
+    "resizing": {
+      "type": "String",
+      "desc": "Name of the column currently being resized (internal prop passed from QTable)",
+      "category": "state",
+      "internal": true
     }
   },
 
@@ -25,6 +39,32 @@
   },
 
   "events": {
-    "click": { "internal": true }
+    "click": { "internal": true },
+
+    "start-resize": {
+      "desc": "Emitted when user starts resizing a column",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS mouse event object"
+        },
+        "col": {
+          "type": "Object",
+          "desc": "Column definition object"
+        }
+      },
+      "internal": true
+    },
+
+    "auto-resize": {
+      "desc": "Emitted when user double-clicks the resize handle to auto-size column",
+      "params": {
+        "col": {
+          "type": "Object",
+          "desc": "Column definition object"
+        }
+      },
+      "internal": true
+    }
   }
 }
