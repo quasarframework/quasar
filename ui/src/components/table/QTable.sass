@@ -292,3 +292,39 @@ body.desktop .q-table > tbody > tr:not(.q-tr--no-hover):hover > td:not(.q-td--no
   &.q-table--vertical-separator, &.q-table--cell-separator
     .q-table__top
       border-color: $table-dark-border-color
+
+/*
+ * Column Resize
+ */
+.q-table
+  th
+    position: relative
+
+    &.is-resizing
+      user-select: none
+      cursor: col-resize
+
+  &__column-resizer
+    position: absolute
+    right: 0
+    top: 0
+    width: 8px
+    height: 100%
+    cursor: col-resize
+    user-select: none
+    z-index: 1
+
+    &::before
+      content: ''
+      position: absolute
+      left: 3px
+      top: 0
+      width: 2px
+      height: 100%
+      background: transparent
+      transition: background 0.3s
+
+    &:hover::before,
+    &.is-resizing::before
+      background: currentColor
+      opacity: 0.5
