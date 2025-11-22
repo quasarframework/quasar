@@ -93,6 +93,12 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <DocExample title="Drag only range (fixed interval)" file="DragOnly" />
 
+### Range limits <q-badge label="v2.18.7+" />
+
+<DocExample title="Minimum range" file="MinimumRange" />
+
+<DocExample title="Maximum range" file="MaximumRange" />
+
 ### Lazy input
 
 <DocExample title="Lazy input" file="Lazy" />

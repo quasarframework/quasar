@@ -24,6 +24,22 @@
       "examples": [ "# v-model=\"positionModel\"" ]
     },
 
+    "min-range": {
+      "type": "Number",
+      "default": "0",
+      "desc": "Minimum allowed difference between the max and min values",
+      "category": "model",
+      "addedIn": "v2.18.7"
+    },
+
+    "max-range": {
+      "type": [ "Number", "null" ],
+      "default": "null",
+      "desc": "Maximum allowed difference between the max and min values",
+      "category": "model",
+      "addedIn": "v2.18.7"
+    },
+
     "drag-range": {
       "type": "Boolean",
       "desc": "User can drag range instead of just the two thumbs",
