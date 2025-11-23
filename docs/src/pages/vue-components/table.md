@@ -20,6 +20,7 @@ QTable is a component that allows you to display data in a tabular manner. It's 
 * Column picker (through QTableColumns component described in one of the sections)
 * Custom top and/or bottom Table controls
 * Responsive design
+* Resize column width manually
 
 ::: tip
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
@@ -164,6 +165,12 @@ For all the styling component properties, please check the API card at the top o
 <DocExample title="Custom coloring" file="CustomColor" />
 
 <DocExample title="No header/footer" file="NoHeaderFooter" />
+
+## Column resizing
+
+Enable column resizing by using the `resizable-columns` prop. Double-click on the separator to reset the column to its automatic width.
+
+<DocExample title="Resizable columns" file="ColumnResize" />
 
 ## Virtual scrolling
 
