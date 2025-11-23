@@ -70,7 +70,6 @@ export default createComponent({
         }
       }
 
-      // Agregar handle de resize si resizableColumns está habilitado
       if (props.resizableColumns === true) {
         const resizeHandle = h('div', {
           class: 'q-table__column-resizer' + (props.resizing === col.name ? ' is-resizing' : ''),
@@ -83,7 +82,6 @@ export default createComponent({
           }
         })
 
-        // Asegurar que child sea un array y agregar el handle
         const children = Array.isArray(child) ? child : [ child ]
         return h('th', data, [ ...children, resizeHandle ])
       }

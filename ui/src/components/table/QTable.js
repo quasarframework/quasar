@@ -666,7 +666,6 @@ export default createComponent({
         ).slice()
       }
 
-      // Usar columnas con anchos aplicados si resize está habilitado
       const cols = props.resizableColumns ? colsWithWidths.value : computedCols.value
 
       const child = cols.map(col => {
@@ -721,7 +720,6 @@ export default createComponent({
     }
 
     function getHeaderScope (data) {
-      // Usar columnas con anchos si resize está habilitado
       const cols = props.resizableColumns ? colsWithWidths.value : computedCols.value
       const colsMap = props.resizableColumns ? colsMapWithWidths.value : computedColsMap.value
 

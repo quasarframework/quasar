@@ -8,21 +8,17 @@ export const useTableColumnResizeProps = {
 export const useTableColumnResizeEmits = [ 'columnResize' ]
 
 export function useTableColumnResize (props, computedCols, emit) {
-  // Estado reactivo
   const columnWidths = ref(props.columnWidths || {})
   const resizing = ref(null)
 
-  // Actualizar columnWidths cuando la prop cambia
   if (props.columnWidths) {
     columnWidths.value = { ...props.columnWidths }
   }
 
-  // Posición inicial del mouse
   let startX = 0
   let startWidth = 0
   let currentCol = null
 
-  // Handlers de mouse events
   function onMouseMove (evt) {
     if (!resizing.value || !currentCol) return
 
@@ -34,7 +30,6 @@ export function useTableColumnResize (props, computedCols, emit) {
       startWidth + diff
     )
 
-    // Aplicar maxWidth si está definido
     const finalWidth = currentCol.maxWidth
       ? Math.min(newWidth, currentCol.maxWidth)
       : newWidth
@@ -50,19 +45,16 @@ export function useTableColumnResize (props, computedCols, emit) {
 
     evt.preventDefault()
 
-    // Emitir evento con el nuevo ancho
     emit('columnResize', {
       col: currentCol,
       width: columnWidths.value[ currentCol.name ],
       widths: { ...columnWidths.value }
     })
 
-    // Limpiar estado
     resizing.value = null
     currentCol = null
     document.body.style.cursor = ''
 
-    // Remover listeners
     document.removeEventListener('mousemove', onMouseMove)
     document.removeEventListener('mouseup', onMouseUp)
   }
@@ -73,7 +65,6 @@ export function useTableColumnResize (props, computedCols, emit) {
     evt.preventDefault()
     evt.stopPropagation()
 
-    // Obtener ancho actual
     const th = evt.target.closest('th')
     if (!th) return
 
@@ -82,17 +73,13 @@ export function useTableColumnResize (props, computedCols, emit) {
     currentCol = col
     resizing.value = col.name
 
-    // Cambiar cursor globalmente
     document.body.style.cursor = 'col-resize'
 
-    // Agregar listeners
     document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('mouseup', onMouseUp)
   }
 
   function onDoubleClick (col) {
-    // TODO: Implementar auto-width basado en contenido
-    // Por ahora, simplemente resetear al ancho automático
     const newWidths = { ...columnWidths.value }
     delete newWidths[ col.name ]
     columnWidths.value = newWidths
@@ -104,7 +91,6 @@ export function useTableColumnResize (props, computedCols, emit) {
     })
   }
 
-  // Computed: columnas con anchos aplicados
   const colsWithWidths = computed(() => {
     if (!computedCols.value) return []
     if (!props.resizableColumns) return computedCols.value
@@ -113,12 +99,10 @@ export function useTableColumnResize (props, computedCols, emit) {
       const width = columnWidths.value[ col.name ]
       if (!width) return col
 
-      // Agregar ancho al headerStyle
       const headerStyle = col.headerStyle
         ? `${ col.headerStyle }; width: ${ width }px`
         : `width: ${ width }px`
 
-      // Agregar ancho al style de las celdas
       const style = typeof col.style === 'string'
         ? `${ col.style }; width: ${ width }px`
         : (typeof col.style === 'function'
@@ -134,7 +118,6 @@ export function useTableColumnResize (props, computedCols, emit) {
     })
   })
 
-  // Computed: mapa de columnas con anchos para lookup por nombre
   const colsMapWithWidths = computed(() => {
     const map = {}
     colsWithWidths.value.forEach(col => {
@@ -143,7 +126,6 @@ export function useTableColumnResize (props, computedCols, emit) {
     return map
   })
 
-  // Limpiar listeners al desmontar
   onBeforeUnmount(() => {
     document.removeEventListener('mousemove', onMouseMove)
     document.removeEventListener('mouseup', onMouseUp)
