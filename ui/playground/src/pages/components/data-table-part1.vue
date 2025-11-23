@@ -143,7 +143,6 @@
         bordered
         flat
         binary-state-sort
-        resizable-columns
         :pagination="{rowsPerPage: 3}"
         :rows-per-page-options="[1, 2, 3, 4, 6]"
         row-key="name"
@@ -262,7 +261,6 @@
         :visible-columns="visibleColumns"
         card-container-class="justify-center"
         row-key="name"
-        resizable-columns
       >
         <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
