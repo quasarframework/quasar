@@ -1,0 +1,20 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://quasar.dev/vue-components/q-theme-designer"
+  },
+  "props": {
+    "force": {
+      "type": "Boolean",
+      "desc": "Force rendering in production mode. By default, QThemeDesigner only renders in development mode.",
+      "default": false,
+      "category": "behavior"
+    }
+  },
+  "slots": {},
+  "events": {},
+  "methods": {}
+}
+
+
+

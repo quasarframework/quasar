@@ -1,0 +1,83 @@
+.q-theme-designer
+  display: flex
+  flex-direction: column
+  height: 100vh
+  width: 100%
+  overflow: hidden
+
+  &__toolbar
+    flex-shrink: 0
+    height: 50px
+    padding: 0 16px
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1)
+
+  &__main
+    display: flex
+    flex-direction: row
+    flex: 1
+    overflow: hidden
+    min-height: 0
+
+  &__sidebar
+    flex: 0 0 280px !important
+    width: 280px !important
+    max-width: 280px !important
+    height: 100%
+    overflow-y: auto
+    overflow-x: hidden
+    border-right: 1px solid rgba(255, 255, 255, 0.1)
+
+  &__preview
+    flex: 1
+    min-width: 0
+    height: 100%
+    overflow-y: auto
+    overflow-x: hidden
+
+  &__text-color-select
+    // Ensure dropdown text is readable on dark toolbar
+    :deep(.q-field__input)
+      color: white !important
+      
+    :deep(.q-field__native)
+      color: white !important
+      
+    :deep(.q-field__control)
+      color: white !important
+      
+    :deep(.q-field__label)
+      color: rgba(255, 255, 255, 0.7) !important
+      
+    :deep(.q-field__append)
+      color: white !important
+      
+    :deep(.q-field__dropdown-icon)
+      color: white !important
+
+// Mobile responsive: Stack sidebar above preview, unified scroll
+@media (max-width: 599px)
+  .q-theme-designer
+    &__main
+      flex-direction: column !important
+      overflow-y: auto !important
+      overflow-x: hidden !important
+      height: calc(100vh - 50px) !important
+      max-height: calc(100vh - 50px) !important
+
+    &__sidebar
+      flex: 0 0 auto !important
+      width: 100% !important
+      max-width: 100% !important
+      height: auto !important
+      max-height: none !important
+      overflow-y: visible !important
+      overflow-x: hidden !important
+      border-right: none !important
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1)
+
+    &__preview
+      flex: 1 1 auto !important
+      height: auto !important
+      overflow-y: visible !important
+      overflow-x: hidden !important
+
