@@ -157,6 +157,3 @@ export default {
   toVitePlugin,
   serializeTheme
 }
-
-
-

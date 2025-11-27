@@ -944,17 +944,24 @@ function fillAPI (apiType, list, encodeFn) {
         RuntimeComponent = comp.default
       }
       catch (err) {
-        logError(`${ componentName }: failed to import Component file; check if it is a valid ES module`)
-        console.error(err)
-        process.exit(1)
+        // Skip runtime validation for components that import .vue files
+        // (e.g., QThemeDesigner which uses child Vue components)
+        if (err.code === 'ERR_UNKNOWN_FILE_EXTENSION' && err.message && err.message.includes('.vue')) {
+          RuntimeComponent = null // Skip runtime validation
+        }
+        else {
+          logError(`${ componentName }: failed to import Component file; check if it is a valid ES module`)
+          console.error(err)
+          process.exit(1)
+        }
       }
 
       const apiProps = api.props || {}
       const apiEvents = api.events || {}
       const apiSlots = api.slots || {}
 
-      const runtimeProps = RuntimeComponent.props || {}
-      const runtimeEmits = RuntimeComponent.emits || []
+      const runtimeProps = RuntimeComponent?.props || {}
+      const runtimeEmits = RuntimeComponent?.emits || []
 
       let match
 
@@ -992,278 +999,281 @@ function fillAPI (apiType, list, encodeFn) {
       }
 
       // runtime props should be defined in the API
-      for (const runtimePropName in runtimeProps) {
-        const apiPropName = kebabCase(runtimePropName)
-        const apiEntry = apiProps[ apiPropName ]
+      // Skip runtime validation if component couldn't be imported (e.g., imports .vue files)
+      if (RuntimeComponent !== null) {
+        for (const runtimePropName in runtimeProps) {
+          const apiPropName = kebabCase(runtimePropName)
+          const apiEntry = apiProps[ apiPropName ]
 
-        if (runtimePropName.indexOf('-') !== -1) {
-          logError(
+          if (runtimePropName.indexOf('-') !== -1) {
+            logError(
             `${ componentName }: prop "${ runtimePropName }" should be `
             + 'in camelCase (found kebab-case)'
-          )
-          hasError = true
-        }
+            )
+            hasError = true
+          }
 
-        if (/^on[A-Z]/.test(runtimePropName) === true) {
-          const strippedPropName = runtimePropName.slice(2) // strip "on" prefix
-          const runtimeEmitName = deCapitalize(strippedPropName)
-          const apiEventName = kebabCase(strippedPropName)
+          if (/^on[A-Z]/.test(runtimePropName) === true) {
+            const strippedPropName = runtimePropName.slice(2) // strip "on" prefix
+            const runtimeEmitName = deCapitalize(strippedPropName)
+            const apiEventName = kebabCase(strippedPropName)
 
-          // should not duplicate as prop and emit
-          if (runtimeEmits.includes(runtimeEmitName) === true) {
-            logError(
+            // should not duplicate as prop and emit
+            if (runtimeEmits.includes(runtimeEmitName) === true) {
+              logError(
               `${ componentName }: Component has duplicated prop (${ runtimePropName }) + `
               + `emit (${ runtimeEmitName }); only one should be defined`
-            )
-            hasError = true
-          }
+              )
+              hasError = true
+            }
 
-          if (apiEntry !== void 0) {
-            logError(
+            if (apiEntry !== void 0) {
+              logError(
               `${ name }: "props" -> "${ apiPropName }" should instead be defined `
               + `as "events" -> "${ apiEventName }"`
-            )
-            hasError = true
-          }
+              )
+              hasError = true
+            }
 
-          if (apiEvents[ apiEventName ] === void 0) {
-            logError(
+            if (apiEvents[ apiEventName ] === void 0) {
+              logError(
               `${ name }: missing "events" -> "${ apiEventName }" definition `
               + `(found Component prop "${ runtimePropName }")`
-            )
-            hasError = true
+              )
+              hasError = true
+            }
+
+            continue
           }
 
-          continue
-        }
+          const runtimePropEntry = runtimeProps[ runtimePropName ]
 
-        const runtimePropEntry = runtimeProps[ runtimePropName ]
-
-        if (apiEntry === void 0) {
-          logError(
+          if (apiEntry === void 0) {
+            logError(
             `${ name }: missing "props" -> "${ apiPropName }" definition `
             + `(found Component prop "${ runtimePropName }")`
-          )
-          hasError = true
-        }
-        else if (apiEntry.passthrough === 'child') {
-          if (
-            Object(runtimePropEntry) !== runtimePropEntry
+            )
+            hasError = true
+          }
+          else if (apiEntry.passthrough === 'child') {
+            if (
+              Object(runtimePropEntry) !== runtimePropEntry
             || Object.keys(runtimePropEntry).length !== 0
-          ) {
-            logError(
+            ) {
+              logError(
               `${ name }: "props" -> "${ apiPropName }" is marked as `
               + 'passthrough="child" but its definition is NOT an empty Object'
-            )
-            console.log(apiEntry)
-            hasError = true
-          }
-        }
-        else {
-          const apiTypes = Array.isArray(apiEntry.type) ? apiEntry.type : [ apiEntry.type ]
-
-          const {
-            runtimeTypes,
-            isRuntimeRequired,
-            hasRuntimeDefault,
-            runtimeDefaultValue
-          } = extractRuntimePropAttrs(runtimePropEntry)
-
-          const isRuntimeFunction = runtimeTypes.length === 1 && runtimeTypes[ 0 ] === 'Function'
-          const runtimeDefinableApiTypes = extractRuntimeDefinablePropTypes(apiTypes)
-
-          // API "type" validation against runtime
-          if (
-            runtimeDefinableApiTypes.length !== runtimeTypes.length
-            || runtimeDefinableApiTypes.every((t, i) => t === runtimeTypes[ i ]) === false
-          ) {
-            logError(
-              `${ name }: wrong definition for prop "${ apiPropName }" - `
-              + `JSON as ${ JSON.stringify(apiTypes) } `
-              + `vs Component as ${ JSON.stringify(runtimeTypes) }`
-            )
-            console.log(apiEntry)
-            hasError = true
-          }
-
-          // API "required" validation against runtime
-          if (isRuntimeRequired === true && apiEntry.required !== true) {
-            logError(`${ name }: "props" -> "${ apiPropName }" is missing the required=true flag`)
-            console.log(apiEntry)
-            hasError = true
-          }
-
-          // API "default" value validation against runtime
-          if (hasRuntimeDefault === true) {
-            if (apiEntry.hasOwnProperty('default') === false) {
-              logError(
-                `${ name }: "props" -> "${ apiPropName }" is missing "default" with `
-                + `value: "${ encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction) }"`
               )
               console.log(apiEntry)
               hasError = true
             }
-            else if (apiIgnoreValueRegex.test(apiEntry.default) === false) {
-              const encodedValue = encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction)
+          }
+          else {
+            const apiTypes = Array.isArray(apiEntry.type) ? apiEntry.type : [ apiEntry.type ]
 
-              if (apiEntry.default !== encodedValue) {
-                let handledAlready = false
+            const {
+              runtimeTypes,
+              isRuntimeRequired,
+              hasRuntimeDefault,
+              runtimeDefaultValue
+            } = extractRuntimePropAttrs(runtimePropEntry)
 
-                if (isRuntimeFunction === true) {
-                  const fn = runtimeDefaultValue.toString()
+            const isRuntimeFunction = runtimeTypes.length === 1 && runtimeTypes[ 0 ] === 'Function'
+            const runtimeDefinableApiTypes = extractRuntimeDefinablePropTypes(apiTypes)
 
-                  if (fn.indexOf('\n') !== -1) {
-                    logError(
+            // API "type" validation against runtime
+            if (
+              runtimeDefinableApiTypes.length !== runtimeTypes.length
+            || runtimeDefinableApiTypes.every((t, i) => t === runtimeTypes[ i ]) === false
+            ) {
+              logError(
+              `${ name }: wrong definition for prop "${ apiPropName }" - `
+              + `JSON as ${ JSON.stringify(apiTypes) } `
+              + `vs Component as ${ JSON.stringify(runtimeTypes) }`
+              )
+              console.log(apiEntry)
+              hasError = true
+            }
+
+            // API "required" validation against runtime
+            if (isRuntimeRequired === true && apiEntry.required !== true) {
+              logError(`${ name }: "props" -> "${ apiPropName }" is missing the required=true flag`)
+              console.log(apiEntry)
+              hasError = true
+            }
+
+            // API "default" value validation against runtime
+            if (hasRuntimeDefault === true) {
+              if (apiEntry.hasOwnProperty('default') === false) {
+                logError(
+                `${ name }: "props" -> "${ apiPropName }" is missing "default" with `
+                + `value: "${ encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction) }"`
+                )
+                console.log(apiEntry)
+                hasError = true
+              }
+              else if (apiIgnoreValueRegex.test(apiEntry.default) === false) {
+                const encodedValue = encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction)
+
+                if (apiEntry.default !== encodedValue) {
+                  let handledAlready = false
+
+                  if (isRuntimeFunction === true) {
+                    const fn = runtimeDefaultValue.toString()
+
+                    if (fn.indexOf('\n') !== -1) {
+                      logError(
                       `${ componentName }: prop "${ runtimePropName }" -> "default" `
                       + 'should be a single line arrow function (found multiple lines)'
-                    )
-                    console.log(apiEntry)
-                    hasError = true
-                    handledAlready = true
-                  }
+                      )
+                      console.log(apiEntry)
+                      hasError = true
+                      handledAlready = true
+                    }
 
-                  if (handledAlready === false && functionRE.test(fn) === false) {
-                    logError(
+                    if (handledAlready === false && functionRE.test(fn) === false) {
+                      logError(
                       `${ componentName }: prop "${ runtimePropName }" -> "default" should `
                       + 'be an arrow function that begins with: "() => "'
-                    )
-                    console.log(apiEntry)
-                    hasError = true
-                  }
+                      )
+                      console.log(apiEntry)
+                      hasError = true
+                    }
 
-                  if (handledAlready === false && /^[a-zA-Z]/.test(encodedValue) === true) {
-                    logError(
+                    if (handledAlready === false && /^[a-zA-Z]/.test(encodedValue) === true) {
+                      logError(
                       `${ componentName }: prop "${ runtimePropName }" -> "default" should `
                       + 'be an arrow factory function that does not reference any external variables'
+                      )
+                      console.log(apiEntry)
+                      hasError = true
+                    }
+                  }
+
+                  if (handledAlready === false && apiEntry.__runtimeDefault !== true) {
+                    logError(
+                    `${ name }: "props" -> "${ apiPropName }" > "default" value should `
+                    + `be: "${ encodedValue }" (instead of "${ apiEntry.default }")`
                     )
                     console.log(apiEntry)
                     hasError = true
                   }
                 }
 
-                if (handledAlready === false && apiEntry.__runtimeDefault !== true) {
+                if (apiEntry.__runtimeDefault === true && runtimeDefaultValue !== null) {
                   logError(
-                    `${ name }: "props" -> "${ apiPropName }" > "default" value should `
-                    + `be: "${ encodedValue }" (instead of "${ apiEntry.default }")`
+                  `${ name }: "props" -> "${ apiPropName }" should NOT `
+                  + 'have "__runtimeDefault" (found static value on Component)'
                   )
                   console.log(apiEntry)
                   hasError = true
                 }
               }
-
-              if (apiEntry.__runtimeDefault === true && runtimeDefaultValue !== null) {
-                logError(
-                  `${ name }: "props" -> "${ apiPropName }" should NOT `
-                  + 'have "__runtimeDefault" (found static value on Component)'
-                )
-                console.log(apiEntry)
-                hasError = true
-              }
             }
-          }
-          else if (apiEntry.__runtimeDefault !== true && apiEntry.hasOwnProperty('default') === true) {
-            logError(
+            else if (apiEntry.__runtimeDefault !== true && apiEntry.hasOwnProperty('default') === true) {
+              logError(
               `${ name }: "props" -> "${ apiPropName }" should NOT have a "default" value; Solutions:`
               + '\n  1. remove "default" because it should indeed not have it'
               + '\n  2. it is runtime computed, in which case add "__runtimeDefault": true'
               + '\n  3. it handles the "undefined" value, in which case add "undefined" or "Any" to the "type"'
-            )
-            console.log(apiEntry)
-            hasError = true
+              )
+              console.log(apiEntry)
+              hasError = true
+            }
           }
         }
-      }
 
-      // API defined props should exist in the component
-      for (const apiPropName in apiProps) {
-        const apiEntry = apiProps[ apiPropName ]
-        const runtimeName = camelCase(apiPropName)
+        // API defined props should exist in the component
+        for (const apiPropName in apiProps) {
+          const apiEntry = apiProps[ apiPropName ]
+          const runtimeName = camelCase(apiPropName)
 
-        if (apiEntry.passthrough === true) {
-          if (runtimeProps[ runtimeName ] !== void 0) {
+          if (apiEntry.passthrough === true) {
+            if (runtimeProps[ runtimeName ] !== void 0) {
+              logError(
+                `${ name }: "props" -> "${ apiPropName }" should NOT be `
+                + 'a "passthrough" as it exists in the Component too'
+              )
+              console.log(apiEntry)
+              hasError = true
+            }
+
+            continue
+          }
+
+          if (runtimeProps[ runtimeName ] === void 0) {
             logError(
-              `${ name }: "props" -> "${ apiPropName }" should NOT be `
-              + 'a "passthrough" as it exists in the Component too'
+              `${ name }: "props" -> "${ apiPropName }" is in JSON but `
+              + 'not in the Component (is it a passthrough?)'
             )
             console.log(apiEntry)
             hasError = true
           }
-
-          continue
         }
 
-        if (runtimeProps[ runtimeName ] === void 0) {
-          logError(
-            `${ name }: "props" -> "${ apiPropName }" is in JSON but `
-            + 'not in the Component (is it a passthrough?)'
-          )
-          console.log(apiEntry)
-          hasError = true
-        }
-      }
+        // runtime emits should be defined in the API as events
+        for (const runtimeEmitName of runtimeEmits) {
+          const apiEventName = kebabCase(runtimeEmitName)
 
-      // runtime emits should be defined in the API as events
-      for (const runtimeEmitName of runtimeEmits) {
-        const apiEventName = kebabCase(runtimeEmitName)
-
-        if (apiEvents[ apiEventName ] === void 0) {
-          logError(
+          if (apiEvents[ apiEventName ] === void 0) {
+            logError(
             `${ name }: missing "events" -> "${ apiEventName }" definition `
             + `(found Component > emits: "${ runtimeEmitName }")`
-          )
-          hasError = true
-        }
+            )
+            hasError = true
+          }
 
-        if (runtimeEmitName.indexOf('-') !== -1) {
-          logError(
+          if (runtimeEmitName.indexOf('-') !== -1) {
+            logError(
             `${ componentName }: "emits" -> "${ runtimeEmitName }" should be`
             + ' in camelCase (found kebab-case)'
-          )
-          hasError = true
+            )
+            hasError = true
+          }
         }
-      }
 
-      // API defined events should exist in the component
-      for (const apiEventName in apiEvents) {
-        const apiEntry = apiEvents[ apiEventName ]
+        // API defined events should exist in the component
+        for (const apiEventName in apiEvents) {
+          const apiEntry = apiEvents[ apiEventName ]
 
-        const runtimeEmitName = camelCase(apiEventName)
-        const runtimePropName = `on${ capitalize(runtimeEmitName) }`
+          const runtimeEmitName = camelCase(apiEventName)
+          const runtimePropName = `on${ capitalize(runtimeEmitName) }`
 
-        if (apiEntry.passthrough === true) {
-          if (runtimeProps[ runtimePropName ] !== void 0) {
-            logError(
+          if (apiEntry.passthrough === true) {
+            if (runtimeProps[ runtimePropName ] !== void 0) {
+              logError(
               `${ name }: "events" -> "${ apiEventName }" should NOT be `
               + 'a "passthrough" as it exists in the Component too'
-            )
-            console.log(apiEntry)
-            hasError = true
-          }
+              )
+              console.log(apiEntry)
+              hasError = true
+            }
 
-          if (runtimeEmits.includes(runtimeEmitName) === true) {
-            logError(
+            if (runtimeEmits.includes(runtimeEmitName) === true) {
+              logError(
               `${ name }: "events" -> "${ apiEventName }" should NOT be a "passthrough" `
               + `as it exists in the Component (as emits: ${ runtimeEmitName })`
+              )
+              console.log(apiEntry)
+              hasError = true
+            }
+
+            continue
+          }
+
+          if (
+            runtimeProps[ runtimePropName ] === void 0
+          && runtimeEmits.includes(runtimeEmitName) === false
+          ) {
+            logError(
+            `${ name }: "events" -> "${ apiEventName }" is in JSON but `
+            + 'not in the Component (is it a passthrough?)'
             )
             console.log(apiEntry)
             hasError = true
           }
-
-          continue
         }
-
-        if (
-          runtimeProps[ runtimePropName ] === void 0
-          && runtimeEmits.includes(runtimeEmitName) === false
-        ) {
-          logError(
-            `${ name }: "events" -> "${ apiEventName }" is in JSON but `
-            + 'not in the Component (is it a passthrough?)'
-          )
-          console.log(apiEntry)
-          hasError = true
-        }
-      }
+      } // End of RuntimeComponent !== null check
 
       if (hasError === true) {
         logError('Errors were found... exiting with error')

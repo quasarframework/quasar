@@ -1,5 +1,4 @@
 {
-  "type": "component",
   "meta": {
     "docsUrl": "https://quasar.dev/vue-components/q-theme-designer"
   },
@@ -7,7 +6,7 @@
     "force": {
       "type": "Boolean",
       "desc": "Force rendering in production mode. By default, QThemeDesigner only renders in development mode.",
-      "default": false,
+      "default": "false",
       "category": "behavior"
     }
   },

@@ -34,7 +34,7 @@ import { computed } from 'vue'
 
 import { colorLabels } from '../../json/themeSerializer.js'
 import { getContrastInfo } from '../../composables/use-theme-designer/use-theme-designer.js'
-import { luminosity, hexToRgb } from '../../utils/colors/colors.js'
+import { hexToRgb } from '../../utils/colors/colors.js'
 
 export default {
   name: 'ThemeDesignerSidebar',
@@ -43,6 +43,10 @@ export default {
     theme: {
       type: Object,
       required: true
+    },
+    isDarkMode: {
+      type: Boolean,
+      default: false
     },
     activeColorTab: {
       type: String,
@@ -90,10 +94,10 @@ export default {
         b: Math.min(255, Math.floor(rgb.b + (255 - rgb.b) * 0.20))
       }
 
-      const lighterHex = '#' +
-        lighterRgb.r.toString(16).padStart(2, '0') +
-        lighterRgb.g.toString(16).padStart(2, '0') +
-        lighterRgb.b.toString(16).padStart(2, '0')
+      const lighterHex = '#'
+        + lighterRgb.r.toString(16).padStart(2, '0')
+        + lighterRgb.g.toString(16).padStart(2, '0')
+        + lighterRgb.b.toString(16).padStart(2, '0')
 
       return {
         background: `linear-gradient(to bottom, ${ lighterHex } 0%, ${ lighterHex } 50%, ${ color } 50%, ${ color } 100%)`

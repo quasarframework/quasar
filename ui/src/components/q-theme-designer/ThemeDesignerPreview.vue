@@ -229,10 +229,14 @@ export default {
       type: Object,
       required: true
     },
+    isDarkMode: {
+      type: Boolean,
+      default: undefined
+    },
     textColorPreference: {
       type: String,
       default: 'recommended',
-      validator: (value) => ['recommended', 'light', 'dark'].includes(value)
+      validator: (value) => [ 'recommended', 'light', 'dark' ].includes(value)
     }
   },
 
@@ -243,8 +247,10 @@ export default {
     // Force re-render key when cssVars change
     const previewKey = computed(() => JSON.stringify(props.cssVars))
 
-    // Use global dark mode
-    const isDarkMode = computed(() => $q.dark.isActive)
+    // Use prop if provided, otherwise use global dark mode
+    const darkMode = computed(() => {
+      return props.isDarkMode !== undefined ? props.isDarkMode : $q.dark.isActive
+    })
 
     // Get text color for a given background color based on preference
     function getTextColorForBackground (color) {
@@ -289,10 +295,10 @@ export default {
       previewKey,
       tableColumns,
       tableRows,
-      isDarkMode,
+      // eslint-disable-next-line vue/no-dupe-keys
+      isDarkMode: darkMode, // Computed shadows prop to provide fallback logic
       getTextColorForBackground,
-      getTextColorClassForBackground,
-      theme: props.theme
+      getTextColorClassForBackground
     }
   }
 }
@@ -338,4 +344,3 @@ export default {
     overflow-y: visible !important
     overflow-x: hidden !important
 </style>
-

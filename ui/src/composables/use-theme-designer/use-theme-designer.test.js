@@ -6,6 +6,8 @@ import useThemeDesigner, {
   getContrastRatio,
   meetsWcagAA,
   getContrastInfo,
+  loadFromStorage,
+  saveToStorage,
   STORAGE_KEY
 } from './use-theme-designer.js'
 
@@ -30,8 +32,23 @@ describe('[useThemeDesigner API]', () => {
     vi.clearAllMocks()
   })
 
-  describe('[Contrast Utilities]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)STORAGE_KEY]', () => {
+      test('is defined correctly', () => {
+        expect(STORAGE_KEY).toBeTypeOf('string')
+        expect(STORAGE_KEY).toBe('quasar-theme-designer-last-theme')
+      })
+    })
+  })
+
+  describe('[Functions]', () => {
     describe('[(function)getContrastRatio]', () => {
+      test('has correct return value', () => {
+        const result = getContrastRatio('#FFFFFF', '#000000')
+        expect(result).toBeDefined()
+        expect(result).toBeCloseTo(21, 0)
+      })
+
       test('returns 21:1 for black on white', () => {
         const ratio = getContrastRatio('#FFFFFF', '#000000')
         expect(ratio).toBeCloseTo(21, 0)
@@ -50,6 +67,12 @@ describe('[useThemeDesigner API]', () => {
     })
 
     describe('[(function)meetsWcagAA]', () => {
+      test('has correct return value', () => {
+        const result = meetsWcagAA(4.5, false)
+        expect(result).toBeDefined()
+        expect(result).toBe(true)
+      })
+
       test('passes for ratio >= 4.5 (normal text)', () => {
         expect(meetsWcagAA(4.5)).toBe(true)
         expect(meetsWcagAA(5.0)).toBe(true)
@@ -74,6 +97,13 @@ describe('[useThemeDesigner API]', () => {
     })
 
     describe('[(function)getContrastInfo]', () => {
+      test('has correct return value', () => {
+        const result = getContrastInfo('#1976D2')
+        expect(result).toBeDefined()
+        expect(result).toHaveProperty('whiteRatio')
+        expect(result).toHaveProperty('blackRatio')
+      })
+
       test('returns contrast info object', () => {
         const info = getContrastInfo('#1976D2')
 
@@ -100,9 +130,46 @@ describe('[useThemeDesigner API]', () => {
         expect(info.blackRatio).toMatch(/^\d+\.\d{2}$/)
       })
     })
-  })
 
-  describe('[Composable]', () => {
+    describe('[(function)loadFromStorage]', () => {
+      test('has correct return value', () => {
+        const result = loadFromStorage()
+        expect(result).toBeDefined()
+        // Returns null when no saved theme
+        expect(result).toBeNull()
+      })
+
+      test('returns null when localStorage is empty', () => {
+        localStorageMock.clear()
+        const result = loadFromStorage()
+        expect(result).toBeNull()
+      })
+
+      test('returns parsed theme when saved', () => {
+        const savedTheme = { primary: '#FF0000', secondary: '#00FF00' }
+        localStorageMock.setItem(STORAGE_KEY, JSON.stringify(savedTheme))
+        const result = loadFromStorage()
+        expect(result).toEqual(savedTheme)
+      })
+    })
+
+    describe('[(function)saveToStorage]', () => {
+      test('has correct return value', () => {
+        const theme = { primary: '#FF0000' }
+        const result = saveToStorage(theme)
+        expect(result).toBeUndefined() // saveToStorage returns void
+      })
+
+      test('saves theme to localStorage', () => {
+        const theme = { primary: '#FF0000', secondary: '#00FF00' }
+        saveToStorage(theme)
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+          STORAGE_KEY,
+          JSON.stringify(theme)
+        )
+      })
+    })
+
     describe('[(function)default]', () => {
       test('can be used in a Vue Component', () => {
         const wrapper = mount(
@@ -115,6 +182,7 @@ describe('[useThemeDesigner API]', () => {
           })
         )
 
+        expect(wrapper).toBeDefined()
         expect(wrapper.vm.result).toBeTypeOf('object')
         expect(wrapper.vm.result.theme).toBeDefined()
         expect(wrapper.vm.result.cssVars).toBeDefined()
@@ -265,38 +333,29 @@ describe('[useThemeDesigner API]', () => {
         expect(wrapper.vm.exportFormats).toHaveProperty('quasarConfig')
         expect(wrapper.vm.exportFormats).toHaveProperty('vitePlugin')
       })
-    })
-  })
 
-  describe('[localStorage]', () => {
-    test('saves theme to localStorage on change', async () => {
-      const wrapper = mount(
-        defineComponent({
-          template: '<div />',
-          setup () {
-            const { theme, setColor } = useThemeDesigner()
-            return { theme, setColor }
-          }
-        })
-      )
+      test('saves theme to localStorage on change', async () => {
+        const wrapper = mount(
+          defineComponent({
+            template: '<div />',
+            setup () {
+              const { theme, setColor } = useThemeDesigner()
+              return { theme, setColor }
+            }
+          })
+        )
 
-      wrapper.vm.setColor('primary', '#FF0000')
-      await nextTick()
+        wrapper.vm.setColor('primary', '#FF0000')
+        await nextTick()
 
-      // Wait for the watch to trigger
-      await new Promise(resolve => setTimeout(resolve, 10))
+        // Wait for the watch to trigger
+        await new Promise(resolve => setTimeout(resolve, 10))
 
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        STORAGE_KEY,
-        expect.stringContaining('#FF0000')
-      )
-    })
-
-    test('STORAGE_KEY has correct value', () => {
-      expect(STORAGE_KEY).toBe('quasar-theme-designer-last-theme')
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+          STORAGE_KEY,
+          expect.stringContaining('#FF0000')
+        )
+      })
     })
   })
 })
-
-
-

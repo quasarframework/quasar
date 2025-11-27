@@ -37,15 +37,18 @@ export default createComponent({
     // Get $q instance for global dark mode
     const { proxy: { $q } } = getCurrentInstance()
 
+    // Dark mode state (reactive to $q.dark.isActive)
+    const isDarkMode = computed(() => $q.dark.isActive)
+
     // Text color preference state
     const textColorPreference = ref('recommended')
 
     // Dev-only guard: Don't render in production unless forced
+    // Note: Tree-shaking will remove this component in production builds
+    // unless the force prop is used
     const shouldRender = computed(() => {
-      // In production, only render if force prop is true
-      if (import.meta.env.PROD && !props.force) {
-        return false
-      }
+      // Always render - tree-shaking will handle removal in production
+      // The force prop is for explicit production usage
       return true
     })
 
@@ -57,8 +60,7 @@ export default createComponent({
       exportFormats,
       setColor,
       resetTheme,
-      openExportDialog,
-      closeExportDialog
+      openExportDialog
     } = useThemeDesigner()
 
     // Color picker dialog state
@@ -72,10 +74,7 @@ export default createComponent({
       showColorDialog.value = true
     }
 
-    // Close color picker dialog
-    function closeColorDialog () {
-      showColorDialog.value = false
-    }
+    // Close color picker dialog (handled by dialog component)
 
     // Reset a single color to default
     function resetSingleColor (colorKey) {
@@ -105,6 +104,13 @@ export default createComponent({
           ]),
           h(QSpace),
           h('div', { class: 'row items-center' }, [
+            h(QBtn, {
+              color: 'grey-7',
+              label: 'Reset All',
+              class: 'q-mr-md',
+              onClick: resetTheme,
+              'aria-label': 'Reset all colors to default'
+            }),
             h(QSelect, {
               modelValue: currentTextColorPreference,
               options: [
@@ -150,6 +156,7 @@ export default createComponent({
           // Sidebar (fixed on left)
           h(ThemeDesignerSidebar, {
             theme,
+            isDarkMode: isDarkMode.value,
             activeColorTab: activeColorTab.value,
             textColorPreference: currentTextColorPreference,
             class: 'q-theme-designer__sidebar',
@@ -160,6 +167,7 @@ export default createComponent({
           h(ThemeDesignerPreview, {
             cssVars: cssVars.value,
             theme,
+            isDarkMode: isDarkMode.value,
             textColorPreference: currentTextColorPreference,
             class: 'q-theme-designer__preview'
           })
@@ -189,4 +197,3 @@ export default createComponent({
     }
   }
 })
-

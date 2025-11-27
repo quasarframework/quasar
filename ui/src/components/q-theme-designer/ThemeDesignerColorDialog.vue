@@ -160,6 +160,3 @@ body:not(.body--dark) .q-theme-designer-color-dialog
   &__contrast
     background: rgba(0, 0, 0, 0.05)
 </style>
-
-
-

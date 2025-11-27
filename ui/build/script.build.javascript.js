@@ -66,6 +66,17 @@ const quasarEsbuildPluginUmdGlobalExternals = {
   }
 }
 
+// Plugin to handle .vue file imports (mark as external - they're handled by Vite at runtime)
+const quasarEsbuildPluginVueExternals = {
+  name: 'quasar:vue-externals',
+  setup (build) {
+    build.onResolve({ filter: /\.vue$/ }, () => ({
+      path: '',
+      external: true
+    }))
+  }
+}
+
 const builds = [
   // Client entry-point used by @quasar/vite-plugin for DEV only.
   // Also used as entry-point in package.json.
@@ -158,6 +169,12 @@ const builds = [
 ]
 
 function genConfig (opts) {
+  const plugins = opts.plugins || []
+  // Add vue externals plugin to all builds to handle .vue file imports
+  if (!plugins.includes(quasarEsbuildPluginVueExternals)) {
+    plugins.push(quasarEsbuildPluginVueExternals)
+  }
+
   return {
     platform: 'browser',
     packages: 'external',
@@ -167,6 +184,7 @@ function genConfig (opts) {
       js: banner
     },
     write: false,
+    plugins,
     ...opts
   }
 }

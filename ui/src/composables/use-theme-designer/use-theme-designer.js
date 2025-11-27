@@ -196,4 +196,3 @@ export {
   saveToStorage,
   STORAGE_KEY
 }
-

@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { luminosity, hexToRgb } from '../../utils/colors/colors.js'
 import { colorLabels } from '../../json/themeSerializer.js'
 import { getContrastInfo } from '../../composables/use-theme-designer/use-theme-designer.js'
 
@@ -76,7 +75,7 @@ export default {
     textColorPreference: {
       type: String,
       default: 'recommended',
-      validator: (value) => ['recommended', 'light', 'dark'].includes(value)
+      validator: (value) => [ 'recommended', 'light', 'dark' ].includes(value)
     }
   },
 
@@ -159,7 +158,7 @@ export default {
 <style lang="sass">
 .q-theme-designer-color-cards
   width: 100%
-  
+
   &__card
     min-height: 180px
     border-radius: 4px
@@ -170,13 +169,13 @@ export default {
     .q-chip
       backdrop-filter: blur(4px)
       background-color: rgba(0, 0, 0, 0.3) !important
-      
+
       &.bg-positive
         background-color: rgba(33, 186, 69, 0.9) !important
-        
+
       &.bg-negative
         background-color: rgba(193, 0, 21, 0.9) !important
-    
+
   // Mobile: single column with padding
   @media (max-width: 599px)
     .row
@@ -184,19 +183,19 @@ export default {
       flex-wrap: wrap
       margin-left: -8px
       margin-right: -8px
-      
+
     &__card
       flex: 0 0 calc(100% - 16px)
       max-width: calc(100% - 16px)
       margin-left: 8px
       margin-right: 8px
-      
+
   // Desktop: 3 columns
   @media (min-width: 600px)
     .row
       display: flex
       flex-wrap: wrap
-      
+
     &__card
       flex: 0 0 calc(33.333% - 16px)
       max-width: calc(33.333% - 16px)

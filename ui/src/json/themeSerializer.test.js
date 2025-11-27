@@ -178,6 +178,3 @@ describe('[themeSerializer API]', () => {
     })
   })
 })
-
-
-
