@@ -22,7 +22,7 @@ const vueNamedImportsCode = (() => {
   const namedImports = [
     'h',
     'ref', 'computed', 'watch',
-    'isRef', 'toRaw', 'unref', 'reactive', 'shallowReactive',
+    'isRef', 'toRaw', 'unref', 'reactive', 'shallowReactive', 'readonly',
     'nextTick',
     'onActivated', 'onDeactivated',
     'onBeforeMount', 'onMounted',

@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-composables/use-dashboard-panels"
+  },
+
+  "returns": {
+    "panelStates": {
+      "type": "Object",
+      "desc": "Reactive readonly object containing all panel states keyed by panel ID",
+      "definition": {
+        "[panelId]": {
+          "type": "Object",
+          "desc": "Panel state object",
+          "definition": {
+            "size": {
+              "type": "Number",
+              "desc": "Current size value"
+            },
+            "collapsed": {
+              "type": "Boolean",
+              "desc": "Collapsed state"
+            },
+            "maximized": {
+              "type": "Boolean",
+              "desc": "Maximized state"
+            }
+          }
+        }
+      }
+    },
+
+    "registeredPanels": {
+      "type": "Object",
+      "tsType": "Ref<Set<string>>",
+      "desc": "Reactive readonly Set containing IDs of all registered panels"
+    },
+
+    "registerPanel": {
+      "type": "Function",
+      "desc": "Register a panel with the group",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Unique panel identifier"
+        },
+        "initialState": {
+          "type": "Object",
+          "desc": "Initial state for the panel",
+          "definition": {
+            "size": {
+              "type": "Number",
+              "desc": "Initial size"
+            },
+            "collapsed": {
+              "type": "Boolean",
+              "desc": "Initial collapsed state"
+            },
+            "maximized": {
+              "type": "Boolean",
+              "desc": "Initial maximized state"
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "The panel's state object"
+      }
+    },
+
+    "unregisterPanel": {
+      "type": "Function",
+      "desc": "Unregister a panel from the group",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier to unregister"
+        }
+      }
+    },
+
+    "getPanelState": {
+      "type": "Function",
+      "desc": "Get the current state of a panel",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier"
+        }
+      },
+      "returns": {
+        "type": [ "Object", "null" ],
+        "desc": "Panel state object or null if not found"
+      }
+    },
+
+    "setPanelSize": {
+      "type": "Function",
+      "desc": "Set a panel's size",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier"
+        },
+        "size": {
+          "type": "Number",
+          "required": true,
+          "desc": "New size value"
+        },
+        "minSize": {
+          "type": "Number",
+          "desc": "Minimum size for clamping",
+          "default": "15"
+        },
+        "maxSize": {
+          "type": "Number",
+          "desc": "Maximum size for clamping",
+          "default": "100"
+        }
+      }
+    },
+
+    "setPanelCollapsed": {
+      "type": "Function",
+      "desc": "Set a panel's collapsed state",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier"
+        },
+        "collapsed": {
+          "type": "Boolean",
+          "required": true,
+          "desc": "New collapsed state"
+        }
+      }
+    },
+
+    "setPanelMaximized": {
+      "type": "Function",
+      "desc": "Set a panel's maximized state",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier"
+        },
+        "maximized": {
+          "type": "Boolean",
+          "required": true,
+          "desc": "New maximized state"
+        }
+      }
+    },
+
+    "toggleCollapsed": {
+      "type": "Function",
+      "desc": "Toggle a panel's collapsed state",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier"
+        }
+      }
+    },
+
+    "toggleMaximized": {
+      "type": "Function",
+      "desc": "Toggle a panel's maximized state",
+      "params": {
+        "id": {
+          "type": "String",
+          "required": true,
+          "desc": "Panel identifier"
+        }
+      }
+    },
+
+    "resetAll": {
+      "type": "Function",
+      "desc": "Reset all panels to their default state and clear persisted storage"
+    },
+
+    "saveState": {
+      "type": "Function",
+      "desc": "Manually save the current state to storage"
+    }
+  },
+
+  "params": {
+    "options": {
+      "type": "Object",
+      "desc": "Configuration options",
+      "definition": {
+        "storageKey": {
+          "type": "String",
+          "desc": "Key for localStorage",
+          "default": "'default'"
+        },
+        "persist": {
+          "type": "Boolean",
+          "desc": "Whether to persist state to localStorage",
+          "default": "true"
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+

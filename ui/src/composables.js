@@ -1,3 +1,4 @@
+import useDashboardPanels, { useDashboardPanelsContext, convertSize as convertDashboardPanelSize } from './composables/use-dashboard-panels/use-dashboard-panels.js'
 import useDialogPluginComponent from './composables/use-dialog-plugin-component/use-dialog-plugin-component.js'
 import useFormChild from './composables/use-form/use-form-child.js'
 import useMeta from './composables/use-meta/use-meta.js'
@@ -12,6 +13,9 @@ import useTick from './composables/use-tick/use-tick.js'
 import useTimeout from './composables/use-timeout/use-timeout.js'
 
 export {
+  useDashboardPanels,
+  useDashboardPanelsContext,
+  convertDashboardPanelSize,
   useDialogPluginComponent,
   useFormChild,
   useMeta,

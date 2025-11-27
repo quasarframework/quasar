@@ -1,0 +1,163 @@
+.q-dashboard-panel
+  position: relative
+  display: flex
+  flex-direction: column
+  box-sizing: border-box
+  transition: width 0.2s ease, box-shadow 0.2s ease
+  background: #fff
+  flex-shrink: 0
+  flex-grow: 0
+  overflow: visible !important // Required for resize handle to extend outside panel
+
+  // Dark mode background
+  &--dark
+    background: var(--q-dark, #1d1d1d)
+
+  // Bordered style (matches QCard) - make border very visible
+  &.q-card--bordered
+    border: 2px solid rgba(0, 0, 0, 0.3) !important
+    box-shadow: none !important
+    background: #fff !important
+
+  &.q-card--bordered.q-dashboard-panel--dark
+    border-color: rgba(255, 255, 255, 0.5) !important
+
+  &--resizing
+    transition: none
+    user-select: none
+
+  &--collapsed
+    .q-dashboard-panel__body,
+    .q-dashboard-panel__footer
+      display: none
+
+  &--maximized
+    width: 100% !important
+    max-width: 100% !important
+    flex-basis: 100% !important
+    flex-grow: 1 !important
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15)
+
+  &--maximized#{&}--dark
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4)
+
+  &--mobile
+    width: 100% !important
+
+  // Header section
+  &__header
+    display: flex
+    align-items: center
+    padding: 12px 16px
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12)
+    flex-shrink: 0
+
+    .q-dashboard-panel--dark &
+      border-bottom-color: rgba(255, 255, 255, 0.12)
+
+    .q-dashboard-panel--collapsed &
+      border-bottom: none
+
+  // Body section
+  &__body
+    flex: 1 1 auto
+    overflow: auto
+    padding: 16px
+
+  // Footer section
+  &__footer
+    padding: 12px 16px
+    border-top: 1px solid rgba(0, 0, 0, 0.12)
+    flex-shrink: 0
+
+    .q-dashboard-panel--dark &
+      border-top-color: rgba(255, 255, 255, 0.12)
+
+  // Resize handle - positioned on right edge, slightly extending outside
+  &__resize-handle
+    position: absolute
+    right: -4px
+    top: 0
+    bottom: 0
+    width: 12px
+    cursor: ew-resize
+    background: transparent
+    z-index: 10
+    display: flex
+    align-items: center
+    justify-content: center
+    transition: background 0.15s ease
+    pointer-events: auto
+    user-select: none
+    touch-action: none
+
+    &:hover,
+    &:focus
+      background: rgba(0, 0, 0, 0.06)
+
+    &:focus
+      outline: none
+
+    &:focus-visible
+      background: rgba(25, 118, 210, 0.1)
+
+    .q-dashboard-panel--resizing &
+      background: rgba(25, 118, 210, 0.08)
+
+    .q-dashboard-panel--maximized &
+      display: none
+
+  // Dark panel resize handle
+  &--dark &__resize-handle
+    &:hover,
+    &:focus
+      background: rgba(255, 255, 255, 0.1)
+
+  &__resize-handle-inner
+    width: 6px
+    height: 48px
+    max-height: 60%
+    min-height: 24px
+    background: rgba(0, 0, 0, 0.4)
+    border-radius: 3px
+    transition: background 0.15s ease, transform 0.15s ease
+    pointer-events: none
+
+  // Dark mode inner bar - use a visible gray on gray background
+  .q-dashboard-panel--dark .q-dashboard-panel__resize-handle-inner
+    background: #888 !important
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3)
+
+    .q-dashboard-panel__resize-handle:hover &,
+    .q-dashboard-panel__resize-handle:focus &
+      background: rgba(0, 0, 0, 0.5)
+      transform: scaleY(1.15)
+
+      .q-dashboard-panel--dark &
+        background: rgba(255, 255, 255, 0.6)
+
+    .q-dashboard-panel--resizing &
+      background: #1976d2
+      transform: scaleY(1.2)
+
+// Collapsed state animations
+.q-dashboard-panel__body,
+.q-dashboard-panel__footer
+  transition: opacity 0.2s ease
+
+.q-dashboard-panel--collapsed .q-dashboard-panel__body,
+.q-dashboard-panel--collapsed .q-dashboard-panel__footer
+  opacity: 0
+  pointer-events: none
+
+// Touch-friendly adjustments
+@media (hover: none) and (pointer: coarse)
+  .q-dashboard-panel__resize-handle
+    width: 16px
+
+  .q-dashboard-panel__resize-handle-inner
+    width: 6px
+    height: 48px
+
+
+

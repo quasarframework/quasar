@@ -75,6 +75,9 @@
     "url": "https://donate.quasar.dev"
   },
   "homepage": "https://quasar.dev",
+  "dependencies": {
+    "@vueuse/core": "^11.3.0"
+  },
   "devDependencies": {
     "@quasar/extras": "workspace:*",
     "autoprefixer": "^10.4.20",

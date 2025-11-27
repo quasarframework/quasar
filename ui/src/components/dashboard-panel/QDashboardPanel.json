@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/dashboard-panel"
+  },
+
+  "props": {
+    "id": {
+      "type": "String",
+      "desc": "Unique identifier used as storage key for persisted state",
+      "required": true,
+      "examples": [ "'panel-1'", "'sidebar-left'" ],
+      "category": "model"
+    },
+
+    "resizable": {
+      "type": "Boolean",
+      "desc": "Enable/disable drag resize behavior",
+      "default": "true",
+      "category": "behavior"
+    },
+
+    "default-size": {
+      "type": "Number",
+      "desc": "Initial width in the specified unit",
+      "default": "35",
+      "examples": [ "50", "300" ],
+      "category": "model"
+    },
+
+    "min-size": {
+      "type": "Number",
+      "desc": "Minimum allowed width in the specified unit",
+      "default": "15",
+      "examples": [ "10", "200" ],
+      "category": "model"
+    },
+
+    "max-size": {
+      "type": "Number",
+      "desc": "Maximum allowed width in the specified unit",
+      "default": "100",
+      "examples": [ "80", "600" ],
+      "category": "model"
+    },
+
+    "collapsed": {
+      "type": "Boolean",
+      "desc": "Collapsed state of the panel (hides body and footer)",
+      "default": "false",
+      "category": "model"
+    },
+
+    "maximized": {
+      "type": "Boolean",
+      "desc": "Maximized state of the panel (expands to full width)",
+      "default": "false",
+      "category": "model"
+    },
+
+    "unit": {
+      "type": "String",
+      "desc": "CSS unit for size measurements",
+      "default": "'%'",
+      "values": [ "'%'", "'px'", "'rem'" ],
+      "category": "model"
+    },
+
+    "storage": {
+      "type": "String",
+      "desc": "Storage strategy for persistence; 'local' uses localStorage per panel, 'group' uses parent useDashboardPanels context",
+      "default": "'local'",
+      "values": [ "'local'", "'group'" ],
+      "category": "behavior"
+    },
+
+    "no-persist": {
+      "type": "Boolean",
+      "desc": "Disable persistence entirely",
+      "default": "false",
+      "category": "behavior"
+    },
+
+    "disable-on-mobile": {
+      "type": "Boolean",
+      "desc": "Disable resizing on mobile breakpoints (xs and sm)",
+      "default": "true",
+      "category": "behavior"
+    },
+
+    "keyboard-increment": {
+      "type": "Number",
+      "desc": "Amount to adjust size when using arrow keys on the resize handle",
+      "default": "1",
+      "examples": [ "0.5", "5" ],
+      "category": "behavior"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "'div'",
+      "examples": [ "'div'", "'section'", "'aside'" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot for panel content (hidden when collapsed)"
+    },
+
+    "header": {
+      "desc": "Header content (always visible, even when collapsed)",
+      "scope": {
+        "collapsed": {
+          "type": "Boolean",
+          "desc": "Current collapsed state"
+        },
+        "maximized": {
+          "type": "Boolean",
+          "desc": "Current maximized state"
+        },
+        "toggleCollapsed": {
+          "type": "Function",
+          "desc": "Function to toggle collapsed state",
+          "params": null,
+          "returns": null
+        },
+        "toggleMaximized": {
+          "type": "Function",
+          "desc": "Function to toggle maximized state",
+          "params": null,
+          "returns": null
+        }
+      }
+    },
+
+    "body": {
+      "desc": "Body content of the panel (hidden when collapsed)"
+    },
+
+    "footer": {
+      "desc": "Footer content of the panel (hidden when collapsed)"
+    },
+
+    "resize-handle": {
+      "desc": "Custom resize handle UI (not rendered on mobile)",
+      "scope": {
+        "onMousedown": {
+          "type": "Function",
+          "desc": "Mousedown handler for starting resize",
+          "params": {
+            "evt": {
+              "type": "Event",
+              "desc": "Mouse event"
+            }
+          },
+          "returns": null
+        },
+        "onTouchstart": {
+          "type": "Function",
+          "desc": "Touchstart handler for starting resize on touch devices",
+          "params": {
+            "evt": {
+              "type": "Event",
+              "desc": "Touch event"
+            }
+          },
+          "returns": null
+        },
+        "onDblclick": {
+          "type": "Function",
+          "desc": "Double-click handler for toggling maximize",
+          "params": {
+            "evt": {
+              "type": "Event",
+              "desc": "Mouse event"
+            }
+          },
+          "returns": null
+        },
+        "onKeydown": {
+          "type": "Function",
+          "desc": "Keydown handler for keyboard resize",
+          "params": {
+            "evt": {
+              "type": "Event",
+              "desc": "Keyboard event"
+            }
+          },
+          "returns": null
+        },
+        "disabled": {
+          "type": "Boolean",
+          "desc": "Whether resize is currently disabled"
+        },
+        "size": {
+          "type": "Number",
+          "desc": "Current size value"
+        },
+        "unit": {
+          "type": "String",
+          "desc": "Current unit"
+        },
+        "minSize": {
+          "type": "Number",
+          "desc": "Minimum size value"
+        },
+        "maxSize": {
+          "type": "Number",
+          "desc": "Maximum size value"
+        }
+      }
+    }
+  },
+
+  "events": {
+    "update:size": {
+      "desc": "Emitted when the panel size changes",
+      "params": {
+        "value": {
+          "type": "Number",
+          "desc": "New size value in the configured unit"
+        }
+      }
+    },
+
+    "update:collapsed": {
+      "desc": "Emitted when the collapsed state changes",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New collapsed state"
+        }
+      }
+    },
+
+    "update:maximized": {
+      "desc": "Emitted when the maximized state changes",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New maximized state"
+        }
+      }
+    },
+
+    "resize-start": {
+      "desc": "Emitted when a resize operation starts",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Resize details",
+          "definition": {
+            "size": {
+              "type": "Number",
+              "desc": "Current size at start"
+            },
+            "unit": {
+              "type": "String",
+              "desc": "Current unit"
+            }
+          }
+        }
+      }
+    },
+
+    "resize": {
+      "desc": "Emitted during a resize operation",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Resize details",
+          "definition": {
+            "size": {
+              "type": "Number",
+              "desc": "Current size"
+            },
+            "unit": {
+              "type": "String",
+              "desc": "Current unit"
+            }
+          }
+        }
+      }
+    },
+
+    "resize-end": {
+      "desc": "Emitted when a resize operation ends",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Resize details",
+          "definition": {
+            "size": {
+              "type": "Number",
+              "desc": "Final size"
+            },
+            "unit": {
+              "type": "String",
+              "desc": "Current unit"
+            }
+          }
+        }
+      }
+    },
+
+    "collapse": {
+      "desc": "Emitted when the panel is collapsed"
+    },
+
+    "expand": {
+      "desc": "Emitted when the panel is expanded"
+    },
+
+    "maximize": {
+      "desc": "Emitted when the panel is maximized"
+    },
+
+    "restore": {
+      "desc": "Emitted when the panel is restored from maximized state"
+    }
+  },
+
+  "methods": {
+    "toggleCollapsed": {
+      "desc": "Toggle the collapsed state of the panel",
+      "params": null,
+      "returns": null
+    },
+
+    "toggleMaximized": {
+      "desc": "Toggle the maximized state of the panel",
+      "params": null,
+      "returns": null
+    },
+
+    "setSize": {
+      "desc": "Set the panel size programmatically",
+      "params": {
+        "size": {
+          "type": "Number",
+          "required": true,
+          "desc": "New size value (will be clamped to min/max)"
+        }
+      },
+      "returns": null
+    },
+
+    "setCollapsed": {
+      "desc": "Set the collapsed state programmatically",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "required": true,
+          "desc": "New collapsed state"
+        }
+      },
+      "returns": null
+    },
+
+    "setMaximized": {
+      "desc": "Set the maximized state programmatically",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "required": true,
+          "desc": "New maximized state"
+        }
+      },
+      "returns": null
+    }
+  }
+}
+
+
+
+
+
+
+
