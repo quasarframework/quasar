@@ -8,8 +8,6 @@ let
   scrollPositionY,
   maxScrollTop,
   vpPendingUpdate = false,
-  bodyLeft,
-  bodyTop,
   href,
   closeTimer = null
 
@@ -31,7 +29,7 @@ function shouldPreventScroll (e) {
     delta = shift || scrollY ? e.deltaY : e.deltaX
 
   for (let index = 0; index < path.length; index++) {
-    const el = path[ index ]
+    const el = path[index]
 
     if (hasScrollbar(el, scrollY)) {
       return scrollY
@@ -53,8 +51,6 @@ function shouldPreventScroll (e) {
 
 function onAppleScroll (e) {
   if (e.target === document) {
-    // required, otherwise iOS blocks further scrolling
-    // until the mobile scrollbar dissappears
     document.scrollingElement.scrollTop = document.scrollingElement.scrollTop // eslint-disable-line
   }
 }
@@ -83,22 +79,22 @@ function onAppleResize (evt) {
 }
 
 function apply (action) {
-  const
-    body = document.body,
-    hasViewport = window.visualViewport !== void 0
+  const body = document.body,
+        hasViewport = window.visualViewport !== void 0
 
   if (action === 'add') {
     const { overflowY, overflowX } = window.getComputedStyle(body)
 
     scrollPositionX = getHorizontalScrollPosition(window)
     scrollPositionY = getVerticalScrollPosition(window)
-    bodyLeft = body.style.left
-    bodyTop = body.style.top
 
     href = window.location.href
 
-    body.style.left = `-${ scrollPositionX }px`
-    body.style.top = `-${ scrollPositionY }px`
+    // ===== PATCH START =====
+    // Use overflow hidden + padding-right instead of position fixed
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+    body.style.paddingRight = `${scrollbarWidth}px`
+    // ===== PATCH END =====
 
     if (overflowX !== 'hidden' && (overflowX === 'scroll' || body.scrollWidth > window.innerWidth)) {
       body.classList.add('q-body--force-scrollbar-x')
@@ -124,8 +120,7 @@ function apply (action) {
   }
 
   if (client.is.desktop === true && client.is.mac === true) {
-    // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
-    window[ `${ action }EventListener` ]('wheel', onWheel, listenOpts.notPassive)
+    window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 
   if (action === 'remove') {
@@ -145,11 +140,12 @@ function apply (action) {
 
     document.qScrollPrevented = false
 
-    body.style.left = bodyLeft
-    body.style.top = bodyTop
+    // ===== PATCH START =====
+    body.style.paddingRight = ''
+    // ===== PATCH END =====
 
-    // scroll back only if route has not changed
-    if (window.location.href === href) {
+    // restore scroll only if route path did not change (#18185)
+    if (window.location.pathname === new URL(href).pathname) {
       window.scrollTo(scrollPositionX, scrollPositionY)
     }
 
