@@ -149,9 +149,10 @@ function apply (action) {
     body.style.top = bodyTop
 
     // scroll back only if route has not changed
-    if (window.location.href === href) {
-      window.scrollTo(scrollPositionX, scrollPositionY)
-    }
+  if (window.location.pathname === new URL(href).pathname) {
+    window.scrollTo(scrollPositionX, scrollPositionY)
+  }
+
 
     maxScrollTop = void 0
   }
