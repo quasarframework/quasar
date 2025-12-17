@@ -263,6 +263,13 @@ export default function (state) {
     return acc
   })
 
+  const isTextarea = computed(() => props.type === 'textarea')
+
+  const isTypeText = computed(() =>
+    isTextarea.value === true
+    || [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
+  )
+
   function focusHandler () {
     const el = document.activeElement
     let target = state.targetRef?.value
@@ -341,8 +348,13 @@ export default function (state) {
       state.inputRef.value.value = null
     }
 
-    emit('update:modelValue', null)
-    state.changeEvent === true && emit('change', null)
+    if (isTypeText.value) {
+      emit('update:modelValue', '')
+      state.changeEvent === true && emit('change', '')
+    } else {
+      emit('update:modelValue', null)
+      state.changeEvent === true && emit('change', null)
+    }
     emit('clear', props.modelValue)
 
     nextTick(() => {
