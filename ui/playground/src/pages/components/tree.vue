@@ -19,6 +19,7 @@
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
             <q-toggle v-model="noSelectionUnset" label="noSelectionUnset" />
             <q-toggle v-model="noConnectors" label="No connectors" />
+            <q-toggle v-model="virtualScroll" label="Virtual Scroll" />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-input v-model="filter" label="Filter" />
@@ -36,7 +37,7 @@
             <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
             <q-toggle v-model="isBigTree" label="Load Big Tree"/>
             <q-toggle v-model="noTransition" label="noTransition"/>
-            <q-btn @click="expandAll" no-caps label="Expand all" />
+            <q-btn @click="expandAll" no-caps :ripple="false" label="Expand all" />
             <q-btn @click="collapseAll" no-caps label="Collapse all" />
           </div>
         </div>
@@ -45,6 +46,7 @@
       <div class="q-mt-lg q-pa-lg" :class="{'bg-black': dark}">
         <q-tree
           ref="tree"
+          style="height: 300px"
           :nodes="nodes"
           node-key="key"
           children-key="subnodes"
@@ -52,6 +54,7 @@
           :tick-strategy="tickStrategy"
           v-model:ticked="ticked"
           v-model:expanded="expanded"
+          :virtual-scroll="virtualScroll"
           :dark="dark"
           :dense="dense"
           :accordion="accordion"
@@ -150,6 +153,7 @@ export default {
     findNode('KEY: Node 1.3 - tap on me!', smallTree).handler = () => this.$q.notify('Tapped on node 1.3')
 
     return {
+      virtualScroll: false,
       noConnectors: false,
       noTransition: false,
       selected: null,

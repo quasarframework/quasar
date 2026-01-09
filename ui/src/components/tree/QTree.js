@@ -1,12 +1,14 @@
 import {
   h, ref, computed, watch,
-  withDirectives, vShow, nextTick, getCurrentInstance, onBeforeUpdate
+  withDirectives, vShow, nextTick, getCurrentInstance, onBeforeUpdate,
+  withMemo
 } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
+import QIntersection from '../intersection/QIntersection.js'
 
 import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
@@ -14,6 +16,7 @@ import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 
@@ -41,6 +44,7 @@ export default createComponent({
     },
 
     dense: Boolean,
+    virtualScroll: Boolean,
 
     color: String,
     controlColor: String,
@@ -83,22 +87,20 @@ export default createComponent({
     'afterHide'
   ],
 
-  setup (props, { slots, emit }) {
+  setup (props, { slots, emit, attrs }) {
     const { proxy } = getCurrentInstance()
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
+
+    const nodesCache = []
 
     const lazy = ref({})
     const innerTicked = ref(new Set(props.ticked || []))
     const innerExpanded = ref(new Set(props.expanded || []))
     const innerNodes = ref(new Map(getNodesPairs(props.nodes)))
 
-    let blurTargets = {}
-
-    onBeforeUpdate(() => {
-      blurTargets = {}
-    })
+    const blurTargets = {}
 
     const classes = computed(() =>
       `q-tree q-tree--${ props.dense === true ? 'dense' : 'standard' }`
@@ -133,6 +135,11 @@ export default createComponent({
             && node[ props.labelKey ].toLowerCase().indexOf(filt) !== -1
           }
     ))
+        const virtSlots = {
+          default: props => {
+            return getNode(props.item)
+          }
+        }
 
     const meta = computed(() => {
       const meta = {}
@@ -243,6 +250,7 @@ export default createComponent({
       }
 
       props.nodes.forEach(node => travel(node, null))
+
       return meta
     })
 
@@ -432,11 +440,15 @@ export default createComponent({
     }
 
     function getChildren (nodes) {
-      return (
+      const children =  (
         props.filter
           ? nodes.filter(n => meta.value[ n[ props.nodeKey ] ].matchesFilter)
           : nodes
-      ).map(child => getNode(child))
+      ).map((child, index) => getNode(child, index))
+
+      return props.virtualScroll ? h(QVirtualScroll, {style: {
+        height: `300px`
+      }, separator: true, type: 'list', items: nodes}, virtSlots) : children
     }
 
     function getNodeMedia (node) {
@@ -464,7 +476,7 @@ export default createComponent({
       emit('afterHide')
     }
 
-    function getNode (node) {
+    function getNode (node, cacheIndex) {
       const
         key = getNodeKey(node),
         m = meta.value[ key ],
@@ -494,7 +506,8 @@ export default createComponent({
         ])
       }
 
-      return h('div', {
+      return withMemo([key, m.selected, m.disabled, m.ticked, m.expanded], () => 
+        h('div', {
         key,
         class: 'q-tree__node relative-position'
           + ` q-tree__node--${ isParent === true ? 'parent' : 'child' }`
@@ -607,7 +620,7 @@ export default createComponent({
                 ))
             )
           : body
-      ])
+      ]), nodesCache, cacheIndex)
     }
 
     function blur (key) {
