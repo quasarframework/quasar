@@ -8,7 +8,6 @@ import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
-import QIntersection from '../intersection/QIntersection.js'
 
 import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
 
@@ -93,8 +92,6 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
 
-    const nodesCache = []
-
     const lazy = ref({})
     const innerTicked = ref(new Set(props.ticked || []))
     const innerExpanded = ref(new Set(props.expanded || []))
@@ -137,7 +134,31 @@ export default createComponent({
     ))
         const virtSlots = {
           default: props => {
-            return getNode(props.item)
+            console.log(props)
+            const key = getNodeKey(props.item.node)
+            const m = meta.value[key]
+            
+            const node = getNode(props.item.node, true)
+
+            if (props.item.level > 0) {
+              let level = node;
+              for (let index = 0; index < props.item.level; index++) {
+                level = h('div', {
+                        class: 'q-tree__node-collapsible' + textColorClass.value,
+                        key: `${ key }__q`
+                      }, [
+                        h('div', {
+                          class: 'q-tree__children'
+                            + (m.disabled === true ? ' q-tree__node--disabled' : ''),
+                          role: 'group'
+                        }, [level])
+                      ]);
+              }
+
+              return level;
+            }
+
+            return node
           }
         }
 
@@ -440,15 +461,30 @@ export default createComponent({
     }
 
     function getChildren (nodes) {
-      const children =  (
+    if (props.virtualScroll) {
+      const virtualChildren = []
+
+      const travel = (node, level = 0) => {
+        const key = getNodeKey(node)
+        const m = meta.value[key]
+
+        virtualChildren.push({node, level})
+        
+        if (m.expanded && Array.isArray(node[ props.childrenKey ])) {
+          node[ props.childrenKey ].forEach(child => travel(child, level + 1))
+        }
+      }
+
+      nodes.forEach(node => travel(node, 0))
+
+      return h(QVirtualScroll, {style: attrs.style, separator: true, type: 'list', items: virtualChildren}, virtSlots)
+    }
+
+      return (
         props.filter
           ? nodes.filter(n => meta.value[ n[ props.nodeKey ] ].matchesFilter)
           : nodes
-      ).map((child, index) => getNode(child, index))
-
-      return props.virtualScroll ? h(QVirtualScroll, {style: {
-        height: `300px`
-      }, separator: true, type: 'list', items: nodes}, virtSlots) : children
+      ).map((child) => getNode(child))
     }
 
     function getNodeMedia (node) {
@@ -476,7 +512,7 @@ export default createComponent({
       emit('afterHide')
     }
 
-    function getNode (node, cacheIndex) {
+    function getNode (node, omitChildren) {
       const
         key = getNodeKey(node),
         m = meta.value[ key ],
@@ -484,11 +520,13 @@ export default createComponent({
           ? slots[ `header-${ node.header }` ] || slots[ 'default-header' ]
           : slots[ 'default-header' ]
 
-      const children = m.isParent === true
-        ? getChildren(node[ props.childrenKey ])
+      const childrenMeta = node[props.childrenKey] ?? [];
+
+      const children = m.isParent === true 
+        ? getChildren(childrenMeta)
         : []
 
-      const isParent = children.length !== 0 || (m.lazy && m.lazy !== 'loaded')
+      const isParent = childrenMeta.length !== 0 || (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
         ? slots[ `body-${ node.body }` ] || slots[ 'default-body' ]
@@ -506,8 +544,7 @@ export default createComponent({
         ])
       }
 
-      return withMemo([key, m.selected, m.disabled, m.ticked, m.expanded], () => 
-        h('div', {
+      return h('div', {
         key,
         class: 'q-tree__node relative-position'
           + ` q-tree__node--${ isParent === true ? 'parent' : 'child' }`
@@ -581,7 +618,7 @@ export default createComponent({
           ])
         ]),
 
-        isParent === true
+        isParent === true && !omitChildren
           ? (
               props.noTransition === true
                 ? (
@@ -620,7 +657,7 @@ export default createComponent({
                 ))
             )
           : body
-      ]), nodesCache, cacheIndex)
+      ])
     }
 
     function blur (key) {
@@ -702,7 +739,7 @@ export default createComponent({
     })
 
     return () => {
-      const children = getChildren(props.nodes)
+      const children = getChildren(props.nodes);
 
       return h(
         'div', {

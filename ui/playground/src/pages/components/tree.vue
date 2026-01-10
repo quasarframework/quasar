@@ -46,7 +46,7 @@
       <div class="q-mt-lg q-pa-lg" :class="{'bg-black': dark}">
         <q-tree
           ref="tree"
-          style="height: 300px"
+          style="height: 500px;"
           :nodes="nodes"
           node-key="key"
           children-key="subnodes"
@@ -153,7 +153,7 @@ export default {
     findNode('KEY: Node 1.3 - tap on me!', smallTree).handler = () => this.$q.notify('Tapped on node 1.3')
 
     return {
-      virtualScroll: false,
+      virtualScroll: true,
       noConnectors: false,
       noTransition: false,
       selected: null,
