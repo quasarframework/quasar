@@ -4,6 +4,7 @@ import { log } from '../utils/logger.js'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
+    s: 'silent',
     h: 'help'
   },
   boolean: [ 'h' ]
@@ -21,6 +22,7 @@ if (argv.help) {
     $ quasar prepare
 
   Options
+    --silent, -s    Suppress the startup banner
     --help, -h      Displays this message
   `)
   process.exit(0)
@@ -28,12 +30,14 @@ if (argv.help) {
 
 const { readFileSync } = await import('node:fs')
 
-console.log(
-  readFileSync(
-    new URL('../../assets/logo.art', import.meta.url),
-    'utf8'
+if (!argv.silent) {
+  console.log(
+    readFileSync(
+      new URL('../../assets/logo.art', import.meta.url),
+      'utf8'
+    )
   )
-)
+}
 
 const { getCtx } = await import('../utils/get-ctx.js')
 // ctx doesn't matter for this command
