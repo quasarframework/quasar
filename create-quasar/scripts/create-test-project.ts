@@ -18,6 +18,17 @@ export async function createProject({ scriptType, appEngine, packageManager }: C
   // To alter the behavior to run correctly within this script
   process.env.CREATE_TEST_PROJECT_OVERRIDE = 'true';
 
+  // We are overriding .override() as every call overrides the previous overrides (too many overrides :D)
+  // This way, we guarantee that even if we call prompts.override() in create-quasar code, our values remain
+  prompts.override = (overrides) => {
+    // @ts-expect-error _override is private but accessible. Since the package has not been updated for more than 4 years, it's fine.
+    prompts._override = {
+      // @ts-expect-error
+      ...prompts._override,
+      ...overrides,
+    };
+  };
+
   prompts.override({
     projectType: 'app',
     projectFolder: 'test-project',
