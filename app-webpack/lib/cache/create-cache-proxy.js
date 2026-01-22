@@ -1,3 +1,8 @@
+/**
+ * @param {import('../../types/configuration/context').InternalQuasarContext} ctx
+ *
+ * @returns {import('../../types/configuration/context').CacheProxy}
+ */
 module.exports.createCacheProxy = function createCacheProxy (ctx) {
   const runtimeCache = {}
   const moduleCache = {}

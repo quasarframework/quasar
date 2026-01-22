@@ -7,6 +7,12 @@ const electronDeps = {
   electron: 'latest'
 }
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ *   silent: boolean
+ * }} options
+ */
 module.exports.addMode = function addMode ({
   ctx: { appPaths, cacheProxy },
   silent
@@ -41,6 +47,11 @@ module.exports.addMode = function addMode ({
   log('Electron support was added')
 }
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ * }} options
+ */
 module.exports.removeMode = function removeMode ({
   ctx: { appPaths, cacheProxy }
 }) {

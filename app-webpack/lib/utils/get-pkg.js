@@ -4,6 +4,11 @@ const { parseJSON } = require('confbox')
 const { warning } = require('./logger.js')
 const { getPackageJson } = require('../utils/get-package-json.js')
 
+/**
+ * @param {import('../../types/app-paths').QuasarAppPaths} appPaths
+ *
+ * @returns {import('../../types/configuration/context').InternalQuasarContext['pkg']}
+ */
 module.exports.getPkg = function getPkg (appPaths) {
   const { appDir, cliDir } = appPaths
   const appPkgPath = appPaths.resolve.app('package.json')
