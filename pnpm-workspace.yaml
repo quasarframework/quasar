@@ -26,5 +26,6 @@ catalog:
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - core-js
+  - electron-winstaller
   - esbuild
   - unrs-resolver
