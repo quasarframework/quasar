@@ -27,7 +27,7 @@
     "node": ">=16"
   },
   "scripts": {
-    "lint": "eslint --flag unstable_config_lookup_from_file --fix",
+    "lint": "eslint --flag v10_config_lookup_from_file --fix",
     "create-test-project": "tsx scripts/create-test-project.ts"
   },
   "dependencies": {

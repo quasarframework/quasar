@@ -23,7 +23,7 @@ export async function createProject({ scriptType, appEngine, packageManager }: C
   prompts.override = (overrides) => {
     // @ts-expect-error _override is private but accessible. Since the package has not been updated for more than 4 years, it's fine.
     prompts._override = {
-      // @ts-expect-error
+      // @ts-expect-error see above
       ...prompts._override,
       ...overrides,
     };
