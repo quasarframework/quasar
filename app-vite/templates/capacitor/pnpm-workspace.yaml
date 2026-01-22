@@ -1,0 +1,2 @@
+# This file exists to avoid pnpm only installing in the root and not in src-capacitor
+# https://github.com/pnpm/pnpm/issues/9348#issuecomment-2771925480
