@@ -62,6 +62,10 @@ module.exports.addMode = async function addMode ({
   globSync([ '**/*' ], {
     cwd: appPaths.resolve.cli('templates/capacitor')
   }).forEach(filePath => {
+    if (filePath.endsWith('pnpm-workspace.yaml') && nodePackager.name !== 'pnpm') {
+      return
+    }
+
     const dest = appPaths.resolve.capacitor(filePath)
     const content = fs.readFileSync(appPaths.resolve.cli('templates/capacitor/' + filePath))
     fse.ensureFileSync(dest)
