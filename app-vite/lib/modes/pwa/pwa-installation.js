@@ -19,6 +19,12 @@ const pwaDeps = {
   'register-service-worker': '^1.7.2'
 }
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ *   silent: boolean
+ * }} options
+ */
 export async function addMode ({
   ctx: { appPaths, cacheProxy },
   silent
@@ -63,6 +69,11 @@ export async function addMode ({
   log('PWA support was added')
 }
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ * }} options
+ */
 export async function removeMode ({
   ctx: { appPaths, cacheProxy }
 }) {

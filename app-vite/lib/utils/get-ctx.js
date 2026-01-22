@@ -13,7 +13,7 @@ function defineHiddenProp (target, propName, value) {
 }
 
 /**
- * @returns {import('../../types/configuration/context').QuasarContext}
+ * @returns {import('../../types/configuration/context').InternalQuasarContext}
  */
 export function getCtx (opts = {}) {
   const ctx = {

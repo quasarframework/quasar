@@ -3,6 +3,12 @@ import fse from 'fs-extra'
 import { log, warn } from '../../utils/logger.js'
 import { isModeInstalled } from '../modes-utils.js'
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ *   silent: boolean
+ * }} options
+ */
 export async function addMode ({
   ctx: { appPaths, cacheProxy },
   silent
@@ -26,6 +32,11 @@ export async function addMode ({
   log('Browser Extension support was added')
 }
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ * }} options
+ */
 export function removeMode ({
   ctx: { appPaths }
 }) {

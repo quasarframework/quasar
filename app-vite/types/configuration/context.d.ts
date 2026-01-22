@@ -161,3 +161,33 @@ export type QuasarContext =
   | CordovaQuasarContext
   | ElectronQuasarContext
   | BexQuasarContext;
+
+type CacheProxyModuleKey =
+  | "animations"
+  | "capCli"
+  | "cssVariables"
+  | "electron"
+  | "eslint"
+  | "hasTypescript"
+  | "nodePackager"
+  | "storeProvider"
+  | "workboxBuild";
+interface CacheProxy {
+  getRuntime: (key: string, getInitialValue: () => any) => any;
+  setRuntime: (key: string, value: any) => void;
+  getModule: (key: CacheProxyModuleKey) => Promise<any>;
+}
+
+/**
+ * @internal
+ */
+export type InternalQuasarContext = QuasarContext & {
+  pkg: {
+    appPkg: Record<string, any>;
+    quasarPkg: Record<string, any>;
+    vitePkg: Record<string, any>;
+  };
+  cacheProxy: CacheProxy;
+  // TODO: add proper type
+  appExt: any;
+};

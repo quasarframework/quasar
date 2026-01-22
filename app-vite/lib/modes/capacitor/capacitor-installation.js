@@ -9,6 +9,13 @@ import { spawnSync } from '../../utils/spawn.js'
 import { ensureDeps, ensureConsistency } from './ensure-consistency.js'
 import { isModeInstalled } from '../modes-utils.js'
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ *   silent: boolean,
+ *   target: 'android' | 'ios' | undefined
+ * }} options
+ */
 export async function addMode ({
   ctx: { appPaths, cacheProxy, pkg: { appPkg } },
   silent,
@@ -98,6 +105,11 @@ export async function addMode ({
   await addPlatform(target, appPaths, cacheProxy)
 }
 
+/**
+ * @param {{
+ *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
+ * }} options
+ */
 export function removeMode ({
   ctx: { appPaths }
 }) {
