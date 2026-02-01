@@ -22,7 +22,7 @@
     "quasar": "^2",
     "register-service-worker": "^1.7.2",
     "vue": "3.4.20",
-    "vue-router": "^4.4.5"
+    "vue-router": "^5.0.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "^2.0.0",

@@ -159,7 +159,7 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.6.2",
     "vue": "3.5.20",
-    "vue-router": "^4.4.5"
+    "vue-router": "^5.0.0"
   },
   "peerDependencies": {
     "@electron/packager": ">= 18",
@@ -169,7 +169,7 @@
     "quasar": "^2.16.0",
     "typescript": ">= 5.4",
     "vue": "^3.2.29",
-    "vue-router": "^4.0.12",
+    "vue-router": "^4.0.12 || ^5.0.0",
     "workbox-webpack-plugin": ">= 6"
   },
   "peerDependenciesMeta": {
