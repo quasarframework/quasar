@@ -233,7 +233,7 @@ Preparations:
   // for non-TS projects:
   +  "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\""
   // for TS projects:
-  +  "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\""
+  +  "lint": "eslint -c ./eslint.config.js \"./src/**/*.{ts,js,cjs,mjs,vue}\""
   }
   ```
   <br>

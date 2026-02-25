@@ -166,7 +166,7 @@ build: {
     ['vite-plugin-checker', {
       vueTsc: true,
       eslint: {
-        lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
+        lintCommand: 'eslint -c ./eslint.config.js "./src/**/*.{ts,js,mjs,cjs,vue}"',
         useFlatConfig: true
       }
     }, { server: false }]

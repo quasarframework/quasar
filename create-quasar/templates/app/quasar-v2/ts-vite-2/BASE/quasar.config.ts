@@ -86,7 +86,7 @@ export default defineConfig((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<
         ['vite-plugin-checker', {
           vueTsc: true,
           eslint: {
-            lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
+            lintCommand: 'eslint -c ./eslint.config.js "./src/**/*.{ts,js,mjs,cjs,vue}"',
             useFlatConfig: true
           }
         }, { server: false }]<% } %>

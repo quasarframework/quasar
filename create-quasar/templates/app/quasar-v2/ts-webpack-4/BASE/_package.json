@@ -7,7 +7,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    <% if (preset.eslint) { %>"lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\"",<% } %>
+    <% if (preset.eslint) { %>"lint": "eslint -c ./eslint.config.js \"./src/**/*.{ts,js,cjs,mjs,vue}\"",<% } %>
     <% if (prettier) { %>"format": "prettier --write \"**/*.{js,ts,vue,<% if (css !== 'sass') { %><%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
