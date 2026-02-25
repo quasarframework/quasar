@@ -213,7 +213,7 @@ export default defineConfig((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<
       },
 
       builder: {
-        // https://www.electron.build/configuration/configuration
+        // https://www.electron.build/configuration
 
         appId: '<%= name %>'
       }

@@ -99,7 +99,7 @@ interface ElectronBuilderQuasarContext extends BaseElectronQuasarContext {
   publish?: "onTag" | "onTagOrDraft" | "always" | "never";
   /**
    * Electron-builder configuration for publishing.
-   * See https://www.electron.build/configuration/configuration
+   * See https://www.electron.build/configuration
    */
   builder: ElectronBuilder.Configuration;
 }

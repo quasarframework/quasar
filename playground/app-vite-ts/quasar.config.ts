@@ -64,7 +64,7 @@ export default defineConfig((/* ctx */) => {
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
-      
+
       vitePlugins: [
         ['vite-plugin-checker', {
           vueTsc: true,
@@ -193,7 +193,7 @@ export default defineConfig((/* ctx */) => {
       },
 
       builder: {
-        // https://www.electron.build/configuration/configuration
+        // https://www.electron.build/configuration
 
         appId: 'app-vite-ts'
       }

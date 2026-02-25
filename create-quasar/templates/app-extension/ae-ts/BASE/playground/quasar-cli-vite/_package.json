@@ -16,7 +16,7 @@
     "@quasar/extras": "^1.16.12",
     "quasar": "^2.16.7",
     "vue": "^3.4.36",
-    "vue-router": "^4.4.3",
+    "vue-router": "^5.0.0",
     "<%= pkgName %>": <% if (!packageManager || ['pnpm', 'bun'].includes(packageManager.name)) { %>"workspace:*"<% } else { %>"*"<% } %>
   },
   "devDependencies": {

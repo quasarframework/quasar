@@ -4,9 +4,10 @@ const { log } = require('../utils/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
+    s: 'silent',
     h: 'help'
   },
-  boolean: [ 'h' ]
+  boolean: [ 's', 'h' ]
 })
 
 if (argv.help) {
@@ -21,6 +22,7 @@ if (argv.help) {
     $ quasar prepare
 
   Options
+    --silent, -s    Suppress the startup banner
     --help, -h      Displays this message
   `)
   process.exit(0)
@@ -29,12 +31,14 @@ if (argv.help) {
 const { readFileSync } = require('node:fs')
 const { join } = require('node:path')
 
-console.log(
-  readFileSync(
-    join(__dirname, '../../assets/logo.art'),
-    'utf8'
+if (!argv.silent) {
+  console.log(
+    readFileSync(
+      join(__dirname, '../../assets/logo.art'),
+      'utf8'
+    )
   )
-)
+}
 
 const { getCtx } = require('../utils/get-ctx.js')
 // ctx doesn't matter for this command

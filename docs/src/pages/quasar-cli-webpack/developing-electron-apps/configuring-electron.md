@@ -81,7 +81,7 @@ electron: {
 
 The "packager" prop refers to [@electron/packager options](https://electron.github.io/packager/main/). The `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
 
-The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration/configuration).
+The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration).
 
 Should you want to tamper with the "Renderer" thread (UI in /src) Webpack config you have two options:
 

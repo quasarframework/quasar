@@ -63,7 +63,7 @@
 
     "cover": {
       "type": "Boolean",
-      "desc": "Allows the menu to cover the button. When used, the 'menu-self' and 'menu-fit' props are no longer effective",
+      "desc": "Allows the menu to cover the button. When used, the 'menu-self' prop is no longer effective",
       "category": "position"
     },
 

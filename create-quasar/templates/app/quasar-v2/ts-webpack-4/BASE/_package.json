@@ -22,7 +22,7 @@
     "core-js": "^3.6.5",
     "quasar": "^2.16.0",
     "vue": "^3.5.22",
-    "vue-router": "^4.0.0"
+    "vue-router": "^5.0.0"
   },
   "devDependencies": {
     <% if (preset.eslint) { %>
@@ -58,6 +58,7 @@
   "engines": {
     "node": "^28 || ^26 || ^24 || ^22 || ^20 || ^18",
     "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
+    "yarn": ">= 1.21.1",
+    "pnpm": ">= 10.0.0"
   }
 }
