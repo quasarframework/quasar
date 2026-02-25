@@ -39,6 +39,8 @@ First QBtnToggle below has tooltips on each button. Second QBtnToggle has custom
 
 ### Disable and readonly
 
+You can either disable a QBtnToggle by providing a `disable` attribute, or disable an individual button by providing the property `disable: true` to its entry, in the options.
+
 <DocExample title="Disable and readonly" file="DisableReadonly" />
 
 ### Native form submit
