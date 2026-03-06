@@ -114,7 +114,7 @@
     "rollup-plugin-visualizer": "^5.13.1",
     "sass-embedded": "^1.93.2",
     "semver": "^7.6.3",
-    "serialize-javascript": "^6.0.2",
+    "serialize-javascript": "^7.0.4",
     "tinyglobby": "^0.2.10",
     "ts-essentials": "^9.4.2",
     "vite": "^7.1.6",

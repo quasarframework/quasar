@@ -120,8 +120,8 @@ importers:
         specifier: ^7.6.3
         version: 7.7.2
       serialize-javascript:
-        specifier: ^6.0.2
-        version: 6.0.2
+        specifier: ^7.0.4
+        version: 7.0.4
       tinyglobby:
         specifier: ^0.2.10
         version: 0.2.15
@@ -322,8 +322,8 @@ importers:
         specifier: ^7.6.3
         version: 7.7.2
       serialize-javascript:
-        specifier: ^6.0.2
-        version: 6.0.2
+        specifier: ^7.0.4
+        version: 7.0.4
       terser-webpack-plugin:
         specifier: ^5.3.10
         version: 5.3.14(esbuild@0.25.10)(webpack@5.102.0(esbuild@0.25.10))
@@ -7106,6 +7106,10 @@ packages:
 
   serialize-javascript@6.0.2:
     resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==}
+
+  serialize-javascript@7.0.4:
+    resolution: {integrity: sha512-DuGdB+Po43Q5Jxwpzt1lhyFSYKryqoNjQSA9M92tyw0lyHIOur+XCalOUe0KTJpyqzT8+fQ5A0Jf7vCx/NKmIg==}
+    engines: {node: '>=20.0.0'}
 
   serve-index@1.9.1:
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==}
@@ -15477,6 +15481,8 @@ snapshots:
   serialize-javascript@6.0.2:
     dependencies:
       randombytes: 2.1.0
+
+  serialize-javascript@7.0.4: {}
 
   serve-index@1.9.1:
     dependencies:
