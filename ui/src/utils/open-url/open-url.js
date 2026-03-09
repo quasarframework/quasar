@@ -32,19 +32,13 @@ function openWindow (url, reject, windowFeatures) {
     }
   }
 
-  // When "noopener" is set (default), window.open() intentionally returns null
-  // even when the window was successfully opened. Only reject if noopener is
-  // not in effect, so that the null return can be treated as a blocked popup.
-  const cfg = Object.assign({ noopener: true }, windowFeatures)
-  const hasNoopener = cfg.noopener === true
-
   const win = open(url, '_blank', parseFeatures(windowFeatures))
 
   if (win) {
     Platform.is.desktop && win.focus()
     return win
   }
-  else if (hasNoopener === false) {
+  else {
     reject?.()
   }
 }
