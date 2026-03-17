@@ -1930,7 +1930,7 @@ interface EsbuildTargetOptions {
   /**
    * @default ['es2022', 'firefox115', 'chrome115', 'safari14']
    */
-  browser?: string[];
+  browser?: string | string[];
   /**
    * @example 'node20'
    */
