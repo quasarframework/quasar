@@ -922,9 +922,6 @@ importers:
       rolldown:
         specifier: 1.0.0-rc.9
         version: 1.0.0-rc.9
-      rollup:
-        specifier: ^4.24.2
-        version: 4.52.4
       vite:
         specifier: ^8.0.0
         version: 8.0.0(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(terser@5.46.0)(tsx@4.20.6)(yaml@2.8.2)
