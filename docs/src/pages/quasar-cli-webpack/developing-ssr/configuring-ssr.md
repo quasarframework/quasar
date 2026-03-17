@@ -225,12 +225,16 @@ When a boot file runs on the server, you will have access to one more parameter 
 export default ({ app, ..., ssrContext }) => {
   // You can add props to the ssrContext then use them in the /index.html.
   // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
-  // {{ someProp }}
+  // {{ ssrContext.someProp }}
 }
 ```
 
-When you add such references (`someProp` surrounded by brackets in the example above) into your `/index.html`, make sure you tell Quasar it’s only valid for SSR builds:
+When you add such references into your `/index.html`, make sure you tell Quasar it's only valid for SSR builds:
+
+::: tip
+Such variables in `/index.html` must be scoped under the `ssrContext` object. Use `{{ ssrContext.someProp }}` instead of the old form `{{ someProp }}`.
+:::
 
 ```html /index.html
-<% if (ctx.mode.ssr) { %>{{ someProp }} <% } %>
+<% if (ctx.mode.ssr) { %>{{ ssrContext.someProp }} <% } %>
 ```
