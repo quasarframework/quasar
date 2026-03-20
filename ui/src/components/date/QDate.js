@@ -1249,6 +1249,8 @@ export default createComponent({
                     color: day.color,
                     textColor: day.textColor,
                     label: day.i,
+                    'aria-label': getNativeDateFn.value({ year: viewModel.value.year, month: viewModel.value.month, day: day.i })
+                      .toLocaleDateString(innerLocale.value.lang, { weekday: 'long', day: 'numeric', month: 'long' }),
                     tabindex: tabindex.value,
                     ...getCache('day#' + day.i, {
                       onClick: () => { onDayClick(day.i) },
