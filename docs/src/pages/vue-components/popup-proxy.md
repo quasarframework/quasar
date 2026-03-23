@@ -14,6 +14,7 @@ QPopupProxy should be used when you need either a [QMenu](/vue-components/menu) 
 <DocApi file="QPopupProxy" />
 
 ## Usage
+
 ::: tip
 Use your browsers development tools to toggle the device between mobile or desktop (with browser refresh after each change) or, physically resize your browser's window to watch the QPopupProxy component switch between either a QMenu or a QDialog before clicking/tapping on its container. The default breakpoint is set at 450px.
 :::
@@ -33,6 +34,7 @@ On the example below, click on the icon in the input.
 <DocExample title="Breakpoint @600px" file="Breakpoint" />
 
 ### Pass-through props
+
 Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog](/vue-components/dialog) are passed through via this component. So props like `offset` or `transition-show` (as a mere example) can be used in conjunction with QPopupProxy.
 
 <DocExample title="Props from QMenu or QDialog" file="Passthrough" />

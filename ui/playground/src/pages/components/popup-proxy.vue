@@ -1,9 +1,7 @@
 <template>
   <div class="q-layout-padding row justify-center">
-    <div style="width: 500px; max-width: 90vw;">
-      <h6>
-        Width {{ $q.screen.width }} --> {{ type }}
-      </h6>
+    <div style="width: 500px; max-width: 90vw">
+      <h6>Width {{ $q.screen.width }} --> {{ type }}</h6>
 
       <div class="popup-surface-test" tabindex="0">
         <div>Handles click</div>
@@ -14,7 +12,7 @@
               <q-icon name="signal_wifi_off" color="primary" />
             </template>
 
-            <input v-model="text">
+            <input v-model="text" />
             You have lost connection to the internet. This app is offline.
 
             <q-btn label="Close" v-close-popup />
@@ -36,7 +34,7 @@
               <q-icon name="signal_wifi_off" color="primary" />
             </template>
 
-            <input v-model="text">
+            <input v-model="text" />
             You have lost connection to the internet. This app is offline.
 
             <q-btn label="Close" v-close-popup />
@@ -58,7 +56,7 @@
               <q-icon name="signal_wifi_off" color="primary" />
             </template>
 
-            <input v-model="text">
+            <input v-model="text" />
             You have lost connection to the internet. This app is offline.
             <q-btn label="Close" v-close-popup />
             <div>Popup text.</div>
@@ -79,7 +77,7 @@
               <q-icon name="signal_wifi_off" color="primary" />
             </template>
 
-            <input v-model="text">
+            <input v-model="text" />
             You have lost connection to the internet. This app is offline.
             <q-btn label="Close" v-close-popup />
             <div>Popup text.</div>
@@ -102,7 +100,7 @@
                     <q-icon name="signal_wifi_off" color="primary" />
                   </template>
 
-                  <input v-model="text">
+                  <input v-model="text" />
                   <div>Popup text.</div>
 
                   <template v-slot:action>
@@ -123,11 +121,16 @@
                             <q-icon name="signal_wifi_off" color="primary" />
                           </template>
 
-                          <input v-model="text">
+                          <input v-model="text" />
                           <div>Popup text.</div>
 
                           <template v-slot:action>
-                            <q-btn flat color="primary" label="close" v-close-popup />
+                            <q-btn
+                              flat
+                              color="primary"
+                              label="close"
+                              v-close-popup
+                            />
                           </template>
                         </q-banner>
                       </q-popup-proxy>
@@ -167,7 +170,14 @@
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy cover :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
+              <q-popup-proxy
+                cover
+                :breakpoint="600"
+                @before-show="onBeforeShow1"
+                @show="onShow1"
+                @before-hide="onBeforeHide1"
+                @hide="onHide1"
+              >
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
               </q-popup-proxy>
@@ -178,7 +188,14 @@
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-menu cover :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
+              <q-menu
+                cover
+                :breakpoint="600"
+                @before-show="onBeforeShow2"
+                @show="onShow2"
+                @before-hide="onBeforeHide2"
+                @hide="onHide2"
+              >
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
               </q-menu>
@@ -233,7 +250,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       text: '',
       type: this.$q.screen.width < 600 ? 'dialog' : 'menu',
@@ -245,10 +262,8 @@ export default {
   },
 
   watch: {
-    '$q.screen.width' (width) {
-      const type = width < 450
-        ? 'dialog'
-        : 'menu'
+    '$q.screen.width'(width) {
+      const type = width < 450 ? 'dialog' : 'menu'
 
       if (this.type !== type) {
         this.type = type
@@ -257,29 +272,29 @@ export default {
   },
 
   methods: {
-    onBeforeShow1 () {
+    onBeforeShow1() {
       console.log('onBeforeShow1')
     },
-    onShow1 () {
+    onShow1() {
       console.log('onShow1')
     },
-    onBeforeHide1 () {
+    onBeforeHide1() {
       console.log('onBeforeHide1')
     },
-    onHide1 () {
+    onHide1() {
       console.log('onHide1')
     },
 
-    onBeforeShow2 () {
+    onBeforeShow2() {
       console.log('onBeforeShow2')
     },
-    onShow2 () {
+    onShow2() {
       console.log('onShow2')
     },
-    onBeforeHide2 () {
+    onBeforeHide2() {
       console.log('onBeforeHide2')
     },
-    onHide2 () {
+    onHide2() {
       console.log('onHide2')
     }
   }

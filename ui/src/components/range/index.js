@@ -1,5 +1,3 @@
 import QRange from './QRange.js'
 
-export {
-  QRange
-}
+export { QRange }

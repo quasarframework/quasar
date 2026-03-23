@@ -13,87 +13,87 @@ import {
   filterOutPrivateFiles
 } from './build.utils.js'
 
-function relative (name) {
+function relative(name) {
   return relativeToRoot(name).split('\\').join('/')
 }
 
-function getWithoutExtension (filename) {
+function getWithoutExtension(filename) {
   const insertionPoint = filename.lastIndexOf('.')
   return filename.slice(0, insertionPoint)
 }
 
-function lowerCamelCase (name) {
-  return name.replace(/-([a-z])/g, g => g[ 1 ].toUpperCase())
+function lowerCamelCase(name) {
+  return name.replace(/-([a-z])/g, g => g[1].toUpperCase())
 }
 
-function addComponents (map, autoImport) {
+function addComponents(map, autoImport) {
   globSync('src/components/*/Q*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
-      const
-        name = getWithoutExtension(path.basename(file)),
+      const name = getWithoutExtension(path.basename(file)),
         kebab = kebabCase(name)
 
-      map[ name ] = file
+      map[name] = file
 
       autoImport.kebabComponents.push(kebab)
       autoImport.pascalComponents.push(name)
-      autoImport.importName[ name ] = name
-      autoImport.importName[ kebab ] = name
+      autoImport.importName[name] = name
+      autoImport.importName[kebab] = name
     })
 }
 
-function addDirectives (map, autoImport) {
+function addDirectives(map, autoImport) {
   globSync('src/directives/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
-      const
-        name = getWithoutExtension(path.basename(file)),
+      const name = getWithoutExtension(path.basename(file)),
         kebab = 'v-' + kebabCase(name)
 
-      map[ name ] = file
+      map[name] = file
 
       autoImport.directives.push(kebab)
-      autoImport.importName[ kebab ] = name
+      autoImport.importName[kebab] = name
     })
 }
 
-function addPlugins (map) {
+function addPlugins(map) {
   globSync('src/plugins/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
-      map[ name ] = file
+      map[name] = file
     })
 }
 
-function addComposables (map) {
+function addComposables(map) {
   globSync('src/composables/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
-      map[ lowerCamelCase(name) ] = file
+      map[lowerCamelCase(name)] = file
     })
 }
 
-function addUtils (map) {
+function addUtils(map) {
   globSync('src/utils/*/*.js', { cwd: rootFolder, absolute: true })
     .filter(filterOutPrivateFiles)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
-      map[ name === 'open-url' ? 'openURL' : lowerCamelCase(name) ] = file
+      map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
     })
 }
 
-function getAutoImportFile (autoImport, encodeFn) {
+function getAutoImportFile(autoImport, encodeFn) {
   autoImport.kebabComponents.sort((a, b) => (a.length > b.length ? -1 : 1))
   autoImport.pascalComponents.sort((a, b) => (a.length > b.length ? -1 : 1))
-  autoImport.components = autoImport.kebabComponents.concat(autoImport.pascalComponents)
+  autoImport.components = autoImport.kebabComponents.concat(
+    autoImport.pascalComponents
+  )
   autoImport.directives.sort((a, b) => (a.length > b.length ? -1 : 1))
 
   return encodeFn({
@@ -107,10 +107,9 @@ function getAutoImportFile (autoImport, encodeFn) {
   })
 }
 
-export function generate ({ compact = false } = {}) {
-  const encodeFn = compact === true
-    ? JSON.stringify
-    : json => JSON.stringify(json, null, 2)
+export function generate({ compact = false } = {}) {
+  const encodeFn =
+    compact === true ? JSON.stringify : json => JSON.stringify(json, null, 2)
 
   const map = {
     Quasar: relative('src/vue-plugin.js')
@@ -128,10 +127,7 @@ export function generate ({ compact = false } = {}) {
   addComposables(map)
   addUtils(map)
 
-  writeFile(
-    resolveToRoot('dist/transforms/import-map.json'),
-    encodeFn(map)
-  )
+  writeFile(resolveToRoot('dist/transforms/import-map.json'), encodeFn(map))
 
   writeFile(
     resolveToRoot('dist/transforms/auto-import.json'),

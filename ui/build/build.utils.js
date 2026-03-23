@@ -12,39 +12,68 @@ const jsonRE = /\.json$/
 
 const tableData = []
 
-export function plural (num) {
+export const BUILD_TARGETS = getBuildTargets()
+
+function getBuildTargets() {
+  const targets = [
+    { name: 'chrome', major: 111 },
+    { name: 'edge', major: 111 },
+    { name: 'firefox', major: 114 },
+    { name: 'safari', major: 16, minor: 4 },
+    { name: 'ios', major: 16, minor: 4 }
+  ]
+
+  return {
+    ROLLDOWN_NODE: 'node22',
+
+    ROLLDOWN_BROWSER: targets.map(
+      target =>
+        `${target.name}${target.major}${target.minor ? `.${target.minor}` : ''}`
+    ),
+
+    AUTOPREFIXER: targets.map(
+      target =>
+        `${target.name} >= ${target.major}${target.minor ? `.${target.minor}` : ''}`
+    ),
+
+    LIGHTNING_CSS: targets.reduce((acc, target) => {
+      acc[target.name] =
+        (target.major << 16) + (target.minor ? target.minor << 8 : 0)
+      return acc
+    }, {})
+  }
+}
+
+export function plural(num) {
   return num === 1 ? '' : 's'
 }
 
 const camelCaseRE = /((-|\.)\w)/g
 const camelCaseInnerRE = /-|\./
-export function camelCase (str) {
+export function camelCase(str) {
   // assumes kebab case "str"
-  return str.replace(
-    camelCaseRE,
-    text => text.replace(camelCaseInnerRE, '').toUpperCase()
+  return str.replace(camelCaseRE, text =>
+    text.replace(camelCaseInnerRE, '').toUpperCase()
   )
 }
 
 const kebabRE = /([a-zA-Z])([A-Z])/g
-export function kebabCase (str) {
+export function kebabCase(str) {
   // assumes pascal case "str"
   return str.replace(kebabRE, '$1-$2').toLowerCase()
 }
 
-export function capitalize (str) {
+export function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export const rootFolder = fileURLToPath(
-  new URL('..', import.meta.url)
-)
+export const rootFolder = fileURLToPath(new URL('..', import.meta.url))
 
-export function resolveToRoot (...pathList) {
+export function resolveToRoot(...pathList) {
   return resolve(rootFolder, ...pathList)
 }
 
-export function relativeToRoot (...pathList) {
+export function relativeToRoot(...pathList) {
   return relative(rootFolder, ...pathList)
 }
 
@@ -52,21 +81,20 @@ export const { version } = readJsonFile(
   new URL('../package.json', import.meta.url)
 )
 
-export const banner = (
-  '/*!\n'
-  + ' * Quasar Framework v' + version + '\n'
-  + ' * (c) 2015-present Razvan Stoenescu\n'
-  + ' * Released under the MIT License.\n'
-  + ' */\n'
-)
+export const banner =
+  '/*!\n' +
+  ' * Quasar Framework v' +
+  version +
+  '\n' +
+  ' * (c) 2015-present Razvan Stoenescu\n' +
+  ' * Released under the MIT License.\n' +
+  ' */\n'
 
 process.on('exit', code => {
   if (code === 0 && tableData.length > 0) {
-    tableData.sort((a, b) => {
-      return a[ 0 ] === b[ 0 ]
-        ? a[ 1 ] < b[ 1 ] ? -1 : 1
-        : a[ 0 ] < b[ 0 ] ? -1 : 1
-    })
+    tableData.sort((a, b) =>
+      a[0] === b[0] ? (a[1] < b[1] ? -1 : 1) : a[0] < b[0] ? -1 : 1
+    )
 
     tableData.unshift([
       underline('Type'),
@@ -85,21 +113,21 @@ process.on('exit', code => {
     })
 
     console.log()
-    console.log(` Summary of Quasar v${ version }:`)
+    console.log(` Summary of Quasar v${version}:`)
     console.log(output)
   }
 })
 
-function getSize (code) {
+function getSize(code) {
   return (code.length / 1024).toFixed(2) + 'kb'
 }
 
-export function createFolder (folder) {
+export function createFolder(folder) {
   const dir = join(rootFolder, folder)
   fse.ensureDirSync(dir)
 }
 
-function getDestinationInfo (dest) {
+function getDestinationInfo(dest) {
   if (jsonRE.test(dest)) {
     return {
       banner: gray('[json]'),
@@ -132,76 +160,74 @@ function getDestinationInfo (dest) {
     }
   }
 
-  logError(`Unknown file type using buildUtils.writeFile: ${ dest }`)
+  logError(`Unknown file type using buildUtils.writeFile: ${dest}`)
   process.exit(1)
 }
 
-export function writeFile (dest, code, zip) {
-  const { banner, tableEntryType, toTable } = getDestinationInfo(dest)
+export function writeFile(dest, code, zip) {
+  const {
+    banner: localBanner,
+    tableEntryType,
+    toTable
+  } = getDestinationInfo(dest)
 
   const fileSize = getSize(code)
   const filePath = relative(process.cwd(), dest)
 
-  return new Promise((resolve, reject) => {
-    function report (gzippedString, gzippedSize) {
-      console.log(`${ banner } ${ filePath.padEnd(49) } ${ fileSize.padStart(8) }${ gzippedString || '' }`)
+  return new Promise((resolvePromise, reject) => {
+    function report(gzippedString, gzippedSize) {
+      console.log(
+        `${localBanner} ${filePath.padEnd(49)} ${fileSize.padStart(8)}${gzippedString || ''}`
+      )
 
       if (toTable) {
-        tableData.push([
-          tableEntryType,
-          filePath,
-          fileSize,
-          gzippedSize || '-'
-        ])
+        tableData.push([tableEntryType, filePath, fileSize, gzippedSize || '-'])
       }
 
-      resolve(code)
+      resolvePromise(code)
     }
 
     fse.writeFile(dest, code, err => {
       if (err) return reject(err)
       if (zip) {
-        zlib.gzip(code, (err, zipped) => {
-          if (err) return reject(err)
+        zlib.gzip(code, (gzipErr, zipped) => {
+          if (gzipErr) return reject(gzipErr)
           const size = getSize(zipped)
-          report(` (gzipped: ${ size.padStart(8) })`, size)
+          report(` (gzipped: ${size.padStart(8)})`, size)
         })
-      }
-      else {
+      } else {
         report()
       }
     })
   })
 }
 
-export function readFile (file) {
+export function readFile(file) {
   return fse.readFileSync(file, 'utf-8')
 }
 
-export function readJsonFile (file) {
-  return JSON.parse(
-    fse.readFileSync(file, 'utf-8')
-  )
+export function readJsonFile(file) {
+  return JSON.parse(fse.readFileSync(file, 'utf-8'))
 }
 
-export function writeFileIfChanged (dest, newContent, zip) {
+export function writeFileIfChanged(dest, newContent, zip) {
   let currentContent = ''
   try {
     currentContent = fse.readFileSync(dest, 'utf-8')
-  }
-  catch (e) {}
+  } catch {}
 
-  return newContent.split(/[\n\r]+/).join('\n') !== currentContent.split(/[\n\r]+/).join('\n')
+  return newContent.split(/[\n\r]+/).join('\n') !==
+    currentContent.split(/[\n\r]+/).join('\n')
     ? writeFile(dest, newContent, zip)
     : Promise.resolve()
 }
 
-export function logError (err) {
+export function logError(err) {
   console.error('\n' + red('[Error]'), err)
   console.log()
 }
 
-export function clone (data) {
+export function clone(data) {
   const str = JSON.stringify(data)
 
   if (str) {
@@ -211,6 +237,6 @@ export function clone (data) {
 
 const privateFileRE = /test|private/
 
-export function filterOutPrivateFiles (file) {
+export function filterOutPrivateFiles(file) {
   return privateFileRE.test(file) === false
 }

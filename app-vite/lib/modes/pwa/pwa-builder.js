@@ -6,7 +6,7 @@ import { quasarPwaConfig } from './pwa-config.js'
 import { injectPwaManifest, buildPwaServiceWorker } from './utils.js'
 
 export class QuasarModeBuilder extends AppBuilder {
-  async build () {
+  async build() {
     injectPwaManifest(this.quasarConf)
 
     const viteConfig = await quasarPwaConfig.vite(this.quasarConf)

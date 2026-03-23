@@ -53,7 +53,7 @@ export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', 
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
   // async components are resolved.
-  router.beforeResolve((to, from, next) => {
+  router.beforeResolve(async (to, from<%= metaConf.versions.vueRouter === 4 ? ', next' : '' %>) => {
     const
       urlPath = window.location.href.replace(window.location.origin, ''),
       matched = getMatchedComponents(to, router),
@@ -83,40 +83,47 @@ export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', 
     <% } %>
 
     if (preFetchList.length === 0) {
-      return next()
+      <%= metaConf.versions.vueRouter === 4 ? 'next()' : '' %>
+      return
     }
 
-    let hasRedirected = false
-    const redirect = url => {
-      hasRedirected = true
-      next(url)
-    }
-    const proceed = () => {
-      <% if (metaConf.hasLoadingBarPlugin) { %>
-      LoadingBar.stop()
-      <% } %>
-      if (hasRedirected === false) { next() }
-    }
+    let redirectArg = null
+    const redirect = url => { redirectArg = url }
 
     <% if (metaConf.hasLoadingBarPlugin) { %>
     LoadingBar.start()
     <% } %>
 
-    preFetchList.reduce(
-      (promise, preFetch) => promise.then(() => hasRedirected === false && preFetch({
-        <% if (metaConf.hasStore) { %>store,<% } %>
-        currentRoute: to,
-        previousRoute: from,
-        redirect,
-        urlPath,
-        publicPath
-      })),
-      Promise.resolve()
-    )
-    .then(proceed)
-    .catch(e => {
-      console.error(e)
-      proceed()
-    })
+    for (let i = 0; i < preFetchList.length; i++) {
+      try {
+        await preFetchList[i]({
+          <% if (metaConf.hasStore) { %>store,<% } %>
+          currentRoute: to,
+          previousRoute: from,
+          redirect,
+          urlPath,
+          publicPath
+        })
+      } catch (e) {
+        console.error(e)
+        <% if (metaConf.hasLoadingBarPlugin) { %>
+        LoadingBar.stop()
+        <% } %>
+        <%= metaConf.versions.vueRouter === 4 ? 'next()' : '' %>
+        return
+      }
+
+      if (redirectArg !== null) {
+        <% if (metaConf.hasLoadingBarPlugin) { %>
+        LoadingBar.stop()
+        <% } %>
+        <%= metaConf.versions.vueRouter === 4 ? 'next(redirectArg); return' : 'return redirectArg' %>
+      }
+    }
+
+    <% if (metaConf.hasLoadingBarPlugin) { %>
+    LoadingBar.stop()
+    <% } %>
+    <%= metaConf.versions.vueRouter === 4 ? 'next()' : '' %>
   })
 }

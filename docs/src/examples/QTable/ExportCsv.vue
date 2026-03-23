@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      flat bordered
+      flat
+      bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -34,13 +35,31 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const rows = [
@@ -146,14 +165,11 @@ const rows = [
   }
 ]
 
-function wrapCsvValue (val, formatFn, row) {
-  let formatted = formatFn !== void 0
-    ? formatFn(val, row)
-    : val
+function wrapCsvValue(val, formatFn, row) {
+  let formatted = formatFn !== void 0 ? formatFn(val, row) : val
 
-  formatted = formatted === void 0 || formatted === null
-    ? ''
-    : String(formatted)
+  formatted =
+    formatted === void 0 || formatted === null ? '' : String(formatted)
 
   formatted = formatted.split('"').join('""')
   /**
@@ -167,30 +183,34 @@ function wrapCsvValue (val, formatFn, row) {
 }
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
       columns,
       rows,
 
-      exportTable () {
+      exportTable() {
         // naive encoding to csv format
-        const content = [columns.map(col => wrapCsvValue(col.label))].concat(
-          rows.map(row => columns.map(col => wrapCsvValue(
-            typeof col.field === 'function'
-              ? col.field(row)
-              : row[ col.field === void 0 ? col.name : col.field ],
-            col.format,
-            row
-          )).join(','))
-        ).join('\r\n')
+        const content = [columns.map(col => wrapCsvValue(col.label))]
+          .concat(
+            rows.map(row =>
+              columns
+                .map(col =>
+                  wrapCsvValue(
+                    typeof col.field === 'function'
+                      ? col.field(row)
+                      : row[col.field === void 0 ? col.name : col.field],
+                    col.format,
+                    row
+                  )
+                )
+                .join(',')
+            )
+          )
+          .join('\r\n')
 
-        const status = exportFile(
-          'table-export.csv',
-          content,
-          'text/csv'
-        )
+        const status = exportFile('table-export.csv', content, 'text/csv')
 
         if (status !== true) {
           $q.notify({

@@ -34,7 +34,7 @@ describe('[useSpinner API]', () => {
       test('has correct return value when props.size is xl', () => {
         const result = useSpinner({ size: 'xl' })
         expect(result).toStrictEqual({
-          cSize: expect.$ref(`${ useSizeDefaults.xl }px`),
+          cSize: expect.$ref(`${useSizeDefaults.xl}px`),
           classes: expect.$ref('q-spinner')
         })
       })

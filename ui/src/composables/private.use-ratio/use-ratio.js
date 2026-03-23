@@ -1,10 +1,10 @@
 import { computed } from 'vue'
 
 export const useRatioProps = {
-  ratio: [ String, Number ]
+  ratio: [String, Number]
 }
 
-export default function (props, naturalRatio) {
+export default function useRatio(props, naturalRatio) {
   // return ratioStyle
   return computed(() => {
     const ratio = Number(
@@ -12,7 +12,7 @@ export default function (props, naturalRatio) {
     )
 
     return isNaN(ratio) !== true && ratio > 0
-      ? { paddingBottom: `${ 100 / ratio }%` }
+      ? { paddingBottom: `${100 / ratio}%` }
       : null
   })
 }

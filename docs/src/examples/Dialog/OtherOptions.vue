@@ -11,10 +11,10 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function customBtn () {
+    function customBtn() {
       $q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
@@ -26,16 +26,19 @@ export default {
           color: 'negative'
         },
         persistent: true
-      }).onOk(() => {
-        // console.log('>>>> OK')
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(() => {
+          // console.log('>>>> OK')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
-    function positioned () {
+    function positioned() {
       $q.dialog({
         title: 'Positioned',
         message: 'This dialog appears from bottom.',
@@ -43,7 +46,7 @@ export default {
       })
     }
 
-    function stacked () {
+    function stacked() {
       $q.dialog({
         title: 'Stacked Buttons',
         stackButtons: true,
@@ -51,20 +54,24 @@ export default {
       })
     }
 
-    function autoClose () {
+    function autoClose() {
       let seconds = 3
 
-      const dialog = $q.dialog({
-        title: 'Alert',
-        message: `Autoclosing in ${seconds} seconds.`
-      }).onOk(() => {
-        // console.log('OK')
-      }).onCancel(() => {
-        // console.log('Cancel')
-      }).onDismiss(() => {
-        clearTimeout(timer)
-        // console.log('I am triggered on both OK and Cancel')
-      })
+      const dialog = $q
+        .dialog({
+          title: 'Alert',
+          message: `Autoclosing in ${seconds} seconds.`
+        })
+        .onOk(() => {
+          // console.log('OK')
+        })
+        .onCancel(() => {
+          // console.log('Cancel')
+        })
+        .onDismiss(() => {
+          clearTimeout(timer)
+          // console.log('I am triggered on both OK and Cancel')
+        })
 
       const timer = setInterval(() => {
         seconds--
@@ -73,8 +80,7 @@ export default {
           dialog.update({
             message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
           })
-        }
-        else {
+        } else {
           clearInterval(timer)
           dialog.hide()
         }

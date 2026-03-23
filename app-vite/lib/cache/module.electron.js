@@ -13,41 +13,41 @@ const bundlerMap = {
   }
 }
 
-function isValidName (bundlerName) {
-  return [ 'packager', 'builder' ].includes(bundlerName)
+function isValidName(bundlerName) {
+  return ['packager', 'builder'].includes(bundlerName)
 }
 
-function installBundler (bundlerName, nodePackager) {
-  const bundler = bundlerMap[ bundlerName ]
+function installBundler(bundlerName, nodePackager) {
+  const bundler = bundlerMap[bundlerName]
 
-  nodePackager.installPackage(
-    `${ bundler.pkg }@^${ bundler.version }`,
-    { isDevDependency: true, displayName: bundler.pkg }
+  nodePackager.installPackage(`${bundler.pkg}@^${bundler.version}`, {
+    isDevDependency: true,
+    displayName: bundler.pkg
+  })
+}
+
+function hasPackage(pkgName, appPkg) {
+  return (
+    ((appPkg.devDependencies && appPkg.devDependencies[pkgName]) ||
+      (appPkg.dependencies && appPkg.dependencies[pkgName])) !== void 0
   )
 }
 
-function hasPackage (pkgName, appPkg) {
-  return (
-    (appPkg.devDependencies && appPkg.devDependencies[ pkgName ])
-    || (appPkg.dependencies && appPkg.dependencies[ pkgName ])
-  ) !== void 0
-}
-
-export async function createInstance ({
+export async function createInstance({
   appPaths,
   pkg: { appPkg },
   cacheProxy
 }) {
   const nodePackager = await cacheProxy.getModule('nodePackager')
 
-  function bundlerIsInstalled (bundlerName) {
-    const bundler = bundlerMap[ bundlerName ]
+  function bundlerIsInstalled(bundlerName) {
+    const bundler = bundlerMap[bundlerName]
     return hasPackage(bundler.pkg, appPkg)
   }
 
-  function ensureInstall (bundlerName) {
+  function ensureInstall(bundlerName) {
     if (!isValidName(bundlerName)) {
-      fatal(`Unknown bundler "${ bundlerName }" for Electron`)
+      fatal(`Unknown bundler "${bundlerName}" for Electron`)
     }
 
     if (!bundlerIsInstalled(bundlerName)) {
@@ -55,7 +55,7 @@ export async function createInstance ({
     }
   }
 
-  function getDefaultName () {
+  function getDefaultName() {
     if (bundlerIsInstalled('packager')) {
       return 'packager'
     }
@@ -70,8 +70,8 @@ export async function createInstance ({
   // Returns a Promise which resolves with the required bundler package.
   // May return "{ packager }" (@electron/packager v19+) or
   // "{ default }" (@electron/packager v18) or directly the package (electron-builder);
-  function getBundler (bundlerName) {
-    const bundler = bundlerMap[ bundlerName ]
+  function getBundler(bundlerName) {
+    const bundler = bundlerMap[bundlerName]
     return getPackage(bundler.pkg, appPaths.appDir)
   }
 

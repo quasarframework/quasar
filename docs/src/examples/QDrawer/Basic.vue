@@ -1,11 +1,31 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
+    <q-layout
+      view="hHh Lpr lff"
+      container
+      style="height: 300px"
+      class="shadow-2 rounded-borders"
+    >
+      <q-header
+        elevated
+        :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
+      >
         <q-toolbar>
-          <q-btn flat @click="drawerLeft = !drawerLeft" round dense icon="menu" />
+          <q-btn
+            flat
+            @click="drawerLeft = !drawerLeft"
+            round
+            dense
+            icon="menu"
+          />
           <q-toolbar-title>Header</q-toolbar-title>
-          <q-btn flat @click="drawerRight = !drawerRight" round dense icon="menu" />
+          <q-btn
+            flat
+            @click="drawerRight = !drawerRight"
+            round
+            dense
+            icon="menu"
+          />
         </q-toolbar>
       </q-header>
 
@@ -43,7 +63,10 @@
       <q-page-container>
         <q-page padding>
           <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
           </p>
         </q-page>
       </q-page-container>
@@ -55,7 +78,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       drawerLeft: ref(false),
       drawerRight: ref(false)

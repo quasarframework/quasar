@@ -36,7 +36,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       search: ref('')
     }

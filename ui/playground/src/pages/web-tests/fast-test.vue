@@ -12,6 +12,14 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  watch,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  getCurrentInstance
+} from 'vue'
 </script>

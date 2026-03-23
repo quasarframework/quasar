@@ -63,7 +63,7 @@ npx cap sync
 The most basic usage of the Live Update plugin is to call the [`sync(...)`](https://capawesome.io/plugins/live-update/#sync) method when the app starts. This method checks for updates, downloads them if available, and sets them as the next bundle to be applied. You can then call the [`reload()`](https://capawesome.io/plugins/live-update/#reload) method to apply the update immediately. If the [`reload()`](https://capawesome.io/plugins/live-update/#reload) method is not called, the new bundle will be used on the next app start.
 
 ```js
-import { LiveUpdate } from "@capawesome/capacitor-live-update"
+import { LiveUpdate } from '@capawesome/capacitor-live-update'
 
 const sync = async () => {
   const result = await LiveUpdate.sync()

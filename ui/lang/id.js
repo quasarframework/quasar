@@ -15,13 +15,16 @@ export default {
     search: 'Cari',
     filter: 'Saring',
     refresh: 'Segarkan',
-    expand: label => (label ? `Perluas "${ label }"` : 'Mengembangkan'),
-    collapse: label => (label ? `Ciutkan "${ label }"` : 'Jatuh')
+    expand: label => (label ? `Perluas "${label}"` : 'Mengembangkan'),
+    collapse: label => (label ? `Ciutkan "${label}"` : 'Jatuh')
   },
   date: {
-    days: 'Minggu_Senin_Selasa_Rabu_Kamis_Jum\'at_Sabtu'.split('_'),
+    days: "Minggu_Senin_Selasa_Rabu_Kamis_Jum'at_Sabtu".split('_'),
     daysShort: 'Min_Sen_Sel_Rab_Kam_Jum_Sab'.split('_'),
-    months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember'.split('_'),
+    months:
+      'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +34,17 @@ export default {
     prevYear: 'Tahun sebelumnya',
     nextYear: 'Tahun berikutnya',
     today: 'Hari ini',
-    prevRangeYears: range => `Sebelumnya ${ range } tahun`,
-    nextRangeYears: range => `Berikutnya ${ range } tahun`
+    prevRangeYears: range => `Sebelumnya ${range} tahun`,
+    nextRangeYears: range => `Berikutnya ${range} tahun`
   },
   table: {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',
     loading: 'Memuat...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 1
         ? rows + ' baris terpilih.'
-        : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.'
-    ),
+        : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.',
     recordsPerPage: 'Baris per halaman:',
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' dari ' + total,

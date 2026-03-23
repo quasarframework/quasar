@@ -9,7 +9,7 @@ import { useQuasar } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
     let timer
 
@@ -21,7 +21,7 @@ export default {
     })
 
     return {
-      showLoading () {
+      showLoading() {
         $q.loading.show({
           message: 'Doing something. Please wait...',
           boxClass: 'bg-grey-2 text-grey-9',

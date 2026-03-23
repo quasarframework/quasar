@@ -3,12 +3,8 @@
     <div class="q-layout-padding">
       <p class="caption">
         Switch to another
-        <span class="cordova-hide">
-          tab in your browser
-        </span>
-        <span class="cordova-only">
-          App
-        </span>
+        <span class="cordova-hide"> tab in your browser </span>
+        <span class="cordova-only"> App </span>
         then come back here to see Visibility in action.
       </p>
 
@@ -25,25 +21,30 @@
 </template>
 
 <script>
-function pad (number) {
+function pad(number) {
   return (number < 10 ? '0' : '') + number
 }
 
 export default {
-  data () {
+  data() {
     return {
       eventList: []
     }
   },
   watch: {
-    '$q.appVisible' (state) {
+    '$q.appVisible'(state) {
       const date = new Date()
 
       this.eventList.unshift({
-        timestamp: pad(date.getHours()) + ':'
-            + pad(date.getMinutes()) + ':' + pad(date.getSeconds()) + '.'
-            + date.getMilliseconds(),
-        label: ` App became ${ state ? 'visible' : 'hidden' }`
+        timestamp:
+          pad(date.getHours()) +
+          ':' +
+          pad(date.getMinutes()) +
+          ':' +
+          pad(date.getSeconds()) +
+          '.' +
+          date.getMilliseconds(),
+        label: ` App became ${state ? 'visible' : 'hidden'}`
       })
     }
   }

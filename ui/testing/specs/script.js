@@ -1,4 +1,6 @@
-function showHelp (exitCode = 0) {
+// oxlint-disable import/first
+
+function showHelp(exitCode = 0) {
   console.log(`
   Description
     UI test files validator & generator
@@ -38,8 +40,8 @@ const argv = parseArgs(process.argv.slice(2), {
     d: 'dry-run',
     h: 'help'
   },
-  boolean: [ 'h', 'c', 'd' ],
-  string: [ 't', 'g' ]
+  boolean: ['h', 'c', 'd'],
+  string: ['t', 'g']
 })
 
 if (argv.help) showHelp()
@@ -61,14 +63,12 @@ if (targetList.length === 0) {
   process.exit(1)
 }
 
-const cmdDryRun = argv[ 'dry-run' ] === true
-  ? await getDryRunCmd()
-  : null
+const cmdDryRun = argv['dry-run'] === true ? getDryRunCmd() : null
 
 for (const target of targetList) {
   if (ignoredTestFiles.has(target) === true) {
     if (argv.ci !== true) {
-      console.log(`  📦 Ignoring "${ target }"`)
+      console.log(`  📦 Ignoring "${target}"`)
     }
     continue
   }
@@ -77,15 +77,12 @@ for (const target of targetList) {
   const testFile = getTestFile(ctx)
 
   if (cmdDryRun !== null) {
-    await cmdDryRun({ ctx, testFile })
-  }
-  else if (argv.generate !== void 0) {
+    cmdDryRun({ ctx, testFile })
+  } else if (argv.generate !== void 0) {
     await cmdGenerateSection({ ctx, testFile, jsonPath: argv.generate })
-  }
-  else if (testFile.content !== null) {
+  } else if (testFile.content !== null) {
     await cmdValidateTestFile({ ctx, testFile, argv })
-  }
-  else if (argv.ci !== true) {
+  } else if (argv.ci !== true) {
     await cmdCreateTestFile({ ctx, testFile, ignoredTestFiles })
   }
 }

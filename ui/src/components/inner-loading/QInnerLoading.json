@@ -1,5 +1,8 @@
 {
-  "mixins": [ "composables/private.use-size/use-size", "composables/private.use-transition/use-transition" ],
+  "mixins": [
+    "composables/private.use-size/use-size",
+    "composables/private.use-transition/use-transition"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/inner-loading"
@@ -18,7 +21,7 @@
     },
 
     "size": {
-      "type": [ "String", "Number" ],
+      "type": ["String", "Number"],
       "desc": "Size in CSS units, including unit name, or standard size name (xs|sm|md|lg|xl), for the inner Spinner (unless using the default slot)",
       "default": "'42px'"
     },
@@ -26,7 +29,7 @@
     "label": {
       "type": "String",
       "desc": "Add a label; Gets overriden when using the default slot",
-      "examples": [ "'Please wait...'" ],
+      "examples": ["'Please wait...'"],
       "category": "label",
       "addedIn": "v2.2"
     },
@@ -34,19 +37,16 @@
     "label-class": {
       "type": "String",
       "desc": "Add CSS class(es) to the label; Works along the 'label' prop only",
-      "examples": [ "'text-red q-mt-xl'" ],
+      "examples": ["'text-red q-mt-xl'"],
       "category": "label",
       "addedIn": "v2.2"
     },
 
     "label-style": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueStyleProp",
       "desc": "Apply custom style to the label; Works along the 'label' prop only",
-      "examples": [
-        "'font-size: 28px'",
-        "{ color: '#ff0000' }"
-      ],
+      "examples": ["'font-size: 28px'", "{ color: '#ff0000' }"],
       "category": "label",
       "addedIn": "v2.2"
     },

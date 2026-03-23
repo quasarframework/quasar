@@ -3,7 +3,7 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/img"
   },
 
-  "mixins": [ "composables/private.use-ratio/use-ratio" ],
+  "mixins": ["composables/private.use-ratio/use-ratio"],
 
   "props": {
     "src": {
@@ -23,7 +23,7 @@
       "type": "String",
       "desc": "Same syntax as <img> srcset attribute",
       "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
-      "examples": [ "'elva-fairy-320w.jpg 320w, elva-fairy-480w.jpg 480w'" ],
+      "examples": ["'elva-fairy-320w.jpg 320w, elva-fairy-480w.jpg 480w'"],
       "category": "model"
     },
 
@@ -31,7 +31,9 @@
       "type": "String",
       "desc": "Same syntax as <img> sizes attribute",
       "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
-      "examples": [ "'(max-width: 320px) 280px, (max-width: 480px) 440px, 800px'" ],
+      "examples": [
+        "'(max-width: 320px) 280px, (max-width: 480px) 440px, 800px'"
+      ],
       "category": "model"
     },
 
@@ -71,7 +73,7 @@
     },
 
     "initial-ratio": {
-      "type": [ "String", "Number" ],
+      "type": ["String", "Number"],
       "desc": "Use it when not specifying 'ratio' but still wanting an initial aspect ratio",
       "default": "1.7778",
       "examples": [
@@ -84,14 +86,14 @@
     "width": {
       "type": "String",
       "desc": "Forces image width; Must also include the unit (px or %)",
-      "examples": [ "'280px'", "'70%'" ],
+      "examples": ["'280px'", "'70%'"],
       "category": "style"
     },
 
     "height": {
       "type": "String",
       "desc": "Forces image height; Must also include the unit (px or %)",
-      "examples": [ "'280px'", "'70%'" ],
+      "examples": ["'280px'", "'70%'"],
       "category": "style"
     },
 
@@ -99,15 +101,15 @@
       "type": "String",
       "desc": "Lazy or immediate load; Same syntax as <img> loading attribute",
       "default": "'lazy'",
-      "values": [ "'lazy'", "'eager'" ],
+      "values": ["'lazy'", "'eager'"],
       "category": "behavior"
     },
 
     "loading-show-delay": {
-      "type": [ "Number", "String" ],
+      "type": ["Number", "String"],
       "desc": "Delay showing the spinner when image changes; Gives time for the browser to load the image from cache to prevent flashing the spinner unnecessarily; Value should represent milliseconds",
       "default": "0",
-      "examples": [ "500", "'700'" ],
+      "examples": ["500", "'700'"],
       "category": "behavior",
       "addedIn": "v2.14.6"
     },
@@ -115,14 +117,14 @@
     "crossorigin": {
       "type": "String",
       "desc": "Same syntax as <img> crossorigin attribute",
-      "values": [ "'anonymous'", "'use-credentials'" ],
+      "values": ["'anonymous'", "'use-credentials'"],
       "category": "behavior"
     },
 
     "decoding": {
       "type": "String",
       "desc": "Same syntax as <img> decoding attribute",
-      "values": [ "'sync'", "'async'", "'auto'" ],
+      "values": ["'sync'", "'async'", "'auto'"],
       "category": "behavior"
     },
 
@@ -146,7 +148,7 @@
       "type": "String",
       "desc": "Provides a hint of the relative priority to use when fetching the image",
       "default": "'auto'",
-      "values": [ "'high'", "'low'", "'auto'" ],
+      "values": ["'high'", "'low'", "'auto'"],
       "category": "behavior",
       "addedIn": "v2.6.6"
     },
@@ -155,7 +157,7 @@
       "type": "String",
       "desc": "How the image will fit into the container; Equivalent of the object-fit prop; Can be coordinated with 'position' prop",
       "default": "'cover'",
-      "values": [ "'cover'", "'fill'", "'contain'", "'none'", "'scale-down'" ],
+      "values": ["'cover'", "'fill'", "'contain'", "'none'", "'scale-down'"],
       "category": "style"
     },
 
@@ -163,14 +165,14 @@
       "type": "String",
       "desc": "The alignment of the image into the container; Equivalent of the object-position CSS prop",
       "default": "'50% 50%'",
-      "examples": [ "'0 0'", "'20px 50px'" ],
+      "examples": ["'0 0'", "'20px 50px'"],
       "category": "style"
     },
 
     "alt": {
       "type": "String",
       "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
-      "examples": [ "'Two cats'" ],
+      "examples": ["'Two cats'"],
       "category": "miscellaneous"
     },
 
@@ -183,7 +185,7 @@
     "img-class": {
       "type": "String",
       "desc": "CSS classes to be attributed to the native img element",
-      "examples": [ "'my-special-class'" ],
+      "examples": ["'my-special-class'"],
       "category": "style"
     },
 
@@ -191,7 +193,7 @@
       "type": "Object",
       "tsType": "VueStyleObjectProp",
       "desc": "Apply CSS to the native img element",
-      "examples": [ "{ transform: 'rotate(45deg)' }"],
+      "examples": ["{ transform: 'rotate(45deg)' }"],
       "category": "style"
     },
 
@@ -247,7 +249,7 @@
         "src": {
           "type": "String",
           "desc": "URL of image that has been loaded; useful when using 'srcset' and/or 'sizes'",
-          "examples": [ "'https://some-site.net/some-img.gif'" ]
+          "examples": ["'https://some-site.net/some-img.gif'"]
         }
       }
     },

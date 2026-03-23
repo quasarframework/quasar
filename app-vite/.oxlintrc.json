@@ -1,0 +1,13 @@
+{
+  "extends": ["../.oxlintrc.json"],
+
+  "env": {
+    "node": true
+  },
+
+  "ignorePatterns": ["templates/"],
+
+  "rules": {
+    "import/first": "off"
+  }
+}

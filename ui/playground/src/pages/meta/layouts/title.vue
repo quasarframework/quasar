@@ -9,7 +9,7 @@ import { useMeta } from 'quasar'
 import { ref, onMounted } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     console.log('init')
 
     const title = ref('Test Start')

@@ -21,28 +21,26 @@ describe('[Dark API]', () => {
       })
 
       test('is reactive', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
 
         expect(Dark.isActive).toBe(false)
         expect($q.dark.isActive).toBe(false)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(false)
+        expect(document.body.classList.contains('body--dark')).toBe(false)
 
         Dark.set(true)
 
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(true)
+        expect(document.body.classList.contains('body--dark')).toBe(true)
       })
     })
 
     describe('[(prop)mode]', () => {
       test('is correct type', () => {
         mountPlugin()
-        expect([ 'auto', true, false ]).toContain(Dark.mode)
+        expect(['auto', true, false]).toContain(Dark.mode)
       })
     })
   })
@@ -50,31 +48,27 @@ describe('[Dark API]', () => {
   describe('[Methods]', () => {
     describe('[(method)set]', () => {
       test('should be callable', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
 
-        expect(
-          Dark.set(true)
-        ).toBeUndefined()
+        expect(Dark.set(true)).toBeUndefined()
 
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(true)
+        expect(document.body.classList.contains('body--dark')).toBe(true)
 
-        expect(
-          Dark.set(false)
-        ).toBeUndefined()
+        expect(Dark.set(false)).toBeUndefined()
 
         expect(Dark.isActive).toBe(false)
         expect($q.dark.isActive).toBe(false)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(false)
+        expect(document.body.classList.contains('body--dark')).toBe(false)
       })
 
       test('should handle auto mode', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
 
         // jsdom hack
         const media = {
@@ -93,9 +87,7 @@ describe('[Dark API]', () => {
 
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(true)
+        expect(document.body.classList.contains('body--dark')).toBe(true)
 
         media.matches = false
         Dark.__updateMedia()
@@ -105,9 +97,7 @@ describe('[Dark API]', () => {
 
         expect(Dark.isActive).toBe(false)
         expect($q.dark.isActive).toBe(false)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(false)
+        expect(document.body.classList.contains('body--dark')).toBe(false)
 
         Dark.set(true)
         expect(Dark.mode).not.toBe('auto')
@@ -117,41 +107,33 @@ describe('[Dark API]', () => {
 
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(true)
+        expect(document.body.classList.contains('body--dark')).toBe(true)
       })
     })
 
     describe('[(method)toggle]', () => {
       test('should be callable', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
 
         Dark.set(true)
 
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(true)
+        expect(document.body.classList.contains('body--dark')).toBe(true)
 
-        expect(
-          Dark.toggle()
-        ).toBeUndefined()
+        expect(Dark.toggle()).toBeUndefined()
 
         expect(Dark.isActive).toBe(false)
         expect($q.dark.isActive).toBe(false)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(false)
+        expect(document.body.classList.contains('body--dark')).toBe(false)
 
         Dark.toggle()
 
         expect(Dark.isActive).toBe(true)
         expect($q.dark.isActive).toBe(true)
-        expect(
-          document.body.classList.contains('body--dark')
-        ).toBe(true)
+        expect(document.body.classList.contains('body--dark')).toBe(true)
       })
     })
   })

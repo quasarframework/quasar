@@ -13,7 +13,13 @@
       :rows-per-page-options="rowsPerPageOptions"
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -25,11 +31,14 @@
           <q-card>
             <q-card-section class="text-center">
               Calories for
-              <br>
+              <br />
               <strong>{{ props.row.name }}</strong>
             </q-card-section>
             <q-separator />
-            <q-card-section class="flex flex-center" :style="{ fontSize: (props.row.calories / 2) + 'px' }">
+            <q-card-section
+              class="flex flex-center"
+              :style="{ fontSize: props.row.calories / 2 + 'px' }"
+            >
               <div>{{ props.row.calories }} g</div>
             </q-card-section>
           </q-card>
@@ -60,17 +69,20 @@ const rows = []
 
 deserts.forEach(name => {
   for (let i = 0; i < 24; i++) {
-    rows.push({ name: name + ' (' + i + ')', calories: 20 + Math.ceil(50 * Math.random()) })
+    rows.push({
+      name: name + ' (' + i + ')',
+      calories: 20 + Math.ceil(50 * Math.random())
+    })
   }
 })
 
-rows.sort(() => (-1 + Math.floor(3 * Math.random())))
+rows.sort(() => -1 + Math.floor(3 * Math.random()))
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function getItemsPerPage () {
+    function getItemsPerPage() {
       if ($q.screen.lt.sm) {
         return 3
       }
@@ -86,9 +98,12 @@ export default {
       rowsPerPage: getItemsPerPage()
     })
 
-    watch(() => $q.screen.name, () => {
-      pagination.value.rowsPerPage = getItemsPerPage()
-    })
+    watch(
+      () => $q.screen.name,
+      () => {
+        pagination.value.rowsPerPage = getItemsPerPage()
+      }
+    )
 
     return {
       rows,
@@ -101,17 +116,16 @@ export default {
         { name: 'calories', label: 'Calories (g)', field: 'calories' }
       ],
 
-      cardContainerClass: computed(() => {
-        return $q.screen.gt.xs
-          ? 'example-masonry-table-grid example-masonry-table-grid--' + ($q.screen.gt.sm ? '3' : '2')
+      cardContainerClass: computed(() =>
+        $q.screen.gt.xs
+          ? 'example-masonry-table-grid example-masonry-table-grid--' +
+            ($q.screen.gt.sm ? '3' : '2')
           : null
-      }),
+      ),
 
-      rowsPerPageOptions: computed(() => {
-        return $q.screen.gt.xs
-          ? $q.screen.gt.sm ? [ 3, 6, 9 ] : [ 3, 6 ]
-          : [3]
-      })
+      rowsPerPageOptions: computed(() =>
+        $q.screen.gt.xs ? ($q.screen.gt.sm ? [3, 6, 9] : [3, 6]) : [3]
+      )
     }
   }
 }

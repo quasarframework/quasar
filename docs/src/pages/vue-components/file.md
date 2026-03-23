@@ -33,6 +33,7 @@ For your QFile you can use only one of the main designs (`filled`, `outlined`, `
 <DocExample title="Coloring" file="Coloring" />
 
 ### Clearable
+
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QFile in the example below is the equivalent of using `clearable`.
 
 <DocExample title="Clearable" file="Clearable" />
@@ -94,7 +95,6 @@ Recommended format for the `accept` property is `<mediatype>/<extension>`. Examp
 You can also apply custom filters (which are executed after user picks files):
 
 <DocExample title="Filter" file="RestrictionFilter" />
-
 
 ### Native form submit
 

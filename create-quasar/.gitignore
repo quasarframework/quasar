@@ -2,17 +2,5 @@
 .thumbs.db
 node_modules
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-
 # create-test-project script output
 test-project/

@@ -1,8 +1,21 @@
 <template>
-  <a href="https://youtu.be/PjCqsf87Z1Y?si=D1OXvGozN__Y0E8K" class="introduction-video rounded-borders overflow-hidden" style="max-width: 530px" target="_blank">
+  <a
+    href="https://youtu.be/PjCqsf87Z1Y?si=D1OXvGozN__Y0E8K"
+    class="introduction-video rounded-borders overflow-hidden"
+    style="max-width: 530px"
+    target="_blank"
+  >
     <div class="introduction-video__thumbnail relative-position">
-      <q-img src="https://i.ibb.co/k4jkggH/thumbnail-quasar-docs.jpg" :ratio="1.78">
-        <q-icon class="play-button absolute-center" color="white" name="play_circle_outline" size="150px" />
+      <q-img
+        src="https://i.ibb.co/k4jkggH/thumbnail-quasar-docs.jpg"
+        :ratio="1.78"
+      >
+        <q-icon
+          class="play-button absolute-center"
+          color="white"
+          name="play_circle_outline"
+          size="150px"
+        />
       </q-img>
     </div>
   </a>

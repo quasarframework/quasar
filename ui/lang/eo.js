@@ -15,13 +15,16 @@ export default {
     search: 'Serĉi',
     filter: 'Filtri',
     refresh: 'Reŝargi',
-    expand: label => (label ? `Vastigi "${ label }"` : 'Vastigi'),
-    collapse: label => (label ? `Kolapsi "${ label }"` : 'Kolapso')
+    expand: label => (label ? `Vastigi "${label}"` : 'Vastigi'),
+    collapse: label => (label ? `Kolapsi "${label}"` : 'Kolapso')
   },
   date: {
     days: 'Dimanĉo_Lundo_Mardo_Merkredo_Jaŭdo_Vendredo_Sabato'.split('_'),
     daysShort: 'Dim_Lun_Mar_Mer_Jaŭ_Ven_Sab'.split('_'),
-    months: 'Januaro_Februaro_Marto_Aprilo_Majo_Junio_Julio_Aŭgusto_Septembro_Oktobro_Novembro_Decembro'.split('_'),
+    months:
+      'Januaro_Februaro_Marto_Aprilo_Majo_Junio_Julio_Aŭgusto_Septembro_Oktobro_Novembro_Decembro'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aŭg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +34,20 @@ export default {
     prevYear: 'Antaŭa jaro',
     nextYear: 'Venontjare',
     today: 'Hodiaŭ',
-    prevRangeYears: range => `Antaŭ ${ range } jaroj`,
-    nextRangeYears: range => `Post ${ range } jaroj`
+    prevRangeYears: range => `Antaŭ ${range} jaroj`,
+    nextRangeYears: range => `Post ${range} jaroj`
   },
   table: {
     noData: 'Neniu datumo afiŝenda',
     noResults: 'Neniu datumo trovita',
     loading: 'Ŝarĝado...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' ' + (rows === 1 ? 'elektita linio' : 'elektitaj linioj') + '.'
-        : 'Neniu elektita linio.'
-    ),
+        ? rows +
+          ' ' +
+          (rows === 1 ? 'elektita linio' : 'elektitaj linioj') +
+          '.'
+        : 'Neniu elektita linio.',
     recordsPerPage: 'Linioj po paĝoj:',
     allRows: 'Ĉiuj',
     pagination: (start, end, total) => start + '-' + end + ' el ' + total,

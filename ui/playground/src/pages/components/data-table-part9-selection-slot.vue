@@ -31,11 +31,7 @@
           <q-th auto-width>
             <q-toggle v-model="props.selected" />
           </q-th>
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
           </q-th>
         </q-tr>
@@ -46,26 +42,20 @@
           <q-td auto-width>
             <q-toggle v-model="props.selected" />
           </q-td>
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
           </q-td>
         </q-tr>
       </template>
     </q-table>
 
-    <div class="q-mt-md">
-      Selected: {{ JSON.stringify(selected) }}
-    </div>
+    <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       selected: [],
       columns: [
@@ -75,16 +65,34 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${ val }`,
+          format: val => `${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
       data: [
         {

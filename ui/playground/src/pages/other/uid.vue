@@ -8,7 +8,7 @@
 import { uid } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const uids = []
     for (let i = 0; i < 100; i++) {
       uids.push(uid())

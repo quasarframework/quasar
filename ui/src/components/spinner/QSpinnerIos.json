@@ -1,3 +1,3 @@
 {
-  "mixins": [ "components/spinner/spinner" ]
+  "mixins": ["components/spinner/spinner"]
 }

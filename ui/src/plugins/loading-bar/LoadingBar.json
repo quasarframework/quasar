@@ -10,7 +10,7 @@
     "type": "Object",
     "tsType": "QLoadingBarOptions",
     "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter' in quasar.config file (if using Quasar CLI)",
-    "examples": [ "{ position: 'bottom', reverse: true }" ]
+    "examples": ["{ position: 'bottom', reverse: true }"]
   },
 
   "props": {
@@ -59,7 +59,7 @@
           "tsType": "QLoadingBarOptions",
           "required": true,
           "desc": "QAjaxBar component props",
-          "examples": [ "{ position: 'bottom', reverse: true }" ]
+          "examples": ["{ position: 'bottom', reverse: true }"]
         }
       },
       "returns": null

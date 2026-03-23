@@ -23,7 +23,9 @@
       <q-item tag="label" v-ripple>
         <q-item-section>
           <q-item-label>Picture uploaded</q-item-label>
-          <q-item-label caption>Allow notification when uploading images</q-item-label>
+          <q-item-label caption
+            >Allow notification when uploading images</q-item-label
+          >
         </q-item-section>
         <q-item-section avatar>
           <q-toggle color="red" v-model="notifications" val="picture" />
@@ -37,7 +39,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       notifications: ref(['friend'])
     }

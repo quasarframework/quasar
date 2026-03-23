@@ -10,8 +10,9 @@ The `useRenderCache()` composable is useful especially when you are dealing with
 When dealing with SSR, on the server-side you will not want to cache anything because the render will only happen once per client (and you don't want your memory footprint to needlessly grow). Thus the useRenderCache composable will not actually use any cache on server-side, but rather the default values supplied on each call.
 
 You can directly cache any type of value that you want. Some examples:
-* You can cache some listeners so that Vue won't be required to remove and re-attach them on each re-render.
-* You can cache some Vue rendered nodes, although you must be careful in this scenario because their content should not depend on any "reactive" content (refs, computed, etc).
+
+- You can cache some listeners so that Vue won't be required to remove and re-attach them on each re-render.
+- You can cache some Vue rendered nodes, although you must be careful in this scenario because their content should not depend on any "reactive" content (refs, computed, etc).
 
 ## Syntax
 
@@ -48,24 +49,21 @@ import { h } from 'vue'
 import { useRenderCache } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const { getCache } = useRenderCache()
 
-    function getNode (i) {
+    function getNode(i) {
       return h('div', {
-        onClick: getCache(
-          `click#${ i }`,
-          () => { console.log(`clicked on node ${ i }`) }
-        )
+        onClick: getCache(`click#${i}`, () => {
+          console.log(`clicked on node ${i}`)
+        })
       })
     }
 
-    function getContent () {
+    function getContent() {
       const acc = []
       for (let i = 0; i < 10; i++) {
-        acc.push(
-          getNode(i)
-        )
+        acc.push(getNode(i))
       }
       return acc
     }

@@ -1,7 +1,15 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
+    <q-layout
+      view="hHh Lpr lff"
+      container
+      style="height: 300px"
+      class="shadow-2 rounded-borders"
+    >
+      <q-header
+        elevated
+        :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
+      >
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -18,7 +26,6 @@
       >
         <q-scroll-area class="fit">
           <q-list>
-
             <template v-for="(menuItem, index) in menuList" :key="index">
               <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
                 <q-item-section avatar>
@@ -30,7 +37,6 @@
               </q-item>
               <q-separator :key="'sep' + index" v-if="menuItem.separator" />
             </template>
-
           </q-list>
         </q-scroll-area>
       </q-drawer>
@@ -38,7 +44,10 @@
       <q-page-container>
         <q-page padding>
           <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
           </p>
         </q-page>
       </q-page-container>
@@ -89,7 +98,7 @@ const menuList = [
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       drawer: ref(true),
       menuList

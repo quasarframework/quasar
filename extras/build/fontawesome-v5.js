@@ -14,17 +14,17 @@ const skipped = []
 const distFolder = resolve(__dirname, '../fontawesome-v5')
 const { defaultNameMapper, extract, writeExports } = require('./utils')
 
-const svgFolder = resolve(__dirname, `../node_modules/${ packageName }/svgs/`)
-const iconTypes = [ 'brands', 'regular', 'solid' ]
+const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svgs/`)
+const iconTypes = ['brands', 'regular', 'solid']
 let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
 
-iconTypes.forEach((type) => {
-  const svgFiles = globSync(svgFolder + `/${ type }/*.svg`)
+iconTypes.forEach(type => {
+  const svgFiles = globSync(svgFolder + `/${type}/*.svg`)
 
-  svgFiles.forEach((file) => {
+  svgFiles.forEach(file => {
     const name = defaultNameMapper(file, prefix + type.charAt(0))
 
     if (iconNames.has(name)) return
@@ -35,24 +35,17 @@ iconTypes.forEach((type) => {
       typeExports.push(typeDef)
 
       iconNames.add(name)
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
       skipped.push(name)
     }
   })
 })
 
-iconNames = [ ...iconNames ]
-svgExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-typeExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-iconNames.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
+iconNames = [...iconNames]
+svgExports.sort((a, b) => String(a).localeCompare(b))
+typeExports.sort((a, b) => String(a).localeCompare(b))
+iconNames.sort((a, b) => String(a).localeCompare(b))
 
 writeExports(
   iconSetName,
@@ -74,20 +67,20 @@ const webfont = [
   'fa-solid-900.woff2'
 ]
 
-webfont.forEach((file) => {
+webfont.forEach(file => {
   copySync(
-    resolve(__dirname, `../node_modules/${ packageName }/webfonts/${ file }`),
-    resolve(__dirname, `../fontawesome-v5/${ file }`)
+    resolve(__dirname, `../node_modules/${packageName}/webfonts/${file}`),
+    resolve(__dirname, `../fontawesome-v5/${file}`)
   )
 })
 
 copySync(
-  resolve(__dirname, `../node_modules/${ packageName }/LICENSE.txt`),
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE.txt`),
   resolve(__dirname, '../fontawesome-v5/LICENSE.txt')
 )
 
 // write the JSON file
 const file = resolve(__dirname, join('..', distName, 'icons.json'))
-writeFileSync(file, JSON.stringify([ ...iconNames ].sort(), null, 2), 'utf-8')
+writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
 
-console.log(`${ distName } done with ${ iconNames.length } icons`)
+console.log(`${distName} done with ${iconNames.length} icons`)

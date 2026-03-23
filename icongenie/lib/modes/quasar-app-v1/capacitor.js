@@ -1,38 +1,37 @@
-
 const iosIconRegex = /AppIcon-(\d+\.?\d?)x?(\d+\.?\d?)?@?(\d+)?x?-?\d?\.png/
 
-function getAndroidIcons (entries) {
+function getAndroidIcons(entries) {
   const list = []
 
   entries.forEach(entry => {
     const icon = {
       generator: 'png',
-      folder: `src-capacitor/android/app/src/main/res/mipmap-${ entry[ 0 ] }`
+      folder: `src-capacitor/android/app/src/main/res/mipmap-${entry[0]}`
     }
 
     list.push({
       ...icon,
       name: 'ic_launcher_foreground.png',
-      sizes: [ entry[ 2 ] ]
+      sizes: [entry[2]]
     })
 
     list.push({
       ...icon,
       name: 'ic_launcher_round.png',
-      sizes: [ entry[ 1 ] ]
+      sizes: [entry[1]]
     })
 
     list.push({
       ...icon,
       name: 'ic_launcher.png',
-      sizes: [ entry[ 1 ] ]
+      sizes: [entry[1]]
     })
   })
 
   return list
 }
 
-function getAndroidSplashscreen (entries) {
+function getAndroidSplashscreen(entries) {
   const list = []
 
   entries.forEach(entry => {
@@ -43,26 +42,22 @@ function getAndroidSplashscreen (entries) {
 
     list.push({
       ...icon,
-      folder: `src-capacitor/android/app/src/main/res/drawable-land-${ entry[ 0 ] }`,
-      sizes: [
-        [ entry[ 1 ], entry[ 2 ] ]
-      ]
+      folder: `src-capacitor/android/app/src/main/res/drawable-land-${entry[0]}`,
+      sizes: [[entry[1], entry[2]]]
     })
 
     list.push({
       ...icon,
-      folder: `src-capacitor/android/app/src/main/res/drawable-port-${ entry[ 0 ] }`,
-      sizes: [
-        [ entry[ 2 ], entry[ 1 ] ]
-      ]
+      folder: `src-capacitor/android/app/src/main/res/drawable-port-${entry[0]}`,
+      sizes: [[entry[2], entry[1]]]
     })
   })
 
   return list
 }
 
-function getIosIcon (name) {
-  const [ ,size,,multiplier ] = name.match(iosIconRegex)
+function getIosIcon(name) {
+  const [, size, , multiplier] = name.match(iosIconRegex)
 
   return {
     generator: 'png',
@@ -70,7 +65,7 @@ function getIosIcon (name) {
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/AppIcon.appiconset',
     sizes: [
       multiplier
-        ? parseFloat(size) * parseInt(multiplier,10)
+        ? parseFloat(size) * parseInt(multiplier, 10)
         : parseFloat(size)
     ],
     background: true
@@ -83,28 +78,26 @@ export default [
    ***************/
 
   ...getAndroidIcons([
-    [ 'hdpi', 49, 162 ],
-    [ 'mdpi', 48, 108 ],
-    [ 'xhdpi', 96, 216 ],
-    [ 'xxhdpi', 144, 324 ],
-    [ 'xxxhdpi', 192, 432 ]
+    ['hdpi', 49, 162],
+    ['mdpi', 48, 108],
+    ['xhdpi', 96, 216],
+    ['xxhdpi', 144, 324],
+    ['xxxhdpi', 192, 432]
   ]),
 
   {
     generator: 'splashscreen',
     name: 'splash.png',
     folder: 'src-capacitor/android/app/src/main/res/drawable',
-    sizes: [
-      [ 480, 320 ]
-    ]
+    sizes: [[480, 320]]
   },
 
   ...getAndroidSplashscreen([
-    [ 'mdpi', 480, 320 ],
-    [ 'hdpi', 800, 480 ],
-    [ 'xhdpi', 1280, 720 ],
-    [ 'xxhdpi', 1600, 960 ],
-    [ 'xxxhdpi', 1920, 1280 ]
+    ['mdpi', 480, 320],
+    ['hdpi', 800, 480],
+    ['xhdpi', 1280, 720],
+    ['xxhdpi', 1600, 960],
+    ['xxxhdpi', 1920, 1280]
   ]),
 
   /**************
@@ -136,20 +129,20 @@ export default [
     generator: 'splashscreen',
     name: 'splash-2732x2732-1.png',
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset',
-    sizes: [ 2732 ]
+    sizes: [2732]
   },
 
   {
     generator: 'splashscreen',
     name: 'splash-2732x2732-2.png',
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset',
-    sizes: [ 2732 ]
+    sizes: [2732]
   },
 
   {
     generator: 'splashscreen',
     name: 'splash-2732x2732.png',
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset',
-    sizes: [ 2732 ]
+    sizes: [2732]
   }
 ]

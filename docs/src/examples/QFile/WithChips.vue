@@ -15,7 +15,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       files: ref(null)
     }

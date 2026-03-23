@@ -17,7 +17,7 @@ const pwaDeps = {
  *   silent: boolean
  * }} options
  */
-module.exports.addMode = function addMode ({
+module.exports.addMode = function addMode({
   ctx: { appPaths, cacheProxy },
   silent
 }) {
@@ -30,11 +30,11 @@ module.exports.addMode = function addMode ({
 
   const nodePackager = cacheProxy.getModule('nodePackager')
   nodePackager.installPackage(
-    Object.entries(pwaDevDeps).map(([ name, version ]) => `${ name }@${ version }`),
+    Object.entries(pwaDevDeps).map(([name, version]) => `${name}@${version}`),
     { isDevDependency: true, displayName: 'PWA dev dependencies' }
   )
   nodePackager.installPackage(
-    Object.entries(pwaDeps).map(([ name, version ]) => `${ name }@${ version }`),
+    Object.entries(pwaDeps).map(([name, version]) => `${name}@${version}`),
     { displayName: 'PWA dependencies' }
   )
 
@@ -45,10 +45,12 @@ module.exports.addMode = function addMode ({
   const format = hasTypescript ? 'ts' : 'js'
 
   fse.copySync(
-    appPaths.resolve.cli(`templates/pwa/${ format }`),
+    appPaths.resolve.cli(`templates/pwa/${format}`),
     appPaths.pwaDir,
     // Copy .eslintrc.js only if the app has ESLint
-    hasEslint === true ? { filter: src => !src.endsWith('/.eslintrc.cjs') } : void 0
+    hasEslint === true
+      ? { filter: src => !src.endsWith('/.eslintrc.cjs') }
+      : void 0
   )
 
   log('Copying PWA icons to /public/icons/ (if they are not already there)...')
@@ -66,7 +68,7 @@ module.exports.addMode = function addMode ({
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  * }} options
  */
-module.exports.removeMode = function removeMode ({
+module.exports.removeMode = function removeMode({
   ctx: { appPaths, cacheProxy }
 }) {
   if (isModeInstalled(appPaths, 'pwa') === false) {

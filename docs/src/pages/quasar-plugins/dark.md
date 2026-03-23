@@ -48,7 +48,7 @@ On a **SSR build**, you may want to set this from your `/src/App.vue`:
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     // calling here; equivalent to when component is created
@@ -82,8 +82,8 @@ Dark.toggle()
 
 When on a SSR build:
 
-* Import `Dark` from 'quasar' method of using Dark mode will not error out but it will not work (won't do anything). But, you can use the [Inside of a Vue file](/quasar-plugins/dark#inside-of-a-vue-file) approach or the [Configuration](/quasar-plugins/dark#configuration) (recommended) approach.
-* It's preferred to avoid setting Dark mode to 'auto' for SSR builds. It's because the client dark mode preference cannot be inferred, so SSR will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
+- Import `Dark` from 'quasar' method of using Dark mode will not error out but it will not work (won't do anything). But, you can use the [Inside of a Vue file](/quasar-plugins/dark#inside-of-a-vue-file) approach or the [Configuration](/quasar-plugins/dark#configuration) (recommended) approach.
+- It's preferred to avoid setting Dark mode to 'auto' for SSR builds. It's because the client dark mode preference cannot be inferred, so SSR will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
 
 ## Watching for status change
 
@@ -91,17 +91,20 @@ When on a SSR build:
 <template>...</template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { watch } from 'vue'
+  import { useQuasar } from 'quasar'
+  import { watch } from 'vue'
 
-export default {
-  setup () {
-    const $q = useQuasar()
+  export default {
+    setup() {
+      const $q = useQuasar()
 
-    watch(() => $q.dark.isActive, val => {
-      console.log(val ? 'On dark mode' : 'On light mode')
-    })
+      watch(
+        () => $q.dark.isActive,
+        val => {
+          console.log(val ? 'On dark mode' : 'On light mode')
+        }
+      )
+    }
   }
-}
 </script>
 ```

@@ -1,6 +1,6 @@
 const babelError = require('../formatters/babelError.js')
 
-module.exports = function transform (error) {
+module.exports = function transform(error) {
   return error.__formatter === void 0 && error.name === 'ModuleBuildError'
     ? {
         ...error,

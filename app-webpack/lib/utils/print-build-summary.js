@@ -4,7 +4,7 @@ const { gzipSync } = require('zlib')
 const { underline, green, blue, magenta, cyan, gray } = require('kolorist')
 const { globSync } = require('tinyglobby')
 
-const highlightTypes = [ 'js', 'css' ]
+const highlightTypes = ['js', 'css']
 const delimiters = {
   top: { start: ' ╔', middle: '═', end: '╗', join: '╦' },
   separator: { start: ' ╟', middle: '─', end: '╢', join: '╫' },
@@ -19,11 +19,11 @@ const colorFn = {
   html: cyan
 }
 
-function getAssets (distDir) {
+function getAssets(distDir) {
   const acc = []
 
   Object.keys(colorFn).forEach(type => {
-    const fileList = globSync([ `**/*.${ type }` ], { cwd: distDir })
+    const fileList = globSync([`**/*.${type}`], { cwd: distDir })
     const assets = fileList.map(name => {
       const file = join(distDir, name)
       const { size } = statSync(file)
@@ -41,23 +41,22 @@ function getAssets (distDir) {
   return acc
 }
 
-function getHumanSize (bytes) {
-  return `${ (bytes / 1024).toFixed(2) } KB`
+function getHumanSize(bytes) {
+  return `${(bytes / 1024).toFixed(2)} KB`
 }
 
-function getGzippedSize (file) {
+function getGzippedSize(file) {
   try {
     const buffer = readFileSync(file)
     return gzipSync(buffer).length
-  }
-  catch (_) {
+  } catch {
     return '-'
   }
 }
 
-function getAssetLines (assetList, showGzipped) {
+function getAssetLines(assetList, showGzipped) {
   const total = highlightTypes.reduce((acc, type) => {
-    acc[ type ] = { size: 0, number: 0 }
+    acc[type] = { size: 0, number: 0 }
     return acc
   }, {})
 
@@ -76,23 +75,26 @@ function getAssetLines (assetList, showGzipped) {
     const shouldHighlight = highlightTypes.includes(asset.type)
 
     const acc = {
-      asset: (folder !== '.' ? gray(folder + '/') : '') + colorFn[ asset.type ](filename),
+      asset:
+        (folder !== '.' ? gray(folder + '/') : '') +
+        colorFn[asset.type](filename),
       assetLen: ((folder !== '.' ? folder + '/' : '') + filename).length,
       size,
       sizeLen: size.length
     }
 
     if (showGzipped === true) {
-      const val = shouldHighlight === true
-        ? getHumanSize(getGzippedSize(asset.file))
-        : '-'
+      const val =
+        shouldHighlight === true
+          ? getHumanSize(getGzippedSize(asset.file))
+          : '-'
 
       acc.gzipped = gray(val)
       acc.gzippedLen = val.length
     }
 
     if (shouldHighlight === true) {
-      const target = total[ asset.type ]
+      const target = total[asset.type]
       target.size += asset.size
       target.number++
     }
@@ -103,14 +105,14 @@ function getAssetLines (assetList, showGzipped) {
   lineList.push('thickSeparator')
 
   highlightTypes.forEach(type => {
-    const target = total[ type ]
+    const target = total[type]
     const plural = target.number > 1 ? 's' : ''
 
-    const asset = `Total ${ type.toUpperCase() } (${ target.number } file${ plural })`
+    const asset = `Total ${type.toUpperCase()} (${target.number} file${plural})`
     const size = getHumanSize(target.size)
 
     lineList.push({
-      asset: colorFn[ type ](asset),
+      asset: colorFn[type](asset),
       assetLen: asset.length,
       size,
       sizeLen: size.length,
@@ -122,26 +124,23 @@ function getAssetLines (assetList, showGzipped) {
   return lineList
 }
 
-function getAssetColumnWidth (assetList) {
+function getAssetColumnWidth(assetList) {
   const total = highlightTypes.reduce((acc, type) => {
-    acc[ type ] = 0
+    acc[type] = 0
     return acc
   }, {})
 
-  let maxAssetNameLen = assetList.reduce(
-    (acc, asset) => {
-      if (highlightTypes.includes(asset.type)) {
-        total[ asset.type ]++
-      }
-      return Math.max(acc, asset.name.length)
-    },
-    0
-  )
+  let maxAssetNameLen = assetList.reduce((acc, asset) => {
+    if (highlightTypes.includes(asset.type)) {
+      total[asset.type]++
+    }
+    return Math.max(acc, asset.name.length)
+  }, 0)
 
   highlightTypes.forEach(type => {
-    const target = total[ type ]
+    const target = total[type]
     const plural = target.number > 1 ? 's' : ''
-    const banner = `Total ${ type.toUpperCase() } (${ target.number } file${ plural })`
+    const banner = `Total ${type.toUpperCase()} (${target.number} file${plural})`
 
     if (banner.length > maxAssetNameLen) {
       maxAssetNameLen = banner.length
@@ -151,25 +150,27 @@ function getAssetColumnWidth (assetList) {
   return /* spacing */ 2 + maxAssetNameLen
 }
 
-function capitalize (str) {
+function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-function getTable (widthMap) {
+function getTable(widthMap) {
   const acc = {}
   const colKeys = Object.keys(widthMap)
-  const separatorLine = (
-    delimiters.separator.start
-    + colKeys.map(key => delimiters.separator.middle.repeat(widthMap[ key ])).join(delimiters.separator.join)
-    + delimiters.separator.end
-  )
-  const thickSeparatorLine = (
-    delimiters.thickSeparator.start
-    + colKeys.map(key => delimiters.thickSeparator.middle.repeat(widthMap[ key ])).join(delimiters.thickSeparator.join)
-    + delimiters.thickSeparator.end
-  )
+  const separatorLine =
+    delimiters.separator.start +
+    colKeys
+      .map(key => delimiters.separator.middle.repeat(widthMap[key]))
+      .join(delimiters.separator.join) +
+    delimiters.separator.end
+  const thickSeparatorLine =
+    delimiters.thickSeparator.start +
+    colKeys
+      .map(key => delimiters.thickSeparator.middle.repeat(widthMap[key]))
+      .join(delimiters.thickSeparator.join) +
+    delimiters.thickSeparator.end
 
-  acc.printLine = function (line) {
+  acc.printLine = function printLine(line) {
     if (line === 'separator') {
       console.log(separatorLine)
       return
@@ -181,42 +182,56 @@ function getTable (widthMap) {
     }
 
     console.log(
-      delimiters.line.start
-      + colKeys.map(key => (' '.repeat(widthMap[ key ] - line[ key + 'Len' ] - 1) + line[ key ] + ' ')).join(delimiters.line.join)
-      + delimiters.line.end
+      delimiters.line.start +
+        colKeys
+          .map(
+            key =>
+              ' '.repeat(widthMap[key] - line[key + 'Len'] - 1) +
+              line[key] +
+              ' '
+          )
+          .join(delimiters.line.join) +
+        delimiters.line.end
     )
   }
 
-  acc.printHeader = function () {
+  acc.printHeader = function printHeader() {
     console.log(
-      delimiters.top.start
-      + colKeys.map(key => delimiters.top.middle.repeat(widthMap[ key ])).join(delimiters.top.join)
-      + delimiters.top.end
+      delimiters.top.start +
+        colKeys
+          .map(key => delimiters.top.middle.repeat(widthMap[key]))
+          .join(delimiters.top.join) +
+        delimiters.top.end
     )
 
     acc.printLine(
-      colKeys.reduce((acc, key) => {
+      colKeys.reduce((localAcc, key) => {
         const val = capitalize(key)
-        acc[ key ] = underline(val)
-        acc[ key + 'Len' ] = val.length
-        return acc
+        localAcc[key] = underline(val)
+        localAcc[key + 'Len'] = val.length
+        return localAcc
       }, {})
     )
   }
 
-  acc.printFooter = function () {
+  acc.printFooter = function printFooter() {
     console.log(
-      delimiters.bottom.start
-      + colKeys.map(key => delimiters.bottom.middle.repeat(widthMap[ key ])).join(delimiters.bottom.join)
-      + delimiters.bottom.end
-      + '\n'
+      delimiters.bottom.start +
+        colKeys
+          .map(key => delimiters.bottom.middle.repeat(widthMap[key]))
+          .join(delimiters.bottom.join) +
+        delimiters.bottom.end +
+        '\n'
     )
   }
 
   return acc
 }
 
-module.exports.printBuildSummary = function printBuildSummary (distDir, showGzipped) {
+module.exports.printBuildSummary = function printBuildSummary(
+  distDir,
+  showGzipped
+) {
   const assetList = getAssets(distDir)
 
   const widthMap = {

@@ -1,27 +1,15 @@
 <template>
   <div class="q-pa-md example-row-equal-width">
-
     <div class="row">
-      <div class="col">
-        .col
-      </div>
-      <div class="col">
-        .col
-      </div>
+      <div class="col"> .col </div>
+      <div class="col"> .col </div>
     </div>
 
     <div class="row">
-      <div class="col">
-        .col
-      </div>
-      <div class="col">
-        .col
-      </div>
-      <div class="col">
-        .col
-      </div>
+      <div class="col"> .col </div>
+      <div class="col"> .col </div>
+      <div class="col"> .col </div>
     </div>
-
   </div>
 </template>
 

@@ -1,9 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      <q-badge color="secondary" multi-line>
-        Model: "{{ model }}"
-      </q-badge>
+      <q-badge color="secondary" multi-line> Model: "{{ model }}" </q-badge>
 
       <q-select
         filled
@@ -47,7 +45,11 @@
             text-color="secondary"
             class="q-ma-none"
           >
-            <q-avatar color="secondary" text-color="white" :icon="scope.opt.icon" />
+            <q-avatar
+              color="secondary"
+              text-color="white"
+              :icon="scope.opt.icon"
+            />
             {{ scope.opt.label }}
           </q-chip>
         </template>
@@ -60,7 +62,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref({
         label: 'Google',

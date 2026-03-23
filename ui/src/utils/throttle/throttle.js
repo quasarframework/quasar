@@ -1,10 +1,13 @@
-export default function (fn, limit = 250) {
-  let wait = false, result
+export default function throttle(fn, limit = 250) {
+  let wait = false,
+    result
 
-  return function (/* ...args */) {
+  return function runThrottle(/* ...args */) {
     if (wait === false) {
       wait = true
-      setTimeout(() => { wait = false }, limit)
+      setTimeout(() => {
+        wait = false
+      }, limit)
       result = fn.apply(this, arguments)
     }
 

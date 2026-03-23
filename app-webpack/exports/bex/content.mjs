@@ -9,17 +9,17 @@ if (process.env.DEV === true && process.env.TARGET === 'chrome') {
   let scriptIsReloading = false
 
   const scriptName = process.env.__QUASAR_BEX_SCRIPT_NAME__
-  const portName = `quasar@hmr/content-script/${ scriptName }`
-  const banner = `[QBex|HMR] [${ scriptName }]`
+  const portName = `quasar@hmr/content-script/${scriptName}`
+  const banner = `[QBex|HMR] [${scriptName}]`
 
   const onMessage = message => {
     if (message === 'qbex:hmr:hello') {
-      console.log(`${ banner } Connected to background`)
+      console.log(`${banner} Connected to background`)
       return
     }
 
     if (message === 'qbex:hmr:reload-content') {
-      console.log(`${ banner } Reload requested by background...`)
+      console.log(`${banner} Reload requested by background...`)
       scriptIsReloading = true
 
       // reload the page with a small delay,
@@ -39,9 +39,11 @@ if (process.env.DEV === true && process.env.TARGET === 'chrome') {
       port.onMessage.removeListener(onMessage)
 
       console.log(
-        chrome.runtime.lastError?.message?.indexOf('Could not establish connection') !== -1
-          ? `${ banner } Could not connect to background`
-          : `${ banner } Lost connection to background`
+        chrome.runtime.lastError?.message?.indexOf(
+          'Could not establish connection'
+        ) !== -1
+          ? `${banner} Could not connect to background`
+          : `${banner} Lost connection to background`
       )
 
       setTimeout(connect, 1000)
@@ -53,7 +55,7 @@ if (process.env.DEV === true && process.env.TARGET === 'chrome') {
 
 let scriptHasBridge = false
 
-export function createBridge ({ debug } = {}) {
+export function createBridge({ debug } = {}) {
   if (scriptHasBridge === true) {
     console.error('Content script Quasar Bridge has already been created.')
     return

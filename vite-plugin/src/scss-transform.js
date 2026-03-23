@@ -1,13 +1,14 @@
-export function createScssTransform (fileExtension, sassVariables) {
-  const sassImportCode = [ '@import \'quasar/src/css/variables.sass\'', '' ]
+export function createScssTransform(fileExtension, sassVariables) {
+  const sassImportCode = ["@import 'quasar/src/css/variables.sass'", '']
 
   if (typeof sassVariables === 'string') {
-    sassImportCode.unshift(`@import '${ sassVariables }'`)
+    sassImportCode.unshift(`@import '${sassVariables}'`)
   }
 
-  const prefix = fileExtension === 'sass'
-    ? sassImportCode.join('\n')
-    : sassImportCode.join(';\n')
+  const prefix =
+    fileExtension === 'sass'
+      ? sassImportCode.join('\n')
+      : sassImportCode.join(';\n')
 
   return content => {
     const useIndex = Math.max(

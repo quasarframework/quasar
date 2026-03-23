@@ -4,15 +4,10 @@ import { generate } from 'selfsigned'
 
 const certPath = new URL('../ssl-server.pem', import.meta.url)
 
-export function generateCertificate ({
-  log,
-  fatal
-}) {
+export function generateCertificate({ log, fatal }) {
   log('Generating self signed localhost SSL Certificate...')
 
-  const attrs = [
-    { name: 'commonName', value: 'localhost' }
-  ]
+  const attrs = [{ name: 'commonName', value: 'localhost' }]
 
   const pems = generate(attrs, {
     algorithm: 'sha256',
@@ -79,19 +74,17 @@ export function generateCertificate ({
   const certContent = pems.private + pems.cert
   try {
     writeFileSync(certPath, certContent, 'utf-8')
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err)
-    fatal('Cannot write localhost SSL certificate to: ' + certPath + '. Aborting...')
+    fatal(
+      'Cannot write localhost SSL certificate to: ' + certPath + '. Aborting...'
+    )
   }
 
   return certContent
 }
 
-export function getCertificate ({
-  log,
-  fatal
-}) {
+export function getCertificate({ log, fatal }) {
   let certExists = existsSync(certPath)
 
   if (certExists === true) {

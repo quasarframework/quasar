@@ -12,7 +12,13 @@
     <q-toggle v-model="loading" label="Loading" />
     <q-toggle v-model="customInput" label="Custom Input" />
     <q-toggle v-model="titleIsDisabled" label="Disable Title QSelect" />
-    <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
+    <q-option-group
+      class="q-mb-lg"
+      inline
+      v-model="autofocusEl"
+      dense="dense"
+      :options="autofocusEls"
+    />
 
     <q-form
       v-if="show"
@@ -38,7 +44,7 @@
         />
 
         <div>
-          <input v-model="native" :autofocus="autofocusEl === 0">
+          <input v-model="native" :autofocus="autofocusEl === 0" />
         </div>
 
         <my-comp />
@@ -53,7 +59,7 @@
           filled
           :disable="titleIsDisabled"
           label="Title"
-          :rules="[ val => !!val ]"
+          :rules="[val => !!val]"
           :autofocus="autofocusEl === 4"
           clearable
         />
@@ -67,7 +73,7 @@
           label-color="green"
           hint="Name and surname"
           lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type something']"
+          :rules="[val => (val && val.length > 0) || 'Please type something']"
           :autofocus="autofocusEl === 1"
           clearable
         />
@@ -81,8 +87,8 @@
           label="Your age * (lazy)"
           lazy-rules
           :rules="[
-            val => val !== null && val !== '' || 'Please type your age',
-            val => val > 0 && val < 100 || 'Please type a real age'
+            val => (val !== null && val !== '') || 'Please type your age',
+            val => (val > 0 && val < 100) || 'Please type a real age'
           ]"
           :autofocus="autofocusEl === 2"
           clearable
@@ -97,8 +103,8 @@
           label="Your age * (lazy ondemand)"
           lazy-rules="ondemand"
           :rules="[
-            val => val !== null && val !== '' || 'Please type your age',
-            val => val > 0 && val < 100 || 'Please type a real age'
+            val => (val !== null && val !== '') || 'Please type your age',
+            val => (val > 0 && val < 100) || 'Please type a real age'
           ]"
           clearable
         />
@@ -108,23 +114,41 @@
           :dark="dark"
           filled
           label="Only async *"
-          :rules="[
-            asyncRule
-          ]"
+          :rules="[asyncRule]"
           clearable
         />
 
-        <q-toggle :dark="dark" v-model="accept" label="I accept the license and terms" :autofocus="autofocusEl === 3" />
+        <q-toggle
+          :dark="dark"
+          v-model="accept"
+          label="I accept the license and terms"
+          :autofocus="autofocusEl === 3"
+        />
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary" :loading="loading" />
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" :loading="loading" />
+          <q-btn
+            label="Submit"
+            type="submit"
+            color="primary"
+            :loading="loading"
+          />
+          <q-btn
+            label="Reset"
+            type="reset"
+            color="primary"
+            flat
+            class="q-ml-sm"
+            :loading="loading"
+          />
         </div>
       </div>
     </q-form>
 
     <div class="q-mt-xl q-pa-sm bg-grey-2 rounded-borders">
-      <q-toggle v-model="nativeSubmit" label="Use native submit (else it calls onSubmit)" />
+      <q-toggle
+        v-model="nativeSubmit"
+        label="Use native submit (else it calls onSubmit)"
+      />
     </div>
 
     <q-form
@@ -150,7 +174,7 @@
           :color="dark ? 'yellow' : 'primary'"
           filled
           label="Title"
-          :rules="[ val => !!val ]"
+          :rules="[val => !!val]"
         />
         <q-input
           name="user"
@@ -160,7 +184,7 @@
           filled
           label="Username"
           autocomplete="username"
-          :rules="[ val => !!val ]"
+          :rules="[val => !!val]"
         />
         <q-input
           name="password"
@@ -171,7 +195,7 @@
           type="password"
           label="Password"
           autocomplete="current-password"
-          :rules="[ val => !!val ]"
+          :rules="[val => !!val]"
         />
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
@@ -188,39 +212,47 @@ import { QField, QCard, QCardSection, QFormChildMixin } from 'quasar'
 export default {
   components: {
     customInput: {
-      props: [ 'modelValue' ],
-      render () {
-        return h(QField, {
-          modelValue: this.modelValue,
-          stackLabel: true
-        }, {
-          control: () => this.modelValue || 'null'
-        })
+      props: ['modelValue'],
+      render() {
+        return h(
+          QField,
+          {
+            modelValue: this.modelValue,
+            stackLabel: true
+          },
+          {
+            control: () => this.modelValue || 'null'
+          }
+        )
       }
     },
 
     myComp: {
-      mixins: [ QFormChildMixin ],
+      mixins: [QFormChildMixin],
 
-      render () {
+      render() {
         return h('div', {}, [
-          h(QCard, {
-            class: 'text-subtitle2',
-            bordered: true,
-            flat: true
-          }, () => h(QCardSection, () => [ 'a custom component' ]))
+          h(
+            QCard,
+            {
+              class: 'text-subtitle2',
+              bordered: true,
+              flat: true
+            },
+            () => h(QCardSection, () => ['a custom component'])
+          )
         ])
       },
 
       methods: {
-        validate () {
+        validate() {
           console.log('called my-comp.validate()')
           return true
         }
       }
     }
   },
-  data () {
+  data() {
     return {
       loading: false,
       native: null,
@@ -246,7 +278,7 @@ export default {
       dark: null,
       greedy: false,
 
-      titles: [ 'Mr.', 'Ms.' ],
+      titles: ['Mr.', 'Ms.'],
 
       title: null,
       user: null,
@@ -259,7 +291,7 @@ export default {
   },
 
   computed: {
-    formListeners () {
+    formListeners() {
       const listeners = {
         reset: this.onReset
       }
@@ -273,22 +305,22 @@ export default {
   },
 
   methods: {
-    async asyncRule (val) {
+    asyncRule(val) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve(!!val || '* Required')
+          resolve(Boolean(val) || '* Required')
         }, 1000)
       })
     },
 
-    onSubmit (evt) {
+    onSubmit(evt) {
       this.$q.notify('submit')
       console.log('@submit')
 
       // evt.target.submit()
     },
 
-    onReset () {
+    onReset() {
       this.native = null
       this.name = null
       this.age = null
@@ -298,15 +330,15 @@ export default {
       console.log('@reset')
     },
 
-    onValidationSuccess () {
+    onValidationSuccess() {
       console.log('@validation-success')
     },
 
-    onValidationError () {
+    onValidationError() {
       console.log('@validation-error')
     },
 
-    onClick () {
+    onClick() {
       this.$q.notify('click')
       console.log('cliiick')
     }

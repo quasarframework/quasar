@@ -20,7 +20,12 @@
 
       <q-card-section>
         <q-skeleton type="text" class="text-subtitle2" animation="fade" />
-        <q-skeleton type="text" width="50%" class="text-subtitle2" animation="fade" />
+        <q-skeleton
+          type="text"
+          width="50%"
+          class="text-subtitle2"
+          animation="fade"
+        />
       </q-card-section>
     </q-card>
   </div>

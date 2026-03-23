@@ -8,11 +8,11 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      prompt () {
+      prompt() {
         $q.dialog({
           title: 'Prompt',
           message: 'What is your name? (Minimum 3 characters)',

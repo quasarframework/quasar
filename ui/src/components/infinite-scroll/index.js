@@ -1,5 +1,3 @@
 import QInfiniteScroll from './QInfiniteScroll.js'
 
-export {
-  QInfiniteScroll
-}
+export { QInfiniteScroll }

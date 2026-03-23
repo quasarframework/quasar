@@ -50,10 +50,11 @@ import { ref } from 'vue'
 // supports URL too!
 // or relative path (if on Quasar CLI / Vite Plugin)
 // or ~assets/some-image.png (if on Quasar CLI)
-const img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
+const img =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(6),
       img

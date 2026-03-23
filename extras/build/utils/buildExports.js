@@ -31,15 +31,21 @@ const extensionList = [
  * @param {Set<string>} skipSet - Set of folder names to skip.
  * @returns {Promise<string[]>} - List of folder names.
  */
-async function readFolders (folderPath, skipSet) {
+async function readFolders(folderPath, skipSet) {
   try {
-    const entries = await fs.promises.readdir(folderPath, { withFileTypes: true })
+    const entries = await fs.promises.readdir(folderPath, {
+      withFileTypes: true
+    })
     return entries
-      .filter((entry) => entry.isDirectory() && !skipSet.has(entry.name) && !entry.name.startsWith('.'))
-      .map((entry) => entry.name)
-  }
-  catch (err) {
-    throw new Error(`Error reading directory: ${ err.message }`)
+      .filter(
+        entry =>
+          entry.isDirectory() &&
+          !skipSet.has(entry.name) &&
+          !entry.name.startsWith('.')
+      )
+      .map(entry => entry.name)
+  } catch (err) {
+    throw new Error(`Error reading directory: ${err.message}`, { cause: err })
   }
 }
 
@@ -48,35 +54,34 @@ async function readFolders (folderPath, skipSet) {
  * @param {string[]} folders - List of folder names.
  * @returns {object} - Exports configuration.
  */
-function generateExports (folders) {
+function generateExports(folders) {
   const exports = {
     '.': './index.js'
   }
 
   for (const folder of folders) {
     if (folder === 'animate') {
-      exports[ './animate/animate-list.common' ] = {
+      exports['./animate/animate-list.common'] = {
         types: './animate/animate-list.d.ts',
         import: './animate/animate-list.mjs',
         require: './animate/animate-list.common.js'
       }
-    }
-    else {
+    } else {
       const exportDefinition = extensionList.reduce((acc, { prop, ext }) => {
-        const filePath = path.join(baseFolder, folder, `index${ ext }`)
+        const filePath = path.join(baseFolder, folder, `index${ext}`)
         if (fs.existsSync(filePath)) {
-          acc[ prop ] = `./${ folder }/index${ ext }`
+          acc[prop] = `./${folder}/index${ext}`
         }
         return acc
       }, {})
 
       if (Object.keys(exportDefinition).length) {
-        exports[ `./${ folder }` ] = exportDefinition
+        exports[`./${folder}`] = exportDefinition
       }
     }
   }
 
-  exports[ './*' ] = './*'
+  exports['./*'] = './*'
 
   return exports
 }
@@ -85,28 +90,28 @@ function generateExports (folders) {
  * Updates the package.json file with the new exports configuration.
  * @param {object} exports - Exports configuration.
  */
-async function updatePackageJson (exports) {
+async function updatePackageJson(exports) {
   const packageJsonPath = path.join(baseFolder, 'package.json')
 
   try {
     const packageJson = await fse.readJson(packageJsonPath)
     packageJson.exports = exports
     await fse.writeJson(packageJsonPath, packageJson, { spaces: 2 })
-  }
-  catch (err) {
-    throw new Error(`Error updating package.json: ${ err.message }`)
+  } catch (err) {
+    throw new Error(`Error updating package.json: ${err.message}`, {
+      cause: err
+    })
   }
 }
 
 // Main execution
-(async () => {
+;(async () => {
   try {
     const folders = await readFolders(baseFolder, skips)
     const exports = generateExports(folders)
     await updatePackageJson(exports)
     console.log('package.json updated successfully!')
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err.message)
   }
 })()

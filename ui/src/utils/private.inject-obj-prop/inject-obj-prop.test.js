@@ -9,25 +9,15 @@ describe('[injectObjProp API]', () => {
         const source = { a: 5 }
         const target = {}
 
-        const result = injectProp(
-          target,
-          'prop',
-          () => source.a
-        )
+        const result = injectProp(target, 'prop', () => source.a)
 
-        expect(
-          result
-        ).toBe(target)
+        expect(result).toBe(target)
 
-        expect(
-          result.prop
-        ).toBe(source.a)
+        expect(result.prop).toBe(source.a)
 
         source.a = 'str'
 
-        expect(
-          result.prop
-        ).toBe(source.a)
+        expect(result.prop).toBe(source.a)
       })
 
       test('attaches getter + setter correctly', () => {
@@ -38,28 +28,22 @@ describe('[injectObjProp API]', () => {
           target,
           'prop',
           () => source.a,
-          val => { source.a = val }
+          val => {
+            source.a = val
+          }
         )
 
-        expect(
-          result
-        ).toBe(target)
+        expect(result).toBe(target)
 
-        expect(
-          result.prop
-        ).toBe(source.a)
+        expect(result.prop).toBe(source.a)
 
         source.a = 'str'
 
-        expect(
-          result.prop
-        ).toBe(source.a)
+        expect(result.prop).toBe(source.a)
 
         result.prop = 10
 
-        expect(
-          result.prop
-        ).toBe(source.a)
+        expect(result.prop).toBe(source.a)
       })
     })
 
@@ -68,36 +52,23 @@ describe('[injectObjProp API]', () => {
         const source = { a: 5, b: 'str' }
         const target = {}
 
-        const result = injectMultipleProps(
-          target,
-          {
-            propA: () => source.a,
-            propB: () => source.b
-          }
-        )
+        const result = injectMultipleProps(target, {
+          propA: () => source.a,
+          propB: () => source.b
+        })
 
-        expect(
-          result
-        ).toBe(target)
+        expect(result).toBe(target)
 
-        expect(
-          result.propA
-        ).toBe(source.a)
+        expect(result.propA).toBe(source.a)
 
-        expect(
-          result.propB
-        ).toBe(source.b)
+        expect(result.propB).toBe(source.b)
 
         source.a = 'str'
         source.b = 10
 
-        expect(
-          result.propA
-        ).toBe(source.a)
+        expect(result.propA).toBe(source.a)
 
-        expect(
-          result.propB
-        ).toBe(source.b)
+        expect(result.propB).toBe(source.b)
       })
     })
   })

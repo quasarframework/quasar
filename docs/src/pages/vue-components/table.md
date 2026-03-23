@@ -10,16 +10,16 @@ related:
 
 QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:
 
-* Filtering
-* Sorting
-* Single / Multiple rows selection with custom selection actions
-* Pagination (including server-side if required)
-* Grid mode (you can use for example QCards to display data in a non-tabular manner)
-* Total customization of rows and cells through scoped slots
-* Ability to add additional row(s) at top or bottom of data rows
-* Column picker (through QTableColumns component described in one of the sections)
-* Custom top and/or bottom Table controls
-* Responsive design
+- Filtering
+- Sorting
+- Single / Multiple rows selection with custom selection actions
+- Pagination (including server-side if required)
+- Grid mode (you can use for example QCards to display data in a non-tabular manner)
+- Total customization of rows and cells through scoped slots
+- Ability to add additional row(s) at top or bottom of data rows
+- Column picker (through QTableColumns component described in one of the sections)
+- Custom top and/or bottom Table controls
+- Responsive design
 
 ::: tip
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
@@ -38,7 +38,8 @@ If you don't need pagination, sorting, filtering, and all other features of QTab
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
 
 ```js
-columns: [ // array of Objects
+columns: [
+  // array of Objects
   // column Object definition
   {
     // unique id
@@ -106,8 +107,20 @@ columns: [ // array of Objects
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 ```
 
@@ -185,8 +198,8 @@ The example below shows how virtual scroll can be used along with a sticky heade
 
 There are 2 utility CSS classes that control VirtualScroll size calculation:
 
-* Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
-* Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
+- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
 <DocExample title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
 
@@ -244,8 +257,8 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 
 However, if you want to fully customize the content, check the example below, where:
 
-* We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
-* We are using multiple selection.
+- We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+- We are using multiple selection.
 
 <DocExample title="Grid style with slot" file="GridStyleSlot" />
 
@@ -262,8 +275,9 @@ An external expansion model can also be used:
 <DocExample title="External expansion model" file="ExpandedRowExternal" />
 
 If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
-* Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
-* Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
+
+- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
 <DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
 
@@ -274,7 +288,7 @@ If you are using virtual scroll with QTable, you should know that there are 2 ut
 ## Pagination
 
 ::: tip
-When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *"Server side pagination, filter and sorting"* section.
+When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See _"Server side pagination, filter and sorting"_ section.
 :::
 
 Below are two examples of handling the pagination (and sorting and rows per page).

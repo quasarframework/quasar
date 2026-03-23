@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape */
+// oxlint-disable no-useless-escape
 
 import { ref, reactive } from 'vue'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
@@ -14,57 +14,65 @@ import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.
 export const isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__
   ? { value: true }
   : ref(
-    __QUASAR_SSR_CLIENT__ && (
-      __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
+      __QUASAR_SSR_CLIENT__ &&
+        (__QUASAR_SSR_PWA__
+          ? document.body.getAttribute('data-server-rendered') !== null
+          : true)
     )
-  )
 
 let preHydrationBrowser
 
-function getMatch (userAgent, platformMatch) {
-  const match = /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
-    || /(opr)[\/]([\w.]+)/.exec(userAgent)
-    || /(vivaldi)[\/]([\w.]+)/.exec(userAgent)
-    || /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
-    || /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
-    || /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
-    || /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent)
-    || /(webkit)[\/]([\w.]+)/.exec(userAgent)
-    || /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent)
-    || []
+function getMatch(userAgent, platformMatch) {
+  const match =
+    /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
+    /(opr)[\/]([\w.]+)/.exec(userAgent) ||
+    /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
+    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
+    /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(
+      userAgent
+    ) ||
+    /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(
+      userAgent
+    ) ||
+    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
+    /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
+    /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
+    []
 
   return {
-    browser: match[ 5 ] || match[ 3 ] || match[ 1 ] || '',
-    version: match[ 4 ] || match[ 2 ] || '0',
-    platform: platformMatch[ 0 ] || ''
+    browser: match[5] || match[3] || match[1] || '',
+    version: match[4] || match[2] || '0',
+    platform: platformMatch[0] || ''
   }
 }
 
-function getPlatformMatch (userAgent) {
-  return /(ipad)/.exec(userAgent)
-    || /(ipod)/.exec(userAgent)
-    || /(windows phone)/.exec(userAgent)
-    || /(iphone)/.exec(userAgent)
-    || /(kindle)/.exec(userAgent)
-    || /(silk)/.exec(userAgent)
-    || /(android)/.exec(userAgent)
-    || /(win)/.exec(userAgent)
-    || /(mac)/.exec(userAgent)
-    || /(linux)/.exec(userAgent)
-    || /(cros)/.exec(userAgent)
+function getPlatformMatch(userAgent) {
+  return (
+    /(ipad)/.exec(userAgent) ||
+    /(ipod)/.exec(userAgent) ||
+    /(windows phone)/.exec(userAgent) ||
+    /(iphone)/.exec(userAgent) ||
+    /(kindle)/.exec(userAgent) ||
+    /(silk)/.exec(userAgent) ||
+    /(android)/.exec(userAgent) ||
+    /(win)/.exec(userAgent) ||
+    /(mac)/.exec(userAgent) ||
+    /(linux)/.exec(userAgent) ||
+    /(cros)/.exec(userAgent) ||
     // TODO: Remove BlackBerry detection. BlackBerry OS, BlackBerry 10, and BlackBerry PlayBook OS
     // is officially dead as of January 4, 2022 (https://www.blackberry.com/us/en/support/devices/end-of-life)
-    || /(playbook)/.exec(userAgent)
-    || /(bb)/.exec(userAgent)
-    || /(blackberry)/.exec(userAgent)
-    || []
+    /(playbook)/.exec(userAgent) ||
+    /(bb)/.exec(userAgent) ||
+    /(blackberry)/.exec(userAgent) ||
+    []
+  )
 }
 
 const hasTouch = __QUASAR_SSR_SERVER__
   ? false
   : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
-function getPlatform (UA) {
+function getPlatform(UA) {
   const userAgent = UA.toLowerCase()
   const platformMatch = getPlatformMatch(userAgent)
   const matched = getMatch(userAgent, platformMatch)
@@ -107,32 +115,30 @@ function getPlatform (UA) {
   }
 
   if (matched.browser) {
-    browser[ matched.browser ] = true
+    browser[matched.browser] = true
     browser.version = matched.version
     browser.versionNumber = parseInt(matched.version, 10)
   }
 
   if (matched.platform) {
-    browser[ matched.platform ] = true
+    browser[matched.platform] = true
   }
 
-  const knownMobiles = browser.android
-    || browser.ios
-    || browser.bb
-    || browser.blackberry
-    || browser.ipad
-    || browser.iphone
-    || browser.ipod
-    || browser.kindle
-    || browser.playbook
-    || browser.silk
-    || browser[ 'windows phone' ]
+  const knownMobiles =
+    browser.android ||
+    browser.ios ||
+    browser.bb ||
+    browser.blackberry ||
+    browser.ipad ||
+    browser.iphone ||
+    browser.ipod ||
+    browser.kindle ||
+    browser.playbook ||
+    browser.silk ||
+    browser['windows phone']
 
   // These are all considered mobile platforms, meaning they run a mobile browser
-  if (
-    knownMobiles === true
-    || userAgent.indexOf('mobile') !== -1
-  ) {
+  if (knownMobiles === true || userAgent.indexOf('mobile') !== -1) {
     browser.mobile = true
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
@@ -142,20 +148,18 @@ function getPlatform (UA) {
     browser.desktop = true
   }
 
-  if (browser[ 'windows phone' ]) {
+  if (browser['windows phone']) {
     browser.winphone = true
-    delete browser[ 'windows phone' ]
+    delete browser['windows phone']
   }
 
   if (browser.edga || browser.edgios || browser.edg) {
     browser.edge = true
     matched.browser = 'edge'
-  }
-  else if (browser.crios) {
+  } else if (browser.crios) {
     browser.chrome = true
     matched.browser = 'chrome'
-  }
-  else if (browser.fxios) {
+  } else if (browser.fxios) {
     browser.firefox = true
     matched.browser = 'firefox'
   }
@@ -175,16 +179,12 @@ function getPlatform (UA) {
   // Today, one might want to check for WebKit to deal with its bugs, which is used on all browsers on iOS, and Safari browser on all platforms.
   if (
     // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
-    browser.chrome
-    || browser.opr
-    || browser.safari
-    || browser.vivaldi
+    browser.chrome ||
+    browser.opr ||
+    browser.safari ||
+    browser.vivaldi ||
     // we expect unknown, non iOS mobile browsers to be webkit based
-    || (
-      browser.mobile === true
-      && browser.ios !== true
-      && knownMobiles !== true
-    )
+    (browser.mobile === true && browser.ios !== true && knownMobiles !== true)
   ) {
     browser.webkit = true
   }
@@ -200,20 +200,16 @@ function getPlatform (UA) {
     if (browser.blackberry || browser.bb) {
       matched.browser = 'blackberry'
       browser.blackberry = true
-    }
-    else if (browser.playbook) {
+    } else if (browser.playbook) {
       matched.browser = 'playbook'
       browser.playbook = true
-    }
-    else if (browser.android) {
+    } else if (browser.android) {
       matched.browser = 'android'
       browser.android = true
-    }
-    else if (browser.kindle) {
+    } else if (browser.kindle) {
       matched.browser = 'kindle'
       browser.kindle = true
-    }
-    else if (browser.silk) {
+    } else if (browser.silk) {
       matched.browser = 'silk'
       browser.silk = true
     }
@@ -226,17 +222,17 @@ function getPlatform (UA) {
   if (__QUASAR_SSR_SERVER__ !== true) {
     if (userAgent.indexOf('electron') !== -1) {
       browser.electron = true
-    }
-    else if (document.location.href.indexOf('-extension://') !== -1) {
+    } else if (document.location.href.indexOf('-extension://') !== -1) {
       browser.bex = true
-    }
-    else {
+    } else {
       if (window.Capacitor !== void 0) {
         browser.capacitor = true
         browser.nativeMobile = true
         browser.nativeMobileWrapper = 'capacitor'
-      }
-      else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
+      } else if (
+        window._cordovaNative !== void 0 ||
+        window.cordova !== void 0
+      ) {
         browser.cordova = true
         browser.nativeMobile = true
         browser.nativeMobileWrapper = 'cordova'
@@ -261,17 +257,13 @@ function getPlatform (UA) {
        */
 
       if (
-        hasTouch === true
-        && browser.mac === true
-        && (
-          (browser.desktop === true && browser.safari === true)
-          || (
-            browser.nativeMobile === true
-            && browser.android !== true
-            && browser.ios !== true
-            && browser.ipad !== true
-          )
-        )
+        hasTouch === true &&
+        browser.mac === true &&
+        ((browser.desktop === true && browser.safari === true) ||
+          (browser.nativeMobile === true &&
+            browser.android !== true &&
+            browser.ios !== true &&
+            browser.ipad !== true))
       ) {
         /*
          * Correction needed for iOS since the default
@@ -284,22 +276,23 @@ function getPlatform (UA) {
         delete browser.mac
         delete browser.desktop
 
-        const platform = Math.min(window.innerHeight, window.innerWidth) > 414
-          ? 'ipad'
-          : 'iphone'
+        const platform =
+          Math.min(window.innerHeight, window.innerWidth) > 414
+            ? 'ipad'
+            : 'iphone'
 
         Object.assign(browser, {
           mobile: true,
           ios: true,
           platform,
-          [ platform ]: true
+          [platform]: true
         })
       }
 
       if (
-        browser.mobile !== true
-        && window.navigator.userAgentData
-        && window.navigator.userAgentData.mobile
+        browser.mobile !== true &&
+        window.navigator.userAgentData &&
+        window.navigator.userAgentData.mobile
       ) {
         /*
          * Correction needed on client-side when
@@ -346,13 +339,12 @@ export const client = __QUASAR_SSR_SERVER__
     }
 
 const Platform = {
-  install (opts) {
+  install(opts) {
     const { $q } = opts
 
     if (__QUASAR_SSR_SERVER__) {
       $q.platform = this.parseSSR(opts.ssrContext)
-    }
-    else if (isRuntimeSsrPreHydration.value === true) {
+    } else if (isRuntimeSsrPreHydration.value === true) {
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
       // hydration errors
@@ -364,24 +356,26 @@ const Platform = {
       // we need to make platform reactive
       // for the takeover phase
       $q.platform = reactive(this)
-    }
-    else {
+    } else {
       $q.platform = this
     }
   }
 }
 
 if (__QUASAR_SSR_SERVER__) {
-  Platform.parseSSR = (ssrContext) => {
-    const userAgent = ssrContext.req.headers[ 'user-agent' ] || ssrContext.req.headers[ 'User-Agent' ] || ''
+  Platform.parseSSR = ssrContext => {
+    const ua =
+      ssrContext.req.headers['user-agent'] ||
+      ssrContext.req.headers['User-Agent'] ||
+      ''
+
     return {
       ...client,
-      userAgent,
-      is: getPlatform(userAgent)
+      userAgent: ua,
+      is: getPlatform(ua)
     }
   }
-}
-else {
+} else {
   // do not access window.localStorage without
   // devland actually using it as this will get
   // reported under "Cookies" in Google Chrome
@@ -397,8 +391,7 @@ else {
         hasWebStorage = true
         return true
       }
-    }
-    catch (_) {}
+    } catch {}
 
     hasWebStorage = false
     return false

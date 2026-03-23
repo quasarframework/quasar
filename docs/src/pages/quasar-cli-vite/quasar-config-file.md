@@ -5,17 +5,17 @@ desc: (@quasar/app-vite) Where, how and what you can configure in a Quasar CLI w
 
 Notice that your scaffolded project folder contains a `/quasar.config` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
 
-* Quasar components, directives and plugins that you'll be using in your website/app
-* Default [Quasar Language Pack](/options/quasar-language-packs)
-* [Icon libraries](/options/installing-icon-libraries) that you wish to use
-* Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
-* Development server port, HTTPS mode, hostname and so on
-* [CSS animations](/options/animations) that you wish to use
-* [Boot Files](/quasar-cli-vite/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
-* Global CSS/Sass/... files to be included in the bundle
-* SPA, PWA, Electron, Capacitor, Cordova, SSR, BEX (browser extensions) configuration
-* Extend the under the hood tools, like the generated Vite config
-* ...and many many more that you'll discover along the way
+- Quasar components, directives and plugins that you'll be using in your website/app
+- Default [Quasar Language Pack](/options/quasar-language-packs)
+- [Icon libraries](/options/installing-icon-libraries) that you wish to use
+- Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
+- Development server port, HTTPS mode, hostname and so on
+- [CSS animations](/options/animations) that you wish to use
+- [Boot Files](/quasar-cli-vite/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
+- Global CSS/Sass/... files to be included in the bundle
+- SPA, PWA, Electron, Capacitor, Cordova, SSR, BEX (browser extensions) configuration
+- Extend the under the hood tools, like the generated Vite config
+- ...and many many more that you'll discover along the way
 
 ::: tip
 You'll notice that changing any of these settings does not require you to manually reload the dev server. Quasar detects and reloads the necessary processes. You won't lose your development flow, because you can just sit back while Quasar CLI quickly reloads the changed code, even keeping the current state. This saves tons of your time!
@@ -34,7 +34,8 @@ You'll notice that the `/quasar.config` file exports a function that takes a `ct
 ```js /quasar.config file
 import { defineConfig } from '#q-app/wrappers'
 
-export default defineConfig((ctx) => { // can be async too
+export default defineConfig(ctx => {
+  // can be async too
   console.log(ctx)
 
   // Example output on console:
@@ -79,7 +80,7 @@ Or you can use a global CSS file for SPA mode and another one for Cordova mode w
 {
   css: [
     ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
-    ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
+    ctx.mode.cordova ? 'app-cordova.sass' : null // looks for /src/css/app-cordova.sass
   ]
 }
 ```
@@ -89,9 +90,7 @@ Or you can configure the dev server to run on port 8000 for SPA mode, on port 90
 ```js /quasar.config file
 {
   devServer: {
-    port: ctx.mode.spa
-      ? 8000
-      : (ctx.mode.pwa ? 9000 : 9090)
+    port: ctx.mode.spa ? 8000 : ctx.mode.pwa ? 9000 : 9090
   }
 }
 ```
@@ -129,7 +128,7 @@ Notice the `defineConfig` import from `#q-app/wrappers`. This is essentially a n
 ```js /quasar.config file
 import { defineConfig } from '#q-app/wrappers'
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   /* configuration options */
 })
 ```
@@ -292,6 +291,7 @@ framework?: {
 ```
 
 See these references for more info:
+
 - [Quasar Language Packs](/options/quasar-language-packs)
 - [Quasar Icon Sets](/options/quasar-icon-sets)
 - [Quasar CSS Addons - Flex](/layout/grid/introduction-to-flexbox#flex-addons)
@@ -339,14 +339,18 @@ Using `open` prop to open with a specific browser and not with the default brows
 // opens Google Chrome
 devServer: {
   open: {
-    app: { name: 'google chrome' }
+    app: {
+      name: 'google chrome'
+    }
   }
 }
 
 // opens Firefox
 devServer: {
   open: {
-    app: { name: 'firefox' }
+    app: {
+      name: 'firefox'
+    }
   }
 }
 
@@ -355,7 +359,9 @@ import open from 'open'
 
 devServer: {
   open: {
-    app: { name: open.apps.chrome }
+    app: {
+      name: open.apps.chrome
+    }
   }
 }
 ```
@@ -370,7 +376,7 @@ devServer: {
 
 ### build
 
-```js
+````js
 /** Build configuration options. */
 build?: QuasarBuildConfiguration;
 
@@ -719,9 +725,10 @@ interface QuasarBuildConfiguration {
    */
   sourcemap?: boolean | 'inline' | 'hidden';
 }
-```
+````
 
 See these references for more info:
+
 - [Vite server options](https://vitejs.dev/config/#server-options)
 - [Vite Vue Plugin options](/quasar-cli-vite/handling-vite#vite-vue-plugin-options)
 - [Adding Vite plugins](/quasar-cli-vite/handling-vite#adding-vite-plugins)
@@ -772,7 +779,7 @@ You can define and then reference variables in `/index.html`, like this:
 ```js /quasar.config file
 import { defineConfig } from '#q-app/wrappers'
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     htmlVariables: {
       myVar: 'some-content'
@@ -784,8 +791,7 @@ export default defineConfig((ctx) => {
 Then, as an example:
 
 ```html /index.html
-<%= myVar %>
-<% if (myVar) { %>something<% } %>
+<%= myVar %> <% if (myVar) { %>something<% } %>
 ```
 
 One more example:
@@ -802,22 +808,19 @@ htmlVariables: {
 Then, as an example:
 
 ```html /index.html
-<%= title %>
-<%= some.prop %>
-<% if (some.prop) { %><%= title %><% } %>
+<%= title %> <%= some.prop %> <% if (some.prop) { %><%= title %><% } %>
 ```
 
 ### Quasar Mode Specific
 
-| Property | Type | Description |
-| --- | --- | --- |
-| cordova | Object | Cordova specific [config](/quasar-cli-vite/developing-cordova-apps/configuring-cordova). |
+| Property  | Type   | Description                                                                                               |
+| --------- | ------ | --------------------------------------------------------------------------------------------------------- |
+| cordova   | Object | Cordova specific [config](/quasar-cli-vite/developing-cordova-apps/configuring-cordova).                  |
 | capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor). |
-| pwa | Object | PWA specific [config](/quasar-cli-vite/developing-pwa/configuring-pwa). |
-| ssr | Object | SSR specific [config](/quasar-cli-vite/developing-ssr/configuring-ssr). |
-| electron | Object | Electron specific [config](/quasar-cli-vite/developing-electron-apps/configuring-electron). |
-| bex | Object | BEX specific [config](/quasar-cli-vite/developing-browser-extensions/configuring-bex). |
-
+| pwa       | Object | PWA specific [config](/quasar-cli-vite/developing-pwa/configuring-pwa).                                   |
+| ssr       | Object | SSR specific [config](/quasar-cli-vite/developing-ssr/configuring-ssr).                                   |
+| electron  | Object | Electron specific [config](/quasar-cli-vite/developing-electron-apps/configuring-electron).               |
+| bex       | Object | BEX specific [config](/quasar-cli-vite/developing-browser-extensions/configuring-bex).                    |
 
 ## Examples
 

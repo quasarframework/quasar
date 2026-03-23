@@ -15,12 +15,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const progress = ref(0.65)
 
     return {
       progress,
-      randomize () {
+      randomize() {
         progress.value = Math.random()
       }
     }

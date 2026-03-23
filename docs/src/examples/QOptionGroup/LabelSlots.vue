@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <q-option-group
-      v-model="group"
-      type="checkbox"
-      :options="options"
-    >
+    <q-option-group v-model="group" type="checkbox" :options="options">
       <template v-slot:label="opt">
         <div class="row items-center">
           <span class="text-teal">{{ opt.label }}</span>
@@ -16,7 +12,7 @@
         <!-- custom label for option at index 0 -->
         <span class="text-weight-bold">{{ opt.label }}</span>
         <span> (has QTooltip)</span>
-        <q-tooltip class="bg-primary" :offset="[0,0]">Tooltip</q-tooltip>
+        <q-tooltip class="bg-primary" :offset="[0, 0]">Tooltip</q-tooltip>
       </template>
     </q-option-group>
   </div>
@@ -26,7 +22,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       group: ref(['op1']),
 

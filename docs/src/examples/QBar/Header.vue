@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lHh lpr lFf" container style="height: 400px" class="shadow-2 rounded-borders">
+    <q-layout
+      view="lHh lpr lFf"
+      container
+      style="height: 400px"
+      class="shadow-2 rounded-borders"
+    >
       <q-header elevated>
         <q-bar>
           <q-icon name="laptop_chromebook" />
@@ -35,24 +40,14 @@
 
                   <q-menu anchor="top end" self="top start">
                     <q-list>
-                      <q-item
-                        v-for="n in 3"
-                        :key="n"
-                        dense
-                        clickable
-                      >
+                      <q-item v-for="n in 3" :key="n" dense clickable>
                         <q-item-section>Submenu Label</q-item-section>
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
                         <q-menu auto-close anchor="top end" self="top start">
                           <q-list>
-                            <q-item
-                              v-for="n in 3"
-                              :key="n"
-                              dense
-                              clickable
-                            >
+                            <q-item v-for="n in 3" :key="n" dense clickable>
                               <q-item-section>3rd level Label</q-item-section>
                             </q-item>
                           </q-list>
@@ -97,7 +92,10 @@
       <q-page-container>
         <q-page class="q-pa-md">
           <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
           </p>
         </q-page>
       </q-page-container>

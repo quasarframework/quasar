@@ -4,7 +4,7 @@ import {
   QuasarIconSets,
   QuasarLanguageCodes,
   QuasarPlugins,
-  QuasarUIConfiguration,
+  QuasarUIConfiguration
 } from "quasar";
 
 type AnyFn = (...args: any) => any;

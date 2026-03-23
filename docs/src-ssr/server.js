@@ -65,13 +65,9 @@ export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
  *
  * Can be async.
  */
-export const close = defineSsrClose(({ listenResult }) => {
-  return listenResult.close()
-})
+export const close = defineSsrClose(({ listenResult }) => listenResult.close())
 
-const maxAge = process.env.DEV
-  ? 0
-  : 1000 * 60 * 60 * 1
+const maxAge = process.env.DEV ? 0 : 1000 * 60 * 60 * 1
 
 /**
  * Should return a function that will be used to configure the webserver
@@ -79,12 +75,16 @@ const maxAge = process.env.DEV
  *
  * Notice resolve.urlPath(urlPath) and resolve.public(pathToServe) usages.
  */
-export const serveStaticContent = defineSsrServeStaticContent(({ app, resolve }) => {
-  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
-    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
-    app.use(resolve.urlPath(urlPath), serveFn)
-  }
-})
+export const serveStaticContent = defineSsrServeStaticContent(
+  ({ app, resolve }) =>
+    ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+      const serveFn = express.static(resolve.public(pathToServe), {
+        maxAge,
+        ...opts
+      })
+      app.use(resolve.urlPath(urlPath), serveFn)
+    }
+)
 
 const jsRE = /\.js$/
 const cssRE = /\.css$/
@@ -98,34 +98,36 @@ const pngRE = /\.png$/
  * Should return a String with HTML output
  * (if any) for preloading indicated file
  */
-export const renderPreloadTag = defineSsrRenderPreloadTag((file/* , { ssrContext } */) => {
-  if (jsRE.test(file) === true) {
-    return `<link rel="modulepreload" href="${ file }" crossorigin>`
-  }
+export const renderPreloadTag = defineSsrRenderPreloadTag(
+  (file /* , { ssrContext } */) => {
+    if (jsRE.test(file) === true) {
+      return `<link rel="modulepreload" href="${file}" crossorigin>`
+    }
 
-  if (cssRE.test(file) === true) {
-    return `<link rel="stylesheet" href="${ file }" crossorigin>`
-  }
+    if (cssRE.test(file) === true) {
+      return `<link rel="stylesheet" href="${file}" crossorigin>`
+    }
 
-  if (woffRE.test(file) === true) {
-    return `<link rel="preload" href="${ file }" as="font" type="font/woff" crossorigin>`
-  }
+    if (woffRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
+    }
 
-  if (woff2RE.test(file) === true) {
-    return `<link rel="preload" href="${ file }" as="font" type="font/woff2" crossorigin>`
-  }
+    if (woff2RE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
+    }
 
-  if (gifRE.test(file) === true) {
-    return `<link rel="preload" href="${ file }" as="image" type="image/gif" crossorigin>`
-  }
+    if (gifRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`
+    }
 
-  if (jpgRE.test(file) === true) {
-    return `<link rel="preload" href="${ file }" as="image" type="image/jpeg" crossorigin>`
-  }
+    if (jpgRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`
+    }
 
-  if (pngRE.test(file) === true) {
-    return `<link rel="preload" href="${ file }" as="image" type="image/png" crossorigin>`
-  }
+    if (pngRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`
+    }
 
-  return ''
-})
+    return ''
+  }
+)

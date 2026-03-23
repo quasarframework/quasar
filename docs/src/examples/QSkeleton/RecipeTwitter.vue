@@ -24,17 +24,32 @@
 
           <div class="row items-center justify-between no-wrap">
             <div class="row items-center">
-              <q-icon name="chat_bubble_outline" color="grey-4" class="q-mr-sm" size="18px" />
+              <q-icon
+                name="chat_bubble_outline"
+                color="grey-4"
+                class="q-mr-sm"
+                size="18px"
+              />
               <q-skeleton type="text" width="30px" />
             </div>
 
             <div class="row items-center">
-              <q-icon name="repeat" color="grey-4" class="q-mr-sm" size="18px" />
+              <q-icon
+                name="repeat"
+                color="grey-4"
+                class="q-mr-sm"
+                size="18px"
+              />
               <q-skeleton type="text" width="30px" />
             </div>
 
             <div class="row items-center">
-              <q-icon name="favorite_border" color="grey-4" class="q-mr-sm" size="18px" />
+              <q-icon
+                name="favorite_border"
+                color="grey-4"
+                class="q-mr-sm"
+                size="18px"
+              />
               <q-skeleton type="text" width="30px" />
             </div>
           </div>

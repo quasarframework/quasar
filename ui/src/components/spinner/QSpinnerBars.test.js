@@ -7,32 +7,24 @@ describe('[QSpinnerBars API]', () => {
   describe('[Props]', () => {
     describe('[(prop)size]', () => {
       test.each([
-        [ 'String', '100px' ],
-        [ 'Number', 100 ]
+        ['String', '100px'],
+        ['Number', 100]
       ])('type %s has effect', async (_, propVal) => {
-        const expectedValue = '' + propVal
+        const expectedValue = String(propVal)
         const wrapper = mount(QSpinnerBars)
 
         const target = wrapper.get('.q-spinner')
 
-        expect(
-          target.attributes('width')
-        ).not.toBe(expectedValue)
+        expect(target.attributes('width')).not.toBe(expectedValue)
 
-        expect(
-          target.attributes('height')
-        ).not.toBe(expectedValue)
+        expect(target.attributes('height')).not.toBe(expectedValue)
 
         await wrapper.setProps({ size: propVal })
         await flushPromises()
 
-        expect(
-          target.attributes('width')
-        ).toBe(expectedValue)
+        expect(target.attributes('width')).toBe(expectedValue)
 
-        expect(
-          target.attributes('height')
-        ).toBe(expectedValue)
+        expect(target.attributes('height')).toBe(expectedValue)
       })
     })
 
@@ -43,16 +35,12 @@ describe('[QSpinnerBars API]', () => {
 
         const target = wrapper.get('.q-spinner')
 
-        expect(
-          target.classes()
-        ).not.toContain('text-red')
+        expect(target.classes()).not.toContain('text-red')
 
         await wrapper.setProps({ color: propVal })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('text-red')
+        expect(target.classes()).toContain('text-red')
       })
     })
   })

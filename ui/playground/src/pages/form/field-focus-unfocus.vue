@@ -29,23 +29,32 @@
           <template v-slot:selected-item="scope">
             <div
               @click.stop
-              style="display: inline-block; padding: 4px 24px 4px 8px; width: auto; position: relative;cursor: default;"
+              style="
+                display: inline-block;
+                padding: 4px 24px 4px 8px;
+                width: auto;
+                position: relative;
+                cursor: default;
+              "
               class="bg-primary text-white rounded-borders q-mr-xs q-mb-xs rounded non-selectable"
             >
               <span>{{ scope.opt.label }}</span>
               <q-icon
                 name="close"
                 @click.stop="scope.removeAtIndex(scope.index)"
-                style="font-size: 18px; opacity:0.5; position: absolute; right: 4px; top: calc(50% - 9px)"
+                style="
+                  font-size: 18px;
+                  opacity: 0.5;
+                  position: absolute;
+                  right: 4px;
+                  top: calc(50% - 9px);
+                "
                 class="cursor-pointer"
               />
             </div>
           </template>
           <template v-slot:option="scope">
-            <q-item
-              v-bind="scope.itemProps"
-              class="q-py-none"
-            >
+            <q-item v-bind="scope.itemProps" class="q-py-none">
               <q-item-section>
                 <q-item-label>
                   <div v-html="scope.opt.label" />
@@ -53,7 +62,9 @@
               </q-item-section>
               <q-item-section side>
                 <q-toggle
-                  :model-value="value.some(opt => opt.value === scope.opt.value)"
+                  :model-value="
+                    value.some(opt => opt.value === scope.opt.value)
+                  "
                   color="primary"
                 />
               </q-item-section>
@@ -76,19 +87,9 @@
           </template>
         </q-input>
 
-        <q-input
-          v-model="email"
-          filled
-          type="email"
-          hint="Email"
-        ></q-input>
+        <q-input v-model="email" filled type="email" hint="Email"></q-input>
 
-        <q-input
-          v-model="search"
-          filled
-          type="search"
-          hint="Search"
-        >
+        <q-input v-model="search" filled type="search" hint="Search">
           <template v-slot:append>
             <q-icon name="search"></q-icon>
           </template>
@@ -101,37 +102,15 @@
           hint="Telephone number"
         ></q-input>
 
-        <q-input
-          v-model="url"
-          filled
-          type="url"
-          hint="URL"
-        ></q-input>
+        <q-input v-model="url" filled type="url" hint="URL"></q-input>
 
-        <q-input
-          v-model="time"
-          filled
-          type="time"
-          hint="Native time"
-        ></q-input>
+        <q-input v-model="time" filled type="time" hint="Native time"></q-input>
 
-        <q-input
-          v-model="date"
-          filled
-          type="date"
-          hint="Native date"
-        ></q-input>
+        <q-input v-model="date" filled type="date" hint="Native date"></q-input>
 
-        <q-input
-          v-model="password"
-          filled
-        ></q-input>
+        <q-input v-model="password" filled></q-input>
 
-        <q-toggle
-          :model-value="false"
-          label="Toggle"
-          color="primary"
-        />
+        <q-toggle :model-value="false" label="Toggle" color="primary" />
       </div>
     </div>
 
@@ -164,23 +143,32 @@
           <template v-slot:selected-item="scope">
             <div
               @click.stop
-              style="display: inline-block; padding: 4px 24px 4px 8px; width: auto; position: relative;cursor: default;"
+              style="
+                display: inline-block;
+                padding: 4px 24px 4px 8px;
+                width: auto;
+                position: relative;
+                cursor: default;
+              "
               class="bg-primary text-white rounded-borders q-mr-xs q-mb-xs rounded non-selectable"
             >
               <span>{{ scope.opt.label }}</span>
               <q-icon
                 name="close"
                 @click.stop="scope.removeAtIndex(scope.index)"
-                style="font-size: 18px; opacity:0.5; position: absolute; right: 4px; top: calc(50% - 9px)"
+                style="
+                  font-size: 18px;
+                  opacity: 0.5;
+                  position: absolute;
+                  right: 4px;
+                  top: calc(50% - 9px);
+                "
                 class="cursor-pointer"
               />
             </div>
           </template>
           <template v-slot:option="scope">
-            <q-item
-              v-bind="scope.itemProps"
-              class="q-py-none"
-            >
+            <q-item v-bind="scope.itemProps" class="q-py-none">
               <q-item-section>
                 <q-item-label>
                   <div v-html="scope.opt.label" />
@@ -188,7 +176,9 @@
               </q-item-section>
               <q-item-section side>
                 <q-toggle
-                  :model-value="value.some(opt => opt.value === scope.opt.value)"
+                  :model-value="
+                    value.some(opt => opt.value === scope.opt.value)
+                  "
                   color="primary"
                 />
               </q-item-section>
@@ -276,7 +266,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       password: '',
       isPwd: true,
@@ -313,7 +303,7 @@ export default {
     }
   },
   methods: {
-    onFilterOptions (val, update) {
+    onFilterOptions(val, update) {
       if (val === '') {
         update(() => {
           this.filteredOptions = this.options
@@ -328,7 +318,7 @@ export default {
         )
       })
     },
-    resetInputText () {
+    resetInputText() {
       this.$refs.select.updateInputValue('')
     }
   }

@@ -7,10 +7,10 @@ scope:
   nodeJsTree:
     l: src-ssr
     c:
-    - l: middlewares/
-      e: SSR middleware files
-    - l: server.js
-      e: (or .ts) SSR webserver
+      - l: middlewares/
+        e: SSR middleware files
+      - l: server.js
+        e: (or .ts) SSR webserver
 ---
 
 ## quasar.config file
@@ -187,9 +187,9 @@ return {
   // ...
   ssr: {
     // ...
-    extendSSRWebserverConf (esbuildConf) {
+    extendSSRWebserverConf(esbuildConf) {
       // tamper with esbuildConf here
-    },
+    }
   }
 }
 ```

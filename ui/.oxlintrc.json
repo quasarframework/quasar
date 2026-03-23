@@ -1,0 +1,14 @@
+{
+  "extends": ["../.oxlintrc.json"],
+
+  "globals": {
+    "cordova": "readonly",
+    "__QUASAR_VERSION__": "readonly",
+    "__QUASAR_SSR__": "readonly",
+    "__QUASAR_SSR_SERVER__": "readonly",
+    "__QUASAR_SSR_CLIENT__": "readonly",
+    "__QUASAR_SSR_PWA__": "readonly"
+  },
+
+  "ignorePatterns": ["icon-set/svg-*.js", "lang/index.json"]
+}

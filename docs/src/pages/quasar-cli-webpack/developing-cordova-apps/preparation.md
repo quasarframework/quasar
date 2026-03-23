@@ -2,6 +2,7 @@
 title: Preparation for Cordova App
 desc: (@quasar/app-webpack) What you need to do before developing a Quasar hybrid mobile app with Cordova.
 ---
+
 Before we dive into the actual development, we need to do some preparation work.
 
 ## Step 1: Installation
@@ -24,11 +25,11 @@ The environmental variable `ANDROID_HOME` has been deprecated and replaced with 
 
 ### Android Setup
 
-* After this step you will need to install the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio) and follow these [installation steps](https://developer.android.com/studio/install) afterward.
+- After this step you will need to install the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio) and follow these [installation steps](https://developer.android.com/studio/install) afterward.
 
-* Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin, and call `sdkmanager --licenses`.
+- Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin, and call `sdkmanager --licenses`.
 
-* Add Android installation to your path:
+- Add Android installation to your path:
 
 #### Unix (macOS, Linux)
 
@@ -43,18 +44,21 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform
 #### Windows
 
 After installing Android Studio, you need to install two more pieces of software:
-* JDK from Oracle. It can be found [here](https://www.oracle.com/java/technologies/downloads/#java8)
-* Gradle. It used to be usable from Android Studio but now you have to install it separately. There is a particular version that Cordova requires. You can download it [here](https://gradle.org/next-steps/?version=4.10.3&format=all)
+
+- JDK from Oracle. It can be found [here](https://www.oracle.com/java/technologies/downloads/#java8)
+- Gradle. It used to be usable from Android Studio but now you have to install it separately. There is a particular version that Cordova requires. You can download it [here](https://gradle.org/next-steps/?version=4.10.3&format=all)
 
 Then you will have to set environment variables. You will need to set the following variables. Cordova has a good guide for it already. It can be found [here](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables). You need to:
-* add `ANDROID_SDK_ROOT`. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
-* add two `ANDROID_SDK_ROOT` directories to your path: %ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools
-* add Gradle to your path. Note that Gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
-* add `JAVA_HOME`. Its value depends on where you installed it. You can [download the JDK here](https://www.oracle.com/java/technologies/downloads/)
+
+- add `ANDROID_SDK_ROOT`. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
+- add two `ANDROID_SDK_ROOT` directories to your path: %ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools
+- add Gradle to your path. Note that Gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
+- add `JAVA_HOME`. Its value depends on where you installed it. You can [download the JDK here](https://www.oracle.com/java/technologies/downloads/)
 
 > You can check the value of an environment variable by typing in console `echo %ENVIRONMENT_VARIABLE%`.
 
 If you have an init script for your command prompt or powershell, you can try this:
+
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
 setx ANDROID_SDK_ROOT "%USERPROFILE%\AppData\Local\Android\Sdk"
@@ -63,15 +67,15 @@ setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools;<gr
 
 After the tools are installed, set up Android Studio with the correct SDK and create a virtual machine.
 
-* Start Android Studio (check the executable in the folder that you installed it in). The next step is to install the individual SDKs:
+- Start Android Studio (check the executable in the folder that you installed it in). The next step is to install the individual SDKs:
 
-* Open the "Configure" menu at the bottom of the window:
+- Open the "Configure" menu at the bottom of the window:
 
-  ![SDK manager](https://cdn.quasar.dev/img/Android-Studio-SDK-Menu.png "SDK manager")
+  ![SDK manager](https://cdn.quasar.dev/img/Android-Studio-SDK-Menu.png 'SDK manager')
 
-* Select the desired SDKs. As of December 2019, Cordova requires android-28 (Android 9.0 - Pie) so be sure to include it. Click on "Apply" to install the SDKs.
+- Select the desired SDKs. As of December 2019, Cordova requires android-28 (Android 9.0 - Pie) so be sure to include it. Click on "Apply" to install the SDKs.
 
-  ![SDK selection](https://cdn.quasar.dev/img/Android-Studio-SDK-selection.png "SDK selection")
+  ![SDK selection](https://cdn.quasar.dev/img/Android-Studio-SDK-selection.png 'SDK selection')
 
 ### iOS Setup
 
@@ -86,6 +90,7 @@ $ quasar mode add cordova
 ```
 
 ## Step 3: Add Platform
+
 To switch to the Cordova project, type:
 
 ```bash
@@ -130,8 +135,9 @@ $ cordova plugin add cordova-plugin-ionic-webview
 ```
 
 3. Consult Ionic Docs for caveats on WkWebViewPlugin
-  * [https://beta.ionicframework.com/docs/building/webview](https://beta.ionicframework.com/docs/building/webview)
-  * [https://github.com/ionic-team/cordova-plugin-ionic-webview](https://github.com/ionic-team/cordova-plugin-ionic-webview)
+
+- [https://beta.ionicframework.com/docs/building/webview](https://beta.ionicframework.com/docs/building/webview)
+- [https://github.com/ionic-team/cordova-plugin-ionic-webview](https://github.com/ionic-team/cordova-plugin-ionic-webview)
 
 #### Option 2: Cordova WkWebviewEngine Plugin
 

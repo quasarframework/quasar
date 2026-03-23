@@ -13,13 +13,25 @@
         </template>
       </q-file>
 
-      <q-file color="grey-3" outlined label-color="orange" v-model="model" label="Label">
+      <q-file
+        color="grey-3"
+        outlined
+        label-color="orange"
+        v-model="model"
+        label="Label"
+      >
         <template v-slot:append>
           <q-icon name="attachment" color="orange" />
         </template>
       </q-file>
 
-      <q-file color="lime-11" bg-color="green" filled v-model="model" label="Label">
+      <q-file
+        color="lime-11"
+        bg-color="green"
+        filled
+        v-model="model"
+        label="Label"
+      >
         <template v-slot:prepend>
           <q-icon name="attachment" />
         </template>
@@ -28,12 +40,20 @@
       <q-file color="teal" outlined v-model="model" label="Label">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
           </q-avatar>
         </template>
       </q-file>
 
-      <q-file clearable color="orange" standout bottom-slots v-model="model" label="Label" counter>
+      <q-file
+        clearable
+        color="orange"
+        standout
+        bottom-slots
+        v-model="model"
+        label="Label"
+        counter
+      >
         <template v-slot:prepend>
           <q-icon name="attach_file" />
         </template>
@@ -41,9 +61,7 @@
           <q-icon name="favorite" />
         </template>
 
-        <template v-slot:hint>
-          Field hint
-        </template>
+        <template v-slot:hint> Field hint </template>
       </q-file>
     </div>
   </div>
@@ -53,7 +71,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(null)
     }

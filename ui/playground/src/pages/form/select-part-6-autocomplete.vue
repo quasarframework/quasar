@@ -10,11 +10,7 @@
         :label="behavior || 'auto'"
       />
 
-      <q-input
-        v-model="name"
-        label="Name"
-        autocomplete="name"
-      />
+      <q-input v-model="name" label="Name" autocomplete="name" />
 
       <q-select
         v-model="city"
@@ -25,9 +21,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -43,21 +37,19 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
 
-      <pre>{{name}} / {{city}} / {{country}}</pre>
+      <pre>{{ name }} / {{ city }} / {{ country }}</pre>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data: function () {
+  data: function data() {
     return {
       name: '',
       city: null,
@@ -78,14 +70,15 @@ export default {
   },
 
   methods: {
-    filterCountryOptions (val, update) {
+    filterCountryOptions(val, update) {
       update(() => {
         if (val === '') {
           this.filteredCountryOptions = this.countryOptions
-        }
-        else {
+        } else {
           const needle = val.toLowerCase()
-          this.filteredCountryOptions = this.countryOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+          this.filteredCountryOptions = this.countryOptions.filter(
+            v => v.label.toLowerCase().indexOf(needle) > -1
+          )
         }
       })
     }

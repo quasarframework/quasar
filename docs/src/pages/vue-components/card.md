@@ -26,9 +26,11 @@ You can play with the typography within your cards to create beautiful cards.
 :::
 
 ### Basic
+
 <DocExample title="Basic cards" file="Basic" />
 
 ### With actions
+
 <DocExample title="Cards with actions" file="Actions" />
 
 Below are some of the custom alignments that you can use for the actions through the `align` property:
@@ -36,6 +38,7 @@ Below are some of the custom alignments that you can use for the actions through
 <DocExample title="Aligning actions" file="ActionsAlignment" />
 
 ### Media content
+
 <DocExample title="Cards with media content" file="Media" />
 
 <DocExample title="Card with video" file="Video" />
@@ -53,6 +56,7 @@ It's recommended that you use QImg component instead of native `<img>` when deal
 <DocExample title="More involved examples" file="HorizontalMoreInvolved" />
 
 ### Various content
+
 <DocExample title="Various content" file="VariousContent" />
 
 <DocExample title="Table" file="Table" />

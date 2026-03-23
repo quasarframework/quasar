@@ -27,11 +27,11 @@ const argv = parseArgs(process.argv.slice(2), {
     f: 'filter',
     ...partArgs
   },
-  boolean: [ 'h', ...partArgsKeys ],
-  string: [ 'f' ]
+  boolean: ['h', ...partArgsKeys],
+  string: ['f']
 })
 
-const item = argv._[ 0 ]
+const item = argv._[0]
 
 if (!item || argv.help) {
   console.log(`
@@ -82,126 +82,134 @@ if (!item || argv.help) {
 const ctx = getCtx()
 const apiParts = {}
 
-if (partArgsKeys.some(part => argv[ part ])) {
+if (partArgsKeys.some(part => argv[part])) {
   Object.values(partArgs).forEach(part => {
-    apiParts[ part ] = argv[ part ]
+    apiParts[part] = argv[part]
   })
-}
-else {
+} else {
   Object.values(partArgs).forEach(part => {
     if (part !== 'docs') {
-      apiParts[ part ] = true
+      apiParts[part] = true
     }
   })
 }
 
-function getEventParams (event) {
-  const params = !event.params || event.params.length === 0
-    ? ''
-    : Object.keys(event.params).join(', ')
+function getEventParams(event) {
+  const params =
+    !event.params || event.params.length === 0
+      ? ''
+      : Object.keys(event.params).join(', ')
 
   return ' -> function(' + params + ')'
 }
 
-function getMethodParams (method, noRequired) {
+function getMethodParams(method, noRequired) {
   if (!method.params || method.params.length === 0) {
     return ' ()'
   }
 
   if (noRequired === true) {
-    return ` (${ Object.keys(method.params).join(', ') })`
+    return ` (${Object.keys(method.params).join(', ')})`
   }
 
   const params = Object.keys(method.params)
-  const optionalIndex = params.findIndex(param => method.params[ param ].required !== true)
+  const optionalIndex = params.findIndex(
+    param => method.params[param].required !== true
+  )
 
-  const str = optionalIndex !== -1
-    ? params.slice(0, optionalIndex).join(', ')
-      + (optionalIndex < params.length
-        ? '[' + (optionalIndex > 0 ? ', ' : '') + params.slice(optionalIndex).join(', ') + ']'
-        : '')
-    : params.join(', ')
+  const str =
+    optionalIndex !== -1
+      ? params.slice(0, optionalIndex).join(', ') +
+        (optionalIndex < params.length
+          ? '[' +
+            (optionalIndex > 0 ? ', ' : '') +
+            params.slice(optionalIndex).join(', ') +
+            ']'
+          : '')
+      : params.join(', ')
 
   return ' (' + str + ')'
 }
 
-function getMethodReturnValue (method) {
-  return ' => '
-    + (!method.returns
-      ? 'void 0'
-      : method.returns.type
-    )
+function getMethodReturnValue(method) {
+  return ' => ' + (!method.returns ? 'void 0' : method.returns.type)
 }
 
-function getStringType (type) {
-  return Array.isArray(type)
-    ? type.join(' | ')
-    : type
+function getStringType(type) {
+  return Array.isArray(type) ? type.join(' | ') : type
 }
 
-function printProp (prop, propName, indentLevel) {
+function printProp(prop, propName, indentLevel) {
   let indent = ' '.repeat(indentLevel)
 
   const type = getStringType(prop.type)
 
   if (propName !== void 0) {
-    console.log(`${ indent }${ green(propName) } ${ type ? `(${ type })` : '' }${ type !== 'Function' && prop.required ? red(' [Required]') : '' }${ prop.reactive ? red(' [Reactive]') : '' }`)
+    console.log(
+      `${indent}${green(propName)} ${type ? `(${type})` : ''}${type !== 'Function' && prop.required ? red(' [Required]') : ''}${prop.reactive ? red(' [Reactive]') : ''}`
+    )
 
     indentLevel += 2
     indent += '  '
   }
 
-  console.log(`${ indent }Description: ${ prop.desc }`)
+  console.log(`${indent}Description: ${prop.desc}`)
 
   if (prop.alias) {
-    console.log(`${ indent }Alias: ${ prop.alias }`)
+    console.log(`${indent}Alias: ${prop.alias}`)
   }
   if (type === 'Function') {
-    console.log(`${ indent }Function form:${ getMethodParams(prop, true) }${ getMethodReturnValue(prop) }`)
+    console.log(
+      `${indent}Function form:${getMethodParams(prop, true)}${getMethodReturnValue(prop)}`
+    )
   }
   if (prop.sync) {
-    console.log(`${ indent }".sync" modifier required!`)
+    console.log(`${indent}".sync" modifier required!`)
   }
   if (prop.link) {
-    console.log(`${ indent }Link: ${ prop.link }`)
+    console.log(`${indent}Link: ${prop.link}`)
   }
   if (prop.values) {
-    console.log(`${ indent }Accepted values: ${ prop.values.join(' | ') }`)
+    console.log(`${indent}Accepted values: ${prop.values.join(' | ')}`)
   }
   if (prop.default) {
-    console.log(`${ indent }Default value: ${ prop.default }`)
+    console.log(`${indent}Default value: ${prop.default}`)
   }
   if (prop.definition) {
-    console.log(`${ indent }Props:`)
-    for (const propName in prop.definition) {
-      printProp(prop.definition[ propName ], propName, indentLevel + 2)
+    console.log(`${indent}Props:`)
+    for (const definitionPropName in prop.definition) {
+      printProp(
+        prop.definition[definitionPropName],
+        definitionPropName,
+        indentLevel + 2
+      )
     }
   }
   if (prop.params) {
-    console.log(`${ indent }Params:`)
-    for (const propName in prop.params) {
-      printProp(prop.params[ propName ], propName, indentLevel + 2)
+    console.log(`${indent}Params:`)
+    for (const paramName in prop.params) {
+      printProp(prop.params[paramName], paramName, indentLevel + 2)
     }
   }
   if (prop.returns) {
-    console.log(`${ indent }Returns ${ getStringType(prop.returns.type) }:`)
+    console.log(`${indent}Returns ${getStringType(prop.returns.type)}:`)
     printProp(prop.returns, void 0, indentLevel + 2)
   }
   if (prop.scope) {
-    console.log(`${ indent }Scope:`)
-    for (const propName in prop.scope) {
-      printProp(prop.scope[ propName ], propName, indentLevel + 2)
+    console.log(`${indent}Scope:`)
+    for (const scopePropName in prop.scope) {
+      printProp(prop.scope[scopePropName], scopePropName, indentLevel + 2)
     }
   }
   if (prop.examples !== void 0) {
-    console.log(`${ indent }Example${ prop.examples.length > 1 ? 's' : '' }:`)
+    console.log(`${indent}Example${prop.examples.length > 1 ? 's' : ''}:`)
     prop.examples.forEach(example => {
-      console.log(`${ indent }  ${ example }`)
+      console.log(`${indent}  ${example}`)
     })
   }
 }
 
-function printProperties ({ props }) {
+function printProperties({ props }) {
   const keys = Object.keys(props || {})
 
   console.log('\n ' + underline('Properties'))
@@ -214,7 +222,7 @@ function printProperties ({ props }) {
   if (argv.filter) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete props[ key ]
+        delete props[key]
       }
     })
     if (Object.keys(props).length === 0) {
@@ -225,11 +233,11 @@ function printProperties ({ props }) {
 
   for (const propName in props) {
     console.log()
-    printProp(props[ propName ], propName, 3)
+    printProp(props[propName], propName, 3)
   }
 }
 
-function printSlots ({ slots }) {
+function printSlots({ slots }) {
   const keys = Object.keys(slots || {})
 
   console.log('\n ' + underline('Slots'))
@@ -242,7 +250,7 @@ function printSlots ({ slots }) {
   if (argv.filter !== void 0) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete slots[ key ]
+        delete slots[key]
       }
     })
     if (Object.keys(slots).length === 0) {
@@ -253,11 +261,11 @@ function printSlots ({ slots }) {
 
   for (const slot in slots) {
     console.log()
-    printProp(slots[ slot ], slot, 3)
+    printProp(slots[slot], slot, 3)
   }
 }
 
-function printEvents ({ events }) {
+function printEvents({ events }) {
   const keys = Object.keys(events || {})
 
   console.log('\n ' + underline('Events'))
@@ -270,7 +278,7 @@ function printEvents ({ events }) {
   if (argv.filter !== void 0) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete events[ key ]
+        delete events[key]
       }
     })
     if (Object.keys(events).length === 0) {
@@ -280,23 +288,22 @@ function printEvents ({ events }) {
   }
 
   for (const eventName in events) {
-    const event = events[ eventName ]
+    const event = events[eventName]
 
     console.log('\n   @' + green(eventName) + getEventParams(event))
     console.log('     Description: ' + event.desc)
     if (!event.params) {
       console.log('     Parameters: ' + italic('*None*'))
-    }
-    else {
+    } else {
       console.log('     Parameters:')
       for (const paramName in event.params) {
-        printProp(event.params[ paramName ], paramName, 7)
+        printProp(event.params[paramName], paramName, 7)
       }
     }
   }
 }
 
-function printMethods ({ methods }) {
+function printMethods({ methods }) {
   const keys = Object.keys(methods || {})
 
   console.log('\n ' + underline('Methods'))
@@ -309,7 +316,7 @@ function printMethods ({ methods }) {
   if (argv.filter !== void 0) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete methods[ key ]
+        delete methods[key]
       }
     })
     if (Object.keys(methods).length === 0) {
@@ -319,24 +326,29 @@ function printMethods ({ methods }) {
   }
 
   for (const methodName in methods) {
-    const method = methods[ methodName ]
-    console.log('\n   ' + green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
+    const method = methods[methodName]
+    console.log(
+      '\n   ' +
+        green(methodName) +
+        getMethodParams(method) +
+        getMethodReturnValue(method)
+    )
     console.log('     ' + method.desc)
     if (method.params) {
       console.log('     Parameters:')
       for (const paramName in method.params) {
-        printProp(method.params[ paramName ], paramName, 7)
+        printProp(method.params[paramName], paramName, 7)
       }
     }
 
     if (method.returns) {
-      console.log(`     Returns ${ getStringType(method.returns.type) }:`)
+      console.log(`     Returns ${getStringType(method.returns.type)}:`)
       printProp(method.returns, void 0, 7)
     }
   }
 }
 
-function printComputedProps ({ computedProps }) {
+function printComputedProps({ computedProps }) {
   const keys = Object.keys(computedProps || {})
 
   console.log('\n ' + underline('Computed Properties'))
@@ -349,7 +361,7 @@ function printComputedProps ({ computedProps }) {
   if (argv.filter) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete computedProps[ key ]
+        delete computedProps[key]
       }
     })
     if (Object.keys(computedProps).length === 0) {
@@ -360,35 +372,33 @@ function printComputedProps ({ computedProps }) {
 
   for (const propName in computedProps) {
     console.log()
-    printProp(computedProps[ propName ], propName, 3)
+    printProp(computedProps[propName], propName, 3)
   }
 }
 
-function printValue ({ value }) {
+function printValue({ value }) {
   console.log('\n ' + underline('Value'))
 
   if (value === void 0) {
     console.log('\n   ' + italic('*No value*'))
-  }
-  else {
+  } else {
     console.log('\n   Type:', value.type)
     printProp(value, void 0, 3)
   }
 }
 
-function printArg ({ arg }) {
+function printArg({ arg }) {
   console.log('\n ' + underline('Arg'))
 
   if (arg === void 0) {
     console.log('\n   ' + italic('*No arg*'))
-  }
-  else {
+  } else {
     console.log('\n   Type:', arg.type)
     printProp(arg, void 0, 3)
   }
 }
 
-function printModifiers ({ modifiers }) {
+function printModifiers({ modifiers }) {
   const keys = Object.keys(modifiers || {})
 
   console.log('\n ' + underline('Modifiers'))
@@ -401,7 +411,7 @@ function printModifiers ({ modifiers }) {
   if (argv.filter !== void 0) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete modifiers[ key ]
+        delete modifiers[key]
       }
     })
     if (Object.keys(modifiers).length === 0) {
@@ -411,27 +421,25 @@ function printModifiers ({ modifiers }) {
   }
 
   for (const modifierName in modifiers) {
-    const modifier = modifiers[ modifierName ]
+    const modifier = modifiers[modifierName]
     console.log('\n   ' + green(modifierName))
     printProp(modifier, modifierName, 5)
   }
 }
 
-function printInjection ({ injection }) {
+function printInjection({ injection }) {
   console.log('\n ' + underline('Injection'))
 
   if (injection === void 0) {
     console.log('\n   ' + italic('*No injection*'))
-  }
-  else {
+  } else {
     console.log('\n   ' + green(injection))
   }
 }
 
-function printQuasarConfOptions ({ quasarConfOptions }) {
-  const conf = quasarConfOptions !== void 0
-    ? quasarConfOptions.definition || {}
-    : {}
+function printQuasarConfOptions({ quasarConfOptions }) {
+  const conf =
+    quasarConfOptions !== void 0 ? quasarConfOptions.definition || {} : {}
   const keys = Object.keys(conf)
 
   console.log('\n ' + underline('quasar.config file > framework > config'))
@@ -444,7 +452,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
   if (argv.filter !== void 0) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete conf[ key ]
+        delete conf[key]
       }
     })
     if (Object.keys(conf).length === 0) {
@@ -457,33 +465,33 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
   console.log('   Definition:')
   for (const propName in conf) {
     console.log()
-    printProp(conf[ propName ], propName, 5)
+    printProp(conf[propName], propName, 5)
   }
 }
 
-function describe (api) {
+function describe(api) {
   switch (api.type) {
     case 'component':
-      apiParts.quasar === true && printQuasarConfOptions(api)
-      apiParts.props === true && printProperties(api)
-      apiParts.slots === true && printSlots(api)
-      apiParts.events === true && printEvents(api)
-      apiParts.methods === true && printMethods(api)
-      apiParts.computedProps === true && printComputedProps(api)
+      if (apiParts.quasar === true) printQuasarConfOptions(api)
+      if (apiParts.props === true) printProperties(api)
+      if (apiParts.slots === true) printSlots(api)
+      if (apiParts.events === true) printEvents(api)
+      if (apiParts.methods === true) printMethods(api)
+      if (apiParts.computedProps === true) printComputedProps(api)
       break
 
     case 'directive':
-      apiParts.quasar === true && printQuasarConfOptions(api)
-      apiParts.value === true && printValue(api)
-      apiParts.arg === true && printArg(api)
-      apiParts.modifiers === true && printModifiers(api)
+      if (apiParts.quasar === true) printQuasarConfOptions(api)
+      if (apiParts.value === true) printValue(api)
+      if (apiParts.arg === true) printArg(api)
+      if (apiParts.modifiers === true) printModifiers(api)
       break
 
     case 'plugin':
-      apiParts.injection === true && printInjection(api)
-      apiParts.quasar === true && printQuasarConfOptions(api)
-      apiParts.props === true && printProperties(api)
-      apiParts.methods === true && printMethods(api)
+      if (apiParts.injection === true) printInjection(api)
+      if (apiParts.quasar === true) printQuasarConfOptions(api)
+      if (apiParts.props === true) printProperties(api)
+      if (apiParts.methods === true) printMethods(api)
       break
   }
 
@@ -493,7 +501,7 @@ function describe (api) {
   }
 }
 
-async function run () {
+async function run() {
   try {
     const { api, supplier } = await getApi(item, ctx)
 
@@ -503,42 +511,47 @@ async function run () {
       if (api.meta && api.meta.docsUrl) {
         const { openBrowser } = require('../utils/open-browser.js')
         openBrowser({ url: api.meta.docsUrl, wait: false })
-      }
-      else {
-        console.log(' Please report this issue to: https://github.com/quasarframework/quasar/issues/')
-        console.log(' Write down the command that you tried along with a complete log of "quasar info" command output')
+      } else {
+        console.log(
+          ' Please report this issue to: https://github.com/quasarframework/quasar/issues/'
+        )
+        console.log(
+          ' Write down the command that you tried along with a complete log of "quasar info" command output'
+        )
         console.log()
       }
-    }
-    else {
-      console.log(` Describing ${ green(item) } ${ api.type } API`)
+    } else {
+      console.log(` Describing ${green(item)} ${api.type} API`)
 
       if (supplier === void 0) {
-        console.log(` ${ italic('Description is based on your project\'s Quasar version') }`)
-      }
-      else {
-        console.log(` ${ italic(`Supplied by "${ supplier }" App Extension`) }`)
+        console.log(
+          ` ${italic("Description is based on your project's Quasar version")}`
+        )
+      } else {
+        console.log(` ${italic(`Supplied by "${supplier}" App Extension`)}`)
       }
 
       describe(api)
       console.log()
     }
-  }
-  catch (e) {
+  } catch (e) {
     fatal(e)
   }
 }
 
-function listElements () {
+function listElements() {
   const { getPackage } = require('../utils/get-package.js')
 
-  let api = getPackage('quasar/dist/transforms/api-list.json', ctx.appPaths.appDir)
+  let api = getPackage(
+    'quasar/dist/transforms/api-list.json',
+    ctx.appPaths.appDir
+  )
 
   if (api === void 0) {
     fatal(' Could not retrieve list...')
   }
 
-  const filter = argv._[ 1 ]
+  const filter = argv._[1]
 
   if (filter) {
     const needle = filter.toLowerCase()
@@ -546,17 +559,18 @@ function listElements () {
     api = api.filter(entry => entry.toLowerCase().indexOf(needle) !== -1)
 
     if (api.length === 0) {
-      console.log(`\n Nothing matches "${ filterBanner }". Please refine the search term.\n`)
+      console.log(
+        `\n Nothing matches "${filterBanner}". Please refine the search term.\n`
+      )
       process.exit(0)
     }
 
-    console.log(`\n The list of API elements that match "${ filterBanner }":\n`)
-  }
-  else {
+    console.log(`\n The list of API elements that match "${filterBanner}":\n`)
+  } else {
     console.log('\n The complete list of API elements:\n')
   }
 
-  const prefix = green(`  ${ dot } `)
+  const prefix = green(`  ${dot} `)
 
   api.forEach(entry => {
     console.log(prefix + entry)
@@ -566,7 +580,6 @@ function listElements () {
 
 if (item === 'list') {
   listElements()
-}
-else {
+} else {
   run()
 }

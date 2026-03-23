@@ -1,5 +1,3 @@
 import QResizeObserver from './QResizeObserver.js'
 
-export {
-  QResizeObserver
-}
+export { QResizeObserver }

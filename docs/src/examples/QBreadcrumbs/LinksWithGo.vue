@@ -1,9 +1,24 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-breadcrumbs>
-      <q-breadcrumbs-el label="Delayed" icon="widgets" to="/" @click="onDelayedClick" />
-      <q-breadcrumbs-el label="Cancelled" icon="navigation" to="/" @click="onCancelledClick" />
-      <q-breadcrumbs-el label="Redirected" icon="build" to="/" @click="onRedirectedClick" />
+      <q-breadcrumbs-el
+        label="Delayed"
+        icon="widgets"
+        to="/"
+        @click="onDelayedClick"
+      />
+      <q-breadcrumbs-el
+        label="Cancelled"
+        icon="navigation"
+        to="/"
+        @click="onCancelledClick"
+      />
+      <q-breadcrumbs-el
+        label="Redirected"
+        icon="build"
+        to="/"
+        @click="onRedirectedClick"
+      />
       <q-breadcrumbs-el label="Page" />
     </q-breadcrumbs>
   </div>
@@ -11,8 +26,8 @@
 
 <script>
 export default {
-  setup () {
-    function onDelayedClick (e, go) {
+  setup() {
+    function onDelayedClick(e, go) {
       e.preventDefault() // mandatory; we choose when we navigate
 
       // console.log('triggering navigation in 2s')
@@ -22,12 +37,12 @@ export default {
       }, 2000)
     }
 
-    function onCancelledClick (e, go) {
+    function onCancelledClick(e, go) {
       e.preventDefault() // mandatory; we choose when we navigate
       // then we never call go()
     }
 
-    function onRedirectedClick (e, go) {
+    function onRedirectedClick(e, go) {
       e.preventDefault() // mandatory; we choose when we navigate
 
       // call this at your convenience
@@ -35,7 +50,10 @@ export default {
         to: '/start/pick-quasar-flavour' // we pick another route
         // replace: boolean; default is what the tab is configured with
         // returnRouterError: boolean
-      }).then(_vueRouterResult => { /* ... */ })
+      })
+        .then(_vueRouterResult => {
+          /* ... */
+        })
         .catch(_vueRouterError => {
           /* ...will not reach here unless returnRouterError === true */
         })

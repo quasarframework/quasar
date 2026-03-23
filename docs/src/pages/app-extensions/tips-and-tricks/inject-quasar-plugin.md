@@ -3,13 +3,13 @@ title: Injecting Quasar Plugin
 desc: Tips and tricks on how to use a Quasar App Extension to configure the host app to use a Quasar Plugin.
 scope:
   tree:
-    l: "."
+    l: '.'
     c:
-    - l: package.json
-    - l: src
-      c:
-      - l: index.js
-        e: Described in Index API
+      - l: package.json
+      - l: src
+        c:
+          - l: index.js
+            e: Described in Index API
 ---
 
 This guide is for when you want to ensure that a [Quasar Plugin](/quasar-plugins) will be injected into the hosting app, because you depend on it for your own App Extension to work.
@@ -38,8 +38,8 @@ export default function (api) {
 
   if (api.hasVite === true) {
     api.compatibleWith('@quasar/app-vite', '^2.0.0')
-  }
-  else { // api.hasWebpack === true
+  } else {
+    // api.hasWebpack === true
     api.compatibleWith('@quasar/app-webpack', '^4.0.0')
   }
 
@@ -53,7 +53,7 @@ export default function (api) {
 Our "extendConf" method, in the same file as above:
 
 ```js File: /index.js
-function extendConf (conf) {
+function extendConf(conf) {
   // we push to /quasar.config file > framework > plugins:
   conf.framework.plugins.push('AppVisibility')
 }

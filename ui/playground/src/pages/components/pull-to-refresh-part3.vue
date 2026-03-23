@@ -1,6 +1,11 @@
 <template>
   <q-pull-to-refresh @refresh="load">
-    <q-list style="width: 100%; height: 300px; border: 1px solid red;" class="scroll-y" @touchstart="preventPull" @mousedown="preventPull">
+    <q-list
+      style="width: 100%; height: 300px; border: 1px solid red"
+      class="scroll-y"
+      @touchstart="preventPull"
+      @mousedown="preventPull"
+    >
       <q-item v-for="i in list" clickable v-ripple :key="i">
         {{ i }}
       </q-item>
@@ -11,13 +16,13 @@
 <script>
 export default {
   name: 'Test',
-  data () {
+  data() {
     return {
-      list: [ 'Pull down to load elements' ]
+      list: ['Pull down to load elements']
     }
   },
   methods: {
-    load (done) {
+    load(done) {
       const base = this.list.length
       for (let i = 0; i < 10; i++) {
         this.list.push(base + i)
@@ -25,7 +30,7 @@ export default {
       done()
     },
 
-    preventPull (e) {
+    preventPull(e) {
       let parent = e.target
 
       while (parent !== void 0 && !parent.classList.contains('scroll-y')) {
@@ -35,8 +40,7 @@ export default {
       if (parent !== void 0 && parent.scrollTop > 0) {
         if (this.$q.platform.is.desktop) {
           console.log('prevent!')
-        }
-        else {
+        } else {
           this.$q.notify('prevent!')
         }
         e.stopPropagation()

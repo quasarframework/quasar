@@ -5,23 +5,23 @@ scope:
   tree:
     l: app.asar
     c:
-    - l: dist
-      c:
-      - l: electron-*
+      - l: dist
         c:
-        - l: js/...
-        - l: icons/
-        - l: node_modules/
-        - l: index.html
-        - l: package.json
-        - l: electron-main.js
-          e: (or .ts)
-        - l: electron-preload.js
-          e: (or .ts)
-        - l: "...contents of /public"
+          - l: electron-*
+            c:
+              - l: js/...
+              - l: icons/
+              - l: node_modules/
+              - l: index.html
+              - l: package.json
+              - l: electron-main.js
+                e: (or .ts)
+              - l: electron-preload.js
+                e: (or .ts)
+              - l: '...contents of /public'
 ---
 
-## Using __dirname & __filename
+## Using **dirname & **filename
 
 Since the main process is bundled using Esbuild, the use of `__dirname` and `__filename` will not provide an expected value in production. Referring to the File Tree, you'll notice that in production the electron-main.js and electron-preload.js files are placed inside the `dist/electron-*` folder. Based on this knowledge, use `__dirname` & `__filename` accordingly.
 
@@ -99,7 +99,7 @@ mainWindow = new BrowserWindow({
 
 ## Accessing the Public Folder
 
-If for some reason, you have important files that you are storing in the /public folder, you can access those too by following the code below. To understand why you need to access them this way, please read the "Using __dirname & __filename" section above.
+If for some reason, you have important files that you are storing in the /public folder, you can access those too by following the code below. To understand why you need to access them this way, please read the "Using **dirname & **filename" section above.
 
 ```js /electron-main or /electron-preload
 import path from 'path'

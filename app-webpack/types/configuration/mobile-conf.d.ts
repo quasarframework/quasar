@@ -3,5 +3,5 @@ export interface QuasarMobileConfiguration {
   bin?: {
     linuxAndroidStudio?: string;
     windowsAndroidStudio?: string;
-  }
+  };
 }

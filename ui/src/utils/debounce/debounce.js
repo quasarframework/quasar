@@ -1,7 +1,8 @@
-export default function (fn, wait = 250, immediate) {
+// oxlint-disable-next-line default-param-last
+export default function debounce(fn, wait = 250, immediate) {
   let timer = null
 
-  function debounced (/* ...args */) {
+  function debounced(/* ...args */) {
     const args = arguments
 
     const later = () => {
@@ -13,8 +14,7 @@ export default function (fn, wait = 250, immediate) {
 
     if (timer !== null) {
       clearTimeout(timer)
-    }
-    else if (immediate === true) {
+    } else if (immediate === true) {
       fn.apply(this, args)
     }
 
@@ -22,7 +22,7 @@ export default function (fn, wait = 250, immediate) {
   }
 
   debounced.cancel = () => {
-    timer !== null && clearTimeout(timer)
+    if (timer !== null) clearTimeout(timer)
   }
 
   return debounced

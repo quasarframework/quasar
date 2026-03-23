@@ -1,10 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <div>
-      <q-toggle
-        v-model="first"
-        icon="alarm"
-      />
+      <q-toggle v-model="first" icon="alarm" />
       <q-toggle
         v-model="second"
         color="pink"
@@ -35,7 +32,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       first: ref(true),
       second: ref(true),

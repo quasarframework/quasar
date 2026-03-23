@@ -24,7 +24,7 @@
 
     <q-virtual-scroll
       ref="virtualListRef"
-      style="max-height: 300px;"
+      style="max-height: 300px"
       component="q-list"
       :items="heavyList"
       separator
@@ -37,9 +37,7 @@
         :class="{ 'bg-black text-white': index === virtualListIndex }"
       >
         <q-item-section>
-          <q-item-label>
-            #{{ index }} - {{ item.label }}
-          </q-item-label>
+          <q-item-label> #{{ index }} - {{ item.label }} </q-item-label>
         </q-item-section>
       </q-item>
     </q-virtual-scroll>
@@ -59,7 +57,7 @@ for (let i = 0; i < maxSize; i++) {
 }
 
 export default {
-  setup () {
+  setup() {
     const virtualListRef = ref(null)
     const virtualListIndex = ref(1200)
 
@@ -72,11 +70,11 @@ export default {
       virtualListRef,
       virtualListIndex,
 
-      onVirtualScroll ({ index }) {
+      onVirtualScroll({ index }) {
         virtualListIndex.value = index
       },
 
-      executeScroll () {
+      executeScroll() {
         virtualListRef.value.scrollTo(virtualListIndex.value, 'start-force')
       }
     }

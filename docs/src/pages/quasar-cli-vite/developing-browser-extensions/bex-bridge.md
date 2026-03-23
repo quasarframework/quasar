@@ -2,6 +2,7 @@
 title: BEX Bridge Communication
 desc: (@quasar/app-vite) How to communicate between different parts of your Browser Extension (BEX) in Quasar.
 ---
+
 Allowing a Quasar App to communicate with the various parts of the BEX is essential. Quasar closes this gap using a `bridge`.
 
 There are 3 areas in a BEX which will need a communication layer:
@@ -83,7 +84,8 @@ const bridge = createBridge({ debug: false })
  *
  * To check connection status, access bridge.isConnected
  */
-bridge.connectToBackground()
+bridge
+  .connectToBackground()
   .then(() => {
     console.log('Connected to background')
   })
@@ -228,7 +230,7 @@ All browser extensions have a hard limit on the amount of data that can be passe
 bridge.send({
   event: 'some.event',
   to: 'app',
-  payload: [ chunk1, chunk2, ...chunkN ]
+  payload: [chunk1, chunk2, ...chunkN]
 })
 ```
 
@@ -252,10 +254,13 @@ bridge.send({
   event: 'some.event',
   to: 'background',
   payload: {
-    myArray: [ /*...*/ ]
+    myArray: [
+      /*...*/
+    ]
   }
 })
 ```
+
 :::
 
 ### Bridge debug mode

@@ -8,7 +8,7 @@ import { BaseAPI } from './BaseAPI.js'
  * API for extension's /prompts.js script
  */
 export class PromptsAPI extends BaseAPI {
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
     this.#appExtJson = appExtJson
   }
@@ -27,15 +27,19 @@ export class PromptsAPI extends BaseAPI {
    * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWith (packageName, semverCondition) {
+  compatibleWith(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
-      fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
+      fatal(
+        `Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`
+      )
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${ this.extId }): is not compatible with ${ packageName } v${ json.version }. Required version: ${ semverCondition }`)
+      fatal(
+        `Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`
+      )
     }
   }
 
@@ -50,7 +54,7 @@ export class PromptsAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
@@ -69,7 +73,7 @@ export class PromptsAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed & invoked
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -79,11 +83,9 @@ export class PromptsAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const json = getPackageJson(packageName, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**

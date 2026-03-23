@@ -4,22 +4,20 @@ import getCssVar from '../../utils/css-var/get-css-var.js'
 
 let metaValue
 
-function getProp () {
-  return client.is.winphone
-    ? 'msapplication-navbutton-color'
-    : 'theme-color' // Safari, Chrome, ...
+function getProp() {
+  return client.is.winphone ? 'msapplication-navbutton-color' : 'theme-color' // Safari, Chrome, ...
 }
 
-function getMetaTag (v) {
+function getMetaTag(v) {
   const els = document.getElementsByTagName('META')
   for (const i in els) {
-    if (els[ i ].name === v) {
-      return els[ i ]
+    if (els[i].name === v) {
+      return els[i]
     }
   }
 }
 
-function setColor (hexColor) {
+function setColor(hexColor) {
   if (metaValue === void 0) {
     // cache it
     metaValue = getProp()
@@ -41,25 +39,30 @@ function setColor (hexColor) {
 }
 
 export default {
-  set: __QUASAR_SSR_SERVER__ !== true && client.is.mobile === true && (
-    client.is.nativeMobile === true
-    || client.is.winphone === true || client.is.safari === true
-    || client.is.webkit === true || client.is.vivaldi === true
-  )
-    ? hexColor => {
-      const val = hexColor || getCssVar('primary')
+  set:
+    __QUASAR_SSR_SERVER__ !== true &&
+    client.is.mobile === true &&
+    (client.is.nativeMobile === true ||
+      client.is.winphone === true ||
+      client.is.safari === true ||
+      client.is.webkit === true ||
+      client.is.vivaldi === true)
+      ? hexColor => {
+          const val = hexColor || getCssVar('primary')
 
-      if (client.is.nativeMobile === true && window.StatusBar) {
-        window.StatusBar.backgroundColorByHexString(val)
-      }
-      else {
-        setColor(val)
-      }
-    }
-    : noop,
+          if (client.is.nativeMobile === true && window.StatusBar) {
+            window.StatusBar.backgroundColorByHexString(val)
+          } else {
+            setColor(val)
+          }
+        }
+      : noop,
 
-  install ({ $q }) {
+  install({ $q }) {
     $q.addressbarColor = this
-    $q.config.addressbarColor && this.set($q.config.addressbarColor)
+
+    if ($q.config.addressbarColor) {
+      this.set($q.config.addressbarColor)
+    }
   }
 }

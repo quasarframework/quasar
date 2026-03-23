@@ -1,10 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
-      <q-tabs
-        v-model="tab"
-        class="bg-primary text-white shadow-2"
-      >
+      <q-tabs v-model="tab" class="bg-primary text-white shadow-2">
         <q-tab name="mails" icon="mail" label="Mails">
           <q-badge color="red" floating>2</q-badge>
         </q-tab>
@@ -14,19 +11,18 @@
         <q-tab alert name="movies" icon="movie" label="Movies" />
       </q-tabs>
 
-      <q-tabs
-        v-model="tab"
-        class="bg-purple text-white shadow-2"
-      >
+      <q-tabs v-model="tab" class="bg-purple text-white shadow-2">
         <q-tab alert="yellow" alert-icon="warning" name="mails" label="Mails" />
         <q-tab alert alert-icon="event" label="Alarms" name="alarms" />
-        <q-tab alert="orange" alert-icon="announcement" name="movies" label="Movies" />
+        <q-tab
+          alert="orange"
+          alert-icon="announcement"
+          name="movies"
+          label="Movies"
+        />
       </q-tabs>
 
-      <q-tabs
-        v-model="tab"
-        class="bg-yellow text-dark"
-      >
+      <q-tabs v-model="tab" class="bg-yellow text-dark">
         <q-tab name="mails" icon="mail" label="Mails">
           <q-badge color="primary" text-color="white" floating>2</q-badge>
         </q-tab>
@@ -52,7 +48,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       tab: ref('mails')
     }

@@ -1,6 +1,6 @@
 export default {
   isoName: 'gn',
-  nativeName: 'Avañe\'ẽ',
+  nativeName: "Avañe'ẽ",
   label: {
     clear: 'Mbogue',
     ok: 'OĨma',
@@ -15,13 +15,16 @@ export default {
     search: 'Heka',
     filter: 'Mbogua',
     refresh: 'Actualisa',
-    expand: label => (label ? `Oñembotuichave "${ label }"` : 'Myasãi'),
-    collapse: label => (label ? `Omboguejy "${ label }"` : 'Ñembyaipa')
+    expand: label => (label ? `Oñembotuichave "${label}"` : 'Myasãi'),
+    collapse: label => (label ? `Omboguejy "${label}"` : 'Ñembyaipa')
   },
   date: {
     days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
     daysShort: 'Dom_Lun_Mar_Mié_Jue_Vie_Sáb'.split('_'),
-    months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+    months:
+      'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split(
+        '_'
+      ),
     monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -30,19 +33,18 @@ export default {
     nextMonth: 'Año próximo',
     prevYear: 'Aravó ary',
     nextYear: 'Año oúvo',
-    today: 'Ko\'ẽ',
-    prevRangeYears: range => `Opa uvicha ${ range } ary`,
-    nextRangeYears: range => `Yvypóra ${ range } ary`
+    today: "Ko'ẽ",
+    prevRangeYears: range => `Opa uvicha ${range} ary`,
+    nextRangeYears: range => `Yvypóra ${range} ary`
   },
   table: {
-    noData: 'Ni peteĨ mba\'e',
+    noData: "Ni peteĨ mba'e",
     noResults: 'Ni peteĨ resultado',
-    loading: 'Era\'arõ...',
-    selectedRecords: rows => (
+    loading: "Era'arõ...",
+    selectedRecords: rows =>
       rows > 1
         ? rows + ' fila selesionada.'
-        : (rows === 0 ? 'Sin' : '1') + ' fila selesionada.'
-    ),
+        : (rows === 0 ? 'Sin' : '1') + ' fila selesionada.',
     recordsPerPage: 'Fila por páhina:',
     allRows: 'Entero',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,

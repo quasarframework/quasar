@@ -1,18 +1,37 @@
-import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  watch,
+  onBeforeUnmount,
+  Transition,
+  getCurrentInstance
+} from 'vue'
 
 import useHistory from '../../composables/private.use-history/use-history.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
 import useTick from '../../composables/use-tick/use-tick.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
-import useTransition, { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
+import useModelToggle, {
+  useModelToggleProps,
+  useModelToggleEmits
+} from '../../composables/private.use-model-toggle/use-model-toggle.js'
+import useTransition, {
+  useTransitionProps
+} from '../../composables/private.use-transition/use-transition.js'
 import usePortal from '../../composables/private.use-portal/use-portal.js'
 import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { childHasFocus } from '../../utils/dom/dom.js'
 import { hSlot } from '../../utils/private.render/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/private.keyboard/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/private.focus/focusout.js'
+import {
+  addEscapeKey,
+  removeEscapeKey
+} from '../../utils/private.keyboard/escape-key.js'
+import {
+  addFocusout,
+  removeFocusout
+} from '../../utils/private.focus/focusout.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 
 let maximizedModals = 0
@@ -26,11 +45,11 @@ const positionClass = {
 }
 
 const defaultTransitions = {
-  standard: [ 'scale', 'scale' ],
-  top: [ 'slide-down', 'slide-up' ],
-  bottom: [ 'slide-up', 'slide-down' ],
-  right: [ 'slide-left', 'slide-right' ],
-  left: [ 'slide-right', 'slide-left' ]
+  standard: ['scale', 'scale'],
+  top: ['slide-down', 'slide-up'],
+  bottom: ['slide-up', 'slide-down'],
+  right: ['slide-left', 'slide-right'],
+  left: ['slide-right', 'slide-left']
 }
 
 export default createComponent({
@@ -69,28 +88,30 @@ export default createComponent({
     position: {
       type: String,
       default: 'standard',
-      validator: val => [ 'standard', 'top', 'bottom', 'left', 'right' ].includes(val)
+      validator: val =>
+        ['standard', 'top', 'bottom', 'left', 'right'].includes(val)
     }
   },
 
-  emits: [
-    ...useModelToggleEmits,
-    'shake', 'click', 'escapeKey'
-  ],
+  emits: [...useModelToggleEmits, 'shake', 'click', 'escapeKey'],
 
-  setup (props, { slots, emit, attrs }) {
+  setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
 
     const innerRef = ref(null)
     const showing = ref(false)
     const animating = ref(false)
 
-    let shakeTimeout = null, refocusTarget = null, isMaximized, avoidAutoClose
+    let shakeTimeout = null,
+      refocusTarget = null,
+      isMaximized,
+      avoidAutoClose
 
-    const hideOnRouteChange = computed(() =>
-      props.persistent !== true
-      && props.noRouteDismiss !== true
-      && props.seamless !== true
+    const hideOnRouteChange = computed(
+      () =>
+        props.persistent !== true &&
+        props.noRouteDismiss !== true &&
+        props.seamless !== true
     )
 
     const { preventBodyScroll } = usePreventScroll()
@@ -99,23 +120,21 @@ export default createComponent({
 
     const { transitionProps, transitionStyle } = useTransition(
       props,
-      () => defaultTransitions[ props.position ][ 0 ],
-      () => defaultTransitions[ props.position ][ 1 ]
+      () => defaultTransitions[props.position][0],
+      () => defaultTransitions[props.position][1]
     )
 
-    const backdropStyle = computed(() => (
-      transitionStyle.value
-      + (
-        props.backdropFilter !== void 0
-          // Safari requires the -webkit prefix
-          ? `;backdrop-filter:${ props.backdropFilter };-webkit-backdrop-filter:${ props.backdropFilter }`
-          : ''
-      )
-    ))
-
-    const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
-      vm, innerRef, renderPortalContent, 'dialog'
+    const backdropStyle = computed(
+      () =>
+        transitionStyle.value +
+        (props.backdropFilter !== void 0
+          ? // Safari requires the -webkit prefix
+            `;backdrop-filter:${props.backdropFilter};-webkit-backdrop-filter:${props.backdropFilter}`
+          : '')
     )
+
+    const { showPortal, hidePortal, portalIsAccessible, renderPortal } =
+      usePortal(vm, innerRef, renderPortalContent, 'dialog')
 
     const { hide } = useModelToggle({
       showing,
@@ -125,35 +144,43 @@ export default createComponent({
       processOnMount: true
     })
 
-    const { addToHistory, removeFromHistory } = useHistory(showing, hide, hideOnRouteChange)
-
-    const classes = computed(() =>
-      'q-dialog__inner flex no-pointer-events'
-      + ` q-dialog__inner--${ props.maximized === true ? 'maximized' : 'minimized' }`
-      + ` q-dialog__inner--${ props.position } ${ positionClass[ props.position ] }`
-      + (animating.value === true ? ' q-dialog__inner--animating' : '')
-      + (props.fullWidth === true ? ' q-dialog__inner--fullwidth' : '')
-      + (props.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
-      + (props.square === true ? ' q-dialog__inner--square' : '')
+    const { addToHistory, removeFromHistory } = useHistory(
+      showing,
+      hide,
+      hideOnRouteChange
     )
 
-    const useBackdrop = computed(() => showing.value === true && props.seamless !== true)
+    const classes = computed(
+      () =>
+        'q-dialog__inner flex no-pointer-events' +
+        ` q-dialog__inner--${props.maximized === true ? 'maximized' : 'minimized'}` +
+        ` q-dialog__inner--${props.position} ${positionClass[props.position]}` +
+        (animating.value === true ? ' q-dialog__inner--animating' : '') +
+        (props.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
+        (props.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
+        (props.square === true ? ' q-dialog__inner--square' : '')
+    )
 
-    const onEvents = computed(() => (
-      props.autoClose === true
-        ? { onClick: onAutoClose }
-        : {}
-    ))
+    const useBackdrop = computed(
+      () => showing.value === true && props.seamless !== true
+    )
+
+    const onEvents = computed(() =>
+      props.autoClose === true ? { onClick: onAutoClose } : {}
+    )
 
     const rootClasses = computed(() => [
-      'q-dialog fullscreen no-pointer-events '
-        + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
+      'q-dialog fullscreen no-pointer-events ' +
+        `q-dialog--${useBackdrop.value === true ? 'modal' : 'seamless'}`,
       attrs.class
     ])
 
-    watch(() => props.maximized, state => {
-      showing.value === true && updateMaximized(state)
-    })
+    watch(
+      () => props.maximized,
+      state => {
+        if (showing.value === true) updateMaximized(state)
+      }
+    )
 
     watch(useBackdrop, val => {
       preventBodyScroll(val)
@@ -161,19 +188,19 @@ export default createComponent({
       if (val === true) {
         addFocusout(onFocusChange)
         addEscapeKey(onEscapeKey)
-      }
-      else {
+      } else {
         removeFocusout(onFocusChange)
         removeEscapeKey(onEscapeKey)
       }
     })
 
-    function handleShow (evt) {
+    function handleShow(evt) {
       addToHistory()
 
-      refocusTarget = props.noRefocus === false && document.activeElement !== null
-        ? document.activeElement
-        : null
+      refocusTarget =
+        props.noRefocus === false && document.activeElement !== null
+          ? document.activeElement
+          : null
 
       updateMaximized(props.maximized)
       showPortal()
@@ -182,8 +209,7 @@ export default createComponent({
       if (props.noFocus !== true) {
         document.activeElement?.blur()
         registerTick(focus)
-      }
-      else {
+      } else {
         removeTick()
       }
 
@@ -191,19 +217,22 @@ export default createComponent({
       registerTimeout(() => {
         if (vm.proxy.$q.platform.is.ios === true) {
           if (props.seamless !== true && document.activeElement) {
-            const
-              { top, bottom } = document.activeElement.getBoundingClientRect(),
+            const { top, bottom } =
+                document.activeElement.getBoundingClientRect(),
               { innerHeight } = window,
-              height = window.visualViewport !== void 0
-                ? window.visualViewport.height
-                : innerHeight
+              height =
+                window.visualViewport !== void 0
+                  ? window.visualViewport.height
+                  : innerHeight
 
             if (top > 0 && bottom > height / 2) {
               document.scrollingElement.scrollTop = Math.min(
                 document.scrollingElement.scrollHeight - height,
                 bottom >= innerHeight
                   ? Infinity
-                  : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+                  : Math.ceil(
+                      document.scrollingElement.scrollTop + bottom - height / 2
+                    )
               )
             }
 
@@ -222,7 +251,7 @@ export default createComponent({
       }, props.transitionDuration)
     }
 
-    function handleHide (evt) {
+    function handleHide(evt) {
       removeTick()
       removeFromHistory()
       cleanup(true)
@@ -230,10 +259,11 @@ export default createComponent({
       hidePortal()
 
       if (refocusTarget !== null) {
-        ((evt?.type.indexOf('key') === 0
-          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
-          : void 0
-        ) || refocusTarget).focus()
+        ;(
+          (evt?.type.indexOf('key') === 0
+            ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+            : void 0) || refocusTarget
+        ).focus()
 
         refocusTarget = null
       }
@@ -246,7 +276,7 @@ export default createComponent({
       }, props.transitionDuration)
     }
 
-    function focus (selector) {
+    function focus(selector) {
       addFocusFn(() => {
         let node = innerRef.value
 
@@ -261,23 +291,25 @@ export default createComponent({
         }
 
         if (node.contains(document.activeElement) !== true) {
-          node = (
-            node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
-            || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
-            || node.querySelector('[autofocus], [data-autofocus]')
-            || node
-          )
+          node =
+            node.querySelector(
+              '[autofocus][tabindex], [data-autofocus][tabindex]'
+            ) ||
+            node.querySelector(
+              '[autofocus] [tabindex], [data-autofocus] [tabindex]'
+            ) ||
+            node.querySelector('[autofocus], [data-autofocus]') ||
+            node
 
           node.focus({ preventScroll: true })
         }
       })
     }
 
-    function shake (focusTarget) {
+    function shake(focusTarget) {
       if (focusTarget && typeof focusTarget.focus === 'function') {
         focusTarget.focus({ preventScroll: true })
-      }
-      else {
+      } else {
         focus()
       }
 
@@ -288,7 +320,7 @@ export default createComponent({
       if (node !== null) {
         node.classList.remove('q-animate--scale')
         node.classList.add('q-animate--scale')
-        shakeTimeout !== null && clearTimeout(shakeTimeout)
+        if (shakeTimeout !== null) clearTimeout(shakeTimeout)
         shakeTimeout = setTimeout(() => {
           shakeTimeout = null
           if (innerRef.value !== null) {
@@ -301,19 +333,18 @@ export default createComponent({
       }
     }
 
-    function onEscapeKey () {
+    function onEscapeKey() {
       if (props.seamless !== true) {
         if (props.persistent === true || props.noEscDismiss === true) {
-          props.maximized !== true && props.noShake !== true && shake()
-        }
-        else {
+          if (props.maximized !== true && props.noShake !== true) shake()
+        } else {
           emit('escapeKey')
           hide()
         }
       }
     }
 
-    function cleanup (hiding) {
+    function cleanup(hiding) {
       if (shakeTimeout !== null) {
         clearTimeout(shakeTimeout)
         shakeTimeout = null
@@ -334,16 +365,17 @@ export default createComponent({
       }
     }
 
-    function updateMaximized (active) {
+    function updateMaximized(active) {
       if (active === true) {
         if (isMaximized !== true) {
-          maximizedModals < 1 && document.body.classList.add('q-body--dialog')
+          if (maximizedModals < 1) {
+            document.body.classList.add('q-body--dialog')
+          }
           maximizedModals++
 
           isMaximized = true
         }
-      }
-      else if (isMaximized === true) {
+      } else if (isMaximized === true) {
         if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
@@ -353,28 +385,27 @@ export default createComponent({
       }
     }
 
-    function onAutoClose (e) {
+    function onAutoClose(e) {
       if (avoidAutoClose !== true) {
         hide(e)
         emit('click', e)
       }
     }
 
-    function onBackdropClick (e) {
+    function onBackdropClick(e) {
       if (props.persistent !== true && props.noBackdropDismiss !== true) {
         hide(e)
-      }
-      else if (props.noShake !== true) {
+      } else if (props.noShake !== true) {
         shake()
       }
     }
 
-    function onFocusChange (evt) {
+    function onFocusChange(evt) {
       // the focus is not in a vue child component
       if (
-        props.allowFocusOutside !== true
-        && portalIsAccessible.value === true
-        && childHasFocus(innerRef.value, evt.target) !== true
+        props.allowFocusOutside !== true &&
+        portalIsAccessible.value === true &&
+        childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus('[tabindex]:not([tabindex="-1"])')
       }
@@ -382,54 +413,62 @@ export default createComponent({
 
     Object.assign(vm.proxy, {
       // expose public methods
-      focus, shake,
+      focus,
+      shake,
 
       // private but needed by QSelect
-      __updateRefocusTarget (target) {
+      __updateRefocusTarget(target) {
         refocusTarget = target || null
       }
     })
 
     onBeforeUnmount(cleanup)
 
-    function renderPortalContent () {
-      return h('div', {
-        role: 'dialog',
-        'aria-modal': useBackdrop.value === true ? 'true' : 'false',
-        ...attrs,
-        class: rootClasses.value
-      }, [
-        h(Transition, {
-          name: 'q-transition--fade',
-          appear: true
-        }, () => (
-          useBackdrop.value === true
-            ? h('div', {
-              class: 'q-dialog__backdrop fixed-full',
-              style: backdropStyle.value,
-              'aria-hidden': 'true',
-              tabindex: -1,
-              onClick: onBackdropClick
-            })
-            : null
-        )),
+    function renderPortalContent() {
+      return h(
+        'div',
+        {
+          role: 'dialog',
+          'aria-modal': useBackdrop.value === true ? 'true' : 'false',
+          ...attrs,
+          class: rootClasses.value
+        },
+        [
+          h(
+            Transition,
+            {
+              name: 'q-transition--fade',
+              appear: true
+            },
+            () =>
+              useBackdrop.value === true
+                ? h('div', {
+                    class: 'q-dialog__backdrop fixed-full',
+                    style: backdropStyle.value,
+                    'aria-hidden': 'true',
+                    tabindex: -1,
+                    onClick: onBackdropClick
+                  })
+                : null
+          ),
 
-        h(
-          Transition,
-          transitionProps.value,
-          () => (
+          h(Transition, transitionProps.value, () =>
             showing.value === true
-              ? h('div', {
-                ref: innerRef,
-                class: classes.value,
-                style: transitionStyle.value,
-                tabindex: -1,
-                ...onEvents.value
-              }, hSlot(slots.default))
+              ? h(
+                  'div',
+                  {
+                    ref: innerRef,
+                    class: classes.value,
+                    style: transitionStyle.value,
+                    tabindex: -1,
+                    ...onEvents.value
+                  },
+                  hSlot(slots.default)
+                )
               : null
           )
-        )
-      ])
+        ]
+      )
     }
 
     return renderPortal

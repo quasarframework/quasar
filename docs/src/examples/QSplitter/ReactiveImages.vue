@@ -8,21 +8,16 @@
       after-class="overflow-hidden"
       separator-class="bg-black"
     >
-
       <template v-slot:before>
-        <q-img
-          src="https://cdn.quasar.dev/img/parallax1.jpg"
-          :ratio="16/9"
-        />
+        <q-img src="https://cdn.quasar.dev/img/parallax1.jpg" :ratio="16 / 9" />
       </template>
 
       <template v-slot:after>
         <q-img
           src="https://cdn.quasar.dev/img/parallax1-inverted.jpg"
-          :ratio="16/9"
+          :ratio="16 / 9"
         />
       </template>
-
     </q-splitter>
   </div>
 </template>
@@ -31,7 +26,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       splitterModel: ref(50) // start at 50%
     }

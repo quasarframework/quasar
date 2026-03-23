@@ -28,23 +28,24 @@ const themeMap = {
   // twotone: '_twotone'
 }
 
-function downloadIcon (icon) {
+function downloadIcon(icon) {
   return Promise.all(
-    Object.keys(themeMap).map(async (theme) => {
+    Object.keys(themeMap).map(async theme => {
       // get future icon name
       const themeName = theme
-      const name = (prefix + theme + '_' + icon.name)
-        .replace(/(_\w)/g, m => m[ 1 ].toUpperCase())
+      const name = (prefix + theme + '_' + icon.name).replace(/(_\w)/g, m =>
+        m[1].toUpperCase()
+      )
 
-      if (iconNames[ theme ].has(name)) return
+      if (iconNames[theme].has(name)) return
 
       const formattedTheme = themeName.split('_').join('')
-      const url = `https://fonts.gstatic.com/s/i/short-term/release/materialsymbols${ formattedTheme }/${ icon.name }/default/24px.svg`
+      const url = `https://fonts.gstatic.com/s/i/short-term/release/materialsymbols${formattedTheme}/${icon.name}/default/24px.svg`
       // console.log(url)
       const response = await fetch(url)
 
       if (response.status !== 200) {
-        skipped[ theme ].push(name)
+        skipped[theme].push(name)
         return
         // throw new Error(`status ${response.status}`)
       }
@@ -53,28 +54,29 @@ function downloadIcon (icon) {
 
       try {
         const { svgDef, typeDef } = extractSvg(SVG, name)
-        svgExports[ theme ].push(svgDef)
-        typeExports[ theme ].push(typeDef)
+        svgExports[theme].push(svgDef)
+        typeExports[theme].push(typeDef)
 
-        iconNames[ theme ].add(name)
-      }
-      catch (err) {
+        iconNames[theme].add(name)
+      } catch (err) {
         console.error(err)
-        skipped[ theme ].push(name)
+        skipped[theme].push(name)
       }
     })
   )
 }
 
-async function run () {
+async function run() {
   try {
-    const response = await fetch('https://fonts.google.com/metadata/icons?key=material_symbols&incomplete=true')
+    const response = await fetch(
+      'https://fonts.google.com/metadata/icons?key=material_symbols&incomplete=true'
+    )
     const text = await response.text()
     const data = JSON.parse(text.replace(")]}'", ''))
     let icons = []
     data.icons.forEach(val => {
       for (const family in themeMap) {
-        if (val.unsupported_families.includes(themeMap[ family ])) return
+        if (val.unsupported_families.includes(themeMap[family])) return
       }
 
       icons.push(val)
@@ -82,18 +84,22 @@ async function run () {
     icons = icons.map((icon, index) => ({ index, ...icon }))
 
     console.log('\nDownloading Google Material Design Symbols SVGs...')
-    console.log(`${ icons.length } * ${ Object.keys(themeMap).length } icons to download...(${ icons.length * Object.keys(themeMap).length })`)
+    console.log(
+      `${icons.length} * ${Object.keys(themeMap).length} icons to download...(${icons.length * Object.keys(themeMap).length})`
+    )
 
-    Object.keys(themeMap).map(async (theme) => {
-      if (skipped[ theme ] === void 0) skipped[ theme ] = []
-      if (svgExports[ theme ] === void 0) svgExports[ theme ] = []
-      if (typeExports[ theme ] === void 0) typeExports[ theme ] = []
-      if (iconNames[ theme ] === void 0) iconNames[ theme ] = new Set()
-      if (distFolder[ theme ] === void 0) distFolder[ theme ] = resolve(__dirname, `../material-symbols-${ theme }`)
+    Object.keys(themeMap).map(theme => {
+      if (skipped[theme] === void 0) skipped[theme] = []
+      if (svgExports[theme] === void 0) svgExports[theme] = []
+      if (typeExports[theme] === void 0) typeExports[theme] = []
+      if (iconNames[theme] === void 0) iconNames[theme] = new Set()
+      if (distFolder[theme] === void 0) {
+        distFolder[theme] = resolve(__dirname, `../material-symbols-${theme}`)
+      }
     })
 
     const queue = new Queue(
-      async (icon) => {
+      async icon => {
         await retry(async ({ tries }) => {
           await sleep((tries - 1) * 100)
           await downloadIcon(icon)
@@ -106,29 +112,31 @@ async function run () {
 
     console.log('')
 
-    Object.keys(themeMap).map(async (theme) => {
+    Object.keys(themeMap).map(theme => {
       // convert from Set to an array
-      iconNames[ theme ] = [ ...iconNames[ theme ] ]
+      iconNames[theme] = [...iconNames[theme]]
 
-      svgExports[ theme ].sort((a, b) => {
-        return ('' + a).localeCompare(b)
-      })
-      typeExports[ theme ].sort((a, b) => {
-        return ('' + a).localeCompare(b)
-      })
-      iconNames[ theme ].sort((a, b) => {
-        return ('' + a).localeCompare(b)
-      })
+      svgExports[theme].sort((a, b) => String(a).localeCompare(b))
+      typeExports[theme].sort((a, b) => String(a).localeCompare(b))
+      iconNames[theme].sort((a, b) => String(a).localeCompare(b))
 
-      console.log((`Updating SVG for ../material-symbols-${ theme }; icon count: ${ iconNames[ theme ].length }`))
-      writeExports(iconSetName, packageName, distFolder[ theme ], svgExports[ theme ], typeExports[ theme ], skipped[ theme ])
+      console.log(
+        `Updating SVG for ../material-symbols-${theme}; icon count: ${iconNames[theme].length}`
+      )
+      writeExports(
+        iconSetName,
+        packageName,
+        distFolder[theme],
+        svgExports[theme],
+        typeExports[theme],
+        skipped[theme]
+      )
 
       // write the JSON file
-      const file = resolve(distFolder[ theme ], 'icons.json')
-      writeFileSync(file, JSON.stringify(iconNames[ theme ], null, 2), 'utf-8')
+      const file = resolve(distFolder[theme], 'icons.json')
+      writeFileSync(file, JSON.stringify(iconNames[theme], null, 2), 'utf-8')
     })
-  }
-  catch (err) {
+  } catch (err) {
     console.log('err', err)
     throw err
   }

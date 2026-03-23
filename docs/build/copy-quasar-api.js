@@ -11,7 +11,7 @@ const sourceList = [
   join(rootFolder, '../ui/dist/api')
 ]
 
-function getSource () {
+function getSource() {
   for (const source of sourceList) {
     if (fse.existsSync(source)) {
       return source

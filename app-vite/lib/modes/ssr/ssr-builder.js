@@ -7,7 +7,10 @@ import { AppBuilder } from '../../app-builder.js'
 import { quasarSsrConfig } from './ssr-config.js'
 import { cliPkg } from '../../utils/cli-runtime.js'
 import { getFixedDeps } from '../../utils/get-fixed-deps.js'
-import { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } from '../../utils/html-template.js'
+import {
+  getProdSsrTemplateFn,
+  transformProdSsrPwaOfflineHtml
+} from '../../utils/html-template.js'
 
 import { injectPwaManifest, buildPwaServiceWorker } from '../pwa/utils.js'
 
@@ -15,7 +18,7 @@ const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 
 export class QuasarModeBuilder extends AppBuilder {
-  async build () {
+  async build() {
     await this.#buildWebserver()
     await this.#copyWebserverFiles()
     await this.#writePackageJson()
@@ -30,20 +33,24 @@ export class QuasarModeBuilder extends AppBuilder {
 
     this.#writeSsrManifest()
 
-    this.removeFile(
-      join(viteClientConfig.build.outDir, '.vite')
-    )
+    this.removeFile(join(viteClientConfig.build.outDir, '.vite'))
 
     await this.#writeRenderTemplate(viteClientConfig.build.outDir)
 
     if (this.quasarConf.ssr.pwa === true) {
       // we need to detour the distDir temporarily
       const originalDistDir = this.quasarConf.build.distDir
-      this.quasarConf.build.distDir = join(this.quasarConf.build.distDir, 'client')
+      this.quasarConf.build.distDir = join(
+        this.quasarConf.build.distDir,
+        'client'
+      )
 
       // also update pwa-builder.js when changing here
       writeFileSync(
-        join(this.quasarConf.build.distDir, this.quasarConf.pwa.manifestFilename),
+        join(
+          this.quasarConf.build.distDir,
+          this.quasarConf.pwa.manifestFilename
+        ),
         JSON.stringify(
           this.quasarConf.htmlVariables.pwaManifest,
           null,
@@ -72,16 +79,13 @@ export class QuasarModeBuilder extends AppBuilder {
     this.printSummary(this.quasarConf.build.distDir, true)
   }
 
-  async #buildWebserver () {
+  async #buildWebserver() {
     const esbuildConfig = await quasarSsrConfig.webserver(this.quasarConf)
     await this.buildWithEsbuild('SSR Webserver', esbuildConfig)
   }
 
-  async #copyWebserverFiles () {
-    const patterns = [
-      '.npmrc',
-      '.yarnrc'
-    ].map(filename => ({
+  #copyWebserverFiles() {
+    const patterns = ['.npmrc', '.yarnrc'].map(filename => ({
       from: filename,
       to: '.'
     }))
@@ -89,11 +93,14 @@ export class QuasarModeBuilder extends AppBuilder {
     this.copyFiles(patterns)
   }
 
-  async #writePackageJson () {
+  #writePackageJson() {
     const { appPkg } = this.ctx.pkg
 
     const localAppPkg = merge({}, appPkg)
-    const appDeps = getFixedDeps(localAppPkg.dependencies || {}, this.ctx.appPaths.appDir)
+    const appDeps = getFixedDeps(
+      localAppPkg.dependencies || {},
+      this.ctx.appPaths.appDir
+    )
 
     const pkg = {
       name: localAppPkg.name,
@@ -116,7 +123,8 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     if (this.quasarConf.ssr.manualStoreSerialization !== true) {
-      pkg.dependencies[ 'serialize-javascript' ] = cliPkg.dependencies[ 'serialize-javascript' ]
+      pkg.dependencies['serialize-javascript'] =
+        cliPkg.dependencies['serialize-javascript']
     }
 
     if (typeof this.quasarConf.ssr.extendPackageJson === 'function') {
@@ -126,20 +134,17 @@ export class QuasarModeBuilder extends AppBuilder {
     this.writeFile('package.json', stringifyJSON(pkg, { indent: 2 }))
   }
 
-  async #writeRenderTemplate (clientDir) {
+  async #writeRenderTemplate(clientDir) {
     const htmlFile = join(clientDir, 'index.html')
     const html = this.readFile(htmlFile)
 
     const templateFn = await getProdSsrTemplateFn(html, this.quasarConf)
 
-    this.writeFile(
-      'render-template.js',
-      `export default ${ templateFn.source }`
-    )
+    this.writeFile('render-template.js', `export default ${templateFn.source}`)
 
     if (this.quasarConf.ssr.pwa === true) {
       this.writeFile(
-        `client/${ this.quasarConf.ssr.pwaOfflineHtmlFilename }`,
+        `client/${this.quasarConf.ssr.pwaOfflineHtmlFilename}`,
         await transformProdSsrPwaOfflineHtml(html, this.quasarConf)
       )
     }
@@ -147,7 +152,7 @@ export class QuasarModeBuilder extends AppBuilder {
     this.removeFile(htmlFile)
   }
 
-  #writeSsrManifest () {
+  #writeSsrManifest() {
     const viteManifest = JSON.parse(
       this.readFile('client/.vite/ssr-manifest.json')
     )
@@ -173,13 +178,13 @@ export class QuasarModeBuilder extends AppBuilder {
           "/assets/UsedOnTwoPlaces-CLKnUPw2.css"
         ],
      */
-    for (let [ key, value ] of Object.entries(viteManifest)) {
+    for (let [key, value] of Object.entries(viteManifest)) {
       if (ssrManifestIdQueryRE.test(key) === true) {
         key = key.replace(ssrManifestIdQueryReplaceRE, 'vue')
-        if (ssrManifest[ key ] !== void 0) continue
+        if (ssrManifest[key] !== void 0) continue
       }
 
-      ssrManifest[ key ] = value
+      ssrManifest[key] = value
     }
 
     this.writeFile(

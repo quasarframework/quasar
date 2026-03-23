@@ -1,7 +1,7 @@
 /**
  * Get the resolved path of a host package.
  */
-module.exports.getPackagePath = function getPackagePath (pkgName, dir) {
+module.exports.getPackagePath = function getPackagePath(pkgName, dir) {
   if (dir === void 0) {
     console.error('getPackagePath() -> dir param is required')
     process.exit(1)
@@ -9,10 +9,9 @@ module.exports.getPackagePath = function getPackagePath (pkgName, dir) {
 
   try {
     return require.resolve(pkgName, {
-      paths: [ dir ]
+      paths: [dir]
     })
-  }
-  catch (_) {
+  } catch {
     /* do and return nothing */
   }
 }

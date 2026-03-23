@@ -1,4 +1,3 @@
-
 import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -8,7 +7,7 @@ const argv = parseArgs(process.argv.slice(2), {
     f: 'filter',
     h: 'help'
   },
-  boolean: [ 'h' ]
+  boolean: ['h']
 })
 
 if (argv.help) {
@@ -44,13 +43,13 @@ if (argv.help) {
   Options
     --mode, -m      For which Quasar mode(s) to verify the assets;
                     Default: all
-                      [all|${ modesList }]
+                      [all|${modesList}]
                     Multiple can be specified, separated by ",":
                       spa,cordova,capacitor
 
     --filter, -f    Filter the available generators; when used, it verifies
                     only one type of asset instead of all
-                      [${ generatorsList }]
+                      [${generatorsList}]
 
     --profile       Use JSON profile file(s) to extract the asset list to verify:
                       - path to folder (absolute or relative to current folder)
@@ -77,13 +76,13 @@ import { getProfileFiles } from '../utils/get-profile-files.js'
 import { filterArgvParams } from '../utils/filter-argv-params.js'
 import { log } from '../utils/logger.js'
 
-async function runProfiles (params, profileFiles) {
+async function runProfiles(params, profileFiles) {
   for (let i = 0; i < profileFiles.length; i++) {
-    const profile = profileFiles[ i ]
+    const profile = profileFiles[i]
 
     console.log(`\n`)
     log(`--------------------`)
-    log(`Verifying by profile: ${ profile }`)
+    log(`Verifying by profile: ${profile}`)
     log(`--------------------`)
     console.log(`\n`)
 
@@ -94,9 +93,8 @@ async function runProfiles (params, profileFiles) {
 const params = filterArgvParams(argv)
 
 if (params.profile) {
-  parseArgv(params, [ 'profile' ])
+  parseArgv(params, ['profile'])
   runProfiles(params, getProfileFiles(params.profile))
-}
-else {
+} else {
   verify(params)
 }

@@ -12,8 +12,6 @@
         <q-badge color="red" rounded floating />
       </q-btn>
     </div>
-    <div>
-      <q-badge color="blue" rounded class="q-mr-sm" />Status
-    </div>
+    <div> <q-badge color="blue" rounded class="q-mr-sm" />Status </div>
   </div>
 </template>

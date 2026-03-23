@@ -4,6 +4,7 @@ desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or buil
 ---
 
 ## Developing
+
 ```bash
 $ quasar dev -m ssr
 
@@ -12,6 +13,7 @@ $ quasar dev --mode ssr
 ```
 
 ## Building for Production
+
 ```bash
 $ quasar build -m ssr
 

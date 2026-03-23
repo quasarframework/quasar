@@ -13,7 +13,7 @@
       <q-input v-model="text3" dense outlined rounded label="My label gg" />
       <q-input v-model="text3" dense outlined rounded label="My label gg" />
 
-      <br>
+      <br />
 
       <q-input v-model="text" filled rounded label="My label gg" />
       <q-input v-model="text" filled rounded label="My label gg" />
@@ -27,7 +27,7 @@
       <q-input v-model="text3" dense filled rounded label="My label gg" />
       <q-input v-model="text3" dense filled rounded label="My label gg" />
 
-      <br>
+      <br />
 
       <q-input v-model="text" rounded label="My label gg" />
       <q-input v-model="text" rounded label="My label gg" />
@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       text: 'Text',
       text2: 'Text',

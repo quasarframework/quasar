@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-carousel
-      animated
-      v-model="slide"
-      infinite
-    >
+    <q-carousel animated v-model="slide" infinite>
       <q-carousel-slide name="soft-jazz">
         <q-video
           class="absolute-full"
@@ -45,7 +41,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       slide: ref('Rihanna')
     }

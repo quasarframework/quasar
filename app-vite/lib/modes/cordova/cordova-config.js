@@ -3,14 +3,13 @@ import { quasarVitePluginDevCordovaPlatformInject } from './vite-plugin.dev.cord
 
 const quasarCordovaConfig = {
   vite: async quasarConf => {
-    const cfg = await createViteConfig(quasarConf, { compileId: 'vite-cordova' })
+    const cfg = await createViteConfig(quasarConf, {
+      compileId: 'vite-cordova'
+    })
 
     if (quasarConf.ctx.dev === true) {
-      cfg.plugins.unshift(
-        quasarVitePluginDevCordovaPlatformInject(quasarConf)
-      )
-    }
-    else {
+      cfg.plugins.unshift(quasarVitePluginDevCordovaPlatformInject(quasarConf))
+    } else {
       cfg.build.outDir = quasarConf.ctx.appPaths.resolve.cordova('www')
     }
 
@@ -20,7 +19,4 @@ const quasarCordovaConfig = {
 
 const modeConfig = quasarCordovaConfig
 
-export {
-  modeConfig,
-  quasarCordovaConfig
-}
+export { modeConfig, quasarCordovaConfig }

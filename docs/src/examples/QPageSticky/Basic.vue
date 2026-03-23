@@ -1,27 +1,52 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lHh Lpr lFf" container style="height: 400px" class="shadow-2 rounded-borders">
+    <q-layout
+      view="lHh Lpr lFf"
+      container
+      style="height: 400px"
+      class="shadow-2 rounded-borders"
+    >
       <q-header reveal elevated>
         <q-toolbar>
-          <q-btn flat round dense icon="menu" @click="drawerLeft = !drawerLeft" />
+          <q-btn
+            flat
+            round
+            dense
+            icon="menu"
+            @click="drawerLeft = !drawerLeft"
+          />
 
-          <q-toolbar-title>
-            <strong>Quasar</strong> Framework
-          </q-toolbar-title>
+          <q-toolbar-title> <strong>Quasar</strong> Framework </q-toolbar-title>
 
-          <q-btn flat round dense icon="menu" @click="drawerRight = !drawerRight" />
+          <q-btn
+            flat
+            round
+            dense
+            icon="menu"
+            @click="drawerRight = !drawerRight"
+          />
         </q-toolbar>
       </q-header>
 
       <q-footer reveal elevated>
         <q-toolbar>
-          <q-btn flat round dense icon="menu" @click="drawerLeft = !drawerLeft" />
+          <q-btn
+            flat
+            round
+            dense
+            icon="menu"
+            @click="drawerLeft = !drawerLeft"
+          />
 
-          <q-toolbar-title>
-            <strong>Quasar</strong> Framework
-          </q-toolbar-title>
+          <q-toolbar-title> <strong>Quasar</strong> Framework </q-toolbar-title>
 
-          <q-btn flat round dense icon="menu" @click="drawerRight = !drawerRight" />
+          <q-btn
+            flat
+            round
+            dense
+            icon="menu"
+            @click="drawerRight = !drawerRight"
+          />
         </q-toolbar>
       </q-footer>
 
@@ -59,7 +84,10 @@
       <q-page-container>
         <q-page padding>
           <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
           </p>
 
           <!-- place QPageSticky at end of page -->
@@ -79,13 +107,28 @@
             <q-btn round color="accent" icon="arrow_back" />
           </q-page-sticky>
           <q-page-sticky position="bottom-left" :offset="[18, 18]">
-            <q-btn round color="accent" icon="arrow_forward" class="rotate-135" />
+            <q-btn
+              round
+              color="accent"
+              icon="arrow_forward"
+              class="rotate-135"
+            />
           </q-page-sticky>
           <q-page-sticky position="bottom" :offset="[0, 18]">
-            <q-btn round color="accent" icon="arrow_forward" class="rotate-90" />
+            <q-btn
+              round
+              color="accent"
+              icon="arrow_forward"
+              class="rotate-90"
+            />
           </q-page-sticky>
           <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn round color="accent" icon="arrow_forward" class="rotate-45" />
+            <q-btn
+              round
+              color="accent"
+              icon="arrow_forward"
+              class="rotate-45"
+            />
           </q-page-sticky>
         </q-page>
       </q-page-container>
@@ -98,7 +141,7 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {

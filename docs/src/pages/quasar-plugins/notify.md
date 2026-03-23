@@ -118,11 +118,13 @@ Notify.registerType('my-notif', {
 ```
 
 ### Using HTML
+
 You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
 <DocExample title="Unsafe HTML message" file="UnsafeHtml" />
 
 ### Setting attributes
+
 You can set custom HTML attributes on the notification itself by setting the `attrs` Object property. For individual notification actions, you can directly pass them just like any other prop.
 
 ```js
@@ -151,6 +153,7 @@ setup () {
 ```
 
 ### Programmatically closing
+
 Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).
 
 ```js
@@ -160,6 +163,7 @@ dismiss()
 ```
 
 ### Setting defaults
+
 There are two ways of setting default configuration that will apply to all Notifications: through quasar.config file > framework > config > notify Object (see Installation section) or programmatically (see below).
 
 We'll describe setting the defaults through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files) (works the same anywhere in your code, but a boot file ensures this is run before your app starts):

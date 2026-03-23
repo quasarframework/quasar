@@ -4,6 +4,7 @@ desc: (@quasar/app-vite) Upgrading instructions when dealing with Electron in Qu
 ---
 
 ## Upgrading Electron
+
 When you add the Electron mode in a Quasar project for the first time you will get the latest version of the Electron package. At some point in time, you will want to upgrade the Electron version.
 
 Before upgrading Electron, please consult its release notes. Are there breaking changes?

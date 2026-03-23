@@ -1,13 +1,22 @@
 import {
   mdiAndroid,
   mdiApple,
-  mdiAppleSafari, mdiApplicationOutline,
+  mdiAppleSafari,
+  mdiApplicationOutline,
   mdiCalendar,
   mdiDevices,
-  mdiFileDownload, mdiFirefox, mdiGraphql,
-  mdiLanguageMarkdown, mdiLinux, mdiMagnify, mdiMicrosoftEdge,
-  mdiMicrosoftWindows, mdiPuzzle,
-  mdiServer, mdiStarCircle, mdiSvg,
+  mdiFileDownload,
+  mdiFirefox,
+  mdiGraphql,
+  mdiLanguageMarkdown,
+  mdiLinux,
+  mdiMagnify,
+  mdiMicrosoftEdge,
+  mdiMicrosoftWindows,
+  mdiPuzzle,
+  mdiServer,
+  mdiStarCircle,
+  mdiSvg,
   mdiTelevisionPlay,
   mdiTestTube
 } from '@quasar/extras/mdi-v7'
@@ -116,7 +125,8 @@ export const ecosystemParts = [
     ]
   },
   {
-    about: 'Our tools and resources that help you manage icons in your projects',
+    about:
+      'Our tools and resources that help you manage icons in your projects',
     options: [
       {
         label: 'Icon Genie',

@@ -101,7 +101,7 @@
 import { skeletonTypes } from 'quasar/src/components/skeleton/QSkeleton.js'
 
 export default {
-  data () {
+  data() {
     return {
       bordered: false,
       dark: null,
@@ -111,7 +111,7 @@ export default {
   },
 
   computed: {
-    props () {
+    props() {
       return {
         bordered: this.bordered,
         dark: this.dark

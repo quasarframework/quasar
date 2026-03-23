@@ -66,8 +66,7 @@ interface QuasarBaseElectronConfiguration {
   inspectPort?: number;
 }
 
-interface QuasarElectronPackagerConfiguration
-  extends QuasarBaseElectronConfiguration {
+interface QuasarElectronPackagerConfiguration extends QuasarBaseElectronConfiguration {
   bundler: "packager";
 
   /**
@@ -77,8 +76,7 @@ interface QuasarElectronPackagerConfiguration
   packager?: Omit<ElectronPackagerOptions, "dir" | "out">;
 }
 
-interface QuasarElectronBuilderConfiguration
-  extends QuasarBaseElectronConfiguration {
+interface QuasarElectronBuilderConfiguration extends QuasarBaseElectronConfiguration {
   bundler: "builder";
 
   /** Electron-builder options */

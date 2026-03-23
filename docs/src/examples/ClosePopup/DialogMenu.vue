@@ -23,12 +23,7 @@
 
                   <q-menu anchor="top end" self="top start">
                     <q-list>
-                      <q-item
-                        v-for="n in 3"
-                        :key="n"
-                        dense
-                        clickable
-                      >
+                      <q-item v-for="n in 3" :key="n" dense clickable>
                         <q-item-section>Submenu Label</q-item-section>
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
@@ -49,14 +44,12 @@
                       </q-item>
                     </q-list>
                   </q-menu>
-
                 </q-item>
                 <q-separator />
                 <q-item clickable v-close-popup="2">
                   <q-item-section>Quit</q-item-section>
                 </q-item>
               </q-list>
-
             </q-menu>
           </q-btn>
 
@@ -71,7 +64,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       dialog: ref(false)
     }

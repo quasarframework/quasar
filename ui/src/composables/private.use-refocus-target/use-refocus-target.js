@@ -1,6 +1,6 @@
 import { h, computed, ref } from 'vue'
 
-export default function (props, rootRef) {
+export default function useRefocusTarget(props, rootRef) {
   const refocusRef = ref(null)
 
   const refocusTargetEl = computed(() => {
@@ -15,22 +15,21 @@ export default function (props, rootRef) {
     })
   })
 
-  function refocusTarget (e) {
+  function refocusTarget(e) {
     const root = rootRef.value
 
     if (e?.qAvoidFocus === true) return
 
     if (e?.type.indexOf('key') === 0) {
       if (
-        document.activeElement !== root
-        && root?.contains(document.activeElement) === true
+        document.activeElement !== root &&
+        root?.contains(document.activeElement) === true
       ) {
         root.focus()
       }
-    }
-    else if (
-      refocusRef.value !== null
-      && ((e === void 0) || (root?.contains(e.target) === true))
+    } else if (
+      refocusRef.value !== null &&
+      (e === void 0 || root?.contains(e.target) === true)
     ) {
       refocusRef.value.focus()
     }

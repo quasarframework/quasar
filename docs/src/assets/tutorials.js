@@ -2,21 +2,21 @@ export default {
   'quasar-v2': [
     {
       t: 'QuasarCast.Com: Screencasts for Quasar Developers',
-      d: 'Video tutorials, live streams and podcasts for quasar developers (v1 and v2). We\'ll cover beginner to advanced topics and build some stellar sites along the way!',
+      d: "Video tutorials, live streams and podcasts for quasar developers (v1 and v2). We'll cover beginner to advanced topics and build some stellar sites along the way!",
       u: 'https://quasarcast.com',
       i: 'https://res.cloudinary.com/quasarcast-com/image/upload/c_scale,w_400/v1622026294/QuasarCast.Com_1_kewhzu.png'
     },
 
     {
       t: 'Vue 3: Create a Mobile & Desktop App (with Quasar 2 & Pinia)',
-      d: 'In this course, you\'ll learn how to use Vue 3, the Composition API, Quasar V2 and Pinia to create a beautiful cross-platform money management app called Moneyballs - for Web, iOS, Android, Mac & Windows.In this app, we can add both income and expense entries and keep track of our...',
+      d: "In this course, you'll learn how to use Vue 3, the Composition API, Quasar V2 and Pinia to create a beautiful cross-platform money management app called Moneyballs - for Web, iOS, Android, Mac & Windows.In this app, we can add both income and expense entries and keep track of our...",
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.3919713520571134725874384&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvue-3-create-a-mobile-desktop-app-with-quasar-2-pinia%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/6052595_94a5_2.jpg'
     },
 
     {
       t: 'Quasar 2 & Firebase Cloud Firestore (with Vue 3 & Pinia)',
-      d: 'In this course, you\'ll learn how to connect a Quasar 2 app (with Vue 3 & Pinia) to a Firebase Cloud Firestore Database.You\'ll start by downloading and launching the course app, Moneyballs (from my course Vue 3: Create a Mobile & Desktop App (with Quasar 2 & Pinia).You\'ll connect Moneyballs to a...',
+      d: "In this course, you'll learn how to connect a Quasar 2 app (with Vue 3 & Pinia) to a Firebase Cloud Firestore Database.You'll start by downloading and launching the course app, Moneyballs (from my course Vue 3: Create a Mobile & Desktop App (with Quasar 2 & Pinia).You'll connect Moneyballs to a...",
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.391978926229196393683203&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fquasar-2-firebase-cloud-firestore-with-vue-3-pinia%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/6138935_902d.jpg'
     },
@@ -165,21 +165,21 @@ export default {
 
     {
       t: 'Vue. js 3 Essentials: Build Dynamic Web Apps with Confidence',
-      d: 'Welcome to the Vue js 3 Essentials: Build Dynamic Web Apps with Confidence course! This course is designed to provide you with an in-depth, hands-on learning experience of Vue js 3, guiding you from foundational principles to advanced applications.Throughout this course, you\'ll gain proficiency...',
+      d: "Welcome to the Vue js 3 Essentials: Build Dynamic Web Apps with Confidence course! This course is designed to provide you with an in-depth, hands-on learning experience of Vue js 3, guiding you from foundational principles to advanced applications.Throughout this course, you'll gain proficiency...",
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.39197666576857899481954&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvuejs-3-essentials-build-dynamic-web-apps-with-confidence%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/6228419_1f0e_4.jpg'
     },
 
     {
       t: 'Vue. js Essentials - 3 Course Bundle',
-      d: 'If you\'re looking to learn and master Vue.js with an expert instructor, look no further than Vue.js Essentials.In this series of three courses, you\'ll build three real-world Vue.js apps that take you from the very basics of Vue to the cutting edge.With over 6000 past students, this course bundle includes...',
+      d: "If you're looking to learn and master Vue.js with an expert instructor, look no further than Vue.js Essentials.In this series of three courses, you'll build three real-world Vue.js apps that take you from the very basics of Vue to the cutting edge.With over 6000 past students, this course bundle includes...",
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.391974154217388473643841&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvuejs-2-essentials%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/1022582_7ae5_12.jpg'
     },
 
     {
       t: 'Vue 3 in Action: 7 Projects to Master the Framework',
-      d: 'Here\'s an improved version of the text that emphasizes the focus on the Composition API and distinguishes the course from outdated ones:In this cutting-edge Vue 3 course, you\'ll dive deep into the Composition API, creating seven projects (plus one as an exercise) to master the latest essential...',
+      d: "Here's an improved version of the text that emphasizes the focus on the Composition API and distinguishes the course from outdated ones:In this cutting-edge Vue 3 course, you'll dive deep into the Composition API, creating seven projects (plus one as an exercise) to master the latest essential...",
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.3919710344386082912474723&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvue-in-action%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/5915066_6a63_2.jpg'
     },
@@ -207,7 +207,7 @@ export default {
 
     {
       t: 'Vue JS Developer Interview Questions Practice Test [2024]',
-      d: 'Vue JS Developer Interview Questions Practice Test [Updated 2024] Embark on an interactive and engaging journey to master Vue.js! Our comprehensive MCQ Quiz Practice course is meticulously designed to enhance your Vue.js skills, whether you\'re preparing for interviews, strengthening your...',
+      d: "Vue JS Developer Interview Questions Practice Test [Updated 2024] Embark on an interactive and engaging journey to master Vue.js! Our comprehensive MCQ Quiz Practice course is meticulously designed to enhance your Vue.js skills, whether you're preparing for interviews, strengthening your...",
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.391976522735526097235314&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvue-js-developer-interview-questions%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/5655956_bfa4.jpg'
     }

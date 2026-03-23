@@ -10,28 +10,34 @@ const { spawn } = require('../../utils/spawn.js')
 const { getPackagePath } = require('../../utils/get-package-path.js')
 const { quasarElectronConfig } = require('./electron-config.js')
 
-function wait (time) {
+function wait(time) {
   return new Promise(resolve => {
     setTimeout(resolve, time)
   })
 }
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends (
+  AppDevserver
+) {
   #pid = 0
   #server = null
   #watcherList = []
   #killedPid = false
   #electronExecutable
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
-    const electronPkgPath = getPackagePath('electron/package.json', this.ctx.appPaths.appDir)
-    const electronPkg = JSON.parse(
-      readFileSync(electronPkgPath, 'utf-8')
+    const electronPkgPath = getPackagePath(
+      'electron/package.json',
+      this.ctx.appPaths.appDir
     )
+    const electronPkg = JSON.parse(readFileSync(electronPkgPath, 'utf-8'))
 
-    this.#electronExecutable = join(dirname(electronPkgPath), electronPkg.bin.electron)
+    this.#electronExecutable = join(
+      dirname(electronPkgPath),
+      electronPkg.bin.electron
+    )
 
     this.registerDiff('electron', (quasarConf, diffMap) => [
       quasarConf.devServer,
@@ -46,7 +52,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     ])
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('webpack', quasarConf)) {
@@ -58,7 +64,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
   }
 
-  async #runWebpack (quasarConf) {
+  async #runWebpack(quasarConf) {
     if (this.#server !== null) {
       await this.#server.stop()
       this.#server = null
@@ -83,33 +89,40 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
       // start building & launch server
       // deep clone to avoid webpack-dev-server mutating the original config which causes double compilation
-      this.#server = new WebpackDevServer(cloneDeep(quasarConf.devServer), compiler)
+      this.#server = new WebpackDevServer(
+        cloneDeep(quasarConf.devServer),
+        compiler
+      )
       this.#server.start()
     })
   }
 
-  async #runElectronFiles (quasarConf) {
-    await this.clearWatcherList(this.#watcherList, () => { this.#watcherList = [] })
+  async #runElectronFiles(quasarConf) {
+    await this.clearWatcherList(this.#watcherList, () => {
+      this.#watcherList = []
+    })
 
     let isReady = false
 
     const cfgMain = await quasarElectronConfig.main(quasarConf)
-    const cfgPreloadList = await quasarElectronConfig.preloadScriptList(quasarConf)
+    const cfgPreloadList =
+      await quasarElectronConfig.preloadScriptList(quasarConf)
 
     const cfgList = [
       { banner: 'Electron Main', cfg: cfgMain },
-      ...cfgPreloadList.map(preloadScript => {
-        return { banner: `Electron Preload (${ preloadScript.scriptName })`, cfg: preloadScript.esbuildConfig }
-      })
-    ].map(({ banner, cfg }) => {
-      return this.watchWithEsbuild(banner, cfg, () => {
+      ...cfgPreloadList.map(preloadScript => ({
+        banner: `Electron Preload (${preloadScript.scriptName})`,
+        cfg: preloadScript.esbuildConfig
+      }))
+    ].map(({ banner, cfg }) =>
+      this.watchWithEsbuild(banner, cfg, () => {
         if (isReady === true) {
           this.#runElectron(quasarConf)
         }
       }).then(esbuildCtx => {
         this.#watcherList.push({ close: esbuildCtx.dispose })
       })
-    })
+    )
 
     return Promise.all(cfgList).then(() => {
       isReady = true
@@ -117,7 +130,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
   }
 
-  async #runElectron (quasarConf) {
+  async #runElectron(quasarConf) {
     if (this.#pid) {
       log('Shutting down Electron process...')
       process.kill(this.#pid)
@@ -140,12 +153,11 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       code => {
         if (this.#killedPid === true) {
           this.#killedPid = false
-        }
-        else if (code) {
+        } else if (code) {
           warn()
-          fatal(`Electron process ended with error code: ${ code }`)
-        }
-        else { // else it wasn't killed by us
+          fatal(`Electron process ended with error code: ${code}`)
+        } else {
+          // else it wasn't killed by us
           warn()
           fatal('Electron process was killed. Exiting...')
         }

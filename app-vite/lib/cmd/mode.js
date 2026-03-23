@@ -7,10 +7,10 @@ const argv = parseArgs(process.argv.slice(2), {
     y: 'yes',
     h: 'help'
   },
-  boolean: [ 'y', 'h' ]
+  boolean: ['y', 'h']
 })
 
-function showHelp () {
+function showHelp() {
   console.log(`
   Description
     Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
@@ -36,7 +36,7 @@ if (argv.help) {
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
-  warn(`Wrong number of parameters (${ argv._.length }).`)
+  warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp()
   process.exit(1)
 }
@@ -47,34 +47,46 @@ import { getCtx } from '../utils/get-ctx.js'
 import { generateTypes } from '../types-generator.js'
 import { isModeInstalled } from '../modes/modes-utils.js'
 
-async function run () {
-  const [ action, mode ] = argv._
+async function run() {
+  const [action, mode] = argv._
   const ctx = getCtx({ mode })
 
-  if (![ 'add', 'remove' ].includes(action)) {
+  if (!['add', 'remove'].includes(action)) {
     console.log()
-    warn(`Unknown action specified (${ action }).`)
+    warn(`Unknown action specified (${action}).`)
     showHelp()
     process.exit(1)
   }
 
-  if (![ undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex' ].includes(mode)) {
-    fatal(`Unknown mode "${ mode }" to ${ action }`)
+  if (
+    ![void 0, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(
+      mode
+    )
+  ) {
+    fatal(`Unknown mode "${mode}" to ${action}`)
   }
 
-  const { addMode, removeMode } = await import(`../modes/${ mode }/${ mode }-installation.js`)
+  const { addMode, removeMode } = await import(
+    `../modes/${mode}/${mode}-installation.js`
+  )
   const actionMap = { add: addMode, remove: removeMode }
 
-  if (action === 'remove' && argv.yes !== true && isModeInstalled(ctx.appPaths, mode)) {
+  if (
+    action === 'remove' &&
+    argv.yes !== true &&
+    isModeInstalled(ctx.appPaths, mode)
+  ) {
     console.log()
 
     const { default: inquirer } = await import('inquirer')
-    const answer = await inquirer.prompt([ {
-      name: 'go',
-      type: 'confirm',
-      message: `Will also remove /src-${ mode } folder. Are you sure?`,
-      default: false
-    } ])
+    const answer = await inquirer.prompt([
+      {
+        name: 'go',
+        type: 'confirm',
+        message: `Will also remove /src-${mode} folder. Are you sure?`,
+        default: false
+      }
+    ])
 
     if (!answer.go) {
       console.log()
@@ -84,7 +96,7 @@ async function run () {
     }
   }
 
-  await actionMap[ action ]({ ctx })
+  await actionMap[action]({ ctx })
 
   // Ensure types are re-generated accordingly
   const { QuasarConfigFile } = await import('../quasar-config-file.js')
@@ -99,29 +111,35 @@ async function run () {
   generateTypes(quasarConf)
 }
 
-async function displayModes () {
+function displayModes() {
   log('Detecting installed modes...')
 
   const ctx = getCtx()
   const info = []
 
-  for (const mode of [ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ]) {
+  for (const mode of [
+    'pwa',
+    'ssr',
+    'cordova',
+    'capacitor',
+    'electron',
+    'bex'
+  ]) {
     info.push([
-      `Mode ${ mode.toUpperCase() }`,
+      `Mode ${mode.toUpperCase()}`,
       isModeInstalled(ctx.appPaths, mode) ? green('yes') : gray('no')
     ])
   }
 
   console.log(
-    '\n'
-    + info.map(msg => ' ' + msg[ 0 ].padEnd(16, '.') + ' ' + msg[ 1 ]).join('\n')
-    + '\n'
+    '\n' +
+      info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
+      '\n'
   )
 }
 
 if (argv._.length === 2) {
   run()
-}
-else {
+} else {
   displayModes()
 }

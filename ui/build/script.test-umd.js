@@ -14,10 +14,7 @@ fse.removeSync(dest)
 fse.symlinkSync(src, dest, 'dir')
 
 import('open').then(({ default: open }) => {
-  open(
-    resolveToRoot('playground-umd/index.umd.html'),
-    {
-      app: { name: 'google chrome' }
-    }
-  )
+  open(resolveToRoot('playground-umd/index.umd.html'), {
+    app: { name: 'google chrome' }
+  })
 })

@@ -1,6 +1,8 @@
 import { computed, watch } from 'vue'
 
-import useRouterLink, { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
+import useRouterLink, {
+  useRouterLinkProps
+} from '../../composables/private.use-router-link/use-router-link.js'
 import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -15,23 +17,19 @@ export default createComponent({
 
   emits: useTabEmits,
 
-  setup (props, { slots, emit }) {
+  setup(props, { slots, emit }) {
     const routeData = useRouterLink({
       useDisableForRouterLinkProps: false
     })
 
-    const { renderTab, $tabs } = useTab(
-      props,
-      slots,
-      emit,
-      {
-        exact: computed(() => props.exact),
-        ...routeData
-      }
-    )
+    const { renderTab, $tabs } = useTab(props, slots, emit, {
+      exact: computed(() => props.exact),
+      ...routeData
+    })
 
     watch(
-      () => `${ props.name } | ${ props.exact } | ${ (routeData.resolvedLink.value || {}).href }`,
+      () =>
+        `${props.name} | ${props.exact} | ${(routeData.resolvedLink.value || {}).href}`,
       $tabs.verifyRouteModel
     )
 

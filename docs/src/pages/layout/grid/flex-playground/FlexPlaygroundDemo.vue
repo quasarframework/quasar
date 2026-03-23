@@ -5,7 +5,11 @@
         color="secondary"
         @click="toggleFullscreen"
         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
-        :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Try playground in Fullscreen'"
+        :label="
+          $q.fullscreen.isActive
+            ? 'Exit Fullscreen'
+            : 'Try playground in Fullscreen'
+        "
         no-caps
       />
     </div>
@@ -13,42 +17,116 @@
     <div class="text-h6 q-mb-md">Configure parent (container):</div>
     <div class="row q-col-gutter-sm content-stretch q-mb-md">
       <div class="col-lg-2 col-xs-12 col-sm-6">
-        <q-select color="blue-12" v-model="group.containerGroup" :options="containerOptions" label="Container" emit-value map-options dense options-dense outlined />
+        <q-select
+          color="blue-12"
+          v-model="group.containerGroup"
+          :options="containerOptions"
+          label="Container"
+          emit-value
+          map-options
+          dense
+          options-dense
+          outlined
+        />
       </div>
       <div class="col-lg-2 col-xs-12 col-sm-6">
-        <q-select color="blue-12" v-model="group.directionGroup" :options="directionOptions" label="Direction" emit-value map-options dense options-dense outlined />
+        <q-select
+          color="blue-12"
+          v-model="group.directionGroup"
+          :options="directionOptions"
+          label="Direction"
+          emit-value
+          map-options
+          dense
+          options-dense
+          outlined
+        />
       </div>
       <div class="col-lg-2 col-xs-12 col-sm-6">
-        <q-select color="blue-12" v-model="group.wrapGroup" :options="wrapOptions" label="Wrap" emit-value map-options dense options-dense outlined />
+        <q-select
+          color="blue-12"
+          v-model="group.wrapGroup"
+          :options="wrapOptions"
+          label="Wrap"
+          emit-value
+          map-options
+          dense
+          options-dense
+          outlined
+        />
       </div>
       <div class="col-lg-2 col-xs-12 col-sm-6">
-        <q-select color="blue-12" v-model="group.justifyGroup" :options="justifyOptions" label="Justify Content" emit-value map-options dense options-dense outlined />
+        <q-select
+          color="blue-12"
+          v-model="group.justifyGroup"
+          :options="justifyOptions"
+          label="Justify Content"
+          emit-value
+          map-options
+          dense
+          options-dense
+          outlined
+        />
       </div>
       <div class="col-lg-2 col-xs-12 col-sm-6">
-        <q-select color="blue-12" v-model="group.itemsGroup" :options="itemsOptions" label="Align Items" emit-value map-options dense options-dense outlined />
+        <q-select
+          color="blue-12"
+          v-model="group.itemsGroup"
+          :options="itemsOptions"
+          label="Align Items"
+          emit-value
+          map-options
+          dense
+          options-dense
+          outlined
+        />
       </div>
       <div class="col-lg-2 col-xs-12 col-sm-6">
-        <q-select color="blue-12" v-model="group.contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense outlined />
+        <q-select
+          color="blue-12"
+          v-model="group.contentGroup"
+          :options="contentOptions"
+          label="Align Content"
+          emit-value
+          map-options
+          dense
+          options-dense
+          outlined
+        />
       </div>
     </div>
 
     <div class="row items-center q-gutter-md q-mb-md">
       <div>Resulting container classes:</div>
-      <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
+      <div
+        class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover"
+        :class="resultClasses"
+      >
         <div class="text-subtitle2">{{ classes }}</div>
         <copy-button />
       </div>
     </div>
 
     <div class="row items-center q-gutter-md q-mb-md">
-      <div class="text-h6">Configure children: {{ group.children.length }} / 10</div>
+      <div class="text-h6"
+        >Configure children: {{ group.children.length }} / 10</div
+      >
 
-      <q-btn label="Add Child" :icon="mdiPlus" size="10px" outline :disabled="group.children.length >= 10" @click="addChild" />
+      <q-btn
+        label="Add Child"
+        :icon="mdiPlus"
+        size="10px"
+        outline
+        :disabled="group.children.length >= 10"
+        @click="addChild"
+      />
 
       <q-space />
 
       <q-btn round dense flat :icon="mdiShareVariant" @click="share">
-        <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
+        <q-tooltip>{{
+          copied ? 'Copied to clipboard' : 'Share URL'
+        }}</q-tooltip>
       </q-btn>
 
       <q-btn round dense flat :icon="fabCodepen" @click="editInCodepen">
@@ -56,14 +134,21 @@
       </q-btn>
     </div>
 
-    <div class="flex-playground-demo__container rounded-borders" :class="containerClass">
+    <div
+      class="flex-playground-demo__container rounded-borders"
+      :class="containerClass"
+    >
       <div :class="classes" class="row full-width" style="overflow: hidden">
         <flex-child
           v-for="(child, index) in group.children"
           :key="index"
           class="flex-playground-demo__child rounded-borders"
           :child="child"
-          :ref="el => { childRef[index] = el }"
+          :ref="
+            el => {
+              childRef[index] = el
+            }
+          "
           :index="index"
           :selected-index="selectedIndex"
           @delete="onDelete"
@@ -83,7 +168,10 @@
         <tr>
           <td>Container classes</td>
           <td>
-            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
+            <div
+              class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover"
+              :class="resultClasses"
+            >
               <div class="text-subtitle2">{{ classes }}</div>
               <copy-button />
             </div>
@@ -93,8 +181,13 @@
         <tr>
           <td>Child #{{ selectedIndex + 1 }} classes</td>
           <td>
-            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
-              <div class="text-subtitle2">{{ group.childClasses || '* none *' }}</div>
+            <div
+              class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover"
+              :class="resultClasses"
+            >
+              <div class="text-subtitle2">{{
+                group.childClasses || '* none *'
+              }}</div>
               <copy-button v-if="group.childClasses" />
             </div>
           </td>
@@ -103,8 +196,13 @@
         <tr>
           <td>Child #{{ selectedIndex + 1 }} styles</td>
           <td>
-            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
-              <div class="text-subtitle2">{{ group.childStyles || '* none *' }}</div>
+            <div
+              class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover"
+              :class="resultClasses"
+            >
+              <div class="text-subtitle2">{{
+                group.childStyles || '* none *'
+              }}</div>
               <copy-button v-if="group.childStyles" />
             </div>
           </td>
@@ -207,17 +305,17 @@ const group = reactive({
 const selectedIndex = ref(0)
 const copied = ref(false)
 
-function checkQueryParams () {
+function checkQueryParams() {
   const query = $route.query
   for (const param in queryParams) {
     if (param in query) {
-      const paramType = queryParams[ param ]
+      const paramType = queryParams[param]
       switch (paramType) {
         case 'object':
-          group[ param ] = JSON.parse(query[ param ])
+          group[param] = JSON.parse(query[param])
           break
         default:
-          group[ param ] = query[ param ]
+          group[param] = query[param]
       }
     }
   }
@@ -226,7 +324,7 @@ function checkQueryParams () {
   }
 }
 
-function addChild () {
+function addChild() {
   if (group.children.length < 10) {
     group.children.push({
       width: '',
@@ -241,18 +339,18 @@ function addChild () {
   }
 }
 
-function onDelete (index) {
+function onDelete(index) {
   group.children.splice(index, 1)
 }
 
-function onChange (index) {
+function onChange(index) {
   selectedIndex.value = index
-  const child = childRef.value[ index ]
+  const child = childRef.value[index]
   group.childClasses = child.classes
   group.childStyles = child.styles
 }
 
-function share () {
+function share() {
   let playgroudUrl = window.location.href
   if (playgroudUrl.includes('?')) {
     playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
@@ -261,14 +359,14 @@ function share () {
     index = 0
   const paramsCount = Object.keys(queryParams).length
   for (const param in queryParams) {
-    const paramType = queryParams[ param ]
+    const paramType = queryParams[param]
     let value
     switch (paramType) {
       case 'object':
-        value = JSON.stringify(group[ param ])
+        value = JSON.stringify(group[param])
         break
       default:
-        value = group[ param ]
+        value = group[param]
     }
     queryString += `${param}=${encodeURIComponent(value)}`
     index++
@@ -283,9 +381,9 @@ function share () {
   }, 1500)
 }
 
-function editInCodepen () {
+function editInCodepen() {
   const children = group.children.map((_, index) => {
-    const kid = childRef.value[ index ]
+    const kid = childRef.value[index]
     return `<div class="${kid.classes} bg-grey-6" style="${kid.styles}">
       <q-card class="no-border-radius">
         <q-card-section>
@@ -315,25 +413,39 @@ onBeforeUpdate(() => {
   childRef.value = []
 })
 
-const classes = computed(() => {
-  return (group.containerGroup +
-    ' ' + group.directionGroup +
-    ' ' + group.wrapGroup +
-    ' ' + group.justifyGroup +
-    ' ' + group.itemsGroup +
-    ' ' + group.contentGroup)
+const classes = computed(() =>
+  (
+    group.containerGroup +
+    ' ' +
+    group.directionGroup +
+    ' ' +
+    group.wrapGroup +
+    ' ' +
+    group.justifyGroup +
+    ' ' +
+    group.itemsGroup +
+    ' ' +
+    group.contentGroup
+  )
     .replace(/,/g, ' ')
     .replace(/'  +'/g, ' ')
     .trim()
-})
+)
 
-const resultClasses = computed(() => ($q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-2 text-dark'))
-const demoClasses = computed(() => ($q.fullscreen.isActive ? 'doc-technical q-pa-md' : null))
-const containerClass = computed(() => `flex-playground-demo__container--${ $q.dark.isActive ? 'dark' : 'light' }`)
+const resultClasses = computed(() =>
+  $q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-2 text-dark'
+)
+const demoClasses = computed(() =>
+  $q.fullscreen.isActive ? 'doc-technical q-pa-md' : null
+)
+const containerClass = computed(
+  () =>
+    `flex-playground-demo__container--${$q.dark.isActive ? 'dark' : 'light'}`
+)
 
-function toggleFullscreen () {
+function toggleFullscreen() {
   const target = document.getElementById('flex-playground')
-  target && $q.fullscreen.toggle(target)
+  if (target) $q.fullscreen.toggle(target)
 }
 </script>
 

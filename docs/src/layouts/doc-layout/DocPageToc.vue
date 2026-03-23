@@ -3,7 +3,7 @@
     <q-item
       v-for="tocItem in docStore.state.value.toc"
       :key="tocItem.id"
-      :id="`toc--${ tocItem.id }`"
+      :id="`toc--${tocItem.id}`"
       clickable
       class="doc-layout__item"
       active-class="doc-layout__item--active"

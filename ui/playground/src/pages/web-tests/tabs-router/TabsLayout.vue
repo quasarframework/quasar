@@ -25,7 +25,7 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'TabsLayout',
 
-  setup () {
+  setup() {
     const tab = ref('one')
     const allowRouteChange = ref(false)
 

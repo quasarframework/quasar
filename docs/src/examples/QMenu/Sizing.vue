@@ -1,8 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
-      <q-btn color="accent" label="Fit Menu" style="width: 280px;">
-
+      <q-btn color="accent" label="Fit Menu" style="width: 280px">
         <q-menu fit>
           <q-list style="min-width: 100px">
             <q-item clickable>
@@ -108,7 +107,6 @@
           </q-list>
         </q-menu>
       </q-btn>
-
     </div>
   </div>
 </template>

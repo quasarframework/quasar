@@ -9,17 +9,28 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis laudantium minus earum totam modi laborum illo, corporis fuga saepe animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis
+          laudantium minus earum totam modi laborum illo, corporis fuga saepe
+          animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Open another dialog" @click="secondDialog = true" />
+          <q-btn
+            flat
+            label="Open another dialog"
+            @click="secondDialog = true"
+          />
           <q-btn flat label="Close" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="secondDialog" persistent transition-show="scale" transition-hide="scale">
+    <q-dialog
+      v-model="secondDialog"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
       <q-card class="bg-teal text-white" style="width: 300px">
         <q-card-section>
           <div class="text-h6">Persistent</div>
@@ -41,7 +52,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       inception: ref(false),
       secondDialog: ref(false)

@@ -1,11 +1,17 @@
-
 import { dirname } from 'node:path'
 
 import imagemin from 'imagemin'
 import pngquant from 'imagemin-pngquant'
-import { BICUBIC2, HERMITE, BEZIER, BICUBIC, BILINEAR, NEAREST_NEIGHBOR } from 'png2icons'
+import {
+  BICUBIC2,
+  HERMITE,
+  BEZIER,
+  BICUBIC,
+  BILINEAR,
+  NEAREST_NEIGHBOR
+} from 'png2icons'
 
-export function getIcoCompression (quality) {
+export function getIcoCompression(quality) {
   switch (quality) {
     case 1:
     case 2:
@@ -28,20 +34,20 @@ export function getIcoCompression (quality) {
   }
 }
 
-export function getPngCompression (quality) {
+export function getPngCompression(quality) {
   if (quality === 12) {
     return () => {}
   }
 
   const plugins = [
     pngquant({
-      quality: [ 0.6, 0.8 ],
+      quality: [0.6, 0.8],
       speed: 12 - quality // 1 - 11
     })
   ]
 
-  return async function minifyFile (filename) {
-    return imagemin([ filename ], {
+  return function minifyFile(filename) {
+    return imagemin([filename], {
       destination: dirname(filename),
       plugins
     })

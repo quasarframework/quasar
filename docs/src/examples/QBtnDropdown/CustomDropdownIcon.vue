@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown color="pink" label="Dropdown Button" dropdown-icon="change_history">
+    <q-btn-dropdown
+      color="pink"
+      label="Dropdown Button"
+      dropdown-icon="change_history"
+    >
       <q-list>
         <q-item clickable v-close-popup @click="onItemClick">
           <q-item-section>
@@ -26,9 +30,9 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
-      onItemClick () {
+      onItemClick() {
         // console.log('Clicked on an Item')
       }
     }

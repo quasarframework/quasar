@@ -32,7 +32,7 @@
     "mkdist": "^1.5.4",
     "quasar": "^2.16.7",
     "vue": "^3.4.36",
-    "vue-tsc": "^2.0.29"
+    "vue-tsc": "^3.2.6"
   },
   "peerDependencies": {
     "@quasar/app-vite": "^2.1.0",

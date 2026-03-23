@@ -8,14 +8,22 @@
       -->
 
       <q-input
-        @update:model-value="val => { file = val[0] }"
+        @update:model-value="
+          val => {
+            file = val[0]
+          }
+        "
         filled
         type="file"
         hint="Native file"
       />
 
       <q-input
-        @update:model-value="val => { files = val }"
+        @update:model-value="
+          val => {
+            files = val
+          }
+        "
         multiple
         filled
         type="file"
@@ -29,7 +37,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       file: ref(null),
       files: ref(null)

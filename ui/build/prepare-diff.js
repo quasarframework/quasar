@@ -11,7 +11,7 @@ import { resolveToRoot, relativeToRoot } from './build.utils.js'
  *
  * @param {string} locationPath
  */
-export default function prepareDiff (locationPath) {
+export default function prepareDiff(locationPath) {
   const absolutePath = resolveToRoot(locationPath)
 
   // If there is no "old" file/folder, then there is no diff (everything will be new)
@@ -52,7 +52,7 @@ export default function prepareDiff (locationPath) {
       currentMap.set(filePath, true)
 
       if (originalsMap.has(filePath) === false) {
-        console.log(`\n 📜 New file: ${ relativePath }`)
+        console.log(`\n 📜 New file: ${relativePath}`)
         somethingChanged = true
         return
       }
@@ -63,7 +63,7 @@ export default function prepareDiff (locationPath) {
       if (originalContent !== currentContent) {
         const diffPatch = createPatch(filePath, originalContent, currentContent)
 
-        console.log(`\n 📜 Changes for ${ relativePath }\n`)
+        console.log(`\n 📜 Changes for ${relativePath}\n`)
         console.log(highlight(diffPatch, { language: 'diff' }))
         somethingChanged = true
       }
@@ -71,7 +71,7 @@ export default function prepareDiff (locationPath) {
 
     originalsMap.forEach((_, filePath) => {
       if (currentMap.has(filePath) === false) {
-        console.log(`\n 📜 Removed file: ${ relativeToRoot(filePath) }\n`)
+        console.log(`\n 📜 Removed file: ${relativeToRoot(filePath)}\n`)
         somethingChanged = true
       }
     })

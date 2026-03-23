@@ -8,39 +8,41 @@ import { printBuildSummary } from '../lib/utils/print-build-summary.js'
 export class AppBuilder extends AppTool {
   quasarConf
 
-  constructor ({ argv, quasarConf }) {
+  constructor({ argv, quasarConf }) {
     super({ argv, ctx: quasarConf.ctx })
     this.quasarConf = quasarConf
   }
 
-  readFile (filename) {
-    const target = isAbsolute(filename) === true
-      ? filename
-      : join(this.quasarConf.build.distDir, filename)
+  readFile(filename) {
+    const target =
+      isAbsolute(filename) === true
+        ? filename
+        : join(this.quasarConf.build.distDir, filename)
 
     return fse.readFileSync(target, 'utf-8')
   }
 
-  writeFile (filename, content) {
-    const target = isAbsolute(filename) === true
-      ? filename
-      : join(this.quasarConf.build.distDir, filename)
+  writeFile(filename, content) {
+    const target =
+      isAbsolute(filename) === true
+        ? filename
+        : join(this.quasarConf.build.distDir, filename)
 
     fse.ensureDirSync(dirname(target))
     fse.writeFileSync(target, content, 'utf-8')
   }
 
-  copyFiles (patterns, targetFolder = this.quasarConf.build.distDir) {
+  copyFiles(patterns, targetFolder = this.quasarConf.build.distDir) {
     patterns.forEach(entry => {
-      const from = isAbsolute(entry.from) === true
-        ? entry.from
-        : this.ctx.appPaths.resolve.app(entry.from)
+      const from =
+        isAbsolute(entry.from) === true
+          ? entry.from
+          : this.ctx.appPaths.resolve.app(entry.from)
 
       if (fse.existsSync(from) !== true) return
 
-      const to = isAbsolute(entry.to) === true
-        ? entry.to
-        : join(targetFolder, entry.to)
+      const to =
+        isAbsolute(entry.to) === true ? entry.to : join(targetFolder, entry.to)
 
       fse.copySync(
         from,
@@ -49,27 +51,30 @@ export class AppBuilder extends AppTool {
     })
   }
 
-  moveFile (source, destination) {
-    const input = isAbsolute(source) === true
-      ? source
-      : join(this.quasarConf.build.distDir, source)
+  moveFile(source, destination) {
+    const input =
+      isAbsolute(source) === true
+        ? source
+        : join(this.quasarConf.build.distDir, source)
 
-    const output = isAbsolute(destination) === true
-      ? destination
-      : join(this.quasarConf.build.distDir, destination)
+    const output =
+      isAbsolute(destination) === true
+        ? destination
+        : join(this.quasarConf.build.distDir, destination)
 
     fse.moveSync(input, output)
   }
 
-  removeFile (filename) {
-    const target = isAbsolute(filename) === true
-      ? filename
-      : join(this.quasarConf.build.distDir, filename)
+  removeFile(filename) {
+    const target =
+      isAbsolute(filename) === true
+        ? filename
+        : join(this.quasarConf.build.distDir, filename)
 
     fse.removeSync(target)
   }
 
-  printSummary (folder, showGzipped) {
+  printSummary(folder, showGzipped) {
     printBuildSummary(folder, showGzipped)
   }
 }

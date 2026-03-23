@@ -11,17 +11,15 @@ describe('[Body API]', () => {
       test('should be defined correctly', () => {
         expect(Body).toBeTypeOf('object')
 
-        expect(
-          Body.install
-        ).toBeTypeOf('function')
+        expect(Body.install).toBeTypeOf('function')
       })
 
       test('sets body classes', () => {
         mountPlugin()
 
-        expect(
-          document.body.getAttribute('class')
-        ).toBe('desktop touch body--light')
+        expect(document.body.getAttribute('class')).toBe(
+          'desktop touch body--light'
+        )
       })
     })
   })

@@ -16,7 +16,13 @@
       <q-chip dense color="orange" text-color="white" icon-right="star">
         Star
       </q-chip>
-      <q-chip dense color="red" text-color="white" icon="alarm" label="Set alarm" />
+      <q-chip
+        dense
+        color="red"
+        text-color="white"
+        icon="alarm"
+        label="Set alarm"
+      />
       <q-chip dense color="deep-orange" text-color="white" icon="directions">
         Get directions
       </q-chip>
@@ -30,7 +36,7 @@
       </q-chip>
       <q-chip dense>
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/avatar3.jpg">
+          <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
         </q-avatar>
         Mary
       </q-chip>

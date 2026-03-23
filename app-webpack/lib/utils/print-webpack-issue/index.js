@@ -6,11 +6,11 @@ const { uniqueBy } = require('./utils.js')
 const transformErrors = require('./transformErrors.js')
 const { getError, getWarning, infoPill } = require('../logger.js')
 
-function extract (stats, severity) {
+function extract(stats, severity) {
   const type = severity + 's'
 
   const findErrorsRecursive = compilation => {
-    const errors = compilation[ type ]
+    const errors = compilation[type]
     if (errors.length === 0 && compilation.children) {
       for (const child of compilation.children) {
         errors.push(...findErrorsRecursive(child))
@@ -23,7 +23,7 @@ function extract (stats, severity) {
   return findErrorsRecursive(stats.compilation)
 }
 
-function getMaxSeverityErrors (errors) {
+function getMaxSeverityErrors(errors) {
   const maxSeverity = errors.reduce(
     (res, curr) => (curr.__severity > res ? curr.__severity : res),
     0
@@ -32,7 +32,7 @@ function getMaxSeverityErrors (errors) {
   return errors.filter(e => e.__severity === maxSeverity)
 }
 
-function display (stats, severity, titleFn) {
+function display(stats, severity, titleFn) {
   const errors = extract(stats, severity)
 
   // Please leave this comment for easy debugging
@@ -40,8 +40,8 @@ function display (stats, severity, titleFn) {
 
   const errorsBag = transformErrors(errors)
   const topErrors = getMaxSeverityErrors(errorsBag)
-  const summary = `${ topErrors.length } ${ severity }${ topErrors.length > 1 ? 's' : '' }`
-  const printLog = console[ severity === 'error' ? 'error' : 'warn' ]
+  const summary = `${topErrors.length} ${severity}${topErrors.length > 1 ? 's' : ''}`
+  const printLog = console[severity === 'error' ? 'error' : 'warn']
 
   topErrors.forEach(err => {
     printLog()
@@ -53,10 +53,20 @@ function display (stats, severity, titleFn) {
   return summary
 }
 
-module.exports.printWebpackWarnings = function printWebpackWarnings (webpackName, stats) {
-  return display(stats, 'warning', title => getWarning(infoPill(webpackName) + ' ' + title))
+module.exports.printWebpackWarnings = function printWebpackWarnings(
+  webpackName,
+  stats
+) {
+  return display(stats, 'warning', title =>
+    getWarning(infoPill(webpackName) + ' ' + title)
+  )
 }
 
-module.exports.printWebpackErrors = function printWebpackErrors (webpackName, stats) {
-  return display(stats, 'error', title => getError(infoPill(webpackName) + ' ' + title))
+module.exports.printWebpackErrors = function printWebpackErrors(
+  webpackName,
+  stats
+) {
+  return display(stats, 'error', title =>
+    getError(infoPill(webpackName) + ' ' + title)
+  )
 }

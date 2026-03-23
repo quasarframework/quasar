@@ -6,9 +6,7 @@ describe('[selection API]', () => {
   describe('[Functions]', () => {
     describe('[(function)clearSelection]', () => {
       test('has correct return value', () => {
-        expect(
-          clearSelection()
-        ).toBeUndefined()
+        expect(clearSelection()).toBeUndefined()
       })
 
       test('works correctly', () => {
@@ -19,21 +17,17 @@ describe('[selection API]', () => {
 
         document.body.appendChild(el)
 
-        onTestFinished(() => { el.remove() })
+        onTestFinished(() => {
+          el.remove()
+        })
 
         selection.selectAllChildren(el)
 
-        expect(
-          selection.toString()
-        ).toBe('quasar@email.com')
+        expect(selection.toString()).toBe('quasar@email.com')
 
-        expect(
-          clearSelection()
-        ).toBeUndefined()
+        expect(clearSelection()).toBeUndefined()
 
-        expect(
-          selection.toString()
-        ).toBe('')
+        expect(selection.toString()).toBe('')
       })
     })
   })

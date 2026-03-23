@@ -1,10 +1,7 @@
 import { readFileSync } from 'node:fs'
 
 console.log(
-  readFileSync(
-    new URL('../../assets/logo.art', import.meta.url),
-    'utf8'
-  )
+  readFileSync(new URL('../../assets/logo.art', import.meta.url), 'utf8')
 )
 
 import { cliPkg } from '../utils/cli-runtime.js'

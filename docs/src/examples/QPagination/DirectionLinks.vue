@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-lg flex flex-center">
-    <q-pagination
-      v-model="current"
-      :max="5"
-      direction-links
-    />
+    <q-pagination v-model="current" :max="5" direction-links />
   </div>
 </template>
 
@@ -12,7 +8,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       current: ref(3)
     }

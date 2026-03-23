@@ -5,9 +5,11 @@ keys: offset,style,height,width,css,ready
 ---
 
 ### Helping Tree-Shake
+
 You will notice all examples import different parts of Quasar. However, if you need only one specific util method, then you can use ES6 destructuring to help Tree Shaking embed only that method and not all around it.
 
 Example with `dom` utils:
+
 ```js
 import { dom } from 'quasar'
 const { offset } = dom
@@ -18,6 +20,7 @@ console.log(offset(DomElement))
 ```
 
 You can also import all of dom utils and use whatever you need like this (but note that your bundle will contain unused methods too):
+
 ```js
 import { dom } from 'quasar'
 
@@ -31,6 +34,7 @@ For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Offset on screen viewport
+
 ```js
 import { dom } from 'quasar'
 const { offset } = dom
@@ -41,6 +45,7 @@ console.log(offset(DomElement))
 ```
 
 ## Get Computed Style
+
 This applies only when DomElement is visible! It returns the **computed** browser style, so the property you are asking for doesn't necessary has to be applied within a `style` attribute.
 
 ```js
@@ -56,21 +61,19 @@ console.log(style(DomElement, 'height'))
 ```
 
 ## Get Height / Width
+
 ```js
 import { dom } from 'quasar'
 const { height, width } = dom
 
-
 // Some aliases of the previous method for "width" and "height" which
 // returns Numbers instead of Strings:
-console.log(
-  height(DomElement),
-  width(DomElement)
-)
+console.log(height(DomElement), width(DomElement))
 // 10 100
 ```
 
 ## Apply CSS Properties in Batch
+
 ```js
 import { dom } from 'quasar'
 const { css } = dom
@@ -83,6 +86,7 @@ css(DomElement, {
 ```
 
 ## Execute when DOM is ready
+
 ```js
 import { dom } from 'quasar'
 const { ready } = dom
@@ -94,6 +98,7 @@ ready(function () {
 ```
 
 ## Handling event on a DOM event handler
+
 It's cross-browser.
 
 ```js

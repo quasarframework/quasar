@@ -18,10 +18,7 @@ Edit the `/quasar.config` file:
 animations: 'all'
 
 // or embedding only specific animations
-animations: [
-  'bounceInLeft',
-  'bounceOutRight'
-]
+animations: ['bounceInLeft', 'bounceOutRight']
 ```
 
 If you are building a website, you can also skip configuring the quasar.config file and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within the quasar.config file.
@@ -34,7 +31,7 @@ If you are building a website, you can also skip configuring the quasar.config f
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  >
+  />
 </head>
 ```
 
@@ -48,11 +45,12 @@ However, if you're using the **Quasar CLI**, no additional changes are needed.
 **Windows Developers**
 If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame.
 Try changing **Visual Effects** to **Adjust for Best Appearance**.
+
 1. Right click `My Computer` and select `Properties`
 2. Click `Advanced System Settings`
 3. Click the `Settings` button under `Performance`
 4. Under the `Visual Effects` tab, change the radio option to: `Adjust for Best Appearance`
-:::
+   :::
 
 ## Usage
 
@@ -67,17 +65,16 @@ Notice the string `animated` in front of the actual animation class name.
   leave-active-class="animated fadeOut"
 >
   <!-- Wrapping only one DOM element, defined by QBtn -->
-  <q-btn
-    color="secondary"
-    icon="mail"
-    label="Email"
-  />
+  <q-btn color="secondary" icon="mail" label="Email" />
 </transition>
 ```
+
 ### Built-in animation classes
+
 Quasar also provides some built-in classes to animate the active state between both enter and leave transitions. The animations provided are separated into three groups (click on them to expand):
 
 ::: details General classes
+
 ```
 bounce
 flash
@@ -95,10 +92,11 @@ swing
 tada
 wobble
 ```
+
 :::
 
-
 ::: details "In" classes
+
 ```
 backInDown
 backInLeft
@@ -143,9 +141,11 @@ zoomInLeft
 zoomInRight
 zoomInUp
 ```
+
 :::
 
 ::: details "Out" classes
+
 ```
 backOutDown
 backOutLeft
@@ -189,14 +189,17 @@ zoomOutLeft
 zoomOutRight
 zoomOutUp
 ```
+
 :::
 
 You can also go to the [official Vue documention](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for more information about the use of these classes.
 
 ### Modifier classes
+
 There are additional classes which delay or repeat or change the speed of the animations (click to expand):
 
 ::: details Modifier classes
+
 ```js
 repeat
 repeat-1
@@ -208,6 +211,7 @@ slow
 fast
 faster
 ```
+
 :::
 
 Example:
@@ -219,15 +223,12 @@ Example:
   leave-active-class="animated fadeOut"
 >
   <!-- Wrapping only one DOM element, defined by QBtn -->
-  <q-btn
-    color="secondary"
-    icon="mail"
-    label="Email"
-  />
+  <q-btn color="secondary" icon="mail" label="Email" />
 </transition>
 ```
 
 ### Wrapping Multiple Elements
+
 You can also group components or DOM elements in a transition so that the same effects are applied to all of them simultaneously.
 
 ```html Example with wrapping multiple DOM elements / components
@@ -237,15 +238,8 @@ You can also group components or DOM elements in a transition so that the same e
   leave-active-class="animated fadeOut"
 >
   <!-- We wrap a "p" tag and a QBtn -->
-  <p key="text">
-     Lorem Ipsum
-  </p>
-  <q-btn
-    key="email-button"
-    color="secondary"
-    icon="mail"
-    label="Email"
-  />
+  <p key="text"> Lorem Ipsum </p>
+  <q-btn key="email-button" color="secondary" icon="mail" label="Email" />
 </transition-group>
 ```
 

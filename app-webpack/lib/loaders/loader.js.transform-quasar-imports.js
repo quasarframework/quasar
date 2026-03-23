@@ -1,11 +1,11 @@
 const regex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
 
-module.exports = function (content, map) {
+module.exports = function exports(content, map) {
   const { importTransformation } = this.getOptions()
 
-  const newContent = content.replace(
-    regex,
-    (_, match) => match.split(',')
+  const newContent = content.replace(regex, (_, match) =>
+    match
+      .split(',')
       .map(identifier => {
         const id = identifier.trim()
 
@@ -17,9 +17,9 @@ module.exports = function (content, map) {
         }
 
         const data = id.split(' as ')
-        const name = data[ 0 ].trim()
+        const name = data[0].trim()
 
-        return `import ${ data[ 1 ] !== void 0 ? data[ 1 ].trim() : name } from '${ importTransformation(name) }';`
+        return `import ${data[1] !== void 0 ? data[1].trim() : name} from '${importTransformation(name)}';`
       })
       .join('')
   )

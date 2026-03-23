@@ -15,7 +15,7 @@ export class QuasarModeDevserver extends AppDevserver {
   #target
   #cordovaConfigFile = new CordovaConfigFile()
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     this.registerDiff('cordova', quasarConf => [
@@ -34,7 +34,7 @@ export class QuasarModeDevserver extends AppDevserver {
     })
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('vite', quasarConf)) {
@@ -46,7 +46,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  async #runVite (quasarConf) {
+  async #runVite(quasarConf) {
     if (this.#server !== null) {
       await this.#server.close()
       this.#server = null
@@ -58,13 +58,13 @@ export class QuasarModeDevserver extends AppDevserver {
     await this.#server.listen()
   }
 
-  async #runCordova (quasarConf) {
+  async #runCordova(quasarConf) {
     this.#stopCordova()
 
     if (this.argv.ide) {
       await this.#runCordovaCommand(
         quasarConf,
-        [ 'prepare', this.#target ].concat(this.argv._)
+        ['prepare', this.#target].concat(this.argv._)
       )
 
       await openIDE({
@@ -78,19 +78,16 @@ export class QuasarModeDevserver extends AppDevserver {
       return
     }
 
-    const args = [ 'run', this.#target ]
+    const args = ['run', this.#target]
 
     if (this.ctx.emulator) {
-      args.push(`--target=${ this.ctx.emulator }`)
+      args.push(`--target=${this.ctx.emulator}`)
     }
 
-    await this.#runCordovaCommand(
-      quasarConf,
-      args.concat(this.argv._)
-    )
+    await this.#runCordovaCommand(quasarConf, args.concat(this.argv._))
   }
 
-  #stopCordova () {
+  #stopCordova() {
     if (this.#pid) {
       log('Shutting down Cordova process...')
       process.kill(this.#pid)
@@ -98,10 +95,13 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  #runCordovaCommand (quasarConf, args) {
+  #runCordovaCommand(quasarConf, args) {
     this.#cordovaConfigFile.prepare(quasarConf)
 
-    if (this.#target === 'ios' && quasarConf.cordova.noIosLegacyBuildFlag !== true) {
+    if (
+      this.#target === 'ios' &&
+      quasarConf.cordova.noIosLegacyBuildFlag !== true
+    ) {
       args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
@@ -121,7 +121,7 @@ export class QuasarModeDevserver extends AppDevserver {
     })
   }
 
-  #cleanup () {
+  #cleanup() {
     this.#pid = 0
     this.#cordovaConfigFile.reset()
   }

@@ -1,5 +1,3 @@
 import QSkeleton from './QSkeleton.js'
 
-export {
-  QSkeleton
-}
+export { QSkeleton }

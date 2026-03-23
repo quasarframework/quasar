@@ -15,13 +15,16 @@ export default {
     search: 'Maghanap',
     filter: 'Salain',
     refresh: 'Refresh',
-    expand: label => (label ? `Palawakin "${ label }"` : 'Palawakin'),
-    collapse: label => (label ? `Pagbagsak "${ label }"` : 'Pagbagsak')
+    expand: label => (label ? `Palawakin "${label}"` : 'Palawakin'),
+    collapse: label => (label ? `Pagbagsak "${label}"` : 'Pagbagsak')
   },
   date: {
     days: 'Linggo_Lunes_Martes_Miyerkules_Huwebes_Biyernes_Sabado'.split('_'),
     daysShort: 'Dom_Lun_Mar_Miy_Hiy_Byr_Sab'.split('_'),
-    months: 'Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre'.split('_'),
+    months:
+      'Enero_Pebrero_Marso_Abril_Mayo_Hunyo_Hulyo_Agosto_Setyembre_Oktubre_Nobyembre_Disyembre'.split(
+        '_'
+      ),
     monthsShort: 'Ene_Peb_Mar_Abr_Mayo_Hun_Hul_Ago_Set_Okt_Nob_Dis'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
@@ -31,18 +34,17 @@ export default {
     prevYear: 'Nakaraang taon',
     nextYear: 'Susunod na taon',
     today: 'Ngayon',
-    prevRangeYears: range => `Nakaraang ${ range } taon`,
-    nextRangeYears: range => `Susunod na ${ range } taon`
+    prevRangeYears: range => `Nakaraang ${range} taon`,
+    nextRangeYears: range => `Susunod na ${range} taon`
   },
   table: {
     noData: 'Walang available na data',
     noResults: 'Walang nakitang katugmang mga tala',
     loading: 'Naglo-load...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 napili ang record.'
-        : (rows === 0 ? 'Hindi' : rows) + ' mga rekord na napili.'
-    ),
+        : (rows === 0 ? 'Hindi' : rows) + ' mga rekord na napili.',
     recordsPerPage: 'Mga tala sa bawat pahina:',
     allRows: 'Lahat',
     pagination: (start, end, total) => start + '-' + end + ' ng ' + total,

@@ -5,14 +5,10 @@
       <q-btn color="secondary" @click="more">More</q-btn>
     </q-btn-group>
 
-    <q-scroll-area
-      :delay="1200"
-      style="height: 200px; max-width: 300px;"
-    >
+    <q-scroll-area :delay="1200" style="height: 200px; max-width: 300px">
       <div v-for="n in number" :key="n">
-        Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
       </div>
     </q-scroll-area>
   </div>
@@ -22,19 +18,19 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const number = ref(4)
 
     return {
       number,
 
-      less () {
+      less() {
         if (number.value > 1) {
           number.value--
         }
       },
 
-      more () {
+      more() {
         number.value++
       }
     }

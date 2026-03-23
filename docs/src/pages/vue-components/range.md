@@ -7,6 +7,7 @@ related:
   - /vue-components/slider
   - /vue-components/field
 ---
+
 The QRange component is a great way to offer the user the selection of a sub-range of values between a minimum and maximum value, with optional steps to select those values. An example use case for the Range component would be to offer a price range selection.
 
 Also check out its “sibling”, the [QSlider](/vue-components/slider) component.

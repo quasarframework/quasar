@@ -5,9 +5,7 @@
     <q-btn label="Full Width" color="primary" @click="fullWidth = true" />
     <q-btn label="Full Height" color="primary" @click="fullHeight = true" />
 
-    <q-dialog
-      v-model="small"
-    >
+    <q-dialog v-model="small">
       <q-card style="width: 300px">
         <q-card-section>
           <div class="text-h6">Small</div>
@@ -23,10 +21,8 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog
-      v-model="medium"
-    >
-      <q-card style="width: 700px; max-width: 80vw;">
+    <q-dialog v-model="medium">
+      <q-card style="width: 700px; max-width: 80vw">
         <q-card-section>
           <div class="text-h6">Medium</div>
         </q-card-section>
@@ -41,10 +37,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog
-      v-model="fullWidth"
-      full-width
-    >
+    <q-dialog v-model="fullWidth" full-width>
       <q-card>
         <q-card-section>
           <div class="text-h6">Full Width</div>
@@ -60,10 +53,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog
-      v-model="fullHeight"
-      full-height
-    >
+    <q-dialog v-model="fullHeight" full-height>
       <q-card class="column full-height" style="width: 300px">
         <q-card-section>
           <div class="text-h6">Full Height</div>
@@ -85,7 +75,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       small: ref(false),
       medium: ref(false),

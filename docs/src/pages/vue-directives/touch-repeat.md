@@ -18,6 +18,7 @@ We will be describing `v-touch-repeat` on the lines below.
 <DocApi file="TouchRepeat" />
 
 ## Usage
+
 Click and hold with your mouse on the area below to see it in action.
 Notice that on touch capable devices the scrolling is not blocked.
 
@@ -34,6 +35,7 @@ Below is an example of applying TouchRepeat to QBtn. Notice how we play with the
 <DocExample title="Applied to QBtn" file="Buttons" />
 
 ### Handling Mouse Events
+
 When you want to handle mouse events too, use the `mouse` modifier:
 
 ```html
@@ -41,6 +43,7 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Handling Key Events
+
 When you want to handle key events too, use [keycodes](https://keycode.info/) as modifiers:
 
 ```html
@@ -50,6 +53,7 @@ When you want to handle key events too, use [keycodes](https://keycode.info/) as
 There are some special modifiers that you do not require to write the equivalent keycode: `space`, `tab`, `enter`.
 
 ### Inhibiting TouchRepeat
+
 When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart` / `mousedown` / `keydown` events from the inner content:
 
 ```html
@@ -69,4 +73,5 @@ When you want to inhibit TouchRepeat, you can do so by stopping propagation of t
 However, if you are using `capture`, `mouseCapture` or `keyCapture` modifiers then events will first reach the TouchRepeat directive then the inner content, so TouchRepeat will still trigger.
 
 ## Note on HMR
+
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

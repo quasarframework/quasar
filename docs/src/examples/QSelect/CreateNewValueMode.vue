@@ -47,7 +47,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       modelAdd: ref(null),
       modelAddUnique: ref(null),

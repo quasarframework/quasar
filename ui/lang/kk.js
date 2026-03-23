@@ -1,5 +1,11 @@
-function plurals (n, opts) {
-  return opts[ n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2 ]
+function plurals(n, opts) {
+  return opts[
+    n % 10 === 1 && n % 100 !== 11
+      ? 0
+      : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)
+        ? 1
+        : 2
+  ]
 }
 
 export default {
@@ -19,13 +25,16 @@ export default {
     search: 'Іздеу',
     filter: 'Сүзгі',
     refresh: 'Жаңарту',
-    expand: label => (label ? `"${ label }" кеңейту` : 'Кеңейту'),
-    collapse: label => (label ? `"${ label }" жию` : 'Жыйрату')
+    expand: label => (label ? `"${label}" кеңейту` : 'Кеңейту'),
+    collapse: label => (label ? `"${label}" жию` : 'Жыйрату')
   },
   date: {
     days: 'Жексенбі_Дүйсенбі_Сейсенбі_Сәрсенбі_Бейсенбі_Жұма_Сенбі'.split('_'),
     daysShort: 'Жс_Дс_Сс_Ср_Бс_Жм_Сб'.split('_'),
-    months: 'Қаңтар_Ақпан_Наурыз_Сәуір_Мамыр_Маусым_Шілде_Тамыз_Қыркүйек_Қазан_Қараша_Желтоқсан'.split('_'),
+    months:
+      'Қаңтар_Ақпан_Наурыз_Сәуір_Мамыр_Маусым_Шілде_Тамыз_Қыркүйек_Қазан_Қараша_Желтоқсан'.split(
+        '_'
+      ),
     monthsShort: 'Қаң_Ақп_Нау_Сәу_Мам_Мау_Шіл_Там_Қыр_Қаз_Қар_Жел'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -35,18 +44,20 @@ export default {
     prevYear: 'Алдыңғы жыл',
     nextYear: 'Келесі жыл',
     today: 'Бүгін',
-    prevRangeYears: range => `Алдыңғы ${ range } жыл`,
-    nextRangeYears: range => `Келесі ${ range } жыл`
+    prevRangeYears: range => `Алдыңғы ${range} жыл`,
+    nextRangeYears: range => `Келесі ${range} жыл`
   },
   table: {
     noData: 'Мәлімет жоқ',
     noResults: 'Сәйкестік табылмады',
     loading: 'Жүктеу...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' ' + plurals(rows, [ 'жол таңдалды', 'жол таңдалды', 'жол таңдалды' ]) + '.'
-        : 'Ешбір жол таңдалмады.'
-    ),
+        ? rows +
+          ' ' +
+          plurals(rows, ['жол таңдалды', 'жол таңдалды', 'жол таңдалды']) +
+          '.'
+        : 'Ешбір жол таңдалмады.',
     recordsPerPage: 'Беттегі жолдар:',
     allRows: 'Бәрі',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,

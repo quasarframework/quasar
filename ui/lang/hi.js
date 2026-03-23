@@ -15,13 +15,14 @@ export default {
     search: 'खोजें',
     filter: 'फ़िल्टर करें',
     refresh: 'ताज़ा करें',
-    expand: label => (label ? `"${ label }" का विस्तार करें` : 'विस्तार करें'),
-    collapse: label => (label ? `"${ label }" को संकुचित करें` : 'संकुचित करें')
+    expand: label => (label ? `"${label}" का विस्तार करें` : 'विस्तार करें'),
+    collapse: label => (label ? `"${label}" को संकुचित करें` : 'संकुचित करें')
   },
   date: {
     days: 'रविवार_सोमवार_मंगलवार_बुधवार_गुरुवार_शुक्रवार_शनिवार'.split('_'),
     daysShort: 'रवि_सोम_मंगल_बुध_गुरु_शुक्र_शनि'.split('_'),
-    months: 'जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितंबर_अक्तूबर_नवंबर_दिसंबर'.split('_'),
+    months:
+      'जनवरी_फ़रवरी_मार्च_अप्रैल_मई_जून_जुलाई_अगस्त_सितंबर_अक्तूबर_नवंबर_दिसंबर'.split('_'),
     monthsShort: 'जन_फ़र_मार्च_अप्रैल_मई_जून_जुलाई_अग_सितं_अक्तू_नवं_दिसं'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - रविवार, 1 - सोमवार, ...
     format24h: false,
@@ -31,18 +32,17 @@ export default {
     prevYear: 'पिछला साल',
     nextYear: 'अगला साल',
     today: 'आज',
-    prevRangeYears: range => `पिछला ${ range } साल`,
-    nextRangeYears: range => `अगला ${ range } साल`
+    prevRangeYears: range => `पिछला ${range} साल`,
+    nextRangeYears: range => `अगला ${range} साल`
   },
   table: {
     noData: 'कोई डेटा उपलब्ध नहीं है',
     noResults: 'कोई मिलते जुलते रिकॉर्ड नहीं मिले',
     loading: 'लोड हो रहा है...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 रिकॉर्ड चयनित।'
-        : (rows === 0 ? 'कोई' : rows) + ' रिकॉर्ड चयनित।'
-    ),
+        : (rows === 0 ? 'कोई' : rows) + ' रिकॉर्ड चयनित।',
     recordsPerPage: 'प्रति पृष्ठ रिकॉर्ड:',
     allRows: 'सभी',
     pagination: (start, end, total) => start + '-' + end + ' कुल ' + total,

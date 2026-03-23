@@ -4,7 +4,10 @@
       <pre><code v-html="entry.html" /></pre>
     </div>
 
-    <div v-if="entry.links" class="app-code__links row items-center q-px-md q-pb-md text-white bg-dark">
+    <div
+      v-if="entry.links"
+      class="app-code__links row items-center q-px-md q-pb-md text-white bg-dark"
+    >
       <div>Open in:</div>
       <q-btn
         v-for="link in entry.links"
@@ -29,15 +32,28 @@ import data from 'src/assets/data.js'
 import store from 'src/assets/store.js'
 
 // Protocols expect absolute paths, with forward slashes even on Windows
-const toAbsolutePath = path => `${ data.project.rootFolder }/${ path }`.replace(/\\/g, '/')
+const toAbsolutePath = path =>
+  `${data.project.rootFolder}/${path}`.replace(/\\/g, '/')
 
 const editorList = [
-  { name: 'vscode', href: entry => `vscode://file/${ toAbsolutePath(entry.fileName) }:${ entry.lineNumber }${ entry.columnNumber !== null ? `:${ entry.columnNumber }` : '' }` },
-  { name: 'sublime', href: entry => `subl://open?url=file://${ encodeURIComponent(toAbsolutePath(entry.fileName)) }&line=${ entry.lineNumber }` },
-  { name: 'textmate', href: entry => `txmt://open?url=file://${ encodeURIComponent(toAbsolutePath(entry.fileName)) }&line=${ entry.lineNumber }` }
+  {
+    name: 'vscode',
+    href: entry =>
+      `vscode://file/${toAbsolutePath(entry.fileName)}:${entry.lineNumber}${entry.columnNumber !== null ? `:${entry.columnNumber}` : ''}`
+  },
+  {
+    name: 'sublime',
+    href: entry =>
+      `subl://open?url=file://${encodeURIComponent(toAbsolutePath(entry.fileName))}&line=${entry.lineNumber}`
+  },
+  {
+    name: 'textmate',
+    href: entry =>
+      `txmt://open?url=file://${encodeURIComponent(toAbsolutePath(entry.fileName))}&line=${entry.lineNumber}`
+  }
 ]
 
-function highlight (sourceCode) {
+function highlight(sourceCode) {
   return Prism.highlight(sourceCode, Prism.languages.javascript, 'html')
 }
 
@@ -47,7 +63,7 @@ const noSourceHtml = highlight(`/**
  */`)
 
 const entry = computed(() => {
-  const target = data.stack[ store.value.selectedStackEntryIndex ]
+  const target = data.stack[store.value.selectedStackEntryIndex]
   const { sourceCode } = target
 
   if (sourceCode === null) {
@@ -57,17 +73,19 @@ const entry = computed(() => {
     }
   }
 
-  const html = sourceCode.linesList.map((line, index) => {
-    const htmlCode = Prism.highlight(
-      line,
-      Prism.languages.javascript,
-      'javascript'
-    )
+  const html = sourceCode.linesList
+    .map((line, index) => {
+      const htmlCode = Prism.highlight(
+        line,
+        Prism.languages.javascript,
+        'javascript'
+      )
 
-    return `<span class="line-number q-mr-md">${
-      ('' + (sourceCode.startLineNumber + index)).padStart(sourceCode.maxLineNumberLen, ' ')
-    }.</span>${ htmlCode }`
-  }).join('\n')
+      return `<span class="line-number q-mr-md">${String(
+        sourceCode.startLineNumber + index
+      ).padStart(sourceCode.maxLineNumberLen, ' ')}.</span>${htmlCode}`
+    })
+    .join('\n')
 
   return {
     links: editorList.map(editor => ({

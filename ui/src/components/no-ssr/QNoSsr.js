@@ -17,7 +17,7 @@ export default createComponent({
     placeholder: String
   },
 
-  setup (props, { slots }) {
+  setup(props, { slots }) {
     const { isHydrated } = useHydration()
 
     return () => {
@@ -25,7 +25,9 @@ export default createComponent({
         const node = hSlot(slots.default)
         return node === void 0
           ? node
-          : (node.length > 1 ? h(props.tag, {}, node) : node[ 0 ])
+          : node.length > 1
+            ? h(props.tag, {}, node)
+            : node[0]
       }
 
       const data = {
@@ -34,9 +36,7 @@ export default createComponent({
 
       const node = hSlot(slots.placeholder)
       if (node !== void 0) {
-        return node.length > 1
-          ? h(props.tag, data, node)
-          : node[ 0 ]
+        return node.length > 1 ? h(props.tag, data, node) : node[0]
       }
 
       if (props.placeholder !== void 0) {

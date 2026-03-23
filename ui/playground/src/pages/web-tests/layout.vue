@@ -5,19 +5,25 @@
       type="radio"
       v-model="tab"
       :options="[
-        {label: 'one', value: 'one'},
-        {label: 'two', value: 'two'},
-        {label: 'three', value: 'three'},
-        {label: 'four', value: 'four'},
-        {label: 'five', value: 'five'},
-        {label: 'six', value: 'six'},
-        {label: 'Bogus', value: 'bogus'}
+        { label: 'one', value: 'one' },
+        { label: 'two', value: 'two' },
+        { label: 'three', value: 'three' },
+        { label: 'four', value: 'four' },
+        { label: 'five', value: 'five' },
+        { label: 'six', value: 'six' },
+        { label: 'Bogus', value: 'bogus' }
       ]"
     />
 
-    <br><br>
+    <br /><br />
 
-    <q-tabs inverted align="center" v-model="tab" @update:model-value="onInput" @select="onSelect">
+    <q-tabs
+      inverted
+      align="center"
+      v-model="tab"
+      @update:model-value="onInput"
+      @select="onSelect"
+    >
       <q-tab name="one" label="One" @select="onTabSelect" />
       <q-tab name="two" label="Two" @select="onTabSelect" />
       <q-tab name="three" label="Three" @select="onTabSelect" />
@@ -25,7 +31,7 @@
       <q-tab name="five" label="Five" @select="onTabSelect" />
       <q-tab name="six" label="Six" @select="onTabSelect" />
     </q-tabs>
-    <br>
+    <br />
 
     <q-tabs inverted @update:model-value="onInput" @select="onSelect">
       <q-tab name="one" label="One" @select="onTabSelect" />
@@ -35,13 +41,12 @@
       <q-tab name="five" label="Five" @select="onTabSelect" />
       <q-tab name="six" label="Six" @select="onTabSelect" />
     </q-tabs>
-    <br>
+    <br />
 
     <q-tabs color="secondary" inverted>
       <q-route-tab
         v-for="route in ['a', 'b', 'c']"
         :key="route"
-
         :name="route"
         :to="`/lay/${route}`"
         :label="`Route ${route}`"
@@ -51,9 +56,7 @@
       />
       <q-tab name="link" label="Link" icon="cloud" color="amber" />
 
-      <q-tab-panel name="link">
-        Link Tab
-      </q-tab-panel>
+      <q-tab-panel name="link"> Link Tab </q-tab-panel>
     </q-tabs>
 
     <router-view />
@@ -62,22 +65,22 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       tab: ''
     }
   },
   methods: {
-    onInput (val) {
+    onInput(val) {
       console.log('@update:model-value', val)
     },
-    onSelect (val) {
+    onSelect(val) {
       console.log('@select', val)
     },
-    onTabSelect (val) {
+    onTabSelect(val) {
       console.log('@tab-select', val)
     },
-    onRouteTabSelect (val) {
+    onRouteTabSelect(val) {
       console.log('@routeTab-select', val)
     }
   }

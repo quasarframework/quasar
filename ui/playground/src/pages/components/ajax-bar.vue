@@ -1,13 +1,19 @@
 <template>
   <div>
-    <div class="q-layout-padding" style="max-width: 600px;">
+    <div class="q-layout-padding" style="max-width: 600px">
       <p class="caption">
-        Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.
+        Ajax Bar component captures Ajax calls automatically. This page here
+        triggers events manually for demonstrating purposes only.
       </p>
 
       <q-card style="margin-top: 25px">
         <q-card-section class="bg-primary text-center">
-          <q-btn push color="orange" @click="trigger()" class="full-width q-mb-md">
+          <q-btn
+            push
+            color="orange"
+            @click="trigger()"
+            class="full-width q-mb-md"
+          >
             Trigger Event
           </q-btn>
 
@@ -20,19 +26,15 @@
               Random increment
             </q-btn>
 
-            <q-btn push color="red" @click="stop()">
-              Stop
-            </q-btn>
+            <q-btn push color="red" @click="stop()"> Stop </q-btn>
           </div>
         </q-card-section>
 
-        <p class="caption text-center">
-          Try out some combinations for Ajax Bar.
-        </p>
+        <p class="caption text-center"
+          >Try out some combinations for Ajax Bar.</p
+        >
         <q-card-section>
-          <div class="text-h6">
-            Position
-          </div>
+          <div class="text-h6">Position</div>
           <div class="flex" style="margin: -5px">
             <div class="column">
               <q-radio v-model="position" val="top" label="Top" />
@@ -45,34 +47,50 @@
             </div>
           </div>
 
-          <div class="text-h6 q-mt-md">
-            Reverse?
-          </div>
+          <div class="text-h6 q-mt-md">Reverse?</div>
           <q-checkbox v-model="reverse" label="Reverse Direction" />
 
-          <div class="text-h6 q-mt-md">
-             watchEffect
-           </div>
-           <div class="row items-center">
-             <q-checkbox v-model="watchUrl" label="active" />
-             <q-input class="q-ml-md col" v-model="url" prefix="URL:" dense />
-           </div>
-
-          <div class="text-h6 q-mt-md">
-            Size
+          <div class="text-h6 q-mt-md">watchEffect</div>
+          <div class="row items-center">
+            <q-checkbox v-model="watchUrl" label="active" />
+            <q-input class="q-ml-md col" v-model="url" prefix="URL:" dense />
           </div>
-          <q-slider v-model="size" :min="2" :max="20" label-always :label-value="`${size}px`" />
+
+          <div class="text-h6 q-mt-md">Size</div>
+          <q-slider
+            v-model="size"
+            :min="2"
+            :max="20"
+            label-always
+            :label-value="`${size}px`"
+          />
         </q-card-section>
       </q-card>
     </div>
 
     <div class="q-ma-md row items-center q-gutter-md">
-      <q-btn label="xhr /server (trigger)" color="primary" @click="triggerXhr1" no-caps />
-      <q-btn label="xhr /second-server (NO trigger)" color="primary" @click="triggerXhr2" no-caps />
+      <q-btn
+        label="xhr /server (trigger)"
+        color="primary"
+        @click="triggerXhr1"
+        no-caps
+      />
+      <q-btn
+        label="xhr /second-server (NO trigger)"
+        color="primary"
+        @click="triggerXhr2"
+        no-caps
+      />
       <div>Loading bar status: {{ loadingState }}</div>
     </div>
 
-    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" skip-hijack />
+    <q-ajax-bar
+      ref="bar"
+      :position="position"
+      :reverse="reverse"
+      :size="computedSize"
+      skip-hijack
+    />
   </div>
 </template>
 
@@ -80,7 +98,7 @@
 import { watchEffect } from 'vue'
 import { LoadingBar } from 'quasar'
 
-function sendXhr (url) {
+function sendXhr(url) {
   const xhr = new XMLHttpRequest()
 
   xhr.open('GET', url, true)
@@ -93,11 +111,11 @@ function sendXhr (url) {
 }
 
 export default {
-  created () {
+  created() {
     LoadingBar.setDefaults({
-      hijackFilter (url) {
-        const res = /\/server/.test(url) === true
-          && /\/other-server/.test(url) === false
+      hijackFilter(url) {
+        const res =
+          /\/server/.test(url) === true && /\/other-server/.test(url) === false
 
         console.log(url, res)
         return res
@@ -110,10 +128,10 @@ export default {
       }
     })
   },
-  beforeUnmount () {
+  beforeUnmount() {
     LoadingBar.setDefaults({ hijackFilter: void 0 })
   },
-  data () {
+  data() {
     return {
       position: 'top',
       reverse: false,
@@ -126,42 +144,45 @@ export default {
     }
   },
   computed: {
-    computedSize () {
+    computedSize() {
       return this.size + 'px'
     },
 
-    loadingState () {
+    loadingState() {
       return LoadingBar.isActive === true ? 'active' : 'idle'
     }
   },
   methods: {
-    trigger () {
+    trigger() {
       this.$refs.bar.start()
 
-      setTimeout(() => {
-        if (this.$refs.bar) {
-          this.$refs.bar.stop()
-        }
-      }, Math.random() * 3000 + 1000)
+      setTimeout(
+        () => {
+          if (this.$refs.bar) {
+            this.$refs.bar.stop()
+          }
+        },
+        Math.random() * 3000 + 1000
+      )
     },
 
-    start (speed) {
+    start(speed) {
       this.$refs.bar.start(speed)
     },
 
-    increment () {
+    increment() {
       this.$refs.bar.increment(Math.random() * 20)
     },
 
-    stop () {
+    stop() {
       this.$refs.bar.stop()
     },
 
-    triggerXhr1 () {
+    triggerXhr1() {
       sendXhr('https://deelay.me/5000/server')
     },
 
-    triggerXhr2 () {
+    triggerXhr2() {
       sendXhr('https://deelay.me/2000/second-server')
     }
   }

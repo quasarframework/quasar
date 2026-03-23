@@ -6,7 +6,7 @@ export const listenOpts = {
 
 try {
   const opts = Object.defineProperty({}, 'passive', {
-    get () {
+    get() {
       Object.assign(listenOpts, {
         hasPassive: true,
         passive: { passive: true },
@@ -18,32 +18,29 @@ try {
   })
   window.addEventListener('qtest', null, opts)
   window.removeEventListener('qtest', null, opts)
-}
-catch (_) {}
+} catch {}
 
-export function noop () {}
+export function noop() {}
 
-export function leftClick (e) {
+export function leftClick(e) {
   return e.button === 0
 }
 
-export function middleClick (e) {
+export function middleClick(e) {
   return e.button === 1
 }
 
-export function rightClick (e) {
+export function rightClick(e) {
   return e.button === 2
 }
 
-export function position (e) {
-  if (e.touches && e.touches[ 0 ]) {
-    e = e.touches[ 0 ]
-  }
-  else if (e.changedTouches && e.changedTouches[ 0 ]) {
-    e = e.changedTouches[ 0 ]
-  }
-  else if (e.targetTouches && e.targetTouches[ 0 ]) {
-    e = e.targetTouches[ 0 ]
+export function position(e) {
+  if (e.touches && e.touches[0]) {
+    e = e.touches[0]
+  } else if (e.changedTouches && e.changedTouches[0]) {
+    e = e.changedTouches[0]
+  } else if (e.targetTouches && e.targetTouches[0]) {
+    e = e.targetTouches[0]
   }
 
   return {
@@ -52,7 +49,7 @@ export function position (e) {
   }
 }
 
-export function getEventPath (e) {
+export function getEventPath(e) {
   if (e.path) {
     return e.path
   }
@@ -77,12 +74,12 @@ export function getEventPath (e) {
 }
 
 // Reasonable defaults
-const
-  LINE_HEIGHT = 40,
+const LINE_HEIGHT = 40,
   PAGE_HEIGHT = 800
 
-export function getMouseWheelDistance (e) {
-  let x = e.deltaX, y = e.deltaY
+export function getMouseWheelDistance(e) {
+  let x = e.deltaX,
+    y = e.deltaY
 
   if ((x || y) && e.deltaMode) {
     const multiplier = e.deltaMode === 1 ? LINE_HEIGHT : PAGE_HEIGHT
@@ -91,63 +88,70 @@ export function getMouseWheelDistance (e) {
   }
 
   if (e.shiftKey && !x) {
-    [ y, x ] = [ x, y ]
+    ;[y, x] = [x, y]
   }
 
   return { x, y }
 }
 
-export function stop (e) {
+export function stop(e) {
   e.stopPropagation()
 }
 
-export function prevent (e) {
-  e.cancelable !== false && e.preventDefault()
+export function prevent(e) {
+  if (e.cancelable !== false) e.preventDefault()
 }
 
-export function stopAndPrevent (e) {
-  e.cancelable !== false && e.preventDefault()
+export function stopAndPrevent(e) {
+  if (e.cancelable !== false) e.preventDefault()
   e.stopPropagation()
 }
 
-export function preventDraggable (el, status) {
+export function preventDraggable(el, status) {
   if (el === void 0 || (status === true && el.__dragPrevented === true)) {
     return
   }
 
-  const fn = status === true
-    ? el => {
-      el.__dragPrevented = true
-      el.addEventListener('dragstart', prevent, listenOpts.notPassiveCapture)
-    }
-    : el => {
-      delete el.__dragPrevented
-      el.removeEventListener('dragstart', prevent, listenOpts.notPassiveCapture)
-    }
+  const fn =
+    status === true
+      ? element => {
+          element.__dragPrevented = true
+          element.addEventListener(
+            'dragstart',
+            prevent,
+            listenOpts.notPassiveCapture
+          )
+        }
+      : element => {
+          delete element.__dragPrevented
+          element.removeEventListener(
+            'dragstart',
+            prevent,
+            listenOpts.notPassiveCapture
+          )
+        }
 
   el.querySelectorAll('a, img').forEach(fn)
 }
 
-export function addEvt (ctx, targetName, events) {
-  const name = `__q_${ targetName }_evt`
+export function addEvt(ctx, targetName, events) {
+  const name = `__q_${targetName}_evt`
 
-  ctx[ name ] = ctx[ name ] !== void 0
-    ? ctx[ name ].concat(events)
-    : events
+  ctx[name] = ctx[name] !== void 0 ? ctx[name].concat(events) : events
 
   events.forEach(evt => {
-    evt[ 0 ].addEventListener(evt[ 1 ], ctx[ evt[ 2 ] ], listenOpts[ evt[ 3 ] ])
+    evt[0].addEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
   })
 }
 
-export function cleanEvt (ctx, targetName) {
-  const name = `__q_${ targetName }_evt`
+export function cleanEvt(ctx, targetName) {
+  const name = `__q_${targetName}_evt`
 
-  if (ctx[ name ] !== void 0) {
-    ctx[ name ].forEach(evt => {
-      evt[ 0 ].removeEventListener(evt[ 1 ], ctx[ evt[ 2 ] ], listenOpts[ evt[ 3 ] ])
+  if (ctx[name] !== void 0) {
+    ctx[name].forEach(evt => {
+      evt[0].removeEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
     })
-    ctx[ name ] = void 0
+    ctx[name] = void 0
   }
 }
 

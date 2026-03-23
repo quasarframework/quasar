@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-time
-      v-model="time"
-      format24h
-    />
+    <q-time v-model="time" format24h />
   </div>
 </template>
 
@@ -11,7 +8,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       time: ref('19:42')
     }

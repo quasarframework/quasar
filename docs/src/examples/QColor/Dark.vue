@@ -13,7 +13,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       hex: ref('#FF00FF'),
       hexa: ref('#FF00FFCC'),

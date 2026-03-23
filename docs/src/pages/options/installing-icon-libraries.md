@@ -17,19 +17,19 @@ In regards to webfont icons, you can choose to install one or more of these icon
 :::
 
 ## Installing Webfonts
+
 If you are building a website only, then using a CDN (Content Delivery Network) approach can be an option you can follow. However, when building a mobile or Electron app, you most likely do not want to depend on an Internet connection and Quasar comes with a solution to this problem:
 
 Edit the `/quasar.config` file:
 
 ```js
-extras: [
-  'material-icons'
-]
+extras: ['material-icons']
 ```
 
 Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure the `/quasar.config` file as indicated above.
 
 Adding more than one set:
+
 ```js
 extras: [
   'material-icons',
@@ -48,60 +48,72 @@ For all available options, visit the [GitHub](https://github.com/quasarframework
 You're now ready to use the [QIcon](/vue-components/icon) component.
 
 ## Using CDN as alternative
+
 If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your /index.html file which point to the CDN URL.
 
 In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit /index.html as described there.
 
 ## Using Fontawesome-Pro
+
 If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
 
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file (file path same as package.json):
-  ```
-  @fortawesome:registry=https://npm.fontawesome.com/
-  //npm.fontawesome.com/:_authToken=TOKENID
-  ```
+
+```
+@fortawesome:registry=https://npm.fontawesome.com/
+//npm.fontawesome.com/:_authToken=TOKENID
+```
+
 3. Install Fontawesome webfonts:
-  ```tabs
-  <<| bash Yarn |>>
-  $ yarn add @fortawesome/fontawesome-pro
-  <<| bash NPM |>>
-  $ npm install --save @fortawesome/fontawesome-pro
-  <<| bash PNPM |>>
-  $ pnpm add @fortawesome/fontawesome-pro
-  <<| bash Bun |>>
-  $ bun add @fortawesome/fontawesome-pro
-  ```
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add @fortawesome/fontawesome-pro
+<<| bash NPM |>>
+$ npm install --save @fortawesome/fontawesome-pro
+<<| bash PNPM |>>
+$ pnpm add @fortawesome/fontawesome-pro
+<<| bash Bun |>>
+$ bun add @fortawesome/fontawesome-pro
+```
+
 4. Create new boot file:
-  ```bash
-  $ quasar new boot fontawesome-pro [--format ts]
-  ```
+
+```bash
+$ quasar new boot fontawesome-pro [--format ts]
+```
+
 5. Edit the `/quasar.config` file:
-  ```js
-  boot: [
-    ...
-    'fontawesome-pro' // Add boot file
-  ],
-  extras: [
-    // 'fontawesome-v6' // Disable free version!
-  ],
-  framework: {
-    // if you want Quasar to use Fontawesome for its icons
-    iconSet: 'fontawesome-v6-pro'
-  }
-  ```
+
+```js
+boot: [
+  ...
+  'fontawesome-pro' // Add boot file
+],
+extras: [
+  // 'fontawesome-v6' // Disable free version!
+],
+framework: {
+  // if you want Quasar to use Fontawesome for its icons
+  iconSet: 'fontawesome-v6-pro'
+}
+```
+
 6. Edit `/src/boot/fontawesome-pro.js`:
-  ```js
-  // required
-  import '@fortawesome/fontawesome-pro/css/fontawesome.css'
-  import '@fortawesome/fontawesome-pro/css/light.css'
-  // do you want these too?
-  // import '@fortawesome/fontawesome-pro/css/thin.css'
-  // import '@fortawesome/fontawesome-pro/css/duotone.css'
-  // import '@fortawesome/fontawesome-pro/css/brands.css'
-  // import '@fortawesome/fontawesome-pro/css/solid.css'
-  // import '@fortawesome/fontawesome-pro/css/regular.css'
-  ```
+
+```js
+// required
+import '@fortawesome/fontawesome-pro/css/fontawesome.css'
+import '@fortawesome/fontawesome-pro/css/light.css'
+// do you want these too?
+// import '@fortawesome/fontawesome-pro/css/thin.css'
+// import '@fortawesome/fontawesome-pro/css/duotone.css'
+// import '@fortawesome/fontawesome-pro/css/brands.css'
+// import '@fortawesome/fontawesome-pro/css/solid.css'
+// import '@fortawesome/fontawesome-pro/css/regular.css'
+```
+
 7. (Optional) Override default icons:
 
 Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some icons used by the framework components may not be desirable. The best way to handle this is to override it in the boot file that you created.

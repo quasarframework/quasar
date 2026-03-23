@@ -1,4 +1,3 @@
-
 import { packageJson } from '../utils/package-json.js'
 
 console.log('  Running @quasar/icongenie v' + packageJson.version)

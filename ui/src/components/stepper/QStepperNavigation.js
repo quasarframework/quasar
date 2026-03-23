@@ -6,7 +6,7 @@ import { hSlot } from '../../utils/private.render/render.js'
 export default createComponent({
   name: 'QStepperNavigation',
 
-  setup (_, { slots }) {
+  setup(_, { slots }) {
     return () => h('div', { class: 'q-stepper__nav' }, hSlot(slots.default))
   }
 })

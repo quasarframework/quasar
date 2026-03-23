@@ -2,14 +2,16 @@ const semver = require('semver')
 
 const { fatal } = require('../../utils/logger.js')
 const { getPackageJson } = require('../../utils/get-package-json.js')
-const { getBackwardCompatiblePackageName } = require('../utils.app-extension.js')
+const {
+  getBackwardCompatiblePackageName
+} = require('../utils.app-extension.js')
 const { BaseAPI } = require('./BaseAPI.js')
 
 /**
  * API for extension's /prompts.js script
  */
 module.exports.PromptsAPI = class PromptsAPI extends BaseAPI {
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
     this.#appExtJson = appExtJson
   }
@@ -28,16 +30,20 @@ module.exports.PromptsAPI = class PromptsAPI extends BaseAPI {
    * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWith (packageName, semverCondition) {
+  compatibleWith(packageName, semverCondition) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
 
     if (json === void 0) {
-      fatal(`Extension(${ this.extId }): Dependency not found - ${ name }. Please install it.`)
+      fatal(
+        `Extension(${this.extId}): Dependency not found - ${name}. Please install it.`
+      )
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${ this.extId }): is not compatible with ${ name } v${ json.version }. Required version: ${ semverCondition }`)
+      fatal(
+        `Extension(${this.extId}): is not compatible with ${name} v${json.version}. Required version: ${semverCondition}`
+      )
     }
   }
 
@@ -52,7 +58,7 @@ module.exports.PromptsAPI = class PromptsAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
 
@@ -72,7 +78,7 @@ module.exports.PromptsAPI = class PromptsAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed & invoked
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -82,12 +88,10 @@ module.exports.PromptsAPI = class PromptsAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**

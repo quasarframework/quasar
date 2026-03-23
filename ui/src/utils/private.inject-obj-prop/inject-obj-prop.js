@@ -1,4 +1,4 @@
-export function injectProp (target, propName, get, set) {
+export function injectProp(target, propName, get, set) {
   Object.defineProperty(target, propName, {
     get,
     set,
@@ -7,9 +7,9 @@ export function injectProp (target, propName, get, set) {
   return target
 }
 
-export function injectMultipleProps (target, props) {
+export function injectMultipleProps(target, props) {
   for (const key in props) {
-    injectProp(target, key, props[ key ])
+    injectProp(target, key, props[key])
   }
   return target
 }

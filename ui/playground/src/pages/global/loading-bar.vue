@@ -5,7 +5,11 @@
     <div class="q-gutter-sm">
       <q-btn color="primary" label="Add event" @click="add()" />
       <q-btn color="primary" label="Remove event" @click="remove()" />
-      <q-btn color="primary" label="Change defaults" @click="changeDefaults()" />
+      <q-btn
+        color="primary"
+        label="Change defaults"
+        @click="changeDefaults()"
+      />
       <q-btn color="primary" label="xhr" @click="triggerXhr" no-caps />
     </div>
 
@@ -13,7 +17,11 @@
     <div class="q-gutter-sm">
       <q-btn color="primary" label="Add event" @click="add(true)" />
       <q-btn color="primary" label="Remove event" @click="remove(true)" />
-      <q-btn color="primary" label="Change defaults" @click="changeDefaults(true)" />
+      <q-btn
+        color="primary"
+        label="Change defaults"
+        @click="changeDefaults(true)"
+      />
       <q-btn color="primary" label="xhr" @click="triggerXhr" no-caps />
     </div>
   </div>
@@ -22,7 +30,7 @@
 <script>
 import { LoadingBar } from 'quasar'
 
-function sendXhr (url) {
+function sendXhr(url) {
   const xhr = new XMLHttpRequest()
   xhr.open('GET', url, true)
   xhr.send(null)
@@ -30,38 +38,35 @@ function sendXhr (url) {
 
 export default {
   computed: {
-    loadingState () {
+    loadingState() {
       return LoadingBar.isActive === true ? 'active' : 'idle'
     }
   },
 
   methods: {
-    add (withQ) {
+    add(withQ) {
       if (withQ) {
         this.$q.loadingBar.start()
-      }
-      else {
+      } else {
         LoadingBar.start()
       }
     },
 
-    remove (withQ) {
+    remove(withQ) {
       if (withQ) {
         this.$q.loadingBar.stop()
-      }
-      else {
+      } else {
         LoadingBar.stop()
       }
     },
 
-    changeDefaults (withQ) {
+    changeDefaults(withQ) {
       if (withQ) {
         this.$q.loadingBar.setDefaults({
           position: 'bottom',
           color: 'purple'
         })
-      }
-      else {
+      } else {
         LoadingBar.setDefaults({
           position: 'top',
           size: '15px',
@@ -70,8 +75,10 @@ export default {
       }
     },
 
-    triggerXhr () {
-      sendXhr(`https://deelay.me/${ Math.ceil(5000 + Math.random() * 20000) }/server`)
+    triggerXhr() {
+      sendXhr(
+        `https://deelay.me/${Math.ceil(5000 + Math.random() * 20000)}/server`
+      )
     }
   }
 }

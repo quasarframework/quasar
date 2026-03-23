@@ -31,7 +31,7 @@
     "tag": {
       "extends": "tag",
       "default": "'div'",
-      "examples": [ "'div'", "'ul'", "'ol'" ],
+      "examples": ["'div'", "'ul'", "'ol'"],
       "addedIn": "v2.10.1"
     }
   },

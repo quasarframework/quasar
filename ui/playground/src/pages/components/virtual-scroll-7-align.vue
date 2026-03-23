@@ -15,13 +15,18 @@
               @update:model-value="onIndexChange"
             />
 
-            <q-option-group type="radio" v-model="alignMode" :options="alignModes" inline />
+            <q-option-group
+              type="radio"
+              v-model="alignMode"
+              :options="alignModes"
+              inline
+            />
           </div>
 
           <q-virtual-scroll
             ref="virtualListRef"
             class="q-my-md"
-            style="max-height: 60vh;"
+            style="max-height: 60vh"
             component="q-list"
             :items="heavyList"
             separator
@@ -38,9 +43,7 @@
                 :style="index === 99999 ? 'height: 800px' : void 0"
               >
                 <q-item-section>
-                  <q-item-label>
-                    #{{ index }} - {{ item.label }}
-                  </q-item-label>
+                  <q-item-label> #{{ index }} - {{ item.label }} </q-item-label>
                 </q-item-section>
               </q-item>
             </template>
@@ -65,24 +68,32 @@ for (let i = 0; i < 100000; i++) {
 Object.freeze(heavyList)
 
 export default {
-  data () {
+  data() {
     return {
       heavyList,
       virtualListIndex: 1200,
       alignMode: void 0,
-      alignModes: [ 'auto', 'start', 'center', 'end', 'start-force', 'center-force', 'end-force' ].map(label => ({ label, value: label === 'auto' ? void 0 : label }))
+      alignModes: [
+        'auto',
+        'start',
+        'center',
+        'end',
+        'start-force',
+        'center-force',
+        'end-force'
+      ].map(label => ({ label, value: label === 'auto' ? void 0 : label }))
     }
   },
 
-  mounted () {
+  mounted() {
     this.$refs.virtualListRef.scrollTo(this.virtualListIndex)
   },
 
   methods: {
-    onIndexChange (index) {
+    onIndexChange(index) {
       this.$refs.virtualListRef.scrollTo(index, this.alignMode)
     },
-    onVirtualScroll ({ index }) {
+    onVirtualScroll({ index }) {
       this.virtualListIndex = index
     }
   }

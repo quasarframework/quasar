@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
       value: 71
     }

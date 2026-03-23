@@ -2,21 +2,22 @@
 title: Configuring quasar.config file
 desc: (@quasar/app-webpack) Where, how and what you can configure in a Quasar app.
 ---
+
 Quasar makes use of some awesome development tools under its hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
 
 So what can you configure through the `/quasar.config` file?
 
-* Quasar components, directives and plugins that you'll be using in your website/app
-* Default [Quasar Language Pack](/options/quasar-language-packs)
-* [Icon libraries](/options/installing-icon-libraries) that you wish to use
-* Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
-* Development server port, HTTPS mode, hostname and so on
-* [CSS animations](/options/animations) that you wish to use
-* [Boot Files](/quasar-cli-webpack/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
-* Global CSS/Sass/... files to be included in the bundle
-* PWA [manifest](/quasar-cli-webpack/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli-webpack/developing-pwa/configuring-pwa#quasar-config-file)
-* [Electron Packager](/quasar-cli-webpack/developing-electron-apps/configuring-electron#quasar-config-file) and/or [Electron Builder](/quasar-cli-webpack/developing-electron-apps/configuring-electron#quasar-config-file)
-* Extend Webpack config
+- Quasar components, directives and plugins that you'll be using in your website/app
+- Default [Quasar Language Pack](/options/quasar-language-packs)
+- [Icon libraries](/options/installing-icon-libraries) that you wish to use
+- Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
+- Development server port, HTTPS mode, hostname and so on
+- [CSS animations](/options/animations) that you wish to use
+- [Boot Files](/quasar-cli-webpack/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
+- Global CSS/Sass/... files to be included in the bundle
+- PWA [manifest](/quasar-cli-webpack/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli-webpack/developing-pwa/configuring-pwa#quasar-config-file)
+- [Electron Packager](/quasar-cli-webpack/developing-electron-apps/configuring-electron#quasar-config-file) and/or [Electron Builder](/quasar-cli-webpack/developing-electron-apps/configuring-electron#quasar-config-file)
+- Extend Webpack config
 
 ::: tip
 You'll notice that changing any of these settings does not require you to manually reload the dev server. Quasar detects and reloads the necessary processes. You won't lose your development flow, because you can just sit back while Quasar CLI quickly reloads the changed code, even keeping the current state. This saves tons of your time!
@@ -78,7 +79,7 @@ Or you can use a global CSS file for SPA mode and another one for Cordova mode w
 {
   css: [
     ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
-    ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
+    ctx.mode.cordova ? 'app-cordova.sass' : null // looks for /src/css/app-cordova.sass
   ]
 }
 ```
@@ -88,9 +89,7 @@ Or you can configure the dev server to run on port 8000 for SPA mode, on port 90
 ```js
 {
   devServer: {
-    port: ctx.mode.spa
-      ? 8000
-      : (ctx.mode.pwa ? 9000 : 9090)
+    port: ctx.mode.spa ? 8000 : ctx.mode.pwa ? 9000 : 9090
   }
 }
 ```
@@ -126,7 +125,7 @@ You can wrap the returned function with `configure()` helper to get a better IDE
 ```js
 import { defineConfig } from '#q-app/wrappers'
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   /* configuration options */
 })
 ```
@@ -164,7 +163,7 @@ return {
     /* optional;
        disables vendor chunk: */ disable: true,
 
-    add: [ 'src/plugins/my-special-plugin' ],
+    add: ['src/plugins/my-special-plugin'],
     remove: ['axios', 'vue$']
   }
 }
@@ -207,6 +206,7 @@ extras?: (QuasarIconSets | QuasarFonts)[];
 ```
 
 ### framework
+
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
 
 Filling "components" and "directives" is required only if "all" is set to `false`.
@@ -285,6 +285,7 @@ framework: {
 ```
 
 See these references for more info:
+
 - [Quasar Language Packs](/options/quasar-language-packs)
 - [Quasar Icon Sets](/options/quasar-icon-sets)
 - [Quasar CSS Addons - Flex](/layout/grid/introduction-to-flexbox#flex-addons)
@@ -303,20 +304,21 @@ animations?: QuasarAnimationsConfiguration | 'all';
 ```
 
 ### devServer
+
 **Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE or local tunnel), set the `webSocketURL` setting in the `client` section to your public application URL to allow features like Live Reload and Hot Module Replacement to work as [described here](https://webpack.js.org/configuration/dev-server/#websocketurl).
 
 Most used properties are:
 
-| Property | Type | Description |
-| --- | --- | --- |
-| port | Number | Port of dev server |
-| host | String | Local IP/Host to use for dev server |
-| open | Boolean/Object | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. Uses [open](https://github.com/sindresorhus/open#usage) package params. For more details, please see below. |
-| proxy | Object/Array | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain. |
-| devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
-| server | Object | Here you can configure HTTPS instead of HTTP (see below) |
-| onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
-| onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
+| Property                | Type           | Description                                                                                                                                                                                                                                            |
+| ----------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| port                    | Number         | Port of dev server                                                                                                                                                                                                                                     |
+| host                    | String         | Local IP/Host to use for dev server                                                                                                                                                                                                                    |
+| open                    | Boolean/Object | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. Uses [open](https://github.com/sindresorhus/open#usage) package params. For more details, please see below. |
+| proxy                   | Object/Array   | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain.                                                                                                         |
+| devMiddleware           | Object         | Configuration supplied to webpack-dev-middleware v4                                                                                                                                                                                                    |
+| server                  | Object         | Here you can configure HTTPS instead of HTTP (see below)                                                                                                                                                                                               |
+| onBeforeSetupMiddleware | Function       | Configure the dev middlewares before webpack-dev-server applies its own config.                                                                                                                                                                        |
+| onAfterSetupMiddleware  | Function       | Configure the dev middlewares after webpack-dev-server applies its own config.                                                                                                                                                                         |
 
 Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
 
@@ -326,14 +328,18 @@ Using `open` prop to open with a specific browser and not with the default brows
 // opens Google Chrome
 devServer: {
   open: {
-    app: { name: 'google chrome' }
+    app: {
+      name: 'google chrome'
+    }
   }
 }
 
 // opens Firefox
 devServer: {
   open: {
-    app: { name: 'firefox' }
+    app: {
+      name: 'firefox'
+    }
   }
 }
 
@@ -342,7 +348,9 @@ import open from 'open'
 
 devServer: {
   open: {
-    app: { name: open.apps.chrome }
+    app: {
+      name: open.apps.chrome
+    }
   }
 }
 ```
@@ -373,7 +381,9 @@ devServer: {
   vueDevtools: true
 }
 ```
+
 #### Docker and WSL Issues with HMR
+
 If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container.
 
 A stop-gap solution can be achieved by using the polling mode to check for filesystem changes.
@@ -688,6 +698,7 @@ build: {
 If, for example, you run "quasar build --debug", sourceMap and extractCSS will be set to "true" regardless of what you configure.
 
 ### sourceFiles
+
 Use this property to change the default names of some files of your website/app if you have to. All paths must be relative to the root folder of your project.
 
 ```js /quasar.config file
@@ -733,7 +744,7 @@ You can define and then reference variables in `/index.html`, like this:
 ```js /quasar.config file
 import { defineConfig } from '#q-app/wrappers'
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     htmlVariables: {
       myVar: 'some-content'
@@ -745,8 +756,7 @@ export default defineConfig((ctx) => {
 Then, as an example:
 
 ```html /index.html
-<%= myVar %>
-<% if (myVar) { %>something<% } %>
+<%= myVar %> <% if (myVar) { %>something<% } %>
 ```
 
 One more example:
@@ -763,9 +773,7 @@ htmlVariables: {
 Then, as an example:
 
 ```html /index.html
-<%= title %>
-<%= some.prop %>
-<% if (some.prop) { %><%= title %><% } %>
+<%= title %> <%= some.prop %> <% if (some.prop) { %><%= title %><% } %>
 ```
 
 ### Example setting env for dev/build
@@ -773,4 +781,5 @@ Then, as an example:
 Please refer to [Adding to process.env](/quasar-cli-webpack/handling-process-env#adding-to-process-env) section in our docs.
 
 ### Handling Webpack configuration
+
 In depth analysis on [Handling Webpack](/quasar-cli-webpack/handling-webpack) documentation page.

@@ -5,11 +5,11 @@ scope:
   tree:
     l: src-electron
     c:
-    - l: icons
-      c:
-      - l: icon.ico
-      - l: icon.icns
-      - l: icon.png
+      - l: icons
+        c:
+          - l: icon.ico
+          - l: icon.icns
+          - l: icon.png
 ---
 
 These images are used to display the icon of the application in the desktop operating system in the tray, on the desktop, in the file-browser and in relevant stores. The `icon.ico` file is for Windows and `icon.icns` is for MacOS. If you discover any that are missing, please [open an issue](https://github.com/quasarframework/quasar/issues).

@@ -1,11 +1,6 @@
 <template>
   <div class="q-px-lg q-pt-md q-pb-xl">
-    <q-range
-      v-model="model"
-      marker-labels
-      :min="0"
-      :max="6"
-    />
+    <q-range v-model="model" marker-labels :min="0" :max="6" />
 
     <q-range
       class="q-mt-xl"
@@ -50,7 +45,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const model = ref({
       min: 2,
       max: 4

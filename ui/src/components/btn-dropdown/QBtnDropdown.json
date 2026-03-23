@@ -1,5 +1,9 @@
 {
-  "mixins": [ "components/btn/use-btn", "composables/private.use-model-toggle/use-model-toggle", "composables/private.use-transition/use-transition" ],
+  "mixins": [
+    "components/btn/use-btn",
+    "composables/private.use-model-toggle/use-model-toggle",
+    "composables/private.use-transition/use-transition"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
@@ -8,7 +12,7 @@
   "props": {
     "model-value": {
       "type": "Boolean",
-      "__delete": [ "default" ]
+      "__delete": ["default"]
     },
 
     "split": {
@@ -40,7 +44,7 @@
     },
 
     "content-style": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the menu",
       "examples": [
@@ -51,13 +55,10 @@
     },
 
     "content-class": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the menu",
-      "examples": [
-        "'my-special-class'",
-        "{ 'my-special-class': true }"
-      ],
+      "examples": ["'my-special-class'", "{ 'my-special-class': true }"],
       "category": "style"
     },
 
@@ -110,9 +111,21 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
-        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
-        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
       ],
       "default": "'bottom end'",
       "category": "position"
@@ -122,9 +135,21 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
-        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
-        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
       ],
       "default": "'top end'",
       "category": "position"
@@ -133,14 +158,14 @@
     "menu-offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
-      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
+      "examples": ["[8, 8]", "[5, 10]"],
       "category": "position"
     },
 
     "toggle-aria-label": {
       "type": "String",
       "desc": "aria-label to be used on the dropdown toggle element",
-      "examples": [ "'Open menu'" ],
+      "examples": ["'Open menu'"],
       "category": "accessibility",
       "addedIn": "v2.8.4"
     }

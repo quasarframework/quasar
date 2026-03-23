@@ -8,13 +8,18 @@
       hint="Validation starts after first blur"
       counter
       :rules="[
-          val => !!val || '* Required',
-          val => val.length < 2 || 'Please use maximum 1 character',
-        ]"
+        val => !!val || '* Required',
+        val => val.length < 2 || 'Please use maximum 1 character'
+      ]"
       lazy-rules
     />
 
-    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
+    <q-btn
+      class="q-mt-sm"
+      label="Reset Validation"
+      @click="reset"
+      color="primary"
+    />
   </div>
 </template>
 
@@ -22,14 +27,14 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const inputRef = ref(null)
 
     return {
       model: ref(''),
       inputRef,
 
-      reset () {
+      reset() {
         inputRef.value.resetValidation()
       }
     }

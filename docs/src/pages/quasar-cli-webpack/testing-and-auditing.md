@@ -38,13 +38,16 @@ If you ever need to review your installation choices you can take a look at `qua
 ## Further Reading
 
 ### Books
+
 - [Testing Vue.js Applications](https://www.manning.com/books/testing-vue-js-applications) by Edd Yerburgh, the author of the `@vue/test-utils` repo
 - [Free Vue Testing Handbook](https://lmiller1990.github.io/vue-testing-handbook/)
 
 ### Tutorials
+
 - [Unit Testing Vue Router with Jest](https://medium.com/js-dojo/unit-testing-vue-router-1d091241312)
 
 ### Documentation
+
 - [@vue/test-utils](https://test-utils.vuejs.org)
 - [jest 24](https://facebook.github.io/jest/)
 - [cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Is-Simple)

@@ -14,10 +14,7 @@
       </div>
       <q-slide-transition @show="log('show')" @hide="log('hide')">
         <div v-show="visibleVShow" style="margin: 0">
-          <img
-            class="responsive"
-            src="~assets/quasar.jpg"
-          >
+          <img class="responsive" src="~assets/quasar.jpg" />
         </div>
       </q-slide-transition>
 
@@ -26,36 +23,51 @@
       </div>
       <q-slide-transition @show="log('show')" @hide="log('hide')">
         <div v-if="visibleVIf" style="margin: 0">
-          <img
-            class="responsive"
-            src="~assets/quasar.jpg"
-          >
+          <img class="responsive" src="~assets/quasar.jpg" />
         </div>
       </q-slide-transition>
 
       <div class="q-mt-xl q-mb-xs">
-        <q-toggle v-model="visibleVShow2" label="Visible with v-show - with animated elements inside" />
+        <q-toggle
+          v-model="visibleVShow2"
+          label="Visible with v-show - with animated elements inside"
+        />
       </div>
-      <q-slide-transition @show="log('show')" @hide="log('hide')" :duration="5000">
+      <q-slide-transition
+        @show="log('show')"
+        @hide="log('hide')"
+        :duration="5000"
+      >
         <div v-show="visibleVShow2" style="margin: 0">
-          <q-btn label="Toggle - Button with animation" color="primary" class="q-ma-lg" @click="visibleVShow2 = !visibleVShow2" />
-          <img
-            class="responsive"
-            src="~assets/quasar.jpg"
-          >
+          <q-btn
+            label="Toggle - Button with animation"
+            color="primary"
+            class="q-ma-lg"
+            @click="visibleVShow2 = !visibleVShow2"
+          />
+          <img class="responsive" src="~assets/quasar.jpg" />
         </div>
       </q-slide-transition>
 
       <div class="q-mt-xl q-mb-xs">
-        <q-toggle v-model="visibleVIf2" label="Visible with v-if - with animated elements inside" />
+        <q-toggle
+          v-model="visibleVIf2"
+          label="Visible with v-if - with animated elements inside"
+        />
       </div>
-      <q-slide-transition @show="log('show')" @hide="log('hide')" :duration="5000">
+      <q-slide-transition
+        @show="log('show')"
+        @hide="log('hide')"
+        :duration="5000"
+      >
         <div v-if="visibleVIf2" style="margin: 0">
-          <q-btn label="Toggle - Button with animation" color="primary" class="q-ma-lg" @click="visibleVIf2 = !visibleVIf2" />
-          <img
-            class="responsive"
-            src="~assets/quasar.jpg"
-          >
+          <q-btn
+            label="Toggle - Button with animation"
+            color="primary"
+            class="q-ma-lg"
+            @click="visibleVIf2 = !visibleVIf2"
+          />
+          <img class="responsive" src="~assets/quasar.jpg" />
         </div>
       </q-slide-transition>
 
@@ -70,25 +82,20 @@
           <div>Outer block</div>
           <q-slide-transition>
             <div v-show="innerCondition">
-              <img
-                class="responsive"
-                src="~assets/quasar.jpg"
-              >
+              <img class="responsive" src="~assets/quasar.jpg" />
             </div>
           </q-slide-transition>
         </div>
       </q-slide-transition>
 
-      <div style="height: 500px">
-        Scroll on purpose
-      </div>
+      <div style="height: 500px">Scroll on purpose</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       visibleVShow: true,
       visibleVIf: true,
@@ -99,11 +106,11 @@ export default {
     }
   },
   methods: {
-    log (msg) {
+    log(msg) {
       console.log(msg)
     },
 
-    toggleConditions () {
+    toggleConditions() {
       this.outerCondition = !this.outerCondition
       this.innerCondition = !this.innerCondition
     }

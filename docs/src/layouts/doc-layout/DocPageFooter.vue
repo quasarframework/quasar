@@ -5,7 +5,8 @@
         <q-list v-for="entry in links" :key="entry.name" role="list">
           <q-item-label
             class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225 q-mb-md"
-          >{{ entry.name }}</q-item-label>
+            >{{ entry.name }}</q-item-label
+          >
 
           <q-item
             v-for="(item, index) in entry.children"
@@ -17,7 +18,9 @@
             :target="item.external ? '_blank' : void 0"
             class="doc-layout__item"
           >
-            <q-item-section class="letter-spacing-100">{{ item.name }}</q-item-section>
+            <q-item-section class="letter-spacing-100">{{
+              item.name
+            }}</q-item-section>
           </q-item>
         </q-list>
       </nav>
@@ -25,7 +28,9 @@
       <q-separator class="landing-mx--large" />
     </template>
 
-    <div class="doc-page-footer__license row justify-center q-mt-md letter-spacing-225">
+    <div
+      class="doc-page-footer__license row justify-center q-mt-md letter-spacing-225"
+    >
       <q-btn
         no-caps
         flat
@@ -44,14 +49,17 @@
       />
     </div>
 
-    <div class="doc-page-footer__copyright text-center q-pa-lg letter-spacing-100">
+    <div
+      class="doc-page-footer__copyright text-center q-pa-lg letter-spacing-100"
+    >
       <div>
         Copyright © 2015-present PULSARDEV SRL,
         <a
           href="https://github.com/rstoenescu"
           target="_blank"
           class="text-brand-accent text-weight-bold"
-        >Razvan Stoenescu</a>
+          >Razvan Stoenescu</a
+        >
       </div>
       <div>
         This website has been designed in collaboration with
@@ -59,7 +67,8 @@
           href="https://www.dreamonkey.com/"
           target="_blank"
           class="text-brand-accent text-weight-bold"
-        >Dreamonkey Srl</a>
+          >Dreamonkey Srl</a
+        >
       </div>
     </div>
   </div>
@@ -74,16 +83,18 @@ import { footerLinks } from 'assets/links.footer.js'
  * @param menus menu items to extract from
  * @return {*[]} An array of flattened menu items (no more children, they move up to the same level as others)
  */
-function getMenu (path) {
+function getMenu(path) {
   const children = []
   const menuItem = menu.find(item => item.path === path)
 
   for (const item of menuItem.children) {
-    item.children === void 0 && children.push({
-      name: item.name,
-      path: item.external === true ? item.path : `/${path}/${item.path}`,
-      external: item.external
-    })
+    if (item.children === void 0) {
+      children.push({
+        name: item.name,
+        path: item.external === true ? item.path : `/${path}/${item.path}`,
+        external: item.external
+      })
+    }
   }
 
   return children
@@ -102,7 +113,7 @@ export default {
     fullscreen: Boolean
   },
 
-  setup () {
+  setup() {
     return { links }
   }
 }

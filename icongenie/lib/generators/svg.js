@@ -1,11 +1,10 @@
-
 import { optimize } from 'svgo'
 import { writeFile } from 'node:fs'
 import { posterize } from 'potrace'
 
 import { getSquareIcon } from '../utils/get-square-icon.js'
 
-export default async function (file, opts, done) {
+export default async function svg(file, opts, done) {
   const img = getSquareIcon({
     file,
     icon: opts.icon,
@@ -21,8 +20,8 @@ export default async function (file, opts, done) {
 
   const buffer = await img.toBuffer()
 
-  posterize(buffer, params, (_, svg) => {
-    const res = optimize(svg)
+  posterize(buffer, params, (_, svgToOptimize) => {
+    const res = optimize(svgToOptimize)
     writeFile(file.absoluteName, res.data, done)
   })
 }

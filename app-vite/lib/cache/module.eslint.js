@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { getPackage } from '../utils/get-package.js'
 
-export async function createInstance ({ appPaths }) {
+export async function createInstance({ appPaths }) {
   const eslintConfigFile = [
     // flat configs (ESLint >= 9)
     'eslint.config.js',
@@ -26,8 +26,7 @@ export async function createInstance ({ appPaths }) {
 
     if (linter !== void 0 && linter.ESLint !== void 0) {
       acc.ESLint = linter.ESLint
-    }
-    else {
+    } else {
       acc.hasEslint = false
     }
   }

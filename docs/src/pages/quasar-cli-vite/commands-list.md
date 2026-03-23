@@ -79,10 +79,11 @@ $ quasar upgrade -i
 ```
 
 ::: warning Note for code editor terminals
-If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error _Command not found_ or _@quasar/cli_ version appears to be _undefined_, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) _Add 'node_modules/.bin' from the project root to %PATH%_ then restart your code editor.
 :::
 
 ## Info
+
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Vite, Vue, etc) which gets updated frequently after heavy testing.
 
 In order for you to see what versions of Node, Quasar CLI, Quasar, Vue (and many others) you are using, issue this command in a Quasar project folder:
@@ -186,27 +187,30 @@ $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
-* Edit the '/quasar.config' file:
+
+- Edit the '/quasar.config' file:
   ```js
   devServer: {
     host: '...',
     port: ...
   }
   ```
-* Through '-H' (hostname) and '-p' (port) command options.
-* If this is a one time thing, specify the hostname and/or port as an environment variable:
+- Through '-H' (hostname) and '-p' (port) command options.
+- If this is a one time thing, specify the hostname and/or port as an environment variable:
   ```bash
   $ PORT=3000 quasar dev
   $ HOSTNAME=1.1.1.14 quasar dev
   ```
 
 If there appears to be an issue with hot reload, you can try two fixes:
-* Change the permissions for the project folder with
+
+- Change the permissions for the project folder with
 
   ```bash
   sudo chown -R username: .
   ```
-* or run the dev server with root privileges
+
+- or run the dev server with root privileges
 
   ```bash
   sudo quasar dev
@@ -319,6 +323,7 @@ $ quasar build -d [-m <mode>]
 ```
 
 ## Prepare
+
 Prepares your project folder for the IDE, making autocompletion and other IDE features work correctly.
 
 ```bash
@@ -326,6 +331,7 @@ $ quasar prepare
 ```
 
 ## Clean
+
 Cleans up all the build assets:
 
 ```bash
@@ -334,6 +340,7 @@ $ quasar clean
 ```
 
 ## New
+
 Generates Components, Pages, Layouts, Pinia Store.
 
 ::: tip
@@ -402,23 +409,24 @@ $ quasar mode -h
 
 When you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, PWA, Cordova or Electron, you need these modes installed. If you issue "quasar dev" or "quasar build" they will automatically be installed.
 
-These modes will add a "src-*" folder into your project with very specific code for it:
+These modes will add a "src-\*" folder into your project with very specific code for it:
 
-| Folder | Mode | Description |
-| --- | --- | --- |
-| src-ssr | ssr | Contains the production Node.js server files. |
-| src-pwa | pwa | Contains the Service Worker file that you can tweak. |
-| src-cordova | cordova | Is a Cordova project folder that will be using your 'src' as content. Tweak Cordova config, add/remove platforms, splash screens, Cordova plugins and so on from this folder. Do NOT touch "src-cordova/www" folder though as it will get overwritten at every build. |
-| src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'. |
-| src-bex | bex | Contains the specific files for Browser Extensions mode. |
+| Folder       | Mode     | Description                                                                                                                                                                                                                                                           |
+| ------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| src-ssr      | ssr      | Contains the production Node.js server files.                                                                                                                                                                                                                         |
+| src-pwa      | pwa      | Contains the Service Worker file that you can tweak.                                                                                                                                                                                                                  |
+| src-cordova  | cordova  | Is a Cordova project folder that will be using your 'src' as content. Tweak Cordova config, add/remove platforms, splash screens, Cordova plugins and so on from this folder. Do NOT touch "src-cordova/www" folder though as it will get overwritten at every build. |
+| src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'.                                                                                                                                                                                 |
+| src-bex      | bex      | Contains the specific files for Browser Extensions mode.                                                                                                                                                                                                              |
 
-If for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective "src-*" folder.
+If for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective "src-\*" folder.
 
 ```bash
 $ quasar mode remove pwa
 ```
 
 ## Describe
+
 This command is useful to describe the API of any Quasar components/directives/plugins that your project is using. **It is specific to your Quasar version installed in your project folder.**
 
 Examples: `$ quasar describe QIcon`, `$ quasar describe TouchPan`, `$ quasar describe Cookies`.
@@ -519,6 +527,7 @@ $ quasar describe QIcon
 ```
 
 ## Inspect
+
 This command can be used to inspect the Vite config generated by Quasar CLI.
 
 ```bash
@@ -545,6 +554,7 @@ $ quasar inspect -h
 ```
 
 ## Ext
+
 This command is used to manage [App Extensions](/app-extensions/introduction).
 
 ```bash
@@ -577,6 +587,7 @@ $ quasar ext -h
 ```
 
 ## Run
+
 This command is used to run commands supplied by the [App Extensions](/app-extensions/introduction) that you've installed into your project folder.
 
 ```bash
@@ -602,6 +613,7 @@ $ quasar run -h
 ```
 
 ## Serve
+
 This command can be used in production too and it is being supplied by the global installation of `@quasar/cli` package.
 
 ```bash
@@ -656,6 +668,7 @@ $ quasar serve -h
 ```
 
 ### Custom Node.js server
+
 When building a SPA or PWA, the distributable folder can be served by any static webserver. To test it out (assuming you don't have a specific publicPath or not using Vue Router "history" mode), you can use the "http-server" npm package.
 
 Or you can build your own server. Here are some examples:
@@ -691,10 +704,13 @@ If you need URL rewrites of API, or simply put you want to proxy your API reques
 import { createProxyMiddleware } from 'http-proxy-middleware'
 
 // ...
-app.use('/api', createProxyMiddleware({
-  target: `http://my-api.com:5050`,
-  pathRewrite: {"^/api" : ""}
-}))
+app.use(
+  '/api',
+  createProxyMiddleware({
+    target: `http://my-api.com:5050`,
+    pathRewrite: { '^/api': '' }
+  })
+)
 
 // then app.listen(...)
 ```

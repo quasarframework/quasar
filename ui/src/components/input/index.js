@@ -1,5 +1,3 @@
 import QInput from './QInput.js'
 
-export {
-  QInput
-}
+export { QInput }

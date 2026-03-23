@@ -1,14 +1,14 @@
 import os from 'node:os'
 import net from 'node:net'
 
-export const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
+export const localHostList = ['0.0.0.0', 'localhost', '127.0.0.1', '::1']
 
-export function getExternalNetworkInterface () {
+export function getExternalNetworkInterface() {
   const networkInterfaces = os.networkInterfaces()
   const devices = []
 
   for (const deviceName of Object.keys(networkInterfaces)) {
-    const networkInterface = networkInterfaces[ deviceName ]
+    const networkInterface = networkInterfaces[deviceName]
 
     for (const networkAddress of networkInterface) {
       if (!networkAddress.internal && networkAddress.family === 'IPv4') {
@@ -20,12 +20,12 @@ export function getExternalNetworkInterface () {
   return devices
 }
 
-export function getIPs () {
+export function getIPs() {
   const networkInterfaces = os.networkInterfaces()
   const list = []
 
   for (const deviceName of Object.keys(networkInterfaces)) {
-    const networkInterface = networkInterfaces[ deviceName ]
+    const networkInterface = networkInterfaces[deviceName]
 
     for (const networkAddress of networkInterface) {
       if (networkAddress.family === 'IPv4') {
@@ -37,7 +37,7 @@ export function getIPs () {
   return list
 }
 
-export async function findClosestOpenPort (port, host) {
+export async function findClosestOpenPort(port, host) {
   let portProposal = port
 
   do {
@@ -45,30 +45,29 @@ export async function findClosestOpenPort (port, host) {
       return portProposal
     }
     portProposal++
-  }
-  while (portProposal < 65535)
+  } while (portProposal < 65535)
 
   throw new Error('ERROR_NETWORK_PORT_NOT_AVAIL')
 }
 
-export async function isPortAvailable (port, host) {
+export function isPortAvailable(port, host) {
   return new Promise((resolve, reject) => {
-    const tester = net.createServer()
+    const tester = net
+      .createServer()
       .once('error', err => {
         if (err.code === 'EADDRNOTAVAIL') {
           reject(new Error('ERROR_NETWORK_ADDRESS_NOT_AVAIL'))
-        }
-        else if (err.code === 'EADDRINUSE') {
+        } else if (err.code === 'EADDRINUSE') {
           resolve(false) // host/port in use
-        }
-        else {
+        } else {
           reject(err)
         }
       })
       .once('listening', () => {
-        tester.once('close', () => {
-          resolve(true) // found available host/port
-        })
+        tester
+          .once('close', () => {
+            resolve(true) // found available host/port
+          })
           .close()
       })
       .on('error', err => {

@@ -23,7 +23,7 @@
     },
 
     "lines": {
-      "type": [ "Number", "String" ],
+      "type": ["Number", "String"],
       "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines;",
       "category": "content|behavior"
     }

@@ -25,6 +25,7 @@ If used on a QTable, QPopupEdit won't work with cell scoped slots.
 <DocExample title="Click on text" file="Standalone" />
 
 ### With QTable
+
 Click on the cells to see the popup editor. The column "Name" demonstrates the `title` prop. The column "Calories" displays a numeric value usage. The column "Fat" also demonstrates the `disable` prop. If you look at the source code, you'll see the cell for "fat" is using QPopupEdit, yet when clicking on the cell, the popup doesn't show.
 
 <DocExample title="Edit first columns" file="WithTable" />
@@ -34,6 +35,7 @@ Click on the cells to see the popup editor. The column "Name" demonstrates the `
 <DocExample title="Customizing QPopupEdit" file="Customizing" />
 
 ### Persistent and with buttons
+
 You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the "Protein" column. Notice "Save" is replacing "Set" and "Close" is replacing "Cancel".
 
 > The `persistent` prop is demonstrated in the "carbs" column.
@@ -41,10 +43,13 @@ You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the de
 <DocExample title="Persistent edit, and with buttons" file="WithButtons" />
 
 ### The default slot
+
 The default slot's parameters are:
 
 ```js
-{ initialValue, value, validate, set, cancel, updatePosition }
+{
+  ;(initialValue, value, validate, set, cancel, updatePosition)
+}
 ```
 
 ::: warning
@@ -54,6 +59,7 @@ Do not destructure the slot's parameters as it will generate linting errors when
 <DocExample title="Default slot parameters" file="DefaultSlotParameters" />
 
 ### Textarea / QEditor
+
 Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the "Comments" column.
 
 ::: tip
@@ -65,6 +71,7 @@ When using a multi-line control (textarea, QEditor) for input, you'll need to al
 <DocExample title="QEditor" file="PopupWithEditor" />
 
 ### Validation
+
 QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Calories" column** below.
 
 ::: tip Tip 1

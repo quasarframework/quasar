@@ -1,14 +1,14 @@
 {
   "name": "upload-server",
   "version": "1.0.0",
-  "main": "index.js",
   "private": true,
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
   "scripts": {
     "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.21.2",
     "express-throttle-bandwidth": "^1.0.1",

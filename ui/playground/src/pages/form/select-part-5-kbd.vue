@@ -1,7 +1,13 @@
 <template>
   <div class="q-layout-padding">
     <div class="bg-black text-white q-pa-sm q-mb-xl">
-      <q-checkbox v-model="forceMenu" toggle-indeterminate dark :label="forceMenuLabel" /> / ModelS: {{ modelS || 'null' }} / ModelM: {{ modelM || 'null' }}
+      <q-checkbox
+        v-model="forceMenu"
+        toggle-indeterminate
+        dark
+        :label="forceMenuLabel"
+      />
+      / ModelS: {{ modelS || 'null' }} / ModelM: {{ modelM || 'null' }}
     </div>
 
     <div class="row q-col-gutter-md">
@@ -18,9 +24,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -39,9 +43,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -61,9 +63,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -83,9 +83,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -105,9 +103,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -126,9 +122,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -147,9 +141,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -169,9 +161,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -191,9 +181,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -214,9 +202,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -236,9 +222,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -258,9 +242,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -281,9 +263,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -304,9 +284,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -328,9 +306,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -352,9 +328,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -462,28 +436,44 @@
 </template>
 
 <script>
-const
-  options = [
-    'Google 1', 'Facebook 1', 'Twitter 1', 'Apple 1', 'Oracle 1',
-    'Google 2', 'Facebook 2', 'Twitter 2', 'Apple 2', 'Oracle 2',
-    'Google 3', 'Facebook 3', 'Twitter 3', 'Apple 3', 'Oracle 3',
+const options = [
+    'Google 1',
+    'Facebook 1',
+    'Twitter 1',
+    'Apple 1',
+    'Oracle 1',
+    'Google 2',
+    'Facebook 2',
+    'Twitter 2',
+    'Apple 2',
+    'Oracle 2',
+    'Google 3',
+    'Facebook 3',
+    'Twitter 3',
+    'Apple 3',
+    'Oracle 3',
     'A very long text of an options that goes over the length limit when you open the debugger'
   ],
   objOptions = options.map((label, value) => ({ label, value })),
-
   optionsK = [
-    'A A label', 'A B label', 'A C label',
-    'B A label', 'B B label', 'B C label',
-    'C A label', 'C B label', 'C C label'
+    'A A label',
+    'A B label',
+    'A C label',
+    'B A label',
+    'B B label',
+    'B C label',
+    'C A label',
+    'C B label',
+    'C C label'
   ],
   objOptionsK = optionsK.map((label, value) => ({ label, value }))
 
 export default {
-  data () {
+  data() {
     return {
       modelS: null,
       modelM: null,
-      modelO: [ 3, 4, 5 ],
+      modelO: [3, 4, 5],
       modelK: null,
       modelKO: null,
       options,
@@ -495,13 +485,15 @@ export default {
   },
 
   computed: {
-    behavior () {
+    behavior() {
       return this.forceMenu === null
         ? 'default'
-        : (this.forceMenu === true ? 'menu' : 'dialog')
+        : this.forceMenu === true
+          ? 'menu'
+          : 'dialog'
     },
 
-    forceMenuLabel () {
+    forceMenuLabel() {
       if (this.forceMenu === true) {
         return 'Force menu'
       }
@@ -511,7 +503,7 @@ export default {
   },
 
   methods: {
-    filterFn (val, update) {
+    filterFn(val, update) {
       console.log('filterFn', val)
 
       if (val === '') {
@@ -524,7 +516,9 @@ export default {
       update(
         () => {
           const needle = val.toLowerCase()
-          this.options = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          this.options = options.filter(
+            v => v.toLowerCase().indexOf(needle) > -1
+          )
         },
         ref => {
           ref.setOptionIndex(-1)
@@ -533,7 +527,7 @@ export default {
       )
     },
 
-    filterFnObj (val, update) {
+    filterFnObj(val, update) {
       console.log('filterFnObj', val)
       if (val === '') {
         update(() => {
@@ -544,18 +538,20 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase()
-        this.objOptions = objOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        this.objOptions = objOptions.filter(
+          v => v.label.toLowerCase().indexOf(needle) > -1
+        )
       })
     },
 
-    kOptionValue (item) {
-      item === void 0 && console.trace('kOptionValue', item)
+    kOptionValue(item) {
+      if (item === void 0) console.trace('kOptionValue', item)
 
       return item === Object(item) ? item.value : item
     },
 
-    kOptionLabel (item) {
-      item === void 0 && console.trace('kOptionLabel', item)
+    kOptionLabel(item) {
+      if (item === void 0) console.trace('kOptionLabel', item)
 
       return item === Object(item) ? item.label : item
     }

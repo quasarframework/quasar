@@ -79,16 +79,24 @@
                     />
                   </q-item-section>
                   <q-item-section>
-                    <q-item-label>
-                      Item LR
-                    </q-item-label>
+                    <q-item-label> Item LR </q-item-label>
                     <q-slider v-model="slider" :min="0" :max="20" />
                   </q-item-section>
                   <q-item-section side class="q-gutter-y-sm">
-                    <q-chip size="md" square color="deep-orange" text-color="white">
+                    <q-chip
+                      size="md"
+                      square
+                      color="deep-orange"
+                      text-color="white"
+                    >
                       Left
                     </q-chip>
-                    <q-chip size="md" square color="deep-orange" text-color="white">
+                    <q-chip
+                      size="md"
+                      square
+                      color="deep-orange"
+                      text-color="white"
+                    >
                       Right
                     </q-chip>
                   </q-item-section>
@@ -170,16 +178,24 @@
                     />
                   </q-item-section>
                   <q-item-section>
-                    <q-item-label>
-                      Item TB
-                    </q-item-label>
+                    <q-item-label> Item TB </q-item-label>
                     <q-slider v-model="slider" :min="0" :max="20" />
                   </q-item-section>
                   <q-item-section side class="q-gutter-y-sm">
-                    <q-chip size="md" square color="deep-orange" text-color="white">
+                    <q-chip
+                      size="md"
+                      square
+                      color="deep-orange"
+                      text-color="white"
+                    >
                       Top
                     </q-chip>
-                    <q-chip size="md" square color="deep-orange" text-color="white">
+                    <q-chip
+                      size="md"
+                      square
+                      color="deep-orange"
+                      text-color="white"
+                    >
                       Bottom
                     </q-chip>
                   </q-item-section>
@@ -226,9 +242,7 @@
                 />
               </q-item-section>
               <q-item-section>
-                <q-item-label>
-                  Item LT
-                </q-item-label>
+                <q-item-label> Item LT </q-item-label>
                 <q-slider v-model="slider" :min="0" :max="20" />
               </q-item-section>
               <q-slide-item
@@ -261,16 +275,24 @@
                     />
                   </q-item-section>
                   <q-item-section>
-                    <q-item-label>
-                      Item RB
-                    </q-item-label>
+                    <q-item-label> Item RB </q-item-label>
                     <q-slider v-model="slider" :min="0" :max="20" />
                   </q-item-section>
                   <q-item-section side class="q-gutter-y-sm">
-                    <q-chip size="md" square color="deep-orange" text-color="white">
+                    <q-chip
+                      size="md"
+                      square
+                      color="deep-orange"
+                      text-color="white"
+                    >
                       Right
                     </q-chip>
-                    <q-chip size="md" square color="deep-orange" text-color="white">
+                    <q-chip
+                      size="md"
+                      square
+                      color="deep-orange"
+                      text-color="white"
+                    >
                       Bottom
                     </q-chip>
                   </q-item-section>
@@ -289,7 +311,8 @@
 
           <template v-for="index in items">
             <q-slide-item
-              v-for="i in 7" :key="`${ i }_${ index }`"
+              v-for="i in 7"
+              :key="`${i}_${index}`"
               @left="onLeft"
               @right="onRight"
               @top="onTop"
@@ -327,22 +350,44 @@
                   />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label>
-                    Item {{ index }}.{{ i }}
-                  </q-item-label>
+                  <q-item-label> Item {{ index }}.{{ i }} </q-item-label>
                   <q-slider v-model="slider" :min="0" :max="20" />
                 </q-item-section>
                 <q-item-section side class="q-gutter-y-sm">
-                  <q-chip v-if="i === 1 || i === 5 || i === 7" size="md" square color="deep-orange" text-color="white">
+                  <q-chip
+                    v-if="i === 1 || i === 5 || i === 7"
+                    size="md"
+                    square
+                    color="deep-orange"
+                    text-color="white"
+                  >
                     Left
                   </q-chip>
-                  <q-chip v-if="i === 2 || i === 5 || i === 7" size="md" square color="deep-orange" text-color="white">
+                  <q-chip
+                    v-if="i === 2 || i === 5 || i === 7"
+                    size="md"
+                    square
+                    color="deep-orange"
+                    text-color="white"
+                  >
                     Right
                   </q-chip>
-                  <q-chip v-if="i === 3 || i === 6 || i === 7" size="md" square color="deep-orange" text-color="white">
+                  <q-chip
+                    v-if="i === 3 || i === 6 || i === 7"
+                    size="md"
+                    square
+                    color="deep-orange"
+                    text-color="white"
+                  >
                     Top
                   </q-chip>
-                  <q-chip v-if="i === 4 || i === 6 || i === 7" size="md" square color="deep-orange" text-color="white">
+                  <q-chip
+                    v-if="i === 4 || i === 6 || i === 7"
+                    size="md"
+                    square
+                    color="deep-orange"
+                    text-color="white"
+                  >
                     Bottom
                   </q-chip>
                 </q-item-section>
@@ -357,49 +402,48 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      items: [ 1 ],
+      items: [1],
       slider: 10
     }
   },
 
   methods: {
-    refresh (done) {
+    refresh(done) {
       setTimeout(() => {
         this.items.push(this.items.length + 1)
         done()
       }, 1000)
     },
 
-    onLeft ({ reset }) {
+    onLeft({ reset }) {
       console.log('Left action!')
       this.finalize(reset)
     },
-    onRight ({ reset }) {
+    onRight({ reset }) {
       console.log('Right action!')
       this.finalize(reset)
     },
-    onTop ({ reset }) {
+    onTop({ reset }) {
       console.log('Top-side action!')
       this.finalize(reset)
     },
-    onBottom ({ reset }) {
+    onBottom({ reset }) {
       console.log('Bottom-side action!')
       this.finalize(reset)
     },
-    finalize (reset) {
+    finalize(reset) {
       console.log('Resetting in 2 seconds')
       setTimeout(() => {
         reset()
       }, 2000)
     },
 
-    onClick (msg, evt) {
+    onClick(msg, evt) {
       if (this.$q.platform.is.desktop) {
         console.log('vue click on', msg, evt)
-      }
-      else {
+      } else {
         this.$q.notify('vue click on ' + msg)
       }
     }

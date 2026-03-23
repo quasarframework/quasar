@@ -12,12 +12,12 @@ const opts = {
   highlight
 }
 
-function mdPlugins (md) {
+function mdPlugins(md) {
   mdToken(md)
 
   // link
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
-    const token = tokens[ idx ]
+    const token = tokens[idx]
     token.attrSet('target', '__blank')
     token.attrSet('class', 'doc-link')
     return self.renderToken(tokens, idx, options)

@@ -16,7 +16,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const model = ref('')
 
     return {

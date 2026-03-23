@@ -3,13 +3,15 @@ import { join } from 'node:path'
 import { mergeConfig as mergeViteConfig } from 'vite'
 
 import {
-  createViteConfig, extendViteConfig,
-  createBrowserEsbuildConfig, extendEsbuildConfig
+  createViteConfig,
+  extendViteConfig,
+  createBrowserEsbuildConfig,
+  extendEsbuildConfig
 } from '../../config-tools.js'
 
 import { getBuildSystemDefine } from '../../utils/env.js'
 
-function generateDefaultEntry (quasarConf) {
+function generateDefaultEntry(quasarConf) {
   return {
     name: 'file', // or subdir/file (regardless of OS)
     from: quasarConf.ctx.appPaths.resolve.bex('file.js'),
@@ -36,17 +38,14 @@ export const quasarBexConfig = {
       }
     })
 
-    if (
-      quasarConf.ctx.prod === true
-      || quasarConf.ctx.target.firefox
-    ) {
+    if (quasarConf.ctx.prod === true || quasarConf.ctx.target.firefox) {
       cfg.build.outDir = join(quasarConf.build.distDir, 'www')
-    }
-    else { // is dev for chrome
+    } else {
+      // is dev for chrome
       cfg.plugins.push({
         name: 'quasar:bex:ws',
         enforce: 'post',
-        configResolved (viteConfig) {
+        configResolved(viteConfig) {
           // Vite 6.0.9+ compat; we need the token!
           // No other way to pass it to Vite than through a plugin with configResolved
           viteConfig.webSocketToken = quasarConf.metaConf.bexWsToken
@@ -57,8 +56,10 @@ export const quasarBexConfig = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  bexScript (quasarConf, entry = generateDefaultEntry(quasarConf)) {
-    const cfg = createBrowserEsbuildConfig(quasarConf, { compileId: `bex:script:${ entry.name }` })
+  bexScript(quasarConf, entry = generateDefaultEntry(quasarConf)) {
+    const cfg = createBrowserEsbuildConfig(quasarConf, {
+      compileId: `bex:script:${entry.name}`
+    })
     const buildEnv = {
       __QUASAR_BEX_SCRIPT_NAME__: entry.name
     }
@@ -74,10 +75,15 @@ export const quasarBexConfig = {
       ...getBuildSystemDefine({ buildEnv })
     }
 
-    cfg.entryPoints = [ entry.from ]
+    cfg.entryPoints = [entry.from]
     cfg.outfile = entry.to
 
-    return extendEsbuildConfig(cfg, quasarConf.bex, quasarConf.ctx, 'extendBexScriptsConf')
+    return extendEsbuildConfig(
+      cfg,
+      quasarConf.bex,
+      quasarConf.ctx,
+      'extendBexScriptsConf'
+    )
   }
 }
 

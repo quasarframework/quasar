@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      flat bordered
+      flat
+      bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -9,18 +10,34 @@
       :filter="filter"
       :loading="loading"
     >
-
       <template v-slot:top>
-        <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
-        <q-btn v-if="rows.length !== 0" class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
+        <q-btn
+          color="primary"
+          :disable="loading"
+          label="Add row"
+          @click="addRow"
+        />
+        <q-btn
+          v-if="rows.length !== 0"
+          class="q-ml-sm"
+          color="primary"
+          :disable="loading"
+          label="Remove row"
+          @click="removeRow"
+        />
         <q-space />
-        <q-input borderless dense debounce="300" color="primary" v-model="filter">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          color="primary"
+          v-model="filter"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
         </q-input>
       </template>
-
     </q-table>
   </div>
 </template>
@@ -38,13 +55,31 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const originalRows = [
@@ -151,7 +186,7 @@ const originalRows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const loading = ref(false)
     const filter = ref('')
     const rowCount = ref(10)
@@ -166,12 +201,11 @@ export default {
       rowCount,
 
       // emulate fetching data from server
-      addRow () {
+      addRow() {
         loading.value = true
         setTimeout(() => {
-          const
-            index = Math.floor(Math.random() * (rows.value.length + 1)),
-            row = originalRows[ Math.floor(Math.random() * originalRows.length) ]
+          const index = Math.floor(Math.random() * (rows.value.length + 1)),
+            row = originalRows[Math.floor(Math.random() * originalRows.length)]
 
           if (rows.value.length === 0) {
             rowCount.value = 0
@@ -179,16 +213,23 @@ export default {
 
           row.id = ++rowCount.value
           const newRow = { ...row } // extend({}, row, { name: `${row.name} (${row.__count})` })
-          rows.value = [ ...rows.value.slice(0, index), newRow, ...rows.value.slice(index) ]
+          rows.value = [
+            ...rows.value.slice(0, index),
+            newRow,
+            ...rows.value.slice(index)
+          ]
           loading.value = false
         }, 500)
       },
 
-      removeRow () {
+      removeRow() {
         loading.value = true
         setTimeout(() => {
           const index = Math.floor(Math.random() * rows.value.length)
-          rows.value = [ ...rows.value.slice(0, index), ...rows.value.slice(index + 1) ]
+          rows.value = [
+            ...rows.value.slice(0, index),
+            ...rows.value.slice(index + 1)
+          ]
           loading.value = false
         }, 500)
       }

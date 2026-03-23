@@ -15,13 +15,18 @@ export default {
     search: 'Leita',
     filter: 'Sía',
     refresh: 'Endurhlaða',
-    expand: label => (label ? `Stækka "${ label }"` : 'Stækkaðu'),
-    collapse: label => (label ? `Draga saman "${ label }"` : 'Hrun')
+    expand: label => (label ? `Stækka "${label}"` : 'Stækkaðu'),
+    collapse: label => (label ? `Draga saman "${label}"` : 'Hrun')
   },
   date: {
-    days: 'Sunnudagur_Mánudagur_Þriðjudagur_Miðvikudagur_Fimmtudagur_Föstudagur_Laugardagur'.split('_'),
+    days: 'Sunnudagur_Mánudagur_Þriðjudagur_Miðvikudagur_Fimmtudagur_Föstudagur_Laugardagur'.split(
+      '_'
+    ),
     daysShort: 'Sun_Mán_Þri_Mið_Fim_Fös_Lau'.split('_'),
-    months: 'Janúar_Febrúar_Mars_Apríl_Maí_Júní_Júlí_Ágúst_September_Október_Nóvember_Desember'.split('_'),
+    months:
+      'Janúar_Febrúar_Mars_Apríl_Maí_Júní_Júlí_Ágúst_September_Október_Nóvember_Desember'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Maí_Jún_Júl_Ágú_Sep_Okt_Nóv_Des'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Fyrra ár',
     nextYear: 'Á næsta ári',
     today: 'Í dag',
-    prevRangeYears: range => `Fyrri ${ range } ár`,
-    nextRangeYears: range => `Næst ${ range } ár`
+    prevRangeYears: range => `Fyrri ${range} ár`,
+    nextRangeYears: range => `Næst ${range} ár`
   },
   table: {
     noData: 'Engin gögn tiltæk',
     noResults: 'Engar samsvarandi skrár fundust',
     loading: 'Augnablik...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 færsla valin.'
-        : (rows === 0 ? 'Engar' : rows) + ' færslur valdar.'
-    ),
+        : (rows === 0 ? 'Engar' : rows) + ' færslur valdar.',
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,

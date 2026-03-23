@@ -3,14 +3,16 @@ title: AddressbarColor Plugin
 desc: A Quasar plugin for changing the addressbar color on newer mobile browsers.
 keys: AddressbarColor
 ---
+
 Newer mobile browsers have the ability to specify a color for the addressbar, like in the image below.
 
 ::: warning
-* There isn't yet a Web standard for this so it won't work for all mobile browsers.
-* This applies when building a website only. For coloring top bar on a mobile app (built with Cordova mode), please refer to [cordova-plugin-statusbar](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-statusbar/).
-:::
 
-![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
+- There isn't yet a Web standard for this so it won't work for all mobile browsers.
+- This applies when building a website only. For coloring top bar on a mobile app (built with Cordova mode), please refer to [cordova-plugin-statusbar](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-statusbar/).
+  :::
+
+![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg 'Mobile Addressbar Coloring')
 
 <DocApi file="AddressbarColor" />
 
@@ -29,11 +31,10 @@ export default () => {
 ```
 
 We then have to tell quasar to use this boot file we just created. To do this we edit the boot section of the quasar config:
+
 ```js /quasar.config file
 return {
-  boot: [
-    'addressbar-color'
-  ]
+  boot: ['addressbar-color']
 }
 ```
 
@@ -41,12 +42,11 @@ What this does is that it injects some `<meta>` tags into your `index.html` at r
 
 Because the meta tag doesn't get injected until run time you can dynamically change this color multiple times, based on the page the user is on (by calling the `set` method in the `created()` lifecycle hook on the respective pages):
 
-
 ```js A .vue file representing a page
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     // equivalent to calling this on creating the component
     const $q = useQuasar()
     $q.addressbarColor.set('#a2e3fa')

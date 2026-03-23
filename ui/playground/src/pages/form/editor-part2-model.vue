@@ -6,11 +6,7 @@
       <q-btn color="primary" label="Reset" @click="reset" />
       <q-btn color="primary" label="Set model" @click="setModel" />
     </div>
-    <q-editor
-      v-model="localStatusTextEditor"
-      @blur="onBlur"
-      @focus="onFocus"
-    />
+    <q-editor v-model="localStatusTextEditor" @blur="onBlur" @focus="onFocus" />
 
     <q-editor
       class="q-mt-lg"
@@ -30,11 +26,10 @@
 </template>
 
 <script>
-/* eslint-disable */
 const editorDefault = 'The <b>bold</b> bacon!<br/>1<br/>2<br/>3<br/>4<br/>5'
 
 export default {
-  data () {
+  data() {
     return {
       editor: editorDefault,
       toolbar: [
@@ -47,42 +42,45 @@ export default {
 
   computed: {
     localStatusTextEditor: {
-      get () {
+      get() {
         return this.removeTags(this.editor)
       },
-      set (val) {
+      set(val) {
         this.editor = this.addTags(val)
       }
     }
   },
 
   methods: {
-    reset () {
+    reset() {
       this.editor = editorDefault
     },
 
-    setModel () {
-      this.localStatusTextEditor = 'Some <i>model</i>. Lorem ipsum <a href="https://google.com">dolor</a> lorem ipsum dolor.'
+    setModel() {
+      this.localStatusTextEditor =
+        'Some <i>model</i>. Lorem ipsum <a href="https://google.com">dolor</a> lorem ipsum dolor.'
     },
 
-    removeTags (text) {
+    removeTags(text) {
       return text.length > 25
-        ? text.replace(new RegExp('<b>', 'g'), '').replace(new RegExp('</b>', 'g'), '')
+        ? text
+            .replace(new RegExp('<b>', 'g'), '')
+            .replace(new RegExp('</b>', 'g'), '')
         : text
     },
 
-    addTags (text) {
+    addTags(text) {
       return text
         .replace(new RegExp('<b>', 'g'), '')
         .replace(new RegExp('</b>', 'g'), '')
         .replace(new RegExp('bacon', 'g'), '<i>bacon</i>')
     },
 
-    onBlur () {
+    onBlur() {
       console.log('onBlur')
     },
 
-    onFocus () {
+    onFocus() {
       console.log('onFocus')
     }
   }

@@ -37,7 +37,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       left: ref(true),
       right: ref(false),

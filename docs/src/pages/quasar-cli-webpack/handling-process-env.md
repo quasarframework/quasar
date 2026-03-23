@@ -4,22 +4,23 @@ desc: (@quasar/app-webpack) How to differentiate the runtime procedure based on 
 ---
 
 Accessing `process.env` can help you in many ways:
-  * differentiating runtime procedure depending on Quasar Mode (SPA/PWA/Cordova/Electron)
-  * differentiating runtime procedure depending if running a dev or production build
-  * adding flags to it based on terminal environment variables at build time
+
+- differentiating runtime procedure depending on Quasar Mode (SPA/PWA/Cordova/Electron)
+- differentiating runtime procedure depending if running a dev or production build
+- adding flags to it based on terminal environment variables at build time
 
 ## Values supplied by Quasar CLI
 
-| `process∙env∙<name>` | Type | Meaning |
-| --- | --- | --- |
-| `DEV` | Boolean | Code runs in development mode |
-| `PROD` | Boolean | Code runs in production mode |
-| `DEBUGGING` | Boolean | Code runs in development mode or `--debug` flag was set for production mode |
-| `CLIENT` | Boolean | Code runs on client (not on server) |
-| `SERVER` | Boolean | Code runs on server (not on client) |
-| `MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
-| `NODE_ENV` | String | Has two possible values: `production` or `development` |
-| `TARGET` | String | Can be `ios` or `android` for Cordova/Capacitor modes and `chrome` or `firefox` for BEX mode |
+| `process∙env∙<name>` | Type    | Meaning                                                                                      |
+| -------------------- | ------- | -------------------------------------------------------------------------------------------- |
+| `DEV`                | Boolean | Code runs in development mode                                                                |
+| `PROD`               | Boolean | Code runs in production mode                                                                 |
+| `DEBUGGING`          | Boolean | Code runs in development mode or `--debug` flag was set for production mode                  |
+| `CLIENT`             | Boolean | Code runs on client (not on server)                                                          |
+| `SERVER`             | Boolean | Code runs on server (not on client)                                                          |
+| `MODE`               | String  | Quasar CLI mode (`spa`, `pwa`, ...)                                                          |
+| `NODE_ENV`           | String  | Has two possible values: `production` or `development`                                       |
+| `TARGET`             | String  | Can be `ios` or `android` for Cordova/Capacitor modes and `chrome` or `firefox` for BEX mode |
 
 ## Example
 
@@ -38,8 +39,7 @@ if (process.env.MODE === 'electron') {
 
   if (win.isMaximized()) {
     win.unmaximize()
-  }
-  else {
+  } else {
     win.maximize()
   }
 }
@@ -52,8 +52,7 @@ When compiling your website/app, `if ()` branches depending on process.env are e
 ```js
 if (process.env.DEV) {
   console.log('dev')
-}
-else {
+} else {
   console.log('build')
 }
 
@@ -89,16 +88,14 @@ But first, there's two concepts that need to be understood here. The env variabl
 // Accessing terminal variables
 console.log(process.env)
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     // ...
 
     build: {
       // passing down to UI code from the quasar.config file
       env: {
-        API: ctx.dev
-          ? 'https://dev.api.com'
-          : 'https://prod.api.com'
+        API: ctx.dev ? 'https://dev.api.com' : 'https://prod.api.com'
       }
     }
   }
@@ -208,13 +205,13 @@ env: {
 
 ```js
 const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
-process.env.FOO             // ✅ It can only replace direct usage like this
+process.env.FOO // ✅ It can only replace direct usage like this
 
 function getEnv(name) {
   return process.env[name] // ❌ It can't analyze dynamic usage
 }
 
-console.log(process)     // ❌
+console.log(process) // ❌
 console.log(process.env) // ❌
 // If you want to see a list of available env variables,
 // you can log the object you are passing to `build > env` inside the `/quasar.config` file

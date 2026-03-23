@@ -16,21 +16,27 @@ export default function (api) {
 ```
 
 ### api.engine
+
 Contains the Quasar CLI engine (as String) being used. Examples: `@quasar/app-vite` or `@quasar/app-webpack`.
 
 ### api.hasVite
+
 Boolean - is running on `@quasar/app-vite` or not.
 
 ### api.hasWebpack
+
 Boolean - is running on `@quasar/app-webpack` or not.
 
 ### api.extId
+
 Contains the `ext-id` (String) of this App Extension.
 
 ### api.prompts
+
 Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ### api.resolve
+
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
 
 ```js
@@ -61,6 +67,7 @@ api.resolve.bex('some-file.js')
 ```
 
 ### api.appDir
+
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
 ### api.hasTypescript <q-badge label="@quasar/app-vite 1.6+" /> <q-badge label="@quasar/app-webpack 3.11+" />
@@ -118,8 +125,7 @@ api.compatibleWith(packageName, '1.x')
 ```js A more complex example:
 if (api.hasVite === true) {
   api.compatibleWith('@quasar/app-vite', '^2.0.0')
-}
-else {
+} else {
   api.compatbileWith('@quasar/app-webpack', '^4.0.0')
 }
 ```
@@ -145,6 +151,7 @@ if (api.hasPackage('quasar', '^2.0.0')) {
 ```
 
 ### api.hasExtension
+
 Check if another app extension is npm installed and Quasar CLI has invoked it.
 
 ```js
@@ -168,13 +175,14 @@ Get the version of a host app package.
  * @param {string} packageName
  * @return {string|undefined} version of app's package
  */
-console.log( api.getPackageVersion(packageName) )
+console.log(api.getPackageVersion(packageName))
 // output examples:
 //   1.1.3
 //   undefined (when package not found)
 ```
 
 ### api.extendPackageJson
+
 Helper method to extend package.json with new props. If specifying existing props, **it will override** them.
 
 ```js
@@ -183,7 +191,7 @@ Helper method to extend package.json with new props. If specifying existing prop
  */
 api.extendPackageJson({
   scripts: {
-    'electron': 'quasar dev -m electron'
+    electron: 'quasar dev -m electron'
   }
 })
 ```
@@ -191,6 +199,7 @@ api.extendPackageJson({
 The above example adds an npm script to the app's package.json, so you can then execute `yarn electron` (or the equivalent `npm run electron`).
 
 ### api.extendJsonFile
+
 Extend a JSON file with new props (deep merge). If specifying existing props, it will override them.
 
 ```js
@@ -204,6 +213,7 @@ api.extendJsonFile('src/some.json', {
 ```
 
 ### api.render
+
 Renders (copies) a folder from your App Extension templates (any folder you specify) into root of the app. Maintains the same folder structure that the template folder has.
 
 If some of the files already exist in the app then it will ask the user if they should be overwritten or not.
@@ -222,6 +232,7 @@ api.render('./path/to/a/template/folder')
 ```
 
 #### Filename edge cases
+
 If you want to render a template file that either begins with a dot (i.e. .env) you will have to follow a specific naming convention, since dotfiles are ignored when publishing your plugin to npm:
 
 ```bash
@@ -248,6 +259,7 @@ some-folder/__my.css
 ```
 
 #### Using scope
+
 You can also inject some decision-making code into the files to be rendered by interpolating with [lodash/template](https://lodash.com/docs/4.17.15#template) syntax.
 
 Example:
@@ -287,9 +299,13 @@ Similar with api.render() with the difference that this method renders a single 
  * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)
  * @param {object} scope (optional; rendering scope variables)
  */
-api.renderFile('./path/to/a/template/filename', 'path/relative/to/app/root/filename', {
-  prompts: api.prompts
-})
+api.renderFile(
+  './path/to/a/template/filename',
+  'path/relative/to/app/root/filename',
+  {
+    prompts: api.prompts
+  }
+)
 
 api.renderFile('./my-file.json', 'src/my-file.json')
 ```
@@ -332,6 +348,7 @@ api.mergePersistentConf({
 ```
 
 ### api.onExitLog
+
 Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js

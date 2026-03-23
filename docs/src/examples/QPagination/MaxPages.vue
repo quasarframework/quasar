@@ -14,7 +14,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       current: ref(5)
     }

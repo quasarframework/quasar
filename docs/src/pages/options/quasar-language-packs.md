@@ -6,6 +6,7 @@ related:
   - /options/rtl-support
   - /options/app-internationalization
 ---
+
 A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.
 
 <DocApi file="Lang" />
@@ -63,6 +64,7 @@ For **Quasar UMD**, check what tags you may still need to include in your HTML f
 :::
 
 ### Dynamical (non-SSR)
+
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack [--format ts]`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
 ```tabs
@@ -116,9 +118,7 @@ export default defineBoot(async () => {
 Then register this boot file into the `/quasar.config` file:
 
 ```js
-boot: [
-  'quasar-lang-pack'
-]
+boot: ['quasar-lang-pack']
 ```
 
 ::: warning Always constrain a dynamic import
@@ -126,6 +126,7 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 :::
 
 ### Dynamical (SSR)
+
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```tabs
@@ -287,6 +288,7 @@ export default {
 ```
 
 ### Changing a Specific Label at Runtime
+
 If you want to change a specific label to another, you can. Here is an example:
 
 ```tabs
@@ -322,6 +324,7 @@ export default defineBoot(() {
 ```
 
 ## Using Quasar Language Pack in App Space
+
 Although the Quasar Language Packs **are designed only for Quasar components internal usage**, you can still use their labels for your own website/app components too.
 
 ```
@@ -332,6 +335,7 @@ Although the Quasar Language Packs **are designed only for Quasar components int
 Check a Quasar Language Pack on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang) to see the structure of `$q.lang`.
 
 ## Detecting Locale
+
 There's also a method to determine user locale which is supplied by Quasar out of the box:
 
 ```js

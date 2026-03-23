@@ -1,22 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width"
+    />
 
     <title>Quasar UMD test</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
-    <link href="dist/quasar.css" rel="stylesheet" type="text/css">
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="dist/quasar.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div id="q-app1">
       <q-toolbar class="bg-primary text-white shadow-2 q-mb-xl">
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title> Quasar App </q-toolbar-title>
 
         <q-btn
           class="q-mx-md"
@@ -35,7 +40,6 @@
 
     <div id="q-app2">
       <div class="flex flex-center">
-
         <!-- page content; replace this entirely -->
         <q-card flat bordered>
           <q-card-section>
@@ -43,19 +47,29 @@
               <span class="text-subtitle1">"pnpm dev:umd"</span>
               <q-rating class="q-ml-md" v-model="stars" size="24px"></q-rating>
             </div>
-            <div class="text-caption">You need to build & refresh page on each change on Quasar</div>
-            <div class="text-caption">Do not include index-multiapp.umd.html in your commits</div>
+            <div class="text-caption">
+              You need to build & refresh page on each change on Quasar
+            </div>
+            <div class="text-caption"
+              >Do not include index-multiapp.umd.html in your commits</div
+            >
           </q-card-section>
 
           <q-separator></q-separator>
 
           <q-card-section class="row items-center no-wrap q-py-xs">
-            <div class="text-caption text-grey">$q.lang.label.update: {{ $q.lang.label.update }}</div>
+            <div class="text-caption text-grey">
+              $q.lang.label.update: {{ $q.lang.label.update }}
+            </div>
             <q-space></q-space>
-            <q-btn flat color="primary" label="Refresh" @click="onRefreshClick"></q-btn>
+            <q-btn
+              flat
+              color="primary"
+              label="Refresh"
+              @click="onRefreshClick"
+            ></q-btn>
           </q-card-section>
         </q-card>
-
       </div>
     </div>
 
@@ -69,7 +83,7 @@
 
     <script>
       const app1 = Vue.createApp({
-        setup () {
+        setup() {
           return {
             version: Quasar.version,
             vueVersion: Vue.version
@@ -90,10 +104,10 @@
       })
 
       const app2 = Vue.createApp({
-        setup () {
+        setup() {
           return {
             stars: Vue.ref(5),
-            onRefreshClick () {
+            onRefreshClick() {
               window.location.reload()
             }
           }

@@ -1,4 +1,4 @@
-export default function (title, desc) {
+export default function getMeta(title, desc) {
   return {
     title: {
       name: 'title',

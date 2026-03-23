@@ -39,14 +39,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       modelSingle: ref('Apple'),
       modelMultiple: ref(['Facebook']),
 
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ]
+      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
     }
   }
 }

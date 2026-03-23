@@ -1,16 +1,23 @@
 {
-  "eslint.format.enable": false,
-  "editor.formatOnSave": false,
-  "eslint.workingDirectories": [
-    { "mode": "auto" }
-  ],
+  "oxc.fmt.configPath": ".oxfmtrc.json",
+  "oxc.unusedDisableDirectives": "deny",
+  "oxc.disableNestedConfig": false,
+  "oxc.lint.run": "onType",
   "editor.tabSize": 2,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.codeActionsOnSave": ["source.fixAll.oxc"],
+  "[javascript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true
   },
-  "eslint.validate": ["javascript", "vue"],
-
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true
+  },
   "search.exclude": {
-    "**/dist": true,
+    "**/dist": true
   }
 }

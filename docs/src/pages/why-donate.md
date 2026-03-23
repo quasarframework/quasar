@@ -6,7 +6,7 @@ keys: Donate
 
 Quasar Framework is an MIT-licensed open-source project maintained by Razvan Stoenescu along with his Team and a community of open source contributors. We work on behalf of the community to create new features, fix bugs, and maintain Quasar so you can get on with your own development projects. We’re working to shape the future of the Vue.js ecosystem to write code once and simultaneously deploy it as a website (SPA/PWA/SSR), a Mobile App and/or an Electron App.
 
-Like most open source products, Quasar can't do it alone. We rely on *sponsors, backers and supporters* to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
+Like most open source products, Quasar can't do it alone. We rely on _sponsors, backers and supporters_ to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 
 ## Our Manifesto
 
@@ -30,8 +30,8 @@ To give you a bit of perspective, the lead developer and core-maintainer of Quas
 
 The rest of the team and all of the staff working the chat support lines and fixing code are still (as of June 2019) unpaid volunteers working uncountable hours. They are slowly becoming more and more responsible for units of the project and are an invaluable resource for the community that we must safeguard.
 
-
 ### Financial Sponsorship to Guarantee Maintenance
+
 Nothing is certain, other than the fact that `node_modules` is still the heaviest thing in the universe and that at a certain point regular financial support of some kind is needed in order to guarantee the maintenance of large open-source projects. [Reference](https://github.com/sfosc/sfosc/issues/65#issuecomment-491770533).
 
 That point in time for Quasar is right now and your support will make the difference.
@@ -48,8 +48,8 @@ If open source becomes financially viable for those developing the projects, mor
 
 Many promising open source projects become "abandonware" because the original developers ran out of steam. The maintenance phase is actually where many open-source projects go to die. Money is a great type of community feedback that says "Stick with it and continue to maintain this project! We need you!!!"
 
-
 ### What You Get Out of It
+
 If you support open source, you become part of the community. It is a large community, but tends to be tightly knit. Your support shows you believe in the community, and that makes you a part of the family. If enough financial support comes together, it can also mean that core developers and maintainers are able to work on the project full-time rather than needing a job elsewhere. This in turn fosters an environment where they are able to process fixes and requests faster than if they were working on a “hobby” basis.
 
 So maybe you are a business who uses open source software to give themselves a competitive advantage, improve profits, or simply solve a problem other software doesn’t cover. Perhaps you’re an individual who uses an open source solution to the expensive corporate software you just can’t afford. Like [this](https://quasarframework.github.io/quasar-ui-qcalendar/docs).
@@ -61,6 +61,7 @@ Whatever you use open source software for, think of those people who have spent 
 Even a small donation could mean a huge difference to them, not least because it means someone out there appreciates them enough to let them know.
 
 ## Donating
+
 You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
 Donating through the **GitHub Sponsorship is recommended** because GitHub will also match your donation (making it worth double your amount).

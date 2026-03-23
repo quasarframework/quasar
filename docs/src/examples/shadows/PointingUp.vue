@@ -2,7 +2,8 @@
   <div class="q-pa-md">
     <div
       class="flex inline shadow-box flex-center"
-      v-for="n in 24" :key="n"
+      v-for="n in 24"
+      :key="n"
       :class="`shadow-up-${n}`"
     >
       .shadow-up-{{ n }}

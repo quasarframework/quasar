@@ -35,27 +35,25 @@ function useId(
 
 ```html
 <template>
-  <div :id="id">
-    Some component
-  </div>
+  <div :id="id"> Some component </div>
 </template>
 
 <script>
-import { useId } from 'quasar'
+  import { useId } from 'quasar'
 
-export default {
-  props: {
-    for: String
-  },
+  export default {
+    props: {
+      for: String
+    },
 
-  setup () {
-    const id = useId({
-      getValue: () => props.for,
-      required: true
-    })
+    setup() {
+      const id = useId({
+        getValue: () => props.for,
+        required: true
+      })
 
-    return { id }
+      return { id }
+    }
   }
-}
 </script>
 ```

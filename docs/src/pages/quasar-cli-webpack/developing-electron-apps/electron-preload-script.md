@@ -8,6 +8,7 @@ For security reasons, the renderer thread (your UI code from `/src`) does not ha
 Since the preload script runs from Node.js, be careful what you do with it and what you expose to the renderer thread!
 
 ## How to use it
+
 In `/src-electron/` folder, there is a file named `electron-preload.js`. Fill it with your preload code.
 
 Make sure that your `/src-electron/electron-main.js` has the following (near the "webPreferences" section):
@@ -48,11 +49,13 @@ contextBridge.exposeInMainWorld('myAPI', {
 ```
 
 ::: warning
+
 1. Be aware that this file runs in a Node.js context.
 2. If you import anything from node_modules, then make sure that the package is specified in /package.json > "dependencies" and NOT in "devDependencies".
-:::
+   :::
 
 ## Security considerations
+
 Just by using `contextBridge` does not automatically mean that everything you do is safe. For instance the code below is unsafe:
 
 ```js
@@ -63,7 +66,6 @@ contextBridge.exposeInMainWorld('myAPI', {
 ```
 
 It directly exposes a powerful API without any kind of argument filtering. This would allow any website to send arbitrary IPC messages which you do not want to be possible. The correct way to expose IPC-based APIs would instead be to provide one method per IPC message.
-
 
 ```js
 // Good code
@@ -89,6 +91,7 @@ ipcMain.handle('myAPI:load-prefs', () => {
 ```
 
 ## Custom path to the preload script
+
 Should you wish to change the location of the preload script (and/or even the main thread file) then edit the `/quasar.config` file:
 
 ```js /quasar.config file

@@ -19,7 +19,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       price: ref(null)
     }

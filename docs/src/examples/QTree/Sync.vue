@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md row q-col-gutter-sm">
-    <q-tree class="col-12 col-sm-6"
+    <q-tree
+      class="col-12 col-sm-6"
       :nodes="simple"
       node-key="label"
       tick-strategy="leaf"
@@ -37,11 +38,15 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       selected: ref('Pleasant surroundings'),
-      ticked: ref([ 'Quality ingredients', 'Good table presentation' ]),
-      expanded: ref([ 'Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings' ]),
+      ticked: ref(['Quality ingredients', 'Good table presentation']),
+      expanded: ref([
+        'Satisfied customers',
+        'Good service (disabled node)',
+        'Pleasant surroundings'
+      ]),
 
       simple: [
         {

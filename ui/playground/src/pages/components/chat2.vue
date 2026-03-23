@@ -2,7 +2,7 @@
   <div class="q-pa-md row justify-center">
     <div style="width: 100%; max-width: 400px">
       <q-chat-message
-        v-for="(msg,i) in messages"
+        v-for="(msg, i) in messages"
         :name="msg.name"
         :avatar="msg.avatar"
         :stamp="msg.stamp"
@@ -10,45 +10,45 @@
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="'a'+i"
+        :key="'a' + i"
       />
 
       <q-chat-message
-        v-for="(msg,i) in messages"
+        v-for="(msg, i) in messages"
         :name="msg.name"
         :avatar="msg.avatar"
         :stamp="msg.stamp"
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="'b'+i"
+        :key="'b' + i"
       >
-        <div v-for="(text, j) in msg.text" :key="'c'+j">{{ text }}</div>
+        <div v-for="(text, j) in msg.text" :key="'c' + j">{{ text }}</div>
       </q-chat-message>
 
       <q-chat-message
-        v-for="(msg,i) in messages"
+        v-for="(msg, i) in messages"
         :name="msg.name"
         :avatar="msg.avatar"
         :stamp="msg.stamp"
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="'d'+i"
+        :key="'d' + i"
       >
         <div>A</div>
         <div>B</div>
       </q-chat-message>
 
       <q-chat-message
-        v-for="(msg,i) in messages"
+        v-for="(msg, i) in messages"
         :name="msg.name"
         :avatar="msg.avatar"
         :stamp="msg.stamp"
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="'e'+i"
+        :key="'e' + i"
       >
         Weeee
       </q-chat-message>
@@ -63,13 +63,14 @@
         text-color="white"
         bg-color="primary"
       >
-        <div>
-          Hey there!
-        </div>
+        <div>Hey there!</div>
 
         <div>
           Have you seen Quasar?
-          <img src="https://cdn.quasar.dev/img/discord-omq.png" class="my-emoticon">
+          <img
+            src="https://cdn.quasar.dev/img/discord-omq.png"
+            class="my-emoticon"
+          />
         </div>
       </q-chat-message>
 
@@ -96,12 +97,16 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
       messages: [
         {
           avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
-          text: [ '> message 1 should support markdown', '> message 2  should support markdown', '> message 3 should support markdown' ],
+          text: [
+            '> message 1 should support markdown',
+            '> message 2  should support markdown',
+            '> message 3 should support markdown'
+          ],
           action: {
             icon: 'check',
             color: 'positive',
@@ -115,7 +120,7 @@ export default {
         }
       ],
 
-      someAction (something) {
+      someAction(something) {
         console.log(something)
       }
     }

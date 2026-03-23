@@ -72,8 +72,19 @@ Make sure to yarn/npm install the vite plugin package that you want to use, then
 build: {
   vitePlugins: [
     // both are perfectly equivalent:
-    [ '<plugin-name>', { /* plugin options */ } ],
-    [ '<plugin-name>', { /* plugin options */ }, { server: true, client: true } ]
+    [
+      '<plugin-name>',
+      {
+        /* plugin options */
+      }
+    ],
+    [
+      '<plugin-name>',
+      {
+        /* plugin options */
+      },
+      { server: true, client: true }
+    ]
   ]
 }
 ```
@@ -84,10 +95,22 @@ You can disable a plugin on the client-side or the server-side, which is especia
 build: {
   vitePlugins: [
     // disable on the server-side:
-    [ '<plugin-name>', { /* plugin options */ }, { server: false } ],
+    [
+      '<plugin-name>',
+      {
+        /* plugin options */
+      },
+      { server: false }
+    ],
 
     // disable on the client-side:
-    [ '<plugin-name>', { /* plugin options */ }, { client: false } ]
+    [
+      '<plugin-name>',
+      {
+        /* plugin options */
+      },
+      { client: false }
+    ]
   ]
 }
 ```
@@ -96,8 +119,20 @@ There are multiple syntaxes supported:
 
 ```js /quasar.config file
 vitePlugins: [
-  [ '<plugin1-name>', { /* plugin1 options */ }, { server: true, client: true } ],
-  [ '<plugin2-name>', { /* plugin2 options */ }, { server: true, client: true } ],
+  [
+    '<plugin1-name>',
+    {
+      /* plugin1 options */
+    },
+    { server: true, client: true }
+  ],
+  [
+    '<plugin2-name>',
+    {
+      /* plugin2 options */
+    },
+    { server: true, client: true }
+  ]
   // ...
 ]
 
@@ -106,8 +141,20 @@ import plugin1 from 'plugin1'
 import plugin2 from 'plugin2'
 
 vitePlugins: [
-  [ plugin1, { /* plugin1 options */ }, { server: true, client: true } ],
-  [ plugin2, { /* plugin2 options */ }, { server: true, client: true } ],
+  [
+    plugin1,
+    {
+      /* plugin1 options */
+    },
+    { server: true, client: true }
+  ],
+  [
+    plugin2,
+    {
+      /* plugin2 options */
+    },
+    { server: true, client: true }
+  ]
   // ...
 ]
 
@@ -119,8 +166,12 @@ import plugin1 from 'plugin1'
 import plugin2 from 'plugin2'
 
 vitePlugins: [
-  plugin1({ /* plugin1 options */ }),
-  plugin2({ /* plugin2 options */ })
+  plugin1({
+    /* plugin1 options */
+  }),
+  plugin2({
+    /* plugin2 options */
+  })
   // ...
 ]
 ```
@@ -145,10 +196,10 @@ build: {
 Moreover, don't forget that your `/quasar.config` file exports a function that receives `ctx` as parameter. You can use it throughout the whole config file to apply settings only to certain Quasar modes or only to dev or prod:
 
 ```js
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     build: {
-      extendViteConf (viteConf, { isClient, isServer }) {
+      extendViteConf(viteConf, { isClient, isServer }) {
         if (ctx.mode.pwa) {
           viteConf.plugins.push(/* ... */)
         }
@@ -168,26 +219,29 @@ It is likely that you will need to copy static or external files to your Quasar 
 
 ```js /quasar.config file
 // ...
-  build: {
+build: {
   // ...
-    vitePlugins: [
-      [
-        'rollup-plugin-copy', {
-          targets: [
-            { // Syntax code, check doc in https://www.npmjs.com/package/rollup-plugin-copy
-              src: '[ORIGIN_PATH]',
-              dest: '[DEST_PATH]'
-            },
-            { // Copying firebase-messaging-sw.js to SPA/PWA/SSR dest build folder
-              src: 'config/firebase/firebase-messaging-sw.js',
-              dest: 'dest/spa'    // example when building SPA
-            }
-          ]
-        }
-      ]
-      // other vite/rollup plugins
+  vitePlugins: [
+    [
+      'rollup-plugin-copy',
+      {
+        targets: [
+          {
+            // Syntax code, check doc in https://www.npmjs.com/package/rollup-plugin-copy
+            src: '[ORIGIN_PATH]',
+            dest: '[DEST_PATH]'
+          },
+          {
+            // Copying firebase-messaging-sw.js to SPA/PWA/SSR dest build folder
+            src: 'config/firebase/firebase-messaging-sw.js',
+            dest: 'dest/spa' // example when building SPA
+          }
+        ]
+      }
     ]
-  }
+    // other vite/rollup plugins
+  ]
+}
 // ...
 ```
 
@@ -217,16 +271,16 @@ build: {
 
 Quasar comes with a bunch of useful folder aliases pre-configured. You can use them anywhere in your project and Vite will resolve the correct path.
 
-| Alias | Resolves to |
-| --- | --- |
-| `src` | /src |
-| `app` | / |
-| `components` | /src/components |
-| `layouts` | /src/layouts |
-| `pages` | /src/pages |
-| `assets` | /src/assets |
-| `boot` | /src/boot |
-| `stores` | /src/stores (Pinia stores) |
+| Alias        | Resolves to                |
+| ------------ | -------------------------- |
+| `src`        | /src                       |
+| `app`        | /                          |
+| `components` | /src/components            |
+| `layouts`    | /src/layouts               |
+| `pages`      | /src/pages                 |
+| `assets`     | /src/assets                |
+| `boot`       | /src/boot                  |
+| `stores`     | /src/stores (Pinia stores) |
 
 #### Adding folder aliases
 
@@ -237,7 +291,7 @@ We will use `utils` as an example, which may be used as `import { formatTime } f
 ```js /quasar.config file
 import { fileURLToPath } from 'node:url'
 
-export default (ctx) => {
+export default ctx => {
   return {
     build: {
       alias: {
@@ -253,10 +307,10 @@ export default (ctx) => {
 ```js /quasar.config file
 import { fileURLToPath } from 'node:url'
 
-export default (ctx) => {
+export default ctx => {
   return {
     build: {
-      extendViteConf (viteConf, { isServer, isClient }) {
+      extendViteConf(viteConf, { isServer, isClient }) {
         Object.assign(viteConf.resolve.alias, {
           utils: fileURLToPath(new URL('./src/utils', import.meta.url))
         })

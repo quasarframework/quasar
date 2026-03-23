@@ -1,7 +1,14 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-header height-hint="204" v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
+      <q-header
+        height-hint="204"
+        v-model="header"
+        :bordered="bordered"
+        :elevated="elevated"
+        :reveal="headerReveal"
+        :class="marginalClass"
+      >
         <q-bar>
           <q-icon name="network_wifi" />
           <div>9:34</div>
@@ -15,11 +22,22 @@
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-space />
-          <q-toggle dense v-model="extraRow" color="amber" dark label="Extra row" />
-          <q-btn round dense flat class="relative-position q-mx-md" icon="announcement" to="/">
-            <q-badge floating color="red" text-color="white">
-              1
-            </q-badge>
+          <q-toggle
+            dense
+            v-model="extraRow"
+            color="amber"
+            dark
+            label="Extra row"
+          />
+          <q-btn
+            round
+            dense
+            flat
+            class="relative-position q-mx-md"
+            icon="announcement"
+            to="/"
+          >
+            <q-badge floating color="red" text-color="white"> 1 </q-badge>
           </q-btn>
           <q-btn flat round dense icon="colorize">
             <q-menu>
@@ -31,40 +49,60 @@
         </q-toolbar>
         <q-toolbar v-if="extraRow" inset>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
           </q-avatar>
-          <q-toolbar-title>
-            <strong>Quasar</strong> Framework
-          </q-toolbar-title>
+          <q-toolbar-title> <strong>Quasar</strong> Framework </q-toolbar-title>
 
           <q-input model-value="" dense standout dark>
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
-          <q-select v-model="select" :options="selectOptions" dark outlined dense use-input style="width: 150px" />
+          <q-select
+            v-model="select"
+            :options="selectOptions"
+            dark
+            outlined
+            dense
+            use-input
+            style="width: 150px"
+          />
         </q-toolbar>
         <q-tabs indicator-color="yellow">
-          <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default Tab" />
-          <q-route-tab icon="view_day" to="/layout-quick/a" exact replace label="A" />
+          <q-route-tab
+            icon="view_quilt"
+            to="/layout-quick/default"
+            replace
+            label="Default Tab"
+          />
+          <q-route-tab
+            icon="view_day"
+            to="/layout-quick/a"
+            exact
+            replace
+            label="A"
+          />
           <q-route-tab icon="view_day" to="/layout-quick/b" replace label="B" />
           <q-route-tab icon="input" to="/layout-quick/c" replace label="C" />
         </q-tabs>
       </q-header>
 
-      <q-footer height-hint="100" v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
+      <q-footer
+        height-hint="100"
+        v-model="footer"
+        :bordered="bordered"
+        :elevated="elevated"
+        :reveal="footerReveal"
+        :class="marginalClass"
+      >
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
-          <q-toolbar-title>
-            Footer
-          </q-toolbar-title>
+          <q-toolbar-title> Footer </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
-          <q-toolbar-title>
-            Footer
-          </q-toolbar-title>
+          <q-toolbar-title> Footer </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
       </q-footer>
@@ -85,51 +123,39 @@
           :thumb-style="{
             right: '4px',
             background: '#027be3',
-            opacity: .8,
+            opacity: 0.8,
             width: '4px'
           }"
           style="height: calc(100% - 204px); margin-top: 204px"
         >
           <div class="q-pa-sm">
-            <q-btn to="/layout-quick/a">
-              Go to A
-            </q-btn>
-            <q-btn to="/layout-quick/b">
-              Go to B
-            </q-btn>
-            <q-btn to="/layout-quick/c">
-              Go to C
-            </q-btn>
+            <q-btn to="/layout-quick/a"> Go to A </q-btn>
+            <q-btn to="/layout-quick/b"> Go to B </q-btn>
+            <q-btn to="/layout-quick/c"> Go to C </q-btn>
 
-            <br><br>fffdfs
+            <br /><br />fffdfs
             {{ right }}
             <q-input v-model="inp" />
 
             <q-slider v-model="slider" class="q-my-lg" />
 
-            <q-btn to="/layout-quick/a" replace>
-              Replace Go to A
-            </q-btn>
-            <q-btn to="/layout-quick/b" replace>
-              Replace Go to B
-            </q-btn>
-            <q-btn to="/layout-quick/c" replace>
-              Replace Go to C
-            </q-btn>
-            <div v-for="n in 30" :key="n">
-              {{ n }} Left drawer
-            </div>
+            <q-btn to="/layout-quick/a" replace> Replace Go to A </q-btn>
+            <q-btn to="/layout-quick/b" replace> Replace Go to B </q-btn>
+            <q-btn to="/layout-quick/c" replace> Replace Go to C </q-btn>
+            <div v-for="n in 30" :key="n">{{ n }} Left drawer</div>
           </div>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
+        <q-img
+          class="absolute-top"
+          src="https://cdn.quasar.dev/img/material.png"
+          style="height: 204px"
+        >
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
-            <div class="text-weight-bold">
-              Razvan Stoenescu
-            </div>
+            <div class="text-weight-bold">Razvan Stoenescu</div>
             <div>@rstoenescu</div>
           </div>
         </q-img>
@@ -155,13 +181,15 @@
           @mini-state="onMiniState"
           :bordered="bordered"
           :elevated="elevated"
-          @click.capture="e => {
-            if (leftMini) {
-              leftMini = false
-              e.preventDefault()
-              e.stopPropagation()
+          @click.capture="
+            e => {
+              if (leftMini) {
+                leftMini = false
+                e.preventDefault()
+                e.stopPropagation()
+              }
             }
-          }"
+          "
           v-model="left"
           :overlay="leftOverlay"
           :behavior="leftBehavior"
@@ -181,23 +209,26 @@
             </template>
         -->
           <q-input v-model="inp" />
-          <input style="width: 5em" v-model="inp">
+          <input style="width: 5em" v-model="inp" />
           <q-btn
             class="q-mini-drawer-hide"
             icon="keyboard_arrow_left"
             @click="leftMini = true"
           />
-          <div class="q-mini-drawer-hide">
-            Maxi only
-          </div>
-          <div class="q-mini-drawer-only">
-            Mini only
-          </div>
+          <div class="q-mini-drawer-hide">Maxi only</div>
+          <div class="q-mini-drawer-only">Mini only</div>
           <q-list>
-            <q-expansion-item clickable icon="perm_identity" label="With a model and events">
+            <q-expansion-item
+              clickable
+              icon="perm_identity"
+              label="With a model and events"
+            >
               <q-card>
                 <q-card-section>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, fuga voluptatem! Debitis, numquam! Velit excepturi harum sint explicabo, rerum dolores illum nihil aperiam praesentium, consectetur delectus sapiente in sed provident.
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Esse, fuga voluptatem! Debitis, numquam! Velit excepturi harum
+                  sint explicabo, rerum dolores illum nihil aperiam praesentium,
+                  consectetur delectus sapiente in sed provident.
                 </q-card-section>
               </q-card>
             </q-expansion-item>
@@ -208,9 +239,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item-label header>
-              Folders
-            </q-item-label>
+            <q-item-label header> Folders </q-item-label>
 
             <q-item to="/layout-quick/a" replace>
               <q-item-section side>
@@ -219,9 +248,7 @@
 
               <q-item-section>
                 <q-item-label>Link A</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -236,9 +263,7 @@
 
               <q-item-section>
                 <q-item-label>Link B</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -253,9 +278,7 @@
 
               <q-item-section>
                 <q-item-label>Link C</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -264,9 +287,7 @@
             </q-item>
 
             <q-separator spaced />
-            <q-item-label header>
-              Files
-            </q-item-label>
+            <q-item-label header> Files </q-item-label>
 
             <q-item clickable>
               <q-item-section side>
@@ -275,9 +296,7 @@
 
               <q-item-section>
                 <q-item-label>Link C</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -292,9 +311,7 @@
 
               <q-item-section>
                 <q-item-label>Link C</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -303,14 +320,12 @@
             </q-item>
 
             <q-separator spaced />
-            <q-item-label header>
-              People
-            </q-item-label>
+            <q-item-label header> People </q-item-label>
 
             <q-item v-for="n in 3" :key="'item.' + n">
               <q-item-section side>
                 <q-avatar>
-                  <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                  <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
                 </q-avatar>
               </q-item-section>
               <q-item-section>
@@ -324,12 +339,19 @@
         </q-drawer>
 
         <router-view v-slot="{ Component }">
-          <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+          <transition
+            enter-active-class="animated fadeIn"
+            leave-active-class="animated fadeOut"
+            mode="out-in"
+          >
             <component :is="Component" />
           </transition>
         </router-view>
 
-        <div class="fixed-bottom-right bg-grey-5 q-pa-sm" style="bottom: 8px; right: 8px; left: auto;z-index: 6000;">
+        <div
+          class="fixed-bottom-right bg-grey-5 q-pa-sm"
+          style="bottom: 8px; right: 8px; left: auto; z-index: 6000"
+        >
           <q-toggle dense v-model="showConfig" label="Config" />
         </div>
       </q-page-container>
@@ -351,13 +373,27 @@
             <q-toggle dense v-model="leftOverlay" label="Left as Overlay" />
           </div>
           <div>
-            <q-toggle dense v-model="leftMiniToOverlay" label="Left Mini to Overlay" />
+            <q-toggle
+              dense
+              v-model="leftMiniToOverlay"
+              label="Left Mini to Overlay"
+            />
           </div>
           <div>
-            <q-select emit-value v-model="leftBehavior" :options="drawerBehaviorOptions" />
+            <q-select
+              emit-value
+              v-model="leftBehavior"
+              :options="drawerBehaviorOptions"
+            />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="leftBreakpoint" />
+            <q-input
+              type="number"
+              align="right"
+              prefix="Bkpt"
+              placeholder="Bkpt"
+              v-model.number="leftBreakpoint"
+            />
           </div>
         </div>
         <div class="col q-ma-xs">
@@ -374,76 +410,160 @@
             <q-toggle dense v-model="rightOverlay" label="Right as Overlay" />
           </div>
           <div>
-            <q-toggle dense v-model="rightMiniToOverlay" label="Right Mini to Overlay" />
+            <q-toggle
+              dense
+              v-model="rightMiniToOverlay"
+              label="Right Mini to Overlay"
+            />
           </div>
           <div>
-            <q-select emit-value v-model="rightBehavior" :options="drawerBehaviorOptions" />
+            <q-select
+              emit-value
+              v-model="rightBehavior"
+              :options="drawerBehaviorOptions"
+            />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="rightBreakpoint" />
+            <q-input
+              type="number"
+              align="right"
+              prefix="Bkpt"
+              placeholder="Bkpt"
+              v-model.number="rightBreakpoint"
+            />
           </div>
         </div>
       </div>
 
       <div class="row justify-center q-mt-big">
-        <q-chip color="primary">
-          view: {{ view }}
-        </q-chip>
+        <q-chip color="primary"> view: {{ view }} </q-chip>
       </div>
       <div class="flex justify-center">
         <div style="min-width: 400px; max-width: 90vw">
           <div class="doc-layout-grid row justify-center">
-            <div class="doc-row-definition row flex-center no-border">
-              Header
-            </div>
+            <div class="doc-row-definition row flex-center no-border"
+              >Header</div
+            >
             <div class="col column flex-center">
-              <q-radio dense color="orange" v-model="topleft" val="l" label="l" />
-              <q-radio dense color="orange" v-model="topleft" val="h" label="h" />
+              <q-radio
+                dense
+                color="orange"
+                v-model="topleft"
+                val="l"
+                label="l"
+              />
+              <q-radio
+                dense
+                color="orange"
+                v-model="topleft"
+                val="h"
+                label="h"
+              />
             </div>
             <div class="col column flex-center">
               <q-radio dense v-model="topcenter" val="h" label="h" />
               <q-radio dense v-model="topcenter" val="H" label="H" />
             </div>
             <div class="col column flex-center">
-              <q-radio dense color="secondary" v-model="topright" val="r" label="r" />
-              <q-radio dense color="secondary" v-model="topright" val="h" label="h" />
+              <q-radio
+                dense
+                color="secondary"
+                v-model="topright"
+                val="r"
+                label="r"
+              />
+              <q-radio
+                dense
+                color="secondary"
+                v-model="topright"
+                val="h"
+                label="h"
+              />
             </div>
           </div>
           <q-separator />
 
           <div class="doc-layout-grid row justify-center">
-            <div class="doc-row-definition row flex-center no-border">
-              Middle
-            </div>
+            <div class="doc-row-definition row flex-center no-border"
+              >Middle</div
+            >
             <div class="col column flex-center">
-              <q-radio dense color="orange" v-model="middleleft" val="l" label="l" />
-              <q-radio dense color="orange" v-model="middleleft" val="L" label="L" />
+              <q-radio
+                dense
+                color="orange"
+                v-model="middleleft"
+                val="l"
+                label="l"
+              />
+              <q-radio
+                dense
+                color="orange"
+                v-model="middleleft"
+                val="L"
+                label="L"
+              />
             </div>
             <div class="col column flex-center">
               <q-radio dense v-model="middlecenter" val="p" label="p" />
             </div>
             <div class="col column flex-center">
-              <q-radio dense color="secondary" v-model="middleright" val="r" label="r" />
-              <q-radio dense color="secondary" v-model="middleright" val="R" label="R" />
+              <q-radio
+                dense
+                color="secondary"
+                v-model="middleright"
+                val="r"
+                label="r"
+              />
+              <q-radio
+                dense
+                color="secondary"
+                v-model="middleright"
+                val="R"
+                label="R"
+              />
             </div>
           </div>
           <q-separator />
 
           <div class="doc-layout-grid row justify-center">
-            <div class="doc-row-definition row flex-center no-border">
-              Footer
-            </div>
+            <div class="doc-row-definition row flex-center no-border"
+              >Footer</div
+            >
             <div class="col column flex-center">
-              <q-radio dense color="orange" v-model="bottomleft" val="l" label="l" />
-              <q-radio dense color="orange" v-model="bottomleft" val="f" label="f" />
+              <q-radio
+                dense
+                color="orange"
+                v-model="bottomleft"
+                val="l"
+                label="l"
+              />
+              <q-radio
+                dense
+                color="orange"
+                v-model="bottomleft"
+                val="f"
+                label="f"
+              />
             </div>
             <div class="col column flex-center">
               <q-radio dense v-model="bottomcenter" val="f" label="f" />
               <q-radio dense v-model="bottomcenter" val="F" label="F" />
             </div>
             <div class="col column flex-center">
-              <q-radio dense color="secondary" v-model="bottomright" val="r" label="r" />
-              <q-radio dense color="secondary" v-model="bottomright" val="f" label="f" />
+              <q-radio
+                dense
+                color="secondary"
+                v-model="bottomright"
+                val="r"
+                label="r"
+              />
+              <q-radio
+                dense
+                color="secondary"
+                v-model="bottomright"
+                val="f"
+                label="f"
+              />
             </div>
           </div>
           <q-toggle dense v-model="leftMini" label="Left mini" />
@@ -458,13 +578,14 @@
     <q-dialog v-model="toggle">
       <q-card>
         <q-card-section>
-          <div class="text-h6">
-            Dialog
-          </div>
+          <div class="text-h6">Dialog</div>
         </q-card-section>
 
         <q-card-section>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+          repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
+          perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+          minima, porro labore.
         </q-card-section>
 
         <q-card-actions align="right">
@@ -486,10 +607,10 @@
 import { setCssVar } from 'quasar'
 
 export default {
-  created () {
-    this.selectOptions = [ 'Google', 'Facebook', 'Tesla' ]
+  created() {
+    this.selectOptions = ['Google', 'Facebook', 'Tesla']
   },
-  data () {
+  data() {
     const v = 'lHh LpR fFf'
     return {
       mainColor: '#027be3',
@@ -520,15 +641,15 @@ export default {
 
       scrolling: true,
 
-      topleft: v[ 0 ],
-      topcenter: v[ 1 ],
-      topright: v[ 2 ],
-      middleleft: v[ 4 ],
-      middlecenter: v[ 5 ],
-      middleright: v[ 6 ],
-      bottomleft: v[ 8 ],
-      bottomcenter: v[ 9 ],
-      bottomright: v[ 10 ],
+      topleft: v[0],
+      topcenter: v[1],
+      topright: v[2],
+      middleleft: v[4],
+      middlecenter: v[5],
+      middleright: v[6],
+      bottomleft: v[8],
+      bottomcenter: v[9],
+      bottomright: v[10],
       drawerBehaviorOptions: [
         { label: 'Behave Normal', value: 'default' },
         { label: 'Behave Mobile', value: 'mobile' },
@@ -542,48 +663,44 @@ export default {
     }
   },
   computed: {
-    view () {
-      const
-        top = `${ this.topleft }${ this.topcenter }${ this.topright }`,
-        middle = `${ this.middleleft }${ this.middlecenter }${ this.middleright }`,
-        bottom = `${ this.bottomleft }${ this.bottomcenter }${ this.bottomright }`
+    view() {
+      const top = `${this.topleft}${this.topcenter}${this.topright}`,
+        middle = `${this.middleleft}${this.middlecenter}${this.middleright}`,
+        bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
 
-      return `${ top } ${ middle } ${ bottom }`
+      return `${top} ${middle} ${bottom}`
     },
-    marginalClass () {
-      return this.whiteLayout
-        ? 'bg-white text-black'
-        : 'bg-primary text-white'
+    marginalClass() {
+      return this.whiteLayout ? 'bg-white text-black' : 'bg-primary text-white'
     }
   },
   watch: {
-    mainColor (v) {
+    mainColor(v) {
       setCssVar('primary', v)
     }
   },
   methods: {
-    drawerOnLayout (v) {
+    drawerOnLayout(v) {
       console.log('drawer on layout:', v)
     },
-    onScroll (data) {
+    onScroll(data) {
       // console.log('scroll', data)
     },
-    goMini () {
+    goMini() {
       console.log('goMini')
       this.rightMini = true
     },
-    goNormal (e) {
+    goNormal(e) {
       if (this.rightMini) {
         console.log('goNormal')
         this.rightMini = false
         e.preventDefault()
         e.stopPropagation()
-      }
-      else {
+      } else {
         console.log('goNormal abort')
       }
     },
-    onMiniState (val) {
+    onMiniState(val) {
       console.log('left drawer @mini-state ->', val)
     }
   }

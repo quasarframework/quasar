@@ -3,23 +3,23 @@ title: Providing a directive
 desc: Tips and tricks on how to provide a Vue directive to the host app of a Quasar App Extension.
 scope:
   tree:
-    l: "."
+    l: '.'
     c:
-    - l: package.json
-    - l: src
-      c:
-      - l: boot
-        e: folder to contain boot code
+      - l: package.json
+      - l: src
         c:
-        - l: register-my-directive.js
-          e: boot file for directive
-      - l: directive
-        e: folder to contain directive
-        c:
-        - l: MyDirective.js
-          e: directive file
-      - l: index.js
-        e: Described in Index API
+          - l: boot
+            e: folder to contain boot code
+            c:
+              - l: register-my-directive.js
+                e: boot file for directive
+          - l: directive
+            e: folder to contain directive
+            c:
+              - l: MyDirective.js
+                e: directive file
+          - l: index.js
+            e: Described in Index API
 ---
 
 This guide is for when you want to create a new directive and provide it through an App Extension, which will inject it into the hosting app.
@@ -50,8 +50,8 @@ export default function (api) {
 
   if (api.hasVite === true) {
     api.compatibleWith('@quasar/app-vite', '^2.0.0')
-  }
-  else { // api.hasWebpack === true
+  } else {
+    // api.hasWebpack === true
     api.compatibleWith('@quasar/app-webpack', '^4.0.0')
   }
 
@@ -71,14 +71,18 @@ Not only can you do a `api.compatibleWith()` to check against Quasar packages, b
 The second group tells Quasar to call our custom function when the `extendQuasarConf` CLI life-cycle hook is called. It would look something like this:
 
 ```js File: /index.js
-function extendConf (conf, api) {
+function extendConf(conf, api) {
   // make sure my-directive boot file is registered
-  conf.boot.push('~quasar-app-extension-my-directive/src/boot/register-my-directive.js')
+  conf.boot.push(
+    '~quasar-app-extension-my-directive/src/boot/register-my-directive.js'
+  )
 
   // @quasar/app-vite does not need this
   if (api.hasVite !== true) {
     // make sure boot & other files get transpiled
-    conf.build.webpackTranspileDependencies.push(/quasar-app-extension-my-directive[\\/]src/)
+    conf.build.webpackTranspileDependencies.push(
+      /quasar-app-extension-my-directive[\\/]src/
+    )
   }
 }
 ```

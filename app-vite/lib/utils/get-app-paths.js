@@ -11,12 +11,17 @@ const quasarConfigList = [
   { name: 'quasar.config.cjs', inputFormat: 'cjs', outputFormat: 'cjs' }
 ]
 
-function getAppInfo (appDir) {
-  while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
+function getAppInfo(appDir) {
+  while (appDir.length && appDir[appDir.length - 1] !== sep) {
     for (const { name, inputFormat, outputFormat } of quasarConfigList) {
       const quasarConfigFilename = join(appDir, name)
       if (existsSync(quasarConfigFilename)) {
-        return { appDir, quasarConfigFilename, quasarConfigInputFormat: inputFormat, quasarConfigOutputFormat: outputFormat }
+        return {
+          appDir,
+          quasarConfigFilename,
+          quasarConfigInputFormat: inputFormat,
+          quasarConfigOutputFormat: outputFormat
+        }
       }
     }
 
@@ -26,17 +31,14 @@ function getAppInfo (appDir) {
   fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 
-function getRunType (ctx) {
+function getRunType(ctx) {
   if (ctx.dev) return 'dev'
   if (ctx.prod) return 'prod'
   return 'unknown'
 }
 
-function getPrefixDir (ctx) {
-  const parts = [
-    getRunType(ctx),
-    ctx.modeName
-  ]
+function getPrefixDir(ctx) {
+  const parts = [getRunType(ctx), ctx.modeName]
 
   if (ctx.targetName) {
     parts.push(ctx.targetName)
@@ -45,12 +47,13 @@ function getPrefixDir (ctx) {
   return parts.join('-')
 }
 
-export function getAppPaths ({
-  ctx,
-  rootDir,
-  defineHiddenProp
-} = {}) {
-  const { appDir, quasarConfigFilename, quasarConfigInputFormat, quasarConfigOutputFormat } = getAppInfo(rootDir)
+export function getAppPaths({ ctx, rootDir, defineHiddenProp } = {}) {
+  const {
+    appDir,
+    quasarConfigFilename,
+    quasarConfigInputFormat,
+    quasarConfigOutputFormat
+  } = getAppInfo(rootDir)
 
   const publicDir = resolve(appDir, 'public')
   const srcDir = resolve(appDir, 'src')

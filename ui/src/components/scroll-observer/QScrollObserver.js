@@ -1,11 +1,16 @@
 import { watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition, scrollTargetProp } from '../../utils/scroll/scroll.js'
+import {
+  getScrollTarget,
+  getVerticalScrollPosition,
+  getHorizontalScrollPosition,
+  scrollTargetProp
+} from '../../utils/scroll/scroll.js'
 import { listenOpts, noop } from '../../utils/event/event.js'
 
 const { passive } = listenOpts
-const axisValues = [ 'both', 'horizontal', 'vertical' ]
+const axisValues = ['both', 'horizontal', 'vertical']
 
 export default createComponent({
   name: 'QScrollObserver',
@@ -17,14 +22,14 @@ export default createComponent({
       default: 'vertical'
     },
 
-    debounce: [ String, Number ],
+    debounce: [String, Number],
 
     scrollTarget: scrollTargetProp
   },
 
-  emits: [ 'scroll' ],
+  emits: ['scroll'],
 
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const scroll = {
       position: {
         top: 0,
@@ -45,14 +50,19 @@ export default createComponent({
       }
     }
 
-    let clearTimer = null, localScrollTarget, parentEl
+    let clearTimer = null,
+      localScrollTarget,
+      parentEl
 
-    watch(() => props.scrollTarget, () => {
-      unconfigureScrollTarget()
-      configureScrollTarget()
-    })
+    watch(
+      () => props.scrollTarget,
+      () => {
+        unconfigureScrollTarget()
+        configureScrollTarget()
+      }
+    )
 
-    function emitEvent () {
+    function emitEvent() {
       clearTimer?.()
 
       const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
@@ -64,13 +74,20 @@ export default createComponent({
       }
 
       if (
-        (props.axis === 'vertical' && delta.top === 0)
-        || (props.axis === 'horizontal' && delta.left === 0)
-      ) return
+        (props.axis === 'vertical' && delta.top === 0) ||
+        (props.axis === 'horizontal' && delta.left === 0)
+      ) {
+        return
+      }
 
-      const curDir = Math.abs(delta.top) >= Math.abs(delta.left)
-        ? (delta.top < 0 ? 'up' : 'down')
-        : (delta.left < 0 ? 'left' : 'right')
+      const curDir =
+        Math.abs(delta.top) >= Math.abs(delta.left)
+          ? delta.top < 0
+            ? 'up'
+            : 'down'
+          : delta.left < 0
+            ? 'left'
+            : 'right'
 
       scroll.position = { top, left }
       scroll.directionChanged = scroll.direction !== curDir
@@ -84,27 +101,30 @@ export default createComponent({
       emit('scroll', { ...scroll })
     }
 
-    function configureScrollTarget () {
+    function configureScrollTarget() {
       localScrollTarget = getScrollTarget(parentEl, props.scrollTarget)
       localScrollTarget.addEventListener('scroll', trigger, passive)
       trigger(true)
     }
 
-    function unconfigureScrollTarget () {
+    function unconfigureScrollTarget() {
       if (localScrollTarget !== void 0) {
         localScrollTarget.removeEventListener('scroll', trigger, passive)
         localScrollTarget = void 0
       }
     }
 
-    function trigger (immediately) {
-      if (immediately === true || props.debounce === 0 || props.debounce === '0') {
+    function trigger(immediately) {
+      if (
+        immediately === true ||
+        props.debounce === 0 ||
+        props.debounce === '0'
+      ) {
         emitEvent()
-      }
-      else if (clearTimer === null) {
-        const [ timer, fn ] = props.debounce
-          ? [ setTimeout(emitEvent, props.debounce), clearTimeout ]
-          : [ requestAnimationFrame(emitEvent), cancelAnimationFrame ]
+      } else if (clearTimer === null) {
+        const [timer, fn] = props.debounce
+          ? [setTimeout(emitEvent, props.debounce), clearTimeout]
+          : [requestAnimationFrame(emitEvent), cancelAnimationFrame]
 
         clearTimer = () => {
           fn(timer)

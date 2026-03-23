@@ -1,26 +1,25 @@
-
 import sharp from 'sharp'
 
 import { getPngCompression, getIcoCompression } from './get-compression.js'
 
-function getRgbColor (color) {
+function getRgbColor(color) {
   let hex = color.replace(/^#/, '')
 
   if (hex.length === 3) {
-    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ]
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
   }
 
   const num = parseInt(hex, 16)
 
   return {
     r: num >> 16,
-    g: num >> 8 & 255,
+    g: (num >> 8) & 255,
     b: num & 255,
     alpha: 1
   }
 }
 
-export async function getFilesOptions ({
+export async function getFilesOptions({
   quality,
   padding,
 
@@ -37,24 +36,22 @@ export async function getFilesOptions ({
   const sharpBackground = background
     ? sharp(background).withMetadata()
     : sharp({
-      create: {
-        width: 12,
-        height: 12,
-        channels: 4,
-        background: { r: 0, g: 0, b: 0, alpha: 0 }
-      }
-    })
+        create: {
+          width: 12,
+          height: 12,
+          channels: 4,
+          background: { r: 0, g: 0, b: 0, alpha: 0 }
+        }
+      })
 
   if (opts.skipTrim !== true) {
     sharpIcon.trim()
   }
 
   const computedPadding = padding
-    ? (
-      padding.length === 1
-        ? { horiz: padding[ 0 ], vert: padding[ 0 ] }
-        : { horiz: padding[ 0 ], vert: padding[ 1 ] }
-    )
+    ? padding.length === 1
+      ? { horiz: padding[0], vert: padding[0] }
+      : { horiz: padding[0], vert: padding[1] }
     : { horiz: 0, vert: 0 }
 
   return {
@@ -66,7 +63,7 @@ export async function getFilesOptions ({
 
     compression: {
       ico: getIcoCompression(qualityLevel),
-      png: getPngCompression(qualityLevel),
+      png: getPngCompression(qualityLevel)
     },
 
     padding: computedPadding,

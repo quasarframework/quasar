@@ -2,8 +2,14 @@ import { h, ref, onUnmounted, Teleport } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { noop } from '../../utils/event/event.js'
-import { addFocusWaitFlag, removeFocusWaitFlag } from '../../utils/private.focus/focus-manager.js'
-import { createGlobalNode, removeGlobalNode } from '../../utils/private.config/nodes.js'
+import {
+  addFocusWaitFlag,
+  removeFocusWaitFlag
+} from '../../utils/private.focus/focus-manager.js'
+import {
+  createGlobalNode,
+  removeGlobalNode
+} from '../../utils/private.config/nodes.js'
 import { portalProxyList } from '../../utils/private.portal/portal.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
@@ -16,12 +22,12 @@ import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.
  */
 const QPortal = createComponent({
   name: 'QPortal',
-  setup (_, { slots }) {
+  setup(_, { slots }) {
     return () => slots.default()
   }
 })
 
-function isOnGlobalDialog (vm) {
+function isOnGlobalDialog(vm) {
   vm = vm.parent
 
   while (vm !== void 0 && vm !== null) {
@@ -41,7 +47,7 @@ function isOnGlobalDialog (vm) {
 // Warning!
 // You MUST specify "inheritAttrs: false" in your component
 
-export default function (vm, innerRef, renderPortalContent, type) {
+export default function usePortal(vm, innerRef, renderPortalContent, type) {
   // showing, including while in show/hide transition
   const portalIsActive = ref(false)
 
@@ -63,7 +69,7 @@ export default function (vm, innerRef, renderPortalContent, type) {
   const focusObj = {}
   const onGlobalDialog = type === 'dialog' && isOnGlobalDialog(vm)
 
-  function showPortal (isReady) {
+  function showPortal(isReady) {
     if (isReady === true) {
       removeFocusWaitFlag(focusObj)
       portalIsAccessible.value = true
@@ -86,7 +92,7 @@ export default function (vm, innerRef, renderPortalContent, type) {
     }
   }
 
-  function hidePortal (isReady) {
+  function hidePortal(isReady) {
     portalIsAccessible.value = false
 
     if (isReady !== true) return
@@ -106,7 +112,9 @@ export default function (vm, innerRef, renderPortalContent, type) {
     }
   }
 
-  onUnmounted(() => { hidePortal(true) })
+  onUnmounted(() => {
+    hidePortal(true)
+  })
 
   // needed for portal vm detection
   vm.proxy.__qPortal = true
@@ -121,14 +129,11 @@ export default function (vm, innerRef, renderPortalContent, type) {
     portalIsActive,
     portalIsAccessible,
 
-    renderPortal: () => (
+    renderPortal: () =>
       onGlobalDialog === true
         ? renderPortalContent()
-        : (
-            portalIsActive.value === true
-              ? [ h(Teleport, { to: portalEl }, h(QPortal, renderPortalContent)) ]
-              : void 0
-          )
-    )
+        : portalIsActive.value === true
+          ? [h(Teleport, { to: portalEl }, h(QPortal, renderPortalContent))]
+          : void 0
   }
 }

@@ -8,11 +8,11 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      showNotif () {
+      showNotif() {
         $q.notify({
           message: 'Jim pinged you.',
           color: 'purple',

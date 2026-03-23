@@ -10,26 +10,29 @@ const { log } = require('./utils/logger.js')
 const { injectStyleRules } = require('./utils/inject-style-rules.js')
 
 const { WebpackProgressPlugin } = require('./plugins/webpack.progress.js')
-const { BootDefaultExportPlugin } = require('./plugins/webpack.boot-default-export.js')
+const {
+  BootDefaultExportPlugin
+} = require('./plugins/webpack.boot-default-export.js')
 
 const cliPkgDependencies = Object.keys(cliPkg.dependencies || {})
 const nodeModulesRegex = /[\\/]node_modules[\\/]/
 
-function getDependenciesRegex (list) {
-  const deps = list.map(dep => { // eslint-disable-line array-callback-return
-    if (typeof dep === 'string') {
-      return join('node_modules', dep, '/')
-        .replace(/\\/g, '[\\\\/]') // windows support
-    }
-    if (dep instanceof RegExp) {
-      return dep.source
-    }
-  }).filter(e => e)
+function getDependenciesRegex(list) {
+  const deps = list
+    .map(dep => {
+      if (typeof dep === 'string') {
+        return join('node_modules', dep, '/').replace(/\\/g, '[\\\\/]') // windows support
+      }
+      if (dep instanceof RegExp) {
+        return dep.source
+      }
+    })
+    .filter(e => e)
 
   return new RegExp(deps.join('|'))
 }
 
-function getRawDefine (rootDefines, compileId) {
+function getRawDefine(rootDefines, compileId) {
   if (compileId === 'webpack-ssr-server') {
     return { ...rootDefines, __QUASAR_SSR_SERVER__: true }
   }
@@ -41,7 +44,10 @@ function getRawDefine (rootDefines, compileId) {
   return rootDefines
 }
 
-module.exports.createWebpackChain = async function createWebpackChain (quasarConf, { compileId, threadName }) {
+module.exports.createWebpackChain = async function createWebpackChain(
+  quasarConf,
+  { compileId, threadName }
+) {
   const { ctx } = quasarConf
   const { appPaths, cacheProxy } = ctx
 
@@ -50,7 +56,9 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   const isSsrServer = compileId === 'webpack-ssr-server'
   const { autoImport } = cacheProxy.getModule('quasarMeta')
 
-  const useFastHash = ctx.dev || [ 'electron', 'cordova', 'capacitor', 'bex' ].includes(ctx.modeName)
+  const useFastHash =
+    ctx.dev ||
+    ['electron', 'cordova', 'capacitor', 'bex'].includes(ctx.modeName)
   const fileHash = useFastHash === true ? '' : '.[contenthash:8]'
   const assetHash = useFastHash === true ? '.[hash:8]' : '.[contenthash:8]'
 
@@ -62,29 +70,30 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
 
   chain.entry('app').add(appPaths.resolve.entry('client-entry.js'))
   chain.mode(ctx.dev ? 'development' : 'production')
-  chain.devtool(quasarConf.build.sourcemap ? quasarConf.build.webpackDevtool : false)
+  chain.devtool(
+    quasarConf.build.sourcemap ? quasarConf.build.webpackDevtool : false
+  )
 
   if (ctx.prod || ctx.mode.ssr) {
     chain.output
       .path(quasarConf.build.distDir)
       .publicPath(quasarConf.build.publicPath)
-      .filename(`js/[name]${ fileHash }.js`)
-      .chunkFilename(`js/[name]${ useFastHash === true ? '' : '.[chunkhash:8]' }.js`)
+      .filename(`js/[name]${fileHash}.js`)
+      .chunkFilename(
+        `js/[name]${useFastHash === true ? '' : '.[chunkhash:8]'}.js`
+      )
   }
 
   const hasTypescript = cacheProxy.getModule('hasTypescript')
-  chain.resolve.extensions
-    .merge(
-      hasTypescript === true
-        ? [ '.mjs', '.ts', '.js', '.cjs', '.vue', '.json', '.wasm' ]
-        : [ '.mjs', '.js', '.cjs', '.vue', '.json', '.wasm' ]
-    )
+  chain.resolve.extensions.merge(
+    hasTypescript === true
+      ? ['.mjs', '.ts', '.js', '.cjs', '.vue', '.json', '.wasm']
+      : ['.mjs', '.js', '.cjs', '.vue', '.json', '.wasm']
+  )
 
-  chain.resolve.modules
-    .merge(resolveModules)
+  chain.resolve.modules.merge(resolveModules)
 
-  chain.resolve.alias
-    .merge(quasarConf.build.alias)
+  chain.resolve.alias.merge(quasarConf.build.alias)
 
   const extrasPath = cacheProxy.getModule('extrasPath')
   if (extrasPath) {
@@ -93,32 +102,33 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   }
 
   const vueFile = isSsrServer
-    ? (ctx.prod ? 'vue.cjs.prod.js' : 'vue.cjs.js')
-    : (
-        quasarConf.build.vueCompiler
-          ? 'vue.esm-bundler.js'
-          : 'vue.runtime.esm-bundler.js'
-      )
+    ? ctx.prod
+      ? 'vue.cjs.prod.js'
+      : 'vue.cjs.js'
+    : quasarConf.build.vueCompiler
+      ? 'vue.esm-bundler.js'
+      : 'vue.runtime.esm-bundler.js'
 
   chain.resolve.alias.set('vue$', 'vue/dist/' + vueFile)
 
   const vueI18nFile = isSsrServer
-    ? (ctx.prod ? 'vue-i18n.cjs.prod.js' : 'vue-i18n.cjs.js')
+    ? ctx.prod
+      ? 'vue-i18n.cjs.prod.js'
+      : 'vue-i18n.cjs.js'
     : 'vue-i18n.esm-bundler.js'
 
   chain.resolve.alias.set('vue-i18n$', 'vue-i18n/dist/' + vueI18nFile)
 
-  chain.resolveLoader.modules
-    .merge(resolveModules)
+  chain.resolveLoader.modules.merge(resolveModules)
 
   chain.module.noParse(
     /^(vue|vue-router|pinia|@quasar[\\/]extras|quasar[\\/]dist)$/
   )
 
-  const vueRule = chain.module.rule('vue')
-    .test(/\.vue$/)
+  const vueRule = chain.module.rule('vue').test(/\.vue$/)
 
-  vueRule.use('vue-auto-import-quasar')
+  vueRule
+    .use('vue-auto-import-quasar')
     .loader(join(__dirname, 'loaders/loader.vue.auto-import-quasar.js'))
     .options({
       autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
@@ -126,18 +136,18 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
       ...autoImport
     })
 
-  vueRule.use('vue-loader')
+  vueRule
+    .use('vue-loader')
     .loader('vue-loader')
     .options(
-      merge(
-        {},
-        quasarConf.build.vueLoaderOptions,
-        { isServerBuild: isSsrServer }
-      )
+      merge({}, quasarConf.build.vueLoaderOptions, {
+        isServerBuild: isSsrServer
+      })
     )
 
   if (isSsrServer === false) {
-    chain.module.rule('js-transform-quasar-imports')
+    chain.module
+      .rule('js-transform-quasar-imports')
       .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
       .loader(join(__dirname, 'loaders/loader.js.transform-quasar-imports.js'))
@@ -146,19 +156,23 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
 
   if (quasarConf.build.webpackTranspile === true) {
     const exceptionsRegex = getDependenciesRegex(
-      [ /\.vue\.js$/, isSsrServer ? 'quasar/src' : 'quasar', '@babel/runtime' ]
-        .concat(quasarConf.build.webpackTranspileDependencies)
+      [
+        /\.vue\.js$/,
+        isSsrServer ? 'quasar/src' : 'quasar',
+        '@babel/runtime'
+      ].concat(quasarConf.build.webpackTranspileDependencies)
     )
 
-    chain.module.rule('babel')
+    chain.module
+      .rule('babel')
       .test(/\.js$/)
-      .exclude
-      .add(filepath => (
-        // Transpile the exceptions:
-        exceptionsRegex.test(filepath) === false
+      .exclude.add(
+        filepath =>
+          // Transpile the exceptions:
+          exceptionsRegex.test(filepath) === false &&
           // Don't transpile anything else in node_modules:
-          && nodeModulesRegex.test(filepath)
-      ))
+          nodeModulesRegex.test(filepath)
+      )
       .end()
       .use('babel-loader')
       .loader('babel-loader')
@@ -175,14 +189,15 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
       .use('ts-loader')
       .loader('ts-loader')
       .options({
-        appendTsSuffixTo: [ /\.vue$/ ],
+        appendTsSuffixTo: [/\.vue$/],
         transpileOnly: true,
         // custom config is merged if present, but vue setup and type checking disable are always applied
         ...quasarConf.build.tsLoaderOptions
       })
   }
 
-  chain.module.rule('images')
+  chain.module
+    .rule('images')
     .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
@@ -190,10 +205,11 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     .options({
       esModule: false,
       limit: 10000,
-      name: `img/[name]${ assetHash }.[ext]`
+      name: `img/[name]${assetHash}.[ext]`
     })
 
-  chain.module.rule('fonts')
+  chain.module
+    .rule('fonts')
     .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
@@ -201,10 +217,11 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     .options({
       esModule: false,
       limit: 10000,
-      name: `fonts/[name]${ assetHash }.[ext]`
+      name: `fonts/[name]${assetHash}.[ext]`
     })
 
-  chain.module.rule('media')
+  chain.module
+    .rule('media')
     .test(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
@@ -212,7 +229,7 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     .options({
       esModule: false,
       limit: 10000,
-      name: `media/[name]${ assetHash }.[ext]`
+      name: `media/[name]${assetHash}.[ext]`
     })
 
   await injectStyleRules(chain, {
@@ -233,40 +250,37 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     .rule('mjs')
     .test(/\.mjs$/)
     .type('javascript/auto')
-    .include
-    .add(nodeModulesRegex)
+    .include.add(nodeModulesRegex)
 
-  chain.plugin('vue-loader')
-    .use(VueLoaderPlugin, [ quasarConf.build.vueLoaderOptions ])
+  chain
+    .plugin('vue-loader')
+    .use(VueLoaderPlugin, [quasarConf.build.vueLoaderOptions])
 
-  chain.plugin('define')
-    .use(webpack.DefinePlugin, [
-      getBuildSystemDefine({
-        buildEnv: quasarConf.build.env,
-        buildRawDefine: getRawDefine(quasarConf.build.rawDefine, compileId),
-        fileEnv: quasarConf.metaConf.fileEnv
-      })
-    ])
+  chain.plugin('define').use(webpack.DefinePlugin, [
+    getBuildSystemDefine({
+      buildEnv: quasarConf.build.env,
+      buildRawDefine: getRawDefine(quasarConf.build.rawDefine, compileId),
+      fileEnv: quasarConf.metaConf.fileEnv
+    })
+  ])
 
-  chain.optimization
-    .nodeEnv(false)
+  chain.optimization.nodeEnv(false)
 
   if (ctx.dev && isSsrServer === false && ctx.mode.pwa) {
     // need to place it here before the status plugin
-    const { WorkboxWarningPlugin } = require('./modes/pwa/plugin.webpack.workbox-warning.js')
-    chain.plugin('workbox-warning')
-      .use(WorkboxWarningPlugin)
+    const {
+      WorkboxWarningPlugin
+    } = require('./modes/pwa/plugin.webpack.workbox-warning.js')
+    chain.plugin('workbox-warning').use(WorkboxWarningPlugin)
   }
 
-  chain.plugin('progress')
-    .use(WebpackProgressPlugin, [ { name: threadName, quasarConf } ])
+  chain
+    .plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: threadName, quasarConf }])
 
-  chain.plugin('boot-default-export')
-    .use(BootDefaultExportPlugin)
+  chain.plugin('boot-default-export').use(BootDefaultExportPlugin)
 
-  chain.performance
-    .hints(false)
-    .maxAssetSize(500000)
+  chain.performance.hints(false).maxAssetSize(500000)
 
   if (isSsrServer === false && quasarConf.vendor.disable !== true) {
     const { add, remove } = quasarConf.vendor
@@ -278,15 +292,20 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
           chunks: 'all',
           priority: -10,
           // a module is extracted into the vendor chunk if...
-          test: add !== void 0 || remove !== void 0
-            ? module => {
-              if (module.resource) {
-                if (remove !== void 0 && remove.test(module.resource)) { return false }
-                if (add !== void 0 && add.test(module.resource)) { return true }
-              }
-              return nodeModulesRegex.test(module.resource)
-            }
-            : nodeModulesRegex
+          test:
+            add !== void 0 || remove !== void 0
+              ? module => {
+                  if (module.resource) {
+                    if (remove !== void 0 && remove.test(module.resource)) {
+                      return false
+                    }
+                    if (add !== void 0 && add.test(module.resource)) {
+                      return true
+                    }
+                  }
+                  return nodeModulesRegex.test(module.resource)
+                }
+              : nodeModulesRegex
         },
         common: {
           name: 'chunk-common',
@@ -303,16 +322,17 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   if (isSsrServer === false && quasarConf.build.extractCSS) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-    chain.plugin('mini-css-extract')
-      .use(MiniCssExtractPlugin, [ {
-        filename: `css/[name]${ fileHash }.css`
-      } ])
+    chain.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
+      {
+        filename: `css/[name]${fileHash}.css`
+      }
+    ])
   }
 
   if (
-    (ctx.prod || ctx.mode.bex)
-    && isSsrServer === false
-    && quasarConf.build.ignorePublicFolder !== true
+    (ctx.prod || ctx.mode.bex) &&
+    isSsrServer === false &&
+    quasarConf.build.ignorePublicFolder !== true
   ) {
     // copy /public to dist folder
     const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -327,25 +347,23 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     ]
 
     // avoid useless files to be copied
-    if ([ 'electron', 'cordova', 'capacitor' ].includes(ctx.modeName)) {
-      ignore.push(
-        '**/public/icons', '**/public/favicon.ico'
-      )
+    if (['electron', 'cordova', 'capacitor'].includes(ctx.modeName)) {
+      ignore.push('**/public/icons', '**/public/favicon.ico')
     }
 
-    const patterns = [ {
-      from: appPaths.resolve.app('public'),
-      noErrorOnMissing: true,
-      globOptions: { ignore }
-    } ]
+    const patterns = [
+      {
+        from: appPaths.resolve.app('public'),
+        noErrorOnMissing: true,
+        globOptions: { ignore }
+      }
+    ]
 
-    chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [ { patterns } ])
+    chain.plugin('copy-webpack').use(CopyWebpackPlugin, [{ patterns }])
   }
 
   if (ctx.dev) {
-    chain.optimization
-      .emitOnErrors(false)
+    chain.optimization.emitOnErrors(false)
 
     chain.infrastructureLogging({
       colors: true,
@@ -354,25 +372,23 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   }
   // ctx.prod
   else {
-    chain.optimization
-      .concatenateModules(ctx.mode.ssr !== true)
+    chain.optimization.concatenateModules(ctx.mode.ssr !== true)
 
     if (quasarConf.metaConf.debugging === true) {
       // reset default webpack 4 minimizer
       chain.optimization.minimizers.delete('js')
       // also:
       chain.optimization.minimize(false)
-    }
-    else if (quasarConf.build.minify) {
+    } else if (quasarConf.build.minify) {
       const TerserPlugin = require('terser-webpack-plugin')
 
-      chain.optimization
-        .minimizer('js')
-        .use(TerserPlugin, [ {
+      chain.optimization.minimizer('js').use(TerserPlugin, [
+        {
           terserOptions: quasarConf.build.uglifyOptions,
           extractComments: false,
           parallel: true
-        } ])
+        }
+      ])
     }
 
     if (isSsrServer === false) {
@@ -382,23 +398,26 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
 
         // We are using this plugin so that possible
         // duplicated CSS = require(different components) can be deduped.
-        chain.optimization
-          .minimizer('css')
-          .use(CssMinimizerPlugin, [ {
+        chain.optimization.minimizer('css').use(CssMinimizerPlugin, [
+          {
             parallel: true
-          } ])
+          }
+        ])
       }
 
       // also produce a gzipped version
       if (quasarConf.build.gzip) {
         const CompressionWebpackPlugin = require('compression-webpack-plugin')
-        chain.plugin('compress-webpack')
-          .use(CompressionWebpackPlugin, [ quasarConf.build.gzip ])
+        chain
+          .plugin('compress-webpack')
+          .use(CompressionWebpackPlugin, [quasarConf.build.gzip])
       }
 
       if (quasarConf.build.analyze) {
-        const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-        chain.plugin('bundle-analyzer')
+        const BundleAnalyzerPlugin =
+          require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+        chain
+          .plugin('bundle-analyzer')
           .use(BundleAnalyzerPlugin, [
             Object.assign({ analyzerMode: 'static' }, quasarConf.build.analyze)
           ])
@@ -418,7 +437,11 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   return chain
 }
 
-module.exports.extendWebpackChain = async function extendWebpackChain (webpackChain, quasarConf, invokeParams) {
+module.exports.extendWebpackChain = async function extendWebpackChain(
+  webpackChain,
+  quasarConf,
+  invokeParams
+) {
   const opts = {
     isClient: false,
     isServer: false,
@@ -432,7 +455,7 @@ module.exports.extendWebpackChain = async function extendWebpackChain (webpackCh
   }
 
   await appExt.runAppExtensionHook('chainWebpack', async hook => {
-    log(`Extension(${ hook.api.extId }): Chaining Webpack config`)
+    log(`Extension(${hook.api.extId}): Chaining Webpack config`)
     await hook.fn(webpackChain, invokeParams, hook.api)
   })
 
@@ -443,14 +466,17 @@ module.exports.extendWebpackChain = async function extendWebpackChain (webpackCh
   }
 
   const promise = appExt.runAppExtensionHook('extendWebpack', async hook => {
-    log(`Extension(${ hook.api.extId }): Extending Webpack config`)
+    log(`Extension(${hook.api.extId}): Extending Webpack config`)
     await hook.fn(webpackConf, opts, hook.api)
   })
 
   return promise.then(() => webpackConf)
 }
 
-module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig (quasarConf, { compileId, format }) {
+module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig(
+  quasarConf,
+  { compileId, format }
+) {
   const {
     ctx: {
       pkg: { appPkg },
@@ -458,14 +484,16 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     }
   } = quasarConf
 
-  const externalsList = cacheProxy.getRuntime('externalEsbuildParam', () => [
-    ...cliPkgDependencies,
-    ...Object.keys(appPkg.dependencies || {}),
-    ...Object.keys(appPkg.devDependencies || {})
-  ].filter(
-    // the possible imports of '#q-app/wrappers' / '@quasar/app-webpack/wrappers'
-    dep => dep !== cliPkg.name
-  ))
+  const externalsList = cacheProxy.getRuntime('externalEsbuildParam', () =>
+    [
+      ...cliPkgDependencies,
+      ...Object.keys(appPkg.dependencies || {}),
+      ...Object.keys(appPkg.devDependencies || {})
+    ].filter(
+      // the possible imports of '#q-app/wrappers' / '@quasar/app-webpack/wrappers'
+      dep => dep !== cliPkg.name
+    )
+  )
 
   const esbuildConfig = {
     platform: 'node',
@@ -477,11 +505,12 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     alias: {
       ...quasarConf.build.alias
     },
-    resolveExtensions: format === 'esm'
-      ? [ '.mjs', '.js', '.cjs', '.ts', '.json' ]
-      : [ '.cjs', '.js', '.mjs', '.ts', '.json' ],
+    resolveExtensions:
+      format === 'esm'
+        ? ['.mjs', '.js', '.cjs', '.ts', '.json']
+        : ['.cjs', '.js', '.mjs', '.ts', '.json'],
     // we use a fresh list since this can be tampered with by the user:
-    external: [ ...externalsList ],
+    external: [...externalsList],
     define: getBuildSystemDefine({
       buildEnv: quasarConf.build.env,
       buildRawDefine: quasarConf.build.rawDefine,
@@ -495,7 +524,9 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     const { warnings, errors } = quasarConf.eslint
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
-      const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
+      const {
+        quasarEsbuildESLintPlugin
+      } = require('./plugins/esbuild.eslint.js')
       esbuildConfig.plugins.push(
         await quasarEsbuildESLintPlugin(quasarConf, compileId)
       )
@@ -505,48 +536,57 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
   return esbuildConfig
 }
 
-module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
-  const esbuildConfig = {
-    platform: 'browser',
-    target: quasarConf.build.esbuildTarget.browser,
-    format: 'iife',
-    bundle: true,
-    sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
-    minify: quasarConf.build.minify !== false,
-    alias: {
-      ...quasarConf.build.alias
-    },
-    define: getBuildSystemDefine({
-      buildEnv: quasarConf.build.env,
-      buildRawDefine: quasarConf.build.rawDefine,
-      fileEnv: quasarConf.metaConf.fileEnv
-    }),
-    plugins: []
-  }
-
-  const { hasEslint, ESLint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
-  if (hasEslint === true && ESLint !== void 0) {
-    const { warnings, errors } = quasarConf.eslint
-    if (warnings === true || errors === true) {
-      // import only if actually needed (as it imports app's eslint pkg)
-      const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
-      esbuildConfig.plugins.push(
-        await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      )
+module.exports.createBrowserEsbuildConfig =
+  async function createBrowserEsbuildConfig(quasarConf, { compileId }) {
+    const esbuildConfig = {
+      platform: 'browser',
+      target: quasarConf.build.esbuildTarget.browser,
+      format: 'iife',
+      bundle: true,
+      sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
+      minify: quasarConf.build.minify !== false,
+      alias: {
+        ...quasarConf.build.alias
+      },
+      define: getBuildSystemDefine({
+        buildEnv: quasarConf.build.env,
+        buildRawDefine: quasarConf.build.rawDefine,
+        fileEnv: quasarConf.metaConf.fileEnv
+      }),
+      plugins: []
     }
+
+    const { hasEslint, ESLint } =
+      await quasarConf.ctx.cacheProxy.getModule('eslint')
+    if (hasEslint === true && ESLint !== void 0) {
+      const { warnings, errors } = quasarConf.eslint
+      if (warnings === true || errors === true) {
+        // import only if actually needed (as it imports app's eslint pkg)
+        const {
+          quasarEsbuildESLintPlugin
+        } = require('./plugins/esbuild.eslint.js')
+        esbuildConfig.plugins.push(
+          await quasarEsbuildESLintPlugin(quasarConf, compileId)
+        )
+      }
+    }
+
+    return esbuildConfig
   }
 
-  return esbuildConfig
-}
-
-module.exports.extendEsbuildConfig = function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, methodName) {
+module.exports.extendEsbuildConfig = function extendEsbuildConfig(
+  esbuildConf,
+  quasarConfTarget,
+  ctx,
+  methodName
+) {
   // example: quasarConf.ssr.extendSSRWebserverConf
-  if (typeof quasarConfTarget[ methodName ] === 'function') {
-    quasarConfTarget[ methodName ](esbuildConf)
+  if (typeof quasarConfTarget[methodName] === 'function') {
+    quasarConfTarget[methodName](esbuildConf)
   }
 
   const promise = ctx.appExt.runAppExtensionHook(methodName, async hook => {
-    log(`Extension(${ hook.api.extId }): Running "${ methodName }(esbuildConf)"`)
+    log(`Extension(${hook.api.extId}): Running "${methodName}(esbuildConf)"`)
     await hook.fn(esbuildConf, hook.api)
   })
 

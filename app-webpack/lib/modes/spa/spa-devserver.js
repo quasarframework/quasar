@@ -6,18 +6,22 @@ const { AppDevserver } = require('../../app-devserver.js')
 const { openBrowser } = require('../../utils/open-browser.js')
 const { quasarSpaConfig } = require('./spa-config.js')
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends (
+  AppDevserver
+) {
   #server = null
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('webpack', quasarConf)) {
-      return queue(() => this.#runWebpack(quasarConf, diff('webpackUrl', quasarConf)))
+      return queue(() =>
+        this.#runWebpack(quasarConf, diff('webpackUrl', quasarConf))
+      )
     }
   }
 
-  async #runWebpack (quasarConf, urlDiffers) {
+  async #runWebpack(quasarConf, urlDiffers) {
     if (this.#server !== null) {
       await this.#server.stop()
       this.#server = null
@@ -52,7 +56,10 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
       // start building & launch server
       // deep clone to avoid webpack-dev-server mutating the original config which causes double compilation
-      this.#server = new WebpackDevServer(cloneDeep(quasarConf.devServer), compiler)
+      this.#server = new WebpackDevServer(
+        cloneDeep(quasarConf.devServer),
+        compiler
+      )
       this.#server.start()
     })
   }

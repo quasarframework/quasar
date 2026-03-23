@@ -12,7 +12,7 @@
       "type": {
         "type": "String",
         "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-        "examples": [ "'negative'", "'custom-type'" ]
+        "examples": ["'negative'", "'custom-type'"]
       },
 
       "color": {
@@ -26,13 +26,13 @@
       "message": {
         "type": "String",
         "desc": "The content of your message",
-        "examples": [ "'John Doe pinged you'" ]
+        "examples": ["'John Doe pinged you'"]
       },
 
       "caption": {
         "type": "String",
         "desc": "The content of your optional caption",
-        "examples": [ "'5 minutes ago'" ]
+        "examples": ["'5 minutes ago'"]
       },
 
       "html": {
@@ -65,10 +65,10 @@
       },
 
       "spinner": {
-        "type": [ "Boolean", "Component" ],
-        "configFileType": [ "Boolean", "String" ],
+        "type": ["Boolean", "Component"],
+        "configFileType": ["Boolean", "String"],
         "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-        "examples": [ "true", "QSpinnerBars" ]
+        "examples": ["true", "QSpinnerBars"]
       },
 
       "spinnerColor": {
@@ -86,17 +86,23 @@
         "desc": "Window side/corner to stick to",
         "default": "'bottom'",
         "values": [
-          "'top-left'", "'top-right'",
-          "'bottom-left'", "'bottom-right'",
-          "'top'", "'bottom'", "'left'", "'right'", "'center'"
+          "'top-left'",
+          "'top-right'",
+          "'bottom-left'",
+          "'bottom-right'",
+          "'top'",
+          "'bottom'",
+          "'left'",
+          "'right'",
+          "'center'"
         ]
       },
 
       "group": {
-        "type": [ "Boolean", "String", "Number" ],
+        "type": ["Boolean", "String", "Number"],
         "desc": "Override the auto generated group with custom one; Grouped notifications cannot be updated; String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
         "default": "# message + caption + multiline + actions labels + position",
-        "examples": [ "'my-group'" ]
+        "examples": ["'my-group'"]
       },
 
       "badgeColor": {
@@ -112,12 +118,14 @@
         "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
         "default": "# top-left/top-right",
         "values": [
-          "'top-left'", "'top-right'",
-          "'bottom-left'", "'bottom-right'"
+          "'top-left'",
+          "'top-right'",
+          "'bottom-left'",
+          "'bottom-right'"
         ]
       },
       "badgeStyle": {
-        "type": [ "String", "Array", "Object" ],
+        "type": ["String", "Array", "Object"],
         "tsType": "VueStyleProp",
         "desc": "Style definitions to be attributed to the badge",
         "examples": [
@@ -126,13 +134,10 @@
         ]
       },
       "badgeClass": {
-        "type": [ "String", "Array", "Object" ],
+        "type": ["String", "Array", "Object"],
         "tsType": "VueClassProp",
         "desc": "Class definitions to be attributed to the badge",
-        "examples": [
-          "'my-special-class'",
-          "{ 'my-special-class': true }"
-        ]
+        "examples": ["'my-special-class'", "{ 'my-special-class': true }"]
       },
 
       "progress": {
@@ -140,26 +145,23 @@
         "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
       },
       "progressClass": {
-        "type": [ "String", "Array", "Object" ],
+        "type": ["String", "Array", "Object"],
         "tsType": "VueClassProp",
         "desc": "Class definitions to be attributed to the progress bar",
-        "examples": [
-          "'my-special-class'",
-          "{ 'my-special-class': true }"
-        ]
+        "examples": ["'my-special-class'", "{ 'my-special-class': true }"]
       },
 
       "classes": {
         "type": "String",
         "desc": "Add CSS class(es) to the notification for easier customization",
-        "examples": [ "'my-notif-class'" ]
+        "examples": ["'my-notif-class'"]
       },
 
       "attrs": {
         "type": "Object",
         "desc": "Key-value for attributes to be set on the notification",
-        "examples": [ "{ role: 'alertdialog' }" ],
-        "__exemption": [ "definition" ]
+        "examples": ["{ role: 'alertdialog' }"],
+        "__exemption": ["definition"]
       },
 
       "timeout": {
@@ -179,7 +181,7 @@
             "desc": "Function to be executed when the button is clicked/tapped",
             "params": null,
             "returns": null,
-            "examples": [ "() => { console.log('button clicked') }" ]
+            "examples": ["() => { console.log('button clicked') }"]
           },
           "noDismiss": {
             "type": "Boolean",
@@ -188,10 +190,12 @@
           "...": {
             "type": "Any",
             "desc": "Any other QBtn prop except 'onClick' (use 'handler' instead, only possible with UI config)",
-            "examples": [ "label: 'Learn more'", "color: 'primary'" ]
+            "examples": ["label: 'Learn more'", "color: 'primary'"]
           }
         },
-        "examples": [ "[ { label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} } ]" ]
+        "examples": [
+          "[{ label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} }]"
+        ]
       },
 
       "onDismiss": {
@@ -200,13 +204,13 @@
         "desc": "Function to call when notification gets dismissed",
         "params": null,
         "returns": null,
-        "examples": [ "() => { console.log('Dismissed') }" ]
+        "examples": ["() => { console.log('Dismissed') }"]
       },
 
       "closeBtn": {
-        "type": [ "Boolean", "String" ],
+        "type": ["Boolean", "String"],
         "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label according to the current Quasar language",
-        "examples": [ "'Close me'" ]
+        "examples": ["'Close me'"]
       },
 
       "multiLine": {
@@ -222,7 +226,7 @@
       "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
-          "type": [ "Object", "String" ],
+          "type": ["Object", "String"],
           "tsType": "QNotifyCreateOptions",
           "autoDefineTsType": true,
           "required": true,
@@ -231,7 +235,7 @@
             "type": {
               "type": "String",
               "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-              "examples": [ "'negative'", "'custom-type'" ]
+              "examples": ["'negative'", "'custom-type'"]
             },
 
             "color": {
@@ -245,13 +249,13 @@
             "message": {
               "type": "String",
               "desc": "The content of your message",
-              "examples": [ "'John Doe pinged you'" ]
+              "examples": ["'John Doe pinged you'"]
             },
 
             "caption": {
               "type": "String",
               "desc": "The content of your optional caption",
-              "examples": [ "'5 minutes ago'" ]
+              "examples": ["'5 minutes ago'"]
             },
 
             "html": {
@@ -284,9 +288,9 @@
             },
 
             "spinner": {
-              "type": [ "Boolean", "Component" ],
+              "type": ["Boolean", "Component"],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "examples": [ "true", "QSpinnerBars" ]
+              "examples": ["true", "QSpinnerBars"]
             },
 
             "spinnerColor": {
@@ -304,17 +308,23 @@
               "desc": "Window side/corner to stick to",
               "default": "'bottom'",
               "values": [
-                "'top-left'", "'top-right'",
-                "'bottom-left'", "'bottom-right'",
-                "'top'", "'bottom'", "'left'", "'right'", "'center'"
+                "'top-left'",
+                "'top-right'",
+                "'bottom-left'",
+                "'bottom-right'",
+                "'top'",
+                "'bottom'",
+                "'left'",
+                "'right'",
+                "'center'"
               ]
             },
 
             "group": {
-              "type": [ "Boolean", "String", "Number" ],
+              "type": ["Boolean", "String", "Number"],
               "desc": "Override the auto generated group with custom one; Grouped notifications cannot be updated; String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
               "default": "# message + caption + multiline + actions labels + position",
-              "examples": [ "'my-group'" ]
+              "examples": ["'my-group'"]
             },
 
             "badgeColor": {
@@ -330,12 +340,14 @@
               "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
               "default": "# top-left/top-right",
               "values": [
-                "'top-left'", "'top-right'",
-                "'bottom-left'", "'bottom-right'"
+                "'top-left'",
+                "'top-right'",
+                "'bottom-left'",
+                "'bottom-right'"
               ]
             },
             "badgeStyle": {
-              "type": [ "String", "Array", "Object" ],
+              "type": ["String", "Array", "Object"],
               "tsType": "VueStyleProp",
               "desc": "Style definitions to be attributed to the badge",
               "examples": [
@@ -344,13 +356,10 @@
               ]
             },
             "badgeClass": {
-              "type": [ "String", "Array", "Object" ],
+              "type": ["String", "Array", "Object"],
               "tsType": "VueClassProp",
               "desc": "Class definitions to be attributed to the badge",
-              "examples": [
-                "'my-special-class'",
-                "{ 'my-special-class': true }"
-              ]
+              "examples": ["'my-special-class'", "{ 'my-special-class': true }"]
             },
 
             "progress": {
@@ -358,33 +367,30 @@
               "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
             },
             "progressClass": {
-              "type": [ "String", "Array", "Object" ],
+              "type": ["String", "Array", "Object"],
               "tsType": "VueClassProp",
               "desc": "Class definitions to be attributed to the progress bar",
-              "examples": [
-                "'my-special-class'",
-                "{ 'my-special-class': true }"
-              ]
+              "examples": ["'my-special-class'", "{ 'my-special-class': true }"]
             },
 
             "classes": {
               "type": "String",
               "desc": "Add CSS class(es) to the notification for easier customization",
-              "examples": [ "'my-notif-class'" ]
+              "examples": ["'my-notif-class'"]
             },
 
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ]
+              "examples": ["{ role: 'alertdialog' }"],
+              "__exemption": ["definition"]
             },
 
             "timeout": {
               "type": "Number",
               "desc": "Amount of time to display (in milliseconds). Set to 0 to never dismiss automatically.",
               "default": "5000",
-              "examples": [ "2500" ]
+              "examples": ["2500"]
             },
 
             "actions": {
@@ -397,7 +403,7 @@
                   "desc": "Function to be executed when the button is clicked/tapped",
                   "params": null,
                   "returns": null,
-                  "examples": [ "() => { console.log('button clicked') }" ]
+                  "examples": ["() => { console.log('button clicked') }"]
                 },
                 "noDismiss": {
                   "type": "Boolean",
@@ -406,10 +412,12 @@
                 "...": {
                   "type": "Any",
                   "desc": "Any other QBtn prop except 'onClick' (use 'handler' instead)",
-                  "examples": [ "label: 'Learn more'", "color: 'primary'" ]
+                  "examples": ["label: 'Learn more'", "color: 'primary'"]
                 }
               },
-              "examples": [ "[ { label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} } ]" ]
+              "examples": [
+                "[{ label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} }]"
+              ]
             },
 
             "onDismiss": {
@@ -417,13 +425,13 @@
               "desc": "Function to call when notification gets dismissed",
               "params": null,
               "returns": null,
-              "examples": [ "() => { console.log('Dismissed') }" ]
+              "examples": ["() => { console.log('Dismissed') }"]
             },
 
             "closeBtn": {
-              "type": [ "Boolean", "String" ],
+              "type": ["Boolean", "String"],
               "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label according to the current Quasar language",
-              "examples": [ "'Close me'" ]
+              "examples": ["'Close me'"]
             },
 
             "multiLine": {
@@ -447,7 +455,7 @@
             "tsType": "QNotifyUpdateOptions",
             "required": false,
             "desc": "Notification properties that will be shallow merged to previous ones in order to update the non-grouped notification; (See 'opts' param of 'create()' for object properties, except 'group' and 'position')",
-            "__exemption": [ "definition" ]
+            "__exemption": ["definition"]
           }
         },
         "returns": null
@@ -462,7 +470,7 @@
           "tsType": "QNotifyOptions",
           "required": true,
           "desc": "Notification options except 'ignoreDefaults' (See 'opts' param of 'create()' for object properties)",
-          "__exemption": [ "definition" ]
+          "__exemption": ["definition"]
         }
       },
       "returns": null
@@ -475,7 +483,7 @@
           "type": "String",
           "required": true,
           "desc": "Name of the type (to be used as 'type' prop later on)",
-          "examples": [ "'my-type'" ]
+          "examples": ["'my-type'"]
         },
 
         "typeOpts": {
@@ -483,7 +491,7 @@
           "tsType": "QNotifyOptions",
           "required": true,
           "desc": "Notification options except 'ignoreDefaults' (See 'opts' param of 'create()' for object properties)",
-          "__exemption": [ "definition" ]
+          "__exemption": ["definition"]
         }
       },
       "returns": null

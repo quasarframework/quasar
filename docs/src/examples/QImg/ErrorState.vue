@@ -17,9 +17,7 @@
       style="height: 140px; max-width: 150px"
     >
       <template v-slot:error>
-        <div class="absolute-full flex flex-center">
-          Error encountered
-        </div>
+        <div class="absolute-full flex flex-center"> Error encountered </div>
       </template>
     </q-img>
   </div>
@@ -29,13 +27,14 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const url = ref('https://cdn.quasar.dev/img/no-image-src.png')
 
     return {
       url,
-      refresh () {
-        url.value = 'https://cdn.quasar.dev/img/no-image-src.png?t=' + Math.random()
+      refresh() {
+        url.value =
+          'https://cdn.quasar.dev/img/no-image-src.png?t=' + Math.random()
       }
     }
   }

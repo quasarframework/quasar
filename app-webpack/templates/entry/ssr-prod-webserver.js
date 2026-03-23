@@ -20,10 +20,9 @@ const port = process.env.PORT || <%= ssr.prodPort %>
 const doubleSlashRE = /\/\//g
 const publicPath = `<%= build.publicPath %>`
 // backward compat (Express v5 vs v4):
-const convertStarPath = url => (url === '*' ? '{*path}' : url)
 const resolveUrlPath = publicPath === '/'
-  ? url => convertStarPath(url) || '/'
-  : url => url ? (publicPath + convertStarPath(url)).replace(doubleSlashRE, '/') : publicPath
+  ? url => url || '/'
+  : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
 const rootFolder = __dirname
 const publicFolder = join(__dirname, 'client')

@@ -34,7 +34,10 @@ export interface QuasarCordovaConfiguration {
    * @default: [ 'build', '--debug'/'--release', '--device', 'ios'/'android' ]
    * @example: ({ isDebug, target }) => [ 'build', `--${isDebug ? 'debug' : 'release'}`, '--device', 'target' ]
    */
-  getCordovaBuildParams?: (context: { debug: boolean; target: 'ios' | 'android' }) => string[];
+  getCordovaBuildParams?: (context: {
+    debug: boolean;
+    target: "ios" | "android";
+  }) => string[];
 
   /**
    * Function to return the Cordova output folder after the "cordova build"
@@ -67,5 +70,8 @@ export interface QuasarCordovaConfiguration {
    *       }
    *    }
    */
-  getCordovaBuildOutputFolder?: (context: { debug: boolean; target: 'ios' | 'android' }) => string | string[] | undefined;
+  getCordovaBuildOutputFolder?: (context: {
+    debug: boolean;
+    target: "ios" | "android";
+  }) => string | string[] | undefined;
 }

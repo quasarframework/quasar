@@ -23,8 +23,8 @@
  * @param {string} id
  * @returns {{ filename: string; query: { [key: string]: string; }; is: ViteQueryIs }}
  */
-export function parseViteRequest (id) {
-  const [ filename, rawQuery ] = id.split('?', 2)
+export function parseViteRequest(id) {
+  const [filename, rawQuery] = id.split('?', 2)
   const query = Object.fromEntries(new URLSearchParams(rawQuery))
 
   if (query.raw !== void 0) {
@@ -38,23 +38,25 @@ export function parseViteRequest (id) {
 
   return query.vue !== void 0 // is vue query?
     ? {
-        template: () => (
-          query.type === void 0
-          || query.type === 'template'
+        template: () =>
+          query.type === void 0 ||
+          query.type === 'template' ||
           // On prod, TS code turns into a separate 'script' request.
           // See: https://github.com/vitejs/vite/pull/7909
-          || (query.type === 'script' && (query[ 'lang.ts' ] !== void 0 || query[ 'lang.tsx' ] !== void 0))
-        ),
+          (query.type === 'script' &&
+            (query['lang.ts'] !== void 0 || query['lang.tsx'] !== void 0)),
 
-        script: matcher => (
-          (query.type === void 0 || query.type === 'script')
-          && matcher.extensionsList.some(ext => query[ `lang.${ ext }` ] !== void 0) === true
-        ),
+        script: matcher =>
+          (query.type === void 0 || query.type === 'script') &&
+          matcher.extensionsList.some(
+            ext => query[`lang.${ext}`] !== void 0
+          ) === true,
 
-        style: matcher => (
-          query.type === 'style'
-          && matcher.extensionsList.some(ext => query[ `lang.${ ext }` ] !== void 0) === true
-        )
+        style: matcher =>
+          query.type === 'style' &&
+          matcher.extensionsList.some(
+            ext => query[`lang.${ext}`] !== void 0
+          ) === true
       }
     : {
         template: matcher => matcher.filenameRegex.test(filename),
@@ -63,9 +65,9 @@ export function parseViteRequest (id) {
       }
 }
 
-export function createExtMatcher (extensionsList) {
+export function createExtMatcher(extensionsList) {
   return {
     extensionsList,
-    filenameRegex: new RegExp(`\\.(${ extensionsList.join('|') })$`)
+    filenameRegex: new RegExp(`\\.(${extensionsList.join('|')})$`)
   }
 }

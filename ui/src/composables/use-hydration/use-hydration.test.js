@@ -11,16 +11,14 @@ describe('[useHydration API]', () => {
         const wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const result = useHydration()
               return { result }
             }
           })
         )
 
-        expect(
-          wrapper.vm.result.isHydrated
-        ).$ref(true)
+        expect(wrapper.vm.result.isHydrated).$ref(true)
       })
     })
   })

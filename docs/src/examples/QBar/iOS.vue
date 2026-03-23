@@ -25,10 +25,14 @@
 </template>
 
 <script>
-import { fasSignal, fasWifi, fasBatteryFull } from '@quasar/extras/fontawesome-v6'
+import {
+  fasSignal,
+  fasWifi,
+  fasBatteryFull
+} from '@quasar/extras/fontawesome-v6'
 
 export default {
-  setup () {
+  setup() {
     return {
       fasSignal,
       fasWifi,

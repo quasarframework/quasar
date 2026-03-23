@@ -47,7 +47,11 @@
 
         <q-separator />
 
-        <q-tab-panels v-model="tab" animated class="bg-orange-1 text-dark text-center">
+        <q-tab-panels
+          v-model="tab"
+          animated
+          class="bg-orange-1 text-dark text-center"
+        >
           <q-tab-panel name="mails">
             <div class="text-h6">Mails</div>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -72,7 +76,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       tab: ref('mails')
     }

@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      flat bordered
+      flat
+      bordered
       ref="tableRef"
       title="Treats"
       :rows="rows"
@@ -13,9 +14,7 @@
       @selection="onSelection"
     />
 
-    <div class="q-mt-md">
-      Selected: {{ JSON.stringify(selected) }}
-    </div>
+    <div class="q-mt-md"> Selected: {{ JSON.stringify(selected) }} </div>
   </div>
 </template>
 
@@ -33,13 +32,31 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const rows = [
@@ -146,7 +163,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     const selected = ref([])
@@ -161,14 +178,16 @@ export default {
       columns,
       rows,
 
-      getSelectedString () {
-        return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
+      getSelectedString() {
+        return selected.value.length === 0
+          ? ''
+          : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
       },
 
-      onSelection ({ rows, added, evt }) {
-        if (rows.length === 0 || tableRef.value === void 0) return
+      onSelection({ rows: rowsList, added, evt }) {
+        if (rowsList.length === 0 || tableRef.value === void 0) return
 
-        const row = rows[ 0 ]
+        const row = rowsList[0]
         const filteredSortedRows = tableRef.value.filteredSortedRows
         const rowIndex = filteredSortedRows.indexOf(row)
         const localLastIndex = lastIndex.value
@@ -178,25 +197,30 @@ export default {
 
         if ($q.platform.is.mobile === true) {
           evt = { ctrlKey: true }
-        }
-        else if (evt !== Object(evt) || (evt.shiftKey !== true && evt.ctrlKey !== true)) {
-          selected.value = added === true ? rows : []
+        } else if (
+          evt !== Object(evt) ||
+          (evt.shiftKey !== true && evt.ctrlKey !== true)
+        ) {
+          selected.value = added === true ? rowsList : []
           return
         }
 
-        const operateSelection = added === true
-          ? selRow => {
-            const selectedIndex = selected.value.indexOf(selRow)
-            if (selectedIndex === -1) {
-              selected.value = selected.value.concat(selRow)
-            }
-          }
-          : selRow => {
-            const selectedIndex = selected.value.indexOf(selRow)
-            if (selectedIndex > -1) {
-              selected.value = selected.value.slice(0, selectedIndex).concat(selected.value.slice(selectedIndex + 1))
-            }
-          }
+        const operateSelection =
+          added === true
+            ? selRow => {
+                const selectedIndex = selected.value.indexOf(selRow)
+                if (selectedIndex === -1) {
+                  selected.value = selected.value.concat(selRow)
+                }
+              }
+            : selRow => {
+                const selectedIndex = selected.value.indexOf(selRow)
+                if (selectedIndex > -1) {
+                  selected.value = selected.value
+                    .slice(0, selectedIndex)
+                    .concat(selected.value.slice(selectedIndex + 1))
+                }
+              }
 
         if (localLastIndex === null || evt.shiftKey !== true) {
           operateSelection(row)
@@ -206,7 +230,7 @@ export default {
         const from = localLastIndex < rowIndex ? localLastIndex : rowIndex
         const to = localLastIndex < rowIndex ? rowIndex : localLastIndex
         for (let i = from; i <= to; i += 1) {
-          operateSelection(filteredSortedRows[ i ])
+          operateSelection(filteredSortedRows[i])
         }
       }
     }

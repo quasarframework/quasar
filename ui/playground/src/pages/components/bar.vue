@@ -96,7 +96,7 @@
 <script>
 export default {
   methods: {
-    onClick (evt) {
+    onClick(evt) {
       console.log(evt)
     }
   }

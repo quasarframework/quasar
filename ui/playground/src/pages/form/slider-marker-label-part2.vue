@@ -1,12 +1,6 @@
 <template>
   <div class="q-px-lg q-pt-md q-pb-xl">
-    <q-slider
-      v-model="model"
-      markers
-      marker-labels
-      :min="0"
-      :max="10"
-    />
+    <q-slider v-model="model" markers marker-labels :min="0" :max="10" />
 
     <q-slider
       class="q-mt-xl"
@@ -44,10 +38,10 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(2),
-      fnMarkerLabel: val => (10 * val) + '%',
+      fnMarkerLabel: val => 10 * val + '%',
       objMarkerLabel: { 0: '0°C', 3: { label: '3°C' }, 5: '5°C', 10: '10°C' },
 
       priceModel: ref(5),

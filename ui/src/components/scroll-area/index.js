@@ -1,5 +1,3 @@
 import QScrollArea from './QScrollArea.js'
 
-export {
-  QScrollArea
-}
+export { QScrollArea }

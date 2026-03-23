@@ -7,6 +7,7 @@ related:
   - /vue-components/range
   - /vue-components/field
 ---
+
 The QSlider is a great way for the user to specify a number value between a minimum and maximum value, with optional steps between valid values. The slider also has a focus indicator (highlighted slider button), which allows for keyboard adjustments of the slider.
 
 Also check its “sibling”, the [QRange](/vue-components/range) component.

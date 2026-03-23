@@ -4,6 +4,7 @@ desc: How to use and customize the Quasar Color Palette.
 related:
   - quasar-utils/color-utils
 ---
+
 Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.
 
 <DocApi file="Brand" />
@@ -11,6 +12,7 @@ Quasar Framework offers a wide selection of colors out of the box. You can use t
 <DocInstallation title="Configuration" config="brand" />
 
 ## Brand Colors
+
 Most of the colors that Quasar Components use are strongly linked with these eight colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
 
 <script doc>
@@ -34,6 +36,7 @@ import ColorList from './ColorList.vue'
 <ColorList />
 
 ## Using as CSS Classes
+
 Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background.
 
 ```html
@@ -51,23 +54,24 @@ In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and 
 ```html
 <!-- Notice lang="sass" -->
 <style lang="sass">
-div
-  color: $red-1
-  background-color: $grey-5
+  div
+    color: $red-1
+    background-color: $grey-5
 </style>
 ```
 
 ```html
 <!-- Notice lang="scss" -->
 <style lang="scss">
-div {
-  color: $red-1;
-  background-color: $grey-5;
-}
+  div {
+    color: $red-1;
+    background-color: $grey-5;
+  }
 </style>
 ```
 
 ## Adding Your Own Colors
+
 If you want to use your own colors for your components (let's say we are adding a color named "brand") all you need to do is add the following CSS into your app:
 
 ```css
@@ -80,6 +84,7 @@ If you want to use your own colors for your components (let's say we are adding 
 ```
 
 Now we can use this color for Quasar components:
+
 ```html
 <q-btn color="brand" ... />
 ```
@@ -104,11 +109,11 @@ More info on CSS custom properties (variables) on [MDN](https://developer.mozill
 
 Quasar offers a helper function for setting Quasar CSS variables that can be used for the brand colors too: `setCssVar(colorName, colorValue[, element])`
 
-| Parameter | Type | Required | Description |
-| --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
-| `colorValue` | String | *Yes* | Valid CSS color value |
-| `element` | Element | - | (Default: `document.body`) Element where the custom property will be set. |
+| Parameter    | Type    | Required | Description                                                                                |
+| ------------ | ------- | -------- | ------------------------------------------------------------------------------------------ |
+| `colorName`  | String  | _Yes_    | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
+| `colorValue` | String  | _Yes_    | Valid CSS color value                                                                      |
+| `element`    | Element | -        | (Default: `document.body`) Element where the custom property will be set.                  |
 
 Example of setting brand colors using the helper:
 
@@ -131,10 +136,10 @@ document.body.style.setProperty('--q-primary', '#0273d4')
 
 Quasar offers a helper function for getting the value of Quasar CSS variables that can be used for brand colors too: `getCssVar(colorName[, element])`
 
-| Parameter | Type | Required | Description |
-| --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
-| `element` | Element | - | (Default: `document.body`) Element where the custom property will be read. |
+| Parameter   | Type    | Required | Description                                                                                |
+| ----------- | ------- | -------- | ------------------------------------------------------------------------------------------ |
+| `colorName` | String  | _Yes_    | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
+| `element`   | Element | -        | (Default: `document.body`) Element where the custom property will be read.                 |
 
 Example of getting brand colors using the helper:
 
@@ -149,8 +154,7 @@ What this helper does is wrap the raw JavaScript `getPropertyValue()` and it's a
 
 ```js
 // equivalent of getCssVar('primary') in raw JavaScript:
-getComputedStyle(document.documentElement)
-  .getPropertyValue('--q-primary') // #0273d4
+getComputedStyle(document.documentElement).getPropertyValue('--q-primary') // #0273d4
 ```
 
 ### More color utils

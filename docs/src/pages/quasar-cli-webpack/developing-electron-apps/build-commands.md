@@ -4,6 +4,7 @@ desc: (@quasar/app-webpack) The Quasar CLI list of commands when developing or b
 ---
 
 ## Developing
+
 ```bash
 $ quasar dev -m electron
 
@@ -22,12 +23,15 @@ It opens up an Electron window with dev-tools included. You have HMR for the ren
 Check how you can tweak Esbuild config Object for the Main Process and the Preload script on the [Configuring Electron](/quasar-cli-webpack/developing-electron-apps/configuring-electron) page.
 
 ### Chrome DevTools
+
 While in dev mode, hit the following combination (while your app window has focus):
+
 - macOS: <kbd>Cmd</kbd> <kbd>Alt</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 - Linux: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 - Windows: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 
 ### Vuejs Devtools
+
 Should you want to also access Vue Devtools for the renderer thread:
 
 ```bash
@@ -35,6 +39,7 @@ $ quasar dev -m electron --devtools
 ```
 
 ## Building for Production
+
 ```bash
 $ quasar build -m electron
 
@@ -54,9 +59,11 @@ $ quasar build -m electron --debug
 ```
 
 ### A note for non-Windows users
+
 If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).
 
 ## Publishing (electron-builder only)
+
 ```bash
 $ quasar build -m electron -P always
 

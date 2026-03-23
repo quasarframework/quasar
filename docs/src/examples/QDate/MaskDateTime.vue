@@ -1,9 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-badge color="teal">
-        Model: {{ model }}
-      </q-badge>
+      <q-badge color="teal"> Model: {{ model }} </q-badge>
       <q-badge color="purple" text-color="white" class="q-ma-md">
         Mask: YYYY-MM-DD HH:mm
       </q-badge>
@@ -20,7 +18,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref('2019-02-22 21:02')
     }

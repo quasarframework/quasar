@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <div class="q-mb-md">
-      Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong>"
+      Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong
+      >"
     </div>
 
     <q-markup-table flat bordered dense>
@@ -16,7 +17,9 @@
         <tr
           v-for="(value, prop) in $q.platform.is"
           :key="prop"
-          :class="value ? 'text-weight-bold platform-detection--row-highlight' : ''"
+          :class="
+            value ? 'text-weight-bold platform-detection--row-highlight' : ''
+          "
         >
           <td>{{ prop }}</td>
           <td>{{ value }}</td>
@@ -25,7 +28,8 @@
     </q-markup-table>
 
     <div class="q-mt-md">
-      The device which you are using to view this website <strong>{{ touch }}</strong> touch capability.
+      The device which you are using to view this website
+      <strong>{{ touch }}</strong> touch capability.
     </div>
   </div>
 </template>
@@ -35,11 +39,11 @@ import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      touch: computed(() => $q.platform.has.touch ? 'has' : 'does not have')
+      touch: computed(() => ($q.platform.has.touch ? 'has' : 'does not have'))
     }
   }
 }

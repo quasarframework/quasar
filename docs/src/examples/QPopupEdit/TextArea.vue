@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-   <q-table
+    <q-table
       :rows="rows"
       :columns="columns"
       title="QDataTable with QPopupEdit"
@@ -16,11 +16,7 @@
 
           <q-td key="comment" :props="props">
             <div>{{ props.row.comment }}</div>
-            <q-popup-edit
-              buttons
-              v-model="props.row.comment"
-              v-slot="scope"
-            >
+            <q-popup-edit buttons v-model="props.row.comment" v-slot="scope">
               <q-input
                 type="textarea"
                 v-model="scope.value"
@@ -48,8 +44,20 @@
 import { ref } from 'vue'
 
 const columns = [
-  { name: 'desc', style: 'min-width: 160px; width: 160px', align: 'left', label: 'Dessert', field: 'name' },
-  { name: 'comment', style: 'min-width: 200px; width: 200px', align: 'left', label: 'Comment (editable)', field: 'comment' },
+  {
+    name: 'desc',
+    style: 'min-width: 160px; width: 160px',
+    align: 'left',
+    label: 'Dessert',
+    field: 'name'
+  },
+  {
+    name: 'comment',
+    style: 'min-width: 200px; width: 200px',
+    align: 'left',
+    label: 'Comment (editable)',
+    field: 'comment'
+  },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
   { name: 'fat', label: 'Fat (g)', field: 'fat' }
 ]
@@ -128,7 +136,7 @@ Have a section to perfection!`,
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       rows: ref(rows),
       columns

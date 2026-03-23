@@ -18,14 +18,16 @@ Essentially QPageScroller is very similar to QPageSticky. Whereas a QPageSticky 
 <DocApi file="QPageScroller" />
 
 ## Usage
+
 ::: tip
 Since QPageScroller needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageScroller.
 :::
 
 ::: warning
-* In order for QPageScroller to work, it must be placed within a QLayout component.
-* QPageScroller must be the last child element within its parent, so it can display on top of other content
-:::
+
+- In order for QPageScroller to work, it must be placed within a QLayout component.
+- QPageScroller must be the last child element within its parent, so it can display on top of other content
+  :::
 
 ### Basic
 

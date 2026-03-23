@@ -15,14 +15,16 @@ export default {
     search: 'ស្វែងរក',
     filter: 'ច្រោះ',
     refresh: 'ធ្វើឲ្យថ្មី',
-    expand: label => (label ? `ពង្រីក "${ label }"` : 'ពង្រីក'),
-    collapse: label => (label ? `បង្រួម "${ label }"` : 'ដួលរលំ')
+    expand: label => (label ? `ពង្រីក "${label}"` : 'ពង្រីក'),
+    collapse: label => (label ? `បង្រួម "${label}"` : 'ដួលរលំ')
   },
   date: {
     days: 'អាទិត្យ_ចន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍'.split('_'),
     daysShort: 'អទ_ចន_អង_ពុ_ព្រ_សុ_សរ'.split('_'),
     months: 'មករា_កុម្ភៈ_មីនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ'.split('_'),
-    monthsShort: 'មករា_កុម្ភៈ_មីនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ'.split('_'),
+    monthsShort: 'មករា_កុម្ភៈ_មីនា_មេសា_ឧសភា_មិថុនា_កក្កដា_សីហា_កញ្ញា_តុលា_វិច្ឆិកា_ធ្នូ'.split(
+      '_'
+    ),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'ថ្ងៃ',
@@ -31,18 +33,17 @@ export default {
     prevYear: 'ឆ្នាំមុន',
     nextYear: 'ឆ្នាំក្រោយ',
     today: 'ថ្ងៃនេះ',
-    prevRangeYears: range => `មុន ${ range } ឆ្នាំ`,
-    nextRangeYears: range => `បន្ទាប់ ${ range } ឆ្នាំ`
+    prevRangeYears: range => `មុន ${range} ឆ្នាំ`,
+    nextRangeYears: range => `បន្ទាប់ ${range} ឆ្នាំ`
   },
   table: {
     noData: 'គ្មានទិន្ន័យ',
     noResults: 'គ្មានទិន្ន័យដូច',
     loading: 'កំពុងផ្ទេរទិន្នន័យ...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 ជួរដេកត្រូវបានជ្រើសរើស'
-        : (rows === 0 ? 'មិនមាន' : rows) + ' ជួរដេកត្រូវបានជ្រើសរើស'
-    ),
+        : (rows === 0 ? 'មិនមាន' : rows) + ' ជួរដេកត្រូវបានជ្រើសរើស',
     recordsPerPage: 'ជួរដេកក្នុងមួយទំព័រ:',
     allRows: 'ទាំងអស់',
     pagination: (start, end, total) => start + '-' + end + ' នៃ ' + total,

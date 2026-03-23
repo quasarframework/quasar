@@ -82,7 +82,7 @@ interface BaseQuasarConfiguration {
    *
    * @example: [ 'bounceInLeft', 'bounceOutRight' ]
    */
-  animations?: QuasarAnimationsConfiguration | 'all';
+  animations?: QuasarAnimationsConfiguration | "all";
   /**
    * Vite server [options](https://vitejs.dev/config/#server-options).
    * Some properties are overwritten based on the Quasar mode you're using in order
@@ -102,8 +102,7 @@ export interface QuasarHookParams {
 }
 
 export interface QuasarConf
-  extends BaseQuasarConfiguration,
-    QuasarMobileConfiguration {
+  extends BaseQuasarConfiguration, QuasarMobileConfiguration {
   /** PWA specific [config](https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa). */
   pwa?: QuasarPwaConfiguration;
   /** SSR specific [config](https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr). */
@@ -153,8 +152,9 @@ interface QuasarMetaConf {
 
 // Not exactly accurate as some of the properties are still left nullable
 // TODO: improve this regarding the nullable precision
-export interface ResolvedQuasarConf
-  extends DeepRequired<DeepNonNullable<QuasarConf>> {
+export interface ResolvedQuasarConf extends DeepRequired<
+  DeepNonNullable<QuasarConf>
+> {
   ctx: QuasarContext;
   /** @internal */
   metaConf: QuasarMetaConf;
@@ -172,7 +172,7 @@ type MaxDepth = 5; // to avoid breaking the type system due to infinite complexi
 type BuildPaths<
   T extends Record<string, any>,
   ParentKey extends string = "",
-  Depth extends readonly number[] = [],
+  Depth extends readonly number[] = []
 > = [Depth["length"]] extends [MaxDepth]
   ? never
   : {
@@ -184,7 +184,7 @@ type BuildPaths<
     }[keyof T];
 type DotNotation<
   T extends Record<string, any>,
-  Path extends BuildPaths<T>,
+  Path extends BuildPaths<T>
 > = Path extends `${infer First}.${infer Rest}`
   ? First extends keyof T
     ? IsObject<T[First]> extends true

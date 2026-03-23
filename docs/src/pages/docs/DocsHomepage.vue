@@ -1,35 +1,44 @@
 <template>
   <div class="page-docs column justify-center text-center">
-    <div class="heading heading--large normal-line-height">Welcome to Quasar docs</div>
+    <div class="heading heading--large normal-line-height"
+      >Welcome to Quasar docs</div
+    >
     <div class="letter-spacing-300 text-size-16 text-weight-bold q-mb-md">
       Here you can find everything you need to start working with Quasar.
     </div>
 
     <div class="row">
-      <div class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md">
+      <div
+        class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md"
+      >
         In the top navigation bar there is a search function that helps you find
-        what you need and also many other pages that you can explore, like beginner
-        resources and other cool content about the Quasar galaxy. Don't forget to check
-        our page to
+        what you need and also many other pages that you can explore, like
+        beginner resources and other cool content about the Quasar galaxy. Don't
+        forget to check our page to
         <a
           class="text-brand-accent"
           href="https://donate.quasar.dev"
           target="_blank"
-        >become a sponsor</a>!
+          >become a sponsor</a
+        >!
       </div>
 
       <div class="gt-sm q-px-md" />
 
-      <div class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md">
-        If you are an experienced explorer get right into
-        action: use the navigation drawer on the left to navigate through our most important
+      <div
+        class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md"
+      >
+        If you are an experienced explorer get right into action: use the
+        navigation drawer on the left to navigate through our most important
         technical resources.
       </div>
     </div>
 
     <div class="row">
       <div class="col-12 col-md row justify-center q-gutter-sm q-py-lg">
-        <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
+        <div
+          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase"
+        >
           Most Used
         </div>
 
@@ -42,11 +51,7 @@
             class="page-docs__card column justify-center items-center cursor-pointer"
             flat
           >
-            <q-icon
-              :name="entry.icon"
-              class="q-mb-sm"
-              color="brand-primary"
-            />
+            <q-icon :name="entry.icon" class="q-mb-sm" color="brand-primary" />
             <div class="page-docs__card-label text-size-12 letter-spacing-100">
               {{ entry.name }}
             </div>
@@ -58,8 +63,12 @@
         <q-separator vertical />
       </div>
 
-      <div class="col-12 col-md row cards-container-width justify-center q-gutter-sm q-py-lg">
-        <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
+      <div
+        class="col-12 col-md row cards-container-width justify-center q-gutter-sm q-py-lg"
+      >
+        <div
+          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase"
+        >
           Discover Also
         </div>
 
@@ -72,12 +81,10 @@
             class="page-docs__card column justify-center items-center cursor-pointer"
             flat
           >
-            <q-icon
-              :name="entry.icon"
-              class="q-mb-sm"
-              color="brand-primary"
-            />
-            <div class="page-docs__card-label text-center text-size-12 letter-spacing-100">
+            <q-icon :name="entry.icon" class="q-mb-sm" color="brand-primary" />
+            <div
+              class="page-docs__card-label text-center text-size-12 letter-spacing-100"
+            >
               {{ entry.name }}
             </div>
           </q-card>

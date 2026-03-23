@@ -10,7 +10,7 @@ const argv = parseArgs(process.argv.slice(2), {
     d: 'dist',
     q: 'qconf'
   },
-  boolean: [ 'h', 'e', 'c', 'd', 'q' ],
+  boolean: ['h', 'e', 'c', 'd', 'q'],
   default: {
     e: false,
     c: false,
@@ -46,12 +46,11 @@ const { appPaths } = getCtx()
 
 console.log()
 
-const cleanAll = (
-  argv.entry !== true
-  && argv.cache !== true
-  && argv.dist !== true
-  && argv.qconf !== true
-)
+const cleanAll =
+  argv.entry !== true &&
+  argv.cache !== true &&
+  argv.dist !== true &&
+  argv.qconf !== true
 
 if (cleanAll === true || argv.entry === true) {
   fse.removeSync(appPaths.resolve.app('.quasar'))
@@ -72,15 +71,17 @@ if (cleanAll === true || argv.dist === true) {
 
 if (cleanAll === true || argv.qconf === true) {
   const { globSync } = require('tinyglobby')
-  const fileList = globSync([ 'quasar.config.*.temporary.compiled.*' ], { cwd: appPaths.appDir })
-
-  fileList.forEach(file => {
-    fse.removeSync(
-      appPaths.resolve.app(file)
-    )
+  const fileList = globSync(['quasar.config.*.temporary.compiled.*'], {
+    cwd: appPaths.appDir
   })
 
-  log(`Cleaned ${ fileList.length } temporary compiled quasar.config file${ fileList.length === 1 ? '' : 's' }`)
+  fileList.forEach(file => {
+    fse.removeSync(appPaths.resolve.app(file))
+  })
+
+  log(
+    `Cleaned ${fileList.length} temporary compiled quasar.config file${fileList.length === 1 ? '' : 's'}`
+  )
 }
 
 console.log()

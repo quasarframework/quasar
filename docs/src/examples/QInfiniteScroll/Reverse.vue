@@ -11,7 +11,10 @@
         <q-badge class="shadow-1">
           {{ items.length - index }}
         </q-badge>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+        repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
+        perferendis totam, ea at omnis vel numquam exercitationem aut, natus
+        minima, porro labore.
       </div>
     </q-infinite-scroll>
   </div>
@@ -21,12 +24,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
-    const items = ref([ {}, {}, {}, {}, {}, {}, {} ])
+  setup() {
+    const items = ref([{}, {}, {}, {}, {}, {}, {}])
 
     return {
       items,
-      onLoad (index, done) {
+      onLoad(index, done) {
         setTimeout(() => {
           items.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
           done()

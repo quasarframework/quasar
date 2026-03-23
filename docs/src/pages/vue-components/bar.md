@@ -39,6 +39,7 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 <DocExample title="QHeader with QToolbar" file="Header" />
 
 ### Frameless Electron Window
+
 QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.
 
 Read more on [Frameless Electron Window](/quasar-cli/developing-electron-apps/frameless-electron-window) page.

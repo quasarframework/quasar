@@ -7,7 +7,7 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: [ 'h' ]
+  boolean: ['h']
 })
 
 if (argv.help) {
@@ -28,42 +28,49 @@ import os from 'node:os'
 import { sync as spawnSync } from 'cross-spawn'
 
 import { getCtx } from '../utils/get-ctx.js'
-const { appPaths, appExt: { extensionList } } = getCtx()
+const {
+  appPaths,
+  appExt: { extensionList }
+} = getCtx()
 
-function getSpawnOutput (command) {
+function getSpawnOutput(command) {
   try {
-    const child = spawnSync(command, [ '--version' ])
+    const child = spawnSync(command, ['--version'])
     return child.status === 0
-      ? green(String(child.output[ 1 ]).trim())
+      ? green(String(child.output[1]).trim())
       : gray('Not installed')
-  }
-  catch (_) {
+  } catch {
     return gray('Not installed')
   }
 }
 
-function safePkgInfo (pkg, dir) {
+function safePkgInfo(pkg, dir) {
   const json = getPackageJson(pkg, dir)
 
   if (json !== void 0) {
     return {
-      key: `  ${ String(json.name).trim() }`,
-      value: `${ green(String(json.version).trim()) }${ json.description ? ` -- ${ json.description }` : '' }`
+      key: `  ${String(json.name).trim()}`,
+      value: `${green(String(json.version).trim())}${json.description ? ` -- ${json.description}` : ''}`
     }
-  }
-  else {
+  } else {
     return {
-      key: `  ${ pkg }`,
+      key: `  ${pkg}`,
       value: gray('Not installed')
     }
   }
 }
 
-function print (m) {
-  console.log(`${ m.section ? '\n' : '' }${ m.key }${ m.value === undefined ? '' : ' - ' + m.value }`)
+function print(m) {
+  console.log(
+    `${m.section ? '\n' : ''}${m.key}${m.value === void 0 ? '' : ' - ' + m.value}`
+  )
 }
 
-print({ key: 'Operating System', value: green(`${ os.type() }(${ os.release() }) - ${ os.platform() }/${ os.arch() }`), section: true })
+print({
+  key: 'Operating System',
+  value: green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`),
+  section: true
+})
 print({ key: 'NodeJs', value: green(process.version.slice(1)) })
 print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })
@@ -109,8 +116,7 @@ if (extensionList.length !== 0) {
   extensionList.forEach(ext => {
     print(safePkgInfo(ext.packageName, appPaths.appDir))
   })
-}
-else {
+} else {
   print({ key: '  *None installed*' })
 }
 
@@ -120,7 +126,7 @@ print({ key: '  Host', value: green(os.hostname()) })
 import { getExternalNetworkInterface } from '../utils/net.js'
 getExternalNetworkInterface().forEach(intf => {
   print({
-    key: `  ${ intf.deviceName }`,
+    key: `  ${intf.deviceName}`,
     value: green(intf.address)
   })
 })

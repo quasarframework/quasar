@@ -6,14 +6,9 @@ describe('[getCssVar API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('getCssVar(prop)', () => {
-        document.body.style.setProperty(
-          '--q-prop',
-          'my-value'
-        )
+        document.body.style.setProperty('--q-prop', 'my-value')
 
-        expect(
-          getCssVar('prop')
-        ).toBe('my-value')
+        expect(getCssVar('prop')).toBe('my-value')
       })
 
       test('getCssVar(prop, el)', () => {
@@ -21,9 +16,7 @@ describe('[getCssVar API]', () => {
         document.body.appendChild(el)
         el.style.setProperty('--q-my-prop', 'some-value')
 
-        expect.soft(
-          getCssVar('my-prop', el)
-        ).toBe('some-value')
+        expect.soft(getCssVar('my-prop', el)).toBe('some-value')
 
         el.remove()
       })

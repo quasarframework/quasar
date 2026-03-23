@@ -4,12 +4,12 @@
  */
 
 export default class EventBus {
-  constructor () {
+  constructor() {
     this.__stack = {}
   }
 
-  on (name, callback, ctx) {
-    (this.__stack[ name ] || (this.__stack[ name ] = [])).push({
+  on(name, callback, ctx) {
+    ;(this.__stack[name] || (this.__stack[name] = [])).push({
       fn: callback,
       ctx
     })
@@ -17,7 +17,7 @@ export default class EventBus {
     return this // chainable
   }
 
-  once (name, callback, ctx) {
+  once(name, callback, ctx) {
     const listener = (...args) => {
       this.off(name, listener)
       callback.apply(ctx, args)
@@ -27,8 +27,8 @@ export default class EventBus {
     return this.on(name, listener, ctx) // chainable
   }
 
-  emit (name) {
-    const list = this.__stack[ name ]
+  emit(name) {
+    const list = this.__stack[name]
 
     if (list !== void 0) {
       const params = [].slice.call(arguments, 1)
@@ -40,15 +40,15 @@ export default class EventBus {
     return this // chainable
   }
 
-  off (name, callback) {
-    const list = this.__stack[ name ]
+  off(name, callback) {
+    const list = this.__stack[name]
 
     if (list === void 0) {
       return this // chainable
     }
 
     if (callback === void 0) {
-      delete this.__stack[ name ]
+      delete this.__stack[name]
       return this // chainable
     }
 
@@ -57,10 +57,9 @@ export default class EventBus {
     )
 
     if (liveEvents.length !== 0) {
-      this.__stack[ name ] = liveEvents
-    }
-    else {
-      delete this.__stack[ name ]
+      this.__stack[name] = liveEvents
+    } else {
+      delete this.__stack[name]
     }
 
     return this // chainable

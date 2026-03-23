@@ -12,20 +12,18 @@ const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
 const isWindows = os.platform() === 'win32'
 const windowsSlashRE = /\\/g
 
-function normalizePath (id) {
+function normalizePath(id) {
   return posix.normalize(
-    isWindows === true
-      ? id.replace(windowsSlashRE, '/')
-      : id
+    isWindows === true ? id.replace(windowsSlashRE, '/') : id
   )
 }
 
-function parseIssue (path, reportEntry) {
+function parseIssue(path, reportEntry) {
   const source = reportEntry.source.split('\n')
 
   return reportEntry.messages.map(entry => {
     const ruleLink = entry.ruleId
-      ? `\n\n    ⚠️  ${ eslintUrl }${ underline(bold(entry.ruleId)) }`
+      ? `\n\n    ⚠️  ${eslintUrl}${underline(bold(entry.ruleId))}`
       : ''
 
     return {
@@ -36,29 +34,29 @@ function parseIssue (path, reportEntry) {
         length: 1,
         line: entry.line,
         column: entry.column - 1,
-        lineText: source[ entry.line - 1 ],
+        lineText: source[entry.line - 1],
         namespace: ''
       }
     }
   })
 }
 
-function extractStore ({
-  cache,
-  cacheLocation, // injected by us
+function extractStore(
+  {
+    cache,
+    cacheLocation, // injected by us
 
-  formatter,
-  fix,
-  warnings,
-  errors,
-  include,
-  exclude,
+    formatter,
+    fix,
+    warnings,
+    errors,
+    include,
+    exclude,
 
-  rawEsbuildEslintOptions = {}
-}, {
-  ESLint,
-  resolveToAppDir
-}) {
+    rawEsbuildEslintOptions = {}
+  },
+  { ESLint, resolveToAppDir }
+) {
   const eslintOptions = {
     cache,
     cacheLocation,
@@ -73,21 +71,12 @@ function extractStore ({
   }
 
   const eslint = new ESLint(eslintOptions)
-  const mapIncludeExclude = entry => {
-    return typeof entry === 'string'
-      ? resolveToAppDir(entry)
-      : entry
-  }
+  const mapIncludeExclude = entry =>
+    typeof entry === 'string' ? resolveToAppDir(entry) : entry
 
-  const includeOptions = [
-    /\.([jt]sx?|vue)$/,
-    ...include.map(mapIncludeExclude)
-  ]
+  const includeOptions = [/\.([jt]sx?|vue)$/, ...include.map(mapIncludeExclude)]
 
-  const excludeOptions = [
-    /node_modules/,
-    ...exclude.map(mapIncludeExclude)
-  ]
+  const excludeOptions = [/node_modules/, ...exclude.map(mapIncludeExclude)]
 
   const filter = createFilter(includeOptions, excludeOptions)
 
@@ -103,13 +92,13 @@ function extractStore ({
   }
 }
 
-function getLinter (quasarConf, compileId) {
+function getLinter(quasarConf, compileId) {
   const {
     ctx: { appPaths, cacheProxy },
     eslint: { rawWebpackEslintPluginOptions, ...eslintOptions }
   } = quasarConf
 
-  const cacheId = `eslint-${ compileId }`
+  const cacheId = `eslint-${compileId}`
 
   const eslintConfig = {
     ...eslintOptions,
@@ -137,70 +126,75 @@ function getLinter (quasarConf, compileId) {
   return cachedLinter.store
 }
 
-module.exports.quasarEsbuildESLintPlugin = async function quasarEsbuildESLintPlugin (quasarConf, compileId) {
-  const {
-    eslint,
-    filter,
-    errors,
-    warnings,
-    fix,
-    outputFixes,
-    errorFiles
-  } = await getLinter(quasarConf, compileId)
+module.exports.quasarEsbuildESLintPlugin =
+  async function quasarEsbuildESLintPlugin(quasarConf, compileId) {
+    const { eslint, filter, errors, warnings, fix, outputFixes, errorFiles } =
+      await getLinter(quasarConf, compileId)
 
-  return {
-    name: 'quasar:eslint',
+    return {
+      name: 'quasar:eslint',
 
-    setup (build) {
-      build.onLoad({
-        filter: /\.[jt]sx?$/
-      }, async ({ path }) => {
-        const file = normalizePath(path)
+      setup(build) {
+        build.onLoad(
+          {
+            filter: /\.[jt]sx?$/
+          },
+          async ({ path }) => {
+            const file = normalizePath(path)
 
-        if (filter(file) === false || await eslint.isPathIgnored(file) === true) {
-          return {}
-        }
+            if (
+              filter(file) === false ||
+              (await eslint.isPathIgnored(file)) === true
+            ) {
+              return {}
+            }
 
-        const report = await eslint.lintFiles(path)
+            const report = await eslint.lintFiles(path)
 
-        if (report.length === 0) {
-          return {}
-        }
+            if (report.length === 0) {
+              return {}
+            }
 
-        const {
-          errorCount, fixableErrorCount,
-          warningCount, fixableWarningCount
-        } = report[ 0 ]
+            const {
+              errorCount,
+              fixableErrorCount,
+              warningCount,
+              fixableWarningCount
+            } = report[0]
 
-        if (fix === true && (fixableErrorCount !== 0 || fixableWarningCount !== 0)) {
-          outputFixes(report)
-        }
+            if (
+              fix === true &&
+              (fixableErrorCount !== 0 || fixableWarningCount !== 0)
+            ) {
+              outputFixes(report)
+            }
 
-        if (errors === true && errorCount !== 0) {
-          errorFiles.add(path)
-          console.log()
-          error('Error:', 'LINT')
-          console.log()
-          return { errors: parseIssue(path, report[ 0 ]) }
-        }
+            if (errors === true && errorCount !== 0) {
+              errorFiles.add(path)
+              console.log()
+              error('Error:', 'LINT')
+              console.log()
+              return { errors: parseIssue(path, report[0]) }
+            }
 
-        if (warnings === true && warningCount !== 0) {
-          errorFiles.add(path)
-          console.log()
-          warning('Warning:', 'LINT')
-          console.log()
-          return { warnings: parseIssue(path, report[ 0 ]) }
-        }
+            if (warnings === true && warningCount !== 0) {
+              errorFiles.add(path)
+              console.log()
+              warning('Warning:', 'LINT')
+              console.log()
+              return { warnings: parseIssue(path, report[0]) }
+            }
 
-        if (errorFiles.has(path) === true) {
-          console.log()
-          success(path, 'LINT OK')
-          console.log()
-          errorFiles.delete(path)
-        }
+            if (errorFiles.has(path) === true) {
+              console.log()
+              success(path, 'LINT OK')
+              console.log()
+              errorFiles.delete(path)
+            }
 
-        return {}
-      })
+            return {}
+          }
+        )
+      }
     }
   }
-}

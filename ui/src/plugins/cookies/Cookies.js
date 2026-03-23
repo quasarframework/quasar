@@ -1,16 +1,16 @@
-function encode (string) {
+function encode(string) {
   return encodeURIComponent(string)
 }
 
-function decode (string) {
+function decode(string) {
   return decodeURIComponent(string)
 }
 
-function stringifyCookieValue (value) {
-  return encode(value === Object(value) ? JSON.stringify(value) : '' + value)
+function stringifyCookieValue(value) {
+  return encode(value === Object(value) ? JSON.stringify(value) : String(value))
 }
 
-function read (string) {
+function read(string) {
   if (string === '') {
     return string
   }
@@ -31,19 +31,18 @@ function read (string) {
     if (parsed === Object(parsed) || Array.isArray(parsed) === true) {
       string = parsed
     }
-  }
-  catch (_) {}
+  } catch {}
 
   return string
 }
 
-function getString (msOffset) {
+function getString(msOffset) {
   const time = new Date()
   time.setMilliseconds(time.getMilliseconds() + msOffset)
   return time.toUTCString()
 }
 
-function parseExpireString (str) {
+function parseExpireString(str) {
   let timestamp = 0
 
   const days = str.match(/(\d+)d/)
@@ -51,17 +50,24 @@ function parseExpireString (str) {
   const minutes = str.match(/(\d+)m/)
   const seconds = str.match(/(\d+)s/)
 
-  if (days) { timestamp += days[ 1 ] * 864e+5 }
-  if (hours) { timestamp += hours[ 1 ] * 36e+5 }
-  if (minutes) { timestamp += minutes[ 1 ] * 6e+4 }
-  if (seconds) { timestamp += seconds[ 1 ] * 1000 }
+  if (days) {
+    timestamp += days[1] * 864e5
+  }
+  if (hours) {
+    timestamp += hours[1] * 36e5
+  }
+  if (minutes) {
+    timestamp += minutes[1] * 6e4
+  }
+  if (seconds) {
+    timestamp += seconds[1] * 1000
+  }
 
-  return timestamp === 0
-    ? str
-    : getString(timestamp)
+  return timestamp === 0 ? str : getString(timestamp)
 }
 
-function set (key, val, opts = {}, ssr) {
+// oxlint-disable-next-line default-param-last
+function set(key, val, opts = {}, ssr) {
   let expire, expireValue
 
   if (opts.expires !== void 0) {
@@ -77,13 +83,14 @@ function set (key, val, opts = {}, ssr) {
     // otherwise it must be a Number (defined in days)
     else {
       expireValue = parseFloat(opts.expires)
-      expire = isNaN(expireValue) === false
-        ? getString(expireValue * 864e+5)
-        : opts.expires
+      expire =
+        isNaN(expireValue) === false
+          ? getString(expireValue * 864e5)
+          : opts.expires
     }
   }
 
-  const keyValue = `${ encode(key) }=${ stringifyCookieValue(val) }`
+  const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
 
   const cookie = [
     keyValue,
@@ -99,9 +106,8 @@ function set (key, val, opts = {}, ssr) {
   if (ssr) {
     if (ssr.req.qCookies) {
       ssr.req.qCookies.push(cookie)
-    }
-    else {
-      ssr.req.qCookies = [ cookie ]
+    } else {
+      ssr.req.qCookies = [cookie]
     }
 
     ssr.res.setHeader('Set-Cookie', ssr.req.qCookies)
@@ -112,48 +118,41 @@ function set (key, val, opts = {}, ssr) {
     let all = ssr.req.headers.cookie || ''
 
     if (expire !== void 0 && expireValue < 0) {
-      const val = get(key, ssr)
-      if (val !== undefined) {
+      const localVal = get(key, ssr)
+      if (localVal !== void 0) {
         all = all
-          .replace(`${ key }=${ val }; `, '')
-          .replace(`; ${ key }=${ val }`, '')
-          .replace(`${ key }=${ val }`, '')
+          .replace(`${key}=${localVal}; `, '')
+          .replace(`; ${key}=${localVal}`, '')
+          .replace(`${key}=${localVal}`, '')
       }
-    }
-    else {
-      all = all
-        ? `${ keyValue }; ${ all }`
-        : cookie
+    } else {
+      all = all ? `${keyValue}; ${all}` : cookie
     }
 
     ssr.req.headers.cookie = all
-  }
-  else {
+  } else {
     document.cookie = cookie
   }
 }
 
-function get (key, ssr) {
-  const
-    cookieSource = ssr ? ssr.req.headers : document,
+function get(key, ssr) {
+  const cookieSource = ssr ? ssr.req.headers : document,
     cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
     l = cookies.length
-  let
-    result = key ? null : {},
+  let result = key ? null : {},
     i = 0,
     parts,
     name,
     cookie
 
   for (; i < l; i++) {
-    parts = cookies[ i ].split('=')
+    parts = cookies[i].split('=')
     name = decode(parts.shift())
     cookie = parts.join('=')
 
     if (!key) {
-      result[ name ] = cookie
-    }
-    else if (key === name) {
+      result[name] = cookie
+    } else if (key === name) {
       result = read(cookie)
       break
     }
@@ -162,20 +161,15 @@ function get (key, ssr) {
   return result
 }
 
-function remove (key, options, ssr) {
-  set(
-    key,
-    '',
-    { expires: -1, ...options },
-    ssr
-  )
+function remove(key, options, ssr) {
+  set(key, '', { expires: -1, ...options }, ssr)
 }
 
-function has (key, ssr) {
+function has(key, ssr) {
   return get(key, ssr) !== null
 }
 
-export function getObject (ssr) {
+export function getObject(ssr) {
   return {
     get: key => get(key, ssr),
     set: (key, val, opts) => set(key, val, opts, ssr),
@@ -186,10 +180,8 @@ export function getObject (ssr) {
 }
 
 const Plugin = {
-  install ({ $q, ssrContext }) {
-    $q.cookies = __QUASAR_SSR_SERVER__
-      ? getObject(ssrContext)
-      : this
+  install({ $q, ssrContext }) {
+    $q.cookies = __QUASAR_SSR_SERVER__ ? getObject(ssrContext) : this
   }
 }
 

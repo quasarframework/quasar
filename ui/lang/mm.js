@@ -15,14 +15,20 @@ export default {
     search: 'ရှာမည်',
     filter: 'စစ်ထုတ်မည်',
     refresh: 'အသစ်ပြန်လုပ်မည်',
-    expand: label => (label ? `"${ label }" ကိုချဲ့ထွင်ပါ။` : 'ချဲ့ထွင်ပါ။'),
-    collapse: label => (label ? `"${ label }" ကို ခေါက်သိမ်းပါ` : 'ခေါက်သိမ်းပါ')
+    expand: label => (label ? `"${label}" ကိုချဲ့ထွင်ပါ။` : 'ချဲ့ထွင်ပါ။'),
+    collapse: label => (label ? `"${label}" ကို ခေါက်သိမ်းပါ` : 'ခေါက်သိမ်းပါ')
   },
   date: {
     days: 'တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ'.split('_'),
     daysShort: 'တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ'.split('_'),
-    months: 'ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ'.split('_'),
-    monthsShort: 'ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ'.split('_'),
+    months:
+      'ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ'.split(
+        '_'
+      ),
+    monthsShort:
+      'ဇန်နဝါရီ_ဖေဖော်ဝါရီ_မတ်_ဧပြီ_မေ_ဇွန်_ဇူလိုင်_သြဂုတ်_စက်တင်ဘာ_အောက်တိုဘာ_နိုဝင်ဘာ_ဒီဇင်ဘာ'.split(
+        '_'
+      ),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'ရက်',
@@ -31,22 +37,19 @@ export default {
     prevYear: 'အရင်နှစ်',
     nextYear: 'နောက်နှစ်',
     today: 'ဒီနေ့',
-    prevRangeYears: range => `ယခင် ${ range } နှစ် များ`,
-    nextRangeYears: range => `နောက် ${ range } နှစ် များ`
+    prevRangeYears: range => `ယခင် ${range} နှစ် များ`,
+    nextRangeYears: range => `နောက် ${range} နှစ် များ`
   },
   table: {
     noData: 'အချက်အလတ်မရှိပါ',
     noResults: 'ကိုက်ညီသောရလဒ်မရှိပါ',
     loading: 'လုပ်ဆောင်နေသည်',
-    selectedRecords: rows => (
-      rows > 0
-        ? rows + ' တန်းရွေးချယ်ထားသည်'
-        : 'ဘာမှ မရွေးချယ်ထားပါ'
-    ),
+    selectedRecords: rows =>
+      rows > 0 ? rows + ' တန်းရွေးချယ်ထားသည်' : 'ဘာမှ မရွေးချယ်ထားပါ',
     recordsPerPage: 'တစ်မျက်နှာခြင်း အတန်းရေတွက်',
     allRows: 'အားလုံး',
-    // eslint-disable-next-line no-useless-concat
-    pagination: (start, end, total) => start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
+    pagination: (start, end, total) =>
+      start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
     columns: 'ကော်လံ'
   },
   pagination: {

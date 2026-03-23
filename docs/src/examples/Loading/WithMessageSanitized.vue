@@ -9,7 +9,7 @@ import { useQuasar } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
     let timer
 
@@ -21,9 +21,10 @@ export default {
     })
 
     return {
-      showLoading () {
+      showLoading() {
         $q.loading.show({
-          message: 'Some important <b>process</b> is in progress.<br><span class="text-amber text-italic">Please wait...</span>',
+          message:
+            'Some important <b>process</b> is in progress.<br><span class="text-amber text-italic">Please wait...</span>',
           html: true
         })
 

@@ -11,8 +11,18 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-btn flat color="primary" label="List - custom" @click="showCustom()" />
-        <q-btn flat color="primary" label="Grid - custom" @click="showCustom(true)" />
+        <q-btn
+          flat
+          color="primary"
+          label="List - custom"
+          @click="showCustom()"
+        />
+        <q-btn
+          flat
+          color="primary"
+          label="Grid - custom"
+          @click="showCustom(true)"
+        />
       </div>
     </div>
   </div>
@@ -61,52 +71,60 @@ const actions = [
 ]
 
 export default {
-  data () {
+  data() {
     return {
       dark: null
     }
   },
 
   methods: {
-    hideBottomSheet () {
+    hideBottomSheet() {
       if (this.bottomSheetHandler !== void 0) {
         this.bottomSheetHandler.hide()
       }
     },
 
-    show (grid) {
-      this.bottomSheetHandler = this.$q.bottomSheet({
-        message: 'Bottom Sheet message',
-        grid,
-        actions,
-        dark: this.dark
-      }).onOk(action => {
-        console.log('Action chosen:', action.id)
-      }).onCancel(() => {
-        console.log('Dismissed')
-      }).onDismiss(() => {
-        this.bottomSheetHandler = void 0
-      })
+    show(grid) {
+      this.bottomSheetHandler = this.$q
+        .bottomSheet({
+          message: 'Bottom Sheet message',
+          grid,
+          actions,
+          dark: this.dark
+        })
+        .onOk(action => {
+          console.log('Action chosen:', action.id)
+        })
+        .onCancel(() => {
+          console.log('Dismissed')
+        })
+        .onDismiss(() => {
+          this.bottomSheetHandler = void 0
+        })
     },
 
-    showCustom (grid) {
-      this.bottomSheetHandler = this.$q.bottomSheet({
-        message: 'Bottom Sheet message',
-        grid,
-        actions,
-        class: 'custom-bottom-sheet',
-        dark: this.dark
-      }).onOk(action => {
-        console.log('Action chosen:', action.id)
-      }).onCancel(() => {
-        console.log('Dismissed')
-      }).onDismiss(() => {
-        this.bottomSheetHandler = void 0
-      })
+    showCustom(grid) {
+      this.bottomSheetHandler = this.$q
+        .bottomSheet({
+          message: 'Bottom Sheet message',
+          grid,
+          actions,
+          class: 'custom-bottom-sheet',
+          dark: this.dark
+        })
+        .onOk(action => {
+          console.log('Action chosen:', action.id)
+        })
+        .onCancel(() => {
+          console.log('Dismissed')
+        })
+        .onDismiss(() => {
+          this.bottomSheetHandler = void 0
+        })
     }
   },
 
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     this.hideBottomSheet()
     next()
   }

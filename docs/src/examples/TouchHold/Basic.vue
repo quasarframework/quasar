@@ -18,13 +18,13 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const info = ref(null)
 
     return {
       info,
 
-      handleHold ({ evt, ...newInfo }) {
+      handleHold({ evt, ...newInfo }) {
         info.value = newInfo
 
         // native Javascript event

@@ -77,7 +77,7 @@
       <q-banner :dense="dense" class="q-my-md">
         <template v-slot:avatar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
         </template>
 
@@ -91,7 +91,10 @@
 
       <q-banner :dense="dense" class="q-my-md">
         <template v-slot:avatar>
-          <img src="https://cdn.quasar.dev/img/mountains.jpg" style="width: 100px; height: 64px">
+          <img
+            src="https://cdn.quasar.dev/img/mountains.jpg"
+            style="width: 100px; height: 64px"
+          />
         </template>
 
         You have lost connection to the internet. This app is offline.
@@ -127,8 +130,8 @@
       </q-banner>
 
       <q-banner inline-actions :dense="dense" class="q-my-md">
-        You have lost connection to the internet. This app is offline.
-        You have lost connection to the internet. This app is offline.
+        You have lost connection to the internet. This app is offline. You have
+        lost connection to the internet. This app is offline.
 
         <template v-slot:action>
           <q-btn flat color="primary" label="Turn ON Wifi" />
@@ -141,7 +144,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       text: '',
       dense: false

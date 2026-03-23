@@ -7,9 +7,9 @@
         glossy
         toggle-color="primary"
         :options="[
-          {label: 'One', value: 'one'},
-          {label: 'Two', value: 'two'},
-          {label: 'Three', value: 'three'}
+          { label: 'One', value: 'one' },
+          { label: 'Two', value: 'two' },
+          { label: 'Three', value: 'three' }
         ]"
       />
     </div>
@@ -20,9 +20,9 @@
         toggle-color="primary"
         flat
         :options="[
-          {label: 'One', value: 'one'},
-          {label: 'Two', value: 'two'},
-          {label: 'Three', value: 'three'}
+          { label: 'One', value: 'one' },
+          { label: 'Two', value: 'two' },
+          { label: 'Three', value: 'three' }
         ]"
       />
     </div>
@@ -38,10 +38,10 @@
         unelevated
         glossy
         :options="[
-          {label: 'One', value: 'one'},
-          {label: 'Two', value: 'two'},
-          {label: 'Three', value: 'three'},
-          {label: 'Four', value: 'four'}
+          { label: 'One', value: 'one' },
+          { label: 'Two', value: 'two' },
+          { label: 'Three', value: 'three' },
+          { label: 'Four', value: 'four' }
         ]"
       />
     </div>
@@ -57,8 +57,8 @@
         color="white"
         text-color="primary"
         :options="[
-          {label: 'Option 1', value: 'one'},
-          {label: 'Option 2', value: 'two'}
+          { label: 'Option 1', value: 'one' },
+          { label: 'Option 2', value: 'two' }
         ]"
       />
     </div>
@@ -69,7 +69,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref('one')
     }

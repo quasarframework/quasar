@@ -8,12 +8,9 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
-    <div style="width: 300px; height: 180px; background: green;">
+    <div style="width: 300px; height: 180px; background: green">
       click
-      <q-menu
-        touch-position
-        transition-duration="1000"
-      >
+      <q-menu touch-position transition-duration="1000">
         <q-list dense style="min-width: 250px" class="bg-grey text-white">
           <q-item clickable v-close-popup>
             <q-item-section>asdf</q-item-section>
@@ -24,10 +21,8 @@
         </q-list>
       </q-menu>
 
-      <div style="width: 200px; height: 120px; background: blue;">
-        <q-menu
-          touch-position
-        >
+      <div style="width: 200px; height: 120px; background: blue">
+        <q-menu touch-position>
           <q-list dense style="min-width: 100px">
             <q-item clickable>
               <q-item-section>qwer</q-item-section>
@@ -65,13 +60,12 @@
       </div>
     </div>
 
-    <div style="width: 300px; height: 180px; background: green; margin-top: 50px" class="main">
+    <div
+      style="width: 300px; height: 180px; background: green; margin-top: 50px"
+      class="main"
+    >
       context-menu
-      <q-menu
-        touch-position
-        transition-duration="1000"
-        context-menu
-      >
+      <q-menu touch-position transition-duration="1000" context-menu>
         <q-list dense style="min-width: 250px" class="bg-grey text-white">
           <q-item clickable v-close-popup>
             <q-item-section>asdf</q-item-section>
@@ -85,11 +79,11 @@
         </q-list>
       </q-menu>
 
-      <div style="width: 200px; height: 120px; background: blue;" class="secondary">
-        <q-menu
-          touch-position
-          context-menu
-        >
+      <div
+        style="width: 200px; height: 120px; background: blue"
+        class="secondary"
+      >
+        <q-menu touch-position context-menu>
           <q-list dense style="min-width: 100px">
             <q-item clickable>
               <q-item-section>qwer</q-item-section>
@@ -130,13 +124,20 @@
 </template>
 
 <script>
-/* eslint-disable */
-import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  watch,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  getCurrentInstance
+} from 'vue'
 
 export default {
-  setup () {
-    return {
-    }
+  setup() {
+    return {}
   }
 }
 </script>

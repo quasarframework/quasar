@@ -1,12 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div style="max-width: 600px">
-      <q-tabs
-        v-model="tab"
-        align="justify"
-        narrow-indicator
-        class="q-mb-lg"
-      >
+      <q-tabs v-model="tab" align="justify" narrow-indicator class="q-mb-lg">
         <q-tab class="text-purple" name="mails" label="Mails" />
         <q-tab class="text-orange" name="alarms" label="Alarms" />
         <q-tab class="text-teal" name="movies" label="Movies" />
@@ -90,7 +85,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       tab: ref('mails')
     }

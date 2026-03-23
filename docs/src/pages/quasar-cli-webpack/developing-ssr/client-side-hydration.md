@@ -2,6 +2,7 @@
 title: Client Side Hydration
 desc: (@quasar/app-webpack) What hydration is and its caveats in a Quasar server-side rendered app.
 ---
+
 Hydration refers to the client-side process during which Vue takes over the static HTML sent by the server and turns it into dynamic DOM that can react to client-side data changes.
 
 Since the server has already rendered the markup, we obviously do not want to throw that away and re-create all the DOM elements. Instead, we want to "hydrate" the static markup and make it interactive.
@@ -11,6 +12,7 @@ In development mode, Vue will assert the client-side generated virtual DOM tree 
 :::
 
 ## Hydration Caveats
+
 One thing to be aware of when using SSR + client hydration is some special HTML structures that may be altered by the browser. For example, when you write this in a Vue template:
 
 ```html
@@ -24,6 +26,7 @@ The browser will automatically inject `<tbody>` inside `<table>`, however, the v
 ## Handling Hydration Errors
 
 If you do receive hydration errors (as seen in console: "Vuejs Error - The client-side rendered virtual DOM tree is not matching server-rendered content"), you can try following these steps:
+
 1. Show DevTools in Chrome (F12)
 2. Load the page that causes "the client-side rendered virtual DOM tree..." warning.
 3. Scroll to the warning in DevTools console.

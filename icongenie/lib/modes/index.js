@@ -1,4 +1,3 @@
-
 import { existsSync } from 'node:fs'
 import { resolveDir } from '../utils/app-paths.js'
 

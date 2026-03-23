@@ -1,15 +1,18 @@
 <template>
   <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 500px">
-      <router-link to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
-        <img style="height:128px;width:128px" src="https://cdn.quasar.dev/logo-v2/128/logo.png">
+      <router-link
+        to="/layout-quick/a"
+        class="cursor-pointer row justify-center"
+        style="margin-bottom: 25px"
+      >
+        <img
+          style="height: 128px; width: 128px"
+          src="https://cdn.quasar.dev/logo-v2/128/logo.png"
+        />
       </router-link>
-      <div class="text-caption text-center">
-        Quasar v{{ $q.version }}
-      </div>
-      <div class="text-caption text-center">
-        Vue v{{ vueVersion }}
-      </div>
+      <div class="text-caption text-center">Quasar v{{ $q.version }}</div>
+      <div class="text-caption text-center">Vue v{{ vueVersion }}</div>
 
       <div class="q-pt-md">
         <q-input ref="filterRef" clearable outlined v-model="filter">
@@ -20,7 +23,10 @@
       </div>
 
       <q-list dense class="q-mb-xl">
-        <template v-for="(category, title) in filteredList" :key="`category-${title}`">
+        <template
+          v-for="(category, title) in filteredList"
+          :key="`category-${title}`"
+        >
           <q-item-label header class="q-mt-lg text-uppercase text-weight-bold">
             {{ title }}
           </q-item-label>
@@ -56,16 +62,21 @@ import { pagesRoutes } from 'src/router/pages'
 const STORAGE_KEY = 'index-filter'
 const list = {}
 
-pagesRoutes.map(page => page.slice(1, page.length - 4)).forEach(page => {
-  const [ folder, file ] = page.split('/')
-  if (!list[ folder ]) {
-    list[ folder ] = []
-  }
-  list[ folder ].push({
-    route: '/' + page,
-    title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
+pagesRoutes
+  .map(page => page.slice(1, page.length - 4))
+  .forEach(page => {
+    const [folder, file] = page.split('/')
+    if (!list[folder]) {
+      list[folder] = []
+    }
+    list[folder].push({
+      route: '/' + page,
+      title: file
+        .split(/-/)
+        .map(f => f.charAt(0).toUpperCase() + f.slice(1))
+        .join(' ')
+    })
   })
-})
 
 list.Meta = [
   { route: '/meta/layout_1/first', title: 'Meta Layout 1' },
@@ -73,7 +84,7 @@ list.Meta = [
   { route: '/meta/title', title: 'Meta Title page' }
 ]
 
-list[ 'web-tests' ].push({ route: '/tabs-router', title: 'Tabs Router' })
+list['web-tests'].push({ route: '/tabs-router', title: 'Tabs Router' })
 
 const $q = useQuasar()
 const filterRef = ref(null)
@@ -89,11 +100,14 @@ onMounted(() => {
   }
 
   window.addEventListener('keydown', onKeyup, { passive: false, capture: true })
-  $q.platform.is.desktop === true && filterRef.value.focus()
+  if ($q.platform.is.desktop === true) filterRef.value.focus()
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('keydown', onKeyup, { passive: false, capture: true })
+  window.removeEventListener('keydown', onKeyup, {
+    passive: false,
+    capture: true
+  })
 })
 
 const filteredList = computed(() => {
@@ -105,11 +119,12 @@ const filteredList = computed(() => {
   const localFilter = filter.value.toLowerCase()
 
   Object.keys(list).forEach(categName => {
-    const filtered = list[ categName ]
-      .filter(feature => feature.title.toLowerCase().indexOf(localFilter) > -1)
+    const filtered = list[categName].filter(
+      feature => feature.title.toLowerCase().indexOf(localFilter) > -1
+    )
 
     if (filtered.length > 0) {
-      newList[ categName ] = filtered
+      newList[categName] = filtered
     }
   })
 
@@ -117,27 +132,28 @@ const filteredList = computed(() => {
 })
 
 const filter = computed({
-  get () {
+  get() {
     return store.value.filter
   },
 
-  set (val) {
-    const filter = val || ''
-    store.value.filter = filter
-    $q.localStorage.set(STORAGE_KEY, filter)
+  set(val) {
+    const newFilter = val || ''
+    store.value.filter = newFilter
+    $q.localStorage.set(STORAGE_KEY, newFilter)
   }
 })
 
-function onKeyup (evt) {
-  if (evt.keyCode === 38) { // up
+function onKeyup(evt) {
+  if (evt.keyCode === 38) {
+    // up
     moveSelection(evt, 'previousSibling')
-  }
-  else if (evt.keyCode === 40) { // down
+  } else if (evt.keyCode === 40) {
+    // down
     moveSelection(evt, 'nextSibling')
   }
 }
 
-function moveSelection (evt, op) {
+function moveSelection(evt, op) {
   evt.preventDefault()
 
   let el = document.activeElement
@@ -146,11 +162,10 @@ function moveSelection (evt, op) {
     let nextEl
     if (op === 'nextSibling') {
       nextEl = document.querySelector('.q-item')
-    }
-    else {
+    } else {
       const nodes = document.querySelectorAll('.q-item')
       if (nodes.length > 0) {
-        nextEl = nodes[ nodes.length - 1 ]
+        nextEl = nodes[nodes.length - 1]
       }
     }
 
@@ -160,30 +175,28 @@ function moveSelection (evt, op) {
     return
   }
 
-  if (el[ op ]) {
+  if (el[op]) {
     do {
-      el = el[ op ]
-    }
-    while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
+      el = el[op]
+    } while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
 
     if (!el || el.nodeType === 3) {
       focus(filterRef.value.$el)
-    }
-    else if (el.tagName.toUpperCase() === 'A') {
+    } else if (el.tagName.toUpperCase() === 'A') {
       focus(el)
     }
   }
 }
 
-function focus (el) {
+function focus(el) {
   el.focus()
   el.scrollIntoView(false)
 }
 
-function clientInitStore (store) {
-  const filter = $q.localStorage.getItem(STORAGE_KEY)
-  if (filter) {
-    store.value.filter = filter
+function clientInitStore(localStore) {
+  const filterVal = $q.localStorage.getItem(STORAGE_KEY)
+  if (filterVal) {
+    localStore.value.filter = filterVal
   }
 }
 </script>

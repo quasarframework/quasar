@@ -13,7 +13,12 @@
       <q-chip color="teal" text-color="white" icon="bookmark">
         Bookmark
       </q-chip>
-      <q-chip class="glossy" color="orange" text-color="white" icon-right="star">
+      <q-chip
+        class="glossy"
+        color="orange"
+        text-color="white"
+        icon-right="star"
+      >
         Star
       </q-chip>
       <q-chip color="red" text-color="white" icon="alarm" label="Set alarm" />
@@ -30,7 +35,7 @@
       </q-chip>
       <q-chip>
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/avatar5.jpg">
+          <img src="https://cdn.quasar.dev/img/avatar5.jpg" />
         </q-avatar>
         John
       </q-chip>

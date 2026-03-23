@@ -1,5 +1,11 @@
-function plurals (n, opts) {
-  return opts[ n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2 ]
+function plurals(n, opts) {
+  return opts[
+    n % 10 === 1 && n % 100 !== 11
+      ? 0
+      : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)
+        ? 1
+        : 2
+  ]
 }
 
 export default {
@@ -19,13 +25,16 @@ export default {
     search: 'Пошук',
     filter: 'Фільтр',
     refresh: 'Оновити',
-    expand: label => (label ? `Розгорнути "${ label }"` : 'Розгорнути'),
-    collapse: label => (label ? `Згорнути "${ label }"` : 'Згорнути')
+    expand: label => (label ? `Розгорнути "${label}"` : 'Розгорнути'),
+    collapse: label => (label ? `Згорнути "${label}"` : 'Згорнути')
   },
   date: {
     days: 'Неділя_Понеділок_Вівторок_Середа_Четвер_П`ятниця_Субота'.split('_'),
     daysShort: 'Нд_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
-    months: 'Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень'.split('_'),
+    months:
+      'Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень'.split(
+        '_'
+      ),
     monthsShort: 'Січ_Лют_Бер_Кві_Тра_Чер_Лип_Сер_Вер_Жов_Лис_Гру'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -35,18 +44,20 @@ export default {
     prevYear: 'Попередній рік',
     nextYear: 'Наступного року',
     today: 'Сьогодні',
-    prevRangeYears: range => `Попередній ${ range } роки`,
-    nextRangeYears: range => `Далі ${ range } роки`
+    prevRangeYears: range => `Попередній ${range} роки`,
+    nextRangeYears: range => `Далі ${range} роки`
   },
   table: {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
     loading: 'Завантаження...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' ' + plurals(rows, [ 'рядок обраний', 'рядки обрані', 'рядків обрано' ]) + '.'
-        : 'Жодного рядку не обрано.'
-    ),
+        ? rows +
+          ' ' +
+          plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано']) +
+          '.'
+        : 'Жодного рядку не обрано.',
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: (start, end, total) => start + '-' + end + ' з ' + total,

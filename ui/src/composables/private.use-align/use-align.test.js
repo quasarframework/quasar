@@ -29,33 +29,25 @@ describe('[useAlign API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('returns correctly', () => {
-        expect(
-          useAlign({})
-        ).$ref()
+        expect(useAlign({})).$ref()
       })
 
       test('horizontal', () => {
-        expect(
-          useAlign({}).value
-        ).toMatch(/^justify-/)
+        expect(useAlign({}).value).toMatch(/^justify-/)
       })
 
       test('vertical', () => {
-        expect(
-          useAlign({ vertical: true }).value
-        ).toMatch(/^items-/)
+        expect(useAlign({ vertical: true }).value).toMatch(/^items-/)
       })
 
       test.each([
-        [ 'empty', {}, 'justify-start' ],
-        [ 'vertical', { vertical: true }, 'items-stretch' ],
-        [ 'align right', { align: 'right' }, 'justify-end' ],
-        [ 'align evenly', { align: 'evenly' }, 'justify-evenly' ],
-        [ 'vertical right', { vertical: true, align: 'right' }, 'items-end' ]
+        ['empty', {}, 'justify-start'],
+        ['vertical', { vertical: true }, 'items-stretch'],
+        ['align right', { align: 'right' }, 'justify-end'],
+        ['align evenly', { align: 'evenly' }, 'justify-evenly'],
+        ['vertical right', { vertical: true, align: 'right' }, 'items-end']
       ])('useAlign: %s', (_, arg, expected) => {
-        expect(
-          useAlign(arg)
-        ).$ref(expected)
+        expect(useAlign(arg)).$ref(expected)
       })
     })
   })

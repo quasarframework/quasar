@@ -1,5 +1,3 @@
 import QField from './QField.js'
 
-export {
-  QField
-}
+export { QField }

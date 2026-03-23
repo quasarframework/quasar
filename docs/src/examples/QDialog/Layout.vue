@@ -19,11 +19,24 @@
           </q-toolbar>
         </q-footer>
 
-        <q-drawer bordered v-model="drawer" :width="200" :breakpoint="600" class="bg-grey-3 text-dark q-pa-sm">
+        <q-drawer
+          bordered
+          v-model="drawer"
+          :width="200"
+          :breakpoint="600"
+          class="bg-grey-3 text-dark q-pa-sm"
+        >
           <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
         </q-drawer>
 
-        <q-drawer side="right" bordered v-model="drawerR" :width="200" :breakpoint="300" class="bg-grey-3 text-dark q-pa-sm">
+        <q-drawer
+          side="right"
+          bordered
+          v-model="drawerR"
+          :width="200"
+          :breakpoint="300"
+          class="bg-grey-3 text-dark q-pa-sm"
+        >
           <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
         </q-drawer>
 
@@ -43,18 +56,19 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const moreContent = ref(true)
 
     return {
       layout: ref(false),
 
       moreContent,
-      contentSize: computed(() => moreContent.value ? 150 : 5),
+      contentSize: computed(() => (moreContent.value ? 150 : 5)),
       drawer: ref(false),
       drawerR: ref(false),
 
-      lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
+      lorem:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
     }
   }
 }

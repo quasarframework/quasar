@@ -3,7 +3,7 @@ const { getPackage } = require('../utils/get-package.js')
 
 const flatConfigFileRE = /^eslint\.config\./
 
-module.exports.createInstance = function createInstance ({ appPaths }) {
+module.exports.createInstance = function createInstance({ appPaths }) {
   const eslintConfigFile = [
     // flat configs (ESLint >= 9)
     'eslint.config.js',
@@ -24,7 +24,9 @@ module.exports.createInstance = function createInstance ({ appPaths }) {
   }
 
   if (acc.hasEslint === true) {
-    acc.configType = flatConfigFileRE.test(eslintConfigFile) ? 'flat' : 'eslintrc'
+    acc.configType = flatConfigFileRE.test(eslintConfigFile)
+      ? 'flat'
+      : 'eslintrc'
 
     const linter = getPackage('eslint', appPaths.appDir)
 

@@ -2,7 +2,9 @@
   <div class="q-pa-md">
     <div
       class="fixed-full image-gallery__blinder bg-grey-8"
-      :class="indexZoomed !== void 0 ? 'image-gallery__blinder--active' : void 0"
+      :class="
+        indexZoomed !== void 0 ? 'image-gallery__blinder--active' : void 0
+      "
       @click="zoomImage()"
     />
 
@@ -13,7 +15,11 @@
       <q-img
         v-for="(src, index) in images"
         :key="index"
-        :ref="el => { thumbRef[index] = el }"
+        :ref="
+          el => {
+            thumbRef[index] = el
+          }
+        "
         class="image-gallery__image"
         :style="index === indexZoomed ? 'opacity: 0.3' : void 0"
         :src="src"
@@ -24,7 +30,9 @@
     <q-img
       ref="fullRef"
       class="image-gallery__image image-gallery__image-full fixed-center"
-      :class="indexZoomed !== void 0 ? 'image-gallery__image-full--active' : void 0"
+      :class="
+        indexZoomed !== void 0 ? 'image-gallery__image-full--active' : void 0
+      "
       :src="images[indexZoomed]"
       @load="imgLoadedResolve"
       @error="imgLoadedReject"
@@ -38,27 +46,31 @@ import { ref, onBeforeUpdate } from 'vue'
 import { morph } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const thumbRef = ref([])
     const fullRef = ref(null)
 
     const indexZoomed = ref(void 0)
-    const images = ref(Array(24).fill(null).map((_, i) => 'https://picsum.photos/id/' + i + '/500/300'))
+    const images = ref(
+      Array(24)
+        .fill(null)
+        .map((_, i) => 'https://picsum.photos/id/' + i + '/500/300')
+    )
     const imgLoaded = {
       promise: Promise.resolve(),
       resolve: () => {},
       reject: () => {}
     }
 
-    function imgLoadedResolve () {
+    function imgLoadedResolve() {
       imgLoaded.resolve()
     }
 
-    function imgLoadedReject () {
+    function imgLoadedReject() {
       imgLoaded.reject()
     }
 
-    function zoomImage (index) {
+    function zoomImage(index) {
       const indexZoomedState = indexZoomed.value
       let cancel = void 0
 
@@ -82,7 +94,7 @@ export default {
           })
 
           cancel = morph({
-            from: thumbRef.value[ index ].$el,
+            from: thumbRef.value[index].$el,
             to: fullRef.value.$el,
             onToggle: () => {
               indexZoomed.value = index
@@ -105,7 +117,7 @@ export default {
       ) {
         morph({
           from: fullRef.value.$el,
-          to: thumbRef.value[ indexZoomedState ].$el,
+          to: thumbRef.value[indexZoomedState].$el,
           onToggle: () => {
             indexZoomed.value = void 0
           },
@@ -113,8 +125,7 @@ export default {
           keepToClone: true,
           onEnd: zoom
         })
-      }
-      else {
+      } else {
         zoom()
       }
     }

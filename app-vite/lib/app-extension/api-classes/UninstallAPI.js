@@ -10,7 +10,7 @@ import { BaseAPI } from './BaseAPI.js'
 export class UninstallAPI extends BaseAPI {
   prompts
 
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
@@ -23,7 +23,7 @@ export class UninstallAPI extends BaseAPI {
    *
    * @return {object} internal persistent config of this extension
    */
-  getPersistentConf () {
+  getPersistentConf() {
     return this.#appExtJson.getInternal(this.extId)
   }
 
@@ -38,7 +38,7 @@ export class UninstallAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
@@ -56,7 +56,7 @@ export class UninstallAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed.
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -66,11 +66,9 @@ export class UninstallAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const json = getPackageJson(packageName, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**
@@ -85,7 +83,7 @@ export class UninstallAPI extends BaseAPI {
    *
    * @param {string} __path
    */
-  removePath (__path) {
+  removePath(__path) {
     fse.removeSync(this.resolve.app(__path))
   }
 
@@ -94,7 +92,7 @@ export class UninstallAPI extends BaseAPI {
    *
    * @param {string} msg
    */
-  onExitLog (msg) {
+  onExitLog(msg) {
     this.#hooks.exitLog.push(msg)
   }
 
@@ -108,7 +106,7 @@ export class UninstallAPI extends BaseAPI {
     exitLog: []
   }
 
-  __getHooks (appExtJson) {
+  __getHooks(appExtJson) {
     // protect against external access
     if (appExtJson === this.#appExtJson) {
       return this.#hooks

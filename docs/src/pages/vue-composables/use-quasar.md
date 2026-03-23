@@ -23,32 +23,30 @@ setup () {
 ```html
 <template>
   <div>
-    <div v-if="$q.platform.is.ios">
-      Gets rendered only on iOS platform.
-    </div>
+    <div v-if="$q.platform.is.ios"> Gets rendered only on iOS platform. </div>
   </div>
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
+  import { useQuasar } from 'quasar'
 
-export default {
-  setup () {
-    const $q = useQuasar()
+  export default {
+    setup() {
+      const $q = useQuasar()
 
-    console.log($q.platform.is.ios)
+      console.log($q.platform.is.ios)
 
-    // showing an example on a method, but
-    // can be any part of Vue script
-    function show () {
-      // prints out Quasar version
-      console.log($q.version)
-    }
+      // showing an example on a method, but
+      // can be any part of Vue script
+      function show() {
+        // prints out Quasar version
+        console.log($q.version)
+      }
 
-    return {
-      show
+      return {
+        show
+      }
     }
   }
-}
 </script>
 ```

@@ -1,6 +1,15 @@
 <template>
   <div>
-    <q-input class="header-toolbar q-px-md" v-model="search" dense square borderless color="white" placeholder="Search..." clearable>
+    <q-input
+      class="header-toolbar q-px-md"
+      v-model="search"
+      dense
+      square
+      borderless
+      color="white"
+      placeholder="Search..."
+      clearable
+    >
       <template #prepend>
         <q-icon :name="mdiMagnify" />
       </template>
@@ -11,18 +20,45 @@
     <q-splitter class="release__splitter" :model-value="20" :limits="[14, 90]">
       <template #before>
         <q-scroll-area>
-          <q-tabs class="header-tabs" vertical v-model="selectedVersion" active-color="brand-primary" indicator-color="brand-primary">
-            <q-tab v-for="releaseInfo in filteredReleases" class="header-btn" :key="releaseInfo.version" :name="releaseInfo.version" no-caps>
-              <div class="release__tab-label q-pt-xs">{{ releaseInfo.version }}</div>
-              <div class="release__tab-date q-pb-xs">{{ releaseInfo.date }}</div>
+          <q-tabs
+            class="header-tabs"
+            vertical
+            v-model="selectedVersion"
+            active-color="brand-primary"
+            indicator-color="brand-primary"
+          >
+            <q-tab
+              v-for="releaseInfo in filteredReleases"
+              class="header-btn"
+              :key="releaseInfo.version"
+              :name="releaseInfo.version"
+              no-caps
+            >
+              <div class="release__tab-label q-pt-xs">{{
+                releaseInfo.version
+              }}</div>
+              <div class="release__tab-date q-pb-xs">{{
+                releaseInfo.date
+              }}</div>
             </q-tab>
           </q-tabs>
         </q-scroll-area>
       </template>
 
       <template #after>
-        <q-tab-panels class="releases-container" v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up">
-          <q-tab-panel class="q-pa-none" v-for="releaseInfo in filteredReleases" :key="releaseInfo.version" :name="releaseInfo.version">
+        <q-tab-panels
+          class="releases-container"
+          v-model="selectedVersion"
+          animated
+          transition-prev="slide-down"
+          transition-next="slide-up"
+        >
+          <q-tab-panel
+            class="q-pa-none"
+            v-for="releaseInfo in filteredReleases"
+            :key="releaseInfo.version"
+            :name="releaseInfo.version"
+          >
             <q-scroll-area>
               <div class="release__body q-pa-md" v-html="currentReleaseBody" />
             </q-scroll-area>
@@ -44,20 +80,23 @@ const selectedVersion = ref(getLatestVersion())
 
 watch(
   () => props.releases,
-  () => { selectedVersion.value = getLatestVersion() }
+  () => {
+    selectedVersion.value = getLatestVersion()
+  }
 )
 
-function getLatestVersion () {
-  return props.releases[ 0 ].version
+function getLatestVersion() {
+  return props.releases[0].version
 }
 
 const filteredReleases = computed(() => {
   if (search.value) {
     const val = search.value.toLowerCase()
-    return props.releases.filter(release => (
-      release.version.indexOf(val) !== -1 ||
-      release.body.toLowerCase().indexOf(val) !== -1
-    ))
+    return props.releases.filter(
+      release =>
+        release.version.indexOf(val) !== -1 ||
+        release.body.toLowerCase().indexOf(val) !== -1
+    )
   }
 
   return props.releases

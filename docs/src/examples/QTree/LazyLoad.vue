@@ -31,18 +31,16 @@ const nodes = [
   {
     label: 'Node is not expandable',
     expandable: false,
-    children: [
-      { label: 'Some node' }
-    ]
+    children: [{ label: 'Some node' }]
   }
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       lazy: ref(nodes),
 
-      onLazyLoad ({ node, key, done, fail }) {
+      onLazyLoad({ node, key, done, fail }) {
         // call fail() if any error occurs
 
         setTimeout(() => {

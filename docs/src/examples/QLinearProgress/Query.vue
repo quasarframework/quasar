@@ -8,7 +8,12 @@
 
     <q-linear-progress query color="accent" class="q-mt-sm" />
 
-    <q-linear-progress query track-color="orange" color="purple" class="q-mt-sm" />
+    <q-linear-progress
+      query
+      track-color="orange"
+      color="purple"
+      class="q-mt-sm"
+    />
 
     <q-linear-progress query color="negative" class="q-mt-sm" />
   </div>

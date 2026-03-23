@@ -5,10 +5,15 @@
       filled
       v-model="model"
       label="Maximum 3 characters"
-      :rules="[ val => val.length <= 3 || 'Please use maximum 3 characters']"
+      :rules="[val => val.length <= 3 || 'Please use maximum 3 characters']"
     />
 
-    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
+    <q-btn
+      class="q-mt-sm"
+      label="Reset Validation"
+      @click="reset"
+      color="primary"
+    />
   </div>
 </template>
 
@@ -16,14 +21,14 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const inputRef = ref(null)
 
     return {
       model: ref(''),
       inputRef,
 
-      reset () {
+      reset() {
         inputRef.value.resetValidation()
       }
     }

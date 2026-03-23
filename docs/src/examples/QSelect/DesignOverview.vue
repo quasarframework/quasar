@@ -9,21 +9,67 @@
 
       <q-select standout v-model="model" :options="options" label="Standout" />
 
-      <q-select standout="bg-teal text-white" v-model="model" :options="options" label="Custom standout" />
+      <q-select
+        standout="bg-teal text-white"
+        v-model="model"
+        :options="options"
+        label="Custom standout"
+      />
 
-      <q-select borderless v-model="model" :options="options" label="Borderless" />
+      <q-select
+        borderless
+        v-model="model"
+        :options="options"
+        label="Borderless"
+      />
 
-      <q-select rounded filled v-model="model" :options="options" label="Rounded filled" />
+      <q-select
+        rounded
+        filled
+        v-model="model"
+        :options="options"
+        label="Rounded filled"
+      />
 
-      <q-select rounded outlined v-model="model" :options="options" label="Rounded outlined" />
+      <q-select
+        rounded
+        outlined
+        v-model="model"
+        :options="options"
+        label="Rounded outlined"
+      />
 
-      <q-select rounded standout v-model="model" :options="options" label="Rounded standout" />
+      <q-select
+        rounded
+        standout
+        v-model="model"
+        :options="options"
+        label="Rounded standout"
+      />
 
-      <q-select square filled v-model="model" :options="options" label="Square filled" />
+      <q-select
+        square
+        filled
+        v-model="model"
+        :options="options"
+        label="Square filled"
+      />
 
-      <q-select square outlined v-model="model" :options="options" label="Square outlined" />
+      <q-select
+        square
+        outlined
+        v-model="model"
+        :options="options"
+        label="Square outlined"
+      />
 
-      <q-select square standout v-model="model" :options="options" label="Square standout" />
+      <q-select
+        square
+        standout
+        v-model="model"
+        :options="options"
+        label="Square standout"
+      />
     </div>
   </div>
 </template>
@@ -32,12 +78,10 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(null),
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ]
+      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
     }
   }
 }

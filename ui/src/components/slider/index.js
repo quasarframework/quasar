@@ -1,5 +1,3 @@
 import QSlider from './QSlider.js'
 
-export {
-  QSlider
-}
+export { QSlider }

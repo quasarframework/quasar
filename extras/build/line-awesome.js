@@ -19,14 +19,14 @@ const {
   getBanner
 } = require('./utils')
 
-const svgFolder = resolve(__dirname, `../node_modules/${ packageName }/svg/`)
+const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
 const svgFiles = globSync(svgFolder + '/*.svg')
 let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
 
-svgFiles.forEach((file) => {
+svgFiles.forEach(file => {
   const name = defaultNameMapper(file, 'la')
 
   if (iconNames.has(name)) return
@@ -37,23 +37,16 @@ svgFiles.forEach((file) => {
     typeExports.push(typeDef)
 
     iconNames.add(name)
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err)
     skipped.push(name)
   }
 })
 
-iconNames = [ ...iconNames ]
-svgExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-typeExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-iconNames.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
+iconNames = [...iconNames]
+svgExports.sort((a, b) => String(a).localeCompare(b))
+typeExports.sort((a, b) => String(a).localeCompare(b))
+iconNames.sort((a, b) => String(a).localeCompare(b))
 
 writeExports(
   iconSetName,
@@ -75,25 +68,25 @@ const webfont = [
   'la-solid-900.woff2'
 ]
 
-webfont.forEach((file) => {
+webfont.forEach(file => {
   copySync(
     resolve(
       __dirname,
-      `../node_modules/${ packageName }/dist/line-awesome/fonts/${ file }`
+      `../node_modules/${packageName}/dist/line-awesome/fonts/${file}`
     ),
-    resolve(__dirname, `../line-awesome/${ file }`)
+    resolve(__dirname, `../line-awesome/${file}`)
   )
 })
 
 copyCssFile({
   from: resolve(
     __dirname,
-    `../node_modules/${ packageName }/dist/line-awesome/css/line-awesome.css`
+    `../node_modules/${packageName}/dist/line-awesome/css/line-awesome.css`
   ),
   to: resolve(__dirname, '../line-awesome/line-awesome.css'),
-  replaceFn: (content) =>
-    getBanner('Line Awesome', packageName)
-    + content
+  replaceFn: content =>
+    getBanner('Line Awesome', packageName) +
+    content
       .replace(/src:[^;]+la-brands-400[^;]+;/, '')
       .replace(
         /src:[^;]+la-brands-400[^;]+;/,
@@ -112,12 +105,12 @@ copyCssFile({
 })
 
 copySync(
-  resolve(__dirname, `../node_modules/${ packageName }/LICENSE.md`),
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE.md`),
   resolve(__dirname, '../line-awesome/LICENSE.md')
 )
 
 // write the JSON file
 const file = resolve(__dirname, join('..', distName, 'icons.json'))
-writeFileSync(file, JSON.stringify([ ...iconNames ].sort(), null, 2), 'utf-8')
+writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
 
-console.log(`${ distName } done with ${ iconNames.length } icons`)
+console.log(`${distName} done with ${iconNames.length} icons`)

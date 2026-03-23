@@ -6,9 +6,7 @@
 
     <q-tab-panels v-model="currentTab">
       <div>Gigi</div>
-      <q-tab-panel key="a" name="a">
-        Tab A
-      </q-tab-panel>
+      <q-tab-panel key="a" name="a"> Tab A </q-tab-panel>
       <q-tab-panel v-for="tab in tabs" :key="tab" :name="tab">
         Tab {{ tab }}
       </q-tab-panel>
@@ -29,10 +27,10 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       currentTab: 'one',
-      tabs: [ 'a', 'one', 'two', 'three' ]
+      tabs: ['a', 'one', 'two', 'three']
     }
   }
 }

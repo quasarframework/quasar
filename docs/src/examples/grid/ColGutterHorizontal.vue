@@ -1,12 +1,10 @@
 <template>
   <div class="q-pa-md example-col-gutter-horizontal">
-
     <div class="row q-col-gutter-x-md">
       <div class="col-4" v-for="n in 5" :key="`none-${n}`">
         <div class="my-content">&nbsp;</div>
       </div>
     </div>
-
   </div>
 </template>
 

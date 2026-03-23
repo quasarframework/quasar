@@ -2,14 +2,15 @@ import { static as serveStatic } from 'express'
 
 import { createHeadTags } from './utils.js'
 
-export function quasarVitePluginPwaResources (quasarConf) {
+export function quasarVitePluginPwaResources(quasarConf) {
   let pwaManifest = null
   let headTags
   let manifestContent
 
-  const serviceWorkerDir = quasarConf.ctx.appPaths.resolve.entry('service-worker')
+  const serviceWorkerDir =
+    quasarConf.ctx.appPaths.resolve.entry('service-worker')
 
-  function updateCache () {
+  function updateCache() {
     if (quasarConf.htmlVariables.pwaManifest === pwaManifest) return
 
     pwaManifest = quasarConf.htmlVariables.pwaManifest
@@ -24,17 +25,14 @@ export function quasarVitePluginPwaResources (quasarConf) {
     transformIndexHtml: {
       handler: html => {
         updateCache()
-        return html.replace(
-          /(<\/head>)/i,
-          (_, tag) => `${ headTags }${ tag }`
-        )
+        return html.replace(/(<\/head>)/i, (_, tag) => `${headTags}${tag}`)
       }
     },
 
     // runs for dev only to serve manifest and service-worker
-    configureServer (server) {
+    configureServer(server) {
       server.middlewares.use(
-        `${ quasarConf.build.publicPath }${ quasarConf.pwa.manifestFilename }`,
+        `${quasarConf.build.publicPath}${quasarConf.pwa.manifestFilename}`,
         (_, res) => {
           updateCache()
           res.setHeader('Content-Type', 'application/json')

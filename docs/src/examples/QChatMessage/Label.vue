@@ -1,9 +1,7 @@
 <template>
   <div class="q-pa-md row justify-center">
     <div style="width: 100%; max-width: 400px">
-      <q-chat-message
-        label="Sunday, 19th"
-      />
+      <q-chat-message label="Sunday, 19th" />
 
       <q-chat-message
         name="me"

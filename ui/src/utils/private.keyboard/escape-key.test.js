@@ -12,13 +12,13 @@ afterEach(() => {
   fnList = []
 })
 
-function createTestFn () {
+function createTestFn() {
   const fn = vi.fn()
   fnList.push(fn)
   return fn
 }
 
-function triggerKey (keyCode = 27) {
+function triggerKey(keyCode = 27) {
   const keydown = new KeyboardEvent('keydown', { keyCode })
   window.dispatchEvent(keydown)
 
@@ -31,12 +31,10 @@ function triggerKey (keyCode = 27) {
 describe('[escapeKey API]', () => {
   describe('[Functions]', () => {
     describe('[(function)addEscapeKey]', () => {
-      test('registers correctly', async () => {
+      test('registers correctly', () => {
         const fn = createTestFn()
 
-        expect(
-          addEscapeKey(fn)
-        ).toBeUndefined()
+        expect(addEscapeKey(fn)).toBeUndefined()
 
         expect(fn).not.toHaveBeenCalled()
 
@@ -46,17 +44,13 @@ describe('[escapeKey API]', () => {
         expect(fn).toHaveBeenCalledWith(evt)
       })
 
-      test('calls only last registered fn', async () => {
+      test('calls only last registered fn', () => {
         const fnFirst = createTestFn()
         const fnLast = createTestFn()
 
-        expect(
-          addEscapeKey(fnFirst)
-        ).toBeUndefined()
+        expect(addEscapeKey(fnFirst)).toBeUndefined()
 
-        expect(
-          addEscapeKey(fnLast)
-        ).toBeUndefined()
+        expect(addEscapeKey(fnLast)).toBeUndefined()
 
         expect(fnFirst).not.toHaveBeenCalled()
         expect(fnLast).not.toHaveBeenCalled()
@@ -78,9 +72,7 @@ describe('[escapeKey API]', () => {
       test('triggers only on ESC key', () => {
         const fn = createTestFn()
 
-        expect(
-          addEscapeKey(fn)
-        ).toBeUndefined()
+        expect(addEscapeKey(fn)).toBeUndefined()
 
         expect(fn).not.toHaveBeenCalled()
 
@@ -96,9 +88,7 @@ describe('[escapeKey API]', () => {
 
         addEscapeKey(fn)
 
-        expect(
-          removeEscapeKey(fn)
-        ).toBeUndefined()
+        expect(removeEscapeKey(fn)).toBeUndefined()
 
         triggerKey()
 
@@ -108,9 +98,7 @@ describe('[escapeKey API]', () => {
       test('does not error out if fn is not registered', () => {
         const fn = createTestFn()
 
-        expect(
-          removeEscapeKey(fn)
-        ).toBeUndefined()
+        expect(removeEscapeKey(fn)).toBeUndefined()
       })
     })
   })

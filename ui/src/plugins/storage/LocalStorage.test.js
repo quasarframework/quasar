@@ -6,14 +6,18 @@ import LocalStorage from './LocalStorage.js'
 const mountPlugin = () => mount({ template: '<div />' })
 
 // We override Quasar install so it installs this plugin
-const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')
+const quasarVuePlugin = config.global.plugins.find(
+  entry => entry.name === 'Quasar'
+)
 const { install } = quasarVuePlugin
 quasarVuePlugin.install = app => install(app, { plugins: { LocalStorage } })
 
 describe('[LocalStorage API]', () => {
   describe('[Injection]', () => {
     test('is injected into $q', () => {
-      const { vm: { $q } } = mountPlugin()
+      const {
+        vm: { $q }
+      } = mountPlugin()
 
       expect($q.localStorage).toBeDefined()
       expect($q.localStorage).toBeTypeOf('object')
@@ -34,7 +38,9 @@ describe('[LocalStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.hasItem).toBe(LocalStorage.hasItem)
       })
     })
@@ -51,7 +57,9 @@ describe('[LocalStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.getLength).toBe(LocalStorage.getLength)
       })
     })
@@ -60,13 +68,13 @@ describe('[LocalStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(
-          LocalStorage.getItem('getItem')
-        ).toBeNull()
+        expect(LocalStorage.getItem('getItem')).toBeNull()
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.getItem).toBe(LocalStorage.getItem)
       })
     })
@@ -78,9 +86,7 @@ describe('[LocalStorage API]', () => {
         // ensure at least one element is defined
         LocalStorage.setItem('getIndex', 'rstoenescu')
 
-        expect(
-          LocalStorage.getIndex(0)
-        ).$any([
+        expect(LocalStorage.getIndex(0)).$any([
           expect.any(Number),
           expect.any(Boolean),
           expect.any(Date),
@@ -93,7 +99,9 @@ describe('[LocalStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.getIndex).toBe(LocalStorage.getIndex)
       })
     })
@@ -105,13 +113,13 @@ describe('[LocalStorage API]', () => {
         // ensure at least one element is defined
         LocalStorage.setItem('getKey', 'rstoenescu')
 
-        expect(
-          LocalStorage.getKey(0)
-        ).toBeTypeOf('string')
+        expect(LocalStorage.getKey(0)).toBeTypeOf('string')
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.getKey).toBe(LocalStorage.getKey)
       })
     })
@@ -129,7 +137,9 @@ describe('[LocalStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.getAll).toBe(LocalStorage.getAll)
       })
     })
@@ -141,17 +151,15 @@ describe('[LocalStorage API]', () => {
         // ensure at least one element is defined
         LocalStorage.setItem('getAllKeys', 'rstoenescu')
 
-        expect(
-          Array.isArray(LocalStorage.getAllKeys())
-        ).toBe(true)
+        expect(Array.isArray(LocalStorage.getAllKeys())).toBe(true)
 
-        expect(
-          LocalStorage.getAllKeys()
-        ).toContain('getAllKeys')
+        expect(LocalStorage.getAllKeys()).toContain('getAllKeys')
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.getAllKeys).toBe(LocalStorage.getAllKeys)
       })
     })
@@ -160,17 +168,15 @@ describe('[LocalStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(
-          LocalStorage.setItem('set', 'rstoenescu')
-        ).toBeUndefined()
+        expect(LocalStorage.setItem('set', 'rstoenescu')).toBeUndefined()
 
-        expect(
-          LocalStorage.getItem('set')
-        ).toBe('rstoenescu')
+        expect(LocalStorage.getItem('set')).toBe('rstoenescu')
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.setItem).toBe(LocalStorage.setItem)
       })
 
@@ -203,27 +209,21 @@ describe('[LocalStorage API]', () => {
         const date = new Date()
 
         LocalStorage.setItem('Date', date)
-        expect(
-          LocalStorage.getItem('Date')
-        ).toStrictEqual(date)
+        expect(LocalStorage.getItem('Date')).toStrictEqual(date)
       })
 
       test('can encode + decode a String', () => {
         mountPlugin()
 
         LocalStorage.setItem('String', 'rstoenescu')
-        expect(
-          LocalStorage.getItem('String')
-        ).toBe('rstoenescu')
+        expect(LocalStorage.getItem('String')).toBe('rstoenescu')
       })
 
       test('can encode + decode a RegExp', () => {
         mountPlugin()
 
         LocalStorage.setItem('RegExp', /abc/)
-        expect(
-          LocalStorage.getItem('RegExp')
-        ).toStrictEqual(/abc/)
+        expect(LocalStorage.getItem('RegExp')).toStrictEqual(/abc/)
       })
 
       test('can encode + decode a Function', () => {
@@ -231,9 +231,7 @@ describe('[LocalStorage API]', () => {
         const fn = () => 5
 
         LocalStorage.setItem('Function', fn)
-        expect(
-          LocalStorage.getItem('Function')
-        ).toBe(fn.toString())
+        expect(LocalStorage.getItem('Function')).toBe(fn.toString())
       })
 
       test('can encode + decode an Object', () => {
@@ -241,19 +239,15 @@ describe('[LocalStorage API]', () => {
         const obj = { a: 1 }
 
         LocalStorage.setItem('Object', obj)
-        expect(
-          LocalStorage.getItem('Object')
-        ).toStrictEqual(obj)
+        expect(LocalStorage.getItem('Object')).toStrictEqual(obj)
       })
 
       test('can encode + decode an Array', () => {
         mountPlugin()
-        const arr = [ 1, 2, 3 ]
+        const arr = [1, 2, 3]
 
         LocalStorage.setItem('Array', arr)
-        expect(
-          LocalStorage.getItem('Array')
-        ).toStrictEqual(arr)
+        expect(LocalStorage.getItem('Array')).toStrictEqual(arr)
       })
     })
 
@@ -262,21 +256,17 @@ describe('[LocalStorage API]', () => {
         mountPlugin()
 
         LocalStorage.setItem('remove', 5)
-        expect(
-          LocalStorage.getItem('remove')
-        ).toBe(5)
+        expect(LocalStorage.getItem('remove')).toBe(5)
 
-        expect(
-          LocalStorage.removeItem('remove')
-        ).toBeUndefined()
+        expect(LocalStorage.removeItem('remove')).toBeUndefined()
 
-        expect(
-          LocalStorage.getItem('remove')
-        ).toBeNull()
+        expect(LocalStorage.getItem('remove')).toBeNull()
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.removeItem).toBe(LocalStorage.removeItem)
       })
     })
@@ -295,7 +285,9 @@ describe('[LocalStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.clear).toBe(LocalStorage.clear)
       })
     })
@@ -315,7 +307,9 @@ describe('[LocalStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.localStorage.isEmpty).toBe(LocalStorage.isEmpty)
       })
     })

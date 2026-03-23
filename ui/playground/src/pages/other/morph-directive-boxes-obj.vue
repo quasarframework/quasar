@@ -1,5 +1,8 @@
 <template>
-  <div class="q-pa-md relative-position bg-grey-1" style="width: 600px; max-width: 100vw; height: 600px; max-height: 80vh">
+  <div
+    class="q-pa-md relative-position bg-grey-1"
+    style="width: 600px; max-width: 100vw; height: 600px; max-height: 80vh"
+  >
     <div
       class="absolute-top-left bg-red text-white q-ma-md q-pa-lg"
       style="border-radius: 10px"
@@ -54,14 +57,10 @@
       style="width: 300px"
     >
       <q-card-section>
-        <div class="text-h6">
-          Test
-        </div>
+        <div class="text-h6">Test</div>
       </q-card-section>
 
-      <q-card-section>
-        Click/Tap on the backdrop.
-      </q-card-section>
+      <q-card-section> Click/Tap on the backdrop. </q-card-section>
 
       <q-card-actions align="right" class="bg-white text-teal">
         <q-btn flat label="OK" @click="toggleMorph" />
@@ -71,15 +70,10 @@
 </template>
 
 <script>
-const boxValues = [
-  'topleft',
-  'topright',
-  'bottomleft',
-  'bottomright'
-]
+const boxValues = ['topleft', 'topright', 'bottomleft', 'bottomright']
 
 export default {
-  data () {
+  data() {
     return {
       boxesModel: {
         model: 'topleft',
@@ -96,21 +90,19 @@ export default {
   },
 
   methods: {
-    toggleBoxes () {
+    toggleBoxes() {
       let value = this.boxesModel.model
 
       while (value === this.boxesModel.model) {
         const i = Math.floor(Math.random() * boxValues.length)
-        value = boxValues[ i ]
+        value = boxValues[i]
       }
 
       this.boxesModel.model = value
     },
 
-    toggleMorph () {
-      this.morphBox.model = this.morphBox.model === 'card'
-        ? 'btn'
-        : 'card'
+    toggleMorph() {
+      this.morphBox.model = this.morphBox.model === 'card' ? 'btn' : 'card'
     }
   }
 }

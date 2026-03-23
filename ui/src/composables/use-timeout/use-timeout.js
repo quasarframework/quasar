@@ -8,11 +8,11 @@ import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
  *    removeTimeout()
  */
 
-export default function () {
+export default function useTimeout() {
   let timer = null
   const vm = getCurrentInstance()
 
-  function removeTimeout () {
+  function removeTimeout() {
     if (timer !== null) {
       clearTimeout(timer)
       timer = null
@@ -25,7 +25,7 @@ export default function () {
   return {
     removeTimeout,
 
-    registerTimeout (fn, delay) {
+    registerTimeout(fn, delay) {
       removeTimeout()
 
       if (vmIsDestroyed(vm) === false) {

@@ -11,9 +11,7 @@
         @click="onClick"
         gigi
       >
-        <div class="absolute-bottom text-body1 text-center">
-          With srcset
-        </div>
+        <div class="absolute-bottom text-body1 text-center">With srcset</div>
       </q-img>
 
       <q-img
@@ -28,9 +26,9 @@
         style="max-width: 300px"
         :no-native-menu="noNativeMenu"
       >
-        <div class="absolute-bottom text-body1 text-center">
-          With srcset & sizes
-        </div>
+        <div class="absolute-bottom text-body1 text-center"
+          >With srcset & sizes</div
+        >
       </q-img>
 
       <q-img
@@ -38,11 +36,10 @@
         height="220px"
         width="220px"
       >
-        <div class="absolute-bottom text-body1 text-center">
-          With forced width & height
-        </div>
+        <div class="absolute-bottom text-body1 text-center"
+          >With forced width & height</div
+        >
       </q-img>
-
     </div>
 
     <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />
@@ -58,9 +55,7 @@
         loading-show-delay="500"
       >
         <template v-slot:loading>
-          <div class="text-h2 text-white">
-            Loading...
-          </div>
+          <div class="text-h2 text-white">Loading...</div>
         </template>
       </q-img>
 
@@ -71,9 +66,9 @@
         :no-native-menu="noNativeMenu"
         :loading-show-delay="500"
       >
-        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
-          Radius 50%
-        </div>
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs"
+          >Radius 50%</div
+        >
       </q-img>
 
       <q-img
@@ -82,9 +77,9 @@
         style="max-width: 400px; border-radius: 15px"
         :no-native-menu="noNativeMenu"
       >
-        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
-          Radius 15px
-        </div>
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs"
+          >Radius 15px</div
+        >
       </q-img>
 
       <q-img
@@ -95,33 +90,31 @@
         :no-native-menu="noNativeMenu"
       >
         <template v-slot:loading>
-          <div class="text-h2 text-white">
-            Loading...
-          </div>
+          <div class="text-h2 text-white">Loading...</div>
         </template>
 
-        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
-          Caption
-        </div>
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs"
+          >Caption</div
+        >
       </q-img>
 
       <q-img
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
-        :ratio="16/9"
+        :ratio="16 / 9"
         spinner-color="white"
         style="max-width: 400px"
         :no-native-menu="noNativeMenu"
       >
-        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
-          Caption 16/9
-        </div>
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs"
+          >Caption 16/9</div
+        >
       </q-img>
 
       <q-img
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
-        :ratio="16/9"
+        :ratio="16 / 9"
         spinner-color="white"
         style="max-width: 400px"
         :no-native-menu="noNativeMenu"
@@ -158,15 +151,16 @@
         style="max-width: 400px; height: 200px"
         :no-native-menu="noNativeMenu"
       >
-        <div class="absolute-bottom text-body1 text-center">
-          Contain
-        </div>
+        <div class="absolute-bottom text-body1 text-center">Contain</div>
       </q-img>
     </div>
 
     <div class="q-mt-lg">
       <q-btn label="Set null src" @click="bogusSrc = null" />
-      <q-btn label="Set good src" @click="bogusSrc = 'https://picsum.photos/500/300?t=' + Math.random()" />
+      <q-btn
+        label="Set good src"
+        @click="bogusSrc = 'https://picsum.photos/500/300?t=' + Math.random()"
+      />
       <q-btn label="Set bogus src" @click="bogusSrc = 'https://bogu.bogus'" />
     </div>
     <div>
@@ -187,9 +181,7 @@
         :no-native-menu="noNativeMenu"
       >
         <template v-slot:error>
-          <div class="absolute-full flex flex-center">
-            Error...
-          </div>
+          <div class="absolute-full flex flex-center">Error...</div>
         </template>
       </q-img>
 
@@ -202,9 +194,7 @@
         :no-native-menu="noNativeMenu"
       >
         <template v-slot:error>
-          <div class="absolute-full flex flex-center">
-            Error...
-          </div>
+          <div class="absolute-full flex flex-center">Error...</div>
         </template>
       </q-img>
 
@@ -225,9 +215,9 @@
         :no-native-menu="noNativeMenu"
       >
         <template v-slot:error>
-          <div class="absolute-full bg-negative text-white flex flex-center">
-            Error...
-          </div>
+          <div class="absolute-full bg-negative text-white flex flex-center"
+            >Error...</div
+          >
         </template>
       </q-img>
 
@@ -240,9 +230,9 @@
         :no-native-menu="noNativeMenu"
       >
         <template v-slot:error>
-          <div class="absolute-full bg-negative text-white flex flex-center">
-            Error...
-          </div>
+          <div class="absolute-full bg-negative text-white flex flex-center"
+            >Error...</div
+          >
         </template>
       </q-img>
 
@@ -256,9 +246,7 @@
         :no-native-menu="noNativeMenu"
       >
         <template v-slot:error>
-          <div class="absolute-full flex flex-center">
-            Error...
-          </div>
+          <div class="absolute-full flex flex-center">Error...</div>
         </template>
       </q-img>
     </div>
@@ -267,22 +255,23 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       url: 'https://picsum.photos/500/300',
       bogusSrc: 'https://bogu.bogus',
       noNativeMenu: false,
       errorSrc: 'https://cdn.quasar.dev/logo-v2/header.png',
-      placeholderSrc: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIzLjYxMiAyMy42MTIiIHZpZXdCb3g9IjAgMCAyMy42MTIgMjMuNjEyIj48cGF0aCBkPSJNMTYuMTkyIDUuMjI0di0uNzM3aC04Ljc3di43MzdzMS4zMzQgMy43MTMgMy44MzggNS40Mjh2MS43ODVzLTIuNzYxIDIuNjg2LTMuODM4IDUuNzc1di44NDJoOC43N3YtLjg0MmMtMS4zOTktMy40MS0zLjgzNy01Ljc3NS0zLjgzNy01Ljc3NXYtMS43ODVjMy40MDQtMi45MjYgMy44MzctNS40MjggMy44MzctNS40Mjh6IiBzdHlsZT0iZmlsbDojMDEwMDAyIi8+PHBhdGggZD0iTTE5LjM1MyAzLjg1NlYyLjUyOWgxLjI1OFYwSDMuMDAydjIuNTI5aDEuMjU5djEuMzI3YzAgMi4wMjUgMy42MzQgNy41NTUgMy44MDQgNy45NTUtLjE2Ny4zOTctMy44MDQgNS45MjktMy44MDQgNy45NDZ2MS4zMjVIMy4wMDJ2Mi41M2gxNy42MDl2LTIuNTNoLTEuMjU4di0xLjMyNWMwLTIuMDI1LTMuNjM1LTcuNTIxLTMuODI5LTcuOTUxLjE5NC0uNDMgMy44MjktNS45MjYgMy44MjktNy45NXptLTEuMjU3IDE1LjkwMXYxLjMyNUg1LjUxOXYtMS4zMjVjMC0xLjQ1NSAzLjg1NC03LjIyMiAzLjg1NC03Ljk1MXMtMy44NTQtNi40OTUtMy44NTQtNy45NVYyLjUyOWgxMi41Nzh2MS4zMjdjMCAxLjQ1NS0zLjg4NiA3LjIyMS0zLjg4NiA3Ljk1LS4wMDEuNzI5IDMuODg1IDYuNDk2IDMuODg1IDcuOTUxeiIgc3R5bGU9ImZpbGw6IzAxMDAwMiIvPjwvc3ZnPg=='
+      placeholderSrc:
+        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIzLjYxMiAyMy42MTIiIHZpZXdCb3g9IjAgMCAyMy42MTIgMjMuNjEyIj48cGF0aCBkPSJNMTYuMTkyIDUuMjI0di0uNzM3aC04Ljc3di43MzdzMS4zMzQgMy43MTMgMy44MzggNS40Mjh2MS43ODVzLTIuNzYxIDIuNjg2LTMuODM4IDUuNzc1di44NDJoOC43N3YtLjg0MmMtMS4zOTktMy40MS0zLjgzNy01Ljc3NS0zLjgzNy01Ljc3NXYtMS43ODVjMy40MDQtMi45MjYgMy44MzctNS40MjggMy44MzctNS40Mjh6IiBzdHlsZT0iZmlsbDojMDEwMDAyIi8+PHBhdGggZD0iTTE5LjM1MyAzLjg1NlYyLjUyOWgxLjI1OFYwSDMuMDAydjIuNTI5aDEuMjU5djEuMzI3YzAgMi4wMjUgMy42MzQgNy41NTUgMy44MDQgNy45NTUtLjE2Ny4zOTctMy44MDQgNS45MjktMy44MDQgNy45NDZ2MS4zMjVIMy4wMDJ2Mi41M2gxNy42MDl2LTIuNTNoLTEuMjU4di0xLjMyNWMwLTIuMDI1LTMuNjM1LTcuNTIxLTMuODI5LTcuOTUxLjE5NC0uNDMgMy44MjktNS45MjYgMy44MjktNy45NXptLTEuMjU3IDE1LjkwMXYxLjMyNUg1LjUxOXYtMS4zMjVjMC0xLjQ1NSAzLjg1NC03LjIyMiAzLjg1NC03Ljk1MXMtMy44NTQtNi40OTUtMy44NTQtNy45NVYyLjUyOWgxMi41Nzh2MS4zMjdjMCAxLjQ1NS0zLjg4NiA3LjIyMS0zLjg4NiA3Ljk1LS4wMDEuNzI5IDMuODg1IDYuNDk2IDMuODg1IDcuOTUxeiIgc3R5bGU9ImZpbGw6IzAxMDAwMiIvPjwvc3ZnPg=='
     }
   },
 
   methods: {
-    refresh () {
+    refresh() {
       this.url = 'https://picsum.photos/500/300?t=' + Math.random()
     },
 
-    onClick () {
+    onClick() {
       console.log('@click')
     }
   } // ,

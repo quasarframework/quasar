@@ -3,14 +3,14 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/video"
   },
 
-  "mixins": [ "composables/private.use-ratio/use-ratio" ],
+  "mixins": ["composables/private.use-ratio/use-ratio"],
 
   "props": {
     "src": {
       "type": "String",
       "desc": "The source url to display in an iframe",
       "required": true,
-      "examples": [ "'https://www.youtube.com/embed/k3_tw44QsZQ'" ],
+      "examples": ["'https://www.youtube.com/embed/k3_tw44QsZQ'"],
       "category": "model"
     },
 
@@ -18,7 +18,7 @@
       "type": "String",
       "desc": "(Accessibility) Set the native 'title' attribute value of the inner iframe being used",
       "required": false,
-      "examples": [ "'My Daily Marathon'" ],
+      "examples": ["'My Daily Marathon'"],
       "category": "accessibility",
       "addedIn": "v2.4.3"
     },
@@ -27,7 +27,7 @@
       "type": "String",
       "desc": "Provides a hint of the relative priority to use when fetching the iframe document",
       "default": "'auto'",
-      "values": [ "'high'", "'low'", "'auto'" ],
+      "values": ["'high'", "'low'", "'auto'"],
       "category": "behavior",
       "addedIn": "v2.6.6"
     },
@@ -36,7 +36,7 @@
       "type": "String",
       "desc": "Indicates how the browser should load the iframe",
       "default": "'eager'",
-      "values": [ "'eager'", "'lazy'" ],
+      "values": ["'eager'", "'lazy'"],
       "category": "behavior",
       "addedIn": "v2.6.6"
     },

@@ -7,6 +7,7 @@ related:
   - /vue-components/linear-progress
   - /vue-components/skeleton
 ---
+
 The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/vue-components/ajax-bar) in case you don't want to handle a QAjaxBar component yourself.
 
 For a demo, please visit the QAjaxBar documentation page.
@@ -89,7 +90,7 @@ import { LoadingBar } from 'quasar'
 LoadingBar.setDefaults({
   // return a Boolean which has the meaning of
   // "does this URL should trigger LoadingBar?"
-  hijackFilter (url) {
+  hijackFilter(url) {
     // example (only https://my-service.com/* should trigger)
     return /^https:\/\/my-service\.com/.test(url)
   }

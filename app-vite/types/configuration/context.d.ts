@@ -6,11 +6,18 @@ import {
   ElectronBuilderTargets,
   ElectronBuilderArchs,
   ElectronPackagerTargets,
-  ElectronPackagerArchs,
+  ElectronPackagerArchs
 } from "./electron-conf";
 import { QuasarCordovaTargets } from "./cordova-conf";
 
-export type QuasarMode = "spa" | "ssr" | "pwa" | "cordova" | "capacitor" | "electron" | "bex";
+export type QuasarMode =
+  | "spa"
+  | "ssr"
+  | "pwa"
+  | "cordova"
+  | "capacitor"
+  | "electron"
+  | "bex";
 
 interface BaseQuasarContext {
   /** True if we are in development mode */
@@ -25,7 +32,7 @@ interface BaseQuasarContext {
   /** True if opening remote Vue Devtools in development mode. */
   vueDevtools: boolean;
   /** Util dealing with app paths */
-  appPaths: QuasarAppPaths
+  appPaths: QuasarAppPaths;
 }
 
 interface CapacitorQuasarContext extends BaseQuasarContext {
@@ -137,7 +144,7 @@ interface PwaQuasarContext extends BaseQuasarContext {
 }
 
 interface SsrQuasarContext extends BaseQuasarContext {
-  mode: { ssr: true, pwa?: true };
+  mode: { ssr: true; pwa?: true };
   modeName: "ssr";
 }
 
@@ -171,6 +178,7 @@ type CacheProxyModuleKey =
   | "hasTypescript"
   | "nodePackager"
   | "storeProvider"
+  | "vueRouterVersion"
   | "workboxBuild";
 interface CacheProxy {
   getRuntime: (key: string, getInitialValue: () => any) => any;

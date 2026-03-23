@@ -46,5 +46,4 @@
       <q-breadcrumbs-el label="Breadcrumbs" />
     </q-breadcrumbs>
   </div>
-
 </template>

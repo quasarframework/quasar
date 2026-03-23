@@ -26,9 +26,7 @@
         />
       </p>
 
-      <p class="caption">
-        On some phones this will have little effect:
-      </p>
+      <p class="caption">On some phones this will have little effect:</p>
       <ul class="light-paragraph">
         <li>
           For example, on Samsung S4, when App goes into fullscreen, the top bar
@@ -48,21 +46,24 @@ import { AppFullscreen } from 'quasar'
 
 export default {
   watch: {
-    '$q.fullscreen.activeEl' (val) {
+    '$q.fullscreen.activeEl'(val) {
       console.log('watcher $q.fullscreen.activeEl', val, AppFullscreen.activeEl)
     },
 
-    '$q.fullscreen.isActive' (val) {
+    '$q.fullscreen.isActive'(val) {
       console.log('watcher $q.fullscreen.isActive', val, AppFullscreen.isActive)
     }
   },
 
   methods: {
-    toggleFullscreen () {
+    toggleFullscreen() {
       AppFullscreen.toggle()
         .then(() => {
           setTimeout(() => {
-            console.log('setTimeout AppFullscreen.isActive', AppFullscreen.isActive)
+            console.log(
+              'setTimeout AppFullscreen.isActive',
+              AppFullscreen.isActive
+            )
           }, 1000)
         })
         .catch(err => {

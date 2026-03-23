@@ -3,5 +3,5 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
-  "mixins": [ "components/tabs/use-tab" ]
+  "mixins": ["components/tabs/use-tab"]
 }

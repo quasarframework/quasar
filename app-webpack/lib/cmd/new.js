@@ -11,11 +11,11 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     f: 'format'
   },
-  boolean: [ 'h' ],
-  string: [ 'f' ]
+  boolean: ['h'],
+  string: ['f']
 })
 
-function showHelp (returnCode) {
+function showHelp(returnCode) {
   console.log(`
   Description
     Quickly scaffold files.
@@ -56,7 +56,7 @@ function showHelp (returnCode) {
   process.exit(returnCode)
 }
 
-function showError (message) {
+function showError(message) {
   console.log()
   warn(message)
   showHelp(1)
@@ -70,7 +70,7 @@ console.log()
 
 if (argv._.length < 2) {
   console.log()
-  warn(`Wrong number of parameters (${ argv._.length }).`)
+  warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp(1)
   process.exit(1)
 }
@@ -84,7 +84,7 @@ if (!argv.format) {
 }
 
 /** @type {string[]} */
-const [ rawType, ...names ] = argv._
+const [rawType, ...names] = argv._
 /** @type {{ format: 'js'|'ts'}} */
 const { format } = argv
 
@@ -96,66 +96,67 @@ const typeAliasMap = {
   b: 'boot'
 }
 
-const validAssetTypes = [ ...Object.entries(typeAliasMap).flat(), 'ssrmiddleware' ]
+const validAssetTypes = [
+  ...Object.entries(typeAliasMap).flat(),
+  'ssrmiddleware'
+]
 if (validAssetTypes.includes(rawType) === false) {
-  showError(`Invalid asset type: ${ rawType } (valid values: ${ validAssetTypes.join('|') })`)
+  showError(
+    `Invalid asset type: ${rawType} (valid values: ${validAssetTypes.join('|')})`
+  )
 }
 
 /** @type {'page'|'layout'|'component'|'store'|'boot'|'ssrmiddleware'} */
-const type = typeAliasMap[ rawType ] || rawType
+const type = typeAliasMap[rawType] || rawType
 
-if ([ 'js', 'ts' ].includes(format) === false) {
-  showError(`Invalid asset format: ${ format } (valid values: js|ts)`)
+if (['js', 'ts'].includes(format) === false) {
+  showError(`Invalid asset format: ${format} (valid values: js|ts)`)
 }
 
-function createFile ({ targetFile, ext, reference }) {
+function createFile({ targetFile, ext, reference }) {
   const assetRelativePath = relative(appPaths.appDir, targetFile)
 
   if (fs.existsSync(targetFile)) {
-    warn(`${ assetRelativePath } already exists.`, 'SKIPPED')
+    warn(`${assetRelativePath} already exists.`, 'SKIPPED')
     console.log()
     return
   }
 
   fse.ensureDir(dirname(targetFile))
-  const templatePath = join('templates/app', format, `${ type }.${ ext }`)
+  const templatePath = join('templates/app', format, `${type}.${ext}`)
 
-  fse.copy(
-    appPaths.resolve.cli(templatePath),
-    targetFile,
-    err => {
-      if (err) {
-        console.warn(err)
-        warn(`Could not generate ${ assetRelativePath }.`, 'FAIL')
-        return
-      }
-
-      log(`Generated ${ type }: ${ assetRelativePath }`)
-      if (reference) {
-        log(`Make sure to reference it in ${ reference }`)
-      }
-      log()
+  fse.copy(appPaths.resolve.cli(templatePath), targetFile, err => {
+    if (err) {
+      console.warn(err)
+      warn(`Could not generate ${assetRelativePath}.`, 'FAIL')
+      return
     }
-  )
+
+    log(`Generated ${type}: ${assetRelativePath}`)
+    if (reference) {
+      log(`Make sure to reference it in ${reference}`)
+    }
+    log()
+  })
 }
 
-async function getAsset (type) {
-  if (type === 'page') {
+async function getAsset(assetType) {
+  if (assetType === 'page') {
     return {
       relativePath: 'src/pages',
       ext: 'vue',
-      reference: `src/router/routes.${ format }`
+      reference: `src/router/routes.${format}`
     }
   }
 
-  if (type === 'component') {
+  if (assetType === 'component') {
     return {
       relativePath: 'src/components',
       ext: 'vue'
     }
   }
 
-  if (type === 'boot') {
+  if (assetType === 'boot') {
     return {
       relativePath: 'src/boot',
       ext: format,
@@ -163,7 +164,7 @@ async function getAsset (type) {
     }
   }
 
-  if (type === 'ssrmiddleware') {
+  if (assetType === 'ssrmiddleware') {
     return {
       relativePath: 'src-ssr/middlewares',
       ext: format,
@@ -171,18 +172,18 @@ async function getAsset (type) {
     }
   }
 
-  if (type === 'layout') {
+  if (assetType === 'layout') {
     return {
       relativePath: 'src/layouts',
       ext: 'vue',
-      reference: `src/router/routes.${ format }`
+      reference: `src/router/routes.${format}`
     }
   }
 
-  if (type === 'store') {
+  if (assetType === 'store') {
     const storeProvider = await cacheProxy.getModule('storeProvider')
 
-    const relativePath = `src/${ storeProvider.pathKey }`
+    const relativePath = `src/${storeProvider.pathKey}`
     const targetFolder = appPaths.resolve.app(relativePath)
 
     if (!storeProvider.isInstalled) {
@@ -194,17 +195,18 @@ async function getAsset (type) {
 
       try {
         fse.copySync(
-          appPaths.resolve.cli(`templates/store/${ storeProvider.name }/${ format }`),
+          appPaths.resolve.cli(
+            `templates/store/${storeProvider.name}/${format}`
+          ),
           targetFolder
         )
-      }
-      catch (err) {
+      } catch (err) {
         console.warn(err)
-        warn(`Could not generate ${ relativePath }.`, 'FAIL')
+        warn(`Could not generate ${relativePath}.`, 'FAIL')
         process.exit(1)
       }
 
-      log(`Generated ${ relativePath }`)
+      log(`Generated ${relativePath}`)
     }
 
     return {
@@ -214,9 +216,9 @@ async function getAsset (type) {
   }
 }
 
-async function generate () {
+async function generate() {
   const { relativePath, ext, reference } = await getAsset(type)
-  const fullExt = `.${ ext }`
+  const fullExt = `.${ext}`
 
   names.forEach(name => {
     const file = join(

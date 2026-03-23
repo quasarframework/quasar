@@ -18,10 +18,10 @@
     },
 
     "activeEl": {
-      "type": [ "Element", "null" ],
+      "type": ["Element", "null"],
       "desc": "The DOM element used as root for fullscreen, otherwise 'null'",
       "reactive": true,
-      "examples": [ "document.fullscreenElement", "null" ]
+      "examples": ["document.fullscreenElement", "null"]
     }
   },
 
@@ -32,7 +32,7 @@
         "target": {
           "type": "Element",
           "desc": "Optional Element of target to request Fullscreen on",
-          "examples": [ "document.getElementById('example')" ]
+          "examples": ["document.getElementById('example')"]
         }
       },
       "returns": {
@@ -50,9 +50,7 @@
       "returns": {
         "type": "Promise<void>",
         "desc": "A Promise which is resolved when exited out of fullscreen mode. It gets rejected with 'Not capable' if the browser is not capable, and with an Error object if something else went wrong.",
-        "examples": [
-          "exit().then(response => { ... }).catch(err => { ... })"
-        ]
+        "examples": ["exit().then(response => { ... }).catch(err => { ... })"]
       }
     },
 
@@ -62,15 +60,13 @@
         "target": {
           "type": "Element",
           "desc": "Optional Element of target to request Fullscreen on",
-          "examples": [ "document.getElementById('example')" ]
+          "examples": ["document.getElementById('example')"]
         }
       },
       "returns": {
         "type": "Promise<void>",
         "desc": "A Promise which is resolved when transitioned to / exited out of fullscreen mode. It gets rejected with 'Not capable' if the browser is not capable, and with an Error object if something else went wrong.",
-        "examples": [
-          "toggle().then(response => { ... }).catch(err => { ... })"
-        ]
+        "examples": ["toggle().then(response => { ... }).catch(err => { ... })"]
       }
     }
   }

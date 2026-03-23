@@ -15,14 +15,20 @@ export default {
     search: 'Otsi',
     filter: 'Filtreeri',
     refresh: 'Värskenda',
-    expand: label => (label ? `Laienda "${ label }"` : 'Laienda'),
-    collapse: label => (label ? `Ahenda "${ label }"` : 'Ahenda')
+    expand: label => (label ? `Laienda "${label}"` : 'Laienda'),
+    collapse: label => (label ? `Ahenda "${label}"` : 'Ahenda')
   },
   date: {
-    days: 'pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev'.split('_'),
+    days: 'pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev'.split(
+      '_'
+    ),
     daysShort: 'P_E_T_K_N_R_L'.split('_'),
-    months: 'jaanuar_veebruar_märts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember'.split('_'),
-    monthsShort: 'jaan_veebr_märts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets'.split('_'),
+    months:
+      'jaanuar_veebruar_märts_aprill_mai_juuni_juuli_august_september_oktoober_november_detsember'.split(
+        '_'
+      ),
+    monthsShort:
+      'jaan_veebr_märts_apr_mai_juuni_juuli_aug_sept_okt_nov_dets'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
     pluralDay: 'päeva',
@@ -31,18 +37,15 @@ export default {
     prevYear: 'Eelmine aasta',
     nextYear: 'Järgmisel aastal',
     today: 'Täna',
-    prevRangeYears: range => `Eelmine ${ range } aastad`,
-    nextRangeYears: range => `Järgmine ${ range } aastat`
+    prevRangeYears: range => `Eelmine ${range} aastad`,
+    nextRangeYears: range => `Järgmine ${range} aastat`
   },
   table: {
     noData: 'Andmeid ei ole',
     noResults: 'Sobivaid kirjeid ei leitud',
     loading: 'Laadimine...',
-    selectedRecords: rows => (
-      rows === 1
-        ? '1 kirje valitud.'
-        : rows + ' kirjet valitud.'
-    ),
+    selectedRecords: rows =>
+      rows === 1 ? '1 kirje valitud.' : rows + ' kirjet valitud.',
     recordsPerPage: 'Kirjed lehel:',
     allRows: 'Kõik',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,

@@ -5,7 +5,7 @@ import {
   MethodOptions,
   VNodeProps,
   AllowedComponentProps,
-  ComponentCustomProps,
+  ComponentCustomProps
 } from "vue";
 
 export type StringDictionary<T extends string> = Required<{
@@ -32,18 +32,13 @@ export type DeepPartial<T> = {
 // This type is compatible with the Vue private `ComponentPublicInstanceConstructor` type
 // https://github.com/vuejs/vue-next/blob/011dee8644bb52f5bdc6365c6e8404936d57e2cd/packages/runtime-core/src/componentPublicInstance.ts#L111
 export type ComponentConstructor<
-  Component extends ComponentPublicInstance<
-    Props,
-    RawBindings,
-    D,
-    C,
-    M
-  > = ComponentPublicInstance<any>,
+  Component extends ComponentPublicInstance<Props, RawBindings, D, C, M> =
+    ComponentPublicInstance<any>,
   Props = any,
   RawBindings = any,
   D = any,
   C extends ComputedOptions = ComputedOptions,
-  M extends MethodOptions = MethodOptions,
+  M extends MethodOptions = MethodOptions
 > = { new (): Component } & ComponentOptions<Props, RawBindings, D, C, M>;
 
 // https://github.com/vuejs/vue-next/blob/d84d5ecdbdf709570122175d6565bb61fae877f2/packages/runtime-core/src/apiDefineComponent.ts#L29-L31

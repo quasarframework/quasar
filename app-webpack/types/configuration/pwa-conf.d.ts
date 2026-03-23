@@ -108,7 +108,9 @@ export interface QuasarPwaConfiguration {
    * If using the function form, return HTML tags as one single string.
    * @default true
    */
-  injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);
+  injectPwaMetaTags?:
+    | boolean
+    | ((injectParam: InjectPwaMetaTagsParams) => string);
 
   /**
    * Extend the Esbuild config that is used for the custom service worker

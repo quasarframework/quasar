@@ -96,7 +96,7 @@ return {
   boot: [
     // ...
     'i18n'
-  ],
+  ]
 
   // ...
 }
@@ -134,19 +134,22 @@ import { fileURLToPath } from 'node:url'
 
 build: {
   vitePlugins: [
-    ['@intlify/unplugin-vue-i18n/vite', {
-      // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
-      // compositionOnly: false,
+    [
+      '@intlify/unplugin-vue-i18n/vite',
+      {
+        // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
+        // compositionOnly: false,
 
-      // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
-      // you need to set `runtimeOnly: false`
-      // runtimeOnly: false,
+        // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
+        // you need to set `runtimeOnly: false`
+        // runtimeOnly: false,
 
-      ssr: ctx.modeName === 'ssr',
+        ssr: ctx.modeName === 'ssr',
 
-      // you need to set i18n resource including paths !
-      include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ]
-    }]
+        // you need to set i18n resource including paths !
+        include: [fileURLToPath(new URL('./src/i18n', import.meta.url))]
+      }
+    ]
   ]
 }
 ```
@@ -170,25 +173,25 @@ Here is an example displaying the main use cases:
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+  import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+  const { t } = useI18n()
 
-// bound to a static variable, non-reactive
-// const staticContent = t('hello')
-// bound to a reactive variable, but one-time assignment, locale changes will not update the value
-// const reactiveStaticContent = ref(t('hello'))
+  // bound to a static variable, non-reactive
+  // const staticContent = t('hello')
+  // bound to a reactive variable, but one-time assignment, locale changes will not update the value
+  // const reactiveStaticContent = ref(t('hello'))
 
-// bound to a reactive variable, locale changes will reflect the value
-const content = computed(() => t('hello'))
+  // bound to a reactive variable, locale changes will reflect the value
+  const content = computed(() => t('hello'))
 
-function notify() {
-  Notify.create({
-    type: 'positive',
-    message: t('hello')
-  })
-}
+  function notify() {
+    Notify.create({
+      type: 'positive',
+      message: t('hello')
+    })
+  }
 </script>
 ```
 
@@ -205,7 +208,7 @@ import de from './de'
 
 export default {
   'en-US': enUS,
-  'de': de
+  de: de
 }
 ```
 
@@ -229,18 +232,19 @@ export default {
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n'
+  import { useI18n } from 'vue-i18n'
 
-const { locale } = useI18n({ useScope: 'global' })
+  const { locale } = useI18n({ useScope: 'global' })
 
-const localeOptions: [
-  { value: 'en-US', label: 'English' },
-  { value: 'de', label: 'German' }
-]
+  const localeOptions: [
+    { value: 'en-US', label: 'English' },
+    { value: 'de', label: 'German' }
+  ]
 </script>
 ```
 
 ## UPPERCASE
+
 Many languages, such as Greek, German and Dutch have non-intuitive rules for uppercase display, and there is an edge case that you should be aware of:
 
 QBtn component will use the CSS `text-transform: uppercase` rule to automatically turn its label into all-caps. According to the [MDN webdocs](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform), "The language is defined by the lang HTML attribute or the xml:lang XML attribute." Unfortunately, this has spotty implementation across browsers, and the 2017 ISO standard for the uppercase German eszett `ß` has not really entered the canon. At the moment you have two options:
@@ -249,6 +253,7 @@ QBtn component will use the CSS `text-transform: uppercase` rule to automaticall
 2. use the prop `no-caps` in your label and rewrite the string with [toLocaleUpperCase](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase) by using the locale as detected by `$q.lang.getLocale()`
 
 ## Detecting Locale
+
 There's also a method to determine user locale which is supplied by Quasar out of the box:
 
 ```js
@@ -266,5 +271,5 @@ setup () {
 ```
 
 ::: warning
-If you use Quasar's set method (`$q.lang.set()`), this will not be reflected by Quasar's getLocale above. The reason for this is that `getLocale()` will always return the *users* locale (based on browser settings). The `set()` method refers to Quasars internal locale setting which is used to determine which language file to use. If you would like to see which language has been set using `set()` you can use `$q.lang.isoName`.
+If you use Quasar's set method (`$q.lang.set()`), this will not be reflected by Quasar's getLocale above. The reason for this is that `getLocale()` will always return the _users_ locale (based on browser settings). The `set()` method refers to Quasars internal locale setting which is used to determine which language file to use. If you would like to see which language has been set using `set()` you can use `$q.lang.isoName`.
 :::

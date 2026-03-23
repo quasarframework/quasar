@@ -1,10 +1,14 @@
 <template>
   <div class="q-pa-md q-gutter-md">
-    <div class="inset-shadow flex inline shadow-box flex-center doc-inset-shadow">
+    <div
+      class="inset-shadow flex inline shadow-box flex-center doc-inset-shadow"
+    >
       .inset-shadow
     </div>
 
-    <div class="inset-shadow-down flex inline shadow-box flex-center doc-inset-shadow">
+    <div
+      class="inset-shadow-down flex inline shadow-box flex-center doc-inset-shadow"
+    >
       .inset-shadow-down
     </div>
   </div>

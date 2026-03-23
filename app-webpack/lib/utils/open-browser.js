@@ -1,6 +1,10 @@
 const { log, warn } = require('./logger.js')
 
-module.exports.openBrowser = async function openBrowser ({ url, opts, wait = true }) {
+module.exports.openBrowser = async function openBrowser({
+  url,
+  opts,
+  wait = true
+}) {
   const { default: open } = await import('open')
 
   const openDefault = () => {
@@ -25,8 +29,7 @@ module.exports.openBrowser = async function openBrowser ({ url, opts, wait = tru
       warn()
       openDefault()
     })
-  }
-  else {
+  } else {
     openDefault()
   }
 }

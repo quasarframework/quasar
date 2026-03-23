@@ -1,4 +1,11 @@
-import { ref, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import {
+  ref,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+  getCurrentInstance
+} from 'vue'
 
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { addEvt, cleanEvt, prevent } from '../../utils/event/event.js'
@@ -9,7 +16,7 @@ export const useAnchorStaticProps = {
   target: __QUASAR_SSR_SERVER__
     ? { default: true }
     : {
-        type: [ Boolean, String, Element ],
+        type: [Boolean, String, Element],
         default: true
       },
 
@@ -21,7 +28,7 @@ export const useAnchorProps = {
   contextMenu: Boolean
 }
 
-export default function ({
+export default function useAnchor({
   showing,
   avoidEmit, // required for QPopupProxy (true)
   configureAnchorEl // optional
@@ -32,11 +39,11 @@ export default function ({
 
   let touchTimer = null
 
-  function canShow (evt) {
+  function canShow(evt) {
     // abort with no parent configured or on multi-touch
     return anchorEl.value === null
       ? false
-      : (evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1)
+      : evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1
   }
 
   const anchorEvents = {}
@@ -46,20 +53,20 @@ export default function ({
     // QMenu & QPopupProxy (which is why it's handled here)
 
     Object.assign(anchorEvents, {
-      hide (evt) {
+      hide(evt) {
         proxy.hide(evt)
       },
 
-      toggle (evt) {
+      toggle(evt) {
         proxy.toggle(evt)
         evt.qAnchorHandled = true
       },
 
-      toggleKey (evt) {
-        isKeyCode(evt, 13) === true && anchorEvents.toggle(evt)
+      toggleKey(evt) {
+        if (isKeyCode(evt, 13) === true) anchorEvents.toggle(evt)
       },
 
-      contextClick (evt) {
+      contextClick(evt) {
         proxy.hide(evt)
         prevent(evt)
         nextTick(() => {
@@ -70,7 +77,7 @@ export default function ({
 
       prevent,
 
-      mobileTouch (evt) {
+      mobileTouch(evt) {
         anchorEvents.mobileCleanup(evt)
 
         if (canShow(evt) !== true) return
@@ -80,10 +87,10 @@ export default function ({
 
         const target = evt.target
         addEvt(anchorEvents, 'anchor', [
-          [ target, 'touchmove', 'mobileCleanup', 'passive' ],
-          [ target, 'touchend', 'mobileCleanup', 'passive' ],
-          [ target, 'touchcancel', 'mobileCleanup', 'passive' ],
-          [ anchorEl.value, 'contextmenu', 'prevent', 'notPassive' ]
+          [target, 'touchmove', 'mobileCleanup', 'passive'],
+          [target, 'touchend', 'mobileCleanup', 'passive'],
+          [target, 'touchcancel', 'mobileCleanup', 'passive'],
+          [anchorEl.value, 'contextmenu', 'prevent', 'notPassive']
         ])
 
         touchTimer = setTimeout(() => {
@@ -93,7 +100,7 @@ export default function ({
         }, 300)
       },
 
-      mobileCleanup (evt) {
+      mobileCleanup(evt) {
         anchorEl.value.classList.remove('non-selectable')
 
         if (touchTimer !== null) {
@@ -107,28 +114,26 @@ export default function ({
       }
     })
 
-    configureAnchorEl = function (context = props.contextMenu) {
+    configureAnchorEl = function configureAnchorElFn(
+      context = props.contextMenu
+    ) {
       if (props.noParentEvent === true || anchorEl.value === null) return
 
       let evts
 
       if (context === true) {
         if (proxy.$q.platform.is.mobile === true) {
+          evts = [[anchorEl.value, 'touchstart', 'mobileTouch', 'passive']]
+        } else {
           evts = [
-            [ anchorEl.value, 'touchstart', 'mobileTouch', 'passive' ]
+            [anchorEl.value, 'mousedown', 'hide', 'passive'],
+            [anchorEl.value, 'contextmenu', 'contextClick', 'notPassive']
           ]
         }
-        else {
-          evts = [
-            [ anchorEl.value, 'mousedown', 'hide', 'passive' ],
-            [ anchorEl.value, 'contextmenu', 'contextClick', 'notPassive' ]
-          ]
-        }
-      }
-      else {
+      } else {
         evts = [
-          [ anchorEl.value, 'click', 'toggle', 'passive' ],
-          [ anchorEl.value, 'keyup', 'toggleKey', 'passive' ]
+          [anchorEl.value, 'click', 'toggle', 'passive'],
+          [anchorEl.value, 'keyup', 'toggleKey', 'passive']
         ]
       }
 
@@ -136,11 +141,11 @@ export default function ({
     }
   }
 
-  function unconfigureAnchorEl () {
+  function unconfigureAnchorEl() {
     cleanEvt(anchorEvents, 'anchor')
   }
 
-  function setAnchorEl (el) {
+  function setAnchorEl(el) {
     anchorEl.value = el
     while (anchorEl.value.classList.contains('q-anchor--skip')) {
       anchorEl.value = anchorEl.value.parentNode
@@ -148,21 +153,22 @@ export default function ({
     configureAnchorEl()
   }
 
-  function pickAnchorEl () {
-    if (props.target === false || props.target === '' || proxy.$el.parentNode === null) {
+  function pickAnchorEl() {
+    if (
+      props.target === false ||
+      props.target === '' ||
+      proxy.$el.parentNode === null
+    ) {
       anchorEl.value = null
-    }
-    else if (props.target === true) {
+    } else if (props.target === true) {
       setAnchorEl(proxy.$el.parentNode)
-    }
-    else {
+    } else {
       let el = props.target
 
       if (typeof props.target === 'string') {
         try {
           el = document.querySelector(props.target)
-        }
-        catch (err) {
+        } catch {
           el = void 0
         }
       }
@@ -170,50 +176,61 @@ export default function ({
       if (el !== void 0 && el !== null) {
         anchorEl.value = el.$el || el
         configureAnchorEl()
-      }
-      else {
+      } else {
         anchorEl.value = null
-        console.error(`Anchor: target "${ props.target }" not found`)
+        console.error(`Anchor: target "${props.target}" not found`)
       }
     }
   }
 
-  watch(() => props.contextMenu, val => {
-    if (anchorEl.value !== null) {
-      unconfigureAnchorEl()
-      configureAnchorEl(val)
+  watch(
+    () => props.contextMenu,
+    val => {
+      if (anchorEl.value !== null) {
+        unconfigureAnchorEl()
+        configureAnchorEl(val)
+      }
     }
-  })
+  )
 
-  watch(() => props.target, () => {
-    if (anchorEl.value !== null) {
-      unconfigureAnchorEl()
-    }
-
-    pickAnchorEl()
-  })
-
-  watch(() => props.noParentEvent, val => {
-    if (anchorEl.value !== null) {
-      if (val === true) {
+  watch(
+    () => props.target,
+    () => {
+      if (anchorEl.value !== null) {
         unconfigureAnchorEl()
       }
-      else {
-        configureAnchorEl()
+
+      pickAnchorEl()
+    }
+  )
+
+  watch(
+    () => props.noParentEvent,
+    val => {
+      if (anchorEl.value !== null) {
+        if (val === true) {
+          unconfigureAnchorEl()
+        } else {
+          configureAnchorEl()
+        }
       }
     }
-  })
+  )
 
   onMounted(() => {
     pickAnchorEl()
 
-    if (avoidEmit !== true && props.modelValue === true && anchorEl.value === null) {
+    if (
+      avoidEmit !== true &&
+      props.modelValue === true &&
+      anchorEl.value === null
+    ) {
       emit('update:modelValue', false)
     }
   })
 
   onBeforeUnmount(() => {
-    touchTimer !== null && clearTimeout(touchTimer)
+    if (touchTimer !== null) clearTimeout(touchTimer)
     unconfigureAnchorEl()
   })
 

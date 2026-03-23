@@ -6,6 +6,7 @@ examples: QResizeObserver
 related:
   - /vue-components/scroll-observer
 ---
+
 QResizeObserver is a Quasar component that emits a `resize` event whenever the wrapping DOM element / component (defined as direct parent of QResizeObserver) changes its size (width and/or height). Note that no polling is involved, but overusing it is costly too.
 
 <DocApi file="QResizeObserver" />

@@ -3,8 +3,9 @@
 # Quasar Framework plugin for Vite
 
 > Warning! Current limitations:
-> * SSR builds with Quasar Vite plugin are not yet supported.
-> * Usage with RTL Quasar language packs is not yet supported.
+>
+> - SSR builds with Quasar Vite plugin are not yet supported.
+> - Usage with RTL Quasar language packs is not yet supported.
 
 <img src="https://img.shields.io/npm/v/%40quasar/vite-plugin.svg?label=@quasar/vite-plugin">
 
@@ -17,6 +18,7 @@
 https://quasar.dev/start/vite-plugin
 
 ## Supporting Quasar
+
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
 
 **Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
@@ -42,6 +44,7 @@ Ask questions at the official community forum: [https://forum.quasar.dev](https:
 I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature). Please read the [Contributing Guide](../CONTRIBUTING.md).
 
 ## Semver
+
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License

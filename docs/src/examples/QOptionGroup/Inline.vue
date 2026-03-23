@@ -1,11 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <q-option-group
-      v-model="group"
-      :options="options"
-      color="primary"
-      inline
-    />
+    <q-option-group v-model="group" :options="options" color="primary" inline />
   </div>
 </template>
 
@@ -13,7 +8,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       group: ref('op1'),
 

@@ -7,10 +7,10 @@ const { version } = JSON.parse(
   readFileSync(join(quasarPath, 'package.json'), 'utf-8')
 )
 
-export function getViteConfig (runMode, viteMode, externalViteCfg) {
+export function getViteConfig(runMode, viteMode, externalViteCfg) {
   const viteCfg = {
     define: {
-      __QUASAR_VERSION__: `'${ version }'`,
+      __QUASAR_VERSION__: `'${version}'`,
       __QUASAR_SSR__: false,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false
@@ -21,11 +21,11 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
         // Use sass-embedded for better stability and performance
         sass: {
           api: 'modern-compiler',
-          silenceDeprecations: [ 'import', 'global-builtin' ]
+          silenceDeprecations: ['import', 'global-builtin']
         },
         scss: {
           api: 'modern-compiler',
-          silenceDeprecations: [ 'import', 'global-builtin' ]
+          silenceDeprecations: ['import', 'global-builtin']
         }
       }
     }
@@ -33,7 +33,10 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
 
   // Set this to the default value only if it's not already set.
   // @quasar/app-vite configures this by itself when it needs it.
-  if (!externalViteCfg.define || externalViteCfg.define.__QUASAR_SSR_PWA__ === void 0) {
+  if (
+    !externalViteCfg.define ||
+    externalViteCfg.define.__QUASAR_SSR_PWA__ === void 0
+  ) {
     viteCfg.define.__QUASAR_SSR_PWA__ = false
   }
 
@@ -42,8 +45,7 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
       __QUASAR_SSR__: true,
       __QUASAR_SSR_SERVER__: true
     })
-  }
-  else {
+  } else {
     // Alias "quasar" package to its dev file (which has flags)
     // to reduce the number of HTTP requests while in DEV mode
     if (viteMode !== 'production') {
@@ -52,10 +54,9 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
           { find: /^quasar$/, replacement: 'quasar/dist/quasar.client.js' }
         ]
       }
-    }
-    else {
+    } else {
       viteCfg.optimizeDeps = {
-        exclude: [ 'quasar' ]
+        exclude: ['quasar']
       }
     }
 

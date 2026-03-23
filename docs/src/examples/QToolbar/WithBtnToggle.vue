@@ -7,7 +7,8 @@
 
       <q-btn-toggle
         v-model="model"
-        flat stretch
+        flat
+        stretch
         toggle-color="yellow"
         :options="options"
       />
@@ -19,7 +20,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref('one'),
 

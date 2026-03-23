@@ -10,11 +10,11 @@ can be built in any way the user deems fit but must contribute towards fulfillin
 
 Here a few things a BEX can do:
 
-* Override page content
-* Add to (or alter) the browser's interface
-* Intercept page requests
-* Be a full featured app that runs in the browser.
-* Interact with and alter the development tools of the browser.
+- Override page content
+- Add to (or alter) the browser's interface
+- Intercept page requests
+- Be a full featured app that runs in the browser.
+- Interact with and alter the development tools of the browser.
 
 We've all used Browser Extensions in some capacity. Quasar BEX allows you to do anything a browser extension allows but with the simplicity Quasar offers in all other modes.
 

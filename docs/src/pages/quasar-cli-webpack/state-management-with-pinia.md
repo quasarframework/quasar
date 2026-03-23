@@ -5,25 +5,26 @@ scope:
   tree:
     l: src
     c:
-    - l: stores
-      e: Pinia
-      c:
-      - l: index.js
-        e: (or .ts) Pinia initialization
-      - l: "<store>"
-        e: Pinia store...
-      - l: "<store>"
-        e: Pinia store...
+      - l: stores
+        e: Pinia
+        c:
+          - l: index.js
+            e: (or .ts) Pinia initialization
+          - l: '<store>'
+            e: Pinia store...
+          - l: '<store>'
+            e: Pinia store...
   newStore:
     l: src
     c:
-    - l: stores
-      c:
-      - l: index.js
-        e: (or .ts) Pinia initialization
-      - l: counter.js
-        e: (or .ts) Pinia store
+      - l: stores
+        c:
+          - l: index.js
+            e: (or .ts) Pinia initialization
+          - l: counter.js
+            e: (or .ts) Pinia store
 ---
+
 In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.
 
 The recommended way to go if you want components sharing state is Pinia. Take a look at its [documentation](https://pinia.vuejs.org/) before diving in. It has a great feature when used along the [Vue dev-tools](https://github.com/vuejs/vue-devtools) browser extension like Time Travel debugging.
@@ -59,8 +60,8 @@ export default defineStore((/* { ssrContext } */) => {
 })
 ```
 
-
 ## Adding a Pinia store
+
 Adding a Pinia store is easy with Quasar CLI through the `$ quasar new` command.
 
 ```bash
@@ -80,16 +81,16 @@ import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0,
+    counter: 0
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: state => state.counter * 2
   },
   actions: {
     increment() {
-      this.counter++;
-    },
-  },
+      this.counter++
+    }
+  }
 })
 ```
 
@@ -141,41 +142,41 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
 </template>
 
 <script>
-import { computed } from 'vue';
-import { useCounterStore } from 'stores/counter';
-import { storeToRefs } from 'pinia';
+  import { computed } from 'vue'
+  import { useCounterStore } from 'stores/counter'
+  import { storeToRefs } from 'pinia'
 
-export default {
-  setup() {
-    const store = useCounterStore();
+  export default {
+    setup() {
+      const store = useCounterStore()
 
-    // Option 2: use computed and functions to use the store
-    const count = computed(() => store.counter);
-    const doubleCountValue = computed(() => store.doubleCount);
-    const incrementCount = () => store.increment(); // use action
-    const decrementCount = () => store.counter--; // manipulate directly
+      // Option 2: use computed and functions to use the store
+      const count = computed(() => store.counter)
+      const doubleCountValue = computed(() => store.doubleCount)
+      const incrementCount = () => store.increment() // use action
+      const decrementCount = () => store.counter-- // manipulate directly
 
-    // Option 3: use destructuring to use the store in the template
-    const { counter, doubleCount } = storeToRefs(store); // state and getters need "storeToRefs"
-    const { increment } = store; // actions can be destructured directly
+      // Option 3: use destructuring to use the store in the template
+      const { counter, doubleCount } = storeToRefs(store) // state and getters need "storeToRefs"
+      const { increment } = store // actions can be destructured directly
 
-    return {
-      // Option 1: return the store directly and couple it in the template
-      store,
+      return {
+        // Option 1: return the store directly and couple it in the template
+        store,
 
-      // Option 2: use the store in functions and compute the state to use in the template
-      count,
-      doubleCountValue,
-      incrementCount,
-      decrementCount,
+        // Option 2: use the store in functions and compute the state to use in the template
+        count,
+        doubleCountValue,
+        incrementCount,
+        decrementCount,
 
-      // Option 3: pass the destructed state, getters and actions to the template
-      counter,
-      increment,
-      doubleCount,
-    };
-  },
-};
+        // Option 3: pass the destructed state, getters and actions to the template
+        counter,
+        increment,
+        doubleCount
+      }
+    }
+  }
 </script>
 ```
 
@@ -186,6 +187,7 @@ More info on defining a Pinia store [here](https://pinia.vuejs.org/core-concepts
 Simply use `this.router` in Pinia stores to get access to the router.
 
 Here is an example:
+
 ```js
 import { defineStore } from 'pinia'
 

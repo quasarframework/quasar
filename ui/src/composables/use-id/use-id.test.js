@@ -57,7 +57,7 @@ describe('[useId API]', () => {
         const wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const result = useId()
               return { result }
             }

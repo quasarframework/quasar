@@ -5,25 +5,18 @@
 
 let attachPoint = null
 
-function getAttachPoint () {
+function getAttachPoint() {
   if (attachPoint !== null) return attachPoint
-  return (
-    attachPoint = typeof globalThis !== 'undefined'
+  return (attachPoint =
+    typeof globalThis !== 'undefined'
       ? globalThis
-      : (
-          typeof self !== 'undefined'
-            ? self
-            : (
-                typeof window !== 'undefined'
-                  ? window
-                  : (
-                      typeof global !== 'undefined'
-                        ? global
-                        : {}
-                    )
-              )
-        )
-  )
+      : typeof self !== 'undefined'
+        ? self
+        : typeof window !== 'undefined'
+          ? window
+          : typeof global !== 'undefined'
+            ? global
+            : {})
 }
 
 if (typeof __QUASAR_SSR__ !== 'boolean') {

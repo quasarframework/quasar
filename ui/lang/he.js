@@ -16,14 +16,20 @@ export default {
     search: 'חיפוש',
     filter: 'סינון',
     refresh: 'רענון',
-    expand: label => (label ? `"${ label }" הרחב את` : 'לְהַרְחִיב'),
-    collapse: label => (label ? `"${ label }" כווץ` : 'הִתמוֹטְטוּת')
+    expand: label => (label ? `"${label}" הרחב את` : 'לְהַרְחִיב'),
+    collapse: label => (label ? `"${label}" כווץ` : 'הִתמוֹטְטוּת')
   },
   date: {
     days: 'ראשון_שני_שלישי_רביעי_חמישי_שישי_שבת'.split('_'),
     daysShort: 'א_ב_ג_ד_ה_ו_ש'.split('_'),
-    months: 'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split('_'),
-    monthsShort: 'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split('_'),
+    months:
+      'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split(
+        '_'
+      ),
+    monthsShort:
+      'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split(
+        '_'
+      ),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
     pluralDay: 'ימים',
@@ -32,25 +38,24 @@ export default {
     prevYear: 'שנה קודמת',
     nextYear: 'שנה הבאה',
     today: 'הַיוֹם',
-    prevRangeYears: range => `קודם ${ range } שנים`,
-    nextRangeYears: range => `הבא ${ range } שנים`
+    prevRangeYears: range => `קודם ${range} שנים`,
+    nextRangeYears: range => `הבא ${range} שנים`
   },
   table: {
     noData: 'לא נמצאו נתונים',
     noResults: 'לא נמצאו תוצאות רלוונטיות',
     loading: 'טוען...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? 'נבחרה שורה אחת.'
-        : (rows === 0 ? 'לא' : rows) + ' שורות נבחרו'
-    ),
+        : (rows === 0 ? 'לא' : rows) + ' שורות נבחרו',
     recordsPerPage: 'שורות בעמוד:',
     allRows: 'הכל',
     pagination: (start, end, total) => start + '-' + end + ' מתוך ' + total,
     columns: 'עמודות'
   },
   pagination: {
-    first: 'עמוד ראשון', 
+    first: 'עמוד ראשון',
     prev: 'עמוד קודם',
     next: 'העמוד הבא',
     last: 'העמוד האחרון'

@@ -1,9 +1,29 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Top" icon="keyboard_arrow_up" color="primary" @click="open('top')" />
-    <q-btn label="Right" icon="keyboard_arrow_right" color="primary" @click="open('right')" />
-    <q-btn label="Bottom" icon="keyboard_arrow_down" color="primary" @click="open('bottom')" />
-    <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
+    <q-btn
+      label="Top"
+      icon="keyboard_arrow_up"
+      color="primary"
+      @click="open('top')"
+    />
+    <q-btn
+      label="Right"
+      icon="keyboard_arrow_right"
+      color="primary"
+      @click="open('right')"
+    />
+    <q-btn
+      label="Bottom"
+      icon="keyboard_arrow_down"
+      color="primary"
+      @click="open('bottom')"
+    />
+    <q-btn
+      label="Left"
+      icon="keyboard_arrow_left"
+      color="primary"
+      @click="open('left')"
+    />
 
     <q-dialog v-model="dialog" :position="position">
       <q-card style="width: 350px">
@@ -30,7 +50,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const dialog = ref(false)
     const position = ref('top')
 
@@ -38,7 +58,7 @@ export default {
       dialog,
       position,
 
-      open (pos) {
+      open(pos) {
         position.value = pos
         dialog.value = true
       }

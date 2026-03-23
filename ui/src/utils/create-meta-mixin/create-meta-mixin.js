@@ -3,30 +3,29 @@ import { clientList, planClientUpdate } from '../../plugins/meta/Meta.js'
 export default metaOptions => {
   if (__QUASAR_SSR_SERVER__) {
     return {
-      created: typeof metaOptions === 'function'
-        ? function () {
-          this.ssrContext.__qMetaList.push(
-            metaOptions.call(this) || {}
-          )
-        }
-        : function () {
-          this.ssrContext.__qMetaList.push(metaOptions)
-        }
+      created:
+        typeof metaOptions === 'function'
+          ? function created() {
+              this.ssrContext.__qMetaList.push(metaOptions.call(this) || {})
+            }
+          : function created() {
+              this.ssrContext.__qMetaList.push(metaOptions)
+            }
     }
   }
 
   const mixin = {
-    activated () {
+    activated() {
       this.__qMeta.active = true
       planClientUpdate()
     },
 
-    deactivated () {
+    deactivated() {
       this.__qMeta.active = false
       planClientUpdate()
     },
 
-    unmounted () {
+    unmounted() {
       clientList.splice(clientList.indexOf(this.__qMeta), 1)
       planClientUpdate()
       this.__qMeta = void 0
@@ -36,27 +35,26 @@ export default metaOptions => {
   if (typeof metaOptions === 'function') {
     Object.assign(mixin, {
       computed: {
-        __qMetaOptions () {
+        __qMetaOptions() {
           return metaOptions.call(this) || {}
         }
       },
 
       watch: {
-        __qMetaOptions (val) {
+        __qMetaOptions(val) {
           this.__qMeta.val = val
-          this.__qMeta.active === true && planClientUpdate()
+          if (this.__qMeta.active === true) planClientUpdate()
         }
       },
 
-      created () {
+      created() {
         this.__qMeta = { active: true, val: this.__qMetaOptions }
         clientList.push(this.__qMeta)
         planClientUpdate()
       }
     })
-  }
-  else {
-    mixin.created = function () {
+  } else {
+    mixin.created = function created() {
       this.__qMeta = { active: true, val: metaOptions }
       clientList.push(this.__qMeta)
       planClientUpdate()

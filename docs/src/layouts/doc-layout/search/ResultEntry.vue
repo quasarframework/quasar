@@ -18,7 +18,8 @@
           v-for="(item, index) in props.entry.content"
           :key="index"
           :class="item.class"
-        >{{ item.str }}</span>
+          >{{ item.str }}</span
+        >
       </div>
     </q-item-section>
 

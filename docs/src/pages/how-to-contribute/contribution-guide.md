@@ -11,12 +11,12 @@ Now that we've got that covered, let's go!
 
 After reading this guide, you will know:
 
-* How to use GitHub to report issues.
-* How to clone the repo and run the test suite.
-* How to help resolve existing issues.
-* How to contribute to the Quasar documentation.
-* How to create a Quasar App Extension.
-* How to contribute to the Quasar source code.
+- How to use GitHub to report issues.
+- How to clone the repo and run the test suite.
+- How to help resolve existing issues.
+- How to contribute to the Quasar documentation.
+- How to create a Quasar App Extension.
+- How to contribute to the Quasar source code.
 
 Quasar is not "someone else's framework". Many people have contributed to Quasar ranging from a single character to massive architectural changes or significant documentation - all with the goal of making Quasar better for everyone. Even if you don't feel up to writing code or documentation yet, there are a variety of other ways that you can contribute, from reporting issues to testing patches.
 
@@ -26,20 +26,20 @@ One of the easiest ways to contribute is to answer questions in the different Q&
 
 Here are our discussion/Q&A venues:
 
-* [GitHub Discussions](https://forum.quasar.dev/): A place to ask questions and get answers about Quasar and its ecosystem. It’s also a great place to share your knowledge and experience with others. You can also use it to share your ideas and feature requests.
-* [Discord Server](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time. You can ask questions, share your knowledge, and help others. It's also possible to post job offers or look for a job there.
+- [GitHub Discussions](https://forum.quasar.dev/): A place to ask questions and get answers about Quasar and its ecosystem. It’s also a great place to share your knowledge and experience with others. You can also use it to share your ideas and feature requests.
+- [Discord Server](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time. You can ask questions, share your knowledge, and help others. It's also possible to post job offers or look for a job there.
 
 ## Share (and Build) Your Experience
 
 Apart from answering questions and sharing resources in the forum and chat, there are a few other less obvious ways to share and expand what you know:
 
-* **Develop learning materials**. It’s often said that the best way to learn is to teach. If there’s something interesting you’re doing with Quasar, strengthen your expertise by writing a blog post, developing a workshop, or even publishing a gist that you share on social media.
-* **Share your tech stack**. Show others which technologies are well tested and can be integrated with Quasar. Promote your project and [fill out your favorite Quasar-based stack](https://stackshare.io/tool/quasar-framework/decisions). Make sure to mention @Quasarframework and all other relevant technologies.
-* **Watch a repo you care about**. This will send you notifications whenever there’s activity in that repository, giving you insider knowledge about ongoing discussions and upcoming features. It’s a fantastic way to build expertise so that you’re eventually able to help address issues and pull requests.
+- **Develop learning materials**. It’s often said that the best way to learn is to teach. If there’s something interesting you’re doing with Quasar, strengthen your expertise by writing a blog post, developing a workshop, or even publishing a gist that you share on social media.
+- **Share your tech stack**. Show others which technologies are well tested and can be integrated with Quasar. Promote your project and [fill out your favorite Quasar-based stack](https://stackshare.io/tool/quasar-framework/decisions). Make sure to mention @Quasarframework and all other relevant technologies.
+- **Watch a repo you care about**. This will send you notifications whenever there’s activity in that repository, giving you insider knowledge about ongoing discussions and upcoming features. It’s a fantastic way to build expertise so that you’re eventually able to help address issues and pull requests.
 
 ## Reporting an Issue
 
-* [GitHub](https://github.com/quasarframework/quasar/issues): If you want to create a bug report or a docs report, that’s what the GitHub issues are for. Make sure that you select the correct template and follow the given instructions while creating an issue.
+- [GitHub](https://github.com/quasarframework/quasar/issues): If you want to create a bug report or a docs report, that’s what the GitHub issues are for. Make sure that you select the correct template and follow the given instructions while creating an issue.
 
 ::: danger Reporting a vulnerability
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
@@ -48,7 +48,6 @@ Please do not report security vulnerabilities with public GitHub issue reports. 
 If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
 
 - The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and docs reports. Non-conforming issues will be closed immediately.
-
   - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).
 
   - For more complicated questions, you can use [the Discussions section](https://forum.quasar.dev). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
@@ -86,11 +85,13 @@ Anything you can do to make bug reports more succinct or easier to reproduce hel
 #### Testing Patches
 
 You can also help out by examining pull requests that have been submitted to Quasar via GitHub. In order to apply someone's changes, you need to first create a dedicated branch:
+
 ```bash
 $ git checkout -b testing_branch
 ```
 
 Then, you can use their remote branch to update your codebase. For example, let's say the GitHub user JohnSmith has forked and pushed to a topic branch "orange" located at https://github.com/JohnSmith/quasar.
+
 ```bash
 $ git remote add JohnSmith https://github.com/JohnSmith/quasar.git
 $ git pull JohnSmith orange
@@ -98,9 +99,9 @@ $ git pull JohnSmith orange
 
 After applying their branch, test it out! Here are some things to think about:
 
-* Does the change actually work?
-* Does it have the proper documentation coverage? Should documentation elsewhere be updated?
-* Do you like the implementation? Can you think of a nicer or faster way to implement a part of their change?
+- Does the change actually work?
+- Does it have the proper documentation coverage? Should documentation elsewhere be updated?
+- Do you like the implementation? Can you think of a nicer or faster way to implement a part of their change?
 
 Once you're happy that the pull request contains a good change, comment on the GitHub issue indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:
 
@@ -123,6 +124,7 @@ For larger edits change the Quasar source files (located [here](https://github.c
 ### Documentation Best Practices
 
 Over time we consolidated a set of rules which we follow and following them will speed up the merge process:
+
 - Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
 - Use the present tense.
 - Be concise, avoid text / code duplication.
@@ -231,6 +233,7 @@ When done, submit a PR on [Quasar Awesome](https://github.com/quasarframework/qu
 As with any project, there are rules to contributing. Ours are written here, please read them carefully. After that, read the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md) and you’ll be ready to contribute to Quasar’s core repositories.
 
 <!-- TODO: Update the article(published in 2018): it has Vue 2, Stylus, etc. stuff, outdated social/repo links -->
+
 An article [Look at the source code](https://medium.com/quasar-framework/wip-look-at-the-source-code-please-1b905ea4906) will help you to get familiar with a Quasar code base.
 
 #### Pull Request Guidelines
@@ -242,12 +245,12 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 - It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.
 
 - If adding new feature:
-  * Provide convincing reason to add this feature.
-  * Ideally you should open a suggestion issue first and have it green-lighted before working on it. Otherwise, you risk spending a lot of time on something which might not get accepted at all or not in the form you expect.
+  - Provide convincing reason to add this feature.
+  - Ideally you should open a suggestion issue first and have it green-lighted before working on it. Otherwise, you risk spending a lot of time on something which might not get accepted at all or not in the form you expect.
 
 - If fixing a bug:
-  * If you are resolving a specific issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
-  * Provide detailed description of the bug in the PR. A live demo is preferred.
+  - If you are resolving a specific issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
+  - Provide detailed description of the bug in the PR. A live demo is preferred.
 
 #### Development Setup
 
@@ -286,7 +289,6 @@ $ pnpm lint
 - `build` - contains build-related configuration files. In most cases you don't need to touch them.
 
 - `src` - contains the source code. The codebase is written in ES2015.
-
   - `components` - JS, Sass and JSON (API) files for Quasar Vue components
 
   - `composables` - Quasar's composables for Vue 3 Composition API

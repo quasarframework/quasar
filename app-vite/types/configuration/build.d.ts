@@ -1,5 +1,5 @@
 import { Plugin, UserConfig as ViteUserConfig } from "vite";
-import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
+import { Options as VuePluginOptions } from "@vitejs/plugin-vue";
 import { QuasarHookParams } from "./conf";
 import { CompilerOptions, TypeAcquisition } from "typescript";
 
@@ -91,7 +91,11 @@ interface PluginEntryRunOptions {
 
 type PluginEntry =
   | [pluginName: string, options?: any, runOptions?: PluginEntryRunOptions]
-  | [pluginFactory: (options?: any) => Plugin, options?: any, runOptions?: PluginEntryRunOptions]
+  | [
+      pluginFactory: (options?: any) => Plugin,
+      options?: any,
+      runOptions?: PluginEntryRunOptions
+    ]
   | Plugin
   | null
   | undefined
@@ -316,7 +320,11 @@ interface QuasarStaticBuildConfiguration {
    * through the env files. This does not account also for the definitions
    * assigned directly to quasar.config > build > env prop.
    */
-  envFilter?: (env: { [index: string]: string | boolean | undefined | null }) => { [index: string]: string | boolean | undefined | null };
+  envFilter?: (env: {
+    [index: string]: string | boolean | undefined | null;
+  }) => {
+    [index: string]: string | boolean | undefined | null;
+  };
 
   /**
    * Build production assets with or without the hash part in filenames.
@@ -398,7 +406,7 @@ interface QuasarDynamicBuildConfiguration {
    * For production only.
    * @default 'oxc'
    */
-  minify?: boolean | 'oxc' | 'terser';
+  minify?: boolean | "oxc" | "terser";
   /**
    * Minification options for html-minifier-terser.
    *
@@ -421,7 +429,7 @@ interface QuasarDynamicBuildConfiguration {
    * comments in the bundled files are suppressed.
    * @default false
    */
-  sourcemap?: boolean | 'inline' | 'hidden';
+  sourcemap?: boolean | "inline" | "hidden";
 }
 
 export type QuasarBuildConfiguration = QuasarStaticBuildConfiguration &

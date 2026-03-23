@@ -25,23 +25,17 @@ declare module "quasar/wrappers" {
     SsrListenCallback,
     SsrCloseCallback,
     SsrServeStaticContentCallback,
-    SsrRenderPreloadTagCallback,
+    SsrRenderPreloadTagCallback
   } from "@quasar/app-vite";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
-  function boot(
-    callback: BootCallback
-  ): BootCallback;
+  function boot(callback: BootCallback): BootCallback;
 
   function configure(callback: ConfigureCallback): ConfigureCallback;
 
-  function preFetch(
-    callback: PrefetchCallback
-  ): PrefetchCallback;
+  function preFetch(callback: PrefetchCallback): PrefetchCallback;
 
-  function route(
-    callback: RouteCallback
-  ): RouteCallback;
+  function route(callback: RouteCallback): RouteCallback;
 
   function store(callback: StoreCallback): StoreCallback;
 
@@ -49,17 +43,11 @@ declare module "quasar/wrappers" {
     callback: SsrMiddlewareCallback
   ): SsrMiddlewareCallback;
 
-  function ssrCreate(
-    callback: SsrCreateCallback
-  ): SsrCreateCallback;
+  function ssrCreate(callback: SsrCreateCallback): SsrCreateCallback;
 
-  function ssrListen(
-    callback: SsrListenCallback
-  ): SsrListenCallback;
+  function ssrListen(callback: SsrListenCallback): SsrListenCallback;
 
-  function ssrClose(
-    callback: SsrCloseCallback
-  ): SsrCloseCallback;
+  function ssrClose(callback: SsrCloseCallback): SsrCloseCallback;
 
   function ssrServeStaticContent(
     callback: SsrServeStaticContentCallback

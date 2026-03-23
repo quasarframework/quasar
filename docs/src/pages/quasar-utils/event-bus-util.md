@@ -26,7 +26,7 @@ import { EventBus } from 'quasar'
 const bus = new EventBus()
 
 bus.on('some-event', (arg1, arg2, arg3) => {
- // do some work
+  // do some work
 })
 
 bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')

@@ -12,12 +12,12 @@ const runScript = isParallel ? fork : require
 
 const materialFontVersions = {}
 
-async function handleChild (child) {
-  return new Promise((resolve) => {
+function handleChild(child) {
+  return new Promise(resolve => {
     child.on('exit', resolve)
 
     if (child.stdout) {
-      child.stdout.on('data', (data) => {
+      child.stdout.on('data', data => {
         const output = data.toString()
         if (!output.startsWith('.')) {
           console.log(output)
@@ -26,19 +26,19 @@ async function handleChild (child) {
     }
 
     if (child.stderr) {
-      child.stderr.on('data', (data) => {
+      child.stderr.on('data', data => {
         const errorOutput = data.toString()
         if (!errorOutput.startsWith('.')) {
           console.error(errorOutput)
         }
-        errorOutput.split('\n').forEach((line) => {
+        errorOutput.split('\n').forEach(line => {
           if (line.endsWith('.woff2') || line.endsWith('.woff')) {
             const matches = line.match(/.*\/(.*?)/)
             if (matches) {
-              const parts = matches[ 0 ].split('/')
+              const parts = matches[0].split('/')
               if (parts.length >= 3) {
-                const [ name, version ] = parts.slice(-3, -1)
-                materialFontVersions[ name ] = version
+                const [name, version] = parts.slice(-3, -1)
+                materialFontVersions[name] = version
               }
             }
           }
@@ -48,18 +48,17 @@ async function handleChild (child) {
   })
 }
 
-async function runJob (queue, scriptFile) {
+function runJob(queue, scriptFile) {
   if (isParallel) {
     queue.push(scriptFile)
-  }
-  else {
+  } else {
     runScript(join(__dirname, scriptFile))
   }
 }
 
-async function generate () {
+async function generate() {
   const queue = new Queue(
-    async (scriptFile) => {
+    async scriptFile => {
       await retry(async ({ tries }) => {
         await sleep((tries - 1) * 100)
         const child = runScript(join(__dirname, scriptFile), [], {
@@ -104,7 +103,7 @@ async function generate () {
   // Add timing end and display duration
   const endTime = Date.now()
   const duration = endTime - startTime
-  console.log(`\nTotal execution time: ${ duration }ms`)
+  console.log(`\nTotal execution time: ${duration}ms`)
 }
 
 generate()

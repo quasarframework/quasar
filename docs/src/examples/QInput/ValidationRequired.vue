@@ -8,7 +8,12 @@
       :rules="[val => !!val || 'Field is required']"
     />
 
-    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
+    <q-btn
+      class="q-mt-sm"
+      label="Reset Validation"
+      @click="reset"
+      color="primary"
+    />
   </div>
 </template>
 
@@ -16,14 +21,14 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const inputRef = ref(null)
 
     return {
       model: ref(''),
       inputRef,
 
-      reset () {
+      reset() {
         inputRef.value.resetValidation()
       }
     }

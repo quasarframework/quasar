@@ -1,5 +1,3 @@
 import QOptionGroup from './QOptionGroup.js'
 
-export {
-  QOptionGroup
-}
+export { QOptionGroup }

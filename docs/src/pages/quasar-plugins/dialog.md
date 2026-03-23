@@ -22,9 +22,10 @@ The advantage of using Dialogs as Quasar Plugins as opposed to QDialog component
 However, **you can also supply a component for the Dialog Plugin to render** (see the "Invoking custom component" section) which is a great way to avoid cluttering your Vue templates with inline dialogs (and it will also help you better organize your project files and also reuse dialogs).
 
 With the QDialog plugin, you can programmatically build three types of dialogs with the following form content:
- 1. A prompt dialog - asking the user to fill in some sort of data in an input field.
- 2. A set of options for the user to select from using either radio buttons or toggles (singular selection only) or check boxes (for multiple selections).
- 3. A simple confirmation dialog, where the user can cancel or give their "ok" for a particular action or input.
+
+1.  A prompt dialog - asking the user to fill in some sort of data in an input field.
+2.  A set of options for the user to select from using either radio buttons or toggles (singular selection only) or check boxes (for multiple selections).
+3.  A simple confirmation dialog, where the user can cancel or give their "ok" for a particular action or input.
 
 In order to create #1, the prompting input form, you have the `prompt` property within the `opts` object.
 
@@ -88,6 +89,7 @@ There is a basic validation system that you can use so that the user won't be ab
 <DocExample title="Showing progress" file="Progress" />
 
 ### Using HTML
+
 You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
 <DocExample title="Unsafe HTML message" file="UnsafeHtml" />
@@ -166,6 +168,7 @@ Your custom component however must follow the interface described below in order
 ### Writing the custom component
 
 #### SFC with "script setup" and Composition API variant
+
 We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
 
 ```html
@@ -187,34 +190,35 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
 </template>
 
 <script setup>
-import { useDialogPluginComponent } from 'quasar'
+  import { useDialogPluginComponent } from 'quasar'
 
-const props = defineProps({
-  // ...your custom props
-})
+  const props = defineProps({
+    // ...your custom props
+  })
 
-defineEmits([
-  // REQUIRED; need to specify some events that your
-  // component will emit through useDialogPluginComponent()
-  ...useDialogPluginComponent.emits
-])
+  defineEmits([
+    // REQUIRED; need to specify some events that your
+    // component will emit through useDialogPluginComponent()
+    ...useDialogPluginComponent.emits
+  ])
 
-const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
-// dialogRef      - Vue ref to be applied to QDialog
-// onDialogHide   - Function to be used as handler for @hide on QDialog
-// onDialogOK     - Function to call to settle dialog with "ok" outcome
-//                    example: onDialogOK() - no payload
-//                    example: onDialogOK({ /*...*/ }) - with payload
-// onDialogCancel - Function to call to settle dialog with "cancel" outcome
+  const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+    useDialogPluginComponent()
+  // dialogRef      - Vue ref to be applied to QDialog
+  // onDialogHide   - Function to be used as handler for @hide on QDialog
+  // onDialogOK     - Function to call to settle dialog with "ok" outcome
+  //                    example: onDialogOK() - no payload
+  //                    example: onDialogOK({ /*...*/ }) - with payload
+  // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
-// this is part of our example (so not required)
-function onOKClick () {
-  // on OK, it is REQUIRED to
-  // call onDialogOK (with optional payload)
-  onDialogOK()
-  // or with payload: onDialogOK({ ... })
-  // ...and it will also hide the dialog automatically
-}
+  // this is part of our example (so not required)
+  function onOKClick() {
+    // on OK, it is REQUIRED to
+    // call onDialogOK (with optional payload)
+    onDialogOK()
+    // or with payload: onDialogOK({ ... })
+    // ...and it will also hide the dialog automatically
+  }
 </script>
 ```
 
@@ -254,51 +258,52 @@ We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plug
 </template>
 
 <script>
-import { useDialogPluginComponent } from 'quasar'
+  import { useDialogPluginComponent } from 'quasar'
 
-export default {
-  props: {
-    // ...your custom props
-  },
+  export default {
+    props: {
+      // ...your custom props
+    },
 
-  emits: [
-    // REQUIRED; need to specify some events that your
-    // component will emit through useDialogPluginComponent()
-    ...useDialogPluginComponent.emits
-  ],
+    emits: [
+      // REQUIRED; need to specify some events that your
+      // component will emit through useDialogPluginComponent()
+      ...useDialogPluginComponent.emits
+    ],
 
-  setup () {
-    // REQUIRED; must be called inside of setup()
-    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
-    // dialogRef      - Vue ref to be applied to QDialog
-    // onDialogHide   - Function to be used as handler for @hide on QDialog
-    // onDialogOK     - Function to call to settle dialog with "ok" outcome
-    //                    example: onDialogOK() - no payload
-    //                    example: onDialogOK({ /*.../* }) - with payload
-    // onDialogCancel - Function to call to settle dialog with "cancel" outcome
+    setup() {
+      // REQUIRED; must be called inside of setup()
+      const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+        useDialogPluginComponent()
+      // dialogRef      - Vue ref to be applied to QDialog
+      // onDialogHide   - Function to be used as handler for @hide on QDialog
+      // onDialogOK     - Function to call to settle dialog with "ok" outcome
+      //                    example: onDialogOK() - no payload
+      //                    example: onDialogOK({ /*.../* }) - with payload
+      // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
-    return {
-      // This is REQUIRED;
-      // Need to inject these (from useDialogPluginComponent() call)
-      // into the vue scope for the vue html template
-      dialogRef,
-      onDialogHide,
+      return {
+        // This is REQUIRED;
+        // Need to inject these (from useDialogPluginComponent() call)
+        // into the vue scope for the vue html template
+        dialogRef,
+        onDialogHide,
 
-      // other methods that we used in our vue html template;
-      // these are part of our example (so not required)
-      onOKClick () {
-        // on OK, it is REQUIRED to
-        // call onDialogOK (with optional payload)
-        onDialogOK()
-        // or with payload: onDialogOK({ ... })
-        // ...and it will also hide the dialog automatically
-      },
+        // other methods that we used in our vue html template;
+        // these are part of our example (so not required)
+        onOKClick() {
+          // on OK, it is REQUIRED to
+          // call onDialogOK (with optional payload)
+          onDialogOK()
+          // or with payload: onDialogOK({ ... })
+          // ...and it will also hide the dialog automatically
+        },
 
-      // we can passthrough onDialogCancel directly
-      onCancelClick: onDialogCancel
+        // we can passthrough onDialogCancel directly
+        onCancelClick: onDialogCancel
+      }
     }
   }
-}
 </script>
 ```
 
@@ -335,55 +340,58 @@ emits: {
 </template>
 
 <script>
-export default {
-  props: {
-    // ...your custom props
-  },
-
-  emits: [
-    // REQUIRED
-    'ok', 'hide'
-  ],
-
-  methods: {
-    // following method is REQUIRED
-    // (don't change its name --> "show")
-    show () {
-      this.$refs.dialog.show()
+  export default {
+    props: {
+      // ...your custom props
     },
 
-    // following method is REQUIRED
-    // (don't change its name --> "hide")
-    hide () {
-      this.$refs.dialog.hide()
-    },
+    emits: [
+      // REQUIRED
+      'ok',
+      'hide'
+    ],
 
-    onDialogHide () {
-      // required to be emitted
-      // when QDialog emits "hide" event
-      this.$emit('hide')
-    },
+    methods: {
+      // following method is REQUIRED
+      // (don't change its name --> "show")
+      show() {
+        this.$refs.dialog.show()
+      },
 
-    onOKClick () {
-      // on OK, it is REQUIRED to
-      // emit "ok" event (with optional payload)
-      // before hiding the QDialog
-      this.$emit('ok')
-      // or with payload: this.$emit('ok', { ... })
+      // following method is REQUIRED
+      // (don't change its name --> "hide")
+      hide() {
+        this.$refs.dialog.hide()
+      },
 
-      // then hiding dialog
-      this.hide()
-    },
+      onDialogHide() {
+        // required to be emitted
+        // when QDialog emits "hide" event
+        this.$emit('hide')
+      },
 
-    onCancelClick () {
-      // we just need to hide the dialog
-      this.hide()
+      onOKClick() {
+        // on OK, it is REQUIRED to
+        // emit "ok" event (with optional payload)
+        // before hiding the QDialog
+        this.$emit('ok')
+        // or with payload: this.$emit('ok', { ... })
+
+        // then hiding dialog
+        this.hide()
+      },
+
+      onCancelClick() {
+        // we just need to hide the dialog
+        this.hide()
+      }
     }
   }
-}
 </script>
 ```
+
 ## Cordova/Capacitor back button
+
 Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
 
 However, should you wish to disable this behavior, edit your `/quasar.config` file:

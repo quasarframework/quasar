@@ -1,5 +1,3 @@
 import QRadio from './QRadio.js'
 
-export {
-  QRadio
-}
+export { QRadio }

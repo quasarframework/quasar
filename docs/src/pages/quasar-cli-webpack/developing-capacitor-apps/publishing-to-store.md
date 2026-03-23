@@ -29,7 +29,7 @@ You’ll first be prompted to create a password for the keystore. Then, answer t
 Make sure to save this file somewhere safe and secure, if you lose it you won’t be able to submit updates to your app!
 :::
 
-Next, we need to *zip align* and to sign the APK. For this we use a couple of applications that can be found in the Android SDK `build-tools` folder, something like `/path/to/Android/Sdk/build-tools/VERSION/`. For example, on OS X with Android Studio installed, `zipalign` is in `~/Library/Android/Sdk/build-tools/VERSION/`.
+Next, we need to _zip align_ and to sign the APK. For this we use a couple of applications that can be found in the Android SDK `build-tools` folder, something like `/path/to/Android/Sdk/build-tools/VERSION/`. For example, on OS X with Android Studio installed, `zipalign` is in `~/Library/Android/Sdk/build-tools/VERSION/`.
 
 To zip align the APK:
 

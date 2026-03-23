@@ -15,14 +15,22 @@ export default {
     search: 'Etsi',
     filter: 'Suodata',
     refresh: 'Päivitä',
-    expand: label => (label ? `Laajenna "${ label }"` : 'Laajentaa'),
-    collapse: label => (label ? `Tiivistä "${ label }"` : 'Romahdus')
+    expand: label => (label ? `Laajenna "${label}"` : 'Laajentaa'),
+    collapse: label => (label ? `Tiivistä "${label}"` : 'Romahdus')
   },
   date: {
-    days: 'sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai'.split('_'),
+    days: 'sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai'.split(
+      '_'
+    ),
     daysShort: 'su_ma_ti_ke_to_pe_la'.split('_'),
-    months: 'tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu'.split('_'),
-    monthsShort: 'tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu'.split('_'),
+    months:
+      'tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu'.split(
+        '_'
+      ),
+    monthsShort:
+      'tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu'.split(
+        '_'
+      ),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
     pluralDay: 'päivää',
@@ -31,8 +39,8 @@ export default {
     prevYear: 'Edellinen vuosi',
     nextYear: 'Ensi vuonna',
     today: 'Tänään',
-    prevRangeYears: range => `Edellinen ${ range } vuotta`,
-    nextRangeYears: range => `Seuraava ${ range } vuotta`
+    prevRangeYears: range => `Edellinen ${range} vuotta`,
+    nextRangeYears: range => `Seuraava ${range} vuotta`
   },
   pullToRefresh: {
     pull: 'Vedä alas päivittääksesi',
@@ -43,7 +51,8 @@ export default {
     noData: 'Ei tietoja',
     noResults: 'Ei tuloksia',
     loading: 'Ladataan...',
-    selectedRecords: rows => (rows === 1 ? '1 rivi valittu.' : rows + ' riviä valittu.'),
+    selectedRecords: rows =>
+      rows === 1 ? '1 rivi valittu.' : rows + ' riviä valittu.',
     recordsPerPage: 'Rivejä sivulla:',
     allRows: 'Kaikki',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,

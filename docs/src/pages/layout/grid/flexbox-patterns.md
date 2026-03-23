@@ -13,6 +13,7 @@ related:
 Here are some common patterns for using [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Some more info can be found at [Tobias Ahlin Blog](https://tobiasahlin.com/blog/).
 
 ## Flex row / column break
+
 You can define a CSS class that would force the element it is applied on to create a row / column break in a flex layout.
 
 ```sass
@@ -25,6 +26,7 @@ You can define a CSS class that would force the element it is applied on to crea
   .flex-break
     width: 0 !important
 ```
+
 Take care not to use `no-wrap` when defining the flex container, and insert a `div` with class `flex-break` where you need.
 
 ::: tip
@@ -53,6 +55,7 @@ When using `column` type flex you must define a height for the container. The he
 <DocExample title="Column break" file="BreakColumn" />
 
 ## Masonry-like layout
+
 When using a `column` type flex with multiple columns the visual order of the elements will be in vertical columns. Sometimes you want the order to follow the rows in the layout, and in order to achieve this you can use a combination or custom order CSS styles and column break elements.
 
 ::: warning
@@ -89,6 +92,7 @@ Example, supposing you want a 4 column layout:
 ```
 
 For the HTML there are some requirements that should be followed:
+
 - the flex column container must have a height defined
 - the column breaking elements must be placed at the start
 - the column breaking elements must be as many as the columns
@@ -113,6 +117,7 @@ Example, supposing you want a 4 column layout:
 <DocExample title="Masonry" file="Masonry" />
 
 ## Masonry with pseudo selectors to break rows / columns
+
 When it's not easy or not possible to insert the elements for row / column break and you need 2 or 3 rows / column you can use pseudo selectors.
 
 ```sass

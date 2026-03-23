@@ -9,12 +9,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const scrollInfo = ref({})
 
     return {
       scrollInfo,
-      onScroll (info) {
+      onScroll(info) {
         scrollInfo.value = info
       }
     }

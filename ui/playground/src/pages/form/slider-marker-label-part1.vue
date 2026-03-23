@@ -4,8 +4,14 @@
       <q-toggle v-model="vertical" dense label="Vertical" />
       <q-toggle v-model="reverse" dense label="Reverse" />
       <q-toggle v-model="switchLabelSide" dense label="Switch label side" />
-      <q-toggle v-model="switchMarkerLabelsPos" dense label="Switch marker label side" />
-      <q-badge class="q-py-sm q-px-md text-right" color="deep-orange">{{ model }}</q-badge>
+      <q-toggle
+        v-model="switchMarkerLabelsPos"
+        dense
+        label="Switch marker label side"
+      />
+      <q-badge class="q-py-sm q-px-md text-right" color="deep-orange">{{
+        model
+      }}</q-badge>
     </div>
 
     <div class="row items-center no-wrap q-gutter-md">
@@ -14,9 +20,9 @@
         v-bind="props"
         color="deep-orange"
         label
-        :label-value="'Some long label ' + (10 * model) + '%'"
+        :label-value="'Some long label ' + 10 * model + '%'"
         :markers="1"
-        :marker-labels="v => (10 * v) + '%'"
+        :marker-labels="v => 10 * v + '%'"
         label-color="dark"
         track-pattern-img="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=="
       />
@@ -38,10 +44,15 @@
         <div
           v-for="marker in markerList"
           :key="marker.index"
-          :class="[ `text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
+          :class="[
+            `text-deep-orange-${2 + Math.ceil(marker.value / 2)}`,
+            marker.classes
+          ]"
           :style="marker.style"
           @click="model = marker.value"
-        >{{ marker.value }}</div>
+        >
+          {{ marker.value }}
+        </div>
       </template>
     </q-slider>
 
@@ -55,10 +66,15 @@
     >
       <template v-slot:marker-label="{ marker }">
         <div
-          :class="[ `text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
+          :class="[
+            `text-deep-orange-${2 + Math.ceil(marker.value / 2)}`,
+            marker.classes
+          ]"
           :style="marker.style"
           @click="model = marker.value"
-        >{{ marker.value }}</div>
+        >
+          {{ marker.value }}
+        </div>
       </template>
     </q-slider>
 
@@ -71,7 +87,7 @@
       label-color="black"
       label
       markers
-      :marker-labels="[ 0, 3, 6, 9, 10 ]"
+      :marker-labels="[0, 3, 6, 9, 10]"
     />
 
     <q-slider
@@ -94,15 +110,23 @@
           v-for="val in 9"
           :key="val"
           class="cursor-pointer"
-          :class="[ `text-deep-orange-${2 + Math.ceil(markerList[val].value / 2) }`, markerList[val].classes ]"
+          :class="[
+            `text-deep-orange-${2 + Math.ceil(markerList[val].value / 2)}`,
+            markerList[val].classes
+          ]"
           :style="markerList[val].style"
           @click="model = val"
-        >{{ val }}</div>
+        >
+          {{ val }}
+        </div>
 
         <q-icon
           v-for="val in [0, 10]"
           :key="val"
-          :class="[ `cursor-pointer text-deep-orange-${2 + Math.ceil(markerList[val].value / 2) }`, markerList[val].classes ]"
+          :class="[
+            `cursor-pointer text-deep-orange-${2 + Math.ceil(markerList[val].value / 2)}`,
+            markerList[val].classes
+          ]"
           :style="markerList[val].style"
           size="sm"
           :color="val === 0 ? 'deep-orange-2' : 'deep-orange-8'"
@@ -159,7 +183,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       vertical: false,
       reverse: false,
@@ -171,7 +195,7 @@ export default {
   },
 
   computed: {
-    props () {
+    props() {
       return {
         min: 0,
         max: 10,

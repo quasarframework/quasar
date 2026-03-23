@@ -25,7 +25,8 @@ export interface GlobalQuasarLanguage extends QuasarLanguageInstance {
 }
 
 export interface GlobalQuasarLanguageSingleton
-  extends Pick<GlobalQuasarLanguage, "isoName" | "nativeName" | "getLocale">,
+  extends
+    Pick<GlobalQuasarLanguage, "isoName" | "nativeName" | "getLocale">,
     HasSsr<
       { set(lang: QuasarLanguage, ssrContext: any): void },
       { set(lang: QuasarLanguage): void }
@@ -38,7 +39,8 @@ export interface GlobalQuasarIconSet extends QuasarIconSet {
 }
 
 export interface GlobalQuasarIconSetSingleton
-  extends QuasarIconSet,
+  extends
+    QuasarIconSet,
     HasSsr<
       // QSsrContext interface depends on q/app, making it available into UI package adds complexity without any real benefit
       { set(iconSet: QuasarIconSet, ssrContext: any): void },
@@ -48,7 +50,7 @@ export interface GlobalQuasarIconSetSingleton
 }
 
 export type GlobalQuasarIconMapFn = (
-  iconName: string,
+  iconName: string
 ) => { icon: string } | { cls: string; content?: string } | void;
 
 // `import { Quasar } from 'quasar'` will contain these types
@@ -66,7 +68,8 @@ export interface BaseQGlobals {
 
 // $q object will contain these types
 export interface QVueGlobals
-  extends HasCapacitor<{ capacitor: any }>,
+  extends
+    HasCapacitor<{ capacitor: any }>,
     HasBex<{ bex: GlobalsTypesHolder["bex"] }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
     HasSsr<

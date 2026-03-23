@@ -2,12 +2,9 @@
   "name": "@quasar/ssl-certificate",
   "version": "1.0.0",
   "description": "SSL Certificate for localhost - used by Quasar CLI(s)",
-  "type": "module",
-  "main": "src/index.js",
-  "module": "src/index.js",
-  "scripts": {
-    "lint": "eslint --cache --fix"
-  },
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
   "author": {
     "name": "Razvan Stoenescu",
     "email": "razvan.stoenescu@gmail.com",
@@ -17,25 +14,25 @@
     "type": "git",
     "url": "https://github.com/quasarframework/quasar"
   },
-  "license": "MIT",
-  "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "https://quasar.dev",
   "funding": {
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
-  "engines": {
-    "node": ">= 16"
-  },
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint"
   },
   "dependencies": {
     "fs-extra": "^11.2.0",
     "selfsigned": "^2.4.1"
   },
-  "devDependencies": {
-    "eslint": "catalog:",
-    "eslint-config-quasar": "workspace:*"
+  "engines": {
+    "node": ">= 16"
   }
 }

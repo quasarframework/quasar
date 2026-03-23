@@ -10,7 +10,7 @@ const defaultCfg = {
   characterDataOldValue: true
 }
 
-function update (el, ctx, value) {
+function update(el, ctx, value) {
   ctx.handler = value
   ctx.observer?.disconnect()
 
@@ -26,7 +26,7 @@ function update (el, ctx, value) {
   ctx.observer.observe(el, ctx.opts)
 }
 
-function destroy (el) {
+function destroy(el) {
   const ctx = el.__qmutation
 
   if (ctx !== void 0) {
@@ -35,31 +35,30 @@ function destroy (el) {
   }
 }
 
-export default createDirective(__QUASAR_SSR_SERVER__
-  ? { name: 'mutation', getSSRProps }
-  : {
-      name: 'mutation',
+export default createDirective(
+  __QUASAR_SSR_SERVER__
+    ? { name: 'mutation', getSSRProps }
+    : {
+        name: 'mutation',
 
-      mounted (el, { modifiers: { once, ...mod }, value }) {
-        const ctx = {
-          once,
-          opts: Object.keys(mod).length === 0
-            ? defaultCfg
-            : mod
-        }
+        mounted(el, { modifiers: { once, ...mod }, value }) {
+          const ctx = {
+            once,
+            opts: Object.keys(mod).length === 0 ? defaultCfg : mod
+          }
 
-        update(el, ctx, value)
-
-        el.__qmutation = ctx
-      },
-
-      updated (el, { oldValue, value }) {
-        const ctx = el.__qmutation
-        if (ctx !== void 0 && oldValue !== value) {
           update(el, ctx, value)
-        }
-      },
 
-      beforeUnmount: destroy
-    }
+          el.__qmutation = ctx
+        },
+
+        updated(el, { oldValue, value }) {
+          const ctx = el.__qmutation
+          if (ctx !== void 0 && oldValue !== value) {
+            update(el, ctx, value)
+          }
+        },
+
+        beforeUnmount: destroy
+      }
 )

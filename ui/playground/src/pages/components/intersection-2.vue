@@ -3,7 +3,11 @@
     <div>
       <q-toggle v-model="visible" label="Visible" />
       <q-toggle v-model="once" label="Once" />
-      <q-select v-model="transition" :options="['', 'fade', 'scale', 'flip-right']" style="min-width: 250px" />
+      <q-select
+        v-model="transition"
+        :options="['', 'fade', 'scale', 'flip-right']"
+        style="min-width: 250px"
+      />
     </div>
     <div class="row justify-center q-gutter-sm" v-if="visible">
       <q-intersection
@@ -15,15 +19,11 @@
         class="int-example-item flex flex-center"
       >
         <q-card class="q-ma-sm">
-          <img src="https://cdn.quasar.dev/img/mountains.jpg">
+          <img src="https://cdn.quasar.dev/img/mountains.jpg" />
 
           <q-card-section>
-            <div class="text-h6">
-              Card #{{ index }}
-            </div>
-            <div class="text-subtitle2">
-              by John Doe
-            </div>
+            <div class="text-h6">Card #{{ index }}</div>
+            <div class="text-subtitle2">by John Doe</div>
           </q-card-section>
         </q-card>
       </q-intersection>
@@ -33,12 +33,12 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       visible: true,
       once: false,
       transition: 'scale',
-      tags: [ 'div', 'blockquote' ]
+      tags: ['div', 'blockquote']
     }
   }
 }

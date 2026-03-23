@@ -5,13 +5,13 @@ scope:
   spaTree:
     l: public
     c:
-    - l: favicon.ico
-    - l: icons
-      c:
-      - l: favicon-128x128.png
-      - l: favicon-96x96.png
-      - l: favicon-32x32.png
-      - l: favicon-16x16.png
+      - l: favicon.ico
+      - l: icons
+        c:
+          - l: favicon-128x128.png
+          - l: favicon-96x96.png
+          - l: favicon-32x32.png
+          - l: favicon-16x16.png
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
@@ -37,9 +37,29 @@ $ icongenie generate -m spa -i /path/to/source/icon.png
 The required HTML code that goes into /index.html to reference the above files:
 
 ```html
-<link rel="icon" type="image/ico" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png">
-<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+<link rel="icon" type="image/ico" href="favicon.ico" />
+<link
+  rel="icon"
+  type="image/png"
+  sizes="128x128"
+  href="icons/favicon-128x128.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="96x96"
+  href="icons/favicon-96x96.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="32x32"
+  href="icons/favicon-32x32.png"
+/>
+<link
+  rel="icon"
+  type="image/png"
+  sizes="16x16"
+  href="icons/favicon-16x16.png"
+/>
 ```

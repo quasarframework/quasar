@@ -10,16 +10,12 @@ describe('[QToolbarTitle API]', () => {
         const wrapper = mount(QToolbarTitle)
         const target = wrapper.get('.q-toolbar__title')
 
-        expect(
-          target.classes()
-        ).not.toContain('col-shrink')
+        expect(target.classes()).not.toContain('col-shrink')
 
         await wrapper.setProps({ shrink: true })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('col-shrink')
+        expect(target.classes()).toContain('col-shrink')
       })
     })
   })

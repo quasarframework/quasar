@@ -9,15 +9,15 @@ Before we dive in to the actual development, we need to do some preparation work
 
 ### Android setup
 
-* You will need to install Android Studio and the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
+- You will need to install Android Studio and the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
 
-* Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin and call `sdkmanager --licenses`.
+- Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin and call `sdkmanager --licenses`.
 
 ::: warning
 The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
 :::
 
-* Add Android installation to your path:
+- Add Android installation to your path:
 
 #### Unix (macOS, linux)
 
@@ -52,6 +52,7 @@ setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools"
 You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed. After you've installed it, open Xcode in order to get the license prompt. Accept the license, then you can close it.
 
 #### CocoaPods
+
 If you haven't installed [CocoaPods](https://cocoapods.org/), please install it by using the command: `sudo gem install cocoapods`. Otherwise, you may encounter errors during development or building, such as:
 
 ::: warning terminal warning
@@ -60,8 +61,7 @@ If you haven't installed [CocoaPods](https://cocoapods.org/), please install it 
 
 ::: danger Xcode Error
 /path-to/your-project/src-capacitor/ios/App/Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig:1:1 unable to open configuration settings file
-::: 
-
+:::
 
 ## Step 2: Add Capacitor Quasar Mode
 

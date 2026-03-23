@@ -27,7 +27,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       seamless: ref(false)
     }

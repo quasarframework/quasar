@@ -13,9 +13,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -33,19 +31,17 @@
 <script>
 import { ref } from 'vue'
 
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
 export default {
-  setup () {
+  setup() {
     const options = ref(null)
 
     return {
       model: ref(null),
       options,
 
-      filterFn (val, update, abort) {
+      filterFn(val, update, abort) {
         if (options.value !== null) {
           // already loaded
           update()
@@ -59,7 +55,7 @@ export default {
         }, 2000)
       },
 
-      abortFilterFn () {
+      abortFilterFn() {
         // console.log('delayed filter aborted')
       }
     }

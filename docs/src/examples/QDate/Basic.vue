@@ -3,10 +3,7 @@
     <div class="q-gutter-md row items-start">
       <q-date v-model="date" />
 
-      <q-date
-        v-model="date"
-        minimal
-      />
+      <q-date v-model="date" minimal />
     </div>
   </div>
 </template>
@@ -15,7 +12,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       date: ref('2019/02/01')
     }

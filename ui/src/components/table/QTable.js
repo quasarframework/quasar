@@ -12,24 +12,49 @@ import QBtn from '../btn/QBtn.js'
 
 import getTableMiddle from './get-table-middle.js'
 
-import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useDark, {
+  useDarkProps
+} from '../../composables/private.use-dark/use-dark.js'
 import { commonVirtScrollPropsList } from '../virtual-scroll/use-virtual-scroll.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private.use-fullscreen/use-fullscreen.js'
+import useFullscreen, {
+  useFullscreenProps,
+  useFullscreenEmits
+} from '../../composables/private.use-fullscreen/use-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
-import { useTablePaginationState, useTablePagination, useTablePaginationProps } from './table-pagination.js'
-import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEmits } from './table-row-selection.js'
-import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
-import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
+import {
+  useTablePaginationState,
+  useTablePagination,
+  useTablePaginationProps
+} from './table-pagination.js'
+import {
+  useTableRowSelection,
+  useTableRowSelectionProps,
+  useTableRowSelectionEmits
+} from './table-row-selection.js'
+import {
+  useTableRowExpand,
+  useTableRowExpandProps,
+  useTableRowExpandEmits
+} from './table-row-expand.js'
+import {
+  useTableColumnSelection,
+  useTableColumnSelectionProps
+} from './table-column-selection.js'
 
-import { injectProp, injectMultipleProps } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+import {
+  injectProp,
+  injectMultipleProps
+} from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 import { createComponent } from '../../utils/private.create/create.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 
 const virtScrollPassthroughProps = {}
-commonVirtScrollPropsList.forEach(p => { virtScrollPassthroughProps[ p ] = {} })
+commonVirtScrollPropsList.forEach(p => {
+  virtScrollPassthroughProps[p] = {}
+})
 
 export default createComponent({
   name: 'QTable',
@@ -40,7 +65,7 @@ export default createComponent({
       required: true
     },
     rowKey: {
-      type: [ String, Function ],
+      type: [String, Function],
       default: 'id'
     },
 
@@ -66,7 +91,7 @@ export default createComponent({
     separator: {
       type: String,
       default: 'horizontal',
-      validator: v => [ 'horizontal', 'vertical', 'cell', 'none' ].includes(v)
+      validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
     wrapCells: Boolean,
 
@@ -86,17 +111,17 @@ export default createComponent({
       default: 'grey-8'
     },
 
-    titleClass: [ String, Array, Object ],
-    tableStyle: [ String, Array, Object ],
-    tableClass: [ String, Array, Object ],
-    tableHeaderStyle: [ String, Array, Object ],
-    tableHeaderClass: [ String, Array, Object ],
+    titleClass: [String, Array, Object],
+    tableStyle: [String, Array, Object],
+    tableClass: [String, Array, Object],
+    tableHeaderStyle: [String, Array, Object],
+    tableHeaderClass: [String, Array, Object],
     tableRowStyleFn: Function,
     tableRowClassFn: Function,
-    cardContainerClass: [ String, Array, Object ],
-    cardContainerStyle: [ String, Array, Object ],
-    cardStyle: [ String, Array, Object ],
-    cardClass: [ String, Array, Object ],
+    cardContainerClass: [String, Array, Object],
+    cardContainerStyle: [String, Array, Object],
+    cardStyle: [String, Array, Object],
+    cardClass: [String, Array, Object],
     cardStyleFn: Function,
     cardClassFn: Function,
 
@@ -121,53 +146,69 @@ export default createComponent({
   },
 
   emits: [
-    'request', 'virtualScroll',
+    'request',
+    'virtualScroll',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits
   ],
 
-  setup (props, { slots, emit }) {
+  setup(props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const { proxy: { $q } } = vm
+    const {
+      proxy: { $q }
+    } = vm
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()
 
-    const getRowKey = computed(() => (
+    const getRowKey = computed(() =>
       typeof props.rowKey === 'function'
         ? props.rowKey
-        : row => row[ props.rowKey ]
-    ))
+        : row => row[props.rowKey]
+    )
 
     const rootRef = ref(null)
     const virtScrollRef = ref(null)
-    const hasVirtScroll = computed(() => props.grid !== true && props.virtualScroll === true)
-
-    const cardDefaultClass = computed(() =>
-      ' q-table__card'
-      + (isDark.value === true ? ' q-table__card--dark q-dark' : '')
-      + (props.square === true ? ' q-table--square' : '')
-      + (props.flat === true ? ' q-table--flat' : '')
-      + (props.bordered === true ? ' q-table--bordered' : '')
+    const hasVirtScroll = computed(
+      () => props.grid !== true && props.virtualScroll === true
     )
 
-    const containerClass = computed(() =>
-      `q-table__container q-table--${ props.separator }-separator column no-wrap`
-      + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
-      + (isDark.value === true ? ' q-table--dark' : '')
-      + (props.dense === true ? ' q-table--dense' : '')
-      + (props.wrapCells === false ? ' q-table--no-wrap' : '')
-      + (inFullscreen.value === true ? ' fullscreen scroll' : '')
+    const cardDefaultClass = computed(
+      () =>
+        ' q-table__card' +
+        (isDark.value === true ? ' q-table__card--dark q-dark' : '') +
+        (props.square === true ? ' q-table--square' : '') +
+        (props.flat === true ? ' q-table--flat' : '') +
+        (props.bordered === true ? ' q-table--bordered' : '')
     )
 
-    const rootContainerClass = computed(() =>
-      containerClass.value + (props.loading === true ? ' q-table--loading' : '')
+    const containerClass = computed(
+      () =>
+        `q-table__container q-table--${props.separator}-separator column no-wrap` +
+        (props.grid === true ? ' q-table--grid' : cardDefaultClass.value) +
+        (isDark.value === true ? ' q-table--dark' : '') +
+        (props.dense === true ? ' q-table--dense' : '') +
+        (props.wrapCells === false ? ' q-table--no-wrap' : '') +
+        (inFullscreen.value === true ? ' fullscreen scroll' : '')
+    )
+
+    const rootContainerClass = computed(
+      () =>
+        containerClass.value +
+        (props.loading === true ? ' q-table--loading' : '')
     )
 
     watch(
-      () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + containerClass.value,
-      () => { hasVirtScroll.value === true && virtScrollRef.value?.reset() }
+      () =>
+        props.tableStyle +
+        props.tableClass +
+        props.tableHeaderStyle +
+        props.tableHeaderClass +
+        containerClass.value,
+      () => {
+        if (hasVirtScroll.value === true) virtScrollRef.value?.reset()
+      }
     )
 
     const {
@@ -180,7 +221,10 @@ export default createComponent({
     } = useTablePaginationState(vm, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
-    const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)
+    const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(
+      props,
+      emit
+    )
 
     const filteredSortedRows = computed(() => {
       let rows = props.rows
@@ -192,7 +236,12 @@ export default createComponent({
       const { sortBy, descending } = computedPagination.value
 
       if (props.filter) {
-        rows = computedFilterMethod.value(rows, props.filter, computedCols.value, getCellValue)
+        rows = computedFilterMethod.value(
+          rows,
+          props.filter,
+          computedCols.value,
+          getCellValue
+        )
       }
 
       if (columnToSort.value !== null) {
@@ -206,7 +255,9 @@ export default createComponent({
       return rows
     })
 
-    const filteredSortedRowsNumber = computed(() => filteredSortedRows.value.length)
+    const filteredSortedRowsNumber = computed(
+      () => filteredSortedRows.value.length
+    )
 
     const computedRows = computed(() => {
       let rows = filteredSortedRows.value
@@ -222,8 +273,7 @@ export default createComponent({
           if (rows.length > lastRowIndex.value) {
             rows = rows.slice(0, lastRowIndex.value)
           }
-        }
-        else {
+        } else {
           rows = rows.slice(firstRowIndex.value, lastRowIndex.value)
         }
       }
@@ -244,9 +294,15 @@ export default createComponent({
       updateSelection
     } = useTableRowSelection(props, emit, computedRows, getRowKey)
 
-    const { colList, computedCols, computedColsMap, computedColspan } = useTableColumnSelection(props, computedPagination, hasSelectionMode)
+    const { colList, computedCols, computedColsMap, computedColspan } =
+      useTableColumnSelection(props, computedPagination, hasSelectionMode)
 
-    const { columnToSort, computedSortMethod, sort } = useTableSort(props, computedPagination, colList, setPagination)
+    const { columnToSort, computedSortMethod, sort } = useTableSort(
+      props,
+      computedPagination,
+      colList,
+      setPagination
+    )
 
     const {
       firstRowIndex,
@@ -261,15 +317,23 @@ export default createComponent({
       prevPage,
       nextPage,
       lastPage
-    } = useTablePagination(vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
+    } = useTablePagination(
+      vm,
+      innerPagination,
+      computedPagination,
+      isServerSide,
+      setPagination,
+      filteredSortedRowsNumber
+    )
 
     const nothingToDisplay = computed(() => computedRows.value.length === 0)
 
     const virtProps = computed(() => {
       const acc = {}
 
-      commonVirtScrollPropsList
-        .forEach(p => { acc[ p ] = props[ p ] })
+      commonVirtScrollPropsList.forEach(p => {
+        acc[p] = props[p]
+      })
 
       if (acc.virtualScrollItemSize === void 0) {
         acc.virtualScrollItemSize = props.dense === true ? 28 : 48
@@ -278,11 +342,11 @@ export default createComponent({
       return acc
     })
 
-    function resetVirtualScroll () {
-      hasVirtScroll.value === true && virtScrollRef.value.reset()
+    function resetVirtualScroll() {
+      if (hasVirtScroll.value === true) virtScrollRef.value.reset()
     }
 
-    function getBody () {
+    function getBody() {
       if (props.grid === true) {
         return getGridBody()
       }
@@ -290,68 +354,80 @@ export default createComponent({
       const header = props.hideHeader !== true ? getTHead : null
 
       if (hasVirtScroll.value === true) {
-        const topRow = slots[ 'top-row' ]
-        const bottomRow = slots[ 'bottom-row' ]
+        const topRow = slots['top-row']
+        const bottomRow = slots['bottom-row']
 
         const virtSlots = {
-          default: props => getTBodyTR(props.item, slots.body, props.index)
+          default: slotProps =>
+            getTBodyTR(slotProps.item, slots.body, slotProps.index)
         }
 
         if (topRow !== void 0) {
           const topContent = h('tbody', topRow({ cols: computedCols.value }))
 
-          virtSlots.before = header === null
-            ? () => topContent
-            : () => [ header() ].concat(topContent)
-        }
-        else if (header !== null) {
+          virtSlots.before =
+            header === null
+              ? () => topContent
+              : () => [header()].concat(topContent)
+        } else if (header !== null) {
           virtSlots.before = header
         }
 
         if (bottomRow !== void 0) {
-          virtSlots.after = () => h('tbody', bottomRow({ cols: computedCols.value }))
+          virtSlots.after = () =>
+            h('tbody', bottomRow({ cols: computedCols.value }))
         }
 
-        return h(QVirtualScroll, {
-          ref: virtScrollRef,
-          class: props.tableClass,
-          style: props.tableStyle,
-          ...virtProps.value,
-          scrollTarget: props.virtualScrollTarget,
-          items: computedRows.value,
-          type: '__qtable',
-          tableColspan: computedColspan.value,
-          onVirtualScroll: onVScroll
-        }, virtSlots)
+        return h(
+          QVirtualScroll,
+          {
+            ref: virtScrollRef,
+            class: props.tableClass,
+            style: props.tableStyle,
+            ...virtProps.value,
+            scrollTarget: props.virtualScrollTarget,
+            items: computedRows.value,
+            type: '__qtable',
+            tableColspan: computedColspan.value,
+            onVirtualScroll: onVScroll
+          },
+          virtSlots
+        )
       }
 
-      const child = [
-        getTBody()
-      ]
+      const child = [getTBody()]
 
       if (header !== null) {
         child.unshift(header())
       }
 
-      return getTableMiddle({
-        class: [ 'q-table__middle scroll', props.tableClass ],
-        style: props.tableStyle
-      }, child)
+      return getTableMiddle(
+        {
+          class: ['q-table__middle scroll', props.tableClass],
+          style: props.tableStyle
+        },
+        child
+      )
     }
 
-    function scrollTo (toIndex, edge) {
+    function scrollTo(toIndex, edge) {
       if (virtScrollRef.value !== null) {
         virtScrollRef.value.scrollTo(toIndex, edge)
         return
       }
 
       toIndex = parseInt(toIndex, 10)
-      const rowEl = rootRef.value.querySelector(`tbody tr:nth-of-type(${ toIndex + 1 })`)
+      const rowEl = rootRef.value.querySelector(
+        `tbody tr:nth-of-type(${toIndex + 1})`
+      )
 
       if (rowEl !== null) {
-        const scrollTarget = rootRef.value.querySelector('.q-table__middle.scroll')
+        const scrollTarget = rootRef.value.querySelector(
+          '.q-table__middle.scroll'
+        )
         const offsetTop = rowEl.offsetTop - props.virtualScrollStickySizeStart
-        const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
+        const direction =
+          offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
 
         scrollTarget.scrollTop = offsetTop
 
@@ -364,11 +440,11 @@ export default createComponent({
       }
     }
 
-    function onVScroll (info) {
+    function onVScroll(info) {
       emit('virtualScroll', info)
     }
 
-    function getProgress () {
+    function getProgress() {
       return [
         h(QLinearProgress, {
           class: 'q-table__linear-progress',
@@ -380,9 +456,8 @@ export default createComponent({
       ]
     }
 
-    function getTBodyTR (row, bodySlot, pageIndex) {
-      const
-        key = getRowKey.value(row),
+    function getTBodyTR(row, bodySlot, pageIndex) {
+      const key = getRowKey.value(row),
         selected = isRowSelected(key)
 
       if (bodySlot !== void 0) {
@@ -400,69 +475,68 @@ export default createComponent({
         if (props.tableRowClassFn !== void 0) {
           const cls = props.tableRowClassFn(row)
           if (cls) {
-            cfg.__trClass = `${ cls } ${ cfg.__trClass }`
+            cfg.__trClass = `${cls} ${cfg.__trClass}`
           }
         }
 
-        return bodySlot(
-          getBodyScope(cfg)
-        )
+        return bodySlot(getBodyScope(cfg))
       }
 
-      const
-        bodyCell = slots[ 'body-cell' ],
+      const bodyCell = slots['body-cell'],
         child = computedCols.value.map(col => {
-          const
-            bodyCellCol = slots[ `body-cell-${ col.name }` ],
+          const bodyCellCol = slots[`body-cell-${col.name}`],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
 
           return slot !== void 0
             ? slot(getBodyCellScope({ key, row, pageIndex, col }))
-            : h('td', {
-              class: col.__tdClass(row),
-              style: col.__tdStyle(row)
-            }, getCellValue(col, row))
+            : h(
+                'td',
+                {
+                  class: col.__tdClass(row),
+                  style: col.__tdStyle(row)
+                },
+                getCellValue(col, row)
+              )
         })
 
       if (hasSelectionMode.value === true) {
-        const slot = slots[ 'body-selection' ]
-        const content = slot !== void 0
-          ? slot(getBodySelectionScope({ key, row, pageIndex }))
-          : [
-              h(QCheckbox, {
-                modelValue: selected,
-                color: props.color,
-                dark: isDark.value,
-                dense: props.dense,
-                'onUpdate:modelValue': (adding, evt) => {
-                  updateSelection([ key ], [ row ], adding, evt)
-                }
-              })
-            ]
+        const slot = slots['body-selection']
+        const content =
+          slot !== void 0
+            ? slot(getBodySelectionScope({ key, row, pageIndex }))
+            : [
+                h(QCheckbox, {
+                  modelValue: selected,
+                  color: props.color,
+                  dark: isDark.value,
+                  dense: props.dense,
+                  'onUpdate:modelValue': (adding, evt) => {
+                    updateSelection([key], [row], adding, evt)
+                  }
+                })
+              ]
 
-        child.unshift(
-          h('td', { class: 'q-table--col-auto-width' }, content)
-        )
+        child.unshift(h('td', { class: 'q-table--col-auto-width' }, content))
       }
 
       const data = { key, class: { selected } }
 
       if (props.onRowClick !== void 0) {
-        data.class[ 'cursor-pointer' ] = true
+        data.class['cursor-pointer'] = true
         data.onClick = evt => {
           emit('rowClick', evt, row, pageIndex)
         }
       }
 
       if (props.onRowDblclick !== void 0) {
-        data.class[ 'cursor-pointer' ] = true
+        data.class['cursor-pointer'] = true
         data.onDblclick = evt => {
           emit('rowDblclick', evt, row, pageIndex)
         }
       }
 
       if (props.onRowContextmenu !== void 0) {
-        data.class[ 'cursor-pointer' ] = true
+        data.class['cursor-pointer'] = true
         data.onContextmenu = evt => {
           emit('rowContextmenu', evt, row, pageIndex)
         }
@@ -475,21 +549,20 @@ export default createComponent({
       if (props.tableRowClassFn !== void 0) {
         const cls = props.tableRowClassFn(row)
         if (cls) {
-          data.class[ cls ] = true
+          data.class[cls] = true
         }
       }
 
       return h('tr', data, child)
     }
 
-    function getTBody () {
-      const
-        body = slots.body,
-        topRow = slots[ 'top-row' ],
-        bottomRow = slots[ 'bottom-row' ]
+    function getTBody() {
+      const body = slots.body,
+        topRow = slots['top-row'],
+        bottomRow = slots['bottom-row']
 
-      let child = computedRows.value.map(
-        (row, pageIndex) => getTBodyTR(row, body, pageIndex)
+      let child = computedRows.value.map((row, pageIndex) =>
+        getTBodyTR(row, body, pageIndex)
       )
 
       if (topRow !== void 0) {
@@ -502,28 +575,28 @@ export default createComponent({
       return h('tbody', child)
     }
 
-    function getBodyScope (data) {
+    function getBodyScope(data) {
       injectBodyCommonScope(data)
 
-      data.cols = data.cols.map(
-        col => injectProp({ ...col }, 'value', () => getCellValue(col, data.row))
+      data.cols = data.cols.map(col =>
+        injectProp({ ...col }, 'value', () => getCellValue(col, data.row))
       )
 
       return data
     }
 
-    function getBodyCellScope (data) {
+    function getBodyCellScope(data) {
       injectBodyCommonScope(data)
       injectProp(data, 'value', () => getCellValue(data.col, data.row))
       return data
     }
 
-    function getBodySelectionScope (data) {
+    function getBodySelectionScope(data) {
       injectBodyCommonScope(data)
       return data
     }
 
-    function injectBodyCommonScope (data) {
+    function injectBodyCommonScope(data) {
       Object.assign(data, {
         cols: computedCols.value,
         colsMap: computedColsMap.value,
@@ -534,25 +607,30 @@ export default createComponent({
         dense: props.dense
       })
 
-      hasSelectionMode.value === true && injectProp(
-        data,
-        'selected',
-        () => isRowSelected(data.key),
-        (adding, evt) => {
-          updateSelection([ data.key ], [ data.row ], adding, evt)
-        }
-      )
+      if (hasSelectionMode.value === true) {
+        injectProp(
+          data,
+          'selected',
+          () => isRowSelected(data.key),
+          (adding, evt) => {
+            updateSelection([data.key], [data.row], adding, evt)
+          }
+        )
+      }
 
       injectProp(
         data,
         'expand',
         () => isRowExpanded(data.key),
-        adding => { updateExpanded(data.key, adding) }
+        adding => {
+          updateExpanded(data.key, adding)
+        }
       )
     }
 
-    function getCellValue (col, row) {
-      const val = typeof col.field === 'function' ? col.field(row) : row[ col.field ]
+    function getCellValue(col, row) {
+      const val =
+        typeof col.field === 'function' ? col.field(row) : row[col.field]
       return col.format !== void 0 ? col.format(val, row) : val
     }
 
@@ -570,27 +648,26 @@ export default createComponent({
       toggleFullscreen
     }))
 
-    function getTopDiv () {
-      const
-        top = slots.top,
-        topLeft = slots[ 'top-left' ],
-        topRight = slots[ 'top-right' ],
-        topSelection = slots[ 'top-selection' ],
-        hasSelection = hasSelectionMode.value === true
-          && topSelection !== void 0
-          && rowsSelectedNumber.value > 0,
+    function getTopDiv() {
+      const top = slots.top,
+        topLeft = slots['top-left'],
+        topRight = slots['top-right'],
+        topSelection = slots['top-selection'],
+        hasSelection =
+          hasSelectionMode.value === true &&
+          topSelection !== void 0 &&
+          rowsSelectedNumber.value > 0,
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
-        return h('div', { class: topClass }, [ top(marginalsScope.value) ])
+        return h('div', { class: topClass }, [top(marginalsScope.value)])
       }
 
       let child
 
       if (hasSelection === true) {
         child = topSelection(marginalsScope.value).slice()
-      }
-      else {
+      } else {
         child = []
 
         if (topLeft !== void 0) {
@@ -599,22 +676,23 @@ export default createComponent({
               topLeft(marginalsScope.value)
             ])
           )
-        }
-        else if (props.title) {
+        } else if (props.title) {
           child.push(
             h('div', { class: 'q-table__control' }, [
-              h('div', {
-                class: [ 'q-table__title', props.titleClass ]
-              }, props.title)
+              h(
+                'div',
+                {
+                  class: ['q-table__title', props.titleClass]
+                },
+                props.title
+              )
             ])
           )
         }
       }
 
       if (topRight !== void 0) {
-        child.push(
-          h('div', { class: 'q-table__separator col' })
-        )
+        child.push(h('div', { class: 'q-table__separator col' }))
         child.push(
           h('div', { class: 'q-table__control' }, [
             topRight(marginalsScope.value)
@@ -626,22 +704,24 @@ export default createComponent({
       return h('div', { class: topClass }, child)
     }
 
-    const headerSelectedValue = computed(() => (
-      someRowsSelected.value === true
-        ? null
-        : allRowsSelected.value
-    ))
+    const headerSelectedValue = computed(() =>
+      someRowsSelected.value === true ? null : allRowsSelected.value
+    )
 
-    function getTHead () {
+    function getTHead() {
       const child = getTHeadTR()
 
       if (props.loading === true && slots.loading === void 0) {
         child.push(
           h('tr', { class: 'q-table__progress' }, [
-            h('th', {
-              class: 'relative-position',
-              colspan: computedColspan.value
-            }, getProgress())
+            h(
+              'th',
+              {
+                class: 'relative-position',
+                colspan: computedColspan.value
+              },
+              getProgress()
+            )
           ])
         )
       }
@@ -649,64 +729,64 @@ export default createComponent({
       return h('thead', child)
     }
 
-    function getTHeadTR () {
-      const
-        header = slots.header,
-        headerCell = slots[ 'header-cell' ]
+    function getTHeadTR() {
+      const header = slots.header,
+        headerCell = slots['header-cell']
 
       if (header !== void 0) {
-        return header(
-          getHeaderScope({ header: true })
-        ).slice()
+        return header(getHeaderScope({ header: true })).slice()
       }
 
       const child = computedCols.value.map(col => {
-        const
-          headerCellCol = slots[ `header-cell-${ col.name }` ],
+        const headerCellCol = slots[`header-cell-${col.name}`],
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
-          props = getHeaderScope({ col })
+          slotProps = getHeaderScope({ col })
 
         return slot !== void 0
-          ? slot(props)
-          : h(QTh, {
-            key: col.name,
-            props
-          }, () => col.label)
+          ? slot(slotProps)
+          : h(
+              QTh,
+              {
+                key: col.name,
+                props: slotProps
+              },
+              () => col.label
+            )
       })
 
       if (singleSelection.value === true && props.grid !== true) {
-        child.unshift(
-          h('th', { class: 'q-table--col-auto-width' }, ' ')
-        )
-      }
-      else if (multipleSelection.value === true) {
-        const slot = slots[ 'header-selection' ]
-        const content = slot !== void 0
-          ? slot(getHeaderScope({}))
-          : [
-              h(QCheckbox, {
-                color: props.color,
-                modelValue: headerSelectedValue.value,
-                dark: isDark.value,
-                dense: props.dense,
-                'onUpdate:modelValue': onMultipleSelectionSet
-              })
-            ]
+        child.unshift(h('th', { class: 'q-table--col-auto-width' }, ' '))
+      } else if (multipleSelection.value === true) {
+        const slot = slots['header-selection']
+        const content =
+          slot !== void 0
+            ? slot(getHeaderScope({}))
+            : [
+                h(QCheckbox, {
+                  color: props.color,
+                  modelValue: headerSelectedValue.value,
+                  dark: isDark.value,
+                  dense: props.dense,
+                  'onUpdate:modelValue': onMultipleSelectionSet
+                })
+              ]
 
-        child.unshift(
-          h('th', { class: 'q-table--col-auto-width' }, content)
-        )
+        child.unshift(h('th', { class: 'q-table--col-auto-width' }, content))
       }
 
       return [
-        h('tr', {
-          class: props.tableHeaderClass,
-          style: props.tableHeaderStyle
-        }, child)
+        h(
+          'tr',
+          {
+            class: props.tableHeaderClass,
+            style: props.tableHeaderStyle
+          },
+          child
+        )
       ]
     }
 
-    function getHeaderScope (data) {
+    function getHeaderScope(data) {
       Object.assign(data, {
         cols: computedCols.value,
         sort,
@@ -728,7 +808,7 @@ export default createComponent({
       return data
     }
 
-    function onMultipleSelectionSet (val) {
+    function onMultipleSelectionSet(val) {
       if (someRowsSelected.value === true) {
         val = false
       }
@@ -750,50 +830,73 @@ export default createComponent({
       return $q.lang.rtl === true ? ico.reverse() : ico
     })
 
-    function getBottomDiv () {
+    function getBottomDiv() {
       if (props.hideBottom === true) return
 
       if (nothingToDisplay.value === true) {
         if (props.hideNoData === true) return
 
-        const message = props.loading === true
-          ? props.loadingLabel || $q.lang.table.loading
-          : (props.filter ? props.noResultsLabel || $q.lang.table.noResults : props.noDataLabel || $q.lang.table.noData)
+        const message =
+          props.loading === true
+            ? props.loadingLabel || $q.lang.table.loading
+            : props.filter
+              ? props.noResultsLabel || $q.lang.table.noResults
+              : props.noDataLabel || $q.lang.table.noData
 
-        const noData = slots[ 'no-data' ]
-        const children = noData !== void 0
-          ? [ noData({ message, icon: $q.iconSet.table.warning, filter: props.filter }) ]
-          : [
-              h(QIcon, {
-                class: 'q-table__bottom-nodata-icon',
-                name: $q.iconSet.table.warning
-              }),
-              message
-            ]
+        const noData = slots['no-data']
+        const children =
+          noData !== void 0
+            ? [
+                noData({
+                  message,
+                  icon: $q.iconSet.table.warning,
+                  filter: props.filter
+                })
+              ]
+            : [
+                h(QIcon, {
+                  class: 'q-table__bottom-nodata-icon',
+                  name: $q.iconSet.table.warning
+                }),
+                message
+              ]
 
-        return h('div', { class: bottomClass + ' q-table__bottom--nodata' }, children)
+        return h(
+          'div',
+          { class: bottomClass + ' q-table__bottom--nodata' },
+          children
+        )
       }
 
       const bottom = slots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { class: bottomClass }, [ bottom(marginalsScope.value) ])
+        return h('div', { class: bottomClass }, [bottom(marginalsScope.value)])
       }
 
-      const child = props.hideSelectedBanner !== true && hasSelectionMode.value === true && rowsSelectedNumber.value > 0
-        ? [
-            h('div', { class: 'q-table__control' }, [
-              h('div', [
-                (props.selectedRowsLabel || $q.lang.table.selectedRecords)(rowsSelectedNumber.value)
+      const child =
+        props.hideSelectedBanner !== true &&
+        hasSelectionMode.value === true &&
+        rowsSelectedNumber.value > 0
+          ? [
+              h('div', { class: 'q-table__control' }, [
+                h('div', [
+                  (props.selectedRowsLabel || $q.lang.table.selectedRecords)(
+                    rowsSelectedNumber.value
+                  )
+                ])
               ])
-            ])
-          ]
-        : []
+            ]
+          : []
 
       if (props.hidePagination !== true) {
-        return h('div', {
-          class: bottomClass + ' justify-end'
-        }, getPaginationDiv(child))
+        return h(
+          'div',
+          {
+            class: bottomClass + ' justify-end'
+          },
+          getPaginationDiv(child)
+        )
       }
 
       if (child.length !== 0) {
@@ -801,58 +904,67 @@ export default createComponent({
       }
     }
 
-    function onPagSelection (pag) {
+    function onPagSelection(pag) {
       setPagination({
         page: 1,
         rowsPerPage: pag.value
       })
     }
 
-    function getPaginationDiv (child) {
+    function getPaginationDiv(child) {
       let control
-      const
-        { rowsPerPage } = computedPagination.value,
+      const { rowsPerPage } = computedPagination.value,
         paginationLabel = props.paginationLabel || $q.lang.table.pagination,
         paginationSlot = slots.pagination,
         hasOpts = props.rowsPerPageOptions.length > 1
 
-      child.push(
-        h('div', { class: 'q-table__separator col' })
-      )
+      child.push(h('div', { class: 'q-table__separator col' }))
 
-      hasOpts === true && child.push(
-        h('div', { class: 'q-table__control' }, [
-          h('span', { class: 'q-table__bottom-item' }, [
-            props.rowsPerPageLabel || $q.lang.table.recordsPerPage
-          ]),
-          h(QSelect, {
-            class: 'q-table__select inline q-table__bottom-item',
-            color: props.color,
-            modelValue: rowsPerPage,
-            options: computedRowsPerPageOptions.value,
-            displayValue: rowsPerPage === 0
-              ? $q.lang.table.allRows
-              : rowsPerPage,
-            dark: isDark.value,
-            borderless: true,
-            dense: true,
-            optionsDense: true,
-            optionsCover: true,
-            'onUpdate:modelValue': onPagSelection
-          })
-        ])
-      )
+      if (hasOpts === true) {
+        child.push(
+          h('div', { class: 'q-table__control' }, [
+            h('span', { class: 'q-table__bottom-item' }, [
+              props.rowsPerPageLabel || $q.lang.table.recordsPerPage
+            ]),
+            h(QSelect, {
+              class: 'q-table__select inline q-table__bottom-item',
+              color: props.color,
+              modelValue: rowsPerPage,
+              options: computedRowsPerPageOptions.value,
+              displayValue:
+                rowsPerPage === 0 ? $q.lang.table.allRows : rowsPerPage,
+              dark: isDark.value,
+              borderless: true,
+              dense: true,
+              optionsDense: true,
+              optionsCover: true,
+              'onUpdate:modelValue': onPagSelection
+            })
+          ])
+        )
+      }
 
       if (paginationSlot !== void 0) {
         control = paginationSlot(marginalsScope.value)
-      }
-      else {
+      } else {
         control = [
-          h('span', rowsPerPage !== 0 ? { class: 'q-table__bottom-item' } : {}, [
-            rowsPerPage
-              ? paginationLabel(firstRowIndex.value + 1, Math.min(lastRowIndex.value, computedRowsNumber.value), computedRowsNumber.value)
-              : paginationLabel(1, filteredSortedRowsNumber.value, computedRowsNumber.value)
-          ])
+          h(
+            'span',
+            rowsPerPage !== 0 ? { class: 'q-table__bottom-item' } : {},
+            [
+              rowsPerPage
+                ? paginationLabel(
+                    firstRowIndex.value + 1,
+                    Math.min(lastRowIndex.value, computedRowsNumber.value),
+                    computedRowsNumber.value
+                  )
+                : paginationLabel(
+                    1,
+                    filteredSortedRowsNumber.value,
+                    computedRowsNumber.value
+                  )
+            ]
+          )
         ]
 
         if (rowsPerPage !== 0 && pagesNumber.value > 1) {
@@ -867,22 +979,24 @@ export default createComponent({
             btnProps.size = 'sm'
           }
 
-          pagesNumber.value > 2 && control.push(
-            h(QBtn, {
-              key: 'pgFirst',
-              ...btnProps,
-              icon: navIcon.value[ 0 ],
-              disable: isFirstPage.value,
-              'aria-label': $q.lang.pagination.first,
-              onClick: firstPage
-            })
-          )
+          if (pagesNumber.value > 2) {
+            control.push(
+              h(QBtn, {
+                key: 'pgFirst',
+                ...btnProps,
+                icon: navIcon.value[0],
+                disable: isFirstPage.value,
+                'aria-label': $q.lang.pagination.first,
+                onClick: firstPage
+              })
+            )
+          }
 
           control.push(
             h(QBtn, {
               key: 'pgPrev',
               ...btnProps,
-              icon: navIcon.value[ 1 ],
+              icon: navIcon.value[1],
               disable: isFirstPage.value,
               'aria-label': $q.lang.pagination.prev,
               onClick: prevPage
@@ -891,148 +1005,158 @@ export default createComponent({
             h(QBtn, {
               key: 'pgNext',
               ...btnProps,
-              icon: navIcon.value[ 2 ],
+              icon: navIcon.value[2],
               disable: isLastPage.value,
               'aria-label': $q.lang.pagination.next,
               onClick: nextPage
             })
           )
 
-          pagesNumber.value > 2 && control.push(
-            h(QBtn, {
-              key: 'pgLast',
-              ...btnProps,
-              icon: navIcon.value[ 3 ],
-              disable: isLastPage.value,
-              'aria-label': $q.lang.pagination.last,
-              onClick: lastPage
-            })
-          )
+          if (pagesNumber.value > 2) {
+            control.push(
+              h(QBtn, {
+                key: 'pgLast',
+                ...btnProps,
+                icon: navIcon.value[3],
+                disable: isLastPage.value,
+                'aria-label': $q.lang.pagination.last,
+                onClick: lastPage
+              })
+            )
+          }
         }
       }
 
-      child.push(
-        h('div', { class: 'q-table__control' }, control)
-      )
+      child.push(h('div', { class: 'q-table__control' }, control))
 
       return child
     }
 
-    function getGridHeader () {
-      const child = props.gridHeader === true
-        ? [
-            h('table', { class: 'q-table' }, [
-              getTHead(h)
-            ])
-          ]
-        : (
-            props.loading === true && slots.loading === void 0
-              ? getProgress(h)
-              : void 0
-          )
+    function getGridHeader() {
+      const child =
+        props.gridHeader === true
+          ? [h('table', { class: 'q-table' }, [getTHead(h)])]
+          : props.loading === true && slots.loading === void 0
+            ? getProgress(h)
+            : void 0
 
       return h('div', { class: 'q-table__middle' }, child)
     }
 
-    function getGridBody () {
-      const item = slots.item !== void 0
-        ? slots.item
-        : scope => {
-          const child = scope.cols.map(
-            col => h('div', { class: 'q-table__grid-item-row' }, [
-              h('div', { class: 'q-table__grid-item-title' }, [ col.label ]),
-              h('div', { class: 'q-table__grid-item-value' }, [ col.value ])
-            ])
+    function getGridBody() {
+      const item =
+        slots.item !== void 0
+          ? slots.item
+          : scope => {
+              const child = scope.cols.map(col =>
+                h('div', { class: 'q-table__grid-item-row' }, [
+                  h('div', { class: 'q-table__grid-item-title' }, [col.label]),
+                  h('div', { class: 'q-table__grid-item-value' }, [col.value])
+                ])
+              )
+
+              if (hasSelectionMode.value === true) {
+                const slot = slots['body-selection']
+                const content =
+                  slot !== void 0
+                    ? slot(scope)
+                    : [
+                        h(QCheckbox, {
+                          modelValue: scope.selected,
+                          color: props.color,
+                          dark: isDark.value,
+                          dense: props.dense,
+                          'onUpdate:modelValue': (adding, evt) => {
+                            updateSelection(
+                              [scope.key],
+                              [scope.row],
+                              adding,
+                              evt
+                            )
+                          }
+                        })
+                      ]
+
+                child.unshift(
+                  h('div', { class: 'q-table__grid-item-row' }, content),
+                  h(QSeparator, { dark: isDark.value })
+                )
+              }
+
+              const data = {
+                class: [
+                  'q-table__grid-item-card' + cardDefaultClass.value,
+                  props.cardClass
+                ],
+                style: props.cardStyle
+              }
+
+              if (props.cardStyleFn !== void 0) {
+                data.style = [data.style, props.cardStyleFn(scope.row)]
+              }
+
+              if (props.cardClassFn !== void 0) {
+                const cls = props.cardClassFn(scope.row)
+                if (cls) {
+                  data.class[0] += ` ${cls}`
+                }
+              }
+
+              if (
+                props.onRowClick !== void 0 ||
+                props.onRowDblclick !== void 0 ||
+                props.onRowContextmenu !== void 0
+              ) {
+                data.class[0] += ' cursor-pointer'
+
+                if (props.onRowClick !== void 0) {
+                  data.onClick = evt => {
+                    emit('RowClick', evt, scope.row, scope.pageIndex)
+                  }
+                }
+
+                if (props.onRowDblclick !== void 0) {
+                  data.onDblclick = evt => {
+                    emit('RowDblclick', evt, scope.row, scope.pageIndex)
+                  }
+                }
+
+                if (props.onRowContextmenu !== void 0) {
+                  data.onContextmenu = evt => {
+                    emit('rowContextmenu', evt, scope.row, scope.pageIndex)
+                  }
+                }
+              }
+
+              return h(
+                'div',
+                {
+                  class:
+                    'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3' +
+                    (scope.selected === true
+                      ? ' q-table__grid-item--selected'
+                      : '')
+                },
+                [h('div', data, child)]
+              )
+            }
+
+      return h(
+        'div',
+        {
+          class: ['q-table__grid-content row', props.cardContainerClass],
+          style: props.cardContainerStyle
+        },
+        computedRows.value.map((row, pageIndex) =>
+          item(
+            getBodyScope({
+              key: getRowKey.value(row),
+              row,
+              pageIndex
+            })
           )
-
-          if (hasSelectionMode.value === true) {
-            const slot = slots[ 'body-selection' ]
-            const content = slot !== void 0
-              ? slot(scope)
-              : [
-                  h(QCheckbox, {
-                    modelValue: scope.selected,
-                    color: props.color,
-                    dark: isDark.value,
-                    dense: props.dense,
-                    'onUpdate:modelValue': (adding, evt) => {
-                      updateSelection([ scope.key ], [ scope.row ], adding, evt)
-                    }
-                  })
-                ]
-
-            child.unshift(
-              h('div', { class: 'q-table__grid-item-row' }, content),
-              h(QSeparator, { dark: isDark.value })
-            )
-          }
-
-          const data = {
-            class: [
-              'q-table__grid-item-card' + cardDefaultClass.value,
-              props.cardClass
-            ],
-            style: props.cardStyle
-          }
-
-          if (props.cardStyleFn !== void 0) {
-            data.style = [ data.style, props.cardStyleFn(scope.row) ]
-          }
-
-          if (props.cardClassFn !== void 0) {
-            const cls = props.cardClassFn(scope.row)
-            if (cls) {
-              data.class[ 0 ] += ` ${ cls }`
-            }
-          }
-
-          if (
-            props.onRowClick !== void 0
-            || props.onRowDblclick !== void 0
-            || props.onRowContextmenu !== void 0
-          ) {
-            data.class[ 0 ] += ' cursor-pointer'
-
-            if (props.onRowClick !== void 0) {
-              data.onClick = evt => {
-                emit('RowClick', evt, scope.row, scope.pageIndex)
-              }
-            }
-
-            if (props.onRowDblclick !== void 0) {
-              data.onDblclick = evt => {
-                emit('RowDblclick', evt, scope.row, scope.pageIndex)
-              }
-            }
-
-            if (props.onRowContextmenu !== void 0) {
-              data.onContextmenu = evt => {
-                emit('rowContextmenu', evt, scope.row, scope.pageIndex)
-              }
-            }
-          }
-
-          return h('div', {
-            class: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3'
-              + (scope.selected === true ? ' q-table__grid-item--selected' : '')
-          }, [
-            h('div', data, child)
-          ])
-        }
-
-      return h('div', {
-        class: [
-          'q-table__grid-content row',
-          props.cardContainerClass
-        ],
-        style: props.cardContainerStyle
-      }, computedRows.value.map((row, pageIndex) => {
-        return item(getBodyScope({
-          key: getRowKey.value(row),
-          row,
-          pageIndex
-        }))
-      }))
+        )
+      )
     }
 
     // expose public methods and needed computed props
@@ -1060,28 +1184,22 @@ export default createComponent({
     })
 
     return () => {
-      const child = [ getTopDiv() ]
+      const child = [getTopDiv()]
       const data = { ref: rootRef, class: rootContainerClass.value }
 
       if (props.grid === true) {
         child.push(getGridHeader())
-      }
-      else {
+      } else {
         Object.assign(data, {
-          class: [ data.class, props.cardClass ],
+          class: [data.class, props.cardClass],
           style: props.cardStyle
         })
       }
 
-      child.push(
-        getBody(),
-        getBottomDiv()
-      )
+      child.push(getBody(), getBottomDiv())
 
       if (props.loading === true && slots.loading !== void 0) {
-        child.push(
-          slots.loading()
-        )
+        child.push(slots.loading())
       }
 
       return h('div', data, child)

@@ -16,16 +16,19 @@ const { isModeInstalled } = require('../modes-utils.js')
  *   target: "android" | 'ios' | undefined
  * }} options
  */
-module.exports.addMode = async function addMode ({
-  ctx: { appPaths, cacheProxy, pkg: { appPkg } },
+module.exports.addMode = async function addMode({
+  ctx: {
+    appPaths,
+    cacheProxy,
+    pkg: { appPkg }
+  },
   silent,
   target
 }) {
   if (isModeInstalled(appPaths, 'capacitor')) {
     if (target) {
       addPlatform(target, appPaths, cacheProxy)
-    }
-    else if (silent !== true) {
+    } else if (silent !== true) {
       warn('Capacitor support detected already. Aborting.')
     }
 
@@ -36,8 +39,8 @@ module.exports.addMode = async function addMode ({
 
   if (/^[0-9]/.test(appName)) {
     warn(
-      'App product name cannot start with a number. '
-      + 'Please change the "productName" prop in your /package.json then try again.'
+      'App product name cannot start with a number. ' +
+        'Please change the "productName" prop in your /package.json then try again.'
     )
     return
   }
@@ -45,13 +48,15 @@ module.exports.addMode = async function addMode ({
   console.log()
 
   const { default: inquirer } = await import('inquirer')
-  const answer = await inquirer.prompt([ {
-    name: 'appId',
-    type: 'input',
-    message: 'What is the Capacitor app id?',
-    default: 'org.capacitor.quasar.app',
-    validate: appId => (appId ? true : 'Please fill in a value')
-  } ])
+  const answer = await inquirer.prompt([
+    {
+      name: 'appId',
+      type: 'input',
+      message: 'What is the Capacitor app id?',
+      default: 'org.capacitor.quasar.app',
+      validate: appId => (appId ? true : 'Please fill in a value')
+    }
+  ])
 
   log('Creating Capacitor source folder...')
 
@@ -66,15 +71,20 @@ module.exports.addMode = async function addMode ({
     nodePackager: nodePackager.name
   }
 
-  globSync([ '**/*' ], {
+  globSync(['**/*'], {
     cwd: appPaths.resolve.cli('templates/capacitor')
   }).forEach(filePath => {
-    if (filePath.endsWith('pnpm-workspace.yaml') && nodePackager.name !== 'pnpm') {
+    if (
+      filePath.endsWith('pnpm-workspace.yaml') &&
+      nodePackager.name !== 'pnpm'
+    ) {
       return
     }
 
     const dest = appPaths.resolve.capacitor(filePath)
-    const content = fs.readFileSync(appPaths.resolve.cli('templates/capacitor/' + filePath))
+    const content = fs.readFileSync(
+      appPaths.resolve.cli('templates/capacitor/' + filePath)
+    )
     fse.ensureFileSync(dest)
     fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
   })
@@ -83,23 +93,17 @@ module.exports.addMode = async function addMode ({
 
   const { capBin } = cacheProxy.getModule('capCli')
   log('Initializing capacitor...')
-  spawnSync(
-    capBin,
-    [
-      'init',
-      '--web-dir',
-      'www',
-      scope.appName,
-      scope.appId
-    ],
-    { cwd: appPaths.capacitorDir }
-  )
+  spawnSync(capBin, ['init', '--web-dir', 'www', scope.appName, scope.appId], {
+    cwd: appPaths.capacitorDir
+  })
 
   log('Capacitor support was added')
 
   if (!target) {
     console.log()
-    console.log(' No Capacitor platform has been added yet as these get installed on demand automatically when running "quasar dev" or "quasar build".')
+    console.log(
+      ' No Capacitor platform has been added yet as these get installed on demand automatically when running "quasar dev" or "quasar build".'
+    )
     log()
     return
   }
@@ -112,9 +116,7 @@ module.exports.addMode = async function addMode ({
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  * }} options
  */
-module.exports.removeMode = function removeMode ({
-  ctx: { appPaths }
-}) {
+module.exports.removeMode = function removeMode({ ctx: { appPaths } }) {
   if (isModeInstalled(appPaths, 'capacitor') === false) {
     warn('No Capacitor support detected. Aborting.')
     return
@@ -126,7 +128,7 @@ module.exports.removeMode = function removeMode ({
   log('Capacitor support was removed')
 }
 
-function addPlatform (target, appPaths, cacheProxy) {
+function addPlatform(target, appPaths, cacheProxy) {
   ensureConsistency({ appPaths, cacheProxy })
 
   // if it has the platform
@@ -136,16 +138,12 @@ function addPlatform (target, appPaths, cacheProxy) {
 
   if (capVersion >= 3) {
     const nodePackager = cacheProxy.getModule('nodePackager')
-    nodePackager.installPackage(
-      `@capacitor/${ target }@^${ capVersion }.0.0`,
-      { displayName: 'Capacitor platform', cwd: appPaths.capacitorDir }
-    )
+    nodePackager.installPackage(`@capacitor/${target}@^${capVersion}.0.0`, {
+      displayName: 'Capacitor platform',
+      cwd: appPaths.capacitorDir
+    })
   }
 
-  log(`Adding Capacitor platform "${ target }"`)
-  spawnSync(
-    capBin,
-    [ 'add', target ],
-    { cwd: appPaths.capacitorDir }
-  )
+  log(`Adding Capacitor platform "${target}"`)
+  spawnSync(capBin, ['add', target], { cwd: appPaths.capacitorDir })
 }

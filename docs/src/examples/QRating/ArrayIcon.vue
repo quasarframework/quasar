@@ -16,7 +16,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       ratingModel: ref(3),
 

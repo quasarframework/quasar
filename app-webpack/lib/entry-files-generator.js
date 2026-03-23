@@ -6,7 +6,7 @@ module.exports.EntryFilesGenerator = class EntryFilesGenerator {
   #templateFiles // templated
   #regularFiles // copied as-is
 
-  constructor (ctx) {
+  constructor(ctx) {
     const regularFiles = []
     const templateFiles = [
       'app.js',
@@ -19,20 +19,17 @@ module.exports.EntryFilesGenerator = class EntryFilesGenerator {
       templateFiles.push(
         'server-entry.js',
         'ssr-middlewares.js',
-        `ssr-${ ctx.dev ? 'dev' : 'prod' }-webserver.js`
+        `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )
-    }
-    else if (ctx.mode.bex) {
-      regularFiles.push(
-        'bex-app.js'
-      )
+    } else if (ctx.mode.bex) {
+      regularFiles.push('bex-app.js')
     }
 
     const { appPaths } = ctx
 
     this.#templateFiles = templateFiles.map(file => {
       const content = readFileSync(
-        appPaths.resolve.cli(`templates/entry/${ file }`),
+        appPaths.resolve.cli(`templates/entry/${file}`),
         'utf-8'
       )
 
@@ -43,12 +40,12 @@ module.exports.EntryFilesGenerator = class EntryFilesGenerator {
     })
 
     this.#regularFiles = regularFiles.map(file => ({
-      src: appPaths.resolve.cli(`templates/entry/${ file }`),
+      src: appPaths.resolve.cli(`templates/entry/${file}`),
       dest: appPaths.resolve.entry(file)
     }))
   }
 
-  generate (quasarConf) {
+  generate(quasarConf) {
     this.#templateFiles.forEach(file => {
       fse.ensureFileSync(file.dest)
       fse.writeFileSync(file.dest, file.template(quasarConf), 'utf-8')

@@ -15,13 +15,18 @@ export default {
     search: 'Axtar',
     filter: 'Filtrlə',
     refresh: 'Yenilə',
-    expand: label => (label ? `"${ label }" genişləndirin` : 'Genişləndirin'),
-    collapse: label => (label ? `"${ label }" yığcamlaşdırın` : 'Yıxılma')
+    expand: label => (label ? `"${label}" genişləndirin` : 'Genişləndirin'),
+    collapse: label => (label ? `"${label}" yığcamlaşdırın` : 'Yıxılma')
   },
   date: {
-    days: 'Bazar_Bazar ertəsi_Çərşənbə axşamı_Çərşənbə_Cümə axşamı_Cümə_Şənbə'.split('_'),
+    days: 'Bazar_Bazar ertəsi_Çərşənbə axşamı_Çərşənbə_Cümə axşamı_Cümə_Şənbə'.split(
+      '_'
+    ),
     daysShort: 'B_B.E_Ç_Ç.E_C.A_C_Ş'.split('_'),
-    months: 'Yanvar_Fevral_Mart_Aprel_May_İyun_İyul_Avqust_Sentyabr_Oktyabr_Noyabr_Dekabr'.split('_'),
+    months:
+      'Yanvar_Fevral_Mart_Aprel_May_İyun_İyul_Avqust_Sentyabr_Oktyabr_Noyabr_Dekabr'.split(
+        '_'
+      ),
     monthsShort: 'Yan_Fev_Mar_Apr_May_İyn_İyl_Avq_Sen_Okt_Noy_Dek'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Ötən il',
     nextYear: 'Gələn il',
     today: 'Bu gün',
-    prevRangeYears: range => `Əvvəlki ${ range } illər`,
-    nextRangeYears: range => `Ardı ${ range } illər`
+    prevRangeYears: range => `Əvvəlki ${range} illər`,
+    nextRangeYears: range => `Ardı ${range} illər`
   },
   table: {
     noData: 'Məlumat yoxdur',
     noResults: 'Uyğun məlumat tapılmadı',
     loading: 'Yüklənir...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 record selected.'
-        : (rows === 0 ? 'No' : rows) + ' seçilmiş məlumat.'
-    ),
+        : (rows === 0 ? 'No' : rows) + ' seçilmiş məlumat.',
     recordsPerPage: 'Hər səhifədəki məlumat:',
     allRows: 'Bütün',
     pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,

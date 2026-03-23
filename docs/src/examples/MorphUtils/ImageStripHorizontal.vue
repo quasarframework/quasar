@@ -1,14 +1,25 @@
 <template>
   <div class="q-pa-md">
-    <div class="row no-wrap q-gutter-x-sm" style="overflow-x: auto; overflow-y: visible;">
+    <div
+      class="row no-wrap q-gutter-x-sm"
+      style="overflow-x: auto; overflow-y: visible"
+    >
       <q-img
         v-for="(src, index) in images"
         :key="index"
-        :ref="el => { thumbRef[index] = el }"
+        :ref="
+          el => {
+            thumbRef[index] = el
+          }
+        "
         class="cursor-pointer"
-        :class="index === indexZoomed ? 'fixed-top q-mt-md q-mx-auto z-top' : void 0"
+        :class="
+          index === indexZoomed ? 'fixed-top q-mt-md q-mx-auto z-top' : void 0
+        "
         style="border-radius: 3%/5%; flex: 0 0 10vw"
-        :style="index === indexZoomed ? 'width: 800px; max-width: 70vw' : void 0"
+        :style="
+          index === indexZoomed ? 'width: 800px; max-width: 70vw' : void 0
+        "
         :src="src"
         @click="zoomImage(index)"
       />
@@ -21,13 +32,17 @@ import { ref, onBeforeUpdate } from 'vue'
 import { morph } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const thumbRef = ref([])
 
     const indexZoomed = ref(void 0)
-    const images = ref(Array(24).fill(null).map((_, i) => 'https://picsum.photos/id/' + i + '/500/300'))
+    const images = ref(
+      Array(24)
+        .fill(null)
+        .map((_, i) => 'https://picsum.photos/id/' + i + '/500/300')
+    )
 
-    function zoomImage (index) {
+    function zoomImage(index) {
       const indexZoomedState = indexZoomed.value
       let cancel = void 0
 
@@ -35,7 +50,7 @@ export default {
 
       if (index !== void 0 && index !== indexZoomedState) {
         cancel = morph({
-          from: thumbRef.value[ index ].$el,
+          from: thumbRef.value[index].$el,
           onToggle: () => {
             indexZoomed.value = index
           },
@@ -53,7 +68,7 @@ export default {
         (cancel === void 0 || cancel() === false)
       ) {
         morph({
-          from: thumbRef.value[ indexZoomedState ].$el,
+          from: thumbRef.value[indexZoomedState].$el,
           waitFor: 100,
           duration: 300
         })

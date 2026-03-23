@@ -9,23 +9,20 @@ import { spawnSync } from './spawn.js'
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
-function getNpmRegistryUrl () {
+function getNpmRegistryUrl() {
   try {
     const url = execSync('npm config get registry')
     if (url) {
-      return url.endsWith('/')
-        ? url
-        : url + '/'
+      return url.endsWith('/') ? url : url + '/'
     }
-  }
-  catch (_) {}
+  } catch {}
 
   return 'https://registry.npmjs.org/'
 }
 
-async function getPackageVersionList (packageName, npmRegistryUrl) {
+async function getPackageVersionList(packageName, npmRegistryUrl) {
   const https = await import('node:https')
-  const url = `${ npmRegistryUrl }${ packageName }`
+  const url = `${npmRegistryUrl}${packageName}`
 
   return new Promise(resolve => {
     https.get(url, async response => {
@@ -35,8 +32,7 @@ async function getPackageVersionList (packageName, npmRegistryUrl) {
         for await (const chunk of response) {
           data += chunk
         }
-      }
-      catch (_) {
+      } catch {
         resolve(null)
         return
       }
@@ -45,20 +41,15 @@ async function getPackageVersionList (packageName, npmRegistryUrl) {
         const json = JSON.parse(data)
         const versionList = Object.keys(json.versions)
 
-        resolve(
-          versionList.length !== 0
-            ? versionList
-            : null
-        )
-      }
-      catch (_) {
+        resolve(versionList.length !== 0 ? versionList : null)
+      } catch {
         resolve(null)
       }
     })
   })
 }
 
-function run ({ name, params, cwd, onFail, env = 'development' }) {
+function run({ name, params, cwd, onFail, env = 'development' }) {
   spawnSync(
     name,
     params.filter(param => typeof param === 'string' && param.length !== 0),
@@ -67,15 +58,14 @@ function run ({ name, params, cwd, onFail, env = 'development' }) {
   )
 }
 
-function getMajorVersion (name) {
+function getMajorVersion(name) {
   try {
-    const child = crossSpawnSync(name, [ '--version' ])
+    const child = crossSpawnSync(name, ['--version'])
     if (child.status === 0) {
-      const version = String(child.output[ 1 ]).trim()
-      return parseInt(version.split('.')[ 0 ], 10)
+      const version = String(child.output[1]).trim()
+      return parseInt(version.split('.')[0], 10)
     }
-  }
-  catch (_) {
+  } catch {
     /* do nothing; we return null below */
   }
 
@@ -87,17 +77,17 @@ class PackageManager {
    * To be declared by subclasses
    */
   name = 'unknown'
-  lockFiles = [ 'unknown' ]
+  lockFiles = ['unknown']
 
-  getInstallParams (_env) {
+  getInstallParams(/* env */) {
     return []
   }
 
-  getInstallPackageParams (_names, _isDev) {
+  getInstallPackageParams(/* names, isDev */) {
     return []
   }
 
-  getUninstallPackageParams (_names) {
+  getUninstallPackageParams(/* names */) {
     return []
   }
 
@@ -109,7 +99,7 @@ class PackageManager {
   cachedIsInstalled = null
   #npmRegistryUrl = null
 
-  isInstalled () {
+  isInstalled() {
     if (this.cachedIsInstalled !== null) {
       return this.cachedIsInstalled
     }
@@ -120,57 +110,63 @@ class PackageManager {
     return this.cachedIsInstalled
   }
 
-  install ({ cwd, params, displayName, env = 'development' } = {}) {
+  install({ cwd, params, displayName, env = 'development' } = {}) {
     displayName = displayName ? displayName + ' ' : ''
 
-    log(`Installing ${ displayName }dependencies...`)
+    log(`Installing ${displayName}dependencies...`)
     run({
       name: this.name,
-      params: params && params.length !== 0
-        ? params
-        : this.getInstallParams(env),
+      params:
+        params && params.length !== 0 ? params : this.getInstallParams(env),
       cwd,
       env,
-      onFail: () => fatal(`Failed to install ${ displayName }dependencies`, 'FAIL')
+      onFail: () =>
+        fatal(`Failed to install ${displayName}dependencies`, 'FAIL')
     })
   }
 
-  installPackage (name, { cwd, displayName = name, isDevDependency = false } = {}) {
-    log(`Installing ${ displayName }...`)
+  installPackage(
+    name,
+    { cwd, displayName = name, isDevDependency = false } = {}
+  ) {
+    log(`Installing ${displayName}...`)
     run({
       name: this.name,
-      params: this.getInstallPackageParams(Array.isArray(name) ? name : [ name ], isDevDependency),
+      params: this.getInstallPackageParams(
+        Array.isArray(name) ? name : [name],
+        isDevDependency
+      ),
       cwd,
-      onFail: () => fatal(`Failed to install ${ displayName }`, 'FAIL')
+      onFail: () => fatal(`Failed to install ${displayName}`, 'FAIL')
     })
   }
 
-  uninstallPackage (name, { cwd, displayName = name } = {}) {
-    log(`Uninstalling ${ displayName }...`)
+  uninstallPackage(name, { cwd, displayName = name } = {}) {
+    log(`Uninstalling ${displayName}...`)
     run({
       name: this.name,
-      params: this.getUninstallPackageParams(Array.isArray(name) ? name : [ name ]),
+      params: this.getUninstallPackageParams(
+        Array.isArray(name) ? name : [name]
+      ),
       cwd,
-      onFail: () => fatal(`Failed to uninstall ${ displayName }`, 'FAIL')
+      onFail: () => fatal(`Failed to uninstall ${displayName}`, 'FAIL')
     })
   }
 
-  get npmRegistryUrl () {
+  get npmRegistryUrl() {
     if (this.#npmRegistryUrl === null) {
       this.#npmRegistryUrl = getNpmRegistryUrl()
     }
     return this.#npmRegistryUrl
   }
 
-  set npmRegistryUrl (url) {
+  set npmRegistryUrl(url) {
     if (url) {
-      this.#npmRegistryUrl = url.endsWith('/')
-        ? url
-        : url + '/'
+      this.#npmRegistryUrl = url.endsWith('/') ? url : url + '/'
     }
   }
 
-  async getPackageLatestVersion ({
+  async getPackageLatestVersion({
     packageName,
     npmRegistryUrl = this.#npmRegistryUrl,
     currentVersion = null,
@@ -184,146 +180,115 @@ class PackageManager {
     }
 
     if (currentVersion === null) {
-      return versionList[ versionList.length - 1 ]
+      return versionList[versionList.length - 1]
     }
 
-    const [ , major, prerelease ] = currentVersion.match(versionRegex)
+    const [, major, prerelease] = currentVersion.match(versionRegex)
     const majorSyntax = majorVersion ? '(\\d+)' : major
     const regex = new RegExp(
       prerelease || preReleaseVersion
-        ? `^${ majorSyntax }\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
-        : `^${ majorSyntax }\\.(\\d+)\\.(\\d+)$`
+        ? `^${majorSyntax}\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
+        : `^${majorSyntax}\\.(\\d+)\\.(\\d+)$`
     )
 
     const list = versionList.filter(version => regex.test(version))
-    return list[ list.length - 1 ] || null
+    return list[list.length - 1] || null
   }
 }
 
 class Npm extends PackageManager {
   name = 'npm'
-  lockFiles = [ 'package-lock.json' ]
+  lockFiles = ['package-lock.json']
 
-  getInstallParams (env) {
+  getInstallParams(env) {
     if (env === 'development') {
-      return [ 'install' ]
+      return ['install']
     }
 
     return this.majorVersion >= 9
-      ? [ 'install' ] // env will be set to production
-      : [ 'install', '--production' ]
+      ? ['install'] // env will be set to production
+      : ['install', '--production']
   }
 
-  getInstallPackageParams (names, isDevDependency) {
-    return [
-      'install',
-      isDevDependency ? '--save-dev' : '',
-      ...names
-    ]
+  getInstallPackageParams(names, isDevDependency) {
+    return ['install', isDevDependency ? '--save-dev' : '', ...names]
   }
 
-  getUninstallPackageParams (names) {
-    return [ 'uninstall', ...names ]
+  getUninstallPackageParams(names) {
+    return ['uninstall', ...names]
   }
 }
 
 class Yarn extends PackageManager {
   name = 'yarn'
-  lockFiles = [ 'yarn.lock' ]
+  lockFiles = ['yarn.lock']
 
-  getInstallParams (env) {
+  getInstallParams(env) {
     if (env === 'development') {
-      return [ 'install' ]
+      return ['install']
     }
 
     return this.majorVersion >= 2
-      ? [
-          'workspaces',
-          'focus',
-          '--all',
-          '--production'
-        ]
-      : [
-          'install',
-          '--production'
-        ]
+      ? ['workspaces', 'focus', '--all', '--production']
+      : ['install', '--production']
   }
 
-  getInstallPackageParams (names, isDevDependency) {
-    return [
-      'add',
-      isDevDependency ? '--dev' : '',
-      ...names
-    ]
+  getInstallPackageParams(names, isDevDependency) {
+    return ['add', isDevDependency ? '--dev' : '', ...names]
   }
 
-  getUninstallPackageParams (names) {
-    return [ 'remove', ...names ]
+  getUninstallPackageParams(names) {
+    return ['remove', ...names]
   }
 }
 
 class Pnpm extends PackageManager {
   name = 'pnpm'
-  lockFiles = [ 'pnpm-lock.yaml' ]
+  lockFiles = ['pnpm-lock.yaml']
 
-  getInstallParams (env) {
-    return env === 'development'
-      ? [ 'install' ]
-      : [ 'install', '--prod' ]
+  getInstallParams(env) {
+    return env === 'development' ? ['install'] : ['install', '--prod']
   }
 
-  getInstallPackageParams (names, isDevDependency) {
-    return [
-      'add',
-      isDevDependency ? '--save-dev' : '',
-      ...names
-    ]
+  getInstallPackageParams(names, isDevDependency) {
+    return ['add', isDevDependency ? '--save-dev' : '', ...names]
   }
 
-  getUninstallPackageParams (names) {
-    return [ 'remove', ...names ]
+  getUninstallPackageParams(names) {
+    return ['remove', ...names]
   }
 }
 
 class Bun extends PackageManager {
   name = 'bun'
-  lockFiles = [ 'bun.lock', 'bun.lockb' ]
+  lockFiles = ['bun.lock', 'bun.lockb']
 
-  getInstallParams (env) {
-    return env === 'development'
-      ? [ 'install' ]
-      : [ 'install', '--production' ]
+  getInstallParams(env) {
+    return env === 'development' ? ['install'] : ['install', '--production']
   }
 
-  getInstallPackageParams (names, isDevDependency) {
-    return [
-      'add',
-      isDevDependency ? '--dev' : '',
-      ...names
-    ]
+  getInstallPackageParams(names, isDevDependency) {
+    return ['add', isDevDependency ? '--dev' : '', ...names]
   }
 
-  getUninstallPackageParams (names) {
-    return [ 'remove', ...names ]
+  getUninstallPackageParams(names) {
+    return ['remove', ...names]
   }
 }
 
-const packageManagersList = [
-  new Yarn(),
-  new Pnpm(),
-  new Npm(),
-  new Bun()
-]
+const packageManagersList = [new Yarn(), new Pnpm(), new Npm(), new Bun()]
 
 /**
  * @returns {PackageManager}
  */
-function getProjectPackageManager (folder) {
+function getProjectPackageManager(folder) {
   // Recursively checks for presence of the lock file by traversing
   // the folder tree up to the root
-  while (folder.length && folder[ folder.length - 1 ] !== sep) {
+  while (folder.length && folder[folder.length - 1] !== sep) {
     for (const pm of packageManagersList) {
-      if (pm.lockFiles.some(lockFile => fs.existsSync(join(folder, lockFile)))) {
+      if (
+        pm.lockFiles.some(lockFile => fs.existsSync(join(folder, lockFile)))
+      ) {
         return pm
       }
     }
@@ -335,7 +300,7 @@ function getProjectPackageManager (folder) {
 /**
  * @returns {PackageManager}
  */
-export function getNodePackager (folder = appPaths.appDir) {
+export function getNodePackager(folder = appPaths.appDir) {
   const projectPackageManager = getProjectPackageManager(folder)
 
   // if the project folder uses a supported package manager

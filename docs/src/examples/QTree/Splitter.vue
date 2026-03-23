@@ -1,10 +1,6 @@
 <template>
   <div>
-    <q-splitter
-      v-model="splitterModel"
-      style="height: 400px"
-    >
-
+    <q-splitter v-model="splitterModel" style="height: 400px">
       <template v-slot:before>
         <div class="q-pa-md">
           <q-tree
@@ -26,27 +22,72 @@
         >
           <q-tab-panel name="Relax Hotel">
             <div class="text-h4 q-mb-md">Welcome</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
           </q-tab-panel>
 
           <q-tab-panel name="Food">
             <div class="text-h4 q-mb-md">Food</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
           </q-tab-panel>
 
           <q-tab-panel name="Room service">
             <div class="text-h4 q-mb-md">Room service</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
           </q-tab-panel>
 
           <q-tab-panel name="Room view">
             <div class="text-h4 q-mb-md">Room view</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
+            <p
+              >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+              praesentium cumque magnam odio iure quidem, quod illum numquam
+              possimus obcaecati commodi minima assumenda consectetur culpa fuga
+              nulla ullam. In, libero.</p
+            >
           </q-tab-panel>
         </q-tab-panels>
       </template>
@@ -58,7 +99,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       splitterModel: ref(50),
       selected: ref('Food'),

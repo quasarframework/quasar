@@ -9,7 +9,7 @@
       "tsType": "QTreeNode",
       "desc": "The array of nodes that designates the tree structure",
       "required": true,
-      "examples": [ "[ {}, {} ]" ],
+      "examples": ["[{}, {}]"],
       "category": "content"
     },
 
@@ -17,7 +17,7 @@
       "type": "String",
       "desc": "The property name of each node object that holds a unique node id",
       "required": true,
-      "examples": [ "'key'", "'id'" ],
+      "examples": ["'key'", "'id'"],
       "category": "content"
     },
 
@@ -25,7 +25,7 @@
       "type": "String",
       "desc": "The property name of each node object that holds the label of the node",
       "default": "'label'",
-      "examples": [ "'name'", "'description'" ],
+      "examples": ["'name'", "'description'"],
       "category": "content"
     },
 
@@ -33,7 +33,7 @@
       "type": "String",
       "desc": "The property name of each node object that holds the list of children of the node",
       "default": "'children'",
-      "examples": [ "'roles'", "'relatives'" ],
+      "examples": ["'roles'", "'relatives'"],
       "category": "content"
     },
 
@@ -79,7 +79,7 @@
       "type": "String",
       "desc": "The type of strategy to use for the selection of the nodes",
       "default": "'none'",
-      "values": [ "'none'", "'strict'", "'leaf'", "'leaf-filtered'" ],
+      "values": ["'none'", "'strict'", "'leaf'", "'leaf-filtered'"],
       "category": "behavior"
     },
 
@@ -87,7 +87,7 @@
       "type": "Array",
       "desc": "Keys of nodes that are ticked",
       "sync": true,
-      "examples": [ "# v-model:ticked=\"tickedKeys\"" ],
+      "examples": ["# v-model:ticked=\"tickedKeys\""],
       "category": "state"
     },
 
@@ -95,7 +95,7 @@
       "type": "Array",
       "desc": "Keys of nodes that are expanded",
       "sync": true,
-      "examples": [ "# v-model:expanded=\"expandedKeys\"" ],
+      "examples": ["# v-model:expanded=\"expandedKeys\""],
       "category": "state"
     },
 
@@ -103,7 +103,7 @@
       "type": "Any",
       "desc": "Key of node currently selected",
       "sync": true,
-      "examples": [ "# v-model:selected=\"selectedKey\"" ],
+      "examples": ["# v-model:selected=\"selectedKey\""],
       "category": "state"
     },
 
@@ -136,7 +136,7 @@
     "filter": {
       "type": "String",
       "desc": "The text value to be used for filtering nodes",
-      "examples": [ "'car'" ],
+      "examples": ["'car'"],
       "category": "filter"
     },
 
@@ -157,7 +157,9 @@
         "type": "Boolean",
         "desc": "Matches or not"
       },
-      "examples": [ "(node, filter) => node.label.toLowerCase().indexOf(filter.toLowerCase()) !== -1" ],
+      "examples": [
+        "(node, filter) => node.label.toLowerCase().indexOf(filter.toLowerCase()) !== -1"
+      ],
       "category": "filter"
     },
 
@@ -172,14 +174,14 @@
     "no-nodes-label": {
       "type": "String",
       "desc": "Override default such label for when no nodes are available",
-      "examples": [ "'No nodes to show!'" ],
+      "examples": ["'No nodes to show!'"],
       "category": "content"
     },
 
     "no-results-label": {
       "type": "String",
       "desc": "Override default such label for when no nodes are available due to filtering",
-      "examples": [ "'No results'" ],
+      "examples": ["'No results'"],
       "category": "content"
     }
   },
@@ -214,7 +216,7 @@
         "color": {
           "type": "String",
           "desc": "QTree instance 'color' supplied prop value",
-          "examples": [ "'primary'" ]
+          "examples": ["'primary'"]
         },
         "dark": {
           "type": "Boolean",
@@ -252,7 +254,7 @@
         "color": {
           "type": "String",
           "desc": "QTree instance 'color' supplied prop value",
-          "examples": [ "'primary'" ]
+          "examples": ["'primary'"]
         },
         "dark": {
           "type": "Boolean",
@@ -290,7 +292,7 @@
         "color": {
           "type": "String",
           "desc": "QTree instance 'color' supplied prop value",
-          "examples": [ "'primary'" ]
+          "examples": ["'primary'"]
         },
         "dark": {
           "type": "Boolean",
@@ -328,7 +330,7 @@
         "color": {
           "type": "String",
           "desc": "QTree instance 'color' supplied prop value",
-          "examples": [ "'primary'" ]
+          "examples": ["'primary'"]
         },
         "dark": {
           "type": "Boolean",
@@ -345,7 +347,7 @@
         "expanded": {
           "type": "Array",
           "desc": "The expanded node keys",
-          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
+          "examples": ["['Node 1', 'Node 2']"]
         }
       }
     },
@@ -366,7 +368,7 @@
               "type": "String",
               "required": true,
               "desc": "The key of the node getting the newly loaded child nodes",
-              "examples": [ "'New Node'" ]
+              "examples": ["'New Node'"]
             },
             "done": {
               "type": "Function",
@@ -399,7 +401,7 @@
         "target": {
           "type": "Array",
           "desc": "The ticked node keys",
-          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
+          "examples": ["['Node 1', 'Node 2']"]
         }
       }
     },
@@ -410,7 +412,7 @@
         "target": {
           "type": "Any",
           "desc": "The selected node key",
-          "examples": [ "'Node 1'" ]
+          "examples": ["'Node 1'"]
         }
       }
     },
@@ -432,7 +434,7 @@
           "type": "Any",
           "required": true,
           "desc": "The key of a node",
-          "examples": [ "'Node 1'" ]
+          "examples": ["'Node 1'"]
         }
       },
       "returns": {
@@ -466,7 +468,7 @@
           "type": "Any",
           "required": true,
           "desc": "The key of a node",
-          "examples": [ "'Node 1'" ]
+          "examples": ["'Node 1'"]
         }
       },
       "returns": {
@@ -494,7 +496,7 @@
           "type": "Any",
           "required": true,
           "desc": "The key of a node",
-          "examples": [ "'Node 1'" ]
+          "examples": ["'Node 1'"]
         },
         "state": {
           "type": "Boolean",
@@ -512,7 +514,7 @@
           "type": "Any",
           "required": true,
           "desc": "The key of a node",
-          "examples": [ "'Node 1'" ]
+          "examples": ["'Node 1'"]
         }
       },
       "returns": {
@@ -528,7 +530,7 @@
           "type": "Array",
           "required": true,
           "desc": "The keys of nodes to tick/untick",
-          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
+          "examples": ["['Node 1', 'Node 2']"]
         },
         "state": {
           "type": "Boolean",

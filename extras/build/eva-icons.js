@@ -20,17 +20,17 @@ const {
   getBanner
 } = require('./utils')
 
-const svgFolder = resolve(__dirname, `../node_modules/${ packageName }/`)
-const iconTypes = [ 'fill', 'outline' ]
+const svgFolder = resolve(__dirname, `../node_modules/${packageName}/`)
+const iconTypes = ['fill', 'outline']
 let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
 
-iconTypes.forEach((type) => {
-  const svgFiles = globSync(svgFolder + `/${ type }/svg/*.svg`)
+iconTypes.forEach(type => {
+  const svgFiles = globSync(svgFolder + `/${type}/svg/*.svg`)
 
-  svgFiles.forEach((file) => {
+  svgFiles.forEach(file => {
     const name = defaultNameMapper(file, prefix)
 
     if (iconNames.has(name)) return
@@ -41,24 +41,17 @@ iconTypes.forEach((type) => {
       typeExports.push(typeDef)
 
       iconNames.add(name)
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
       skipped.push(name)
     }
   })
 })
 
-iconNames = [ ...iconNames ]
-svgExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-typeExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-iconNames.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
+iconNames = [...iconNames]
+svgExports.sort((a, b) => String(a).localeCompare(b))
+typeExports.sort((a, b) => String(a).localeCompare(b))
+iconNames.sort((a, b) => String(a).localeCompare(b))
 
 writeExports(
   iconSetName,
@@ -71,24 +64,24 @@ writeExports(
 
 // then update webfont files
 
-const webfont = [ 'Eva-Icons.woff2', 'Eva-Icons.woff' ]
+const webfont = ['Eva-Icons.woff2', 'Eva-Icons.woff']
 
-webfont.forEach((file) => {
+webfont.forEach(file => {
   copySync(
-    resolve(__dirname, `../node_modules/${ packageName }/style/fonts/${ file }`),
-    resolve(__dirname, `../eva-icons/${ file }`)
+    resolve(__dirname, `../node_modules/${packageName}/style/fonts/${file}`),
+    resolve(__dirname, `../eva-icons/${file}`)
   )
 })
 
 copyCssFile({
   from: resolve(
     __dirname,
-    `../node_modules/${ packageName }/style/eva-icons.css`
+    `../node_modules/${packageName}/style/eva-icons.css`
   ),
   to: resolve(__dirname, '../eva-icons/eva-icons.css'),
-  replaceFn: (content) =>
-    getBanner('Eva Icons', packageName)
-    + content
+  replaceFn: content =>
+    getBanner('Eva Icons', packageName) +
+    content
       .replace('@font-face {', '@font-face {\nfont-display: block;')
       .replace('src: url("./fonts/Eva-Icons.eot");', '')
       .replace(
@@ -99,6 +92,6 @@ copyCssFile({
 
 // write the JSON file
 const file = resolve(__dirname, join('..', distName, 'icons.json'))
-writeFileSync(file, JSON.stringify([ ...iconNames ].sort(), null, 2), 'utf-8')
+writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
 
-console.log(`${ distName } done with ${ iconNames.length } icons`)
+console.log(`${distName} done with ${iconNames.length} icons`)

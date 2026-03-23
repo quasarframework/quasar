@@ -2,7 +2,8 @@
   <div class="q-pa-md">
     <q-table
       grid
-      flat bordered
+      flat
+      bordered
       card-class="bg-primary text-white"
       title="Treats"
       :rows="rows"
@@ -12,7 +13,13 @@
       hide-header
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -35,7 +42,13 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' }
 ]
@@ -104,7 +117,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       filter: ref(''),
       columns,

@@ -1,4 +1,3 @@
-
 export const generalAnimations = [
   'bounce',
   'flash',

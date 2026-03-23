@@ -1,7 +1,10 @@
 <template>
   <div class="q-pa-md">
     <div class="row no-wrap shadow-1">
-      <q-toolbar class="col-8" :class="$q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-3'">
+      <q-toolbar
+        class="col-8"
+        :class="$q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-3'"
+      >
         <q-btn flat round dense icon="menu" />
         <q-toolbar-title>Title</q-toolbar-title>
         <q-btn flat round dense icon="search" />

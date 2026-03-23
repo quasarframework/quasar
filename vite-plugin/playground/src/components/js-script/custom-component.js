@@ -2,7 +2,7 @@ import { defineComponent, h } from 'vue'
 import { QBtn as Mimi } from 'quasar'
 
 export default defineComponent({
-  setup () {
+  setup() {
     return () => h(Mimi, { label: 'Custom - Click me' })
   }
 })

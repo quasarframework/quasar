@@ -22,15 +22,19 @@ For your QInput you can use only one of the main designs (`filled`, `outlined`, 
 <DocExample title="Coloring" file="Coloring" />
 
 ### Standard
+
 <DocExample title="Standard" file="DesignStandard" />
 
 ### Filled
+
 <DocExample title="Filled" file="DesignFilled" />
 
 ### Outlined
+
 <DocExample title="Outlined" file="DesignOutlined" />
 
 ### Standout
+
 <DocExample title="Standout" file="DesignStandout" />
 
 One of the most appropriate use cases for Standout design is in a QToolbar:
@@ -38,6 +42,7 @@ One of the most appropriate use cases for Standout design is in a QToolbar:
 <DocExample title="Standout in QToolbar" file="StandoutToolbar" />
 
 ### Borderless
+
 The `borderless` design allows you to seamlessly integrate your QInput into other components without QInput drawing a border around itself or changing its background color:
 
 <DocExample title="Borderless" file="Borderless" />
@@ -66,8 +71,8 @@ All the attributes set on `QInput` that are not in the list of `props` in the **
 
 Please check these resources for more information about native attributes (for input check also the specific attributes for each type):
 
-* [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-* [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+- [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+- [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
 
 ### Clearable
 
@@ -165,15 +170,15 @@ Mask is only available if the `type` is one of 'text' (default), 'search', 'url'
 
 Below are the default mask tokens. To add your own, see the next section.
 
-| Token | Description |
-| --- | --- |
-| `#` | Numeric |
-| `S` | Letter, a to z, case insensitive |
-| `N` | Alphanumeric, case insensitive for letters |
-| `A` | Letter, transformed to uppercase |
-| `a` | Letter, transformed to lowercase |
-| `X` | Alphanumeric, transformed to uppercase for letters |
-| `x` | Alphanumeric, transformed to lowercase for letters |
+| Token | Description                                        |
+| ----- | -------------------------------------------------- |
+| `#`   | Numeric                                            |
+| `S`   | Letter, a to z, case insensitive                   |
+| `N`   | Alphanumeric, case insensitive for letters         |
+| `A`   | Letter, transformed to uppercase                   |
+| `a`   | Letter, transformed to lowercase                   |
+| `X`   | Alphanumeric, transformed to uppercase for letters |
+| `x`   | Alphanumeric, transformed to lowercase for letters |
 
 There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
 
@@ -226,7 +231,14 @@ You can use v-money directive:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
-    <input :id="id" class="q-field__input text-right" :value="modelValue" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+    <input
+      :id="id"
+      class="q-field__input text-right"
+      :value="modelValue"
+      @change="e => emitValue(e.target.value)"
+      v-money="moneyFormatForDirective"
+      v-show="floatingLabel"
+    />
   </template>
 </q-field>
 ```
@@ -252,7 +264,14 @@ Or you can use money component:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
-    <money :id="id" class="q-field__input text-right" :model-value="modelValue" @update:model-value="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+    <money
+      :id="id"
+      class="q-field__input text-right"
+      :model-value="modelValue"
+      @update:model-value="emitValue"
+      v-bind="moneyFormatForComponent"
+      v-show="floatingLabel"
+    />
   </template>
 </q-field>
 ```
@@ -282,9 +301,11 @@ This is so you can write convenient rules of shape like:
 
 ```js
 value => condition || errorMessage
- ```
+```
+
 For example:
- ```js
+
+```js
 value => value.includes('Hello') || 'Field must contain word Hello'
 ```
 
@@ -303,6 +324,7 @@ If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is 
 <DocExample title="Form validation" file="ValidationForm" />
 
 #### Async rules
+
 Rules can be async too, by using async/await or by directly returning a Promise.
 
 ::: tip

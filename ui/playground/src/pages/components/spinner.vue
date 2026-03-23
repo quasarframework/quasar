@@ -2,7 +2,14 @@
   <div>
     <div class="q-layout-padding">
       <div class="q-mt-md">
-        <q-slider label label-always :label-value="size + 'px'" v-model="size" :min="20" :max="256" />
+        <q-slider
+          label
+          label-always
+          :label-value="size + 'px'"
+          v-model="size"
+          :min="20"
+          :max="256"
+        />
       </div>
 
       <div class="row no-wrap q-col-gutter-md">
@@ -26,17 +33,15 @@
         />
       </div>
 
-      <h6>
-        Hover over them to see their names
-      </h6>
+      <h6>Hover over them to see their names</h6>
 
       <div style="margin-top: 20px">
-        <div v-for="spinner in spinners" :key="spinner" class="inline-block q-ma-xs">
-          <component
-            :is="`q-spinner-${spinner}`"
-            :size="size"
-            :color="color"
-          />
+        <div
+          v-for="spinner in spinners"
+          :key="spinner"
+          class="inline-block q-ma-xs"
+        >
+          <component :is="`q-spinner-${spinner}`" :size="size" :color="color" />
           <q-tooltip :offset="[0, 8]">
             {{ spinner }}
           </q-tooltip>
@@ -45,8 +50,8 @@
 
       <h6>
         Default Spinner:
-        <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
-        <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
+        <q-spinner :color="color" :size="size" style="margin-left: 1rem" />
+        <q-spinner :color="color" :size="size" style="margin-left: 1rem" />
       </h6>
 
       <q-spinner-gears :color="color" />
@@ -60,31 +65,85 @@
 
 <script>
 import {
-  QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock,
-  QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears,
-  QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos,
-  QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings,
+  QSpinner,
+  QSpinnerAudio,
+  QSpinnerBall,
+  QSpinnerBars,
+  QSpinnerBox,
+  QSpinnerClock,
+  QSpinnerComment,
+  QSpinnerCube,
+  QSpinnerDots,
+  QSpinnerFacebook,
+  QSpinnerGears,
+  QSpinnerGrid,
+  QSpinnerHearts,
+  QSpinnerHourglass,
+  QSpinnerInfinity,
+  QSpinnerIos,
+  QSpinnerOrbit,
+  QSpinnerOval,
+  QSpinnerPie,
+  QSpinnerPuff,
+  QSpinnerRadio,
+  QSpinnerRings,
   QSpinnerTail
 } from 'quasar'
 
 export default {
   components: {
-    QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock,
-    QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears,
-    QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos,
-    QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings,
+    QSpinner,
+    QSpinnerAudio,
+    QSpinnerBall,
+    QSpinnerBars,
+    QSpinnerBox,
+    QSpinnerClock,
+    QSpinnerComment,
+    QSpinnerCube,
+    QSpinnerDots,
+    QSpinnerFacebook,
+    QSpinnerGears,
+    QSpinnerGrid,
+    QSpinnerHearts,
+    QSpinnerHourglass,
+    QSpinnerInfinity,
+    QSpinnerIos,
+    QSpinnerOrbit,
+    QSpinnerOval,
+    QSpinnerPie,
+    QSpinnerPuff,
+    QSpinnerRadio,
+    QSpinnerRings,
     QSpinnerTail
   },
 
-  data () {
+  data() {
     return {
       size: 36,
       color: 'primary',
       spinners: [
-        'audio', 'ball', 'bars', 'box', 'clock', 'comment',
-        'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'orbit', 'oval',
-        'pie', 'puff', 'radio', 'rings', 'tail'
+        'audio',
+        'ball',
+        'bars',
+        'box',
+        'clock',
+        'comment',
+        'cube',
+        'dots',
+        'facebook',
+        'gears',
+        'grid',
+        'hearts',
+        'hourglass',
+        'infinity',
+        'ios',
+        'orbit',
+        'oval',
+        'pie',
+        'puff',
+        'radio',
+        'rings',
+        'tail'
       ],
       colorOptions: [
         {

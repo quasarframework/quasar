@@ -25,19 +25,19 @@
       "color": {
         "type": "String",
         "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
-        "examples": [ "'orange-5'" ]
+        "examples": ["'orange-5'"]
       },
 
       "keyCodes": {
-        "type": [ "Array", "Number" ],
+        "type": ["Array", "Number"],
         "desc": "List of keyCode that should trigger the ripple",
-        "examples": [ "[]", "[ 13, 32 ]" ]
+        "examples": ["[]", "[13, 32]"]
       }
     }
   },
 
   "value": {
-    "type": [ "Boolean", "Object" ],
+    "type": ["Boolean", "Object"],
     "desc": "Boolean (if just wanting to enable/disable) or Object for configuring more options",
     "definition": {
       "early": {
@@ -58,13 +58,13 @@
       "color": {
         "type": "String",
         "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
-        "examples": [ "'orange-5'" ]
+        "examples": ["'orange-5'"]
       },
 
       "keyCodes": {
-        "type": [ "Array", "Number" ],
+        "type": ["Array", "Number"],
         "desc": "List of keyCode that should trigger the ripple",
-        "examples": [ "[]", "[ 13, 32 ]" ]
+        "examples": ["[]", "[13, 32]"]
       }
     },
     "examples": [
@@ -76,7 +76,7 @@
   "arg": {
     "type": "String",
     "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
-    "examples": [ "# v-ripple:orange-5" ]
+    "examples": ["# v-ripple:orange-5"]
   },
 
   "modifiers": {
@@ -88,13 +88,13 @@
     "stop": {
       "type": "Boolean",
       "desc": "Stop click/touch event propagation",
-      "examples": [ "# v-ripple.stop" ]
+      "examples": ["# v-ripple.stop"]
     },
 
     "center": {
       "type": "Boolean",
       "desc": "Ripple starts from the absolute center",
-      "examples": [ "# v-ripple.center" ]
+      "examples": ["# v-ripple.center"]
     }
   }
 }

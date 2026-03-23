@@ -1,13 +1,13 @@
 import { pagesList } from './pages'
 
-function load (component) {
-  return pagesList[ `../pages/${ component }.vue` ]
+function load(componentName) {
+  return pagesList[`../pages/${componentName}.vue`]
 }
 
-function component (path) {
+function component(path) {
   return {
     path: '/' + path.slice(9, path.length - 4),
-    component: pagesList[ path ]
+    component: pagesList[path]
   }
 }
 
@@ -26,8 +26,16 @@ const routes = [
     redirect: { name: 'one' },
     component: () => import('pages/web-tests/tabs-router/TabsLayout.vue'),
     children: [
-      { path: 'one', name: 'one', component: () => import('pages/web-tests/tabs-router/One.vue') },
-      { path: 'two', name: 'two', component: () => import('pages/web-tests/tabs-router/Two.vue') }
+      {
+        path: 'one',
+        name: 'one',
+        component: () => import('pages/web-tests/tabs-router/One.vue')
+      },
+      {
+        path: 'two',
+        name: 'two',
+        component: () => import('pages/web-tests/tabs-router/Two.vue')
+      }
     ]
   },
   {
@@ -48,18 +56,52 @@ const routes = [
     path: '/components/tabs',
     component: load('components/tabs'),
     children: [
-      { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'a/a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'a/b', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'b', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'b/a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'c', component: placeholderComponent, meta: { skipScroll: true } },
+      {
+        path: 'a',
+        component: placeholderComponent,
+        meta: { skipScroll: true }
+      },
+      {
+        path: 'a/a',
+        component: placeholderComponent,
+        meta: { skipScroll: true }
+      },
+      {
+        path: 'a/b',
+        component: placeholderComponent,
+        meta: { skipScroll: true }
+      },
+      {
+        path: 'b',
+        component: placeholderComponent,
+        meta: { skipScroll: true }
+      },
+      {
+        path: 'b/a',
+        component: placeholderComponent,
+        meta: { skipScroll: true }
+      },
+      {
+        path: 'c',
+        component: placeholderComponent,
+        meta: { skipScroll: true }
+      },
       {
         path: 't',
         component: placeholderComponent,
         children: [
-          { path: ':id/a', name: 'ta', component: placeholderComponent, meta: { skipScroll: true } },
-          { path: ':id/b', name: 'tb', component: placeholderComponent, meta: { skipScroll: true } }
+          {
+            path: ':id/a',
+            name: 'ta',
+            component: placeholderComponent,
+            meta: { skipScroll: true }
+          },
+          {
+            path: ':id/b',
+            name: 'tb',
+            component: placeholderComponent,
+            meta: { skipScroll: true }
+          }
         ],
         meta: { skipScroll: true }
       },
@@ -73,10 +115,30 @@ const routes = [
             path: '1',
             component: placeholderComponent,
             children: [
-              { name: 'r.1.1', path: '1', component: placeholderComponent, meta: { skipScroll: true } },
-              { name: 'r.1.2', path: '2', component: placeholderComponent, meta: { skipScroll: true } },
-              { name: 'r.1.3', path: '3', redirect: { name: 'r' }, meta: { skipScroll: true } },
-              { name: 'r.1.4', path: '4', redirect: { name: 'r.1.1' }, meta: { skipScroll: true } }
+              {
+                name: 'r.1.1',
+                path: '1',
+                component: placeholderComponent,
+                meta: { skipScroll: true }
+              },
+              {
+                name: 'r.1.2',
+                path: '2',
+                component: placeholderComponent,
+                meta: { skipScroll: true }
+              },
+              {
+                name: 'r.1.3',
+                path: '3',
+                redirect: { name: 'r' },
+                meta: { skipScroll: true }
+              },
+              {
+                name: 'r.1.4',
+                path: '4',
+                redirect: { name: 'r.1.1' },
+                meta: { skipScroll: true }
+              }
             ],
             meta: { skipScroll: true }
           },
@@ -85,11 +147,21 @@ const routes = [
             path: '2',
             component: placeholderComponent,
             children: [
-              { name: 'r.2.2', path: '2', component: placeholderComponent, meta: { skipScroll: true } }
+              {
+                name: 'r.2.2',
+                path: '2',
+                component: placeholderComponent,
+                meta: { skipScroll: true }
+              }
             ],
             meta: { skipScroll: true }
           },
-          { name: 'r.3', path: '3', component: placeholderComponent, meta: { skipScroll: true } }
+          {
+            name: 'r.3',
+            path: '3',
+            component: placeholderComponent,
+            meta: { skipScroll: true }
+          }
         ],
         meta: { skipScroll: true }
       }
@@ -118,7 +190,10 @@ const routes = [
 ]
 
 for (const key in pagesList) {
-  if (!key.startsWith('../pages/meta') && key !== '../pages/components/tabs.vue') {
+  if (
+    !key.startsWith('../pages/meta') &&
+    key !== '../pages/components/tabs.vue'
+  ) {
     routes.push(component(key))
   }
 }

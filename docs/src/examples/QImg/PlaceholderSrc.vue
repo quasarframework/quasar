@@ -1,11 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-md">
-    <q-btn
-      push
-      color="teal"
-      label="Toggle"
-      @click="toggle"
-    />
+    <q-btn push color="teal" label="Toggle" @click="toggle" />
 
     <!-- using v-if so you can see the effect -->
     <q-img
@@ -23,15 +18,16 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const url = ref(null)
 
     return {
       url,
-      toggle () {
-        url.value = url.value === null
-          ? 'https://picsum.photos/500/300?t=' + Math.random()
-          : null
+      toggle() {
+        url.value =
+          url.value === null
+            ? 'https://picsum.photos/500/300?t=' + Math.random()
+            : null
       }
     }
   }

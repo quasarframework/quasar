@@ -1,11 +1,38 @@
 {
   "name": "@quasar/app-vite",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Quasar Framework App CLI with Vite",
+  "keywords": [
+    "cli",
+    "cordova",
+    "electron",
+    "pwa",
+    "quasar",
+    "spa",
+    "vite",
+    "vue",
+    "vuejs",
+    "web"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
   "bin": {
     "quasar": "./bin/quasar.js"
   },
-  "type": "module",
   "files": [
     "exports",
     "assets",
@@ -14,6 +41,7 @@
     "templates",
     "types"
   ],
+  "type": "module",
   "types": "./types/index.d.ts",
   "exports": {
     ".": {
@@ -50,42 +78,18 @@
       "import": "./exports/testing/testing.js"
     }
   },
-  "keywords": [
-    "quasar",
-    "vue",
-    "vuejs",
-    "vite",
-    "cli",
-    "web",
-    "spa",
-    "pwa",
-    "electron",
-    "cordova"
-  ],
-  "author": {
-    "name": "Razvan Stoenescu",
-    "email": "razvan.stoenescu@gmail.com",
-    "url": "https://github.com/quasarframework"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/quasarframework/quasar"
-  },
-  "license": "MIT",
-  "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "https://quasar.dev",
-  "funding": {
-    "type": "github",
-    "url": "https://donate.quasar.dev"
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
-    "lint": "eslint --cache --fix"
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint"
   },
   "dependencies": {
     "@quasar/render-ssr-error": "workspace:^",
     "@quasar/ssl-certificate": "workspace:^",
     "@quasar/vite-plugin": "workspace:^",
-    "@types/chrome": "^0.1.37",
+    "@types/chrome": "^0.1.38",
     "@types/compression": "^1.7.5",
     "@types/cordova": "^11.0.3",
     "@types/express": "^5.0.6",
@@ -105,11 +109,11 @@
     "fs-extra": "^11.3.4",
     "html-minifier-terser": "^7.2.0",
     "inquirer": "^13.3.2",
-    "isbinaryfile": "^5.0.4",
+    "isbinaryfile": "^6.0.0",
     "kolorist": "^1.8.0",
     "lodash": "^4.17.23",
     "minimist": "^1.2.8",
-    "mlly": "^1.8.1",
+    "mlly": "^1.8.2",
     "open": "^11.0.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "sass-embedded": "^1.98.0",
@@ -117,19 +121,17 @@
     "serialize-javascript": "^7.0.4",
     "tinyglobby": "^0.2.10",
     "ts-essentials": "^10.1.1",
-    "vite": "^8.0.0",
+    "vite": "^8.0.1",
     "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
     "@electron/packager": "^19.1.0",
     "electron-builder": "^26.8.1",
-    "eslint": "catalog:",
-    "eslint-config-quasar": "workspace:*",
     "pinia": "^3.0.4",
     "quasar": "workspace:^",
     "typescript": "^5.6.3",
     "vue": "3.5.30",
-    "vue-router": "^5.0.3",
+    "vue-router": "^5.0.4",
     "workbox-build": "^7.4.0"
   },
   "peerDependencies": {
@@ -169,8 +171,5 @@
   },
   "volta": {
     "node": "lts"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

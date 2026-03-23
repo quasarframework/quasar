@@ -12,7 +12,13 @@
       hide-header
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -24,13 +30,30 @@
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card bordered flat :class="props.selected ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
+          <q-card
+            bordered
+            flat
+            :class="
+              props.selected
+                ? $q.dark.isActive
+                  ? 'bg-grey-9'
+                  : 'bg-grey-2'
+                : ''
+            "
+          >
             <q-card-section>
-              <q-checkbox dense v-model="props.selected" :label="props.row.name" />
+              <q-checkbox
+                dense
+                v-model="props.selected"
+                :label="props.row.name"
+              />
             </q-card-section>
             <q-separator />
             <q-list dense>
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+              <q-item
+                v-for="col in props.cols.filter(col => col.name !== 'desc')"
+                :key="col.name"
+              >
                 <q-item-section>
                   <q-item-label>{{ col.label }}</q-item-label>
                 </q-item-section>
@@ -42,7 +65,6 @@
           </q-card>
         </div>
       </template>
-
     </q-table>
   </div>
 </template>
@@ -51,13 +73,31 @@
 import { ref } from 'vue'
 
 const columns = [
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const rows = [
@@ -164,7 +204,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       filter: ref(''),
       selected: ref([]),

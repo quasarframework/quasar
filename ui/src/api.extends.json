@@ -16,7 +16,7 @@
       "type": "String",
       "tsType": "NamedColor",
       "desc": "Color name for component from the Quasar Color Palette",
-      "examples": [ "'primary'", "'teal'", "'teal-10'" ],
+      "examples": ["'primary'", "'teal'", "'teal-10'"],
       "category": "style"
     },
 
@@ -24,7 +24,7 @@
       "type": "String",
       "tsType": "NamedColor",
       "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
-      "examples": [ "'primary'", "'teal'", "'teal-10'" ],
+      "examples": ["'primary'", "'teal'", "'teal-10'"],
       "category": "style"
     },
 
@@ -37,12 +37,12 @@
     "size": {
       "type": "String",
       "desc": "Size in CSS units, including unit name",
-      "examples": [ "'16px'", "'2rem'" ],
+      "examples": ["'16px'", "'2rem'"],
       "category": "style"
     },
 
     "dark": {
-      "type": [ "Boolean", "null" ],
+      "type": ["Boolean", "null"],
       "default": "null",
       "desc": "Notify the component that the background is a dark color",
       "category": "style"
@@ -85,23 +85,23 @@
     },
 
     "tabindex": {
-      "type": [ "Number", "String" ],
+      "type": ["Number", "String"],
       "desc": "Tabindex HTML attribute value",
-      "examples": [ "100", "'0'" ],
+      "examples": ["100", "'0'"],
       "category": "general"
     },
 
     "transition": {
       "type": "String",
       "desc": "One of Quasar's embedded transitions",
-      "examples": [ "'fade'", "'slide-down'" ],
+      "examples": ["'fade'", "'slide-down'"],
       "category": "transition"
     },
 
     "animation-speed": {
-      "type": [ "String", "Number" ],
+      "type": ["String", "Number"],
       "desc": "Animation speed (in milliseconds, without unit)",
-      "examples": [ "500", "'1200'" ],
+      "examples": ["500", "'1200'"],
       "category": "style"
     },
 
@@ -125,7 +125,7 @@
     },
 
     "scroll-target": {
-      "type": [ "Element", "String" ],
+      "type": ["Element", "String"],
       "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
       "examples": [
         ".scroll-target-class",
@@ -137,10 +137,13 @@
     },
 
     "ripple": {
-      "type": [ "Boolean", "Object" ],
+      "type": ["Boolean", "Object"],
       "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
       "default": "true",
-      "examples": [ "false", "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+      "examples": [
+        "false",
+        "{ early: true, center: true, color: 'teal', keyCodes: [] }"
+      ],
       "category": "style"
     },
 

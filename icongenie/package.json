@@ -2,6 +2,35 @@
   "name": "@quasar/icongenie",
   "version": "4.0.0",
   "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
+  "keywords": [
+    "bex",
+    "desktop",
+    "electron",
+    "icons",
+    "js",
+    "phone",
+    "pwa",
+    "quasar",
+    "spa",
+    "tablet",
+    "vue",
+    "vuejs",
+    "website"
+  ],
+  "homepage": "https://quasar.dev/icongenie/introduction",
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar/issues"
+  },
+  "license": "MIT",
+  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+  "contributors": [
+    "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+    "Daniel Thompson-Yvetot <35242872+nothingismagick@users.noreply.github.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar.git"
+  },
   "bin": {
     "icongenie": "./bin/icongenie.js"
   },
@@ -13,41 +42,13 @@
     "LICENSE"
   ],
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "lint": "eslint --cache --fix"
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/quasarframework/quasar.git"
-  },
-  "engines": {
-    "node": ">= 18.12.0"
-  },
-  "keywords": [
-    "vuejs",
-    "vue",
-    "icons",
-    "quasar",
-    "js",
-    "phone",
-    "tablet",
-    "desktop",
-    "spa",
-    "pwa",
-    "website",
-    "electron",
-    "bex"
-  ],
-  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
-  "contributors": [
-    "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
-    "Daniel Thompson-Yvetot <35242872+nothingismagick@users.noreply.github.com>"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/quasarframework/quasar/issues"
-  },
-  "homepage": "https://quasar.dev/icongenie/introduction",
   "dependencies": {
     "cross-spawn": "^7.0.6",
     "elementtree": "^0.1.7",
@@ -67,15 +68,10 @@
     "untildify": "^5.0.0",
     "update-notifier": "^7.0.0"
   },
-  "devDependencies": {
-    "@eslint/js": "^9.23.0",
-    "eslint": "^9.23.0",
-    "eslint-plugin-n": "^17.16.2"
-  },
   "resolutions": {
     "minimist": "^1.2.8"
   },
-  "publishConfig": {
-    "access": "public"
+  "engines": {
+    "node": ">= 18.12.0"
   }
 }

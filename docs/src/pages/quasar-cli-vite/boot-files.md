@@ -19,15 +19,15 @@ With boot files, it is possible to split each of your dependencies into self-con
 
 A boot file is a simple JavaScript file which can optionally export a function. Quasar will then call the exported function when it boots the application and additionally pass **an object** with the following properties to the function:
 
-| Prop name | Description |
-| --- | --- |
-| `app` | Vue app instance |
-| `router` | Instance of Vue Router from 'src/router/index.js' |
-| `store` | Instance of Pinia - **store only will be passed if your project uses Pinia (you have src/stores)** |
-| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-vite/developing-ssr/ssr-context) |
-| `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
-| `publicPath` | The configured public path. |
-| `redirect` | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
+| Prop name    | Description                                                                                                       |
+| ------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `app`        | Vue app instance                                                                                                  |
+| `router`     | Instance of Vue Router from 'src/router/index.js'                                                                 |
+| `store`      | Instance of Pinia - **store only will be passed if your project uses Pinia (you have src/stores)**                |
+| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-vite/developing-ssr/ssr-context)      |
+| `urlPath`    | The pathname (path + search) part of the URL. It also contains the hash on client-side.                           |
+| `publicPath` | The configured public path.                                                                                       |
+| `redirect`   | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
 
 ```js
 import { defineBoot } from '#q-app/wrappers'
@@ -70,9 +70,7 @@ You may ask yourself why we need to export a function. This is actually optional
 export default defineBoot(async ({ app, router, store }) => {
   // Code here has access to the Object param above, connecting
   // with other parts of your app;
-
   // Code here can be async (use async/await or directly return a Promise);
-
   // Code here gets executed by Quasar CLI at the correct time in app's lifecycle:
   //  - we have a Router instantiated,
   //  - we have the optional Pinia instance,
@@ -84,6 +82,7 @@ export default defineBoot(async ({ app, router, store }) => {
 ```
 
 ## When to use boot files
+
 ::: warning
 Please make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.
 :::
@@ -92,18 +91,20 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 
 ### Examples of appropriate usage of boot files
 
-* Your Vue plugin has installation instructions, like needing to call `app.use()` on it.
-* Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
-* You want to add a global mixin using `app.mixin()`.
-* You want to add something to the Vue app globalProperties for convenient access - An example would be to conveniently use `this.$axios` (for Options API) inside your Vue files instead of importing Axios in each such file.
-* You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
-* You want to interfere with Pinia
-* Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
+- Your Vue plugin has installation instructions, like needing to call `app.use()` on it.
+- Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
+- You want to add a global mixin using `app.mixin()`.
+- You want to add something to the Vue app globalProperties for convenient access - An example would be to conveniently use `this.$axios` (for Options API) inside your Vue files instead of importing Axios in each such file.
+- You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
+- You want to interfere with Pinia
+- Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
 
 ### Example of unneeded usage of boot files
-* For plain JavaScript libraries like Lodash, which don't need any initialization prior to their usage. Lodash, for example, might make sense to use as a boot file only if you want to inject Vue prototype with it, like being able to use `this.$_` inside your Vue files.
+
+- For plain JavaScript libraries like Lodash, which don't need any initialization prior to their usage. Lodash, for example, might make sense to use as a boot file only if you want to inject Vue prototype with it, like being able to use `this.$_` inside your Vue files.
 
 ## Usage of boot files
+
 The first step is always to generate a new boot file using Quasar CLI:
 
 ```bash
@@ -129,11 +130,17 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default defineBoot(({ /* app, router, store */ }) => {
-  return new Promise((resolve, reject) => {
-    // do something
-  })
-})
+export default defineBoot(
+  (
+    {
+      /* app, router, store */
+    }
+  ) => {
+    return new Promise((resolve, reject) => {
+      // do something
+    })
+  }
+)
 ```
 
 ::: tip
@@ -181,9 +188,7 @@ boot: [
 If you want a boot file to be injected into your app only for a specific build type:
 
 ```js
-boot: [
-  ctx.mode.electron ? 'some-file' : ''
-]
+boot: [ctx.mode.electron ? 'some-file' : '']
 ```
 
 ### Redirecting to another page
@@ -246,6 +251,7 @@ redirect('/one') // good way
 redirect({ path: '/one' }) // good way
 redirect('/#/one') // WRONG!
 ```
+
 :::
 
 As it was mentioned in the previous sections, the default export of a boot file can return a Promise. If this Promise gets rejected with an Object that contains a "url" property, then Quasar CLI will redirect the user to that URL:
@@ -280,6 +286,7 @@ export default defineBoot(() => {
 ```
 
 ### Quasar App Flow
+
 In order to better understand how a boot file works and what it does, you need to understand how your website/app boots:
 
 1. Quasar is initialized (components, directives, plugins, Quasar i18n, Quasar icon sets)
@@ -340,6 +347,7 @@ export default defineBoot(({ app }) => {
 ```
 
 ### Router authentication
+
 Some boot files might need to interfere with Vue Router configuration:
 
 ```js
@@ -353,6 +361,7 @@ export default defineBoot(({ router, store }) => {
 ```
 
 ## Accessing data from boot files
+
 Sometimes you want to access data that you configure in your boot file in files where you don't have access to the root Vue instance.
 
 Fortunately, because boot files are just normal JavaScript files you can add as many named exports to your boot file as you want.

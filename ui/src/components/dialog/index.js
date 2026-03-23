@@ -1,5 +1,3 @@
 import QDialog from './QDialog.js'
 
-export {
-  QDialog
-}
+export { QDialog }

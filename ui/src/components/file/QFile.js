@@ -2,9 +2,20 @@ import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
-import useField, { useFieldState, useNonInputFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private.use-field/use-field.js'
-import { useFormProps, useFormInputNameAttr } from '../../composables/use-form/private.use-form.js'
-import useFile, { useFileProps, useFileEmits } from '../../composables/private.use-file/use-file.js'
+import useField, {
+  useFieldState,
+  useNonInputFieldProps,
+  useFieldEmits,
+  fieldValueIsFilled
+} from '../../composables/private.use-field/use-field.js'
+import {
+  useFormProps,
+  useFormInputNameAttr
+} from '../../composables/use-form/private.use-form.js'
+import useFile, {
+  useFileProps,
+  useFileEmits
+} from '../../composables/private.use-file/use-file.js'
 import useFileFormDomProps from '../../composables/private.use-file/use-file-dom-props.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
@@ -23,31 +34,26 @@ export default createComponent({
     ...useFileProps,
 
     /* SSR does not know about File & FileList */
-    modelValue: __QUASAR_SSR_SERVER__
-      ? {}
-      : [ File, FileList, Array ],
+    modelValue: __QUASAR_SSR_SERVER__ ? {} : [File, FileList, Array],
 
     append: Boolean,
     useChips: Boolean,
-    displayValue: [ String, Number ],
+    displayValue: [String, Number],
 
     tabindex: {
-      type: [ String, Number ],
+      type: [String, Number],
       default: 0
     },
 
     counterLabel: Function,
 
-    inputClass: [ Array, String, Object ],
-    inputStyle: [ Array, String, Object ]
+    inputClass: [Array, String, Object],
+    inputStyle: [Array, String, Object]
   },
 
-  emits: [
-    ...useFieldEmits,
-    ...useFileEmits
-  ],
+  emits: [...useFieldEmits, ...useFileEmits],
 
-  setup (props, { slots, emit, attrs }) {
+  setup(props, { slots, emit, attrs }) {
     const { proxy } = getCurrentInstance()
 
     const state = useFieldState()
@@ -56,28 +62,28 @@ export default createComponent({
     const dnd = ref(false)
     const nameProp = useFormInputNameAttr(props)
 
-    const {
-      pickFiles,
-      onDragover,
-      onDragleave,
-      processFiles,
-      getDndNode
-    } = useFile({ editable: state.editable, dnd, getFileInput, addFilesToQueue })
+    const { pickFiles, onDragover, onDragleave, processFiles, getDndNode } =
+      useFile({
+        editable: state.editable,
+        dnd,
+        getFileInput,
+        addFilesToQueue
+      })
 
     const formDomProps = useFileFormDomProps(props)
 
-    const innerValue = computed(() => (
+    const innerValue = computed(() =>
       Object(props.modelValue) === props.modelValue
-        ? ('length' in props.modelValue ? Array.from(props.modelValue) : [ props.modelValue ])
+        ? 'length' in props.modelValue
+          ? Array.from(props.modelValue)
+          : [props.modelValue]
         : []
-    ))
+    )
 
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
 
     const selectedString = computed(() =>
-      innerValue.value
-        .map(file => file.name)
-        .join(', ')
+      innerValue.value.map(file => file.name).join(', ')
     )
 
     const totalSize = computed(() =>
@@ -104,50 +110,56 @@ export default createComponent({
       disabled: state.editable.value !== true
     }))
 
-    const fieldClass = computed(() =>
-      'q-file q-field--auto-height'
-      + (dnd.value === true ? ' q-file--dnd' : '')
+    const fieldClass = computed(
+      () =>
+        'q-file q-field--auto-height' +
+        (dnd.value === true ? ' q-file--dnd' : '')
     )
 
-    const isAppending = computed(() =>
-      props.multiple === true && props.append === true
+    const isAppending = computed(
+      () => props.multiple === true && props.append === true
     )
 
-    function removeAtIndex (index) {
+    function removeAtIndex(index) {
       const files = innerValue.value.slice()
       files.splice(index, 1)
       emitValue(files)
     }
 
-    function removeFile (file) {
+    function removeFile(file) {
       const index = innerValue.value.indexOf(file)
       if (index !== -1) {
         removeAtIndex(index)
       }
     }
 
-    function emitValue (files) {
-      emit('update:modelValue', props.multiple === true ? files : files[ 0 ])
+    function emitValue(files) {
+      emit('update:modelValue', props.multiple === true ? files : files[0])
     }
 
-    function onKeydown (e) {
+    function onKeydown(e) {
       // prevent form submit if ENTER is pressed
-      e.keyCode === 13 && prevent(e)
+      if (e.keyCode === 13) prevent(e)
     }
 
-    function onKeyup (e) {
+    function onKeyup(e) {
       // only on ENTER and SPACE to match native input field
       if (e.keyCode === 13 || e.keyCode === 32) {
         pickFiles(e)
       }
     }
 
-    function getFileInput () {
+    function getFileInput() {
       return inputRef.value
     }
 
-    function addFilesToQueue (e, fileList) {
-      const files = processFiles(e, fileList, innerValue.value, isAppending.value)
+    function addFilesToQueue(e, fileList) {
+      const files = processFiles(
+        e,
+        fileList,
+        innerValue.value,
+        isAppending.value
+      )
       const fileInput = getFileInput()
 
       if (fileInput !== void 0 && fileInput !== null) {
@@ -162,32 +174,32 @@ export default createComponent({
       if (
         props.multiple === true
           ? props.modelValue && files.every(f => innerValue.value.includes(f))
-          : props.modelValue === files[ 0 ]
-      ) return
+          : props.modelValue === files[0]
+      ) {
+        return
+      }
 
       emitValue(
-        isAppending.value === true
-          ? innerValue.value.concat(files)
-          : files
+        isAppending.value === true ? innerValue.value.concat(files) : files
       )
     }
 
-    function getFiller () {
+    function getFiller() {
       return [
         h('input', {
-          class: [ props.inputClass, 'q-file__filler' ],
+          class: [props.inputClass, 'q-file__filler'],
           style: props.inputStyle
         })
       ]
     }
 
-    function getSelection () {
+    function getSelection() {
       if (slots.file !== void 0) {
         return innerValue.value.length === 0
           ? getFiller()
-          : innerValue.value.map(
-            (file, index) => slots.file({ index, file, ref: this })
-          )
+          : innerValue.value.map((file, index) =>
+              slots.file({ index, file, ref: this })
+            )
       }
 
       if (slots.selected !== void 0) {
@@ -199,22 +211,32 @@ export default createComponent({
       if (props.useChips === true) {
         return innerValue.value.length === 0
           ? getFiller()
-          : innerValue.value.map((file, i) => h(QChip, {
-            key: 'file-' + i,
-            removable: state.editable.value,
-            dense: true,
-            textColor: props.color,
-            tabindex: props.tabindex,
-            onRemove: () => { removeAtIndex(i) }
-          }, () => h('span', {
-            class: 'ellipsis',
-            textContent: file.name
-          })))
+          : innerValue.value.map((file, i) =>
+              h(
+                QChip,
+                {
+                  key: 'file-' + i,
+                  removable: state.editable.value,
+                  dense: true,
+                  textColor: props.color,
+                  tabindex: props.tabindex,
+                  onRemove: () => {
+                    removeAtIndex(i)
+                  }
+                },
+                () =>
+                  h('span', {
+                    class: 'ellipsis',
+                    textContent: file.name
+                  })
+              )
+            )
       }
 
-      const textContent = props.displayValue !== void 0
-        ? props.displayValue
-        : selectedString.value
+      const textContent =
+        props.displayValue !== void 0
+          ? props.displayValue
+          : selectedString.value
 
       return textContent.length !== 0
         ? [
@@ -227,7 +249,7 @@ export default createComponent({
         : getFiller()
     }
 
-    function getInput () {
+    function getInput() {
       const data = {
         ref: inputRef,
         ...inputAttrs.value,
@@ -250,9 +272,8 @@ export default createComponent({
       inputRef,
       innerValue,
 
-      floatingLabel: computed(() =>
-        hasValue.value === true
-        || fieldValueIsFilled(props.displayValue)
+      floatingLabel: computed(
+        () => hasValue.value === true || fieldValueIsFilled(props.displayValue)
       ),
 
       computedCounter: computed(() => {
@@ -261,7 +282,7 @@ export default createComponent({
         }
 
         const max = props.maxFiles
-        return `${ innerValue.value.length }${ max !== void 0 ? ' / ' + max : '' } (${ totalSize.value })`
+        return `${innerValue.value.length}${max !== void 0 ? ' / ' + max : ''} (${totalSize.value})`
       }),
 
       getControlChild: () => getDndNode('file'),
@@ -276,7 +297,7 @@ export default createComponent({
           Object.assign(data, { onDragover, onDragleave, onKeydown, onKeyup })
         }
 
-        return h('div', data, [ getInput() ].concat(getSelection()))
+        return h('div', data, [getInput()].concat(getSelection()))
       }
     })
 

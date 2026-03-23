@@ -71,18 +71,14 @@
 
     <div class="row justify-around items-start">
       <div class="col row justify-center q-pa-md">
-        <div class="text-subtitle1">
-          Mutation Info
-        </div>
+        <div class="text-subtitle1"> Mutation Info </div>
         <div v-for="status in status1" :key="status">
           {{ status }}
         </div>
       </div>
 
       <div class="col row justify-center q-pa-md">
-        <div class="text-subtitle1">
-          Mutation Info
-        </div>
+        <div class="text-subtitle1"> Mutation Info </div>
         <div v-for="status in status2" :key="status">
           {{ status }}
         </div>
@@ -95,7 +91,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const status1 = ref([])
     const status2 = ref([])
 
@@ -103,46 +99,46 @@ export default {
       status1,
       status2,
 
-      handler1 (mutationRecords) {
+      handler1(mutationRecords) {
         status1.value = []
         for (const index in mutationRecords) {
-          const record = mutationRecords[ index ]
+          const record = mutationRecords[index]
           const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
           status1.value.push(info)
         }
       },
 
-      handler2 (mutationRecords) {
+      handler2(mutationRecords) {
         status2.value = []
         for (const index in mutationRecords) {
-          const record = mutationRecords[ index ]
+          const record = mutationRecords[index]
           const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
           status2.value.push(info)
         }
       },
 
       // store the id of the draggable element
-      onDragStart (e) {
+      onDragStart(e) {
         e.dataTransfer.setData('text', e.target.id)
         e.dataTransfer.dropEffect = 'move'
       },
 
-      onDragEnter (e) {
+      onDragEnter(e) {
         // don't drop on other draggables
         if (e.target.draggable !== true) {
           e.target.classList.add('drag-enter')
         }
       },
 
-      onDragLeave (e) {
+      onDragLeave(e) {
         e.target.classList.remove('drag-enter')
       },
 
-      onDragOver (e) {
+      onDragOver(e) {
         e.preventDefault()
       },
 
-      onDrop (e) {
+      onDrop(e) {
         e.preventDefault()
 
         // don't drop on other draggables

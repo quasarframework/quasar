@@ -15,13 +15,14 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="one">
-          The QCard component is a great way to display important pieces of grouped content.
+          The QCard component is a great way to display important pieces of
+          grouped content.
         </q-tab-panel>
 
         <q-tab-panel name="two">
-          With so much content to display at once, and often so little screen real-estate,
-          Cards have fast become the design pattern of choice for many companies, including
-          the likes of Google and Twitter.
+          With so much content to display at once, and often so little screen
+          real-estate, Cards have fast become the design pattern of choice for
+          many companies, including the likes of Google and Twitter.
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -32,7 +33,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       tab: ref('one')
     }

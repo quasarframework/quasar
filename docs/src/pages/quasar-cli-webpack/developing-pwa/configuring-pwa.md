@@ -7,15 +7,16 @@ scope:
   tree:
     l: src-pwa
     c:
-    - l: register-service-worker.js
-      e: "(or .ts) UI code *managing* service worker"
-    - l: manifest.json
-      e: Your PWA manifest file
-    - l: custom-service-worker.js
-      e: "(or .ts) Optional custom service worker file (injectManifest mode ONLY)"
+      - l: register-service-worker.js
+        e: '(or .ts) UI code *managing* service worker'
+      - l: manifest.json
+        e: Your PWA manifest file
+      - l: custom-service-worker.js
+        e: '(or .ts) Optional custom service worker file (injectManifest mode ONLY)'
 ---
 
 ## Service Worker
+
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
 <DocTree :def="scope.tree" />
@@ -31,6 +32,7 @@ Read more on `register-service-worker.js` and how to interact with the Service W
 :::
 
 ## quasar.config file
+
 This is the place where you can configure Workbox behavior and also tweak your manifest.json.
 
 ```js
@@ -117,21 +119,35 @@ Then, edit your `/index.html` file. The following are the actual meta tags that 
 
 ```html
 <head>
-
   <% if (ctx.mode.pwa) { %>
-    <meta name="theme-color" content="<%= pwaManifest.theme_color %>">
-    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="<%= pwaManifest.theme_color %>">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#000000">
-    <meta name="apple-mobile-web-app-title" content="<%= pwaManifest.name %>">
-    <link rel="apple-touch-icon" href="icons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="icons/apple-icon-167x167.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
+  <meta name="theme-color" content="<%= pwaManifest.theme_color %>" />
+  <link
+    rel="mask-icon"
+    href="icons/safari-pinned-tab.svg"
+    color="<%= pwaManifest.theme_color %>"
+  />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
+  <meta name="msapplication-TileColor" content="#000000" />
+  <meta name="apple-mobile-web-app-title" content="<%= pwaManifest.name %>" />
+  <link rel="apple-touch-icon" href="icons/apple-icon-120x120.png" />
+  <link
+    rel="apple-touch-icon"
+    sizes="152x152"
+    href="icons/apple-icon-152x152.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="167x167"
+    href="icons/apple-icon-167x167.png"
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="icons/apple-icon-180x180.png"
+  />
   <% } %>
-
 </head>
 ```
 
@@ -174,13 +190,13 @@ pwa: {
 
 When to use generateSW:
 
-* You want to precache files.
-* You have simple runtime configuration needs (e.g. the configuration allows you to define routes and strategies).
+- You want to precache files.
+- You have simple runtime configuration needs (e.g. the configuration allows you to define routes and strategies).
 
 When NOT to use generateSW:
 
-* You want to use other Service Worker features (i.e. Web Push).
-* You want to import additional scripts or add additional logic.
+- You want to use other Service Worker features (i.e. Web Push).
+- You want to import additional scripts or add additional logic.
 
 ::: tip
 Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW).
@@ -190,19 +206,20 @@ Please check the available workboxOptions for this mode on [Workbox website](htt
 
 When to use InjectManifest:
 
-* You want more control over your service worker.
-* You want to precache files.
-* You have more complex needs in terms of routing.
-* You would like to use your service worker with other APIs (e.g. Web Push).
+- You want more control over your service worker.
+- You want to precache files.
+- You have more complex needs in terms of routing.
+- You would like to use your service worker with other APIs (e.g. Web Push).
 
 When NOT to use InjectManifest:
 
-* You want the easiest path to adding a service worker to your site.
+- You want the easiest path to adding a service worker to your site.
 
 ::: tip TIPS
-* If you want to use this mode, you will have to write the service worker (`/src-pwa/custom-service-worker.js`) file by yourself.
-* Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest).
-:::
+
+- If you want to use this mode, you will have to write the service worker (`/src-pwa/custom-service-worker.js`) file by yourself.
+- Please check the available workboxOptions for this mode on [Workbox website](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest).
+  :::
 
 The following snippet is the default code for a custom service worker (`/src-pwa/custom-service-worker.js`) which mimics the behavior of `generateSW` mode:
 
@@ -217,12 +234,12 @@ import { clientsClaim } from 'workbox-core'
 import {
   precacheAndRoute,
   cleanupOutdatedCaches,
-  createHandlerBoundToURL,
+  createHandlerBoundToURL
 } from 'workbox-precaching'
 import { registerRoute, NavigationRoute } from 'workbox-routing'
 
-self.skipWaiting();
-clientsClaim();
+self.skipWaiting()
+clientsClaim()
 
 // Use with precache injection
 precacheAndRoute(self.__WB_MANIFEST)
@@ -235,13 +252,19 @@ if (process.env.MODE !== 'ssr' || process.env.PROD) {
   registerRoute(
     new NavigationRoute(
       createHandlerBoundToURL(process.env.PWA_FALLBACK_HTML),
-      { denylist: [new RegExp(process.env.PWA_SERVICE_WORKER_REGEX), /workbox-(.)*\.js$/] }
+      {
+        denylist: [
+          new RegExp(process.env.PWA_SERVICE_WORKER_REGEX),
+          /workbox-(.)*\.js$/
+        ]
+      }
     )
   )
 }
 ```
 
 ## Configuring Manifest File
+
 The Manifest file is located at `/src-pwa/manifest.json`. You can freely edit it.
 
 Should you need to change it dynamically at build time, you can do so by editing the `/quasar.config` file:
@@ -265,6 +288,7 @@ If your PWA is behind basic auth or requires an Authorization header, set quasar
 ::::
 
 ## PWA Checklist
+
 More info: [PWA Checklist](https://web.dev/pwa-checklist/)
 
 ::: danger

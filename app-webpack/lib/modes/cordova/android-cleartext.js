@@ -1,6 +1,9 @@
 const fs = require('node:fs')
 
-module.exports.fixAndroidCleartext = function fixAndroidCleartext (appPaths, action) {
+module.exports.fixAndroidCleartext = function fixAndroidCleartext(
+  appPaths,
+  action
+) {
   const androidManifestPath = appPaths.resolve.cordova(
     'platforms/android/app/src/main/AndroidManifest.xml'
   )
@@ -8,7 +11,8 @@ module.exports.fixAndroidCleartext = function fixAndroidCleartext (appPaths, act
   if (fs.existsSync(androidManifestPath) === false) return
 
   let androidManifest = fs.readFileSync(androidManifestPath, 'utf8')
-  const hasCleartext = androidManifest.indexOf('android:usesCleartextTraffic="true"') !== -1
+  const hasCleartext =
+    androidManifest.indexOf('android:usesCleartextTraffic="true"') !== -1
 
   if (action === 'add') {
     if (hasCleartext === false) {

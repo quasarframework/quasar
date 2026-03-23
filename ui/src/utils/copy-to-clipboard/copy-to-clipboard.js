@@ -1,6 +1,6 @@
 import { addFocusout, removeFocusout } from '../private.focus/focusout.js'
 
-function fallback (text) {
+function fallback(text) {
   const area = document.createElement('textarea')
   area.value = text
   area.contentEditable = 'true'
@@ -21,16 +21,15 @@ function fallback (text) {
   return res
 }
 
-export default function (text) {
+export default function copyToClipboard(text) {
   return navigator.clipboard !== void 0
     ? navigator.clipboard.writeText(text)
     : new Promise((resolve, reject) => {
-      const res = fallback(text)
-      if (res) {
-        resolve(true)
-      }
-      else {
-        reject(res)
-      }
-    })
+        const res = fallback(text)
+        if (res) {
+          resolve(true)
+        } else {
+          reject(res)
+        }
+      })
 }

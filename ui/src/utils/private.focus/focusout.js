@@ -2,11 +2,11 @@ import { client } from '../../plugins/platform/Platform.js'
 
 const handlers = []
 
-function trigger (e) {
-  handlers[ handlers.length - 1 ](e)
+function trigger(e) {
+  handlers[handlers.length - 1](e)
 }
 
-export function addFocusout (fn) {
+export function addFocusout(fn) {
   if (client.is.desktop === true) {
     handlers.push(fn)
 
@@ -16,7 +16,7 @@ export function addFocusout (fn) {
   }
 }
 
-export function removeFocusout (fn) {
+export function removeFocusout(fn) {
   const index = handlers.indexOf(fn)
   if (index !== -1) {
     handlers.splice(index, 1)

@@ -56,8 +56,8 @@ By default, QToggle follows this chain when toggling: indeterminate -> checked -
 
 Toggling order is:
 
-* if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
-* otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
+- if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
+- otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
 
 <DocExample title="Toggle order" file="ToggleOrder" />
 

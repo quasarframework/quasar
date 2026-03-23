@@ -5,7 +5,8 @@
         <q-card>
           <q-card-section class="bg-primary text-white">
             <div class="text-h6">
-              Animation, autofocus for select and <strong>input type text filled</strong>
+              Animation, autofocus for select and
+              <strong>input type text filled</strong>
             </div>
           </q-card-section>
 
@@ -18,16 +19,8 @@
             animated
             header-nav
           >
-            <q-step
-              :name="1"
-              title="Step 1"
-              icon="settings"
-              :done="step1 > 1"
-            >
-              <q-input
-                :autofocus="autofocus"
-                v-model="inputTextModel"
-              />
+            <q-step :name="1" title="Step 1" icon="settings" :done="step1 > 1">
+              <q-input :autofocus="autofocus" v-model="inputTextModel" />
             </q-step>
 
             <q-step
@@ -44,15 +37,8 @@
               />
             </q-step>
 
-            <q-step
-              :name="3"
-              title="Step 3"
-              icon="assignment"
-            >
-              <q-input
-                :autofocus="autofocus"
-                v-model="inputTextModel"
-              />
+            <q-step :name="3" title="Step 3" icon="assignment">
+              <q-input :autofocus="autofocus" v-model="inputTextModel" />
             </q-step>
 
             <q-step
@@ -62,22 +48,11 @@
               icon="assignment"
               disable
             >
-              <q-input
-                :autofocus="autofocus"
-                v-model="inputTextModel"
-              />
+              <q-input :autofocus="autofocus" v-model="inputTextModel" />
             </q-step>
 
-            <q-step
-              :name="5"
-              title="Step 5"
-              caption="Editor"
-              icon="settings"
-            >
-              <q-editor
-                v-model="inputTextModel"
-                :toolbar="[['fullscreen']]"
-              />
+            <q-step :name="5" title="Step 5" caption="Editor" icon="settings">
+              <q-editor v-model="inputTextModel" :toolbar="[['fullscreen']]" />
             </q-step>
 
             <q-step
@@ -94,7 +69,7 @@
             <q-btn
               color="primary"
               :label="step1 === 6 ? 'Reset' : 'Next step'"
-              @click="step1 === 6 ? step1 = 1 : step1++"
+              @click="step1 === 6 ? (step1 = 1) : step1++"
             />
           </q-card-actions>
         </q-card>
@@ -104,7 +79,8 @@
         <q-card>
           <q-card-section class="bg-primary text-white">
             <div class="text-h6">
-              Animation, autofocus for select and <strong>input type text empty</strong>
+              Animation, autofocus for select and
+              <strong>input type text empty</strong>
             </div>
           </q-card-section>
 
@@ -117,16 +93,8 @@
             animated
             header-nav
           >
-            <q-step
-              :name="1"
-              title="Step 1"
-              icon="settings"
-              :done="step2 > 1"
-            >
-              <q-input
-                :autofocus="autofocus"
-                v-model="inputEmptyModel"
-              />
+            <q-step :name="1" title="Step 1" icon="settings" :done="step2 > 1">
+              <q-input :autofocus="autofocus" v-model="inputEmptyModel" />
             </q-step>
 
             <q-step
@@ -143,15 +111,8 @@
               />
             </q-step>
 
-            <q-step
-              :name="3"
-              title="Step 3"
-              icon="assignment"
-            >
-              <q-input
-                :autofocus="autofocus"
-                v-model="inputEmptyModel"
-              />
+            <q-step :name="3" title="Step 3" icon="assignment">
+              <q-input :autofocus="autofocus" v-model="inputEmptyModel" />
             </q-step>
 
             <q-step
@@ -161,22 +122,11 @@
               icon="assignment"
               disable
             >
-              <q-input
-                :autofocus="autofocus"
-                v-model="inputEmptyModel"
-              />
+              <q-input :autofocus="autofocus" v-model="inputEmptyModel" />
             </q-step>
 
-            <q-step
-              :name="5"
-              title="Step 5"
-              caption="Editor"
-              icon="settings"
-            >
-              <q-editor
-                v-model="inputTextModel"
-                :toolbar="[['fullscreen']]"
-              />
+            <q-step :name="5" title="Step 5" caption="Editor" icon="settings">
+              <q-editor v-model="inputTextModel" :toolbar="[['fullscreen']]" />
             </q-step>
 
             <q-step
@@ -193,7 +143,7 @@
             <q-btn
               color="primary"
               :label="step2 === 6 ? 'Reset' : 'Next step'"
-              @click="step2 === 6 ? step2 = 1 : step2++"
+              @click="step2 === 6 ? (step2 = 1) : step2++"
             />
           </q-card-actions>
         </q-card>
@@ -203,7 +153,8 @@
         <q-card>
           <q-card-section class="bg-primary text-white">
             <div class="text-h6">
-              Animation, autofocus for select and <strong>input type number filled</strong>
+              Animation, autofocus for select and
+              <strong>input type number filled</strong>
             </div>
           </q-card-section>
 
@@ -216,12 +167,7 @@
             animated
             header-nav
           >
-            <q-step
-              :name="1"
-              title="Step 1"
-              icon="settings"
-              :done="step3 > 1"
-            >
+            <q-step :name="1" title="Step 1" icon="settings" :done="step3 > 1">
               <q-input
                 type="number"
                 :autofocus="autofocus"
@@ -243,11 +189,7 @@
               />
             </q-step>
 
-            <q-step
-              :name="3"
-              title="Step 3"
-              icon="assignment"
-            >
+            <q-step :name="3" title="Step 3" icon="assignment">
               <q-input
                 type="number"
                 :autofocus="autofocus"
@@ -269,16 +211,8 @@
               />
             </q-step>
 
-            <q-step
-              :name="5"
-              title="Step 5"
-              caption="Editor"
-              icon="settings"
-            >
-              <q-editor
-                v-model="inputTextModel"
-                :toolbar="[['fullscreen']]"
-              />
+            <q-step :name="5" title="Step 5" caption="Editor" icon="settings">
+              <q-editor v-model="inputTextModel" :toolbar="[['fullscreen']]" />
             </q-step>
 
             <q-step
@@ -295,7 +229,7 @@
             <q-btn
               color="primary"
               :label="step3 === 6 ? 'Reset' : 'Next step'"
-              @click="step3 === 6 ? step3 = 1 : step3++"
+              @click="step3 === 6 ? (step3 = 1) : step3++"
             />
           </q-card-actions>
         </q-card>
@@ -304,9 +238,9 @@
       <div class="col-12 col-md-6 col-xl-3">
         <q-card>
           <q-card-section class="bg-primary text-white">
-            <div class="text-h6">
-              Animation, autofocus for select and <strong>field</strong>
-            </div>
+            <div class="text-h6"
+              >Animation, autofocus for select and <strong>field</strong></div
+            >
           </q-card-section>
 
           <q-separator />
@@ -318,20 +252,10 @@
             animated
             header-nav
           >
-            <q-step
-              :name="1"
-              title="Step 1"
-              icon="settings"
-              :done="step4 > 1"
-            >
-              <q-field
-                :autofocus="autofocus"
-                tabindex="0"
-              >
+            <q-step :name="1" title="Step 1" icon="settings" :done="step4 > 1">
+              <q-field :autofocus="autofocus" tabindex="0">
                 <template v-slot:control>
-                  <div>
-                    Field content
-                  </div>
+                  <div>Field content</div>
                 </template>
               </q-field>
             </q-step>
@@ -350,19 +274,10 @@
               />
             </q-step>
 
-            <q-step
-              :name="3"
-              title="Step 3"
-              icon="assignment"
-            >
-              <q-field
-                :autofocus="autofocus"
-                tabindex="0"
-              >
+            <q-step :name="3" title="Step 3" icon="assignment">
+              <q-field :autofocus="autofocus" tabindex="0">
                 <template v-slot:control>
-                  <div>
-                    Field content
-                  </div>
+                  <div>Field content</div>
                 </template>
               </q-field>
             </q-step>
@@ -374,28 +289,15 @@
               icon="assignment"
               disable
             >
-              <q-field
-                :autofocus="autofocus"
-                tabindex="0"
-              >
+              <q-field :autofocus="autofocus" tabindex="0">
                 <template v-slot:control>
-                  <div>
-                    Field content
-                  </div>
+                  <div>Field content</div>
                 </template>
               </q-field>
             </q-step>
 
-            <q-step
-              :name="5"
-              title="Step 5"
-              caption="Editor"
-              icon="settings"
-            >
-              <q-editor
-                v-model="inputTextModel"
-                :toolbar="[['fullscreen']]"
-              />
+            <q-step :name="5" title="Step 5" caption="Editor" icon="settings">
+              <q-editor v-model="inputTextModel" :toolbar="[['fullscreen']]" />
             </q-step>
 
             <q-step
@@ -412,7 +314,7 @@
             <q-btn
               color="primary"
               :label="step4 === 6 ? 'Reset' : 'Next step'"
-              @click="step4 === 6 ? step4 = 1 : step4++"
+              @click="step4 === 6 ? (step4 = 1) : step4++"
             />
           </q-card-actions>
         </q-card>
@@ -423,7 +325,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       step1: 1,
       step2: 1,
@@ -433,7 +335,7 @@ export default {
       inputEmptyModel: null,
       inputNumModel: 1,
       selectModel: 'Opt 1',
-      options: [ 'Opt 1', 'Opt 2', 'Opt 3' ],
+      options: ['Opt 1', 'Opt 2', 'Opt 3'],
       autofocus: true
     }
   }

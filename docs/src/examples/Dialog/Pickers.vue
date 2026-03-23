@@ -10,10 +10,10 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function radio () {
+    function radio() {
       $q.dialog({
         title: 'Options',
         message: 'Choose an option:',
@@ -29,16 +29,19 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).onOk(data => {
-        // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(data => {
+          // console.log('>>>> OK, received', data)
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
-    function checkbox () {
+    function checkbox() {
       $q.dialog({
         title: 'Options',
         message: 'Choose your options:',
@@ -54,16 +57,19 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).onOk(data => {
-        // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(data => {
+          // console.log('>>>> OK, received', data)
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
-    function toggle () {
+    function toggle() {
       $q.dialog({
         title: 'Options',
         message: 'Choose your options:',
@@ -79,13 +85,16 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).onOk(data => {
-        // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(data => {
+          // console.log('>>>> OK, received', data)
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
     return { radio, checkbox, toggle }

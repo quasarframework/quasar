@@ -7,7 +7,7 @@ const argv = parseArgs(process.argv.slice(2), {
     s: 'silent',
     h: 'help'
   },
-  boolean: [ 's', 'h' ]
+  boolean: ['s', 'h']
 })
 
 if (argv.help) {
@@ -32,12 +32,7 @@ const { readFileSync } = require('node:fs')
 const { join } = require('node:path')
 
 if (!argv.silent) {
-  console.log(
-    readFileSync(
-      join(__dirname, '../../assets/logo.art'),
-      'utf8'
-    )
-  )
+  console.log(readFileSync(join(__dirname, '../../assets/logo.art'), 'utf8'))
 }
 
 const { getCtx } = require('../utils/get-ctx.js')
@@ -56,7 +51,7 @@ const quasarConfFile = new QuasarConfigFile({
   host: 'localhost'
 })
 
-async function runPrepare () {
+async function runPrepare() {
   await quasarConfFile.init()
   const quasarConf = await quasarConfFile.read()
 
@@ -64,7 +59,9 @@ async function runPrepare () {
   generateTypes(quasarConf)
 
   log('Generated tsconfig.json and types files in .quasar directory')
-  log('The app is now prepared for linting, type-checking, IDE integration, etc.')
+  log(
+    'The app is now prepared for linting, type-checking, IDE integration, etc.'
+  )
 }
 
 runPrepare()

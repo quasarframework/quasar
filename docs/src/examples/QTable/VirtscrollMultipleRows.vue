@@ -2,7 +2,8 @@
   <div class="q-pa-md">
     <q-table
       style="height: 400px"
-      flat bordered
+      flat
+      bordered
       ref="tableRef"
       title="Treats"
       :rows="rows"
@@ -14,16 +15,11 @@
       :pagination="pagination"
       :rows-per-page-options="[0]"
     >
-
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th />
 
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
           </q-th>
         </q-tr>
@@ -31,25 +27,25 @@
 
       <template v-slot:body="props">
         <q-tr :props="props" :key="`m_${props.row.index}`">
-          <q-td>
-            Index: {{ props.row.index }}
-          </q-td>
+          <q-td> Index: {{ props.row.index }} </q-td>
 
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
           </q-td>
         </q-tr>
-        <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
+        <q-tr
+          :props="props"
+          :key="`e_${props.row.index}`"
+          class="q-virtual-scroll--with-prev"
+        >
           <q-td colspan="100%">
-            <div class="text-left">This is the second row generated from the same data: {{ props.row.name }} (Index: {{ props.row.index }}).</div>
+            <div class="text-left"
+              >This is the second row generated from the same data:
+              {{ props.row.name }} (Index: {{ props.row.index }}).</div
+            >
           </q-td>
         </q-tr>
       </template>
-
     </q-table>
   </div>
 </template>
@@ -67,13 +63,37 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
+  {
+    name: 'fat',
+    label: 'Fat (g)',
+    field: 'fat',
+    sortable: true,
+    style: 'width: 10px'
+  },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const seed = [
@@ -183,11 +203,13 @@ const seedSize = seed.length
 
 let rows = []
 for (let i = 0; i < 1000; i++) {
-  rows = rows.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+  rows = rows.concat(
+    seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 }))
+  )
 }
 
 export default {
-  setup () {
+  setup() {
     const tableRef = ref(null)
 
     onMounted(() => {

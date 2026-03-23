@@ -32,11 +32,11 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const test = ref('')
     const submitting = ref(false)
 
-    function simulateSubmit () {
+    function simulateSubmit() {
       submitting.value = true
 
       // Simulating a delay here.

@@ -1,6 +1,9 @@
 <template>
   <div class="q-pa-md">
-    <div class="column no-wrap q-gutter-y-sm" style="width: 300px; max-width: 40vw">
+    <div
+      class="column no-wrap q-gutter-y-sm"
+      style="width: 300px; max-width: 40vw"
+    >
       <q-img
         v-for="(src, index) in images"
         :key="index"
@@ -8,7 +11,9 @@
         class="cursor-pointer"
         :class="index === indexZoomed ? 'fixed-center z-top' : void 0"
         style="border-radius: 3%/5%"
-        :style="index === indexZoomed ? 'width: 800px; max-width: 70vw' : void 0"
+        :style="
+          index === indexZoomed ? 'width: 800px; max-width: 70vw' : void 0
+        "
         :src="src"
         @click="zoomImage(index)"
       />
@@ -20,23 +25,27 @@
 import { morph } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       indexZoomed: void 0,
-      images: Array(24).fill(null).map((_, i) => 'https://picsum.photos/id/' + i + '/500/300')
+      images: Array(24)
+        .fill(null)
+        .map((_, i) => 'https://picsum.photos/id/' + i + '/500/300')
     }
   },
 
   methods: {
-    zoomImage (index) {
+    zoomImage(index) {
       const { indexZoomed } = this
 
       this.indexZoomed = void 0
 
       if (index !== void 0 && index !== indexZoomed) {
         this.cancel = morph({
-          from: this.$refs.refThumb[ index ].$el,
-          onToggle: () => { this.indexZoomed = index },
+          from: this.$refs.refThumb[index].$el,
+          onToggle: () => {
+            this.indexZoomed = index
+          },
           duration: 500,
           onEnd: end => {
             if (end === 'from' && this.indexZoomed === index) {
@@ -47,11 +56,11 @@ export default {
       }
 
       if (
-        indexZoomed !== void 0
-        && (this.cancel === void 0 || this.cancel() === false)
+        indexZoomed !== void 0 &&
+        (this.cancel === void 0 || this.cancel() === false)
       ) {
         morph({
-          from: this.$refs.refThumb[ indexZoomed ].$el,
+          from: this.$refs.refThumb[indexZoomed].$el,
           waitFor: 100,
           duration: 300
         })

@@ -10,7 +10,10 @@
     <div class="example-area q-pa-lg scroll">
       <div class="example-filler" />
 
-      <div v-intersection="options" class="example-observed flex flex-center rounded-borders">
+      <div
+        v-intersection="options"
+        class="example-observed flex flex-center rounded-borders"
+      >
         Observed Element
       </div>
 
@@ -29,7 +32,7 @@ for (let i = 0; i <= 1.0; i += 0.01) {
 }
 
 export default {
-  setup () {
+  setup() {
     const percent = ref(0)
 
     return {
@@ -39,7 +42,7 @@ export default {
       ),
 
       options: {
-        handler (entry) {
+        handler(entry) {
           const val = (entry.intersectionRatio * 100).toFixed(0)
           if (percent.value !== val) {
             percent.value = val

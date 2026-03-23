@@ -27,7 +27,7 @@
         "type": "Object",
         "desc": "Object with CSS properties to apply to Page DOM element"
       },
-      "examples": [ "(offset, height) => ({ minHeight: offset + 'px' })" ],
+      "examples": ["(offset, height) => ({ minHeight: offset + 'px' })"],
       "category": "style"
     }
   },

@@ -5,10 +5,7 @@ import { cliPkg } from '../cli-pkg.js'
 
 console.log()
 console.log(
-  readFileSync(
-    new URL('../../assets/logo.art', import.meta.url),
-    'utf8'
-  )
+  readFileSync(new URL('../../assets/logo.art', import.meta.url), 'utf8')
 )
 console.log('  Running @quasar/cli v' + cliPkg.version)
 
@@ -33,6 +30,6 @@ console.log(`
 
   --------------
   => IMPORTANT !
-  => ${ italic('Trigger this inside of a Quasar project (and npm/yarn/pnpm/bun install) for more commands.') }
+  => ${italic('Trigger this inside of a Quasar project (and npm/yarn/pnpm/bun install) for more commands.')}
   --------------
 `)

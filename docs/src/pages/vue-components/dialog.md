@@ -41,6 +41,7 @@ It's best that your QDialog main content is a QCard. However, if you are plannin
 <DocExample title="Backdrop filter (v2.14.8+)" file="BackdropFilter" />
 
 ### Positioning
+
 <DocExample title="Positions" file="Positioning" />
 
 ::: tip
@@ -50,6 +51,7 @@ Do not mistake "position" prop with the show/hide animation. If you want a custo
 <DocExample title="Maximized" file="Maximized" />
 
 ### Various content
+
 Dialogs can contain any content. Some examples:
 
 <DocExample title="Various content" file="VariousContent" />
@@ -61,9 +63,11 @@ If you are going to use the containerized QLayout, you'll need to put a width on
 :::
 
 ### Handling scroll
+
 <DocExample title="Scrollable dialogs" file="Scrollable" />
 
 ### Different modes
+
 User cannot dismiss the Dialog by pressing ESCAPE key or by clicking/tapping on its backdrop.
 
 <DocExample title="Persistent" file="Persistent" />
@@ -73,16 +77,19 @@ Dialogs can also be a part of the page, without requiring immediate focus. It's 
 <DocExample title="Seamless" file="Seamless" />
 
 ### Dialog in dialog
+
 You are able to open dialogs on top of other dialogs, with infinite number of depth levels.
 
 <DocExample title="Inception" file="Inception" />
 
 ### Sizing
+
 You are able to customize the size of the Dialogs. Notice we either tamper with the content's style or we use `full-width` or `full-height` props:
 
 <DocExample title="Sizing examples" file="Sizing" />
 
 ## Cordova/Capacitor back button
+
 Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
 
 However, should you wish to disable this behavior, edit your `/quasar.config` file:

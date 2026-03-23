@@ -38,7 +38,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       step1: ref(null),
       step2: ref(null),

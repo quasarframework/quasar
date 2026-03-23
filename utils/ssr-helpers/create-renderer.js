@@ -5,16 +5,16 @@
 const serialize = require('serialize-javascript')
 const createBundle = require('./lib/create-bundle')
 
-function createRenderContext (clientManifest) {
+function createRenderContext(clientManifest) {
   const { publicPath, initial, modules } = clientManifest
   const addPublicPath = file => publicPath + file
-  const [ firstBodyFile, ...otherBodyFiles ] = initial.b.map(addPublicPath)
+  const [firstBodyFile, ...otherBodyFiles] = initial.b.map(addPublicPath)
 
   return {
     initialHeadFiles: initial.h.map(addPublicPath),
 
     getBodyFiles: firstBodyFile
-      ? asyncFiles => ([ firstBodyFile, ...asyncFiles, ...otherBodyFiles ])
+      ? asyncFiles => [firstBodyFile, ...asyncFiles, ...otherBodyFiles]
       : asyncFiles => asyncFiles,
 
     getAsyncFiles: moduleIds => {
@@ -22,7 +22,7 @@ function createRenderContext (clientManifest) {
       const body = new Set()
 
       for (let i = 0; i < moduleIds.length; i++) {
-        const list = modules[ moduleIds[ i ] ]
+        const list = modules[moduleIds[i]]
 
         // if it has no mapping...
         if (list === void 0) continue
@@ -41,73 +41,82 @@ function createRenderContext (clientManifest) {
 
 const autoRemove = 'document.currentScript.remove()'
 
-function renderStoreState (ssrContext) {
-  const nonceAttr = ssrContext.nonce !== void 0
-    ? ` nonce="${ ssrContext.nonce }"`
-    : ''
+function renderStoreState(ssrContext) {
+  const nonceAttr =
+    ssrContext.nonce !== void 0 ? ` nonce="${ssrContext.nonce}"` : ''
   const state = serialize(ssrContext.state, { isJSON: true })
   return `<script${nonceAttr}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
 }
 
-function renderHeadTags ({ renderContext, asyncFiles, renderPreloadTagMap, ssrContext }) {
+function renderHeadTags({
+  renderContext,
+  asyncFiles,
+  renderPreloadTagMap,
+  ssrContext
+}) {
   return (
     // render head assets
-    [ ...renderContext.initialHeadFiles, ...asyncFiles.head ]
+    [...renderContext.initialHeadFiles, ...asyncFiles.head]
       .map(renderPreloadTagMap)
-      .join('')
-
+      .join('') +
     // ssrContext.styles is a getter exposed by vue-style-loader which contains
     // the inline component styles collected during SSR
-    + (ssrContext.styles || '')
+    (ssrContext.styles || '')
   )
 }
 
-function renderBodyTags ({ renderContext, asyncFiles, renderPreloadTagMap }) {
-  return renderContext.getBodyFiles(asyncFiles.body)
+function renderBodyTags({ renderContext, asyncFiles, renderPreloadTagMap }) {
+  return renderContext
+    .getBodyFiles(asyncFiles.body)
     .filter(entry => entry !== void 0)
     .map(renderPreloadTagMap)
     .join('')
 }
 
-function createRenderToStringFn (data) {
-  return async function renderToString (ssrContext) {
+function createRenderToStringFn(data) {
+  return async function renderToString(ssrContext) {
     try {
       const onRenderedList = []
 
       Object.assign(ssrContext, {
         _modules: new Set(),
         _meta: {},
-        onRendered: fn => { onRenderedList.push(fn) }
+        onRendered: fn => {
+          onRenderedList.push(fn)
+        }
       })
 
       const runtimePageContent = await data.getRuntimePageContent(ssrContext)
 
-
-      onRenderedList.forEach(fn => { fn() })
+      onRenderedList.forEach(fn => {
+        fn()
+      })
 
       // maintain compatibility with some well-known Vue plugins
       // like @vue/apollo-ssr:
-      typeof ssrContext.rendered === 'function' && ssrContext.rendered()
+      if (typeof ssrContext.rendered === 'function') ssrContext.rendered()
 
       const renderTagOptions = {
         renderContext: data.renderContext,
-        asyncFiles: data.renderContext.getAsyncFiles(Array.from(ssrContext._modules)),
+        asyncFiles: data.renderContext.getAsyncFiles(
+          Array.from(ssrContext._modules)
+        ),
         renderPreloadTagMap: file => data.renderPreloadTag(file, ssrContext),
         ssrContext
       }
 
       Object.assign(ssrContext._meta, {
-        endingHeadTags: renderHeadTags(renderTagOptions) + ssrContext._meta.endingHeadTags,
+        endingHeadTags:
+          renderHeadTags(renderTagOptions) + ssrContext._meta.endingHeadTags,
         runtimePageContent,
-        afterRuntimePageContent: (
-          (data.manualStoreSerialization !== true && ssrContext.state !== void 0 ? renderStoreState(ssrContext) : '')
-          + renderBodyTags(renderTagOptions)
-        )
+        afterRuntimePageContent:
+          (data.manualStoreSerialization !== true && ssrContext.state !== void 0
+            ? renderStoreState(ssrContext)
+            : '') + renderBodyTags(renderTagOptions)
       })
 
       return data.renderTemplate(ssrContext)
-    }
-    catch (err) {
+    } catch (err) {
       if (data.rewriteErrorTrace) {
         await data.rewriteErrorTrace(err)
       }
@@ -117,7 +126,7 @@ function createRenderToStringFn (data) {
   }
 }
 
-module.exports.getProdRenderFunction = function getProdRenderFunction (opts) {
+module.exports.getProdRenderFunction = function getProdRenderFunction(opts) {
   return createRenderToStringFn({
     renderContext: createRenderContext(opts.clientManifest),
     renderTemplate: opts.renderTemplate,
@@ -130,7 +139,7 @@ module.exports.getProdRenderFunction = function getProdRenderFunction (opts) {
   })
 }
 
-module.exports.createDevRenderer = function createDevRenderer (opts) {
+module.exports.createDevRenderer = function createDevRenderer(opts) {
   const data = {
     renderContext: null,
     evaluateEntry: null,
@@ -148,7 +157,7 @@ module.exports.createDevRenderer = function createDevRenderer (opts) {
   const dataKeys = Object.keys(data)
 
   let checkIfReadyForTemplate = () => {
-    if (dataKeys.every(key => data[ key ] !== null)) {
+    if (dataKeys.every(key => data[key] !== null)) {
       checkIfReadyForTemplate = () => {}
       opts.onReadyForTemplate()
     }
@@ -160,7 +169,10 @@ module.exports.createDevRenderer = function createDevRenderer (opts) {
   }
 
   const updateServerManifest = serverManifest => {
-    const { evaluateEntry, rewriteErrorTrace } = createBundle(serverManifest, opts.basedir)
+    const { evaluateEntry, rewriteErrorTrace } = createBundle(
+      serverManifest,
+      opts.basedir
+    )
     data.evaluateEntry = evaluateEntry
     data.rewriteErrorTrace = rewriteErrorTrace
     checkIfReadyForTemplate()

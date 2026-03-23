@@ -6,7 +6,7 @@ export default createComponent({
 
   props: usePageStickyProps,
 
-  setup (_, { slots }) {
+  setup(_, { slots }) {
     const { getStickyContent } = usePageSticky()
     return () => getStickyContent(slots)
   }

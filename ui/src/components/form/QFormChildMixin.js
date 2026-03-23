@@ -3,20 +3,19 @@ import { formKey } from '../../utils/private.symbols/symbols.js'
 
 export default {
   inject: {
-    [ formKey ]: {
+    [formKey]: {
       default: noop
     }
   },
 
   watch: {
-    disable (val) {
-      const $form = this.$.provides[ formKey ]
+    disable(val) {
+      const $form = this.$.provides[formKey]
       if ($form !== void 0) {
         if (val === true) {
           this.resetValidation()
           $form.unbindComponent(this)
-        }
-        else {
+        } else {
           $form.bindComponent(this)
         }
       }
@@ -24,21 +23,21 @@ export default {
   },
 
   methods: {
-    validate () {},
-    resetValidation () {}
+    validate() {},
+    resetValidation() {}
   },
 
-  mounted () {
+  mounted() {
     // register to parent QForm
     if (this.disable !== true) {
-      this.$.provides[ formKey ]?.bindComponent(this)
+      this.$.provides[formKey]?.bindComponent(this)
     }
   },
 
-  beforeUnmount () {
+  beforeUnmount() {
     // un-register from parent QForm
     if (this.disable !== true) {
-      this.$.provides[ formKey ]?.unbindComponent(this)
+      this.$.provides[formKey]?.unbindComponent(this)
     }
   }
 }

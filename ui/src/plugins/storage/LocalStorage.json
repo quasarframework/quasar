@@ -1,5 +1,5 @@
 {
-  "mixins": [ "plugins/storage/engine/web-storage" ],
+  "mixins": ["plugins/storage/engine/web-storage"],
 
   "injection": "$q.localStorage"
 }

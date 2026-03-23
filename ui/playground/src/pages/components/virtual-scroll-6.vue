@@ -15,14 +15,14 @@
           <template v-slot:before>
             <thead class="thead-sticky">
               <tr>
-                <th v-for="column in columns" :key="column">
-                  {{ column }} - thead 1
-                </th>
+                <th v-for="column in columns" :key="column"
+                  >{{ column }} - thead 1</th
+                >
               </tr>
               <tr>
-                <th v-for="column in columns" :key="column">
-                  {{ column }} - thead 2 - sticky
-                </th>
+                <th v-for="column in columns" :key="column"
+                  >{{ column }} - thead 2 - sticky</th
+                >
               </tr>
             </thead>
           </template>
@@ -30,14 +30,14 @@
           <template v-slot:after>
             <tfoot class="tfoot-sticky">
               <tr>
-                <th v-for="column in columns" :key="column">
-                  {{ column }} - tfoot 1 - sticky
-                </th>
+                <th v-for="column in columns" :key="column"
+                  >{{ column }} - tfoot 1 - sticky</th
+                >
               </tr>
               <tr>
-                <th v-for="column in columns" :key="column">
-                  {{ column }} - tfoot 2
-                </th>
+                <th v-for="column in columns" :key="column"
+                  >{{ column }} - tfoot 2</th
+                >
               </tr>
             </tfoot>
           </template>
@@ -47,14 +47,23 @@
               <td v-for="column in columns" :key="column">
                 <template v-if="column !== 'col2'">
                   <div>{{ row[column] }}</div>
-                  <div v-if="rowNr % 3 === 0">
-                    {{ row[column] }} again
-                  </div>
-                  <div v-if="rowNr % 5 === 0">
-                    {{ row[column] }} again again
-                  </div>
+                  <div v-if="rowNr % 3 === 0">{{ row[column] }} again</div>
+                  <div v-if="rowNr % 5 === 0"
+                    >{{ row[column] }} again again</div
+                  >
                 </template>
-                <q-img v-else :src="row[column].src" :style="setSize ? { height: (2 * row[column].height) + 'px', width: (2 * row[column].width) + 'px' } : void 0" />
+                <q-img
+                  v-else
+                  :src="row[column].src"
+                  :style="
+                    setSize
+                      ? {
+                          height: 2 * row[column].height + 'px',
+                          width: 2 * row[column].width + 'px'
+                        }
+                      : void 0
+                  "
+                />
               </td>
             </tr>
           </template>
@@ -95,11 +104,11 @@
 </style>
 
 <script>
-const
-  heavyList = [],
+const heavyList = [],
   columns = [],
   listSize = 10000,
-  lorem = 'Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sumLorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum'
+  lorem =
+    'Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sumLorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum'
 const getRandomInt = (min, max) => {
   const x = Math.floor(Math.random() * (max - min + 1)) + min
   return Math.ceil(x / 10) * 10
@@ -110,15 +119,13 @@ for (let i = 0; i < 30; i++) {
 for (let i = 0; i <= listSize; i++) {
   const row = {}
   for (let j = 0; j < columns.length; j++) {
-    row[ columns[ j ] ] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
+    row[columns[j]] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
     if (j === 2) {
-      row[ columns[ j ] ] += ' - ' + lorem
-    }
-    else if (j === 1) {
-      const
-        width = getRandomInt(100, 150),
+      row[columns[j]] += ' - ' + lorem
+    } else if (j === 1) {
+      const width = getRandomInt(100, 150),
         height = getRandomInt(150, 350)
-      row[ columns[ j ] ] = {
+      row[columns[j]] = {
         src: 'https://www.fillmurray.com/' + width + '/' + height + '?ver=' + j,
         width,
         height
@@ -129,7 +136,7 @@ for (let i = 0; i <= listSize; i++) {
 }
 Object.freeze(heavyList)
 export default {
-  data () {
+  data() {
     return {
       heavyList,
       columns,
@@ -139,14 +146,14 @@ export default {
     }
   },
   methods: {
-    onIndexChange (index) {
+    onIndexChange(index) {
       this.$refs.virtualListRef.scrollTo(index)
     },
-    onVirtualScroll ({ index }) {
+    onVirtualScroll({ index }) {
       this.listIndex = index
     }
   },
-  mounted () {
+  mounted() {
     this.$refs.virtualListRef.scrollTo(this.listIndex)
   }
 }

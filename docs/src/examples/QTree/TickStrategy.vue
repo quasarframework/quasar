@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md row q-col-gutter-sm">
-    <q-tree class="col-12 col-sm-6"
+    <q-tree
+      class="col-12 col-sm-6"
       :nodes="simple"
       v-model:ticked="ticked"
       v-model:expanded="expanded"
@@ -9,10 +10,7 @@
       default-expand-all
     />
     <div class="col-12 col-sm-6">
-      <q-option-group
-        v-model="tickStrategy"
-        :options="tickStrategies"
-      />
+      <q-option-group v-model="tickStrategy" :options="tickStrategies" />
 
       <div class="text-h6 q-mt-md">Ticked</div>
       <div>
@@ -28,7 +26,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       ticked: ref(['Pleasant surroundings']),
       expanded: ref(['Good service (disabled node)']),

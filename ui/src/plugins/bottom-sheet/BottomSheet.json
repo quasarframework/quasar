@@ -1,5 +1,5 @@
 {
-  "mixins": [ "utils/private.dialog/create-dialog" ],
+  "mixins": ["utils/private.dialog/create-dialog"],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/quasar-plugins/bottom-sheet"
@@ -18,13 +18,13 @@
             "title": {
               "type": "String",
               "desc": "Title",
-              "examples": [ "'Share'" ]
+              "examples": ["'Share'"]
             },
 
             "message": {
               "type": "String",
               "desc": "Message",
-              "examples": [ "'Please select how to share'" ]
+              "examples": ["'Please select how to share'"]
             },
 
             "actions": {
@@ -32,17 +32,17 @@
               "desc": "Array of Objects, each Object defining an action",
               "definition": {
                 "classes": {
-                  "type": [ "String", "Array", "Object" ],
+                  "type": ["String", "Array", "Object"],
                   "tsType": "VueClassProp",
                   "desc": "CSS classes for this action",
-                  "examples": [ "'my-class'" ]
+                  "examples": ["'my-class'"]
                 },
 
                 "style": {
-                  "type": [ "String", "Array", "Object" ],
+                  "type": ["String", "Array", "Object"],
                   "tsType": "VueStyleProp",
                   "desc": "Style definitions to be attributed to this action element",
-                  "examples": [ "{ padding: '2px' }" ],
+                  "examples": ["{ padding: '2px' }"],
                   "addedIn": "v2.11.7"
                 },
 
@@ -71,9 +71,9 @@
                 },
 
                 "label": {
-                  "type": [ "String", "Number" ],
+                  "type": ["String", "Number"],
                   "desc": "Action label",
-                  "examples": [ "'Facebook'" ]
+                  "examples": ["'Facebook'"]
                 },
 
                 "...": {

@@ -15,12 +15,8 @@ describe('[useTransition API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        expect(
-          useTransition({})
-        ).toStrictEqual({
-          transitionStyle: expect.$ref(
-            expect.any(String)
-          ),
+        expect(useTransition({})).toStrictEqual({
+          transitionStyle: expect.$ref(expect.any(String)),
 
           transitionProps: expect.$ref({
             appear: expect.any(Boolean),
@@ -41,9 +37,7 @@ describe('[useTransition API]', () => {
           transitionDuration: 555
         })
 
-        expect(
-          transitionStyle.value
-        ).toMatch(/555ms/)
+        expect(transitionStyle.value).toMatch(/555ms/)
       })
 
       test('props.transitionShow is handled correctly', () => {
@@ -51,9 +45,7 @@ describe('[useTransition API]', () => {
           transitionShow: 'some-transition'
         })
 
-        expect(
-          transitionProps.value
-        ).toMatchObject({
+        expect(transitionProps.value).toMatchObject({
           enterFromClass: 'q-transition--some-transition-enter-from',
           enterActiveClass: 'q-transition--some-transition-enter-active',
           enterToClass: 'q-transition--some-transition-enter-to'
@@ -65,9 +57,7 @@ describe('[useTransition API]', () => {
           transitionHide: 'some-transition'
         })
 
-        expect(
-          transitionProps.value
-        ).toMatchObject({
+        expect(transitionProps.value).toMatchObject({
           leaveFromClass: 'q-transition--some-transition-leave-from',
           leaveActiveClass: 'q-transition--some-transition-leave-active',
           leaveToClass: 'q-transition--some-transition-leave-to'
@@ -81,9 +71,7 @@ describe('[useTransition API]', () => {
           () => 'hide'
         )
 
-        expect(
-          transitionProps.value
-        ).toMatchObject({
+        expect(transitionProps.value).toMatchObject({
           enterFromClass: 'q-transition--show-enter-from',
           enterActiveClass: 'q-transition--show-enter-active',
           enterToClass: 'q-transition--show-enter-to',
@@ -101,9 +89,7 @@ describe('[useTransition API]', () => {
           () => 'Y'
         )
 
-        expect(
-          transitionProps.value
-        ).toMatchObject({
+        expect(transitionProps.value).toMatchObject({
           enterFromClass: 'q-transition--show-enter-from',
           enterActiveClass: 'q-transition--show-enter-active',
           enterToClass: 'q-transition--show-enter-to',

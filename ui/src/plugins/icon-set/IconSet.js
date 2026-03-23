@@ -3,75 +3,82 @@ import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.
 
 import materialIcons from '../../../icon-set/material-icons.js'
 
-const Plugin = createReactivePlugin({
-  iconMapFn: null,
-  __qIconSet: {}
-}, {
-  // props: object
-
-  set (setObject, ssrContext) {
-    const def = { ...setObject }
-
-    if (__QUASAR_SSR_SERVER__) {
-      if (ssrContext === void 0) {
-        console.error('SSR ERROR: second param required: IconSet.set(iconSet, ssrContext)')
-        return
-      }
-
-      def.set = ssrContext.$q.iconSet.set
-      Object.assign(ssrContext.$q.iconSet, def)
-    }
-    else {
-      def.set = Plugin.set
-      Object.assign(Plugin.__qIconSet, def)
-    }
+const Plugin = createReactivePlugin(
+  {
+    iconMapFn: null,
+    __qIconSet: {}
   },
+  {
+    // props: object
 
-  install ({ $q, iconSet, ssrContext }) {
-    if (__QUASAR_SSR_SERVER__) {
-      const initialSet = iconSet || materialIcons
+    set(setObject, ssrContext) {
+      const def = { ...setObject }
 
-      $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
-      $q.iconSet = {}
-      $q.iconSet.set = setObject => {
-        this.set(setObject, ssrContext)
+      if (__QUASAR_SSR_SERVER__) {
+        if (ssrContext === void 0) {
+          console.error(
+            'SSR ERROR: second param required: IconSet.set(iconSet, ssrContext)'
+          )
+          return
+        }
+
+        def.set = ssrContext.$q.iconSet.set
+        Object.assign(ssrContext.$q.iconSet, def)
+      } else {
+        def.set = Plugin.set
+        Object.assign(Plugin.__qIconSet, def)
       }
+    },
 
-      $q.iconSet.set(initialSet)
+    install({ $q, iconSet, ssrContext }) {
+      if (__QUASAR_SSR_SERVER__) {
+        const initialSet = iconSet || materialIcons
 
-      // one-time SSR server operation
-      if (
-        this.props === void 0
-        || this.props.name !== initialSet.name
-      ) {
-        this.props = { ...initialSet }
-      }
-    }
-    else {
-      if ($q.config.iconMapFn !== void 0) {
-        this.iconMapFn = $q.config.iconMapFn
-      }
+        $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
+        $q.iconSet = {}
+        $q.iconSet.set = setObject => {
+          this.set(setObject, ssrContext)
+        }
 
-      $q.iconSet = this.__qIconSet
-      injectProp($q, 'iconMapFn', () => this.iconMapFn, val => { this.iconMapFn = val })
+        $q.iconSet.set(initialSet)
 
-      if (this.__installed === true) {
-        iconSet !== void 0 && this.set(iconSet)
-      }
-      else {
-        this.props = new Proxy(this.__qIconSet, {
-          get () { return Reflect.get(...arguments) },
+        // one-time SSR server operation
+        if (this.props === void 0 || this.props.name !== initialSet.name) {
+          this.props = { ...initialSet }
+        }
+      } else {
+        if ($q.config.iconMapFn !== void 0) {
+          this.iconMapFn = $q.config.iconMapFn
+        }
 
-          ownKeys (target) {
-            return Reflect.ownKeys(target)
-              .filter(key => key !== 'set')
+        $q.iconSet = this.__qIconSet
+        injectProp(
+          $q,
+          'iconMapFn',
+          () => this.iconMapFn,
+          val => {
+            this.iconMapFn = val
           }
-        })
+        )
 
-        this.set(iconSet || materialIcons)
+        if (this.__installed === true) {
+          if (iconSet !== void 0) this.set(iconSet)
+        } else {
+          this.props = new Proxy(this.__qIconSet, {
+            get() {
+              return Reflect.get(...arguments)
+            },
+
+            ownKeys(target) {
+              return Reflect.ownKeys(target).filter(key => key !== 'set')
+            }
+          })
+
+          this.set(iconSet || materialIcons)
+        }
       }
     }
   }
-})
+)
 
 export default Plugin

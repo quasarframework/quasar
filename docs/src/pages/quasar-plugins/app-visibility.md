@@ -33,17 +33,20 @@ setup () {
 <template>...</template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { watch } from 'vue'
+  import { useQuasar } from 'quasar'
+  import { watch } from 'vue'
 
-export default {
-  setup () {
-    const $q = useQuasar()
+  export default {
+    setup() {
+      const $q = useQuasar()
 
-    watch(() => $q.appVisible, val => {
-      console.log(val ? 'App became visible' : 'App went in the background')
-    })
+      watch(
+        () => $q.appVisible,
+        val => {
+          console.log(val ? 'App became visible' : 'App went in the background')
+        }
+      )
+    }
   }
-}
 </script>
 ```

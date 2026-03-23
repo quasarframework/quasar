@@ -2,29 +2,20 @@
   "name": "@quasar/cli",
   "version": "2.5.0",
   "description": "Quasar Framework - the Global CLI",
-  "type": "module",
-  "bin": {
-    "quasar": "./bin/quasar.js"
-  },
-  "scripts": {
-    "lint": "eslint --cache --fix"
-  },
-  "files": [
-    "assets",
-    "bin",
-    "lib"
-  ],
   "keywords": [
-    "quasar",
     "cli",
-    "web",
-    "spa",
-    "pwa",
+    "cordova",
     "electron",
+    "pwa",
+    "quasar",
+    "spa",
     "vue",
     "vuejs",
-    "cordova"
+    "web"
   ],
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
   "author": {
     "name": "Razvan Stoenescu",
     "email": "razvan.stoenescu@gmail.com",
@@ -34,24 +25,32 @@
     "type": "git",
     "url": "https://github.com/quasarframework/quasar"
   },
-  "license": "MIT",
-  "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "https://quasar.dev",
   "funding": {
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
-  "engines": {
-    "node": ">= 16",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
+  "bin": {
+    "quasar": "./bin/quasar.js"
+  },
+  "files": [
+    "assets",
+    "bin",
+    "lib"
+  ],
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint"
   },
   "dependencies": {
     "@quasar/ssl-certificate": "workspace:^",
-    "ci-info": "^4.0.0",
+    "ci-info": "^4.4.0",
     "compression": "^1.7.4",
     "connect-history-api-fallback": "^2.0.0",
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "cross-spawn": "^7.0.6",
     "express": "^4.21.2",
     "fs-extra": "^11.2.0",
@@ -62,11 +61,9 @@
     "route-cache": "^0.5.0",
     "update-notifier": "^6.0.2"
   },
-  "devDependencies": {
-    "eslint": "catalog:",
-    "eslint-config-quasar": "workspace:*"
-  },
-  "publishConfig": {
-    "access": "public"
+  "engines": {
+    "node": ">= 16",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
   }
 }

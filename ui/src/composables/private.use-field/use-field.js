@@ -1,21 +1,37 @@
-import { h, ref, computed, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  Transition,
+  nextTick,
+  onActivated,
+  onDeactivated,
+  onBeforeUnmount,
+  onMounted,
+  getCurrentInstance
+} from 'vue'
 
 import QIcon from '../../components/icon/QIcon.js'
 import QSpinner from '../../components/spinner/QSpinner.js'
 
 import useId from '../use-id/use-id.js'
 import useSplitAttrs from '../use-split-attrs/use-split-attrs.js'
-import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
-import useValidate, { useValidateProps } from '../private.use-validate/use-validate.js'
+import useDark, {
+  useDarkProps
+} from '../../composables/private.use-dark/use-dark.js'
+import useValidate, {
+  useValidateProps
+} from '../private.use-validate/use-validate.js'
 
 import { hSlot } from '../../utils/private.render/render.js'
 import { prevent, stopAndPrevent } from '../../utils/event/event.js'
-import { addFocusFn, removeFocusFn } from '../../utils/private.focus/focus-manager.js'
+import {
+  addFocusFn,
+  removeFocusFn
+} from '../../utils/private.focus/focus-manager.js'
 
-export function fieldValueIsFilled (val) {
-  return val !== void 0
-    && val !== null
-    && ('' + val).length !== 0
+export function fieldValueIsFilled(val) {
+  return val !== void 0 && val !== null && String(val).length !== 0
 }
 
 export const useNonInputFieldProps = {
@@ -36,7 +52,7 @@ export const useNonInputFieldProps = {
   filled: Boolean,
   outlined: Boolean,
   borderless: Boolean,
-  standout: [ Boolean, String ],
+  standout: [Boolean, String],
 
   square: Boolean,
 
@@ -66,12 +82,16 @@ export const useNonInputFieldProps = {
 
 export const useFieldProps = {
   ...useNonInputFieldProps,
-  maxlength: [ Number, String ]
+  maxlength: [Number, String]
 }
 
-export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur' ]
+export const useFieldEmits = ['update:modelValue', 'clear', 'focus', 'blur']
 
-export function useFieldState ({ requiredForAttr = true, tagProp, changeEvent = false } = {}) {
+export function useFieldState({
+  requiredForAttr = true,
+  tagProp,
+  changeEvent = false
+} = {}) {
   const { props, proxy } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
@@ -83,15 +103,11 @@ export function useFieldState ({ requiredForAttr = true, tagProp, changeEvent = 
   return {
     requiredForAttr,
     changeEvent,
-    tag: tagProp === true
-      ? computed(() => props.tag)
-      : { value: 'label' },
+    tag: tagProp === true ? computed(() => props.tag) : { value: 'label' },
 
     isDark,
 
-    editable: computed(() =>
-      props.disable !== true && props.readonly !== true
-    ),
+    editable: computed(() => props.disable !== true && props.readonly !== true),
 
     innerLoading: ref(false),
     focused: ref(false),
@@ -125,7 +141,7 @@ export function useFieldState ({ requiredForAttr = true, tagProp, changeEvent = 
   }
 }
 
-export default function (state) {
+export default function useField(state) {
   const { props, emit, slots, attrs, proxy } = getCurrentInstance()
   const { $q } = proxy
 
@@ -158,86 +174,117 @@ export default function (state) {
   if (state.computedCounter === void 0) {
     state.computedCounter = computed(() => {
       if (props.counter !== false) {
-        const len = typeof props.modelValue === 'string' || typeof props.modelValue === 'number'
-          ? ('' + props.modelValue).length
-          : (Array.isArray(props.modelValue) === true ? props.modelValue.length : 0)
+        const len =
+          typeof props.modelValue === 'string' ||
+          typeof props.modelValue === 'number'
+            ? String(props.modelValue).length
+            : Array.isArray(props.modelValue) === true
+              ? props.modelValue.length
+              : 0
 
-        const max = props.maxlength !== void 0
-          ? props.maxlength
-          : props.maxValues
+        const max =
+          props.maxlength !== void 0 ? props.maxlength : props.maxValues
 
         return len + (max !== void 0 ? ' / ' + max : '')
       }
     })
   }
 
-  const {
-    isDirtyModel,
-    hasRules,
-    hasError,
-    errorMessage,
-    resetValidation
-  } = useValidate(state.focused, state.innerLoading)
+  const { isDirtyModel, hasRules, hasError, errorMessage, resetValidation } =
+    useValidate(state.focused, state.innerLoading)
 
-  const floatingLabel = state.floatingLabel !== void 0
-    ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
-    : computed(() => props.stackLabel === true || state.focused.value === true || state.hasValue.value === true)
+  const floatingLabel =
+    state.floatingLabel !== void 0
+      ? computed(
+          () =>
+            props.stackLabel === true ||
+            state.focused.value === true ||
+            state.floatingLabel.value === true
+        )
+      : computed(
+          () =>
+            props.stackLabel === true ||
+            state.focused.value === true ||
+            state.hasValue.value === true
+        )
 
-  const shouldRenderBottom = computed(() =>
-    props.bottomSlots === true
-    || props.hint !== void 0
-    || hasRules.value === true
-    || props.counter === true
-    || props.error !== null
+  const shouldRenderBottom = computed(
+    () =>
+      props.bottomSlots === true ||
+      props.hint !== void 0 ||
+      hasRules.value === true ||
+      props.counter === true ||
+      props.error !== null
   )
 
   const styleType = computed(() => {
-    if (props.filled === true) { return 'filled' }
-    if (props.outlined === true) { return 'outlined' }
-    if (props.borderless === true) { return 'borderless' }
-    if (props.standout) { return 'standout' }
+    if (props.filled === true) {
+      return 'filled'
+    }
+    if (props.outlined === true) {
+      return 'outlined'
+    }
+    if (props.borderless === true) {
+      return 'borderless'
+    }
+    if (props.standout) {
+      return 'standout'
+    }
     return 'standard'
   })
 
-  const classes = computed(() =>
-    `q-field row no-wrap items-start q-field--${ styleType.value }`
-    + (state.fieldClass !== void 0 ? ` ${ state.fieldClass.value }` : '')
-    + (props.rounded === true ? ' q-field--rounded' : '')
-    + (props.square === true ? ' q-field--square' : '')
-    + (floatingLabel.value === true ? ' q-field--float' : '')
-    + (hasLabel.value === true ? ' q-field--labeled' : '')
-    + (props.dense === true ? ' q-field--dense' : '')
-    + (props.itemAligned === true ? ' q-field--item-aligned q-item-type' : '')
-    + (state.isDark.value === true ? ' q-field--dark' : '')
-    + (state.getControl === void 0 ? ' q-field--auto-height' : '')
-    + (state.focused.value === true ? ' q-field--focused' : '')
-    + (hasError.value === true ? ' q-field--error' : '')
-    + (hasError.value === true || state.focused.value === true ? ' q-field--highlighted' : '')
-    + (props.hideBottomSpace !== true && shouldRenderBottom.value === true ? ' q-field--with-bottom' : '')
-    + (props.disable === true ? ' q-field--disabled' : (props.readonly === true ? ' q-field--readonly' : ''))
+  const classes = computed(
+    () =>
+      `q-field row no-wrap items-start q-field--${styleType.value}` +
+      (state.fieldClass !== void 0 ? ` ${state.fieldClass.value}` : '') +
+      (props.rounded === true ? ' q-field--rounded' : '') +
+      (props.square === true ? ' q-field--square' : '') +
+      (floatingLabel.value === true ? ' q-field--float' : '') +
+      (hasLabel.value === true ? ' q-field--labeled' : '') +
+      (props.dense === true ? ' q-field--dense' : '') +
+      (props.itemAligned === true ? ' q-field--item-aligned q-item-type' : '') +
+      (state.isDark.value === true ? ' q-field--dark' : '') +
+      (state.getControl === void 0 ? ' q-field--auto-height' : '') +
+      (state.focused.value === true ? ' q-field--focused' : '') +
+      (hasError.value === true ? ' q-field--error' : '') +
+      (hasError.value === true || state.focused.value === true
+        ? ' q-field--highlighted'
+        : '') +
+      (props.hideBottomSpace !== true && shouldRenderBottom.value === true
+        ? ' q-field--with-bottom'
+        : '') +
+      (props.disable === true
+        ? ' q-field--disabled'
+        : props.readonly === true
+          ? ' q-field--readonly'
+          : '')
   )
 
-  const contentClass = computed(() =>
-    'q-field__control relative-position row no-wrap'
-    + (props.bgColor !== void 0 ? ` bg-${ props.bgColor }` : '')
-    + (
-      hasError.value === true
+  const contentClass = computed(
+    () =>
+      'q-field__control relative-position row no-wrap' +
+      (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : '') +
+      (hasError.value === true
         ? ' text-negative'
-        : (
-            typeof props.standout === 'string' && props.standout.length !== 0 && state.focused.value === true
-              ? ` ${ props.standout }`
-              : (props.color !== void 0 ? ` text-${ props.color }` : '')
-          )
-    )
+        : typeof props.standout === 'string' &&
+            props.standout.length !== 0 &&
+            state.focused.value === true
+          ? ` ${props.standout}`
+          : props.color !== void 0
+            ? ` text-${props.color}`
+            : '')
   )
 
-  const hasLabel = computed(() =>
-    props.labelSlot === true || props.label !== void 0
+  const hasLabel = computed(
+    () => props.labelSlot === true || props.label !== void 0
   )
 
-  const labelClass = computed(() =>
-    'q-field__label no-pointer-events absolute ellipsis'
-    + (props.labelColor !== void 0 && hasError.value !== true ? ` text-${ props.labelColor }` : '')
+  const labelClass = computed(
+    () =>
+      'q-field__label no-pointer-events absolute ellipsis' +
+      (props.labelColor !== void 0 && hasError.value !== true
+        ? ` text-${props.labelColor}`
+        : '')
   )
 
   const controlSlotScope = computed(() => ({
@@ -257,29 +304,32 @@ export default function (state) {
     }
 
     if (props.disable === true) {
-      acc[ 'aria-disabled' ] = 'true'
+      acc['aria-disabled'] = 'true'
     }
 
     return acc
   })
 
-  function focusHandler () {
+  function focusHandler() {
     const el = document.activeElement
     let target = state.targetRef?.value
 
     if (target && (el === null || el.id !== state.targetUid.value)) {
-      target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
+      if (target.hasAttribute('tabindex') !== true) {
+        target = target.querySelector('[tabindex]')
+      }
+
       if (target !== el) {
         target?.focus({ preventScroll: true })
       }
     }
   }
 
-  function focus () {
+  function focus() {
     addFocusFn(focusHandler)
   }
 
-  function blur () {
+  function blur() {
     removeFocusFn(focusHandler)
     const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
@@ -287,7 +337,7 @@ export default function (state) {
     }
   }
 
-  function onControlFocusin (e) {
+  function onControlFocusin(e) {
     if (focusoutTimer !== null) {
       clearTimeout(focusoutTimer)
       focusoutTimer = null
@@ -299,19 +349,20 @@ export default function (state) {
     }
   }
 
-  function onControlFocusout (e, then) {
-    focusoutTimer !== null && clearTimeout(focusoutTimer)
+  function onControlFocusout(e, then) {
+    if (focusoutTimer !== null) clearTimeout(focusoutTimer)
     focusoutTimer = setTimeout(() => {
       focusoutTimer = null
 
       if (
-        document.hasFocus() === true && (
-          state.hasPopupOpen === true
-          || state.controlRef === void 0
-          || state.controlRef.value === null
-          || state.controlRef.value.contains(document.activeElement) !== false
-        )
-      ) return
+        document.hasFocus() === true &&
+        (state.hasPopupOpen === true ||
+          state.controlRef === void 0 ||
+          state.controlRef.value === null ||
+          state.controlRef.value.contains(document.activeElement) !== false)
+      ) {
+        return
+      }
 
       if (state.focused.value === true) {
         state.focused.value = false
@@ -322,15 +373,14 @@ export default function (state) {
     })
   }
 
-  function clearValue (e) {
+  function clearValue(e) {
     // prevent activating the field but keep focus on desktop
     stopAndPrevent(e)
 
     if ($q.platform.is.mobile !== true) {
       const el = state.targetRef?.value || state.rootRef.value
       el.focus()
-    }
-    else if (state.rootRef.value.contains(document.activeElement) === true) {
+    } else if (state.rootRef.value.contains(document.activeElement) === true) {
       document.activeElement.blur()
     }
 
@@ -342,7 +392,7 @@ export default function (state) {
     }
 
     emit('update:modelValue', null)
-    state.changeEvent === true && emit('change', null)
+    if (state.changeEvent === true) emit('change', null)
     emit('clear', props.modelValue)
 
     nextTick(() => {
@@ -352,32 +402,46 @@ export default function (state) {
     })
   }
 
-  function onClearableKeyup (evt) {
-    [ 13, 32 ].includes(evt.keyCode) && clearValue(evt)
+  function onClearableKeyup(evt) {
+    if ([13, 32].includes(evt.keyCode)) clearValue(evt)
   }
 
-  function getContent () {
+  function getContent() {
     const node = []
 
-    slots.prepend !== void 0 && node.push(
-      h('div', {
-        class: 'q-field__prepend q-field__marginal row no-wrap items-center',
-        key: 'prepend',
-        onClick: prevent
-      }, slots.prepend())
-    )
+    if (slots.prepend !== void 0) {
+      node.push(
+        h(
+          'div',
+          {
+            class:
+              'q-field__prepend q-field__marginal row no-wrap items-center',
+            key: 'prepend',
+            onClick: prevent
+          },
+          slots.prepend()
+        )
+      )
+    }
 
     node.push(
-      h('div', {
-        class: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
-      }, getControlContainer())
+      h(
+        'div',
+        {
+          class:
+            'q-field__control-container col relative-position row no-wrap q-anchor--skip'
+        },
+        getControlContainer()
+      )
     )
 
-    hasError.value === true && props.noErrorIcon === false && node.push(
-      getInnerAppendNode('error', [
-        h(QIcon, { name: $q.iconSet.field.error, color: 'negative' })
-      ])
-    )
+    if (hasError.value === true && props.noErrorIcon === false) {
+      node.push(
+        getInnerAppendNode('error', [
+          h(QIcon, { name: $q.iconSet.field.error, color: 'negative' })
+        ])
+      )
+    }
 
     if (props.loading === true || state.innerLoading.value === true) {
       node.push(
@@ -385,11 +449,14 @@ export default function (state) {
           'inner-loading-append',
           slots.loading !== void 0
             ? slots.loading()
-            : [ h(QSpinner, { color: props.color }) ]
+            : [h(QSpinner, { color: props.color })]
         )
       )
-    }
-    else if (props.clearable === true && state.hasValue.value === true && state.editable.value === true) {
+    } else if (
+      props.clearable === true &&
+      state.hasValue.value === true &&
+      state.editable.value === true
+    ) {
       node.push(
         getInnerAppendNode('inner-clearable-append', [
           h(QIcon, {
@@ -406,45 +473,61 @@ export default function (state) {
       )
     }
 
-    slots.append !== void 0 && node.push(
-      h('div', {
-        class: 'q-field__append q-field__marginal row no-wrap items-center',
-        key: 'append',
-        onClick: prevent
-      }, slots.append())
-    )
+    if (slots.append !== void 0) {
+      node.push(
+        h(
+          'div',
+          {
+            class: 'q-field__append q-field__marginal row no-wrap items-center',
+            key: 'append',
+            onClick: prevent
+          },
+          slots.append()
+        )
+      )
+    }
 
-    state.getInnerAppend !== void 0 && node.push(
-      getInnerAppendNode('inner-append', state.getInnerAppend())
-    )
+    if (state.getInnerAppend !== void 0) {
+      node.push(getInnerAppendNode('inner-append', state.getInnerAppend()))
+    }
 
-    state.getControlChild !== void 0 && node.push(
-      state.getControlChild()
-    )
+    if (state.getControlChild !== void 0) {
+      node.push(state.getControlChild())
+    }
 
     return node
   }
 
-  function getControlContainer () {
+  function getControlContainer() {
     const node = []
 
-    props.prefix !== void 0 && props.prefix !== null && node.push(
-      h('div', {
-        class: 'q-field__prefix no-pointer-events row items-center'
-      }, props.prefix)
-    )
-
-    if (state.getShadowControl !== void 0 && state.hasShadow.value === true) {
+    if (props.prefix !== void 0 && props.prefix !== null) {
       node.push(
-        state.getShadowControl()
+        h(
+          'div',
+          {
+            class: 'q-field__prefix no-pointer-events row items-center'
+          },
+          props.prefix
+        )
       )
     }
 
-    hasLabel.value === true && node.push(
-      h('div', {
-        class: labelClass.value
-      }, hSlot(slots.label, props.label))
-    )
+    if (state.getShadowControl !== void 0 && state.hasShadow.value === true) {
+      node.push(state.getShadowControl())
+    }
+
+    if (hasLabel.value === true) {
+      node.push(
+        h(
+          'div',
+          {
+            class: labelClass.value
+          },
+          hSlot(slots.label, props.label)
+        )
+      )
+    }
 
     if (state.getControl !== void 0) {
       node.push(state.getControl())
@@ -452,47 +535,53 @@ export default function (state) {
     // internal usage only:
     else if (slots.rawControl !== void 0) {
       node.push(slots.rawControl())
-    }
-    else if (slots.control !== void 0) {
+    } else if (slots.control !== void 0) {
       node.push(
-        h('div', {
-          ref: state.targetRef,
-          class: 'q-field__native row',
-          tabindex: -1,
-          ...state.splitAttrs.attributes.value,
-          'data-autofocus': props.autofocus === true || void 0
-        }, slots.control(controlSlotScope.value))
+        h(
+          'div',
+          {
+            ref: state.targetRef,
+            class: 'q-field__native row',
+            tabindex: -1,
+            ...state.splitAttrs.attributes.value,
+            'data-autofocus': props.autofocus === true || void 0
+          },
+          slots.control(controlSlotScope.value)
+        )
       )
     }
 
-    props.suffix !== void 0 && props.suffix !== null && node.push(
-      h('div', {
-        class: 'q-field__suffix no-pointer-events row items-center'
-      }, props.suffix)
-    )
+    if (props.suffix !== void 0 && props.suffix !== null) {
+      node.push(
+        h(
+          'div',
+          {
+            class: 'q-field__suffix no-pointer-events row items-center'
+          },
+          props.suffix
+        )
+      )
+    }
 
     return node.concat(hSlot(slots.default))
   }
 
-  function getBottom () {
+  function getBottom() {
     let msg, key
 
     if (hasError.value === true) {
       if (errorMessage.value !== null) {
-        msg = [ h('div', { role: 'alert' }, errorMessage.value) ]
-        key = `q--slot-error-${ errorMessage.value }`
-      }
-      else {
+        msg = [h('div', { role: 'alert' }, errorMessage.value)]
+        key = `q--slot-error-${errorMessage.value}`
+      } else {
         msg = hSlot(slots.error)
         key = 'q--slot-error'
       }
-    }
-    else if (props.hideHint !== true || state.focused.value === true) {
+    } else if (props.hideHint !== true || state.focused.value === true) {
       if (props.hint !== void 0) {
-        msg = [ h('div', props.hint) ]
-        key = `q--slot-hint-${ props.hint }`
-      }
-      else {
+        msg = [h('div', props.hint)]
+        key = `q--slot-hint-${props.hint}`
+      } else {
         msg = hSlot(slots.hint)
         key = 'q--slot-hint'
       }
@@ -501,40 +590,62 @@ export default function (state) {
     const hasCounter = props.counter === true || slots.counter !== void 0
 
     if (
-      props.hideBottomSpace === true
-      && hasCounter === false
-      && msg === void 0
-    ) return
+      props.hideBottomSpace === true &&
+      hasCounter === false &&
+      msg === void 0
+    ) {
+      return
+    }
 
-    const main = h('div', {
-      key,
-      class: 'q-field__messages col'
-    }, msg)
+    const main = h(
+      'div',
+      {
+        key,
+        class: 'q-field__messages col'
+      },
+      msg
+    )
 
-    return h('div', {
-      class: 'q-field__bottom row items-start q-field__bottom--'
-        + (props.hideBottomSpace !== true ? 'animated' : 'stale'),
-      onClick: prevent
-    }, [
-      props.hideBottomSpace === true
-        ? main
-        : h(Transition, { name: 'q-transition--field-message' }, () => main),
+    return h(
+      'div',
+      {
+        class:
+          'q-field__bottom row items-start q-field__bottom--' +
+          (props.hideBottomSpace !== true ? 'animated' : 'stale'),
+        onClick: prevent
+      },
+      [
+        props.hideBottomSpace === true
+          ? main
+          : h(Transition, { name: 'q-transition--field-message' }, () => main),
 
-      hasCounter === true
-        ? h('div', {
-          class: 'q-field__counter'
-        }, slots.counter !== void 0 ? slots.counter() : state.computedCounter.value)
-        : null
-    ])
+        hasCounter === true
+          ? h(
+              'div',
+              {
+                class: 'q-field__counter'
+              },
+              slots.counter !== void 0
+                ? slots.counter()
+                : state.computedCounter.value
+            )
+          : null
+      ]
+    )
   }
 
-  function getInnerAppendNode (key, content) {
+  function getInnerAppendNode(key, content) {
     return content === null
       ? null
-      : h('div', {
-        key,
-        class: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip'
-      }, content)
+      : h(
+          'div',
+          {
+            key,
+            class:
+              'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip'
+          },
+          content
+        )
   }
 
   let shouldActivate = false
@@ -544,66 +655,88 @@ export default function (state) {
   })
 
   onActivated(() => {
-    shouldActivate === true && props.autofocus === true && proxy.focus()
+    if (shouldActivate === true && props.autofocus === true) {
+      proxy.focus()
+    }
   })
 
-  props.autofocus === true && onMounted(() => {
-    proxy.focus()
-  })
+  if (props.autofocus === true) {
+    onMounted(() => {
+      proxy.focus()
+    })
+  }
 
   onBeforeUnmount(() => {
-    focusoutTimer !== null && clearTimeout(focusoutTimer)
+    if (focusoutTimer !== null) clearTimeout(focusoutTimer)
   })
 
   // expose public methods
   Object.assign(proxy, { focus, blur })
 
-  return function renderField () {
-    const labelAttrs = state.getControl === void 0 && slots.control === void 0
-      ? {
-          ...state.splitAttrs.attributes.value,
-          'data-autofocus': props.autofocus === true || void 0,
-          ...attributes.value
-        }
-      : attributes.value
+  return function renderField() {
+    const labelAttrs =
+      state.getControl === void 0 && slots.control === void 0
+        ? {
+            ...state.splitAttrs.attributes.value,
+            'data-autofocus': props.autofocus === true || void 0,
+            ...attributes.value
+          }
+        : attributes.value
 
-    return h(state.tag.value, {
-      ref: state.rootRef,
-      class: [
-        classes.value,
-        attrs.class
-      ],
-      style: attrs.style,
-      ...labelAttrs
-    }, [
-      slots.before !== void 0
-        ? h('div', {
-          class: 'q-field__before q-field__marginal row no-wrap items-center',
-          onClick: prevent
-        }, slots.before())
-        : null,
+    return h(
+      state.tag.value,
+      {
+        ref: state.rootRef,
+        class: [classes.value, attrs.class],
+        style: attrs.style,
+        ...labelAttrs
+      },
+      [
+        slots.before !== void 0
+          ? h(
+              'div',
+              {
+                class:
+                  'q-field__before q-field__marginal row no-wrap items-center',
+                onClick: prevent
+              },
+              slots.before()
+            )
+          : null,
 
-      h('div', {
-        class: 'q-field__inner relative-position col self-stretch'
-      }, [
-        h('div', {
-          ref: state.controlRef,
-          class: contentClass.value,
-          tabindex: -1,
-          ...state.controlEvents
-        }, getContent()),
+        h(
+          'div',
+          {
+            class: 'q-field__inner relative-position col self-stretch'
+          },
+          [
+            h(
+              'div',
+              {
+                ref: state.controlRef,
+                class: contentClass.value,
+                tabindex: -1,
+                ...state.controlEvents
+              },
+              getContent()
+            ),
 
-        shouldRenderBottom.value === true
-          ? getBottom()
+            shouldRenderBottom.value === true ? getBottom() : null
+          ]
+        ),
+
+        slots.after !== void 0
+          ? h(
+              'div',
+              {
+                class:
+                  'q-field__after q-field__marginal row no-wrap items-center',
+                onClick: prevent
+              },
+              slots.after()
+            )
           : null
-      ]),
-
-      slots.after !== void 0
-        ? h('div', {
-          class: 'q-field__after q-field__marginal row no-wrap items-center',
-          onClick: prevent
-        }, slots.after())
-        : null
-    ])
+      ]
+    )
   }
 }

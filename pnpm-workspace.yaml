@@ -12,20 +12,16 @@ packages:
   - docs
   - utils/render-ssr-error
   - utils/ssl-certificate
-  - utils/eslint-config
-  - playground/app-vite-ts
 
 # The packages below are not included. Use their individual folders.
 # - icongenie
 # - utils/babel-preset-app
 # - utils/ssr-helpers
 
-catalog:
-  eslint: ^9.37.0
-
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - core-js
   - electron-winstaller
   - esbuild
+  - lightningcss
   - unrs-resolver

@@ -26,7 +26,7 @@
     />
 
     <q-badge color="secondary">
-      Model: {{ orangeModel }}<br>(0 to 16, step 2, marker step 4)
+      Model: {{ orangeModel }}<br />(0 to 16, step 2, marker step 4)
     </q-badge>
     <q-range
       v-model="orangeModel"
@@ -45,7 +45,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       marker: ref({
         min: 6,

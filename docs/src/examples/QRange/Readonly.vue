@@ -1,12 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-range
-      v-model="standard"
-      color="secondary"
-      :min="0"
-      :max="50"
-      readonly
-    />
+    <q-range v-model="standard" color="secondary" :min="0" :max="50" readonly />
   </div>
 </template>
 
@@ -14,7 +8,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       standard: ref({
         min: 10,

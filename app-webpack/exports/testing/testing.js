@@ -11,7 +11,9 @@ const { quasarSpaConfig } = require('../../lib/modes/spa/spa-config.js')
  * @param {*} ctxParams
  * @returns {Promise<import('webpack').Configuration>}
  */
-module.exports.getTestingConfig = async function getTestingConfig (ctxParams = {}) {
+module.exports.getTestingConfig = async function getTestingConfig(
+  ctxParams = {}
+) {
   const ctx = getCtx({
     mode: 'spa',
     dev: true,

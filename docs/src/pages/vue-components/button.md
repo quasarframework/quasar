@@ -8,6 +8,7 @@ related:
   - /vue-components/button-dropdown
   - /vue-components/button-toggle
 ---
+
 Quasar has a component called QBtn which is a button with a few extra useful features. For instance, it comes in two shapes: rectangle (default) and round. It also has the material ripple effect baked in (which can be disabled).
 
 The button component also comes with a spinner or loading effect. You would use this for times when app execution may cause a delay and you want to give the user some feedback about that delay. When used, the button will display a spinning animation as soon as the user clicks the button.
@@ -79,9 +80,10 @@ Should you wish, you can also display a deterministic progress within the button
 ### Connecting to Vue Router <q-badge label="updated on v2.9+" />
 
 ::: warning UMD usage
-* If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project (Quasar CLI projects have this out of the box). Otherwise use the alternative `href` prop.
-* Due to the above, some of the QBtn below won't work in Codepen/jsFiddle too.
-:::
+
+- If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project (Quasar CLI projects have this out of the box). Otherwise use the alternative `href` prop.
+- Due to the above, some of the QBtn below won't work in Codepen/jsFiddle too.
+  :::
 
 ::: tip
 Prefer the Vue Router props over `href` when you can, because with `href` you will trigger a window navigation instead of an in-page Vue Router navigation.
@@ -106,6 +108,7 @@ For more convoluted use-cases, you can also directly use the native Vue `<router
 <DocExample title="Disable" file="Disabled" />
 
 ### Controlling the button for form submission
+
 When you have a button to submit a form's input to the server, like a "Save" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.
 
 ::: warning

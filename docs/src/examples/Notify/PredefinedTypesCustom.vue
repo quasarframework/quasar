@@ -1,8 +1,18 @@
 <template>
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
-      <q-btn no-caps color="brown" @click="triggerCustomRegisteredType1" label="Trigger 1" />
-      <q-btn no-caps color="primary" @click="triggerCustomRegisteredType2" label="Trigger 2" />
+      <q-btn
+        no-caps
+        color="brown"
+        @click="triggerCustomRegisteredType1"
+        label="Trigger 1"
+      />
+      <q-btn
+        no-caps
+        color="primary"
+        @click="triggerCustomRegisteredType2"
+        label="Trigger 2"
+      />
     </div>
   </div>
 </template>
@@ -11,7 +21,7 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     /**
@@ -34,21 +44,21 @@ export default {
     })
 
     return {
-      triggerCustomRegisteredType1 () {
+      triggerCustomRegisteredType1() {
         $q.notify({
           type: 'my-notif',
           message: 'This notification is using a custom type.'
         })
       },
 
-      triggerCustomRegisteredType2 () {
+      triggerCustomRegisteredType2() {
         // this one overrides some of the original
         // options of the "my-notif" registered type
         $q.notify({
           type: 'my-notif',
           icon: 'contactless',
           message: 'This notification is using a custom type.',
-          caption: 'It overrides the type\'s default icon and color.',
+          caption: "It overrides the type's default icon and color.",
           color: 'primary'
         })
       }

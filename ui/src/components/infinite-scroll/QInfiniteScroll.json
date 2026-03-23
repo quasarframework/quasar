@@ -12,7 +12,7 @@
     },
 
     "debounce": {
-      "type": [ "String", "Number" ],
+      "type": ["String", "Number"],
       "desc": "Debounce amount (in milliseconds)",
       "default": "100",
       "category": "behavior"

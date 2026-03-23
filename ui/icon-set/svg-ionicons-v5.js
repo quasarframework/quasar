@@ -1,4 +1,3 @@
-
 import {
   ionCheckmark,
   ionAlert,
@@ -125,7 +124,8 @@ export default {
     now: ionTime,
     today: ionCalendar
   },
-  editor: { // requires Material icons for some as Ionicons simply does not have everything needed
+  editor: {
+    // requires Material icons for some as Ionicons simply does not have everything needed
     hyperlink: ionLink,
     toggleFullscreen: ionExpand,
     quote: ionChatboxEllipses,

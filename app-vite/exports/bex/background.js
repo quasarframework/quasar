@@ -1,15 +1,15 @@
 import { BexBridge } from './private/bex-bridge.js'
 
-function interceptRequests (devServerPort) {
+function interceptRequests(devServerPort) {
   /**
    * We intercept all fetch requests from the extension page and redirect them to the dev server
    * for HMR purposes.
    */
 
-  const bexOrigin = `chrome-extension://${ chrome.runtime.id }`
+  const bexOrigin = `chrome-extension://${chrome.runtime.id}`
   const hrefRE = /=$|=(?=&)/g
 
-  async function getDevServerResponse (url) {
+  async function getDevServerResponse(url) {
     // point it to the dev server
     url.protocol = 'http:'
     url.host = 'localhost'
@@ -19,14 +19,13 @@ function interceptRequests (devServerPort) {
     url.searchParams.set('t', Date.now())
 
     // fetch the requested resource
-    const request = await fetch(
-      url.href.replace(hrefRE, '')
-    )
+    const request = await fetch(url.href.replace(hrefRE, ''))
 
     // and return it wrapped as if it comes from the extension
     return new Response(request.body, {
       headers: {
-        'Content-Type': request.headers.get('Content-Type') || 'text/javascript',
+        'Content-Type':
+          request.headers.get('Content-Type') || 'text/javascript',
         'Cache-Control': request.headers.get('Cache-Control') || ''
       }
     })
@@ -36,27 +35,27 @@ function interceptRequests (devServerPort) {
     const url = new URL(evt.request.url)
 
     if (url.origin === bexOrigin) {
-      evt.respondWith(
-        getDevServerResponse(url)
-      )
+      evt.respondWith(getDevServerResponse(url))
     }
   })
 }
 
-function connectToDevServer (devServerPort, wsToken) {
-  const pingUrl = `http://localhost:${ devServerPort }/__vite_ping`
-  const socket = new WebSocket(`ws://localhost:${ devServerPort }?token=${ wsToken }`, 'vite-hmr')
+function connectToDevServer(devServerPort, wsToken) {
+  const pingUrl = `http://localhost:${devServerPort}/__vite_ping`
+  const socket = new WebSocket(
+    `ws://localhost:${devServerPort}?token=${wsToken}`,
+    'vite-hmr'
+  )
 
   const contentScriptPortList = new Set()
   const contentScriptPortNameRE = /^quasar@hmr\/content-script\//
 
-  function reloadExtension () {
+  function reloadExtension() {
     const len = contentScriptPortList.size
-    const suffix = len !== 0
-      ? ` along with ${ len } content script${ len > 1 ? 's' : '' }`
-      : ''
+    const suffix =
+      len !== 0 ? ` along with ${len} content script${len > 1 ? 's' : ''}` : ''
 
-    console.log(`[QBex|HMR] Reloading extension${ suffix }...`)
+    console.log(`[QBex|HMR] Reloading extension${suffix}...`)
 
     for (const port of contentScriptPortList) {
       port.postMessage('qbex:hmr:reload-content')
@@ -90,16 +89,17 @@ function connectToDevServer (devServerPort, wsToken) {
     while (true) {
       try {
         if (tries > 2000) {
-          console.log('[QBex|HMR] Aborting re-connect after 2000 failed attempts. Please manually reload the extension.')
+          console.log(
+            '[QBex|HMR] Aborting re-connect after 2000 failed attempts. Please manually reload the extension.'
+          )
           return
         }
 
         await fetch(pingUrl)
         break
-      }
-      catch (_) {
+      } catch {
         console.log('[QBex|HMR] Could not re-connect. Retrying...')
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 1000))
         tries++
       }
     }
@@ -136,7 +136,7 @@ if (process.env.DEV === true && process.env.TARGET === 'chrome') {
 
 let scriptHasBridge = false
 
-export function createBridge ({ debug } = {}) {
+export function createBridge({ debug } = {}) {
   if (scriptHasBridge === true) {
     console.error('Background Quasar Bridge has already been created.')
     return

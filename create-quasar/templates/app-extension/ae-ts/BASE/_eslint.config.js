@@ -1,11 +1,12 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 import pluginVue from 'eslint-plugin-vue';
 import configPrettier from 'eslint-config-prettier';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 import { version as vueVersion } from 'vue';
 
-export default tseslint.config(
+export default defineConfig(
   {
     name: 'eslint/recommended',
     ...eslint.configs.recommended,

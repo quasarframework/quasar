@@ -20,7 +20,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       onlyRange: ref({
         min: 10,

@@ -4,6 +4,7 @@ desc: Quasar commit conventions
 ---
 
 ## Goals
+
 - Allow ignoring commits by git bisect (not important commits like formatting)
 - Provide better information when browsing the history
 

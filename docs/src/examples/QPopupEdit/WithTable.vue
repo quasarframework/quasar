@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-   <q-table
+    <q-table
       :rows="rows"
       :columns="columns"
       title="QDataTable with QPopupEdit"
@@ -11,24 +11,56 @@
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name" title="Edit the Name" auto-save v-slot="scope">
-              <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+            <q-popup-edit
+              v-model="props.row.name"
+              title="Edit the Name"
+              auto-save
+              v-slot="scope"
+            >
+              <q-input
+                v-model="scope.value"
+                dense
+                autofocus
+                counter
+                @keyup.enter="scope.set"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model.number="props.row.calories" auto-save v-slot="scope">
-              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
+            <q-popup-edit
+              v-model.number="props.row.calories"
+              auto-save
+              v-slot="scope"
+            >
+              <q-input
+                type="number"
+                v-model.number="scope.value"
+                dense
+                autofocus
+                @keyup.enter="scope.set"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
             {{ props.row.fat }}
-            <q-popup-edit disable v-model="props.row.fat" auto-save v-slot="scope">
+            <q-popup-edit
+              disable
+              v-model="props.row.fat"
+              auto-save
+              v-slot="scope"
+            >
               <div class="text-italic text-primary q-mb-xs">
                 My Custom Title
               </div>
 
-              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
+              <q-input
+                type="number"
+                v-model.number="scope.value"
+                dense
+                autofocus
+                @keyup.enter="scope.set"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
@@ -43,10 +75,13 @@
           <q-td key="calcium" :props="props">
             {{ props.row.calcium }}
             <q-popup-edit v-model="props.row.calcium" v-slot="scope">
-              <div class="text-italic text-primary">
-                My Custom Title
-              </div>
-              <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
+              <div class="text-italic text-primary"> My Custom Title </div>
+              <q-input
+                v-model="scope.value"
+                dense
+                autofocus
+                @keyup.enter="scope.set"
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="iron" :props="props">
@@ -62,7 +97,12 @@
 import { ref } from 'vue'
 
 const columns = [
-  { name: 'desc', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
+  {
+    name: 'desc',
+    align: 'left',
+    label: 'Dessert (100g serving)',
+    field: 'name'
+  },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
   { name: 'fat', label: 'Fat (g)', field: 'fat' },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
@@ -176,7 +216,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       rows: ref(rows),
       columns

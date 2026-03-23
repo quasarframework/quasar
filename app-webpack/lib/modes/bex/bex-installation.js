@@ -9,7 +9,7 @@ const { isModeInstalled } = require('../modes-utils.js')
  *   silent: boolean
  * }} options
  */
-module.exports.addMode = async function addMode ({
+module.exports.addMode = function addMode({
   ctx: { appPaths, cacheProxy },
   silent
 }) {
@@ -27,7 +27,7 @@ module.exports.addMode = async function addMode ({
 
   const hasTypescript = cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'js'
-  fse.copySync(appPaths.resolve.cli(`templates/bex/${ format }`), appPaths.bexDir)
+  fse.copySync(appPaths.resolve.cli(`templates/bex/${format}`), appPaths.bexDir)
 
   log('Browser Extension support was added')
 }
@@ -37,9 +37,7 @@ module.exports.addMode = async function addMode ({
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  * }} options
  */
-module.exports.removeMode = function removeMode ({
-  ctx: { appPaths }
-}) {
+module.exports.removeMode = function removeMode({ ctx: { appPaths } }) {
   if (isModeInstalled(appPaths, 'bex') === false) {
     warn('No Browser Extension support detected. Aborting.')
     return

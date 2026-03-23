@@ -21,7 +21,13 @@ export interface SsrDriver extends Record<string, unknown> {}
  */
 export interface SsrDriverTypes {
   app: unknown extends SsrDriver["app"] ? Application : SsrDriver["app"];
-  listenResult: unknown extends SsrDriver["listenResult"] ? Server : SsrDriver["listenResult"];
-  request: unknown extends SsrDriver["request"] ? Request : SsrDriver["request"];
-  response: unknown extends SsrDriver["response"] ? Response : SsrDriver["response"];
+  listenResult: unknown extends SsrDriver["listenResult"]
+    ? Server
+    : SsrDriver["listenResult"];
+  request: unknown extends SsrDriver["request"]
+    ? Request
+    : SsrDriver["request"];
+  response: unknown extends SsrDriver["response"]
+    ? Response
+    : SsrDriver["response"];
 }

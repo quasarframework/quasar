@@ -40,13 +40,13 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
-      onMainClick () {
+      onMainClick() {
         // console.log('Clicked on main button')
       },
 
-      onItemClick () {
+      onItemClick() {
         // console.log('Clicked on an Item')
       }
     }

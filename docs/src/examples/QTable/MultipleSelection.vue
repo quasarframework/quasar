@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      flat bordered
+      flat
+      bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -11,9 +12,7 @@
       v-model:selected="selected"
     />
 
-    <div class="q-mt-md">
-      Selected: {{ JSON.stringify(selected) }}
-    </div>
+    <div class="q-mt-md"> Selected: {{ JSON.stringify(selected) }} </div>
   </div>
 </template>
 
@@ -30,13 +29,31 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const rows = [
@@ -143,7 +160,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const selected = ref([])
 
     return {
@@ -151,8 +168,10 @@ export default {
       columns,
       rows,
 
-      getSelectedString () {
-        return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
+      getSelectedString() {
+        return selected.value.length === 0
+          ? ''
+          : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
       }
     }
   }

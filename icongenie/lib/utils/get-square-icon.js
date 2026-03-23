@@ -1,7 +1,6 @@
-
 import { warn } from '../utils/logger.js'
 
-export function getSquareIcon ({
+export function getSquareIcon({
   file,
   icon,
   size,
@@ -26,7 +25,9 @@ export function getSquareIcon ({
   }
 
   if (corrections.length > 0) {
-    warn(`Correction on padding for ${ file.relativeName } due to padding exceeding file's dimension of ${ size }x${ size }px`)
+    warn(
+      `Correction on padding for ${file.relativeName} due to padding exceeding file's dimension of ${size}x${size}px`
+    )
   }
 
   img.resize({

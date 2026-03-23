@@ -7,21 +7,32 @@ import { usePanelChildProps } from '../../composables/private.use-panel/use-pane
 import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { stepperKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
+import {
+  stepperKey,
+  emptyRenderFn
+} from '../../utils/private.symbols/symbols.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-function getStepWrapper (slots) {
-  return h('div', {
-    class: 'q-stepper__step-content'
-  }, [
-    h('div', {
-      class: 'q-stepper__step-inner'
-    }, hSlot(slots.default))
-  ])
+function getStepWrapper(slots) {
+  return h(
+    'div',
+    {
+      class: 'q-stepper__step-content'
+    },
+    [
+      h(
+        'div',
+        {
+          class: 'q-stepper__step-inner'
+        },
+        hSlot(slots.default)
+      )
+    ]
+  )
 }
 
 const PanelWrapper = {
-  setup (_, { slots }) {
+  setup(_, { slots }) {
     return () => getStepWrapper(slots)
   }
 }
@@ -39,7 +50,7 @@ export default createComponent({
       required: true
     },
     caption: String,
-    prefix: [ String, Number ],
+    prefix: [String, Number],
 
     doneIcon: String,
     doneColor: String,
@@ -55,11 +66,13 @@ export default createComponent({
     done: Boolean,
     error: Boolean,
 
-    onScroll: [ Function, Array ]
+    onScroll: [Function, Array]
   },
 
-  setup (props, { slots, emit }) {
-    const { proxy: { $q } } = getCurrentInstance()
+  setup(props, { slots, emit }) {
+    const {
+      proxy: { $q }
+    } = getCurrentInstance()
 
     const $stepper = inject(stepperKey, emptyRenderFn)
     if ($stepper === emptyRenderFn) {
@@ -73,29 +86,30 @@ export default createComponent({
 
     const isActive = computed(() => $stepper.value.modelValue === props.name)
 
-    const scrollEvent = computed(() => (
-      ($q.platform.is.ios !== true && $q.platform.is.chrome === true)
-        || isActive.value !== true
-        || $stepper.value.vertical !== true
+    const scrollEvent = computed(() =>
+      ($q.platform.is.ios !== true && $q.platform.is.chrome === true) ||
+      isActive.value !== true ||
+      $stepper.value.vertical !== true
         ? {}
         : {
-            onScroll (e) {
+            onScroll(e) {
               const { target } = e
               if (target.scrollTop > 0) {
                 target.scrollTop = 0
               }
-              props.onScroll !== void 0 && emit('scroll', e)
+
+              if (props.onScroll !== void 0) emit('scroll', e)
             }
           }
-    ))
+    )
 
-    const contentKey = computed(() => (
+    const contentKey = computed(() =>
       typeof props.name === 'string' || typeof props.name === 'number'
         ? props.name
         : String(props.name)
-    ))
+    )
 
-    function getStepContent () {
+    function getStepContent() {
       const vertical = $stepper.value.vertical
 
       if (vertical === true && $stepper.value.keepAlive === true) {
@@ -106,7 +120,10 @@ export default createComponent({
             ? [
                 h(
                   $stepper.value.needsUniqueKeepAliveWrapper.value === true
-                    ? getCache(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                    ? getCache(contentKey.value, () => ({
+                        ...PanelWrapper,
+                        name: contentKey.value
+                      }))
                     : PanelWrapper,
                   { key: contentKey.value },
                   slots.default
@@ -121,22 +138,28 @@ export default createComponent({
         : void 0
     }
 
-    return () => h(
-      'div',
-      { ref: rootRef, class: 'q-stepper__step', role: 'tabpanel', ...scrollEvent.value },
-      $stepper.value.vertical === true
-        ? [
-            h(StepHeader, {
-              stepper: $stepper.value,
-              step: props,
-              goToPanel: $stepper.value.goToPanel
-            }),
+    return () =>
+      h(
+        'div',
+        {
+          ref: rootRef,
+          class: 'q-stepper__step',
+          role: 'tabpanel',
+          ...scrollEvent.value
+        },
+        $stepper.value.vertical === true
+          ? [
+              h(StepHeader, {
+                stepper: $stepper.value,
+                step: props,
+                goToPanel: $stepper.value.goToPanel
+              }),
 
-            $stepper.value.animated === true
-              ? h(QSlideTransition, getStepContent)
-              : getStepContent()
-          ]
-        : [ getStepContent() ]
-    )
+              $stepper.value.animated === true
+                ? h(QSlideTransition, getStepContent)
+                : getStepContent()
+            ]
+          : [getStepContent()]
+      )
   }
 })

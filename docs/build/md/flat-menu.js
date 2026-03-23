@@ -8,15 +8,14 @@ const prefix = fileURLToPath(new URL('../../src/pages', import.meta.url))
 let prev = null
 export const flatMenu = {}
 
-function menuWalk (node, path, parentName) {
+function menuWalk(node, path, parentName) {
   const newPath = path + (node.path ? `/${node.path}` : '')
 
   if (node.children !== void 0) {
     node.children.forEach(n => {
       menuWalk(n, newPath, node.name)
     })
-  }
-  else if (!node.external) {
+  } else if (!node.external) {
     const current = {
       name: node.name,
       category: parentName,
@@ -36,9 +35,9 @@ function menuWalk (node, path, parentName) {
       }
     }
 
-    flatMenu[ join(prefix, newPath + '.md') ] = current
+    flatMenu[join(prefix, newPath + '.md')] = current
     // may be folder-based:
-    flatMenu[ join(prefix, newPath + '/' + node.path + '.md') ] = current
+    flatMenu[join(prefix, newPath + '/' + node.path + '.md')] = current
 
     prev = current
   }
@@ -48,17 +47,17 @@ menu.forEach(n => {
   menuWalk(n, '', null)
 })
 
-export function convertToRelated (entry, id) {
-  const menu = flatMenu[ join(prefix, entry + '.md') ]
+export function convertToRelated(entry, id) {
+  const localMenu = flatMenu[join(prefix, entry + '.md')]
 
-  if (!menu) {
+  if (!localMenu) {
     console.error('[flat-menu] ERROR - wrong related link:', entry, '@id', id)
     return {}
   }
 
   return {
-    name: menu.name,
-    category: menu.category,
-    path: menu.path
+    name: localMenu.name,
+    category: localMenu.category,
+    path: localMenu.path
   }
 }

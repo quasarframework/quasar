@@ -59,7 +59,10 @@
       track-color="grey-3"
     >
       <q-avatar size="60px">
-        <img draggable="false" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+        <img
+          draggable="false"
+          src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+        />
       </q-avatar>
     </q-knob>
   </div>
@@ -69,7 +72,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       value: ref(81)
     }

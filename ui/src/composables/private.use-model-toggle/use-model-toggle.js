@@ -8,16 +8,14 @@ export const useModelToggleProps = {
     default: null
   },
 
-  'onUpdate:modelValue': [ Function, Array ]
+  'onUpdate:modelValue': [Function, Array]
 }
 
-export const useModelToggleEmits = [
-  'beforeShow', 'show', 'beforeHide', 'hide'
-]
+export const useModelToggleEmits = ['beforeShow', 'show', 'beforeHide', 'hide']
 
 // handleShow/handleHide -> removeTick(), self (& emit show)
 
-export default function ({
+export default function useModelToggle({
   showing,
   canShow, // optional
   hideOnRouteChange, // optional
@@ -30,23 +28,24 @@ export default function ({
 
   let payload
 
-  function toggle (evt) {
+  function toggle(evt) {
     if (showing.value === true) {
       hide(evt)
-    }
-    else {
+    } else {
       show(evt)
     }
   }
 
-  function show (evt) {
+  function show(evt) {
     if (
-      (props.disable === true)
-      || (evt?.qAnchorHandled === true)
-      || (canShow !== void 0 && canShow(evt) !== true)
-    ) return
+      props.disable === true ||
+      evt?.qAnchorHandled === true ||
+      (canShow !== void 0 && canShow(evt) !== true)
+    ) {
+      return
+    }
 
-    const listener = props[ 'onUpdate:modelValue' ] !== void 0
+    const listener = props['onUpdate:modelValue'] !== void 0
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', true)
@@ -58,12 +57,16 @@ export default function ({
       })
     }
 
-    if (props.modelValue === null || listener === false || __QUASAR_SSR_SERVER__) {
+    if (
+      props.modelValue === null ||
+      listener === false ||
+      __QUASAR_SSR_SERVER__
+    ) {
       processShow(evt)
     }
   }
 
-  function processShow (evt) {
+  function processShow(evt) {
     if (showing.value === true) return
 
     showing.value = true
@@ -72,16 +75,15 @@ export default function ({
 
     if (handleShow !== void 0) {
       handleShow(evt)
-    }
-    else {
+    } else {
       emit('show', evt)
     }
   }
 
-  function hide (evt) {
+  function hide(evt) {
     if (__QUASAR_SSR_SERVER__ || props.disable === true) return
 
-    const listener = props[ 'onUpdate:modelValue' ] !== void 0
+    const listener = props['onUpdate:modelValue'] !== void 0
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', false)
@@ -93,12 +95,16 @@ export default function ({
       })
     }
 
-    if (props.modelValue === null || listener === false || __QUASAR_SSR_SERVER__) {
+    if (
+      props.modelValue === null ||
+      listener === false ||
+      __QUASAR_SSR_SERVER__
+    ) {
       processHide(evt)
     }
   }
 
-  function processHide (evt) {
+  function processHide(evt) {
     if (showing.value === false) return
 
     showing.value = false
@@ -107,19 +113,17 @@ export default function ({
 
     if (handleHide !== void 0) {
       handleHide(evt)
-    }
-    else {
+    } else {
       emit('hide', evt)
     }
   }
 
-  function processModelChange (val) {
+  function processModelChange(val) {
     if (props.disable === true && val === true) {
-      if (props[ 'onUpdate:modelValue' ] !== void 0) {
+      if (props['onUpdate:modelValue'] !== void 0) {
         emit('update:modelValue', false)
       }
-    }
-    else if ((val === true) !== showing.value) {
+    } else if ((val === true) !== showing.value) {
       const fn = val === true ? processShow : processHide
       fn(payload)
     }
@@ -128,16 +132,21 @@ export default function ({
   watch(() => props.modelValue, processModelChange)
 
   if (hideOnRouteChange !== void 0 && vmHasRouter(vm) === true) {
-    watch(() => proxy.$route.fullPath, () => {
-      if (hideOnRouteChange.value === true && showing.value === true) {
-        hide()
+    watch(
+      () => proxy.$route.fullPath,
+      () => {
+        if (hideOnRouteChange.value === true && showing.value === true) {
+          hide()
+        }
       }
-    })
+    )
   }
 
-  processOnMount === true && onMounted(() => {
-    processModelChange(props.modelValue)
-  })
+  if (processOnMount === true) {
+    onMounted(() => {
+      processModelChange(props.modelValue)
+    })
+  }
 
   // expose public methods
   const publicMethods = { show, hide, toggle }

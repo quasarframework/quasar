@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      flat bordered
+      flat
+      bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -34,7 +35,13 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' }
@@ -114,7 +121,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const pagination = ref({
       sortBy: 'desc',
       descending: false,
@@ -128,7 +135,9 @@ export default {
       columns,
       rows,
 
-      pagesNumber: computed(() => Math.ceil(rows.length / pagination.value.rowsPerPage))
+      pagesNumber: computed(() =>
+        Math.ceil(rows.length / pagination.value.rowsPerPage)
+      )
     }
   }
 }

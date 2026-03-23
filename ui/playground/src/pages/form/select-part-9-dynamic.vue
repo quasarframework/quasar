@@ -47,13 +47,15 @@
 </template>
 
 <script>
-const optionNames = [ 'Google', 'Twitter', 'Facebook', 'Apple', 'Oracle' ]
-const options = Array(100000).fill(null).reduce((acc, _, i) => {
-  optionNames.forEach(n => {
-    acc.push(`${ n } - ${ i }`)
-  })
-  return acc
-}, [])
+const optionNames = ['Google', 'Twitter', 'Facebook', 'Apple', 'Oracle']
+const options = Array(100000)
+  .fill(null)
+  .reduce((acc, _, i) => {
+    optionNames.forEach(n => {
+      acc.push(`${n} - ${i}`)
+    })
+    return acc
+  }, [])
 const pageSize = 50
 const lastPage = Math.ceil(options.length / pageSize)
 
@@ -64,27 +66,35 @@ export default {
 
     nextPage: 2,
     loading: false
-
   }),
 
   computed: {
-    filteredOptions () {
+    filteredOptions() {
       if (this.multiple1.some(x => x.indexOf('Google') > -1)) {
-        return options.filter(x => x.indexOf('Twitter') === -1 && x.indexOf('Apple') === -1 && x.indexOf('Oracle') === -1)
+        return options.filter(
+          x =>
+            x.indexOf('Twitter') === -1 &&
+            x.indexOf('Apple') === -1 &&
+            x.indexOf('Oracle') === -1
+        )
       }
       return options
     },
 
-    options () {
+    options() {
       return options.slice(0, pageSize * (this.nextPage - 1))
     }
   },
 
   methods: {
-    onScroll ({ to, ref }) {
+    onScroll({ to, ref }) {
       const lastIndex = this.options.length - 1
 
-      if (this.loading !== true && this.nextPage < lastPage && to === lastIndex) {
+      if (
+        this.loading !== true &&
+        this.nextPage < lastPage &&
+        to === lastIndex
+      ) {
         this.loading = true
 
         setTimeout(() => {

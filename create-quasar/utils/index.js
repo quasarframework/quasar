@@ -1,9 +1,15 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { sep, dirname, normalize, join, resolve, extname } from 'node:path'
-import { spawn, execSync as exec } from 'node:child_process'
+import { execSync as exec } from 'node:child_process'
+import { sync as spawnSync } from 'cross-spawn'
 
-import { emptyDirSync, ensureDirSync, ensureFileSync, copySync } from 'fs-extra/esm'
+import {
+  emptyDirSync,
+  ensureDirSync,
+  ensureFileSync,
+  copySync
+} from 'fs-extra/esm'
 import promptUser from 'prompts'
 import compileTemplate from 'lodash/template.js'
 import { globSync } from 'tinyglobby'
@@ -11,14 +17,24 @@ import { yellow, green } from 'kolorist'
 
 import logger from './logger.js'
 
-const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.cjs', '.ts', '.vue', '.md', '.html', '.sass' ]
+const TEMPLATING_FILE_EXTENSIONS = [
+  '',
+  '.json',
+  '.js',
+  '.cjs',
+  '.ts',
+  '.vue',
+  '.md',
+  '.html',
+  '.sass'
+]
 
 /**
  * @param {Record<string, any>} scope
  * @param {promptUser.PromptObject[]} questions
  * @param {promptUser.Options} opts
  */
-async function prompts (scope, questions, opts) {
+async function prompts(scope, questions, opts) {
   const options = opts || {
     onCancel: () => {
       logger.fatal('Scaffolding cancelled')
@@ -29,7 +45,7 @@ async function prompts (scope, questions, opts) {
   Object.assign(scope, answers)
 }
 
-function createTargetDir (scope) {
+function createTargetDir(scope) {
   console.log()
   logger.log('Generating files...')
   console.log()
@@ -38,10 +54,10 @@ function createTargetDir (scope) {
   fn(scope.projectFolder)
 }
 
-function convertArrayToObject (arr) {
+function convertArrayToObject(arr) {
   const acc = {}
   arr.forEach(key => {
-    acc[ key ] = true
+    acc[key] = true
   })
   return acc
 }
@@ -52,37 +68,30 @@ const runningPackageManager = (() => {
     return
   }
 
-  const [ name, version ] = userAgent.split(' ')[ 0 ].split('/')
+  const [name, version] = userAgent.split(' ')[0].split('/')
   return { name, version }
 })()
 
-function getCallerPath () {
+function getCallerPath() {
   const _prepareStackTrace = Error.prepareStackTrace
   Error.prepareStackTrace = (_, stack) => stack
   const stack = new Error().stack.slice(1)
   Error.prepareStackTrace = _prepareStackTrace
-  const filename = stack[ 1 ].getFileName()
+  const filename = stack[1].getFileName()
   return dirname(
-    filename.startsWith('file://')
-      ? fileURLToPath(filename)
-      : filename
+    filename.startsWith('file://') ? fileURLToPath(filename) : filename
   )
 }
 
-function renderTemplate (relativePath, scope) {
+function renderTemplate(relativePath, scope) {
   const templateDir = join(getCallerPath(), relativePath)
-  const files = globSync([ '**/*' ], { cwd: templateDir })
+  const files = globSync(['**/*'], { cwd: templateDir })
 
   for (const rawPath of files) {
-    const targetRelativePath = rawPath.split('/').map(name => {
-      // dotfiles are ignored when published to npm, therefore in templates
-      // we need to prefix them with an underscore (e.g. "_.gitignore")
-      // Also, some tools like ESLint expect valid config files, therefore
-      // we also prefix files like "package.json" too. (e.g. "_package.json")
-      return name.startsWith('_')
-        ? name.slice(1)
-        : name
-    }).join('/')
+    const targetRelativePath = rawPath
+      .split('/')
+      .map(name => (name.startsWith('_') ? name.slice(1) : name))
+      .join('/')
 
     const targetPath = resolve(scope.projectFolder, targetRelativePath)
     const sourcePath = resolve(templateDir, rawPath)
@@ -90,11 +99,13 @@ function renderTemplate (relativePath, scope) {
 
     ensureFileSync(targetPath)
 
-    console.log(` ${ green('-') } ${ targetRelativePath }`)
+    console.log(` ${green('-')} ${targetRelativePath}`)
 
     if (TEMPLATING_FILE_EXTENSIONS.includes(extension)) {
       const rawContent = readFileSync(sourcePath, 'utf-8')
-      const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
+      const template = compileTemplate(rawContent, {
+        interpolate: /<%=([\s\S]+?)%>/g
+      })
 
       let newContent = template(scope)
       if (extension === '.json') {
@@ -107,20 +118,19 @@ function renderTemplate (relativePath, scope) {
       }
 
       writeFileSync(targetPath, newContent, 'utf-8')
-    }
-    else {
+    } else {
       copySync(sourcePath, targetPath)
     }
   }
 }
 
-function isValidPackageName (projectName) {
+function isValidPackageName(projectName) {
   return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(
     projectName
   )
 }
 
-function inferPackageName (projectFolder) {
+function inferPackageName(projectFolder) {
   return projectFolder
     .trim()
     .toLowerCase()
@@ -129,22 +139,21 @@ function inferPackageName (projectFolder) {
     .replace(/[^a-z0-9-~]+/g, '-')
 }
 
-function escapeString (val) {
+function escapeString(val) {
   return JSON.stringify(val).slice(1, -1)
 }
 
-function getGitUser () {
+function getGitUser() {
   let name
   let email
 
   try {
     name = exec('git config --get user.name')
     email = exec('git config --get user.email')
-  }
-  catch (_) {}
+  } catch {}
 
   name = name && JSON.stringify(name.toString().trim()).slice(1, -1)
-  email = email && (' <' + email.toString().trim() + '>')
+  email = email && ' <' + email.toString().trim() + '>'
 
   return (name || '') + (email || '')
 }
@@ -154,20 +163,28 @@ function getGitUser () {
  *
  * @param {Object} scope Data from questionnaire.
  */
-function printFinalMessage (scope) {
+function printFinalMessage(scope) {
   const verPrefix = scope.quasarVersion ? scope.quasarVersion + '.' : ''
   const message = `
  To get started:
- ${ yellow(`
-   cd ${ scope.projectFolderName }${ scope.skipDepsInstall !== true && scope.packageManager === false ? `
+ ${yellow(`
+   cd ${scope.projectFolderName}${
+     scope.skipDepsInstall !== true && scope.packageManager === false
+       ? `
    yarn #or: npm install
-   yarn lint --fix # or: npm run lint -- --fix` : '' }${ scope.skipDepsInstall !== true ? `
-   quasar dev # or: yarn quasar dev # or: npx quasar dev` : '' }
- `) }
- Documentation can be found at: https://${ verPrefix }quasar.dev
+   yarn lint --fix # or: npm run lint -- --fix`
+       : ''
+   }${
+     scope.skipDepsInstall !== true
+       ? `
+   quasar dev # or: yarn quasar dev # or: npx quasar dev`
+       : ''
+   }
+ `)}
+ Documentation can be found at: https://${verPrefix}quasar.dev
 
  Quasar is relying on donations to evolve. We'd be very grateful if you can
- read our manifest on "Why donations are important": https://${ verPrefix }quasar.dev/why-donate
+ read our manifest on "Why donations are important": https://${verPrefix}quasar.dev/why-donate
  Donation campaign: https://donate.quasar.dev
  Any amount is very welcome.
  If invoices are required, please first contact Razvan Stoenescu.
@@ -181,100 +198,101 @@ function printFinalMessage (scope) {
   console.log(message)
 }
 
-function runCommand (cmd, args, options) {
+function runCommand(cmd, args, options) {
   console.log()
-  return new Promise((resolve, reject) => {
-    const runner = spawn(
-      cmd,
-      args,
-      Object.assign({
-        cwd: process.cwd(),
-        stdio: 'inherit',
-        shell: true
-      }, options)
-    )
 
-    runner.on('exit', code => {
-      console.log()
-
-      if (code) {
-        console.log(` ${ cmd } FAILED...`)
-        console.log()
-        reject()
-      }
-      else {
-        resolve()
-      }
-    })
+  const runner = spawnSync(cmd, args, {
+    cwd: process.cwd(),
+    stdio: 'inherit',
+    ...options
   })
+
+  console.log()
+
+  if (runner.status) {
+    console.log(` ${cmd} FAILED...`)
+    console.log()
+    throw new Error(`${cmd} FAILED`)
+  }
 }
 
-function installDeps (scope) {
-  const args = [ 'install' ]
+function installDeps(scope) {
+  const args = ['install']
   // Related to scripts/create-test-project.ts
   if (process.env.CREATE_TEST_PROJECT_OVERRIDE === 'true') {
     // If we don't use this flag, then the test project will become part of the monorepo and fail to install properly
     args.push('--ignore-workspace')
   }
 
-  return runCommand(
-    scope.packageManager,
-    args,
-    { cwd: scope.projectFolder }
-  )
+  return runCommand(scope.packageManager, args, { cwd: scope.projectFolder })
 }
 
-function lintFolder (scope) {
+function lintFolder(scope) {
   return runCommand(
     scope.packageManager,
     scope.packageManager === 'npm'
-      ? [ 'run', 'lint', '--', '--fix' ]
-      : [ 'run', 'lint', '--fix' ],
+      ? ['run', 'lint', '--', '--fix']
+      : ['run', 'lint', '--fix'],
     { cwd: scope.projectFolder }
   )
 }
 
-function formatFolder (scope) {
-  return runCommand(
-    scope.packageManager,
-    [ 'run', 'format' ],
-    { cwd: scope.projectFolder }
-  )
+function formatFolder(scope) {
+  return runCommand(scope.packageManager, ['run', 'format'], {
+    cwd: scope.projectFolder
+  })
 }
 
-function hasGit () {
+function hasGit() {
   try {
     exec('git --version')
     return true
-  }
-  catch (_) {}
+  } catch {}
 }
 
-function folderHasGit (cwd) {
+function folderHasGit(cwd) {
   try {
     exec('git status', { stdio: 'ignore', cwd })
     return true
-  }
-  catch (_) {}
+  } catch {}
 }
 
-function initializeGit (projectFolder) {
+function initializeGit(projectFolder) {
   if (hasGit() !== true) {
-    logger.log('Git is not installed on the system, so skipping Git repo initialization.')
+    logger.log(
+      'Git is not installed on the system, so skipping Git repo initialization.'
+    )
     return
   }
 
   if (folderHasGit(projectFolder) === true) {
-    logger.log('A parent of the project folder is already a Git repository, so skipping Git initialization.')
+    logger.log(
+      'A parent of the project folder is already a Git repository, so skipping Git initialization.'
+    )
     return
   }
 
   try {
+    logger.log('Initializing Git repository...')
     exec('git init', { cwd: projectFolder })
     exec('git add -A', { cwd: projectFolder })
-    exec('git commit -m "Initialize the project 🚀" --no-verify', { cwd: projectFolder })
-  }
-  catch (_) {
+
+    // Provide useful feedback to the user if they have GPG signing enabled to avoid feeling that the process is hanging
+    try {
+      const needsSigning = exec('git config --get commit.gpgsign', {
+        cwd: projectFolder
+      })
+        .toString()
+        .trim()
+      if (needsSigning === 'true') {
+        logger.log('Creating initial commit (waiting for GPG signing)...')
+      }
+    } catch {}
+
+    exec('git commit -m "Initialize the project 🚀" --no-verify', {
+      cwd: projectFolder
+    })
+  } catch {
     logger.warn('Could not initialize Git repository. Please do this manually.')
     return
   }
@@ -290,14 +308,16 @@ const quasarConfigFilenameList = [
   'quasar.conf.js' // legacy
 ]
 
-function ensureOutsideProject () {
+function ensureOutsideProject() {
   let dir = process.cwd()
 
-  while (dir.length && dir[ dir.length - 1 ] !== sep) {
+  while (dir.length && dir[dir.length - 1] !== sep) {
     for (const name of quasarConfigFilenameList) {
       const filename = join(dir, name)
       if (existsSync(filename)) {
-        logger.fatal('Error. This command must NOT be executed inside of a Quasar project folder.')
+        logger.fatal(
+          'Error. This command must NOT be executed inside of a Quasar project folder.'
+        )
       }
     }
 
@@ -322,10 +342,10 @@ const commonPrompts = {
   productName: {
     type: 'text',
     name: 'productName',
-    message: 'Project product name: (must start with letter if building mobile apps)',
+    message:
+      'Project product name: (must start with letter if building mobile apps)',
     initial: 'Quasar App',
-    validate: val =>
-      (val && val.length > 0) || 'Invalid product name'
+    validate: val => (val && val.length > 0) || 'Invalid product name'
   },
 
   description: {
@@ -334,8 +354,7 @@ const commonPrompts = {
     message: 'Project description:',
     initial: 'A Quasar Project',
     format: escapeString,
-    validate: val =>
-      val.length > 0 || 'Invalid project description'
+    validate: val => val.length > 0 || 'Invalid project description'
   },
 
   license: {
@@ -346,7 +365,7 @@ const commonPrompts = {
   }
 }
 
-export async function injectAuthor (scope) {
+export async function injectAuthor(scope) {
   const author = getGitUser()
 
   if (author) {

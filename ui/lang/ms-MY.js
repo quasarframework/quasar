@@ -15,17 +15,23 @@ export default {
     search: 'Cari',
     filter: 'Saring',
     refresh: 'Muat semula',
-    expand: label => (label ? `Kembangkan "${ label }"` : 'Kembangkan'),
-    collapse: label => (label ? `Runtuhkan "${ label }"` : 'Runtuh')
+    expand: label => (label ? `Kembangkan "${label}"` : 'Kembangkan'),
+    collapse: label => (label ? `Runtuhkan "${label}"` : 'Runtuh')
   },
   date: {
     days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu'.split('_'),
     daysShort: 'Aha_Isn_Sel_Rab_Kha_Jum_Sab'.split('_'),
-    months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
+    months:
+      'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogo_Sep_Okt_Nov_Dis'.split('_'),
-    headerTitle: date => new Intl.DateTimeFormat('my', {
-      weekday: 'short', month: 'short', day: 'numeric'
-    }).format(date),
+    headerTitle: date =>
+      new Intl.DateTimeFormat('my', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      }).format(date),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'hari',
@@ -34,18 +40,17 @@ export default {
     prevYear: 'Tahun sebelumnya',
     nextYear: 'Tahun depan',
     today: 'Hari ini',
-    prevRangeYears: range => `Sebelumnya ${ range } tahun`,
-    nextRangeYears: range => `Seterusnya ${ range } tahun`
+    prevRangeYears: range => `Sebelumnya ${range} tahun`,
+    nextRangeYears: range => `Seterusnya ${range} tahun`
   },
   table: {
     noData: 'Tiada data tersedia',
     noResults: 'Tiada rekod yang sepadan ditemui',
     loading: 'Dalam proses...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 1
         ? rows + ' rekod terpilih.'
-        : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.'
-    ),
+        : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.',
     recordsPerPage: 'Rekod setiap halaman:',
     allRows: 'Semua',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,

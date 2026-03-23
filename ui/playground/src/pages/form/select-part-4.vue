@@ -19,9 +19,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -43,9 +41,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -63,9 +59,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -83,9 +77,7 @@
         >
           <template v-slot:no-option>
             <q-item>
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
+              <q-item-section class="text-grey"> No results </q-item-section>
             </q-item>
           </template>
         </q-select>
@@ -95,12 +87,10 @@
 </template>
 
 <script>
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
 export default {
-  data () {
+  data() {
     return {
       model: null,
       options: stringOptions,
@@ -109,15 +99,15 @@ export default {
     }
   },
   methods: {
-    mykeyup (e) {
+    mykeyup(e) {
       console.log('keyup', e)
       this.outputup = e.key
     },
-    mykeydown (e) {
+    mykeydown(e) {
       console.log('keydown', e)
       this.outputdown = e.key
     },
-    filterFn (val, update) {
+    filterFn(val, update) {
       if (val === '') {
         update(() => {
           this.options = stringOptions
@@ -127,7 +117,9 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this.options = stringOptions.filter(
+          v => v.toLowerCase().indexOf(needle) > -1
+        )
       })
     }
   }

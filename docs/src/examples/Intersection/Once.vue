@@ -3,7 +3,10 @@
     <div class="example-area q-pa-lg scroll">
       <div class="example-filler" />
 
-      <div v-intersection.once="onIntersection" class="example-observed text-center rounded-borders">
+      <div
+        v-intersection.once="onIntersection"
+        class="example-observed text-center rounded-borders"
+      >
         Observed Element
       </div>
 
@@ -23,7 +26,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const visible = ref(false)
 
     return {
@@ -33,11 +36,11 @@ export default {
         () => `bg-${visible.value ? 'positive' : 'negative'}`
       ),
 
-      message: computed(
-        () => visible.value ? 'Visible. We\'re done.' : 'Hidden'
+      message: computed(() =>
+        visible.value ? "Visible. We're done." : 'Hidden'
       ),
 
-      onIntersection (entry) {
+      onIntersection(entry) {
         visible.value = entry.isIntersecting
       }
     }

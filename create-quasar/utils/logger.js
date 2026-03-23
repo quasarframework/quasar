@@ -1,9 +1,13 @@
 import {
-  bgGreen, green,
+  bgGreen,
+  green,
   inverse,
-  bgRed, red,
-  bgYellow, yellow,
-  black, white,
+  bgRed,
+  red,
+  bgYellow,
+  yellow,
+  black,
+  white,
   underline
 } from 'kolorist'
 
@@ -13,10 +17,10 @@ import readline from 'node:readline'
  * Pills
  */
 
-const successPill = msg => bgGreen(black(` ${ msg } `))
-const infoPill = msg => inverse(` ${ msg } `)
-const errorPill = msg => bgRed(white(` ${ msg } `))
-const warningPill = msg => bgYellow(black(` ${ msg } `))
+const successPill = msg => bgGreen(black(` ${msg} `))
+const infoPill = msg => inverse(` ${msg} `)
+const errorPill = msg => bgRed(white(` ${msg} `))
+const warningPill = msg => bgYellow(black(` ${msg} `))
 
 /**
  * Main approach
@@ -27,7 +31,7 @@ const banner = 'Quasar ' + dot
 const greenBanner = green(banner)
 const redBanner = red(banner)
 const yellowBanner = yellow(banner)
-const tipBanner = `${ green('App') } ${ dot } ${ successPill('TIP') } ${ dot } 🚀 `
+const tipBanner = `${green('App')} ${dot} ${successPill('TIP')} ${dot} 🚀 `
 
 const clearConsole = process.stdout.isTTY
   ? () => {
@@ -39,36 +43,31 @@ const clearConsole = process.stdout.isTTY
     }
   : () => {}
 
-function tip (msg) {
-  console.log(msg ? ` ${ tipBanner } ${ msg }` : '')
+function tip(msg) {
+  console.log(msg ? ` ${tipBanner} ${msg}` : '')
 }
 
-function log (msg) {
-  console.log(msg ? ` ${ greenBanner } ${ msg }` : '')
+function log(msg) {
+  console.log(msg ? ` ${greenBanner} ${msg}` : '')
 }
 
-function warn (msg, pill) {
+function warn(msg, pill) {
   if (msg !== void 0) {
-    const pillBanner = pill !== void 0
-      ? bgYellow(black('', pill, '')) + ' '
-      : ''
+    const pillBanner =
+      pill !== void 0 ? bgYellow(black('', pill, '')) + ' ' : ''
 
-    console.warn(` ${ yellowBanner } ⚠️  ${ pillBanner }${ msg }`)
-  }
-  else {
+    console.warn(` ${yellowBanner} ⚠️  ${pillBanner}${msg}`)
+  } else {
     console.warn()
   }
 }
 
-function fatal (msg, pill) {
+function fatal(msg, pill) {
   if (msg !== void 0) {
-    const pillBanner = pill !== void 0
-      ? errorPill(pill) + ' '
-      : ''
+    const pillBanner = pill !== void 0 ? errorPill(pill) + ' ' : ''
 
-    console.error(`\n ${ redBanner } ⚠️  ${ pillBanner }${ msg }\n`)
-  }
-  else {
+    console.error(`\n ${redBanner} ⚠️  ${pillBanner}${msg}\n`)
+  } else {
     console.error()
   }
 
@@ -79,50 +78,53 @@ function fatal (msg, pill) {
  * Extended approach - Status & pills
  */
 
-function success (msg, title = 'SUCCESS') {
-  console.log(` ${ greenBanner } ${ successPill(title) } ${ green(dot + ' ' + msg) }`)
+function success(msg, title = 'SUCCESS') {
+  console.log(` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`)
 }
-function getSuccess (msg, title) {
-  return ` ${ greenBanner } ${ successPill(title) } ${ green(dot + ' ' + msg) }`
-}
-
-function info (msg, title = 'INFO') {
-  console.log(` ${ greenBanner } ${ infoPill(title) } ${ green(dot) } ${ msg }`)
-}
-function getInfo (msg, title) {
-  return ` ${ greenBanner } ${ infoPill(title) } ${ green(dot) } ${ msg }`
+function getSuccess(msg, title) {
+  return ` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`
 }
 
-function error (msg, title = 'ERROR') {
-  console.log(` ${ redBanner } ${ errorPill(title) } ${ red(dot + ' ' + msg) }`)
+function info(msg, title = 'INFO') {
+  console.log(` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`)
 }
-function getError (msg, title = 'ERROR') {
-  return ` ${ redBanner } ${ errorPill(title) } ${ red(dot + ' ' + msg) }`
+function getInfo(msg, title) {
+  return ` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`
 }
 
-function warning (msg, title = 'WARNING') {
-  console.log(` ${ yellowBanner } ${ warningPill(title) } ${ yellow(dot + ' ' + msg) }`)
+function error(msg, title = 'ERROR') {
+  console.log(` ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}`)
 }
-function getWarning (msg, title = 'WARNING') {
-  return ` ${ yellowBanner } ${ warningPill(title) } ${ yellow(dot + ' ' + msg) }`
+function getError(msg, title = 'ERROR') {
+  return ` ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}`
+}
+
+function warning(msg, title = 'WARNING') {
+  console.log(
+    ` ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}`
+  )
+}
+function getWarning(msg, title = 'WARNING') {
+  return ` ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}`
 }
 
 /**
  * Progress related
  */
 
-function progress (msg, token) {
-  const parseMsg = token !== void 0
-    ? text => text.replace('___', underline(green(token)))
-    : text => text
+function progress(msg, token) {
+  const parseMsg =
+    token !== void 0
+      ? text => text.replace('___', underline(green(token)))
+      : text => text
 
   info(parseMsg(msg), 'WAIT')
 
   const startTime = Date.now()
 
-  return msg => {
-    const diffTime = +new Date() - startTime
-    success(`${ parseMsg(msg) } ${ dot } ${ diffTime }ms`, 'DONE')
+  return progressMessage => {
+    const diffTime = Number(new Date()) - startTime
+    success(`${parseMsg(progressMessage)} ${dot} ${diffTime}ms`, 'DONE')
     log()
   }
 }

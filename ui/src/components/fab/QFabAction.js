@@ -34,13 +34,13 @@ export default createComponent({
       validator: v => anchorValues.includes(v)
     },
 
-    to: [ String, Object ],
+    to: [String, Object],
     replace: Boolean
   },
 
-  emits: [ 'click' ],
+  emits: ['click'],
 
-  setup (props, { slots, emit }) {
+  setup(props, { slots, emit }) {
     const $fab = inject(fabKey, () => ({
       showing: { value: true },
       onChildClick: noop
@@ -49,35 +49,35 @@ export default createComponent({
     const { formClass, labelProps } = useFab(props, $fab.showing)
 
     const classes = computed(() => {
-      const align = anchorMap[ props.anchor ]
-      return formClass.value + (align !== void 0 ? ` ${ align }` : '')
+      const align = anchorMap[props.anchor]
+      return formClass.value + (align !== void 0 ? ` ${align}` : '')
     })
 
-    const isDisabled = computed(() =>
-      props.disable === true
-      || $fab.showing.value !== true
+    const isDisabled = computed(
+      () => props.disable === true || $fab.showing.value !== true
     )
 
-    function click (e) {
+    function click(e) {
       $fab.onChildClick(e)
       emit('click', e)
     }
 
-    function getContent () {
+    function getContent() {
       const child = []
 
       if (slots.icon !== void 0) {
         child.push(slots.icon())
-      }
-      else if (props.icon !== '') {
-        child.push(
-          h(QIcon, { name: props.icon })
-        )
+      } else if (props.icon !== '') {
+        child.push(h(QIcon, { name: props.icon }))
       }
 
       if (props.label !== '' || slots.label !== void 0) {
-        child[ labelProps.value.action ](
-          h('div', labelProps.value.data, slots.label !== void 0 ? slots.label() : [ props.label ])
+        child[labelProps.value.action](
+          h(
+            'div',
+            labelProps.value.data,
+            slots.label !== void 0 ? slots.label() : [props.label]
+          )
         )
       }
 
@@ -88,17 +88,22 @@ export default createComponent({
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, { click })
 
-    return () => h(QBtn, {
-      class: classes.value,
-      ...props,
-      noWrap: true,
-      stack: props.stacked,
-      icon: void 0,
-      label: void 0,
-      noCaps: true,
-      fabMini: true,
-      disable: isDisabled.value,
-      onClick: click
-    }, getContent)
+    return () =>
+      h(
+        QBtn,
+        {
+          class: classes.value,
+          ...props,
+          noWrap: true,
+          stack: props.stacked,
+          icon: void 0,
+          label: void 0,
+          noCaps: true,
+          fabMini: true,
+          disable: isDisabled.value,
+          onClick: click
+        },
+        getContent
+      )
   }
 })

@@ -31,7 +31,7 @@ export interface BexEventMap {}
 type BexEventName = LiteralUnion<Exclude<keyof BexEventMap, number>>;
 type BexEventEntry<
   K extends BexEventName,
-  P = K extends keyof BexEventMap ? BexEventMap[K] : any[],
+  P = K extends keyof BexEventMap ? BexEventMap[K] : any[]
 > = P extends never
   ? [never, never]
   : P extends [unknown, unknown]
@@ -43,13 +43,14 @@ type BexEventResponse<T extends BexEventName> = BexEventEntry<T>[1];
 // We can't use `content@${string}-${number}` as it won't allow using dashes more than once
 // We choose to not do something like `content@${string}-${0 | 1 | 2 | ... | 9}${number}` to keep the hover type simple
 // It should be fine enough.
-type PortName = 'background' | 'app' | `content@${string}-${string}`;
+type PortName = "background" | "app" | `content@${string}-${string}`;
 
-type BexPayload<T extends BexEventName> = BexEventData<T> extends never
-  ? { payload?: undefined }
-  : undefined extends BexEventData<T>
-    ? { payload?: BexEventData<T> }
-    : { payload: BexEventData<T> };
+type BexPayload<T extends BexEventName> =
+  BexEventData<T> extends never
+    ? { payload?: undefined }
+    : undefined extends BexEventData<T>
+      ? { payload?: BexEventData<T> }
+      : { payload: BexEventData<T> };
 
 type BexMessage<T extends BexEventName> = {
   from: PortName;
@@ -58,7 +59,7 @@ type BexMessage<T extends BexEventName> = {
 } & BexPayload<T>;
 
 type BexEventListener<T extends BexEventName> = (
-  message: BexMessage<T>,
+  message: BexMessage<T>
 ) => BexEventResponse<T>;
 
 type BexBridgeOptions = {
@@ -223,7 +224,7 @@ export interface BexBridge {
        * }
        */
       to: PortName;
-    } & BexPayload<T>,
+    } & BexPayload<T>
   ): Promise<BexEventResponse<T>>;
 
   /**
@@ -243,14 +244,14 @@ export interface BexBridge {
    */
   once<T extends BexEventName>(
     eventName: T,
-    listener: BexEventListener<T>,
+    listener: BexEventListener<T>
   ): void;
   /**
    * Remove the specified listener.
    */
   off<T extends BexEventName>(
     eventName: T,
-    listener: BexEventListener<T>,
+    listener: BexEventListener<T>
   ): void;
 
   /**

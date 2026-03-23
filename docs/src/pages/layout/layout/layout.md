@@ -11,6 +11,7 @@ related:
   - /layout/page-scroller
   - /vue-components/floating-action-button
 ---
+
 The QLayout is a component designed to manage the entire window and wrap page content with elements such as a navigational bar or a drawer. Multiple pages can share the same QLayout, so the code is reusable, which is one of their key points.
 
 **QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.
@@ -18,6 +19,7 @@ The QLayout is a component designed to manage the entire window and wrap page co
 <DocApi file="QLayout" />
 
 ## Layout Builder
+
 Scaffold your layout(s) by clicking on the button below.
 
 ::: tip
@@ -29,7 +31,7 @@ Keep an eye on your developer console for handy helpers on which components are 
 ## Usage
 
 ::: warning Using margin CSS will break the layout
-QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use *CSS padding*.
+QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use _CSS margins_ as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use _CSS padding_.
 :::
 
 ::: tip
@@ -37,6 +39,7 @@ If your layout uses Vue Router sub-routes (recommended), then it makes sense to 
 :::
 
 ### Understanding the "view" prop
+
 Quasar introduces a unique and excellent layout concept, which allows you to easily structure layouts to work in certain ways, by simply changing a short string notation.
 
 To explain how this works, imagine your Layout is a 3x3 matrix of containers (depicted in blue below). The first row of containers would be the header and the last row would be the footer. The first column of containers would be the "left" and last column would be the "right". The center of the matrix, below the header and above the footer, would be the page or main content container.
@@ -70,11 +73,13 @@ These settings are completely up to you to use as you'd like. You could even go 
 <q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ::: warning
-* It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
-* When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with  "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
-:::
+
+- It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+- When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
+  :::
 
 ### Containerized QLayout
+
 By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
 
 ::: warning

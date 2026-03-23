@@ -16,21 +16,24 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const bar = ref(null)
 
     // we manually trigger it (this is not needed if we
     // don't skip Ajax calls hijacking)
-    function trigger () {
+    function trigger() {
       const barRef = bar.value
       barRef.start()
 
-      setTimeout(() => {
-        const barRef = bar.value
-        if (barRef) {
-          barRef.stop()
-        }
-      }, Math.random() * 3000 + 1000)
+      setTimeout(
+        () => {
+          const refVal = bar.value
+          if (refVal) {
+            refVal.stop()
+          }
+        },
+        Math.random() * 3000 + 1000
+      )
     }
 
     return {

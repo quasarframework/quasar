@@ -12,6 +12,7 @@ related:
   - /quasar-plugins/loading-bar
   - /vue-components/ajax-bar
 ---
+
 Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.
 
 <DocApi file="Loading" />
@@ -19,6 +20,7 @@ Loading is a feature that you can use to display an overlay with a spinner on to
 <DocInstallation plugins="Loading" config="loading" />
 
 ## Usage
+
 Loading uses a delay (500ms) to display itself so that quick operations won't make the screen flicker. This happens by showing and then quickly hiding the progress spinner without the user having a chance to see what happens. The delay before showing it eliminates confusion.
 
 Inside a Vue component:
@@ -53,7 +55,7 @@ Loading.show()
 
 // fully customizable
 Loading.show({
-  spinner: QSpinnerGears,
+  spinner: QSpinnerGears
   // other props
 })
 
@@ -136,4 +138,5 @@ Please remember that calling `Loading.hide()` with no parameters will hide all t
 :::
 
 ### Setting Up Defaults
+
 Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config file > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.

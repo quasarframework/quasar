@@ -30,6 +30,7 @@ For your QSelect you can use only one of the main designs (`filled`, `outlined`,
 <DocExample title="Coloring" file="Coloring" />
 
 ### Clearable
+
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QSelect in the example below is the equivalent of using `clearable`.
 
 <DocExample title="Clearable" file="Clearable" />
@@ -55,6 +56,7 @@ In the example below there's a few transitions showcased. For a full list of tra
 <DocExample title="Menu transitions" file="MenuTransitions" />
 
 ### Options list display mode
+
 By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.
 
 ::: warning
@@ -178,6 +180,7 @@ It makes sense to use this feature along with `use-input` prop.
 In order to enable the creation of new values, you need to **either specify** the `new-value-mode` prop **and/or** listen for `@new-value` event. If you use both, then the purpose of listening to `@new-value` would be only to override the `new-value-mode` in your custom scenarios.
 
 ### The new-value-mode prop
+
 The `new-value-mode` prop value specifies how the value should be added: `add` (adds a value, even if duplicate), `add-unique` (add only if NOT duplicate) or `toggle` (adds value if it's not already in model, otherwise it removes it).
 
 By using this prop you don't need to also listen for `@new-value` event, unless you have some specific scenarios for which you want to override the behavior.
@@ -185,9 +188,11 @@ By using this prop you don't need to also listen for `@new-value` event, unless 
 <DocExample title="New value mode" file="CreateNewValueMode" />
 
 ### The @new-value event
+
 The `@new-value` event is emitted with the value to be added and a `done` callback. The `done` callback has two **optional** parameters:
-  - the value to be added
-  - the behavior (same values of `new-value-mode` prop, and when it is specified it overrides that prop -- if it is used) -- default behavior (if not using `new-value-mode`) is to add the value even if it would be a duplicate
+
+- the value to be added
+- the behavior (same values of `new-value-mode` prop, and when it is specified it overrides that prop -- if it is used) -- default behavior (if not using `new-value-mode`) is to add the value even if it would be a duplicate
 
 Calling `done()` with no parameters simply empties the input box value, without tampering with the model in any way.
 
@@ -196,6 +201,7 @@ Calling `done()` with no parameters simply empties the input box value, without 
 <DocExample title="Adding only unique values" file="CreateListenerUnique" />
 
 ### Using menu and filtering
+
 Filtering and adding the new values to menu:
 
 <DocExample title="Filtering and adding to menu" file="FilteringAddsToMenu" />
@@ -213,14 +219,16 @@ Generating multiple values from input:
 **By default, all options (included selected ones) are sanitized**. This means that displaying them in HTML format is disabled. However, if you require HTML on your options and you trust their content, then there are a few ways to do this.
 
 You can force the HTML form of the menu options by:
-  - setting `html` key of the trusted option to `true` (for specific trusted options)
-  - or by setting `options-html` prop of QSelect (for all options)
+
+- setting `html` key of the trusted option to `true` (for specific trusted options)
+- or by setting `options-html` prop of QSelect (for all options)
 
 The displayed value of QSelect is displayed as HTML if:
-  - the `display-value-html` prop of QSelect is set
-  - or you are not using `display-value` and
-    - the `options-html` prop of QSelect is set
-    - any selected option has `html` key set to `true`
+
+- the `display-value-html` prop of QSelect is set
+- or you are not using `display-value` and
+  - the `options-html` prop of QSelect is set
+  - any selected option has `html` key set to `true`
 
 ::: warning
 If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
@@ -236,37 +244,40 @@ The render performance is NOT affected much by the number of options, unless `ma
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
 ::: tip
-* (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
-* (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
-:::
+
+- (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
+- (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
+  :::
 
 <DocExample title="100k options" file="RenderPerf" />
 
 ## Keyboard navigation
 
 When QSelect is focused:
-  - pressing <kbd>ENTER</kbd>, <kbd>ARROW DOWN</kbd> (or <kbd>SPACE</kbd> if `use-input` is not set) will open the list of options
-  - if `use-chips` is set:
-    - pressing <kbd>SHIFT</kbd> + <kbd>TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>TAB</kbd> will navigate forward through the QChips)
-    - pressing <kbd>ENTER</kbd> when a QChip is selected will remove that option from the selection
-    - pressing <kbd>BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
-  - pressing <kbd>BACKSPACE</kbd> when `clearable` is set then:
-    - it clears the model (with `null` value) for single selection
-    - it removes the last added value for multiple selection
-  - pressing <kbd>TAB</kbd> (or <kbd>SHIFT</kbd> + <kbd>TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
-  - typing text (<kbd>0</kbd> - <kbd>9</kbd> or <kbd>A</kbd> - <kbd>Z</kbd>) if `use-input` is not set will:
-    - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels
-    - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
-    - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
+
+- pressing <kbd>ENTER</kbd>, <kbd>ARROW DOWN</kbd> (or <kbd>SPACE</kbd> if `use-input` is not set) will open the list of options
+- if `use-chips` is set:
+  - pressing <kbd>SHIFT</kbd> + <kbd>TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>TAB</kbd> will navigate forward through the QChips)
+  - pressing <kbd>ENTER</kbd> when a QChip is selected will remove that option from the selection
+  - pressing <kbd>BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
+- pressing <kbd>BACKSPACE</kbd> when `clearable` is set then:
+  - it clears the model (with `null` value) for single selection
+  - it removes the last added value for multiple selection
+- pressing <kbd>TAB</kbd> (or <kbd>SHIFT</kbd> + <kbd>TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+- typing text (<kbd>0</kbd> - <kbd>9</kbd> or <kbd>A</kbd> - <kbd>Z</kbd>) if `use-input` is not set will:
+  - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels
+  - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
+  - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
 
 When the list of options is opened:
-  - pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options
-  - pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options
-  - pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
-  - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
-  - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
-    - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
-    - toggle the option if `multiple` is set
+
+- pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options
+- pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options
+- pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
+- when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
+- pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
+  - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
+  - toggle the option if `multiple` is set
 
 ## Native form submit
 

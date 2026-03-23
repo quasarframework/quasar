@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-option-group
-      :options="options"
-      type="toggle"
-      v-model="group"
-    />
+    <q-option-group :options="options" type="toggle" v-model="group" />
   </div>
 </template>
 
@@ -12,7 +8,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       group: ref([]),
 

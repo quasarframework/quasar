@@ -16,22 +16,22 @@ export default {
     search: 'گەڕان',
     filter: 'پاڵاوتن',
     refresh: 'تازەکردنەوە',
-    expand: label => (label ? `"${ label }" فراوانکردنی` : 'فراوانکردن'),
-    collapse: label => (label ? `"${ label }" داخستنی` : 'شکست هێنان')
+    expand: label => (label ? `"${label}" فراوانکردنی` : 'فراوانکردن'),
+    collapse: label => (label ? `"${label}" داخستنی` : 'شکست هێنان')
   },
   date: {
     days: 'یەک شەممە_دووشەممە_سێ شەممە_چوار شەممە_پێنج شەممە_هەینی_شەممە'.split(
       '_'
     ),
-    daysShort: '١شم_٢شم_٣شم_٤شم_٥شم_هەینی_شەممە'.split(
-      '_'
-    ),
-    months: 'مانگی یەک_مانگی دوو_مانگی سێ_مانگی چوار_مانگی پێنج_مانگی شەش_مانگی حەوت_مانگی هەشت_مانگی نۆ_مانگی دە_مانگی یانزە_مانگی دووانزە'.split(
-      '_'
-    ),
-    monthsShort: 'مانگی یەک_مانگی دوو_مانگی سێ_مانگی چوار_مانگی پێنج_مانگی شەش_مانگی حەوت_مانگی هەشت_مانگی نۆ_مانگی دە_مانگی یانزە_مانگی دووانزە'.split(
-      '_'
-    ),
+    daysShort: '١شم_٢شم_٣شم_٤شم_٥شم_هەینی_شەممە'.split('_'),
+    months:
+      'مانگی یەک_مانگی دوو_مانگی سێ_مانگی چوار_مانگی پێنج_مانگی شەش_مانگی حەوت_مانگی هەشت_مانگی نۆ_مانگی دە_مانگی یانزە_مانگی دووانزە'.split(
+        '_'
+      ),
+    monthsShort:
+      'مانگی یەک_مانگی دوو_مانگی سێ_مانگی چوار_مانگی پێنج_مانگی شەش_مانگی حەوت_مانگی هەشت_مانگی نۆ_مانگی دە_مانگی یانزە_مانگی دووانزە'.split(
+        '_'
+      ),
     firstDayOfWeek: 6, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     singleDay: 'ڕۆژ',
@@ -41,18 +41,17 @@ export default {
     prevYear: 'ساڵی پێشوو',
     nextYear: 'ساڵی داهاتوو',
     today: 'ئه‌م ڕوژیە',
-    prevRangeYears: range => `پێشوو ${ range } ساڵ`,
-    nextRangeYears: range => `nدواتر ${ range } ساڵ`
+    prevRangeYears: range => `پێشوو ${range} ساڵ`,
+    nextRangeYears: range => `nدواتر ${range} ساڵ`
   },
   table: {
     noData: 'هیچ داتەیەک نییە',
     noResults: 'هیچ ئەنجامێک نییە',
     loading: 'چاوەڕوانبە...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? 'یەک ڕیکۆرد هەڵبژێردراوە'
-        : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.'
-    ),
+        : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.',
     recordsPerPage: 'ئەنجام بۆهەر پەڕەیەک:',
     allRows: 'هەمووی',
     pagination: (start, end, total) => start + '-' + end + ' لە ' + total,
@@ -60,7 +59,7 @@ export default {
   },
   pagination: {
     first: 'پەڕەی یەکەمی',
-    prev: 'پەڕەی پێشوو',  
+    prev: 'پەڕەی پێشوو',
     next: 'پەڕەی داهاتوو',
     last: 'پەڕەی کۆتایی'
   },

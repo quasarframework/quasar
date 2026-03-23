@@ -24,17 +24,11 @@ A SSR middleware file is a simple JavaScript file which exports a function. Quas
 ```js
 import { defineSsrMiddleware } from '#q-app/wrappers'
 
-export default defineSsrMiddleware(({
-  app,
-  port,
-  resolve,
-  publicPath,
-  folders,
-  render,
-  serve
-}) => {
-  // something to do with the server "app"
-})
+export default defineSsrMiddleware(
+  ({ app, port, resolve, publicPath, folders, render, serve }) => {
+    // something to do with the server "app"
+  }
+)
 ```
 
 The SSR middleware files can also be async:
@@ -42,10 +36,12 @@ The SSR middleware files can also be async:
 ```js
 // import something here
 
-export default defineSsrMiddleware(async ({ app, port, resolve, publicPath, folders, render, serve }) => {
-  // something to do with the server "app"
-  await something()
-})
+export default defineSsrMiddleware(
+  async ({ app, port, resolve, publicPath, folders, render, serve }) => {
+    // something to do with the server "app"
+    await something()
+  }
+)
 ```
 
 Notice the `defineSsrMiddleware` import. It is essentially a no-op function, but it helps with the IDE autocomplete.
@@ -94,11 +90,11 @@ The configured port for the Node.js webserver.
 
 #### resolve
 
-| Prop name | Description |
-| --- | --- |
-| `urlPath(path)` | Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the `resolve.urlPath()` method so that you'll also keep into account the configured publicPath (quasar.config file > build > publicPath). |
-| `root(path1[, path2, ...pathN])` | Resolve folder path to the root (of the project in dev and of the distributables in production). Under the hood, it does a `path.join()`. |
-| `public(path1[, path2, ...pathN])` | Resolve folder path to the "public" folder. Under the hood, it does a `path.join()`. |
+| Prop name                          | Description                                                                                                                                                                                                                       |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `urlPath(path)`                    | Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the `resolve.urlPath()` method so that you'll also keep into account the configured publicPath (quasar.config file > build > publicPath). |
+| `root(path1[, path2, ...pathN])`   | Resolve folder path to the root (of the project in dev and of the distributables in production). Under the hood, it does a `path.join()`.                                                                                         |
+| `public(path1[, path2, ...pathN])` | Resolve folder path to the "public" folder. Under the hood, it does a `path.join()`.                                                                                                                                              |
 
 #### publicPath
 
@@ -108,26 +104,25 @@ The configured quasar.config file > build > publicPath
 
 The `folders` is sometimes needed because the exact path to root folder and to the public folder differs in a production build than in a development build. So by using `folders` you won't need to mind about this.
 
-| Prop name | Description |
-| --- | --- |
-| `root` | Full path to the root (of the project in dev and of the distributables in production). |
-| `public` | Full path to the "public" folder. |
+| Prop name | Description                                                                            |
+| --------- | -------------------------------------------------------------------------------------- |
+| `root`    | Full path to the root (of the project in dev and of the distributables in production). |
+| `public`  | Full path to the "public" folder.                                                      |
 
 #### render
 
-* Syntax: `<Promise(String)> render(ssrContext)`.
-* Description: Uses Vue and Vue Router to render the requested URL path. Returns the rendered HTML string to return to the client.
-
+- Syntax: `<Promise(String)> render(ssrContext)`.
+- Description: Uses Vue and Vue Router to render the requested URL path. Returns the rendered HTML string to return to the client.
 
 #### serve
 
 serve.static():
 
-* Syntax: `<middlewareFn> serve.static(pathFromPublicFolder, opts)`
-* Description: It's essentially a wrapper over `express.static()` with a few convenient tweaks:
-  * the `pathFromPublicFolder` is a path resolved to the "public" folder out of the box
-  * the `opts` are the same as for `express.static()`
-  * `opts.maxAge` is used by default, taking into account the quasar.config file > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
+- Syntax: `<middlewareFn> serve.static(pathFromPublicFolder, opts)`
+- Description: It's essentially a wrapper over `express.static()` with a few convenient tweaks:
+  - the `pathFromPublicFolder` is a path resolved to the "public" folder out of the box
+  - the `opts` are the same as for `express.static()`
+  - `opts.maxAge` is used by default, taking into account the quasar.config file > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
 
   ```js
   serve.static({ urlPath: '/my-file.json', pathToServe: '.', opts = {} })
@@ -139,9 +134,9 @@ serve.static():
 
 serve.error():
 
-* Syntax: `<void> serve.error({ err, req, res })`
-* Description: Displays a wealth of useful debug information (including the stack trace).
-* It's available only in development and **NOT in production**.
+- Syntax: `<void> serve.error({ err, req, res })`
+- Description: Displays a wealth of useful debug information (including the stack trace).
+- It's available only in development and **NOT in production**.
 
 ## Usage of SSR middleware
 
@@ -160,7 +155,15 @@ This command creates a new file: `/src-ssr/middlewares/<name>.js` with the follo
 
 // "async" is optional!
 // remove it if you don't need it
-export default async ({ app, port, resolveUrlPath, publicPath, folders, render, serve }) => {
+export default async ({
+  app,
+  port,
+  resolveUrlPath,
+  publicPath,
+  folders,
+  render,
+  serve
+}) => {
   // something to do with the server "app"
 }
 ```
@@ -170,11 +173,13 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default defineSsrMiddleware(({ app, port, resolve, publicPath, folders, render, serve }) => {
-  return new Promise((resolve, reject) => {
-    // something to do with the server "app"
-  })
-})
+export default defineSsrMiddleware(
+  ({ app, port, resolve, publicPath, folders, render, serve }) => {
+    return new Promise((resolve, reject) => {
+      // something to do with the server "app"
+    })
+  }
+)
 ```
 
 You can now add content to that file depending on the intended use of your SSR middleware file.
@@ -230,8 +235,8 @@ ssr: {
     // ..... all other middlewares
 
     'render' // references /src-ssr/middlewares/render.js;
-             // you can name the file however you want,
-             // just make sure that it runs as last middleware
+    // you can name the file however you want,
+    // just make sure that it runs as last middleware
   ]
 }
 ```
@@ -246,7 +251,7 @@ Now let's see what it contains:
 export default ({ app, resolve, render, serve }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page
-  app.get(resolve.urlPath('{*path}'), (req, res) => {
+  app.get(resolve.urlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
     render({ req, res })
@@ -261,8 +266,7 @@ export default ({ app, resolve, render, serve }) => {
         if (err.url) {
           if (err.code) {
             res.redirect(err.code, err.url)
-          }
-          else {
+          } else {
             res.redirect(err.url)
           }
         }
@@ -316,7 +320,7 @@ The order in which the SSR middlewares are applied matters. So it might be wise 
 
 ```js
 export default defineSsrMiddleware(({ app, resolve }) => {
-  app.all(resolve.urlPath('{*path}'), (req, _, next) => {
+  app.all(resolve.urlPath('*'), (req, _, next) => {
     console.log('someone requested:', req.url)
     next()
   })

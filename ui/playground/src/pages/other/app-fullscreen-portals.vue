@@ -33,19 +33,36 @@
           </h4>
         </div>
 
-        <q-btn-dropdown no-caps color="primary" class="q-mt-sm" label="Btn dropdown">
+        <q-btn-dropdown
+          no-caps
+          color="primary"
+          class="q-mt-sm"
+          label="Btn dropdown"
+        >
           <q-list dense>
-            <q-item clickable v-close-popup class="text-caption text-weight-bold">
+            <q-item
+              clickable
+              v-close-popup
+              class="text-caption text-weight-bold"
+            >
               <q-item-section>
                 <q-item-label>Item type 1</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable v-close-popup class="text-caption text-weight-bold">
+            <q-item
+              clickable
+              v-close-popup
+              class="text-caption text-weight-bold"
+            >
               <q-item-section>
                 <q-item-label>Item type 2</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable v-close-popup class="text-caption text-weight-bold">
+            <q-item
+              clickable
+              v-close-popup
+              class="text-caption text-weight-bold"
+            >
               <q-item-section>
                 <q-item-label>Item type 3</q-item-label>
               </q-item-section>
@@ -83,11 +100,7 @@
           </q-list>
         </q-btn-dropdown>
 
-        <q-select
-          v-model="model"
-          :options="options"
-          label="Select"
-        />
+        <q-select v-model="model" :options="options" label="Select" />
 
         <div class="q-mt-sm q-gutter-md">
           <q-btn label="Show simple dialog" @click="showSimpleDialog" />
@@ -98,16 +111,20 @@
 
           <q-btn label="Show dialog" @click="dialog1 = true" />
 
-          <q-btn label="Toggle seamless dialog (in fullscreen el)" @click="dialog2 = dialog2 === false" />
+          <q-btn
+            label="Toggle seamless dialog (in fullscreen el)"
+            @click="dialog2 = dialog2 === false"
+          />
 
-          <q-btn label="Toggle seamless dialog (outside fullscreen el)" @click="dialog3 = dialog3 === false" />
+          <q-btn
+            label="Toggle seamless dialog (outside fullscreen el)"
+            @click="dialog3 = dialog3 === false"
+          />
         </div>
 
         <q-dialog v-model="dialog1">
           <q-card class="bg-white">
-            <q-card-section>
-              Modal dialog
-            </q-card-section>
+            <q-card-section> Modal dialog </q-card-section>
 
             <q-card-section>
               <q-btn
@@ -137,7 +154,10 @@
 
             <q-card-section ref="fullscreenInside1" class="bg-orange-2 q-pa-md">
               Fullscreen inside modal dialog
-              <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
+              <span class="text-italic"
+                >Hover here for tooltip
+                <q-tooltip>Some tooltip</q-tooltip></span
+              >
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -175,17 +195,18 @@
             </q-card-section>
 
             <q-card-section ref="fullscreenInside2" class="bg-blue-2 q-pa-md">
-              <div class="x-my-md">
-                Fullscreen inside seamless dialog (in fullscreen el)
-              </div>
+              <div class="x-my-md"
+                >Fullscreen inside seamless dialog (in fullscreen el)</div
+              >
 
-              <q-btn label="Toggle seamless dialog inside local fullscreen" @click="dialog4 = dialog4 === false" />
+              <q-btn
+                label="Toggle seamless dialog inside local fullscreen"
+                @click="dialog4 = dialog4 === false"
+              />
 
               <q-dialog v-model="dialog4" seamless position="left">
                 <q-card class="bg-white">
-                  <q-card-section>
-                    Seamless dialog
-                  </q-card-section>
+                  <q-card-section> Seamless dialog </q-card-section>
 
                   <q-card-section>
                     <q-btn
@@ -213,9 +234,15 @@
                     />
                   </q-card-section>
 
-                  <q-card-section ref="fullscreenInside4" class="bg-red-2 q-pa-md">
+                  <q-card-section
+                    ref="fullscreenInside4"
+                    class="bg-red-2 q-pa-md"
+                  >
                     Fullscreen inside modal dialog
-                    <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
+                    <span class="text-italic"
+                      >Hover here for tooltip
+                      <q-tooltip>Some tooltip</q-tooltip></span
+                    >
                   </q-card-section>
                 </q-card>
               </q-dialog>
@@ -267,7 +294,9 @@
 
         <q-card-section ref="fullscreenInside3" class="bg-green-2 q-pa-md">
           Fullscreen inside seamless dialog (outside fullscreen el)
-          <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
+          <span class="text-italic"
+            >Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span
+          >
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -279,7 +308,9 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis laudantium minus earum totam modi laborum illo, corporis fuga saepe animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis
+          laudantium minus earum totam modi laborum illo, corporis fuga saepe
+          animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -291,8 +322,17 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="dlgInDlg2" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="bg-teal text-white" style="width: 300px" ref="dlgInDlg2Target">
+    <q-dialog
+      v-model="dlgInDlg2"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <q-card
+        class="bg-teal text-white"
+        style="width: 300px"
+        ref="dlgInDlg2Target"
+      >
         <q-card-section>
           <div class="text-h6">Persistent</div>
         </q-card-section>
@@ -313,10 +353,10 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       model: null,
-      options: [ 'Option 1', 'Option 2', 'Option 3' ],
+      options: ['Option 1', 'Option 2', 'Option 3'],
 
       dialog1: false,
       dialog2: false,
@@ -328,79 +368,80 @@ export default {
     }
   },
   methods: {
-    fullscreenEl (el = this.$refs.fullscreen.$el) {
+    fullscreenEl(el = this.$refs.fullscreen.$el) {
       this.$q.fullscreen
         .exit()
         .catch(() => {})
         .then(() => {
           setTimeout(() => {
-            this.$q.fullscreen
-              .request(el)
-              .catch(() => {})
+            this.$q.fullscreen.request(el).catch(() => {})
           })
         })
     },
 
-    fullscreenNone () {
+    fullscreenNone() {
       this.$q.fullscreen.exit()
     },
 
-    showSimpleDialog () {
-      this.$q.dialog({
-        title: 'Confirmation required',
-        message: 'Are you sure?',
-        cancel: {
-          flat: true,
-          noCaps: true,
-          label: 'Cancel'
-        },
-        ok: {
-          noCaps: true,
-          color: 'negative',
-          label: 'Confirm'
-        },
-        persistent: true
-      }).onOk(() => {
-        // do something
-      })
-    },
-
-    showBottomSheet () {
-      this.$q.bottomSheet({
-        message: 'Bottom Sheet message',
-        actions: [
-          {
-            label: 'Fullscreen All',
-            img: 'https://cdn.quasar.dev/img/logo_drive_128px.png',
-            id: 'fullscreen all'
+    showSimpleDialog() {
+      this.$q
+        .dialog({
+          title: 'Confirmation required',
+          message: 'Are you sure?',
+          cancel: {
+            flat: true,
+            noCaps: true,
+            label: 'Cancel'
           },
-          {
-            label: 'Fullscreen None',
-            img: 'https://cdn.quasar.dev/img/logo_keep_128px.png',
-            id: 'fullscreen none'
-          }
-        ]
-      }).onOk(action => {
-        if (action.id === 'fullscreen all') {
-          this.showBottomSheet()
-          this.fullscreenEl()
-        }
-        else if (action.id === 'fullscreen none') {
-          this.showBottomSheet()
-          this.fullscreenNone()
-        }
-      })
+          ok: {
+            noCaps: true,
+            color: 'negative',
+            label: 'Confirm'
+          },
+          persistent: true
+        })
+        .onOk(() => {
+          // do something
+        })
     },
 
-    dlgInDlg1Fullscreen () {
+    showBottomSheet() {
+      this.$q
+        .bottomSheet({
+          message: 'Bottom Sheet message',
+          actions: [
+            {
+              label: 'Fullscreen All',
+              img: 'https://cdn.quasar.dev/img/logo_drive_128px.png',
+              id: 'fullscreen all'
+            },
+            {
+              label: 'Fullscreen None',
+              img: 'https://cdn.quasar.dev/img/logo_keep_128px.png',
+              id: 'fullscreen none'
+            }
+          ]
+        })
+        .onOk(action => {
+          if (action.id === 'fullscreen all') {
+            this.showBottomSheet()
+            this.fullscreenEl()
+          } else if (action.id === 'fullscreen none') {
+            this.showBottomSheet()
+            this.fullscreenNone()
+          }
+        })
+    },
+
+    dlgInDlg1Fullscreen() {
       this.$refs.dlgInDlg1Target.$el.requestFullscreen()
     },
 
-    dlgInDlg2Fullscreen () {
+    dlgInDlg2Fullscreen() {
       this.$refs.dlgInDlg2Target.$el.requestFullscreen()
     },
 
-    showNotif () {
+    showNotif() {
       this.$q.notify({
         message: 'Notification message'
       })

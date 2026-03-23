@@ -227,8 +227,8 @@ The generic form of a JSON profile file is:
 
 ```json
 {
-  "params": { },
-  "assets": [ ]
+  "params": {},
+  "assets": []
 }
 ```
 

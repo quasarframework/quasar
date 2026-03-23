@@ -30,22 +30,22 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
       filesMaxSize: ref(null),
       filesPng: ref(null),
 
-      checkFileSize (files) {
+      checkFileSize(files) {
         return files.filter(file => file.size < 2048)
       },
 
-      checkFileType (files) {
+      checkFileType(files) {
         return files.filter(file => file.type === 'image/png')
       },
 
-      onRejected (rejectedEntries) {
+      onRejected(rejectedEntries) {
         // Notify plugin needs to be installed
         // https://v2.quasar.dev/quasar-plugins/notify#Installation
         $q.notify({

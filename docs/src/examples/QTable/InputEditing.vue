@@ -1,22 +1,23 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      flat bordered
+      flat
+      bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
       row-key="id"
     >
-    <template v-slot:body-cell="props">
-      <q-td :props="props">
-        <q-input
-          v-model.number="props.row[ props.col.name ]"
-          input-class="text-right"
-          type="number"
-          dense
-          borderless
-        />
-      </q-td>
+      <template v-slot:body-cell="props">
+        <q-td :props="props">
+          <q-input
+            v-model.number="props.row[props.col.name]"
+            input-class="text-right"
+            type="number"
+            dense
+            borderless
+          />
+        </q-td>
       </template>
     </q-table>
   </div>
@@ -26,8 +27,20 @@
 import { ref } from 'vue'
 
 const columns = [
-  { name: 'calories', align: 'right', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', align: 'right', label: 'Fat (g)', field: 'fat', sortable: true },
+  {
+    name: 'calories',
+    align: 'right',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
+  {
+    name: 'fat',
+    align: 'right',
+    label: 'Fat (g)',
+    field: 'fat',
+    sortable: true
+  },
   { name: 'carbs', align: 'right', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', align: 'right', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', align: 'right', label: 'Sodium (mg)', field: 'sodium' }
@@ -69,7 +82,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
       columns,
       rows: ref(rows)

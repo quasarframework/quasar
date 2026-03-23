@@ -11,8 +11,20 @@
         direction="right"
         :hide-label="hideLabels"
       >
-        <q-fab-action :hide-label="hideLabels" color="primary" @click="onClick" icon="mail" label="Email" />
-        <q-fab-action :hide-label="hideLabels" color="secondary" @click="onClick" icon="alarm" label="Alarm" />
+        <q-fab-action
+          :hide-label="hideLabels"
+          color="primary"
+          @click="onClick"
+          icon="mail"
+          label="Email"
+        />
+        <q-fab-action
+          :hide-label="hideLabels"
+          color="secondary"
+          @click="onClick"
+          icon="alarm"
+          label="Alarm"
+        />
       </q-fab>
     </div>
 
@@ -27,10 +39,34 @@
         direction="down"
         :hide-label="hideLabels"
       >
-        <q-fab-action :hide-label="hideLabels" color="primary" @click="onClick" icon="mail" label="Email" />
-        <q-fab-action :hide-label="hideLabels" color="secondary" @click="onClick" icon="alarm" label="Alarm" />
-        <q-fab-action :hide-label="hideLabels" color="orange" @click="onClick" icon="airplay" label="Airplay" />
-        <q-fab-action :hide-label="hideLabels" color="accent" @click="onClick" icon="room" label="Map" />
+        <q-fab-action
+          :hide-label="hideLabels"
+          color="primary"
+          @click="onClick"
+          icon="mail"
+          label="Email"
+        />
+        <q-fab-action
+          :hide-label="hideLabels"
+          color="secondary"
+          @click="onClick"
+          icon="alarm"
+          label="Alarm"
+        />
+        <q-fab-action
+          :hide-label="hideLabels"
+          color="orange"
+          @click="onClick"
+          icon="airplay"
+          label="Airplay"
+        />
+        <q-fab-action
+          :hide-label="hideLabels"
+          color="accent"
+          @click="onClick"
+          icon="room"
+          label="Map"
+        />
       </q-fab>
     </div>
   </div>
@@ -40,13 +76,13 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       fab1: ref(true),
       fab2: ref(true),
       hideLabels: ref(false),
 
-      onClick () {
+      onClick() {
         // console.log('Clicked on a fab action')
       }
     }

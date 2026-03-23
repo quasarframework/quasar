@@ -2,7 +2,7 @@ import open from 'open'
 
 import { log, warn } from './logger.js'
 
-export function openBrowser ({ url, opts, wait = true }) {
+export function openBrowser({ url, opts, wait = true }) {
   const openDefault = () => {
     log('Opening default browser at ' + url + '\n')
 
@@ -25,8 +25,7 @@ export function openBrowser ({ url, opts, wait = true }) {
       warn()
       openDefault()
     })
-  }
-  else {
+  } else {
     openDefault()
   }
 }

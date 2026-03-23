@@ -4,17 +4,8 @@
       Model: {{ standard.min }} to {{ standard.max }} (0 to 50)
     </q-badge>
 
-    <q-range
-      v-model="standard"
-      :min="0"
-      :max="50"
-    />
-    <q-range
-      v-model="standard"
-      :min="0"
-      :max="50"
-      color="green"
-    />
+    <q-range v-model="standard" :min="0" :max="50" />
+    <q-range v-model="standard" :min="0" :max="50" color="green" />
   </div>
 </template>
 
@@ -22,7 +13,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       standard: ref({
         min: 10,

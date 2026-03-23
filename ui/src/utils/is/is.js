@@ -1,9 +1,12 @@
-export function isDeepEqual (a, b) {
-  if (a === b) {
-    return true
-  }
+export function isDeepEqual(a, b) {
+  if (a === b) return true
 
-  if (a !== null && b !== null && typeof a === 'object' && typeof b === 'object') {
+  if (
+    a !== null &&
+    b !== null &&
+    typeof a === 'object' &&
+    typeof b === 'object'
+  ) {
     if (a.constructor !== b.constructor) {
       return false
     }
@@ -17,8 +20,8 @@ export function isDeepEqual (a, b) {
         return false
       }
 
-      for (i = length; i-- !== 0;) {
-        if (isDeepEqual(a[ i ], b[ i ]) !== true) {
+      for (i = length; i-- !== 0; ) {
+        if (isDeepEqual(a[i], b[i]) !== true) {
           return false
         }
       }
@@ -35,7 +38,7 @@ export function isDeepEqual (a, b) {
 
       i = iter.next()
       while (i.done !== true) {
-        if (b.has(i.value[ 0 ]) !== true) {
+        if (b.has(i.value[0]) !== true) {
           return false
         }
         i = iter.next()
@@ -44,7 +47,7 @@ export function isDeepEqual (a, b) {
       iter = a.entries()
       i = iter.next()
       while (i.done !== true) {
-        if (isDeepEqual(i.value[ 1 ], b.get(i.value[ 0 ])) !== true) {
+        if (isDeepEqual(i.value[1], b.get(i.value[0])) !== true) {
           return false
         }
         i = iter.next()
@@ -62,7 +65,7 @@ export function isDeepEqual (a, b) {
 
       i = iter.next()
       while (i.done !== true) {
-        if (b.has(i.value[ 0 ]) !== true) {
+        if (b.has(i.value[0]) !== true) {
           return false
         }
         i = iter.next()
@@ -71,6 +74,7 @@ export function isDeepEqual (a, b) {
       return true
     }
 
+    // oxlint-disable-next-line eqeqeq
     if (a.buffer != null && a.buffer.constructor === ArrayBuffer) {
       length = a.length
 
@@ -78,8 +82,8 @@ export function isDeepEqual (a, b) {
         return false
       }
 
-      for (i = length; i-- !== 0;) {
-        if (a[ i ] !== b[ i ]) {
+      for (i = length; i-- !== 0; ) {
+        if (a[i] !== b[i]) {
           return false
         }
       }
@@ -99,16 +103,16 @@ export function isDeepEqual (a, b) {
       return a.toString() === b.toString()
     }
 
-    const keys = Object.keys(a).filter(key => a[ key ] !== void 0)
+    const keys = Object.keys(a).filter(key => a[key] !== void 0)
     length = keys.length
 
-    if (length !== Object.keys(b).filter(key => b[ key ] !== void 0).length) {
+    if (length !== Object.keys(b).filter(key => b[key] !== void 0).length) {
       return false
     }
 
-    for (i = length; i-- !== 0;) {
-      const key = keys[ i ]
-      if (isDeepEqual(a[ key ], b[ key ]) !== true) {
+    for (i = length; i-- !== 0; ) {
+      const key = keys[i]
+      if (isDeepEqual(a[key], b[key]) !== true) {
         return false
       }
     }
@@ -117,24 +121,24 @@ export function isDeepEqual (a, b) {
   }
 
   // true if both NaN, false otherwise
-  return a !== a && b !== b // eslint-disable-line no-self-compare
+  return a !== a && b !== b
 }
 
 // not perfect, but what we ARE interested is for Arrays not to slip in
 // as spread operator will mess things up in various areas
-export function isObject (v) {
+export function isObject(v) {
   return v !== null && typeof v === 'object' && Array.isArray(v) !== true
 }
 
-export function isDate (v) {
+export function isDate(v) {
   return Object.prototype.toString.call(v) === '[object Date]'
 }
 
-export function isRegexp (v) {
+export function isRegexp(v) {
   return Object.prototype.toString.call(v) === '[object RegExp]'
 }
 
-export function isNumber (v) {
+export function isNumber(v) {
   return typeof v === 'number' && isFinite(v)
 }
 

@@ -10,12 +10,14 @@ export default createComponent({
     inset: Boolean
   },
 
-  setup (props, { slots }) {
-    const classes = computed(() =>
-      'q-toolbar row no-wrap items-center'
-      + (props.inset === true ? ' q-toolbar--inset' : '')
+  setup(props, { slots }) {
+    const classes = computed(
+      () =>
+        'q-toolbar row no-wrap items-center' +
+        (props.inset === true ? ' q-toolbar--inset' : '')
     )
 
-    return () => h('div', { class: classes.value, role: 'toolbar' }, hSlot(slots.default))
+    return () =>
+      h('div', { class: classes.value, role: 'toolbar' }, hSlot(slots.default))
   }
 })

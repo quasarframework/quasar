@@ -61,11 +61,11 @@ import { useQuasar } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     // Our function which receives the URL sent by the background script.
-    function doOnTabOpened (url) {
+    function doOnTabOpened(url) {
       console.log('New Browser Tab Openend: ', url)
     }
 

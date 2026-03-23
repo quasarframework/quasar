@@ -1,7 +1,11 @@
 import { describe, test, expect } from 'vitest'
 import { isReactive } from 'vue'
 
-import { createComponent, createDirective, createReactivePlugin } from './create.js'
+import {
+  createComponent,
+  createDirective,
+  createReactivePlugin
+} from './create.js'
 
 describe('[create API]', () => {
   describe('[Functions]', () => {
@@ -44,13 +48,13 @@ describe('[create API]', () => {
           expect(descriptor.get).toBeTypeOf('function')
           expect(descriptor.set).toBeTypeOf('function')
 
-          plugin[ key ] = 'new-value'
-          expect(plugin[ key ]).toBe('new-value')
-          expect(state[ key ]).toBe('new-value')
+          plugin[key] = 'new-value'
+          expect(plugin[key]).toBe('new-value')
+          expect(state[key]).toBe('new-value')
 
-          state[ key ] = 'quasar'
-          expect(plugin[ key ]).toBe('quasar')
-          expect(state[ key ]).toBe('quasar')
+          state[key] = 'quasar'
+          expect(plugin[key]).toBe('quasar')
+          expect(state[key]).toBe('quasar')
         })
       })
     })

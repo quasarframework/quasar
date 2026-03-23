@@ -8,7 +8,7 @@ related:
 ---
 
 Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation.
-They're usually useful when the user has to follow steps to complete a process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
+They're usually useful when the user has to follow steps to complete a process, like in a [wizard](<https://en.wikipedia.org/wiki/Wizard_(software)>).
 
 <DocApi file="QStepper" />
 
@@ -30,9 +30,10 @@ If the QStep content also has images and you want to use swipe actions to naviga
 :::
 
 ::: danger Keep Alive
-* Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
-* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QStep `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
-:::
+
+- Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
+- Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QStep `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
+  :::
 
 ### Horizontal
 

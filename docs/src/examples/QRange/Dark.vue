@@ -4,19 +4,8 @@
       Model: {{ model.min }} to {{ model.max }} (0 to 50)
     </q-badge>
 
-    <q-range
-      v-model="model"
-      :min="0"
-      :max="50"
-      dark
-    />
-    <q-range
-      v-model="model"
-      :min="0"
-      :max="50"
-      color="green"
-      dark
-    />
+    <q-range v-model="model" :min="0" :max="50" dark />
+    <q-range v-model="model" :min="0" :max="50" color="green" dark />
   </div>
 </template>
 
@@ -24,7 +13,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref({
         min: 10,

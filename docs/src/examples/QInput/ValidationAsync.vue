@@ -5,10 +5,15 @@
       filled
       v-model="model"
       label="Required Field *"
-      :rules="[ myRule ]"
+      :rules="[myRule]"
     />
 
-    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
+    <q-btn
+      class="q-mt-sm"
+      label="Reset Validation"
+      @click="reset"
+      color="primary"
+    />
   </div>
 </template>
 
@@ -16,14 +21,14 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const inputRef = ref(null)
 
     return {
       model: ref(''),
       inputRef,
 
-      myRule (val) {
+      myRule(val) {
         // simulating a delay
 
         return new Promise((resolve, reject) => {
@@ -35,7 +40,7 @@ export default {
             //     --> content is NOT valid, no error message
             //  resolve(error_message)
             //     --> content is NOT valid, we have error message
-            resolve(!!val || '* Required')
+            resolve(Boolean(val) || '* Required')
 
             // calling reject(...) will also mark the input
             // as having an error, but there will not be any
@@ -45,7 +50,7 @@ export default {
         })
       },
 
-      reset () {
+      reset() {
         inputRef.value.resetValidation()
       }
     }

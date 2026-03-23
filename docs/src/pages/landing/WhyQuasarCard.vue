@@ -1,11 +1,17 @@
 <template>
-  <q-card class="why-quasar-card bg-white q-px-lg text-center column justify-between items-center shadow-bottom-large">
+  <q-card
+    class="why-quasar-card bg-white q-px-lg text-center column justify-between items-center shadow-bottom-large"
+  >
     <q-card-section class="q-pa-none">
-      <q-icon size="xl" :name="props.icon"/>
-      <div class="why-quasar-card__title text-uppercase heading--medium q-py-md">
+      <q-icon size="xl" :name="props.icon" />
+      <div
+        class="why-quasar-card__title text-uppercase heading--medium q-py-md"
+      >
         {{ props.title }}
       </div>
-      <div class="text-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height">
+      <div
+        class="text-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height"
+      >
         {{ props.body }}
       </div>
     </q-card-section>

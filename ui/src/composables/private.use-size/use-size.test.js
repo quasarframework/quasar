@@ -28,7 +28,7 @@ describe('[useSize API]', () => {
 
       test('should set the size with standard size names', () => {
         const { value } = useSize({ size: 'sm' })
-        expect(value.fontSize).toBe(`${ useSizeDefaults.sm }px`)
+        expect(value.fontSize).toBe(`${useSizeDefaults.sm}px`)
       })
 
       test('should set the size with custom size names', () => {

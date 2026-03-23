@@ -3,68 +3,68 @@ title: App Extension Development
 desc: How to setup your machine for a Quasar App Extension development and getting started quickly.
 scope:
   appExtensionTree:
-    l: "."
+    l: '.'
     c:
-    - l: package.json
-    - l: src
-      c:
-      - l: index.js
-        e: Described in Index API
-      - l: install.js
-        e: Described in Install API
-      - l: prompts.js
-        e: Described in Prompts API
-      - l: uninstall.js
-        e: Described in Uninstall API
+      - l: package.json
+      - l: src
+        c:
+          - l: index.js
+            e: Described in Index API
+          - l: install.js
+            e: Described in Install API
+          - l: prompts.js
+            e: Described in Prompts API
+          - l: uninstall.js
+            e: Described in Uninstall API
   uiKitTree:
-    l: "."
+    l: '.'
     c:
-    - l: app-extension
-      c:
-      - l: package.json
-      - l: src
+      - l: app-extension
         c:
-        - l: index.js
-          e: Described in Index API
-        - l: install.js
-          e: Described in Install API
-        - l: prompts.js
-          e: Described in Prompts API
-        - l: uninstall.js
-          e: Described in Uninstall API
-    - l: ui
-      c:
-      - l: package.json
-      - l: build
-        e: build scripts
-      - l: dev
-        e: Quasar app for testing component/directive
-      - l: src
+          - l: package.json
+          - l: src
+            c:
+              - l: index.js
+                e: Described in Index API
+              - l: install.js
+                e: Described in Install API
+              - l: prompts.js
+                e: Described in Prompts API
+              - l: uninstall.js
+                e: Described in Uninstall API
+      - l: ui
         c:
-        - l: components
-          e: "(optional) Folder for your component(s)"
-          c:
-          - l: Component.js
-            e: "(optional) Code for your component(s)"
-          - l: Component.sass
-            e: "(optional) Sass for your component(s)"
-        - l: directives
-          e: "(optional) Folder for your directive(s)"
-          c:
-          - l: Directive.js
-            e: "(optional) Code for your directive(s)"
-          - l: Directive.sass
-            e: "(optional) Sass for your directive(s)"
-        - l: index.common.js
-          e: CommonJS entry point
-        - l: index.esm.js
-          e: ESM entry point
-        - l: index.umd.js
-          e: UMD entry point
-        - l: vue-plugin.js
-          e: Exports the associated Vue plugin
-        - l: index.sass
-          e: Exports the associated SASS files
+          - l: package.json
+          - l: build
+            e: build scripts
+          - l: dev
+            e: Quasar app for testing component/directive
+          - l: src
+            c:
+              - l: components
+                e: '(optional) Folder for your component(s)'
+                c:
+                  - l: Component.js
+                    e: '(optional) Code for your component(s)'
+                  - l: Component.sass
+                    e: '(optional) Sass for your component(s)'
+              - l: directives
+                e: '(optional) Folder for your directive(s)'
+                c:
+                  - l: Directive.js
+                    e: '(optional) Code for your directive(s)'
+                  - l: Directive.sass
+                    e: '(optional) Sass for your directive(s)'
+              - l: index.common.js
+                e: CommonJS entry point
+              - l: index.esm.js
+                e: ESM entry point
+              - l: index.umd.js
+                e: UMD entry point
+              - l: vue-plugin.js
+                e: Exports the associated Vue plugin
+              - l: index.sass
+                e: Exports the associated SASS files
 ---
 
 This section of the docs deals with creating your own App Extensions.
@@ -201,9 +201,7 @@ Additionally, if you would like to have HMR (hot module reload) capabilities in 
 devServer: {
   // be sure to change <myextid> below to
   // your App Extension name:
-  watchFiles: [
-    '/node_modules/quasar-app-extension-<myextid>/*'
-  ]
+  watchFiles: ['/node_modules/quasar-app-extension-<myextid>/*']
 }
 ```
 

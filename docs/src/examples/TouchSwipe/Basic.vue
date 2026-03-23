@@ -24,12 +24,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const info = ref(null)
 
     return {
       info,
-      handleSwipe ({ evt, ...newInfo }) {
+      handleSwipe({ evt, ...newInfo }) {
         info.value = newInfo
 
         // native Javascript event

@@ -1,8 +1,12 @@
 import { defineComponent, markRaw, reactive } from 'vue'
 import { injectProp } from '../private.inject-obj-prop/inject-obj-prop.js'
 
-export function createComponent (raw) { return markRaw(defineComponent(raw)) }
-export function createDirective (raw) { return markRaw(raw) }
+export function createComponent(raw) {
+  return markRaw(defineComponent(raw))
+}
+export function createDirective(raw) {
+  return markRaw(raw)
+}
 
 export const createReactivePlugin = __QUASAR_SSR_SERVER__
   ? (state, plugin) => {
@@ -16,8 +20,10 @@ export const createReactivePlugin = __QUASAR_SSR_SERVER__
         injectProp(
           plugin,
           name,
-          () => reactiveState[ name ],
-          val => { reactiveState[ name ] = val }
+          () => reactiveState[name],
+          val => {
+            reactiveState[name] = val
+          }
         )
       }
 

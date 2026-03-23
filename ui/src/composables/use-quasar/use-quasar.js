@@ -6,6 +6,6 @@ import { quasarKey } from '../../utils/private.symbols/symbols.js'
  * Returns the $q instance.
  * Equivalent to `this.$q` inside templates.
  */
-export default function useQuasar () {
+export default function useQuasar() {
   return inject(quasarKey)
 }

@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md example-col-gutter-size">
-
     <div class="row q-col-gutter-none">
       <div class="col-4" v-for="n in 5" :key="`none-${n}`">
         <div class="my-content">&nbsp;</div>
@@ -46,7 +45,6 @@
         <div class="my-content">&nbsp;</div>
       </div>
     </div>
-
   </div>
 </template>
 

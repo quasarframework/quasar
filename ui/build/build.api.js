@@ -19,11 +19,9 @@ import {
 
 const dest = resolveToRoot('dist/api')
 
-const extendApi = readJsonFile(
-  resolveToRoot('src/api.extends.json')
-)
+const extendApi = readJsonFile(resolveToRoot('src/api.extends.json'))
 
-const passthroughValues = [ true, false, 'child' ]
+const passthroughValues = [true, false, 'child']
 
 const slotRE = /slots\[\s*['"](\S+)['"]\s*\]|slots\.([A-Za-z]+)/g
 const emitRE = /emit\(\s*['"](\S+)['"]/g
@@ -55,11 +53,14 @@ const topSections = {
   plugin: {
     rootProps: [], // computed after this declaration
     rootValidations: {
-      meta: val => (Object(val) === val || "'meta' must be an Object"),
+      meta: val => Object(val) === val || "'meta' must be an Object",
       addedIn: parseAddedIn,
-      internal: val => (typeof val === 'boolean' || '"internal" must be a Boolean'),
-      injection: val => (typeof val === 'string' || '"injection must be a string"'),
-      quasarConfOptions: val => (Object(val) === val || "'quasarConfOptions' must be an Object"),
+      internal: val =>
+        typeof val === 'boolean' || '"internal" must be a Boolean',
+      injection: val =>
+        typeof val === 'string' || '"injection must be a string"',
+      quasarConfOptions: val =>
+        Object(val) === val || "'quasarConfOptions' must be an Object",
       props: val => parseObjectWithPascalCaseProps(val, 'props'),
       methods: val => parseObjectWithPascalCaseProps(val, 'methods')
     }
@@ -69,11 +70,12 @@ const topSections = {
   component: {
     rootProps: [], // computed after this declaration
     rootValidations: {
-      meta: val => (Object(val) === val || "'meta' must be an Object"),
+      meta: val => Object(val) === val || "'meta' must be an Object",
       addedIn: parseAddedIn,
-      quasarConfOptions: val => parseObjectWithPascalCaseProps(val, 'quasarConfOptions'),
+      quasarConfOptions: val =>
+        parseObjectWithPascalCaseProps(val, 'quasarConfOptions'),
       props: val => parseObjectWithKebabCaseProps(val, 'props'),
-      slots: val => (Object(val) === val || "'slots' must be an Object"), // TODO Qv3: kebabCase
+      slots: val => Object(val) === val || "'slots' must be an Object", // TODO Qv3: kebabCase
       events: val => parseObjectWithKebabCaseProps(val, 'events'),
       methods: val => parseObjectWithPascalCaseProps(val, 'methods'),
       computedProps: val => parseObjectWithPascalCaseProps(val, 'computedProps')
@@ -84,24 +86,28 @@ const topSections = {
   directive: {
     rootProps: [], // computed after this declaration
     rootValidations: {
-      meta: val => (Object(val) === val || "'meta' must be an Object"),
+      meta: val => Object(val) === val || "'meta' must be an Object",
       addedIn: parseAddedIn,
-      quasarConfOptions: val => parseObjectWithPascalCaseProps(val, 'quasarConfOptions'),
-      value: val => (Object(val) === val || "'value' must be an Object"),
-      arg: val => (Object(val) === val || "'arg' must be an Object"),
+      quasarConfOptions: val =>
+        parseObjectWithPascalCaseProps(val, 'quasarConfOptions'),
+      value: val => Object(val) === val || "'value' must be an Object",
+      arg: val => Object(val) === val || "'arg' must be an Object",
       modifiers: val => parseObjectWithPascalCaseProps(val, 'modifiers')
     }
   }
 }
 Object.keys(topSections).forEach(section => {
-  topSections[ section ].rootProps = Object.keys(topSections[ section ].rootValidations)
+  topSections[section].rootProps = Object.keys(
+    topSections[section].rootValidations
+  )
 })
 
 // https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // https://regex101.com/r/vkijKf/1/
-const semanticRE = /^v(0|[1-9]\d*)\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+const semanticRE =
+  /^v(0|[1-9]\d*)\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
-function parseAddedIn (val) {
+function parseAddedIn(val) {
   if (val === void 0 || val === null) {
     return '"addedIn" has erroneous content'
   }
@@ -115,23 +121,23 @@ function parseAddedIn (val) {
   }
 
   if (val.charAt(0) !== 'v') {
-    return `"addedIn" value (${ val }) must start with "v"`
+    return `"addedIn" value (${val}) must start with "v"`
   }
 
   if (semanticRE.test(val) !== true) {
-    return `"addedIn" value (${ val }) must follow semantic versioning`
+    return `"addedIn" value (${val}) must follow semantic versioning`
   }
 
   if (val.endsWith('.0') === true) {
-    return `"addedIn" value (${ val }) must not end with '.0' (remove it)`
+    return `"addedIn" value (${val}) must not end with '.0' (remove it)`
   }
 
   return true
 }
 
-function parseObjectWithPascalCaseProps (obj, objName) {
+function parseObjectWithPascalCaseProps(obj, objName) {
   if (Object(obj) !== obj) {
-    return `"${ objName }" must be an Object`
+    return `"${objName}" must be an Object`
   }
 
   const invalidProps = []
@@ -142,14 +148,14 @@ function parseObjectWithPascalCaseProps (obj, objName) {
   }
 
   return (
-    invalidProps.length === 0
-    || `"${ objName }" has non camelCase key${ plural(invalidProps.length) }: ${ invalidProps.join(', ') }`
+    invalidProps.length === 0 ||
+    `"${objName}" has non camelCase key${plural(invalidProps.length)}: ${invalidProps.join(', ')}`
   )
 }
 
-function parseObjectWithKebabCaseProps (obj, objName) {
+function parseObjectWithKebabCaseProps(obj, objName) {
   if (Object(obj) !== obj) {
-    return `"${ objName }" must be an Object`
+    return `"${objName}" must be an Object`
   }
 
   const invalidProps = []
@@ -160,139 +166,375 @@ function parseObjectWithKebabCaseProps (obj, objName) {
   }
 
   return (
-    invalidProps.length === 0
-    || `"${ objName }" has non kebab-case key${ plural(invalidProps.length) }: ${ invalidProps.join(', ') }`
+    invalidProps.length === 0 ||
+    `"${objName}" has non kebab-case key${plural(invalidProps.length)}: ${invalidProps.join(', ')}`
   )
 }
 
-const nativeTypes = [ 'Component', 'Error', 'Element', 'File', 'FileList', 'Event', 'SubmitEvent' ]
+const nativeTypes = [
+  'Component',
+  'Error',
+  'Element',
+  'File',
+  'FileList',
+  'Event',
+  'SubmitEvent'
+]
 
 const objectTypes = {
   Boolean: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isArray: [ 'examples' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'default',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isArray: ['examples'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal' ],
-    isArray: [ 'examples', 'values' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'values',
+      'default',
+      'examples',
+      'category',
+      'addedIn',
+      'transformAssetUrls',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'transformAssetUrls',
+      'internal'
+    ],
+    isArray: ['examples', 'values'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   Number: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isArray: [ 'examples', 'values' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'values',
+      'default',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isArray: ['examples', 'values'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    recursive: [ 'definition' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isObject: [ 'definition' ],
-    isArray: [ 'examples', 'values' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'autoDefineTsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'values',
+      'default',
+      'definition',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    recursive: ['definition'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isObject: ['definition'],
+    isArray: ['examples', 'values'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isObject: [ 'definition' ],
-    isArray: [ 'examples', 'values' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'autoDefineTsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'values',
+      'default',
+      'definition',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isObject: ['definition'],
+    isArray: ['examples', 'values'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   Promise: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isObject: [ 'definition' ],
-    isArray: [ 'examples' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'default',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isObject: ['definition'],
+    isArray: ['examples'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isObject: [ 'params', 'returns' ],
-    isArray: [ 'examples' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'autoDefineTsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'default',
+      'params',
+      'returns',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc', 'params', 'returns'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isObject: ['params', 'returns'],
+    isArray: ['examples'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
-    isObject: [ 'definition', 'params', 'returns' ],
-    isArray: [ 'examples', 'values' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'autoDefineTsType',
+      'desc',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'link',
+      'values',
+      'default',
+      'definition',
+      'params',
+      'returns',
+      'examples',
+      'category',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: [
+      'tsInjectionPoint',
+      'required',
+      'reactive',
+      'sync',
+      'syncable',
+      'internal'
+    ],
+    isObject: ['definition', 'params', 'returns'],
+    isArray: ['examples', 'values'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   },
 
   meta: {
-    props: [ 'docsUrl' ],
-    required: [ 'docsUrl' ]
+    props: ['docsUrl'],
+    required: ['docsUrl']
   },
 
   // component only
   slots: {
-    props: [ 'tsType', 'desc', 'link', 'scope', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isObject: [ 'scope' ],
-    isBoolean: [ 'internal' ],
-    isString: [ 'tsType', 'desc', 'addedIn' ]
+    props: ['tsType', 'desc', 'link', 'scope', 'addedIn', 'internal'],
+    required: ['desc'],
+    isObject: ['scope'],
+    isBoolean: ['internal'],
+    isString: ['tsType', 'desc', 'addedIn']
   },
 
   // component only
   events: {
-    props: [ 'tsType', 'desc', 'link', 'params', 'addedIn', 'passthrough', 'internal' ],
-    required: [ 'desc' ],
-    isObject: [ 'params' ],
-    isBoolean: [ 'internal' ],
-    isString: [ 'tsType', 'desc', 'addedIn' ]
+    props: [
+      'tsType',
+      'desc',
+      'link',
+      'params',
+      'addedIn',
+      'passthrough',
+      'internal'
+    ],
+    required: ['desc'],
+    isObject: ['params'],
+    isBoolean: ['internal'],
+    isString: ['tsType', 'desc', 'addedIn']
   },
 
   // component only
   computedProps: {
-    props: [ 'desc', 'tsType', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ],
-    isArray: [ 'examples' ],
-    isString: [ 'tsType', 'desc', 'addedIn' ]
+    props: ['desc', 'tsType', 'examples', 'addedIn', 'internal'],
+    required: ['desc'],
+    isBoolean: ['internal'],
+    isArray: ['examples'],
+    isString: ['tsType', 'desc', 'addedIn']
   },
 
   methods: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn', 'alias' ],
-    required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'tsInjectionPoint' ],
-    isObject: [ 'params', 'returns' ],
-    isString: [ 'tsType', 'desc', 'link', 'addedIn', 'alias' ]
+    props: [
+      'tsInjectionPoint',
+      'tsType',
+      'desc',
+      'link',
+      'params',
+      'returns',
+      'addedIn',
+      'alias'
+    ],
+    required: ['desc', 'params', 'returns'],
+    isBoolean: ['tsInjectionPoint'],
+    isObject: ['params', 'returns'],
+    isString: ['tsType', 'desc', 'link', 'addedIn', 'alias']
   },
 
   quasarConfOptions: {
-    props: [ 'tsType', 'desc', 'propName', 'definition', 'values', 'examples', 'link', 'addedIn' ],
-    required: [ 'propName' ],
-    isObject: [ 'definition' ],
-    isArray: [ 'values' ],
-    isString: [ 'tsType', 'desc', 'addedIn' ]
+    props: [
+      'tsType',
+      'desc',
+      'propName',
+      'definition',
+      'values',
+      'examples',
+      'link',
+      'addedIn'
+    ],
+    required: ['propName'],
+    isObject: ['definition'],
+    isArray: ['values'],
+    isString: ['tsType', 'desc', 'addedIn']
   }
 }
 
 nativeTypes.forEach(name => {
-  objectTypes[ name ] = {
-    props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal', 'required' ],
-    isString: [ 'tsType', 'desc', 'category', 'addedIn' ]
+  objectTypes[name] = {
+    props: [
+      'tsType',
+      'desc',
+      'required',
+      'category',
+      'examples',
+      'addedIn',
+      'internal'
+    ],
+    required: ['desc'],
+    isBoolean: ['internal', 'required'],
+    isString: ['tsType', 'desc', 'category', 'addedIn']
   }
 })
 
@@ -300,21 +542,44 @@ nativeTypes.forEach(name => {
  * Also update /ui/testing/specs/specs.utils.js on the "typeMap" object
  */
 const typeList = [
-  'Number', 'String', 'Array', 'Object', 'Boolean', 'Function', 'RegExp',
-  'Date', 'Element', 'Any', 'Event', 'SubmitEvent', 'File', 'FileList',
-  'Promise<any>', 'Promise<void>', 'Promise<boolean>', 'Promise<number>',
-  'Promise<string>', 'Promise<object>', 'Error',
-  'Component', 'null', 'undefined'
+  'Number',
+  'String',
+  'Array',
+  'Object',
+  'Boolean',
+  'Function',
+  'RegExp',
+  'Date',
+  'Element',
+  'Any',
+  'Event',
+  'SubmitEvent',
+  'File',
+  'FileList',
+  'Promise<any>',
+  'Promise<void>',
+  'Promise<boolean>',
+  'Promise<number>',
+  'Promise<string>',
+  'Promise<object>',
+  'Error',
+  'Component',
+  'null',
+  'undefined'
 ]
 
 // assumes type does NOT have any duplicates
-function isClassStyleType (type) {
-  if (Array.isArray(type) === false) { return false }
-  if (type.length !== 3) { return false }
+function isClassStyleType(type) {
+  if (Array.isArray(type) === false) {
+    return false
+  }
+  if (type.length !== 3) {
+    return false
+  }
 
   let hits = 0
 
-  ;[ 'String', 'Array', 'Object' ].forEach(entry => {
+  ;['String', 'Array', 'Object'].forEach(entry => {
     if (type.includes(entry) === true) {
       hits++
     }
@@ -324,19 +589,28 @@ function isClassStyleType (type) {
 }
 
 // See https://github.com/quasarframework/quasar/issues/16046#issuecomment-1666395268 for more info
-const serializableTypes = [ 'Any', 'Boolean', 'Number', 'String', 'Array', 'Object' ]
-function isSerializable (value) {
-  const types = Array.isArray(value.type) ? value.type : [ value.type ]
+const serializableTypes = [
+  'Any',
+  'Boolean',
+  'Number',
+  'String',
+  'Array',
+  'Object'
+]
+function isSerializable(value) {
+  const types = Array.isArray(value.type) ? value.type : [value.type]
 
   return types.every(type => serializableTypes.includes(type))
 }
 
-function getApiWithMixins (api, mainFile) {
+function getApiWithMixins(api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolveToRoot('src/' + mixin + '.json')
 
     if (!fse.existsSync(mixinFile)) {
-      logError(`build.api.js: ${ relativeToRoot(mainFile) } -> no such mixin ${ mixin }`)
+      logError(
+        `build.api.js: ${relativeToRoot(mainFile)} -> no such mixin ${mixin}`
+      )
       process.exit(1)
     }
 
@@ -355,16 +629,16 @@ function getApiWithMixins (api, mainFile) {
   return finalApi
 }
 
-function deCapitalize (str) {
+function deCapitalize(str) {
   return str.charAt(0).toLowerCase() + str.slice(1)
 }
 
 const arrayRE = /(\[.*\])/
 const objectRE = /(\{.*\})/
 const functionRE = /^(\s*\(\s*\)\s*=>\s*).+/
-function encodeDefaultValue (val, isFunction) {
+function encodeDefaultValue(val, isFunction) {
   if (typeof val === 'string') {
-    return `'${ val }'`
+    return `'${val}'`
   }
 
   if (typeof val === 'function') {
@@ -374,44 +648,46 @@ function encodeDefaultValue (val, isFunction) {
 
     const arrayMatch = fn.match(arrayRE)
     if (arrayMatch !== null) {
-      return arrayMatch[ 1 ]
+      return arrayMatch[1]
     }
 
     const objMatch = fn.match(objectRE)
     if (objMatch !== null) {
-      return objMatch[ 1 ]
+      return objMatch[1]
     }
 
     const arrowMatch = fn.match(functionRE)
     if (arrowMatch !== null) {
-      return fn.substring(arrowMatch[ 1 ].length)
+      return fn.substring(arrowMatch[1].length)
     }
   }
 
-  return '' + val
+  return String(val)
 }
 
-const runtimePropTypeToAny = [ 'File', 'FileList', 'Element' ]
-const runtimePropTypeExceptions = [ 'null', 'undefined' ]
-function extractRuntimeDefinablePropTypes (apiTypes) {
+const runtimePropTypeToAny = ['File', 'FileList', 'Element']
+const runtimePropTypeExceptions = ['null', 'undefined']
+function extractRuntimeDefinablePropTypes(apiTypes) {
   if (apiTypes.includes('Any') === true) {
-    return [ 'Any' ]
+    return ['Any']
   }
 
   return apiTypes.some(key => runtimePropTypeToAny.includes(key) === true)
-    ? [ 'Any' ]
-    : apiTypes.filter(key => runtimePropTypeExceptions.includes(key) === false).sort()
+    ? ['Any']
+    : apiTypes
+        .filter(key => runtimePropTypeExceptions.includes(key) === false)
+        .sort()
 }
 
-function parseRuntimeType (runtimeConstructor) {
+function parseRuntimeType(runtimeConstructor) {
   // String.toString() -> "function String() { [native code] }"
   const str = runtimeConstructor.toString()
   const match = str.match(/function (\w+)\(/)
-  return match?.[ 1 ]
+  return match?.[1]
 }
 
 const typeofRE = /typeof\s+[a-zA-Z0-9$_]+\s+===\s+'([a-zA-Z]+)'/
-function extractRuntimePropAttrs (runtimeProp) {
+function extractRuntimePropAttrs(runtimeProp) {
   if (Array.isArray(runtimeProp)) {
     return {
       runtimeTypes: runtimeProp.map(parseRuntimeType).sort(),
@@ -423,7 +699,7 @@ function extractRuntimePropAttrs (runtimeProp) {
   const runtimeType = parseRuntimeType(runtimeProp)
   if (runtimeType !== void 0) {
     return {
-      runtimeTypes: [ runtimeType ],
+      runtimeTypes: [runtimeType],
       isRuntimeRequired: false,
       hasRuntimeDefault: false
     }
@@ -437,16 +713,13 @@ function extractRuntimePropAttrs (runtimeProp) {
     runtimeTypes = runtimeProp.type.map(parseRuntimeType)
 
     if (runtimeTypes.includes('Any') === true) {
-      runtimeTypes = [ 'Any' ]
-    }
-    else {
+      runtimeTypes = ['Any']
+    } else {
       runtimeTypes.sort()
     }
-  }
-  else if (runtimeProp.type !== void 0) {
-    runtimeTypes = [ parseRuntimeType(runtimeProp.type) ]
-  }
-  else if (runtimeProp.validator !== void 0) {
+  } else if (runtimeProp.type !== void 0) {
+    runtimeTypes = [parseRuntimeType(runtimeProp.type)]
+  } else if (runtimeProp.validator !== void 0) {
     /**
      * Example (we want Number AND null to be valid):
      *
@@ -461,9 +734,7 @@ function extractRuntimePropAttrs (runtimeProp) {
 
     const match = fn.match(typeofRE)
     if (match !== null) {
-      runtimeTypes.push(
-        capitalize(match[ 1 ])
-      )
+      runtimeTypes.push(capitalize(match[1]))
     }
 
     if (fn.indexOf('Array.isArray') !== -1) {
@@ -476,13 +747,11 @@ function extractRuntimePropAttrs (runtimeProp) {
 
     if (runtimeTypes.length === 0) {
       runtimeTypes = []
-    }
-    else {
+    } else {
       runtimeTypes.sort()
     }
-  }
-  else {
-    runtimeTypes = [ 'Any' ]
+  } else {
+    runtimeTypes = ['Any']
   }
 
   return {
@@ -493,11 +762,18 @@ function extractRuntimePropAttrs (runtimeProp) {
   }
 }
 
-function parseObject ({ banner, api, itemName, masterType, verifyCategory, verifySerializable }) {
-  let obj = api[ itemName ]
+function parseObject({
+  banner,
+  api,
+  itemName,
+  masterType,
+  verifyCategory,
+  verifySerializable
+}) {
+  let obj = api[itemName]
 
   const printErrorAndExit = msg => {
-    logError(`${ banner } ${ msg }`)
+    logError(`${banner} ${msg}`)
     console.error(obj)
     console.log()
     process.exit(1)
@@ -510,19 +786,15 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
     }
   }
 
-  if (obj.extends !== void 0 && extendApi[ masterType ] !== void 0) {
-    if (extendApi[ masterType ][ obj.extends ] === void 0) {
-      printErrorAndExit(`extends "${ obj.extends }" which does not exists`)
+  if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
+    if (extendApi[masterType][obj.extends] === void 0) {
+      printErrorAndExit(`extends "${obj.extends}" which does not exists`)
     }
 
-    api[ itemName ] = merge(
-      {},
-      extendApi[ masterType ][ obj.extends ],
-      api[ itemName ]
-    )
-    delete api[ itemName ].extends
+    api[itemName] = merge({}, extendApi[masterType][obj.extends], api[itemName])
+    delete api[itemName].extends
 
-    obj = api[ itemName ]
+    obj = api[itemName]
   }
 
   // there are cases where you extend something but you
@@ -537,7 +809,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
     }
 
     obj.__delete.forEach(prop => {
-      delete obj[ prop ]
+      delete obj[prop]
     })
 
     // now delete the __delete prop itself (we don't need it in the final API)
@@ -546,43 +818,45 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
 
   let type
 
-  if ([ 'props', 'modifiers' ].includes(masterType)) {
+  if (['props', 'modifiers'].includes(masterType)) {
     if (obj.type === void 0) {
       printErrorAndExit('missing "type" prop')
     }
 
-    type = Array.isArray(obj.type) || obj.type === 'Any'
-      ? 'MultipleTypes'
-      : obj.type
-  }
-  else {
+    type =
+      Array.isArray(obj.type) || obj.type === 'Any' ? 'MultipleTypes' : obj.type
+  } else {
     type = masterType
   }
 
   type = type.startsWith('Promise') ? 'Promise' : type
-  const def = objectTypes[ type ]
+  const def = objectTypes[type]
 
   if (def === void 0) {
-    printErrorAndExit(`object has unrecognized API type prop value: "${ type }"`)
+    printErrorAndExit(`object has unrecognized API type prop value: "${type}"`)
   }
 
   if (obj.internal !== true) {
     const regexList = Array.isArray(obj.type)
-      ? (obj.type.includes('Any') ? [] : obj.type.map(t => apiValueRegex[ t ]).filter(v => v))
-      : (obj.type === 'Any' ? [] : [ apiValueRegex[ obj.type ] ].filter(v => v))
+      ? obj.type.includes('Any')
+        ? []
+        : obj.type.map(t => apiValueRegex[t]).filter(v => v)
+      : obj.type === 'Any'
+        ? []
+        : [apiValueRegex[obj.type]].filter(v => v)
 
     for (const prop in obj) {
       // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
-      if ([ 'type', '__exemption' ].includes(prop) === true) {
+      if (['type', '__exemption'].includes(prop) === true) {
         continue
       }
 
       if (prop === '__runtimeDefault') {
         if (obj.__runtimeDefault !== true) {
           printErrorAndExit(
-            'props > "__runtimeDefault" should only be set to true; Solutions:'
-            + '\n  1. delete it as it is indeed an error'
-            + '\n  2. it is being inherited, so add "delete": [ "__runtimeDefault" ]'
+            'props > "__runtimeDefault" should only be set to true; Solutions:' +
+              '\n  1. delete it as it is indeed an error' +
+              '\n  2. it is being inherited, so add "delete": [ "__runtimeDefault" ]'
           )
         }
 
@@ -595,64 +869,89 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
       }
 
       if (!def.props.includes(prop)) {
-        printErrorAndExit(`object has unrecognized API prop "${ prop }" for its type (${ type })`)
+        printErrorAndExit(
+          `object has unrecognized API prop "${prop}" for its type (${type})`
+        )
       }
     }
 
-    ;[ ...def.required, ...(verifyCategory ? [ 'category' ] : []) ].forEach(prop => {
-      if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
-        return
-      }
+    ;[...def.required, ...(verifyCategory ? ['category'] : [])].forEach(
+      prop => {
+        if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
+          return
+        }
 
-      // 'examples' property is not required if 'definition' or 'values' properties are specified
-      if (prop === 'examples' && (obj.definition !== void 0 || obj.values !== void 0)) {
-        const matchedProp = obj.definition !== void 0
-          ? 'definition'
-          : 'values'
+        // 'examples' property is not required if 'definition' or 'values' properties are specified
+        if (
+          prop === 'examples' &&
+          (obj.definition !== void 0 || obj.values !== void 0)
+        ) {
+          const matchedProp =
+            obj.definition !== void 0 ? 'definition' : 'values'
 
-        printErrorAndExit(`"examples" is not needed because there is "${ matchedProp }"; remove it`)
-        return
-      }
+          printErrorAndExit(
+            `"examples" is not needed because there is "${matchedProp}"; remove it`
+          )
+          return
+        }
 
-      if (obj[ prop ] === void 0) {
-        printErrorAndExit(`missing required API prop "${ prop }" for its type (${ type })`)
+        if (obj[prop] === void 0) {
+          printErrorAndExit(
+            `missing required API prop "${prop}" for its type (${type})`
+          )
+        }
       }
-    })
+    )
 
     // Since we processed '__exemption', we can strip it
     if (obj.__exemption !== void 0) {
       const { __exemption, ...p } = obj
-      api[ itemName ] = p
+      api[itemName] = p
     }
 
-    def.isBoolean && def.isBoolean.forEach(prop => {
-      if (obj.hasOwnProperty(prop) && obj[ prop ] !== true && obj[ prop ] !== false) {
-        printErrorAndExit(`"${ prop }" is not a Boolean`)
-      }
-    })
-    def.isObject && def.isObject.forEach(prop => {
-      if (obj[ prop ] && Object(obj[ prop ]) !== obj[ prop ]) {
-        printErrorAndExit(`"${ prop }" is not an Object`)
-      }
-    })
-    def.isArray && def.isArray.forEach(prop => {
-      if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
-        printErrorAndExit(`"${ prop }" is not an Array`)
-      }
-    })
-    def.isString && def.isString.forEach(prop => {
-      if (obj[ prop ] && typeof obj[ prop ] !== 'string') {
-        printErrorAndExit(`"${ prop }" is not a String`)
-      }
-    })
+    if (def.isBoolean) {
+      def.isBoolean.forEach(prop => {
+        if (
+          obj.hasOwnProperty(prop) &&
+          obj[prop] !== true &&
+          obj[prop] !== false
+        ) {
+          printErrorAndExit(`"${prop}" is not a Boolean`)
+        }
+      })
+    }
+
+    if (def.isObject) {
+      def.isObject.forEach(prop => {
+        if (obj[prop] && Object(obj[prop]) !== obj[prop]) {
+          printErrorAndExit(`"${prop}" is not an Object`)
+        }
+      })
+    }
+
+    if (def.isArray) {
+      def.isArray.forEach(prop => {
+        if (obj[prop] && !Array.isArray(obj[prop])) {
+          printErrorAndExit(`"${prop}" is not an Array`)
+        }
+      })
+    }
+
+    if (def.isString) {
+      def.isString.forEach(prop => {
+        if (obj[prop] && typeof obj[prop] !== 'string') {
+          printErrorAndExit(`"${prop}" is not a String`)
+        }
+      })
+    }
 
     if (obj.type) {
-      const list = Array.isArray(obj.type) ? obj.type : [ obj.type ]
+      const list = Array.isArray(obj.type) ? obj.type : [obj.type]
       list.forEach(t => {
         if (typeList.includes(t) === false) {
           printErrorAndExit(
-            `object has unrecognized type "${ t }"; if this is a new type, then `
-            + 'add it to the "typeList" array in build.api.js'
+            `object has unrecognized type "${t}"; if this is a new type, then ` +
+              'add it to the "typeList" array in build.api.js'
           )
         }
       })
@@ -666,12 +965,12 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
       if (regexList.length !== 0) {
         obj.values.forEach(val => {
           if (
-            apiIgnoreValueRegex.test(val) === false
-            && regexList.every(regex => regex.test(val) === false)
+            apiIgnoreValueRegex.test(val) === false &&
+            regexList.every(regex => regex.test(val) === false)
           ) {
             printErrorAndExit(
-              `object: "values" -> "${ val }" value must satisfy regex: `
-              + `${ regexList.map(r => r.toString()).join(' or ') }`
+              `object: "values" -> "${val}" value must satisfy regex: ` +
+                `${regexList.map(r => r.toString()).join(' or ')}`
             )
           }
         })
@@ -684,14 +983,19 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
       }
 
       if (apiIgnoreValueRegex.test(obj.default) === false) {
-        if (regexList.length !== 0 && regexList.every(regex => regex.test(obj.default) === false)) {
+        if (
+          regexList.length !== 0 &&
+          regexList.every(regex => regex.test(obj.default) === false)
+        ) {
           printErrorAndExit(
-            `object: "default" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`
+            `object: "default" value must satisfy regex: ${regexList.map(r => r.toString()).join(' or ')}`
           )
         }
 
         if (obj.values && obj.values.includes(obj.default) === false) {
-          printErrorAndExit('object: "default" value must be one of the "values"')
+          printErrorAndExit(
+            'object: "default" value must be one of the "values"'
+          )
         }
       }
     }
@@ -704,57 +1008,66 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
       if (regexList.length !== 0) {
         obj.examples.forEach(val => {
           if (
-            apiIgnoreValueRegex.test(val) === false
-            && regexList.every(regex => regex.test(val) === false)
+            apiIgnoreValueRegex.test(val) === false &&
+            regexList.every(regex => regex.test(val) === false)
           ) {
             printErrorAndExit(
-              `object: "examples" -> "${ val }" value must satisfy regex: ${ regexList.map(r => r.toString()).join(' or ') }`
+              `object: "examples" -> "${val}" value must satisfy regex: ${regexList.map(r => r.toString()).join(' or ')}`
             )
           }
         })
       }
 
-      if ((new Set(obj.examples)).size !== obj.examples.length) {
+      if (new Set(obj.examples).size !== obj.examples.length) {
         printErrorAndExit('object has "examples" Array with duplicates')
       }
     }
 
     if (
-      obj.hasOwnProperty('passthrough') === true
-      && passthroughValues.includes(obj.passthrough) === false
+      obj.hasOwnProperty('passthrough') === true &&
+      passthroughValues.includes(obj.passthrough) === false
     ) {
-      printErrorAndExit(`"passthrough" should be one of: ${ passthroughValues.join('|') }`)
+      printErrorAndExit(
+        `"passthrough" should be one of: ${passthroughValues.join('|')}`
+      )
     }
 
     if (obj.default !== void 0 && obj.required === true) {
       if (
         Array.isArray(obj.type) === true
-          ? (obj.type.includes('Any') !== true && obj.type.includes('undefined') !== true)
-          : [ 'Any', 'undefined' ].includes(obj.type) !== true
+          ? obj.type.includes('Any') !== true &&
+            obj.type.includes('undefined') !== true
+          : ['Any', 'undefined'].includes(obj.type) !== true
       ) {
         printErrorAndExit(
-          'cannot have "required" as true since it is optional because it has "default" '
-          + '(if default is still required as it handles the "undefined" value, then '
-          + 'add "__requireWithDefault": true)'
+          'cannot have "required" as true since it is optional because it has "default" ' +
+            '(if default is still required as it handles the "undefined" value, then ' +
+            'add "__requireWithDefault": true)'
         )
       }
     }
 
     // If required is specified, use it, if not and it has a default value, then it's optional,
     // otherwise use undefined so it can get overridden later
-    api[ itemName ].required = obj.required !== void 0
-      ? obj.required
-      : (obj.default !== void 0 ? false : undefined)
+    api[itemName].required =
+      obj.required !== void 0
+        ? obj.required
+        : obj.default !== void 0
+          ? false
+          : void 0
   }
 
   if (obj.tsType && obj.autoDefineTsType === true && !obj.definition) {
     printErrorAndExit(
-      `object is auto defining "${ obj.tsType }" TS type but it is missing "definition" prop`
+      `object is auto defining "${obj.tsType}" TS type but it is missing "definition" prop`
     )
   }
 
   if (masterType === 'props') {
-    if (Array.isArray(obj.type) === true && (new Set(obj.type)).size !== obj.type.length) {
+    if (
+      Array.isArray(obj.type) === true &&
+      new Set(obj.type).size !== obj.type.length
+    ) {
       printErrorAndExit(
         'object has "type" defined as Array, but the Array contains duplicates'
       )
@@ -763,37 +1076,44 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
     if (itemName.indexOf('class') !== -1) {
       if (obj.type === 'Object' && obj.tsType !== 'VueClassObjectProp') {
         printErrorAndExit(
-          'object is class-type (Object form) but "tsType" prop is set to '
-          + `"${ obj.tsType }" instead of "VueClassObjectProp":`
+          'object is class-type (Object form) but "tsType" prop is set to ' +
+            `"${obj.tsType}" instead of "VueClassObjectProp":`
         )
-      }
-      else if (obj.tsType !== 'VueClassProp' && isClassStyleType(obj.type) === true) {
+      } else if (
+        obj.tsType !== 'VueClassProp' &&
+        isClassStyleType(obj.type) === true
+      ) {
         printErrorAndExit(
-          'object is class-type (String/Array/Object form) but "tsType" prop '
-          + `is set to "${ obj.tsType }" instead of "VueClassProp":`
+          'object is class-type (String/Array/Object form) but "tsType" prop ' +
+            `is set to "${obj.tsType}" instead of "VueClassProp":`
         )
       }
-    }
-    else if (itemName.indexOf('style') !== -1) {
+    } else if (itemName.indexOf('style') !== -1) {
       if (obj.type === 'Object' && obj.tsType !== 'VueStyleObjectProp') {
         printErrorAndExit(
-          'object is style-type (Object form) but "tsType" prop is '
-          + `set to "${ obj.tsType }" instead of "VueStyleObjectProp":`
+          'object is style-type (Object form) but "tsType" prop is ' +
+            `set to "${obj.tsType}" instead of "VueStyleObjectProp":`
         )
-      }
-      else if (obj.tsType !== 'VueStyleProp' && isClassStyleType(obj.type) === true) {
+      } else if (
+        obj.tsType !== 'VueStyleProp' &&
+        isClassStyleType(obj.type) === true
+      ) {
         printErrorAndExit(
-          'object is style-type (String/Array/Object form) but "tsType" prop '
-          + `is set to "${ obj.tsType }" instead of "VueStyleProp":`
+          'object is style-type (String/Array/Object form) but "tsType" prop ' +
+            `is set to "${obj.tsType}" instead of "VueStyleProp":`
         )
       }
     }
 
-    if (verifySerializable && obj.configFileType === undefined && isSerializable(obj) === false) {
+    if (
+      verifySerializable &&
+      obj.configFileType === void 0 &&
+      isSerializable(obj) === false
+    ) {
       printErrorAndExit(
-        'object\'s type is non-serializable but props in "quasarConfOptions" can only consist of '
-        + `${ serializableTypes.join('/') } to be used in quasar.config file. Use "configFileType" `
-        + 'prop to specify a serializable type for quasar.config file, or set to null if there is no suitable type:'
+        'object\'s type is non-serializable but props in "quasarConfOptions" can only consist of ' +
+          `${serializableTypes.join('/')} to be used in quasar.config file. Use "configFileType" ` +
+          'prop to specify a serializable type for quasar.config file, or set to null if there is no suitable type:'
       )
     }
   }
@@ -805,20 +1125,20 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
 
   if (obj.returns) {
     parseObject({
-      banner: `${ banner }/"returns"`,
-      api: api[ itemName ],
+      banner: `${banner}/"returns"`,
+      api: api[itemName],
       itemName: 'returns',
       masterType: 'props'
     })
   }
 
-  ;[ 'params', 'definition', 'scope', 'props' ].forEach(prop => {
-    if (!obj[ prop ]) return
+  ;['params', 'definition', 'scope', 'props'].forEach(prop => {
+    if (!obj[prop]) return
 
-    for (const item in obj[ prop ]) {
+    for (const item in obj[prop]) {
       parseObject({
-        banner: `${ banner }/"${ prop }"/"${ item }"`,
-        api: api[ itemName ][ prop ],
+        banner: `${banner}/"${prop}"/"${item}"`,
+        api: api[itemName][prop],
         itemName: item,
         masterType: 'props',
         verifySerializable
@@ -827,16 +1147,16 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
   })
 }
 
-function parseAPI (file, apiType) {
+function parseAPI(file, apiType) {
   let api = readJsonFile(file)
 
   if (api.mixins !== void 0) {
     api = getApiWithMixins(api, file)
   }
 
-  const banner = `build.api.js: ${ relativeToRoot(file) } -> `
+  const banner = `build.api.js: ${relativeToRoot(file)} -> `
   const printErrorAndExit = msg => {
-    logError(`${ banner } ${ msg }`)
+    logError(`${banner} ${msg}`)
     console.log()
     process.exit(1)
   }
@@ -847,24 +1167,24 @@ function parseAPI (file, apiType) {
 
   // "props", "slots", ...
   for (const type in api) {
-    if (!topSections[ apiType ].rootProps.includes(type)) {
-      printErrorAndExit(` "${ type }" is not recognized for a ${ apiType }`)
+    if (!topSections[apiType].rootProps.includes(type)) {
+      printErrorAndExit(` "${type}" is not recognized for a ${apiType}`)
     }
 
     if (api.hasOwnProperty(type) === true) {
-      const result = topSections[ apiType ].rootValidations[ type ](api[ type ])
+      const result = topSections[apiType].rootValidations[type](api[type])
       if (result !== true) {
         printErrorAndExit(result)
       }
     }
   }
 
-  const handledTypes = [ 'addedIn', 'injection' ]
+  const handledTypes = ['addedIn', 'injection']
 
-  for (const type of [ 'meta', 'quasarConfOptions' ]) {
-    if (api[ type ] !== void 0) {
+  for (const type of ['meta', 'quasarConfOptions']) {
+    if (api[type] !== void 0) {
       parseObject({
-        banner: `${ banner } "${ type }"`,
+        banner: `${banner} "${type}"`,
         api,
         itemName: type,
         masterType: type,
@@ -874,10 +1194,10 @@ function parseAPI (file, apiType) {
   }
   handledTypes.push('meta', 'quasarConfOptions')
 
-  for (const type of [ 'value', 'arg' ]) {
-    if (api[ type ] !== void 0) {
+  for (const type of ['value', 'arg']) {
+    if (api[type] !== void 0) {
       parseObject({
-        banner: `${ banner } "${ type }"`,
+        banner: `${banner} "${type}"`,
         api,
         itemName: type,
         masterType: 'props'
@@ -889,12 +1209,12 @@ function parseAPI (file, apiType) {
   const isComponent = banner.indexOf('component') !== -1
 
   for (const type in api) {
-    const targetApi = api[ type ]
+    const targetApi = api[type]
     if (handledTypes.includes(type) === true) continue
 
     for (const itemName in targetApi) {
       parseObject({
-        banner: `${ banner } "${ type }"/"${ itemName }"`,
+        banner: `${banner} "${type}"/"${itemName}"`,
         api: targetApi,
         itemName,
         masterType: type === 'computedProps' ? 'props' : type,
@@ -906,26 +1226,23 @@ function parseAPI (file, apiType) {
   return api
 }
 
-function orderAPI (api, apiType) {
+function orderAPI(api, apiType) {
   const ordered = { type: apiType }
 
-  topSections[ apiType ].rootProps.forEach(section => {
-    if (api[ section ] !== void 0) {
-      ordered[ section ] = api[ section ]
+  topSections[apiType].rootProps.forEach(section => {
+    if (api[section] !== void 0) {
+      ordered[section] = api[section]
     }
   })
 
   return ordered
 }
 
-function fillAPI (apiType, list, encodeFn) {
+function fillAPI(apiType, list, encodeFn) {
   return async file => {
     const name = basename(file)
     const filePath = join(dest, name)
-    const api = orderAPI(
-      parseAPI(file, apiType),
-      apiType
-    )
+    const api = orderAPI(parseAPI(file, apiType), apiType)
 
     if (apiType === 'component') {
       let hasError = false
@@ -937,14 +1254,13 @@ function fillAPI (apiType, list, encodeFn) {
       let RuntimeComponent
 
       try {
-        const comp = await import(
-          pathToFileURL(componentPath)
-        )
+        const comp = await import(pathToFileURL(componentPath))
 
         RuntimeComponent = comp.default
-      }
-      catch (err) {
-        logError(`${ componentName }: failed to import Component file; check if it is a valid ES module`)
+      } catch (err) {
+        logError(
+          `${componentName}: failed to import Component file; check if it is a valid ES module`
+        )
         console.error(err)
         process.exit(1)
       }
@@ -959,34 +1275,38 @@ function fillAPI (apiType, list, encodeFn) {
       let match
 
       while ((match = slotRE.exec(componentContent)) !== null) {
-        const slotName = (match[ 1 ] || match[ 2 ]).replace(/(\${.+})/g, '[name]')
+        const slotName = (match[1] || match[2]).replace(/(\${.+})/g, '[name]')
 
-        if (apiSlots[ slotName ] === void 0) {
-          logError(`${ name }: missing "slot" -> "${ slotName }" definition (found slots usage with it)`)
+        if (apiSlots[slotName] === void 0) {
+          logError(
+            `${name}: missing "slot" -> "${slotName}" definition (found slots usage with it)`
+          )
           hasError = true
         }
       }
 
       while ((match = emitRE.exec(componentContent)) !== null) {
-        const matchedEmit = match[ 1 ]
+        const matchedEmit = match[1]
         const emitName = kebabCase(deCapitalize(matchedEmit)) // deCapitalize because: QTable > emit('RowClick')
-        const propName = `on${ capitalize(matchedEmit) }`
+        const propName = `on${capitalize(matchedEmit)}`
 
         if (
-          runtimeEmits.includes(matchedEmit) === false
-          && runtimeProps[ propName ] === void 0
+          runtimeEmits.includes(matchedEmit) === false &&
+          runtimeProps[propName] === void 0
         ) {
           logError(
-            `${ componentName }: Component is emitting "${ matchedEmit }" event without having `
-            + 'it defined in its code; Solutions:'
-            + `\n   1. add it in the Component as "emits: [ '${ matchedEmit }' ]"`
-            + `\n   2. or as "props: { ${ propName }: ... }"`
+            `${componentName}: Component is emitting "${matchedEmit}" event without having ` +
+              'it defined in its code; Solutions:' +
+              `\n   1. add it in the Component as "emits: [ '${matchedEmit}' ]"` +
+              `\n   2. or as "props: { ${propName}: ... }"`
           )
           hasError = true
         }
 
-        if (apiEvents[ emitName ] === void 0) {
-          logError(`${ name }: missing "events" -> "${ emitName }" definition (found emit() with it)`)
+        if (apiEvents[emitName] === void 0) {
+          logError(
+            `${name}: missing "events" -> "${emitName}" definition (found emit() with it)`
+          )
           hasError = true
         }
       }
@@ -994,12 +1314,12 @@ function fillAPI (apiType, list, encodeFn) {
       // runtime props should be defined in the API
       for (const runtimePropName in runtimeProps) {
         const apiPropName = kebabCase(runtimePropName)
-        const apiEntry = apiProps[ apiPropName ]
+        const apiEntry = apiProps[apiPropName]
 
         if (runtimePropName.indexOf('-') !== -1) {
           logError(
-            `${ componentName }: prop "${ runtimePropName }" should be `
-            + 'in camelCase (found kebab-case)'
+            `${componentName}: prop "${runtimePropName}" should be ` +
+              'in camelCase (found kebab-case)'
           )
           hasError = true
         }
@@ -1012,24 +1332,24 @@ function fillAPI (apiType, list, encodeFn) {
           // should not duplicate as prop and emit
           if (runtimeEmits.includes(runtimeEmitName) === true) {
             logError(
-              `${ componentName }: Component has duplicated prop (${ runtimePropName }) + `
-              + `emit (${ runtimeEmitName }); only one should be defined`
+              `${componentName}: Component has duplicated prop (${runtimePropName}) + ` +
+                `emit (${runtimeEmitName}); only one should be defined`
             )
             hasError = true
           }
 
           if (apiEntry !== void 0) {
             logError(
-              `${ name }: "props" -> "${ apiPropName }" should instead be defined `
-              + `as "events" -> "${ apiEventName }"`
+              `${name}: "props" -> "${apiPropName}" should instead be defined ` +
+                `as "events" -> "${apiEventName}"`
             )
             hasError = true
           }
 
-          if (apiEvents[ apiEventName ] === void 0) {
+          if (apiEvents[apiEventName] === void 0) {
             logError(
-              `${ name }: missing "events" -> "${ apiEventName }" definition `
-              + `(found Component prop "${ runtimePropName }")`
+              `${name}: missing "events" -> "${apiEventName}" definition ` +
+                `(found Component prop "${runtimePropName}")`
             )
             hasError = true
           }
@@ -1037,30 +1357,30 @@ function fillAPI (apiType, list, encodeFn) {
           continue
         }
 
-        const runtimePropEntry = runtimeProps[ runtimePropName ]
+        const runtimePropEntry = runtimeProps[runtimePropName]
 
         if (apiEntry === void 0) {
           logError(
-            `${ name }: missing "props" -> "${ apiPropName }" definition `
-            + `(found Component prop "${ runtimePropName }")`
+            `${name}: missing "props" -> "${apiPropName}" definition ` +
+              `(found Component prop "${runtimePropName}")`
           )
           hasError = true
-        }
-        else if (apiEntry.passthrough === 'child') {
+        } else if (apiEntry.passthrough === 'child') {
           if (
-            Object(runtimePropEntry) !== runtimePropEntry
-            || Object.keys(runtimePropEntry).length !== 0
+            Object(runtimePropEntry) !== runtimePropEntry ||
+            Object.keys(runtimePropEntry).length !== 0
           ) {
             logError(
-              `${ name }: "props" -> "${ apiPropName }" is marked as `
-              + 'passthrough="child" but its definition is NOT an empty Object'
+              `${name}: "props" -> "${apiPropName}" is marked as ` +
+                'passthrough="child" but its definition is NOT an empty Object'
             )
             console.log(apiEntry)
             hasError = true
           }
-        }
-        else {
-          const apiTypes = Array.isArray(apiEntry.type) ? apiEntry.type : [ apiEntry.type ]
+        } else {
+          const apiTypes = Array.isArray(apiEntry.type)
+            ? apiEntry.type
+            : [apiEntry.type]
 
           const {
             runtimeTypes,
@@ -1069,18 +1389,21 @@ function fillAPI (apiType, list, encodeFn) {
             runtimeDefaultValue
           } = extractRuntimePropAttrs(runtimePropEntry)
 
-          const isRuntimeFunction = runtimeTypes.length === 1 && runtimeTypes[ 0 ] === 'Function'
-          const runtimeDefinableApiTypes = extractRuntimeDefinablePropTypes(apiTypes)
+          const isRuntimeFunction =
+            runtimeTypes.length === 1 && runtimeTypes[0] === 'Function'
+          const runtimeDefinableApiTypes =
+            extractRuntimeDefinablePropTypes(apiTypes)
 
           // API "type" validation against runtime
           if (
-            runtimeDefinableApiTypes.length !== runtimeTypes.length
-            || runtimeDefinableApiTypes.every((t, i) => t === runtimeTypes[ i ]) === false
+            runtimeDefinableApiTypes.length !== runtimeTypes.length ||
+            runtimeDefinableApiTypes.every((t, i) => t === runtimeTypes[i]) ===
+              false
           ) {
             logError(
-              `${ name }: wrong definition for prop "${ apiPropName }" - `
-              + `JSON as ${ JSON.stringify(apiTypes) } `
-              + `vs Component as ${ JSON.stringify(runtimeTypes) }`
+              `${name}: wrong definition for prop "${apiPropName}" - ` +
+                `JSON as ${JSON.stringify(apiTypes)} ` +
+                `vs Component as ${JSON.stringify(runtimeTypes)}`
             )
             console.log(apiEntry)
             hasError = true
@@ -1088,7 +1411,9 @@ function fillAPI (apiType, list, encodeFn) {
 
           // API "required" validation against runtime
           if (isRuntimeRequired === true && apiEntry.required !== true) {
-            logError(`${ name }: "props" -> "${ apiPropName }" is missing the required=true flag`)
+            logError(
+              `${name}: "props" -> "${apiPropName}" is missing the required=true flag`
+            )
             console.log(apiEntry)
             hasError = true
           }
@@ -1097,14 +1422,16 @@ function fillAPI (apiType, list, encodeFn) {
           if (hasRuntimeDefault === true) {
             if (apiEntry.hasOwnProperty('default') === false) {
               logError(
-                `${ name }: "props" -> "${ apiPropName }" is missing "default" with `
-                + `value: "${ encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction) }"`
+                `${name}: "props" -> "${apiPropName}" is missing "default" with ` +
+                  `value: "${encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction)}"`
               )
               console.log(apiEntry)
               hasError = true
-            }
-            else if (apiIgnoreValueRegex.test(apiEntry.default) === false) {
-              const encodedValue = encodeDefaultValue(runtimeDefaultValue, isRuntimeFunction)
+            } else if (apiIgnoreValueRegex.test(apiEntry.default) === false) {
+              const encodedValue = encodeDefaultValue(
+                runtimeDefaultValue,
+                isRuntimeFunction
+              )
 
               if (apiEntry.default !== encodedValue) {
                 let handledAlready = false
@@ -1114,59 +1441,73 @@ function fillAPI (apiType, list, encodeFn) {
 
                   if (fn.indexOf('\n') !== -1) {
                     logError(
-                      `${ componentName }: prop "${ runtimePropName }" -> "default" `
-                      + 'should be a single line arrow function (found multiple lines)'
+                      `${componentName}: prop "${runtimePropName}" -> "default" ` +
+                        'should be a single line arrow function (found multiple lines)'
                     )
                     console.log(apiEntry)
                     hasError = true
                     handledAlready = true
                   }
 
-                  if (handledAlready === false && functionRE.test(fn) === false) {
+                  if (
+                    handledAlready === false &&
+                    functionRE.test(fn) === false
+                  ) {
                     logError(
-                      `${ componentName }: prop "${ runtimePropName }" -> "default" should `
-                      + 'be an arrow function that begins with: "() => "'
+                      `${componentName}: prop "${runtimePropName}" -> "default" should ` +
+                        'be an arrow function that begins with: "() => "'
                     )
                     console.log(apiEntry)
                     hasError = true
                   }
 
-                  if (handledAlready === false && /^[a-zA-Z]/.test(encodedValue) === true) {
+                  if (
+                    handledAlready === false &&
+                    /^[a-zA-Z]/.test(encodedValue) === true
+                  ) {
                     logError(
-                      `${ componentName }: prop "${ runtimePropName }" -> "default" should `
-                      + 'be an arrow factory function that does not reference any external variables'
+                      `${componentName}: prop "${runtimePropName}" -> "default" should ` +
+                        'be an arrow factory function that does not reference any external variables'
                     )
                     console.log(apiEntry)
                     hasError = true
                   }
                 }
 
-                if (handledAlready === false && apiEntry.__runtimeDefault !== true) {
+                if (
+                  handledAlready === false &&
+                  apiEntry.__runtimeDefault !== true
+                ) {
                   logError(
-                    `${ name }: "props" -> "${ apiPropName }" > "default" value should `
-                    + `be: "${ encodedValue }" (instead of "${ apiEntry.default }")`
+                    `${name}: "props" -> "${apiPropName}" > "default" value should ` +
+                      `be: "${encodedValue}" (instead of "${apiEntry.default}")`
                   )
                   console.log(apiEntry)
                   hasError = true
                 }
               }
 
-              if (apiEntry.__runtimeDefault === true && runtimeDefaultValue !== null) {
+              if (
+                apiEntry.__runtimeDefault === true &&
+                runtimeDefaultValue !== null
+              ) {
                 logError(
-                  `${ name }: "props" -> "${ apiPropName }" should NOT `
-                  + 'have "__runtimeDefault" (found static value on Component)'
+                  `${name}: "props" -> "${apiPropName}" should NOT ` +
+                    'have "__runtimeDefault" (found static value on Component)'
                 )
                 console.log(apiEntry)
                 hasError = true
               }
             }
-          }
-          else if (apiEntry.__runtimeDefault !== true && apiEntry.hasOwnProperty('default') === true) {
+          } else if (
+            apiEntry.__runtimeDefault !== true &&
+            apiEntry.hasOwnProperty('default') === true
+          ) {
             logError(
-              `${ name }: "props" -> "${ apiPropName }" should NOT have a "default" value; Solutions:`
-              + '\n  1. remove "default" because it should indeed not have it'
-              + '\n  2. it is runtime computed, in which case add "__runtimeDefault": true'
-              + '\n  3. it handles the "undefined" value, in which case add "undefined" or "Any" to the "type"'
+              `${name}: "props" -> "${apiPropName}" should NOT have a "default" value; Solutions:` +
+                '\n  1. remove "default" because it should indeed not have it' +
+                '\n  2. it is runtime computed, in which case add "__runtimeDefault": true' +
+                '\n  3. it handles the "undefined" value, in which case add "undefined" or "Any" to the "type"'
             )
             console.log(apiEntry)
             hasError = true
@@ -1176,14 +1517,14 @@ function fillAPI (apiType, list, encodeFn) {
 
       // API defined props should exist in the component
       for (const apiPropName in apiProps) {
-        const apiEntry = apiProps[ apiPropName ]
+        const apiEntry = apiProps[apiPropName]
         const runtimeName = camelCase(apiPropName)
 
         if (apiEntry.passthrough === true) {
-          if (runtimeProps[ runtimeName ] !== void 0) {
+          if (runtimeProps[runtimeName] !== void 0) {
             logError(
-              `${ name }: "props" -> "${ apiPropName }" should NOT be `
-              + 'a "passthrough" as it exists in the Component too'
+              `${name}: "props" -> "${apiPropName}" should NOT be ` +
+                'a "passthrough" as it exists in the Component too'
             )
             console.log(apiEntry)
             hasError = true
@@ -1192,10 +1533,10 @@ function fillAPI (apiType, list, encodeFn) {
           continue
         }
 
-        if (runtimeProps[ runtimeName ] === void 0) {
+        if (runtimeProps[runtimeName] === void 0) {
           logError(
-            `${ name }: "props" -> "${ apiPropName }" is in JSON but `
-            + 'not in the Component (is it a passthrough?)'
+            `${name}: "props" -> "${apiPropName}" is in JSON but ` +
+              'not in the Component (is it a passthrough?)'
           )
           console.log(apiEntry)
           hasError = true
@@ -1206,18 +1547,18 @@ function fillAPI (apiType, list, encodeFn) {
       for (const runtimeEmitName of runtimeEmits) {
         const apiEventName = kebabCase(runtimeEmitName)
 
-        if (apiEvents[ apiEventName ] === void 0) {
+        if (apiEvents[apiEventName] === void 0) {
           logError(
-            `${ name }: missing "events" -> "${ apiEventName }" definition `
-            + `(found Component > emits: "${ runtimeEmitName }")`
+            `${name}: missing "events" -> "${apiEventName}" definition ` +
+              `(found Component > emits: "${runtimeEmitName}")`
           )
           hasError = true
         }
 
         if (runtimeEmitName.indexOf('-') !== -1) {
           logError(
-            `${ componentName }: "emits" -> "${ runtimeEmitName }" should be`
-            + ' in camelCase (found kebab-case)'
+            `${componentName}: "emits" -> "${runtimeEmitName}" should be` +
+              ' in camelCase (found kebab-case)'
           )
           hasError = true
         }
@@ -1225,16 +1566,16 @@ function fillAPI (apiType, list, encodeFn) {
 
       // API defined events should exist in the component
       for (const apiEventName in apiEvents) {
-        const apiEntry = apiEvents[ apiEventName ]
+        const apiEntry = apiEvents[apiEventName]
 
         const runtimeEmitName = camelCase(apiEventName)
-        const runtimePropName = `on${ capitalize(runtimeEmitName) }`
+        const runtimePropName = `on${capitalize(runtimeEmitName)}`
 
         if (apiEntry.passthrough === true) {
-          if (runtimeProps[ runtimePropName ] !== void 0) {
+          if (runtimeProps[runtimePropName] !== void 0) {
             logError(
-              `${ name }: "events" -> "${ apiEventName }" should NOT be `
-              + 'a "passthrough" as it exists in the Component too'
+              `${name}: "events" -> "${apiEventName}" should NOT be ` +
+                'a "passthrough" as it exists in the Component too'
             )
             console.log(apiEntry)
             hasError = true
@@ -1242,8 +1583,8 @@ function fillAPI (apiType, list, encodeFn) {
 
           if (runtimeEmits.includes(runtimeEmitName) === true) {
             logError(
-              `${ name }: "events" -> "${ apiEventName }" should NOT be a "passthrough" `
-              + `as it exists in the Component (as emits: ${ runtimeEmitName })`
+              `${name}: "events" -> "${apiEventName}" should NOT be a "passthrough" ` +
+                `as it exists in the Component (as emits: ${runtimeEmitName})`
             )
             console.log(apiEntry)
             hasError = true
@@ -1253,12 +1594,12 @@ function fillAPI (apiType, list, encodeFn) {
         }
 
         if (
-          runtimeProps[ runtimePropName ] === void 0
-          && runtimeEmits.includes(runtimeEmitName) === false
+          runtimeProps[runtimePropName] === void 0 &&
+          runtimeEmits.includes(runtimeEmitName) === false
         ) {
           logError(
-            `${ name }: "events" -> "${ apiEventName }" is in JSON but `
-            + 'not in the Component (is it a passthrough?)'
+            `${name}: "events" -> "${apiEventName}" is in JSON but ` +
+              'not in the Component (is it a passthrough?)'
           )
           console.log(apiEntry)
           hasError = true
@@ -1271,24 +1612,23 @@ function fillAPI (apiType, list, encodeFn) {
       }
 
       Object.keys(api).forEach(section => {
-        const target = api[ section ]
+        const target = api[section]
 
         if (Object(target) === target) {
           for (const key in target) {
-            const entry = target[ key ]
+            const entry = target[key]
             if (Object(entry) !== entry) continue
 
             if (entry.internal === true) {
-              delete target[ key ]
-            }
-            else if (entry.internal === false) {
+              delete target[key]
+            } else if (entry.internal === false) {
               // save bytes over the wire
               delete entry.internal
             }
 
             if (
-              entry.hasOwnProperty('passthrough') === true
-              && entry.passthrough !== true
+              entry.hasOwnProperty('passthrough') === true &&
+              entry.passthrough !== true
             ) {
               // save bytes over the wire
               delete entry.passthrough
@@ -1302,7 +1642,7 @@ function fillAPI (apiType, list, encodeFn) {
 
           // we might have only internal stuff in a key (which was deleted above)
           if (Object.keys(target).length === 0) {
-            delete api[ section ]
+            delete api[section]
           }
         }
       })
@@ -1321,31 +1661,30 @@ function fillAPI (apiType, list, encodeFn) {
   }
 }
 
-function writeTransformAssetUrls (components, encodeFn) {
+function writeTransformAssetUrls(components, encodeFn) {
   const transformAssetUrls = {
     base: null,
     includeAbsolute: false,
     tags: {
-      video: [ 'src', 'poster' ],
-      source: [ 'src' ],
-      img: [ 'src' ],
-      image: [ 'xlink:href', 'href' ],
-      use: [ 'xlink:href', 'href' ]
+      video: ['src', 'poster'],
+      source: ['src'],
+      img: ['src'],
+      image: ['xlink:href', 'href'],
+      use: ['xlink:href', 'href']
     }
   }
 
   components.forEach(({ name, api }) => {
     if (api.props !== void 0) {
-      let props = Object.keys(api.props)
-        .filter(name => api.props[ name ].transformAssetUrls === true)
+      let props = Object.keys(api.props).filter(
+        propName => api.props[propName].transformAssetUrls === true
+      )
 
       if (props.length > 0) {
-        props = props.length > 1
-          ? props
-          : props[ 0 ]
+        props = props.length > 1 ? props : props[0]
 
-        transformAssetUrls.tags[ name ] = props
-        transformAssetUrls.tags[ kebabCase(name) ] = props
+        transformAssetUrls.tags[name] = props
+        transformAssetUrls.tags[kebabCase(name)] = props
       }
     }
   })
@@ -1356,21 +1695,18 @@ function writeTransformAssetUrls (components, encodeFn) {
   )
 }
 
-function writeApiIndex (list, encodeFn) {
-  writeFile(
-    resolveToRoot('dist/transforms/api-list.json'),
-    encodeFn(list)
-  )
+function writeApiIndex(list, encodeFn) {
+  writeFile(resolveToRoot('dist/transforms/api-list.json'), encodeFn(list))
 }
 
-function prepareRuntimeImports () {
+function prepareRuntimeImports() {
   // we prepare importing UI code so that it won't crash
   global.__QUASAR_SSR__ = true
   global.__QUASAR_SSR_SERVER__ = true
   global.__QUASAR_SSR_CLIENT__ = false
 }
 
-function resetRuntimeImports () {
+function resetRuntimeImports() {
   // we revert the changes we did to global because
   // we are done with importing the UI code
   delete global.__QUASAR_SSR__
@@ -1378,10 +1714,9 @@ function resetRuntimeImports () {
   delete global.__QUASAR_SSR_CLIENT__
 }
 
-export async function generate ({ compact = false } = {}) {
-  const encodeFn = compact === true
-    ? JSON.stringify
-    : json => JSON.stringify(json, null, 2)
+export async function generate({ compact = false } = {}) {
+  const encodeFn =
+    compact === true ? JSON.stringify : json => JSON.stringify(json, null, 2)
 
   prepareRuntimeImports()
 
@@ -1389,21 +1724,24 @@ export async function generate ({ compact = false } = {}) {
     const list = []
 
     const plugins = await Promise.all(
-      globSync([
-        'src/plugins/*/*.json',
-        'src/Brand.json'
-      ], { cwd: rootFolder, absolute: true })
-        .map(fillAPI('plugin', list, encodeFn))
+      globSync(['src/plugins/*/*.json', 'src/Brand.json'], {
+        cwd: rootFolder,
+        absolute: true
+      }).map(fillAPI('plugin', list, encodeFn))
     )
 
     const directives = await Promise.all(
-      globSync('src/directives/*/*.json', { cwd: rootFolder, absolute: true })
-        .map(fillAPI('directive', list, encodeFn))
+      globSync('src/directives/*/*.json', {
+        cwd: rootFolder,
+        absolute: true
+      }).map(fillAPI('directive', list, encodeFn))
     )
 
     const components = await Promise.all(
-      globSync('src/components/*/Q*.json', { cwd: rootFolder, absolute: true })
-        .map(fillAPI('component', list, encodeFn))
+      globSync('src/components/*/Q*.json', {
+        cwd: rootFolder,
+        absolute: true
+      }).map(fillAPI('component', list, encodeFn))
     )
 
     resetRuntimeImports()
@@ -1412,8 +1750,7 @@ export async function generate ({ compact = false } = {}) {
     writeApiIndex(list.sort(), encodeFn)
 
     return { components, directives, plugins }
-  }
-  catch (err) {
+  } catch (err) {
     resetRuntimeImports()
 
     logError('build.api.js: something went wrong...')

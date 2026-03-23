@@ -11,7 +11,7 @@ import { quasarSpaConfig } from '../../lib/modes/spa/spa-config.js'
  * @param {*} ctxParams
  * @returns {Promise<import('vite').UserConfig>}
  */
-export async function getTestingConfig (ctxParams = {}) {
+export async function getTestingConfig(ctxParams = {}) {
   const ctx = getCtx({
     mode: 'spa',
     dev: true,

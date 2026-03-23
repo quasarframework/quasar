@@ -5,7 +5,7 @@
     target="_blank"
     padding="0"
   >
-    <img src="http://img.youtube.com/vi/TBBzdFqtehA/maxresdefault.jpg">
+    <img src="http://img.youtube.com/vi/TBBzdFqtehA/maxresdefault.jpg" />
     <div class="upgrade-video-link__overlay absolute-full no-pointer-events" />
     <q-icon class="absolute-center" name="launch" size="150px" />
   </q-btn>

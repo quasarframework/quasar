@@ -12,8 +12,10 @@ export default defineComponent({
     allowRouteChange: Boolean
   },
 
-  beforeRouteLeave () {
-    console.log(this.allowRouteChange ? 'allowing navigation' : 'denying navigation')
+  beforeRouteLeave() {
+    console.log(
+      this.allowRouteChange ? 'allowing navigation' : 'denying navigation'
+    )
     return this.allowRouteChange
   }
 })

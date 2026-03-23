@@ -4,7 +4,7 @@
   <q-btn
     v-bind="{
       ...$props,
-      color: variant,
+      color: variant
     }"
   >
   </q-btn>

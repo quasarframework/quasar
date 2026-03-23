@@ -59,13 +59,9 @@ setup () {
 Should you need more than one useTick() per component, simply rename the functions of the returned object:
 
 ```js
-const {
-  registerTick: registerFirstTick,
-  removeTick: removeFirstTick
-} = useTick()
+const { registerTick: registerFirstTick, removeTick: removeFirstTick } =
+  useTick()
 
-const {
-  registerTick: registerSecondTick,
-  removeTick: removeSecondTick
-} = useTick()
+const { registerTick: registerSecondTick, removeTick: removeSecondTick } =
+  useTick()
 ```

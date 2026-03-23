@@ -15,13 +15,16 @@ export default {
     search: 'Søk',
     filter: 'Filter',
     refresh: 'Oppdater',
-    expand: label => (label ? `Utvid "${ label }"` : 'Utvide'),
-    collapse: label => (label ? `Skjul "${ label }"` : 'Kollapse')
+    expand: label => (label ? `Utvid "${label}"` : 'Utvide'),
+    collapse: label => (label ? `Skjul "${label}"` : 'Kollapse')
   },
   date: {
     days: 'Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag'.split('_'),
     daysShort: 'Søn_Man_Tir_Ons_Tor_Fre_Lør'.split('_'),
-    months: 'Januar_Februar_Mars_April_Mai_Juni_Juli_August_September_Oktober_November_Desember'.split('_'),
+    months:
+      'Januar_Februar_Mars_April_Mai_Juni_Juli_August_September_Oktober_November_Desember'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,19 +34,18 @@ export default {
     prevYear: 'Forrige år',
     nextYear: 'Neste år',
     today: 'I dag',
-    prevRangeYears: range => `Forrige ${ range } år`,
-    nextRangeYears: range => `Neste ${ range } år`
+    prevRangeYears: range => `Forrige ${range} år`,
+    nextRangeYears: range => `Neste ${range} år`
   },
   table: {
     noData: 'Ingen data tilgjengelig',
     noResults: 'Ingen treff i data funnet',
     loading: 'Laster...',
     row: 'rad',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
         ? rows + ' row' + (rows === 1 ? '' : 's') + ' valgt.'
-        : 'Ingen valgte rader.'
-    ),
+        : 'Ingen valgte rader.',
     recordsPerPage: 'Rader pr side:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' av ' + total,

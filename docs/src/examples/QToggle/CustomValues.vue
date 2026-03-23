@@ -35,7 +35,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       blueModel: ref(true),
       pinkModel: ref('Agreed'),

@@ -33,8 +33,5 @@ import TransitionList from './TransitionList.vue'
 Use the names indicated in the captions above for the transition props. Example:
 
 ```html
-<q-menu
-  transition-show="jump-down"
-  transition-hide="jump-up"
-/>
+<q-menu transition-show="jump-down" transition-hide="jump-up" />
 ```

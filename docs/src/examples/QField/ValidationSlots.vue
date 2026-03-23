@@ -9,11 +9,17 @@
       :error="!isValid"
     >
       <template v-slot:control>
-        <q-slider v-model="slider" :min="0" :max="100" label label-always class="q-mt-lg" style="width: 200px" />
+        <q-slider
+          v-model="slider"
+          :min="0"
+          :max="100"
+          label
+          label-always
+          class="q-mt-lg"
+          style="width: 200px"
+        />
       </template>
-      <template v-slot:error>
-        Please use a maximum value of 30.
-      </template>
+      <template v-slot:error> Please use a maximum value of 30. </template>
     </q-field>
   </div>
 </template>
@@ -22,7 +28,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const slider = ref(10)
 
     return {

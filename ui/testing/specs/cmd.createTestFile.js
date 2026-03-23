@@ -4,15 +4,11 @@ import prompts from 'prompts'
 /**
  * Creates a test file (does NOT run in CI mode)
  */
-export async function cmdCreateTestFile ({
-  ctx,
-  testFile,
-  ignoredTestFiles
-}) {
+export async function cmdCreateTestFile({ ctx, testFile, ignoredTestFiles }) {
   const { action } = await prompts({
     type: 'select',
     name: 'action',
-    message: `🔥 Missing test file for "${ ctx.targetRelative }":`,
+    message: `🔥 Missing test file for "${ctx.targetRelative}":`,
     initial: 0,
     choices: [
       { title: 'Skip', value: 'skip' },
@@ -40,7 +36,7 @@ export async function cmdCreateTestFile ({
   const { confirm } = await prompts({
     type: 'confirm',
     name: 'confirm',
-    message: `🔋 Do you accept "${ ctx.testFileRelative }" with contents from above?`,
+    message: `🔋 Do you accept "${ctx.testFileRelative}" with contents from above?`,
     initial: true
   })
 
@@ -49,6 +45,6 @@ export async function cmdCreateTestFile ({
 
   if (confirm === true) {
     fse.writeFileSync(ctx.testFileAbsolute, testFileContent, 'utf-8')
-    console.log(`  🎉 Created "${ ctx.testFileRelative }"`)
+    console.log(`  🎉 Created "${ctx.testFileRelative}"`)
   }
 }

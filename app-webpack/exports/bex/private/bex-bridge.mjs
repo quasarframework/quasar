@@ -5,7 +5,7 @@ const { runtime } = process.env.TARGET === 'firefox' ? browser : chrome
  * @param {number} max
  * @returns {number}
  */
-function getRandomId (max) {
+function getRandomId(max) {
   return Math.floor(Math.random() * max)
 }
 
@@ -45,7 +45,7 @@ export class BexBridge {
   /**
    * @param {{ type: 'background' | 'content' | 'app', name?: string, debug?: boolean }} options
    */
-  constructor ({ type, name = '', debug }) {
+  constructor({ type, name = '', debug }) {
     this.portName = type
     this.#type = type
 
@@ -56,10 +56,10 @@ export class BexBridge {
        *
        * Generating an easy to handle id for the content script.
        */
-      this.portName = `${ type }@${ name }-${ getRandomId(10_000) }`
+      this.portName = `${type}@${name}-${getRandomId(10_000)}`
     }
 
-    this.#banner = `[QBex|${ this.portName }]`
+    this.#banner = `[QBex|${this.portName}]`
     this.#debug = debug === true
 
     if (type !== 'background') {
@@ -85,26 +85,26 @@ export class BexBridge {
       // then ignore it
       if (portNameRE.test(port.name) === false) return
 
-      if (this.portMap[ port.name ] !== void 0) {
+      if (this.portMap[port.name] !== void 0) {
         this.warn(
-          `Connection with "${ port.name }" already exists.`
-          + ' Disconnecting the previous one and connecting the new one.'
+          `Connection with "${port.name}" already exists.` +
+            ' Disconnecting the previous one and connecting the new one.'
         )
-        this.portMap[ port.name ].disconnect()
+        this.portMap[port.name].disconnect()
         this.#cleanupPort(port.name)
       }
 
-      this.portMap[ port.name ] = port
+      this.portMap[port.name] = port
 
       port.onMessage.addListener(onPacket)
       port.onDisconnect.addListener(() => {
         port.onMessage.removeListener(onPacket)
         this.#cleanupPort(port.name)
-        this.log(`Closed connection with ${ port.name }.`)
+        this.log(`Closed connection with ${port.name}.`)
         this.#onPortChange({ removed: port.name })
       })
 
-      this.log(`Opened connection with ${ port.name }.`)
+      this.log(`Opened connection with ${port.name}.`)
       this.#onPortChange({ added: port.name })
     })
   }
@@ -112,9 +112,11 @@ export class BexBridge {
   /**
    * @returns {Promise<void>}
    */
-  connectToBackground () {
+  connectToBackground() {
     if (this.#type === 'background') {
-      return Promise.reject('The background script itself does not need to connect')
+      return Promise.reject(
+        'The background script itself does not need to connect'
+      )
     }
 
     if (this.isConnected === true) {
@@ -140,7 +142,11 @@ export class BexBridge {
       }
 
       const onDisconnect = () => {
-        if (runtime.lastError?.message?.indexOf('Could not establish connection') !== -1) {
+        if (
+          runtime.lastError?.message?.indexOf(
+            'Could not establish connection'
+          ) !== -1
+        ) {
           this.isConnected = false
           portToBackground.onMessage.removeListener(onPacket)
           portToBackground.onMessage.removeListener(onDisconnect)
@@ -151,7 +157,7 @@ export class BexBridge {
         this.isConnected = false
 
         for (const id in this.messageMap) {
-          const item = this.messageMap[ id ]
+          const item = this.messageMap[id]
           item.reject('Connection was closed')
         }
 
@@ -171,13 +177,15 @@ export class BexBridge {
   /**
    * @returns {Promise<void>}
    */
-  disconnectFromBackground () {
+  disconnectFromBackground() {
     if (this.#type === 'background') {
       return Promise.reject('Background script does not need to disconnect')
     }
 
     if (this.isConnected === false) {
-      return Promise.reject('Tried to disconnect from the background script but the port was not connected')
+      return Promise.reject(
+        'Tried to disconnect from the background script but the port was not connected'
+      )
     }
 
     this.portMap.background.disconnect()
@@ -190,7 +198,7 @@ export class BexBridge {
    * @param {string} event
    * @param {(message: Message) => void} callback
    */
-  on (event, callback) {
+  on(event, callback) {
     if (!event) {
       this.warn('Tried add listener but no event specified.')
       return
@@ -201,16 +209,16 @@ export class BexBridge {
       return
     }
 
-    const target = this.listeners[ event ] || (this.listeners[ event ] = [])
+    const target = this.listeners[event] || (this.listeners[event] = [])
     target.push({ type: 'on', callback })
-    this.log(`Added a listener for event: "${ event }".`)
+    this.log(`Added a listener for event: "${event}".`)
   }
 
   /**
    * @param {string} event
    * @param {(message: Message) => void} callback
    */
-  once (event, callback) {
+  once(event, callback) {
     if (!event) {
       this.warn('Tried add listener but no event specified.')
       return
@@ -221,55 +229,57 @@ export class BexBridge {
       return
     }
 
-    const target = this.listeners[ event ] || (this.listeners[ event ] = [])
+    const target = this.listeners[event] || (this.listeners[event] = [])
     target.push({ type: 'once', callback })
-    this.log(`Added a one-time listener for event: "${ event }".`)
+    this.log(`Added a one-time listener for event: "${event}".`)
   }
 
   /**
    * @param {string} event
    * @param {(message: Message) => void} callback
    */
-  off (event, callback) {
+  off(event, callback) {
     if (!event) {
       this.warn('Tried to remove listeners but no event specified.')
       return
     }
 
-    const list = this.listeners[ event ]
+    const list = this.listeners[event]
 
     if (list === void 0) {
-      this.warn(`Tried to remove listener for "${ event }" event but there is no such listener attached.`)
+      this.warn(
+        `Tried to remove listener for "${event}" event but there is no such listener attached.`
+      )
       return
     }
 
     if (callback === void 0) {
       if (event.startsWith('@quasar:')) {
         // ensure we don't remove internal listeners
-        this.listeners[ event ] = [ list[ 0 ] ]
-      }
-      else {
-        delete this.listeners[ event ]
+        this.listeners[event] = [list[0]]
+      } else {
+        delete this.listeners[event]
       }
 
-      this.log(`Stopped listening for "${ event }".`)
+      this.log(`Stopped listening for "${event}".`)
       return
     }
 
     if (typeof callback !== 'function') {
-      this.warn('Tried to remove listener but the callback specified is not a function.')
+      this.warn(
+        'Tried to remove listener but the callback specified is not a function.'
+      )
       return
     }
 
     const liveEvents = list.filter(entry => entry.callback !== callback)
 
     if (liveEvents.length !== 0) {
-      this.listeners[ event ] = liveEvents
-      this.log(`Removed a listener for: "${ event }".`)
-    }
-    else {
-      delete this.listeners[ event ]
-      this.log(`Stopped listening for: "${ event }".`)
+      this.listeners[event] = liveEvents
+      this.log(`Removed a listener for: "${event}".`)
+    } else {
+      delete this.listeners[event]
+      this.log(`Stopped listening for: "${event}".`)
     }
   }
 
@@ -277,9 +287,11 @@ export class BexBridge {
    * @param {{ event: string, to: string, payload: any } | undefined} param
    * @returns {Promise<any>} response payload
    */
-  async send ({ event, to, payload } = {}) {
+  async send({ event, to, payload } = {}) {
     if (this.isConnected === false) {
-      throw new Error('Tried to send message but the bridge is not connected. Please connect it first.')
+      throw new Error(
+        'Tried to send message but the bridge is not connected. Please connect it first.'
+      )
     }
 
     if (!event) {
@@ -293,8 +305,8 @@ export class BexBridge {
     if (this.portList.includes(to) === false) {
       throw new Error(
         this.#type === 'background'
-          ? `Tried to send message to "${ to }" but there is no such port registered`
-          : `Tried to send message to "${ to }" but the port to background is not available to send through`
+          ? `Tried to send message to "${to}" but there is no such port registered`
+          : `Tried to send message to "${to}" but the port to background is not available to send through`
       )
     }
 
@@ -309,18 +321,20 @@ export class BexBridge {
     })
 
     if (this.portList.includes(to) === false) {
-      throw new Error(`Connection to "${ to }" was closed while waiting for a response`)
+      throw new Error(
+        `Connection to "${to}" was closed while waiting for a response`
+      )
     }
 
     return new Promise((resolve, reject) => {
-      this.messageMap[ id ] = {
+      this.messageMap[id] = {
         portName: to,
         resolve: responsePayload => {
-          delete this.messageMap[ id ]
+          delete this.messageMap[id]
           resolve(responsePayload)
         },
         reject: err => {
-          delete this.messageMap[ id ]
+          delete this.messageMap[id]
           reject(err)
         }
       }
@@ -330,30 +344,29 @@ export class BexBridge {
   /**
    * @param {boolean} value
    */
-  setDebug (value) {
+  setDebug(value) {
     this.#debug = value === true
   }
 
-  log (...args) {
+  log(...args) {
     if (this.#debug !== true || args.length === 0) return
 
-    const lastArg = args[ args.length - 1 ]
+    const lastArg = args[args.length - 1]
 
     if (lastArg !== void 0 && Object(lastArg) === lastArg) {
-      const log = `${ this.#banner } ${ args.slice(0, -1).join(' ') } (click to expand)`
+      const log = `${this.#banner} ${args.slice(0, -1).join(' ')} (click to expand)`
       console.groupCollapsed(log)
       console.dir(lastArg)
       console.groupEnd(log)
-    }
-    else {
+    } else {
       console.log(this.#banner, ...args)
     }
   }
 
-  warn (...args) {
+  warn(...args) {
     if (args.length === 0) return
 
-    const lastArg = args[ args.length - 1 ]
+    const lastArg = args[args.length - 1]
 
     if (lastArg !== void 0 && Object(lastArg) === lastArg) {
       console.warn(this.#banner, ...args.slice(0, -1))
@@ -361,8 +374,7 @@ export class BexBridge {
       console.groupCollapsed(group)
       console.dir(lastArg)
       console.groupEnd(group)
-    }
-    else {
+    } else {
       console.warn(this.#banner, ...args)
     }
   }
@@ -371,9 +383,9 @@ export class BexBridge {
    * Should be used only by the background script
    * @param {{ added?: string } | { removed?: string }} reason
    */
-  #onPortChange (reason) {
+  #onPortChange(reason) {
     this.portList = Object.keys(this.portMap)
-    const list = [ 'background', ...this.portList ]
+    const list = ['background', ...this.portList]
 
     for (const portName of this.portList) {
       this.send({
@@ -384,10 +396,7 @@ export class BexBridge {
           ...reason
         }
       }).catch(err => {
-        this.warn(
-          `Failed to inform "${ portName }" about the port list.`,
-          err
-        )
+        this.warn(`Failed to inform "${portName}" about the port list.`, err)
       })
     }
   }
@@ -395,14 +404,14 @@ export class BexBridge {
   /**
    * @param {Message} message
    */
-  async #triggerMessageEvent (message) {
-    const list = this.listeners[ message.event ]
+  async #triggerMessageEvent(message) {
+    const list = this.listeners[message.event]
 
     if (list === void 0) return
 
     const plural = list.length > 1 ? 's' : ''
     this.log(
-      `Triggering ${ list.length } listener${ plural } for event: "${ message.event }".`,
+      `Triggering ${list.length} listener${plural} for event: "${message.event}".`,
       { message, listeners: list }
     )
 
@@ -415,17 +424,13 @@ export class BexBridge {
       try {
         if (responsePayload === void 0) {
           const value = callback(message)
-          responsePayload = value instanceof Promise
-            ? await value
-            : value
-        }
-        else {
+          responsePayload = value instanceof Promise ? await value : value
+        } else {
           callback(message)
         }
-      }
-      catch (err) {
+      } catch (err) {
         this.warn(
-          `Error while triggering listener${ plural } for event: "${ message.event }".`,
+          `Error while triggering listener${plural} for event: "${message.event}".`,
           { error: err, message, listener: { type, callback } }
         )
         return Promise.reject(err)
@@ -438,35 +443,35 @@ export class BexBridge {
   /**
    * @param {string} portName
    */
-  #cleanupPort (portName) {
+  #cleanupPort(portName) {
     for (const id in this.chunkMap) {
-      const packet = this.chunkMap[ id ]
+      const packet = this.chunkMap[id]
       if (packet.portName === portName) {
-        delete this.chunkMap[ id ]
+        delete this.chunkMap[id]
       }
     }
 
     for (const id in this.messageMap) {
-      const packet = this.messageMap[ id ]
+      const packet = this.messageMap[id]
       if (packet.portName === portName) {
         packet.reject('Connection was closed')
       }
     }
 
-    delete this.portMap[ portName ]
+    delete this.portMap[portName]
   }
 
-  #onPacket (packet) {
+  #onPacket(packet) {
     /**
      * if it's not a packet sent by this bridge
      * then ignore it
      */
     if (
-      Object(packet) !== packet
-      || packet.id === void 0
-      || packet.from === void 0
-      || packet.to === void 0
-      || packet.type === void 0
+      Object(packet) !== packet ||
+      packet.id === void 0 ||
+      packet.from === void 0 ||
+      packet.to === void 0 ||
+      packet.type === void 0
     ) {
       this.log(
         'Received a message that does not appear to be emitted by a Quasar bridge or is malformed.',
@@ -476,7 +481,7 @@ export class BexBridge {
     }
 
     this.log(
-      `Received message of type "${ packet.type }" from "${ packet.from }".`,
+      `Received message of type "${packet.type}" from "${packet.from}".`,
       packet
     )
 
@@ -487,7 +492,7 @@ export class BexBridge {
     if (packet.to !== this.portName) {
       this.#sendPacket(packet).catch(err => {
         this.warn(
-          `Failed to forward message of type "${ packet.type }" from "${ packet.from }" to "${ packet.to }".`,
+          `Failed to forward message of type "${packet.type}" from "${packet.from}" to "${packet.to}".`,
           err
         )
 
@@ -520,18 +525,15 @@ export class BexBridge {
     }
 
     if (packet.type === 'chunk') {
-      const chunk = this.chunkMap[ packet.id ]
+      const chunk = this.chunkMap[packet.id]
 
       if (chunk === void 0) {
         if (packet.chunkIndex !== void 0) {
-          this.warn(
-            'Received an unregistered chunk.',
-            packet
-          )
+          this.warn('Received an unregistered chunk.', packet)
           return
         }
 
-        this.chunkMap[ packet.id ] = {
+        this.chunkMap[packet.id] = {
           portName: packet.from,
           number: packet.chunksNumber,
           messageType: packet.messageType,
@@ -543,13 +545,10 @@ export class BexBridge {
 
       // if we received an unexpected chunk
       if (packet.chunkIndex !== chunk.payload.length) {
-        this.warn(
-          'Received an out of order chunk.',
-          packet
-        )
+        this.warn('Received an out of order chunk.', packet)
 
         // free up resources
-        delete this.chunkMap[ packet.id ]
+        delete this.chunkMap[packet.id]
         return
       }
 
@@ -557,7 +556,7 @@ export class BexBridge {
 
       // if we received all chunks...
       if (packet.chunkIndex === chunk.number - 1) {
-        delete this.chunkMap[ packet.id ]
+        delete this.chunkMap[packet.id]
 
         this.#onMessage({
           id: packet.id,
@@ -573,50 +572,44 @@ export class BexBridge {
     }
 
     if (packet.type === 'chunk-abort') {
-      delete this.chunkMap[ packet.id ]
+      delete this.chunkMap[packet.id]
       return
     }
 
-    this.warn(
-      `Received an unknown message type: "${ packet.type }".`
-    )
+    this.warn(`Received an unknown message type: "${packet.type}".`)
   }
 
-  #sendPacket (packet) {
+  #sendPacket(packet) {
     this.log(
       packet.from === this.portName
-        ? `Sending message of type "${ packet.type }" to "${ packet.to }".`
-        : `Forwarding message of type "${ packet.type }" from "${ packet.from }" to "${ packet.to }".`
-      ,
+        ? `Sending message of type "${packet.type}" to "${packet.to}".`
+        : `Forwarding message of type "${packet.type}" from "${packet.from}" to "${packet.to}".`,
       packet
     )
 
-    const port = this.#type === 'background'
-      ? this.portMap[ packet.to ]
-      : this.portMap.background
+    const port =
+      this.#type === 'background'
+        ? this.portMap[packet.to]
+        : this.portMap.background
 
     if (this.portList.includes(packet.to) === false) {
       return Promise.reject(
-        `Tried to send message of type "${ packet.type }" to "${ packet.to }" but there is no such port registered`
+        `Tried to send message of type "${packet.type}" to "${packet.to}" but there is no such port registered`
       )
     }
 
     if (port === void 0) {
       return Promise.reject(
         this.#type === 'background'
-          ? `Tried to send message of type "${ packet.type }" to "${ packet.to }" but the port is not available`
-          : `Tried to send message of type "${ packet.type }" to "${ packet.to }" but the port to background is not available to forward through`
+          ? `Tried to send message of type "${packet.type}" to "${packet.to}" but the port is not available`
+          : `Tried to send message of type "${packet.type}" to "${packet.to}" but the port to background is not available to forward through`
       )
     }
 
     try {
       port.postMessage(packet)
-    }
-    catch (err) {
-      this.warn(
-        `Failed to send message to "${ packet.to }".`,
-        err
-      )
+    } catch (err) {
+      this.warn(`Failed to send message to "${packet.to}".`, err)
       return Promise.reject(err)
     }
 
@@ -626,7 +619,7 @@ export class BexBridge {
   /**
    * @param {{ id?: number, to: string, payload: any, messageType: "event-send" | "event-response", messageProps: any }} param
    */
-  #sendMessage ({
+  #sendMessage({
     id = getRandomId(1_000_000),
     to,
     payload,
@@ -656,14 +649,16 @@ export class BexBridge {
     })
 
     for (let i = 0; i < payload.length; i++) {
-      promise = promise.then(() => this.#sendPacket({
-        id,
-        from: this.portName,
-        to,
-        type: 'chunk',
-        payload: payload[ i ],
-        chunkIndex: i
-      }))
+      promise = promise.then(() =>
+        this.#sendPacket({
+          id,
+          from: this.portName,
+          to,
+          type: 'chunk',
+          payload: payload[i],
+          chunkIndex: i
+        })
+      )
     }
 
     return promise.catch(err => {
@@ -672,10 +667,10 @@ export class BexBridge {
         from: this.portName,
         to,
         type: 'chunk-abort'
-      }).catch(err => {
+      }).catch(sendPacketErr => {
         this.warn(
-          `Failed to send a chunk-abort message to "${ to }".`,
-          err
+          `Failed to send a chunk-abort message to "${to}".`,
+          sendPacketErr
         )
       })
 
@@ -683,14 +678,14 @@ export class BexBridge {
     })
   }
 
-  #onMessage (message) {
+  #onMessage(message) {
     if (message.type === 'event-response') {
-      const target = this.messageMap[ message.id ]
+      const target = this.messageMap[message.id]
 
       if (target === void 0) {
         if (message.props.quiet !== true) {
           this.warn(
-            `Received a response for an unknown message id: "${ message.id }".`,
+            `Received a response for an unknown message id: "${message.id}".`,
             message
           )
         }
@@ -699,8 +694,7 @@ export class BexBridge {
 
       if (message.props.error !== void 0) {
         target.reject(message.props.error)
-      }
-      else {
+      } else {
         target.resolve(message.payload)
       }
 
@@ -713,33 +707,35 @@ export class BexBridge {
         to: message.to,
         event: message.props.event,
         payload: message.payload
-      }).then(returnPayload => {
-        this.#sendMessage({
-          id: message.id,
-          to: message.from,
-          payload: returnPayload,
-          messageType: 'event-response',
-          messageProps: {}
-        })
-      }).catch(err => {
-        this.#sendMessage({
-          id: message.id,
-          to: message.from,
-          messageType: 'event-response',
-          messageProps: {
-            error: {
-              message: err.message,
-              stack: err.stack || 'no stack available'
-            }
-          }
-        })
       })
+        .then(returnPayload => {
+          this.#sendMessage({
+            id: message.id,
+            to: message.from,
+            payload: returnPayload,
+            messageType: 'event-response',
+            messageProps: {}
+          })
+        })
+        .catch(err => {
+          this.#sendMessage({
+            id: message.id,
+            to: message.from,
+            messageType: 'event-response',
+            messageProps: {
+              error: {
+                message: err.message,
+                stack: err.stack || 'no stack available'
+              }
+            }
+          })
+        })
 
       return
     }
 
     this.warn(
-      `Received a message with unknown type: "${ message.type }".`,
+      `Received a message with unknown type: "${message.type}".`,
       message
     )
   }

@@ -7,25 +7,20 @@ import { createComponent } from '../../utils/private.create/create.js'
  * of the QScrollArea content when the scrollbars are interacted with.
  */
 export default createComponent({
-  props: [
-    'store',
-    'barStyle',
-    'verticalBarStyle',
-    'horizontalBarStyle'
-  ],
+  props: ['store', 'barStyle', 'verticalBarStyle', 'horizontalBarStyle'],
 
-  setup (props) {
-    return () => ([
+  setup(props) {
+    return () => [
       h('div', {
         class: props.store.scroll.vertical.barClass.value,
-        style: [ props.barStyle, props.verticalBarStyle ],
+        style: [props.barStyle, props.verticalBarStyle],
         'aria-hidden': 'true',
         onMousedown: props.store.onVerticalMousedown
       }),
 
       h('div', {
         class: props.store.scroll.horizontal.barClass.value,
-        style: [ props.barStyle, props.horizontalBarStyle ],
+        style: [props.barStyle, props.horizontalBarStyle],
         'aria-hidden': 'true',
         onMousedown: props.store.onHorizontalMousedown
       }),
@@ -49,6 +44,6 @@ export default createComponent({
         }),
         props.store.thumbHorizDir
       )
-    ])
+    ]
   }
 })

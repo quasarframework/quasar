@@ -1,14 +1,16 @@
 const { join } = require('node:path')
 
 const {
-  createWebpackChain, extendWebpackChain,
-  createBrowserEsbuildConfig, extendEsbuildConfig
+  createWebpackChain,
+  extendWebpackChain,
+  createBrowserEsbuildConfig,
+  extendEsbuildConfig
 } = require('../../config-tools.js')
 
 const { getBuildSystemDefine } = require('../../utils/env.js')
 const { injectWebpackHtml } = require('../../utils/html-template.js')
 
-function generateDefaultEntry (quasarConf) {
+function generateDefaultEntry(quasarConf) {
   return {
     name: 'file', // or subdir/file (regardless of OS)
     from: quasarConf.ctx.appPaths.resolve.bex('file.js'),
@@ -18,16 +20,13 @@ function generateDefaultEntry (quasarConf) {
 
 const quasarBexConfig = {
   webpack: async quasarConf => {
-    const webpackChain = await createWebpackChain(quasarConf, { compileId: 'webpack-bex', threadName: 'BEX UI' })
+    const webpackChain = await createWebpackChain(quasarConf, {
+      compileId: 'webpack-bex',
+      threadName: 'BEX UI'
+    })
 
-    if (
-      quasarConf.ctx.prod === true
-      || quasarConf.ctx.target.firefox
-    ) {
-      webpackChain.output
-        .path(
-          join(quasarConf.build.distDir, 'www')
-        )
+    if (quasarConf.ctx.prod === true || quasarConf.ctx.target.firefox) {
+      webpackChain.output.path(join(quasarConf.build.distDir, 'www'))
     }
 
     // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
@@ -39,8 +38,10 @@ const quasarBexConfig = {
     return extendWebpackChain(webpackChain, quasarConf, { isClient: true })
   },
 
-  async bexScript (quasarConf, entry = generateDefaultEntry(quasarConf)) {
-    const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: `bex:script:${ entry.name }` })
+  async bexScript(quasarConf, entry = generateDefaultEntry(quasarConf)) {
+    const cfg = await createBrowserEsbuildConfig(quasarConf, {
+      compileId: `bex:script:${entry.name}`
+    })
 
     cfg.define = {
       ...cfg.define,
@@ -52,10 +53,15 @@ const quasarBexConfig = {
       })
     }
 
-    cfg.entryPoints = [ entry.from ]
+    cfg.entryPoints = [entry.from]
     cfg.outfile = entry.to
 
-    return extendEsbuildConfig(cfg, quasarConf.bex, quasarConf.ctx, 'extendBexScriptsConf')
+    return extendEsbuildConfig(
+      cfg,
+      quasarConf.bex,
+      quasarConf.ctx,
+      'extendBexScriptsConf'
+    )
   }
 }
 

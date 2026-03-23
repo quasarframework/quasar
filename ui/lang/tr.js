@@ -15,13 +15,16 @@ export default {
     search: 'Ara',
     filter: 'Süz',
     refresh: 'Yenile',
-    expand: label => (label ? `"${ label }" genişlet` : 'Genişletmek'),
-    collapse: label => (label ? `"${ label }" daralt` : 'Yıkılmak')
+    expand: label => (label ? `"${label}" genişlet` : 'Genişletmek'),
+    collapse: label => (label ? `"${label}" daralt` : 'Yıkılmak')
   },
   date: {
     days: 'Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi'.split('_'),
     daysShort: 'Paz_Pzt_Sal_Çar_Per_Cum_Cmt'.split('_'),
-    months: 'Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık'.split('_'),
+    months:
+      'Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık'.split(
+        '_'
+      ),
     monthsShort: 'Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,8 +34,8 @@ export default {
     prevYear: 'Önceki yıl',
     nextYear: 'Sonraki yıl',
     today: 'Bugün',
-    prevRangeYears: range => `Önceki ${ range } yıl`,
-    nextRangeYears: range => `Sonraki ${ range } yıl`
+    prevRangeYears: range => `Önceki ${range} yıl`,
+    nextRangeYears: range => `Sonraki ${range} yıl`
   },
   table: {
     noData: 'Veri yok',

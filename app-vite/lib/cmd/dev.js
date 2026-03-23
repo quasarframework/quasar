@@ -17,8 +17,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     d: 'devtools'
   },
-  boolean: [ 'h', 'i', 'd' ],
-  string: [ 'm', 'T', 'H' ],
+  boolean: ['h', 'i', 'd'],
+  string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
   }
@@ -82,21 +82,21 @@ ensureArgv(argv, 'dev')
 const { readFileSync } = await import('node:fs')
 
 console.log(
-  readFileSync(
-    new URL('../../assets/logo.art', import.meta.url),
-    'utf8'
-  )
+  readFileSync(new URL('../../assets/logo.art', import.meta.url), 'utf8')
 )
 
-async function startVueDevtools (ctx, devtoolsPort) {
-  const { appPaths: { appDir }, cacheProxy } = ctx
+async function startVueDevtools(ctx, devtoolsPort) {
+  const {
+    appPaths: { appDir },
+    cacheProxy
+  } = ctx
 
   const { spawn } = await import('../utils/spawn.js')
   const { getPackagePath } = await import('../utils/get-package-path.js')
 
   let vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
 
-  function run () {
+  function run() {
     log('Booting up remote Vue Devtools...')
     spawn(vueDevtoolsBin, [], {
       env: {
@@ -137,7 +137,9 @@ const ctx = getCtx({
 })
 
 // install mode if it's missing
-const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+const { addMode } = await import(
+  `../modes/${argv.mode}/${argv.mode}-installation.js`
+)
 await addMode({ ctx, silent: true, target: argv.target })
 
 const { QuasarConfigFile } = await import('../quasar-config-file.js')
@@ -160,7 +162,9 @@ if (quasarConf.metaConf.vueDevtools !== false) {
   await startVueDevtools(ctx, quasarConf.metaConf.vueDevtools.port)
 }
 
-const { QuasarModeDevserver } = await import(`../modes/${ argv.mode }/${ argv.mode }-devserver.js`)
+const { QuasarModeDevserver } = await import(
+  `../modes/${argv.mode}/${argv.mode}-devserver.js`
+)
 const devServer = new QuasarModeDevserver({ argv, ctx })
 
 if (typeof quasarConf.build.beforeDev === 'function') {
@@ -169,7 +173,7 @@ if (typeof quasarConf.build.beforeDev === 'function') {
 
 // run possible beforeDev hooks
 await ctx.appExt.runAppExtensionHook('beforeDev', async hook => {
-  log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
+  log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
   await hook.fn(hook.api, { quasarConf })
 })
 
@@ -180,7 +184,7 @@ devServer.run(quasarConf).then(async () => {
 
   // run possible afterDev hooks
   await ctx.appExt.runAppExtensionHook('afterDev', async hook => {
-    log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
+    log(`Extension(${hook.api.extId}): Running afterDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 

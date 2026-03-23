@@ -1,10 +1,7 @@
 <template>
   <div class="column flex-center q-pa-xl">
     <div class="column q-gutter-md">
-      <q-pagination
-        v-model="currentPage"
-        max="5"
-      />
+      <q-pagination v-model="currentPage" max="5" />
 
       <q-pagination
         v-model="currentPage"

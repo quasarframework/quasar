@@ -1,8 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-badge color="secondary">
-      Model: {{ value }} (-20 to 20)
-    </q-badge>
+    <q-badge color="secondary"> Model: {{ value }} (-20 to 20) </q-badge>
 
     <q-slider
       v-model="value"
@@ -20,7 +18,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       value: ref(0)
     }

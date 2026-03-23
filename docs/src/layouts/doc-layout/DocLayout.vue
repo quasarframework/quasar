@@ -1,5 +1,9 @@
 <template>
-  <q-layout class="doc-layout doc-technical" view="hHh LpR fff" @scroll="docStore.onPageScroll">
+  <q-layout
+    class="doc-layout doc-technical"
+    view="hHh LpR fff"
+    @scroll="docStore.onPageScroll"
+  >
     <doc-header />
 
     <q-page-container>
@@ -20,7 +24,12 @@
     </q-page-container>
 
     <q-page-scroller>
-      <q-btn fab-mini color="brand-accent" :icon="mdiArrowUp" aria-label="Back to top">
+      <q-btn
+        fab-mini
+        color="brand-accent"
+        :icon="mdiArrowUp"
+        aria-label="Back to top"
+      >
         <q-tooltip>Back to top</q-tooltip>
       </q-btn>
     </q-page-scroller>
@@ -47,10 +56,14 @@ import DocPageFooter from './DocPageFooter.vue'
 const docStore = provideDocStore()
 
 const isFullscreen = computed(() => docStore.$route.meta.fullscreen === true)
-const pageClass = computed(() => `doc-layout__page-el--${ isFullscreen.value === true ? 'fullscreen' : 'standard' }`)
-const pageContentClass = computed(() =>
-  'doc-layout__page row no-wrap justify-start ' +
-  `doc-layout__page--${ docStore.$route.meta.fullwidth === true ? 'fullwidth' : 'standard' }`
+const pageClass = computed(
+  () =>
+    `doc-layout__page-el--${isFullscreen.value === true ? 'fullscreen' : 'standard'}`
+)
+const pageContentClass = computed(
+  () =>
+    'doc-layout__page row no-wrap justify-start ' +
+    `doc-layout__page--${docStore.$route.meta.fullwidth === true ? 'fullwidth' : 'standard'}`
 )
 </script>
 

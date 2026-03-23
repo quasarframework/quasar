@@ -1,4 +1,3 @@
-
 import spaAssets from './spa.js'
 import pwaAssets from './pwa.js'
 import ssrAssets from './ssr.js'

@@ -2,22 +2,20 @@
   <div>
     <div class="q-layout-padding">
       <p class="caption">
-        Based on the device you are using to view this, Quasar detects the following:
+        Based on the device you are using to view this, Quasar detects the
+        following:
       </p>
 
       <p>
-        User agent: "<strong>{{ $q.platform.userAgent }}</strong>"
+        User agent: "<strong>{{ $q.platform.userAgent }}</strong
+        >"
       </p>
 
       <q-markup-table bordered flat>
         <thead>
           <tr>
-            <th class="text-left">
-              Property
-            </th>
-            <th class="text-left">
-              Value
-            </th>
+            <th class="text-left">Property</th>
+            <th class="text-left">Value</th>
           </tr>
         </thead>
 
@@ -33,28 +31,26 @@
         Your device <strong>{{ touch }}</strong> touch capability.
       </p>
 
-      <p class="caption">
-        Body classes: "{{ bodyClasses }}"
-      </p>
+      <p class="caption">Body classes: "{{ bodyClasses }}"</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       bodyClasses: ''
     }
   },
 
   computed: {
-    touch () {
+    touch() {
       return this.$q.platform.has.touch ? 'has' : 'does not have'
     }
   },
 
-  mounted () {
+  mounted() {
     this.bodyClasses = document.body.classList.value
   }
 }

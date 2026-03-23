@@ -46,10 +46,11 @@ Clicking on an already selected day will deselect it.
 Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
 
 ::: tip TIPS
-* Clicking on an already selected day will deselect it.
-* The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
-* There are two useful events in regards to the current editing range: `range-start` and `range-end` (check the API card).
-:::
+
+- Clicking on an already selected day will deselect it.
+- The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
+- There are two useful events in regards to the current editing range: `range-start` and `range-end` (check the API card).
+  :::
 
 ::: warning
 The `range` property is only partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
@@ -137,8 +138,8 @@ The first example is using an array and the second example is using a function.
 
 ### Limiting options
 
-* You can use the `options` prop to limit user selection to certain times.
-* Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
+- You can use the `options` prop to limit user selection to certain times.
+- Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
 
 ::: warning
 The `options` property is only partially compatible with the `range` prop. Ranges might contain "unselectable" days.
@@ -174,8 +175,8 @@ Connecting a QDate and QTime with same model on a QInput:
 
 The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).
 
-* Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6).
-* Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).
+- Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6).
+- Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).
 
 Examples: "date", "time", "fulltime".
 

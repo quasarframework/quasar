@@ -15,13 +15,18 @@ export default {
     search: 'Procurar',
     filter: 'Filtrar',
     refresh: 'Recarregar',
-    expand: label => (label ? `Expandir "${ label }"` : 'Expandir'),
-    collapse: label => (label ? `Recolher "${ label }"` : 'Colapso')
+    expand: label => (label ? `Expandir "${label}"` : 'Expandir'),
+    collapse: label => (label ? `Recolher "${label}"` : 'Colapso')
   },
   date: {
-    days: 'Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado'.split('_'),
+    days: 'Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado'.split(
+      '_'
+    ),
     daysShort: 'Dom_Seg_Ter_Qua_Qui_Sex_Sáb'.split('_'),
-    months: 'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split('_'),
+    months:
+      'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,20 @@ export default {
     prevYear: 'Ano anterior',
     nextYear: 'Próximo ano',
     today: 'Hoje',
-    prevRangeYears: range => `Anterior ${ range } anos`,
-    nextRangeYears: range => `Próximo ${ range } anos`
+    prevRangeYears: range => `Anterior ${range} anos`,
+    nextRangeYears: range => `Próximo ${range} anos`
   },
   table: {
     noData: 'Sem dados disponíveis',
     noResults: 'Não foi encontrado nenhum resultado',
     loading: 'A carregar...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' linha' + (rows === 1 ? ' selecionada' : 's selecionadas') + '.'
-        : 'Nenhuma linha selecionada.'
-    ),
+        ? rows +
+          ' linha' +
+          (rows === 1 ? ' selecionada' : 's selecionadas') +
+          '.'
+        : 'Nenhuma linha selecionada.',
     recordsPerPage: 'Linhas por página:',
     allRows: 'Todas',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,

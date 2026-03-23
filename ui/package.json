@@ -2,11 +2,37 @@
   "name": "quasar",
   "version": "2.18.7",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
-  "type": "module",
-  "module": "dist/quasar.client.js",
-  "unpkg": "dist/quasar.umd.prod.js",
-  "jsdelivr": "dist/quasar.umd.prod.js",
-  "typings": "dist/types/index.d.ts",
+  "keywords": [
+    "desktop",
+    "electron",
+    "js",
+    "phone",
+    "pwa",
+    "quasar",
+    "spa",
+    "tablet",
+    "vue",
+    "vuejs",
+    "website"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://quasar.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
   "files": [
     "dist",
     "lang",
@@ -14,6 +40,11 @@
     "src",
     "wrappers"
   ],
+  "type": "module",
+  "module": "dist/quasar.client.js",
+  "typings": "dist/types/index.d.ts",
+  "unpkg": "dist/quasar.umd.prod.js",
+  "jsdelivr": "dist/quasar.umd.prod.js",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -36,84 +67,40 @@
     "dev:build:ssr": "cd ./playground && quasar build -m ssr && cd ..",
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd ./playground/upload-server && pnpm i && cd ../.. && node playground/upload-server/server.js",
-    "lint": "eslint --cache --fix",
-    "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint",
     "test": "pnpm --filter quasar-ui-test test",
     "test:watch": "pnpm --filter quasar-ui-test test:watch",
     "test:watch:ui": "pnpm --filter quasar-ui-test test:watch:ui",
     "test:specs": "node ./testing/specs/script.js",
     "test:specs:ci": "node ./testing/specs/script.js --ci"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/quasarframework/quasar.git"
-  },
-  "keywords": [
-    "vuejs",
-    "vue",
-    "quasar",
-    "js",
-    "phone",
-    "tablet",
-    "desktop",
-    "spa",
-    "pwa",
-    "website",
-    "electron"
-  ],
-  "author": {
-    "name": "Razvan Stoenescu",
-    "email": "razvan.stoenescu@gmail.com",
-    "url": "https://quasar.dev"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/quasarframework/quasar/issues"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://donate.quasar.dev"
-  },
-  "homepage": "https://quasar.dev",
   "devDependencies": {
     "@quasar/extras": "workspace:*",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.27",
     "cli-highlight": "^2.1.11",
-    "cross-env": "^7.0.3",
-    "cssnano": "^7.0.6",
-    "diff": "^5.2.0",
-    "esbuild": "^0.25.0",
-    "eslint": "catalog:",
-    "eslint-config-quasar": "workspace:*",
-    "fs-extra": "^11.2.0",
+    "cross-env": "^10.1.0",
+    "diff": "^8.0.3",
+    "fs-extra": "^11.3.4",
     "kolorist": "^1.8.0",
+    "lightningcss": "^1.32.0",
     "open": "^10.1.0",
     "postcss-rtlcss": "^5.4.0",
-    "prettier": "^3.3.3",
-    "sass-embedded": "^1.93.2",
+    "rolldown": "1.0.0-rc.10",
+    "sass-embedded": "^1.98.0",
     "table": "^6.8.2",
     "tinyglobby": "^0.2.10",
     "typescript": "^5.6.2",
     "vue": "^3.5.30"
   },
-  "vetur": {
-    "tags": "dist/vetur/quasar-tags.json",
-    "attributes": "dist/vetur/quasar-attributes.json"
-  },
-  "web-types": "dist/web-types/web-types.json",
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 10 Edge versions",
-    "last 10 Safari versions",
-    "last 10 Android versions",
-    "last 10 ChromeAndroid versions",
-    "last 10 FirefoxAndroid versions",
-    "last 10 iOS versions"
-  ],
   "engines": {
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "vetur": {
+    "tags": "dist/vetur/quasar-tags.json",
+    "attributes": "dist/vetur/quasar-attributes.json"
+  },
+  "web-types": "dist/web-types/web-types.json"
 }

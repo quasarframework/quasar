@@ -4,12 +4,11 @@
       :horizontal-offset="[0, 2]"
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
-      style="height: 200px; max-width: 300px;"
+      style="height: 200px; max-width: 300px"
     >
       <div v-for="n in 100" :key="n" class="q-pa-xs">
-        Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
       </div>
     </q-scroll-area>
   </div>
@@ -17,7 +16,7 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
       thumbStyle: {
         borderRadius: '5px',

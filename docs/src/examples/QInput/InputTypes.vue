@@ -3,7 +3,12 @@
     <div class="q-gutter-md row items-start">
       <q-input v-model="password" filled type="password" hint="Password" />
 
-      <q-input v-model="password" filled :type="isPwd ? 'password' : 'text'" hint="Password with toggle">
+      <q-input
+        v-model="password"
+        filled
+        :type="isPwd ? 'password' : 'text'"
+        hint="Password with toggle"
+      >
         <template v-slot:append>
           <q-icon
             :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -36,7 +41,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       password: ref(''),
       isPwd: ref(true),

@@ -5,22 +5,25 @@ const { resolve, basename } = require('path')
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 
 const cjsReplaceRE = /export const /g
-const typeExceptions = [ 'g', 'svg', 'defs', 'style', 'title' ]
+const typeExceptions = ['g', 'svg', 'defs', 'style', 'title']
 
 // --------------------------------------------------------
 // Helper Functions
 // --------------------------------------------------------
 
 const chunkArray = (arr, size = 2) =>
-  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size))
+  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
+    arr.slice(i * size, i * size + size)
+  )
 
-const calcValue = (val, base) => (/%$/.test(val) ? (parseFloat(val) * base) / 100 : +val)
+const calcValue = (val, base) =>
+  /%$/.test(val) ? (parseFloat(val) * base) / 100 : Number(val)
 
 const getAttributes = (el, list) =>
   list.reduce(
     (attrs, name) => ({
       ...attrs,
-      [ name ]: parseFloat(el.getAttribute(name) || 0)
+      [name]: parseFloat(el.getAttribute(name) || 0)
     }),
     {}
   )
@@ -29,12 +32,12 @@ const getAttributes = (el, list) =>
 //   return `A${rx},${ry},0,0,1,${x},${y}`
 // }
 
-const getRecursiveAttributes = (el) =>
-  (el.parentNode?.attributes
-    ? `${ getRecursiveAttributes(el.parentNode) }${ getAttributesAsStyle(el) }`
-    : getAttributesAsStyle(el))
+const getRecursiveAttributes = el =>
+  el.parentNode?.attributes
+    ? `${getRecursiveAttributes(el.parentNode)}${getAttributesAsStyle(el)}`
+    : getAttributesAsStyle(el)
 
-const getAttributesAsStyle = (el) => {
+const getAttributesAsStyle = el => {
   // make sure this set stays ordered
   const exceptions = new Set([
     'aria-hidden',
@@ -79,14 +82,14 @@ const getAttributesAsStyle = (el) => {
   return Array.from(el.attributes)
     .filter(({ namespaceURI }) => namespaceURI === null)
     .filter(({ nodeName }) => !exceptions.has(nodeName))
-    .map(({ nodeName, nodeValue }) => `${ nodeName }:${ nodeValue };`)
+    .map(({ nodeName, nodeValue }) => `${nodeName}:${nodeValue};`)
     .join('')
 }
 
-const getRecursiveTransforms = (el) =>
-  (el.parentNode?.attributes
-    ? `${ getRecursiveTransforms(el.parentNode) }${ el.getAttribute('transform') || '' }`
-    : el.getAttribute('transform') || '')
+const getRecursiveTransforms = el =>
+  el.parentNode?.attributes
+    ? `${getRecursiveTransforms(el.parentNode)}${el.getAttribute('transform') || ''}`
+    : el.getAttribute('transform') || ''
 
 // --------------------------------------------------------
 // SVG Decoders
@@ -95,48 +98,50 @@ const getRecursiveTransforms = (el) =>
 const decoders = {
   svg: () => '', // Nothing here. This is needed to grab any attributes on svg tag..
 
-  path: (el) => {
+  path: el => {
     const points = el.getAttribute('d')?.trim()
     if (!points) throw new Error('No points found in path')
     return points.startsWith('m') ? 'M0 0z' + points : points
   },
 
-  circle: (el) => {
-    const { cx = 0, cy = 0, r } = getAttributes(el, [ 'cx', 'cy', 'r' ])
-    return `M${ cx } ${ cy } m-${ r }, 0 a${ r },${ r } 0 1,0 ${ r * 2 },0 a${ r },${ r } 0 1,0 ${ -r * 2 },0`
+  circle: el => {
+    const { cx = 0, cy = 0, r } = getAttributes(el, ['cx', 'cy', 'r'])
+    return `M${cx} ${cy} m-${r}, 0 a${r},${r} 0 1,0 ${r * 2},0 a${r},${r} 0 1,0 ${-r * 2},0`
   },
 
-  ellipse: (el) => {
-    const { cx = 0, cy = 0, rx, ry } = getAttributes(el, [ 'cx', 'cy', 'rx', 'ry' ])
-    return `M${ cx - rx },${ cy } a${ rx },${ ry } 0 1,0 ${ 2 * rx },0 a${ rx },${ ry } 0 1,0 ${ -2 * rx },0Z`
+  ellipse: el => {
+    const {
+      cx = 0,
+      cy = 0,
+      rx,
+      ry
+    } = getAttributes(el, ['cx', 'cy', 'rx', 'ry'])
+    return `M${cx - rx},${cy} a${rx},${ry} 0 1,0 ${2 * rx},0 a${rx},${ry} 0 1,0 ${-2 * rx},0Z`
   },
 
-  polygon: (el) => decoders.polyline(el) + 'z',
+  polygon: el => decoders.polyline(el) + 'z',
 
-  polyline: (el) => {
+  polyline: el => {
     const points = el.getAttribute('points') || ''
     const pairs = chunkArray(points.split(/[\s,]+/).filter(Boolean), 2)
-    return pairs.map(([ x, y ], i) => `${ i === 0 ? 'M' : 'L' }${ x } ${ y }`).join(' ')
+    return pairs.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x} ${y}`).join(' ')
   },
 
-  rect (el) {
-    const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
-    const w = +att.width
-    const h = +att.height
-    const x = att.x ? +att.x : 0
-    const y = att.y ? +att.y : 0
+  rect(el) {
+    const att = getAttributes(el, ['x', 'y', 'width', 'height', 'rx', 'ry'])
+    const w = Number(att.width)
+    const h = Number(att.height)
+    const x = att.x ? Number(att.x) : 0
+    const y = att.y ? Number(att.y) : 0
     let rx = att.rx || 'auto'
     let ry = att.ry || 'auto'
     if (rx === 'auto' && ry === 'auto') {
       rx = ry = 0
-    }
-    else if (rx !== 'auto' && ry === 'auto') {
+    } else if (rx !== 'auto' && ry === 'auto') {
       rx = ry = calcValue(rx, w)
-    }
-    else if (ry !== 'auto' && rx === 'auto') {
+    } else if (ry !== 'auto' && rx === 'auto') {
       ry = rx = calcValue(ry, h)
-    }
-    else {
+    } else {
       rx = calcValue(rx, w)
       ry = calcValue(ry, h)
     }
@@ -148,36 +153,38 @@ const decoders = {
     }
     const hasCurves = rx > 0 && ry > 0
     return [
-      `M${ x + rx } ${ y }`,
-      `H${ x + w - rx }`,
-      ...(hasCurves ? [ `A${ rx } ${ ry } 0 0 1 ${ x + w } ${ y + ry }` ] : []),
-      `V${ y + h - ry }`,
-      ...(hasCurves ? [ `A${ rx } ${ ry } 0 0 1 ${ x + w - rx } ${ y + h }` ] : []),
-      `H${ x + rx }`,
-      ...(hasCurves ? [ `A${ rx } ${ ry } 0 0 1 ${ x } ${ y + h - ry }` ] : []),
-      `V${ y + ry }`,
-      ...(hasCurves ? [ `A${ rx } ${ ry } 0 0 1 ${ x + rx } ${ y }` ] : []),
+      `M${x + rx} ${y}`,
+      `H${x + w - rx}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x + w} ${y + ry}`] : []),
+      `V${y + h - ry}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x + w - rx} ${y + h}`] : []),
+      `H${x + rx}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x} ${y + h - ry}`] : []),
+      `V${y + ry}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x + rx} ${y}`] : []),
       'z'
     ].join(' ')
   },
 
-  line: (el) => {
-    const { x1 = 0, y1 = 0, x2 = 0, y2 = 0 } = getAttributes(el, [ 'x1', 'y1', 'x2', 'y2' ])
-    return `M${ x1 },${ y1 }L${ x2 },${ y2 }`
+  line: el => {
+    const {
+      x1 = 0,
+      y1 = 0,
+      x2 = 0,
+      y2 = 0
+    } = getAttributes(el, ['x1', 'y1', 'x2', 'y2'])
+    return `M${x1},${y1}L${x2},${y2}`
   }
 }
 
-function parseDom (name, el, pathsDefinitions) {
+function parseDom(name, el, pathsDefinitions) {
   const type = el.nodeName
 
-  if (
-    el.getAttribute === void 0
-    || el.getAttribute('opacity') === '0'
-  ) return
+  if (el.getAttribute === void 0 || el.getAttribute('opacity') === '0') return
 
   if (typeExceptions.includes(type) === false) {
-    if (decoders[ type ] === void 0) {
-      throw new Error(`Unsupported tag: "${ type }" in ${ name }`)
+    if (decoders[type] === void 0) {
+      throw new Error(`Unsupported tag: "${type}" in ${name}`)
     }
 
     const style = el.getAttribute('style') || ''
@@ -185,7 +192,10 @@ function parseDom (name, el, pathsDefinitions) {
 
     // don't allow fill to be both 'none' and 'currentColor'
     // this is common because of the inheritance of 'fill:none' from an 'svg' tag
-    if (strAttributes.indexOf('fill:none;') >= 0 && strAttributes.indexOf('fill:currentColor;') >= 0) {
+    if (
+      strAttributes.indexOf('fill:none;') >= 0 &&
+      strAttributes.indexOf('fill:currentColor;') >= 0
+    ) {
       strAttributes = strAttributes.replace(/fill:none;/, '')
     }
 
@@ -195,7 +205,7 @@ function parseDom (name, el, pathsDefinitions) {
     const transform = getRecursiveTransforms(el)
 
     const paths = {
-      path: decoders[ type ](el),
+      path: decoders[type](el),
       style: Array.from(combinedStyles).join(';'),
       transform
     }
@@ -205,26 +215,26 @@ function parseDom (name, el, pathsDefinitions) {
     }
   }
 
-  Array.from(el.childNodes).forEach((child) => {
+  Array.from(el.childNodes).forEach(child => {
     parseDom(name, child, pathsDefinitions)
   })
 }
 
-function getWidthHeightAsViewbox (element) {
+function getWidthHeightAsViewbox(element) {
   // Retrieve width and height attributes
   const width = parseFloat(element.getAttribute('width') || '0')
   const height = parseFloat(element.getAttribute('height') || '0')
 
   // Ensure both width and height are valid numbers
   if (width > 0 && height > 0) {
-    return `0 0 ${ width } ${ height }`
+    return `0 0 ${width} ${height}`
   }
 
   // Return an empty string if width or height is missing or invalid
   return ''
 }
 
-function parseSvgContent (name, content) {
+function parseSvgContent(name, content) {
   let viewBox
   const pathsDefinitions = []
 
@@ -239,30 +249,28 @@ function parseSvgContent (name, content) {
     }
 
     parseDom(name, dom.documentElement, pathsDefinitions)
-  }
-  catch (err) {
-    console.error(`[Error] "${ name }" could not be parsed: ${ err.message }`)
+  } catch (err) {
+    console.error(`[Error] "${name}" could not be parsed: ${err.message}`)
     throw err
   }
 
   if (pathsDefinitions.length === 0) {
-    throw new Error(`Could not infer any paths for "${ name }"`)
+    throw new Error(`Could not infer any paths for "${name}"`)
   }
 
-  const tmpView = `|${ viewBox }`
+  const tmpView = `|${viewBox}`
 
   const result = {
     viewBox: viewBox !== '0 0 24 24' && tmpView !== '|' ? tmpView : ''
   }
 
-  if (pathsDefinitions.every((def) => !def.style && !def.transform)) {
-    result.paths = pathsDefinitions.map((def) => def.path).join('')
-  }
-  else {
+  if (pathsDefinitions.every(def => !def.style && !def.transform)) {
+    result.paths = pathsDefinitions.map(def => def.path).join('')
+  } else {
     result.paths = pathsDefinitions
-      .map((def) => {
-        let stylePart = def.style ? `@@${ def.style }` : '' // Include style only if it is non-empty
-        const transformPart = def.transform ? `@@${ def.transform }` : '' // Include transform only if it is non-empty
+      .map(def => {
+        let stylePart = def.style ? `@@${def.style}` : '' // Include style only if it is non-empty
+        const transformPart = def.transform ? `@@${def.transform}` : '' // Include transform only if it is non-empty
 
         // If style is empty but transform is not, we need a special case
         if (!def.style && def.transform) {
@@ -270,48 +278,54 @@ function parseSvgContent (name, content) {
         }
 
         // Combine path with stylePart and transformPart
-        return `${ def.path }${ stylePart }${ transformPart }`
+        return `${def.path}${stylePart}${transformPart}`
       })
       .join('&&')
   }
 
   return result
 }
-function getPackageJson (packageName) {
-  let file = resolve(__dirname, `../../node_modules/${ packageName }/package.json`)
+function getPackageJson(packageName) {
+  let file = resolve(
+    __dirname,
+    `../../node_modules/${packageName}/package.json`
+  )
   if (existsSync(file)) return file
-  file = resolve(__dirname, `../../node_modules/${ packageName }/bower.json`)
+  file = resolve(__dirname, `../../node_modules/${packageName}/bower.json`)
   if (existsSync(file)) return file
 
-  console.error('Could not locate package.json or bower.json for ' + packageName)
+  console.error(
+    'Could not locate package.json or bower.json for ' + packageName
+  )
   process.exit(1)
 }
 
-function getBanner (iconSetName, versionOrPackageName) {
-  const version
-    = versionOrPackageName === '' || versionOrPackageName.match(/^\d/)
+function getBanner(iconSetName, versionOrPackageName) {
+  const version =
+    versionOrPackageName === '' || versionOrPackageName.match(/^\d/)
       ? versionOrPackageName === ''
         ? versionOrPackageName
         : 'v' + versionOrPackageName
       : 'v' + require(getPackageJson(versionOrPackageName)).version
 
-  return `/* ${ iconSetName } ${ version } */\n\n`
+  return `/* ${iconSetName} ${version} */\n\n`
 }
 
 module.exports.getBanner = getBanner
 
-module.exports.defaultNameMapper = (filePath, prefix) => {
-  return (prefix + '-' + basename(filePath, '.svg')).replace(/(-\w)/g, (m) => m[ 1 ].toUpperCase())
-}
+module.exports.defaultNameMapper = (filePath, prefix) =>
+  (prefix + '-' + basename(filePath, '.svg')).replace(/(-\w)/g, m =>
+    m[1].toUpperCase()
+  )
 
-function extractSvg (content, name) {
+function extractSvg(content, name) {
   const { paths, viewBox } = parseSvgContent(name, content)
 
   const path = paths.replace(/[\r\n\t]+/gi, ',').replace(/,,/gi, ',')
 
   return {
-    svgDef: `export const ${ name } = '${ path }${ viewBox }'`,
-    typeDef: `export declare const ${ name }: string;`
+    svgDef: `export const ${name} = '${path}${viewBox}'`,
+    typeDef: `export declare const ${name}: string;`
   }
 }
 
@@ -323,31 +337,44 @@ module.exports.extract = (filePath, name) => {
   return extractSvg(content, name)
 }
 
-module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, svgExports, typeExports, skipped) => {
+module.exports.writeExports = (
+  iconSetName,
+  versionOrPackageName,
+  distFolder,
+  svgExports,
+  typeExports,
+  skipped
+) => {
   if (svgExports.length === 0) {
-    console.log(`WARNING. ${ iconSetName } skipped completely`)
-  }
-  else {
+    console.log(`WARNING. ${iconSetName} skipped completely`)
+  } else {
     const banner = getBanner(iconSetName, versionOrPackageName)
-    const distIndex = `${ distFolder }/index`
+    const distIndex = `${distFolder}/index`
 
     const content = banner + svgExports.sort().join('\n')
 
-    writeFileSync(`${ distIndex }.js`, content.replace(cjsReplaceRE, 'module.exports.'), 'utf-8')
-    writeFileSync(`${ distIndex }.mjs`, content, 'utf-8')
-    writeFileSync(`${ distIndex }.d.ts`, banner + typeExports.sort().join('\n'), 'utf-8')
+    writeFileSync(
+      `${distIndex}.js`,
+      content.replace(cjsReplaceRE, 'module.exports.'),
+      'utf-8'
+    )
+    writeFileSync(`${distIndex}.mjs`, content, 'utf-8')
+    writeFileSync(
+      `${distIndex}.d.ts`,
+      banner + typeExports.sort().join('\n'),
+      'utf-8'
+    )
 
     if (skipped.length > 0) {
-      console.log(`${ iconSetName } - skipped (${ skipped.length }): ${ skipped }`)
+      console.log(`${iconSetName} - skipped (${skipped.length}): ${skipped}`)
     }
   }
 }
 
-const sleep = (delay = 0) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay)
+const sleep = (delay = 0) =>
+  new Promise(resolvePromise => {
+    setTimeout(resolvePromise, delay)
   })
-}
 
 module.exports.sleep = sleep
 
@@ -376,7 +403,7 @@ const retry = async (tryFunction, options = {}) => {
   let output = null
   let exitErr = null
 
-  const bail = (err) => {
+  const bail = err => {
     exitErr = err
   }
 
@@ -385,8 +412,7 @@ const retry = async (tryFunction, options = {}) => {
     try {
       output = await tryFunction({ tries, bail })
       break
-    }
-    catch (err) {
+    } catch (err) {
       if (tries >= retries) {
         throw err
       }
@@ -409,27 +435,28 @@ class Queue {
 
   err = null
 
-  constructor (worker, options = {}) {
+  constructor(worker, options = {}) {
     this.worker = worker
     this.concurrency = options.concurrency || 1
   }
 
-  push = (entries) => {
+  push = entries => {
     this.pendingEntries = this.pendingEntries.concat(entries)
     this.process()
   }
 
   process = () => {
-    const scheduled = this.pendingEntries.splice(0, this.concurrency - this.inFlight)
+    const scheduled = this.pendingEntries.splice(
+      0,
+      this.concurrency - this.inFlight
+    )
     this.inFlight += scheduled.length
-    scheduled.forEach(async (task) => {
+    scheduled.forEach(async task => {
       try {
         await this.worker(task)
-      }
-      catch (err) {
+      } catch (err) {
         this.err = err
-      }
-      finally {
+      } finally {
         this.inFlight -= 1
       }
 
@@ -461,9 +488,9 @@ class Queue {
 
 module.exports.Queue = Queue
 
-module.exports.copyCssFile = function copyCssFile ({ from, to, replaceFn }) {
+module.exports.copyCssFile = function copyCssFile({ from, to, replaceFn }) {
   if (existsSync(from) === false) {
-    console.error(`[Error] ${ from } does not exist`)
+    console.error(`[Error] ${from} does not exist`)
     process.exit(1)
   }
 

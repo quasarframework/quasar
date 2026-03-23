@@ -70,14 +70,16 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref({
-        min: 2, max: 4
+        min: 2,
+        max: 4
       }),
 
       secondModel: ref({
-        min: 3, max: 5
+        min: 3,
+        max: 5
       })
     }
   }

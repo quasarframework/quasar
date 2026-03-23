@@ -3,7 +3,13 @@
     <div class="row q-gutter-sm items-center">
       <q-toggle v-model="horizontal" label="Horizontal" />
       <q-toggle v-model="modelReverse" label="Reverse" />
-      <q-select dense filled v-model="modelUnit" :options="[ '%', 'px', 'em' ]" prefix="Unit:" />
+      <q-select
+        dense
+        filled
+        v-model="modelUnit"
+        :options="['%', 'px', 'em']"
+        prefix="Unit:"
+      />
       <q-toggle v-model="disable" label="Disable" />
       <q-toggle v-model="funkyLimits" label="Funky limits" />
       <q-toggle v-model="showSeparator" label="Show separator" />
@@ -22,7 +28,14 @@
         </template>
 
         <template v-slot:append>
-          <q-btn color="primary" flat round dense icon="clear" @click="model = 50" />
+          <q-btn
+            color="primary"
+            flat
+            round
+            dense
+            icon="clear"
+            @click="model = 50"
+          />
         </template>
       </q-input>
     </div>
@@ -35,17 +48,17 @@
       :limits="limits"
       :disable="disable"
       :emit-immediately="emitImmediately"
-
       class="q-mt-md"
       style="height: 700px; border: 1px solid black"
     >
       <template v-slot:before>
         <div class="q-layout-padding">
-          <div class="text-h1 q-mb-md">
-            Before
-          </div>
+          <div class="text-h1 q-mb-md">Before</div>
           <div v-for="n in 20" :key="n" class="q-my-md">
-            {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.
+            {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Quis praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
           </div>
         </div>
       </template>
@@ -61,11 +74,12 @@
 
       <template v-slot:after>
         <div class="q-layout-padding">
-          <div class="text-h1 q-mb-md">
-            After
-          </div>
+          <div class="text-h1 q-mb-md">After</div>
           <div v-for="n in 20" :key="n" class="q-my-md">
-            {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.
+            {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Quis praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
           </div>
         </div>
       </template>
@@ -78,17 +92,17 @@
       :limits="limits"
       :disable="disable"
       :emit-immediately="emitImmediately"
-
       class="q-mt-md stylish-splitter"
       separator-class="bg-deep-orange"
     >
       <template v-slot:before>
         <div class="q-layout-padding">
-          <div class="text-h1 q-mb-md">
-            Before
-          </div>
+          <div class="text-h1 q-mb-md">Before</div>
           <div v-for="n in 20" :key="n" class="q-my-md">
-            {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.
+            {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Quis praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
           </div>
         </div>
       </template>
@@ -114,17 +128,17 @@
             <template v-slot:before>
               <div class="q-layout-padding">
                 <q-input outline v-model="text" dense />
-                <div v-for="n in 20" :key="n" class="q-my-md">
-                  {{ n }}. Lorem ipsum dolor sit.
-                </div>
+                <div v-for="n in 20" :key="n" class="q-my-md"
+                  >{{ n }}. Lorem ipsum dolor sit.</div
+                >
               </div>
             </template>
 
             <template v-slot:after>
               <div class="q-layout-padding">
-                <div v-for="n in 20" :key="n" class="q-my-md">
-                  {{ n }}. Lorem ipsum dolor sit.
-                </div>
+                <div v-for="n in 20" :key="n" class="q-my-md"
+                  >{{ n }}. Lorem ipsum dolor sit.</div
+                >
               </div>
             </template>
           </q-splitter>
@@ -141,12 +155,13 @@
         >
           <template v-slot:before>
             <div class="q-layout-padding">
-              <div class="text-h1 q-mb-md">
-                After - Before
-              </div>
+              <div class="text-h1 q-mb-md">After - Before</div>
               <q-input outline v-model="text" dense />
               <div v-for="n in 20" :key="n" class="q-my-md">
-                {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.
+                {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing
+                elit. Quis praesentium cumque magnam odio iure quidem, quod
+                illum numquam possimus obcaecati commodi minima assumenda
+                consectetur culpa fuga nulla ullam. In, libero.
               </div>
             </div>
           </template>
@@ -163,11 +178,12 @@
 
           <template v-slot:after>
             <div class="q-layout-padding">
-              <div class="text-h1 q-mb-md">
-                After - After
-              </div>
+              <div class="text-h1 q-mb-md">After - After</div>
               <div v-for="n in 20" :key="n" class="q-my-md">
-                {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.
+                {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing
+                elit. Quis praesentium cumque magnam odio iure quidem, quod
+                illum numquam possimus obcaecati commodi minima assumenda
+                consectetur culpa fuga nulla ullam. In, libero.
               </div>
             </div>
           </template>
@@ -179,7 +195,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       model: 50,
       insideModel: 50,
@@ -197,15 +213,19 @@ export default {
   },
 
   computed: {
-    limits () {
+    limits() {
       return this.modelUnit === '%'
-        ? this.funkyLimits === true ? [ 70, 100 ] : [ 10, 90 ]
-        : this.funkyLimits === true ? [ 100, 500 ] : [ 0, Infinity ]
+        ? this.funkyLimits === true
+          ? [70, 100]
+          : [10, 90]
+        : this.funkyLimits === true
+          ? [100, 500]
+          : [0, Infinity]
     }
   },
 
   methods: {
-    separatorLog (e) {
+    separatorLog(e) {
       this.$q.notify('Clicked on separator')
       console.log('separatorLog', e)
     }

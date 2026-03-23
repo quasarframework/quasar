@@ -78,19 +78,16 @@ When you first add the BEX mode, you will notice that the manifest file contains
       "128": "icons/icon-128x128.png"
     },
 
-    "permissions": [
-      "storage",
-      "tabs"
-    ],
+    "permissions": ["storage", "tabs"],
 
-    "host_permissions": [ "*://*/*" ],
+    "host_permissions": ["*://*/*"],
     "content_security_policy": {
       "extension_pages": "script-src 'self'; object-src 'self';"
     },
     "web_accessible_resources": [
       {
-        "resources": [ "*" ],
-        "matches": [ "*://*/*" ]
+        "resources": ["*"],
+        "matches": ["*://*/*"]
       }
     ],
 
@@ -100,9 +97,9 @@ When you first add the BEX mode, you will notice that the manifest file contains
 
     "content_scripts": [
       {
-        "matches": [ "<all_urls>" ],
-        "css": [ "assets/content.css" ],
-        "js": [ "my-content-script.ts" ]
+        "matches": ["<all_urls>"],
+        "css": ["assets/content.css"],
+        "js": ["my-content-script.ts"]
       }
     ]
   },
@@ -115,7 +112,7 @@ When you first add the BEX mode, you will notice that the manifest file contains
 
   "firefox": {
     "background": {
-      "scripts": [ "background.ts" ]
+      "scripts": ["background.ts"]
     }
   }
 }
@@ -131,11 +128,11 @@ Behind every BEX is a [content script](https://developer.chrome.com/extensions/c
 
 In summary:
 
-* **Background Script** - runs in the context of the BEX itself and can listen to all available browser extension events.
-* **Content Script** - runs in the context of the web page. There will be a new content script instance per tab running the extension.
+- **Background Script** - runs in the context of the BEX itself and can listen to all available browser extension events.
+- **Content Script** - runs in the context of the web page. There will be a new content script instance per tab running the extension.
 
 ::: tip
-Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a *content script* running behind them. They will all however have the *background script*.
+Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a _content script_ running behind them. They will all however have the _background script_.
 :::
 
 ::: warning

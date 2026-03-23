@@ -1,139 +1,70 @@
 <template>
   <div>
-    <div class="q-layout-padding" style="max-width: 1400px;">
-      <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
+    <div class="q-layout-padding" style="max-width: 1400px">
+      <q-select
+        class="q-mt-md"
+        filled
+        v-model="separator"
+        :options="['horizontal', 'vertical', 'cell', 'none']"
+      />
       <h4>QMarkupTable</h4>
       <q-markup-table flat bordered :separator="separator" wrap-cells>
         <thead>
           <tr>
-            <th class="text-left">
-              Dessert (100g serving)
-            </th>
-            <th class="text-right">
-              Calories
-            </th>
-            <th class="text-right">
-              Fat (g)
-            </th>
-            <th class="text-right">
-              Carbs (g)
-            </th>
-            <th class="text-right">
-              Protein (g)
-            </th>
-            <th class="text-right">
-              Sodium (mg)
-            </th>
+            <th class="text-left">Dessert (100g serving)</th>
+            <th class="text-right">Calories</th>
+            <th class="text-right">Fat (g)</th>
+            <th class="text-right">Carbs (g)</th>
+            <th class="text-right">Protein (g)</th>
+            <th class="text-right">Sodium (mg)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="text-left">
-              Frozen Yogurt
-            </td>
-            <td class="text-right">
-              159
-            </td>
-            <td class="text-right">
-              6
-            </td>
-            <td class="text-right">
-              24
-            </td>
-            <td class="text-right">
-              4
-            </td>
-            <td class="text-right">
-              87
-            </td>
+            <td class="text-left">Frozen Yogurt</td>
+            <td class="text-right">159</td>
+            <td class="text-right">6</td>
+            <td class="text-right">24</td>
+            <td class="text-right">4</td>
+            <td class="text-right">87</td>
           </tr>
           <tr>
-            <td class="text-left">
-              Ice cream sandwich
-            </td>
-            <td class="text-right">
-              237
-            </td>
-            <td class="text-right">
-              9
-            </td>
-            <td class="text-right">
-              37
-            </td>
-            <td class="text-right">
-              4.3
-            </td>
-            <td class="text-right">
-              129
-            </td>
+            <td class="text-left">Ice cream sandwich</td>
+            <td class="text-right">237</td>
+            <td class="text-right">9</td>
+            <td class="text-right">37</td>
+            <td class="text-right">4.3</td>
+            <td class="text-right">129</td>
           </tr>
           <tr>
-            <td class="text-left">
-              Eclair
-            </td>
-            <td class="text-right">
-              262
-            </td>
-            <td class="text-right">
-              16
-            </td>
-            <td class="text-right">
-              23
-            </td>
-            <td class="text-right">
-              6
-            </td>
-            <td class="text-right">
-              337
-            </td>
+            <td class="text-left">Eclair</td>
+            <td class="text-right">262</td>
+            <td class="text-right">16</td>
+            <td class="text-right">23</td>
+            <td class="text-right">6</td>
+            <td class="text-right">337</td>
           </tr>
           <tr>
-            <td class="text-left">
-              Cupcake
-            </td>
-            <td class="text-right">
-              305
-            </td>
-            <td class="text-right">
-              3.7
-            </td>
-            <td class="text-right">
-              67
-            </td>
-            <td class="text-right">
-              4.3
-            </td>
-            <td class="text-right">
-              413
-            </td>
+            <td class="text-left">Cupcake</td>
+            <td class="text-right">305</td>
+            <td class="text-right">3.7</td>
+            <td class="text-right">67</td>
+            <td class="text-right">4.3</td>
+            <td class="text-right">413</td>
           </tr>
           <tr>
-            <td class="text-left">
-              Gingerbread
-            </td>
-            <td class="text-right">
-              356
-            </td>
-            <td class="text-right">
-              16
-            </td>
-            <td class="text-right">
-              49
-            </td>
-            <td class="text-right">
-              3.9
-            </td>
-            <td class="text-right">
-              327
-            </td>
+            <td class="text-left">Gingerbread</td>
+            <td class="text-right">356</td>
+            <td class="text-right">16</td>
+            <td class="text-right">49</td>
+            <td class="text-right">3.9</td>
+            <td class="text-right">327</td>
           </tr>
         </tbody>
       </q-markup-table>
 
       <h2>Popup editing</h2>
-      <p class="caption">
-        Click on Dessert or Calories cells.
-      </p>
+      <p class="caption">Click on Dessert or Calories cells.</p>
       <q-table
         :rows="data"
         :columns="columns"
@@ -143,11 +74,15 @@
         bordered
         flat
         binary-state-sort
-        :pagination="{rowsPerPage: 3}"
+        :pagination="{ rowsPerPage: 3 }"
         :rows-per-page-options="[1, 2, 3, 4, 6]"
         row-key="name"
-        :table-row-class-fn="row => row.calories % 2 === 0 ? 'bg-red-1' : 'bg-yellow-1'"
-        :table-row-style-fn="row => row.calories % 2 === 0 ? 'color:blue' : 'color:green'"
+        :table-row-class-fn="
+          row => (row.calories % 2 === 0 ? 'bg-red-1' : 'bg-yellow-1')
+        "
+        :table-row-style-fn="
+          row => (row.calories % 2 === 0 ? 'color:blue' : 'color:green')
+        "
       >
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -177,7 +112,12 @@
                 {{ props.row.calories }}
               </div>
 
-              <q-popup-edit v-model="props.row.calories" title="Update calories" buttons v-slot="scope">
+              <q-popup-edit
+                v-model="props.row.calories"
+                title="Update calories"
+                buttons
+                v-slot="scope"
+              >
                 <q-input type="number" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
@@ -188,7 +128,12 @@
               </div>
 
               <q-popup-edit v-model="props.row.fat" auto-save v-slot="scope">
-                <q-input type="textarea" v-model="scope.value" dense autofocus />
+                <q-input
+                  type="textarea"
+                  v-model="scope.value"
+                  dense
+                  autofocus
+                />
               </q-popup-edit>
             </q-td>
 
@@ -197,8 +142,20 @@
                 {{ props.row.carbs }}
               </div>
 
-              <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent v-slot="scope">
-                <q-input type="number" v-model="scope.value" dense autofocus hint="Use buttons to close" />
+              <q-popup-edit
+                v-model="props.row.carbs"
+                title="Update carbs"
+                buttons
+                persistent
+                v-slot="scope"
+              >
+                <q-input
+                  type="number"
+                  v-model="scope.value"
+                  dense
+                  autofocus
+                  hint="Use buttons to close"
+                />
               </q-popup-edit>
             </q-td>
 
@@ -217,17 +174,40 @@
                 {{ props.row.sodium }}
               </div>
 
-              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10" v-slot="scope">
+              <q-popup-edit
+                persistent
+                v-model="props.row.sodium"
+                :validate="val => val > 10"
+                v-slot="scope"
+              >
                 <q-input
                   autofocus
                   dense
                   v-model="scope.value"
                   hint="Sodium level (>10)"
-                  :rules="[ val => scope.validate(val) || 'Please enter more than 10' ]"
+                  :rules="[
+                    val => scope.validate(val) || 'Please enter more than 10'
+                  ]"
                 >
                   <template v-slot:after>
-                    <q-btn flat dense color="negative" icon="cancel" @click.stop="scope.cancel" />
-                    <q-btn flat dense color="positive" icon="save" @click.stop="scope.set" :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" />
+                    <q-btn
+                      flat
+                      dense
+                      color="negative"
+                      icon="cancel"
+                      @click.stop="scope.cancel"
+                    />
+                    <q-btn
+                      flat
+                      dense
+                      color="positive"
+                      icon="save"
+                      @click.stop="scope.set"
+                      :disable="
+                        scope.validate(scope.value) === false ||
+                        scope.initialValue === scope.value
+                      "
+                    />
                   </template>
                 </q-input>
               </q-popup-edit>
@@ -263,7 +243,13 @@
         row-key="name"
       >
         <template v-slot:top-right>
-          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <q-input
+            borderless
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Search"
+          >
             <template v-slot:append>
               <q-icon name="search" />
             </template>
@@ -275,13 +261,19 @@
             class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 generic-transition"
             :style="props.selected ? 'transform: scale(0.95);' : ''"
           >
-            <q-card class="generic-transition" :class="props.selected ? 'bg-grey-2' : ''">
+            <q-card
+              class="generic-transition"
+              :class="props.selected ? 'bg-grey-2' : ''"
+            >
               <q-card-section>
                 <q-checkbox v-model="props.selected" :label="props.row.name" />
               </q-card-section>
               <q-separator />
               <q-list>
-                <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                <q-item
+                  v-for="col in props.cols.filter(col => col.name !== 'desc')"
+                  :key="col.name"
+                >
                   <q-item-section>
                     <q-item-label>{{ col.label }}</q-item-label>
                   </q-item-section>
@@ -305,9 +297,26 @@
 
       <div>
         <q-toggle color="primary" v-model="loading" label="Show loading" />
-        <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
-        <q-select filled multiple v-model="visibleColumns" :options="columns" option-value="name" option-disable="required" emit-value />
-        <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
+        <q-toggle
+          color="primary"
+          v-model="selectionToggle"
+          label="Multiple selection"
+        />
+        <q-select
+          filled
+          multiple
+          v-model="visibleColumns"
+          :options="columns"
+          option-value="name"
+          option-disable="required"
+          emit-value
+        />
+        <q-select
+          class="q-mt-md"
+          filled
+          v-model="separator"
+          :options="['horizontal', 'vertical', 'cell', 'none']"
+        />
       </div>
 
       <h2>Emulate server-side</h2>
@@ -327,7 +336,13 @@
         @request="request"
       >
         <template v-slot:top-right>
-          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <q-input
+            borderless
+            dense
+            debounce="300"
+            v-model="filter"
+            placeholder="Search"
+          >
             <template v-slot:append>
               <q-icon name="search" />
             </template>
@@ -367,12 +382,16 @@
         color="secondary"
         :separator="separator"
       >
-        <template v-slot:top-selection>
-          Selection
-        </template>
+        <template v-slot:top-selection> Selection </template>
 
         <template v-slot:top-left="props">
-          <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
+          <q-btn
+            size="sm"
+            round
+            flat
+            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+            @click="props.toggleFullscreen()"
+          />
           {{ visibleColumns }}
         </template>
 
@@ -391,9 +410,7 @@
         </template>
 
         <template v-slot:body-cell="props">
-          <q-td :props="props">
-            {{ props.value }} *
-          </q-td>
+          <q-td :props="props"> {{ props.value }} * </q-td>
         </template>
 
         <template v-slot:body-cell-desc="props">
@@ -436,19 +453,29 @@
         row-key="name"
         color="amber"
       >
-        <template v-slot:top-left>
-          Top left template
-        </template>
+        <template v-slot:top-left> Top left template </template>
 
         <template v-slot:top-right>
           <div class="row items-center">
-            <q-btn flat round size="sm" color="grey-8" icon="filter_list" class="on-right" />
-            <q-btn flat round size="sm" color="grey-8" icon="more_vert" class="on-right" />
+            <q-btn
+              flat
+              round
+              size="sm"
+              color="grey-8"
+              icon="filter_list"
+              class="on-right"
+            />
+            <q-btn
+              flat
+              round
+              size="sm"
+              color="grey-8"
+              icon="more_vert"
+              class="on-right"
+            />
           </div>
         </template>
-        <template v-slot:top-selection>
-          Selection
-        </template>
+        <template v-slot:top-selection> Selection </template>
       </q-table>
 
       <h2>top template</h2>
@@ -462,9 +489,7 @@
         color="primary"
       >
         <template v-slot:top>
-          <div class="row items-center">
-            Some awesome table
-          </div>
+          <div class="row items-center">Some awesome table</div>
         </template>
       </q-table>
 
@@ -477,9 +502,7 @@
         row-key="name"
       >
         <template v-slot:header-cell="props">
-          <q-th :props="props">
-            # {{ props.col.label }}
-          </q-th>
+          <q-th :props="props"> # {{ props.col.label }} </q-th>
         </template>
       </q-table>
 
@@ -492,9 +515,7 @@
         row-key="name"
       >
         <template v-slot:header-cell="props">
-          <q-th :props="props">
-            {{ props.col.label }} *
-          </q-th>
+          <q-th :props="props"> {{ props.col.label }} * </q-th>
         </template>
 
         <template v-slot:header-cell-calories="props">
@@ -532,30 +553,14 @@
       >
         <template v-slot:header="props">
           <tr>
-            <q-th key="desc" :props="props">
-              Dessert
-            </q-th>
-            <q-th key="calories" :props="props">
-              Calo
-            </q-th>
-            <q-th key="fat" :props="props">
-              Fat
-            </q-th>
-            <q-th key="carbs" :props="props">
-              Carbs
-            </q-th>
-            <q-th key="protein" :props="props">
-              Protein
-            </q-th>
-            <q-th key="sodium" :props="props">
-              Sodium
-            </q-th>
-            <q-th key="calcium" :props="props">
-              Calcium
-            </q-th>
-            <q-th key="iron" :props="props">
-              Iron
-            </q-th>
+            <q-th key="desc" :props="props"> Dessert </q-th>
+            <q-th key="calories" :props="props"> Calo </q-th>
+            <q-th key="fat" :props="props"> Fat </q-th>
+            <q-th key="carbs" :props="props"> Carbs </q-th>
+            <q-th key="protein" :props="props"> Protein </q-th>
+            <q-th key="sodium" :props="props"> Sodium </q-th>
+            <q-th key="calcium" :props="props"> Calcium </q-th>
+            <q-th key="iron" :props="props"> Iron </q-th>
           </tr>
         </template>
       </q-table>
@@ -588,7 +593,17 @@
               {{ props.row.sodium }}
             </q-td>
             <q-td key="calcium" :props="props">
-              <q-btn loading color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
+              <q-btn
+                loading
+                color="secondary"
+                icon="sms_failed"
+                @click="
+                  ($event, done) => {
+                    notifyWithProps(done, props)
+                  }
+                "
+                :label="props.row.calcium"
+              />
             </q-td>
             <q-td key="iron" :props="props">
               <q-badge color="amber">
@@ -625,9 +640,7 @@
         row-key="name"
       >
         <template v-slot:body-cell="props">
-          <q-td :props="props">
-            !{{ props.value }}
-          </q-td>
+          <q-td :props="props"> !{{ props.value }} </q-td>
         </template>
       </q-table>
 
@@ -639,28 +652,20 @@
         :title="title"
         row-key="name"
       >
-        <template v-slot:top>
-          Top
-        </template>
+        <template v-slot:top> Top </template>
         <template v-slot:top-row>
           <q-tr>
-            <q-td colspan="100%">
-              Top row
-            </q-td>
+            <q-td colspan="100%"> Top row </q-td>
           </q-tr>
         </template>
 
         <template v-slot:bottom-row>
           <q-tr>
-            <q-td colspan="100%">
-              Bottom row
-            </q-td>
+            <q-td colspan="100%"> Bottom row </q-td>
           </q-tr>
         </template>
 
-        <template v-slot:bottom>
-          Bottom
-        </template>
+        <template v-slot:bottom> Bottom </template>
       </q-table>
 
       <h2>selection template</h2>
@@ -680,7 +685,12 @@
         <template v-slot:header="props">
           <q-tr>
             <q-th auto-width>
-              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+              <q-checkbox
+                v-if="props.multipleSelect"
+                v-model="props.selected"
+                :indeterminate="props.partialSelected"
+                :color="color"
+              />
             </q-th>
             <q-th v-for="col in props.cols" :key="col.name" :props="props">
               @ {{ col.label }}
@@ -694,7 +704,12 @@
               <q-checkbox :color="color" v-model="props.selected" />
             </q-td>
             <q-td key="desc" :props="props">
-              <q-checkbox :color="color" v-model="props.expand" checked-icon="remove" unchecked-icon="add" />
+              <q-checkbox
+                :color="color"
+                v-model="props.expand"
+                checked-icon="remove"
+                unchecked-icon="add"
+              />
               %%% {{ props.row.name }} %%%
             </q-td>
             <q-td key="calories" :props="props">
@@ -746,7 +761,12 @@
         <template v-slot:header="props">
           <q-tr>
             <q-th auto-width>
-              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+              <q-checkbox
+                v-if="props.multipleSelect"
+                v-model="props.selected"
+                :indeterminate="props.partialSelected"
+                :color="color"
+              />
             </q-th>
             <q-th v-for="col in props.cols" :key="col.name" :props="props">
               @ {{ col.label }}
@@ -778,14 +798,10 @@
         :title="title"
       >
         <template v-slot:header-cell="props">
-          <q-th :props="props">
-            # {{ props.col.label }}
-          </q-th>
+          <q-th :props="props"> # {{ props.col.label }} </q-th>
         </template>
         <template v-slot:body-cell="props">
-          <q-td :props="props">
-            !{{ props.value }}
-          </q-td>
+          <q-td :props="props"> !{{ props.value }} </q-td>
         </template>
       </q-table>
 
@@ -807,12 +823,20 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       selectionToggle: false,
       loading: false,
       color: 'amber',
-      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
+      visibleColumns: [
+        'desc',
+        'fat',
+        'carbs',
+        'protein',
+        'sodium',
+        'calcium',
+        'iron'
+      ],
       separator: 'horizontal',
       selected: [],
       gridHeader: false,
@@ -835,16 +859,43 @@ export default {
           style: 'background: #26a69a',
           headerStyle: 'background: #26a69a',
           field: row => row.name,
-          format: val => `~${ val }`,
+          format: val => `~${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, sort: (a, b) => parseFloat(a) - parseFloat(b) },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, headerClasses: 'bg-primary text-white', classes: 'bg-primary text-white', style: 'width: 10px' },
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true,
+          sort: (a, b) => parseFloat(a) - parseFloat(b)
+        },
+        {
+          name: 'fat',
+          label: 'Fat (g)',
+          field: 'fat',
+          sortable: true,
+          headerClasses: 'bg-primary text-white',
+          classes: 'bg-primary text-white',
+          style: 'width: 10px'
+        },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
       data: [
         {
@@ -961,28 +1012,34 @@ export default {
     }
   },
   computed: {
-    selection () {
+    selection() {
       return this.selectionToggle ? 'multiple' : 'single'
     }
   },
   methods: {
-    notifyWithProps (done, props) {
+    notifyWithProps(done, props) {
       // Row cell event with access to props
       this.$q.notify({
-        message: 'The dessert ' + props.row.name + ' has ' + props.row.calcium + ' Calcium!',
+        message:
+          'The dessert ' +
+          props.row.name +
+          ' has ' +
+          props.row.calcium +
+          ' Calcium!',
         icon: 'restaurant'
       })
       // Remove button spinner after 3 seconds
-      setTimeout(() => { done() }, 3000)
+      setTimeout(() => {
+        done()
+      }, 3000)
     },
-    request (props) {
+    request(props) {
       this.loading = true
       console.log('REQUEST', props)
       setTimeout(() => {
         this.serverPagination = props.pagination
 
-        const
-          table = this.$refs.server,
+        const table = this.$refs.server,
           { page, rowsPerPage, sortBy, descending } = props.pagination
         let rows = this.data.slice()
 
@@ -1004,16 +1061,16 @@ export default {
         this.loading = false
       }, 2000)
     },
-    onSelection ({ added, ...rest }) {
+    onSelection({ added, ...rest }) {
       console.log(added ? 'selected' : 'un-selected', rest)
     },
 
-    onRowClick (evt, row) {
+    onRowClick(evt, row) {
       console.log('@row-click', evt, row)
     }
   },
 
-  mounted () {
+  mounted() {
     this.request({
       pagination: this.serverPagination,
       filter: this.filter

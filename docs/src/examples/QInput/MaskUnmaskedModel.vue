@@ -39,7 +39,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       id: ref(null),
       phone: ref(null),

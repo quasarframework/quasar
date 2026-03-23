@@ -1,22 +1,22 @@
 export default {
   isoName: 'uz-Latn',
-  nativeName: 'O\'zbekcha (Lotin)',
+  nativeName: "O'zbekcha (Lotin)",
   label: {
     clear: 'Tozalash',
     ok: 'OK',
     cancel: 'Bekor qilish',
     close: 'Yopish',
-    set: 'O\'rnatish',
+    set: "O'rnatish",
     select: 'Tanlash',
-    reset: 'Qayta o\'rnatish',
-    remove: 'O\'chirish',
+    reset: "Qayta o'rnatish",
+    remove: "O'chirish",
     update: 'Yangilash',
     create: 'Yaratish',
     search: 'Qidirish',
     filter: 'Filtrlash',
     refresh: 'Yangilash',
-    expand: label => (label ? `"${ label }" ni kengaytirish` : 'Kengaytirish'),
-    collapse: label => (label ? `"${ label }" ni yig'ish` : 'Yiqilish')
+    expand: label => (label ? `"${label}" ni kengaytirish` : 'Kengaytirish'),
+    collapse: label => (label ? `"${label}" ni yig'ish` : 'Yiqilish')
   },
   date: {
     days: 'Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba'.split(
@@ -35,24 +35,24 @@ export default {
     pluralDay: 'Kunlar',
     prevMonth: 'Oldingi oy',
     nextMonth: 'Keyingi oy',
-    prevYear: 'O\'tgan yili',
+    prevYear: "O'tgan yili",
     nextYear: 'Keyingi yil',
     today: 'Bugun',
-    prevRangeYears: range => `Oldingi ${ range } Yillar`,
-    nextRangeYears: range => `Keyingi ${ range } Yillar`
+    prevRangeYears: range => `Oldingi ${range} Yillar`,
+    nextRangeYears: range => `Keyingi ${range} Yillar`
   },
   table: {
-    noData: 'Ma\'lumotlar topilmadi',
-    noResults: 'Qidiruv bo\'yicha ma\'lumotlar topilmadi',
+    noData: "Ma'lumotlar topilmadi",
+    noResults: "Qidiruv bo'yicha ma'lumotlar topilmadi",
     loading: 'Yuklanmoqda...',
-    selectedRecords: (rows) => {
+    selectedRecords: rows => {
       if (rows === 0) {
-        return 'Hech qanday ma\'lumotlar tanlanmadi.'
+        return "Hech qanday ma'lumotlar tanlanmadi."
       }
       if (rows === 1) {
-        return '1 ta ma\'lumot tanlandi.'
+        return "1 ta ma'lumot tanlandi."
       }
-      return rows + ' ta ma\'lumotlar tanlandi.'
+      return rows + " ta ma'lumotlar tanlandi."
     },
     recordsPerPage: 'Saxifadagi qatorlar:',
     allRows: 'Barchasi',
@@ -63,7 +63,7 @@ export default {
     first: 'Birinchi sahifa',
     prev: 'Oldingi sahifa',
     next: 'Keyingi sahifa',
-    last: 'So\'nggi sahifa'
+    last: "So'nggi sahifa"
   },
   editor: {
     url: 'URL',
@@ -71,21 +71,21 @@ export default {
     italic: 'Kursiv',
     strikethrough: 'Chizilgan',
     underline: 'Tagiga chizilgan',
-    unorderedList: 'Tartibsiz ro\'yxat',
-    orderedList: 'Tartibga keltirilgan ro\'yxat',
+    unorderedList: "Tartibsiz ro'yxat",
+    orderedList: "Tartibga keltirilgan ro'yxat",
     subscript: 'Satr ostida',
     superscript: 'Satr ustida',
     hyperlink: 'Giperhavola',
-    toggleFullscreen: 'To\'liq ekran rejimiga o\'tish',
+    toggleFullscreen: "To'liq ekran rejimiga o'tish",
     quote: 'Iqtibos',
     left: 'Chapga saflash',
     center: 'Markazga saflash',
-    right: 'O\'nggadan saflash',
+    right: "O'nggadan saflash",
     justify: 'Ikki tomondan saflash',
     print: 'Chop etish',
     outdent: 'Chekinishni kamaytirish',
-    indent: 'Chekinishni ko\'paytirish',
-    removeFormat: 'Formatlashni o\'chirib tashlash',
+    indent: "Chekinishni ko'paytirish",
+    removeFormat: "Formatlashni o'chirib tashlash",
     formatting: 'Formatlash',
     fontSize: 'Shrift hajmi',
     align: 'Saflash',
@@ -103,12 +103,12 @@ export default {
     size1: 'Juda kichkik',
     size2: 'Biroz kichik',
     size3: 'Oddiy',
-    size4: 'O\'rta katta',
+    size4: "O'rta katta",
     size5: 'Katta',
     size6: 'Juda katta',
     size7: 'Maksimal',
     defaultFont: 'Standart shrift',
-    viewSource: 'Manbani ko\'rish'
+    viewSource: "Manbani ko'rish"
   },
   tree: {
     noNodes: 'Kesishmalar mavjud emas',

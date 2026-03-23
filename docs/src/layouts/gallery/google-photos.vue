@@ -12,27 +12,64 @@
           class="q-mx-md"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
-          <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg">
+        <q-toolbar-title
+          v-if="$q.screen.gt.sm"
+          shrink
+          class="row items-center no-wrap"
+        >
+          <img
+            src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg"
+          />
           <span class="q-ml-sm">Photos</span>
         </q-toolbar-title>
 
         <q-space />
 
-        <q-input class="GPL__toolbar-input" dense standout="bg-primary" v-model="search" placeholder="Search">
+        <q-input
+          class="GPL__toolbar-input"
+          dense
+          standout="bg-primary"
+          v-model="search"
+          placeholder="Search"
+        >
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="search = ''"
+            />
           </template>
         </q-input>
 
-        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="add" no-caps label="Create" class="q-ml-sm q-px-md">
+        <q-btn
+          v-if="$q.screen.gt.xs"
+          flat
+          dense
+          no-wrap
+          color="primary"
+          icon="add"
+          no-caps
+          label="Create"
+          class="q-ml-sm q-px-md"
+        >
           <q-menu anchor="top end" self="top end">
             <q-list class="text-grey-8" style="min-width: 100px">
               <q-item aria-hidden="true">
-                <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">Create New</q-item-section>
+                <q-item-section
+                  class="text-uppercase text-grey-7"
+                  style="font-size: 0.7rem"
+                  >Create New</q-item-section
+                >
               </q-item>
-              <q-item v-for="menu in createMenu" :key="menu.text" clickable v-close-popup aria-hidden="true">
+              <q-item
+                v-for="menu in createMenu"
+                :key="menu.text"
+                clickable
+                v-close-popup
+                aria-hidden="true"
+              >
                 <q-item-section avatar>
                   <q-icon :name="menu.icon" />
                 </q-item-section>
@@ -42,7 +79,17 @@
           </q-menu>
         </q-btn>
 
-        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="cloud_upload" no-caps label="Upload" class="q-ml-sm q-px-md" />
+        <q-btn
+          v-if="$q.screen.gt.xs"
+          flat
+          dense
+          no-wrap
+          color="primary"
+          icon="cloud_upload"
+          no-caps
+          label="Upload"
+          class="q-ml-sm q-px-md"
+        />
 
         <q-space />
 
@@ -51,14 +98,12 @@
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
           <q-btn round dense flat color="grey-8" icon="notifications">
-            <q-badge color="red" text-color="white" floating>
-              2
-            </q-badge>
+            <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
           <q-btn round flat>
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>
@@ -75,13 +120,21 @@
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
-            <img class="q-pl-md" src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg">
+            <img
+              class="q-pl-md"
+              src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg"
+            />
             <span class="q-ml-sm">Photos</span>
           </q-toolbar-title>
         </q-toolbar>
 
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item
+            v-for="link in links1"
+            :key="link.text"
+            clickable
+            class="GPL__drawer-item"
+          >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -92,7 +145,12 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links2" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item
+            v-for="link in links2"
+            :key="link.text"
+            clickable
+            class="GPL__drawer-item"
+          >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -103,7 +161,12 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links3" :key="link.text" clickable class="GPL__drawer-item">
+          <q-item
+            v-for="link in links3"
+            :key="link.text"
+            clickable
+            class="GPL__drawer-item"
+          >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -133,30 +196,75 @@
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
         <div class="fit q-pt-xl q-px-sm column">
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn
+            round
+            flat
+            color="grey-8"
+            stack
+            no-caps
+            size="26px"
+            class="GPL__side-btn"
+          >
             <q-icon size="22px" name="photo" />
             <div class="GPL__side-btn__label">Photos</div>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn
+            round
+            flat
+            color="grey-8"
+            stack
+            no-caps
+            size="26px"
+            class="GPL__side-btn"
+          >
             <q-icon size="22px" name="collections_bookmark" />
             <div class="GPL__side-btn__label">Albums</div>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn
+            round
+            flat
+            color="grey-8"
+            stack
+            no-caps
+            size="26px"
+            class="GPL__side-btn"
+          >
             <q-icon size="22px" name="assistant" />
             <div class="GPL__side-btn__label">Assistant</div>
-            <q-badge floating color="red" text-color="white" style="top: 8px; right: 16px">
+            <q-badge
+              floating
+              color="red"
+              text-color="white"
+              style="top: 8px; right: 16px"
+            >
               1
             </q-badge>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn
+            round
+            flat
+            color="grey-8"
+            stack
+            no-caps
+            size="26px"
+            class="GPL__side-btn"
+          >
             <q-icon size="22px" name="group" />
             <div class="GPL__side-btn__label">Sharing</div>
           </q-btn>
 
-          <q-btn round flat color="grey-8" stack no-caps size="26px" class="GPL__side-btn">
+          <q-btn
+            round
+            flat
+            color="grey-8"
+            stack
+            no-caps
+            size="26px"
+            class="GPL__side-btn"
+          >
             <q-icon size="22px" name="import_contacts" />
             <div class="GPL__side-btn__label">Photo books</div>
           </q-btn>
@@ -172,12 +280,12 @@ import { ref } from 'vue'
 export default {
   name: 'GooglePhotosLayout',
 
-  setup () {
+  setup() {
     const leftDrawerOpen = ref(false)
     const search = ref('')
     const storage = ref(0.26)
 
-    function toggleLeftDrawer () {
+    function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value
     }
 

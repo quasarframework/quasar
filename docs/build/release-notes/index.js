@@ -25,15 +25,15 @@ const api = {
   }
 }
 
-async function runRequests () {
+async function runRequests() {
   for (const quasarVersion in api) {
-    const { versionRE, packages } = api[ quasarVersion ]
+    const { versionRE, packages } = api[quasarVersion]
 
-    console.log(`Requesting release notes for Quasar v${ quasarVersion }...`)
+    console.log(`Requesting release notes for Quasar v${quasarVersion}...`)
 
     await request(packages, versionRE).then(content => {
       const dir = join(rootFolder, 'dist/release-notes')
-      const file = join(dir, `${ quasarVersion }.json`)
+      const file = join(dir, `${quasarVersion}.json`)
 
       fse.ensureDir(dir)
       fse.writeJsonSync(file, content)

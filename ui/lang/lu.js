@@ -15,13 +15,18 @@ export default {
     search: 'Sichen',
     filter: 'Filter',
     refresh: 'Aktualiséieren',
-    expand: label => (label ? `"${ label }" erweideren` : 'Erweideren'),
-    collapse: label => (label ? `"${ label }" zesummeklappen` : 'Zesummebroch')
+    expand: label => (label ? `"${label}" erweideren` : 'Erweideren'),
+    collapse: label => (label ? `"${label}" zesummeklappen` : 'Zesummebroch')
   },
   date: {
-    days: 'Sonndeg_Méindeg_Dënschdeg_Mëttwoch_Donneschdeg_Freideg_Samschdeg'.split('_'),
+    days: 'Sonndeg_Méindeg_Dënschdeg_Mëttwoch_Donneschdeg_Freideg_Samschdeg'.split(
+      '_'
+    ),
     daysShort: 'So_Mé_Dë_Më_Do_Fr_Sa'.split('_'),
-    months: 'Januar_Februar_März_Abrëll_Mäi_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
+    months:
+      'Januar_Februar_März_Abrëll_Mäi_Juni_Juli_August_September_Oktober_November_Dezember'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mär_Abr_Mäi_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Joer virdrun',
     nextYear: 'Nächst Joer',
     today: 'Haut',
-    prevRangeYears: range => `Prévisch ${ range } Joren`,
-    nextRangeYears: range => `Nächst ${ range } Joren`
+    prevRangeYears: range => `Prévisch ${range} Joren`,
+    nextRangeYears: range => `Nächst ${range} Joren`
   },
   table: {
     noData: 'Keng Donnéen do',
     noResults: 'Keng Anträg fonnt',
     loading: 'Luedt...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 ausgewielten Zeil.'
-        : (rows === 0 ? 'Keng' : rows) + ' Zeilen ausgewielt.'
-    ),
+        : (rows === 0 ? 'Keng' : rows) + ' Zeilen ausgewielt.',
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
     pagination: (start, end, total) => start + '-' + end + ' vun ' + total,

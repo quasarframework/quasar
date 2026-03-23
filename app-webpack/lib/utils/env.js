@@ -11,7 +11,7 @@ const readFileEnvCacheKey = 'readFileEnv'
  * Get the raw env definitions from the host
  * project env files.
  */
-module.exports.readFileEnv = function readFileEnv ({ ctx, quasarConf }) {
+module.exports.readFileEnv = function readFileEnv({ ctx, quasarConf }) {
   const { cacheProxy } = ctx
 
   const opts = {
@@ -49,7 +49,7 @@ module.exports.readFileEnv = function readFileEnv ({ ctx, quasarConf }) {
   return cache.result
 }
 
-function getFileEnvResult ({
+function getFileEnvResult({
   appPaths,
   quasarMode,
   buildType,
@@ -67,51 +67,48 @@ function getFileEnvResult ({
 
     // .env.[dev|prod]
     // loaded for dev or prod only
-    `.env.${ buildType }`,
+    `.env.${buildType}`,
 
     // .env.local.[dev|prod]
     // loaded for dev or prod only, ignored by git
-    `.env.local.${ buildType }`,
+    `.env.local.${buildType}`,
 
     // .env.[quasarMode]
     // loaded for specific Quasar CLI mode only
-    `.env.${ quasarMode }`,
+    `.env.${quasarMode}`,
 
     // .env.local.[quasarMode]
     // loaded for specific Quasar CLI mode only, ignored by git
-    `.env.local.${ quasarMode }`,
+    `.env.local.${quasarMode}`,
 
     // .env.[dev|prod].[quasarMode]
     // loaded for specific Quasar CLI mode and dev|prod only
-    `.env.${ buildType }.${ quasarMode }`,
+    `.env.${buildType}.${quasarMode}`,
 
     // .env.local.[dev|prod].[quasarMode]
     // loaded for specific Quasar CLI mode and dev|prod only, ignored by git
-    `.env.local.${ buildType }.${ quasarMode }`,
+    `.env.local.${buildType}.${quasarMode}`,
 
     // additional user-defined env files
     ...envFiles
   ]
 
   const usedEnvFiles = []
-  const folder = isAbsolute(envFolder) === true
-    ? envFolder
-    : join(appPaths.appDir, envFolder)
+  const folder =
+    isAbsolute(envFolder) === true
+      ? envFolder
+      : join(appPaths.appDir, envFolder)
 
   const env = Object.fromEntries(
     fileList.flatMap(file => {
-      const filePath = isAbsolute(file) === true
-        ? file
-        : join(folder, file)
+      const filePath = isAbsolute(file) === true ? file : join(folder, file)
 
       if (existsSync(filePath) === false) {
         return []
       }
 
       usedEnvFiles.push(file)
-      return Object.entries(
-        dotEnvParse(readFileSync(filePath, 'utf-8'))
-      )
+      return Object.entries(dotEnvParse(readFileSync(filePath, 'utf-8')))
     })
   )
 
@@ -135,10 +132,10 @@ const validKeyRE = /^[a-zA-Z_$][a-zA-Z0-9_$]+/
  * as process.env.[key]
  * Examples: ProgramFiles(x86), BASH_FUNC_which%%
  */
-function getFileEnv (env) {
+function getFileEnv(env) {
   const validKeys = Object.keys(env).filter(key => validKeyRE.test(key))
   return validKeys.reduce((acc, key) => {
-    acc[ key ] = env[ key ]
+    acc[key] = env[key]
     return acc
   }, {})
 }
@@ -147,7 +144,7 @@ function getFileEnv (env) {
  * Get the final env definitions to supply to
  * the build system (Webpack or Esbuild).
  */
-module.exports.getBuildSystemDefine = function getBuildSystemDefine ({
+module.exports.getBuildSystemDefine = function getBuildSystemDefine({
   fileEnv = {},
   buildEnv = {},
   buildRawDefine = {}
@@ -155,22 +152,24 @@ module.exports.getBuildSystemDefine = function getBuildSystemDefine ({
   const acc = {}
 
   for (const key in fileEnv) {
-    const val = fileEnv[ key ]
-    acc[ `process.env.${ key }` ] = val === 'true' || val === 'false'
-      ? val // let's keep it as boolean and not transform it to string
-      : JSON.stringify(fileEnv[ key ])
+    const val = fileEnv[key]
+    acc[`process.env.${key}`] =
+      val === 'true' || val === 'false'
+        ? val // let's keep it as boolean and not transform it to string
+        : JSON.stringify(fileEnv[key])
   }
 
   const flatBuildEnv = flattenObject(buildEnv)
   for (const key in flatBuildEnv) {
-    acc[ `process.env.${ key }` ] = JSON.stringify(flatBuildEnv[ key ])
+    acc[`process.env.${key}`] = JSON.stringify(flatBuildEnv[key])
   }
 
   for (const key in buildRawDefine) {
-    const val = buildRawDefine[ key ]
-    acc[ key ] = typeof val === 'string'
-      ? buildRawDefine[ key ]
-      : JSON.stringify(buildRawDefine[ key ])
+    const val = buildRawDefine[key]
+    acc[key] =
+      typeof val === 'string'
+        ? buildRawDefine[key]
+        : JSON.stringify(buildRawDefine[key])
   }
 
   return acc
@@ -209,21 +208,21 @@ const flattenObject = obj => {
   for (const key in obj) {
     if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
 
-    if (typeof obj[ key ] !== 'object') {
-      result[ key ] = obj[ key ]
+    if (typeof obj[key] !== 'object') {
+      result[key] = obj[key]
       continue
     }
 
-    const flatObj = flattenObject(obj[ key ])
+    const flatObj = flattenObject(obj[key])
 
     // Save the object itself to it's root key
-    result[ key ] = flatObj
+    result[key] = flatObj
 
     // Save the child keys
     for (const flatKey in flatObj) {
       if (!Object.prototype.hasOwnProperty.call(flatObj, flatKey)) continue
 
-      result[ `${ key }.${ flatKey }` ] = flatObj[ flatKey ]
+      result[`${key}.${flatKey}`] = flatObj[flatKey]
     }
   }
 

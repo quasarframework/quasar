@@ -11,54 +11,59 @@ const ssrAPI = {
   update: () => ssrAPI
 }
 
-export function merge (target, source) {
+export function merge(target, source) {
   for (const key in source) {
-    if (key !== 'spinner' && Object(source[ key ]) === source[ key ]) {
-      target[ key ] = Object(target[ key ]) !== target[ key ]
-        ? {}
-        : { ...target[ key ] }
+    if (key !== 'spinner' && Object(source[key]) === source[key]) {
+      target[key] =
+        Object(target[key]) !== target[key] ? {} : { ...target[key] }
 
-      merge(target[ key ], source[ key ])
-    }
-    else {
-      target[ key ] = source[ key ]
+      merge(target[key], source[key])
+    } else {
+      target[key] = source[key]
     }
   }
 }
 
-export default function (DefaultComponent, supportsCustomComponent, parentApp) {
+export default function createDialog(
+  DefaultComponent,
+  supportsCustomComponent,
+  parentApp
+) {
   return pluginProps => {
-    if (__QUASAR_SSR_SERVER__) { return ssrAPI }
+    if (__QUASAR_SSR_SERVER__) {
+      return ssrAPI
+    }
 
     let DialogComponent, props
-    const isCustom = supportsCustomComponent === true
-      && pluginProps.component !== void 0
+    const isCustom =
+      supportsCustomComponent === true && pluginProps.component !== void 0
 
     if (isCustom === true) {
       const { component, componentProps } = pluginProps
 
-      DialogComponent = (typeof component === 'string')
-        ? parentApp.component(component)
-        : component
+      DialogComponent =
+        typeof component === 'string'
+          ? parentApp.component(component)
+          : component
 
       props = componentProps || {}
-    }
-    else {
+    } else {
       const { class: klass, style, ...otherProps } = pluginProps
 
       DialogComponent = DefaultComponent
       props = otherProps
-      klass !== void 0 && (otherProps.cardClass = klass)
-      style !== void 0 && (otherProps.cardStyle = style)
+      if (klass !== void 0) otherProps.cardClass = klass
+      if (style !== void 0) otherProps.cardStyle = style
     }
 
-    let vm, emittedOK = false
+    let vm,
+      emittedOK = false
     const dialogRef = ref(null)
     const el = createGlobalNode(false, 'dialog')
 
     const applyState = cmd => {
-      if (dialogRef.value?.[ cmd ] !== void 0) {
-        dialogRef.value[ cmd ]()
+      if (dialogRef.value?.[cmd] !== void 0) {
+        dialogRef.value[cmd]()
         return
       }
 
@@ -66,19 +71,19 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
       if (target?.component) {
         // account for "script setup" way of declaring component
-        if (target.component.proxy && target.component.proxy[ cmd ]) {
-          target.component.proxy[ cmd ]()
+        if (target.component.proxy && target.component.proxy[cmd]) {
+          target.component.proxy[cmd]()
           return
         }
 
         // account for "script setup" + async component way of declaring component
         if (
-          target.component.subTree
-          && target.component.subTree.component
-          && target.component.subTree.component.proxy
-          && target.component.subTree.component.proxy[ cmd ]
+          target.component.subTree &&
+          target.component.subTree.component &&
+          target.component.subTree.component.proxy &&
+          target.component.subTree.component.proxy[cmd]
         ) {
-          target.component.subTree.component.proxy[ cmd ]()
+          target.component.subTree.component.proxy[cmd]()
           return
         }
       }
@@ -86,37 +91,35 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       console.error('[Quasar] Incorrectly defined Dialog component')
     }
 
-    const
-      okFns = [],
+    const okFns = [],
       cancelFns = [],
       API = {
-        onOk (fn) {
+        onOk(fn) {
           okFns.push(fn)
           return API
         },
-        onCancel (fn) {
+        onCancel(fn) {
           cancelFns.push(fn)
           return API
         },
-        onDismiss (fn) {
+        onDismiss(fn) {
           okFns.push(fn)
           cancelFns.push(fn)
           return API
         },
-        hide () {
+        hide() {
           applyState('hide')
           return API
         },
-        update (componentProps) {
+        update(componentProps) {
           if (vm !== null) {
             if (isCustom === true) {
               Object.assign(props, componentProps)
-            }
-            else {
+            } else {
               const { class: klass, style, ...cfg } = componentProps
 
-              klass !== void 0 && (cfg.cardClass = klass)
-              style !== void 0 && (cfg.cardStyle = style)
+              if (klass !== void 0) cfg.cardClass = klass
+              if (style !== void 0) cfg.cardStyle = style
               merge(props, cfg)
             }
 
@@ -129,7 +132,9 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
     const onOk = data => {
       emittedOK = true
-      okFns.forEach(fn => { fn(data) })
+      okFns.forEach(fn => {
+        fn(data)
+      })
     }
 
     const onHide = () => {
@@ -139,26 +144,32 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       vm = null
 
       if (emittedOK !== true) {
-        cancelFns.forEach(fn => { fn() })
+        cancelFns.forEach(fn => {
+          fn()
+        })
       }
     }
 
-    let app = createChildApp({
-      name: 'QGlobalDialog',
-      setup: () => () => h(DialogComponent, {
-        ...props,
-        ref: dialogRef,
-        onOk,
-        onHide,
-        onVnodeMounted (...args) {
-          if (typeof props.onVnodeMounted === 'function') {
-            props.onVnodeMounted(...args)
-          }
+    let app = createChildApp(
+      {
+        name: 'QGlobalDialog',
+        setup: () => () =>
+          h(DialogComponent, {
+            ...props,
+            ref: dialogRef,
+            onOk,
+            onHide,
+            onVnodeMounted(...args) {
+              if (typeof props.onVnodeMounted === 'function') {
+                props.onVnodeMounted(...args)
+              }
 
-          nextTick(() => applyState('show'))
-        }
-      })
-    }, parentApp)
+              nextTick(() => applyState('show'))
+            }
+          })
+      },
+      parentApp
+    )
 
     vm = app.mount(el)
 

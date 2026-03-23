@@ -1,12 +1,20 @@
 <template>
   <div>
-    <div class="q-layout-padding q-gutter-y-md" :class="{ 'bg-grey-8 text-white': dark }">
+    <div
+      class="q-layout-padding q-gutter-y-md"
+      :class="{ 'bg-grey-8 text-white': dark }"
+    >
       <div class="q-gutter-sm">
         <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
         <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
         <q-radio :dark="dark" v-model="type" val="standout" label="Standout" />
         <q-radio :dark="dark" v-model="type" val="standard" label="Standard" />
-        <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
+        <q-radio
+          :dark="dark"
+          v-model="type"
+          val="borderless"
+          label="Borderless"
+        />
       </div>
       <div>
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -14,13 +22,16 @@
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="optionsDense" label="(Options) Dense" />
         <q-toggle :dark="dark" v-model="optionsCover" label="Options cover" />
-        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
+        <q-toggle
+          :dark="dark"
+          v-model="dark"
+          label="Dark"
+          :false-value="null"
+        />
         <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
       </div>
 
-      <div class="text-h6">
-        String options
-      </div>
+      <div class="text-h6">String options</div>
 
       <div>{{ stringSingle }}</div>
       <q-select
@@ -53,9 +64,7 @@
         multiple
       />
 
-      <div class="text-h6">
-        Object options
-      </div>
+      <div class="text-h6">Object options</div>
 
       <div>{{ objectSingle }}</div>
       <q-select
@@ -95,7 +104,9 @@
         label="Single - object"
       />
 
-      <div>{{ stringEmitNullSingle === null ? 'null' : stringEmitNullSingle }}</div>
+      <div>{{
+        stringEmitNullSingle === null ? 'null' : stringEmitNullSingle
+      }}</div>
       <q-select
         v-bind="props"
         v-model="stringEmitNullSingle"
@@ -138,11 +149,7 @@
         <q-btn color="negative" outline label="Reset" @click="resetBogus" />
       </div>
       <div>{{ bogusModel }}</div>
-      <q-select
-        v-bind="props"
-        v-model="bogusModel"
-        :options="stringOptions"
-      />
+      <q-select v-bind="props" v-model="bogusModel" :options="stringOptions" />
       <div>{{ bogusMultiModel }}</div>
       <q-select
         v-bind="props"
@@ -152,9 +159,7 @@
         options-selected-class="text-orange"
       />
 
-      <div class="text-h6">
-        Emit value
-      </div>
+      <div class="text-h6">Emit value</div>
 
       <div>{{ stringEmitSingle }}</div>
       <q-select
@@ -194,9 +199,7 @@
         multiple
       />
 
-      <div class="text-h6">
-        Scoped Slot: option (with menu on icon)
-      </div>
+      <div class="text-h6">Scoped Slot: option (with menu on icon)</div>
       <q-select
         v-bind="props"
         v-model="objectSingle"
@@ -209,9 +212,7 @@
             <q-item-section avatar @click.stop>
               <q-icon tabindex="0" :name="scope.opt.icon" />
               <q-menu v-if="scope.opt.disable !== true">
-                <div class="bg-yellow text-black q-pa-md">
-                  Test menu
-                </div>
+                <div class="bg-yellow text-black q-pa-md">Test menu</div>
               </q-menu>
             </q-item-section>
             <q-item-section>
@@ -245,7 +246,7 @@
               <q-item-label v-if="scope.html">
                 <div v-html="scope.opt.label" />
               </q-item-label>
-              <q-item-label v-else >
+              <q-item-label v-else>
                 {{ scope.opt.label }}
               </q-item-label>
               <q-item-label caption>
@@ -256,9 +257,7 @@
         </template>
       </q-select>
 
-      <div class="text-h6">
-        Scoped slot: selected
-      </div>
+      <div class="text-h6">Scoped slot: selected</div>
       <q-select
         v-bind="props"
         v-model="objectMultiple"
@@ -275,7 +274,11 @@
             color="white"
             text-color="primary"
           >
-            <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
+            <q-avatar
+              color="primary"
+              text-color="white"
+              :icon="scope.opt.icon"
+            />
             <span v-if="scope.html" v-html="scope.opt.label" />
             <span v-else>
               {{ scope.opt.label }}
@@ -284,9 +287,7 @@
         </template>
       </q-select>
 
-      <div class="text-h6">
-        Max values (in this case 2)
-      </div>
+      <div class="text-h6">Max values (in this case 2)</div>
       <q-select
         v-bind="props"
         v-model="objectMultiple"
@@ -297,9 +298,7 @@
         color="teal"
       />
 
-      <div class="text-h6">
-        Heavy test (100k options)
-      </div>
+      <div class="text-h6">Heavy test (100k options)</div>
       <q-select
         v-bind="props"
         v-model="heavyModel"
@@ -333,25 +332,15 @@
         </template>
       </q-select>
 
-      <div class="text-h6">
-        No options
-      </div>
-      <q-select
-        v-bind="props"
-        v-model="stringSingle"
-        label="String - single"
-      />
+      <div class="text-h6">No options</div>
+      <q-select v-bind="props" v-model="stringSingle" label="String - single" />
       <q-select
         v-bind="props"
         v-model="stringMultiple"
         label="String - multiple"
         multiple
       />
-      <q-select
-        v-bind="props"
-        v-model="objectSingle"
-        label="Object - single"
-      />
+      <q-select v-bind="props" v-model="objectSingle" label="Object - single" />
       <q-select
         v-bind="props"
         v-model="objectMultiple"
@@ -359,9 +348,7 @@
         multiple
       />
 
-      <div class="text-h6">
-        No options, slot: no-options
-      </div>
+      <div class="text-h6">No options, slot: no-options</div>
       <q-select
         v-bind="props"
         v-model="stringSingle"
@@ -378,7 +365,8 @@
       </q-select>
 
       <div class="text-h6">
-        Alignment test: standard, use-input, use-input + hide-selected, normal input
+        Alignment test: standard, use-input, use-input + hide-selected, normal
+        input
       </div>
       <div class="row q-gutter-sm">
         <q-select
@@ -412,7 +400,7 @@
           class="col-2"
           v-bind="props"
           :model-value="stringSingle"
-          @update:model-value="val => stringSingle = val === null ? '' : val"
+          @update:model-value="val => (stringSingle = val === null ? '' : val)"
           label="Input"
         />
       </div>
@@ -429,7 +417,7 @@
         <q-input
           v-bind="props"
           :model-value="stringSingle"
-          @update:model-value="val => stringSingle = val === null ? '' : val"
+          @update:model-value="val => (stringSingle = val === null ? '' : val)"
           label="Input"
           prefix="A"
         />
@@ -480,7 +468,7 @@
         <q-input
           v-bind="props"
           :model-value="stringSingle"
-          @update:model-value="val => stringSingle = val === null ? '' : val"
+          @update:model-value="val => (stringSingle = val === null ? '' : val)"
           prefix="A"
         />
 
@@ -515,9 +503,7 @@
         />
       </div>
 
-      <div class="text-h6">
-        Display value and floating label test
-      </div>
+      <div class="text-h6">Display value and floating label test</div>
       <div>
         <q-select
           label="Options"
@@ -544,19 +530,15 @@ for (let i = 0; i <= 100000; i++) {
 Object.freeze(heavyList)
 
 export default {
-  created () {
+  created() {
     // setInterval(() => {
     //   console.log(document.activeElement)
     // }, 3000)
   },
-  data () {
+  data() {
     return {
       dispValSelection: [],
-      dispValOptions: [
-        'Option 1',
-        'Option 2',
-        'Option 3'
-      ],
+      dispValOptions: ['Option 1', 'Option 2', 'Option 3'],
 
       type: 'filled',
       readonly: false,
@@ -568,10 +550,8 @@ export default {
       optionsCover: false,
 
       stringSingle: 'Facebook',
-      stringMultiple: [ 'Facebook', 'Twitter' ],
-      stringOptions: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
+      stringMultiple: ['Facebook', 'Twitter'],
+      stringOptions: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
 
       objectSingle: {
         label: 'Facebook',
@@ -626,14 +606,16 @@ export default {
           icon: 'casino'
         },
         {
-          label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
+          label:
+            '<span class="text-primary">Safe</span> option with <b>HTML</b>',
           value: 'safe_option_with_html',
           description: 'It does not come from user',
           icon: 'golf_course',
           html: true
         },
         {
-          label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
+          label:
+            '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
           value: 'unsafe_option_with_html',
           description: 'It comes from user - you should sanitize',
           icon: 'golf_course'
@@ -667,41 +649,41 @@ export default {
       objectNullMultiple: null,
 
       stringEmitNullSingle: null,
-      stringEmitNullMultiple: [ null ],
+      stringEmitNullMultiple: [null],
 
       stringEmitSingle: 'Facebook',
-      stringEmitMultiple: [ 'Facebook' ],
+      stringEmitMultiple: ['Facebook'],
       objectEmitSingle: 'Facebook',
-      objectEmitMultiple: [ 'Facebook' ],
+      objectEmitMultiple: ['Facebook'],
 
       heavyModel: [],
       heavyList,
 
       bogusModel: 'bogus',
-      bogusMultiModel: [ 'bogus', 'gigi' ]
+      bogusMultiModel: ['bogus', 'gigi']
     }
   },
 
   methods: {
-    resetNull () {
+    resetNull() {
       this.stringNullSingle = null
       this.stringNullMultiple = null
       this.stringEmitNullSingle = null
-      this.stringEmitNullMultiple = [ null ]
+      this.stringEmitNullMultiple = [null]
       this.objectNullSingle = null
       this.objectNullMultiple = null
     },
 
-    resetBogus () {
+    resetBogus() {
       this.bogusModel = 'bogus'
-      this.bogusMultiModel = [ 'bogus', 'gigi' ]
+      this.bogusMultiModel = ['bogus', 'gigi']
     }
   },
 
   computed: {
-    props () {
+    props() {
       return {
-        [ this.type ]: true,
+        [this.type]: true,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
@@ -713,11 +695,10 @@ export default {
       }
     },
 
-    dispVal () {
+    dispVal() {
       if (this.dispValSelection.length === 1) {
         return '1 option selected'
-      }
-      else {
+      } else {
         return this.dispValSelection.length + ' options selected'
       }
     }

@@ -1,9 +1,5 @@
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
-import {
-  testIndent,
-  kebabCase,
-  getTestValue
-} from '../specs.utils.js'
+import { testIndent, kebabCase, getTestValue } from '../specs.utils.js'
 
 const identifiers = {
   value: {
@@ -19,21 +15,17 @@ const identifiers = {
   modifiers: {
     categoryId: '[Modifiers]',
     testIdToken: 'modifier',
-    getTestId: name => `[(modifier)${ name }]`,
+    getTestId: name => `[(modifier)${name}]`,
     createTestFn: createModifierTest
   }
 }
 
-function createValueTest ({
-  categoryId,
-  jsonEntry,
-  ctx
-}) {
+function createValueTest({ categoryId, jsonEntry, ctx }) {
   const typeList = Array.isArray(jsonEntry.type)
     ? jsonEntry.type
-    : [ jsonEntry.type ]
+    : [jsonEntry.type]
 
-  const valIndent = `${ testIndent }    `
+  const valIndent = `${testIndent}    `
   const testList = typeList.map(type => {
     const val = getTestValue({
       jsonEntry: { ...jsonEntry, type },
@@ -41,15 +33,19 @@ function createValueTest ({
     })
     const valExists = val !== 'undefined'
 
-    return `test.todo('as ${ type }', () => {
+    return `test.todo('as ${type}', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.camelCaseName) }${ valExists ? '="val"' : '' } />',
-        directives: { ${ ctx.camelCaseName } }${ valExists ? `,
+        template: '<div v-${kebabCase(ctx.camelCaseName)}${valExists ? '="val"' : ''} />',
+        directives: { ${ctx.camelCaseName} }${
+          valExists
+            ? `,
         setup () {
           return {
-            val: ${ val }
+            val: ${val}
           }
-        }` : '' }
+        }`
+            : ''
+        }
       })
 
       const wrapper = mount(TestComponent)
@@ -60,21 +56,18 @@ function createValueTest ({
   })
 
   return `
-  describe('${ categoryId }', () => {
-    ${ testList.join('\n\n    ') }
+  describe('${categoryId}', () => {
+    ${testList.join('\n\n    ')}
   })\n`
 }
 
-function createArgTest ({
-  categoryId,
-  ctx
-}) {
+function createArgTest({ categoryId, ctx }) {
   return `
-  describe('${ categoryId }', () => {
+  describe('${categoryId}', () => {
     test.todo('has effect', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.camelCaseName) }:...... />',
-        directives: { ${ ctx.camelCaseName } }
+        template: '<div v-${kebabCase(ctx.camelCaseName)}:...... />',
+        directives: { ${ctx.camelCaseName} }
       })
 
       const wrapper = mount(TestComponent)
@@ -85,23 +78,19 @@ function createArgTest ({
   })\n`
 }
 
-function createModifierTest ({
-  name,
-  testId,
-  jsonEntry,
-  ctx
-}) {
-  const val = jsonEntry.type === 'Boolean'
-    ? name
-    // example: TouchRepeat > modifiers > [keycode]
-    : getTestValue({ jsonEntry, indent: testIndent })
+function createModifierTest({ name, testId, jsonEntry, ctx }) {
+  const val =
+    jsonEntry.type === 'Boolean'
+      ? name
+      : // example: TouchRepeat > modifiers > [keycode]
+        getTestValue({ jsonEntry, indent: testIndent })
 
   return `
-    describe('${ testId }', () => {
+    describe('${testId}', () => {
       test.todo('has effect', () => {
         const TestComponent = defineComponent({
-          template: '<div v-${ kebabCase(ctx.camelCaseName) }.${ val } />',
-          directives: { ${ ctx.camelCaseName } }
+          template: '<div v-${kebabCase(ctx.camelCaseName)}.${val} />',
+          directives: { ${ctx.camelCaseName} }
         })
 
         const wrapper = mount(TestComponent)
@@ -115,22 +104,20 @@ function createModifierTest ({
 export default {
   identifiers,
   getJson: readAssociatedJsonFile,
-  getFileHeader: ({ ctx }) => {
-    return [
-      'import { mount } from \'@vue/test-utils\'',
-      'import { describe, test, expect } from \'vitest\'',
-      'import { defineComponent } from \'vue\'',
+  getFileHeader: ({ ctx }) =>
+    [
+      "import { mount } from '@vue/test-utils'",
+      "import { describe, test, expect } from 'vitest'",
+      "import { defineComponent } from 'vue'",
       '',
-      `import ${ ctx.camelCaseName } from './${ ctx.localName }'`
-    ].join('\n')
-  },
-  getGenericTest: ({ ctx }) => {
-    return `
+      `import ${ctx.camelCaseName} from './${ctx.localName}'`
+    ].join('\n'),
+  getGenericTest: ({ ctx }) => `
   describe('[Generic]', () => {
     test('should not throw error on render', () => {
       const TestComponent = defineComponent({
-        template: '<div v-${ kebabCase(ctx.camelCaseName) } />',
-        directives: { ${ ctx.camelCaseName } }
+        template: '<div v-${kebabCase(ctx.camelCaseName)} />',
+        directives: { ${ctx.camelCaseName} }
       })
 
       const wrapper = mount(TestComponent)
@@ -138,5 +125,4 @@ export default {
       expect(wrapper).toBeDefined() // this is here for linting only
     })
   })\n`
-  }
 }

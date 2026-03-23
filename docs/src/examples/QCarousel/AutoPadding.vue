@@ -7,23 +7,11 @@
       class="text-weight-bold"
     />
 
-    <q-toggle
-      v-model="vertical"
-      label="Vertical"
-      color="purple"
-    />
+    <q-toggle v-model="vertical" label="Vertical" color="purple" />
 
-    <q-toggle
-      v-model="arrows"
-      label="Arrows"
-      color="purple"
-    />
+    <q-toggle v-model="arrows" label="Arrows" color="purple" />
 
-    <q-toggle
-      v-model="navigation"
-      label="Navigation"
-      color="purple"
-    />
+    <q-toggle v-model="navigation" label="Navigation" color="purple" />
 
     <div class="row items-center q-mb-md">
       <div>Navigation position:</div>
@@ -79,14 +67,12 @@
 import { ref, watch } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const navPos = ref('bottom')
     const vertical = ref(false)
 
     watch(vertical, val => {
-      navPos.value = val === true
-        ? 'right'
-        : 'bottom'
+      navPos.value = val === true ? 'right' : 'bottom'
     })
 
     return {
@@ -104,7 +90,8 @@ export default {
       ],
 
       slide: ref('style'),
-      lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
+      lorem:
+        'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
     }
   }
 }

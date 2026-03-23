@@ -17,14 +17,20 @@
           <q-item>
             <q-item-section>
               <q-item-label>Item {{ item.id }}</q-item-label>
-              <q-item-label caption>{{item.date.toLocaleString()}}</q-item-label>
+              <q-item-label caption>{{
+                item.date.toLocaleString()
+              }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-intersection>
       </q-list>
 
       <keep-alive>
-        <q-list v-if="hide !== true" class="col-6 full-height scroll" key="keepAlive">
+        <q-list
+          v-if="hide !== true"
+          class="col-6 full-height scroll"
+          key="keepAlive"
+        >
           <transition-group name="conversation-item">
             <q-intersection
               v-for="item in sortedItems"
@@ -36,7 +42,9 @@
               <q-item>
                 <q-item-section>
                   <q-item-label>Item {{ item.id }}</q-item-label>
-                  <q-item-label caption>{{item.date.toLocaleString()}}</q-item-label>
+                  <q-item-label caption>{{
+                    item.date.toLocaleString()
+                  }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-intersection>
@@ -48,42 +56,42 @@
 </template>
 
 <script>
-const start = (new Date(2020, 1, 1)).getTime()
+const start = new Date(2020, 1, 1).getTime()
 const randomDate = () => {
   const end = Date.now()
 
-  return new Date(
-    start + Math.random() * (end - start)
-  )
+  return new Date(start + Math.random() * (end - start))
 }
 
-const items = Array(50).fill().map((_, id) => ({
-  id,
-  date: randomDate()
-}))
+const items = Array(50)
+  .fill()
+  .map((_, id) => ({
+    id,
+    date: randomDate()
+  }))
 
 export default {
-  data () {
+  data() {
     return {
       items,
       hide: false
     }
   },
   computed: {
-    sortedItems () {
+    sortedItems() {
       return this.items.sort((a, b) => {
         a = new Date(a.date)
         b = new Date(b.date)
-        return a > b ? -1 : (a < b ? 1 : 0)
+        return a > b ? -1 : a < b ? 1 : 0
       })
     }
   },
   methods: {
-    shuffle () {
+    shuffle() {
       const randomIndex = Math.floor(Math.random() * this.items.length)
 
       this.items.splice(randomIndex, 1, {
-        ...this.items[ randomIndex ],
+        ...this.items[randomIndex],
         date: new Date()
       })
     }

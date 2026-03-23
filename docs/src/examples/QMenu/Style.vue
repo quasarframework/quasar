@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row">
-
       <q-btn color="primary" label="Content Class Menu">
         <q-menu class="bg-purple text-white" auto-close>
           <q-list style="min-width: 100px">
@@ -34,7 +33,7 @@
       </q-btn>
 
       <q-btn color="primary" label="Content Style Menu">
-        <q-menu :style="{ backgroundColor: '#9C27B0', color: 'white'}">
+        <q-menu :style="{ backgroundColor: '#9C27B0', color: 'white' }">
           <q-list style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>
@@ -63,7 +62,6 @@
           </q-list>
         </q-menu>
       </q-btn>
-
     </div>
   </div>
 </template>

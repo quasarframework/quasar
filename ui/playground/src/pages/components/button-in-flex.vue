@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding">
-    <div style="max-width: 700px;" class="q-gutter-y-md">
+    <div style="max-width: 700px" class="q-gutter-y-md">
       <div class="row no-wrap btn-flex-container">
         <q-btn label="Btn1" color="primary" />
         <q-btn label="Btn2" color="primary" />

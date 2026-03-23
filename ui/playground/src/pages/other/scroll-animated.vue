@@ -2,7 +2,10 @@
   <div ref="scrollableEl" class="absolute-full scroll text-dark">
     <div class="animation-scroll-test" />
 
-    <div class="fixed-top-left q-ma-lg q-pa-sm rounded-borders column" style="background: rgba(200, 200, 200, .4)">
+    <div
+      class="fixed-top-left q-ma-lg q-pa-sm rounded-borders column"
+      style="background: rgba(200, 200, 200, 0.4)"
+    >
       <q-input
         type="number"
         v-model="duration"
@@ -19,7 +22,10 @@
       <q-btn unelevated class="q-mt-md" label="Scroll" @click="scroll" />
     </div>
 
-    <div class="fixed-bottom-left q-ma-lg q-pa-sm rounded-borders column text-no-wrap" style="width: 320px; background: rgba(200, 200, 200, .4)">
+    <div
+      class="fixed-bottom-left q-ma-lg q-pa-sm rounded-borders column text-no-wrap"
+      style="width: 320px; background: rgba(200, 200, 200, 0.4)"
+    >
       <div class="row no-wrap">
         <div class="col-2">&nbsp;</div>
         <div class="col-2 text-right text-weight-medium">Left</div>
@@ -29,31 +35,47 @@
       </div>
       <div class="row no-wrap">
         <div class="col-2 text-weight-medium">From</div>
-        <div class="col-2 text-grey-8 text-right">{{from.left}}</div>
-        <div class="col-3 text-grey-8 text-right">{{from.timeX.toFixed(2).slice(-8)}}</div>
-        <div class="col-2 text-grey-8 text-right">{{from.top}}</div>
-        <div class="col-3 text-grey-8 text-right">{{from.timeY.toFixed(2).slice(-8)}}</div>
+        <div class="col-2 text-grey-8 text-right">{{ from.left }}</div>
+        <div class="col-3 text-grey-8 text-right">{{
+          from.timeX.toFixed(2).slice(-8)
+        }}</div>
+        <div class="col-2 text-grey-8 text-right">{{ from.top }}</div>
+        <div class="col-3 text-grey-8 text-right">{{
+          from.timeY.toFixed(2).slice(-8)
+        }}</div>
       </div>
       <div class="row no-wrap">
         <div class="col-2 text-weight-medium">To</div>
-        <div class="col-2 text-grey-8 text-right">{{to.left}}</div>
-        <div class="col-3 text-grey-8 text-right">{{to.timeX.toFixed(2).slice(-8)}}</div>
-        <div class="col-2 text-grey-8 text-right">{{to.top}}</div>
-        <div class="col-3 text-grey-8 text-right">{{to.timeY.toFixed(2).slice(-8)}}</div>
+        <div class="col-2 text-grey-8 text-right">{{ to.left }}</div>
+        <div class="col-3 text-grey-8 text-right">{{
+          to.timeX.toFixed(2).slice(-8)
+        }}</div>
+        <div class="col-2 text-grey-8 text-right">{{ to.top }}</div>
+        <div class="col-3 text-grey-8 text-right">{{
+          to.timeY.toFixed(2).slice(-8)
+        }}</div>
       </div>
       <div class="row no-wrap">
         <div class="col-2 text-weight-medium">Diff</div>
-        <div class="col-2 text-weight-medium text-right">{{diff.left}}</div>
-        <div class="col-3 text-grey-8 text-right">{{diff.timeX.toFixed(2)}}</div>
-        <div class="col-2 text-weight-medium text-right">{{diff.top}}</div>
-        <div class="col-3 text-grey-8 text-right">{{diff.timeY.toFixed(2)}}</div>
+        <div class="col-2 text-weight-medium text-right">{{ diff.left }}</div>
+        <div class="col-3 text-grey-8 text-right">{{
+          diff.timeX.toFixed(2)
+        }}</div>
+        <div class="col-2 text-weight-medium text-right">{{ diff.top }}</div>
+        <div class="col-3 text-grey-8 text-right">{{
+          diff.timeY.toFixed(2)
+        }}</div>
       </div>
       <div class="row no-wrap">
         <div class="col-2 text-weight-medium">Dev</div>
         <div class="col-2">&nbsp;</div>
-        <div class="col-3 text-right text-weight-medium">{{diff.devX.toFixed(2)}}</div>
+        <div class="col-3 text-right text-weight-medium">{{
+          diff.devX.toFixed(2)
+        }}</div>
         <div class="col-2">&nbsp;</div>
-        <div class="col-3 text-right text-weight-medium">{{diff.devY.toFixed(2)}}</div>
+        <div class="col-3 text-right text-weight-medium">{{
+          diff.devY.toFixed(2)
+        }}</div>
       </div>
     </div>
   </div>
@@ -65,7 +87,7 @@ import { scroll } from 'quasar'
 const { animVerticalScrollTo, animHorizontalScrollTo } = scroll
 
 export default {
-  data () {
+  data() {
     return {
       duration: 2000,
       from: { left: 0, top: 0, timeX: 0, timeY: 0, duration: 2000 },
@@ -74,20 +96,26 @@ export default {
   },
 
   computed: {
-    diff () {
+    diff() {
       return {
         left: this.to.left - this.from.left,
         top: this.to.top - this.from.top,
         timeX: this.to.timeX - this.from.timeX,
         timeY: this.to.timeY - this.from.timeY,
-        devX: (this.to.timeX - this.from.timeX - this.from.duration) / this.from.duration * 100,
-        devY: (this.to.timeY - this.from.timeY - this.from.duration) / this.from.duration * 100
+        devX:
+          ((this.to.timeX - this.from.timeX - this.from.duration) /
+            this.from.duration) *
+          100,
+        devY:
+          ((this.to.timeY - this.from.timeY - this.from.duration) /
+            this.from.duration) *
+          100
       }
     }
   },
 
   methods: {
-    scroll () {
+    scroll() {
       const el = this.$refs.scrollableEl
       const timeStart = performance.now()
 

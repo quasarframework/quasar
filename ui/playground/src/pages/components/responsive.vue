@@ -1,8 +1,8 @@
 <template>
-  <div class="q-layout-padding q-gutter-md q-my-md" style="max-width: 600px;">
+  <div class="q-layout-padding q-gutter-md q-my-md" style="max-width: 600px">
     <div>
       <div class="q-gutter-md">
-        <q-responsive :ratio="16/9">
+        <q-responsive :ratio="16 / 9">
           <q-card>
             <q-card-section>
               <div class="text-h6">Ratio 16:9</div>
@@ -15,7 +15,7 @@
             <div>Section</div>
           </q-card-section>
 
-          <q-responsive :ratio="16/9">
+          <q-responsive :ratio="16 / 9">
             <q-card-section class="bg-primary text-white inherit-border-radius">
               <div class="text-h6">Ratio 16:9</div>
             </q-card-section>
@@ -50,7 +50,7 @@
 
     <div>
       <div class="row items-start q-gutter-md">
-        <q-responsive :ratio="16/9" class="col">
+        <q-responsive :ratio="16 / 9" class="col">
           <q-card>
             <q-card-section>
               <div class="text-h6">Ratio 16:9</div>
@@ -70,7 +70,7 @@
 
     <div>
       <div class="row items-start q-gutter-md">
-        <q-responsive :ratio="16/9">
+        <q-responsive :ratio="16 / 9">
           <q-card>
             <q-card-section>
               <div class="text-h6">Ratio 16:9</div>
@@ -89,7 +89,7 @@
     </div>
 
     <div style="width: 200px">
-      <q-responsive :ratio="16/9" style="width: 500px">
+      <q-responsive :ratio="16 / 9" style="width: 500px">
         <q-card>
           <q-card-section>
             <div class="text-h6">Ratio 16:9</div>
@@ -100,7 +100,7 @@
     </div>
 
     <div style="height: 100px">
-      <q-responsive :ratio="16/9" style="height: 500px">
+      <q-responsive :ratio="16 / 9" style="height: 500px">
         <q-card>
           <q-card-section>
             <div class="text-h6">Ratio 16:9</div>
@@ -112,7 +112,7 @@
 
     <div>
       <div class="row items-start q-gutter-md">
-        <q-responsive :ratio="16/9" class="col">
+        <q-responsive :ratio="16 / 9" class="col">
           <q-card class="column">
             <q-img class="col" src="https://cdn.quasar.dev/img/parallax2.jpg" />
 
@@ -135,11 +135,14 @@
     </div>
 
     <div>
-      <q-responsive :ratio="16/9" style="max-height: 100px">
+      <q-responsive :ratio="16 / 9" style="max-height: 100px">
         <q-card>
           <q-card-section>
             <div class="text-h6">Ratio 1:1</div>
-            <div class="text-caption">max-height: 100px; leave last -- should not generate padding below it</div>
+            <div class="text-caption">
+              max-height: 100px; leave last -- should not generate padding below
+              it
+            </div>
           </q-card-section>
         </q-card>
       </q-responsive>
@@ -149,7 +152,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       position: 'top',
       reverse: false,
@@ -159,30 +162,33 @@ export default {
     }
   },
   computed: {
-    computedSize () {
+    computedSize() {
       return this.size + 'px'
     }
   },
   methods: {
-    trigger () {
+    trigger() {
       this.$refs.bar.start()
 
-      setTimeout(() => {
-        if (this.$refs.bar) {
-          this.$refs.bar.stop()
-        }
-      }, Math.random() * 3000 + 1000)
+      setTimeout(
+        () => {
+          if (this.$refs.bar) {
+            this.$refs.bar.stop()
+          }
+        },
+        Math.random() * 3000 + 1000
+      )
     },
 
-    start (speed) {
+    start(speed) {
       this.$refs.bar.start(speed)
     },
 
-    increment () {
+    increment() {
       this.$refs.bar.increment(Math.random() * 20)
     },
 
-    stop () {
+    stop() {
       this.$refs.bar.stop()
     }
   }

@@ -19,13 +19,14 @@ It would also be wise to check the changelog of Capacitor itself to see what bre
 ## Capacitor v7
 
 ::: warning Requirements
-* Xcode 16+ (for iOS)
-* Xcode Command Line Tools
-* Homebrew
-* Cocoapods
-* Android Studio 2024.2.1+
-* Android SDK (API 23+)
-:::
+
+- Xcode 16+ (for iOS)
+- Xcode Command Line Tools
+- Homebrew
+- Cocoapods
+- Android Studio 2024.2.1+
+- Android SDK (API 23+)
+  :::
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:
 
@@ -43,9 +44,10 @@ The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Q
 ## Capacitor v6
 
 ::: warning Requirements
-* Xcode 15+ (for iOS)
-* Android Studio Jellyfish 2023.3.1.18 or newer (for Android)
-:::
+
+- Xcode 15+ (for iOS)
+- Android Studio Jellyfish 2023.3.1.18 or newer (for Android)
+  :::
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:
 
@@ -63,9 +65,10 @@ The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Q
 ## Capacitor v5
 
 ::: warning Requirements
-* Xcode 14.1+ (for iOS)
-* Android Studio Flamingo 2022.2.1 or newer (for Android)
-:::
+
+- Xcode 14.1+ (for iOS)
+- Android Studio Flamingo 2022.2.1 or newer (for Android)
+  :::
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:
 

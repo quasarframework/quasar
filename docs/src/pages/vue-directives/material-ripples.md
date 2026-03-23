@@ -4,6 +4,7 @@ desc: Vue directive for easily adding material ripples to your components and DO
 keys: material-ripple
 examples: Ripple
 ---
+
 Material Ripple effect can easily be added to any DOM element (or component) through the `v-ripple` Quasar directive.
 
 ::: danger

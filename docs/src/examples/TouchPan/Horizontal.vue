@@ -24,7 +24,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const info = ref(null)
     const panning = ref(false)
 
@@ -32,7 +32,7 @@ export default {
       info,
       panning,
 
-      handlePan ({ evt, ...newInfo }) {
+      handlePan({ evt, ...newInfo }) {
         info.value = newInfo
 
         // native Javascript event
@@ -40,8 +40,7 @@ export default {
 
         if (newInfo.isFirst) {
           panning.value = true
-        }
-        else if (newInfo.isFinal) {
+        } else if (newInfo.isFinal) {
           panning.value = false
         }
       }

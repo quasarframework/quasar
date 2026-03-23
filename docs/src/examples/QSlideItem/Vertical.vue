@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 220px">
     <q-list bordered separator>
-
       <q-slide-item @top="onTop" @bottom="onBottom">
         <template v-slot:top>
           <q-icon name="link" />
@@ -17,7 +16,6 @@
           <q-item-section>Slide vertically</q-item-section>
         </q-item>
       </q-slide-item>
-
     </q-list>
   </div>
 </template>
@@ -27,11 +25,11 @@ import { useQuasar } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
     let timer
 
-    function finalize (reset) {
+    function finalize(reset) {
       timer = setTimeout(() => {
         reset()
       }, 1000)
@@ -42,12 +40,12 @@ export default {
     })
 
     return {
-      onTop ({ reset }) {
+      onTop({ reset }) {
         $q.notify('Top action triggered. Resetting in 1 second.')
         finalize(reset)
       },
 
-      onBottom ({ reset }) {
+      onBottom({ reset }) {
         $q.notify('Bottom action triggered. Resetting in 1 second.')
         finalize(reset)
       }

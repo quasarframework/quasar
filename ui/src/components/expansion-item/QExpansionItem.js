@@ -1,4 +1,14 @@
-import { h, shallowReactive, ref, computed, watch, withDirectives, getCurrentInstance, vShow, onBeforeUnmount } from 'vue'
+import {
+  h,
+  shallowReactive,
+  ref,
+  computed,
+  watch,
+  withDirectives,
+  getCurrentInstance,
+  vShow,
+  onBeforeUnmount
+} from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
@@ -7,10 +17,15 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import useDark, { useDarkProps } from '../../composables/private.use-dark/use-dark.js'
+import useDark, {
+  useDarkProps
+} from '../../composables/private.use-dark/use-dark.js'
 import useId from '../../composables/use-id/use-id.js'
 import { useRouterLinkProps } from '../../composables/private.use-router-link/use-router-link.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private.use-model-toggle/use-model-toggle.js'
+import useModelToggle, {
+  useModelToggleProps,
+  useModelToggleEmits
+} from '../../composables/private.use-model-toggle/use-model-toggle.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
@@ -31,17 +46,17 @@ export default createComponent({
     icon: String,
 
     label: String,
-    labelLines: [ Number, String ],
+    labelLines: [Number, String],
 
     caption: String,
-    captionLines: [ Number, String ],
+    captionLines: [Number, String],
 
     dense: Boolean,
 
     toggleAriaLabel: String,
     expandIcon: String,
     expandedIcon: String,
-    expandIconClass: [ Array, String, Object ],
+    expandIconClass: [Array, String, Object],
     duration: {},
 
     headerInsetLevel: Number,
@@ -56,23 +71,20 @@ export default createComponent({
     group: String,
     popup: Boolean,
 
-    headerStyle: [ Array, String, Object ],
-    headerClass: [ Array, String, Object ]
+    headerStyle: [Array, String, Object],
+    headerClass: [Array, String, Object]
   },
 
-  emits: [
-    ...useModelToggleEmits,
-    'click', 'afterShow', 'afterHide'
-  ],
+  emits: [...useModelToggleEmits, 'click', 'afterShow', 'afterHide'],
 
-  setup (props, { slots, emit }) {
-    const { proxy: { $q } } = getCurrentInstance()
+  setup(props, { slots, emit }) {
+    const {
+      proxy: { $q }
+    } = getCurrentInstance()
     const isDark = useDark(props, $q)
 
     const showing = ref(
-      props.modelValue !== null
-        ? props.modelValue
-        : props.defaultOpened
+      props.modelValue !== null ? props.modelValue : props.defaultOpened
     )
 
     const blurTargetRef = ref(null)
@@ -82,10 +94,11 @@ export default createComponent({
 
     let uniqueId, exitGroup
 
-    const classes = computed(() =>
-      'q-expansion-item q-item-type'
-      + ` q-expansion-item--${ showing.value === true ? 'expanded' : 'collapsed' }`
-      + ` q-expansion-item--${ props.popup === true ? 'popup' : 'standard' }`
+    const classes = computed(
+      () =>
+        'q-expansion-item q-item-type' +
+        ` q-expansion-item--${showing.value === true ? 'expanded' : 'collapsed'}` +
+        ` q-expansion-item--${props.popup === true ? 'popup' : 'standard'}`
     )
 
     const contentStyle = computed(() => {
@@ -95,37 +108,42 @@ export default createComponent({
 
       const dir = $q.lang.rtl === true ? 'Right' : 'Left'
       return {
-        [ 'padding' + dir ]: (props.contentInsetLevel * 56) + 'px'
+        ['padding' + dir]: props.contentInsetLevel * 56 + 'px'
       }
     })
 
-    const hasLink = computed(() =>
-      props.disable !== true && (
-        props.href !== void 0
-        || (props.to !== void 0 && props.to !== null && props.to !== '')
-      )
+    const hasLink = computed(
+      () =>
+        props.disable !== true &&
+        (props.href !== void 0 ||
+          (props.to !== void 0 && props.to !== null && props.to !== ''))
     )
 
     const linkProps = computed(() => {
       const acc = {}
       LINK_PROPS.forEach(key => {
-        acc[ key ] = props[ key ]
+        acc[key] = props[key]
       })
       return acc
     })
 
-    const isClickable = computed(() =>
-      hasLink.value === true || props.expandIconToggle !== true
+    const isClickable = computed(
+      () => hasLink.value === true || props.expandIconToggle !== true
     )
 
-    const expansionIcon = computed(() => (
+    const expansionIcon = computed(() =>
       props.expandedIcon !== void 0 && showing.value === true
         ? props.expandedIcon
-        : props.expandIcon || $q.iconSet.expansionItem[ props.denseToggle === true ? 'denseIcon' : 'icon' ]
-    ))
+        : props.expandIcon ||
+          $q.iconSet.expansionItem[
+            props.denseToggle === true ? 'denseIcon' : 'icon'
+          ]
+    )
 
-    const activeToggleIcon = computed(() =>
-      props.disable !== true && (hasLink.value === true || props.expandIconToggle === true)
+    const activeToggleIcon = computed(
+      () =>
+        props.disable !== true &&
+        (hasLink.value === true || props.expandIconToggle === true)
     )
 
     const headerSlotScope = computed(() => ({
@@ -137,9 +155,12 @@ export default createComponent({
     }))
 
     const toggleAriaAttrs = computed(() => {
-      const toggleAriaLabel = props.toggleAriaLabel !== void 0
-        ? props.toggleAriaLabel
-        : $q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
+      const toggleAriaLabel =
+        props.toggleAriaLabel !== void 0
+          ? props.toggleAriaLabel
+          : $q.lang.label[showing.value === true ? 'collapse' : 'expand'](
+              props.label
+            )
 
       return {
         role: 'button',
@@ -149,21 +170,24 @@ export default createComponent({
       }
     })
 
-    watch(() => props.group, name => {
-      exitGroup?.()
-      name !== void 0 && enterGroup()
-    })
+    watch(
+      () => props.group,
+      name => {
+        exitGroup?.()
+        if (name !== void 0) enterGroup()
+      }
+    )
 
-    function onHeaderClick (e) {
-      hasLink.value !== true && toggle(e)
+    function onHeaderClick(e) {
+      if (hasLink.value !== true) toggle(e)
       emit('click', e)
     }
 
-    function toggleIconKeyboard (e) {
-      e.keyCode === 13 && toggleIcon(e, true)
+    function toggleIconKeyboard(e) {
+      if (e.keyCode === 13) toggleIcon(e, true)
     }
 
-    function toggleIcon (e, keyboard) {
+    function toggleIcon(e, keyboard) {
       if (keyboard !== true && e.qAvoidFocus !== true) {
         blurTargetRef.value?.focus()
       }
@@ -172,34 +196,33 @@ export default createComponent({
       stopAndPrevent(e)
     }
 
-    function onShow () {
+    function onShow() {
       emit('afterShow')
     }
 
-    function onHide () {
+    function onHide() {
       emit('afterHide')
     }
 
-    function enterGroup () {
+    function enterGroup() {
       if (uniqueId === void 0) {
         uniqueId = uid()
       }
 
       if (showing.value === true) {
-        itemGroups[ props.group ] = uniqueId
+        itemGroups[props.group] = uniqueId
       }
 
-      const show = watch(showing, val => {
+      const stopShowWatcher = watch(showing, val => {
         if (val === true) {
-          itemGroups[ props.group ] = uniqueId
-        }
-        else if (itemGroups[ props.group ] === uniqueId) {
-          delete itemGroups[ props.group ]
+          itemGroups[props.group] = uniqueId
+        } else if (itemGroups[props.group] === uniqueId) {
+          delete itemGroups[props.group]
         }
       })
 
-      const group = watch(
-        () => itemGroups[ props.group ],
+      const stopGroupWatcher = watch(
+        () => itemGroups[props.group],
         (val, oldVal) => {
           if (oldVal === uniqueId && val !== void 0 && val !== uniqueId) {
             hide()
@@ -208,22 +231,22 @@ export default createComponent({
       )
 
       exitGroup = () => {
-        show()
-        group()
+        stopShowWatcher()
+        stopGroupWatcher()
 
-        if (itemGroups[ props.group ] === uniqueId) {
-          delete itemGroups[ props.group ]
+        if (itemGroups[props.group] === uniqueId) {
+          delete itemGroups[props.group]
         }
 
         exitGroup = void 0
       }
     }
 
-    function getToggleIcon () {
+    function getToggleIcon() {
       const data = {
         class: [
-          'q-focusable relative-position cursor-pointer'
-            + `${ props.denseToggle === true && props.switchToggleSide === true ? ' items-end' : '' }`,
+          'q-focusable relative-position cursor-pointer' +
+            `${props.denseToggle === true && props.switchToggleSide === true ? ' items-end' : ''}`,
           props.expandIconClass
         ],
         side: props.switchToggleSide !== true,
@@ -232,8 +255,9 @@ export default createComponent({
 
       const child = [
         h(QIcon, {
-          class: 'q-expansion-item__toggle-icon'
-            + (props.expandedIcon === void 0 && showing.value === true
+          class:
+            'q-expansion-item__toggle-icon' +
+            (props.expandedIcon === void 0 && showing.value === true
               ? ' q-expansion-item__toggle-icon--rotated'
               : ''),
           name: expansionIcon.value
@@ -251,7 +275,8 @@ export default createComponent({
         child.unshift(
           h('div', {
             ref: blurTargetRef,
-            class: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
+            class:
+              'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
             tabindex: -1
           })
         )
@@ -260,33 +285,42 @@ export default createComponent({
       return h(QItemSection, data, () => child)
     }
 
-    function getHeaderChild () {
+    function getHeaderChild() {
       let child
 
       if (slots.header !== void 0) {
         child = [].concat(slots.header(headerSlotScope.value))
-      }
-      else {
+      } else {
         child = [
           h(QItemSection, () => [
             h(QItemLabel, { lines: props.labelLines }, () => props.label || ''),
 
             props.caption
-              ? h(QItemLabel, { lines: props.captionLines, caption: true }, () => props.caption)
+              ? h(
+                  QItemLabel,
+                  { lines: props.captionLines, caption: true },
+                  () => props.caption
+                )
               : null
           ])
         ]
 
-        props.icon && child[ props.switchToggleSide === true ? 'push' : 'unshift' ](
-          h(QItemSection, {
-            side: props.switchToggleSide === true,
-            avatar: props.switchToggleSide !== true
-          }, () => h(QIcon, { name: props.icon }))
-        )
+        if (props.icon) {
+          child[props.switchToggleSide === true ? 'push' : 'unshift'](
+            h(
+              QItemSection,
+              {
+                side: props.switchToggleSide === true,
+                avatar: props.switchToggleSide !== true
+              },
+              () => h(QIcon, { name: props.icon })
+            )
+          )
+        }
       }
 
       if (props.disable !== true && props.hideExpandIcon !== true) {
-        child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
+        child[props.switchToggleSide === true ? 'unshift' : 'push'](
           getToggleIcon()
         )
       }
@@ -294,7 +328,7 @@ export default createComponent({
       return child
     }
 
-    function getHeader () {
+    function getHeader() {
       const data = {
         ref: 'item',
         style: props.headerStyle,
@@ -318,40 +352,47 @@ export default createComponent({
       return h(QItem, data, getHeaderChild)
     }
 
-    function getTransitionChild () {
+    function getTransitionChild() {
       return withDirectives(
-        h('div', {
-          key: 'e-content',
-          class: 'q-expansion-item__content relative-position',
-          style: contentStyle.value,
-          id: targetUid.value
-        }, hSlot(slots.default)),
-        [ [
-          vShow,
-          showing.value
-        ] ]
+        h(
+          'div',
+          {
+            key: 'e-content',
+            class: 'q-expansion-item__content relative-position',
+            style: contentStyle.value,
+            id: targetUid.value
+          },
+          hSlot(slots.default)
+        ),
+        [[vShow, showing.value]]
       )
     }
 
-    function getContent () {
+    function getContent() {
       const node = [
         getHeader(),
 
-        h(QSlideTransition, {
-          duration: props.duration,
-          onShow,
-          onHide
-        }, getTransitionChild)
+        h(
+          QSlideTransition,
+          {
+            duration: props.duration,
+            onShow,
+            onHide
+          },
+          getTransitionChild
+        )
       ]
 
       if (props.expandSeparator === true) {
         node.push(
           h(QSeparator, {
-            class: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
+            class:
+              'q-expansion-item__border q-expansion-item__border--top absolute-top',
             dark: isDark.value
           }),
           h(QSeparator, {
-            class: 'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
+            class:
+              'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
             dark: isDark.value
           })
         )
@@ -360,14 +401,19 @@ export default createComponent({
       return node
     }
 
-    props.group !== void 0 && enterGroup()
+    if (props.group !== void 0) enterGroup()
 
     onBeforeUnmount(() => {
       exitGroup?.()
     })
 
-    return () => h('div', { class: classes.value }, [
-      h('div', { class: 'q-expansion-item__container relative-position' }, getContent())
-    ])
+    return () =>
+      h('div', { class: classes.value }, [
+        h(
+          'div',
+          { class: 'q-expansion-item__container relative-position' },
+          getContent()
+        )
+      ])
   }
 })

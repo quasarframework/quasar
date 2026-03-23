@@ -8,10 +8,7 @@ describe('[QSpace API]', () => {
     test('should not throw error on render', () => {
       const wrapper = mount(QSpace)
 
-      expect(
-        wrapper.get('div.q-space')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.get('div.q-space').exists()).toBe(true)
     })
   })
 })

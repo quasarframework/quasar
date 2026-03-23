@@ -16,26 +16,26 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       text: '',
       i: 0
     }
   },
   methods: {
-    start () {
+    start() {
       this.stop()
       this.timer = setInterval(() => {
         this.i++
       }, 100)
     },
 
-    stop () {
+    stop() {
       clearInterval(this.timer)
     }
   },
 
-  beforeUnmount () {
+  beforeUnmount() {
     this.stop()
   }
 }

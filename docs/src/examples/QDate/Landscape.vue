@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-date
-      v-model="date"
-      landscape
-    />
+    <q-date v-model="date" landscape />
   </div>
 </template>
 
@@ -11,7 +8,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       date: ref('2019/02/01')
     }

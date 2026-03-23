@@ -17,9 +17,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -39,9 +37,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -52,35 +48,34 @@
 <script>
 import { ref } from 'vue'
 
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
 export default {
-  setup () {
+  setup() {
     const options = ref(stringOptions)
 
     return {
       model: ref(null),
       options,
 
-      filterFn (val, update, abort) {
+      filterFn(val, update, abort) {
         // call abort() at any time if you can't retrieve data somehow
 
         setTimeout(() => {
           update(() => {
             if (val === '') {
               options.value = stringOptions
-            }
-            else {
+            } else {
               const needle = val.toLowerCase()
-              options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+              options.value = stringOptions.filter(
+                v => v.toLowerCase().indexOf(needle) > -1
+              )
             }
           })
         }, 1500)
       },
 
-      abortFilterFn () {
+      abortFilterFn() {
         // console.log('delayed filter aborted')
       }
     }

@@ -77,7 +77,7 @@ export const create = defineSsrCreate((/* { ... } */) => {
  * Can be async: defineSsrInjectDevMiddleware(async ({ app }) => { ... })
  */
 export const injectDevMiddleware = defineSsrInjectDevMiddleware(({ app }) => {
-  return (middleware) => {
+  return middleware => {
     app.use(middleware)
   }
 })
@@ -162,9 +162,7 @@ export const close = defineSsrClose(({ listenResult }) => {
   return listenResult.close()
 })
 
-const maxAge = process.env.DEV
-  ? 0
-  : 1000 * 60 * 60 * 24 * 30
+const maxAge = process.env.DEV ? 0 : 1000 * 60 * 60 * 24 * 30
 
 /**
  * Should return a function that will be used to configure the webserver
@@ -191,12 +189,17 @@ const maxAge = process.env.DEV
  *   render: (ssrContext) => html string
  * })
  */
-export const serveStaticContent = defineSsrServeStaticContent(({ app, resolve }) => {
-  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
-    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts })
-    app.use(resolve.urlPath(urlPath), serveFn)
+export const serveStaticContent = defineSsrServeStaticContent(
+  ({ app, resolve }) => {
+    return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+      const serveFn = express.static(resolve.public(pathToServe), {
+        maxAge,
+        ...opts
+      })
+      app.use(resolve.urlPath(urlPath), serveFn)
+    }
   }
-})
+)
 
 const jsRE = /\.js$/
 const cssRE = /\.css$/
@@ -210,37 +213,39 @@ const pngRE = /\.png$/
  * Should return a String with HTML output
  * (if any) for preloading indicated file
  */
-export const renderPreloadTag = defineSsrRenderPreloadTag((file/* , { ssrContext } */) => {
-  if (jsRE.test(file) === true) {
-    return `<script src="${file}" defer crossorigin></script>`
-  }
+export const renderPreloadTag = defineSsrRenderPreloadTag(
+  (file /* , { ssrContext } */) => {
+    if (jsRE.test(file) === true) {
+      return `<script src="${file}" defer crossorigin></script>`
+    }
 
-  if (cssRE.test(file) === true) {
-    return `<link rel="stylesheet" href="${file}" crossorigin>`
-  }
+    if (cssRE.test(file) === true) {
+      return `<link rel="stylesheet" href="${file}" crossorigin>`
+    }
 
-  if (woffRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
-  }
+    if (woffRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
+    }
 
-  if (woff2RE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
-  }
+    if (woff2RE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
+    }
 
-  if (gifRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`
-  }
+    if (gifRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`
+    }
 
-  if (jpgRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`
-  }
+    if (jpgRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`
+    }
 
-  if (pngRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`
-  }
+    if (pngRE.test(file) === true) {
+      return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`
+    }
 
-  return ''
-})
+    return ''
+  }
+)
 ```
 
 ::: tip
@@ -250,9 +255,10 @@ Remember that whatever the `listen()` function returns (if anything) will be exp
 ## Usage
 
 ::: warning
-* If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
-* This is usually not the place to add middlewares (but you can do it). Add middlewares by using the [SSR Middlewares](/quasar-cli-webpack/developing-ssr/ssr-middleware) instead. You can configure SSR Middlewares to run only for dev or only for production too.
-:::
+
+- If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
+- This is usually not the place to add middlewares (but you can do it). Add middlewares by using the [SSR Middlewares](/quasar-cli-webpack/developing-ssr/ssr-middleware) instead. You can configure SSR Middlewares to run only for dev or only for production too.
+  :::
 
 ### Replacing Express
 
@@ -332,7 +338,7 @@ declare module '#q-app' {
 
 export const create = defineSsrCreate(async ({ devHttpsOptions }) => {
   const app = Fastify({
-    https: devHttpsOptions ?? null,
+    https: devHttpsOptions ?? null
   })
 
   // Place any middleware that needs to run before anything else
@@ -343,13 +349,15 @@ export const create = defineSsrCreate(async ({ devHttpsOptions }) => {
   return app
 })
 
-export const injectDevMiddleware = defineSsrInjectDevMiddleware(async ({ app }) => {
-  await app.register(import('@fastify/middie'))
+export const injectDevMiddleware = defineSsrInjectDevMiddleware(
+  async ({ app }) => {
+    await app.register(import('@fastify/middie'))
 
-  return (middleware) => {
-    app.use(middleware)
+    return middleware => {
+      app.use(middleware)
+    }
   }
-})
+)
 
 export const listen = defineSsrListen(async ({ app, port }) => {
   await app.listen({ port })
@@ -362,31 +370,33 @@ export const close = defineSsrClose(({ listenResult }) => {
 
 const maxAge = process.env.DEV ? 0 : 1000 * 60 * 60 * 24 * 30
 
-export const serveStaticContent = defineSsrServeStaticContent(({ app, resolve }) => {
-  return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
-    await app.register(import('@fastify/static'), {
-      root: resolve.public(pathToServe),
-      prefix: resolve.urlPath(urlPath),
-      maxAge: opts.maxAge ?? maxAge,
-      // To avoid conflicts with ./middlewares/render
-      wildcard: false,
-      index: false
-    })
+export const serveStaticContent = defineSsrServeStaticContent(
+  ({ app, resolve }) => {
+    return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
+      await app.register(import('@fastify/static'), {
+        root: resolve.public(pathToServe),
+        prefix: resolve.urlPath(urlPath),
+        maxAge: opts.maxAge ?? maxAge,
+        // To avoid conflicts with ./middlewares/render
+        wildcard: false,
+        index: false
+      })
+    }
   }
-})
+)
 
 // renderPreloadTag logic is the same
 ```
 
 ```js src-ssr/middlewares/render.js
-import { defineSsrMiddleware } from '#q-app/wrappers';
+import { defineSsrMiddleware } from '#q-app/wrappers'
 
 export default defineSsrMiddleware(({ app, resolve, render, serve }) => {
-  app.get(resolve.urlPath('{*path}'), async (req, res) => {
-    res.type('text/html');
+  app.get(resolve.urlPath('*'), async (req, res) => {
+    res.type('text/html')
 
     try {
-      return await render({ req, res });
+      return await render({ req, res })
     } catch (err) {
       if (err.url) {
         return res.redirect(err.url, err.code)
@@ -416,12 +426,12 @@ This is the default option that you get when adding SSR support in a Quasar CLI 
 
 ```js src-ssr/server.js
 export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
-  const server = devHttpsApp || app;
+  const server = devHttpsApp || app
   return server.listen(port, () => {
     if (process.env.PROD) {
-      console.log('Server listening at port ' + port);
+      console.log('Server listening at port ' + port)
     }
-  });
+  })
 })
 ```
 
@@ -436,12 +446,12 @@ import { defineSsrListen } from '#q-app/wrappers'
 export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
   if (process.env.DEV) {
     // for dev, start listening on the created server
-    const server = devHttpsApp || app;
+    const server = devHttpsApp || app
     return server.listen(port, () => {
       // we're ready to serve clients
     })
-  }
-  else { // in production
+  } else {
+    // in production
     // return an object with a "handler" property
     // that the server script will be named-export
     return { handler: app }
@@ -463,12 +473,12 @@ import serverless from 'serverless-http'
 export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
   if (process.env.DEV) {
     // for dev, start listening on the created server
-    const server = devHttpsApp || app;
+    const server = devHttpsApp || app
     return server.listen(port, () => {
       // we're ready to serve clients
     })
-  }
-  else { // in production
+  } else {
+    // in production
     return { handler: serverless(app) }
   }
 })
@@ -483,12 +493,12 @@ import * as functions from 'firebase-functions'
 export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
   if (process.env.DEV) {
     // for dev, start listening on the created server
-    const server = devHttpsApp || app;
+    const server = devHttpsApp || app
     return server.listen(port, () => {
       // we're ready to serve clients
     })
-  }
-  else { // in production
+  } else {
+    // in production
     return {
       handler: functions.https.onRequest(app)
     }

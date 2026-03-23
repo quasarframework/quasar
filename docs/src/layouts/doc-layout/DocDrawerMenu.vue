@@ -8,7 +8,9 @@
     aria-label="Sidebar Navigation"
     role="navigation"
   >
-    <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-xs">
+    <div
+      class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-xs"
+    >
       <q-btn
         :icon="mdiClose"
         round

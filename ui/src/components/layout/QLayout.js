@@ -1,4 +1,13 @@
-import { h, ref, reactive, computed, watch, provide, onUnmounted, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  reactive,
+  computed,
+  watch,
+  provide,
+  onUnmounted,
+  getCurrentInstance
+} from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
 
@@ -26,8 +35,10 @@ export default createComponent({
     onResize: Function
   },
 
-  setup (props, { slots, emit }) {
-    const { proxy: { $q } } = getCurrentInstance()
+  setup(props, { slots, emit }) {
+    const {
+      proxy: { $q }
+    } = getCurrentInstance()
 
     const rootRef = ref(null)
 
@@ -38,37 +49,42 @@ export default createComponent({
 
     // container only prop
     const containerHeight = ref(0)
-    const scrollbarWidth = ref(isRuntimeSsrPreHydration.value === true ? 0 : getScrollbarWidth())
-
-    const classes = computed(() =>
-      'q-layout q-layout--'
-      + (props.container === true ? 'containerized' : 'standard')
+    const scrollbarWidth = ref(
+      isRuntimeSsrPreHydration.value === true ? 0 : getScrollbarWidth()
     )
 
-    const style = computed(() => (
-      props.container === false
-        ? { minHeight: $q.screen.height + 'px' }
-        : null
-    ))
+    const classes = computed(
+      () =>
+        'q-layout q-layout--' +
+        (props.container === true ? 'containerized' : 'standard')
+    )
+
+    const style = computed(() =>
+      props.container === false ? { minHeight: $q.screen.height + 'px' } : null
+    )
 
     // used by container only
-    const targetStyle = computed(() => (
-      scrollbarWidth.value !== 0
-        ? { [ $q.lang.rtl === true ? 'left' : 'right' ]: `${ scrollbarWidth.value }px` }
-        : null
-    ))
-
-    const targetChildStyle = computed(() => (
+    const targetStyle = computed(() =>
       scrollbarWidth.value !== 0
         ? {
-            [ $q.lang.rtl === true ? 'right' : 'left' ]: 0,
-            [ $q.lang.rtl === true ? 'left' : 'right' ]: `-${ scrollbarWidth.value }px`,
-            width: `calc(100% + ${ scrollbarWidth.value }px)`
+            [$q.lang.rtl === true ? 'left' : 'right']:
+              `${scrollbarWidth.value}px`
           }
         : null
-    ))
+    )
 
-    function onPageScroll (data) {
+    const targetChildStyle = computed(() =>
+      scrollbarWidth.value !== 0
+        ? {
+            [$q.lang.rtl === true ? 'right' : 'left']: 0,
+            [$q.lang.rtl === true ? 'left' : 'right']:
+              `-${scrollbarWidth.value}px`,
+            width: `calc(100% + ${scrollbarWidth.value}px)`
+          }
+        : null
+    )
+
+    function onPageScroll(data) {
       if (props.container === true || document.qScrollPrevented !== true) {
         const info = {
           position: data.position.top,
@@ -79,18 +95,18 @@ export default createComponent({
         }
 
         scroll.value = info
-        props.onScroll !== void 0 && emit('scroll', info)
+        if (props.onScroll !== void 0) emit('scroll', info)
       }
     }
 
-    function onPageResize (data) {
+    function onPageResize(data) {
       const { height: newHeight, width: newWidth } = data
       let resized = false
 
       if (height.value !== newHeight) {
         resized = true
         height.value = newHeight
-        props.onScrollHeight !== void 0 && emit('scrollHeight', newHeight)
+        if (props.onScrollHeight !== void 0) emit('scrollHeight', newHeight)
         updateScrollbarWidth()
       }
       if (width.value !== newWidth) {
@@ -103,21 +119,20 @@ export default createComponent({
       }
     }
 
-    function onContainerResize ({ height }) {
-      if (containerHeight.value !== height) {
-        containerHeight.value = height
+    function onContainerResize({ height: newHeight }) {
+      if (containerHeight.value !== newHeight) {
+        containerHeight.value = newHeight
         updateScrollbarWidth()
       }
     }
 
-    function updateScrollbarWidth () {
+    function updateScrollbarWidth() {
       if (props.container === true) {
-        const width = height.value > containerHeight.value
-          ? getScrollbarWidth()
-          : 0
+        const newWidth =
+          height.value > containerHeight.value ? getScrollbarWidth() : 0
 
-        if (scrollbarWidth.value !== width) {
-          scrollbarWidth.value = width
+        if (scrollbarWidth.value !== newWidth) {
+          scrollbarWidth.value = newWidth
         }
       }
     }
@@ -139,9 +154,9 @@ export default createComponent({
       rows: computed(() => {
         const rows = props.view.toLowerCase().split(' ')
         return {
-          top: rows[ 0 ].split(''),
-          middle: rows[ 1 ].split(''),
-          bottom: rows[ 2 ].split('')
+          top: rows[0].split(''),
+          middle: rows[1].split(''),
+          bottom: rows[2].split('')
         }
       }),
 
@@ -152,11 +167,10 @@ export default createComponent({
 
       scroll,
 
-      animate () {
+      animate() {
         if (animateTimer !== null) {
           clearTimeout(animateTimer)
-        }
-        else {
+        } else {
           document.body.classList.add('q-body--layout-animate')
         }
 
@@ -166,8 +180,8 @@ export default createComponent({
         }, 155)
       },
 
-      update (part, prop, val) {
-        $layout[ part ][ prop ] = val
+      update(part, prop, val) {
+        $layout[part][prop] = val
       }
     }
 
@@ -179,32 +193,31 @@ export default createComponent({
       let timer = null
       const el = document.body
 
-      function restoreScrollbar () {
+      function restoreScrollbar() {
         timer = null
         el.classList.remove('hide-scrollbar')
       }
 
-      function hideScrollbar () {
+      function hideScrollbar() {
         if (timer === null) {
           // if it has no scrollbar then there's nothing to do
           if (el.scrollHeight > $q.screen.height) return
 
           el.classList.add('hide-scrollbar')
-        }
-        else {
+        } else {
           clearTimeout(timer)
         }
 
         timer = setTimeout(restoreScrollbar, 300)
       }
 
-      function updateScrollEvent (action) {
+      function updateScrollEvent(action) {
         if (timer !== null && action === 'remove') {
           clearTimeout(timer)
           restoreScrollbar()
         }
 
-        window[ `${ action }EventListener` ]('resize', hideScrollbar)
+        window[`${action}EventListener`]('resize', hideScrollbar)
       }
 
       watch(
@@ -212,7 +225,7 @@ export default createComponent({
         updateScrollEvent
       )
 
-      props.container !== true && updateScrollEvent('add')
+      if (props.container !== true) updateScrollEvent('add')
 
       onUnmounted(() => {
         updateScrollEvent('remove')
@@ -225,29 +238,45 @@ export default createComponent({
         h(QResizeObserver, { onResize: onPageResize })
       ])
 
-      const layout = h('div', {
-        class: classes.value,
-        style: style.value,
-        ref: props.container === true ? void 0 : rootRef,
-        tabindex: -1
-      }, content)
+      const layout = h(
+        'div',
+        {
+          class: classes.value,
+          style: style.value,
+          ref: props.container === true ? void 0 : rootRef,
+          tabindex: -1
+        },
+        content
+      )
 
       if (props.container === true) {
-        return h('div', {
-          class: 'q-layout-container overflow-hidden',
-          ref: rootRef
-        }, [
-          h(QResizeObserver, { onResize: onContainerResize }),
-          h('div', {
-            class: 'absolute-full',
-            style: targetStyle.value
-          }, [
-            h('div', {
-              class: 'scroll',
-              style: targetChildStyle.value
-            }, [ layout ])
-          ])
-        ])
+        return h(
+          'div',
+          {
+            class: 'q-layout-container overflow-hidden',
+            ref: rootRef
+          },
+          [
+            h(QResizeObserver, { onResize: onContainerResize }),
+            h(
+              'div',
+              {
+                class: 'absolute-full',
+                style: targetStyle.value
+              },
+              [
+                h(
+                  'div',
+                  {
+                    class: 'scroll',
+                    style: targetChildStyle.value
+                  },
+                  [layout]
+                )
+              ]
+            )
+          ]
+        )
       }
 
       return layout

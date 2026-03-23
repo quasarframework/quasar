@@ -1,10 +1,18 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lhh LpR lff" container style="height: 500px" class="shadow-2 rounded-borders">
+    <q-layout
+      view="lhh LpR lff"
+      container
+      style="height: 500px"
+      class="shadow-2 rounded-borders"
+    >
       <q-page-container>
         <q-page padding>
           <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
           </p>
 
           <q-page-sticky position="bottom-right" :offset="fabPos">
@@ -15,8 +23,18 @@
               :disable="draggingFab"
               v-touch-pan.prevent.mouse="moveFab"
             >
-              <q-fab-action @click="onClick" color="primary" icon="person_add" :disable="draggingFab" />
-              <q-fab-action @click="onClick" color="primary" icon="mail" :disable="draggingFab" />
+              <q-fab-action
+                @click="onClick"
+                color="primary"
+                icon="person_add"
+                :disable="draggingFab"
+              />
+              <q-fab-action
+                @click="onClick"
+                color="primary"
+                icon="mail"
+                :disable="draggingFab"
+              />
             </q-fab>
           </q-page-sticky>
         </q-page>
@@ -29,24 +47,24 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
-    const fabPos = ref([ 18, 18 ])
+  setup() {
+    const fabPos = ref([18, 18])
     const draggingFab = ref(false)
 
     return {
       fabPos,
       draggingFab,
 
-      onClick () {
+      onClick() {
         // console.log('Clicked on a fab action')
       },
 
-      moveFab (ev) {
+      moveFab(ev) {
         draggingFab.value = ev.isFirst !== true && ev.isFinal !== true
 
         fabPos.value = [
-          fabPos.value[ 0 ] - ev.delta.x,
-          fabPos.value[ 1 ] - ev.delta.y
+          fabPos.value[0] - ev.delta.x,
+          fabPos.value[1] - ev.delta.y
         ]
       }
     }

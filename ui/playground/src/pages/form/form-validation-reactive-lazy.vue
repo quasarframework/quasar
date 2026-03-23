@@ -16,7 +16,12 @@
       </div>
 
       <div class="row q-gutter-x-lg">
-        <q-form class="column q-gutter-y-sm" style="width: 300px" greedy @submit.prevent>
+        <q-form
+          class="column q-gutter-y-sm"
+          style="width: 300px"
+          greedy
+          @submit.prevent
+        >
           <h6>Greedy form</h6>
           <q-toggle label="Enable" v-model="config.greedyForm" />
           <template v-if="config.greedyForm">
@@ -65,7 +70,11 @@
           </template>
         </q-form>
 
-        <q-form class="column q-gutter-y-sm" style="width: 300px" @submit.prevent>
+        <q-form
+          class="column q-gutter-y-sm"
+          style="width: 300px"
+          @submit.prevent
+        >
           <h6>Not-Greedy form</h6>
           <q-toggle label="Enable" v-model="config.notGreedyForm" />
           <template v-if="config.notGreedyForm">
@@ -114,7 +123,11 @@
           </template>
         </q-form>
 
-        <q-form class="column q-gutter-y-sm" style="width: 300px" @submit.prevent>
+        <q-form
+          class="column q-gutter-y-sm"
+          style="width: 300px"
+          @submit.prevent
+        >
           <h6>Not-Greedy form - Async first</h6>
           <q-toggle label="Enable" v-model="config.notGreedyFormAsync" />
           <template v-if="config.notGreedyFormAsync">
@@ -183,11 +196,12 @@ const langs = [
 ]
 langs.forEach(lang => {
   for (let i = 1; i <= 6; i++) {
-    lang.value[ `field${ i }` ] = `Field ${ i } ${ lang.label }${ i > 3 && i < 6 ? ' - Async' : '' }`
+    lang.value[`field${i}`] =
+      `Field ${i} ${lang.label}${i > 3 && i < 6 ? ' - Async' : ''}`
   }
 })
 
-const lang = ref(langs[ 0 ])
+const lang = ref(langs[0])
 const text = ref({
   1: '',
   2: '',
@@ -209,15 +223,21 @@ const config = useLocalStorageConfig('form-validation-reactive-lazy', {
 const rules = computed(() => getRules(lang.value))
 const rulesAsync = computed(() => getRulesAsync(lang.value))
 
-function getRules (lang) {
+function getRules(langRules) {
   return [
-    val => (typeof val === 'string' && val.trim().length > 0) || lang.value.required
+    val =>
+      (typeof val === 'string' && val.trim().length > 0) ||
+      langRules.value.required
   ]
 }
 
-function getRulesAsync (lang) {
+function getRulesAsync(langRules) {
   return [
-    val => Promise.resolve((typeof val === 'string' && val.trim().length > 0) || lang.value.required)
+    val =>
+      Promise.resolve(
+        (typeof val === 'string' && val.trim().length > 0) ||
+          langRules.value.required
+      )
   ]
 }
 </script>

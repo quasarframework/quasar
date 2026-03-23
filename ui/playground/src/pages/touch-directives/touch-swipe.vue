@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding docs-touch row justify-center">
-    <div style="width: 500px; max-width: 90vw;">
+    <div style="width: 500px; max-width: 90vw">
       <p class="caption">
         <span class="desktop-only">Swipe with your mouse</span>
         <span class="mobile-only">Swipe</span>
@@ -13,7 +13,12 @@
         @click="onClick"
         class="custom-area row flex-center relative-position"
       >
-        <q-icon class="absolute-top-left" size="md" name="drag_indicator" draggable />
+        <q-icon
+          class="absolute-top-left"
+          size="md"
+          name="drag_indicator"
+          draggable
+        />
 
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
@@ -31,12 +36,11 @@
 
       <p class="caption">
         Swipe works both with a mouse or a native touch action.
-        <br>You can also capture swipe to certain directions (any) only as you'll see below.
+        <br />You can also capture swipe to certain directions (any) only as
+        you'll see below.
       </p>
 
-      <p class="caption">
-        Example on capturing only swipe to right:
-      </p>
+      <p class="caption">Example on capturing only swipe to right:</p>
       <div
         v-touch-swipe.right.mouse="swipeToRight"
         @click="onClick"
@@ -51,9 +55,7 @@
         </div>
       </div>
 
-      <p class="caption">
-        Example on capturing only swipe up and right:
-      </p>
+      <p class="caption">Example on capturing only swipe up and right:</p>
       <div
         v-touch-swipe.up.right.mouse="swipeToCustom"
         @click="onClick"
@@ -71,17 +73,25 @@
         </div>
       </div>
 
-      <p class="caption">
-        Swipe test (preventing it from inner square)
-      </p>
+      <p class="caption">Swipe test (preventing it from inner square)</p>
       <div
         v-touch-swipe.mouse="handleSwipeTest"
         @click="onClick"
         class="row flex-center"
       >
-        <div @touchstart="handleEvt" @mousedown="handleEvt" style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2">
+        <div
+          @touchstart="handleEvt"
+          @mousedown="handleEvt"
+          style="padding: 24px"
+          class="cursor-pointer bg-primary text-white rounded-borders shadow-2"
+        >
           <div>
-            <q-toggle dark color="black" v-model="swipeTestStopPropagation" label="Stop propagation" />
+            <q-toggle
+              dark
+              color="black"
+              v-model="swipeTestStopPropagation"
+              label="Stop propagation"
+            />
           </div>
           <div v-if="infoTest" class="custom-info">
             <pre>{{ infoTest }}</pre>
@@ -99,15 +109,20 @@
       </div>
 
       <p class="caption">
-        Swipe test (capture + preventing it from inner square)
-        -- should still work
+        Swipe test (capture + preventing it from inner square) -- should still
+        work
       </p>
       <div
         v-touch-swipe.capture.mouse.mouseCapture="handleSwipeTestCapture"
         @click="onClick"
         class="row flex-center"
       >
-        <div @touchstart.stop @mousedown.stop style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2">
+        <div
+          @touchstart.stop
+          @mousedown.stop
+          style="padding: 24px"
+          class="cursor-pointer bg-primary text-white rounded-borders shadow-2"
+        >
           <div v-if="infoTestCapture" class="custom-info">
             <pre>{{ infoTestCapture }}</pre>
           </div>
@@ -124,7 +139,8 @@
       </div>
 
       <p class="caption q-mt-xl">
-        Should not swipe in tab panel below if user is selecting text with the mouse:
+        Should not swipe in tab panel below if user is selecting text with the
+        mouse:
       </p>
       <q-tab-panels
         v-model="tab"
@@ -135,27 +151,68 @@
       >
         <q-tab-panel name="mails">
           <div class="text-h4 q-mb-md">Mails</div>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-          <textarea>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <textarea>
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea
+          >
           <input v-model="text" />
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
           <div class="text-h4 q-mb-md">Alarms</div>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-          <textarea>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <textarea>
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea
+          >
           <input v-model="text" />
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
         </q-tab-panel>
 
         <q-tab-panel name="movies">
           <div class="text-h4 q-mb-md">Movies</div>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-          <textarea>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <textarea>
+Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea
+          >
           <input v-model="text" />
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -166,7 +223,7 @@
 import './touch-style.sass'
 
 export default {
-  data () {
+  data() {
     return {
       info: null,
       infoRight: null,
@@ -182,46 +239,46 @@ export default {
   },
 
   computed: {
-    computedHandleSwipe () {
+    computedHandleSwipe() {
       return this.disable === true ? void 0 : this.handleSwipe
     }
   },
 
   methods: {
-    handleSwipe ({ evt, ...info }) {
+    handleSwipe({ evt, ...info }) {
       this.info = info
 
       // native Javascript event
       console.log(evt)
     },
 
-    handleSwipeTest ({ evt, ...info }) {
+    handleSwipeTest({ evt, ...info }) {
       this.infoTest = info
 
       // native Javascript event
       console.log(evt)
     },
 
-    handleSwipeTestCapture ({ evt, ...info }) {
+    handleSwipeTestCapture({ evt, ...info }) {
       this.infoTestCapture = info
 
       // native Javascript event
       console.log(evt)
     },
 
-    swipeToRight ({ evt, ...info }) {
+    swipeToRight({ evt, ...info }) {
       this.infoRight = info
     },
 
-    swipeToCustom ({ evt, ...info }) {
+    swipeToCustom({ evt, ...info }) {
       this.infoCustom = info
     },
 
-    onClick () {
+    onClick() {
       console.log('onClick')
     },
 
-    handleEvt (e) {
+    handleEvt(e) {
       if (this.swipeTestStopPropagation) {
         e.stopPropagation()
       }

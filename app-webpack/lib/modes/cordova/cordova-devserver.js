@@ -11,13 +11,15 @@ const { openIDE } = require('../../utils/open-ide.js')
 const { quasarCordovaConfig } = require('./cordova-config.js')
 const { fixAndroidCleartext } = require('./android-cleartext.js')
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends (
+  AppDevserver
+) {
   #pid = 0
   #server = null
   #target
   #cordovaConfigFile = new CordovaConfigFile()
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     this.registerDiff('cordova', quasarConf => [
@@ -36,7 +38,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('webpack', quasarConf)) {
@@ -48,7 +50,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
   }
 
-  async #runWebpack (quasarConf) {
+  async #runWebpack(quasarConf) {
     if (this.#server !== null) {
       await this.#server.stop()
       this.#server = null
@@ -73,18 +75,21 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
       // start building & launch server
       // deep clone to avoid webpack-dev-server mutating the original config which causes double compilation
-      this.#server = new WebpackDevServer(cloneDeep(quasarConf.devServer), compiler)
+      this.#server = new WebpackDevServer(
+        cloneDeep(quasarConf.devServer),
+        compiler
+      )
       this.#server.start()
     })
   }
 
-  async #runCordova (quasarConf) {
+  async #runCordova(quasarConf) {
     this.#stopCordova()
 
     if (this.argv.ide) {
       await this.#runCordovaCommand(
         quasarConf,
-        [ 'prepare', this.#target ].concat(this.argv._)
+        ['prepare', this.#target].concat(this.argv._)
       )
 
       await openIDE({
@@ -98,19 +103,16 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       return
     }
 
-    const args = [ 'run', this.#target ]
+    const args = ['run', this.#target]
 
     if (this.ctx.emulator) {
-      args.push(`--target=${ this.ctx.emulator }`)
+      args.push(`--target=${this.ctx.emulator}`)
     }
 
-    await this.#runCordovaCommand(
-      quasarConf,
-      args.concat(this.argv._)
-    )
+    await this.#runCordovaCommand(quasarConf, args.concat(this.argv._))
   }
 
-  #stopCordova () {
+  #stopCordova() {
     if (this.#pid) {
       log('Shutting down Cordova process...')
       process.kill(this.#pid)
@@ -118,10 +120,13 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
   }
 
-  #runCordovaCommand (quasarConf, args) {
+  #runCordovaCommand(quasarConf, args) {
     this.#cordovaConfigFile.prepare(quasarConf)
 
-    if (this.#target === 'ios' && quasarConf.cordova.noIosLegacyBuildFlag !== true) {
+    if (
+      this.#target === 'ios' &&
+      quasarConf.cordova.noIosLegacyBuildFlag !== true
+    ) {
       args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
@@ -141,7 +146,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
   }
 
-  #cleanup () {
+  #cleanup() {
     this.#pid = 0
     this.#cordovaConfigFile.reset()
   }

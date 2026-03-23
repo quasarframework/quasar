@@ -4,20 +4,20 @@ import { onKeyDownComposition } from '../../utils/private.keyboard/key-compositi
 
 import { isRuntimeSsrPreHydration, client } from '../platform/Platform.js'
 
-function getMobilePlatform (is) {
+function getMobilePlatform(is) {
   if (is.ios === true) return 'ios'
   if (is.android === true) return 'android'
 }
 
-function getBodyClasses ({ is, has, within }, cfg) {
+function getBodyClasses({ is, has, within }, cfg) {
   const cls = [
     is.desktop === true ? 'desktop' : 'mobile',
-    `${ has.touch === false ? 'no-' : '' }touch`
+    `${has.touch === false ? 'no-' : ''}touch`
   ]
 
   if (is.mobile === true) {
     const mobile = getMobilePlatform(is)
-    mobile !== void 0 && cls.push('platform-' + mobile)
+    if (mobile !== void 0) cls.push('platform-' + mobile)
   }
 
   if (is.nativeMobile === true) {
@@ -27,25 +27,23 @@ function getBodyClasses ({ is, has, within }, cfg) {
     cls.push('native-mobile')
 
     if (
-      is.ios === true
-      && (cfg[ type ] === void 0 || cfg[ type ].iosStatusBarPadding !== false)
+      is.ios === true &&
+      (cfg[type] === void 0 || cfg[type].iosStatusBarPadding !== false)
     ) {
       cls.push('q-ios-padding')
     }
-  }
-  else if (is.electron === true) {
+  } else if (is.electron === true) {
     cls.push('electron')
-  }
-  else if (is.bex === true) {
+  } else if (is.bex === true) {
     cls.push('bex')
   }
 
-  within.iframe === true && cls.push('within-iframe')
+  if (within.iframe === true) cls.push('within-iframe')
 
   return cls
 }
 
-function applyClientSsrCorrections () {
+function applyClientSsrCorrections() {
   const { is } = client
   const classes = document.body.className
 
@@ -57,8 +55,7 @@ function applyClientSsrCorrections () {
       classList.delete('platform-ios')
       classList.delete('platform-android')
       classList.add('desktop')
-    }
-    else if (is.mobile === true) {
+    } else if (is.mobile === true) {
       classList.delete('desktop')
       classList.add('mobile')
 
@@ -67,7 +64,7 @@ function applyClientSsrCorrections () {
 
       const mobile = getMobilePlatform(is)
       if (mobile !== void 0) {
-        classList.add(`platform-${ mobile }`)
+        classList.add(`platform-${mobile}`)
       }
     }
   }
@@ -88,14 +85,14 @@ function applyClientSsrCorrections () {
   }
 }
 
-function setColors (brand) {
+function setColors(brand) {
   for (const color in brand) {
-    setCssVar(color, brand[ color ])
+    setCssVar(color, brand[color])
   }
 }
 
 export default {
-  install (opts) {
+  install(opts) {
     if (__QUASAR_SSR_SERVER__) {
       const { $q, ssrContext } = opts
       const cls = getBodyClasses($q.platform, $q.config)
@@ -109,10 +106,10 @@ export default {
       const brand = $q.config.brand
       if (brand !== void 0) {
         const vars = Object.keys(brand)
-          .map(key => `--q-${ key }:${ brand[ key ] };`)
+          .map(key => `--q-${key}:${brand[key]};`)
           .join('')
 
-        ssrContext._meta.endingHeadTags += `<style>:root{${ vars }}</style>`
+        ssrContext._meta.endingHeadTags += `<style>:root{${vars}}</style>`
       }
 
       return
@@ -122,11 +119,10 @@ export default {
 
     if (isRuntimeSsrPreHydration.value === true) {
       applyClientSsrCorrections()
-    }
-    else {
+    } else {
       const { $q } = opts
 
-      $q.config.brand !== void 0 && setColors($q.config.brand)
+      if ($q.config.brand !== void 0) setColors($q.config.brand)
 
       const cls = getBodyClasses(client, $q.config)
       document.body.classList.add.apply(document.body.classList, cls)

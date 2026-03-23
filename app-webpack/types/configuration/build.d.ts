@@ -299,7 +299,9 @@ interface QuasarStaticBuildConfiguration {
    * through the env files. This does not account also for the definitions
    * assigned directly to quasar.config > build > env prop.
    */
-  envFilter?: (env: { [index: string]: string | boolean | undefined | null }) => { [index: string]: string | boolean | undefined | null };
+  envFilter?: (env: {
+    [index: string]: string | boolean | undefined | null;
+  }) => { [index: string]: string | boolean | undefined | null };
 
   /**
    * Gzip the distributables.
@@ -367,7 +369,7 @@ interface QuasarDynamicBuildConfiguration {
    * For production only.
    * @default 'esbuild'
    */
-  minify?: boolean | 'terser' | 'esbuild';
+  minify?: boolean | "terser" | "esbuild";
   /**
    * Minification options for html-minifier-terser: https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference
    * @default
@@ -387,7 +389,7 @@ interface QuasarDynamicBuildConfiguration {
    * comments in the bundled files are suppressed.
    * @default false
    */
-  sourcemap?: boolean | 'inline' | 'hidden';
+  sourcemap?: boolean | "inline" | "hidden";
 }
 
 export type QuasarBuildConfiguration = QuasarStaticBuildConfiguration &

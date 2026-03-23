@@ -4,14 +4,17 @@ import { mount, config } from '@vue/test-utils'
 import AddressbarColor from './AddressbarColor.js'
 
 // We override Quasar install so it installs this plugin
-const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')
+const quasarVuePlugin = config.global.plugins.find(
+  entry => entry.name === 'Quasar'
+)
 const { install } = quasarVuePlugin
 
-function mountPlugin (addressbarColor) {
-  quasarVuePlugin.install = app => install(app, {
-    config: { addressbarColor },
-    plugins: { AddressbarColor }
-  })
+function mountPlugin(addressbarColor) {
+  quasarVuePlugin.install = app =>
+    install(app, {
+      config: { addressbarColor },
+      plugins: { AddressbarColor }
+    })
 
   return mount({ template: '<div />' })
 }
@@ -29,9 +32,7 @@ describe('[AddressbarColor API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(
-          AddressbarColor.set('#ff0000')
-        ).toBeUndefined()
+        expect(AddressbarColor.set('#ff0000')).toBeUndefined()
       })
 
       test('should be called automatically when $q.config.addressbarColor is set', () => {

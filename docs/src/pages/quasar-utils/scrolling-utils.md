@@ -9,6 +9,7 @@ For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Determine scrolling container
+
 Might be worthwhile to read how this is done [here](/vue-components/scroll-observer#determining-scrolling-container).
 
 ```js
@@ -33,6 +34,7 @@ Example of good container:
 ```
 
 ## Get/set scroll position
+
 Vertically:
 
 ```js
@@ -64,6 +66,7 @@ setHorizontalScrollPosition (scrollTargetElement, offset[, duration])
 ```
 
 ### Scrolling to an element
+
 Below is an example using the scroll utils to scroll to an element within its container. It does not take into consideration if the container is on screen or more complex cases.
 
 ```js
@@ -71,7 +74,7 @@ import { scroll } from 'quasar'
 const { getScrollTarget, setVerticalScrollPosition } = scroll
 
 // takes an element object
-function scrollToElement (el) {
+function scrollToElement(el) {
   const target = getScrollTarget(el)
   const offset = el.offsetTop
   const duration = 1000
@@ -80,6 +83,7 @@ function scrollToElement (el) {
 ```
 
 ## Determine scroll size
+
 Vertically:
 
 ```js
@@ -89,7 +93,7 @@ const { getScrollHeight } = scroll
 // get scrolling container inner height
 getScrollHeight(scrollTargetDomElement) // returns a Number
 
-console.log( getScrollHeight(el) )
+console.log(getScrollHeight(el))
 // 824 (it's in pixels always)
 ```
 
@@ -102,11 +106,12 @@ const { getScrollWidth } = scroll
 // get scrolling container inner height
 getScrollWidth(scrollTargetDomElement) // returns a Number
 
-console.log( getScrollWidth(el) )
+console.log(getScrollWidth(el))
 // 824 (it's in pixels always)
 ```
 
 ## Determining scrollbar width
+
 Computes the width of scrollbar in pixels.
 
 ```js

@@ -9,32 +9,32 @@
     "accept": {
       "type": "String",
       "desc": "Comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element",
-      "examples": [ "'.jpg, .pdf, image/*'", "'image/jpeg, .pdf'" ],
+      "examples": ["'.jpg, .pdf, image/*'", "'image/jpeg, .pdf'"],
       "category": "behavior"
     },
 
     "capture": {
       "type": "String",
       "desc": "Optionally, specify that a new file should be captured, and which device should be used to capture that new media of a type defined by the 'accept' prop. Maps to 'capture' attribute of native input type=file element",
-      "values": [ "'user'", "'environment'" ],
+      "values": ["'user'", "'environment'"],
       "category": "behavior"
     },
 
     "max-file-size": {
-      "type": [ "Number", "String" ],
+      "type": ["Number", "String"],
       "desc": "Maximum size of individual file in bytes",
-      "examples": [ "1024", "'1048576'" ],
+      "examples": ["1024", "'1048576'"],
       "category": "behavior"
     },
 
     "max-total-size": {
-      "type": [ "Number", "String" ],
+      "type": ["Number", "String"],
       "desc": "Maximum size of all files combined in bytes",
       "category": "behavior"
     },
 
     "max-files": {
-      "type": [ "Number", "String" ],
+      "type": ["Number", "String"],
       "desc": "Maximum number of files to contain",
       "category": "behavior"
     },
@@ -54,7 +54,7 @@
         "tsType": "File",
         "desc": "Filtered files to be added to queue"
       },
-      "examples": [ "files => files.filter(file => file.size === 1024)" ],
+      "examples": ["files => files.filter(file => file.size === 1024)"],
       "category": "behavior"
     }
   },
@@ -87,7 +87,7 @@
       "desc": "Add files programmatically",
       "params": {
         "files": {
-          "type": [ "Array", "FileList" ],
+          "type": ["Array", "FileList"],
           "tsType": "QUseFileAddInput",
           "desc": "Array of files (instances of File) or FileList",
           "required": true

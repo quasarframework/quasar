@@ -21,10 +21,7 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as Boolean true', async () => {
@@ -37,10 +34,7 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as Boolean false', async () => {
@@ -53,17 +47,14 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(false)
+      expect(wrapper.find('.q-ripple').exists()).toBe(false)
     })
 
     test('as empty Object', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: {}
           }
@@ -74,17 +65,14 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as full Object', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: {
               stop: true,
@@ -100,17 +88,14 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as { early: true }', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: { early: true }
           }
@@ -121,17 +106,14 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('pointerdown')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as { color: orange-5 }', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: { color: 'orange-5' }
           }
@@ -142,17 +124,14 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.get('.q-ripple')
-          .classes()
-      ).toContain('text-orange-5')
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
     })
 
     test('as { stop: true }', async () => {
       const TestComponent = defineComponent({
         template: '<div><i v-ripple="val" /></div>',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: { stop: true }
           }
@@ -163,23 +142,18 @@ describe('[Ripple API]', () => {
 
       await wrapper.get('i').trigger('click')
 
-      expect(
-        wrapper.emitted()
-      ).not.toHaveProperty('click')
+      expect(wrapper.emitted()).not.toHaveProperty('click')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as { keyCodes: [ 65 ] }', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
-            val: { keyCodes: [ 65 ] }
+            val: { keyCodes: [65] }
           }
         }
       })
@@ -188,21 +162,18 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('keyup', { keyCode: 65 })
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('as { early: true, keyCodes: [ 65 ] }', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: {
               early: true,
-              keyCodes: [ 65 ]
+              keyCodes: [65]
             }
           }
         }
@@ -212,10 +183,7 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('keydown', { keyCode: 65 })
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
     })
 
     test('is reactive', async () => {
@@ -223,7 +191,7 @@ describe('[Ripple API]', () => {
       const TestComponent = defineComponent({
         template: '<div><i v-ripple="val" /></div>',
         directives: { Ripple },
-        setup () {
+        setup() {
           return { val }
         }
       })
@@ -232,30 +200,23 @@ describe('[Ripple API]', () => {
 
       await wrapper.get('i').trigger('click')
 
-      expect(
-        wrapper.emitted()
-      ).not.toHaveProperty('click')
+      expect(wrapper.emitted()).not.toHaveProperty('click')
 
       val.value = { color: 'red' }
       await flushPromises()
 
       await wrapper.get('i').trigger('click')
 
-      expect(
-        wrapper.find('i > .q-ripple.text-red')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('i > .q-ripple.text-red').exists()).toBe(true)
 
-      expect(
-        wrapper.emitted()
-      ).toHaveProperty('click')
+      expect(wrapper.emitted()).toHaveProperty('click')
     })
 
     test('merges modifiers with value', async () => {
       const TestComponent = defineComponent({
         template: '<div v-ripple.early="val" />',
         directives: { Ripple },
-        setup () {
+        setup() {
           return {
             val: { color: 'orange-5' }
           }
@@ -266,15 +227,9 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('pointerdown')
 
-      expect(
-        wrapper.find('.q-ripple')
-          .exists()
-      ).toBe(true)
+      expect(wrapper.find('.q-ripple').exists()).toBe(true)
 
-      expect(
-        wrapper.get('.q-ripple')
-          .classes()
-      ).toContain('text-orange-5')
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
     })
   })
 
@@ -289,10 +244,7 @@ describe('[Ripple API]', () => {
 
       await wrapper.trigger('click')
 
-      expect(
-        wrapper.get('.q-ripple')
-          .classes()
-      ).toContain('text-orange-5')
+      expect(wrapper.get('.q-ripple').classes()).toContain('text-orange-5')
     })
   })
 
@@ -308,10 +260,7 @@ describe('[Ripple API]', () => {
 
         await wrapper.trigger('pointerdown')
 
-        expect(
-          wrapper.find('.q-ripple')
-            .exists()
-        ).toBe(true)
+        expect(wrapper.find('.q-ripple').exists()).toBe(true)
       })
     })
 
@@ -326,14 +275,9 @@ describe('[Ripple API]', () => {
 
         await wrapper.get('i').trigger('click')
 
-        expect(
-          wrapper.emitted()
-        ).not.toHaveProperty('click')
+        expect(wrapper.emitted()).not.toHaveProperty('click')
 
-        expect(
-          wrapper.find('.q-ripple')
-            .exists()
-        ).toBe(true)
+        expect(wrapper.find('.q-ripple').exists()).toBe(true)
       })
     })
   })

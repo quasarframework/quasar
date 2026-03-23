@@ -11,19 +11,19 @@
           class="q-my-md q-pa-sm bg-grey-9 text-white"
           v-intersection="onIntersection"
         >
-          <q-item-section class="text-center">
-            Item #{{ n }}
-          </q-item-section>
+          <q-item-section class="text-center"> Item #{{ n }} </q-item-section>
         </q-item>
       </q-list>
 
       <div class="example-filler" />
     </div>
 
-    <div class="example-state bg-primary text-white overflow-hidden rounded-borders text-center absolute-top-left q-ma-md q-pa-sm">
+    <div
+      class="example-state bg-primary text-white overflow-hidden rounded-borders text-center absolute-top-left q-ma-md q-pa-sm"
+    >
       <transition-group v-if="inView.length > 0" name="in-view" tag="ul">
         <li v-for="i in inView" :key="i" class="in-view-item">
-          {{i}}
+          {{ i }}
         </li>
       </transition-group>
     </div>
@@ -34,25 +34,24 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const inView = ref([])
 
-    function onIntersection (entry) {
+    function onIntersection(entry) {
       if (entry.isIntersecting === true) {
         add(entry.target.dataset.id)
-      }
-      else {
+      } else {
         remove(entry.target.dataset.id)
       }
     }
 
-    function add (i) {
+    function add(i) {
       remove(i)
       inView.value.push(i)
       inView.value.sort(sortAtoi)
     }
 
-    function remove (i) {
+    function remove(i) {
       let index
       while ((index = inView.value.indexOf(i)) > -1) {
         inView.value.splice(index, 1)
@@ -60,7 +59,7 @@ export default {
       }
     }
 
-    function sortAtoi (a, b) {
+    function sortAtoi(a, b) {
       return Number(a) - Number(b)
     }
 

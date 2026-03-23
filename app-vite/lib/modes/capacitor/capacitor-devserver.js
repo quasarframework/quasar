@@ -14,7 +14,7 @@ export class QuasarModeDevserver extends AppDevserver {
   #target
   #capacitorConfigFile = new CapacitorConfigFile()
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     this.#target = this.ctx.targetName
@@ -29,7 +29,7 @@ export class QuasarModeDevserver extends AppDevserver {
     ])
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('vite', quasarConf)) {
@@ -41,7 +41,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  async #runVite (quasarConf) {
+  async #runVite(quasarConf) {
     if (this.#server !== null) {
       await this.#server.close()
       this.#server = null
@@ -53,7 +53,7 @@ export class QuasarModeDevserver extends AppDevserver {
     await this.#server.listen()
   }
 
-  async #runCapacitor (quasarConf) {
+  async #runCapacitor(quasarConf) {
     this.#stopCapacitor()
     await this.#capacitorConfigFile.prepare(quasarConf, this.#target)
 
@@ -75,7 +75,7 @@ export class QuasarModeDevserver extends AppDevserver {
     })
   }
 
-  #stopCapacitor () {
+  #stopCapacitor() {
     if (this.#pid) {
       log('Shutting down Capacitor process...')
       process.kill(this.#pid)
@@ -83,26 +83,21 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  async #runCapacitorCommand (args, cwd, capBin) {
+  #runCapacitorCommand(args, cwd, capBin) {
     return new Promise(resolve => {
-      this.#pid = spawn(
-        capBin,
-        args,
-        { cwd },
-        code => {
-          this.#cleanup()
+      this.#pid = spawn(capBin, args, { cwd }, code => {
+        this.#cleanup()
 
-          if (code) {
-            fatal('Capacitor CLI has failed', 'FAIL')
-          }
-
-          resolve && resolve()
+        if (code) {
+          fatal('Capacitor CLI has failed', 'FAIL')
         }
-      )
+
+        resolve()
+      })
     })
   }
 
-  #cleanup () {
+  #cleanup() {
     this.#pid = 0
     this.#capacitorConfigFile.reset()
   }

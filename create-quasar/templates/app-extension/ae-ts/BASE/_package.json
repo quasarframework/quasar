@@ -28,11 +28,11 @@
     "@types/eslint": "^9.6.0",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.12.8",
-    "eslint": "^9.8.0",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.27.0",
-    "globals": "^15.9.0",
-    "prettier": "^3.3.3",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.1"
   }

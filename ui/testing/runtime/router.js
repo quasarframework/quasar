@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routeComponent = { template: '<div />' }
 
-function getRouteEntry (path, children = []) {
+function getRouteEntry(path, children = []) {
   return { path, component: routeComponent, children }
 }
 
@@ -21,13 +21,13 @@ function getRouteEntry (path, children = []) {
  * @param {*} entry
  * @returns RouteConfig[]
  */
-function getRoutes (entry) {
+function getRoutes(entry) {
   if (entry === true) {
     return []
   }
 
   if (typeof entry === 'string') {
-    return [ getRouteEntry(entry) ]
+    return [getRouteEntry(entry)]
   }
 
   if (Array.isArray(entry) === true) {
@@ -38,20 +38,18 @@ function getRoutes (entry) {
   }
 
   if (typeof entry === 'object') {
-    return Object.keys(entry)
-      .map(key => getRouteEntry(key, getRoutes(entry[ key ])))
+    return Object.keys(entry).map(key =>
+      getRouteEntry(key, getRoutes(entry[key]))
+    )
   }
 
   throw new Error('Invalid route node: ' + JSON.stringify(entry))
 }
 
-export async function getRouter (routes) {
+export async function getRouter(routes) {
   const router = createRouter({
     history: createWebHistory(),
-    routes: [
-      { path: '/', component: routeComponent },
-      ...getRoutes(routes)
-    ]
+    routes: [{ path: '/', component: routeComponent }, ...getRoutes(routes)]
   })
 
   router.push('/')

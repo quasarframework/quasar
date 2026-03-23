@@ -6,7 +6,7 @@
       selection="multiple"
       v-model:selected="selected"
       row-key="name"
-      :pagination="{rowsPerPage: 3}"
+      :pagination="{ rowsPerPage: 3 }"
     />
   </div>
 </template>
@@ -116,7 +116,7 @@ const rows = Object.freeze([
 ])
 
 export default {
-  data () {
+  data() {
     return {
       rows,
       selected: []

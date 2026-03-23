@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const TARGET_STRING = '`<!-- inject:data -->`'
-const [ pre, post ] = readFileSync(
+const [pre, post] = readFileSync(
   new URL('../src-ui/dist/index.html', import.meta.url),
   'utf8'
 ).split(TARGET_STRING)

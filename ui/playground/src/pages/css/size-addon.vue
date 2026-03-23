@@ -1,15 +1,11 @@
 <template>
   <div class="q-layout-padding">
-    <h6 class="text-red">
-      You need to enable flex-addons from /ui/dev/app.js
-    </h6>
-    <template v-for="b in bp" :key="`hx${ b }`">
-      <h5>
-        Breakpoint {{ b || 'NONE' }}
-      </h5>
+    <h6 class="text-red">You need to enable flex-addons from /ui/dev/app.js</h6>
+    <template v-for="b in bp" :key="`hx${b}`">
+      <h5>Breakpoint {{ b || 'NONE' }}</h5>
       <div class="row items-center">
-        <div class="box" v-for="s in sz" :key="`b${ b }-${ s }`">
-          <div :class="`q-pa${ b }-${ s } q-ma${ b }-${ s }`" />
+        <div class="box" v-for="s in sz" :key="`b${b}-${s}`">
+          <div :class="`q-pa${b}-${s} q-ma${b}-${s}`" />
         </div>
       </div>
     </template>
@@ -47,10 +43,10 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      bp: [ '', '-xs', '-sm', '-md', '-lg', '-xl' ],
-      sz: [ 'xs', 'sm', 'md', 'lg', 'xl' ]
+      bp: ['', '-xs', '-sm', '-md', '-lg', '-xl'],
+      sz: ['xs', 'sm', 'md', 'lg', 'xl']
     }
   }
 }

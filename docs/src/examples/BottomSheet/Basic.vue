@@ -1,7 +1,20 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-btn no-caps push color="primary" label="List BottomSheet" @click="show()" />
-    <q-btn no-caps push color="white" text-color="primary" label="Grid BottomSheet" @click="show(true)" />
+    <q-btn
+      no-caps
+      push
+      color="primary"
+      label="List BottomSheet"
+      @click="show()"
+    />
+    <q-btn
+      no-caps
+      push
+      color="white"
+      text-color="primary"
+      label="Grid BottomSheet"
+      @click="show(true)"
+    />
   </div>
 </template>
 
@@ -9,10 +22,10 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function show (grid) {
+    function show(grid) {
       $q.bottomSheet({
         message: 'Bottom Sheet message',
         grid,
@@ -56,13 +69,16 @@ export default {
             id: 'john'
           }
         ]
-      }).onOk(action => {
-        // console.log('Action chosen:', action.id)
-      }).onCancel(() => {
-        // console.log('Dismissed')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(action => {
+          // console.log('Action chosen:', action.id)
+        })
+        .onCancel(() => {
+          // console.log('Dismissed')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
     return { show }

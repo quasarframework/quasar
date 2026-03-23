@@ -20,12 +20,10 @@
 <script>
 import { ref } from 'vue'
 
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
 export default {
-  setup () {
+  setup() {
     const model = ref(null)
     const filterOptions = ref(stringOptions)
 
@@ -33,7 +31,7 @@ export default {
       model,
       filterOptions,
 
-      createValue (val, done) {
+      createValue(val, done) {
         // Calling done(var) when new-value-mode is not set or is "add", or done(var, "add") adds "var" content to the model
         // and it resets the input textbox to empty string
         // ----
@@ -68,12 +66,11 @@ export default {
         }
       },
 
-      filterFn (val, update) {
+      filterFn(val, update) {
         update(() => {
           if (val === '') {
             filterOptions.value = stringOptions
-          }
-          else {
+          } else {
             const needle = val.toLowerCase()
             filterOptions.value = stringOptions.filter(
               v => v.toLowerCase().indexOf(needle) > -1

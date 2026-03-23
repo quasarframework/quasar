@@ -9,8 +9,21 @@
     <div>
       <q-toggle color="primary" v-model="loading" label="Show loading" />
       <q-toggle color="primary" v-model="dense" label="Dense" />
-      <q-select filled multiple v-model="visibleColumns" :options="columns" option-value="name" option-disable="required" emit-value />
-      <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
+      <q-select
+        filled
+        multiple
+        v-model="visibleColumns"
+        :options="columns"
+        option-value="name"
+        option-disable="required"
+        emit-value
+      />
+      <q-select
+        class="q-mt-md"
+        filled
+        v-model="separator"
+        :options="['horizontal', 'vertical', 'cell', 'none']"
+      />
     </div>
 
     <h2>Fixed header</h2>
@@ -87,7 +100,9 @@
         type="number"
         :model-value="listIndex"
         :min="0"
-        :max="pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1"
+        :max="
+          pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1
+        "
         label="Scroll to index"
         input-class="text-right"
         @update:model-value="onIndexChange"
@@ -123,7 +138,7 @@
         <q-tr :props="props">
           <q-td v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.value }}
-            <div v-if="pagination.page % 2 === 0" style="height: 50px;" />
+            <div v-if="pagination.page % 2 === 0" style="height: 50px" />
           </q-td>
         </q-tr>
       </template>
@@ -246,14 +261,23 @@ data.forEach((row, index) => {
 })
 
 export default {
-  data () {
+  data() {
     return {
       dense: false,
       title: 'QDataTable',
       filter: '',
       loading: false,
       selected: [],
-      visibleColumns: [ 'index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
+      visibleColumns: [
+        'index',
+        'desc',
+        'fat',
+        'carbs',
+        'protein',
+        'sodium',
+        'calcium',
+        'iron'
+      ],
       separator: 'horizontal',
       pagination: {
         rowsPerPage: 0
@@ -274,34 +298,52 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${ val }`,
+          format: val => `~${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ]
     }
   },
 
   methods: {
-    onIndexChange (index) {
+    onIndexChange(index) {
       this.$refs.virtualScrollTable.scrollTo(index)
     },
-    onVirtualScroll ({ index }) {
+    onVirtualScroll({ index }) {
       this.listIndex = index
     }
   },
 
-  created () {
+  created() {
     this.data = data
   },
 
-  mounted () {
+  mounted() {
     this.$refs.virtualScrollTable.scrollTo(this.listIndex)
   }
 }

@@ -14,9 +14,7 @@
         <div class="q-ml-sm">
           {{ leftDrawerOpen }}
         </div>
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title> Quasar App </q-toolbar-title>
 
         <div class="q-mx-sm">Quasar v{{ $q.version }}</div>
         <div class="q-mr-sm">{{ rightDrawerOpen }}</div>
@@ -32,40 +30,22 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-      show-if-above
-    >
+    <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
       <q-list>
-        <q-item-label
-          header
-        >
-          Left drawer
-        </q-item-label>
-        <q-item-label
-          header
-        >
-          This should be shown after resizing, as it has the show-if-above property
+        <q-item-label header> Left drawer </q-item-label>
+        <q-item-label header>
+          This should be shown after resizing, as it has the show-if-above
+          property
         </q-item-label>
       </q-list>
     </q-drawer>
 
-    <q-drawer
-      v-model="rightDrawerOpen"
-      bordered
-      side="right"
-    >
+    <q-drawer v-model="rightDrawerOpen" bordered side="right">
       <q-list>
-        <q-item-label
-          header
-        >
-          Right drawer
-        </q-item-label>
-        <q-item-label
-          header
-        >
-          This should NOT be shown after resizing, as it DOES NOT HAVE the show-if-above property
+        <q-item-label header> Right drawer </q-item-label>
+        <q-item-label header>
+          This should NOT be shown after resizing, as it DOES NOT HAVE the
+          show-if-above property
         </q-item-label>
       </q-list>
     </q-drawer>
@@ -80,7 +60,7 @@
 export default {
   name: 'MainLayout',
 
-  data () {
+  data() {
     return {
       leftDrawerOpen: false,
       rightDrawerOpen: false
@@ -88,11 +68,11 @@ export default {
   },
 
   methods: {
-    toggleLeft () {
+    toggleLeft() {
       this.leftDrawerOpen = !this.leftDrawerOpen
     },
 
-    toggleRight () {
+    toggleRight() {
       this.rightDrawerOpen = !this.rightDrawerOpen
     }
   }

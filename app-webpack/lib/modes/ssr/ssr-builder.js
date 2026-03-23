@@ -15,41 +15,45 @@ export { app, listenResult, handler }
 `
 
 module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
-  async build () {
+  async build() {
     await this.#buildWebserver()
     await this.#copyWebserverFiles()
     await this.#writePackageJson()
 
     // also update pwa-builder.js when changing here
     if (
-      this.quasarConf.ssr.pwa === true
-      && this.quasarConf.pwa.workboxMode === 'InjectManifest'
+      this.quasarConf.ssr.pwa === true &&
+      this.quasarConf.pwa.workboxMode === 'InjectManifest'
     ) {
       const esbuildConfig = await quasarSsrConfig.customSw(this.quasarConf)
       await this.buildWithEsbuild('InjectManifest Custom SW', esbuildConfig)
     }
 
-    const webpackClientConf = await quasarSsrConfig.webpackClient(this.quasarConf)
+    const webpackClientConf = await quasarSsrConfig.webpackClient(
+      this.quasarConf
+    )
     await this.buildWithWebpack('SSR Client-side', webpackClientConf)
 
-    await this.#writeRenderTemplate(this.quasarConf, webpackClientConf.output.path)
+    await this.#writeRenderTemplate(
+      this.quasarConf,
+      webpackClientConf.output.path
+    )
 
-    const webpackServerConf = await quasarSsrConfig.webpackServer(this.quasarConf)
+    const webpackServerConf = await quasarSsrConfig.webpackServer(
+      this.quasarConf
+    )
     await this.buildWithWebpack('SSR Server-side', webpackServerConf)
 
     this.printSummary(this.quasarConf.build.distDir, true)
   }
 
-  async #buildWebserver () {
+  async #buildWebserver() {
     const esbuildConfig = await quasarSsrConfig.webserver(this.quasarConf)
     await this.buildWithEsbuild('SSR Webserver', esbuildConfig)
   }
 
-  async #copyWebserverFiles () {
-    const patterns = [
-      '.npmrc',
-      '.yarnrc'
-    ].map(filename => ({
+  #copyWebserverFiles() {
+    const patterns = ['.npmrc', '.yarnrc'].map(filename => ({
       from: filename,
       to: '.'
     }))
@@ -58,11 +62,14 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     this.writeFile('index.mjs', indexFile)
   }
 
-  async #writePackageJson () {
+  #writePackageJson() {
     const { appPkg } = this.ctx.pkg
 
     const localAppPkg = merge({}, appPkg)
-    const appDeps = getFixedDeps(localAppPkg.dependencies || {}, this.ctx.appPaths.appDir)
+    const appDeps = getFixedDeps(
+      localAppPkg.dependencies || {},
+      this.ctx.appPaths.appDir
+    )
 
     const pkg = {
       name: localAppPkg.name,
@@ -77,7 +84,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
         start: 'node index.mjs'
       },
       dependencies: Object.assign(appDeps, {
-        '@quasar/ssr-helpers': cliPkg.dependencies[ '@quasar/ssr-helpers' ],
+        '@quasar/ssr-helpers': cliPkg.dependencies['@quasar/ssr-helpers'],
         compression: cliPkg.dependencies.compression,
         express: cliPkg.dependencies.express
       }),
@@ -87,7 +94,8 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     }
 
     if (this.quasarConf.ssr.manualStoreSerialization !== true) {
-      pkg.dependencies[ 'serialize-javascript' ] = cliPkg.dependencies[ 'serialize-javascript' ]
+      pkg.dependencies['serialize-javascript'] =
+        cliPkg.dependencies['serialize-javascript']
     }
 
     if (typeof this.quasarConf.ssr.extendPackageJson === 'function') {
@@ -97,7 +105,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     this.writeFile('package.json', stringifyJSON(pkg, { indent: 2 }))
   }
 
-  async #writeRenderTemplate () {
+  async #writeRenderTemplate() {
     const htmlFile = this.ctx.appPaths.resolve.app(
       this.quasarConf.sourceFiles.indexHtmlTemplate
     )
@@ -105,9 +113,6 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const html = this.readFile(htmlFile)
     const templateFn = await getSsrHtmlTemplateFn(html, this.quasarConf)
 
-    this.writeFile(
-      'render-template.js',
-      `module.exports=${ templateFn.source }`
-    )
+    this.writeFile('render-template.js', `module.exports=${templateFn.source}`)
   }
 }

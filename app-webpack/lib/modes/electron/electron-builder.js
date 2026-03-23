@@ -9,19 +9,19 @@ const { getPackageJson } = require('../../utils/get-package-json.js')
 const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
 
 module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
-  async build () {
+  async build() {
     await this.#buildFiles()
     await this.#writePackageJson()
     this.#copyElectronFiles()
 
     this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
 
-    if (this.argv[ 'skip-pkg' ] !== true) {
+    if (this.argv['skip-pkg'] !== true) {
       await this.#packageFiles()
     }
   }
 
-  async #buildFiles () {
+  async #buildFiles() {
     const webpackConf = await quasarElectronConfig.webpack(this.quasarConf)
 
     await this.buildWithWebpack('Electron UI', webpackConf)
@@ -29,20 +29,28 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const mainConfig = await quasarElectronConfig.main(this.quasarConf)
     await this.buildWithEsbuild('Electron Main', mainConfig)
 
-    const preloadList = await quasarElectronConfig.preloadScriptList(this.quasarConf)
+    const preloadList = await quasarElectronConfig.preloadScriptList(
+      this.quasarConf
+    )
     for (const preloadScript of preloadList) {
-      await this.buildWithEsbuild(`Electron Preload (${ preloadScript.scriptName })`, preloadScript.esbuildConfig)
+      await this.buildWithEsbuild(
+        `Electron Preload (${preloadScript.scriptName})`,
+        preloadScript.esbuildConfig
+      )
     }
   }
 
-  async #writePackageJson () {
+  #writePackageJson() {
     const { appPkg } = this.ctx.pkg
     const pkg = merge({}, appPkg)
 
     if (pkg.dependencies) {
-      pkg.dependencies = getFixedDeps(pkg.dependencies, this.ctx.appPaths.appDir)
-      delete pkg.dependencies[ '@quasar/extras' ]
-      delete pkg.dependencies[ 'register-service-worker' ]
+      pkg.dependencies = getFixedDeps(
+        pkg.dependencies,
+        this.ctx.appPaths.appDir
+      )
+      delete pkg.dependencies['@quasar/extras']
+      delete pkg.dependencies['register-service-worker']
     }
 
     // we don't need this (also, faster install time & smaller bundles)
@@ -64,7 +72,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     )
   }
 
-  #copyElectronFiles () {
+  #copyElectronFiles() {
     const patterns = [
       '.yarnrc',
       'package-lock.json',
@@ -86,9 +94,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     // handle .npmrc separately
     const npmrc = this.ctx.appPaths.resolve.app('.npmrc')
-    let content = existsSync(npmrc)
-      ? this.readFile(npmrc)
-      : ''
+    let content = existsSync(npmrc) ? this.readFile(npmrc) : ''
 
     if (content.indexOf('shamefully-hoist') === -1) {
       content += '\n# needed by pnpm\nshamefully-hoist=true'
@@ -96,7 +102,8 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     // very important, otherwise PNPM creates symlinks which is NOT
     // what we want for an Electron app that should run cross-platform
     if (content.indexOf('node-linker') === -1) {
-      content += '\n# pnpm needs this otherwise it creates symlinks\nnode-linker=hoisted'
+      content +=
+        '\n# pnpm needs this otherwise it creates symlinks\nnode-linker=hoisted'
     }
 
     this.writeFile(
@@ -105,7 +112,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     )
   }
 
-  async #packageFiles () {
+  async #packageFiles() {
     const { appPaths, cacheProxy } = this.ctx
 
     const nodePackager = cacheProxy.getModule('nodePackager')
@@ -134,32 +141,34 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     }
 
     const bundlerName = this.quasarConf.electron.bundler
-    const bundlerConfig = this.quasarConf.electron[ bundlerName ]
+    const bundlerConfig = this.quasarConf.electron[bundlerName]
 
     const { getBundler } = cacheProxy.getModule('electron')
     const bundler = getBundler(bundlerName)
-    const pkgBanner = `electron/${ bundlerName }`
+    const pkgBanner = `electron/${bundlerName}`
 
     return new Promise((resolve, reject) => {
       const done = progress('Bundling app with ___...', pkgBanner)
 
-      const bundlePromise = bundlerName === 'packager'
-        ? bundler({
-          ...bundlerConfig,
-          electronVersion: getPackageJson('electron', appPaths.appDir).version
-        })
-        : bundler.build(bundlerConfig)
+      const bundlePromise =
+        bundlerName === 'packager'
+          ? bundler({
+              ...bundlerConfig,
+              electronVersion: getPackageJson('electron', appPaths.appDir)
+                .version
+            })
+          : bundler.build(bundlerConfig)
 
       bundlePromise
         .then(() => {
           log()
-          done(`${ pkgBanner } built the app`)
+          done(`${pkgBanner} built the app`)
           log()
           resolve()
         })
         .catch(err => {
           log()
-          warn(`${ pkgBanner } could not build`, 'FAIL')
+          warn(`${pkgBanner} could not build`, 'FAIL')
           log()
           console.error(err + '\n')
           reject()

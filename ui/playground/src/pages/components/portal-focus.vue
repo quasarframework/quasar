@@ -14,7 +14,12 @@
       </q-menu>
     </q-btn>
 
-    <q-dialog v-model="icon" persistent transition-show="scale" transition-hide="scale">
+    <q-dialog
+      v-model="icon"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
       <q-card>
         <q-toolbar>
           <q-toolbar-title class="text-weight-bold">FORM</q-toolbar-title>
@@ -32,7 +37,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       icon: false,
       bar: false,

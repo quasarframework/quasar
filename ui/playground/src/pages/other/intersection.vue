@@ -1,44 +1,51 @@
 <template>
   <div>
-    <p class="q-pl-lg">
-      Fires on entry and leaving
-    </p>
-    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 300px; height: 400px; border: #ccc solid 1px; ">
-      <div class="header row justify-around items-center" :style="visible1Style">
+    <p class="q-pl-lg">Fires on entry and leaving</p>
+    <div
+      class="q-layout-padding q-ma-lg scroll relative-position"
+      style="width: 300px; height: 400px; border: #ccc solid 1px"
+    >
+      <div
+        class="header row justify-around items-center"
+        :style="visible1Style"
+      >
         {{ visible1 ? 'Visible' : 'Hidden' }}
       </div>
-      <div style="width: 100%; height: 2400px;">
-        <div style="width: 100%; padding-top: 1600px;" />
-        <div v-intersection="onVisible1" class="observed">
-          Observed Element
-        </div>
+      <div style="width: 100%; height: 2400px">
+        <div style="width: 100%; padding-top: 1600px" />
+        <div v-intersection="onVisible1" class="observed">Observed Element</div>
       </div>
     </div>
 
-    <p class="q-pl-lg">
-      Fires once on entry
-    </p>
-    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 300px; height: 400px; border: #ccc solid 1px; ">
-      <div class="header row justify-around items-center" :style="visible2Style">
+    <p class="q-pl-lg">Fires once on entry</p>
+    <div
+      class="q-layout-padding q-ma-lg scroll relative-position"
+      style="width: 300px; height: 400px; border: #ccc solid 1px"
+    >
+      <div
+        class="header row justify-around items-center"
+        :style="visible2Style"
+      >
         {{ visible2 ? 'Visible' : 'Hidden' }}
       </div>
-      <div style="width: 100%; height: 2400px;">
-        <div style="width: 100%; padding-top: 1600px;" />
-        <div v-intersection.once="onVisible2" class="observed">
-          Observed Element
-        </div>
+      <div style="width: 100%; height: 2400px">
+        <div style="width: 100%; padding-top: 1600px" />
+        <div v-intersection.once="onVisible2" class="observed"
+          >Observed Element</div
+        >
       </div>
     </div>
 
-    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 300px; height: 400px; border: #ccc solid 1px; ">
-      <div class="header row justify-around items-center">
-        Percent: {{ percent }}%
-      </div>
-      <div style="width: 100%; height: 2400px;">
-        <div style="width: 100%; padding-top: 1600px;" />
-        <div v-intersection="options" class="observed">
-          Observed Element
-        </div>
+    <div
+      class="q-layout-padding q-ma-lg scroll relative-position"
+      style="width: 300px; height: 400px; border: #ccc solid 1px"
+    >
+      <div class="header row justify-around items-center"
+        >Percent: {{ percent }}%</div
+      >
+      <div style="width: 100%; height: 2400px">
+        <div style="width: 100%; padding-top: 1600px" />
+        <div v-intersection="options" class="observed">Observed Element</div>
       </div>
     </div>
   </div>
@@ -46,7 +53,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       visible1: false,
       visible2: false,
@@ -54,36 +61,36 @@ export default {
     }
   },
   computed: {
-    visible1Style () {
+    visible1Style() {
       return {
         background: this.visible1 === true ? 'green' : 'red',
         color: 'white'
       }
     },
-    visible2Style () {
+    visible2Style() {
       return {
         background: this.visible2 === true ? 'green' : 'red',
         color: 'white'
       }
     },
-    options () {
+    options() {
       return {
         handler: this.onVisible3,
         cfg: {
-          threshold: [ 0, 0.25, 0.5, 0.75, 1 ]
+          threshold: [0, 0.25, 0.5, 0.75, 1]
         }
       }
     }
   },
   methods: {
-    onVisible1 (data) {
+    onVisible1(data) {
       this.visible1 = data.isIntersecting || data.isVisible
       console.log(data)
     },
-    onVisible2 (data) {
+    onVisible2(data) {
       this.visible2 = data.isIntersecting
     },
-    onVisible3 (data) {
+    onVisible3(data) {
       this.percent = (data.intersectionRatio * 100).toFixed(2)
       this.visible3 = data.isVisible
       this.intersecting3 = data.isIntersecting

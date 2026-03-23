@@ -1,22 +1,30 @@
 {
   "name": "quasar-monorepo",
   "private": true,
-  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "preinstall": "npx only-allow@1.2.1 pnpm",
     "prepare:types": "pnpm --recursive --parallel prepare:types",
-    "lint:root": "eslint --cache --fix ./*.js ./*.mjs",
-    "lint:non-workspace": "cd icongenie && pnpm lint && cd ..",
-    "lint": "pnpm lint:root && pnpm lint:non-workspace && pnpm --recursive --parallel --workspace-concurrency=6 run lint",
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint",
     "test": "pnpm build && pnpm --filter quasar test:specs:ci && pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test",
     "build": "pnpm --filter @quasar/vite-plugin build && pnpm --filter quasar build",
     "vite-ecosystem-ci:build": "pnpm build",
     "vite-ecosystem-ci:test": "pnpm --filter @quasar/vite-plugin test",
     "vue-ecosystem-ci:build": "pnpm build",
-    "vue-ecosystem-ci:test": "pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:runtime"
+    "vue-ecosystem-ci:test": "pnpm --filter quasar test && pnpm --filter @quasar/vite-plugin test:runtime",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "eslint": "catalog:",
-    "eslint-config-quasar": "workspace:*"
-  }
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,mjs,cjs,json,css,sass,md}": [
+      "oxfmt --no-error-on-unmatched-pattern",
+      "oxlint --deny-warnings --fix"
+    ]
+  },
+  "packageManager": "pnpm@10.32.1"
 }

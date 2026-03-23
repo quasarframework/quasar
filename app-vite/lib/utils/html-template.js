@@ -12,75 +12,66 @@ const bodyStartTagRE = /(<body[^>]*)(>)/i
 export const entryPointMarkup = '<!-- quasar:entry-point -->'
 export const attachMarkup = '<div id="q-app"></div>'
 
-function injectPublicPath (html, publicPath) {
+function injectPublicPath(html, publicPath) {
   return html.replace(
-    /(href|src)\s*=\s*(['"])(.+)(['"])/ig,
-    (_, att, pre, val, post) => (absoluteUrlRE.test(val.trim()) === true
-      ? `${ att }=${ pre }${ val }${ post }`
-      : `${ att }=${ pre }${ publicPath + val }${ post }`)
+    /(href|src)\s*=\s*(['"])(.+)(['"])/gi,
+    (_, att, pre, val, post) =>
+      absoluteUrlRE.test(val.trim()) === true
+        ? `${att}=${pre}${val}${post}`
+        : `${att}=${pre}${publicPath + val}${post}`
   )
 }
 
-function injectSsrRuntimeInterpolation (html) {
+function injectSsrRuntimeInterpolation(html) {
   return html
-    .replace(
-      htmlStartTagRE,
-      (found, start, end) => {
-        let matches
+    .replace(htmlStartTagRE, (found, start, end) => {
+      let matches
 
-        matches = found.match(/\sdir\s*=\s*['"]([^'"]*)['"]/i)
-        if (matches) {
-          start = start.replace(matches[ 0 ], '')
-        }
-
-        matches = found.match(/\slang\s*=\s*['"]([^'"]*)['"]/i)
-        if (matches) {
-          start = start.replace(matches[ 0 ], '')
-        }
-
-        return `${ start } {{ ssrContext._meta.htmlAttrs }}${ end }`
+      matches = found.match(/\sdir\s*=\s*['"]([^'"]*)['"]/i)
+      if (matches) {
+        start = start.replace(matches[0], '')
       }
-    )
+
+      matches = found.match(/\slang\s*=\s*['"]([^'"]*)['"]/i)
+      if (matches) {
+        start = start.replace(matches[0], '')
+      }
+
+      return `${start} {{ ssrContext._meta.htmlAttrs }}${end}`
+    })
     .replace(
       headStartTagRE,
-      (_, start, end) => `${ start }${ end }{{ ssrContext._meta.headTags }}`
+      (_, start, end) => `${start}${end}{{ ssrContext._meta.headTags }}`
     )
     .replace(
       headEndRE,
-      (_, tag) => `{{ ssrContext._meta.endingHeadTags || '' }}${ tag }`
+      (_, tag) => `{{ ssrContext._meta.endingHeadTags || '' }}${tag}`
     )
-    .replace(
-      bodyStartTagRE,
-      (found, start, end) => {
-        let classes = '{{ ssrContext._meta.bodyClasses }}'
+    .replace(bodyStartTagRE, (found, start, end) => {
+      let classes = '{{ ssrContext._meta.bodyClasses }}'
 
-        const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
+      const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
 
-        if (matches) {
-          if (matches[ 1 ].length > 0) {
-            classes += ` ${ matches[ 1 ] }`
-          }
-          start = start.replace(matches[ 0 ], '')
+      if (matches) {
+        if (matches[1].length > 0) {
+          classes += ` ${matches[1]}`
         }
-
-        return `${ start } class="${ classes.trim() }" {{ ssrContext._meta.bodyAttrs }}${ end }{{ ssrContext._meta.bodyTags }}`
+        start = start.replace(matches[0], '')
       }
-    )
+
+      return `${start} class="${classes.trim()}" {{ ssrContext._meta.bodyAttrs }}${end}{{ ssrContext._meta.bodyTags }}`
+    })
 }
 
-function injectVueDevtools (html, { host, port }, nonce = '') {
-  const scripts = (
-    `<script${ nonce }>window.__VUE_DEVTOOLS_HOST__='${ host }';window.__VUE_DEVTOOLS_PORT__='${ port }';</script>`
-    + `\n<script src="http://${ host }:${ port }"></script>`
-  )
+function injectVueDevtools(html, { host, port }, nonce = '') {
+  const scripts =
+    `<script${nonce}>window.__VUE_DEVTOOLS_HOST__='${host}';window.__VUE_DEVTOOLS_PORT__='${port}';</script>` +
+    `\n<script src="http://${host}:${port}"></script>`
 
-  return html.replace(
-    headEndRE,
-    (_, tag) => `${ scripts }${ tag }`
-  )
+  return html.replace(headEndRE, (_, tag) => `${scripts}${tag}`)
 }
 
-export async function transformHtml (template, quasarConf) {
+export async function transformHtml(template, quasarConf) {
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
@@ -92,8 +83,8 @@ export async function transformHtml (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    (quasarConf.ctx.mode.ssr === true ? entryPointMarkup : attachMarkup)
-      + quasarConf.metaConf.entryScript.tag
+    (quasarConf.ctx.mode.ssr === true ? entryPointMarkup : attachMarkup) +
+      quasarConf.metaConf.entryScript.tag
   )
 
   // publicPath will be handled by Vite middleware
@@ -113,11 +104,8 @@ export async function transformHtml (template, quasarConf) {
  * Used by production SSR only.
  * Gets index.html generated content as param.
  */
-export async function transformProdSsrPwaOfflineHtml (html, quasarConf) {
-  html = html.replace(
-    entryPointMarkup,
-    attachMarkup
-  )
+export async function transformProdSsrPwaOfflineHtml(html, quasarConf) {
+  html = html.replace(entryPointMarkup, attachMarkup)
 
   if (quasarConf.build.minify !== false) {
     html = await minify(html, quasarConf.build.htmlMinifyOptions)
@@ -136,7 +124,7 @@ export async function transformProdSsrPwaOfflineHtml (html, quasarConf) {
  * html = await vite.transformIndexHtml(html)
  * html = html.replace('<!-- quasar:entry-point -->', '<div id="q-app">...</div>')
  */
-export function getDevSsrTemplateFn (template, quasarConf) {
+export function getDevSsrTemplateFn(template, quasarConf) {
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
@@ -147,15 +135,22 @@ export function getDevSsrTemplateFn (template, quasarConf) {
   html = injectSsrRuntimeInterpolation(html)
 
   if (quasarConf.metaConf.vueDevtools !== false) {
-    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools, '{{ ssrContext.nonce ? \' nonce="\' + ssrContext.nonce + \'"\' : \'\' }}')
+    html = injectVueDevtools(
+      html,
+      quasarConf.metaConf.vueDevtools,
+      "{{ ssrContext.nonce ? ' nonce=\"' + ssrContext.nonce + '\"' : '' }}"
+    )
   }
 
   html = html.replace(
     entryPointMarkup,
-    `${ entryPointMarkup }${ quasarConf.metaConf.entryScript.tag }`
+    `${entryPointMarkup}${quasarConf.metaConf.entryScript.tag}`
   )
 
-  return compileTemplate(html, { interpolate: ssrInterpolationsRE, variable: 'ssrContext' })
+  return compileTemplate(html, {
+    interpolate: ssrInterpolationsRE,
+    variable: 'ssrContext'
+  })
 }
 
 /**
@@ -169,7 +164,7 @@ export function getDevSsrTemplateFn (template, quasarConf) {
  * // ... at runtime:
  * const html = fn(ssrContext)
  */
-export async function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
+export async function getProdSsrTemplateFn(viteHtmlContent, quasarConf) {
   let html = injectSsrRuntimeInterpolation(viteHtmlContent)
 
   html = html.replace(
@@ -180,9 +175,12 @@ export async function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
   if (quasarConf.build.minify !== false) {
     html = await minify(html, {
       ...quasarConf.build.htmlMinifyOptions,
-      ignoreCustomFragments: [ ssrInterpolationsRE ]
+      ignoreCustomFragments: [ssrInterpolationsRE]
     })
   }
 
-  return compileTemplate(html, { interpolate: ssrInterpolationsRE, variable: 'ssrContext' })
+  return compileTemplate(html, {
+    interpolate: ssrInterpolationsRE,
+    variable: 'ssrContext'
+  })
 }

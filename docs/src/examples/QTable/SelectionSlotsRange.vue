@@ -1,9 +1,13 @@
 <template>
   <div class="q-pa-md">
-    <div class="text-subtitle1 q-pa-sm">Use <kbd>SHIFT</kbd> to select / deselect a range and <kbd>CTRL</kbd> to add to selection</div>
+    <div class="text-subtitle1 q-pa-sm"
+      >Use <kbd>SHIFT</kbd> to select / deselect a range and <kbd>CTRL</kbd> to
+      add to selection</div
+    >
 
     <q-table
-      flat bordered
+      flat
+      bordered
       ref="tableRef"
       title="Treats"
       :rows="rows"
@@ -18,7 +22,14 @@
       </template>
 
       <template v-slot:body-selection="scope">
-        <q-checkbox :model-value="scope.selected" @update:model-value="(val, evt) => { Object.getOwnPropertyDescriptor(scope, 'selected').set(val, evt) }" />
+        <q-checkbox
+          :model-value="scope.selected"
+          @update:model-value="
+            (val, evt) => {
+              Object.getOwnPropertyDescriptor(scope, 'selected').set(val, evt)
+            }
+          "
+        />
       </template>
     </q-table>
   </div>
@@ -34,16 +45,34 @@ const columns = [
     label: 'Dessert (100g serving)',
     align: 'left',
     field: row => row.name,
-    format: val => `${ val }`,
+    format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
 ]
 
 const rows = [
@@ -150,7 +179,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const tableRef = ref()
     const selected = ref([])
     let storedSelectedRow
@@ -161,12 +190,12 @@ export default {
       columns,
       rows,
 
-      handleSelection ({ rows, added, evt }) {
+      handleSelection({ rows: rowsList, added, evt }) {
         // ignore selection change from header of not from a direct click event
-        if (rows.length !== 1 || evt === void 0) return
+        if (rowsList.length !== 1 || evt === void 0) return
 
         const oldSelectedRow = storedSelectedRow
-        const [newSelectedRow] = rows
+        const [newSelectedRow] = rowsList
         const { ctrlKey, shiftKey, metaKey } = evt
 
         if (shiftKey !== true) {
@@ -185,18 +214,22 @@ export default {
             }
 
             if (firstIndex > lastIndex) {
-              [ firstIndex, lastIndex ] = [ lastIndex, firstIndex ]
+              ;[firstIndex, lastIndex] = [lastIndex, firstIndex]
             }
 
             const rangeRows = tableRows.slice(firstIndex, lastIndex + 1)
             // we need the original row object so we can match them against the rows in range
             const selectedRows = selected.value.map(toRaw)
 
-            selected.value = added === true
-              ? selectedRows.concat(rangeRows.filter(row => selectedRows.includes(row) === false))
-              : selectedRows.filter(row => rangeRows.includes(row) === false)
-          }
-          else if ((ctrlKey || metaKey) !== true && added === true) {
+            selected.value =
+              added === true
+                ? selectedRows.concat(
+                    rangeRows.filter(
+                      row => selectedRows.includes(row) === false
+                    )
+                  )
+                : selectedRows.filter(row => rangeRows.includes(row) === false)
+          } else if ((ctrlKey || metaKey) !== true && added === true) {
             selected.value = [newSelectedRow]
           }
         })

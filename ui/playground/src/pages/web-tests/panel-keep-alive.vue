@@ -31,7 +31,11 @@
           url="http://localhost:4444/upload"
         />
         <q-btn dense round icon="map" class="absolute-bottom-right" />
-        Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+        Tab One <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
+        obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis
+        est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus
+        autem magnam.
       </q-tab-panel>
 
       <q-tab-panel name="two">
@@ -42,7 +46,10 @@
           label="Uploader two"
           url="http://localhost:4444/upload"
         />
-        Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+        Tab Two <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque
+        odio porro, animi ducimus iure autem commodi sint, magni voluptatum
+        molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
       </q-tab-panel>
 
       <q-tab-panel name="three">
@@ -54,7 +61,11 @@
           label="Uploader three"
           url="http://localhost:4444/upload"
         />
-        Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+        Tab Three <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore
+        inventore accusantium, perferendis eos sapiente culpa consectetur
+        deserunt praesentium cumque distinctio placeat, recusandae id qui odit
+        similique officia? Mollitia, ea!
       </q-tab-panel>
 
       <q-tab-panel disable name="four">
@@ -65,7 +76,11 @@
           label="Uploader four"
           url="http://localhost:4444/upload"
         />
-        Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+        Tab Four <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore
+        inventore accusantium, perferendis eos sapiente culpa consectetur
+        deserunt praesentium cumque distinctio placeat, recusandae id qui odit
+        similique officia? Mollitia, ea!
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -84,75 +99,78 @@ export default {
         name: String
       },
 
-      data () {
+      data() {
         return {
           text: 'input text sample'
         }
       },
 
-      created () {
+      created() {
         this.log('created')
       },
 
-      beforeMount () {
+      beforeMount() {
         this.log('beforeMount')
       },
 
-      mounted () {
+      mounted() {
         this.log('mounted')
       },
 
-      activated () {
+      activated() {
         this.log('activated')
       },
 
-      deactivated () {
+      deactivated() {
         this.log('deactivated')
       },
 
-      beforeUnmount () {
+      beforeUnmount() {
         this.log('beforeUnmount')
       },
 
-      unmounted () {
+      unmounted() {
         this.log('unmounted')
       },
 
       methods: {
-        log (what) {
-          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
+        log(what) {
+          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
         }
       },
 
-      render () {
+      render() {
         return h('div', [
           'keep alive test ' + this.name,
-          h(QForm, {
-            autofocus: true
-          }, () => ([
-            h(QInput, {
-              class: 'q-my-md',
-              style: 'max-width: 300px',
-              modelValue: this.text,
-              // autofocus: true,
-              outlined: true,
-              label: 'Input with autofocus',
-              'onUpdate:model-value': val => {
-                this.text = val
-              }
-            })
-          ]))
+          h(
+            QForm,
+            {
+              autofocus: true
+            },
+            () => [
+              h(QInput, {
+                class: 'q-my-md',
+                style: 'max-width: 300px',
+                modelValue: this.text,
+                // autofocus: true,
+                outlined: true,
+                label: 'Input with autofocus',
+                'onUpdate:model-value': val => {
+                  this.text = val
+                }
+              })
+            ]
+          )
         ])
       }
     }
   },
 
-  data () {
+  data() {
     return {
       tab: 'one'
     }
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>

@@ -3,18 +3,18 @@ const { readFileSync } = require('node:fs')
 
 const banner = 'PwaManifestPlugin'
 
-function warn (msg) {
-  console.warn(msg ? ` [warn] ${ banner } ⚠️  ${ msg }` : '')
+function warn(msg) {
+  console.warn(msg ? ` [warn] ${banner} ⚠️  ${msg}` : '')
 }
 
 module.exports.PwaManifestPlugin = class PwaManifestPlugin {
   #quasarConf
 
-  constructor (cfg = {}) {
+  constructor(cfg = {}) {
     this.#quasarConf = cfg
   }
 
-  #createManifest () {
+  #createManifest() {
     const { appPkg } = this.#quasarConf.ctx.pkg
 
     const id = appPkg.name || 'quasar-pwa'
@@ -24,8 +24,7 @@ module.exports.PwaManifestPlugin = class PwaManifestPlugin {
       json = JSON.parse(
         readFileSync(this.#quasarConf.metaConf.pwaManifestFile, 'utf-8')
       )
-    }
-    catch (_) {
+    } catch {
       warn('Could not compile PWA manifest.json. Please check its syntax.')
       json = {}
     }
@@ -44,10 +43,14 @@ module.exports.PwaManifestPlugin = class PwaManifestPlugin {
       this.#quasarConf.pwa.extendManifestJson(pwaManifest)
     }
 
-    return JSON.stringify(pwaManifest, null, this.#quasarConf.build.minify === true ? 2 : null)
+    return JSON.stringify(
+      pwaManifest,
+      null,
+      this.#quasarConf.build.minify === true ? 2 : null
+    )
   }
 
-  apply (compiler) {
+  apply(compiler) {
     compiler.hooks.thisCompilation.tap('PwaManifestPlugin', compilation => {
       compilation.hooks.processAssets.tap(
         {
@@ -62,8 +65,13 @@ module.exports.PwaManifestPlugin = class PwaManifestPlugin {
           // and also it provides a good opportunity to be used in index.html template file
           this.#quasarConf.htmlVariables.pwaManifest = pwaManifest
 
-          compilation.fileDependencies.add(this.#quasarConf.metaConf.pwaManifestFile)
-          compilation.emitAsset(this.#quasarConf.pwa.manifestFilename, new sources.RawSource(pwaManifest))
+          compilation.fileDependencies.add(
+            this.#quasarConf.metaConf.pwaManifestFile
+          )
+          compilation.emitAsset(
+            this.#quasarConf.pwa.manifestFilename,
+            new sources.RawSource(pwaManifest)
+          )
         }
       )
 

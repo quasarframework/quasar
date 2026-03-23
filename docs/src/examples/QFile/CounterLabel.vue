@@ -23,10 +23,10 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       files: ref(null),
-      counterLabelFn ({ totalSize, filesNumber, maxFiles }) {
+      counterLabelFn({ totalSize, filesNumber, maxFiles }) {
         return `${filesNumber} files of ${maxFiles} | ${totalSize}`
       }
     }

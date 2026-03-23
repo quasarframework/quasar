@@ -50,9 +50,7 @@ Depending on which features/presets you are using, you can add the related optio
 ```json
 {
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": [
-    "source.fixAll.eslint"
-  ],
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"]
 }
 ```

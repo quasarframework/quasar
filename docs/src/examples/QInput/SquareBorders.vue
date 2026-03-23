@@ -10,12 +10,19 @@
       <q-input square outlined v-model="text">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
           </q-avatar>
         </template>
       </q-input>
 
-      <q-input square standout bottom-slots v-model="text" label="Label" counter>
+      <q-input
+        square
+        standout
+        bottom-slots
+        v-model="text"
+        label="Label"
+        counter
+      >
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
@@ -23,9 +30,7 @@
           <q-icon name="close" @click="text = ''" class="cursor-pointer" />
         </template>
 
-        <template v-slot:hint>
-          Field hint
-        </template>
+        <template v-slot:hint> Field hint </template>
       </q-input>
     </div>
   </div>
@@ -35,7 +40,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       text: ref('')
     }

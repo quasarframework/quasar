@@ -30,7 +30,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       standard: ref({
         min: 10,

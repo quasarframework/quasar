@@ -7,13 +7,13 @@
     "tag": {
       "extends": "tag",
       "default": "'div'",
-      "examples": [ "'div'", "'span'", "'blockquote'" ]
+      "examples": ["'div'", "'span'", "'blockquote'"]
     },
 
     "placeholder": {
       "type": "String",
       "desc": "Text to display on server-side render (unless using 'placeholder' slot)",
-      "examples": [ "'This is server-side only'" ],
+      "examples": ["'This is server-side only'"],
       "category": "content"
     }
   },

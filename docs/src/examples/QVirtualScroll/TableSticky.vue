@@ -171,7 +171,7 @@ for (let i = 0; i <= 1000; i++) {
 }
 
 export default {
-  setup () {
+  setup() {
     return {
       heavyList,
       columns

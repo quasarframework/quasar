@@ -18,48 +18,46 @@ const rootRelativeUrlRE = /^\//
  * Inspired by loader-utils > isUrlRequest()
  * Mimics Webpack v4 & css-loader v3 behavior
  */
-function shouldRequireUrl (url) {
+function shouldRequireUrl(url) {
   return (
     // an absolute url and it is not `windows` path like `C:\dir\file`:
-    (absoluteUrlRE.test(url) === true && path.win32.isAbsolute(url) === false)
-    // a protocol-relative:
-    || protocolRelativeRE.test(url) === true
-    // some kind of url for a template:
-    || templateUrlRE.test(url) === true
-    // not a request if root isn't set and it's a root-relative url
-    || rootRelativeUrlRE.test(url) === true
-  ) === false
+    ((absoluteUrlRE.test(url) === true &&
+      path.win32.isAbsolute(url) === false) ||
+      // a protocol-relative:
+      protocolRelativeRE.test(url) === true ||
+      // some kind of url for a template:
+      templateUrlRE.test(url) === true ||
+      // not a request if root isn't set and it's a root-relative url
+      rootRelativeUrlRE.test(url) === true) === false
+  )
 }
 
-async function createRule ({ rule, isModules, pref, loader, loaderOptions }) {
+async function createRule({ rule, isModules, pref, loader, loaderOptions }) {
   if (pref.isServerBuild === true) {
-    rule.use('null-loader')
-      .loader('null-loader')
+    rule.use('null-loader').loader('null-loader')
 
     return
   }
 
   if (pref.extract) {
-    rule.use('mini-css-extract')
+    rule
+      .use('mini-css-extract')
       .loader(ExtractLoader)
       .options({ publicPath: '../' })
-  }
-  else {
-    rule.use('vue-style-loader')
-      .loader('vue-style-loader')
-      .options({
-        sourceMap: pref.sourceMap
-      })
+  } else {
+    rule.use('vue-style-loader').loader('vue-style-loader').options({
+      sourceMap: pref.sourceMap
+    })
   }
 
   const cssLoaderOptions = {
     sourceMap: pref.sourceMap,
     url: { filter: shouldRequireUrl },
     importLoaders:
-      1 // stylePostLoader injected by vue-loader
-      + 1 // postCSS loader
-      + (!pref.extract && pref.minify ? 1 : 0) // postCSS with cssnano
-      + (loader ? (loader === 'sass-loader' ? 2 : 1) : 0)
+      1 + // stylePostLoader injected by vue-loader
+      1 + // postCSS loader
+      (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
+      (loader ? (loader === 'sass-loader' ? 2 : 1) : 0)
   }
 
   if (isModules) {
@@ -70,26 +68,28 @@ async function createRule ({ rule, isModules, pref, loader, loaderOptions }) {
     })
   }
 
-  rule.use('css-loader')
-    .loader('css-loader')
-    .options(cssLoaderOptions)
+  rule.use('css-loader').loader('css-loader').options(cssLoaderOptions)
 
   if (!pref.extract && pref.minify) {
     // needs to be applied separately,
     // otherwise it messes up RTL
-    rule.use('cssnano')
+    rule
+      .use('cssnano')
       .loader('postcss-loader')
       .options({
         sourceMap: pref.sourceMap,
         postcssOptions: {
           plugins: [
             require('cssnano')({
-              preset: [ 'default', {
-                mergeLonghand: false,
-                convertValues: false,
-                cssDeclarationSorter: false,
-                reduceTransforms: false
-              } ]
+              preset: [
+                'default',
+                {
+                  mergeLonghand: false,
+                  convertValues: false,
+                  cssDeclarationSorter: false,
+                  reduceTransforms: false
+                }
+              ]
             })
           ]
         }
@@ -99,9 +99,7 @@ async function createRule ({ rule, isModules, pref, loader, loaderOptions }) {
   // need a fresh copy, otherwise plugins
   // will keep on adding making N duplicates for each one
   const { default: postCssConfig } = await import(
-    pathToFileURL(pref.appPaths.postcssConfigFilename)
-    + '?t='
-    + Date.now()
+    pathToFileURL(pref.appPaths.postcssConfigFilename) + '?t=' + Date.now()
   )
 
   let postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
@@ -111,38 +109,46 @@ async function createRule ({ rule, isModules, pref, loader, loaderOptions }) {
     const postcssRTLOptions = pref.rtl === true ? {} : pref.rtl
 
     if (
-      typeof postCssConfig.plugins !== 'function'
-      && (postcssRTLOptions.source === 'ltr' || typeof postcssRTLOptions === 'function')
+      typeof postCssConfig.plugins !== 'function' &&
+      (postcssRTLOptions.source === 'ltr' ||
+        typeof postcssRTLOptions === 'function')
     ) {
-      const originalPlugins = postCssOpts.plugins ? [ ...postCssOpts.plugins ] : []
+      const originalPlugins = postCssOpts.plugins
+        ? [...postCssOpts.plugins]
+        : []
 
       postCssOpts = ctx => {
-        const plugins = [ ...originalPlugins ]
-        const isClientCSS = quasarCssPaths.every(item => ctx.resourcePath.indexOf(item) === -1)
+        const plugins = [...originalPlugins]
+        const isClientCSS = quasarCssPaths.every(
+          item => ctx.resourcePath.indexOf(item) === -1
+        )
 
-        plugins.push(postcssRTL(
-          typeof postcssRTLOptions === 'function'
-            ? postcssRTLOptions(isClientCSS, ctx.resourcePath)
-            : {
-                ...postcssRTLOptions,
-                source: isClientCSS ? 'rtl' : 'ltr'
-              }
-        ))
+        plugins.push(
+          postcssRTL(
+            typeof postcssRTLOptions === 'function'
+              ? postcssRTLOptions(isClientCSS, ctx.resourcePath)
+              : {
+                  ...postcssRTLOptions,
+                  source: isClientCSS ? 'rtl' : 'ltr'
+                }
+          )
+        )
 
         return { sourceMap: pref.sourceMap, plugins }
       }
-    }
-    else {
+    } else {
       postCssOpts.plugins.push(postcssRTL(postcssRTLOptions))
     }
   }
 
-  rule.use('postcss-loader')
+  rule
+    .use('postcss-loader')
     .loader('postcss-loader')
     .options({ postcssOptions: postCssOpts })
 
   if (loader) {
-    rule.use(loader)
+    rule
+      .use(loader)
       .loader(loader)
       .options({
         sourceMap: pref.sourceMap,
@@ -151,12 +157,13 @@ async function createRule ({ rule, isModules, pref, loader, loaderOptions }) {
 
     if (loader === 'sass-loader') {
       if (loaderOptions?.sassOptions?.syntax === 'indented') {
-        rule.use('quasar-sass-variables-loader')
+        rule
+          .use('quasar-sass-variables-loader')
           .loader(pref.cssVariables.loader)
           .options(pref.cssVariables.sass)
-      }
-      else {
-        rule.use('quasar-scss-variables-loader')
+      } else {
+        rule
+          .use('quasar-scss-variables-loader')
           .loader(pref.cssVariables.loader)
           .options(pref.cssVariables.scss)
       }
@@ -164,7 +171,7 @@ async function createRule ({ rule, isModules, pref, loader, loaderOptions }) {
   }
 }
 
-function injectRule (chain, pref, lang, test, loader, loaderOptions) {
+function injectRule(chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
 
   // rules for <style lang="module">
@@ -177,35 +184,81 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const normalRule = baseRule.oneOf('normal')
 
   return Promise.all([
-    createRule({ rule: modulesRule, isModules: true, pref, loader, loaderOptions }),
-    createRule({ rule: modulesExtRule, isModules: true, pref, loader, loaderOptions }),
-    createRule({ rule: normalRule, isModules: false, pref, loader, loaderOptions })
+    createRule({
+      rule: modulesRule,
+      isModules: true,
+      pref,
+      loader,
+      loaderOptions
+    }),
+    createRule({
+      rule: modulesExtRule,
+      isModules: true,
+      pref,
+      loader,
+      loaderOptions
+    }),
+    createRule({
+      rule: normalRule,
+      isModules: false,
+      pref,
+      loader,
+      loaderOptions
+    })
   ])
 }
 
-module.exports.injectStyleRules = async function injectStyleRules (chain, pref) {
+module.exports.injectStyleRules = async function injectStyleRules(chain, pref) {
   await injectRule(chain, pref, 'css', /\.css$/)
-  await injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions)
-  await injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
-    {
-      sassOptions: {
-        style: /* required for RTL */ 'expanded',
-        silenceDeprecations: [ 'import', 'global-builtin' ]
+  await injectRule(
+    chain,
+    pref,
+    'stylus',
+    /\.styl(us)?$/,
+    'stylus-loader',
+    pref.stylusLoaderOptions
+  )
+  await injectRule(
+    chain,
+    pref,
+    'scss',
+    /\.scss$/,
+    'sass-loader',
+    merge(
+      {
+        sassOptions: {
+          style: /* required for RTL */ 'expanded',
+          silenceDeprecations: ['import', 'global-builtin']
+        },
+        api: 'modern-compiler'
       },
-      api: 'modern-compiler'
-    },
-    pref.scssLoaderOptions
-  ))
-  await injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
-    {
-      sassOptions: {
-        style: /* required for RTL */ 'expanded',
-        syntax: 'indented',
-        silenceDeprecations: [ 'import', 'global-builtin' ]
+      pref.scssLoaderOptions
+    )
+  )
+  await injectRule(
+    chain,
+    pref,
+    'sass',
+    /\.sass$/,
+    'sass-loader',
+    merge(
+      {
+        sassOptions: {
+          style: /* required for RTL */ 'expanded',
+          syntax: 'indented',
+          silenceDeprecations: ['import', 'global-builtin']
+        },
+        api: 'modern-compiler'
       },
-      api: 'modern-compiler'
-    },
-    pref.sassLoaderOptions
-  ))
-  await injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
+      pref.sassLoaderOptions
+    )
+  )
+  await injectRule(
+    chain,
+    pref,
+    'less',
+    /\.less$/,
+    'less-loader',
+    pref.lessLoaderOptions
+  )
 }

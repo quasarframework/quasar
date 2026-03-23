@@ -15,13 +15,18 @@ export default {
     search: 'Buscar',
     filter: 'Filtrar',
     refresh: 'Recarregar',
-    expand: label => (label ? `Expandir "${ label }"` : 'Expandir'),
-    collapse: label => (label ? `Recolher "${ label }"` : 'Colapso')
+    expand: label => (label ? `Expandir "${label}"` : 'Expandir'),
+    collapse: label => (label ? `Recolher "${label}"` : 'Colapso')
   },
   date: {
-    days: 'Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado'.split('_'),
+    days: 'Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado'.split(
+      '_'
+    ),
     daysShort: 'Dom_Seg_Ter_Qua_Qui_Sex_Sáb'.split('_'),
-    months: 'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split('_'),
+    months:
+      'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,20 @@ export default {
     prevYear: 'Ano passado',
     nextYear: 'Ano que vem',
     today: 'Hoje',
-    prevRangeYears: range => `Anterior ${ range }  Anos`,
-    nextRangeYears: range => `Próximo ${ range } Anos`
+    prevRangeYears: range => `Anterior ${range}  Anos`,
+    nextRangeYears: range => `Próximo ${range} Anos`
   },
   table: {
     noData: 'Sem dados disponíveis',
     noResults: 'Nenhum dado correspondente encontrado',
     loading: 'Carregando...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' registro' + (rows === 1 ? ' selecionado' : 's selecionados') + '.'
-        : 'Nenhum registro selecionado.'
-    ),
+        ? rows +
+          ' registro' +
+          (rows === 1 ? ' selecionado' : 's selecionados') +
+          '.'
+        : 'Nenhum registro selecionado.',
     recordsPerPage: 'Registros por página:',
     allRows: 'Todos',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,

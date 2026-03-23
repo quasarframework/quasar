@@ -6,13 +6,7 @@
           <q-icon color="teal" name="volume_up" />
         </q-item-section>
         <q-item-section>
-          <q-slider
-            v-model="volume"
-            :min="0"
-            :max="10"
-            label
-            color="teal"
-          />
+          <q-slider v-model="volume" :min="0" :max="10" label color="teal" />
         </q-item-section>
       </q-item>
 
@@ -36,12 +30,7 @@
           <q-icon color="primary" name="mic" />
         </q-item-section>
         <q-item-section>
-          <q-slider
-            v-model="mic"
-            :min="0"
-            :max="50"
-            label
-          />
+          <q-slider v-model="mic" :min="0" :max="50" label />
         </q-item-section>
       </q-item>
 
@@ -52,12 +41,7 @@
           <q-icon name="volume_down" />
         </q-item-section>
         <q-item-section>
-          <q-slider
-            v-model="volume"
-            :min="0"
-            :max="10"
-            label
-          />
+          <q-slider v-model="volume" :min="0" :max="10" label />
         </q-item-section>
         <q-item-section side>
           <q-icon name="volume_up" />
@@ -71,7 +55,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       volume: ref(6),
       brightness: ref(3),

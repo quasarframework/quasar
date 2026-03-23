@@ -84,7 +84,7 @@ interface BaseQuasarConfiguration {
    * What [CSS animations](https://v2.quasar.dev/options/animations) to import.
    * @example: [ 'bounceInLeft', 'bounceOutRight' ]
    */
-  animations?: QuasarAnimationsConfiguration | 'all';
+  animations?: QuasarAnimationsConfiguration | "all";
   /**
    * Webpack dev server [options](https://webpack.js.org/configuration/dev-server/).
    * Some properties are overwritten based on the Quasar mode you're using in order
@@ -103,22 +103,23 @@ export interface QuasarHookParams {
   quasarConf: QuasarConf;
 }
 
-export type QuasarConf = BaseQuasarConfiguration & QuasarMobileConfiguration & {
-  /** PWA specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-pwa/configuring-pwa). */
-  pwa?: QuasarPwaConfiguration;
-} & {
-  /** SSR specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/configuring-ssr). */
-  ssr?: QuasarSsrConfiguration;
-} & {
-  /** Capacitor specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-capacitor-apps/configuring-capacitor). */
-  capacitor?: QuasarCapacitorConfiguration;
-} & {
-  /** Cordova specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-cordova-apps/configuring-cordova). */
-  cordova?: QuasarCordovaConfiguration;
-} & {
-  /** Electron specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-electron-apps/configuring-electron). */
-  electron?: QuasarElectronConfiguration;
-} & {
-  /** Bex specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-bex/configuring-bex). */
-  bex?: QuasarBexConfiguration;
-};
+export type QuasarConf = BaseQuasarConfiguration &
+  QuasarMobileConfiguration & {
+    /** PWA specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-pwa/configuring-pwa). */
+    pwa?: QuasarPwaConfiguration;
+  } & {
+    /** SSR specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/configuring-ssr). */
+    ssr?: QuasarSsrConfiguration;
+  } & {
+    /** Capacitor specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-capacitor-apps/configuring-capacitor). */
+    capacitor?: QuasarCapacitorConfiguration;
+  } & {
+    /** Cordova specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-cordova-apps/configuring-cordova). */
+    cordova?: QuasarCordovaConfiguration;
+  } & {
+    /** Electron specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-electron-apps/configuring-electron). */
+    electron?: QuasarElectronConfiguration;
+  } & {
+    /** Bex specific [config](https://v2.quasar.dev/quasar-cli-webpack/developing-bex/configuring-bex). */
+    bex?: QuasarBexConfiguration;
+  };

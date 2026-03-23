@@ -1,7 +1,12 @@
 <template>
   <div class="q-pa-md">
     <div class="row items-center q-gutter-sm q-mb-md">
-      <q-btn label="Toggle data / no data" no-caps color="primary" @click="toggleData" />
+      <q-btn
+        label="Toggle data / no data"
+        no-caps
+        color="primary"
+        @click="toggleData"
+      />
       <q-toggle label="Hide bottom" v-model="hideBottom" />
       <q-toggle label="Hide sel rows banner" v-model="hideSelectedBanner" />
       <q-toggle label="Hide no data" v-model="hideNoData" />
@@ -30,7 +35,13 @@
           <q-td key="desc" :props="props" no-hover>
             {{ props.rowIndex }} / {{ props.pageIndex }} -
             {{ props.row.name }}
-            <q-btn dense round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
+            <q-btn
+              dense
+              round
+              flat
+              :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'"
+              @click="props.expand = !props.expand"
+            />
           </q-td>
           <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
           <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
@@ -46,10 +57,7 @@
         </q-tr>
         <q-tr v-show="props.expand" :props="props" no-hover>
           <q-td colspan="100%">
-            <q-table
-              :rows="rows"
-              :columns="columns"
-            >
+            <q-table :rows="rows" :columns="columns">
               <q-tr :props="props" />
             </q-table>
           </q-td>
@@ -63,8 +71,12 @@
       :rows="rows"
       :columns="columns"
       row-key="name"
-      :table-row-class-fn="row => row.calories % 2 === 0 ? 'bg-red-1' : 'bg-yellow-1'"
-      :table-row-style-fn="row => row.calories % 2 === 0 ? 'color:blue' : 'color:green'"
+      :table-row-class-fn="
+        row => (row.calories % 2 === 0 ? 'bg-red-1' : 'bg-yellow-1')
+      "
+      :table-row-style-fn="
+        row => (row.calories % 2 === 0 ? 'color:blue' : 'color:green')
+      "
     />
 
     <q-table
@@ -74,8 +86,8 @@
       :columns="columns"
       card-container-class="justify-center"
       row-key="name"
-      :card-class-fn="row => row.fat % 2 === 0 ? 'bg-blue-1' : 'bg-yellow-1'"
-      :card-style-fn="row => row.fat % 2 === 0 ? 'color:blue' : 'color:red'"
+      :card-class-fn="row => (row.fat % 2 === 0 ? 'bg-blue-1' : 'bg-yellow-1')"
+      :card-style-fn="row => (row.fat % 2 === 0 ? 'color:blue' : 'color:red')"
     />
   </div>
 </template>
@@ -185,7 +197,7 @@ const rows = [
 ]
 
 export default {
-  data () {
+  data() {
     return {
       hideBottom: false,
       hideSelectedBanner: false,
@@ -199,32 +211,52 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${ val }`,
+          format: val => `${val}`,
           sortable: true
         },
         {
-          name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true,
-          classes: row => (row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow')
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true,
+          classes: row =>
+            row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow'
         },
         {
-          name: 'fat', sortOrder: 'ad', label: 'Fat (g)', field: 'fat', sortable: true,
-          style: row => 'width:10px' + (row.fat % 2 === 0 ? ';font-size: 2em' : '')
+          name: 'fat',
+          sortOrder: 'ad',
+          label: 'Fat (g)',
+          field: 'fat',
+          sortable: true,
+          style: row =>
+            'width:10px' + (row.fat % 2 === 0 ? ';font-size: 2em' : '')
         },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
       rows
     }
   },
 
   methods: {
-    toggleData () {
-      this.rows = this.rows.length === 0
-        ? rows
-        : []
+    toggleData() {
+      this.rows = this.rows.length === 0 ? rows : []
     }
   }
 }

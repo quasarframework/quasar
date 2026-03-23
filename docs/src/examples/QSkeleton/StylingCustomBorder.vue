@@ -1,11 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md">
-      <q-skeleton
-        width="100px"
-        height="50px"
-        class="custom-skeleton-border"
-      />
+      <q-skeleton width="100px" height="50px" class="custom-skeleton-border" />
     </div>
   </div>
 </template>

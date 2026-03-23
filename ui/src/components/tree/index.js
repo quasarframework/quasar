@@ -1,5 +1,3 @@
 import QTree from './QTree.js'
 
-export {
-  QTree
-}
+export { QTree }

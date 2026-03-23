@@ -10,6 +10,7 @@ $ npm install -g cordova
 ```
 
 ## Developing
+
 ```bash
 $ quasar dev -m [ios|android]
 
@@ -49,12 +50,13 @@ If you encounter any IDE errors then click on File > Invalidate caches and resta
 :::
 
 In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
+
 1. Detects your machine's external IP address. If there are multiple such IPs detected, then it asks you to choose one. If you'll be using a mobile phone to develop then choose the IP address of your machine that's pingable from the phone/tablet.
 2. It starts up a development server on your machine.
 3. It temporarily changes the `<content/>` tag in `/src-cordova/config.xml` to point to the IP previously detected. This allows the app to connect to the development server.
-3. It defers to Cordova CLI to build a native app with the temporarily changed config.xml.
-4. Cordova CLI checks if a mobile phone / tablet is connected to your development machine. If it is, it installs the development app on it. If none is found, then it boots up an emulator and runs the development app.
-5. Finally, it reverts the temporary changes made to `/src-cordova/config.xml`.
+4. It defers to Cordova CLI to build a native app with the temporarily changed config.xml.
+5. Cordova CLI checks if a mobile phone / tablet is connected to your development machine. If it is, it installs the development app on it. If none is found, then it boots up an emulator and runs the development app.
+6. Finally, it reverts the temporary changes made to `/src-cordova/config.xml`.
 
 ::: danger
 If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
@@ -73,6 +75,7 @@ cordova: {
 The above applies also if you want to specify the build type in your "build.json".
 
 ## Building for Production
+
 ```bash
 $ quasar build -m [android|ios]
 
@@ -90,17 +93,17 @@ $ quasar build -m [ios|android] --skip-pkg
 $ quasar build -m ios -- some params --and options --here
 ```
 
-* These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then defer to Cordova CLI to trigger the actual native app creation.
+- These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then defer to Cordova CLI to trigger the actual native app creation.
 
-* Built packages will be located in `/dist/cordova` unless configured otherwise.
+- Built packages will be located in `/dist/cordova` unless configured otherwise.
 
-* If you wish to skip the Cordova CLI packaging step and only fill `/src-cordova/www` folder:
+- If you wish to skip the Cordova CLI packaging step and only fill `/src-cordova/www` folder:
 
 ```bash
 $ quasar build -m [ios|android] --skip-pkg
 ```
 
-* Should you wish to manually build the final assets using the IDE (Android Studio / Xcode) instead of doing a terminal build, then:
+- Should you wish to manually build the final assets using the IDE (Android Studio / Xcode) instead of doing a terminal build, then:
 
 ```bash
 $ quasar build -m [ios|android] --ide

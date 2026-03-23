@@ -3,26 +3,27 @@ title: BEX Build Commands
 desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
 scope:
   devTree:
-    l: "."
+    l: '.'
     c:
-    - l: dist/bex-[chrome|firefox]--dev
-      c:
-      - l: "...files"
-        e: Built code from /src-bex
-      - l: www/
-        e: Built code from /src
+      - l: dist/bex-[chrome|firefox]--dev
+        c:
+          - l: '...files'
+            e: Built code from /src-bex
+          - l: www/
+            e: Built code from /src
   prodTree:
-    l: "."
+    l: '.'
     c:
-    - l: dist/bex-[chrome|firefox]
-      c:
-      - l: "...files"
-        e: Built code from /src-bex
-      - l: www/
-        e: Built code from /src
-      - l: Packaged.your-project-name.zip
-        e: A zip file ready for submission to the Chrome Browser Extension Store /
-          Other Chromium based stores.
+      - l: dist/bex-[chrome|firefox]
+        c:
+          - l: '...files'
+            e: Built code from /src-bex
+          - l: www/
+            e: Built code from /src
+          - l: Packaged.your-project-name.zip
+            e:
+              A zip file ready for submission to the Chrome Browser Extension Store /
+              Other Chromium based stores.
 ---
 
 ## Developing
@@ -50,7 +51,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Chrome, navigate to `chrome://extensions`
 2. Toggle "Developer Mode".
-3. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `/dist/bex-chrome--dev/` folder.
+3. Click "Load unpacked". This will present you with the _folder_ selection dialog. Navigate to and select your `/dist/bex-chrome--dev/` folder.
 4. You should now see your BEX mounted in Chrome.
 
 More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
@@ -67,7 +68,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Firefox, navigate to `about:debugging`
 2. Click on "This Firefox"
-3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `/dist/bex-firefox--dev/manifest.json` file. **Note:** Firefox requires the manifest file, not the `/dist/bex-firefox--dev` folder like Chromium browsers.
+3. Click "Load Temporary Add-on...". This will present you with the _file_ selection dialog. Navigate to and select your `/dist/bex-firefox--dev/manifest.json` file. **Note:** Firefox requires the manifest file, not the `/dist/bex-firefox--dev` folder like Chromium browsers.
 4. You should now see your BEX mounted in Firefox.
 
 More information about debugging Firefox temporary addons can be found in the [Firefox Extension Workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
@@ -75,10 +76,11 @@ More information about debugging Firefox temporary addons can be found in the [F
 ### Hot Module Reloading (HMR)
 
 The best developer experience that you will have is with Chrome. We've managed to make HMR fully work for it:
-* Full HMR for devtools/options/popup page
-* When changing the background script, the extension will automatically reload.
-* When changing a content script, the extension will automatically reload & the tabs using those content scripts will auto-refresh.
-* The popup/page will not need to be compiled in its entirety. Instead, you will be able to benefit from on-the-fly compilation only for the browser requested files, which is VERY fast.
+
+- Full HMR for devtools/options/popup page
+- When changing the background script, the extension will automatically reload.
+- When changing a content script, the extension will automatically reload & the tabs using those content scripts will auto-refresh.
+- The popup/page will not need to be compiled in its entirety. Instead, you will be able to benefit from on-the-fly compilation only for the browser requested files, which is VERY fast.
 
 On the other hand, we cannot offer the same experience for Firefox too. However, Firefox watches for file changes and tries to auto-reload the extension on changes, but none of the HMR features above (specified for Chrome) will work.
 
@@ -99,10 +101,7 @@ You can find following places to investigate the errors and outputs from the con
 
 ![Background scripts, Content scripts and Extension Errors](https://cdn.quasar.dev/img/bex-debug-bg.png)
 
-If your code changes are not propagated to the browser you can try to:
-	- Update or Reload extension - from the Extensions list (screenshots)
-	- Restart browser
-	- Restart dev process
+If your code changes are not propagated to the browser you can try to: - Update or Reload extension - from the Extensions list (screenshots) - Restart browser - Restart dev process
 
 For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).
 

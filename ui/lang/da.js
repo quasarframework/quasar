@@ -15,13 +15,16 @@ export default {
     search: 'Søg',
     filter: 'Filtrer',
     refresh: 'Opdater',
-    expand: label => (label ? `Udvid "${ label }"` : 'Udvide'),
-    collapse: label => (label ? `Skjul "${ label }"` : 'Bryder sammen')
+    expand: label => (label ? `Udvid "${label}"` : 'Udvide'),
+    collapse: label => (label ? `Skjul "${label}"` : 'Bryder sammen')
   },
   date: {
     days: 'Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag'.split('_'),
     daysShort: 'Søn_Man_Tirs_Ons_Tors_Fre_Lør'.split('_'),
-    months: 'Januar_Februar_Marts_April_Maj_Juni_Juli_August_September_Oktober_November_December'.split('_'),
+    months:
+      'Januar_Februar_Marts_April_Maj_Juni_Juli_August_September_Oktober_November_December'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +34,17 @@ export default {
     prevYear: 'Forrige år',
     nextYear: 'Næste år',
     today: 'I dag',
-    prevRangeYears: range => `Forrige ${ range } år`,
-    nextRangeYears: range => `Næste ${ range } år`
+    prevRangeYears: range => `Forrige ${range} år`,
+    nextRangeYears: range => `Næste ${range} år`
   },
   table: {
     noData: 'Ingen data tilgængelig',
     noResults: 'Ingen matchende resultater fundet',
     loading: 'Indlæser...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 række valgt.'
-        : (rows === 0 ? 'Ingen' : rows) + ' rækker valgt.'
-    ),
+        : (rows === 0 ? 'Ingen' : rows) + ' rækker valgt.',
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' af ' + total,

@@ -3,11 +3,17 @@
     <div class="q-pa-xl q-ma-xl">
       <div class="row items-center q-gutter-x-lg">
         <q-badge color="secondary">
-          ModelS: {{ modelS }} ({{ innerMin }} to {{ innerMax }}) / ({{ min }} to {{ max }})
+          ModelS: {{ modelS }} ({{ innerMin }} to {{ innerMax }}) / ({{
+            min
+          }}
+          to {{ max }})
         </q-badge>
 
         <q-badge color="secondary">
-          ModelR: {{ modelR }} ({{ innerMin }} to {{ innerMax }}) / ({{ min }} to {{ max }})
+          ModelR: {{ modelR }} ({{ innerMin }} to {{ innerMax }}) / ({{
+            min
+          }}
+          to {{ max }})
         </q-badge>
       </div>
 
@@ -114,7 +120,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       modelS: 1,
       modelR: { min: -22, max: 1 },

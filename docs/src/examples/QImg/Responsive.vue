@@ -9,9 +9,7 @@
                 https://cdn.quasar.dev/img/image-4x.png 4x"
         style="height: 280px; max-width: 300px"
       >
-        <div class="absolute-bottom text-body1 text-center">
-          With srcset
-        </div>
+        <div class="absolute-bottom text-body1 text-center"> With srcset </div>
       </q-img>
 
       <q-img

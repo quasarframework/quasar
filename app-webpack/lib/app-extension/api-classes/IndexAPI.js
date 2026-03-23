@@ -4,7 +4,9 @@ const { merge } = require('webpack-merge')
 const { fatal } = require('../../utils/logger.js')
 const { getPackageJson } = require('../../utils/get-package-json.js')
 const { getCallerPath } = require('../../utils/get-caller-path.js')
-const { getBackwardCompatiblePackageName } = require('../utils.app-extension.js')
+const {
+  getBackwardCompatiblePackageName
+} = require('../utils.app-extension.js')
 const { BaseAPI } = require('./BaseAPI.js')
 
 /**
@@ -13,7 +15,7 @@ const { BaseAPI } = require('./BaseAPI.js')
 module.exports.IndexAPI = class IndexAPI extends BaseAPI {
   prompts
 
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
@@ -26,7 +28,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *
    * @return {object} cfg
    */
-  getPersistentConf () {
+  getPersistentConf() {
     return this.#appExtJson.getInternal(this.extId)
   }
 
@@ -36,7 +38,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *
    * @param {object} cfg
    */
-  setPersistentConf (cfg) {
+  setPersistentConf(cfg) {
     this.#appExtJson.setInternal(this.extId, cfg || {})
   }
 
@@ -47,7 +49,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *
    * @param {object} cfg
    */
-  mergePersistentConf (cfg = {}) {
+  mergePersistentConf(cfg = {}) {
     const currentCfg = this.getPersistentConf()
     this.setPersistentConf(merge({}, currentCfg, cfg))
   }
@@ -66,16 +68,20 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWith (packageName, semverCondition) {
+  compatibleWith(packageName, semverCondition) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
 
     if (json === void 0) {
-      fatal(`Extension(${ this.extId }): Dependency not found - ${ name }. Please install it.`)
+      fatal(
+        `Extension(${this.extId}): Dependency not found - ${name}. Please install it.`
+      )
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${ this.extId }): is not compatible with ${ name } v${ json.version }. Required version: ${ semverCondition }`)
+      fatal(
+        `Extension(${this.extId}): is not compatible with ${name} v${json.version}. Required version: ${semverCondition}`
+      )
     }
   }
 
@@ -90,7 +96,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
 
@@ -110,7 +116,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed & invoked
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -120,12 +126,10 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**
@@ -134,7 +138,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, ctx: Object) => undefined
    */
-  extendQuasarConf (fn) {
+  extendQuasarConf(fn) {
     this.#addHook('extendQuasarConf', fn)
   }
 
@@ -144,7 +148,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
    */
-  chainWebpack (fn) {
+  chainWebpack(fn) {
     this.#addHook('chainWebpack', fn)
   }
 
@@ -154,7 +158,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
    */
-  extendWebpack (fn) {
+  extendWebpack(fn) {
     this.#addHook('extendWebpack', fn)
   }
 
@@ -164,7 +168,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendBexScriptsConf (fn) {
+  extendBexScriptsConf(fn) {
     this.#addHook('extendBexScriptsConf', fn)
   }
 
@@ -174,7 +178,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendElectronMainConf (fn) {
+  extendElectronMainConf(fn) {
     this.#addHook('extendElectronMainConf', fn)
   }
 
@@ -184,7 +188,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendElectronPreloadConf (fn) {
+  extendElectronPreloadConf(fn) {
     this.#addHook('extendElectronPreloadConf', fn)
   }
 
@@ -195,7 +199,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendPWACustomSWConf (fn) {
+  extendPWACustomSWConf(fn) {
     this.#addHook('extendPWACustomSWConf', fn)
   }
 
@@ -205,7 +209,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendSSRWebserverConf (fn) {
+  extendSSRWebserverConf(fn) {
     this.#addHook('extendSSRWebserverConf', fn)
   }
 
@@ -217,8 +221,8 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   ({ args: [ string, ... ], params: {object} }) => ?Promise
    */
-  registerCommand (commandName, fn) {
-    this.#hooks.commands[ commandName ] = fn
+  registerCommand(commandName, fn) {
+    this.#hooks.commands[commandName] = fn
   }
 
   /**
@@ -228,10 +232,10 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {string} relativePath (or node_modules reference if it starts with "~")
    *   (relative path to Api file)
    */
-  registerDescribeApi (name, relativePath) {
+  registerDescribeApi(name, relativePath) {
     const callerPath = getCallerPath()
 
-    this.#hooks.describeApi[ name ] = {
+    this.#hooks.describeApi[name] = {
       callerPath,
       relativePath
     }
@@ -243,7 +247,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  beforeDev (fn) {
+  beforeDev(fn) {
     this.#addHook('beforeDev', fn)
   }
 
@@ -255,7 +259,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  afterDev (fn) {
+  afterDev(fn) {
     this.#addHook('afterDev', fn)
   }
 
@@ -266,7 +270,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  beforeBuild (fn) {
+  beforeBuild(fn) {
     this.#addHook('beforeBuild', fn)
   }
 
@@ -278,7 +282,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  afterBuild (fn) {
+  afterBuild(fn) {
     this.#addHook('afterBuild', fn)
   }
 
@@ -293,7 +297,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *      * quasarConf - quasar.config file config object
    *      * distDir - folder where distributables were built
    */
-  onPublish (fn) {
+  onPublish(fn) {
     this.#addHook('onPublish', fn)
   }
 
@@ -324,14 +328,14 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
     describeApi: {}
   }
 
-  __getHooks (appExtJson) {
+  __getHooks(appExtJson) {
     // protect against external access
     if (appExtJson === this.#appExtJson) {
       return this.#hooks
     }
   }
 
-  #addHook (name, fn) {
-    this.#hooks[ name ].push({ fn, api: this })
+  #addHook(name, fn) {
+    this.#hooks[name].push({ fn, api: this })
   }
 }

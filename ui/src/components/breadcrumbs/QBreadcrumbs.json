@@ -8,7 +8,7 @@
       "type": "String",
       "desc": "The string used to separate the breadcrumbs",
       "default": "'/'",
-      "examples": [ "'-'", "'|'", "'>'" ],
+      "examples": ["'-'", "'|'", "'>'"],
       "category": "content"
     },
 
@@ -23,7 +23,7 @@
       "type": "String",
       "desc": "The gutter value allows you control over the space between the breadcrumb elements.",
       "default": "'sm'",
-      "values": [ "'none'", "'xs'", "'sm'", "'md'", "'lg'", "'xl'" ],
+      "values": ["'none'", "'xs'", "'sm'", "'md'", "'lg'", "'xl'"],
       "category": "content"
     },
 
@@ -36,7 +36,14 @@
     "align": {
       "type": "String",
       "desc": "Specify how to align the breadcrumbs horizontally",
-      "values": [ "'left'", "'center'", "'right'", "'between'", "'around'", "'evenly'" ],
+      "values": [
+        "'left'",
+        "'center'",
+        "'right'",
+        "'between'",
+        "'around'",
+        "'evenly'"
+      ],
       "default": "'left'",
       "__runtimeDefault": true,
       "category": "content"

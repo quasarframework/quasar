@@ -4,11 +4,11 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: [ 'h' ]
+  boolean: ['h']
 })
 
-const extId = argv._[ 0 ]
-const cmd = argv._[ 1 ]
+const extId = argv._[0]
+const cmd = argv._[1]
 
 if (!extId || argv.help) {
   console.log(`
@@ -35,9 +35,7 @@ if (!extId || argv.help) {
 
 import { log, warn } from '../utils/logger.js'
 
-function getArgv (argv) {
-  const { _, ...params } = argv
-
+function getArgv({ _, ...params }) {
   return {
     args: _.slice(2),
     params
@@ -51,7 +49,7 @@ const ext = appExt.getInstance(extId)
 
 if (ext === void 0) {
   warn()
-  warn(`"${ extId }" app extension is not installed`)
+  warn(`"${extId}" app extension is not installed`)
   warn()
   process.exit(1)
 }
@@ -60,15 +58,15 @@ const hooks = await ext.run()
 
 const list = () => {
   if (Object.keys(hooks.commands).length === 0) {
-    warn(`"${ extId }" app extension has no commands registered`)
+    warn(`"${extId}" app extension has no commands registered`)
     return
   }
 
-  log(`Listing "${ extId }" app extension commands`)
+  log(`Listing "${extId}" app extension commands`)
   log()
 
-  for (const cmd in hooks.commands) {
-    console.log(`  > ${ cmd }`)
+  for (const hookCmd in hooks.commands) {
+    console.log(`  > ${hookCmd}`)
   }
 
   console.log()
@@ -78,17 +76,17 @@ if (!cmd) {
   list()
   process.exit(0)
 }
-if (!hooks.commands[ cmd ]) {
+if (!hooks.commands[cmd]) {
   warn()
-  warn(`"${ extId }" app extension has no command called "${ cmd }"`)
+  warn(`"${extId}" app extension has no command called "${cmd}"`)
   warn()
   list()
   process.exit(1)
 }
 
-const command = hooks.commands[ cmd ]
+const command = hooks.commands[cmd]
 
-log(`Running "${ extId }" > "${ cmd }" command`)
+log(`Running "${extId}" > "${cmd}" command`)
 log()
 
 await command(getArgv(argv))

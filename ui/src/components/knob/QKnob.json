@@ -1,5 +1,8 @@
 {
-  "mixins": [ "composables/private.use-size/use-size", "composables/use-form/private.use-form" ],
+  "mixins": [
+    "composables/private.use-size/use-size",
+    "composables/use-form/private.use-form"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/knob"
@@ -10,7 +13,7 @@
       "extends": "model-value",
       "type": "Number",
       "desc": "Any number to indicate the given value of the knob. Either use this property (along with a listener for 'update:modelValue' event) OR use the v-model directive",
-      "examples": [ "# v-model=\"myValue\"" ]
+      "examples": ["# v-model=\"myValue\""]
     },
 
     "min": {
@@ -77,7 +80,7 @@
     "font-size": {
       "type": "String",
       "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
-      "examples": [ "'1em'", "'16px'", "'2rem'" ],
+      "examples": ["'1em'", "'16px'", "'2rem'"],
       "category": "style"
     },
 

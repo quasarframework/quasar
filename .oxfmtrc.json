@@ -1,0 +1,45 @@
+{
+  "ignorePatterns": [
+    "**/templates/",
+    "**/quasar.config.*.temporary.compiled*",
+    "**/.quasar/",
+
+    "ui/icon-set/svg-*.js",
+    "ui/lang/index.json",
+
+    "extras/bootstrap-icons/",
+    "extras/eva-icons/",
+    "extras/fontawesome-*/",
+    "extras/ionicons-*/",
+    "extras/line-awesome/",
+    "extras/material-*/",
+    "extras/mdi-*/",
+    "extras/roboto-*/",
+    "extras/themify/",
+
+    "create-quasar/templates/",
+    "!create-quasar/templates/**/create-quasar-script.js"
+  ],
+
+  "printWidth": 80,
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "htmlWhitespaceSensitivity": "strict",
+  "semi": false,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "trailingComma": "none",
+  "useTabs": false,
+  "vueIndentScriptAndStyle": false,
+
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "options": {
+        "semi": true,
+        "singleQuote": false
+      }
+    }
+  ]
+}

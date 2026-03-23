@@ -86,20 +86,23 @@ If you define an equivalent 404 route on your Vue Router `/src/router/routes.js`
 On the `/src-ssr/middlewares/render.js` example at the top of the page, notice that if the webserver encounters any rendering error, we send a simple string back to the client ('500 | Internal Server Error'). If you want to show a nice page instead, you could:
 
 1. Add a specific route in `/src/router/routes.js`, like:
-  ```js
-  { path: 'error500', component: () => import('pages/Error500.vue') }
-  ```
+
+```js
+{ path: 'error500', component: () => import('pages/Error500.vue') }
+```
+
 2. Write the Vue component to handle this page. In this example, we create `/src/pages/Error500.vue`
 3. Then in `/src-ssr/middlewares/render.js`:
-  ```js
-  if (err.url) { ... }
-  else if (err.code === 404) { ... }
-  else {
-    // We got a 500 error here;
-    // We redirect to our "error500" route newly defined at step #1.
-    res.redirect(resolve.urlPath('error500')) // keep account of publicPath though!
-  }
-  ```
+
+```js
+if (err.url) { ... }
+else if (err.code === 404) { ... }
+else {
+  // We got a 500 error here;
+  // We redirect to our "error500" route newly defined at step #1.
+  res.redirect(resolve.urlPath('error500')) // keep account of publicPath though!
+}
+```
 
 ::: danger
 The only caveat is that you need to be sure that while rendering '/error500' route you don't get another 500 error, which would put your app into an infinite loop!

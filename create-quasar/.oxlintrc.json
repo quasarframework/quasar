@@ -1,0 +1,13 @@
+{
+  "extends": ["../.oxlintrc.json"],
+
+  "ignorePatterns": ["templates/", "!templates/**/create-quasar-script.js"],
+
+  "env": {
+    "node": true
+  },
+
+  "rules": {
+    "import/first": "off"
+  }
+}

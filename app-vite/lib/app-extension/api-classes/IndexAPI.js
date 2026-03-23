@@ -12,7 +12,7 @@ import { BaseAPI } from './BaseAPI.js'
 export class IndexAPI extends BaseAPI {
   prompts
 
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
@@ -25,7 +25,7 @@ export class IndexAPI extends BaseAPI {
    *
    * @return {object} cfg
    */
-  getPersistentConf () {
+  getPersistentConf() {
     return this.#appExtJson.getInternal(this.extId)
   }
 
@@ -35,7 +35,7 @@ export class IndexAPI extends BaseAPI {
    *
    * @param {object} cfg
    */
-  setPersistentConf (cfg) {
+  setPersistentConf(cfg) {
     this.#appExtJson.setInternal(this.extId, cfg || {})
   }
 
@@ -46,7 +46,7 @@ export class IndexAPI extends BaseAPI {
    *
    * @param {object} cfg
    */
-  mergePersistentConf (cfg = {}) {
+  mergePersistentConf(cfg = {}) {
     const currentCfg = this.getPersistentConf()
     this.setPersistentConf(merge({}, currentCfg, cfg))
   }
@@ -65,15 +65,19 @@ export class IndexAPI extends BaseAPI {
    * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWith (packageName, semverCondition) {
+  compatibleWith(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
-      fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
+      fatal(
+        `Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`
+      )
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${ this.extId }): is not compatible with ${ packageName } v${ json.version }. Required version: ${ semverCondition }`)
+      fatal(
+        `Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`
+      )
     }
   }
 
@@ -88,7 +92,7 @@ export class IndexAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
@@ -107,7 +111,7 @@ export class IndexAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed & invoked
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -117,11 +121,9 @@ export class IndexAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const json = getPackageJson(packageName, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**
@@ -130,7 +132,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, ctx: Object) => undefined
    */
-  extendQuasarConf (fn) {
+  extendQuasarConf(fn) {
     this.#addHook('extendQuasarConf', fn)
   }
 
@@ -140,7 +142,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, invoke: Object {isClient, isServer}, api) => undefined
    */
-  extendViteConf (fn) {
+  extendViteConf(fn) {
     this.#addHook('extendViteConf', fn)
   }
 
@@ -150,7 +152,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendBexScriptsConf (fn) {
+  extendBexScriptsConf(fn) {
     this.#addHook('extendBexScriptsConf', fn)
   }
 
@@ -160,7 +162,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendElectronMainConf (fn) {
+  extendElectronMainConf(fn) {
     this.#addHook('extendElectronMainConf', fn)
   }
 
@@ -170,7 +172,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendElectronPreloadConf (fn) {
+  extendElectronPreloadConf(fn) {
     this.#addHook('extendElectronPreloadConf', fn)
   }
 
@@ -181,7 +183,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendPWACustomSWConf (fn) {
+  extendPWACustomSWConf(fn) {
     this.#addHook('extendPWACustomSWConf', fn)
   }
 
@@ -191,7 +193,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendSSRWebserverConf (fn) {
+  extendSSRWebserverConf(fn) {
     this.#addHook('extendSSRWebserverConf', fn)
   }
 
@@ -203,8 +205,8 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   ({ args: [ string, ... ], params: {object} }) => ?Promise
    */
-  registerCommand (commandName, fn) {
-    this.#hooks.commands[ commandName ] = fn
+  registerCommand(commandName, fn) {
+    this.#hooks.commands[commandName] = fn
   }
 
   /**
@@ -214,10 +216,10 @@ export class IndexAPI extends BaseAPI {
    * @param {string} relativePath (or node_modules reference if it starts with "~")
    *   (relative path to Api file)
    */
-  registerDescribeApi (name, relativePath) {
+  registerDescribeApi(name, relativePath) {
     const callerPath = getCallerPath()
 
-    this.#hooks.describeApi[ name ] = {
+    this.#hooks.describeApi[name] = {
       callerPath,
       relativePath
     }
@@ -229,7 +231,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  beforeDev (fn) {
+  beforeDev(fn) {
     this.#addHook('beforeDev', fn)
   }
 
@@ -241,7 +243,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  afterDev (fn) {
+  afterDev(fn) {
     this.#addHook('afterDev', fn)
   }
 
@@ -252,7 +254,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  beforeBuild (fn) {
+  beforeBuild(fn) {
     this.#addHook('beforeBuild', fn)
   }
 
@@ -264,7 +266,7 @@ export class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   (api, { quasarConf }) => ?Promise
    */
-  afterBuild (fn) {
+  afterBuild(fn) {
     this.#addHook('afterBuild', fn)
   }
 
@@ -279,7 +281,7 @@ export class IndexAPI extends BaseAPI {
    *      * quasarConf - quasar.config file config object
    *      * distDir - folder where distributables were built
    */
-  onPublish (fn) {
+  onPublish(fn) {
     this.#addHook('onPublish', fn)
   }
 
@@ -308,14 +310,14 @@ export class IndexAPI extends BaseAPI {
     describeApi: {}
   }
 
-  __getHooks (appExtJson) {
+  __getHooks(appExtJson) {
     // protect against external access
     if (appExtJson === this.#appExtJson) {
       return this.#hooks
     }
   }
 
-  #addHook (name, fn) {
-    this.#hooks[ name ].push({ fn, api: this })
+  #addHook(name, fn) {
+    this.#hooks[name].push({ fn, api: this })
   }
 }

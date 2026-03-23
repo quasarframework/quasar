@@ -9,12 +9,30 @@
 
     <q-card-section class="q-gutter-xs q-pa-sm">
       <q-toggle v-model="css['material-icons']" label="Material Icons" />
-      <q-toggle v-model="css['material-icons-outlined']" label="Material Icons (Outlined)" />
-      <q-toggle v-model="css['material-icons-round']" label="Material Icons (Round)" />
-      <q-toggle v-model="css['material-icons-sharp']" label="Material Icons (Sharp)" />
-      <q-toggle v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)" />
-      <q-toggle v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)" />
-      <q-toggle v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)" />
+      <q-toggle
+        v-model="css['material-icons-outlined']"
+        label="Material Icons (Outlined)"
+      />
+      <q-toggle
+        v-model="css['material-icons-round']"
+        label="Material Icons (Round)"
+      />
+      <q-toggle
+        v-model="css['material-icons-sharp']"
+        label="Material Icons (Sharp)"
+      />
+      <q-toggle
+        v-model="css['material-symbols-outlined']"
+        label="Material Symbols (Outlined)"
+      />
+      <q-toggle
+        v-model="css['material-symbols-rounded']"
+        label="Material Symbols (Rounded)"
+      />
+      <q-toggle
+        v-model="css['material-symbols-sharp']"
+        label="Material Symbols (Sharp)"
+      />
       <q-toggle v-model="css['mdi-v7']" label="MDI v7" />
       <q-toggle v-model="css['fontawesome-v6']" label="Fontawesome v6" />
       <q-toggle v-model="css['fontawesome-v5']" label="Fontawesome v5" />
@@ -78,15 +96,20 @@ import languages from 'quasar/lang/index.json'
 import DocCode from 'src/components/DocCode.vue'
 
 const cssMap = {
-  'mdi-v7': 'cdn.jsdelivr.net/npm/@mdi/font@^7.0.0/css/materialdesignicons.min.css',
+  'mdi-v7':
+    'cdn.jsdelivr.net/npm/@mdi/font@^7.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.15.4/css/all.css',
   // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
   'fontawesome-v6': 'use.fontawesome.com/releases/v6.1.1/css/all.css',
-  'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
+  'ionicons-v4':
+    'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
-  themify: 'themify.me/wp-content/themes/themify-v32/themify-icons/themify-icons.css',
-  'line-awesome': 'maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css',
-  'bootstrap-icons': 'cdn.jsdelivr.net/npm/bootstrap-icons@^1.0.0/font/bootstrap-icons.css',
+  themify:
+    'themify.me/wp-content/themes/themify-v32/themify-icons/themify-icons.css',
+  'line-awesome':
+    'maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css',
+  'bootstrap-icons':
+    'cdn.jsdelivr.net/npm/bootstrap-icons@^1.0.0/font/bootstrap-icons.css',
   animate: 'cdn.jsdelivr.net/npm/animate.css@^4.0.0/animate.min.css'
 }
 
@@ -104,19 +127,31 @@ const googleSymbolsMap = {
   'material-symbols-sharp': 'Material+Symbols+Sharp'
 }
 
-const camelize = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
+const camelize = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 const { version } = useQuasar()
-const langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
+const langOptions = languages.map(lang => ({
+  label: lang.nativeName,
+  value: lang.isoName
+}))
 const iconSetOptions = [
   { label: 'Material (webfont)', value: 'material-icons' },
   { label: 'Material (svg)', value: 'svg-material-icons' },
   { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
   { label: 'Material Round (webfont)', value: 'material-icons-round' },
   { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
-  { label: 'Material Symbols Outlined (webfont)', value: 'material-symbols-outlined' },
-  { label: 'Material Symbols Rounded (webfont)', value: 'material-symbols-rounded' },
-  { label: 'Material Symbols Sharp (webfont)', value: 'material-symbols-sharp' },
+  {
+    label: 'Material Symbols Outlined (webfont)',
+    value: 'material-symbols-outlined'
+  },
+  {
+    label: 'Material Symbols Rounded (webfont)',
+    value: 'material-symbols-rounded'
+  },
+  {
+    label: 'Material Symbols Sharp (webfont)',
+    value: 'material-symbols-sharp'
+  },
   { label: 'MDI v7 (webfont)', value: 'mdi-v7' },
   { label: 'MDI v7 (svg)', value: 'svg-mdi-v7' },
   { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },
@@ -167,30 +202,30 @@ const cfgObject = ref(false)
 const lang = ref('en-US')
 const iconSet = ref('material-icons')
 
-function parseUrl (url) {
-  const min = minified.value === false
-    ? url.replace('.prod', '')
-    : url
+function parseUrl(url) {
+  const min = minified.value === false ? url.replace('.prod', '') : url
 
-  return rtl.value === false
-    ? min.replace('.rtl', '')
-    : min
+  return rtl.value === false ? min.replace('.rtl', '') : min
 }
 
-function getCssTag (url) {
+function getCssTag(url) {
   // funky form below, otherwise vue-loader will misinterpret
-  return '<' + `link href="https://${parseUrl(url)}" rel="stylesheet" type="text/css"` + '>'
+  return (
+    '<' +
+    `link href="https://${parseUrl(url)}" rel="stylesheet" type="text/css"` +
+    '>'
+  )
 }
 
-function getJsTag (url) {
+function getJsTag(url) {
   // funky form below, otherwise vue-loader will crash
   return '<' + `script src="https://${url}"` + '><' + '/script>'
 }
 
 const googleFonts = computed(() => {
   const cssAcc = Object.keys(googleMap)
-    .filter(key => css[ key ] === true)
-    .map(key => googleMap[ key ])
+    .filter(key => css[key] === true)
+    .map(key => googleMap[key])
 
   return cssAcc.length === 0
     ? ''
@@ -199,8 +234,8 @@ const googleFonts = computed(() => {
 
 const googleSymbolsFonts = computed(() => {
   const cssAcc = Object.keys(googleSymbolsMap)
-    .filter(key => css[ key ] === true)
-    .map(key => googleSymbolsMap[ key ])
+    .filter(key => css[key] === true)
+    .map(key => googleSymbolsMap[key])
 
   return cssAcc.length === 0
     ? ''
@@ -209,14 +244,15 @@ const googleSymbolsFonts = computed(() => {
 
 const head = computed(() => {
   const cssAcc = Object.keys(cssMap)
-    .filter(key => css[ key ] === true)
-    .map(key => cssMap[ key ])
+    .filter(key => css[key] === true)
+    .map(key => cssMap[key])
 
   cssAcc.unshift(googleSymbolsFonts.value)
   cssAcc.unshift(googleFonts.value)
   cssAcc.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.rtl.prod.css`)
 
-  return cssAcc.filter(url => url)
+  return cssAcc
+    .filter(url => url)
     .map(url => getCssTag(url))
     .join('\n    ')
 })
@@ -282,18 +318,22 @@ const body = computed(() => {
   ]
 
   if (lang.value !== 'en-US') {
-    js.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/lang/${lang.value}.umd.prod.js`)
+    js.push(
+      `cdn.jsdelivr.net/npm/quasar@${version}/dist/lang/${lang.value}.umd.prod.js`
+    )
   }
 
   if (iconSet.value !== 'material-icons') {
-    js.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/icon-set/${iconSet.value}.umd.prod.js`)
+    js.push(
+      `cdn.jsdelivr.net/npm/quasar@${version}/dist/icon-set/${iconSet.value}.umd.prod.js`
+    )
   }
 
   return js.map(getJsTag).join('\n    ')
 })
 
-const output = computed(() => {
-  return `<!DOCTYPE html>
+const output = computed(
+  () => `<!DOCTYPE html>
 <html>
   <!--
     WARNING! Make sure that you match all Quasar related
@@ -314,5 +354,5 @@ const output = computed(() => {
   </body>
 </html>
 `
-})
+)
 </script>

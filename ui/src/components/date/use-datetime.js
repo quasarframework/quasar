@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { toJalaali } from '../../utils/date/private.persian.js'
 import { pad } from '../../utils/format/format.js'
 
-const calendars = [ 'gregorian', 'persian' ]
+const calendars = ['gregorian', 'persian']
 
 export const useDatetimeProps = {
   // should define modelValue in the target component
@@ -32,35 +32,33 @@ export const useDatetimeProps = {
   disable: Boolean
 }
 
-export const useDatetimeEmits = [ 'update:modelValue' ]
+export const useDatetimeEmits = ['update:modelValue']
 
-export function getDayHash (date) {
+export function getDayHash(date) {
   return date.year + '/' + pad(date.month) + '/' + pad(date.day)
 }
 
-export default function (props, $q) {
-  const editable = computed(() => {
-    return props.disable !== true && props.readonly !== true
-  })
+export default function useDatetime(props, $q) {
+  const editable = computed(
+    () => props.disable !== true && props.readonly !== true
+  )
 
-  const tabindex = computed(() => {
-    return editable.value === true ? 0 : -1
-  })
+  const tabindex = computed(() => (editable.value === true ? 0 : -1))
 
   const headerClass = computed(() => {
     const cls = []
-    props.color !== void 0 && cls.push(`bg-${ props.color }`)
-    props.textColor !== void 0 && cls.push(`text-${ props.textColor }`)
+    if (props.color !== void 0) cls.push(`bg-${props.color}`)
+    if (props.textColor !== void 0) cls.push(`text-${props.textColor}`)
     return cls.join(' ')
   })
 
-  function getLocale () {
+  function getLocale() {
     return props.locale !== void 0
       ? { ...$q.lang.date, ...props.locale }
       : $q.lang.date
   }
 
-  function getCurrentDate (dateOnly) {
+  function getCurrentDate(dateOnly) {
     const d = new Date()
     const timeFill = dateOnly === true ? null : 0
 

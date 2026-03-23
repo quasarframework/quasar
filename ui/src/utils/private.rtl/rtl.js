@@ -25,6 +25,4 @@ if (!__QUASAR_SSR__) {
   scroller.remove()
 }
 
-export {
-  rtlHasScrollBug
-}
+export { rtlHasScrollBug }

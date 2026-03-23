@@ -4,8 +4,23 @@
       <DocCardTitle :title="props.title" />
     </div>
 
-    <q-tabs class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
-      <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" class="header-btn" no-caps>
+    <q-tabs
+      class="header-tabs"
+      v-model="currentTab"
+      align="left"
+      active-color="brand-primary"
+      indicator-color="brand-primary"
+      dense
+      :breakpoint="0"
+      shrink
+    >
+      <q-tab
+        v-for="tab in tabList"
+        :key="`installation-${tab}`"
+        :name="tab"
+        class="header-btn"
+        no-caps
+      >
         {{ tab }}
       </q-tab>
     </q-tabs>
@@ -37,9 +52,9 @@ import DocCardTitle from './DocCardTitle.vue'
 import { slugify } from 'src/assets/page-utils.js'
 
 const props = defineProps({
-  components: [ Array, String ],
-  directives: [ Array, String ],
-  plugins: [ Array, String ],
+  components: [Array, String],
+  directives: [Array, String],
+  plugins: [Array, String],
   config: String,
   title: {
     type: String,
@@ -47,26 +62,24 @@ const props = defineProps({
   }
 })
 
-const tabList = [ 'Quasar CLI', 'Vite plugin', 'UMD' ]
+const tabList = ['Quasar CLI', 'Vite plugin', 'UMD']
 const currentTab = ref('Quasar CLI')
 
 const id = computed(() => slugify(props.title))
 
-function nameAsString (name, indent, quotes = true) {
-  const wrapper = quotes
-    ? str => `'${str}'`
-    : str => str
+function nameAsString(name, indent, quotes = true) {
+  const wrapper = quotes ? str => `'${str}'` : str => str
 
   return Array.isArray(name)
     ? name.map(wrapper).join(',\n' + ''.padStart(indent, ' '))
     : wrapper(name)
 }
 
-const quasarConf = computed(() => {
-  return props.config !== void 0
+const quasarConf = computed(() =>
+  props.config !== void 0
     ? `${props.config}: /* look at QuasarConfOptions from the API card */`
     : null
-})
+)
 
 const QuasarCli = computed(() => {
   if (props.plugins === void 0 && quasarConf.value === null) {
@@ -100,8 +113,9 @@ return {
 })
 
 const UMD = computed(() => {
-  const config = quasarConf.value !== null
-    ? `
+  const config =
+    quasarConf.value !== null
+      ? `
 
 // Optional;
 // Place the global quasarConfig Object in a script tag BEFORE your Quasar script tag
@@ -110,7 +124,7 @@ app.use(Quasar, {
     ${quasarConf.value}
   }
 }`
-    : ''
+      : ''
 
   const content = `/*
  * No installation step is necessary.
@@ -124,11 +138,11 @@ const ExternalCli = computed(() => {
   const types = []
   const imports = ['Quasar']
 
-  ;[ 'components', 'directives', 'plugins' ].forEach(type => {
-    if (props[ type ] !== void 0) {
-      imports.push(nameAsString(props[ type ], 2, false))
+  ;['components', 'directives', 'plugins'].forEach(type => {
+    if (props[type] !== void 0) {
+      imports.push(nameAsString(props[type], 2, false))
       types.push(`${type}: {
-    ${nameAsString(props[ type ], 4, false)}
+    ${nameAsString(props[type], 4, false)}
   }`)
     }
   })

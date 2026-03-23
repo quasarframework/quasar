@@ -1,13 +1,16 @@
 {
-  "mixins": [ "composables/private.use-size/use-size" ],
+  "mixins": ["composables/private.use-size/use-size"],
 
   "props": {
-    "type":{
+    "type": {
       "type": "String",
       "desc": "1) Define the button native type attribute (submit, reset, button) or 2) render component with <a> tag so you can access events even if disable or 3) Use 'href' prop and specify 'type' as a media tag",
       "default": "'button'",
       "examples": [
-        "'a'", "'submit'", "'button'", "'reset'",
+        "'a'",
+        "'submit'",
+        "'button'",
+        "'reset'",
         "'image/png'",
         "# href=\"https://quasar.dev\" target=\"_blank\""
       ],
@@ -15,12 +18,9 @@
     },
 
     "to": {
-      "type": [ "String", "Object" ],
+      "type": ["String", "Object"],
       "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
-      "examples": [
-        "'/home/dashboard'",
-        "{ name: 'my-route-name' }"
-      ],
+      "examples": ["'/home/dashboard'", "{ name: 'my-route-name' }"],
       "category": "navigation"
     },
 
@@ -33,7 +33,10 @@
     "href": {
       "type": "String",
       "desc": "Native <a> link href attribute; Has priority over the 'to' and 'replace' props",
-      "examples": [ "'https://quasar.dev'", "# href=\"https://quasar.dev\" target=\"_blank\"" ],
+      "examples": [
+        "'https://quasar.dev'",
+        "# href=\"https://quasar.dev\" target=\"_blank\""
+      ],
       "category": "navigation",
       "addedIn": "v2.4"
     },
@@ -41,15 +44,15 @@
     "target": {
       "type": "String",
       "desc": "Native <a> link target attribute; Use it only with 'to' or 'href' props",
-      "examples": [ "'_blank'", "'_self'", "'_parent'", "'_top'" ],
+      "examples": ["'_blank'", "'_self'", "'_parent'", "'_top'"],
       "category": "navigation",
       "addedIn": "v2.4"
     },
 
-    "label":{
-      "type": [ "String", "Number" ],
+    "label": {
+      "type": ["String", "Number"],
       "desc": "The text that will be shown on the button",
-      "examples": [ "'Button Label'" ],
+      "examples": ["'Button Label'"],
       "category": "content"
     },
 
@@ -117,7 +120,14 @@
     "padding": {
       "type": "String",
       "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
-      "examples": [ "'16px'", "'10px 5px'", "'2rem'", "'xs'", "'md lg'", "'2px 2px 5px 7px'" ],
+      "examples": [
+        "'16px'",
+        "'10px 5px'",
+        "'2rem'",
+        "'xs'",
+        "'md lg'",
+        "'2px 2px 5px 7px'"
+      ],
       "category": "style"
     },
 
@@ -157,7 +167,14 @@
       "type": "String",
       "desc": "Label or content alignment",
       "default": "'center'",
-      "values": [ "'left'", "'right'", "'center'", "'around'", "'between'", "'evenly'" ],
+      "values": [
+        "'left'",
+        "'right'",
+        "'center'",
+        "'around'",
+        "'between'",
+        "'evenly'"
+      ],
       "category": "content"
     },
 
@@ -174,7 +191,7 @@
     },
 
     "loading": {
-      "type": [ "Boolean", "null" ],
+      "type": ["Boolean", "null"],
       "default": "null",
       "desc": "Put button into loading state (displays a QSpinner -- can be overridden by using a 'loading' slot)",
       "category": "behavior|state"

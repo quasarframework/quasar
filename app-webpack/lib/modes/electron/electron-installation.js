@@ -13,7 +13,7 @@ const electronDeps = {
  *   silent: boolean
  * }} options
  */
-module.exports.addMode = function addMode ({
+module.exports.addMode = function addMode({
   ctx: { appPaths, cacheProxy },
   silent
 }) {
@@ -26,7 +26,7 @@ module.exports.addMode = function addMode ({
 
   const nodePackager = cacheProxy.getModule('nodePackager')
   nodePackager.installPackage(
-    Object.entries(electronDeps).map(([ name, version ]) => `${ name }@${ version }`),
+    Object.entries(electronDeps).map(([name, version]) => `${name}@${version}`),
     { isDevDependency: true, displayName: 'Electron dependencies' }
   )
 
@@ -34,7 +34,7 @@ module.exports.addMode = function addMode ({
   const hasTypescript = cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'js'
   fse.copySync(
-    appPaths.resolve.cli(`templates/electron/${ format }`),
+    appPaths.resolve.cli(`templates/electron/${format}`),
     appPaths.electronDir
   )
 
@@ -52,7 +52,7 @@ module.exports.addMode = function addMode ({
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  * }} options
  */
-module.exports.removeMode = function removeMode ({
+module.exports.removeMode = function removeMode({
   ctx: { appPaths, cacheProxy }
 }) {
   if (isModeInstalled(appPaths, 'electron') === false) {
@@ -66,9 +66,9 @@ module.exports.removeMode = function removeMode ({
   const deps = Object.keys(electronDeps)
 
   const { bundlerIsInstalled } = cacheProxy.getModule('electron')
-  ;[ 'packager', 'builder' ].forEach(bundlerName => {
+  ;['packager', 'builder'].forEach(bundlerName => {
     if (bundlerIsInstalled(bundlerName)) {
-      deps.push(`electron-${ bundlerName }`)
+      deps.push(`electron-${bundlerName}`)
     }
   })
 

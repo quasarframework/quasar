@@ -12,7 +12,7 @@
         class="detailed-color column flex-center"
         v-for="n in 14"
         :key="n"
-        :class="[`bg-${color}-${n}`, n > 5 && n < 11 ? 'text-white': '']"
+        :class="[`bg-${color}-${n}`, n > 5 && n < 11 ? 'text-white' : '']"
       >
         {{ color }}-{{ n }}
       </div>
@@ -22,9 +22,29 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
-      colors: [ 'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey' ]
+      colors: [
+        'red',
+        'pink',
+        'purple',
+        'deep-purple',
+        'indigo',
+        'blue',
+        'light-blue',
+        'cyan',
+        'teal',
+        'green',
+        'light-green',
+        'lime',
+        'yellow',
+        'amber',
+        'orange',
+        'deep-orange',
+        'brown',
+        'grey',
+        'blue-grey'
+      ]
     }
   }
 }

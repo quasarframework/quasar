@@ -22,30 +22,28 @@ const cordovaOutputFolders = {
     'platforms/ios/build/emulator'
   ],
 
-  android: [
-    'platforms/android/app/build/outputs'
-  ]
+  android: ['platforms/android/app/build/outputs']
 }
 
-function ensureArray (val) {
-  return (!val || Array.isArray(val)) ? val : [ val ]
+function ensureArray(val) {
+  return !val || Array.isArray(val) ? val : [val]
 }
 
 module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   #cordovaConfigFile = new CordovaConfigFile()
 
-  async build () {
+  async build() {
     await this.#buildFiles()
     return this.#packageFiles()
   }
 
-  async #buildFiles () {
+  async #buildFiles() {
     const webpackConf = await quasarCordovaConfig.webpack(this.quasarConf)
     await this.buildWithWebpack('Cordova UI', webpackConf)
     this.printSummary(webpackConf.output.path)
   }
 
-  async #packageFiles () {
+  async #packageFiles() {
     const target = this.ctx.targetName
     const { appPaths } = this.ctx
 
@@ -58,16 +56,14 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       target
     }
 
-    const outputTargetList = (
-      ensureArray(this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext))
-      || cordovaOutputFolders[ target ]
-    )
+    const outputTargetList =
+      ensureArray(
+        this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext)
+      ) || cordovaOutputFolders[target]
 
     // Remove old build output
     outputTargetList.forEach(outputFile => {
-      fse.removeSync(
-        appPaths.resolve.cordova(outputFile)
-      )
+      fse.removeSync(appPaths.resolve.cordova(outputFile))
     })
 
     onShutdown(() => {
@@ -76,19 +72,19 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     this.#cordovaConfigFile.prepare(this.quasarConf)
 
-    const args = this.argv[ 'skip-pkg' ] || this.argv.ide
-      ? [ 'prepare', target ]
-      : (
-          this.quasarConf.cordova.getCordovaBuildParams?.(cordovaContext)
-          || [ 'build', this.quasarConf.metaConf.debugging ? '--debug' : '--release', '--device', target ]
-        )
+    const args =
+      this.argv['skip-pkg'] || this.argv.ide
+        ? ['prepare', target]
+        : this.quasarConf.cordova.getCordovaBuildParams?.(cordovaContext) || [
+            'build',
+            this.quasarConf.metaConf.debugging ? '--debug' : '--release',
+            '--device',
+            target
+          ]
 
-    await this.#runCordovaCommand(
-      args.concat(this.argv._),
-      target
-    )
+    await this.#runCordovaCommand(args.concat(this.argv._), target)
 
-    if (this.argv[ 'skip-pkg' ] !== true) {
+    if (this.argv['skip-pkg'] !== true) {
       if (this.argv.ide) {
         await openIDE({
           mode: 'cordova',
@@ -100,12 +96,17 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
         return SIGNALS.BUILD_EXTERNAL_TOOL_SPAWNED
       }
 
-      const targetFolder = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
+      const targetFolder = join(
+        this.quasarConf.build.distDir,
+        this.quasarConf.ctx.targetName
+      )
 
       for (const folder of outputTargetList) {
         const outputFolder = appPaths.resolve.cordova(folder)
         if (fse.existsSync(outputFolder)) {
-          log(`Copying Cordova distributables from ${ outputFolder } to ${ targetFolder }`)
+          log(
+            `Copying Cordova distributables from ${outputFolder} to ${targetFolder}`
+          )
           log()
           fse.copySync(outputFolder, targetFolder)
           return
@@ -113,38 +114,36 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       }
 
       warn(
-        `No output folder found for target "${ target }".`
-        + ' Files have not been copied to /dist. You will need'
-        + ' to manually extract the Cordova distributables.'
+        `No output folder found for target "${target}".` +
+          ' Files have not been copied to /dist. You will need' +
+          ' to manually extract the Cordova distributables.'
       )
       log()
     }
   }
 
-  #cleanup () {
+  #cleanup() {
     this.#cordovaConfigFile.reset()
   }
 
-  #runCordovaCommand (args, target) {
-    if (target === 'ios' && this.quasarConf.cordova.noIosLegacyBuildFlag !== true) {
+  #runCordovaCommand(args, target) {
+    if (
+      target === 'ios' &&
+      this.quasarConf.cordova.noIosLegacyBuildFlag !== true
+    ) {
       args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
     return new Promise(resolve => {
-      spawn(
-        'cordova',
-        args,
-        { cwd: this.ctx.appPaths.cordovaDir },
-        code => {
-          this.#cleanup()
+      spawn('cordova', args, { cwd: this.ctx.appPaths.cordovaDir }, code => {
+        this.#cleanup()
 
-          if (code) {
-            fatal('Cordova CLI has failed', 'FAIL')
-          }
-
-          resolve()
+        if (code) {
+          fatal('Cordova CLI has failed', 'FAIL')
         }
-      )
+
+        resolve()
+      })
     })
   }
 }

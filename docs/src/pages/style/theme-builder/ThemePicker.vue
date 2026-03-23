@@ -2,7 +2,15 @@
   <div id="theme-picker">
     <div class="row items-stretch">
       <div class="theme-picker__colors flex q-gutter-sm">
-        <q-btn v-for="color in list" :key="`picker-${color}`" :color="color" :text-color="dark[color] === true ? 'white' : 'black'" no-caps glossy unelevated>
+        <q-btn
+          v-for="color in list"
+          :key="`picker-${color}`"
+          :color="color"
+          :text-color="dark[color] === true ? 'white' : 'black'"
+          no-caps
+          glossy
+          unelevated
+        >
           <div class="text-weight-light">
             <div class="text-capitalize">{{ color }}</div>
             <div>{{ colors[color] }}</div>
@@ -14,18 +22,45 @@
       </div>
 
       <div class="theme-picker__content col">
-        <div class="relative-position fit rounded-borders shadow-2 bg-white overflow-hidden" :class="pageClass">
-          <div :class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`">
+        <div
+          class="relative-position fit rounded-borders shadow-2 bg-white overflow-hidden"
+          :class="pageClass"
+        >
+          <div
+            :class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`"
+          >
             <q-bar dense :dark="dark.primary">
               <q-space />
-              <q-icon class="q-mr-xs" :name="fasSquare" size="12px" style="opacity: 0.5" />
-              <q-icon class="q-mr-xs" :name="fasCircle" size="12px" style="opacity: 0.5" />
-              <q-icon class="q-mr-sm rotate-90" :name="fasPlay" size="12px" style="opacity: 0.5" />
+              <q-icon
+                class="q-mr-xs"
+                :name="fasSquare"
+                size="12px"
+                style="opacity: 0.5"
+              />
+              <q-icon
+                class="q-mr-xs"
+                :name="fasCircle"
+                size="12px"
+                style="opacity: 0.5"
+              />
+              <q-icon
+                class="q-mr-sm rotate-90"
+                :name="fasPlay"
+                size="12px"
+                style="opacity: 0.5"
+              />
             </q-bar>
             <q-toolbar>
               <q-btn flat dense round :icon="mdiArrowLeft" />
               <q-space />
-              <q-toggle class="q-mr-sm" dense v-model="darkMode" :dark="dark.primary" color="red" label="Dark page" />
+              <q-toggle
+                class="q-mr-sm"
+                dense
+                v-model="darkMode"
+                :dark="dark.primary"
+                color="red"
+                label="Dark page"
+              />
               <q-btn flat dense round :icon="mdiMagnify" />
               <q-btn flat dense round :icon="mdiMenu" />
             </q-toolbar>
@@ -36,20 +71,41 @@
 
           <div class="q-px-md q-py-lg">
             <div class="row q-col-gutter-md">
-              <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="color in sideColors" :key="`card-${color}`">
-                <q-card flat :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`">
+              <div
+                class="col-12 col-sm-6 col-md-4 col-lg-3"
+                v-for="color in sideColors"
+                :key="`card-${color}`"
+              >
+                <q-card
+                  flat
+                  :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`"
+                >
                   <q-card-section>
                     <div class="text-h6 row no-wrap items-center">
                       <div class="ellipsis text-capitalize">{{ color }}</div>
                       <q-space />
-                      <q-icon v-if="color !== 'secondary' && color !== 'dark'" :name="$q.iconSet.type[color]" size="24px" />
+                      <q-icon
+                        v-if="color !== 'secondary' && color !== 'dark'"
+                        :name="$q.iconSet.type[color]"
+                        size="24px"
+                      />
                     </div>
                   </q-card-section>
-                  <q-card-section>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</q-card-section>
+                  <q-card-section
+                    >Lorem, ipsum dolor sit amet consectetur adipisicing
+                    elit.</q-card-section
+                  >
                 </q-card>
               </div>
             </div>
-            <q-btn class="absolute" fab :icon="mdiMapMarkerRadius" color="accent" :text-color="dark.accent === true ? 'white' : 'black'" style="bottom: 16px; right: 16px" />
+            <q-btn
+              class="absolute"
+              fab
+              :icon="mdiMapMarkerRadius"
+              color="accent"
+              :text-color="dark.accent === true ? 'white' : 'black'"
+              style="bottom: 16px; right: 16px"
+            />
           </div>
         </div>
       </div>
@@ -58,12 +114,23 @@
     <q-separator class="q-mt-lg q-mb-sm" />
 
     <div class="col-12 row items-center justify-end q-gutter-md">
-      <q-btn class="call-to-action-btn" no-caps padding="8px 16px" label="Export" @click="exportDialog = true" />
+      <q-btn
+        class="call-to-action-btn"
+        no-caps
+        padding="8px 16px"
+        label="Export"
+        @click="exportDialog = true"
+      />
     </div>
 
     <q-dialog v-model="exportDialog">
       <q-card>
-        <q-tabs class="theme-picker__tabs text-grey-7" v-model="exportTab" active-color="brand-primary" align="justify">
+        <q-tabs
+          class="theme-picker__tabs text-grey-7"
+          v-model="exportTab"
+          active-color="brand-primary"
+          align="justify"
+        >
           <q-tab name="sass" no-caps label="Sass" />
           <q-tab name="scss" no-caps label="SCSS" />
           <q-tab name="quasar-cli" no-caps label="Quasar CLI" />
@@ -90,7 +157,13 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn class="call-to-action-btn" no-caps padding="8px 16px" label="Close" v-close-popup />
+          <q-btn
+            class="call-to-action-btn"
+            no-caps
+            padding="8px 16px"
+            label="Close"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -101,12 +174,13 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { colors as quasarColors, setCssVar } from 'quasar'
 
-import {
-  fasSquare, fasCircle, fasPlay
-} from '@quasar/extras/fontawesome-v6'
+import { fasSquare, fasCircle, fasPlay } from '@quasar/extras/fontawesome-v6'
 
 import {
-  mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
+  mdiArrowLeft,
+  mdiMagnify,
+  mdiMenu,
+  mdiMapMarkerRadius
 } from '@quasar/extras/mdi-v7'
 
 import DocCode from 'src/components/DocCode.vue'
@@ -144,51 +218,68 @@ const darkMode = ref(false)
 const exportDialog = ref(false)
 const exportTab = ref('sass')
 
-function update (color, val) {
+function update(color, val) {
   setCssVar(color, val, document.getElementById('theme-picker'))
-  dark[ color ] = luminosity(val) <= 0.4
+  dark[color] = luminosity(val) <= 0.4
 }
 
-const list = [ 'primary', 'secondary', 'accent', 'dark', 'dark-page', 'positive', 'negative', 'info', 'warning' ]
+const list = [
+  'primary',
+  'secondary',
+  'accent',
+  'dark',
+  'dark-page',
+  'positive',
+  'negative',
+  'info',
+  'warning'
+]
 
 list.forEach(entry => {
-  watch(() => colors[ entry ], val => { update(entry, val) })
+  watch(
+    () => colors[entry],
+    val => {
+      update(entry, val)
+    }
+  )
 })
 
-const pageClass = computed(() => {
-  return darkMode.value === true
+const pageClass = computed(() =>
+  darkMode.value === true
     ? 'theme-picker__bg-dark text-white'
     : 'bg-white text-black'
-})
+)
 
-const sassExport = computed(() => {
-  return '// src/css/quasar.variables.sass\n\n' +
+const sassExport = computed(
+  () =>
+    '// src/css/quasar.variables.sass\n\n' +
     `$primary   : ${colors.primary}\n` +
     `$secondary : ${colors.secondary}\n` +
     `$accent    : ${colors.accent}\n\n` +
     `$dark      : ${colors.dark}\n` +
-    `$dark-page : ${colors[ 'dark-page' ]}\n\n` +
+    `$dark-page : ${colors['dark-page']}\n\n` +
     `$positive  : ${colors.positive}\n` +
     `$negative  : ${colors.negative}\n` +
     `$info      : ${colors.info}\n` +
     `$warning   : ${colors.warning}`
-})
+)
 
-const scssExport = computed(() => {
-  return '// src/css/quasar.variables.scss\n\n' +
+const scssExport = computed(
+  () =>
+    '// src/css/quasar.variables.scss\n\n' +
     `$primary   : ${colors.primary};\n` +
     `$secondary : ${colors.secondary};\n` +
     `$accent    : ${colors.accent};\n\n` +
     `$dark      : ${colors.dark};\n` +
-    `$dark-page : ${colors[ 'dark-page' ]};\n\n` +
+    `$dark-page : ${colors['dark-page']};\n\n` +
     `$positive  : ${colors.positive};\n` +
     `$negative  : ${colors.negative};\n` +
     `$info      : ${colors.info};\n` +
     `$warning   : ${colors.warning};`
-})
+)
 
-const quasarCliExport = computed(() => {
-  return `// quasar.config file
+const quasarCliExport = computed(
+  () => `// quasar.config file
 
 return {
   framework: {
@@ -199,7 +290,7 @@ return {
         accent: '${colors.accent}',
 
         dark: '${colors.dark}',
-        'dark-page': '${colors[ 'dark-page' ]}',
+        'dark-page': '${colors['dark-page']}',
 
         positive: '${colors.positive}',
         negative: '${colors.negative}',
@@ -209,10 +300,10 @@ return {
     }
   }
 }`
-})
+)
 
-const umdExport = computed(() => {
-  return `app.use(Quasar, {
+const umdExport = computed(
+  () => `app.use(Quasar, {
   config: {
     brand: {
       primary: '${colors.primary}',
@@ -220,7 +311,7 @@ const umdExport = computed(() => {
       accent: '${colors.accent}',
 
       dark: '${colors.dark}',
-      'dark-page': '${colors[ 'dark-page' ]}',
+      'dark-page': '${colors['dark-page']}',
 
       positive: '${colors.positive}',
       negative: '${colors.negative}',
@@ -229,9 +320,16 @@ const umdExport = computed(() => {
     }
   }
 }`
-})
+)
 
-const sideColors = [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
+const sideColors = [
+  'secondary',
+  'dark',
+  'positive',
+  'negative',
+  'info',
+  'warning'
+]
 </script>
 
 <style lang="sass">

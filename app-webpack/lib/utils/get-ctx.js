@@ -3,7 +3,7 @@ const { getPkg } = require('./get-pkg.js')
 const { createCacheProxy } = require('../cache/create-cache-proxy.js')
 const { createAppExt } = require('../app-extension/create-app-ext.js')
 
-function defineHiddenProp (target, propName, value) {
+function defineHiddenProp(target, propName, value) {
   Object.defineProperty(target, propName, {
     value,
     configurable: false,
@@ -15,7 +15,7 @@ function defineHiddenProp (target, propName, value) {
 /**
  * @returns {import('../../types/configuration/context').InternalQuasarContext}
  */
-module.exports.getCtx = function getCtx (opts = {}) {
+module.exports.getCtx = function getCtx(opts = {}) {
   const ctx = {
     dev: opts.dev || false,
     prod: opts.prod || false,
@@ -33,18 +33,18 @@ module.exports.getCtx = function getCtx (opts = {}) {
     vueDevtools: opts.vueDevtools || false
   }
 
-  ctx.mode[ opts.mode ] = true
+  ctx.mode[opts.mode] = true
 
   if (opts.target) {
-    ctx.target[ opts.target ] = true
+    ctx.target[opts.target] = true
   }
 
   if (opts.arch) {
-    ctx.arch[ opts.arch ] = true
+    ctx.arch[opts.arch] = true
   }
 
   if (opts.bundler) {
-    ctx.bundler[ opts.bundler ] = true
+    ctx.bundler[opts.bundler] = true
   }
 
   ctx.appPaths = getAppPaths({

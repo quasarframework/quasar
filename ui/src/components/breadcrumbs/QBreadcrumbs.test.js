@@ -15,18 +15,16 @@ describe('[QBreadcrumbs API]', () => {
         const propVal = '>'
         const wrapper = mount(BasicBreadcrumbs)
 
-        expect(
-          wrapper.get('.q-breadcrumbs__separator')
-            .text()
-        ).not.toContain(propVal)
+        expect(wrapper.get('.q-breadcrumbs__separator').text()).not.toContain(
+          propVal
+        )
 
         await wrapper.setProps({ separator: propVal })
         await flushPromises()
 
-        expect(
-          wrapper.get('.q-breadcrumbs__separator')
-            .text()
-        ).toContain(propVal)
+        expect(wrapper.get('.q-breadcrumbs__separator').text()).toContain(
+          propVal
+        )
       })
     })
 
@@ -36,15 +34,18 @@ describe('[QBreadcrumbs API]', () => {
         const wrapper = mount(BasicBreadcrumbs)
 
         expect(
-          wrapper.get('.q-breadcrumbs > div > .flex.items-center:not(.q-breadcrumbs--last)')
+          wrapper
+            .get('div > .flex.items-center:not(.q-breadcrumbs--last)')
             .classes()
         ).not.toContain('text-red')
 
         await wrapper.setProps({ activeColor: propVal })
         await flushPromises()
 
+        console.log('gigi')
         expect(
-          wrapper.get('.q-breadcrumbs > div > .flex.items-center:not(.q-breadcrumbs--last)')
+          wrapper
+            .get('div > .flex.items-center:not(.q-breadcrumbs--last)')
             .classes()
         ).toContain('text-red')
       })
@@ -55,52 +56,42 @@ describe('[QBreadcrumbs API]', () => {
         const propVal = 'none'
         const wrapper = mount(BasicBreadcrumbs)
 
-        expect(
-          wrapper.get('.q-breadcrumbs > div')
-            .classes()
-        ).toContain('q-gutter-sm')
+        expect(wrapper.get('.q-breadcrumbs > div').classes()).toContain(
+          'q-gutter-sm'
+        )
 
         await wrapper.setProps({ gutter: propVal })
         await flushPromises()
 
-        expect(
-          wrapper.get('.q-breadcrumbs > div')
-            .classes()
-        ).toSatisfy(
-          list => list.every(cls => cls.startsWith('q-gutter') === false)
+        expect(wrapper.get('.q-breadcrumbs > div').classes()).toSatisfy(list =>
+          list.every(cls => cls.startsWith('q-gutter') === false)
         )
       })
 
-      test.each([
-        [ 'xs' ],
-        [ 'sm' ],
-        [ 'md' ],
-        [ 'lg' ],
-        [ 'xl' ]
-      ])('value %s has effect', async propVal => {
-        const wrapper = mount(BasicBreadcrumbs)
+      test.each([['xs'], ['sm'], ['md'], ['lg'], ['xl']])(
+        'value %s has effect',
+        async propVal => {
+          const wrapper = mount(BasicBreadcrumbs)
 
-        expect(
-          wrapper.get('.q-breadcrumbs > div')
-            .classes()
-        ).toContain('q-gutter-sm')
+          expect(wrapper.get('.q-breadcrumbs > div').classes()).toContain(
+            'q-gutter-sm'
+          )
 
-        await wrapper.setProps({ gutter: propVal })
-        await flushPromises()
+          await wrapper.setProps({ gutter: propVal })
+          await flushPromises()
 
-        if (propVal !== 'sm') {
-          // the default value
-          expect(
-            wrapper.get('.q-breadcrumbs > div')
-              .classes()
-          ).not.toContain('q-gutter-sm')
+          if (propVal !== 'sm') {
+            // the default value
+            expect(wrapper.get('.q-breadcrumbs > div').classes()).not.toContain(
+              'q-gutter-sm'
+            )
+          }
+
+          expect(wrapper.get('.q-breadcrumbs > div').classes()).toContain(
+            `q-gutter-${propVal}`
+          )
         }
-
-        expect(
-          wrapper.get('.q-breadcrumbs > div')
-            .classes()
-        ).toContain(`q-gutter-${ propVal }`)
-      })
+      )
     })
 
     describe('[(prop)separator-color]', () => {
@@ -108,7 +99,8 @@ describe('[QBreadcrumbs API]', () => {
         const propVal = 'red'
         const wrapper = mount(BasicBreadcrumbs)
 
-        wrapper.findAll('.q-breadcrumbs__separator')
+        wrapper
+          .findAll('.q-breadcrumbs__separator')
           .forEach(el => expect(el.classes()).not.toContain('text-red'))
 
         // TODO: write expectations without the prop
@@ -117,37 +109,36 @@ describe('[QBreadcrumbs API]', () => {
         await wrapper.setProps({ separatorColor: propVal })
         await flushPromises()
 
-        wrapper.findAll('.q-breadcrumbs__separator')
+        wrapper
+          .findAll('.q-breadcrumbs__separator')
           .forEach(el => expect(el.classes()).toContain('text-red'))
       })
     })
 
     describe('[(prop)align]', () => {
       test.each([
-        [ 'left' ],
-        [ 'center' ],
-        [ 'right' ],
-        [ 'between' ],
-        [ 'around' ],
-        [ 'evenly' ]
+        ['left'],
+        ['center'],
+        ['right'],
+        ['between'],
+        ['around'],
+        ['evenly']
       ])('value "%s" has effect', async propVal => {
         const wrapper = mount(BasicBreadcrumbs)
 
         if (propVal !== 'left') {
           // the default value
-          expect(
-            wrapper.get('.q-breadcrumbs > div')
-              .classes()
-          ).not.toContain(`justify-${ alignMap[ propVal ] }`)
+          expect(wrapper.get('.q-breadcrumbs > div').classes()).not.toContain(
+            `justify-${alignMap[propVal]}`
+          )
         }
 
         await wrapper.setProps({ align: propVal })
         await flushPromises()
 
-        expect(
-          wrapper.get('.q-breadcrumbs > div')
-            .classes()
-        ).toContain(`justify-${ alignMap[ propVal ] }`)
+        expect(wrapper.get('.q-breadcrumbs > div').classes()).toContain(
+          `justify-${alignMap[propVal]}`
+        )
       })
     })
   })
@@ -157,10 +148,7 @@ describe('[QBreadcrumbs API]', () => {
       test('renders the content', () => {
         const wrapper = mount(BasicBreadcrumbs)
 
-        expect(
-          wrapper.get('.q-breadcrumbs > div')
-            .text()
-        ).toContain('Home')
+        expect(wrapper.get('.q-breadcrumbs > div').text()).toContain('Home')
       })
     })
 
@@ -168,10 +156,9 @@ describe('[QBreadcrumbs API]', () => {
       test('renders the content', () => {
         const wrapper = mount(BreadcrumbWithSeparatorSlot)
 
-        expect(
-          wrapper.get('.q-breadcrumbs__separator')
-            .text()
-        ).toContain('arrow_forward')
+        expect(wrapper.get('.q-breadcrumbs__separator').text()).toContain(
+          'arrow_forward'
+        )
       })
     })
   })

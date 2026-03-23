@@ -2,14 +2,14 @@ let logLine
 let lastLog
 let consoleLog, consoleWarn, consoleError
 
-function progressLog (str) {
+function progressLog(str) {
   lastLog = str
   logLine(str)
 }
 
 progressLog.isActive = false
 
-progressLog.start = function () {
+progressLog.start = function start() {
   if (progressLog.isActive === true) return
 
   progressLog.isActive = true
@@ -18,26 +18,26 @@ progressLog.start = function () {
   consoleWarn = console.warn
   consoleError = console.error
 
-  console.log = function () {
+  console.log = function log() {
     logLine.clear()
     consoleLog.apply(console, arguments)
     progressLog(lastLog)
   }
 
-  console.warn = function () {
+  console.warn = function warn() {
     logLine.clear()
     consoleWarn.apply(console, arguments)
     progressLog(lastLog)
   }
 
-  console.error = function () {
+  console.error = function error() {
     logLine.clear()
     consoleError.apply(console, arguments)
     progressLog(lastLog)
   }
 }
 
-progressLog.stop = function () {
+progressLog.stop = function stop() {
   if (progressLog.isActive === false) return
 
   progressLog.isActive = false
@@ -49,11 +49,10 @@ progressLog.stop = function () {
   console.error = consoleError
 }
 
-progressLog.init = function () {
+progressLog.init = function init() {
   return logLine !== void 0
     ? Promise.resolve()
-    : import('log-update')
-      .then(({ createLogUpdate }) => {
+    : import('log-update').then(({ createLogUpdate }) => {
         // if it's still the case to create the logLine
         if (logLine === void 0) {
           logLine = createLogUpdate(process.stdout, { showCursor: true })

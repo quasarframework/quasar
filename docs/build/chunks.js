@@ -1,5 +1,7 @@
-const vendorRE = /node_modules[\\/](vue|@vue|quasar|vue-router)[\\/](.*)\.(m?js|css|sass)$/
-const exampleRE = /examples:([a-zA-Z0-9]+)$|src[\\/]examples[\\/]([a-zA-Z0-9-]+)/
+const vendorRE =
+  /node_modules[\\/](vue|@vue|quasar|vue-router)[\\/](.*)\.(m?js|css|sass)$/
+const exampleRE =
+  /examples:([a-zA-Z0-9]+)$|src[\\/]examples[\\/]([a-zA-Z0-9-]+)/
 
 export const codeSplitting = {
   groups: [
@@ -11,10 +13,10 @@ export const codeSplitting = {
 
     {
       test: exampleRE,
-      name (id) {
+      name(id) {
         const examplesMatch = exampleRE.exec(id)
-        const name = examplesMatch[ 1 ] || examplesMatch[ 2 ]
-        return `e.${ name }`
+        const name = examplesMatch[1] || examplesMatch[2]
+        return `e.${name}`
       },
       priority: 10
     }

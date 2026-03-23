@@ -5,9 +5,10 @@
 const extractError = require('./extractWebpackError.js')
 const transformersList = require('./transformers/index.js')
 
-module.exports = function transformErrors (errors) {
+module.exports = function transformErrors(errors) {
   const transform = (error, transformer) => transformer(error)
-  const applyTransformations = error => transformersList.reduce(transform, error)
+  const applyTransformations = error =>
+    transformersList.reduce(transform, error)
 
   return errors.map(extractError).map(applyTransformations)
 }

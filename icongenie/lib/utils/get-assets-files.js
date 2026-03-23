@@ -1,11 +1,10 @@
-
 import { join } from 'node:path'
 
 import { appDir } from './app-paths.js'
 
 const tagRegex = /\{(.*?)\}/g
 
-export function getAssetsFiles (assets) {
+export function getAssetsFiles(assets) {
   const list = []
 
   assets.forEach(({ sizes, ...props }) => {
@@ -13,13 +12,9 @@ export function getAssetsFiles (assets) {
       sizes.forEach(size => {
         const isArray = Array.isArray(size)
 
-        const [ width, height ] = isArray
-          ? size
-          : [ size, size ]
+        const [width, height] = isArray ? size : [size, size]
 
-        const replacer = isArray
-          ? `${ width }x${ height }`
-          : width
+        const replacer = isArray ? `${width}x${height}` : width
 
         list.push({
           ...props,
@@ -28,8 +23,7 @@ export function getAssetsFiles (assets) {
           height
         })
       })
-    }
-    else {
+    } else {
       list.push(props)
     }
   })
@@ -42,7 +36,10 @@ export function getAssetsFiles (assets) {
     }
 
     if (tag) {
-      file.tag = tag.replace(tagRegex, (_, p) => file[ p === 'size' ? 'width' : p ])
+      file.tag = tag.replace(
+        tagRegex,
+        (_, p) => file[p === 'size' ? 'width' : p]
+      )
     }
 
     return file

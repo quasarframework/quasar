@@ -167,10 +167,7 @@ describe('[IconSet API]', () => {
     describe('[(prop)iconMapFn]', () => {
       test('is correct type', () => {
         mountPlugin()
-        expect(IconSet.iconMapFn).$any([
-          expect.any(Function),
-          null
-        ])
+        expect(IconSet.iconMapFn).$any([expect.any(Function), null])
       })
     })
   })
@@ -329,14 +326,18 @@ describe('[IconSet API]', () => {
       })
 
       test('should work with an imported icon set', async () => {
-        const { vm: { $q } } = mountPlugin()
-        const { default: newIconSet } = await import('quasar/icon-set/fontawesome-v6.js')
+        const {
+          vm: { $q }
+        } = mountPlugin()
+        const { default: newIconSet } =
+          await import('quasar/icon-set/fontawesome-v6.js')
 
         IconSet.set(newIconSet)
         expect(IconSet.props.name).toBe(newIconSet.name)
         expect($q.iconSet.name).toBe(newIconSet.name)
 
-        const { default: anotherIconSet } = await import('quasar/icon-set/ionicons-v4.js')
+        const { default: anotherIconSet } =
+          await import('quasar/icon-set/ionicons-v4.js')
         $q.iconSet.set(anotherIconSet)
         expect(IconSet.props.name).toBe(anotherIconSet.name)
         expect($q.iconSet.name).toBe(anotherIconSet.name)

@@ -7,11 +7,7 @@ export const useDarkProps = {
   }
 }
 
-export default function (props, $q) {
+export default function useDark(props, $q) {
   // return isDark
-  return computed(() => (
-    props.dark === null
-      ? $q.dark.isActive
-      : props.dark
-  ))
+  return computed(() => (props.dark === null ? $q.dark.isActive : props.dark))
 }

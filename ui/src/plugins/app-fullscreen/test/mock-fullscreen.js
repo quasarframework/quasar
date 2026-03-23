@@ -5,21 +5,21 @@ import { vi, onTestFinished } from 'vitest'
  * so we mock the functionality
  */
 
-export function mockedRequestFullscreen (el = document.documentElement) {
+export function mockedRequestFullscreen(el = document.documentElement) {
   document.fullscreenElement = el
   mockedToggleFullscreen()
 }
 
-export function mockedExitFullscreen () {
+export function mockedExitFullscreen() {
   document.fullscreenElement = null
   mockedToggleFullscreen()
 }
 
-export function mockedToggleFullscreen () {
+export function mockedToggleFullscreen() {
   document.onfullscreenchange()
 }
 
-export function createMockedEl () {
+export function createMockedEl() {
   const el = document.createElement('div')
   el.setAttribute('tabindex', '0')
   document.body.appendChild(el)
@@ -31,7 +31,9 @@ export function createMockedEl () {
 
   el.exitFullscreen = mockedExitFullscreen
 
-  onTestFinished(() => { el.remove() })
+  onTestFinished(() => {
+    el.remove()
+  })
 
   return el
 }

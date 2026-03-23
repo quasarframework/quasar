@@ -1,49 +1,44 @@
-
 const iosIconRegex = /icon-(\d+\.?\d?)@?(\d+)?x?\.png/
 
-function getAndroidIcon (entry) {
+function getAndroidIcon(entry) {
   return {
     generator: 'png',
-    name: `${ entry[ 0 ] }.png`,
+    name: `${entry[0]}.png`,
     folder: 'src-cordova/res/android',
-    sizes: [ entry[ 1 ] ],
+    sizes: [entry[1]],
     platform: 'cordova-android',
-    density: entry[ 0 ]
+    density: entry[0]
   }
 }
 
-function getAndroidSplashscreens (entries) {
+function getAndroidSplashscreens(entries) {
   const list = []
 
   entries.forEach(entry => {
     list.push({
       generator: 'splashscreen',
-      name: `splash-land-${ entry[ 0 ] }.png`,
+      name: `splash-land-${entry[0]}.png`,
       folder: 'src-cordova/res/screen/android',
-      sizes: [
-        [ entry[ 1 ], entry[ 2 ] ]
-      ],
+      sizes: [[entry[1], entry[2]]],
       platform: 'cordova-android',
-      density: `land-${ entry[ 0 ] }`
+      density: `land-${entry[0]}`
     })
 
     list.push({
       generator: 'splashscreen',
-      name: `splash-port-${ entry[ 0 ] }.png`,
+      name: `splash-port-${entry[0]}.png`,
       folder: 'src-cordova/res/screen/android',
-      sizes: [
-        [ entry[ 2 ], entry[ 1 ] ]
-      ],
+      sizes: [[entry[2], entry[1]]],
       platform: 'cordova-android',
-      density: `port-${ entry[ 0 ] }`
+      density: `port-${entry[0]}`
     })
   })
 
   return list
 }
 
-function getIosIcon (name) {
-  const [ ,size,multiplier ] = name.match(iosIconRegex)
+function getIosIcon(name) {
+  const [, size, multiplier] = name.match(iosIconRegex)
 
   return {
     generator: 'png',
@@ -51,7 +46,7 @@ function getIosIcon (name) {
     folder: 'src-cordova/res/ios',
     sizes: [
       multiplier
-        ? parseFloat(size) * parseInt(multiplier,10)
+        ? parseFloat(size) * parseInt(multiplier, 10)
         : parseFloat(size)
     ],
     platform: 'cordova-ios',
@@ -59,14 +54,12 @@ function getIosIcon (name) {
   }
 }
 
-function getIosSplashscreen (entry) {
+function getIosSplashscreen(entry) {
   return {
     generator: 'splashscreen',
-    name: entry[ 0 ],
+    name: entry[0],
     folder: 'src-cordova/res/screen/ios',
-    sizes: [
-      [ entry[ 1 ], entry[ 2 ] ]
-    ],
+    sizes: [[entry[1], entry[2]]],
     platform: 'cordova-ios'
   }
 }
@@ -77,21 +70,21 @@ export default [
    ***************/
 
   ...[
-    [ 'ldpi', 36 ],
-    [ 'mdpi', 48 ],
-    [ 'hdpi', 72 ],
-    [ 'xhdpi', 96 ],
-    [ 'xxhdpi', 144 ],
-    [ 'xxxhdpi', 192 ],
+    ['ldpi', 36],
+    ['mdpi', 48],
+    ['hdpi', 72],
+    ['xhdpi', 96],
+    ['xxhdpi', 144],
+    ['xxxhdpi', 192]
   ].map(getAndroidIcon),
 
   ...getAndroidSplashscreens([
-    [ 'ldpi', 320, 200 ],
-    [ 'mdpi', 480, 320 ],
-    [ 'hdpi', 800, 480 ],
-    [ 'xhdpi', 1280, 720 ],
-    [ 'xxhdpi', 1600, 960 ],
-    [ 'xxxhdpi', 1920, 1280 ]
+    ['ldpi', 320, 200],
+    ['mdpi', 480, 320],
+    ['hdpi', 800, 480],
+    ['xhdpi', 1280, 720],
+    ['xxhdpi', 1600, 960],
+    ['xxxhdpi', 1920, 1280]
   ]),
 
   /**************
@@ -102,7 +95,7 @@ export default [
     generator: 'png',
     name: 'icon.png',
     folder: 'src-cordova/res/ios',
-    sizes: [ 57 ],
+    sizes: [57],
     platform: 'cordova-ios',
     background: true
   },
@@ -110,7 +103,7 @@ export default [
     generator: 'png',
     name: 'icon@2x.png',
     folder: 'src-cordova/res/ios',
-    sizes: [ 114 ],
+    sizes: [114],
     platform: 'cordova-ios',
     background: true
   },
@@ -147,13 +140,13 @@ export default [
   ].map(getIosIcon),
 
   ...[
-    [ 'Default@2x~iphone~anyany.png', 1334, 1334 ],
-    [ 'Default@2x~iphone~comany.png', 750, 1334 ],
-    [ 'Default@2x~iphone~comcom.png', 1334, 750 ],
-    [ 'Default@3x~iphone~anyany.png', 2208, 2208 ],
-    [ 'Default@3x~iphone~anycom.png', 2208, 1242 ],
-    [ 'Default@3x~iphone~comany.png', 1242, 2208 ],
-    [ 'Default@2x~ipad~anyany.png', 2732, 2732 ],
-    [ 'Default@2x~ipad~comany.png', 1278, 2732 ]
+    ['Default@2x~iphone~anyany.png', 1334, 1334],
+    ['Default@2x~iphone~comany.png', 750, 1334],
+    ['Default@2x~iphone~comcom.png', 1334, 750],
+    ['Default@3x~iphone~anyany.png', 2208, 2208],
+    ['Default@3x~iphone~anycom.png', 2208, 1242],
+    ['Default@3x~iphone~comany.png', 1242, 2208],
+    ['Default@2x~ipad~anyany.png', 2732, 2732],
+    ['Default@2x~ipad~comany.png', 1278, 2732]
   ].map(getIosSplashscreen)
 ]

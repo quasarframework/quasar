@@ -15,7 +15,7 @@
  * PWA will force to re-download all assets again, regardless if they were changed or
  * not (due to how Rolldown works through Vite).
  */
-export function quasarViteStripFilenameHashesPlugin () {
+export function quasarViteStripFilenameHashesPlugin() {
   return {
     name: 'quasar:strip-filename-hashes',
 
@@ -23,14 +23,21 @@ export function quasarViteStripFilenameHashesPlugin () {
 
     config: viteConf => {
       viteConf.build.rolldownOptions = viteConf.build.rolldownOptions || {}
-      viteConf.build.rolldownOptions.output = viteConf.build.rolldownOptions.output || {}
+      viteConf.build.rolldownOptions.output =
+        viteConf.build.rolldownOptions.output || {}
 
       const target = viteConf.build.rolldownOptions.output
       const assetsDir = (viteConf.build.assetsDir || 'assets') + '/'
 
-      if (!target.entryFileNames) { target.entryFileNames = `${ assetsDir }[name].js` }
-      if (!target.chunkFileNames) { target.chunkFileNames = `${ assetsDir }[name].js` }
-      if (!target.assetFileNames) { target.assetFileNames = `${ assetsDir }[name].[ext]` }
+      if (!target.entryFileNames) {
+        target.entryFileNames = `${assetsDir}[name].js`
+      }
+      if (!target.chunkFileNames) {
+        target.chunkFileNames = `${assetsDir}[name].js`
+      }
+      if (!target.assetFileNames) {
+        target.assetFileNames = `${assetsDir}[name].[ext]`
+      }
     }
   }
 }

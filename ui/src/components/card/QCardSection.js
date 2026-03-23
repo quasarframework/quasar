@@ -15,10 +15,11 @@ export default createComponent({
     horizontal: Boolean
   },
 
-  setup (props, { slots }) {
-    const classes = computed(() =>
-      'q-card__section'
-      + ` q-card__section--${ props.horizontal === true ? 'horiz row no-wrap' : 'vert' }`
+  setup(props, { slots }) {
+    const classes = computed(
+      () =>
+        'q-card__section' +
+        ` q-card__section--${props.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
     )
 
     return () => h(props.tag, { class: classes.value }, hSlot(slots.default))

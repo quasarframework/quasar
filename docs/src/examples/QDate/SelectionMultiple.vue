@@ -1,8 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-pb-sm">
-      Model: {{ days }}
-    </div>
+    <div class="q-pb-sm"> Model: {{ days }} </div>
 
     <q-date v-model="days" multiple />
   </div>
@@ -12,9 +10,9 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
-      days: ref([ '2019/02/01', '2019/02/10' ])
+      days: ref(['2019/02/01', '2019/02/10'])
     }
   }
 }

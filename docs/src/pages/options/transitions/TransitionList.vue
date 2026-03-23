@@ -3,7 +3,7 @@
     <img
       class="transition-list-box__ensure-img-loaded no-pointer-events absolute-bottom-left"
       src="https://cdn.quasar.dev/img/parallax1.jpg"
-    >
+    />
 
     <q-btn
       class="call-to-action-btn q-mb-lg"
@@ -25,10 +25,12 @@
             class="transition-list-box__img absolute-full"
             :key="transition.name + '|' + transition.url"
             :src="transition.url"
-          >
+          />
         </transition>
 
-        <div class="transition-list-box__label absolute-bottom q-pa-sm text-center text-body2">
+        <div
+          class="transition-list-box__label absolute-bottom q-pa-sm text-center text-body2"
+        >
           {{ transition.name }}
         </div>
       </div>
@@ -42,36 +44,38 @@ import { ref } from 'vue'
 const urlFirst = 'https://cdn.quasar.dev/img/parallax2.jpg'
 const urlSecond = 'https://cdn.quasar.dev/img/parallax1.jpg'
 
-const transitions = ref([
-  'slide-right',
-  'slide-left',
-  'slide-up',
-  'slide-down',
-  'fade',
-  'scale',
-  'rotate',
-  'flip-right',
-  'flip-left',
-  'flip-up',
-  'flip-down',
-  'jump-right',
-  'jump-left',
-  'jump-up',
-  'jump-down'
-].map((name, index) => ({
-  name,
-  css: `q-transition--${ name }`,
-  url: urlFirst,
-  trigger: () => {
-    const { url } = transitions.value[ index ]
-    transitions.value[ index ].url = url === urlFirst
-      ? urlSecond
-      : urlFirst
-  }
-})))
+const transitions = ref(
+  [
+    'slide-right',
+    'slide-left',
+    'slide-up',
+    'slide-down',
+    'fade',
+    'scale',
+    'rotate',
+    'flip-right',
+    'flip-left',
+    'flip-up',
+    'flip-down',
+    'jump-right',
+    'jump-left',
+    'jump-up',
+    'jump-down'
+  ].map((name, index) => ({
+    name,
+    css: `q-transition--${name}`,
+    url: urlFirst,
+    trigger: () => {
+      const { url } = transitions.value[index]
+      transitions.value[index].url = url === urlFirst ? urlSecond : urlFirst
+    }
+  }))
+)
 
-function triggerAll () {
-  transitions.value.forEach(transition => { transition.trigger() })
+function triggerAll() {
+  transitions.value.forEach(transition => {
+    transition.trigger()
+  })
 }
 </script>
 

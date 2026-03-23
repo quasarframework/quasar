@@ -15,14 +15,20 @@ export default {
     search: 'সন্ধান',
     filter: 'ছাঁকনি',
     refresh: 'সতেজ',
-    expand: label => (label ? `"${ label }" প্রসারিত করুন` : 'বিস্তৃত করা'),
-    collapse: label => (label ? `"${ label }" সঙ্কুচিত করুন` : 'সঙ্কুচিত')
+    expand: label => (label ? `"${label}" প্রসারিত করুন` : 'বিস্তৃত করা'),
+    collapse: label => (label ? `"${label}" সঙ্কুচিত করুন` : 'সঙ্কুচিত')
   },
   date: {
     days: 'রবিবার_সোমবার_মঙ্গলবার_বুধবার_বৃহস্পতিবার_শুক্রবার_শনিবার'.split('_'),
     daysShort: 'রবি_সোম_মঙ্গল_বুধ_বৃহস্পতি_শুক্র_শনি'.split('_'),
-    months: 'জানুয়ারি_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর'.split('_'),
-    monthsShort: 'জানুয়ারি_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর'.split('_'),
+    months:
+      'জানুয়ারি_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর'.split(
+        '_'
+      ),
+    monthsShort:
+      'জানুয়ারি_ফেব্রুয়ারি_মার্চ_এপ্রিল_মে_জুন_জুলাই_আগস্ট_সেপ্টেম্বর_অক্টোবর_নভেম্বর_ডিসেম্বর'.split(
+        '_'
+      ),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'দিন',
@@ -31,18 +37,17 @@ export default {
     prevYear: 'আগের বছর',
     nextYear: 'পরের বছর',
     today: 'আজ',
-    prevRangeYears: range => `পূর্ববর্তী ${ range } বছর`,
-    nextRangeYears: range => `পরবর্তী ${ range } বছর`
+    prevRangeYears: range => `পূর্ববর্তী ${range} বছর`,
+    nextRangeYears: range => `পরবর্তী ${range} বছর`
   },
   table: {
     noData: 'কোন তথ্য নেই',
     noResults: 'কোনো মিলের তথ্য পাওয়া যায়নি',
     loading: 'লোড হচ্ছে...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '১ টি রেকর্ড নির্বাচিত'
-        : (rows === 0 ? '' : rows) + ' রেকর্ড নির্বাচিত'
-    ),
+        : (rows === 0 ? '' : rows) + ' রেকর্ড নির্বাচিত',
     recordsPerPage: 'প্রতি পৃষ্ঠায় রেকর্ড:',
     allRows: 'সব',
     pagination: (start, end, total) => start + '-' + end + ' মধ্যে ' + total,

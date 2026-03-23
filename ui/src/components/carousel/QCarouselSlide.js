@@ -13,16 +13,19 @@ export default createComponent({
     imgSrc: String
   },
 
-  setup (props, { slots }) {
-    const style = computed(() => (
-      props.imgSrc
-        ? { backgroundImage: `url("${ props.imgSrc }")` }
-        : {}
-    ))
+  setup(props, { slots }) {
+    const style = computed(() =>
+      props.imgSrc ? { backgroundImage: `url("${props.imgSrc}")` } : {}
+    )
 
-    return () => h('div', {
-      class: 'q-carousel__slide',
-      style: style.value
-    }, hSlot(slots.default))
+    return () =>
+      h(
+        'div',
+        {
+          class: 'q-carousel__slide',
+          style: style.value
+        },
+        hSlot(slots.default)
+      )
   }
 })

@@ -1,4 +1,3 @@
-
 import png from './png.js'
 import ico from './ico.js'
 import icns from './icns.js'

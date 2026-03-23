@@ -7,7 +7,7 @@
         v-for="image in images"
         :key="image.id"
         :src="image.src"
-        :ratio="4/3"
+        :ratio="4 / 3"
         class="col-6 col-sm-4 col-md-3"
       >
         <template v-slot:error>
@@ -37,15 +37,14 @@ const imageUrls = [
 ]
 
 const generateImageList = () => {
-  const
-    length = imageUrls.length,
+  const length = imageUrls.length,
     list = []
 
   for (let i = length; i >= 0; i--) {
     list.push({
       id: i + Math.random(),
       bogus: i === length,
-      src: i === length ? 'https://bogu.bogus' : imageUrls[ i ]
+      src: i === length ? 'https://bogu.bogus' : imageUrls[i]
     })
   }
 
@@ -53,14 +52,14 @@ const generateImageList = () => {
 }
 
 export default {
-  data () {
+  data() {
     return {
       images: generateImageList()
     }
   },
 
   methods: {
-    refresh () {
+    refresh() {
       this.images = generateImageList()
     }
   }

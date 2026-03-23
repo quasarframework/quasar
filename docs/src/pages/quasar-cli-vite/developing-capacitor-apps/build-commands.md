@@ -46,17 +46,17 @@ $ quasar build -m capacitor -T [ios|android]
 $ quasar build --mode capacitor --target [ios|android]
 ```
 
-* These commands parse and build your `/src` folder then overwrite `/src-capacitor/www` then use the Gradle/xcodebuild to generate the final assets that go into a phone/tablet.
+- These commands parse and build your `/src` folder then overwrite `/src-capacitor/www` then use the Gradle/xcodebuild to generate the final assets that go into a phone/tablet.
 
-* Built packages will be located in `/dist/capacitor` unless configured otherwise.
+- Built packages will be located in `/dist/capacitor` unless configured otherwise.
 
-* If you wish to skip the Gradle/xcodebuild step and only fill `/src-capacitor/www` folder:
+- If you wish to skip the Gradle/xcodebuild step and only fill `/src-capacitor/www` folder:
 
 ```bash
 $ quasar build -m capacitor -T [ios|android] --skip-pkg
 ```
 
-* Should you wish to manually build the final assets using the IDE (Android Studio / Xcode) instead of doing a terminal build, then:
+- Should you wish to manually build the final assets using the IDE (Android Studio / Xcode) instead of doing a terminal build, then:
 
 ```bash
 $ quasar build -m capacitor -T [ios|android] --ide

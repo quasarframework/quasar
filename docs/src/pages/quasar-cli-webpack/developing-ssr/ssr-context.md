@@ -54,26 +54,25 @@ export default {
 
 ```js
 ssrContext: {
-  req,        // Express.js object
-  res,        // Express.js object
-  $q,         // The Quasar's $q Object
+  ;(req, // Express.js object
+    res, // Express.js object
+    $q, // The Quasar's $q Object
+    nonce, // (optional to set it yourself)
+    // The global "nonce" attribute to use
 
-  nonce,      // (optional to set it yourself)
-              // The global "nonce" attribute to use
+    onRendered, // Registers a function to be executed server-side after
+    // app has been rendered with Vue. You might need this
+    // to access ssrContext again after it has been fully processed.
+    // Example: ssrContext.onRendered(() => { /* ... */ })
 
-  onRendered, // Registers a function to be executed server-side after
-              // app has been rendered with Vue. You might need this
-              // to access ssrContext again after it has been fully processed.
-              // Example: ssrContext.onRendered(() => { /* ... */ })
-
-  rendered    // (optional to set it yourself)
-              // Set this to a function which will be executed server-side
-              // after the app has been rendered with Vue.
-              // We recommend using the "onRendered" instead.
-              //
-              // Purpose: backward compatibility with Vue ecosystem packages
-              // (like @vue/apollo-ssr)
-              // Example: ssrContext.rendered = () => { /* ... */ }
+    rendered) // (optional to set it yourself)
+  // Set this to a function which will be executed server-side
+  // after the app has been rendered with Vue.
+  // We recommend using the "onRendered" instead.
+  //
+  // Purpose: backward compatibility with Vue ecosystem packages
+  // (like @vue/apollo-ssr)
+  // Example: ssrContext.rendered = () => { /* ... */ }
 }
 ```
 

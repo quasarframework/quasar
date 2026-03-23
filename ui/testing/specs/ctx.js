@@ -7,7 +7,7 @@ import { camelCase } from './specs.utils.js'
 const rootFolder = fileURLToPath(new URL('../..', import.meta.url))
 const jsRE = /\.js$/
 
-export function createCtx (target) {
+export function createCtx(target) {
   const localName = basename(target)
   const rootName = localName.replace(jsRE, '').replace('private.', '')
   const testName = rootName + '.test.js'
@@ -20,7 +20,7 @@ export function createCtx (target) {
     targetAbsolute,
     localName,
     camelCaseName,
-    testTreeRootId: `[${ camelCaseName } API]`,
+    testTreeRootId: `[${camelCaseName} API]`,
     testFileAbsolute,
     testFileRelative: relative(rootFolder, testFileAbsolute)
   }
@@ -29,7 +29,7 @@ export function createCtx (target) {
   // on demand only
   Object.defineProperty(ctx, 'targetContent', {
     enumerable: true,
-    get () {
+    get() {
       if (cachedTargetContent === void 0) {
         cachedTargetContent = fse.readFileSync(ctx.targetAbsolute, 'utf-8')
       }

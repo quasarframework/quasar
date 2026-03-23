@@ -1,25 +1,13 @@
 {
-  "include": [
-    "./src/**/*"
-  ],
+  "include": ["./src/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "components/*": [
-        "src/components/*"
-      ],
-      "directives/*": [
-        "src/directives/*"
-      ],
-      "mixins/*": [
-        "src/mixins/*"
-      ],
-      "plugins/*": [
-        "src/plugins/*"
-      ],
-      "utils/*": [
-        "src/utils/*"
-      ]
+      "components/*": ["src/components/*"],
+      "directives/*": ["src/directives/*"],
+      "mixins/*": ["src/mixins/*"],
+      "plugins/*": ["src/plugins/*"],
+      "utils/*": ["src/utils/*"]
     }
   }
 }

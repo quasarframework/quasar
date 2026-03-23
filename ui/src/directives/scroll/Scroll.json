@@ -4,7 +4,7 @@
   },
 
   "value": {
-    "type": [ "Function", "undefined" ],
+    "type": ["Function", "undefined"],
     "desc": "Function to call when scrolling occurs (use undefined to disable)",
     "params": {
       "verticalScrollPosition": {
@@ -17,6 +17,8 @@
       }
     },
     "returns": null,
-    "examples": [ "(verticalScrollPosition, horizontalScrollPosition) => { /* ... */ }" ]
+    "examples": [
+      "(verticalScrollPosition, horizontalScrollPosition) => { /* ... */ }"
+    ]
   }
 }

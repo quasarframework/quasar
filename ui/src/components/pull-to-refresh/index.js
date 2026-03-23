@@ -1,5 +1,3 @@
 import QPullToRefresh from './QPullToRefresh.js'
 
-export {
-  QPullToRefresh
-}
+export { QPullToRefresh }

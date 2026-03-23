@@ -12,7 +12,7 @@ const { UninstallAPI } = require('./api-classes/UninstallAPI.js')
 const { PromptsAPI } = require('./api-classes/PromptsAPI.js')
 const { getPackagePath } = require('../utils/get-package-path.js')
 
-async function promptOverwrite ({ targetPath, options, ctx }) {
+async function promptOverwrite({ targetPath, options, ctx }) {
   const choices = [
     { name: 'Overwrite', value: 'overwrite' },
     { name: 'Overwrite all', value: 'overwriteAll' },
@@ -21,22 +21,28 @@ async function promptOverwrite ({ targetPath, options, ctx }) {
   ]
 
   const { default: inquirer } = await import('inquirer')
-  return await inquirer.prompt([ {
-    name: 'action',
-    type: 'list',
-    message: `Overwrite "${ relative(ctx.appPaths.appDir, targetPath) }"?`,
-    choices: options !== void 0
-      ? choices.filter(choice => options.includes(choice.value))
-      : choices,
-    default: 'overwrite'
-  } ])
+  return await inquirer.prompt([
+    {
+      name: 'action',
+      type: 'list',
+      message: `Overwrite "${relative(ctx.appPaths.appDir, targetPath)}"?`,
+      choices:
+        options !== void 0
+          ? choices.filter(choice => options.includes(choice.value))
+          : choices,
+      default: 'overwrite'
+    }
+  ])
 }
 
-async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }, ctx) {
+async function renderFile(
+  { sourcePath, targetPath, rawCopy, scope, overwritePrompt },
+  ctx
+) {
   if (overwritePrompt === true && fse.existsSync(targetPath)) {
     const answer = await promptOverwrite({
       targetPath,
-      options: [ 'overwrite', 'skip' ],
+      options: ['overwrite', 'skip'],
       ctx
     })
 
@@ -47,31 +53,35 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
 
   if (rawCopy || isBinary(sourcePath)) {
     fse.copyFileSync(sourcePath, targetPath)
-  }
-  else {
+  } else {
     const rawContent = fse.readFileSync(sourcePath, 'utf-8')
-    const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
+    const template = compileTemplate(rawContent, {
+      interpolate: /<%=([\s\S]+?)%>/g
+    })
     fse.writeFileSync(targetPath, template(scope), 'utf-8')
   }
 }
 
-async function renderFolders ({ source, rawCopy, scope }, ctx) {
+async function renderFolders({ source, rawCopy, scope }, ctx) {
   let overwrite
   const { globSync } = require('tinyglobby')
-  const files = globSync([ '**/*' ], { cwd: source })
+  const files = globSync(['**/*'], { cwd: source })
 
   for (const rawPath of files) {
-    const targetRelativePath = rawPath.split('/').map(name => {
-      // dotfiles are ignored when published to npm, therefore in templates
-      // we need to use underscore instead (e.g. "_gitignore")
-      if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
-        return `.${ name.slice(1) }`
-      }
-      if (name.charAt(0) === '_' && name.charAt(1) === '_') {
-        return `${ name.slice(1) }`
-      }
-      return name
-    }).join('/')
+    const targetRelativePath = rawPath
+      .split('/')
+      .map(name => {
+        // dotfiles are ignored when published to npm, therefore in templates
+        // we need to use underscore instead (e.g. "_gitignore")
+        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
+          return `.${name.slice(1)}`
+        }
+        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
+          return `${name.slice(1)}`
+        }
+        return name
+      })
+      .join('/')
 
     const targetPath = ctx.appPaths.resolve.app(targetRelativePath)
     const sourcePath = resolve(source, rawPath)
@@ -79,18 +89,15 @@ async function renderFolders ({ source, rawCopy, scope }, ctx) {
     if (overwrite !== 'overwriteAll' && fse.existsSync(targetPath)) {
       if (overwrite === 'skipAll') {
         continue
-      }
-      else {
+      } else {
         const answer = await promptOverwrite({ targetPath, ctx })
 
         if (answer.action === 'overwriteAll') {
           overwrite = 'overwriteAll'
-        }
-        else if (answer.action === 'skipAll') {
+        } else if (answer.action === 'skipAll') {
           overwrite = 'skipAll'
           continue
-        }
-        else if (answer.action === 'skip') {
+        } else if (answer.action === 'skip') {
           continue
         }
       }
@@ -110,31 +117,32 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
 
   #isInstalled = null
 
-  constructor ({ extName, ctx, appExtJson }) {
+  constructor({ extName, ctx, appExtJson }) {
     this.#ctx = ctx
     this.#appExtJson = appExtJson
 
     if (extName.charAt(0) === '@') {
       const slashIndex = extName.indexOf('/')
       if (slashIndex === -1) {
-        fatal(`Invalid Quasar App Extension name: "${ extName }"`)
+        fatal(`Invalid Quasar App Extension name: "${extName}"`)
       }
 
-      this.packageFullName = extName.substring(0, slashIndex + 1)
-        + 'quasar-app-extension-'
-        + extName.substring(slashIndex + 1)
+      this.packageFullName =
+        extName.substring(0, slashIndex + 1) +
+        'quasar-app-extension-' +
+        extName.substring(slashIndex + 1)
 
-      this.packageName = '@' + this.#stripVersion(this.packageFullName.substring(1))
+      this.packageName =
+        '@' + this.#stripVersion(this.packageFullName.substring(1))
       this.extId = '@' + this.#stripVersion(extName.substring(1))
-    }
-    else {
-      this.packageFullName = `quasar-app-extension-${ extName }`
+    } else {
+      this.packageFullName = `quasar-app-extension-${extName}`
       this.packageName = this.#stripVersion(this.packageFullName)
       this.extId = this.#stripVersion(extName)
     }
   }
 
-  get isInstalled () {
+  get isInstalled() {
     if (this.#isInstalled === null) {
       this.#loadPackageInfo()
     }
@@ -142,37 +150,29 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     return this.#isInstalled
   }
 
-  #loadPackageInfo () {
+  #loadPackageInfo() {
     const { appDir } = this.#ctx.appPaths
 
     try {
-      const resolvedPath = (
+      const resolvedPath =
         // Try `import('quasar-app-extension-foo/package.json')`. It might not work if using `package.json > exports` and the file is not listed
-        getPackagePath(
-          `${ this.packageFullName }/package.json`,
-          appDir
-        )
+        getPackagePath(`${this.packageFullName}/package.json`, appDir) ||
         // Try `import('quasar-app-extension-foo')` to see if the root import is available (through `package.json > exports` or `package.json > main`)
-        || getPackagePath(
-          this.packageFullName,
-          appDir
-        )
+        getPackagePath(this.packageFullName, appDir) ||
         // As a last resort, try to resolve the index script. By not doing this as the only/first option, we can give a more precise error message
         // if the package is installed but the index script is missing
-        || this.#getScriptPath('index')
-      )
+        this.#getScriptPath('index')
 
       if (resolvedPath !== void 0) {
         this.#isInstalled = true
         return
       }
-    }
-    catch (_) {}
+    } catch {}
 
     this.#isInstalled = false
   }
 
-  async install (skipPkgInstall) {
+  async install(skipPkgInstall) {
     if (/quasar-app-extension-/.test(this.extId)) {
       this.extId = this.extId.replace('quasar-app-extension-', '')
       log(
@@ -182,23 +182,28 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       )
     }
 
-    log(`${ skipPkgInstall ? 'Invoking' : 'Installing' } "${ this.extId }" Quasar App Extension`)
+    log(
+      `${skipPkgInstall ? 'Invoking' : 'Installing'} "${this.extId}" Quasar App Extension`
+    )
     log()
 
     // verify if already installed
     if (skipPkgInstall === true) {
       if (!this.isInstalled) {
-        fatal(`Tried to invoke App Extension "${ this.extId }" but its npm package is not installed`)
+        fatal(
+          `Tried to invoke App Extension "${this.extId}" but its npm package is not installed`
+        )
       }
-    }
-    else if (this.isInstalled) {
+    } else if (this.isInstalled) {
       const { default: inquirer } = await import('inquirer')
-      const answer = await inquirer.prompt([ {
-        name: 'reinstall',
-        type: 'confirm',
-        message: 'Already installed. Reinstall?',
-        default: false
-      } ])
+      const answer = await inquirer.prompt([
+        {
+          name: 'reinstall',
+          type: 'confirm',
+          message: 'Already installed. Reinstall?',
+          default: false
+        }
+      ])
 
       if (!answer.reinstall) return
     }
@@ -214,7 +219,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     // run extension install
     const hooks = await this.#runInstallScript(prompts)
 
-    log(`Quasar App Extension "${ this.extId }" successfully installed.`)
+    log(`Quasar App Extension "${this.extId}" successfully installed.`)
     log()
 
     if (hooks && hooks.exitLog.length > 0) {
@@ -225,18 +230,21 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     }
   }
 
-  async uninstall (skipPkgUninstall) {
-    log(`${ skipPkgUninstall ? 'Uninvoking' : 'Uninstalling' } "${ this.extId }" Quasar App Extension`)
+  async uninstall(skipPkgUninstall) {
+    log(
+      `${skipPkgUninstall ? 'Uninvoking' : 'Uninstalling'} "${this.extId}" Quasar App Extension`
+    )
     log()
 
     // verify if already installed
     if (skipPkgUninstall === true) {
       if (!this.isInstalled) {
-        fatal(`Tried to uninvoke App Extension "${ this.extId }" but there's no npm package installed for it.`)
+        fatal(
+          `Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`
+        )
       }
-    }
-    else if (!this.isInstalled) {
-      warn(`Quasar App Extension "${ this.packageName }" is not installed...`)
+    } else if (!this.isInstalled) {
+      warn(`Quasar App Extension "${this.packageName}" is not installed...`)
       return
     }
 
@@ -249,7 +257,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       await this.#uninstallPackage()
     }
 
-    log(`Quasar App Extension "${ this.extId }" successfully removed.`)
+    log(`Quasar App Extension "${this.extId}" successfully removed.`)
     log()
 
     if (hooks && hooks.exitLog.length > 0) {
@@ -260,71 +268,73 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     }
   }
 
-  async run () {
+  async run() {
     if (!this.isInstalled) {
-      warn(`Quasar App Extension "${ this.extId }" is missing...`)
+      warn(`Quasar App Extension "${this.extId}" is missing...`)
       process.exit(1, 'ext-missing')
     }
 
     const script = await this.#getScript('index', true)
 
-    const api = new IndexAPI({
-      ctx: this.#ctx,
-      extId: this.extId,
-      prompts: this.getPrompts()
-    }, this.#appExtJson)
+    const api = new IndexAPI(
+      {
+        ctx: this.#ctx,
+        extId: this.extId,
+        prompts: this.getPrompts()
+      },
+      this.#appExtJson
+    )
 
-    log(`Running "${ this.extId }" Quasar App Extension...`)
+    log(`Running "${this.extId}" Quasar App Extension...`)
     await script(api)
 
     return api.__getHooks(this.#appExtJson)
   }
 
-  #stripVersion (packageFullName) {
+  #stripVersion(packageFullName) {
     const index = packageFullName.indexOf('@')
 
-    return index > -1
-      ? packageFullName.substring(0, index)
-      : packageFullName
+    return index > -1 ? packageFullName.substring(0, index) : packageFullName
   }
 
-  getPrompts () {
+  getPrompts() {
     return this.#appExtJson.getPrompts(this.extId)
   }
 
-  async #getScriptPrompts () {
+  async #getScriptPrompts() {
     const getPromptsObject = await this.#getScript('prompts')
 
     if (typeof getPromptsObject !== 'function') return {}
 
-    const api = new PromptsAPI({
-      ctx: this.#ctx,
-      extId: this.extId
-    }, this.#appExtJson)
+    const api = new PromptsAPI(
+      {
+        ctx: this.#ctx,
+        extId: this.extId
+      },
+      this.#appExtJson
+    )
 
     const { default: inquirer } = await import('inquirer')
-    const prompts = await inquirer.prompt(
-      await getPromptsObject(api)
-    )
+    const prompts = await inquirer.prompt(await getPromptsObject(api))
 
     console.log()
     return prompts
   }
 
-  async #installPackage () {
+  async #installPackage() {
     const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
     this.#loadPackageInfo()
   }
 
-  async #uninstallPackage () {
+  async #uninstallPackage() {
     const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.uninstallPackage(this.packageFullName)
     this.#isInstalled = false
   }
 
-  #scriptsTargetFolderList = [ 'dist', 'src' ]
-  #scriptsExtensionList = [ '', '.js', '.mjs', '.cjs' ]
+  #scriptsTargetFolderList = ['dist', 'src']
+  #scriptsExtensionList = ['', '.js', '.mjs', '.cjs']
   /**
    * Returns the absolute path to the script file.
    *
@@ -337,13 +347,13 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
    *
    * This allows to use preprocessors (e.g. TypeScript) for all AE files (including index, install, uninstall, etc. AE scripts)
    */
-  #getScriptPath (scriptName) {
+  #getScriptPath(scriptName) {
     if (this.isInstalled === false) return
 
     for (const ext of this.#scriptsExtensionList) {
       for (const folder of this.#scriptsTargetFolderList) {
         const path = getPackagePath(
-          `${ this.packageFullName }/${ folder }/${ scriptName }${ ext }`,
+          `${this.packageFullName}/${folder}/${scriptName}${ext}`,
           this.#ctx.appPaths.appDir
         )
 
@@ -352,11 +362,13 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     }
   }
 
-  async #getScript (scriptName, fatalError) {
+  async #getScript(scriptName, fatalError) {
     const scriptPath = this.#getScriptPath(scriptName)
     if (!scriptPath) {
       if (fatalError) {
-        fatal(`App Extension "${ this.extId }" has missing ${ scriptName } script...`)
+        fatal(
+          `App Extension "${this.extId}" has missing ${scriptName} script...`
+        )
       }
 
       return
@@ -365,23 +377,24 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     let fn
 
     try {
-      const { default: defaultFn } = await import(
-        pathToFileURL(scriptPath)
-      )
+      const { default: defaultFn } = await import(pathToFileURL(scriptPath))
 
       fn = defaultFn
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
 
       if (fatalError) {
-        fatal(`App Extension "${ this.extId }" > ${ scriptName } script has thrown the error from above.`)
+        fatal(
+          `App Extension "${this.extId}" > ${scriptName} script has thrown the error from above.`
+        )
       }
     }
 
     if (typeof fn !== 'function') {
       if (fatalError) {
-        fatal(`App Extension "${ this.extId }" > ${ scriptName } script does not have a default export as a function...`)
+        fatal(
+          `App Extension "${this.extId}" > ${scriptName} script does not have a default export as a function...`
+        )
       }
 
       return
@@ -390,18 +403,21 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     return fn
   }
 
-  async #runInstallScript (prompts) {
+  async #runInstallScript(prompts) {
     const script = await this.#getScript('install')
 
     if (typeof script !== 'function') return
 
     log('Running App Extension install script...')
 
-    const api = new InstallAPI({
-      ctx: this.#ctx,
-      extId: this.extId,
-      prompts
-    }, this.#appExtJson)
+    const api = new InstallAPI(
+      {
+        ctx: this.#ctx,
+        extId: this.extId,
+        prompts
+      },
+      this.#appExtJson
+    )
 
     await script(api)
 
@@ -427,18 +443,21 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     return hooks
   }
 
-  async #runUninstallScript (prompts) {
+  async #runUninstallScript(prompts) {
     const script = await this.#getScript('uninstall')
 
     if (typeof script !== 'function') return
 
     log('Running App Extension uninstall script...')
 
-    const api = new UninstallAPI({
-      ctx: this.#ctx,
-      extId: this.extId,
-      prompts
-    }, this.#appExtJson)
+    const api = new UninstallAPI(
+      {
+        ctx: this.#ctx,
+        extId: this.extId,
+        prompts
+      },
+      this.#appExtJson
+    )
 
     await script(api)
 

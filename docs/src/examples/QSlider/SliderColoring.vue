@@ -54,7 +54,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       firstModel: ref(2),
       secondModel: ref(4)

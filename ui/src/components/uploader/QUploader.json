@@ -1,5 +1,8 @@
 {
-  "mixins": [ "composables/private.use-file/use-file", "components/uploader/xhr-uploader-plugin" ],
+  "mixins": [
+    "composables/private.use-file/use-file",
+    "components/uploader/xhr-uploader-plugin"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/uploader"
@@ -9,7 +12,7 @@
     "label": {
       "type": "String",
       "desc": "Label for the uploader",
-      "examples": [ "'Upload photo here'" ],
+      "examples": ["'Upload photo here'"],
       "category": "content"
     },
 
@@ -59,7 +62,7 @@
       "type": "String",
       "desc": "How the thumbnail image will fit into the container; Equivalent of the background-size prop",
       "default": "'cover'",
-      "examples": [ "'cover'", "'contain'", "'auto'", "'50%'" ],
+      "examples": ["'cover'", "'contain'", "'auto'", "'50%'"],
       "category": "style",
       "addedIn": "v2.17"
     },
@@ -181,7 +184,7 @@
         "status": {
           "type": "String",
           "desc": "Status of file",
-          "values": [ "'idle'", "'failed'", "'uploading'", "'uploaded'" ],
+          "values": ["'idle'", "'failed'", "'uploading'", "'uploaded'"],
           "required": true
         },
         "uploadedSize": {
@@ -239,13 +242,13 @@
     "uploadSizeLabel": {
       "type": "String",
       "desc": "Label for the size total of all files",
-      "examples": [ "'1.0MB'" ]
+      "examples": ["'1.0MB'"]
     },
 
     "uploadProgressLabel": {
       "type": "String",
       "desc": "Label for the upload progress (in %)",
-      "examples": [ "'52.76%'" ]
+      "examples": ["'52.76%'"]
     },
 
     "canAddFiles": {

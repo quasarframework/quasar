@@ -1,12 +1,21 @@
 <template>
-  <div class="app-header column items-center justify-end no-wrap text-center relative-position">
-    <img class="app-header__logo q-mb-lg" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" />
+  <div
+    class="app-header column items-center justify-end no-wrap text-center relative-position"
+  >
+    <img
+      class="app-header__logo q-mb-lg"
+      src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg"
+    />
     <div class="app-header__500 q-mb-lg row items-center justify-center">
       <q-icon class="q-mr-sm" name="warning" size="1.3em" />
       <div>Uh, oh! Our spaceship reported error 500.</div>
     </div>
-    <div class="app-header__error-name text-weight-bold">{{ data.error.name }}</div>
-    <div class="app-header__error-message q-mb-md">{{ data.error.message }}</div>
+    <div class="app-header__error-name text-weight-bold">{{
+      data.error.name
+    }}</div>
+    <div class="app-header__error-message q-mb-md">{{
+      data.error.message
+    }}</div>
   </div>
 </template>
 

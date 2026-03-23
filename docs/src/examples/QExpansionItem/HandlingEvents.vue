@@ -12,8 +12,9 @@
     >
       <q-card>
         <q-card-section>
-          Counting: <q-badge color="secondary">{{ counter }}</q-badge>.
-          Will only count when opened, using the show/hide events to control count timer.
+          Counting: <q-badge color="secondary">{{ counter }}</q-badge
+          >. Will only count when opened, using the show/hide events to control
+          count timer.
         </q-card-section>
       </q-card>
     </q-expansion-item>
@@ -24,11 +25,11 @@
 import { ref, onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const counter = ref(0)
     let timer
 
-    function stopCounting () {
+    function stopCounting() {
       clearInterval(timer)
     }
 
@@ -37,7 +38,7 @@ export default {
     return {
       counter,
 
-      startCounting () {
+      startCounting() {
         timer = setInterval(() => {
           counter.value++
         }, 1000)

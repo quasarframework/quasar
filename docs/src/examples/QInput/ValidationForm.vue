@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
-    <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+    <form
+      @submit.prevent.stop="onSubmit"
+      @reset.prevent.stop="onReset"
+      class="q-gutter-md"
+    >
       <q-input
         ref="nameRef"
         filled
@@ -25,7 +29,13 @@
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn
+          label="Reset"
+          type="reset"
+          color="primary"
+          flat
+          class="q-ml-sm"
+        />
       </div>
     </form>
   </div>
@@ -36,7 +46,7 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     const name = ref(null)
@@ -50,9 +60,7 @@ export default {
     return {
       name,
       nameRef,
-      nameRules: [
-        val => (val && val.length > 0) || 'Please type something'
-      ],
+      nameRules: [val => (val && val.length > 0) || 'Please type something'],
 
       age,
       ageRef,
@@ -63,20 +71,18 @@ export default {
 
       accept,
 
-      onSubmit () {
+      onSubmit() {
         nameRef.value.validate()
         ageRef.value.validate()
 
         if (nameRef.value.hasError || ageRef.value.hasError) {
           // form has error
-        }
-        else if (accept.value !== true) {
+        } else if (accept.value !== true) {
           $q.notify({
             color: 'negative',
             message: 'You need to accept the license and terms first'
           })
-        }
-        else {
+        } else {
           $q.notify({
             icon: 'done',
             color: 'positive',
@@ -85,7 +91,7 @@ export default {
         }
       },
 
-      onReset () {
+      onReset() {
         name.value = null
         age.value = null
 

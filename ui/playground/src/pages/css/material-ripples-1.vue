@@ -1,6 +1,6 @@
 <template>
   <div class="docs-ripple row justify-center">
-    <div style="width: 500px; max-width: 90vw;">
+    <div style="width: 500px; max-width: 90vw">
       <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
@@ -11,7 +11,7 @@
         v-ripple
         tabindex="0"
         class="relative-position ripple-example bg-white text-black"
-        style="height: 150px;"
+        style="height: 150px"
       />
 
       <div
@@ -83,8 +83,7 @@
 </template>
 
 <script>
-export default {
-}
+export default {}
 </script>
 
 <style lang="sass">

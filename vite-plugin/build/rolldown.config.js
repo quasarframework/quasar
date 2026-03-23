@@ -10,8 +10,5 @@ export default {
     file: resolve('dist/index.cjs'),
     format: 'cjs'
   },
-  external: [
-    'vite',
-    /quasar[\\/][dist|package.json]/
-  ]
+  external: ['vite', /quasar[\\/][dist|package.json]/]
 }

@@ -4,7 +4,7 @@
   },
 
   "value": {
-    "type": [ "Function", "undefined" ],
+    "type": ["Function", "undefined"],
     "desc": "Function to call after user has hold touch/click for the specified amount of time (use undefined to disable)",
     "params": {
       "details": {
@@ -45,7 +45,7 @@
       }
     },
     "returns": null,
-    "examples": [ "({ evt, touch, mouse, position, duration }) => { /* ... */ }" ]
+    "examples": ["({ evt, touch, mouse, position, duration }) => { /* ... */ }"]
   },
 
   "arg": {

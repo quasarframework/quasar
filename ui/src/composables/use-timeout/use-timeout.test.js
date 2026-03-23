@@ -29,7 +29,7 @@ describe('[useTimeout API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTimeout } = useTimeout()
 
               registerTimeout(fn, 100)
@@ -54,7 +54,7 @@ describe('[useTimeout API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTimeout } = useTimeout()
 
               registerTimeout(fn, '100')
@@ -79,11 +79,8 @@ describe('[useTimeout API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
-              const {
-                registerTimeout,
-                removeTimeout
-              } = useTimeout()
+            setup() {
+              const { registerTimeout, removeTimeout } = useTimeout()
 
               registerTimeout(fn, 100)
               return { registerTimeout, removeTimeout }
@@ -114,7 +111,7 @@ describe('[useTimeout API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTimeout } = useTimeout()
 
               registerTimeout(fn, 100)
@@ -140,7 +137,7 @@ describe('[useTimeout API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTimeout } = useTimeout()
               return { registerTimeout }
             }

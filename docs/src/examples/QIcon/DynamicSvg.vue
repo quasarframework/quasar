@@ -2,13 +2,25 @@
   <div class="q-pa-md row no-wrap items-center justify-around">
     <q-icon size="100px" :name="girlSvg" />
 
-    <q-btn :dense="$q.screen.xs" no-caps label="Face" icon-right="colorize" color="primary">
+    <q-btn
+      :dense="$q.screen.xs"
+      no-caps
+      label="Face"
+      icon-right="colorize"
+      color="primary"
+    >
       <q-popup-proxy cover transition-show="scale" transition-hide="scale">
         <q-color v-model="colorFace" />
       </q-popup-proxy>
     </q-btn>
 
-    <q-btn :dense="$q.screen.xs" no-caps label="Hair" icon-right="colorize" color="secondary">
+    <q-btn
+      :dense="$q.screen.xs"
+      no-caps
+      label="Hair"
+      icon-right="colorize"
+      color="secondary"
+    >
       <q-popup-proxy cover transition-show="scale" transition-hide="scale">
         <q-color v-model="colorHair" />
       </q-popup-proxy>
@@ -20,7 +32,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const colorFace = ref('#B33636')
     const colorHair = ref('#FFD700')
 

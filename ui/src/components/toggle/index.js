@@ -1,5 +1,3 @@
 import QToggle from './QToggle.js'
 
-export {
-  QToggle
-}
+export { QToggle }

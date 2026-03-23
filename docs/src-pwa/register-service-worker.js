@@ -3,7 +3,7 @@ import { Notify } from 'quasar'
 import { mdiCached } from '@quasar/extras/mdi-v6'
 
 register(process.env.SERVICE_WORKER_FILE, {
-  updated () {
+  updated() {
     Notify.create({
       color: 'negative',
       icon: mdiCached,

@@ -5,7 +5,7 @@
       :key="index"
       flat
       class="header-btn doc-header-text-links__item text-weight-bold"
-      :class="`${ props.mqPrefix }-${ entry.mq || 'none' } ${ props.navClass }`"
+      :class="`${props.mqPrefix}-${entry.mq || 'none'} ${props.navClass}`"
       :padding="entry.children ? '8px 8px 8px 16px' : '8px 12px'"
       :label="entry.name"
       no-caps
@@ -15,7 +15,11 @@
       :href="entry.external ? entry.path : void 0"
       :target="entry.external ? '_blank' : void 0"
     >
-      <doc-header-menu v-if="entry.children" :elements="entry.children" :mq-prefix="props.mqPrefix" />
+      <doc-header-menu
+        v-if="entry.children"
+        :elements="entry.children"
+        :mq-prefix="props.mqPrefix"
+      />
     </q-btn>
   </div>
 </template>

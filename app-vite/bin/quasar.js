@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// oxlint-disable-next-line import/no-unassigned-import
 import '../lib/node-version-check.js'
 
 const commands = [
@@ -17,7 +18,7 @@ const commands = [
   'help'
 ]
 
-let cmd = process.argv[ 2 ]
+let cmd = process.argv[2]
 
 if (cmd) {
   if (cmd.length === 1) {
@@ -33,19 +34,20 @@ if (cmd) {
       n: 'new',
       h: 'help'
     }
-    cmd = mapToCmd[ cmd ]
+    cmd = mapToCmd[cmd]
   }
 
   if (commands.includes(cmd)) {
     process.argv.splice(2, 1)
-  }
-  else {
+  } else {
     if (cmd === '-v' || cmd === '--version') {
       const { cliPkg } = await import('../lib/utils/cli-runtime.js')
 
       console.log(
-        `${ cliPkg.name } ${ cliPkg.version }`
-        + (process.env.QUASAR_CLI_VERSION ? ` (@quasar/cli ${ process.env.QUASAR_CLI_VERSION })` : '')
+        `${cliPkg.name} ${cliPkg.version}` +
+          (process.env.QUASAR_CLI_VERSION
+            ? ` (@quasar/cli ${process.env.QUASAR_CLI_VERSION})`
+            : '')
       )
 
       process.exit(0)
@@ -55,13 +57,13 @@ if (cmd) {
 
     if (cmd === '-h' || cmd === '--help') {
       cmd = 'help'
-    }
-    else if (cmd.indexOf('-') === 0) {
+    } else if (cmd.indexOf('-') === 0) {
       warn('Command must come before the options')
       cmd = 'help'
-    }
-    else {
-      log(`Looking for Quasar App Extension "${ process.argv[ 2 ] }" command${ (process.argv[ 3 ] && (' "' + process.argv[ 3 ] + '"')) || '' }`)
+    } else {
+      log(
+        `Looking for Quasar App Extension "${process.argv[2]}" command${(process.argv[3] && ' "' + process.argv[3] + '"') || ''}`
+      )
 
       const exit = process.exit
       process.exit = (code, reason) => {
@@ -69,8 +71,7 @@ if (cmd) {
           import('../lib/cmd/help.js').then(() => {
             exit(0)
           })
-        }
-        else {
+        } else {
           exit(code)
         }
       }
@@ -78,9 +79,8 @@ if (cmd) {
       cmd = 'run'
     }
   }
-}
-else {
+} else {
   cmd = 'help'
 }
 
-import(`../lib/cmd/${ cmd }.js`)
+import(`../lib/cmd/${cmd}.js`)

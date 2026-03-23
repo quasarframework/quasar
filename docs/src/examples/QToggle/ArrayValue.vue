@@ -4,9 +4,7 @@
     <q-toggle color="yellow" label="Yellow" v-model="selection" val="yellow" />
     <q-toggle color="green" label="Green" v-model="selection" val="green" />
     <q-toggle color="red" label="Red" v-model="selection" val="red" />
-    <div>
-      Model: {{selection}}
-    </div>
+    <div> Model: {{ selection }} </div>
   </div>
 </template>
 
@@ -14,9 +12,9 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
-      selection: ref([ 'yellow', 'red' ])
+      selection: ref(['yellow', 'red'])
     }
   }
 }

@@ -13,41 +13,41 @@ const bundlerMap = {
   }
 }
 
-function isValidName (bundlerName) {
-  return [ 'packager', 'builder' ].includes(bundlerName)
+function isValidName(bundlerName) {
+  return ['packager', 'builder'].includes(bundlerName)
 }
 
-function installBundler (bundlerName, nodePackager) {
-  const bundler = bundlerMap[ bundlerName ]
+function installBundler(bundlerName, nodePackager) {
+  const bundler = bundlerMap[bundlerName]
 
-  nodePackager.installPackage(
-    `${ bundler.pkg }@^${ bundler.version }`,
-    { isDevDependency: true, displayName: bundler.pkg }
+  nodePackager.installPackage(`${bundler.pkg}@^${bundler.version}`, {
+    isDevDependency: true,
+    displayName: bundler.pkg
+  })
+}
+
+function hasPackage(pkgName, appPkg) {
+  return (
+    ((appPkg.devDependencies && appPkg.devDependencies[pkgName]) ||
+      (appPkg.dependencies && appPkg.dependencies[pkgName])) !== void 0
   )
 }
 
-function hasPackage (pkgName, appPkg) {
-  return (
-    (appPkg.devDependencies && appPkg.devDependencies[ pkgName ])
-    || (appPkg.dependencies && appPkg.dependencies[ pkgName ])
-  ) !== void 0
-}
-
-module.exports.createInstance = function createInstance ({
+module.exports.createInstance = function createInstance({
   appPaths,
   pkg: { appPkg },
   cacheProxy
 }) {
   const nodePackager = cacheProxy.getModule('nodePackager')
 
-  function bundlerIsInstalled (bundlerName) {
-    const bundler = bundlerMap[ bundlerName ]
+  function bundlerIsInstalled(bundlerName) {
+    const bundler = bundlerMap[bundlerName]
     return hasPackage(bundler.pkg, appPkg)
   }
 
-  function ensureInstall (bundlerName) {
+  function ensureInstall(bundlerName) {
     if (!isValidName(bundlerName)) {
-      fatal(`Unknown bundler "${ bundlerName }" for Electron`)
+      fatal(`Unknown bundler "${bundlerName}" for Electron`)
     }
 
     if (!bundlerIsInstalled(bundlerName)) {
@@ -55,7 +55,7 @@ module.exports.createInstance = function createInstance ({
     }
   }
 
-  function getDefaultName () {
+  function getDefaultName() {
     if (bundlerIsInstalled('packager')) {
       return 'packager'
     }
@@ -67,13 +67,14 @@ module.exports.createInstance = function createInstance ({
     return 'packager'
   }
 
-  function getBundler (bundlerName) {
+  function getBundler(bundlerName) {
     const { appDir } = appPaths
-    const bundler = bundlerMap[ bundlerName ]
+    const bundler = bundlerMap[bundlerName]
 
     const fn = getPackage(bundler.pkg, appDir)
     return bundlerName === 'packager'
-      ? /* @electron/packager v19+ */ fn.packager || /* @electron/packager v18 */ fn
+      ? /* @electron/packager v19+ */ fn.packager ||
+          /* @electron/packager v18 */ fn
       : fn
   }
 

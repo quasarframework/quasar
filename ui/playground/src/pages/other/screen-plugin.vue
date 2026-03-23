@@ -15,13 +15,14 @@
 <script>
 export default {
   computed: {
-    screen () {
-      const { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl } = this.$q.screen
+    screen() {
+      const { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl } =
+        this.$q.screen
       return { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl }
     }
   },
   watch: {
-    '$q.screen.gt.md' (state) {
+    '$q.screen.gt.md'(state) {
       console.log('watcher $q.screen.gt.md', state)
     }
   } /* ,

@@ -10,7 +10,7 @@
       >
         <transition name="q-transition--scale">
           <q-card v-if="inView[index - 1]">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg">
+            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
 
             <q-card-section>
               <div class="text-h6">Card #{{ index }}</div>
@@ -27,12 +27,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const inView = ref(Array.apply(null, Array(50)).map(_ => false))
 
     return {
       inView,
-      onIntersection (entry) {
+      onIntersection(entry) {
         const index = parseInt(entry.target.dataset.id, 10)
         setTimeout(() => {
           inView.value.splice(index, 1, entry.isIntersecting)

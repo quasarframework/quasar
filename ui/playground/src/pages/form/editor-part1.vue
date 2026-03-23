@@ -10,23 +10,47 @@
       :flat="flat"
       :square="square"
       :dense="dense"
-      :toolbar="hideToolbar ? [] : [
-        ['underline', 'print', 'bold', 'italic', 'link'],
-        ['customItalic'],
-        ['save', 'upload'],
-        ['spellcheck'],
-        ['disabledButton'],
-        ['custom_btn']
-      ]"
+      :toolbar="
+        hideToolbar
+          ? []
+          : [
+              ['underline', 'print', 'bold', 'italic', 'link'],
+              ['customItalic'],
+              ['save', 'upload'],
+              ['spellcheck'],
+              ['disabledButton'],
+              ['custom_btn']
+            ]
+      "
       :hide-toolbar="hideToolbar"
       :definitions="{
-        bold: {cmd: 'bold', label: 'Bold', tip: 'My bold tooltip'},
-        italic: {cmd: 'italic', tip: 'My italic tooltip'},
-        customItalic: {cmd: 'italic', icon: 'camera_enhance', tip: 'Italic'},
-        save: {tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork},
-        spellcheck: {tip: 'Run spell-check', icon: 'spellcheck', handler: spellCheck},
-        upload: {tip: 'Upload to cloud', textColor: 'primary', icon: 'cloud_upload', label: 'Upload', handler: upload},
-        disabledButton: {tip: 'I am disabled...', disable: true, icon: 'cloud_off', handler: saveWork}
+        bold: { cmd: 'bold', label: 'Bold', tip: 'My bold tooltip' },
+        italic: { cmd: 'italic', tip: 'My italic tooltip' },
+        customItalic: { cmd: 'italic', icon: 'camera_enhance', tip: 'Italic' },
+        save: {
+          tip: 'Save your work',
+          icon: 'save',
+          label: 'Save',
+          handler: saveWork
+        },
+        spellcheck: {
+          tip: 'Run spell-check',
+          icon: 'spellcheck',
+          handler: spellCheck
+        },
+        upload: {
+          tip: 'Upload to cloud',
+          textColor: 'primary',
+          icon: 'cloud_upload',
+          label: 'Upload',
+          handler: upload
+        },
+        disabledButton: {
+          tip: 'I am disabled...',
+          disable: true,
+          icon: 'cloud_off',
+          handler: saveWork
+        }
       }"
       placeholder="Some place holder"
     >
@@ -44,7 +68,7 @@
       </template>
     </q-editor>
 
-    <br><br><br>
+    <br /><br /><br />
     <q-editor
       v-model="model"
       :flat="flat"
@@ -56,21 +80,21 @@
       placeholder="My place holder"
       :toolbar="[
         ['bold', 'italic', 'underline'],
-        [{
-          label: $q.lang.editor.formatting,
-          icon: $q.iconSet.editor.formatting,
-          list: 'no-icons',
-          options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
-        }]
+        [
+          {
+            label: $q.lang.editor.formatting,
+            icon: $q.iconSet.editor.formatting,
+            list: 'no-icons',
+            options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
+          }
+        ]
       ]"
     />
 
-    <div class="caption bg-yellow">
-      Model
-    </div>
+    <div class="caption bg-yellow">Model</div>
     <div>{{ model }}</div>
 
-    <br><br><br>
+    <br /><br /><br />
 
     <q-select
       v-model="btnType"
@@ -111,14 +135,32 @@
             fixedLabel: true,
             fixedIcon: true,
             list: 'no-icons',
-            options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+            options: [
+              'size-1',
+              'size-2',
+              'size-3',
+              'size-4',
+              'size-5',
+              'size-6',
+              'size-7'
+            ]
           },
           {
             label: $q.lang.editor.defaultFont,
             icon: $q.iconSet.editor.font,
             fixedIcon: true,
             list: 'no-icons',
-            options: ['default_font', 'arial', 'arial_black', 'comic_sans', 'courier_new', 'impact', 'lucida_grande', 'times_new_roman', 'verdana']
+            options: [
+              'default_font',
+              'arial',
+              'arial_black',
+              'comic_sans',
+              'courier_new',
+              'impact',
+              'lucida_grande',
+              'times_new_roman',
+              'verdana'
+            ]
           },
           'removeFormat'
         ],
@@ -139,11 +181,13 @@
           }
         ],
         ['undo', 'redo'],
-        [{
-          label: 'Dropdown Test',
-          highlight: true,
-          options: ['gogu', 'outdent', 'indent', 'gigi']
-        }],
+        [
+          {
+            label: 'Dropdown Test',
+            highlight: true,
+            options: ['gogu', 'outdent', 'indent', 'gigi']
+          }
+        ],
         ['viewsource']
       ]"
       :fonts="{
@@ -157,19 +201,29 @@
         verdana: 'Verdana'
       }"
       :definitions="{
-        gigi: {cmd: 'bold', icon: 'map', tip: 'Gigi bold'},
-        bold: {icon: 'content_paste'},
-        gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
+        gigi: { cmd: 'bold', icon: 'map', tip: 'Gigi bold' },
+        bold: { icon: 'content_paste' },
+        gogu: {
+          tip: 'Custom',
+          icon: 'account_balance',
+          handler: vm => vm.runCmd('print')
+        }
       }"
     >
       <template v-slot:custom_btn>
-        <q-btn dense color="yellow" no-wrap size="sm">
-          Wow
-        </q-btn>
+        <q-btn dense color="yellow" no-wrap size="sm"> Wow </q-btn>
       </template>
 
       <template v-slot:token>
-        <q-btn-dropdown dense no-caps ref="token" no-wrap color="green" label="Token" size="sm">
+        <q-btn-dropdown
+          dense
+          no-caps
+          ref="token"
+          no-wrap
+          color="green"
+          label="Token"
+          size="sm"
+        >
           <q-list>
             <q-item tag="label" clickable @click="add('email')">
               <q-item-section side>
@@ -188,16 +242,14 @@
       </template>
     </q-editor>
 
-    <div class="caption bg-yellow">
-      Model
-    </div>
+    <div class="caption bg-yellow">Model</div>
     <div>{{ modelScroll }}</div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       hideToolbar: false,
       flat: false,
@@ -208,50 +260,55 @@ export default {
       outline: false,
       rounded: false,
       modelWithPlaceHolder: '',
-      model: 'Editor in <a href="https://quasar.dev">Quasar</a></div><div>Second line',
-      modelScroll: 'Editor in <a href="https://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
+      model:
+        'Editor in <a href="https://quasar.dev">Quasar</a></div><div>Second line',
+      modelScroll:
+        'Editor in <a href="https://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
     }
   },
   watch: {
-    btnType (val) {
-      [ 'push', 'outline', 'flat' ].forEach(type => {
-        this[ type ] = type === val
+    btnType(val) {
+      ;['push', 'outline', 'flat'].forEach(type => {
+        this[type] = type === val
       })
     }
   },
   methods: {
-    saveWork () {
+    saveWork() {
       this.$q.notify({
         icon: 'done',
         color: 'positive',
         message: 'I guess something got saved.'
       })
     },
-    upload () {
+    upload() {
       this.$q.notify({
         icon: 'cloud_upload',
         color: 'secondary',
         message: 'Hmm, will upload at another time, ok?'
       })
     },
-    spellCheck () {
+    spellCheck() {
       this.$q.notify({
         icon: 'spellcheck',
         color: 'secondary',
-        message: 'I\'ll sure run the spellcheck. Later.'
+        message: "I'll sure run the spellcheck. Later."
       })
     },
-    importSomething () {
+    importSomething() {
       this.$q.notify({
         color: 'accent',
         message: 'Importing...'
       })
     },
-    add (name) {
+    add(name) {
       const edit = this.$refs.editor
       this.$refs.token.hide()
       edit.caret.restore()
-      edit.runCmd('insertHTML', `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${ name }</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`)
+      edit.runCmd(
+        'insertHTML',
+        `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`
+      )
       edit.focus()
     }
   }

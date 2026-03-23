@@ -32,6 +32,7 @@
 - [ ] Any necessary documentation has been added or updated [in the docs](https://github.com/quasarframework/quasar/tree/dev/docs) <!-- for faster update click on "Suggest an edit on GitHub" at bottom of page --> or explained in the PR's description.
 
 If adding a **new feature**, the PR's description includes:
+
 - [ ] A convincing reason for adding this feature (to avoid wasting your time, it's best to [start a new feature discussion](https://github.com/quasarframework/quasar/discussions/new?category=ideas-proposals) first and wait for approval before working on it)
 
 **Other information:**

@@ -5,11 +5,15 @@
       <q-toggle label="Hide no data" v-model="hideNoData" />
       <q-toggle label="Hide bottom layer" v-model="hideBottom" />
       <q-toggle label="Hide pagination" v-model="hidePagination" />
-      <q-toggle label="Hide selected rows banner" v-model="hideSelectedBanner" />
+      <q-toggle
+        label="Hide selected rows banner"
+        v-model="hideSelectedBanner"
+      />
     </div>
 
     <q-table
-      flat bordered
+      flat
+      bordered
       title="Treats"
       :rows="records"
       :columns="columns"
@@ -37,7 +41,13 @@ const columns = [
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories',
+    field: 'calories',
+    sortable: true
+  },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' }
 ]
@@ -106,7 +116,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const hasData = ref(true)
 
     return {
@@ -116,11 +126,11 @@ export default {
       hideNoData: ref(false),
       hidePagination: ref(false),
 
-      selected: ref([rows[ 1 ]]),
+      selected: ref([rows[1]]),
 
       columns,
 
-      records: computed(() => hasData.value === true ? rows : [])
+      records: computed(() => (hasData.value === true ? rows : []))
     }
   }
 }

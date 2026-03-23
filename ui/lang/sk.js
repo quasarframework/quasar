@@ -15,13 +15,16 @@ export default {
     search: 'Hľadať',
     filter: 'Filtrovať',
     refresh: 'Obnoviť',
-    expand: label => (label ? `Rozbaliť "${ label }"` : 'Rozbaliť'),
-    collapse: label => (label ? `Zbaliť "${ label }"` : 'Kolaps')
+    expand: label => (label ? `Rozbaliť "${label}"` : 'Rozbaliť'),
+    collapse: label => (label ? `Zbaliť "${label}"` : 'Kolaps')
   },
   date: {
     days: 'Nedeľa_Pondelok_Utorok_Streda_Štvrtok_Piatok_Sobota'.split('_'),
     daysShort: 'Ned_Pon_Uto_Str_Štv_Pia_Sob'.split('_'),
-    months: 'Január_Február_Marec_Apríl_Máj_Jún_Júl_August_September_Október_November_December'.split('_'),
+    months:
+      'Január_Február_Marec_Apríl_Máj_Jún_Júl_August_September_Október_November_December'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Máj_Jún_Júl_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +34,24 @@ export default {
     prevYear: 'Predchádzajúci rok',
     nextYear: 'Budúci rok',
     today: 'Dnes',
-    prevRangeYears: range => `Predchádzajúce ${ range } roky`,
-    nextRangeYears: range => `Ďalej ${ range } roky`
+    prevRangeYears: range => `Predchádzajúce ${range} roky`,
+    nextRangeYears: range => `Ďalej ${range} roky`
   },
   table: {
     noData: 'Nie sú dostupné údaje',
     noResults: 'Neboli nájdené vyhovujúce záznamy',
     loading: 'Načítavam...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' ' + (rows === 1 ? 'riadok vybratý' : (rows < 5 ? 'riadky vybraté' : 'riadkov vybratých')) + '.'
-        : 'Žiadne vybraté riadky.'
-    ),
+        ? rows +
+          ' ' +
+          (rows === 1
+            ? 'riadok vybratý'
+            : rows < 5
+              ? 'riadky vybraté'
+              : 'riadkov vybratých') +
+          '.'
+        : 'Žiadne vybraté riadky.',
     recordsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',
     pagination: (start, end, total) => start + '-' + end + ' z ' + total,

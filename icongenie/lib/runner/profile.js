@@ -1,4 +1,3 @@
-
 import { resolve, dirname, basename, isAbsolute, relative } from 'node:path'
 import { writeFileSync } from 'node:fs'
 import { ensureDir } from 'fs-extra'
@@ -8,7 +7,7 @@ import { modes } from '../modes/index.js'
 import { validateProfileObject } from '../utils/validate-profile-object.js'
 import { appDir } from '../utils/app-paths.js'
 
-function getParams ({ include, ...props }) {
+function getParams({ include, ...props }) {
   if (include) {
     props.include = include.split(',')
   }
@@ -16,44 +15,40 @@ function getParams ({ include, ...props }) {
   return props
 }
 
-function getAssets (assets) {
+function getAssets(assets) {
   let list = []
 
   assets.forEach(name => {
-    list = list.concat(modes[ name ].assets)
+    list = list.concat(modes[name].assets)
   })
 
   return list
 }
 
-function getTargetFilepath (output) {
+function getTargetFilepath(output) {
   const folder = dirname(output)
   const name = basename(output)
 
-  const prefix = name.startsWith('icongenie-')
-    ? ''
-    : 'icongenie-'
+  const prefix = name.startsWith('icongenie-') ? '' : 'icongenie-'
 
-  const suffix = name.endsWith('.json')
-    ? ''
-    : '.json'
+  const suffix = name.endsWith('.json') ? '' : '.json'
 
-  const filename = `${ prefix }${ name }${ suffix }`
+  const filename = `${prefix}${name}${suffix}`
   return resolve(process.cwd(), folder || '', filename)
 }
 
-export function profile ({ output, assets, ...params }) {
-  const profile = {
+export function profile({ output, assets, ...params }) {
+  const acc = {
     params: getParams(params),
     assets: getAssets(assets)
   }
 
-  validateProfileObject(profile, true)
+  validateProfileObject(acc, true)
 
-  if (profile.params.icon && isAbsolute(profile.params.icon) === false) {
+  if (acc.params.icon && isAbsolute(acc.params.icon) === false) {
     // generate icon path relative to app root
     // so it won't matter from where the profile file is run
-    profile.params.icon = relative(appDir, profile.params.icon)
+    acc.params.icon = relative(appDir, acc.params.icon)
   }
 
   const targetFile = getTargetFilepath(output)
@@ -63,8 +58,8 @@ export function profile ({ output, assets, ...params }) {
     ensureDir(folderName)
   }
 
-  writeFileSync(targetFile, JSON.stringify(profile, null, 2), 'utf-8')
+  writeFileSync(targetFile, JSON.stringify(acc, null, 2), 'utf-8')
 
   console.log(` Generated Icon Genie profile file:`)
-  log(`${ targetFile }\n`)
+  log(`${targetFile}\n`)
 }

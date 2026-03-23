@@ -18,8 +18,19 @@
         <q-toggle v-model="rounded" label="Rounded" />
       </div>
       <div>
-        <q-btn @click="value = 10" label="Set value to 10" flat color="primary" class="q-mr-sm" />
-        <q-btn @click="value = 70" label="Set value to 70" flat color="secondary" />
+        <q-btn
+          @click="value = 10"
+          label="Set value to 10"
+          flat
+          color="primary"
+          class="q-mr-sm"
+        />
+        <q-btn
+          @click="value = 70"
+          label="Set value to 70"
+          flat
+          color="secondary"
+        />
       </div>
 
       <div class="q-mb-xl" />
@@ -121,7 +132,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       value: 70,
       size: 160,
@@ -138,10 +149,10 @@ export default {
     }
   },
   methods: {
-    randomize () {
+    randomize() {
       this.progress = Math.round(Math.random() * 100)
     },
-    randomizeBuffer () {
+    randomizeBuffer() {
       this.progressBuffer = Math.round(Math.random() * 51)
       this.buffer = Math.round(Math.random() * 47)
     }

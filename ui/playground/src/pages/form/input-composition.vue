@@ -6,23 +6,19 @@
       @keypress="evt => addLog(evt)"
       @keyup="evt => addLog(evt)"
     >
-      <q-input
-        v-model="text"
-        outlined
-        label="Composition tests"
-      />
+      <q-input v-model="text" outlined label="Composition tests" />
     </div>
 
     <q-btn label="Reset log" @click="resetLog" />
     <div class="scroll" style="max-height: 80vh">
-      <div class="row no-wrap q-col-gutter-md" v-for="(row, index) in log" :key="index">
-        <div class="col-2">
-          {{ index }}. {{ row[0] }} * {{ row[1] }}
-        </div>
+      <div
+        class="row no-wrap q-col-gutter-md"
+        v-for="(row, index) in log"
+        :key="index"
+      >
+        <div class="col-2">{{ index }}. {{ row[0] }} * {{ row[1] }}</div>
         <div class="col-8 row q-gutter-x-sm">
-          <div v-for="(v, k) in row[2]" :key="k">
-            {{ k }}: {{ v }}
-          </div>
+          <div v-for="(v, k) in row[2]" :key="k">{{ k }}: {{ v }}</div>
         </div>
       </div>
     </div>
@@ -31,7 +27,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       text: '',
       log: []
@@ -39,7 +35,7 @@ export default {
   },
 
   methods: {
-    addLog (evt) {
+    addLog(evt) {
       const evtDump = {
         key: evt.key,
         code: evt.code,
@@ -58,24 +54,24 @@ export default {
         composed: evt.composed
       }
 
-      const filtered = this.log.filter(r => r[ 0 ] === evt.type)
+      const filtered = this.log.filter(r => r[0] === evt.type)
 
       if (filtered.length > 0) {
-        const old = filtered[ 0 ]
+        const old = filtered[0]
 
-        if (JSON.stringify(old[ 2 ]) === JSON.stringify(evtDump)) {
-          old[ 1 ]++
+        if (JSON.stringify(old[2]) === JSON.stringify(evtDump)) {
+          old[1]++
 
-          this.log = [ ...this.log ]
+          this.log = [...this.log]
 
           return
         }
       }
 
-      this.log.unshift([ evt.type, 1, evtDump ])
+      this.log.unshift([evt.type, 1, evtDump])
     },
 
-    resetLog () {
+    resetLog() {
       this.log = []
     }
   }

@@ -11,16 +11,24 @@ export default createComponent({
     noHover: Boolean
   },
 
-  setup (props, { slots }) {
-    const classes = computed(() =>
-      'q-tr'
-      + (props.props === void 0 || props.props.header === true ? '' : ' ' + props.props.__trClass)
-      + (props.noHover === true ? ' q-tr--no-hover' : '')
+  setup(props, { slots }) {
+    const classes = computed(
+      () =>
+        'q-tr' +
+        (props.props === void 0 || props.props.header === true
+          ? ''
+          : ' ' + props.props.__trClass) +
+        (props.noHover === true ? ' q-tr--no-hover' : '')
     )
 
-    return () => h('tr', {
-      style: props.props?.__trStyle,
-      class: classes.value
-    }, hSlot(slots.default))
+    return () =>
+      h(
+        'tr',
+        {
+          style: props.props?.__trStyle,
+          class: classes.value
+        },
+        hSlot(slots.default)
+      )
   }
 })

@@ -1,13 +1,38 @@
 <template>
   <q-banner class="survey-countdown" v-if="!hasEnded">
-    <div class="q-gutter-y-sm row" :class="[props.paddingClass, props.alignClass]">
+    <div
+      class="q-gutter-y-sm row"
+      :class="[props.paddingClass, props.alignClass]"
+    >
       <div class="text-center text-bold">Quasar Conf 2022 - Get Ready!</div>
       <div class="q-gutter-x-sm row">
-        <q-badge class="text-bold" v-if="days > 0" :color="props.color" :text-color="props.textColor">{{ days }} Days</q-badge>
-        <q-badge class="text-bold" v-if="hours > 0" :color="props.color" :text-color="props.textColor">{{ hours }} Hours</q-badge>
-        <q-badge class="text-bold" :color="props.color" :text-color="textColor">{{ minutes }} Minutes</q-badge>
+        <q-badge
+          class="text-bold"
+          v-if="days > 0"
+          :color="props.color"
+          :text-color="props.textColor"
+          >{{ days }} Days</q-badge
+        >
+        <q-badge
+          class="text-bold"
+          v-if="hours > 0"
+          :color="props.color"
+          :text-color="props.textColor"
+          >{{ hours }} Hours</q-badge
+        >
+        <q-badge class="text-bold" :color="props.color" :text-color="textColor"
+          >{{ minutes }} Minutes</q-badge
+        >
       </div>
-      <q-btn href="https://bit.ly/qconf2022" target="_blank" :color="props.color" :text-color="props.textColor" :icon="mdiFileDocumentEditOutline" label="Check announcement" no-caps />
+      <q-btn
+        href="https://bit.ly/qconf2022"
+        target="_blank"
+        :color="props.color"
+        :text-color="props.textColor"
+        :icon="mdiFileDocumentEditOutline"
+        label="Check announcement"
+        no-caps
+      />
     </div>
   </q-banner>
 </template>
@@ -36,7 +61,7 @@ const hasEnded = ref(false)
 
 let interval
 
-function calcTimeRemaining () {
+function calcTimeRemaining() {
   const now = new Date().getTime()
   const remaining = confDate - now
   hasEnded.value = remaining <= 0
@@ -45,8 +70,7 @@ function calcTimeRemaining () {
     days.value = Math.floor(remaining / oneDay)
     hours.value = Math.floor((remaining % oneDay) / oneHour)
     minutes.value = Math.floor((remaining % oneHour) / oneMin)
-  }
-  else {
+  } else {
     clearInterval(interval)
   }
 }

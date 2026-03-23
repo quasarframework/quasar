@@ -1,5 +1,3 @@
 import QSeparator from './QSeparator.js'
 
-export {
-  QSeparator
-}
+export { QSeparator }

@@ -6,9 +6,9 @@
       </q-card-section>
 
       <q-card-section>
-        <div class="caption text-center text-italic q-mb-sm">
-          (only 4 anims showcased here)
-        </div>
+        <div class="caption text-center text-italic q-mb-sm"
+          >(only 4 anims showcased here)</div
+        >
 
         <div class="row q-col-gutter-sm">
           <q-select
@@ -127,24 +127,24 @@ import '@quasar/extras/animate/fadeOut.css'
 import '@quasar/extras/animate/bounceInLeft.css'
 import '@quasar/extras/animate/bounceOutRight.css'
 
-function generateOptions (name) {
+function generateOptions(name) {
   return {
     label: name,
     value: name
   }
 }
 
-const enter = [ 'fadeIn', 'bounceInLeft' ]
-const leave = [ 'fadeOut', 'bounceOutRight' ]
+const enter = ['fadeIn', 'bounceInLeft']
+const leave = ['fadeOut', 'bounceOutRight']
 
 export default {
-  data () {
+  data() {
     return {
       enterSelectOptions: enter.map(generateOptions),
       leaveSelectOptions: leave.map(generateOptions),
-      durationOptions: [ 'faster', 'fast', 'default', 'slow', 'slower' ],
-      delayOptions: [ 'default', '1s', '2s', '3s', '4s', '5s' ],
-      repeatOptions: [ 'default', '1', '2', '3', 'infinite' ],
+      durationOptions: ['faster', 'fast', 'default', 'slow', 'slower'],
+      delayOptions: ['default', '1s', '2s', '3s', '4s', '5s'],
+      repeatOptions: ['default', '1', '2', '3', 'infinite'],
       enter: 'bounceInLeft',
       leave: 'bounceOutRight',
       duration: 'default',
@@ -152,12 +152,13 @@ export default {
       repeat: 'default',
       show: true,
       showContinuous: true,
-      loremipsum: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      loremipsum:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
   },
   watch: {
     // v-if hack to trigger animation
-    show () {
+    show() {
       this.showContinuous = false
 
       this.$nextTick(() => {
@@ -166,33 +167,34 @@ export default {
     }
   },
   computed: {
-    baseClasses () {
+    baseClasses() {
       let classes = 'animated'
 
       if (this.duration !== 'default') {
-        classes += ` ${ this.duration }`
+        classes += ` ${this.duration}`
       }
 
       if (this.delay !== 'default') {
-        classes += ` delay-${ this.delay }`
+        classes += ` delay-${this.delay}`
       }
 
       return classes
     },
-    enterClass () {
-      return `${ this.baseClasses } ${ this.enter }`
+    enterClass() {
+      return `${this.baseClasses} ${this.enter}`
     },
-    leaveClass () {
-      return `${ this.baseClasses } ${ this.leave }`
+    leaveClass() {
+      return `${this.baseClasses} ${this.leave}`
     },
-    continuousClasses () {
+    continuousClasses() {
       let classes = this.baseClasses
 
       if (this.repeat !== 'default') {
-        classes += this.repeat === 'infinite' ? ' infinite' : ` repeat-${ this.repeat }`
+        classes +=
+          this.repeat === 'infinite' ? ' infinite' : ` repeat-${this.repeat}`
       }
 
-      return `${ classes } ${ this.enter }`
+      return `${classes} ${this.enter}`
     }
   }
 }

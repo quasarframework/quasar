@@ -6,13 +6,12 @@ const require = createRequire(import.meta.url)
 /**
  * Get the resolved path of a host package.
  */
-export function getPackagePath (pkgName, folder = appPaths.appDir) {
+export function getPackagePath(pkgName, folder = appPaths.appDir) {
   try {
     return require.resolve(pkgName, {
-      paths: [ folder ]
+      paths: [folder]
     })
-  }
-  catch (_) {
+  } catch {
     /* do and return nothing */
   }
 }

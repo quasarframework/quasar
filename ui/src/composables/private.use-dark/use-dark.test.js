@@ -15,9 +15,7 @@ describe('[useDark API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        expect(
-          useDark({}, {})
-        ).$ref()
+        expect(useDark({}, {})).$ref()
       })
 
       test('keeps account of $q.dark when prop is null', () => {
@@ -27,15 +25,11 @@ describe('[useDark API]', () => {
           }
         }
 
-        expect(
-          useDark({ dark: null }, $q)
-        ).$ref(true)
+        expect(useDark({ dark: null }, $q)).$ref(true)
 
         $q.dark.isActive = false
 
-        expect(
-          useDark({ dark: null }, $q)
-        ).$ref(false)
+        expect(useDark({ dark: null }, $q)).$ref(false)
       })
 
       test('returns prop value regardless of $q.dark', () => {
@@ -45,23 +39,15 @@ describe('[useDark API]', () => {
           }
         }
 
-        expect(
-          useDark({ dark: true }, $q)
-        ).$ref(true)
+        expect(useDark({ dark: true }, $q)).$ref(true)
 
-        expect(
-          useDark({ dark: false }, $q)
-        ).$ref(false)
+        expect(useDark({ dark: false }, $q)).$ref(false)
 
         $q.dark.isActive = false
 
-        expect(
-          useDark({ dark: true }, $q)
-        ).$ref(true)
+        expect(useDark({ dark: true }, $q)).$ref(true)
 
-        expect(
-          useDark({ dark: false }, $q)
-        ).$ref(false)
+        expect(useDark({ dark: false }, $q)).$ref(false)
       })
     })
   })

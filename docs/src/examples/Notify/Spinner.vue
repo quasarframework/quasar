@@ -11,11 +11,11 @@
 import { useQuasar, QSpinnerGears } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      showDefault () {
+      showDefault() {
         $q.notify({
           spinner: true,
           message: 'Please wait...',
@@ -23,7 +23,7 @@ export default {
         })
       },
 
-      showCustom () {
+      showCustom() {
         $q.notify({
           spinner: QSpinnerGears,
           message: 'Working...',

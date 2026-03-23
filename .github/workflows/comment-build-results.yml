@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Check current types build workflow run
         id: current-workflow-run
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { data: { workflow_runs: [workflowRun] } } = await github.rest.actions.listWorkflowRuns({
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Download the current types build
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           CURRENT_RUN_ID: ${{ needs.check-current-build.outputs.run-id }}
         with:
@@ -85,7 +85,7 @@ jobs:
 
       - name: Download the PR information artifact
         id: pr-info
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { readFile, writeFile, unlink } = require('node:fs/promises');
@@ -149,7 +149,7 @@ jobs:
           fi
           echo "" >> build-results.md
 
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - uses: marocchino/sticky-pull-request-comment@v3
         with:
           number: ${{ fromJSON(steps.pr-info.outputs.result).number }}
           hide_and_recreate: true

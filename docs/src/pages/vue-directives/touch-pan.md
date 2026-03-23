@@ -8,6 +8,7 @@ related:
   - /vue-directives/touch-repeat
   - /vue-directives/touch-hold
 ---
+
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 
 > **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
@@ -17,6 +18,7 @@ We will be describing `v-touch-pan` on the lines below.
 <DocApi file="TouchPan" />
 
 ## Usage
+
 Click then pan in a direction with your mouse on the area below to see it in action.
 Page scrolling is prevented, but you can opt out if you wish.
 
@@ -43,6 +45,7 @@ Example on capturing panning on custom directions. For this, use modifiers: `up`
 <DocExample title="Custom directions" file="Custom" />
 
 ### Handling Mouse Events
+
 When you want to handle mouse events too, use the `mouse` modifier:
 
 ```html
@@ -53,6 +56,7 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Preventing Scroll (on touch capable devices)
+
 By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
 
 ```html
@@ -60,6 +64,7 @@ By default, the directive does not block page scrolling. If you want to prevent 
 ```
 
 ### Inhibiting TouchPan
+
 When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
@@ -85,4 +90,5 @@ Below is a nice example on using TouchPan on a QFab. You can drag it across the 
 <DocExample title="Draggable" file="Draggable" />
 
 ## Note on HMR
+
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

@@ -1,47 +1,40 @@
 import { compileAsync } from 'sass-embedded'
 import rtl from 'postcss-rtlcss'
 import postcss from 'postcss'
-import cssnano from 'cssnano'
 import autoprefixer from 'autoprefixer'
+import { transform } from 'lightningcss'
 
-import { banner, resolveToRoot, readFile, writeFile } from './build.utils.js'
+import {
+  banner,
+  resolveToRoot,
+  readFile,
+  writeFile,
+  BUILD_TARGETS
+} from './build.utils.js'
 import prepareDiff from './prepare-diff.js'
-
-const nano = postcss([
-  cssnano({
-    preset: [ 'default', {
-      mergeLonghand: false,
-      convertValues: false,
-      cssDeclarationSorter: false,
-      reduceTransforms: false
-    } ]
-  })
-])
 
 const sassUseRE = /@use\s+['"][^'"]+['"]/g
 
-function moveUseStatementsToTop (code) {
+function moveUseStatementsToTop(code) {
   const useStatements = code.match(sassUseRE)
 
   return useStatements === null
     ? code
-    : Array.from(new Set(useStatements)).join('\n')
-      + '\n'
-      + code.replace(sassUseRE, '')
+    : Array.from(new Set(useStatements)).join('\n') +
+        '\n' +
+        code.replace(sassUseRE, '')
 }
 
-function compileSass (src) {
+function compileSass(src) {
   return compileAsync(src, {
-    silenceDeprecations: [ 'import' ]
+    silenceDeprecations: ['import']
   })
 }
 
-function getConcatenatedContent (src, noBanner) {
+function getConcatenatedContent(src, noBanner) {
   return new Promise(resolve => {
     let code = ''
-    const localBanner = noBanner !== true
-      ? banner
-      : ''
+    const localBanner = noBanner !== true ? banner : ''
 
     src.forEach(file => {
       code += readFile(file) + '\n'
@@ -61,28 +54,50 @@ function getConcatenatedContent (src, noBanner) {
   })
 }
 
-function generateUMD (code, middleName, ext = '') {
-  return writeFile(`dist/quasar${ middleName }${ ext }.css`, code, true)
-    .then(code => nano.process(code, { from: void 0 }))
-    .then(code => writeFile(`dist/quasar${ middleName }${ ext }.prod.css`, code.css, true))
+function generateUMD(code, middleName, ext = '') {
+  return writeFile(`dist/quasar${middleName}${ext}.css`, code, true).then(
+    textCode => {
+      const { code: transformedCode } = transform({
+        code: Buffer.from(textCode),
+        minify: true,
+        targets: BUILD_TARGETS.LIGHTNING_CSS
+      })
+
+      return writeFile(
+        `dist/quasar${middleName}${ext}.prod.css`,
+        transformedCode,
+        true
+      )
+    }
+  )
 }
 
-function renderAsset (cssCode, middleName = '') {
-  return postcss([ autoprefixer ]).process(cssCode, { from: void 0 })
+function renderAsset(cssCode, middleName = '') {
+  return postcss([
+    autoprefixer({
+      overrideBrowserslist: BUILD_TARGETS.AUTOPREFIXER
+    })
+  ])
+    .process(cssCode, { from: void 0 })
     .then(code => {
       code.warnings().forEach(warn => {
         console.warn(warn.toString())
       })
       return code.css
     })
-    .then(code => Promise.all([
-      generateUMD(code, middleName),
-      postcss([ rtl({}) ]).process(code, { from: void 0 })
-        .then(code => generateUMD(code.css, middleName, '.rtl'))
-    ]))
+    .then(code =>
+      Promise.all([
+        generateUMD(code, middleName),
+        postcss([rtl({})])
+          .process(code, { from: void 0 })
+          .then(transformedCode =>
+            generateUMD(transformedCode.css, middleName, '.rtl')
+          )
+      ])
+    )
 }
 
-async function generateBase (source) {
+async function generateBase(source) {
   const src = resolveToRoot(source)
   const sassDistDest = resolveToRoot('dist/quasar.sass')
 
@@ -95,12 +110,11 @@ async function generateBase (source) {
   return Promise.all([
     renderAsset(cssCode),
 
-    getConcatenatedContent(depsList)
-      .then(code => writeFile(sassDistDest, code))
+    getConcatenatedContent(depsList).then(code => writeFile(sassDistDest, code))
   ])
 }
 
-async function generateAddon (source) {
+async function generateAddon(source) {
   const src = resolveToRoot(source)
 
   const result = await compileSass(src)
@@ -109,18 +123,16 @@ async function generateAddon (source) {
   return renderAsset(cssCode, '.addon')
 }
 
-export function buildCss (withDiff) {
+export function buildCss(withDiff) {
   if (withDiff === true) {
     prepareDiff('dist/quasar.sass')
   }
 
-  Promise
-    .all([
-      generateBase('src/css/index.sass'),
-      generateAddon('src/css/flex-addon.sass')
-    ])
-    .catch(e => {
-      console.error(e)
-      process.exit(1)
-    })
+  Promise.all([
+    generateBase('src/css/index.sass'),
+    generateAddon('src/css/flex-addon.sass')
+  ]).catch(e => {
+    console.error(e)
+    process.exit(1)
+  })
 }

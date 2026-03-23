@@ -9,6 +9,7 @@
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
 ## Supporting Quasar
+
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
 
 **Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
@@ -34,6 +35,7 @@ Ask questions at the official community Discord server: [https://chat.quasar.dev
 Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
 ## Semver
+
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License

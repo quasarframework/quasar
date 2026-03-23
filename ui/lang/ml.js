@@ -15,18 +15,17 @@ export default {
     search: 'തിരയുക',
     filter: 'അരിക്കുക',
     refresh: 'പുതുക്കുക',
-    expand: label => (label ? `"${ label }" വികസിപ്പിക്കുക` : 'വികസിപ്പിക്കുക'),
-    collapse: label => (label ? `"${ label }" ചുരുക്കുക` : 'ചുരുക്കുക')
+    expand: label => (label ? `"${label}" വികസിപ്പിക്കുക` : 'വികസിപ്പിക്കുക'),
+    collapse: label => (label ? `"${label}" ചുരുക്കുക` : 'ചുരുക്കുക')
   },
   date: {
     days: 'ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി'.split('_'),
     daysShort: 'ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി'.split('_'),
-    months: 'ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ'.split(
-      '_'
-    ),
-    monthsShort: 'ജനു_ഫെബ്രു_മാർ_ഏപ്രി_മേയ്_ജൂൺ_ജൂലൈ_ഓഗ_സെപ്_ഒക്_നവ_ഡിസ'.split(
-      '_'
-    ),
+    months:
+      'ജനുവരി_ഫെബ്രുവരി_മാർച്ച്_ഏപ്രിൽ_മേയ്_ജൂൺ_ജൂലൈ_ഓഗസ്റ്റ്_സെപ്റ്റംബർ_ഒക്ടോബർ_നവംബർ_ഡിസംബർ'.split(
+        '_'
+      ),
+    monthsShort: 'ജനു_ഫെബ്രു_മാർ_ഏപ്രി_മേയ്_ജൂൺ_ജൂലൈ_ഓഗ_സെപ്_ഒക്_നവ_ഡിസ'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'ദിവസങ്ങൾ',
@@ -35,21 +34,23 @@ export default {
     prevYear: 'മുൻ വർഷം',
     nextYear: 'അടുത്ത വർഷം',
     today: 'ഇന്നേദിവസം',
-    prevRangeYears: range => `മുമ്പത്തെ ${ range } വർഷം`,
-    nextRangeYears: range => `അടുത്തത് ${ range } വർഷം`
+    prevRangeYears: range => `മുമ്പത്തെ ${range} വർഷം`,
+    nextRangeYears: range => `അടുത്തത് ${range} വർഷം`
   },
   table: {
     noData: 'ഡാറ്റ ലഭ്യമല്ല',
     noResults: 'പൊരുത്തമുള്ള റെക്കോർഡുകളൊന്നും കണ്ടെത്തിയില്ല',
     loading: 'ലോഡ് ചെയ്യുന്നു...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? 'ഒരു റെക്കോർഡ് തിരഞ്ഞെടുത്തു.'
-        : (rows === 0 ? 'റെക്കോര്ഡുകളൊന്നും തിരഞ്ഞെടുത്തിട്ടില്ല' : rows + ' റെക്കോർഡുകൾ തിരഞ്ഞെടുത്തു.')
-    ),
+        : rows === 0
+          ? 'റെക്കോര്ഡുകളൊന്നും തിരഞ്ഞെടുത്തിട്ടില്ല'
+          : rows + ' റെക്കോർഡുകൾ തിരഞ്ഞെടുത്തു.',
     recordsPerPage: 'ഓരോ പേജിലും റെക്കോർഡുകൾ:',
     allRows: 'എല്ലാം',
-    pagination: (start, end, total) => start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
+    pagination: (start, end, total) =>
+      start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
     columns: 'നിരകൾ'
   },
   pagination: {

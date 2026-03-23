@@ -14,4 +14,6 @@ import { BexBridge, BexBridgeOptions } from "../bridge";
  * @example
  * const bridge = createBridge({ debug: true });
  */
-export declare const createBridge: (options?: Pick<BexBridgeOptions, "debug">) => BexBridge;
+export declare const createBridge: (
+  options?: Pick<BexBridgeOptions, "debug">
+) => BexBridge;

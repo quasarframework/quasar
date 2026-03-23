@@ -8,6 +8,7 @@ related:
   - /vue-directives/touch-repeat
   - /vue-directives/touch-pan
 ---
+
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 
 > **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
@@ -33,6 +34,7 @@ However, you can change this sensitivity too (notice the directive argument belo
 <DocExample title="Custom sensitivity" file="CustomSensitivity" />
 
 ### Handling Mouse Events
+
 When you want to also handle mouse events too, use the `mouse` modifier:
 
 ```html
@@ -40,6 +42,7 @@ When you want to also handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Inhibiting TouchHold
+
 When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
@@ -59,4 +62,5 @@ When you want to inhibit TouchHold, you can do so by stopping propagation of the
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchHold will still trigger.
 
 ## Note on HMR
+
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

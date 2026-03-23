@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private.use-model-toggle/use-model-toggle" ],
+  "mixins": ["composables/private.use-model-toggle/use-model-toggle"],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/layout/drawer"
@@ -9,7 +9,7 @@
     "side": {
       "type": "String",
       "desc": "Side to attach to",
-      "values": [ "'left'", "'right'" ],
+      "values": ["'left'", "'right'"],
       "default": "'left'",
       "category": "behavior"
     },
@@ -61,14 +61,14 @@
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
       "default": "1023",
-      "examples": [ "1200" ],
+      "examples": ["1200"],
       "category": "behavior"
     },
 
     "behavior": {
       "type": "String",
       "desc": "Overrides the default dynamic mode into which the drawer is put on",
-      "values": [ "'default'", "'desktop'", "'mobile'" ],
+      "values": ["'default'", "'desktop'", "'mobile'"],
       "default": "'default'",
       "category": "behavior"
     },

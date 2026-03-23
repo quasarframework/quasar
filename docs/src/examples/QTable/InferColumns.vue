@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      :rows="rows"
-      row-key="name"
-      flat bordered
-    />
+    <q-table :rows="rows" row-key="name" flat bordered />
   </div>
 </template>
 
@@ -112,7 +108,7 @@ const rows = [
   }
 ]
 export default {
-  setup () {
+  setup() {
     return { rows }
   }
 }

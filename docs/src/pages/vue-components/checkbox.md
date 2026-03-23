@@ -16,7 +16,6 @@ The QCheckbox component is another basic element for user input. You can use thi
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 :::
 
-
 <DocApi file="QCheckbox" />
 
 ## Usage
@@ -65,8 +64,8 @@ By default, QCheckbox follows this chain when toggling: indeterminate -> checked
 
 Toggling order is:
 
-* if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
-* otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
+- if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
+- otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
 
 <DocExample title="Toggle order" file="ToggleOrder" />
 

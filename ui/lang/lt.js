@@ -1,13 +1,12 @@
-function plurals (n, opts) {
-  const index = n % 10 === 1 && n % 100 !== 11
-    ? 0
-    : (
-        n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 10 || n % 100 >= 20)
-          ? 1
-          : 2
-      )
+function plurals(n, opts) {
+  const index =
+    n % 10 === 1 && n % 100 !== 11
+      ? 0
+      : n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 10 || n % 100 >= 20)
+        ? 1
+        : 2
 
-  return opts[ index ].replace(/{}/g, n)
+  return opts[index].replace(/{}/g, n)
 }
 
 export default {
@@ -27,13 +26,18 @@ export default {
     search: 'Ieškoti',
     filter: 'Filtruoti',
     refresh: 'Atnaujinti',
-    expand: label => (label ? `Išskleisti "${ label }"` : 'Išskleisti'),
-    collapse: label => (label ? `Sutraukti "${ label }"` : 'Sutraukti')
+    expand: label => (label ? `Išskleisti "${label}"` : 'Išskleisti'),
+    collapse: label => (label ? `Sutraukti "${label}"` : 'Sutraukti')
   },
   date: {
-    days: 'Sekmadienis_Pirmadienis_Antradienis_Trečiadienis_Ketvirtadienis_Penktadienis_Šeštadienis'.split('_'),
+    days: 'Sekmadienis_Pirmadienis_Antradienis_Trečiadienis_Ketvirtadienis_Penktadienis_Šeštadienis'.split(
+      '_'
+    ),
     daysShort: 'S_P_A_T_K_Pn_Š'.split('_'),
-    months: 'Sausis_Vasaris_Kovas_Balandis_Gegužė_Birželis_Liepa_Rugpjūtis_Rugsėjis_Spalis_Lapkritis_Gruodis'.split('_'),
+    months:
+      'Sausis_Vasaris_Kovas_Balandis_Gegužė_Birželis_Liepa_Rugpjūtis_Rugsėjis_Spalis_Lapkritis_Gruodis'.split(
+        '_'
+      ),
     monthsShort: 'Sau_Vas_Kov_Bal_Geg_Bir_Lie_Rgp_Rgs_Spa_Lap_Gru'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -43,18 +47,21 @@ export default {
     prevYear: 'Ankstesni metai',
     nextYear: 'Kitais metais',
     today: 'Šiandien',
-    prevRangeYears: range => `Ankstesnis ${ range } metai`,
-    nextRangeYears: range => `Kitas ${ range } metai`
+    prevRangeYears: range => `Ankstesnis ${range} metai`,
+    nextRangeYears: range => `Kitas ${range} metai`
   },
   table: {
     noData: 'Nėra duomenų',
     noResults: 'Įrašų nerasta',
     loading: 'Įkeliama...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? plurals(rows, [ 'Pasirinktas {} įrašas', 'Pasirinkti {} įrašai', 'Pasirinkta {} įrašų' ]) + '.'
-        : 'Nepasirinktas joks įrašas.'
-    ),
+        ? plurals(rows, [
+            'Pasirinktas {} įrašas',
+            'Pasirinkti {} įrašai',
+            'Pasirinkta {} įrašų'
+          ]) + '.'
+        : 'Nepasirinktas joks įrašas.',
     recordsPerPage: 'Puslapyje:',
     allRows: 'Visi',
     pagination: (start, end, total) => start + '-' + end + ' iš ' + total,

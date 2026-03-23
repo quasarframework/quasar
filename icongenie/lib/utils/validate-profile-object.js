@@ -1,4 +1,3 @@
-
 import Joi from 'joi'
 import { red } from 'kolorist'
 
@@ -6,13 +5,13 @@ import { generators } from '../generators/index.js'
 import { modes } from '../modes/index.js'
 
 const generatorsList = Object.keys(generators)
-const modesList = [ 'all' ].concat(Object.keys(modes))
-const platformsList = [ 'cordova-ios', 'cordova-android' ]
+const modesList = ['all'].concat(Object.keys(modes))
+const platformsList = ['cordova-ios', 'cordova-android']
 
 const baseParamsSchema = {
-  include: Joi.array().min(1).items(
-    Joi.string().valid(...modesList)
-  ),
+  include: Joi.array()
+    .min(1)
+    .items(Joi.string().valid(...modesList)),
 
   icon: Joi.string().min(1),
   background: Joi.string().min(1),
@@ -21,15 +20,15 @@ const baseParamsSchema = {
   quality: Joi.number().integer().min(1).max(12),
 
   skipTrim: Joi.boolean(),
-  padding: Joi.array().items(
-    Joi.number().integer().min(0)
-  ).min(1).max(2),
+  padding: Joi.array().items(Joi.number().integer().min(0)).min(1).max(2),
 
   splashscreenIconRatio: Joi.number().integer().min(0).max(100)
 }
 
 const assetsSchema = Joi.array().items({
-  generator: Joi.string().required().valid(...generatorsList),
+  generator: Joi.string()
+    .required()
+    .valid(...generatorsList),
   name: Joi.string().required().min(1),
   folder: Joi.string().required().min(1),
 
@@ -46,12 +45,13 @@ const assetsSchema = Joi.array().items({
 
   sizes: Joi.when('generator', {
     is: Joi.valid('png', 'splashscreen'),
-    then: Joi.array().required().min(1).items(
-      Joi.number().integer().min(1),
-      Joi.array().items(
-        Joi.number().integer().min(1)
-      ).length(2)
-    )
+    then: Joi.array()
+      .required()
+      .min(1)
+      .items(
+        Joi.number().integer().min(1),
+        Joi.array().items(Joi.number().integer().min(1)).length(2)
+      )
   }),
 
   tag: Joi.string()
@@ -61,8 +61,10 @@ const assetsSchema = Joi.array().items({
  * When generating the profile file, we don't want to validate with # on the hex color.
  * When generating the icon, we're expecting a hash on the color (automatically added to user input via the CLI)
  */
-const getColorParamsSchema = (requireHash) => {
-  const colorPattern = Joi.string().pattern(new RegExp(`^${ requireHash ? '#' : '' }[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
+const getColorParamsSchema = requireHash => {
+  const colorPattern = Joi.string().pattern(
+    new RegExp(`^${requireHash ? '#' : ''}[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`)
+  )
   return {
     themeColor: colorPattern,
     pngColor: colorPattern,
@@ -71,14 +73,15 @@ const getColorParamsSchema = (requireHash) => {
   }
 }
 
-const getParamsSchema = (isGeneratingProfileFile) => {
-  return {
-    ...baseParamsSchema,
-    ...getColorParamsSchema(isGeneratingProfileFile === false)
-  }
-}
+const getParamsSchema = isGeneratingProfileFile => ({
+  ...baseParamsSchema,
+  ...getColorParamsSchema(isGeneratingProfileFile === false)
+})
 
-export function validateProfileObject (profileObject, generatingProfileFile = false) {
+export function validateProfileObject(
+  profileObject,
+  generatingProfileFile = false
+) {
   const profileSchema = Joi.object({
     params: getParamsSchema(generatingProfileFile),
     assets: assetsSchema
@@ -86,8 +89,10 @@ export function validateProfileObject (profileObject, generatingProfileFile = fa
 
   const { error } = profileSchema.validate(profileObject)
   if (error) {
-    console.error(` ${ red('ERROR') }: Input parameters are not valid. Please correct them.`)
-    console.error(` ${ error }`)
+    console.error(
+      ` ${red('ERROR')}: Input parameters are not valid. Please correct them.`
+    )
+    console.error(` ${error}`)
     console.log()
     process.exit(1)
   }

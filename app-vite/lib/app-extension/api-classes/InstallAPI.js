@@ -15,7 +15,7 @@ import { BaseAPI } from './BaseAPI.js'
 export class InstallAPI extends BaseAPI {
   prompts
 
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
@@ -28,7 +28,7 @@ export class InstallAPI extends BaseAPI {
    *
    * @return {object} cfg
    */
-  getPersistentConf () {
+  getPersistentConf() {
     return this.#appExtJson.getInternal(this.extId)
   }
 
@@ -38,7 +38,7 @@ export class InstallAPI extends BaseAPI {
    *
    * @param {object} cfg
    */
-  setPersistentConf (cfg) {
+  setPersistentConf(cfg) {
     this.#appExtJson.setInternal(this.extId, cfg || {})
   }
 
@@ -49,7 +49,7 @@ export class InstallAPI extends BaseAPI {
    *
    * @param {object} cfg
    */
-  mergePersistentConf (cfg = {}) {
+  mergePersistentConf(cfg = {}) {
     const currentCfg = this.getPersistentConf()
     this.setPersistentConf(merge({}, currentCfg, cfg))
   }
@@ -68,15 +68,19 @@ export class InstallAPI extends BaseAPI {
    * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWith (packageName, semverCondition) {
+  compatibleWith(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
-      fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
+      fatal(
+        `Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`
+      )
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${ this.extId }): is not compatible with ${ packageName } v${ json.version }. Required version: ${ semverCondition }`)
+      fatal(
+        `Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`
+      )
     }
   }
 
@@ -91,7 +95,7 @@ export class InstallAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
@@ -110,7 +114,7 @@ export class InstallAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed & invoked
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -120,11 +124,9 @@ export class InstallAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const json = getPackageJson(packageName, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**
@@ -133,7 +135,7 @@ export class InstallAPI extends BaseAPI {
    *
    * @param {object|string} extPkg - Object to extend with or relative path to a JSON file
    */
-  extendPackageJson (extPkg) {
+  extendPackageJson(extPkg) {
     if (!extPkg) return
 
     if (typeof extPkg === 'string') {
@@ -142,33 +144,33 @@ export class InstallAPI extends BaseAPI {
 
       if (!fs.existsSync(source)) {
         warn()
-        warn(`Extension(${ this.extId }): extendPackageJson() - cannot locate ${ extPkg }. Skipping...`)
+        warn(
+          `Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`
+        )
         warn()
         return
       }
       if (fs.lstatSync(source).isDirectory()) {
         warn()
-        warn(`Extension(${ this.extId }): extendPackageJson() - "${ extPkg }" is a folder instead of file. Skipping...`)
+        warn(
+          `Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`
+        )
         warn()
         return
       }
 
       try {
-        extPkg = JSON.parse(
-          fs.readFileSync(source, 'utf-8')
+        extPkg = JSON.parse(fs.readFileSync(source, 'utf-8'))
+      } catch {
+        warn(
+          `Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`
         )
-      }
-      catch (_) {
-        warn(`Extension(${ this.extId }): extendPackageJson() - "${ extPkg }" is malformed`)
         warn()
         process.exit(1)
       }
     }
 
-    if (
-      Object(extPkg) !== extPkg
-      || Object.keys(extPkg).length === 0
-    ) return
+    if (Object(extPkg) !== extPkg || Object.keys(extPkg).length === 0) return
 
     const pkg = merge({}, this.ctx.pkg.appPkg, extPkg)
 
@@ -179,11 +181,11 @@ export class InstallAPI extends BaseAPI {
     )
 
     if (
-      extPkg.dependencies
-      || extPkg.devDependencies
-      || extPkg.optionalDependencies
-      || extPkg.bundleDependencies
-      || extPkg.peerDependencies
+      extPkg.dependencies ||
+      extPkg.devDependencies ||
+      extPkg.optionalDependencies ||
+      extPkg.bundleDependencies ||
+      extPkg.peerDependencies
     ) {
       this.#needsNodeModulesUpdate = true
     }
@@ -196,8 +198,12 @@ export class InstallAPI extends BaseAPI {
    * @param {string} file (relative path to app root folder)
    * @param {object} newData (Object to merge in)
    */
-  extendJsonFile (file, newData) {
-    if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
+  extendJsonFile(file, newData) {
+    if (
+      newData !== void 0 &&
+      Object(newData) === newData &&
+      Object.keys(newData).length > 0
+    ) {
       const filePath = this.resolve.app(file)
 
       // Try to parse the JSON with Node native tools.
@@ -207,20 +213,27 @@ export class InstallAPI extends BaseAPI {
       // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
       // TODO: use parseJSONC/stringifyJSONC from confbox
       try {
-        const existingData = fs.existsSync(filePath) ? parseJSON(fs.readFileSync(filePath, 'utf-8')) : {}
+        const existingData = fs.existsSync(filePath)
+          ? parseJSON(fs.readFileSync(filePath, 'utf-8'))
+          : {}
         const data = merge({}, existingData, newData)
 
         fs.writeFileSync(
           this.resolve.app(file),
           // if file exists, preserve indentation, otherwise use 2 spaces
-          stringifyJSON(data, { indent: Object.keys(existingData).length > 0 ? undefined : 2 }),
+          stringifyJSON(data, {
+            indent: Object.keys(existingData).length > 0 ? void 0 : 2
+          }),
           'utf-8'
         )
-      }
-      catch (_) {
+      } catch {
         warn()
-        warn(`Extension(${ this.extId }): extendJsonFile() - "${ filePath }" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
-        warn(`Extension(${ this.extId }): extendJsonFile() - The extension tried to apply these updates to "${ filePath }" file: ${ JSON.stringify(newData) }`)
+        warn(
+          `Extension(${this.extId}): extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`
+        )
+        warn(
+          `Extension(${this.extId}): extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(newData)}`
+        )
         warn()
       }
     }
@@ -233,19 +246,23 @@ export class InstallAPI extends BaseAPI {
    * @param {string} templatePath (relative path to folder to render in app)
    * @param {object} scope (optional; rendering scope variables)
    */
-  render (templatePath, scope) {
+  render(templatePath, scope) {
     const dir = getCallerPath()
     const source = path.resolve(dir, templatePath)
     const rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(source)) {
       warn()
-      warn(`Extension(${ this.extId }): render() - cannot locate ${ templatePath }. Skipping...\n`)
+      warn(
+        `Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...\n`
+      )
       return
     }
     if (!fs.lstatSync(source).isDirectory()) {
       warn()
-      warn(`Extension(${ this.extId }): render() - "${ templatePath }" is a file instead of folder. Skipping...\n`)
+      warn(
+        `Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...\n`
+      )
       return
     }
 
@@ -264,7 +281,7 @@ export class InstallAPI extends BaseAPI {
    * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)
    * @param {object} scope (optional; rendering scope variables)
    */
-  renderFile (relativeSourcePath, relativeTargetPath, scope) {
+  renderFile(relativeSourcePath, relativeTargetPath, scope) {
     const dir = getCallerPath()
     const sourcePath = path.resolve(dir, relativeSourcePath)
     const targetPath = this.resolve.app(relativeTargetPath)
@@ -272,12 +289,16 @@ export class InstallAPI extends BaseAPI {
 
     if (!fs.existsSync(sourcePath)) {
       warn()
-      warn(`Extension(${ this.extId }): renderFile() - cannot locate ${ relativeSourcePath }. Skipping...\n`)
+      warn(
+        `Extension(${this.extId}): renderFile() - cannot locate ${relativeSourcePath}. Skipping...\n`
+      )
       return
     }
     if (fs.lstatSync(sourcePath).isDirectory()) {
       warn()
-      warn(`Extension(${ this.extId }): renderFile() - "${ relativeSourcePath }" is a folder instead of a file. Skipping...\n`)
+      warn(
+        `Extension(${this.extId}): renderFile() - "${relativeSourcePath}" is a folder instead of a file. Skipping...\n`
+      )
       return
     }
 
@@ -295,7 +316,7 @@ export class InstallAPI extends BaseAPI {
    *
    * @param {string} msg
    */
-  onExitLog (msg) {
+  onExitLog(msg) {
     this.#hooks.exitLog.push(msg)
   }
 
@@ -306,7 +327,7 @@ export class InstallAPI extends BaseAPI {
   #appExtJson
   #needsNodeModulesUpdate = false
 
-  __getNodeModuleNeedsUpdate (appExtJson) {
+  __getNodeModuleNeedsUpdate(appExtJson) {
     // protect against external access
     if (appExtJson === this.#appExtJson) {
       return this.#needsNodeModulesUpdate
@@ -319,7 +340,7 @@ export class InstallAPI extends BaseAPI {
     exitLog: []
   }
 
-  __getHooks (appExtJson) {
+  __getHooks(appExtJson) {
     // protect against external access
     if (appExtJson === this.#appExtJson) {
       return this.#hooks

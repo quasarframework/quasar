@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 

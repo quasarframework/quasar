@@ -29,16 +29,16 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
       editor: ref(
         'After you define a new button,' +
-        ' you have to make sure to put it in the toolbar too!'
+          ' you have to make sure to put it in the toolbar too!'
       ),
 
-      saveWork () {
+      saveWork() {
         $q.notify({
           message: 'Saved your text to local storage',
           color: 'green-4',
@@ -46,7 +46,7 @@ export default {
           icon: 'cloud_done'
         })
       },
-      uploadIt () {
+      uploadIt() {
         $q.notify({
           message: 'Server unavailable. Check connectivity.',
           color: 'red-5',

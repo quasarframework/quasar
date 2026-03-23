@@ -19,14 +19,14 @@ const {
   copyCssFile
 } = require('./utils')
 
-const svgFolder = resolve(__dirname, `../node_modules/${ packageName }/icons/`)
+const svgFolder = resolve(__dirname, `../node_modules/${packageName}/icons/`)
 const svgFiles = globSync(svgFolder + '/*.svg')
 let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
 
-svgFiles.forEach((file) => {
+svgFiles.forEach(file => {
   const name = defaultNameMapper(file, prefix)
 
   if (iconNames.has(name)) return
@@ -37,23 +37,16 @@ svgFiles.forEach((file) => {
     typeExports.push(typeDef)
 
     iconNames.add(name)
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err)
     skipped.push(name)
   }
 })
 
-iconNames = [ ...iconNames ]
-svgExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-typeExports.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
-iconNames.sort((a, b) => {
-  return ('' + a).localeCompare(b)
-})
+iconNames = [...iconNames]
+svgExports.sort((a, b) => String(a).localeCompare(b))
+typeExports.sort((a, b) => String(a).localeCompare(b))
+iconNames.sort((a, b) => String(a).localeCompare(b))
 
 writeExports(
   iconSetName,
@@ -66,36 +59,35 @@ writeExports(
 
 // then update webfont files
 
-const webfont = [ 'bootstrap-icons.woff', 'bootstrap-icons.woff2' ]
+const webfont = ['bootstrap-icons.woff', 'bootstrap-icons.woff2']
 
-webfont.forEach((file) => {
+webfont.forEach(file => {
   copySync(
-    resolve(__dirname, `../node_modules/${ packageName }/font/fonts/${ file }`),
-    resolve(__dirname, `../bootstrap-icons/${ file }`)
+    resolve(__dirname, `../node_modules/${packageName}/font/fonts/${file}`),
+    resolve(__dirname, `../bootstrap-icons/${file}`)
   )
 })
 
 copyCssFile({
   from: resolve(
     __dirname,
-    `../node_modules/${ packageName }/font/bootstrap-icons.css`
+    `../node_modules/${packageName}/font/bootstrap-icons.css`
   ),
   to: resolve(__dirname, '../bootstrap-icons/bootstrap-icons.css'),
-  replaceFn: (content) => {
-    return content.replace(
+  replaceFn: content =>
+    content.replace(
       /src:[^;]+;/,
       'src: url("./bootstrap-icons.woff2") format("woff2"), url("./bootstrap-icons.woff") format("woff");'
     )
-  }
 })
 
 copySync(
-  resolve(__dirname, `../node_modules/${ packageName }/LICENSE`),
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
   resolve(__dirname, '../bootstrap-icons/LICENSE')
 )
 
 // write the JSON file
 const file = resolve(__dirname, join('..', distName, 'icons.json'))
-writeFileSync(file, JSON.stringify([ ...iconNames ].sort(), null, 2), 'utf-8')
+writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
 
-console.log(`${ distName } done with ${ iconNames.length } icons`)
+console.log(`${distName} done with ${iconNames.length} icons`)

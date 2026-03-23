@@ -7,7 +7,7 @@ const argv = parseArgs(process.argv.slice(2), {
     s: 'silent',
     h: 'help'
   },
-  boolean: [ 's', 'h' ]
+  boolean: ['s', 'h']
 })
 
 if (argv.help) {
@@ -32,10 +32,7 @@ const { readFileSync } = await import('node:fs')
 
 if (!argv.silent) {
   console.log(
-    readFileSync(
-      new URL('../../assets/logo.art', import.meta.url),
-      'utf8'
-    )
+    readFileSync(new URL('../../assets/logo.art', import.meta.url), 'utf8')
   )
 }
 

@@ -13,12 +13,12 @@ export class AppTool {
   argv
   ctx
 
-  constructor ({ argv, ctx }) {
+  constructor({ argv, ctx }) {
     this.argv = argv
     this.ctx = ctx
   }
 
-  async buildWithVite (threadName, viteConfig) {
+  async buildWithVite(threadName, viteConfig) {
     // ensure clean build
     this.cleanArtifacts(viteConfig.build.outDir)
 
@@ -31,12 +31,12 @@ export class AppTool {
     done('___ compiled with success by Vite')
   }
 
-  async watchWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
+  async watchWithEsbuild(threadName, esbuildConfig, onRebuildSuccess) {
     let resolve
 
     esbuildConfig.plugins.push({
       name: 'quasar:on-rebuild',
-      setup (build) {
+      setup(build) {
         let isFirst = true
         let done
 
@@ -66,14 +66,14 @@ export class AppTool {
     const esbuildCtx = await esContextBuild(esbuildConfig)
     await esbuildCtx.watch()
 
-    return new Promise(res => { // eslint-disable-line promise/param-names
+    return new Promise(res => {
       resolve = () => {
         res(esbuildCtx)
       }
     })
   }
 
-  async buildWithEsbuild (threadName, esbuildConfig) {
+  async buildWithEsbuild(threadName, esbuildConfig) {
     const done = progress(
       'Compiling of ___ with Esbuild in progress...',
       threadName
@@ -85,11 +85,10 @@ export class AppTool {
     return esbuildResult
   }
 
-  cleanArtifacts (dir) {
+  cleanArtifacts(dir) {
     if (dir.endsWith(cordovaWWW)) {
       fse.emptyDirSync(dir)
-    }
-    else if (dir.endsWith(capacitorWWW)) {
+    } else if (dir.endsWith(capacitorWWW)) {
       const { appPaths } = this.ctx
 
       fse.emptyDirSync(dir)
@@ -97,8 +96,7 @@ export class AppTool {
         appPaths.resolve.cli('templates/capacitor/www'),
         appPaths.resolve.capacitor('www')
       )
-    }
-    else {
+    } else {
       fse.removeSync(dir)
     }
   }

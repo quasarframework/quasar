@@ -1,8 +1,18 @@
-import { inject, watch, getCurrentInstance, onMounted, onBeforeUnmount } from 'vue'
+import {
+  inject,
+  watch,
+  getCurrentInstance,
+  onMounted,
+  onBeforeUnmount
+} from 'vue'
 
 import { formKey } from '../../utils/private.symbols/symbols.js'
 
-export default function ({ validate, resetValidation, requiresQForm }) {
+export default function useFormChild({
+  validate,
+  resetValidation,
+  requiresQForm
+}) {
   const $form = inject(formKey, false)
 
   if ($form !== false) {
@@ -11,27 +21,28 @@ export default function ({ validate, resetValidation, requiresQForm }) {
     // export public method (so it can be used in QForm)
     Object.assign(proxy, { validate, resetValidation })
 
-    watch(() => props.disable, val => {
-      if (val === true) {
-        typeof resetValidation === 'function' && resetValidation()
-        $form.unbindComponent(proxy)
+    watch(
+      () => props.disable,
+      val => {
+        if (val === true) {
+          if (typeof resetValidation === 'function') resetValidation()
+          $form.unbindComponent(proxy)
+        } else {
+          $form.bindComponent(proxy)
+        }
       }
-      else {
-        $form.bindComponent(proxy)
-      }
-    })
+    )
 
     onMounted(() => {
       // register to parent QForm
-      props.disable !== true && $form.bindComponent(proxy)
+      if (props.disable !== true) $form.bindComponent(proxy)
     })
 
     onBeforeUnmount(() => {
       // un-register from parent QForm
-      props.disable !== true && $form.unbindComponent(proxy)
+      if (props.disable !== true) $form.unbindComponent(proxy)
     })
-  }
-  else if (requiresQForm === true) {
+  } else if (requiresQForm === true) {
     console.error('Parent QForm not found on useFormChild()!')
   }
 }

@@ -6,13 +6,12 @@ export default {
   name: 'quasar-docs:md',
   enforce: 'pre',
 
-  transform (code, id) {
+  transform(code, id) {
     if (mdRE.test(id) === false) return
 
     try {
       return mdParse(code, id)
-    }
-    catch (err) {
+    } catch (err) {
       this.error(err)
     }
   }

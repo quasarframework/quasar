@@ -1,4 +1,7 @@
-const { createWebpackChain, extendWebpackChain } = require('../../config-tools.js')
+const {
+  createWebpackChain,
+  extendWebpackChain
+} = require('../../config-tools.js')
 const { injectWebpackHtml } = require('../../utils/html-template.js')
 
 const quasarCapacitorConfig = {
@@ -6,20 +9,18 @@ const quasarCapacitorConfig = {
     const { ctx } = quasarConf
     const { appPaths } = ctx
 
-    const webpackChain = await createWebpackChain(quasarConf, { compileId: 'webpack-capacitor', threadName: 'Capacitor UI' })
+    const webpackChain = await createWebpackChain(quasarConf, {
+      compileId: 'webpack-capacitor',
+      threadName: 'Capacitor UI'
+    })
     const capNodeModules = appPaths.resolve.capacitor('node_modules')
 
-    webpackChain.resolve.modules
-      .merge([ capNodeModules ])
+    webpackChain.resolve.modules.merge([capNodeModules])
 
-    webpackChain.resolveLoader.modules
-      .merge([ capNodeModules ])
+    webpackChain.resolveLoader.modules.merge([capNodeModules])
 
     if (ctx.prod) {
-      webpackChain.output
-        .path(
-          appPaths.resolve.capacitor('www')
-        )
+      webpackChain.output.path(appPaths.resolve.capacitor('www'))
     }
 
     injectWebpackHtml(webpackChain, quasarConf)

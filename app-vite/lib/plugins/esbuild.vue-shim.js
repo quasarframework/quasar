@@ -4,7 +4,7 @@
  */
 export const quasarEsbuildVueShimPlugin = {
   name: 'quasar:vue-shim',
-  setup (build) {
+  setup(build) {
     build.onLoad({ filter: /\.vue$/ }, () => ({ contents: '' }))
   }
 }

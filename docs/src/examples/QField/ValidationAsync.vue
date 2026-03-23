@@ -5,7 +5,7 @@
       filled
       :model-value="slider"
       hint="Pick between 10 and 60"
-      :rules="[ myRule ]"
+      :rules="[myRule]"
     >
       <template v-slot:control>
         <q-slider
@@ -20,7 +20,12 @@
       </template>
     </q-field>
 
-    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
+    <q-btn
+      class="q-mt-sm"
+      label="Reset Validation"
+      @click="reset"
+      color="primary"
+    />
   </div>
 </template>
 
@@ -28,14 +33,14 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const fieldRef = ref(null)
 
     return {
       slider: ref(10),
       fieldRef,
 
-      myRule (val) {
+      myRule(val) {
         // simulating a delay
 
         return new Promise((resolve, reject) => {
@@ -47,7 +52,9 @@ export default {
             //     --> content is NOT valid, no error message
             //  resolve(error_message)
             //     --> content is NOT valid, we have error message
-            resolve((val >= 10 && val <= 60) || 'Please set value to maximum 60')
+            resolve(
+              (val >= 10 && val <= 60) || 'Please set value to maximum 60'
+            )
 
             // calling reject(...) will also mark the input
             // as having an error, but there will not be any
@@ -57,7 +64,7 @@ export default {
         })
       },
 
-      reset () {
+      reset() {
         fieldRef.value.resetValidation()
       }
     }

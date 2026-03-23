@@ -1,7 +1,11 @@
 <template>
   <div class="q-pa-md example-masonry">
-
-    <q-btn class="q-mb-md" color="primary" label="Regenerate layout" @click="onClick" />
+    <q-btn
+      class="q-mb-md"
+      color="primary"
+      label="Regenerate layout"
+      @click="onClick"
+    />
 
     <div class="column example-container">
       <div class="flex-break hidden"></div>
@@ -9,7 +13,12 @@
       <div class="flex-break"></div>
       <div class="flex-break"></div>
 
-      <div v-for="(cell, i) in cells" :key="i" class="example-cell" tabindex="0">
+      <div
+        v-for="(cell, i) in cells"
+        :key="i"
+        class="example-cell"
+        tabindex="0"
+      >
         <div>
           <div v-for="(text, j) in cell" :key="j">
             {{ text }}
@@ -17,24 +26,28 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
 
-const generateCells = () => Array(24).fill(null).map((_, cell) => (
-  Array(2 + Math.ceil(3 * Math.random())).fill(null).map((_, text) => `Cell ${cell + 1} - ${text + 1}`)
-))
+const generateCells = () =>
+  Array(24)
+    .fill(null)
+    .map((item, cell) =>
+      Array(2 + Math.ceil(3 * Math.random()))
+        .fill(null)
+        .map((entry, text) => `Cell ${cell + 1} - ${text + 1}`)
+    )
 
 export default {
-  setup () {
+  setup() {
     const cells = ref(generateCells())
 
     return {
       cells,
-      onClick () {
+      onClick() {
         cells.value = generateCells()
       }
     }

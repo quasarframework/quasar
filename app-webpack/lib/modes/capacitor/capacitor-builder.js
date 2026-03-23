@@ -15,20 +15,20 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   #capacitorConfigFile = new CapacitorConfigFile()
   #packagedDir
 
-  async build () {
+  async build() {
     this.#packagedDir = join(this.quasarConf.build.distDir, this.ctx.targetName)
 
     await this.#buildFiles()
     return this.#packageFiles()
   }
 
-  async #buildFiles () {
+  async #buildFiles() {
     const webpackConf = await quasarCapacitorConfig.webpack(this.quasarConf)
     await this.buildWithWebpack('Capacitor UI', webpackConf)
     this.printSummary(webpackConf.output.path)
   }
 
-  async #packageFiles () {
+  async #packageFiles() {
     const target = this.ctx.targetName
     const { appPaths, cacheProxy } = this.ctx
 
@@ -45,7 +45,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       capBin
     )
 
-    if (this.argv[ 'skip-pkg' ] !== true) {
+    if (this.argv['skip-pkg'] !== true) {
       if (this.argv.ide === true) {
         await openIDE({
           mode: 'capacitor',
@@ -59,50 +59,46 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
       if (target === 'ios') {
         await this.#buildIos()
-      }
-      else {
+      } else {
         await this.#buildAndroid()
       }
     }
   }
 
-  #cleanup () {
+  #cleanup() {
     this.#capacitorConfigFile.reset()
   }
 
-  #runCapacitorCommand (args, capBin) {
+  #runCapacitorCommand(args, capBin) {
     return new Promise(resolve => {
-      spawn(
-        capBin,
-        args,
-        { cwd: this.ctx.appPaths.capacitorDir },
-        code => {
-          this.#cleanup()
+      spawn(capBin, args, { cwd: this.ctx.appPaths.capacitorDir }, code => {
+        this.#cleanup()
 
-          if (code) {
-            fatal('Capacitor CLI has failed', 'FAIL')
-          }
-
-          resolve && resolve()
+        if (code) {
+          fatal('Capacitor CLI has failed', 'FAIL')
         }
-      )
+
+        resolve()
+      })
     })
   }
 
-  async #buildIos () {
+  async #buildIos() {
     const buildType = this.quasarConf.metaConf.debugging ? 'debug' : 'release'
-    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${ buildType } -derivedDataPath`
+    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${buildType} -derivedDataPath`
 
     log('Building iOS app...')
 
     await spawnSync(
       'xcrun',
-      args.split(' ').concat([ this.#packagedDir ]).concat(this.argv._),
+      args.split(' ').concat([this.#packagedDir]).concat(this.argv._),
       { cwd: this.ctx.appPaths.resolve.capacitor('ios/App') },
       () => {
         console.log()
         console.log(' ⚠️  xcodebuild command failed!')
-        console.log(' ⚠️  As an alternative, you can use the "--ide" param and build from the IDE.')
+        console.log(
+          ' ⚠️  As an alternative, you can use the "--ide" param and build from the IDE.'
+        )
         console.log()
 
         // cleanup build folder
@@ -111,7 +107,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     )
   }
 
-  async #buildAndroid () {
+  async #buildAndroid() {
     const buildPath = this.ctx.appPaths.resolve.capacitor(
       'android/app/build/outputs'
     )
@@ -122,13 +118,17 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     log('Building Android app...')
 
     await spawnSync(
-      `./gradlew${ process.platform === 'win32' ? '.bat' : '' }`,
-      [ `assemble${ this.quasarConf.metaConf.debugging ? 'Debug' : 'Release' }` ].concat(this.argv._),
+      `./gradlew${process.platform === 'win32' ? '.bat' : ''}`,
+      [
+        `assemble${this.quasarConf.metaConf.debugging ? 'Debug' : 'Release'}`
+      ].concat(this.argv._),
       { cwd: this.ctx.appPaths.resolve.capacitor('android') },
       () => {
         warn()
         warn('Gradle build failed!')
-        warn('As an alternative, you can use the "--ide" param and build from the IDE.')
+        warn(
+          'As an alternative, you can use the "--ide" param and build from the IDE.'
+        )
         warn()
       }
     )

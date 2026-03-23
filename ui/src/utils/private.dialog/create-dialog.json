@@ -8,17 +8,17 @@
           "required": true,
           "definition": {
             "class": {
-              "type": [ "String", "Array", "Object" ],
+              "type": ["String", "Array", "Object"],
               "tsType": "VueClassProp",
               "desc": "CSS Class name to apply to the Dialog's QCard",
-              "examples": [ "'my-class'" ]
+              "examples": ["'my-class'"]
             },
 
             "style": {
-              "type": [ "String", "Array", "Object" ],
+              "type": ["String", "Array", "Object"],
               "tsType": "VueStyleProp",
               "desc": "CSS style to apply to the Dialog's QCard",
-              "examples": [ "'border: 2px solid black'" ]
+              "examples": ["'border: 2px solid black'"]
             }
           }
         }
@@ -44,11 +44,18 @@
                     "type": "Any",
                     "desc": "The payload if called onDialogOK with the parameter or emitted one with the 'ok' event",
                     "required": false,
-                    "examples": [ "'Quasar Framework'", "[ 1, 2, 6, 3 ]", "{ book: { id: 1, name: 'Lorem Ipsum' }, user: { name: 'Lorem J. Ipsum', role: 'admin' } }" ]
+                    "examples": [
+                      "'Quasar Framework'",
+                      "[1, 2, 6, 3]",
+                      "{ book: { id: 1, name: 'Lorem Ipsum' }, user: { name: 'Lorem J. Ipsum', role: 'admin' } }"
+                    ]
                   }
                 },
                 "returns": null,
-                "examples": [ "() => console.log('OK!')", "payload => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })" ]
+                "examples": [
+                  "() => console.log('OK!')",
+                  "payload => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })"
+                ]
               }
             },
             "returns": {

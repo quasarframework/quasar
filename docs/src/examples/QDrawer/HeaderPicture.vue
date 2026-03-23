@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
+    <q-layout
+      view="lHh Lpr lff"
+      container
+      style="height: 300px"
+      class="shadow-2 rounded-borders"
+    >
       <q-header elevated class="bg-cyan-8">
         <q-toolbar>
           <q-toolbar-title>Header</q-toolbar-title>
@@ -8,22 +13,21 @@
         </q-toolbar>
       </q-header>
 
-      <q-drawer
-        v-model="drawer"
-        show-if-above
-        :width="200"
-        :breakpoint="400"
-      >
-        <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+      <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="400">
+        <q-scroll-area
+          style="
+            height: calc(100% - 150px);
+            margin-top: 150px;
+            border-right: 1px solid #ddd;
+          "
+        >
           <q-list padding>
             <q-item clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="inbox" />
               </q-item-section>
 
-              <q-item-section>
-                Inbox
-              </q-item-section>
+              <q-item-section> Inbox </q-item-section>
             </q-item>
 
             <q-item active clickable v-ripple>
@@ -31,9 +35,7 @@
                 <q-icon name="star" />
               </q-item-section>
 
-              <q-item-section>
-                Star
-              </q-item-section>
+              <q-item-section> Star </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple>
@@ -41,9 +43,7 @@
                 <q-icon name="send" />
               </q-item-section>
 
-              <q-item-section>
-                Send
-              </q-item-section>
+              <q-item-section> Send </q-item-section>
             </q-item>
 
             <q-item clickable v-ripple>
@@ -51,17 +51,19 @@
                 <q-icon name="drafts" />
               </q-item-section>
 
-              <q-item-section>
-                Drafts
-              </q-item-section>
+              <q-item-section> Drafts </q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+        <q-img
+          class="absolute-top"
+          src="https://cdn.quasar.dev/img/material.png"
+          style="height: 150px"
+        >
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <div class="text-weight-bold">Razvan Stoenescu</div>
             <div>@rstoenescu</div>
@@ -72,7 +74,10 @@
       <q-page-container>
         <q-page padding>
           <p v-for="n in 15" :key="n">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
           </p>
         </q-page>
       </q-page-container>
@@ -84,7 +89,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       drawer: ref(false)
     }

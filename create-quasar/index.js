@@ -5,12 +5,7 @@ import { join } from 'node:path'
 
 // display banner
 console.log()
-console.log(
-  readFileSync(
-    new URL('./assets/logo.art', import.meta.url),
-    'utf8'
-  )
-)
+console.log(readFileSync(new URL('./assets/logo.art', import.meta.url), 'utf8'))
 
 import utils from './utils/index.js'
 
@@ -22,10 +17,10 @@ import prompts from 'prompts'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    n: 'nogit',
+    n: 'nogit'
   },
 
-  boolean: [ 'n' ],
+  boolean: ['n']
 })
 
 /** @type {Record<string, any>} */
@@ -37,7 +32,9 @@ const scope = {
 prompts.override(scope)
 
 if (scope.projectFolder) {
-  utils.logger.log(`Using the project folder provided via arguments: ${ scope.projectFolder }`)
+  utils.logger.log(
+    `Using the project folder provided via arguments: ${scope.projectFolder}`
+  )
   utils.logger.log()
 }
 
@@ -50,9 +47,21 @@ await utils.prompts(scope, [
     initial: 0,
     message: 'What would you like to build?',
     choices: [
-      { title: 'App with Quasar CLI, let\'s go!', value: 'app', description: 'spa/pwa/ssr/bex/electron/capacitor/cordova' },
-      { title: 'AppExtension (AE) for Quasar CLI', value: 'app-extension', description: 'Quasar CLI AE' },
-      { title: 'Quasar UI kit', value: 'ui-kit', description: 'Vue component and/or directive' }
+      {
+        title: "App with Quasar CLI, let's go!",
+        value: 'app',
+        description: 'spa/pwa/ssr/bex/electron/capacitor/cordova'
+      },
+      {
+        title: 'AppExtension (AE) for Quasar CLI',
+        value: 'app-extension',
+        description: 'Quasar CLI AE'
+      },
+      {
+        title: 'Quasar UI kit',
+        value: 'ui-kit',
+        description: 'Vue component and/or directive'
+      }
     ]
   },
   {
@@ -69,13 +78,15 @@ await utils.prompts(scope, [
   },
   {
     type: (_, { projectFolder }) =>
-      (!existsSync(projectFolder) || readdirSync(projectFolder).length === 0 ? null : 'confirm'),
+      !existsSync(projectFolder) || readdirSync(projectFolder).length === 0
+        ? null
+        : 'confirm',
     name: 'overwrite',
     message: () =>
       (scope.projectFolderName === '.'
         ? 'Current directory'
-        : `Target directory "${ scope.projectFolderName }"`)
-      + ' is not empty. Remove existing files and continue?'
+        : `Target directory "${scope.projectFolderName}"`) +
+      ' is not empty. Remove existing files and continue?'
   },
   {
     type: (_, { overwrite } = {}) => {
@@ -88,21 +99,22 @@ await utils.prompts(scope, [
   }
 ])
 
-const { script } = await import(`./templates/${ scope.projectType }/index.js`)
+const { script } = await import(`./templates/${scope.projectType}/index.js`)
 await script({ scope, utils })
 
 console.log()
 utils.logger.success('The project has been scaffolded')
 console.log()
 
-function finalize () {
+function finalize() {
   if (scope.projectFolder) {
     console.log()
 
     if (argv.nogit) {
-      utils.logger.log('Skipping git initialization as --nogit flag was provided')
-    }
-    else {
+      utils.logger.log(
+        'Skipping git initialization as --nogit flag was provided'
+      )
+    } else {
       utils.initializeGit(scope.projectFolder)
     }
   }
@@ -111,41 +123,47 @@ function finalize () {
 }
 
 if (scope.skipDepsInstall !== true) {
-  await utils.prompts(scope, [
+  await utils.prompts(
+    scope,
+    [
+      {
+        type: 'select',
+        name: 'packageManager',
+        message: 'Install project dependencies? (recommended)',
+        choices: () =>
+          utils.runningPackageManager
+            ? [
+                {
+                  title: `Yes, use ${utils.runningPackageManager.name}`,
+                  value: utils.runningPackageManager.name
+                },
+                { title: 'No, I will handle that myself', value: false }
+              ]
+            : [
+                { title: 'Yes, use Yarn (recommended)', value: 'yarn' },
+                { title: 'Yes, use PNPM (recommended)', value: 'pnpm' },
+                { title: 'Yes, use NPM', value: 'npm' },
+                { title: 'Yes, use Bun', value: 'bun' },
+                { title: 'No, I will handle that myself', value: false }
+              ]
+      }
+    ],
     {
-      type: 'select',
-      name: 'packageManager',
-      message:
-        'Install project dependencies? (recommended)',
-      choices: () => (
-        utils.runningPackageManager
-          ? [
-              { title: `Yes, use ${ utils.runningPackageManager.name }`, value: utils.runningPackageManager.name },
-              { title: 'No, I will handle that myself', value: false }
-            ]
-          : [
-              { title: 'Yes, use Yarn (recommended)', value: 'yarn' },
-              { title: 'Yes, use PNPM (recommended)', value: 'pnpm' },
-              { title: 'Yes, use NPM', value: 'npm' },
-              { title: 'Yes, use Bun', value: 'bun' },
-              { title: 'No, I will handle that myself', value: false }
-            ]
-      )
+      onCancel: () => {
+        scope.packageManager = false
+        finalize()
+        process.exit(0)
+      }
     }
-  ], {
-    onCancel: () => {
-      scope.packageManager = false
-      finalize()
-      process.exit(0)
-    }
-  })
+  )
 
   if (scope.packageManager !== false) {
     try {
       await utils.installDeps(scope)
-    }
-    catch {
-      utils.logger.warn('Could not auto install dependencies. Probably a temporary npm registry issue?')
+    } catch {
+      utils.logger.warn(
+        'Could not auto install dependencies. Probably a temporary npm registry issue?'
+      )
       scope.packageManager = false
       finalize()
       process.exit(0)
@@ -154,8 +172,7 @@ if (scope.skipDepsInstall !== true) {
     if (scope.preset.lint) {
       try {
         await utils.lintFolder(scope)
-      }
-      catch {
+      } catch {
         utils.logger.warn('Could not auto lint fix the project folder.')
       }
     }
@@ -163,8 +180,7 @@ if (scope.skipDepsInstall !== true) {
     if (scope.prettier) {
       try {
         await utils.formatFolder(scope)
-      }
-      catch {
+      } catch {
         utils.logger.warn('Could not auto format the project folder.')
       }
     }

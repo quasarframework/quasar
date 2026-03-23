@@ -1,0 +1,11 @@
+{
+  "extends": ["../.oxlintrc.json"],
+
+  "env": {
+    "node": true
+  },
+
+  "rules": {
+    "import/first": "off"
+  }
+}

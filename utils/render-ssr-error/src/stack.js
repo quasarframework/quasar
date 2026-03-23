@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { parse } from 'stack-trace'
 
-function getFilename (filename) {
+function getFilename(filename) {
   if (!filename) {
     return filename
   }
@@ -12,21 +12,31 @@ function getFilename (filename) {
   }
 
   if (process.env.NVM_DIR && process.versions.node) {
-    const nodeFilename = join(process.env.NVM_DIR, 'src/node-v' + process.versions.node, 'lib', filename)
+    const nodeFilename = join(
+      process.env.NVM_DIR,
+      'src/node-v' + process.versions.node,
+      'lib',
+      filename
+    )
     if (existsSync(nodeFilename)) {
       return nodeFilename
     }
   }
 
   if (process.env.FNM_DIR && process.versions.node) {
-    const nodeFilename = join(process.env.FNM_DIR, 'src/node-versions/v' + process.versions.node, 'installation/lib', filename)
+    const nodeFilename = join(
+      process.env.FNM_DIR,
+      'src/node-versions/v' + process.versions.node,
+      'installation/lib',
+      filename
+    )
     if (existsSync(nodeFilename)) {
       return nodeFilename
     }
   }
 }
 
-function getSource (entry) {
+function getSource(entry) {
   const declaredFilename = entry.getFileName()
   const fileName = getFilename(declaredFilename)
 
@@ -50,9 +60,9 @@ function getSource (entry) {
     }
   }
 
-  const highlightTopOffset = `${ 16 /* top padding */ + ((lineNumber - startLineNumber - 1) * 21 /* line-height */) }px`
-  const highlightLeftOffset = `${ 16 /* left padding */ + (entry.getColumnNumber() * 14 /* font-size */) }px`
-  const maxLineNumberLen = ('' + (startLineNumber + linesList.length - 1)).length
+  const highlightTopOffset = `${16 /* top padding */ + (lineNumber - startLineNumber - 1) * 21 /* line-height */}px`
+  const highlightLeftOffset = `${16 /* left padding */ + entry.getColumnNumber() * 14 /* font-size */}px`
+  const maxLineNumberLen = String(startLineNumber + linesList.length - 1).length
 
   return {
     fileName,
@@ -66,7 +76,7 @@ function getSource (entry) {
   }
 }
 
-export function getStack (err, projectRootFolder) {
+export function getStack(err, projectRootFolder) {
   const trace = parse(err)
 
   return trace.map(entry => {
@@ -76,7 +86,7 @@ export function getStack (err, projectRootFolder) {
       fileName: relative(projectRootFolder, fileName),
       sourceCode,
       functionName: entry.getTypeName() || entry.getFunctionName(),
-      methodName: `${ entry.isConstructor() ? 'new ' : '' }${ entry.getMethodName() || '<anonymous>' }`,
+      methodName: `${entry.isConstructor() ? 'new ' : ''}${entry.getMethodName() || '<anonymous>'}`,
       native: entry.isNative(),
       lineNumber: entry.getLineNumber(),
       columnNumber: entry.getColumnNumber()

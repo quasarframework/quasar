@@ -8,4 +8,4 @@ export const formKey = '_q_fo_'
 export const tabsKey = '_q_tabs_'
 export const uploaderKey = '_q_u_'
 
-export function emptyRenderFn () {}
+export function emptyRenderFn() {}

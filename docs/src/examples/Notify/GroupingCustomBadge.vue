@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-btn no-caps color="primary" @click="triggerTwice" label="Trigger twice with custom badge" />
+    <q-btn
+      no-caps
+      color="primary"
+      @click="triggerTwice"
+      label="Trigger twice with custom badge"
+    />
   </div>
 </template>
 
@@ -8,11 +13,11 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      triggerTwice () {
+      triggerTwice() {
         $q.notify({
           message: 'Jim pinged you.',
           color: 'purple',

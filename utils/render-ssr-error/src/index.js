@@ -4,9 +4,9 @@ import { getErrorDetails } from './error-details.js'
 import { getStack } from './stack.js'
 import { getEnv } from './env.js'
 
-function readFile (target) {
+function readFile(target) {
   return readFileSync(
-    new URL(`../compiled-assets/${ target }-injection`, import.meta.url),
+    new URL(`../compiled-assets/${target}-injection`, import.meta.url),
     'utf8'
   )
 }
@@ -22,10 +22,15 @@ const after = readFile('after')
  *  projectRootFolder?: string;
  * }} params
  */
-export default function renderSSRError ({ err, req, res, projectRootFolder = process.cwd() }) {
+export default function renderSSRError({
+  err,
+  req,
+  res,
+  projectRootFolder = process.cwd()
+}) {
   const data = {
     project: {
-      rootFolder: projectRootFolder,
+      rootFolder: projectRootFolder
     },
     error: getErrorDetails(err),
     stack: getStack(err, projectRootFolder),
@@ -44,8 +49,6 @@ export default function renderSSRError ({ err, req, res, projectRootFolder = pro
     Expires: '0'
   })
   res.end(
-    before
-    + JSON.stringify(data).replace(/<\/script>/g, '<\\/script>')
-    + after
+    before + JSON.stringify(data).replace(/<\/script>/g, '<\\/script>') + after
   )
 }

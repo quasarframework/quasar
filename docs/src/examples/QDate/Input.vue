@@ -20,7 +20,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       date: ref('2019/02/01')
     }

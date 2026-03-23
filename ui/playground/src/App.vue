@@ -20,17 +20,46 @@
     </router-view>
     -->
 
-    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" aria-label="Go Home" />
+    <q-btn
+      to="/"
+      round
+      icon="home"
+      dense
+      size="xs"
+      class="fixed dev-home-btn z-max"
+      color="accent"
+      aria-label="Go Home"
+    />
 
     <q-card
-      style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
+      style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000"
       class="rounded-borders shadow-4 fixed"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" aria-label="Settings" />
+      <q-btn
+        dense
+        flat
+        size="sm"
+        icon="visibility"
+        @click="toggleSelector"
+        class="absolute-top-right z-top"
+        aria-label="Settings"
+      />
       <template v-if="showSelector">
-        <q-toggle :model-value="$q.dark.isActive" @update:model-value="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
+        <q-toggle
+          :model-value="$q.dark.isActive"
+          @update:model-value="$q.dark.toggle"
+          :label="`Dark Mode (${$q.dark.mode})`"
+        />
 
-        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" aria-label="Toggle RTL/LTR" />
+        <q-btn
+          dense
+          flat
+          size="sm"
+          :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'"
+          @click="switchRTL"
+          class="absolute-bottom-right z-top"
+          aria-label="Toggle RTL/LTR"
+        />
         <q-select
           label="Quasar Language"
           dense
@@ -59,7 +88,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
 import { Quasar, Dark, useQuasar, useMeta } from 'quasar'
 import { ref, watch, onMounted } from 'vue'
 import languages from 'quasar/lang/index.json'
@@ -68,7 +96,7 @@ const langList = import.meta.glob('../../lang/*.js')
 const iconSetList = import.meta.glob('../../icon-set/*.js')
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
     useMeta({ title: 'Quasar Development' })
 
@@ -76,29 +104,29 @@ export default {
     const iconSet = ref($q.iconSet.name)
     const showSelector = ref(false)
 
-    watch(lang, lang => {
-      langList[ `../../lang/${ lang }.js` ]().then(lang => {
-        $q.lang.set(lang.default)
+    watch(lang, val => {
+      langList[`../../lang/${val}.js`]().then(importLang => {
+        $q.lang.set(importLang.default)
       })
     })
 
-    watch(iconSet, set => {
-      iconSetList[ `../../icon-set/${ set }.js` ]().then(iconSet => {
-        $q.iconSet.set(iconSet.default)
+    watch(iconSet, val => {
+      iconSetList[`../../icon-set/${val}.js`]().then(importIconSet => {
+        $q.iconSet.set(importIconSet.default)
       })
     })
 
-    function resetScroll (el, done) {
+    function resetScroll(el, done) {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0
       done()
     }
 
-    function switchRTL () {
+    function switchRTL() {
       lang.value = lang.value === 'en-US' ? 'he' : 'en-US'
     }
 
-    function toggleSelector () {
+    function toggleSelector() {
       showSelector.value = !showSelector.value
     }
 
@@ -122,15 +150,24 @@ export default {
       toggleSelector,
       showSelector,
       resetScroll,
-      langOptions: languages.map(lang => ({ label: lang.nativeName, value: lang.isoName })),
+      langOptions: languages.map(item => ({
+        label: item.nativeName,
+        value: item.isoName
+      })),
       iconOptions: [
         { label: 'Material', value: 'material-icons' },
         { label: 'SVG Material', value: 'svg-material-icons' },
         { label: 'Material Outlined', value: 'material-icons-outlined' },
         { label: 'Material Round', value: 'material-icons-round' },
         { label: 'Material Sharp', value: 'material-icons-sharp' },
-        { label: 'Material Symbols Outlined', value: 'material-symbols-outlined' },
-        { label: 'Material Symbols Rounded', value: 'material-symbols-rounded' },
+        {
+          label: 'Material Symbols Outlined',
+          value: 'material-symbols-outlined'
+        },
+        {
+          label: 'Material Symbols Rounded',
+          value: 'material-symbols-rounded'
+        },
         { label: 'Material Symbols Sharp', value: 'material-symbols-sharp' },
         { label: 'MDI v6', value: 'mdi-v6' },
         { label: 'SVG MDI v6', value: 'svg-mdi-v6' },

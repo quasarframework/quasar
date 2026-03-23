@@ -72,7 +72,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       value1: ref(7),
       value2: ref(70),

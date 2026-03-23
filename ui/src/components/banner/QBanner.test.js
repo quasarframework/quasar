@@ -13,20 +13,14 @@ describe('[QBanner API]', () => {
           }
         })
 
-        const target = wrapper
-          .get('.q-banner')
-          .get('.q-banner__actions')
+        const target = wrapper.get('.q-banner').get('.q-banner__actions')
 
-        expect(
-          target.classes()
-        ).not.toContain('col-auto')
+        expect(target.classes()).not.toContain('col-auto')
 
         await wrapper.setProps({ inlineActions: true })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('col-auto')
+        expect(target.classes()).toContain('col-auto')
       })
     })
 
@@ -35,16 +29,12 @@ describe('[QBanner API]', () => {
         const wrapper = mount(QBanner)
         const target = wrapper.get('.q-banner')
 
-        expect(
-          target.classes()
-        ).not.toContain('q-banner--dense')
+        expect(target.classes()).not.toContain('q-banner--dense')
 
         await wrapper.setProps({ dense: true })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('q-banner--dense')
+        expect(target.classes()).toContain('q-banner--dense')
       })
     })
 
@@ -53,20 +43,14 @@ describe('[QBanner API]', () => {
         const wrapper = mount(QBanner)
         const target = wrapper.get('.q-banner')
 
-        expect(
-          target.classes()
-        ).not.toContain('rounded-borders')
+        expect(target.classes()).not.toContain('rounded-borders')
 
         await wrapper.setProps({ rounded: true })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('rounded-borders')
+        expect(target.classes()).toContain('rounded-borders')
 
-        expect(
-          target.$computedStyle('border-radius')
-        ).toBe('4px')
+        expect(target.$computedStyle('border-radius')).toBe('4px')
       })
     })
 
@@ -75,29 +59,24 @@ describe('[QBanner API]', () => {
         const wrapper = mount(QBanner)
         const target = wrapper.get('.q-banner')
 
-        expect(
-          target.classes()
-        ).not.toContain('q-banner--dark')
+        expect(target.classes()).not.toContain('q-banner--dark')
 
         await wrapper.setProps({ dark: true })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('q-banner--dark')
+        expect(target.classes()).toContain('q-banner--dark')
       })
 
-      test('type null has effect', async () => {
+      test('type null has effect', () => {
         const wrapper = mount(QBanner, {
           props: {
             dark: null
           }
         })
 
-        expect(
-          wrapper.get('.q-banner')
-            .classes()
-        ).not.toContain('q-banner--dark')
+        expect(wrapper.get('.q-banner').classes()).not.toContain(
+          'q-banner--dark'
+        )
       })
     })
   })

@@ -11,19 +11,17 @@ describe('Sass Transform', () => {
     const wrapper = mount(QToolbar)
 
     const { element } = wrapper.get('div')
-    expect(
-      window.getComputedStyle(element)
-        .getPropertyValue('padding')
-    ).toBe('100px')
+    expect(window.getComputedStyle(element).getPropertyValue('padding')).toBe(
+      '100px'
+    )
   })
 
   test('correctly uses sass variables', () => {
     const wrapper = mount(PaddingTest)
 
     const { element } = wrapper.get('div.my-div')
-    expect(
-      window.getComputedStyle(element)
-        .getPropertyValue('padding')
-    ).toBe('100px')
+    expect(window.getComputedStyle(element).getPropertyValue('padding')).toBe(
+      '100px'
+    )
   })
 })

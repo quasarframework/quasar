@@ -1,4 +1,4 @@
-function parsePromises (sequentialPromises) {
+function parsePromises(sequentialPromises) {
   const isList = Array.isArray(sequentialPromises)
 
   if (isList === true) {
@@ -12,7 +12,9 @@ function parsePromises (sequentialPromises) {
 
   const resultKeys = Object.keys(sequentialPromises)
   const resultAggregator = {}
-  resultKeys.forEach(keyName => { resultAggregator[ keyName ] = null })
+  resultKeys.forEach(keyName => {
+    resultAggregator[keyName] = null
+  })
 
   return {
     isList,
@@ -55,59 +57,63 @@ function parsePromises (sequentialPromises) {
  *          An Object (when sequentialPromises param is also an Object) of the following form:
  *             { [key: string]: { key: string, status: 'fulfilled', value: any } | { key: string, status: 'rejected', reason: Error }, ... }
  */
-export default function runSequentialPromises (
+export default function runSequentialPromises(
   sequentialPromises,
   { threadsNumber = 1, abortOnFail = true } = {}
 ) {
-  let jobIndex = -1, hasAborted = false
+  let jobIndex = -1,
+    hasAborted = false
 
-  const { isList, totalJobs, resultAggregator, resultKeys } = parsePromises(sequentialPromises)
+  const { isList, totalJobs, resultAggregator, resultKeys } =
+    parsePromises(sequentialPromises)
 
-  const getPromiseThread = () => new Promise((resolve, reject) => {
-    function runNextPromise () {
-      const currentJobIndex = ++jobIndex
+  const getPromiseThread = () =>
+    new Promise((resolve, reject) => {
+      function runNextPromise() {
+        const currentJobIndex = ++jobIndex
 
-      if (hasAborted === true || currentJobIndex >= totalJobs) {
-        resolve()
-        return
+        if (hasAborted === true || currentJobIndex >= totalJobs) {
+          resolve()
+          return
+        }
+
+        const key =
+          isList === true ? currentJobIndex : resultKeys[currentJobIndex]
+
+        sequentialPromises[key](resultAggregator)
+          .then(value => {
+            if (hasAborted === true) {
+              resolve()
+              return // early exit
+            }
+
+            resultAggregator[key] = { key, status: 'fulfilled', value }
+
+            // timeout so it doesn't interfere with the .catch() below
+            setTimeout(runNextPromise)
+          })
+          .catch(reason => {
+            if (hasAborted === true) {
+              resolve()
+              return // early exit
+            }
+
+            const result = { key, status: 'rejected', reason }
+            resultAggregator[key] = result
+
+            if (abortOnFail === true) {
+              hasAborted = true
+              reject({ ...result, resultAggregator })
+              return // early exit
+            }
+
+            // timeout so no interference
+            setTimeout(runNextPromise)
+          })
       }
 
-      const key = isList === true ? currentJobIndex : resultKeys[ currentJobIndex ]
-
-      sequentialPromises[ key ](resultAggregator)
-        .then(value => {
-          if (hasAborted === true) {
-            resolve()
-            return // early exit
-          }
-
-          resultAggregator[ key ] = { key, status: 'fulfilled', value }
-
-          // timeout so it doesn't interfere with the .catch() below
-          setTimeout(runNextPromise)
-        })
-        .catch(reason => {
-          if (hasAborted === true) {
-            resolve()
-            return // early exit
-          }
-
-          const result = { key, status: 'rejected', reason }
-          resultAggregator[ key ] = result
-
-          if (abortOnFail === true) {
-            hasAborted = true
-            reject({ ...result, resultAggregator })
-            return // early exit
-          }
-
-          // timeout so no interference
-          setTimeout(runNextPromise)
-        })
-    }
-
-    runNextPromise()
-  })
+      runNextPromise()
+    })
 
   const threads = Array(Math.min(totalJobs, threadsNumber))
     .fill(null)

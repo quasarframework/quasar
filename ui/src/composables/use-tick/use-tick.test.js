@@ -22,7 +22,7 @@ describe('[useTick API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTick } = useTick()
 
               registerTick(fn)
@@ -42,11 +42,8 @@ describe('[useTick API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
-              const {
-                registerTick,
-                removeTick
-              } = useTick()
+            setup() {
+              const { registerTick, removeTick } = useTick()
 
               registerTick(fn)
               return { registerTick, removeTick }
@@ -67,7 +64,7 @@ describe('[useTick API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTick } = useTick()
 
               registerTick(fn)
@@ -93,7 +90,7 @@ describe('[useTick API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerTick } = useTick()
               return { registerTick }
             }

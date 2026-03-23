@@ -7,13 +7,14 @@ This page describes the JSON API Schema used for component App Extensions.
 
 ## Benefits of using JSON API
 
-  1. Describes your existing data format(s)
-  2. Provides clear human- and machine- readable documentation
-  3. Validates data which is useful for:
-      - Automated testing
-      - Ensuring quality of submitted data
+1. Describes your existing data format(s)
+2. Provides clear human- and machine- readable documentation
+3. Validates data which is useful for:
+   - Automated testing
+   - Ensuring quality of submitted data
 
 ## JSON Data Structures
+
 At its heart, JSON is built on the following data structures:
 
 object:
@@ -25,7 +26,7 @@ object:
 array:
 
 ```json
-[ "first", "second", "third" ]
+["first", "second", "third"]
 ```
 
 number:
@@ -60,14 +61,10 @@ The unfilled schema typically looks like this:
 
 ```json
 {
-  "props": {
-  },
-  "events": {
-  },
-  "slots": {
-  },
-  "methods": {
-  }
+  "props": {},
+  "events": {},
+  "slots": {},
+  "methods": {}
 }
 ```
 
@@ -81,16 +78,16 @@ If in the `props` section, this should be the forward facing name. Meaning, if y
 
 The rest of the definitions can be one of the following:
 
-| Name | Description |
-| :--- | :--- |
-| type | Optional for everything but `props`. This can be a single item or array of items. Values are: `["Array", "Boolean", "Function", "Number", "Object", "String", "Null", "Any"]` |
-| desc | Any string that describes the item being described |
-| required | [true,false] |
-| values | an array of constrained values. Ex: `[0, 0.5, 1.0, 1.5, 2.0]` |
-| definition | Describes an object definition. This is an object that pretty much conforms to the base object. It can contain `"type"`, `"desc"`, `"required"`, `"examples"`, `"values"` and `"definition"` (recursive) |
-| params| Typically is used to describe parameters to a function. This needs one or more parameters as the key to an object that pretty much conforms to the base object. It can contain `"type"`, `"desc"`, `"required"`, `"examples"`, `"values"` and `"definition"` (recursive) |
-| returns | The returned value (for methods or functions) |
-| category | Used for grouping |
+| Name       | Description                                                                                                                                                                                                                                                              |
+| :--------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type       | Optional for everything but `props`. This can be a single item or array of items. Values are: `["Array", "Boolean", "Function", "Number", "Object", "String", "Null", "Any"]`                                                                                            |
+| desc       | Any string that describes the item being described                                                                                                                                                                                                                       |
+| required   | [true,false]                                                                                                                                                                                                                                                             |
+| values     | an array of constrained values. Ex: `[0, 0.5, 1.0, 1.5, 2.0]`                                                                                                                                                                                                            |
+| definition | Describes an object definition. This is an object that pretty much conforms to the base object. It can contain `"type"`, `"desc"`, `"required"`, `"examples"`, `"values"` and `"definition"` (recursive)                                                                 |
+| params     | Typically is used to describe parameters to a function. This needs one or more parameters as the key to an object that pretty much conforms to the base object. It can contain `"type"`, `"desc"`, `"required"`, `"examples"`, `"values"` and `"definition"` (recursive) |
+| returns    | The returned value (for methods or functions)                                                                                                                                                                                                                            |
+| category   | Used for grouping                                                                                                                                                                                                                                                        |
 
 All items are optional, but in the very least you should provide a description.
 
@@ -172,7 +169,6 @@ All items are optional, but in the very least you should provide a description.
     }
   }
 ```
-
 
 ### Events example
 

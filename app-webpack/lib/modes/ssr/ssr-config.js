@@ -4,8 +4,10 @@ const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 
 const {
-  createWebpackChain, extendWebpackChain,
-  createNodeEsbuildConfig, extendEsbuildConfig
+  createWebpackChain,
+  extendWebpackChain,
+  createNodeEsbuildConfig,
+  extendEsbuildConfig
 } = require('../../config-tools.js')
 
 const { getBuildSystemDefine } = require('../../utils/env.js')
@@ -15,10 +17,10 @@ const { quasarPwaConfig, injectWebpackPwa } = require('../pwa/pwa-config.js')
 const { QuasarSSRClientPlugin } = require('./plugin.webpack.client-side.js')
 const { QuasarSSRServerPlugin } = require('./plugin.webpack.server-side.js')
 
-function getModuleDirs (dir) {
+function getModuleDirs(dir) {
   const folders = []
 
-  while (dir.length && dir[ dir.length - 1 ] !== sep) {
+  while (dir.length && dir[dir.length - 1] !== sep) {
     const newFolder = join(dir, 'node_modules')
     if (existsSync(newFolder)) {
       folders.push(newFolder)
@@ -40,16 +42,12 @@ const quasarSsrConfig = {
     })
 
     if (ctx.prod) {
-      webpackChain.output
-        .path(
-          join(quasarConf.build.distDir, 'client')
-        )
+      webpackChain.output.path(join(quasarConf.build.distDir, 'client'))
 
-      webpackChain.plugin('quasar-ssr-client')
-        .use(QuasarSSRClientPlugin)
-    }
-    else if (quasarConf.devServer.hot) {
-      webpackChain.plugin('hot-module-replacement')
+      webpackChain.plugin('quasar-ssr-client').use(QuasarSSRClientPlugin)
+    } else if (quasarConf.devServer.hot) {
+      webpackChain
+        .plugin('hot-module-replacement')
         .use(webpack.HotModuleReplacementPlugin)
     }
 
@@ -66,18 +64,17 @@ const quasarSsrConfig = {
       injectWebpackHtml(webpackChain, quasarConf, templateParam)
     }
 
-    webpackChain.plugin('define')
-      .tap(args => {
-        return [ {
-          ...args[ 0 ],
-          ...getBuildSystemDefine({
-            buildEnv: {
-              CLIENT: true,
-              SERVER: false
-            }
-          })
-        } ]
-      })
+    webpackChain.plugin('define').tap(args => [
+      {
+        ...args[0],
+        ...getBuildSystemDefine({
+          buildEnv: {
+            CLIENT: true,
+            SERVER: false
+          }
+        })
+      }
+    ])
 
     return extendWebpackChain(webpackChain, quasarConf, { isClient: true })
   },
@@ -91,11 +88,10 @@ const quasarSsrConfig = {
       threadName: 'SSR Server-side'
     })
 
-    webpackChain.entry('app')
+    webpackChain
+      .entry('app')
       .clear()
-      .add(
-        appPaths.resolve.entry('server-entry.js')
-      )
+      .add(appPaths.resolve.entry('server-entry.js'))
 
     webpackChain.target('node')
 
@@ -104,13 +100,9 @@ const quasarSsrConfig = {
     }
 
     if (ctx.prod) {
-      webpackChain.output
-        .path(
-          join(quasarConf.build.distDir, 'server')
-        )
+      webpackChain.output.path(join(quasarConf.build.distDir, 'server'))
 
-      webpackChain.plugin('quasar-ssr-server')
-        .use(QuasarSSRServerPlugin)
+      webpackChain.plugin('quasar-ssr-server').use(QuasarSSRServerPlugin)
     }
 
     webpackChain.output
@@ -118,39 +110,39 @@ const quasarSsrConfig = {
       .chunkFilename('chunk-[name].js')
       .libraryTarget('commonjs2')
 
-    const additionalModuleDirs = cacheProxy.getRuntime('ssrServerAdditionalModuleDirs', () => {
-      return getModuleDirs(
-        appPaths.resolve.app('..')
-      )
-    })
+    const additionalModuleDirs = cacheProxy.getRuntime(
+      'ssrServerAdditionalModuleDirs',
+      () => getModuleDirs(appPaths.resolve.app('..'))
+    )
 
-    webpackChain.externals(nodeExternals({
-      // do not externalize:
-      //  1. vue files
-      //  2. CSS files
-      //  3. when importing directly from Quasar's src folder
-      //  4. Quasar language files
-      //  5. Quasar icon sets files
-      //  6. Quasar extras
-      allowlist: [
-        /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/]|@quasar[\\/]app-webpack[\\/])/,
-        ...quasarConf.build.webpackTranspileDependencies
-      ],
-      additionalModuleDirs
-    }))
-
-    webpackChain.plugin('define')
-      .tap(args => {
-        return [ {
-          ...args[ 0 ],
-          ...getBuildSystemDefine({
-            buildEnv: {
-              CLIENT: false,
-              SERVER: true
-            }
-          })
-        } ]
+    webpackChain.externals(
+      nodeExternals({
+        // do not externalize:
+        //  1. vue files
+        //  2. CSS files
+        //  3. when importing directly from Quasar's src folder
+        //  4. Quasar language files
+        //  5. Quasar icon sets files
+        //  6. Quasar extras
+        allowlist: [
+          /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/]|@quasar[\\/]app-webpack[\\/])/,
+          ...quasarConf.build.webpackTranspileDependencies
+        ],
+        additionalModuleDirs
       })
+    )
+
+    webpackChain.plugin('define').tap(args => [
+      {
+        ...args[0],
+        ...getBuildSystemDefine({
+          buildEnv: {
+            CLIENT: false,
+            SERVER: true
+          }
+        })
+      }
+    ])
 
     return extendWebpackChain(webpackChain, quasarConf, { isServer: true })
   },
@@ -159,20 +151,25 @@ const quasarSsrConfig = {
     const { ctx } = quasarConf
     const { appPaths } = ctx
 
-    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-ssr-webserver', format: 'cjs' })
+    const cfg = await createNodeEsbuildConfig(quasarConf, {
+      compileId: 'node-ssr-webserver',
+      format: 'cjs'
+    })
 
-    Object.assign(cfg.define, getBuildSystemDefine({
-      buildEnv: {
-        CLIENT: false,
-        SERVER: true
-      }
-    }))
+    Object.assign(
+      cfg.define,
+      getBuildSystemDefine({
+        buildEnv: {
+          CLIENT: false,
+          SERVER: true
+        }
+      })
+    )
 
     if (ctx.dev) {
-      cfg.entryPoints = [ appPaths.resolve.entry('ssr-dev-webserver.js') ]
+      cfg.entryPoints = [appPaths.resolve.entry('ssr-dev-webserver.js')]
       cfg.outfile = appPaths.resolve.entry('compiled-dev-webserver.cjs')
-    }
-    else {
+    } else {
       cfg.external = [
         ...cfg.external,
 
@@ -183,11 +180,16 @@ const quasarSsrConfig = {
         './server/server-entry.js'
       ]
 
-      cfg.entryPoints = [ appPaths.resolve.entry('ssr-prod-webserver.js') ]
+      cfg.entryPoints = [appPaths.resolve.entry('ssr-prod-webserver.js')]
       cfg.outfile = join(quasarConf.build.distDir, 'start.js')
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.ssr, ctx, 'extendSSRWebserverConf')
+    return extendEsbuildConfig(
+      cfg,
+      quasarConf.ssr,
+      ctx,
+      'extendSSRWebserverConf'
+    )
   },
 
   customSw: quasarPwaConfig.customSw

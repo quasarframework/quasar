@@ -1,5 +1,3 @@
 import QSelect from './QSelect.js'
 
-export {
-  QSelect
-}
+export { QSelect }

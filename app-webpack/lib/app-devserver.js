@@ -4,8 +4,10 @@ const { encodeForDiff } = require('./utils/encode-for-diff.js')
 const { EntryFilesGenerator } = require('./entry-files-generator.js')
 const { generateTypes } = require('./types-generator.js')
 
-function getConfSnapshot (extractFn, quasarConf, diffExtractFnMap) {
-  return extractFn(quasarConf, diffExtractFnMap).map(item => (item ? encodeForDiff(item) : ''))
+function getConfSnapshot(extractFn, quasarConf, diffExtractFnMap) {
+  return extractFn(quasarConf, diffExtractFnMap).map(item =>
+    item ? encodeForDiff(item) : ''
+  )
 }
 
 module.exports.AppDevserver = class AppDevserver extends AppTool {
@@ -15,12 +17,12 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
   #runQueue = Promise.resolve()
   #runId = 0
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     this.#entryFiles = new EntryFilesGenerator(this.ctx)
 
-    this.registerDiff('entryFiles', quasarConf => ([
+    this.registerDiff('entryFiles', quasarConf => [
       quasarConf.boot,
       quasarConf.css,
       quasarConf.extras,
@@ -39,25 +41,23 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
             quasarConf.ssr.manualPostHydrationTrigger
           ]
         : ''
-    ]))
+    ])
 
-    this.registerDiff('types', quasarConf => ([
+    this.registerDiff('types', quasarConf => [
       quasarConf.build.typescript,
       quasarConf.build.alias
-    ]))
+    ])
 
-    this.registerDiff('webpackUrl', quasarConf => ([
-      quasarConf.metaConf.APP_URL
-    ]))
+    this.registerDiff('webpackUrl', quasarConf => [quasarConf.metaConf.APP_URL])
 
-    this.registerDiff('webpack', quasarConf => ([
+    this.registerDiff('webpack', quasarConf => [
       quasarConf.eslint,
       quasarConf.htmlVariables,
       quasarConf.devServer,
       quasarConf.build,
       quasarConf.vendor,
       quasarConf.sourceFiles
-    ]))
+    ])
 
     this.registerDiff('esbuild', quasarConf => [
       quasarConf.eslint,
@@ -71,7 +71,7 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
   }
 
   // to be called from inheriting class
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     if (this.#diff('entryFiles', quasarConf)) {
       this.#entryFiles.generate(quasarConf)
     }
@@ -88,37 +88,41 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
     // -- they shouldn't be called in all scenarios, which is why we
     // artificially restrict them to run() only
     return {
-      diff: (name, quasarConf) => this.#diff(name, quasarConf),
-      queue: fn => {
-        return this.#queue(this.#runId, quasarConf, fn)
-      }
+      diff: (name, diffQuasarConf) => this.#diff(name, diffQuasarConf),
+      queue: fn => this.#queue(this.#runId, quasarConf, fn)
     }
   }
 
-  #queue (runId, quasarConf, fn) {
-    this.#runQueue = this.#runQueue.then(() => fn()).then(() => {
-      if (this.#runId === runId) {
-        this.run(quasarConf, true)
-      }
-    })
+  #queue(runId, quasarConf, fn) {
+    this.#runQueue = this.#runQueue
+      .then(() => fn())
+      .then(() => {
+        if (this.#runId === runId) {
+          this.run(quasarConf, true)
+        }
+      })
 
     return this.#runQueue
   }
 
-  registerDiff (name, extractFn) {
-    this.#diffList[ name ] = {
+  registerDiff(name, extractFn) {
+    this.#diffList[name] = {
       snapshot: null,
       extractFn
     }
 
-    this.#diffExtractFnMap[ name ] = extractFn
+    this.#diffExtractFnMap[name] = extractFn
   }
 
-  #diff (name, quasarConf) {
-    const target = this.#diffList[ name ]
+  #diff(name, quasarConf) {
+    const target = this.#diffList[name]
     const { snapshot, extractFn } = target
 
-    const newSnapshot = getConfSnapshot(extractFn, quasarConf, this.#diffExtractFnMap)
+    const newSnapshot = getConfSnapshot(
+      extractFn,
+      quasarConf,
+      this.#diffExtractFnMap
+    )
     target.snapshot = newSnapshot
 
     if (snapshot === null) {
@@ -127,7 +131,7 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
 
     const len = newSnapshot.length
     for (let i = 0; i < len; i++) {
-      if (newSnapshot[ i ] !== snapshot[ i ]) {
+      if (newSnapshot[i] !== snapshot[i]) {
         // Leave here for debugging when needed
         // console.log(name, 'at index', i)
         // console.log('NEW >>>', newSnapshot[i])
@@ -141,7 +145,7 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
     return false
   }
 
-  async clearWatcherList (watcherList, clearFn) {
+  async clearWatcherList(watcherList, clearFn) {
     const list = watcherList.slice()
     clearFn()
 
@@ -150,7 +154,7 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
     }
   }
 
-  printBanner (quasarConf) {
+  printBanner(quasarConf) {
     printDevRunningBanner(quasarConf)
   }
 }

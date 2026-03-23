@@ -11,7 +11,12 @@
       style="width: 210px"
     />
 
-    <q-layout view="hHh lpr fFf" container :style="containerStyle" class="q-mt-xl shadow-2">
+    <q-layout
+      view="hHh lpr fFf"
+      container
+      :style="containerStyle"
+      class="q-mt-xl shadow-2"
+    >
       <q-header reveal class="bg-black">
         <q-toolbar>
           <q-toolbar-title>Header</q-toolbar-title>
@@ -26,11 +31,7 @@
         </q-toolbar>
       </q-footer>
 
-      <q-drawer
-        side="right"
-        v-model="drawer"
-        bordered
-      >
+      <q-drawer side="right" v-model="drawer" bordered>
         <div v-for="n in contentSize * 2 + 5" :key="n">
           Drawer {{ n }} / {{ contentSize * 2 + 5 }}
         </div>
@@ -39,8 +40,8 @@
       <q-page-container>
         <q-page padding>
           <div v-for="n in contentSize" :key="n">
-            My page My page My page My page My page My page
-            My page My page My page My page My page My page {{ n }} / {{ contentSize }}
+            My page My page My page My page My page My page My page My page My
+            page My page My page My page {{ n }} / {{ contentSize }}
           </div>
         </q-page>
 
@@ -58,7 +59,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       drawer: true,
       width: 1030,
@@ -67,7 +68,7 @@ export default {
   },
 
   computed: {
-    containerStyle () {
+    containerStyle() {
       return {
         height: '800px',
         width: this.width + 'px'

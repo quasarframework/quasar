@@ -5,7 +5,10 @@
         <q-item-section>
           <q-item-label overline>OVERLINE</q-item-label>
           <q-item-label>Single line item</q-item-label>
-          <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+          <q-item-label caption
+            >Secondary line text. Lorem ipsum dolor sit amet, consectetur
+            adipiscit elit.</q-item-label
+          >
         </q-item-section>
 
         <q-item-section side top>
@@ -35,7 +38,10 @@
 
         <q-item-section>
           <q-item-label>Single line item</q-item-label>
-          <q-item-label caption lines="2">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+          <q-item-label caption lines="2"
+            >Secondary line text. Lorem ipsum dolor sit amet, consectetur
+            adipiscit elit.</q-item-label
+          >
         </q-item-section>
 
         <q-item-section side top>
@@ -48,12 +54,20 @@
 
       <q-item>
         <q-item-section top avatar>
-          <q-avatar color="primary" text-color="white" square icon="bluetooth" />
+          <q-avatar
+            color="primary"
+            text-color="white"
+            square
+            icon="bluetooth"
+          />
         </q-item-section>
 
         <q-item-section>
           <q-item-label>Single line item</q-item-label>
-          <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+          <q-item-label caption
+            >Secondary line text. Lorem ipsum dolor sit amet, consectetur
+            adipiscit elit.</q-item-label
+          >
         </q-item-section>
 
         <q-item-section side top>
@@ -66,13 +80,16 @@
       <q-item>
         <q-item-section top avatar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
         </q-item-section>
 
         <q-item-section>
           <q-item-label>Single line item</q-item-label>
-          <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+          <q-item-label caption
+            >Secondary line text. Lorem ipsum dolor sit amet, consectetur
+            adipiscit elit.</q-item-label
+          >
         </q-item-section>
 
         <q-item-section side top>
@@ -85,13 +102,16 @@
       <q-item>
         <q-item-section top avatar>
           <q-avatar rounded>
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
         </q-item-section>
 
         <q-item-section>
           <q-item-label>Single line item</q-item-label>
-          <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+          <q-item-label caption
+            >Secondary line text. Lorem ipsum dolor sit amet, consectetur
+            adipiscit elit.</q-item-label
+          >
         </q-item-section>
 
         <q-item-section side top>
@@ -103,12 +123,15 @@
 
       <q-item>
         <q-item-section top thumbnail class="q-ml-none">
-          <img src="https://cdn.quasar.dev/img/mountains.jpg">
+          <img src="https://cdn.quasar.dev/img/mountains.jpg" />
         </q-item-section>
 
         <q-item-section>
           <q-item-label>Single line item</q-item-label>
-          <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+          <q-item-label caption
+            >Secondary line text. Lorem ipsum dolor sit amet, consectetur
+            adipiscit elit.</q-item-label
+          >
         </q-item-section>
 
         <q-item-section side top>

@@ -65,13 +65,13 @@ For an exhaustive list of methods, please check the API section.
 
 Quasar Storage supports (but not limited to) the following data types out of the box. If you store one of these types, the retrieved data will have the same data type.
 
-* Dates
-* Regular Expressions
-* Numbers
-* Booleans
-* Strings
-* Plain Javascript Objects
+- Dates
+- Regular Expressions
+- Numbers
+- Booleans
+- Strings
+- Plain Javascript Objects
 
-If you store any *other* data type, the returned value will be a String.
+If you store any _other_ data type, the returned value will be a String.
 
 So you can even store functions, but be careful that you need to eval() the returned value (which is a String representation of the function).

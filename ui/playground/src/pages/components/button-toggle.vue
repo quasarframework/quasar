@@ -75,36 +75,26 @@
       <template v-slot:one>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />
-          <div class="text-center">
-            Option<br>One
-          </div>
+          <div class="text-center">Option<br />One</div>
         </div>
       </template>
 
       <template v-slot:two>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />
-          <div class="text-center">
-            Option<br>Two
-          </div>
+          <div class="text-center">Option<br />Two</div>
         </div>
       </template>
 
       <template v-slot:three>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />
-          <div class="text-center">
-            Option<br>Three
-          </div>
+          <div class="text-center">Option<br />Three</div>
         </div>
       </template>
     </q-btn-toggle>
 
-    <q-btn-toggle
-      v-model="model"
-      :options="optionsO2"
-      clearable
-    />
+    <q-btn-toggle v-model="model" :options="optionsO2" clearable />
 
     <q-btn-toggle
       :model-value="modelD"
@@ -119,24 +109,46 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       model: '',
       modelD: '',
-      options: [ true, false ],
+      options: [true, false],
       optionsO1: [
         { label: 'One', value: 'one' },
         { label: 'Two - this one has a longer label', value: 'two' },
         { label: 'Three', value: 'three' }
       ],
       optionsO2: [
-        { label: 'One Clearable', value: 'one', size: '32px', attrs: { 'aria-label': 'Button' } },
+        {
+          label: 'One Clearable',
+          value: 'one',
+          size: '32px',
+          attrs: { 'aria-label': 'Button' }
+        },
         { label: 'Two', value: 'two', padding: '32px 64px' }
       ],
       optionsO3: [
-        { label: 'One', value: 'one', color: 'green-2', textColor: 'black', class: 'col-grow' },
-        { label: 'Two - this one has a longer label', value: 'two', color: 'red-2', textColor: 'black' },
-        { label: 'Three', value: 'three', color: 'blue-2', textColor: 'black', class: 'col-grow' }
+        {
+          label: 'One',
+          value: 'one',
+          color: 'green-2',
+          textColor: 'black',
+          class: 'col-grow'
+        },
+        {
+          label: 'Two - this one has a longer label',
+          value: 'two',
+          color: 'red-2',
+          textColor: 'black'
+        },
+        {
+          label: 'Three',
+          value: 'three',
+          color: 'blue-2',
+          textColor: 'black',
+          class: 'col-grow'
+        }
       ],
       optionsS1: [
         { label: 'One tooltip', value: 'one', slot: 'one' },
@@ -153,15 +165,15 @@ export default {
         { label: 'Two', value: 'two', count: 0 },
         { label: 'Three', value: 'three', count: 0 }
       ],
-      sizes: [ 'sm', 'md', 'lg' ]
+      sizes: ['sm', 'md', 'lg']
     }
   },
   methods: {
-    log (name, data) {
+    log(name, data) {
       console.log(name, JSON.stringify(data))
     },
 
-    updateD (value, opt) {
+    updateD(value, opt) {
       this.modelD = value
       opt.count++
     }

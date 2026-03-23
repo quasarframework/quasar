@@ -43,10 +43,10 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       menu: ref(false),
-      onItemClick () {
+      onItemClick() {
         // console.log('Clicked on an Item')
       }
     }

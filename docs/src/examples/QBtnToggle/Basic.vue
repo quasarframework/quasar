@@ -4,9 +4,9 @@
       v-model="model"
       toggle-color="primary"
       :options="[
-        {label: 'One', value: 'one'},
-        {label: 'Two', value: 'two'},
-        {label: 'Three', value: 'three'}
+        { label: 'One', value: 'one' },
+        { label: 'Two', value: 'two' },
+        { label: 'Three', value: 'three' }
       ]"
     />
   </div>
@@ -16,7 +16,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(null)
     }

@@ -24,14 +24,17 @@ Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) a
 <DocApi file="IconSet" />
 
 ## Configuring the default Icon Set
+
 **There are two types of Quasar Icon Sets: webfont-based and svg-based.**
 
 Unless configured otherwise, Quasar uses Material Icons webfont as the icon set for its components. You can however tell Quasar to use some other Icon Set, but if it's a webfont-based one then be sure to include its icon library in your website/app (see [Installing Icon Libraries](/options/installing-icon-libraries)).
 
 ### Hardcoded
+
 If the default Quasar Icon Set is not dynamically determined (does not depends on cookies for example), then you can:
 
 #### Quasar CLI Way
+
 We edit the `/quasar.config` file again:
 
 ```js
@@ -65,6 +68,7 @@ framework: {
 This will enable you to use both MDI & Fontawesome webfonts in your app, and all Quasar components will display Fontawesome icons.
 
 #### Quasar UMD Way
+
 Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to use it. Example:
 
 ```html
@@ -78,6 +82,7 @@ Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to 
 Check what tags you need to include in your HTML files on [UMD / Standalone](/start/umd) page.
 
 #### Quasar Vite Plugin Way
+
 We edit your `main.js`:
 
 ```js /main.js
@@ -94,6 +99,7 @@ app.use(Quasar, {
 ```
 
 ### Dynamic (on non-SSR)
+
 Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-icon-set [--format ts]`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
 ```tabs /src/boot/quasar-icon-set.js
@@ -146,9 +152,7 @@ export default defineBoot(async () => {
 Then register this boot file into the `/quasar.config` file:
 
 ```js
-boot: [
-  'quasar-icon-set'
-]
+boot: ['quasar-icon-set']
 ```
 
 ::: warning Always constrain a dynamic import
@@ -156,6 +160,7 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 :::
 
 ### Dynamic (on SSR)
+
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```tabs /src/boot/quasar-icon-set.js
@@ -211,6 +216,7 @@ export default defineBoot(async ({ ssrContext }) => {
 ## Change Quasar Icon Set at Runtime
 
 ### Changing Icon Set
+
 Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
 ```tabs
@@ -252,6 +258,7 @@ export default defineBoot(() {
 ```
 
 ### Changing a Specific Icon
+
 If you want to change a specific icon to another, you can. Here is an example:
 
 ```tabs

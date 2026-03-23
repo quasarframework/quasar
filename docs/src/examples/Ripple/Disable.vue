@@ -5,7 +5,11 @@
       class="relative-position container bg-cyan text-black flex flex-center"
     />
 
-    <q-toggle v-model="state" label="Use ripple for container above" class="q-mt-md" />
+    <q-toggle
+      v-model="state"
+      label="Use ripple for container above"
+      class="q-mt-md"
+    />
   </div>
 </template>
 
@@ -13,7 +17,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       state: ref(true)
     }

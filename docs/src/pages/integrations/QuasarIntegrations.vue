@@ -1,14 +1,21 @@
 <template>
   <div class="page-integrations column justify-center text-center doc-brand">
-    <div class="heading heading--large normal-line-height">All platforms in one go</div>
-    <div class="letter-spacing-300 text-size-16 text-weight-bold text-center q-mb-md">
+    <div class="heading heading--large normal-line-height"
+      >All platforms in one go</div
+    >
+    <div
+      class="letter-spacing-300 text-size-16 text-weight-bold text-center q-mb-md"
+    >
       Focus only on your mission and forget about the spaceship.
     </div>
 
     <div class="row justify-center">
-      <div class="page-integrations__text letter-spacing-40 text-size-16 q-mb-xl">
-        Combine the power of Quasar UI with Quasar CLI. One source code for all platforms
-        simultaneously with all the latest and greatest best practices out of the box.
+      <div
+        class="page-integrations__text letter-spacing-40 text-size-16 q-mb-xl"
+      >
+        Combine the power of Quasar UI with Quasar CLI. One source code for all
+        platforms simultaneously with all the latest and greatest best practices
+        out of the box.
       </div>
     </div>
 
@@ -39,10 +46,14 @@
             class="text-size-24 q-my-sm"
             color="brand-accent"
           />
-          <div class="text-size-14 text-weight-bold letter-spacing-263 text-brand-primary">
+          <div
+            class="text-size-14 text-weight-bold letter-spacing-263 text-brand-primary"
+          >
             {{ entry.label }}
           </div>
-          <div class="page-integrations__card-description text-size-12 q-px-sm letter-spacing-100">
+          <div
+            class="page-integrations__card-description text-size-12 q-px-sm letter-spacing-100"
+          >
             {{ entry.name }}
           </div>
         </q-card>
@@ -54,7 +65,9 @@
     </h2>
 
     <template v-for="(part, partIndex) in ecosystemParts" :key="partIndex">
-      <div class="page-integrations__about q-mb-md text-size-16 letter-spacing-40 primary-line-height">
+      <div
+        class="page-integrations__about q-mb-md text-size-16 letter-spacing-40 primary-line-height"
+      >
         {{ part.about }}
       </div>
 
@@ -74,7 +87,9 @@
               class="text-size-36 q-my-sm"
               :color="entry.iconColor || 'brand-primary'"
             />
-            <div class="page-integrations__card-description text-size-12 q-px-sm letter-spacing-100">
+            <div
+              class="page-integrations__card-description text-size-12 q-px-sm letter-spacing-100"
+            >
               {{ entry.label }}
             </div>
           </q-card>
@@ -86,7 +101,11 @@
 
 <script setup>
 import DocCardLink from 'components/DocCardLink.vue'
-import { platformIcons, buildTargets, ecosystemParts } from 'src/assets/links.integrations.js'
+import {
+  platformIcons,
+  buildTargets,
+  ecosystemParts
+} from 'src/assets/links.integrations.js'
 </script>
 
 <style lang="sass">

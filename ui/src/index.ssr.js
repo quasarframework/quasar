@@ -18,12 +18,8 @@ export * from './utils.js'
 export const Quasar = {
   version: __QUASAR_VERSION__,
 
-  install (app, opts, ssrContext) {
-    installQuasar(
-      app,
-      { components, directives, ...opts },
-      ssrContext
-    )
+  install(app, opts, ssrContext) {
+    installQuasar(app, { components, directives, ...opts }, ssrContext)
   },
 
   // TODO: remove in Qv3 (should only be used through the plugin)

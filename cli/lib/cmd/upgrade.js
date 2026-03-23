@@ -8,7 +8,7 @@ const argv = parseArgs(process.argv.slice(2), {
     r: 'registry',
     h: 'help'
   },
-  boolean: [ 'h', 'i', 'p', 'm' ]
+  boolean: ['h', 'i', 'p', 'm']
 })
 
 if (argv.help) {
@@ -57,7 +57,10 @@ import appPaths from '../app-paths.js'
 import { log, fatal, success } from '../logger.js'
 
 if (appPaths.appDir === void 0) {
-  fatal('This command must be executed inside a Quasar project folder only.', 'Error')
+  fatal(
+    'This command must be executed inside a Quasar project folder only.',
+    'Error'
+  )
 }
 
 if (!fs.existsSync(appPaths.resolve.app('node_modules'))) {
@@ -79,7 +82,9 @@ if (argv.registry) {
 }
 
 console.log()
-log(`Gathering information from the NPM registry (${ nodePackager.npmRegistryUrl })...`)
+log(
+  `Gathering information from the NPM registry (${nodePackager.npmRegistryUrl})...`
+)
 console.log()
 
 let quasarVersion = null
@@ -88,19 +93,25 @@ let skippedVersions = false
 let removeDeprecatedAppPkg = false
 
 for (const type of Object.keys(deps)) {
-  for (let packageName of Object.keys(appPkg[ type ] || {})) {
+  for (let packageName of Object.keys(appPkg[type] || {})) {
     // is it a Quasar package?
-    if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
+    if (
+      packageName !== 'quasar' &&
+      packageName !== 'eslint-plugin-quasar' &&
+      !packageName.startsWith('@quasar/')
+    ) {
       continue
     }
 
     const json = getPackageJson(packageName)
-    const currentVersion = json
-      ? json.version
-      : null
+    const currentVersion = json ? json.version : null
 
     // q/app v3 has been renamed to q/app-webpack
-    if (packageName === '@quasar/app' && currentVersion && currentVersion.startsWith('3.')) {
+    if (
+      packageName === '@quasar/app' &&
+      currentVersion &&
+      currentVersion.startsWith('3.')
+    ) {
       removeDeprecatedAppPkg = true
       packageName = '@quasar/app-webpack'
     }
@@ -112,24 +123,23 @@ for (const type of Object.keys(deps)) {
       preReleaseVersion: argv.prerelease
     })
 
-    const current = currentVersion === null
-      ? red('Missing!')
-      : currentVersion
+    const current = currentVersion === null ? red('Missing!') : currentVersion
 
     if (latestVersion === null) {
-      console.log(` ${ green(packageName) }: ${ current } → ${ red('Skipping!') }`)
-      console.log(`   (⚠️  NPM registry server (${ nodePackager.npmRegistryUrl }) an error, so we cannot detect latest version)`)
+      console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
+      console.log(
+        `   (⚠️  NPM registry server (${nodePackager.npmRegistryUrl}) an error, so we cannot detect latest version)`
+      )
       skippedVersions = true
-    }
-    else if (currentVersion !== latestVersion) {
-      deps[ type ].push({
+    } else if (currentVersion !== latestVersion) {
+      deps[type].push({
         packageName,
         latestVersion
       })
 
       updateAvailable = true
 
-      console.log(` ${ green(packageName) }: ${ current } → ${ latestVersion }`)
+      console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
     }
 
     if (packageName === 'quasar') {
@@ -140,48 +150,59 @@ for (const type of Object.keys(deps)) {
 
 if (!updateAvailable) {
   if (skippedVersions) {
-    fatal(`Some packages were skipped due to errors in the NPM registry server (${ nodePackager.npmRegistryUrl }). Please try again later.\n`)
-  }
-  else {
-    log(`Congrats! All Quasar packages are up to date (according to ${ nodePackager.npmRegistryUrl }).\n`)
+    fatal(
+      `Some packages were skipped due to errors in the NPM registry server (${nodePackager.npmRegistryUrl}). Please try again later.\n`
+    )
+  } else {
+    log(
+      `Congrats! All Quasar packages are up to date (according to ${nodePackager.npmRegistryUrl}).\n`
+    )
   }
 
   process.exit(0)
 }
 
-function getQuasarVersionPrefix (version) {
+function getQuasarVersionPrefix(version) {
   if (!version) return ''
 
   const matches = version.match(/^(\d)/)
-  if (!matches || !matches[ 1 ]) return ''
+  if (!matches || !matches[1]) return ''
 
-  const major = parseInt(matches[ 1 ], 10)
-  return isNaN(major) ? '' : `v${ major }.`
+  const major = parseInt(matches[1], 10)
+  return isNaN(major) ? '' : `v${major}.`
 }
 
 console.log()
-console.log(` Used ${ nodePackager.npmRegistryUrl } to check for latest versions.`)
+console.log(
+  ` Used ${nodePackager.npmRegistryUrl} to check for latest versions.`
+)
 
 if (!argv.install) {
-  const params = [ '-i' ]
-  argv.prerelease && params.push('-p')
-  argv.major && params.push('-m')
+  const params = ['-i']
+  if (argv.prerelease) params.push('-p')
+  if (argv.major) params.push('-m')
 
-  const urlPrefix = argv.major
-    ? ''
-    : getQuasarVersionPrefix(quasarVersion)
+  const urlPrefix = argv.major ? '' : getQuasarVersionPrefix(quasarVersion)
 
-  console.log(` See ${ green(`https://${ urlPrefix }quasar.dev/start/release-notes`) } for release notes.`)
-  console.log(` Run "quasar upgrade ${ params.join(' ') }" to do the actual upgrade.`)
+  console.log(
+    ` See ${green(`https://${urlPrefix}quasar.dev/start/release-notes`)} for release notes.`
+  )
+  console.log(
+    ` Run "quasar upgrade ${params.join(' ')}" to do the actual upgrade.`
+  )
   console.log()
   process.exit(0)
 }
 
-const { default: { removeSync } } = await import('fs-extra')
+const {
+  default: { removeSync }
+} = await import('fs-extra')
 
 if (removeDeprecatedAppPkg === true) {
   console.log()
-  nodePackager.uninstallPackage('@quasar/app', { displayName: 'deprecated @quasar/app' })
+  nodePackager.uninstallPackage('@quasar/app', {
+    displayName: 'deprecated @quasar/app'
+  })
 
   // need to delete the package otherwise
   // installing the new version might fail on Windows;
@@ -192,7 +213,10 @@ if (removeDeprecatedAppPkg === true) {
     const content = fs.readFileSync(tsConfigFile, 'utf-8')
     fs.writeFileSync(
       tsConfigFile,
-      content.replace('"@quasar/app/tsconfig-preset"', '"@quasar/app-webpack/tsconfig-preset"'),
+      content.replace(
+        '"@quasar/app/tsconfig-preset"',
+        '"@quasar/app-webpack/tsconfig-preset"'
+      ),
       'utf-8'
     )
   }
@@ -209,43 +233,45 @@ if (removeDeprecatedAppPkg === true) {
 }
 
 for (const type of Object.keys(deps)) {
-  if (deps[ type ].length === 0) {
+  if (deps[type].length === 0) {
     continue
   }
 
   const packageList = []
 
-  deps[ type ].forEach(dep => {
+  deps[type].forEach(dep => {
     // need to delete tha package otherwise
     // installing the new version might fail on Windows
     removeSync(appPaths.resolve.app('node_modules/' + dep.packageName))
 
     const pinned = /^\d/.test(
-      appPkg.dependencies[ dep.packageName ]
-      || appPkg.devDependencies[ dep.packageName ]
-      || '^' // fallback, just in case
+      appPkg.dependencies[dep.packageName] ||
+        appPkg.devDependencies[dep.packageName] ||
+        '^' // fallback, just in case
     )
 
     packageList.push(
-      `${ dep.packageName }@${ pinned ? '' : '^' }${ dep.latestVersion }`
+      `${dep.packageName}@${pinned ? '' : '^'}${dep.latestVersion}`
     )
   })
 
   console.log()
-  nodePackager.installPackage(
-    packageList,
-    {
-      displayName: packageList.join(' ') + (type === 'devDependencies' ? ' as devDependencies' : ''),
-      isDevDependency: type === 'devDependencies'
-    }
-  )
+  nodePackager.installPackage(packageList, {
+    displayName:
+      packageList.join(' ') +
+      (type === 'devDependencies' ? ' as devDependencies' : ''),
+    isDevDependency: type === 'devDependencies'
+  })
 }
 
 console.log()
 
 if (skippedVersions) {
-  fatal(`Partially upgraded Quasar packages. Some of them were skipped due to errors in the NPM registry server (${ nodePackager.npmRegistryUrl }). Please try again later for those ones.`)
-}
-else {
-  success(`Successfully upgraded Quasar packages (using npm registry: ${ nodePackager.npmRegistryUrl }).\n`)
+  fatal(
+    `Partially upgraded Quasar packages. Some of them were skipped due to errors in the NPM registry server (${nodePackager.npmRegistryUrl}). Please try again later for those ones.`
+  )
+} else {
+  success(
+    `Successfully upgraded Quasar packages (using npm registry: ${nodePackager.npmRegistryUrl}).\n`
+  )
 }

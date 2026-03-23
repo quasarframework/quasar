@@ -1,10 +1,10 @@
 const trueFn = () => true
 
-export default function (emitsArray) {
+export default function getEmitsObject(emitsArray) {
   const emitsObject = {}
 
   emitsArray.forEach(val => {
-    emitsObject[ val ] = trueFn
+    emitsObject[val] = trueFn
   })
 
   return emitsObject

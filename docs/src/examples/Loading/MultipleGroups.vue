@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <q-btn color="purple" @click="showMultipleGroups" label="Show Multiple Groups" />
+    <q-btn
+      color="purple"
+      @click="showMultipleGroups"
+      label="Show Multiple Groups"
+    />
   </div>
 </template>
 
@@ -9,7 +13,7 @@ import { useQuasar } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
     let timer
 
@@ -21,7 +25,7 @@ export default {
     })
 
     return {
-      showMultipleGroups () {
+      showMultipleGroups() {
         const first = $q.loading.show({
           group: 'first',
           message: 'This is first group',
@@ -43,7 +47,8 @@ export default {
             // we update 'first' group message (just highlighting how it can be done);
             // note that updating here is not required to show the remaining 'first' group
             first({
-              message: 'We hid the second group and updated the first group message'
+              message:
+                'We hid the second group and updated the first group message'
             })
 
             timer = setTimeout(() => {

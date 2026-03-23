@@ -1,35 +1,33 @@
 import { ref, computed } from 'vue'
 
-function getFn (prop) {
-  return typeof prop === 'function'
-    ? prop
-    : () => prop
+function getFn(prop) {
+  return typeof prop === 'function' ? prop : () => prop
 }
 
 const name = 'QUploader'
 
-const props = {
-  url: [ Function, String ],
+const componentProps = {
+  url: [Function, String],
   method: {
-    type: [ Function, String ],
+    type: [Function, String],
     default: 'POST'
   },
   fieldName: {
-    type: [ Function, String ],
+    type: [Function, String],
     default: () => file => file.name
   },
-  headers: [ Function, Array ],
-  formFields: [ Function, Array ],
-  withCredentials: [ Function, Boolean ],
-  sendRaw: [ Function, Boolean ],
+  headers: [Function, Array],
+  formFields: [Function, Array],
+  withCredentials: [Function, Boolean],
+  sendRaw: [Function, Boolean],
 
-  batch: [ Function, Boolean ],
+  batch: [Function, Boolean],
   factory: Function
 }
 
-const emits = [ 'factoryFailed', 'uploaded', 'failed', 'uploading' ]
+const emits = ['factoryFailed', 'uploaded', 'failed', 'uploading']
 
-function injectPlugin ({ props, emit, helpers }) {
+function injectPlugin({ props, emit, helpers }) {
   const xhrs = ref([])
   const promises = ref([])
   const workingThreads = ref(0)
@@ -50,29 +48,30 @@ function injectPlugin ({ props, emit, helpers }) {
 
   let abortPromises
 
-  function abort () {
-    xhrs.value.forEach(x => { x.abort() })
+  function abort() {
+    xhrs.value.forEach(x => {
+      x.abort()
+    })
 
     if (promises.value.length !== 0) {
       abortPromises = true
     }
   }
 
-  function upload () {
+  function upload() {
     const queue = helpers.queuedFiles.value.slice(0)
     helpers.queuedFiles.value = []
 
     if (xhrProps.value.batch(queue)) {
       runFactory(queue)
-    }
-    else {
+    } else {
       queue.forEach(file => {
-        runFactory([ file ])
+        runFactory([file])
       })
     }
   }
 
-  function runFactory (files) {
+  function runFactory(files) {
     workingThreads.value++
 
     if (typeof props.factory !== 'function') {
@@ -89,8 +88,10 @@ function injectPlugin ({ props, emit, helpers }) {
         files
       )
       workingThreads.value--
-    }
-    else if (typeof res.catch === 'function' && typeof res.then === 'function') {
+    } else if (
+      typeof res.catch === 'function' &&
+      typeof res.then === 'function'
+    ) {
       promises.value.push(res)
 
       const failed = err => {
@@ -102,38 +103,38 @@ function injectPlugin ({ props, emit, helpers }) {
           }
 
           helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files)
-          files.forEach(f => { helpers.updateFileStatus(f, 'failed') })
+          files.forEach(f => {
+            helpers.updateFileStatus(f, 'failed')
+          })
 
           emit('factoryFailed', err, files)
           workingThreads.value--
         }
       }
 
-      res.then(factory => {
-        if (abortPromises === true) {
-          failed(new Error('Aborted'))
-        }
-        else if (helpers.isAlive() === true) {
-          promises.value = promises.value.filter(p => p !== res)
-          performUpload(files, factory)
-        }
-      }).catch(failed)
-    }
-    else {
+      res
+        .then(factory => {
+          if (abortPromises === true) {
+            failed(new Error('Aborted'))
+          } else if (helpers.isAlive() === true) {
+            promises.value = promises.value.filter(p => p !== res)
+            performUpload(files, factory)
+          }
+        })
+        .catch(failed)
+    } else {
       performUpload(files, res || {})
     }
   }
 
-  function performUpload (files, factory) {
-    const
-      form = new FormData(),
+  function performUpload(files, factory) {
+    const form = new FormData(),
       xhr = new XMLHttpRequest()
 
-    const getProp = (name, arg) => {
-      return factory[ name ] !== void 0
-        ? getFn(factory[ name ])(arg)
-        : xhrProps.value[ name ](arg)
-    }
+    const getProp = (propName, arg) =>
+      factory[propName] !== void 0
+        ? getFn(factory[propName])(arg)
+        : xhrProps.value[propName](arg)
 
     const url = getProp('url', files)
 
@@ -144,57 +145,63 @@ function injectPlugin ({ props, emit, helpers }) {
     }
 
     const fields = getProp('formFields', files)
-    fields !== void 0 && fields.forEach(field => {
-      form.append(field.name, field.value)
-    })
+    if (fields !== void 0) {
+      fields.forEach(field => {
+        form.append(field.name, field.value)
+      })
+    }
 
-    let
-      uploadIndex = 0,
+    let uploadIndex = 0,
       uploadIndexSize = 0,
       localUploadedSize = 0,
       maxUploadSize = 0,
       aborted
 
-    xhr.upload.addEventListener('progress', e => {
-      if (aborted === true) return
+    xhr.upload.addEventListener(
+      'progress',
+      e => {
+        if (aborted === true) return
 
-      const loaded = Math.min(maxUploadSize, e.loaded)
+        const loaded = Math.min(maxUploadSize, e.loaded)
 
-      helpers.uploadedSize.value += loaded - localUploadedSize
-      localUploadedSize = loaded
+        helpers.uploadedSize.value += loaded - localUploadedSize
+        localUploadedSize = loaded
 
-      let size = localUploadedSize - uploadIndexSize
-      for (let i = uploadIndex; size > 0 && i < files.length; i++) {
-        const
-          file = files[ i ],
-          uploaded = size > file.size
+        let size = localUploadedSize - uploadIndexSize
+        for (let i = uploadIndex; size > 0 && i < files.length; i++) {
+          const file = files[i],
+            uploaded = size > file.size
 
-        if (uploaded) {
-          size -= file.size
-          uploadIndex++
-          uploadIndexSize += file.size
-          helpers.updateFileStatus(file, 'uploading', file.size)
+          if (uploaded) {
+            size -= file.size
+            uploadIndex++
+            uploadIndexSize += file.size
+            helpers.updateFileStatus(file, 'uploading', file.size)
+          } else {
+            helpers.updateFileStatus(file, 'uploading', size)
+            return
+          }
         }
-        else {
-          helpers.updateFileStatus(file, 'uploading', size)
-          return
-        }
-      }
-    }, false)
+      },
+      false
+    )
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState < 4) return
 
       if (xhr.status && xhr.status < 400) {
         helpers.uploadedFiles.value = helpers.uploadedFiles.value.concat(files)
-        files.forEach(f => { helpers.updateFileStatus(f, 'uploaded') })
+        files.forEach(f => {
+          helpers.updateFileStatus(f, 'uploaded')
+        })
         emit('uploaded', { files, xhr })
-      }
-      else {
+      } else {
         aborted = true
         helpers.uploadedSize.value -= localUploadedSize
         helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files)
-        files.forEach(f => { helpers.updateFileStatus(f, 'failed') })
+        files.forEach(f => {
+          helpers.updateFileStatus(f, 'failed')
+        })
         emit('failed', { files, xhr })
       }
 
@@ -202,19 +209,18 @@ function injectPlugin ({ props, emit, helpers }) {
       xhrs.value = xhrs.value.filter(x => x !== xhr)
     }
 
-    xhr.open(
-      getProp('method', files),
-      url
-    )
+    xhr.open(getProp('method', files), url)
 
     if (getProp('withCredentials', files) === true) {
       xhr.withCredentials = true
     }
 
     const headers = getProp('headers', files)
-    headers !== void 0 && headers.forEach(head => {
-      xhr.setRequestHeader(head.name, head.value)
-    })
+    if (headers !== void 0) {
+      headers.forEach(head => {
+        xhr.setRequestHeader(head.name, head.value)
+      })
+    }
 
     const sendRaw = getProp('sendRaw', files)
 
@@ -224,7 +230,9 @@ function injectPlugin ({ props, emit, helpers }) {
         form.append(getProp('fieldName', file), file, file.name)
       }
       file.xhr = xhr
-      file.__abort = () => { xhr.abort() }
+      file.__abort = () => {
+        xhr.abort()
+      }
       maxUploadSize += file.size
     })
 
@@ -233,8 +241,7 @@ function injectPlugin ({ props, emit, helpers }) {
 
     if (sendRaw === true) {
       xhr.send(new Blob(files))
-    }
-    else {
+    } else {
       xhr.send(form)
     }
   }
@@ -250,7 +257,7 @@ function injectPlugin ({ props, emit, helpers }) {
 
 export default {
   name,
-  props,
+  props: componentProps,
   emits,
   injectPlugin
 }

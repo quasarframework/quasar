@@ -29,7 +29,7 @@ describe('[useInterval API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerInterval } = useInterval()
 
               registerInterval(fn, 100)
@@ -55,7 +55,7 @@ describe('[useInterval API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerInterval } = useInterval()
 
               registerInterval(fn, '100')
@@ -81,11 +81,8 @@ describe('[useInterval API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
-              const {
-                registerInterval,
-                removeInterval
-              } = useInterval()
+            setup() {
+              const { registerInterval, removeInterval } = useInterval()
 
               registerInterval(fn, 100)
               return { registerInterval, removeInterval }
@@ -117,7 +114,7 @@ describe('[useInterval API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerInterval } = useInterval()
 
               registerInterval(fn, 100)
@@ -144,7 +141,7 @@ describe('[useInterval API]', () => {
         wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const { registerInterval } = useInterval()
               return { registerInterval }
             }

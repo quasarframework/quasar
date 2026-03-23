@@ -22,7 +22,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       rangeSnap: ref({
         min: 35,

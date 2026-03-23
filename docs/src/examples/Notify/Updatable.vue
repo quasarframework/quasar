@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-btn no-caps color="purple" @click="showNotif" label="Show updatable notification" />
+    <q-btn
+      no-caps
+      color="purple"
+      @click="showNotif"
+      label="Show updatable notification"
+    />
   </div>
 </template>
 
@@ -8,11 +13,11 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      showNotif () {
+      showNotif() {
         const notif = $q.notify({
           group: false, // required to be updatable
           timeout: 0, // we want to be in control when it gets dismissed
@@ -24,7 +29,10 @@ export default {
         // we simulate some progress here...
         let percentage = 0
         const interval = setInterval(() => {
-          percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
+          percentage = Math.min(
+            100,
+            percentage + Math.floor(Math.random() * 22)
+          )
 
           // we update the dialog
           notif({

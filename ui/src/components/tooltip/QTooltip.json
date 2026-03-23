@@ -13,7 +13,7 @@
   "props": {
     "max-height": {
       "extends": "size",
-      "type": [ "String", "null" ],
+      "type": ["String", "null"],
       "default": "null",
       "desc": "The maximum height of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
@@ -21,7 +21,7 @@
 
     "max-width": {
       "extends": "size",
-      "type": [ "String", "null" ],
+      "type": ["String", "null"],
       "default": "null",
       "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
@@ -39,9 +39,21 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
       "values": [
-        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
-        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
-        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
       ],
       "default": "'bottom middle'",
       "category": "position"
@@ -51,9 +63,21 @@
       "type": "String",
       "desc": "Two values setting the Tooltip's own position relative to its target",
       "values": [
-        "'top left'", "'top middle'", "'top right'", "'top start'", "'top end'",
-        "'center left'", "'center middle'", "'center right'", "'center start'", "'center end'",
-        "'bottom left'", "'bottom middle'", "'bottom right'", "'bottom start'", "'bottom end'"
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
       ],
       "default": "'top middle'",
       "category": "position"
@@ -62,8 +86,8 @@
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
-      "default": "[ 14, 14 ]",
-      "examples": [ "[ 8, 8 ]", "[ 5, 10 ]" ],
+      "default": "[14, 14]",
+      "examples": ["[8, 8]", "[5, 10]"],
       "category": "position"
     },
 

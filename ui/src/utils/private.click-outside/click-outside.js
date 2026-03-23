@@ -3,11 +3,10 @@ import { portalProxyList } from '../private.portal/portal.js'
 
 let timer = null
 
-const
-  { notPassiveCapture } = listenOpts,
+const { notPassiveCapture } = listenOpts,
   registeredList = []
 
-function globalHandler (evt) {
+function globalHandler(evt) {
   if (timer !== null) {
     clearTimeout(timer)
     timer = null
@@ -16,17 +15,19 @@ function globalHandler (evt) {
   const target = evt.target
 
   if (
-    target === void 0
-    || target.nodeType === 8
-    || target.classList.contains('no-pointer-events') === true
-  ) return
+    target === void 0 ||
+    target.nodeType === 8 ||
+    target.classList.contains('no-pointer-events') === true
+  ) {
+    return
+  }
 
   // check last portal vm if it's
   // a QDialog and not in seamless mode
   let portalIndex = portalProxyList.length - 1
 
   while (portalIndex >= 0) {
-    const proxy = portalProxyList[ portalIndex ].$
+    const proxy = portalProxyList[portalIndex].$
 
     // skip QTooltip portals
     if (proxy.type.name === 'QTooltip') {
@@ -44,33 +45,26 @@ function globalHandler (evt) {
   }
 
   for (let i = registeredList.length - 1; i >= 0; i--) {
-    const state = registeredList[ i ]
+    const state = registeredList[i]
 
     if (
-      (
-        state.anchorEl.value === null
-        || state.anchorEl.value.contains(target) === false
-      )
-      && (
-        target === document.body
-        || (
-          state.innerRef.value !== null
-          && state.innerRef.value.contains(target) === false
-        )
-      )
+      (state.anchorEl.value === null ||
+        state.anchorEl.value.contains(target) === false) &&
+      (target === document.body ||
+        (state.innerRef.value !== null &&
+          state.innerRef.value.contains(target) === false))
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
       evt.qClickOutside = true
       state.onClickOutside(evt)
-    }
-    else {
+    } else {
       return
     }
   }
 }
 
-export function addClickOutside (clickOutsideProps) {
+export function addClickOutside(clickOutsideProps) {
   registeredList.push(clickOutsideProps)
 
   if (registeredList.length === 1) {
@@ -79,7 +73,7 @@ export function addClickOutside (clickOutsideProps) {
   }
 }
 
-export function removeClickOutside (clickOutsideProps) {
+export function removeClickOutside(clickOutsideProps) {
   const index = registeredList.findIndex(h => h === clickOutsideProps)
 
   if (index !== -1) {
@@ -91,8 +85,16 @@ export function removeClickOutside (clickOutsideProps) {
         timer = null
       }
 
-      document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
-      document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
+      document.removeEventListener(
+        'mousedown',
+        globalHandler,
+        notPassiveCapture
+      )
+      document.removeEventListener(
+        'touchstart',
+        globalHandler,
+        notPassiveCapture
+      )
     }
   }
 }

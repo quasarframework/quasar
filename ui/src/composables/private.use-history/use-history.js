@@ -2,10 +2,10 @@ import { onBeforeUnmount } from 'vue'
 
 import History from '../../plugins/private.history/History.js'
 
-export default function (showing, hide, hideOnRouteChange) {
+export default function useHistory(showing, hide, hideOnRouteChange) {
   let historyEntry
 
-  function removeFromHistory () {
+  function removeFromHistory() {
     if (historyEntry !== void 0) {
       History.remove(historyEntry)
       historyEntry = void 0
@@ -13,13 +13,13 @@ export default function (showing, hide, hideOnRouteChange) {
   }
 
   onBeforeUnmount(() => {
-    showing.value === true && removeFromHistory()
+    if (showing.value === true) removeFromHistory()
   })
 
   return {
     removeFromHistory,
 
-    addToHistory () {
+    addToHistory() {
       historyEntry = {
         condition: () => hideOnRouteChange.value === true,
         handler: hide

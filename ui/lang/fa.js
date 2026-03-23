@@ -1,5 +1,8 @@
 const days = 'یکشنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنجشنبه_جمعه_شنبه'.split('_')
-const monthsShort = 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')
+const monthsShort =
+  'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split(
+    '_'
+  )
 
 export default {
   isoName: 'fa',
@@ -19,15 +22,19 @@ export default {
     search: 'جستجو',
     filter: 'فیلتر',
     refresh: 'تازه‌سازی',
-    expand: label => (label ? `"${ label }" گسترش` : 'بسط دادن'),
-    collapse: label => (label ? `"${ label }" کوچک کردن` : 'سقوط - فروپاشی')
+    expand: label => (label ? `"${label}" گسترش` : 'بسط دادن'),
+    collapse: label => (label ? `"${label}" کوچک کردن` : 'سقوط - فروپاشی')
   },
   date: {
     days,
     daysShort: 'ی_د_س_چ_پ_ج_ش'.split('_'),
-    months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
+    months:
+      'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split(
+        '_'
+      ),
     monthsShort,
-    headerTitle: (date, model) => `${ days[ date.getDay() ] }، ${ model.day } ${ monthsShort[ model.month - 1 ] }`,
+    headerTitle: (date, model) =>
+      `${days[date.getDay()]}، ${model.day} ${monthsShort[model.month - 1]}`,
     firstDayOfWeek: 6,
     format24h: true,
     pluralDay: 'روز',
@@ -36,14 +43,15 @@ export default {
     prevYear: 'سال قبل',
     nextYear: 'سال دیگر',
     today: 'امروز',
-    prevRangeYears: range => `قبلی ${ range } سال`,
-    nextRangeYears: range => `بعد ${ range } سالها`
+    prevRangeYears: range => `قبلی ${range} سال`,
+    nextRangeYears: range => `بعد ${range} سالها`
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',
     noResults: 'هیچ موردی یافت نشد',
     loading: 'در حال بارگذاری ...',
-    selectedRecords: rows => (rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده'),
+    selectedRecords: rows =>
+      rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده',
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
     pagination: (start, end, total) => start + '-' + end + ' از ' + total,

@@ -26,16 +26,20 @@ export default createComponent({
       validator: v => typeof v === 'number' || v === null
     },
 
-    labelValue: [ String, Number ]
+    labelValue: [String, Number]
   },
 
   emits: useSliderEmits,
 
-  setup (props, { emit }) {
-    const { proxy: { $q } } = getCurrentInstance()
+  setup(props, { emit }) {
+    const {
+      proxy: { $q }
+    } = getCurrentInstance()
 
     const { state, methods } = useSlider({
-      updateValue, updatePosition, getDragging,
+      updateValue,
+      updatePosition,
+      getDragging,
       formAttrs: useFormAttrs(props)
     })
 
@@ -43,29 +47,38 @@ export default createComponent({
     const curRatio = ref(0)
     const model = ref(0)
 
-    function normalizeModel () {
-      model.value = props.modelValue === null
-        ? state.innerMin.value
-        : between(props.modelValue, state.innerMin.value, state.innerMax.value)
+    function normalizeModel() {
+      model.value =
+        props.modelValue === null
+          ? state.innerMin.value
+          : between(
+              props.modelValue,
+              state.innerMin.value,
+              state.innerMax.value
+            )
     }
 
     watch(
-      () => `${ props.modelValue }|${ state.innerMin.value }|${ state.innerMax.value }`,
+      () =>
+        `${props.modelValue}|${state.innerMin.value}|${state.innerMax.value}`,
       normalizeModel
     )
 
     normalizeModel()
 
     const modelRatio = computed(() => methods.convertModelToRatio(model.value))
-    const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
+    const ratio = computed(() =>
+      state.active.value === true ? curRatio.value : modelRatio.value
+    )
 
     const selectionBarStyle = computed(() => {
       const acc = {
-        [ state.positionProp.value ]: `${ 100 * state.innerMinRatio.value }%`,
-        [ state.sizeProp.value ]: `${ 100 * (ratio.value - state.innerMinRatio.value) }%`
+        [state.positionProp.value]: `${100 * state.innerMinRatio.value}%`,
+        [state.sizeProp.value]:
+          `${100 * (ratio.value - state.innerMinRatio.value)}%`
       }
       if (props.selectionImg !== void 0) {
-        acc.backgroundImage = `url(${ props.selectionImg }) !important`
+        acc.backgroundImage = `url(${props.selectionImg}) !important`
       }
       return acc
     })
@@ -74,11 +87,9 @@ export default createComponent({
       focusValue: true,
       getNodeData,
       ratio,
-      label: computed(() => (
-        props.labelValue !== void 0
-          ? props.labelValue
-          : model.value
-      )),
+      label: computed(() =>
+        props.labelValue !== void 0 ? props.labelValue : model.value
+      ),
       thumbColor: computed(() => props.thumbColor || props.color),
       labelColor: computed(() => props.labelColor),
       labelTextColor: computed(() => props.labelTextColor)
@@ -100,43 +111,45 @@ export default createComponent({
           }
     })
 
-    function updateValue (change) {
+    function updateValue(change) {
       if (model.value !== props.modelValue) {
         emit('update:modelValue', model.value)
       }
-      change === true && emit('change', model.value)
+
+      if (change === true) emit('change', model.value)
     }
 
-    function getDragging () {
+    function getDragging() {
       return rootRef.value.getBoundingClientRect()
     }
 
-    function updatePosition (event, dragging = state.dragging.value) {
-      const ratio = methods.getDraggingRatio(event, dragging)
+    function updatePosition(event, dragging = state.dragging.value) {
+      const localRatio = methods.getDraggingRatio(event, dragging)
 
-      model.value = methods.convertRatioToModel(ratio)
+      model.value = methods.convertRatioToModel(localRatio)
 
-      curRatio.value = props.snap !== true || props.step === 0
-        ? ratio
-        : methods.convertModelToRatio(model.value)
+      curRatio.value =
+        props.snap !== true || props.step === 0
+          ? localRatio
+          : methods.convertModelToRatio(model.value)
     }
 
-    function onFocus () {
+    function onFocus() {
       state.focus.value = true
     }
 
-    function onKeydown (evt) {
+    function onKeydown(evt) {
       if (keyCodes.includes(evt.keyCode) === false) return
 
       stopAndPrevent(evt)
 
-      const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.keyStep.value,
-        offset = (
-          ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1)
-          * (state.isReversed.value === true ? -1 : 1)
-          * (props.vertical === true ? -1 : 1) * stepVal
-        )
+      const stepVal =
+          ([34, 33].includes(evt.keyCode) ? 10 : 1) * state.keyStep.value,
+        offset =
+          ([34, 37, 40].includes(evt.keyCode) ? -1 : 1) *
+          (state.isReversed.value === true ? -1 : 1) *
+          (props.vertical === true ? -1 : 1) *
+          stepVal
 
       model.value = between(
         state.roundValueFn.value(model.value + offset),
@@ -152,15 +165,23 @@ export default createComponent({
         selectionBarStyle,
         state.tabindex,
         trackContainerEvents,
-        node => { node.push(getThumb()) }
+        node => {
+          node.push(getThumb())
+        }
       )
 
-      return h('div', {
-        ref: rootRef,
-        class: state.classes.value + (props.modelValue === null ? ' q-slider--no-value' : ''),
-        ...state.attributes.value,
-        'aria-valuenow': props.modelValue
-      }, content)
+      return h(
+        'div',
+        {
+          ref: rootRef,
+          class:
+            state.classes.value +
+            (props.modelValue === null ? ' q-slider--no-value' : ''),
+          ...state.attributes.value,
+          'aria-valuenow': props.modelValue
+        },
+        content
+      )
     }
   }
 })

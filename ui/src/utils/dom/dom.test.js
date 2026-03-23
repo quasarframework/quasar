@@ -1,9 +1,11 @@
+// oxlint-disable eslint-plugin-import/no-named-as-default-member
+
 import { describe, test, expect, vi, onTestFinished } from 'vitest'
 import { ref } from 'vue'
 
 import dom, { getElement, childHasFocus } from './dom.js'
 
-function createEl ({ top, left } = {}) {
+function createEl({ top, left } = {}) {
   const el = document.createElement('div')
   el.setAttribute('tabindex', '0')
   el.classList = 'fixed'
@@ -16,7 +18,9 @@ function createEl ({ top, left } = {}) {
   }
 
   document.body.appendChild(el)
-  onTestFinished(() => { el.remove() })
+  onTestFinished(() => {
+    el.remove()
+  })
 
   return el
 }
@@ -27,9 +31,7 @@ describe('[dom API]', () => {
       test('has correct return value', () => {
         const el = createEl()
 
-        expect(
-          dom.offset(el)
-        ).toStrictEqual({
+        expect(dom.offset(el)).toStrictEqual({
           top: expect.any(Number),
           left: expect.any(Number)
         })
@@ -40,13 +42,9 @@ describe('[dom API]', () => {
       test('has correct return value', () => {
         const el = createEl({ top: '10px', left: '20px' })
 
-        expect(
-          dom.style(el, 'top')
-        ).toBe('10px')
+        expect(dom.style(el, 'top')).toBe('10px')
 
-        expect(
-          dom.style(el, 'left')
-        ).toBe('20px')
+        expect(dom.style(el, 'left')).toBe('20px')
       })
     })
 
@@ -60,9 +58,7 @@ describe('[dom API]', () => {
         const el = createEl()
         el.style.height = '100px'
 
-        expect(
-          dom.height(el)
-        ).toBeTypeOf('number')
+        expect(dom.height(el)).toBeTypeOf('number')
       })
     })
 
@@ -76,9 +72,7 @@ describe('[dom API]', () => {
         const el = createEl()
         el.style.width = '100px'
 
-        expect(
-          dom.width(el)
-        ).toBeTypeOf('number')
+        expect(dom.width(el)).toBeTypeOf('number')
       })
     })
 
@@ -102,7 +96,7 @@ describe('[dom API]', () => {
         const el1 = createEl()
         const el2 = createEl()
 
-        const result = dom.cssBatch([ el1, el2 ], {
+        const result = dom.cssBatch([el1, el2], {
           width: '54px',
           height: '154px'
         })
@@ -119,23 +113,17 @@ describe('[dom API]', () => {
 
     describe('[(function)ready]', () => {
       test('ready()', () => {
-        expect(
-          dom.ready()
-        ).toBeUndefined()
+        expect(dom.ready()).toBeUndefined()
       })
 
       test('ready(5)', () => {
-        expect(
-          dom.ready(5)
-        ).toBeUndefined()
+        expect(dom.ready(5)).toBeUndefined()
       })
 
       test('ready(fn)', () => {
         const fn = vi.fn(() => 5)
 
-        expect(
-          dom.ready(fn)
-        ).toBe(5)
+        expect(dom.ready(fn)).toBe(5)
       })
     })
 
@@ -185,18 +173,14 @@ describe('[dom API]', () => {
         const elChild = document.createElement('div')
         el.appendChild(elChild)
 
-        expect(
-          childHasFocus(el, elChild)
-        ).toBe(true)
+        expect(childHasFocus(el, elChild)).toBe(true)
       })
 
       test('childHasFocus(el, parentEl)', () => {
         const parentEl = createEl()
         const el = document.createElement('div')
 
-        expect(
-          childHasFocus(el, parentEl)
-        ).toBe(false)
+        expect(childHasFocus(el, parentEl)).toBe(false)
       })
 
       test('childHasFocus(el, nextSiblingEl)', () => {
@@ -204,18 +188,14 @@ describe('[dom API]', () => {
         /* intermediateEl */ createEl()
         const nextSiblingEl = createEl()
 
-        expect(
-          childHasFocus(el, nextSiblingEl)
-        ).toBe(true)
+        expect(childHasFocus(el, nextSiblingEl)).toBe(true)
       })
 
       test('childHasFocus(el, prevSiblingEl)', () => {
         const prevSiblingEl = createEl()
         const el = createEl()
 
-        expect(
-          childHasFocus(el, prevSiblingEl)
-        ).toBe(false)
+        expect(childHasFocus(el, prevSiblingEl)).toBe(false)
       })
     })
   })

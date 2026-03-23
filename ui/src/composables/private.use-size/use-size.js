@@ -12,11 +12,13 @@ export const useSizeProps = {
   size: String
 }
 
-export default function (props, sizes = useSizeDefaults) {
+export default function useSize(props, sizes = useSizeDefaults) {
   // return sizeStyle
-  return computed(() => (
+  return computed(() =>
     props.size !== void 0
-      ? { fontSize: props.size in sizes ? `${ sizes[ props.size ] }px` : props.size }
+      ? {
+          fontSize: props.size in sizes ? `${sizes[props.size]}px` : props.size
+        }
       : null
-  ))
+  )
 }

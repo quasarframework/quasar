@@ -38,12 +38,10 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(null),
-      options: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ]
+      options: ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
     }
   }
 }

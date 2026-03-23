@@ -3,13 +3,13 @@ title: Chain Webpack
 desc: Tips and tricks on how to use a Quasar App Extension to configure the host app to use a Webpack loader.
 scope:
   tree:
-    l: "."
+    l: '.'
     c:
-    - l: package.json
-    - l: src
-      c:
-      - l: index.js
-        e: Described in Index API
+      - l: package.json
+      - l: src
+        c:
+          - l: index.js
+            e: Described in Index API
 ---
 
 This guide is for when you want to ensure that a [Webpack Loader](https://webpack.js.org/loaders/) is chained into the hosting app, because you depend on it for your own App Extension to work.
@@ -39,7 +39,7 @@ export default function (api) {
   api.compatibleWith('@quasar/app-webpack', '^4.0.0')
 
   // chain webpack
-  api.chainWebpack((chain) => chainWebpack(api.ctx, chain))
+  api.chainWebpack(chain => chainWebpack(api.ctx, chain))
 }
 ```
 
@@ -51,11 +51,10 @@ import MarkdownIt from 'markdown-it'
 const md = new MarkdownIt()
 
 const chainWebpack = (ctx, chain) => {
-  const rule = chain.module.rule('md')
-    .test(/\.md$/)
-    .pre()
+  const rule = chain.module.rule('md').test(/\.md$/).pre()
 
-  rule.use('v-loader')
+  rule
+    .use('v-loader')
     .loader('vue-loader')
     .options({
       productionMode: ctx.prod,
@@ -67,7 +66,8 @@ const chainWebpack = (ctx, chain) => {
       }
     })
 
-  rule.use('ware-loader')
+  rule
+    .use('ware-loader')
     .loader('ware-loader')
     .options({
       raw: true,

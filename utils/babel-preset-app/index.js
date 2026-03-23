@@ -7,7 +7,7 @@ const {
   isRequired
 } = require('@babel/helper-compilation-targets')
 
-function getPolyfills (targets, userPolyfills = []) {
+function getPolyfills(targets, userPolyfills = []) {
   // if no targets specified, include all default polyfills
   if (!userPolyfills.length || !targets || !Object.keys(targets).length) {
     return userPolyfills
@@ -21,7 +21,9 @@ module.exports = (_, opts = {}) => {
   const presets = []
   const plugins = []
 
-  const runtimePath = path.dirname(require.resolve('@babel/runtime/package.json'))
+  const runtimePath = path.dirname(
+    require.resolve('@babel/runtime/package.json')
+  )
   const runtimeVersion = require('@babel/runtime/package.json').version
 
   const {
@@ -64,7 +66,7 @@ module.exports = (_, opts = {}) => {
     if (polyfills.length > 0) {
       plugins.push([
         require('./polyfills'),
-        { polyfills, useAbsolutePath: !!absoluteRuntime }
+        { polyfills, useAbsolutePath: Boolean(absoluteRuntime) }
       ])
     }
   }
@@ -85,18 +87,20 @@ module.exports = (_, opts = {}) => {
   }
 
   // pass options along to babel-preset-env
-  presets.unshift([ require('@babel/preset-env'), envOptions ])
+  presets.unshift([require('@babel/preset-env'), envOptions])
 
   plugins.push(
     // Stage 2
     [
-      require('@babel/plugin-proposal-decorators'), {
+      require('@babel/plugin-proposal-decorators'),
+      {
         decoratorsBeforeExport,
         legacy: decoratorsLegacy !== false
       }
     ],
     [
-      require('@babel/plugin-transform-class-properties'), {
+      require('@babel/plugin-transform-class-properties'),
+      {
         loose
       }
     ],
@@ -112,7 +116,8 @@ module.exports = (_, opts = {}) => {
 
     // Transform runtime, but only for helpers
     [
-      require('@babel/plugin-transform-runtime'), {
+      require('@babel/plugin-transform-runtime'),
+      {
         regenerator: useBuiltIns !== 'usage',
 
         // polyfills are injected by preset-env & polyfillsPlugin, so no need to add them again
@@ -130,17 +135,18 @@ module.exports = (_, opts = {}) => {
 
   return {
     sourceType: 'unambiguous',
-    overrides: [{
-      exclude: [ /@babel[\/|\\\\]runtime/, /core-js/ ],
-      presets,
-      plugins
-    }, {
-      // there are some untranspiled code in @babel/runtime
-      // https://github.com/babel/babel/issues/9903
-      include: [ /@babel[\/|\\\\]runtime/ ],
-      presets: [
-        [ require('@babel/preset-env'), envOptions ]
-      ]
-    }]
+    overrides: [
+      {
+        exclude: [/@babel[/|\\\\]runtime/, /core-js/],
+        presets,
+        plugins
+      },
+      {
+        // there are some untranspiled code in @babel/runtime
+        // https://github.com/babel/babel/issues/9903
+        include: [/@babel[/|\\\\]runtime/],
+        presets: [[require('@babel/preset-env'), envOptions]]
+      }
+    ]
   }
 }

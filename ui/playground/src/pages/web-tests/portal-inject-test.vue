@@ -32,9 +32,7 @@
 
     <q-dialog some="attribute" v-model="alert">
       <q-card>
-        <q-card-section class="text-h6">
-          Alert
-        </q-card-section>
+        <q-card-section class="text-h6"> Alert </q-card-section>
 
         <q-separator />
 
@@ -74,7 +72,10 @@
                 <q-item to="/web-tests" exact>
                   <q-item-section>/web-tests exact </q-item-section>
                 </q-item>
-                <q-item to="/web-tests/portal-inject-test" active-class="text-white text-weight-bold">
+                <q-item
+                  to="/web-tests/portal-inject-test"
+                  active-class="text-white text-weight-bold"
+                >
                   <q-item-section>/web-tests/portal-inject-test</q-item-section>
                 </q-item>
                 <q-item to="/bogus">
@@ -82,7 +83,9 @@
                 </q-item>
                 <q-separator />
                 <q-item>
-                  <q-item-section>$route.path: {{ $route.path }}</q-item-section>
+                  <q-item-section
+                    >$route.path: {{ $route.path }}</q-item-section
+                  >
                 </q-item>
                 <q-item>
                   <q-item-section>
@@ -95,8 +98,20 @@
 
           <q-space />
 
-          <q-btn flat no-caps label="ClosePopup" color="primary" v-close-popup />
-          <q-btn flat no-caps label="Direct close" color="primary" @click="alert = false" />
+          <q-btn
+            flat
+            no-caps
+            label="ClosePopup"
+            color="primary"
+            v-close-popup
+          />
+          <q-btn
+            flat
+            no-caps
+            label="Direct close"
+            color="primary"
+            @click="alert = false"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -113,7 +128,7 @@ const TestComponent = defineComponent({
     }
   },
 
-  render () {
+  render() {
     return h('div', { class: 'text-weight-bold' }, this.providedTest)
   }
 })
@@ -127,7 +142,7 @@ export default {
     TestComponent
   },
 
-  data () {
+  data() {
     return {
       alert: false
     }

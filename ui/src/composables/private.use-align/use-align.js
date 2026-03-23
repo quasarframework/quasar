@@ -19,13 +19,16 @@ export const useAlignProps = {
   }
 }
 
-export default function (props) {
+export default function useAlign(props) {
   // return alignClass
   return computed(() => {
-    const align = props.align === void 0
-      ? props.vertical === true ? 'stretch' : 'left'
-      : props.align
+    const align =
+      props.align === void 0
+        ? props.vertical === true
+          ? 'stretch'
+          : 'left'
+        : props.align
 
-    return `${ props.vertical === true ? 'items' : 'justify' }-${ alignMap[ align ] }`
+    return `${props.vertical === true ? 'items' : 'justify'}-${alignMap[align]}`
   })
 }

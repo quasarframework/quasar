@@ -32,12 +32,14 @@
 const virtualScrollElements = 1000
 
 export default {
-  setup () {
+  setup() {
     return {
-      rows: Array(virtualScrollElements).fill(null).map((_, id) => ({
-        id: `k_${ id + 1 }`,
-        text: `text ${ id + 1 }`
-      }))
+      rows: Array(virtualScrollElements)
+        .fill(null)
+        .map((_, id) => ({
+          id: `k_${id + 1}`,
+          text: `text ${id + 1}`
+        }))
     }
   }
 }

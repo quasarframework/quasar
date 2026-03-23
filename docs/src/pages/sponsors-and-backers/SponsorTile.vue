@@ -1,9 +1,20 @@
 <template>
   <div class="sponsor">
-    <a v-if="props.href" :href="props.href" target="_blank" class="cursor-pointer block full-height">
+    <a
+      v-if="props.href"
+      :href="props.href"
+      target="_blank"
+      class="cursor-pointer block full-height"
+    >
       <q-img :src="logoUrl" :alt="props.name" height="100%" fit="contain" />
     </a>
-    <q-img v-else :src="logoUrl" :alt="props.name" height="100%" fit="contain" />
+    <q-img
+      v-else
+      :src="logoUrl"
+      :alt="props.name"
+      height="100%"
+      fit="contain"
+    />
   </div>
 </template>
 
@@ -17,7 +28,10 @@ const props = defineProps({
   href: String
 })
 
-const logoUrl = computed(() => `https://cdn.quasar.dev/logo-sponsors-v2/${ Dark.isActive ? 'dark' : 'light' }/${ props.src }`)
+const logoUrl = computed(
+  () =>
+    `https://cdn.quasar.dev/logo-sponsors-v2/${Dark.isActive ? 'dark' : 'light'}/${props.src}`
+)
 </script>
 
 <style lang="sass">

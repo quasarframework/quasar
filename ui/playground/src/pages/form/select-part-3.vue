@@ -1,18 +1,41 @@
 <template>
   <div class="q-layout-padding">
     <div class="q-gutter-md">
-      <div>
-        Model: {{ model }}
-      </div>
+      <div>Model: {{ model }}</div>
 
-      <q-btn label="Focus 1" @click="e => { $refs.sel1.focus(e) }" />
+      <q-btn
+        label="Focus 1"
+        @click="
+          e => {
+            $refs.sel1.focus(e)
+          }
+        "
+      />
       <q-btn label="Show 1" @click="$refs.sel1.showPopup()" />
 
-      <q-btn label="Focus 2" @click="e => { $refs.sel2.focus(e) }" />
+      <q-btn
+        label="Focus 2"
+        @click="
+          e => {
+            $refs.sel2.focus(e)
+          }
+        "
+      />
       <q-btn label="Show 2" @click="$refs.sel2.showPopup()" />
-      <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
+      <q-checkbox
+        v-model="forceMenu"
+        toggle-indeterminate
+        :label="forceMenuLabel"
+      />
 
-      <q-btn label="Focus 3" @click="e => { $refs.sel3.focus(e) }" />
+      <q-btn
+        label="Focus 3"
+        @click="
+          e => {
+            $refs.sel3.focus(e)
+          }
+        "
+      />
       <q-btn label="Show 3" @click="$refs.sel3.showPopup()" />
 
       <q-select
@@ -32,9 +55,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -55,9 +76,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -74,9 +93,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -98,9 +115,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -122,9 +137,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -146,9 +159,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
 
@@ -187,9 +198,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
 
@@ -220,9 +229,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -245,9 +252,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
 
@@ -280,11 +285,8 @@
 </style>
 
 <script>
-const
-  stringOptions = [
-    'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-  ],
-  objectOptions = () => ([
+const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'],
+  objectOptions = () => [
     {
       label: 'Google',
       value: 1
@@ -305,14 +307,17 @@ const
       label: 'Oracle',
       value: 5
     }
-  ]),
-  lotsOptions = () => Array(5000).fill(0).map((item, i) => ({
-    value: i,
-    label: `Item ${ i }`
-  }))
+  ],
+  lotsOptions = () =>
+    Array(5000)
+      .fill(0)
+      .map((item, i) => ({
+        value: i,
+        label: `Item ${i}`
+      }))
 
 export default {
-  data () {
+  data() {
     return {
       model: 'Twitter',
       model2: null,
@@ -325,13 +330,15 @@ export default {
   },
 
   computed: {
-    behavior () {
+    behavior() {
       return this.forceMenu === null
         ? 'default'
-        : (this.forceMenu === true ? 'menu' : 'dialog')
+        : this.forceMenu === true
+          ? 'menu'
+          : 'dialog'
     },
 
-    forceMenuLabel () {
+    forceMenuLabel() {
       if (this.forceMenu === true) {
         return 'Force menu'
       }
@@ -341,7 +348,7 @@ export default {
   },
 
   methods: {
-    filterFn (val, update) {
+    filterFn(val, update) {
       console.log('filterFn', val)
       if (val === '') {
         update(() => {
@@ -352,11 +359,13 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this.options = stringOptions.filter(
+          v => v.toLowerCase().indexOf(needle) > -1
+        )
       })
     },
 
-    filterObjectFn (val, update) {
+    filterObjectFn(val, update) {
       console.log('filterObjectFn', val)
       if (val === '') {
         update(() => {
@@ -368,12 +377,14 @@ export default {
       setTimeout(() => {
         update(() => {
           const needle = val.toLowerCase()
-          this.objectOptions = objectOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+          this.objectOptions = objectOptions().filter(
+            v => v.label.toLowerCase().indexOf(needle) > -1
+          )
         })
       }, 100)
     },
 
-    filterLotsFn (val, update) {
+    filterLotsFn(val, update) {
       console.log('filterLotsFn', val)
       if (val === '') {
         update(() => {
@@ -384,7 +395,9 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase()
-        this.lotsOptions = Object.freeze(lotsOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1))
+        this.lotsOptions = Object.freeze(
+          lotsOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        )
       })
     }
   }

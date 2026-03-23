@@ -1,4 +1,4 @@
-module.exports = function (content) {
+module.exports = function exports(content) {
   if (content.indexOf('$') !== -1) {
     const { prefix } = this.getOptions()
 
@@ -12,7 +12,11 @@ module.exports = function (content) {
     }
 
     const newLineIndex = content.indexOf('\n', useIndex) + 1
-    return content.substring(0, newLineIndex) + prefix + content.substring(newLineIndex)
+    return (
+      content.substring(0, newLineIndex) +
+      prefix +
+      content.substring(newLineIndex)
+    )
   }
 
   return content

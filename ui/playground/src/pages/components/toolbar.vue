@@ -1,18 +1,16 @@
 <template>
   <div class="q-layout-padding row justify-center">
-    <div style="width: 500px; max-width: 90vw;">
+    <div style="width: 500px; max-width: 90vw">
       <p class="caption">
-        Toolbars are mainly used in Layout headers and footers, but they can be used
-        in your Page view too.
+        Toolbars are mainly used in Layout headers and footers, but they can be
+        used in your Page view too.
       </p>
 
       <q-toolbar>
         <q-btn flat round dense>
           <q-icon name="menu" />
         </q-btn>
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
+        <q-toolbar-title> Toolbar </q-toolbar-title>
         <q-btn flat round dense>
           <q-icon name="more_vert" />
         </q-btn>
@@ -20,16 +18,14 @@
 
       <q-toolbar class="text-primary q-my-md">
         <q-btn flat round dense icon="menu" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
+        <q-toolbar-title> Toolbar </q-toolbar-title>
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
 
       <q-toolbar class="bg-primary text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
         <q-avatar>
-          <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
+          <img src="https://cdn.quasar.dev/logo-v2/128/logo.png" />
         </q-avatar>
 
         <q-toolbar-title>Quasar Framework</q-toolbar-title>
@@ -39,9 +35,7 @@
 
       <q-toolbar class="bg-purple text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
+        <q-toolbar-title> Toolbar </q-toolbar-title>
         <q-btn flat round dense icon="apps" class="q-mr-xs" />
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
@@ -60,18 +54,14 @@
 
       <q-toolbar class="bg-red text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
+        <q-toolbar-title> Toolbar </q-toolbar-title>
         <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
 
       <q-toolbar class="bg-grey-2 text-grey-9 q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
+        <q-toolbar-title> Toolbar </q-toolbar-title>
         <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
@@ -121,9 +111,7 @@
       <q-toolbar class="bg-black text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-xs" />
         <q-btn flat round dense icon="security" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
+        <q-toolbar-title> Toolbar </q-toolbar-title>
         <q-btn flat round dense icon="headset" class="q-mr-xs" />
         <q-btn flat round dense icon="tv" />
       </q-toolbar>
@@ -137,36 +125,44 @@
 
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list>
-            <q-item-label header>
-              Folders
-            </q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
+            <q-item-label header> Folders </q-item-label>
+            <q-item
+              v-for="n in 3"
+              :key="`x.${n}`"
+              clickable
+              v-close-popup
+              tabindex="0"
+            >
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Photos</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
               </q-item-section>
             </q-item>
             <q-separator inset spaced />
-            <q-item-label header>
-              Files
-            </q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
+            <q-item-label header> Files </q-item-label>
+            <q-item
+              v-for="n in 3"
+              :key="`y.${n}`"
+              clickable
+              v-close-popup
+              tabindex="0"
+            >
               <q-item-section avatar>
-                <q-avatar icon="assignment" color="primary" text-color="white" />
+                <q-avatar
+                  icon="assignment"
+                  color="primary"
+                  text-color="white"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Vacation</q-item-label>
-                <q-item-label caption>
-                  February 22, 2016
-                </q-item-label>
+                <q-item-label caption> February 22, 2016 </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
@@ -187,12 +183,13 @@
 
         <q-btn-toggle
           v-model="model"
-          flat stretch
+          flat
+          stretch
           toggle-color="yellow"
           :options="[
-            {label: 'One', value: 'one'},
-            {label: 'Two', value: 'two'},
-            {label: 'Three', value: 'three'}
+            { label: 'One', value: 'one' },
+            { label: 'Two', value: 'two' },
+            { label: 'Three', value: 'three' }
           ]"
         />
       </q-toolbar>
@@ -212,7 +209,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       model: null
     }

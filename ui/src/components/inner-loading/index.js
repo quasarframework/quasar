@@ -1,5 +1,3 @@
 import QInnerLoading from './QInnerLoading.js'
 
-export {
-  QInnerLoading
-}
+export { QInnerLoading }

@@ -15,13 +15,16 @@ export default {
     search: 'Sök',
     filter: 'Filtrera',
     refresh: 'Uppdatera',
-    expand: label => (label ? `Utöka "${ label }"` : 'Bygga ut'),
-    collapse: label => (label ? `Komprimera "${ label }"` : 'Kollaps')
+    expand: label => (label ? `Utöka "${label}"` : 'Bygga ut'),
+    collapse: label => (label ? `Komprimera "${label}"` : 'Kollaps')
   },
   date: {
     days: 'Söndag_Måndag_Tisdag_Onsdag_Torsdag_Fredag_Lördag'.split('_'),
     daysShort: 'Sön_Mån_Tis_Ons_Tor_Fre_Lör'.split('_'),
-    months: 'Januari_Februari_Mars_April_Maj_Juni_Juli_Augusti_September_Oktober_November_December'.split('_'),
+    months:
+      'Januari_Februari_Mars_April_Maj_Juni_Juli_Augusti_September_Oktober_November_December'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +34,17 @@ export default {
     prevYear: 'Föregående år',
     nextYear: 'Nästa år',
     today: 'I dag',
-    prevRangeYears: range => `Föregående ${ range } år`,
-    nextRangeYears: range => `Nästa ${ range } år`
+    prevRangeYears: range => `Föregående ${range} år`,
+    nextRangeYears: range => `Nästa ${range} år`
   },
   table: {
     noData: 'Ingen data tillgänglig',
     noResults: 'Inget resultat matchar',
     loading: 'Laddar...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 vald rad.'
-        : (rows === 0 ? 'Inga' : rows) + ' valda rader.'
-    ),
+        : (rows === 0 ? 'Inga' : rows) + ' valda rader.',
     recordsPerPage: 'Rader per sida:',
     allRows: 'Alla',
     pagination: (start, end, total) => start + '-' + end + ' av ' + total,

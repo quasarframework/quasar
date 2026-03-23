@@ -18,6 +18,7 @@ We will be describing `v-touch-swipe` on the lines below.
 <DocApi file="TouchSwipe" />
 
 ## Usage
+
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
 
 ::: tip
@@ -31,6 +32,7 @@ If your content also has images, you might want to add `draggable="false"` to th
 <DocExample title="Several directions" file="UpOrLeft" />
 
 ### Handling Mouse Events
+
 When you want to handle mouse events too, use the `mouse` modifier:
 
 ```html
@@ -38,6 +40,7 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Inhibiting TouchSwipe
+
 When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
@@ -57,4 +60,5 @@ When you want to inhibit TouchSwipe, you can do so by stopping propagation of th
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchSwipe will still trigger.
 
 ## Note on HMR
+
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

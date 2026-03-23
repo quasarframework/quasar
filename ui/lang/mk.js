@@ -15,13 +15,16 @@ export default {
     search: 'Пребарувај',
     filter: 'Филтрирај',
     refresh: 'Освежи',
-    expand: label => (label ? `Прошири "${ label }"` : 'Прошири'),
-    collapse: label => (label ? `Собери на "${ label }"` : 'Собери')
+    expand: label => (label ? `Прошири "${label}"` : 'Прошири'),
+    collapse: label => (label ? `Собери на "${label}"` : 'Собери')
   },
   date: {
     days: 'Недела_Понеделник_Вторник_Среда_Четврток_Петок_Сабота'.split('_'),
     daysShort: 'Нед_Пон_Вто_Сре_Чет_Пет_Саб'.split('_'),
-    months: 'Јануари_Февруари_Март_Април_Мај_Јуни_Јули_Август_Септември_Октомври_Ноември_Декември'.split('_'),
+    months:
+      'Јануари_Февруари_Март_Април_Мај_Јуни_Јули_Август_Септември_Октомври_Ноември_Декември'.split(
+        '_'
+      ),
     monthsShort: 'Јан_Фев_Мар_Апр_Мај_Јун_Јул_Авг_Сеп_Окт_Ное_Дек'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Недела, 1 - Понеделник, ...
     format24h: false,
@@ -31,18 +34,17 @@ export default {
     prevYear: 'Претходна година',
     nextYear: 'Следната година',
     today: 'Денес',
-    prevRangeYears: range => `Претходно ${ range } години`,
-    nextRangeYears: range => `Следно ${ range } години`
+    prevRangeYears: range => `Претходно ${range} години`,
+    nextRangeYears: range => `Следно ${range} години`
   },
   table: {
     noData: 'Нема достапни податоци',
     noResults: 'Нема резултати за пребарување',
     loading: 'Вчитување...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? 'Избран е 1 запис.'
-        : (rows === 0 ? 'Нема' : rows) + ' записи се избрани.'
-    ),
+        : (rows === 0 ? 'Нема' : rows) + ' записи се избрани.',
     recordsPerPage: 'Записи по страница:',
     allRows: 'Сите',
     pagination: (start, end, total) => start + '-' + end + ' од ' + total,

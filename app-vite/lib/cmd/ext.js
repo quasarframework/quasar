@@ -4,10 +4,10 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: [ 'h' ]
+  boolean: ['h']
 })
 
-function showHelp () {
+function showHelp() {
   console.log(`
   Description
     Manage Quasar App Extensions
@@ -46,7 +46,7 @@ import { green } from 'kolorist'
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
-  warn(`Wrong number of parameters (${ argv._.length }).`)
+  warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp()
   process.exit(1)
 }
@@ -58,15 +58,16 @@ if (argv._.length === 0) {
   if (appExt.extensionList.length === 0) {
     log(' No App Extensions are installed')
     log(' You can look for "quasar-app-extension-*" in npm registry.')
-  }
-  else {
+  } else {
     console.log()
 
     for (const ext of appExt.extensionList) {
       const prompts = ext.getPrompts()
       const hasPrompts = Object.keys(prompts).length !== 0
 
-      console.log(`App Extension [ ${ green(ext.extId) } ]${ hasPrompts === true ? ' with prompts:' : '' }`)
+      console.log(
+        `App Extension [ ${green(ext.extId)} ]${hasPrompts === true ? ' with prompts:' : ''}`
+      )
 
       if (hasPrompts === true) {
         console.log(JSON.stringify(prompts, null, 2))
@@ -74,22 +75,19 @@ if (argv._.length === 0) {
       }
     }
   }
-}
-else {
-  const [ action, extName ] = argv._
+} else {
+  const [action, extName] = argv._
 
-  if (![ 'add', 'remove', 'invoke', 'uninvoke' ].includes(action)) {
+  if (!['add', 'remove', 'invoke', 'uninvoke'].includes(action)) {
     console.log()
-    warn(`Unknown action specified (${ action }).`)
+    warn(`Unknown action specified (${action}).`)
     showHelp()
     process.exit(1)
   }
 
   const ext = appExt.createInstance(extName)
 
-  await ext[
-    action === 'add' || action === 'invoke'
-      ? 'install'
-      : 'uninstall'
-  ](action === 'invoke' || action === 'uninvoke')
+  await ext[action === 'add' || action === 'invoke' ? 'install' : 'uninstall'](
+    action === 'invoke' || action === 'uninvoke'
+  )
 }

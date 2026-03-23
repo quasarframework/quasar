@@ -1,5 +1,8 @@
 <template>
-  <div class="q-pa-md relative-position" style="height: 600px; max-height: 80vh">
+  <div
+    class="q-pa-md relative-position"
+    style="height: 600px; max-height: 80vh"
+  >
     <div
       class="absolute-top-left bg-red text-white q-ma-md q-pa-lg"
       style="border-radius: 10px; font-size: 32px"
@@ -45,26 +48,21 @@
 <script>
 import { ref } from 'vue'
 
-const boxValues = [
-  'topleft',
-  'topright',
-  'bottomleft',
-  'bottomright'
-]
+const boxValues = ['topleft', 'topright', 'bottomleft', 'bottomright']
 
 export default {
-  setup () {
+  setup() {
     const morphGroupModel = ref('topleft')
 
     return {
       morphGroupModel,
-      nextMorph () {
+      nextMorph() {
         let value = morphGroupModel.value
 
         // pick random box, other than current one
         while (value === morphGroupModel.value) {
           const i = Math.floor(Math.random() * boxValues.length)
-          value = boxValues[ i ]
+          value = boxValues[i]
         }
 
         morphGroupModel.value = value

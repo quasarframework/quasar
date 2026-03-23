@@ -8,7 +8,7 @@
       "extends": "model-value",
       "type": "Number",
       "desc": "Model of the component defining the size of first panel (or second if using reverse) in the unit specified (for '%' it's the split ratio percent - 0.0 < x < 100.0; for 'px' it's the size in px); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "# v-model=\"ratio\"" ]
+      "examples": ["# v-model=\"ratio\""]
     },
 
     "reverse": {
@@ -21,7 +21,7 @@
       "type": "String",
       "desc": "CSS unit for the model",
       "default": "'%'",
-      "values": [ "'%'", "'px'" ],
+      "values": ["'%'", "'px'"],
       "category": "model"
     },
 
@@ -42,7 +42,7 @@
       "desc": "An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side; Default value: for '%' unit it is [10, 90], while for 'px' unit it is [50, Infinity]",
       "default": "# [10, 90]/[50, Infinity]",
       "__runtimeDefault": true,
-      "examples": [ "[ 30, 70 ]", "[ 0, Infinity ]" ],
+      "examples": ["[30, 70]", "[0, Infinity]"],
       "category": "content|model"
     },
 
@@ -51,40 +51,31 @@
     },
 
     "before-class": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the 'before' panel",
-      "examples": [
-        "'bg-deep-orange'",
-        "{ 'my-special-class': true }"
-      ],
+      "examples": ["'bg-deep-orange'", "{ 'my-special-class': true }"],
       "category": "style"
     },
 
     "after-class": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the 'after' panel",
-      "examples": [
-        "'bg-deep-orange'",
-        "{ 'my-special-class': true }"
-      ],
+      "examples": ["'bg-deep-orange'", "{ 'my-special-class': true }"],
       "category": "style"
     },
 
     "separator-class": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the splitter separator",
-      "examples": [
-        "'bg-deep-orange'",
-        "{ 'my-special-class': true }"
-      ],
+      "examples": ["'bg-deep-orange'", "{ 'my-special-class': true }"],
       "category": "style"
     },
 
     "separator-style": {
-      "type": [ "String", "Array", "Object" ],
+      "type": ["String", "Array", "Object"],
       "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the splitter separator",
       "examples": [

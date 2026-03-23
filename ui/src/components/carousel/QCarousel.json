@@ -1,5 +1,8 @@
 {
-  "mixins": [ "composables/private.use-panel/use-panel", "composables/private.use-fullscreen/use-fullscreen" ],
+  "mixins": [
+    "composables/private.use-panel/use-panel",
+    "composables/private.use-fullscreen/use-fullscreen"
+  ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/carousel"
@@ -34,19 +37,15 @@
     "control-type": {
       "type": "String",
       "desc": "Type of button to use for controls (arrows, navigation)",
-      "values": [ "'regular'", "'flat'", "'outline'", "'push'", "'unelevated'" ],
+      "values": ["'regular'", "'flat'", "'outline'", "'push'", "'unelevated'"],
       "default": "'flat'",
       "category": "style"
     },
 
     "autoplay": {
-      "type": [ "Number", "Boolean" ],
+      "type": ["Number", "Boolean"],
       "desc": "Jump to next slide (if 'true' or val > 0) or previous slide (if val < 0) at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
-      "examples": [
-        "true",
-        "false",
-        "2500"
-      ],
+      "examples": ["true", "false", "2500"],
       "category": "behavior"
     },
 
@@ -75,7 +74,7 @@
       "desc": "Side to stick navigation to",
       "default": "# 'bottom'/'right'",
       "__runtimeDefault": true,
-      "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
+      "values": ["'top'", "'right'", "'bottom'", "'left'"],
       "category": "content"
     },
 
@@ -96,12 +95,12 @@
 
     "transition-prev": {
       "default": "'fade'",
-      "__delete": [ "__runtimeDefault" ]
+      "__delete": ["__runtimeDefault"]
     },
 
     "transition-next": {
       "default": "'fade'",
-      "__delete": [ "__runtimeDefault" ]
+      "__delete": ["__runtimeDefault"]
     }
   },
 

@@ -5,9 +5,7 @@
     <q-toggle v-model="flatBordered" label="Flat + bordered" />
     <q-toggle v-model="format24h" label="24H format" />
 
-    <div class="text-h6 q-mb-md">
-      Mask "x": {{ timestamp }}
-    </div>
+    <div class="text-h6 q-mb-md">Mask "x": {{ timestamp }}</div>
     <div class="row items-start q-gutter-sm">
       <q-date
         v-model="timestamp"
@@ -39,9 +37,7 @@
       </q-time>
     </div>
 
-    <div class="text-h6 q-my-md">
-      Mask "YYYY-MM-DD HH:mm:ss": {{ date }}
-    </div>
+    <div class="text-h6 q-my-md">Mask "YYYY-MM-DD HH:mm:ss": {{ date }}</div>
     <div class="row items-start q-gutter-sm">
       <q-date
         v-model="date"
@@ -77,7 +73,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       timestamp: '1558626538737',
       date: '2019-05-23 19:57:02',

@@ -10,40 +10,47 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function alert () {
+    function alert() {
       $q.dialog({
         title: 'Alert',
         message: 'Some message'
-      }).onOk(() => {
-        // console.log('OK')
-      }).onCancel(() => {
-        // console.log('Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(() => {
+          // console.log('OK')
+        })
+        .onCancel(() => {
+          // console.log('Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
-    function confirm () {
+    function confirm() {
       $q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
         cancel: true,
         persistent: true
-      }).onOk(() => {
-        // console.log('>>>> OK')
-      }).onOk(() => {
-        // console.log('>>>> second OK catcher')
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(() => {
+          // console.log('>>>> OK')
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
-    function prompt () {
+    function prompt() {
       $q.dialog({
         title: 'Prompt',
         message: 'What is your name?',
@@ -53,13 +60,16 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).onOk(data => {
-        // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(data => {
+          // console.log('>>>> OK, received', data)
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
     return { alert, confirm, prompt }

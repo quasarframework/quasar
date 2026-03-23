@@ -3,7 +3,13 @@
     <q-toggle v-model="loading" label="Loading" :dark="dark" />
     <q-toggle v-model="dark" label="Dark" :dark="dark" :false-value="null" />
     <q-toggle v-model="dense" label="Dense" :dark="dark" />
-    <q-select class="q-ma-sm inline" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" :dark="dark" />
+    <q-select
+      class="q-ma-sm inline"
+      filled
+      v-model="separator"
+      :options="['horizontal', 'vertical', 'cell', 'none']"
+      :dark="dark"
+    />
     <q-toggle v-model="hasSelection" label="Selection" :dark="dark" />
 
     <q-table
@@ -61,7 +67,13 @@
       @row-click="onRowClick"
     >
       <template v-slot:top-right="props">
-        <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
+        <q-btn
+          size="sm"
+          round
+          flat
+          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="props.toggleFullscreen()"
+        />
       </template>
       <template v-slot:item="props">
         <div
@@ -70,11 +82,18 @@
         >
           <q-card :dark="dark">
             <q-card-section>
-              <q-checkbox :dark="dark" v-model="props.selected" :label="props.row.name" />
+              <q-checkbox
+                :dark="dark"
+                v-model="props.selected"
+                :label="props.row.name"
+              />
             </q-card-section>
             <q-separator :dark="dark" />
             <q-list :dark="dark">
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+              <q-item
+                v-for="col in props.cols.filter(col => col.name !== 'desc')"
+                :key="col.name"
+              >
                 <q-item-section>
                   <q-item-label>{{ col.label }}</q-item-label>
                 </q-item-section>
@@ -94,7 +113,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       loading: false,
       dark: null,
@@ -112,13 +131,37 @@ export default {
           field: 'name',
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        },
+        {
+          name: 'fat',
+          label: 'Fat (g)',
+          field: 'fat',
+          sortable: true,
+          style: 'width: 10px'
+        },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
       data: [
         {
@@ -226,19 +269,17 @@ export default {
   },
 
   computed: {
-    selection () {
-      return this.hasSelection === true
-        ? 'multiple'
-        : void 0
+    selection() {
+      return this.hasSelection === true ? 'multiple' : void 0
     }
   },
 
   methods: {
-    onRowClick (evt, row) {
+    onRowClick(evt, row) {
       console.log('@row-click', evt, row)
     },
 
-    onRowDblClick (evt, row) {
+    onRowDblClick(evt, row) {
       console.log('@row-dblclick', evt, row)
     }
   }

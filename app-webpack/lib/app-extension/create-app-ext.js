@@ -5,69 +5,66 @@ const { parseJSON, stringifyJSON } = require('confbox')
 const { log, fatal } = require('../utils/logger.js')
 const { AppExtensionInstance } = require('./AppExtensionInstance.js')
 
-function readJson (file) {
+function readJson(file) {
   if (existsSync(file) === false) {
     return {}
   }
 
   try {
-    return parseJSON(
-      readFileSync(file, 'utf-8')
-    )
-  }
-  catch (e) {
+    return parseJSON(readFileSync(file, 'utf-8'))
+  } catch (e) {
     console.log(e)
     fatal('quasar.extensions.json is malformed', 'FAIL')
   }
 }
 
-function getAppExtJson ({ file, json, onListUpdate }) {
+function getAppExtJson({ file, json, onListUpdate }) {
   const fileExists = Object.keys(json).length > 0
 
-  function save () {
+  function save() {
     writeFileSync(
       file,
       // if file exists, preserve indentation, otherwise use 2 spaces
-      stringifyJSON(json, { indent: fileExists ? undefined : 2 }),
+      stringifyJSON(json, { indent: fileExists ? void 0 : 2 }),
       'utf-8'
     )
   }
 
   const acc = {
-    has (extId) {
-      return json[ extId ] !== void 0
+    has(extId) {
+      return json[extId] !== void 0
     },
 
-    set (extId, opts) {
-      log(`Updating /quasar.extensions.json for "${ extId }" extension ...`)
-      const hasAppExt = json[ extId ] !== void 0
-      json[ extId ] = opts
+    set(extId, opts) {
+      log(`Updating /quasar.extensions.json for "${extId}" extension ...`)
+      const hasAppExt = json[extId] !== void 0
+      json[extId] = opts
       save()
-      hasAppExt === false && onListUpdate(json)
+      if (hasAppExt === false) onListUpdate(json)
     },
 
-    setInternal (extId, opts) {
-      const cfg = json[ extId ] || {}
+    setInternal(extId, opts) {
+      const cfg = json[extId] || {}
       cfg.__internal = opts
       acc.set(extId, cfg)
     },
 
-    remove (extId) {
+    remove(extId) {
       if (acc.has(extId) === true) {
-        log(`Removing "${ extId }" extension from /quasar.extensions.json ...`)
-        delete json[ extId ]
+        log(`Removing "${extId}" extension from /quasar.extensions.json ...`)
+        delete json[extId]
         save()
         onListUpdate(json)
       }
     },
 
-    getPrompts (extId) {
-      const { __internal, ...prompts } = json[ extId ] || {}
+    getPrompts(extId) {
+      const { __internal, ...prompts } = json[extId] || {}
       return JSON.parse(JSON.stringify(prompts))
     },
 
-    getInternal (extId) {
-      const cfg = json[ extId ] || {}
+    getInternal(extId) {
+      const cfg = json[extId] || {}
       return cfg.__internal || {}
     }
   }
@@ -75,13 +72,13 @@ function getAppExtJson ({ file, json, onListUpdate }) {
   return acc
 }
 
-module.exports.createAppExt = function createAppExt (ctx) {
+module.exports.createAppExt = function createAppExt(ctx) {
   let hooksMap = null
 
   const appExt = {
     extensionList: [],
 
-    createInstance (extName) {
+    createInstance(extName) {
       return new AppExtensionInstance({
         extName,
         ctx,
@@ -89,7 +86,7 @@ module.exports.createAppExt = function createAppExt (ctx) {
       })
     },
 
-    async registerAppExtensions () {
+    async registerAppExtensions() {
       hooksMap = {}
       for (const ext of appExt.extensionList) {
         const extHooks = await ext.run()
@@ -97,14 +94,14 @@ module.exports.createAppExt = function createAppExt (ctx) {
       }
     },
 
-    async runAppExtensionHook (hookName, fn) {
-      const hookList = hooksMap[ hookName ] || []
+    async runAppExtensionHook(hookName, fn) {
+      const hookList = hooksMap[hookName] || []
       for (const hook of hookList) {
         await fn(hook)
       }
     },
 
-    getInstance (extId) {
+    getInstance(extId) {
       return appExt.extensionList.find(ext => ext.extId === extId)
     }
   }

@@ -41,6 +41,7 @@ $ vue create my-app
 ```
 
 ## Add Vue CLI Quasar Plugin
+
 Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
 ::: warning

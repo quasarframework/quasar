@@ -21,9 +21,7 @@ const props = defineProps({
   }
 })
 
-const style = computed(() => (
-  props.maxHeight !== void 0
-    ? { maxHeight: props.maxHeight }
-    : null
-))
+const style = computed(() =>
+  props.maxHeight !== void 0 ? { maxHeight: props.maxHeight } : null
+)
 </script>

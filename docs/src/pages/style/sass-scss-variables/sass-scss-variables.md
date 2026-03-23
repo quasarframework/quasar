@@ -10,22 +10,23 @@ This applies to Quasar CLI managed apps only.
 :::
 
 ## Usage
+
 In your app's `*.vue` files or in the .sass/.scss files you can use any Quasar Sass/SCSS variables (examples: `$primary`, `$red-1`), and any other Sass/SCSS variables that you declared in your `/src/css/quasar.variables.sass` or the perfectly equivalent `/src/css/quasar.variables.scss` (depending on your favorite Sass flavour) when using Quasar CLI.
 
 ```html
 <!-- Notice lang="sass" -->
 <style lang="sass">
-div
-  color: $red-1
-  background-color: $grey-5
+  div
+    color: $red-1
+    background-color: $grey-5
 </style>
 
 <!-- Notice lang="scss" -->
 <style lang="scss">
-div {
-  color: $red-1;
-  background-color: $grey-5;
-}
+  div {
+    color: $red-1;
+    background-color: $grey-5;
+  }
 </style>
 ```
 
@@ -45,18 +46,19 @@ If, however, you have a nested importing statement and the file from which you a
 
 ```html
 <style lang="sass">
-// $
+  // $
 
-@import 'some-file.sass'
-// now some-file.sass can benefit
-// from Quasar Sass variables too
-// due to comment above
+  @import 'some-file.sass'
+  // now some-file.sass can benefit
+  // from Quasar Sass variables too
+  // due to comment above
 </style>
 ```
 
 Same is required for .sass/.scss files that are included from quasar.config file > css.
 
 ## Customizing
+
 If you want to customize the variables (or add your own) and your project does not yet have a `src/css/quasar.variables.sass` (or `src/css/quasar.variables.scss`) file, create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
@@ -64,13 +66,16 @@ You can freely override any of Quasar's variables (see next section) in those fi
 If you want more than to override a Quasar Sass variable, but to extend one, you can achieve it in the next way:
 
 ```scss
-@use "quasar/src/css/variables" as q;
-@use "sass:map";
+@use 'quasar/src/css/variables' as q;
+@use 'sass:map';
 
-$space-xxl: (x: 64px, y: 64px);
+$space-xxl: (
+  x: 64px,
+  y: 64px
+);
 
 $new-spaces: (
-  xxl: $space-xxl,
+  xxl: $space-xxl
 );
 
 $spaces: map.merge(q.$spaces, $new-spaces);
@@ -81,11 +86,12 @@ Quasar is very easy to customize without the need of tampering with the Sass/SCS
 :::
 
 ## Quasar's CSS
+
 Quasar's own CSS is compiled using the variables file (if it exists), but there are multiple forms (sass, scss). So there has to be a priority list for Quasar CLI:
 
-* Does `src/css/quasar.variables.scss` exists? Use that.
-* If not, then does `src/css/quasar.variables.sass` exists? Use that.
-* If not, then use pre-compiled Quasar CSS.
+- Does `src/css/quasar.variables.scss` exists? Use that.
+- If not, then does `src/css/quasar.variables.sass` exists? Use that.
+- If not, then use pre-compiled Quasar CSS.
 
 ## Variables list
 

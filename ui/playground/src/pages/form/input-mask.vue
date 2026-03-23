@@ -4,8 +4,18 @@
       <h1>Input Mask</h1>
 
       <div>Model: {{ text1 }} | {{ maskedOrNotValue }}</div>
-      <q-toggle v-model="maskedOrNot" @update:model-value="toggleMask" label="Masked or not" />
-      <q-input :mask="maskedOrNotValue" v-model="text1" filled hint="Date ##/##/####" label="Label" />
+      <q-toggle
+        v-model="maskedOrNot"
+        @update:model-value="toggleMask"
+        label="Masked or not"
+      />
+      <q-input
+        :mask="maskedOrNotValue"
+        v-model="text1"
+        filled
+        hint="Date ##/##/####"
+        label="Label"
+      />
       <q-input
         filled
         v-model="id"
@@ -15,16 +25,47 @@
       ></q-input>
 
       <div>Model: {{ text2 }}</div>
-      <q-input mask="((###) ### - ####)" v-model="text2" filled hint="Phone ((###) ### - ####)" counter label="Label" />
+      <q-input
+        mask="((###) ### - ####)"
+        v-model="text2"
+        filled
+        hint="Phone ((###) ### - ####)"
+        counter
+        label="Label"
+      />
 
       <div>Model: {{ text3 }}</div>
-      <q-input mask="phone" fill-mask v-model="text3" filled hint="Phone (###) ### - #### --- with fill-mask" counter label="Label" />
+      <q-input
+        mask="phone"
+        fill-mask
+        v-model="text3"
+        filled
+        hint="Phone (###) ### - #### --- with fill-mask"
+        counter
+        label="Label"
+      />
 
       <div>Model: {{ text4 }}</div>
-      <q-input mask="phone" unmasked-value v-model="text4" filled hint="Phone (###) ### - #### -- with unmasked-value" counter label="Label" />
+      <q-input
+        mask="phone"
+        unmasked-value
+        v-model="text4"
+        filled
+        hint="Phone (###) ### - #### -- with unmasked-value"
+        counter
+        label="Label"
+      />
 
       <div>Model: {{ text5 }}</div>
-      <q-input mask="phone" fill-mask="*" v-model="text5" filled hint="Phone (###) ### - #### --- with fill-mask *" counter label="Label" />
+      <q-input
+        mask="phone"
+        fill-mask="*"
+        v-model="text5"
+        filled
+        hint="Phone (###) ### - #### --- with fill-mask *"
+        counter
+        label="Label"
+      />
 
       <div>Mixed mask: {{ text6 }}</div>
       <q-input
@@ -71,14 +112,19 @@
         :mask-tokens="customTokens"
         clearable
         hint="Mask: AA-CC-XX-CC"
-       />
+      />
 
-      <div class="text-h6">
-        Live mask test: {{ textMask }}
-      </div>
+      <div class="text-h6">Live mask test: {{ textMask }}</div>
       <div class="row q-gutter-sm">
         <q-input class="col" v-model="mask" outlined dense label="Mask" />
-        <q-input class="col" v-model="fillMaskText" outlined dense label="Fill mask char" :disable="!fillMask" />
+        <q-input
+          class="col"
+          v-model="fillMaskText"
+          outlined
+          dense
+          label="Fill mask char"
+          :disable="!fillMask"
+        />
         <q-toggle class="col" v-model="fillMask" label="Mask" />
         <q-toggle class="col" v-model="fillUnmask" label="Unmask" />
         <q-toggle class="col" v-model="fillRight" label="Right" />
@@ -125,7 +171,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       maskedOrNot: true,
       maskedOrNotValue: '##/##/####',
@@ -154,47 +200,60 @@ export default {
       fillMaskText: '0',
 
       customTokens: {
-        C: { pattern: '[0-4a-eA-E]', negate: '[^0-4a-eA-E]', transform: v => v.toLocaleUpperCase() },
+        C: {
+          pattern: '[0-4a-eA-E]',
+          negate: '[^0-4a-eA-E]',
+          transform: v => v.toLocaleUpperCase()
+        },
         X: { pattern: '[5-8]', negate: '[^5-8]' }
       }
     }
   },
 
   computed: {
-    fillMaskComp () {
+    fillMaskComp() {
       return this.fillMask === false ? false : this.fillMaskText
     },
 
-    variableMask1 () {
-      if (this.variableMaskValue1[ 1 ] === '8' || (this.variableMaskValue1[ 1 ] === '.' && this.variableMaskValue1[ 2 ] === '8')) {
+    variableMask1() {
+      if (
+        this.variableMaskValue1[1] === '8' ||
+        (this.variableMaskValue1[1] === '.' &&
+          this.variableMaskValue1[2] === '8')
+      ) {
         return '#.###.###'
-      }
-      else {
+      } else {
         return '###.#.###'
       }
     },
 
-    variableMask2 () {
-      if (this.variableMaskValue2[ 1 ] === '8' || (this.variableMaskValue2[ 1 ] === '.' && this.variableMaskValue2[ 2 ] === '8')) {
+    variableMask2() {
+      if (
+        this.variableMaskValue2[1] === '8' ||
+        (this.variableMaskValue2[1] === '.' &&
+          this.variableMaskValue2[2] === '8')
+      ) {
         return '#.###.###'
-      }
-      else {
+      } else {
         return '###.#.###'
       }
     },
 
-    variableMask3 () {
-      if (this.variableMaskValue3[ 1 ] === '8' || (this.variableMaskValue3[ 1 ] === '.' && this.variableMaskValue3[ 2 ] === '8')) {
+    variableMask3() {
+      if (
+        this.variableMaskValue3[1] === '8' ||
+        (this.variableMaskValue3[1] === '.' &&
+          this.variableMaskValue3[2] === '8')
+      ) {
         return '#.###.###'
-      }
-      else {
+      } else {
         return '###.#.###'
       }
     }
   },
 
   methods: {
-    toggleMask () {
+    toggleMask() {
       this.maskedOrNotValue = this.maskedOrNotValue ? '' : '##/##/####'
     }
   }

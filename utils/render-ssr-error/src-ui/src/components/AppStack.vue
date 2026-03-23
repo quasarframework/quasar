@@ -1,6 +1,6 @@
 <template>
   <q-scroll-area class="app-stack">
-    <q-list separator >
+    <q-list separator>
       <q-item
         v-for="(entry, index) of data.stack"
         :key="index"
@@ -13,14 +13,23 @@
           <div>
             <span class="app-stack__entry-fn">{{ entry.functionName }}</span>
             <span class="app-stack__entry-as q-mx-xs text-no-wrap">as</span>
-            <span class="app-stack__entry-method-name">{{ entry.methodName }}</span>
+            <span class="app-stack__entry-method-name">{{
+              entry.methodName
+            }}</span>
           </div>
           <div class="q-mt-xs">
             <span class="app-stack__entry-file">{{ entry.fileName }}</span>
-            <span v-if="entry.native" class="app-stack__entry-native q-ml-xs text-no-wrap">[native]</span>
+            <span
+              v-if="entry.native"
+              class="app-stack__entry-native q-ml-xs text-no-wrap"
+              >[native]</span
+            >
           </div>
           <div class="app-stack__entry-line text-no-wrap">
-            ({{ entry.lineNumber }}<span v-if="entry.columnNumber !== null">:{{ entry.columnNumber }}</span>)
+            ({{ entry.lineNumber
+            }}<span v-if="entry.columnNumber !== null"
+              >:{{ entry.columnNumber }}</span
+            >)
           </div>
         </q-item-section>
       </q-item>
@@ -34,10 +43,17 @@ import { computed } from 'vue'
 import data from 'src/assets/data.js'
 import store from 'src/assets/store.js'
 
-const stackMeta = computed(() => data.stack.map((_, index) => ({
-  class: store.value.selectedStackEntryIndex === index ? 'app-stack__entry--selected' : '',
-  onClick: () => { store.value.selectedStackEntryIndex = index }
-})))
+const stackMeta = computed(() =>
+  data.stack.map((_, index) => ({
+    class:
+      store.value.selectedStackEntryIndex === index
+        ? 'app-stack__entry--selected'
+        : '',
+    onClick: () => {
+      store.value.selectedStackEntryIndex = index
+    }
+  }))
+)
 </script>
 
 <style lang="sass">

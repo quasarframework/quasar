@@ -20,9 +20,24 @@
         align="justify"
         class="text-secondary"
       >
-        <q-tab :ripple="{ color: 'orange' }" name="mails" icon="mail" label="Mails" />
-        <q-tab :ripple="{ color: 'orange' }" name="alarms" icon="alarm" label="Alarms" />
-        <q-tab :ripple="{ color: 'orange' }" name="movies" icon="movie" label="Movies" />
+        <q-tab
+          :ripple="{ color: 'orange' }"
+          name="mails"
+          icon="mail"
+          label="Mails"
+        />
+        <q-tab
+          :ripple="{ color: 'orange' }"
+          name="alarms"
+          icon="alarm"
+          label="Alarms"
+        />
+        <q-tab
+          :ripple="{ color: 'orange' }"
+          name="movies"
+          icon="movie"
+          label="Movies"
+        />
       </q-tabs>
     </div>
   </div>
@@ -32,7 +47,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       tab: ref('mails')
     }

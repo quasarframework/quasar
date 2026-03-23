@@ -1,13 +1,10 @@
 <template>
-  <div class="q-layout-padding row justify-center" style="width: 500px; max-width: 90vw;">
+  <div
+    class="q-layout-padding row justify-center"
+    style="width: 500px; max-width: 90vw"
+  >
     <div class="q-gutter-md">
-      <q-btn
-        label="Simple"
-        flat
-        color="primary"
-        @click="showSimple"
-        no-caps
-      />
+      <q-btn label="Simple" flat color="primary" @click="showSimple" no-caps />
 
       <q-btn
         icon="cached"
@@ -42,7 +39,7 @@ import { QSpinnerGears } from 'quasar'
 
 export default {
   methods: {
-    showSimple () {
+    showSimple() {
       const notif = this.$q.notify({
         group: false,
         timeout: 0,
@@ -57,7 +54,7 @@ export default {
       }, 2000)
     },
 
-    showSpinner () {
+    showSpinner() {
       const notif = this.$q.notify({
         group: false,
         timeout: 0,
@@ -73,7 +70,7 @@ export default {
 
         // we update the dialog
         notif({
-          caption: `${ percentage }%`
+          caption: `${percentage}%`
         })
 
         // if we are done...
@@ -90,7 +87,7 @@ export default {
       }, 500)
     },
 
-    showOngoing () {
+    showOngoing() {
       const notify = this.$q.notify({
         type: 'ongoing',
         message: 'Something is happening...'
@@ -105,7 +102,7 @@ export default {
       }, 3000)
     },
 
-    showNotif () {
+    showNotif() {
       const notif = this.$q.notify({
         group: false, // required to be updatable
         timeout: 0, // we want to be in control when it gets dismissed
@@ -121,7 +118,7 @@ export default {
 
         // we update the dialog
         notif({
-          caption: `${ percentage }%`
+          caption: `${percentage}%`
         })
 
         // if we are done...

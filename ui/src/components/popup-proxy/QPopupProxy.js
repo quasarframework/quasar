@@ -3,7 +3,9 @@ import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
-import useAnchor, { useAnchorProps } from '../../composables/private.use-anchor/use-anchor.js'
+import useAnchor, {
+  useAnchorProps
+} from '../../composables/private.use-anchor/use-anchor.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
@@ -15,14 +17,14 @@ export default createComponent({
     ...useAnchorProps,
 
     breakpoint: {
-      type: [ String, Number ],
+      type: [String, Number],
       default: 450
     }
   },
 
-  emits: [ 'show', 'hide' ],
+  emits: ['show', 'hide'],
 
-  setup (props, { slots, emit, attrs }) {
+  setup(props, { slots, emit, attrs }) {
     const { proxy } = getCurrentInstance()
     const { $q } = proxy
 
@@ -32,30 +34,34 @@ export default createComponent({
 
     const { canShow } = useAnchor({ showing })
 
-    function getType () {
-      return $q.screen.width < breakpoint.value || $q.screen.height < breakpoint.value
+    function getType() {
+      return $q.screen.width < breakpoint.value ||
+        $q.screen.height < breakpoint.value
         ? 'dialog'
         : 'menu'
     }
 
     const type = ref(getType())
 
-    const popupProps = computed(() => (
-      type.value === 'menu' ? { maxHeight: '99vh' } : {})
+    const popupProps = computed(() =>
+      type.value === 'menu' ? { maxHeight: '99vh' } : {}
     )
 
-    watch(() => getType(), val => {
-      if (showing.value !== true) {
-        type.value = val
+    watch(
+      () => getType(),
+      val => {
+        if (showing.value !== true) {
+          type.value = val
+        }
       }
-    })
+    )
 
-    function onShow (evt) {
+    function onShow(evt) {
       showing.value = true
       emit('show', evt)
     }
 
-    function onHide (evt) {
+    function onHide(evt) {
       showing.value = false
       type.value = getType()
       emit('hide', evt)
@@ -63,9 +69,15 @@ export default createComponent({
 
     // expose public methods
     Object.assign(proxy, {
-      show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
-      hide (evt) { popupRef.value.hide(evt) },
-      toggle (evt) { popupRef.value.toggle(evt) }
+      show(evt) {
+        if (canShow(evt) === true) popupRef.value.show(evt)
+      },
+      hide(evt) {
+        popupRef.value.hide(evt)
+      },
+      toggle(evt) {
+        popupRef.value.toggle(evt)
+      }
     })
 
     injectProp(proxy, 'currentComponent', () => ({
@@ -86,8 +98,7 @@ export default createComponent({
 
       if (type.value === 'dialog') {
         component = QDialog
-      }
-      else {
+      } else {
         component = QMenu
         Object.assign(data, {
           target: props.target,

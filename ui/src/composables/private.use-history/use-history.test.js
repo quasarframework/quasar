@@ -11,7 +11,7 @@ describe('[useHistory API]', () => {
         const wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const showing = computed(() => false)
               const hide = () => {}
               const hideOnRouteChange = computed(() => false)
@@ -21,9 +21,7 @@ describe('[useHistory API]', () => {
           })
         )
 
-        expect(
-          wrapper.vm.result
-        ).toStrictEqual({
+        expect(wrapper.vm.result).toStrictEqual({
           removeFromHistory: expect.any(Function),
           addToHistory: expect.any(Function)
         })
@@ -35,7 +33,7 @@ describe('[useHistory API]', () => {
         const wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const showing = computed(() => false)
               const hide = () => {}
               const hideOnRouteChange = computed(() => false)
@@ -44,28 +42,20 @@ describe('[useHistory API]', () => {
           })
         )
 
-        expect(
-          () => wrapper.vm.removeFromHistory()
-        ).not.toThrow()
+        expect(() => wrapper.vm.removeFromHistory()).not.toThrow()
 
-        expect(
-          wrapper.vm.addToHistory()
-        ).toBeUndefined()
+        expect(wrapper.vm.addToHistory()).toBeUndefined()
 
-        expect(
-          wrapper.vm.removeFromHistory()
-        ).toBeUndefined()
+        expect(wrapper.vm.removeFromHistory()).toBeUndefined()
 
-        expect(
-          () => wrapper.vm.removeFromHistory()
-        ).not.toThrow()
+        expect(() => wrapper.vm.removeFromHistory()).not.toThrow()
       })
 
       test('does not throw on unmount with showing=true', () => {
         const wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const showing = computed(() => true)
               const hide = () => {}
               const hideOnRouteChange = computed(() => false)
@@ -74,9 +64,7 @@ describe('[useHistory API]', () => {
           })
         )
 
-        expect(
-          () => wrapper.unmount()
-        ).not.toThrow()
+        expect(() => wrapper.unmount()).not.toThrow()
       })
 
       /*

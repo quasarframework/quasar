@@ -14,13 +14,13 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-function setWidth (width) {
+function setWidth(width) {
   window.innerWidth = width
   window.dispatchEvent(new Event('resize'))
   vi.runAllTimers()
 }
 
-function setHeight (height) {
+function setHeight(height) {
   window.innerHeight = height
   window.dispatchEvent(new Event('resize'))
   vi.runAllTimers()
@@ -67,7 +67,7 @@ describe('[Screen API]', () => {
     describe('[(prop)name]', () => {
       test('is correct type', () => {
         mountPlugin()
-        expect([ 'xs', 'sm', 'md', 'lg', 'xl' ]).toContain(Screen.name)
+        expect(['xs', 'sm', 'md', 'lg', 'xl']).toContain(Screen.name)
       })
 
       test('is reactive', () => {
@@ -312,13 +312,9 @@ describe('[Screen API]', () => {
           xl: 25
         }
 
-        expect(
-          Screen.setSizes(newSizes)
-        ).toBeUndefined()
+        expect(Screen.setSizes(newSizes)).toBeUndefined()
 
-        expect(
-          Screen.sizes
-        ).toStrictEqual(newSizes)
+        expect(Screen.sizes).toStrictEqual(newSizes)
 
         setWidth(5)
         expect(Screen).toMatchObject({
@@ -435,9 +431,7 @@ describe('[Screen API]', () => {
     describe('[(method)setDebounce]', () => {
       test('should be callable', () => {
         mountPlugin()
-        expect(
-          Screen.setDebounce(1000)
-        ).toBeUndefined()
+        expect(Screen.setDebounce(1000)).toBeUndefined()
 
         window.innerWidth = 100
         window.dispatchEvent(new Event('resize'))

@@ -6,7 +6,7 @@ import QList from './QList.js'
 describe('[QList API]', () => {
   describe('[Props]', () => {
     describe('[default attributes]', () => {
-      test('has a role="list" attribute with a div', async () => {
+      test('has a role="list" attribute with a div', () => {
         const wrapper = mount(QList)
 
         const target = wrapper.get('.q-list')
@@ -14,7 +14,7 @@ describe('[QList API]', () => {
         expect(target.element.getAttribute('role')).toBe('list')
       })
 
-      test('does not have a role="list" attribute with a ol', async () => {
+      test('does not have a role="list" attribute with a ol', () => {
         const wrapper = mount(QList, { props: { tag: 'ol' } })
 
         const target = wrapper.get('.q-list')
@@ -22,7 +22,7 @@ describe('[QList API]', () => {
         expect(target.element.getAttribute('role')).toBe(null)
       })
 
-      test('does not have a role="list" attribute with a ul', async () => {
+      test('does not have a role="list" attribute with a ul', () => {
         const wrapper = mount(QList, { props: { tag: 'ul' } })
 
         const target = wrapper.get('.q-list')
@@ -131,24 +131,20 @@ describe('[QList API]', () => {
     })
 
     describe('[(prop)tag]', () => {
-      test('type String has effect', async () => {
+      test('type String has effect', () => {
         const wrapper = mount(QList, { props: { tag: 'ol' } })
 
         const target = wrapper.get('.q-list')
 
-        expect(
-          target.element.tagName.toLowerCase()
-        ).toBe('ol')
+        expect(target.element.tagName.toLowerCase()).toBe('ol')
       })
 
-      test('default tag is div', async () => {
+      test('default tag is div', () => {
         const wrapper = mount(QList)
 
         const target = wrapper.get('.q-list')
 
-        expect(
-          target.element.tagName.toLowerCase()
-        ).toBe('div')
+        expect(target.element.tagName.toLowerCase()).toBe('div')
       })
     })
   })

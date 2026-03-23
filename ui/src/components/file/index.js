@@ -1,5 +1,3 @@
 import QFile from './QFile.js'
 
-export {
-  QFile
-}
+export { QFile }

@@ -11,7 +11,7 @@
 import { exportFile } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       copyText: 'Fill me',
       pasteText: 'Hit btn above then paste here'
@@ -19,13 +19,12 @@ export default {
   },
 
   methods: {
-    exportMe () {
+    exportMe() {
       const status = exportFile('some-file.txt', this.copyText) // [...Array(8000000).keys()].join('--')
 
       if (status === true) {
         this.$q.notify('Success')
-      }
-      else {
+      } else {
         this.$q.notify({
           color: 'negative',
           message: 'Failed: ' + status

@@ -37,14 +37,10 @@
 
       <q-slide-item @left="onLeft" @right="onRight">
         <template v-slot:top>
-          <div>
-            Left
-          </div>
+          <div>Left</div>
         </template>
         <template v-slot:bottom>
-          <div>
-            Right content.. long
-          </div>
+          <div>Right content.. long</div>
         </template>
 
         <q-item>
@@ -57,14 +53,12 @@
 
       <q-slide-item @left="onLeft" @right="onRight">
         <template v-slot:left>
-          <div class="row items-center">
-            <q-icon left name="done" /> Left
-          </div>
+          <div class="row items-center"><q-icon left name="done" /> Left</div>
         </template>
         <template v-slot:right>
-          <div class="row items-center">
-            Right content.. long <q-icon right name="alarm" />
-          </div>
+          <div class="row items-center"
+            >Right content.. long <q-icon right name="alarm"
+          /></div>
         </template>
 
         <q-item>
@@ -75,16 +69,19 @@
         </q-item>
       </q-slide-item>
 
-      <q-slide-item @left="onLeft" @right="onRight" left-color="red" right-color="purple">
+      <q-slide-item
+        @left="onLeft"
+        @right="onRight"
+        left-color="red"
+        right-color="purple"
+      >
         <template v-slot:left>
-          <div class="row items-center">
-            <q-icon left name="done" /> Left
-          </div>
+          <div class="row items-center"><q-icon left name="done" /> Left</div>
         </template>
         <template v-slot:right>
-          <div class="row items-center">
-            Right content.. long <q-icon right name="alarm" />
-          </div>
+          <div class="row items-center"
+            >Right content.. long <q-icon right name="alarm"
+          /></div>
         </template>
 
         <q-item>
@@ -95,16 +92,21 @@
         </q-item>
       </q-slide-item>
 
-      <q-slide-item @left="onLeft" @right="onRight" left-color="amber" right-color="primary">
+      <q-slide-item
+        @left="onLeft"
+        @right="onRight"
+        left-color="amber"
+        right-color="primary"
+      >
         <template v-slot:left>
-          <div class="row items-center text-black">
-            <q-icon left name="done" /> Left
-          </div>
+          <div class="row items-center text-black"
+            ><q-icon left name="done" /> Left</div
+          >
         </template>
         <template v-slot:right>
-          <div class="row items-center">
-            Right content.. long <q-icon right name="alarm" />
-          </div>
+          <div class="row items-center"
+            >Right content.. long <q-icon right name="alarm"
+          /></div>
         </template>
 
         <q-item class="bg-black text-white">
@@ -196,7 +198,7 @@
           <q-icon name="alarm" />
         </template>
 
-        <q-item style="height: 200px; width: 200px;">
+        <q-item style="height: 200px; width: 200px">
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white" icon="bluetooth" />
           </q-item-section>
@@ -204,7 +206,12 @@
         </q-item>
       </q-slide-item>
 
-      <q-slide-item @left="onLeft" @right="onRight" @top="onTop" @bottom="onBottom">
+      <q-slide-item
+        @left="onLeft"
+        @right="onRight"
+        @top="onTop"
+        @bottom="onBottom"
+      >
         <template v-slot:left>
           <q-icon name="alarm" />
         </template>
@@ -218,7 +225,7 @@
           <q-icon name="alarm" />
         </template>
 
-        <q-item style="height: 200px; width: 200px;">
+        <q-item style="height: 200px; width: 200px">
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white" icon="bluetooth" />
           </q-item-section>
@@ -238,7 +245,7 @@
               <q-icon name="link_off" />
             </template>
 
-            <q-item style="height: 200px; width: 200px;">
+            <q-item style="height: 200px; width: 200px">
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white" icon="dialpad" />
               </q-item-section>
@@ -256,7 +263,7 @@
               <q-icon name="link_off" />
             </template>
 
-            <q-item style="height: 200px; width: 200px;">
+            <q-item style="height: 200px; width: 200px">
               <q-item-section avatar>
                 <q-avatar color="primary" text-color="white" icon="face" />
               </q-item-section>
@@ -274,9 +281,13 @@
               <q-icon name="link_off" />
             </template>
 
-            <q-item style="height: 200px; width: 200px;">
+            <q-item style="height: 200px; width: 200px">
               <q-item-section avatar>
-                <q-avatar color="primary" text-color="white" icon="fingerprint" />
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  icon="fingerprint"
+                />
               </q-item-section>
               <q-item-section>Vertical Slide C</q-item-section>
             </q-item>
@@ -293,14 +304,10 @@
 
     <q-slide-item @left="onLeft" @right="onRight">
       <template v-slot:left v-if="slot1Active">
-        <div>
-          Left
-        </div>
+        <div>Left</div>
       </template>
       <template v-slot:right v-if="slot2Active">
-        <div>
-          Right content.. long
-        </div>
+        <div>Right content.. long</div>
       </template>
 
       <q-item>
@@ -313,15 +320,11 @@
 
     <q-slide-item @left="onLeft" @right="onRight">
       <template v-if="slot1Active" v-slot:left>
-        <div>
-          Left
-        </div>
+        <div>Left</div>
       </template>
 
       <template v-if="slot2Active" v-slot:right>
-        <div>
-          Right content.. long
-        </div>
+        <div>Right content.. long</div>
       </template>
 
       <q-item>
@@ -355,7 +358,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       slot1Active: true,
       slot2Active: false,
@@ -365,13 +368,13 @@ export default {
   },
 
   computed: {
-    leftColor () {
+    leftColor() {
       return this.leftSlideRatio >= 1
         ? 'red'
         : 'orange-' + (2 + Math.round(Math.min(6, this.leftSlideRatio * 6)))
     },
 
-    leftMessage () {
+    leftMessage() {
       return this.leftSlideRatio >= 1
         ? 'Will perform action'
         : 'Move right to perform action'
@@ -379,47 +382,49 @@ export default {
   },
 
   methods: {
-    onLeft ({ reset }) {
+    onLeft({ reset }) {
       console.log('Left action!')
       this.finalize(reset)
     },
-    onRight ({ reset }) {
+    onRight({ reset }) {
       console.log('Right action!')
       this.finalize(reset)
     },
-    onTop ({ reset }) {
+    onTop({ reset }) {
       console.log('Top-side action!')
       this.finalize(reset)
     },
-    onBottom ({ reset }) {
+    onBottom({ reset }) {
       console.log('Bottom-side action!')
       this.finalize(reset)
     },
-    finalize (reset) {
+    finalize(reset) {
       console.log('Resetting in 1 second')
       setTimeout(() => {
         reset()
       }, 1000)
     },
 
-    onSlide ({ side, ratio, isReset }) {
+    onSlide({ side, ratio, isReset }) {
       if (side === 'left') {
-        setTimeout(() => {
-          this.leftSlideRatio = ratio
-        }, isReset === true ? 200 : void 0)
+        setTimeout(
+          () => {
+            this.leftSlideRatio = ratio
+          },
+          isReset === true ? 200 : void 0
+        )
       }
     },
 
-    onClickItem () {
+    onClickItem() {
       if (this.$q.platform.is.desktop) {
         console.log('clicked on item')
-      }
-      else {
+      } else {
         this.$q.notify('clicked on item')
       }
     },
 
-    onClick () {
+    onClick() {
       console.log('clicked on test btn')
     }
   }

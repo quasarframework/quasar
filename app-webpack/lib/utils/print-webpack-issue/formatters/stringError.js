@@ -1,6 +1,6 @@
 const errRe = /Error: ([\w ]+): /
 
-function extract (message) {
+function extract(message) {
   const parts = message.match(errRe)
 
   if (parts === null) {
@@ -8,12 +8,12 @@ function extract (message) {
   }
 
   return {
-    title: parts[ 1 ],
-    message: message.substring(`Error: ${ parts[ 1 ] }: `.length + 1)
+    title: parts[1],
+    message: message.substring(`Error: ${parts[1]}: `.length + 1)
   }
 }
 
-module.exports = function format (error, printLog, titleFn) {
+module.exports = function format(error, printLog, titleFn) {
   const { title, message } = extract(error.webpackError)
 
   printLog(titleFn(title))

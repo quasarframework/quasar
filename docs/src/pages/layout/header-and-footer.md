@@ -19,11 +19,13 @@ QLayout allows you to configure your views as a 3x3 matrix, containing an option
 <DocApi file="QFooter" />
 
 ## Layout Builder
+
 Scaffold your layout(s) by clicking on the button below.
 
 <q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ## Usage
+
 ::: tip
 Since the header and footer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QHeader or QFooter.
 :::
@@ -49,11 +51,13 @@ In the example below, scroll the page to see the QHeader and QFooter behavior.
 <DocExample title="Reveal" file="Reveal" />
 
 ### iOS look and feel
+
 In the example below, you could use Ionicons icons (v4) with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.
 
 <DocExample title="iOS-like" file="LookingIOS" />
 
 ### Desktop app look and feel
+
 The example below is especially useful if you build an Electron app and you hide the default app frame.
 
 <DocExample title="Desktop app-like" file="AppLike" />

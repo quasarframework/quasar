@@ -15,6 +15,7 @@
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 
 ## Supporting Quasar
+
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
 
 **Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
@@ -157,6 +158,7 @@ Please make sure to read the [Contributing Guide](./CONTRIBUTING.md) before maki
 Thank you to all the people who already [contributed to Quasar](https://github.com/quasarframework/quasar/graphs/contributors)!
 
 ## Semver
+
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License

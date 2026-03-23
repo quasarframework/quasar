@@ -10,16 +10,12 @@ describe('[QToolbar API]', () => {
         const wrapper = mount(QToolbar)
         const target = wrapper.get('.q-toolbar')
 
-        expect(
-          target.classes()
-        ).not.toContain('q-toolbar--inset')
+        expect(target.classes()).not.toContain('q-toolbar--inset')
 
         await wrapper.setProps({ inset: true })
         await flushPromises()
 
-        expect(
-          target.classes()
-        ).toContain('q-toolbar--inset')
+        expect(target.classes()).toContain('q-toolbar--inset')
       })
     })
   })

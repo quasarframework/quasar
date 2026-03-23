@@ -24,7 +24,6 @@ You will have access to `api.prompts` (which holds your App Extension's answers)
 
 Let's now focus on the structure of the returned Array which defines the questions. The sections below offer examples for the most used types of questions.
 
-
 ## Questions format
 
 ::: warning
@@ -32,6 +31,7 @@ The following is not an exhaustive list of possible types of questions and by no
 :::
 
 ### String
+
 ```js
 {
   // "description" will be the variable
@@ -61,6 +61,7 @@ The following is not an exhaustive list of possible types of questions and by no
 ```
 
 ### Confirm
+
 ```js
 {
   // "featureX" will be the variable
@@ -73,6 +74,7 @@ The following is not an exhaustive list of possible types of questions and by no
 ```
 
 ### List of choices
+
 ```js
 {
   // "iconSet" will be the variable
@@ -105,18 +107,23 @@ Older versions of these CLIs will not supply any param.
 :::
 
 ### api.engine
+
 Contains the Quasar CLI engine (as String) being used. Examples: `@quasar/app-vite` or `@quasar/app-webpack`.
 
 ### api.hasVite
+
 Boolean - is running on `@quasar/app-vite` or not.
 
 ### api.hasWebpack
+
 Boolean - is running on `@quasar/app-webpack` or not.
 
 ### api.extId
+
 Contains the `ext-id` (String) of this App Extension.
 
 ### api.resolve
+
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
 
 ```js
@@ -147,6 +154,7 @@ api.resolve.bex('some-file.js')
 ```
 
 ### api.appDir
+
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
 ### api.hasTypescript
@@ -204,8 +212,7 @@ api.compatibleWith(packageName, '1.x')
 ```js A more complex example:
 if (api.hasVite === true) {
   api.compatibleWith('@quasar/app-vite', '^2.0.0')
-}
-else {
+} else {
   api.compatbileWith('@quasar/app-webpack', '^4.0.0')
 }
 ```
@@ -231,6 +238,7 @@ if (api.hasPackage('quasar', '^2.0.0')) {
 ```
 
 ### api.hasExtension
+
 Check if another app extension is npm installed and Quasar CLI has invoked it.
 
 ```js
@@ -254,7 +262,7 @@ Get the version of a host app package.
  * @param {string} packageName
  * @return {string|undefined} version of app's package
  */
-console.log( api.getPackageVersion(packageName) )
+console.log(api.getPackageVersion(packageName))
 // output examples:
 //   1.1.3
 //   undefined (when package not found)

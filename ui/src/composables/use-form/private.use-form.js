@@ -4,7 +4,7 @@ export const useFormProps = {
   name: String
 }
 
-export function useFormAttrs (props) {
+export function useFormAttrs(props) {
   return computed(() => ({
     type: 'hidden',
     name: props.name,
@@ -12,9 +12,9 @@ export function useFormAttrs (props) {
   }))
 }
 
-export function useFormInject (formAttrs = {}) {
+export function useFormInject(formAttrs = {}) {
   return (child, action, className) => {
-    child[ action ](
+    child[action](
       h('input', {
         class: 'hidden' + (className || ''),
         ...formAttrs.value
@@ -23,6 +23,6 @@ export function useFormInject (formAttrs = {}) {
   }
 }
 
-export function useFormInputNameAttr (props) {
+export function useFormInputNameAttr(props) {
   return computed(() => props.name || props.for)
 }

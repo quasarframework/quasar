@@ -13,12 +13,23 @@
     </q-footer>
 
     <q-page-container>
-      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-        <q-page padding class="bg-orange-4" :class="{ 'column no-wrap no-height': hasScroll }">
+      <transition
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+        mode="out-in"
+      >
+        <q-page
+          padding
+          class="bg-orange-4"
+          :class="{ 'column no-wrap no-height': hasScroll }"
+        >
           <div class="bg-green-4 q-pa-md text-center" v-show="guardTop">
             Guarding text above QPullToRefresh
           </div>
-          <component :is="scrollArea ? 'QScrollArea' : 'div'" :class="scrollClass">
+          <component
+            :is="scrollArea ? 'QScrollArea' : 'div'"
+            :class="scrollClass"
+          >
             <q-pull-to-refresh
               ref="pull"
               color="primary"
@@ -34,8 +45,8 @@
               <div class="bg-white overflow-hidden-y">
                 <div>
                   <div class="caption bg-yellow-6">
-                    Pull down to refresh on the content below.
-                    On desktop it works by dragging the content down.
+                    Pull down to refresh on the content below. On desktop it
+                    works by dragging the content down.
                   </div>
 
                   <div class="caption bg-yellow-6">
@@ -57,11 +68,20 @@
                   </div>
                 </div>
 
-                <div v-for="(item, index) in items" :key="index" class="caption bg-yellow-6">
+                <div
+                  v-for="(item, index) in items"
+                  :key="index"
+                  class="caption bg-yellow-6"
+                >
                   <q-chip square color="secondary" class="shadow-1">
                     {{ items.length - index }}
                   </q-chip>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur.
                 </div>
               </div>
             </q-pull-to-refresh>
@@ -82,9 +102,9 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ],
+      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
       guardTop: true,
       guardBottom: true,
       header: true,
@@ -93,26 +113,28 @@ export default {
       scroll: false,
       scrollArea: false,
       selectModel: null,
-      selectOptions: Array(50).fill(null).map((_, index) => `Option ${ index + 1 }`)
+      selectOptions: Array(50)
+        .fill(null)
+        .map((_, index) => `Option ${index + 1}`)
     }
   },
   watch: {
-    scroll () {
+    scroll() {
       this.$nextTick(() => {
         this.$refs.pull.updateScrollTarget()
       })
     },
-    scrollArea () {
+    scrollArea() {
       this.$nextTick(() => {
         this.$refs.pull.updateScrollTarget()
       })
     }
   },
   computed: {
-    hasScroll () {
+    hasScroll() {
       return this.scroll || this.scrollArea
     },
-    scrollClass () {
+    scrollClass() {
       if (this.scrollArea) {
         return 'col'
       }
@@ -120,14 +142,14 @@ export default {
     }
   },
   methods: {
-    refresh (done) {
+    refresh(done) {
       setTimeout(() => {
         this.items.push({})
         this.$q.notify('Item #' + this.items.length + ' is new.')
         done()
       }, 1000)
     },
-    test (evt) {
+    test(evt) {
       evt.stopPropagation()
       console.log('test', evt)
     }

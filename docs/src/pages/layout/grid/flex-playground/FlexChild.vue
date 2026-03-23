@@ -4,25 +4,129 @@
       <q-btn no-caps flat :class="buttonClasses" padding="2px 8px">
         Child #{{ index + 1 }}
       </q-btn>
-      <q-btn :icon="mdiClose" size="sm" :class="buttonClasses" flat dense round @click="onDelete"/>
+      <q-btn
+        :icon="mdiClose"
+        size="sm"
+        :class="buttonClasses"
+        flat
+        dense
+        round
+        @click="onDelete"
+      />
     </div>
-    <q-input outlined v-model="child.width" dense label="Width (ex: '200px', '20em')" @update:model-value="emitChange">
+    <q-input
+      outlined
+      v-model="child.width"
+      dense
+      label="Width (ex: '200px', '20em')"
+      @update:model-value="emitChange"
+    >
       <template v-if="child.width.length > 0" v-slot:append>
-        <q-btn :icon="mdiCloseCircle" size="xs" flat dense @click="child.width = ''"/>
+        <q-btn
+          :icon="mdiCloseCircle"
+          size="xs"
+          flat
+          dense
+          @click="child.width = ''"
+        />
       </template>
     </q-input>
 
-    <q-input outlined v-model="child.height" dense label="Height (ex: '300px', '25em')" @update:model-value="emitChange">
+    <q-input
+      outlined
+      v-model="child.height"
+      dense
+      label="Height (ex: '300px', '25em')"
+      @update:model-value="emitChange"
+    >
       <template v-if="child.height.length > 0" v-slot:append>
-        <q-btn :icon="mdiCloseCircle" size="xs" flat dense @click="child.height = ''"/>
+        <q-btn
+          :icon="mdiCloseCircle"
+          size="xs"
+          flat
+          dense
+          @click="child.height = ''"
+        />
       </template>
     </q-input>
-    <q-select outlined color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @update:model-value="emitChange" />
-    <q-select outlined color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options clearable dense options-dense @update:model-value="emitChange" />
-    <q-select outlined color="blue-12" v-model="child.alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @update:model-value="emitChange" />
-    <q-select outlined color="blue-12" v-model="child.offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @update:model-value="emitChange" />
-    <q-select outlined color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options clearable dense options-dense @update:model-value="emitChange" />
-    <q-select outlined color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options clearable dense options-dense @update:model-value="emitChange" />
+    <q-select
+      outlined
+      color="blue-12"
+      v-model="child.widthGroup"
+      :options="widthOptions"
+      label="Width"
+      emit-value
+      map-options
+      dense
+      options-dense
+      @update:model-value="emitChange"
+    />
+    <q-select
+      outlined
+      color="blue-12"
+      v-model="child.breakpointGroup"
+      :options="breakpointOptions"
+      label="Break Points"
+      multiple
+      emit-value
+      map-options
+      clearable
+      dense
+      options-dense
+      @update:model-value="emitChange"
+    />
+    <q-select
+      outlined
+      color="blue-12"
+      v-model="child.alignmentGroup"
+      :options="alignmentOptions"
+      label="Alignment Options"
+      emit-value
+      map-options
+      dense
+      options-dense
+      @update:model-value="emitChange"
+    />
+    <q-select
+      outlined
+      color="blue-12"
+      v-model="child.offsetGroup"
+      :options="offsetOptions"
+      label="Offset Options"
+      emit-value
+      map-options
+      dense
+      options-dense
+      @update:model-value="emitChange"
+    />
+    <q-select
+      outlined
+      color="blue-12"
+      v-model="child.gutterGroup"
+      :options="gutterOptions"
+      label="Gutter Options"
+      multiple
+      emit-value
+      map-options
+      clearable
+      dense
+      options-dense
+      @update:model-value="emitChange"
+    />
+    <q-select
+      outlined
+      color="blue-12"
+      v-model="child.colGutterGroup"
+      :options="colGutterOptions"
+      label="Col Gutter Options"
+      multiple
+      emit-value
+      map-options
+      clearable
+      dense
+      options-dense
+      @update:model-value="emitChange"
+    />
   </div>
 </template>
 
@@ -180,40 +284,62 @@ const props = defineProps({
   child: Object
 })
 
-const emit = defineEmits([ 'change', 'delete' ])
+const emit = defineEmits(['change', 'delete'])
 
-function onDelete () {
+function onDelete() {
   emit('delete', props.index)
 }
 
-function emitChange () {
+function emitChange() {
   emit('change', props.index)
 }
 
 onMounted(emitChange)
 
-const buttonClasses = computed(() => {
-  return 'text-white ' + (props.index === props.selectedIndex ? 'bg-brand-primary' : 'bg-grey')
-})
+const buttonClasses = computed(
+  () =>
+    'text-white ' +
+    (props.index === props.selectedIndex ? 'bg-brand-primary' : 'bg-grey')
+)
 
-const styles = computed(() => {
-  return ('overflow: auto;' +
-    (props.child.height ? (' min-height: ' + props.child.height + '; max-height: ' + props.child.height + '; ') : '') +
-    (props.child.width ? (' min-width: ' + props.child.width + '; max-width: ' + props.child.width + ';') : '')
+const styles = computed(() =>
+  (
+    'overflow: auto;' +
+    (props.child.height
+      ? ' min-height: ' +
+        props.child.height +
+        '; max-height: ' +
+        props.child.height +
+        '; '
+      : '') +
+    (props.child.width
+      ? ' min-width: ' +
+        props.child.width +
+        '; max-width: ' +
+        props.child.width +
+        ';'
+      : '')
   ).trim()
-})
+)
 
-const classes = computed(() => {
-  return (props.child.widthGroup +
-    ' ' + (props.child.breakpointGroup === null ? '' : props.child.breakpointGroup) +
-    ' ' + props.child.alignmentGroup +
-    ' ' + props.child.offsetGroup +
-    ' ' + (props.child.gutterGroup === null ? '' : props.child.gutterGroup) +
-    ' ' + (props.child.colGutterGroup === null ? '' : props.child.colGutterGroup))
+const classes = computed(() =>
+  (
+    props.child.widthGroup +
+    ' ' +
+    (props.child.breakpointGroup === null ? '' : props.child.breakpointGroup) +
+    ' ' +
+    props.child.alignmentGroup +
+    ' ' +
+    props.child.offsetGroup +
+    ' ' +
+    (props.child.gutterGroup === null ? '' : props.child.gutterGroup) +
+    ' ' +
+    (props.child.colGutterGroup === null ? '' : props.child.colGutterGroup)
+  )
     .replace(/,/g, ' ')
     .replace(/  +/g, ' ')
     .trim()
-})
+)
 
 defineExpose({
   classes,

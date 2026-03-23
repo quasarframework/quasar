@@ -39,10 +39,10 @@ openURL(
   // this is the windowFeatures Object param:
   {
     noopener: true, // this is set by default for security purposes
-                    // but it can be disabled if specified with a Boolean false value
+    // but it can be disabled if specified with a Boolean false value
     menubar: true,
     toolbar: true,
-    noreferrer: true,
+    noreferrer: true
     // .....any other window features
   }
 )
@@ -86,21 +86,21 @@ The following is a helper to trigger the browser to start downloading a file wit
 
 The `opts` parameter is optional and can be a String (mimeType) or an Object with the following form:
 
- * **mimeType** (optional)
+- **mimeType** (optional)
 
-   Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
-   [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+  Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
+  [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
 
- * **byteOrderMark** (optional)
+- **byteOrderMark** (optional)
 
-   (BOM) Example: '\uFEFF'
-   [https://en.wikipedia.org/wiki/Byte_order_mark](https://en.wikipedia.org/wiki/Byte_order_mark)
+  (BOM) Example: '\uFEFF'
+  [https://en.wikipedia.org/wiki/Byte_order_mark](https://en.wikipedia.org/wiki/Byte_order_mark)
 
- * **encoding** (optional)
+- **encoding** (optional)
 
-   Performs a TextEncoder.encode() over the rawData;
-   Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)
-   [https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)
+  Performs a TextEncoder.encode() over the rawData;
+  Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)
+  [https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)
 
 Examples:
 
@@ -111,8 +111,7 @@ const status = exportFile('important.txt', 'some content')
 
 if (status === true) {
   // browser allowed it
-}
-else {
+} else {
   // browser denied it
   console.log('Error: ' + status)
 }
@@ -128,8 +127,7 @@ const status = exportFile('file.csv', 'éà; ça; 12\nà@€; çï; 13', {
 
 if (status === true) {
   // browser allowed it
-}
-else {
+} else {
   // browser denied it
   console.error('Error: ' + status)
 }
@@ -176,9 +174,10 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
 ```
 
 Note that:
-* the `sequentialPromises` param is an Array of Functions (each Function returns a Promise)
-* each function in `sequentialPromises` receives one param which is the `resultAggregator`, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultAggregator that hasn't been settled yet is marked as `null`
-* the `opts` parameter is optional.
+
+- the `sequentialPromises` param is an Array of Functions (each Function returns a Promise)
+- each function in `sequentialPromises` receives one param which is the `resultAggregator`, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultAggregator that hasn't been settled yet is marked as `null`
+- the `opts` parameter is optional.
 
 Generic example (with `sequentialPromises` param as Array):
 
@@ -186,20 +185,28 @@ Generic example (with `sequentialPromises` param as Array):
 import { runSequentialPromises } from 'quasar'
 
 runSequentialPromises([
-  (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ }),
-  (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ })
+  resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    }),
+  resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    })
   // ...
-]).then(resultAggregator => {
-  // resultAggregator is ordered in the same way as the promises above
-  console.log('result from first Promise:', resultAggregator[0].value)
-  console.log('result from second Promise:', resultAggregator[1].value)
-  // ...
-}).catch(errResult => {
-  console.error(`Error encountered on job #${ errResult.key }:`)
-  console.error(errResult.reason)
-  console.log('Managed to get these results before this error:')
-  console.log(errResult.resultAggregator)
-})
+])
+  .then(resultAggregator => {
+    // resultAggregator is ordered in the same way as the promises above
+    console.log('result from first Promise:', resultAggregator[0].value)
+    console.log('result from second Promise:', resultAggregator[1].value)
+    // ...
+  })
+  .catch(errResult => {
+    console.error(`Error encountered on job #${errResult.key}:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
 ```
 
 Generic example (with `sequentialPromises` param as Object):
@@ -208,19 +215,27 @@ Generic example (with `sequentialPromises` param as Object):
 import { runSequentialPromises } from 'quasar'
 
 runSequentialPromises({
-  phones: (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ }),
-  laptops: (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ })
+  phones: resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    }),
+  laptops: resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    })
   // ...
-}).then(resultAggregator => {
-  console.log('result from first Promise:', resultAggregator.phones.value)
-  console.log('result from second Promise:', resultAggregator.laptops.value)
-  // ...
-}).catch(errResult => {
-  console.error(`Error encountered on job (${ errResult.key}):`)
-  console.error(errResult.reason)
-  console.log('Managed to get these results before this error:')
-  console.log(errResult.resultAggregator)
 })
+  .then(resultAggregator => {
+    console.log('result from first Promise:', resultAggregator.phones.value)
+    console.log('result from second Promise:', resultAggregator.laptops.value)
+    // ...
+  })
+  .catch(errResult => {
+    console.error(`Error encountered on job (${errResult.key}):`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
 ```
 
 Example using previous results:
@@ -229,8 +244,11 @@ Example using previous results:
 import { runSequentialPromises } from 'quasar'
 
 runSequentialPromises({
-  phones: () => new Promise((resolve, reject) => { /* do some work... */ }),
-  vendors: (resultAggregator) => {
+  phones: () =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    }),
+  vendors: resultAggregator => {
     new Promise((resolve, reject) => {
       // You can do something with resultAggregator.phones.value here...
       // Since are using the default abortOnFail option, the result is guaranteed to exist,
@@ -247,23 +265,25 @@ Example with Axios:
 import { runSequentialPromises } from 'quasar'
 import axios from 'axios'
 
-const keyList = [ 'users', 'phones', 'laptops' ]
+const keyList = ['users', 'phones', 'laptops']
 
 runSequentialPromises([
   () => axios.get('https://some-url.com/users'),
   () => axios.get('https://some-other-url.com/items/phones'),
   () => axios.get('https://some-other-url.com/items/laptops')
-]).then(resultAggregator => {
-  // resultAggregator is ordered in the same way as the promises above
-  resultAggregator.forEach(result => {
-    console.log(keyList[ result.key ], result.value) // example: users {...}
+])
+  .then(resultAggregator => {
+    // resultAggregator is ordered in the same way as the promises above
+    resultAggregator.forEach(result => {
+      console.log(keyList[result.key], result.value) // example: users {...}
+    })
   })
-}).catch(errResult => {
-  console.error(`Error encountered while fetching ${ keyList[ errResult.key ] }:`)
-  console.error(errResult.reason)
-  console.log('Managed to get these results before this error:')
-  console.log(errResult.resultAggregator)
-})
+  .catch(errResult => {
+    console.error(`Error encountered while fetching ${keyList[errResult.key]}:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
 
 // **equivalent** example with sequentialPromises as Object:
 
@@ -271,16 +291,18 @@ runSequentialPromises({
   users: () => axios.get('https://some-url.com/users'),
   phones: () => axios.get('https://some-other-url.com/items/phones'),
   laptops: () => axios.get('https://some-other-url.com/items/laptops')
-}).then(resultAggregator => {
-  console.log('users:', resultAggregator.users.value)
-  console.log('phones:', resultAggregator.phones.value)
-  console.log('laptops:', resultAggregator.laptops.value)
-}).catch(errResult => {
-  console.error(`Error encountered while fetching ${ errResult.key }:`)
-  console.error(errResult.reason)
-  console.log('Managed to get these results before this error:')
-  console.log(errResult.resultAggregator)
 })
+  .then(resultAggregator => {
+    console.log('users:', resultAggregator.users.value)
+    console.log('phones:', resultAggregator.phones.value)
+    console.log('laptops:', resultAggregator.laptops.value)
+  })
+  .catch(errResult => {
+    console.error(`Error encountered while fetching ${errResult.key}:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
 ```
 
 Example with abortOnFail set to `false`:
@@ -300,10 +322,9 @@ runSequentialPromises(
 ).then(resultAggregator => {
   Object.values(resultAggregator).forEach(result => {
     if (result.status === 'rejected') {
-      console.log(`Failed to fetch ${ result.key }:`, result.reason)
-    }
-    else {
-      console.log(`Succeeded to fetch ${ result.key }:`, result.value)
+      console.log(`Failed to fetch ${result.key}:`, result.reason)
+    } else {
+      console.log(`Succeeded to fetch ${result.key}:`, result.value)
     }
   })
 })
@@ -314,7 +335,12 @@ When configuring threadsNumber (`opts > threadsNumber`) AND using http requests,
 ```js
 import { runSequentialPromises } from 'quasar'
 
-runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
+runSequentialPromises(
+  [
+    /* ... */
+  ],
+  { threadsNumber: 3 }
+)
   .then(resultAggregator => {
     resultAggregator.forEach(result => {
       console.log(result.value)
@@ -329,6 +355,7 @@ runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
 ```
 
 ## debounce
+
 If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
 
 Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
@@ -366,7 +393,7 @@ created () {
 ```
 
 ::: warning
-Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between *all* rendered instances of this component, so debouncing is also shared. Moreover, `this.myMethod.cancel()` won't work, because Vue wraps each method with another function to ensure proper `this` binding. This should be avoided by following the code snippet above.
+Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between _all_ rendered instances of this component, so debouncing is also shared. Moreover, `this.myMethod.cancel()` won't work, because Vue wraps each method with another function to ensure proper `this` binding. This should be avoided by following the code snippet above.
 :::
 
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).
@@ -386,6 +413,7 @@ window.addEventListener(
 ```
 
 ## throttle
+
 Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
 
 ```js
@@ -415,10 +443,11 @@ created () {
 ```
 
 ::: warning
-Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between *all* rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
+Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between _all_ rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
 :::
 
 ## extend - (Deep) Copy Objects
+
 A basic respawn of `jQuery.extend()`. Takes same parameters:
 
 ```js
@@ -430,6 +459,7 @@ let newObject = extend([Boolean deepCopy], targetObj, obj, ...)
 Watch out for methods within objects.
 
 ## uid - Generate UID
+
 Generate unique identifiers:
 
 ```js

@@ -80,7 +80,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       link: ref('inbox')
     }

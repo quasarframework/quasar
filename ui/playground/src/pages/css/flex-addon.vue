@@ -1,8 +1,6 @@
 <template>
   <div class="q-layout-padding test-flex-demo">
-    <h6 class="text-red">
-      You need to enable flex-addons from /ui/dev/app.js
-    </h6>
+    <h6 class="text-red">You need to enable flex-addons from /ui/dev/app.js</h6>
     <h1>
       Columns - container height auto
       <small class="pull-right q-px-xs text-red">XS</small>
@@ -226,7 +224,7 @@
       <small class="pull-right q-px-xs text-green gt-md">LG</small>
       <small class="pull-right q-px-xs text-orange gt-lg">XL</small>
     </h1>
-    <div class="test-flex row" style="height: 300px;">
+    <div class="test-flex row" style="height: 300px">
       <div class="col-1 full-height">
         <div class="column">
           <div class="col-3">
@@ -662,7 +660,7 @@
       <small class="pull-right q-px-xs text-green gt-md">LG</small>
       <small class="pull-right q-px-xs text-orange gt-lg">XL</small>
     </h1>
-    <div class="test-flex" style="width: 500px;">
+    <div class="test-flex" style="width: 500px">
       <div class="row">
         <div class="col-3">
           .col-3
@@ -840,7 +838,9 @@
     </div>
 
     <h1>
-      Responsive - .column.row-md.column-lg.q-col-gutter-sm.q-col-gutter-sm-md.q-col-gutter-md-lg.q-col-gutter-lg-xl - height 500px
+      Responsive -
+      .column.row-md.column-lg.q-col-gutter-sm.q-col-gutter-sm-md.q-col-gutter-md-lg.q-col-gutter-lg-xl
+      - height 500px
       <small class="pull-right q-px-xs text-red">XS</small>
       <small class="pull-right q-px-xs text-purple gt-xs">SM</small>
       <small class="pull-right q-px-xs text-indigo gt-sm">MD</small>
@@ -848,26 +848,21 @@
       <small class="pull-right q-px-xs text-orange gt-lg">XL</small>
     </h1>
     <div class="test-flex q-pa-xl">
-      <div class="column row-md column-lg q-col-gutter-sm q-col-gutter-sm-md q-col-gutter-md-lg q-col-gutter-lg-xl" style="height: 500px;">
+      <div
+        class="column row-md column-lg q-col-gutter-sm q-col-gutter-sm-md q-col-gutter-md-lg q-col-gutter-lg-xl"
+        style="height: 500px"
+      >
         <div class="col-4 col-lg-2 row">
-          <div class="fit">
-            .col-4.col-lg-2
-          </div>
+          <div class="fit">.col-4.col-lg-2</div>
         </div>
         <div class="col col-lg-3 row">
-          <div class="fit">
-            .col.col-lg-3
-          </div>
+          <div class="fit">.col.col-lg-3</div>
         </div>
         <div class="col col-md-4 row">
-          <div class="fit">
-            .col.col-md-4
-          </div>
+          <div class="fit">.col.col-md-4</div>
         </div>
         <div class="col-xs-2 col-md-3 col-lg-6 row">
-          <div class="fit">
-            .col-xs-2.col-md-3.col-lg-6
-          </div>
+          <div class="fit">.col-xs-2.col-md-3.col-lg-6</div>
         </div>
       </div>
     </div>
@@ -922,7 +917,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {}
   }
 }

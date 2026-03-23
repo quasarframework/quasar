@@ -19,8 +19,8 @@ const argv = parseArgs(process.argv.slice(2), {
     P: 'proxy',
     h: 'help'
   },
-  boolean: [ 'g', 'https', 'colors', 'history', 'h', 'cors' ],
-  string: [ 'H', 'C', 'K', 'i' ],
+  boolean: ['g', 'https', 'colors', 'history', 'h', 'cors'],
+  string: ['H', 'C', 'K', 'i'],
   default: {
     p: process.env.PORT || 4000,
     H: process.env.HOSTNAME || '0.0.0.0',
@@ -90,10 +90,10 @@ import path from 'node:path'
 import { cliPkg } from '../cli-pkg.js'
 import { log, fatal } from '../logger.js'
 
-const root = getAbsolutePath(argv._[ 0 ] || '.')
+const root = getAbsolutePath(argv._[0] || '.')
 const resolve = p => path.resolve(root, p)
 
-function getAbsolutePath (pathParam) {
+function getAbsolutePath(pathParam) {
   return path.isAbsolute(pathParam)
     ? pathParam
     : path.join(process.cwd(), pathParam)
@@ -105,9 +105,7 @@ const indexFile = resolve('index.js')
 let ssrDetected = false
 
 if (existsSync(pkgFile) && existsSync(indexFile)) {
-  const pkg = JSON.parse(
-    readFileSync(pkgFile, 'utf8')
-  )
+  const pkg = JSON.parse(readFileSync(pkgFile, 'utf8'))
 
   if (pkg.quasar && pkg.quasar.ssr) {
     console.log('Quasar SSR folder detected.')
@@ -128,16 +126,17 @@ if (ssrDetected === false) {
   const { green, gray, red } = await import('kolorist')
 
   const resolvedIndex = resolve(argv.index)
-  const microCacheSeconds = argv.micro
-    ? parseInt(argv.micro, 10)
-    : false
+  const microCacheSeconds = argv.micro ? parseInt(argv.micro, 10) : false
 
-  const serve = (path, cache) => {
+  const serve = (servePath, cache) => {
     const opts = {
       maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0,
-      setHeaders (res, path) {
-        if (res.req.method === 'GET' && path === resolvedIndex) {
-          res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+      setHeaders(res, headersPath) {
+        if (res.req.method === 'GET' && headersPath === resolvedIndex) {
+          res.set(
+            'Cache-Control',
+            'no-store, no-cache, must-revalidate, proxy-revalidate'
+          )
           res.set('Pragma', 'no-cache')
           res.set('Expires', '0')
           res.set('Surrogate-Control', 'no-store')
@@ -149,7 +148,7 @@ if (ssrDetected === false) {
       opts.index = argv.index
     }
 
-    return express.static(resolve(path), opts)
+    return express.static(resolve(servePath), opts)
   }
 
   const app = express()
@@ -162,7 +161,7 @@ if (ssrDetected === false) {
   if (!argv.silent) {
     app.get('*', (req, _, next) => {
       console.log(
-        `GET ${ green(req.url) } ${ gray('[' + req.ip + ']') } ${ new Date() }`
+        `GET ${green(req.url)} ${gray('[' + req.ip + ']')} ${new Date()}`
       )
       next()
     })
@@ -179,7 +178,7 @@ if (ssrDetected === false) {
   }
 
   if (argv.proxy) {
-    let file = argv.proxy = getAbsolutePath(argv.proxy)
+    let file = (argv.proxy = getAbsolutePath(argv.proxy))
     if (!existsSync(file)) {
       fatal('Proxy definition file not found! ' + file)
     }
@@ -196,9 +195,7 @@ if (ssrDetected === false) {
     const { default: history } = await import('connect-history-api-fallback')
     app.use(
       history({
-        index: argv.index.startsWith('/')
-          ? argv.index
-          : '/' + argv.index
+        index: argv.index.startsWith('/') ? argv.index : '/' + argv.index
       })
     )
   }
@@ -207,26 +204,19 @@ if (ssrDetected === false) {
 
   if (microCacheSeconds) {
     const { default: microcache } = await import('route-cache')
-    app.use(
-      microcache.cacheSeconds(
-        microCacheSeconds,
-        req => req.originalUrl
-      )
-    )
+    app.use(microcache.cacheSeconds(microCacheSeconds, req => req.originalUrl))
   }
 
   app.get('*', (req, res) => {
     res.setHeader('Content-Type', 'text/html')
     res.status(404).send('404 | Page Not Found')
     if (!argv.silent) {
-      console.log(red(`  404 on ${ req.url }`))
+      console.log(red(`  404 on ${req.url}`))
     }
   })
 
-  const getServer = async app => {
-    if (!argv.https) {
-      return app
-    }
+  const getServer = async localApp => {
+    if (!argv.https) return localApp
 
     let fakeCert, key, cert
 
@@ -236,35 +226,34 @@ if (ssrDetected === false) {
 
       if (existsSync(key)) {
         key = readFileSync(key)
-      }
-      else {
+      } else {
         fatal('SSL key file not found!' + key)
       }
 
       if (existsSync(cert)) {
         cert = readFileSync(cert)
-      }
-      else {
+      } else {
         fatal('SSL cert file not found!' + cert)
       }
-    }
-    else {
+    } else {
       const { getCertificate } = await import('@quasar/ssl-certificate')
       fakeCert = getCertificate({ log, fatal })
     }
 
     const https = await import('node:https')
-    return https.createServer({
-      key: key || fakeCert,
-      cert: cert || fakeCert
-    }, app)
+    return https.createServer(
+      {
+        key: key || fakeCert,
+        cert: cert || fakeCert
+      },
+      localApp
+    )
   }
 
   const server = await getServer(app)
 
-  const getListeningUrl = hostname => {
-    return `http${ argv.https ? 's' : '' }://${ hostname }:${ argv.port }`
-  }
+  const getListeningUrl = hostname =>
+    `http${argv.https ? 's' : ''}://${hostname}:${argv.port}`
 
   const { getIPs } = await import('../net.js')
 
@@ -272,37 +261,41 @@ if (ssrDetected === false) {
     let { hostname } = argv
 
     if (hostname === '0.0.0.0') {
-      const acc = getIPs().map(ip => ([ '', getListeningUrl(ip) ]))
+      const acc = getIPs().map(ip => ['', getListeningUrl(ip)])
       if (acc.length !== 0) {
-        acc[ 0 ][ 0 ] = 'Listening at'
+        acc[0][0] = 'Listening at'
         return acc
       }
 
       hostname = 'localhost'
     }
 
-    return [
-      [ 'Listening at', getListeningUrl(hostname) ]
-    ]
+    return [['Listening at', getListeningUrl(hostname)]]
   }
 
   server.listen(argv.port, argv.hostname, async () => {
     const filler = ''.padEnd(20, ' ')
     const info = [
-      [ 'Quasar CLI', `v${ cliPkg.version }` ],
+      ['Quasar CLI', `v${cliPkg.version}`],
       ...getListeningBanner(),
-      [ 'Web server root', root ],
-      argv.https ? [ 'HTTPS', 'enabled' ] : '',
-      argv.gzip ? [ 'Gzip', 'enabled' ] : '',
-      [ 'Cache (max-age)', argv.cache || 'disabled' ],
-      microCacheSeconds ? [ 'Micro-cache', microCacheSeconds + 's' ] : '',
-      argv.history ? [ 'History mode', 'enabled' ] : '',
-      [ 'Index file', argv.index ],
-      argv.cors ? [ 'CORS', 'enabled' ] : '',
-      argv.proxy ? [ 'Proxy definitions', argv.proxy ] : ''
+      ['Web server root', root],
+      argv.https ? ['HTTPS', 'enabled'] : '',
+      argv.gzip ? ['Gzip', 'enabled'] : '',
+      ['Cache (max-age)', argv.cache || 'disabled'],
+      microCacheSeconds ? ['Micro-cache', microCacheSeconds + 's'] : '',
+      argv.history ? ['History mode', 'enabled'] : '',
+      ['Index file', argv.index],
+      argv.cors ? ['CORS', 'enabled'] : '',
+      argv.proxy ? ['Proxy definitions', argv.proxy] : ''
     ]
       .filter(msg => msg)
-      .map(msg => ' ' + (msg[ 0 ] !== '' ? msg[ 0 ].padEnd(20, '.') : filler) + ' ' + green(msg[ 1 ]))
+      .map(
+        msg =>
+          ' ' +
+          (msg[0] !== '' ? msg[0].padEnd(20, '.') : filler) +
+          ' ' +
+          green(msg[1])
+      )
 
     console.log('\n' + info.join('\n') + '\n')
 

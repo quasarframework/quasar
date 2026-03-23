@@ -12,8 +12,8 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: [ 'h' ],
-  string: [ 'c', 'm', 'p', 't' ],
+  boolean: ['h'],
+  string: ['c', 'm', 'p', 't'],
   default: {
     c: 'dev',
     m: 'spa',
@@ -51,9 +51,12 @@ ensureArgv(argv, 'inspect')
 import { getCtx } from '../utils/get-ctx.js'
 const ctx = getCtx({
   mode: argv.mode,
-  target: argv.mode === 'cordova' || argv.mode === 'capacitor'
-    ? 'android'
-    : (argv.mode === 'bex' ? 'chrome' : void 0),
+  target:
+    argv.mode === 'cordova' || argv.mode === 'capacitor'
+      ? 'android'
+      : argv.mode === 'bex'
+        ? 'chrome'
+        : void 0,
   debug: argv.debug,
   dev: argv.cmd === 'dev',
   prod: argv.cmd === 'build'
@@ -83,7 +86,9 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { modeConfig } = await import(`../modes/${ argv.mode }/${ argv.mode }-config.js`)
+const { modeConfig } = await import(
+  `../modes/${argv.mode}/${argv.mode}-config.js`
+)
 
 const cfgEntries = []
 let threadList = Object.keys(modeConfig)
@@ -93,13 +98,13 @@ if (argv.thread) {
     fatal('Requested thread for inspection is NOT available for selected mode.')
   }
 
-  threadList = [ argv.thread ]
+  threadList = [argv.thread]
 }
 
 for (const name of threadList) {
   cfgEntries.push({
     name,
-    object: await modeConfig[ name ](quasarConf)
+    object: await modeConfig[name](quasarConf)
   })
 }
 
@@ -113,12 +118,10 @@ if (argv.path) {
 import util from 'node:util'
 
 cfgEntries.forEach(cfgEntry => {
-  const tool = cfgEntry.object.configFile !== void 0
-    ? 'Vite'
-    : 'esbuild'
+  const tool = cfgEntry.object.configFile !== void 0 ? 'Vite' : 'esbuild'
 
   console.log()
-  log(`Showing "${ cfgEntry.name }" config (for ${ tool }) with depth of ${ depth }`)
+  log(`Showing "${cfgEntry.name}" config (for ${tool}) with depth of ${depth}`)
   console.log()
   console.log(
     util.inspect(cfgEntry.object, {
@@ -130,4 +133,6 @@ cfgEntries.forEach(cfgEntry => {
   )
 })
 
-console.log(`\n  Depth used: ${ depth }. You can change it with "-d" / "--depth" parameter.\n`)
+console.log(
+  `\n  Depth used: ${depth}. You can change it with "-d" / "--depth" parameter.\n`
+)

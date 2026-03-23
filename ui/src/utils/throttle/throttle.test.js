@@ -1,7 +1,4 @@
-import {
-  describe, test, expect, vi,
-  beforeEach, afterEach
-} from 'vitest'
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 
 import throttle from './throttle.js'
 
@@ -18,9 +15,7 @@ describe('[throttle API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('has correct return value', () => {
-        expect(
-          throttle(() => {})
-        ).toBeTypeOf('function')
+        expect(throttle(() => {})).toBeTypeOf('function')
       })
 
       test('repeated rapid calls', () => {

@@ -19,7 +19,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       teal: ref(true),
       orange: ref(false),

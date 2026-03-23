@@ -8,10 +8,10 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function prompt () {
+    function prompt() {
       $q.dialog({
         title: 'Prompt with native attributes',
         message: 'Please type a value between 0 and 10:',
@@ -26,13 +26,16 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).onOk(data => {
-        // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
+        .onOk(data => {
+          // console.log('>>>> OK, received', data)
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
     }
 
     return { prompt }

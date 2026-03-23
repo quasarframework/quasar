@@ -10,10 +10,8 @@ export default {
   configs: {
     // using a function so we can add more configurable
     // stuff later if needed without breaking changes
-    recommended () {
-      return [
-        { ignores: ignoreList }
-      ]
+    recommended() {
+      return [{ ignores: ignoreList }]
     }
   }
 }

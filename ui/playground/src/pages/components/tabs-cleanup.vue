@@ -4,18 +4,20 @@
       <q-btn label="To First" color="primary" @click="toFirst" />
       <q-btn label="To Last" color="primary" @click="toLast" />
       <q-btn label="To Far Away" color="warning" @click="toFarAway" />
-      <q-btn label="To first and navigate away" color="primary" @click="changeTabAndNavigateAway" />
-      <q-btn label="Navigate away in 1.5s" color="primary" @click="navigateAwayWithDelay" />
+      <q-btn
+        label="To first and navigate away"
+        color="primary"
+        @click="changeTabAndNavigateAway"
+      />
+      <q-btn
+        label="Navigate away in 1.5s"
+        color="primary"
+        @click="navigateAwayWithDelay"
+      />
     </div>
 
-    <div v-if="isFarAway" class="q-ma-md">
-      Far Far Away, outside of Q-Tabs
-    </div>
-    <div
-      v-else
-      class="q-gutter-y-md"
-      style="max-width: 600px"
-    >
+    <div v-if="isFarAway" class="q-ma-md">Far Far Away, outside of Q-Tabs</div>
+    <div v-else class="q-gutter-y-md" style="max-width: 600px">
       <q-tabs v-model="tab" mobile-arrows>
         <q-tab name="first" icon="mail" label="First" />
         <q-tab name="mails" icon="mail" label="Mails" />
@@ -37,7 +39,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       tab: 'last',
       isFarAway: false
@@ -45,29 +47,29 @@ export default {
   },
 
   methods: {
-    toFirst () {
+    toFirst() {
       this.isFarAway = false
       this.tab = 'first'
     },
 
-    toLast () {
+    toLast() {
       this.isFarAway = false
       this.tab = 'last'
     },
 
     // navigate to some other component, outside of q-tabs
-    toFarAway () {
+    toFarAway() {
       this.isFarAway = true
     },
 
-    changeTabAndNavigateAway () {
+    changeTabAndNavigateAway() {
       this.toFirst()
       this.$nextTick(() => {
         this.$router.push('/')
       })
     },
 
-    navigateAwayWithDelay () {
+    navigateAwayWithDelay() {
       setTimeout(() => {
         this.$router.push('/')
       }, 1500)

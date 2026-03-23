@@ -8,9 +8,7 @@
       :error="!isValid"
       hint="Max 3 characters"
     >
-      <template v-slot:error>
-        Please use maximum 3 characters.
-      </template>
+      <template v-slot:error> Please use maximum 3 characters. </template>
     </q-input>
   </div>
 </template>
@@ -19,7 +17,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const model = ref('')
 
     return {

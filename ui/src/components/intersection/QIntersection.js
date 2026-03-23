@@ -19,14 +19,14 @@ export default createComponent({
     once: Boolean,
     transition: String,
     transitionDuration: {
-      type: [ String, Number ],
+      type: [String, Number],
       default: 300
     },
 
     ssrPrerender: Boolean,
 
     margin: String,
-    threshold: [ Number, Array ],
+    threshold: [Number, Array],
     root: {
       default: null
     },
@@ -36,11 +36,15 @@ export default createComponent({
     onVisibility: Function
   },
 
-  setup (props, { slots, emit }) {
-    const showing = ref(isRuntimeSsrPreHydration.value === true ? props.ssrPrerender : false)
+  setup(props, { slots, emit }) {
+    const showing = ref(
+      isRuntimeSsrPreHydration.value === true ? props.ssrPrerender : false
+    )
 
-    const intersectionProps = computed(() => (
-      props.root !== void 0 || props.margin !== void 0 || props.threshold !== void 0
+    const intersectionProps = computed(() =>
+      props.root !== void 0 ||
+      props.margin !== void 0 ||
+      props.threshold !== void 0
         ? {
             handler: trigger,
             cfg: {
@@ -50,50 +54,63 @@ export default createComponent({
             }
           }
         : trigger
-    ))
-
-    const hasDirective = computed(() =>
-      props.disable !== true
-      && (isRuntimeSsrPreHydration.value !== true || props.once !== true || props.ssrPrerender !== true)
     )
 
-    const directives = computed(() => {
-      // if hasDirective.value === true
-      return [ [
-        Intersection,
-        intersectionProps.value,
-        void 0,
-        { once: props.once }
-      ] ]
-    })
+    const hasDirective = computed(
+      () =>
+        props.disable !== true &&
+        (isRuntimeSsrPreHydration.value !== true ||
+          props.once !== true ||
+          props.ssrPrerender !== true)
+    )
+
+    const directives = computed(() => [
+      [Intersection, intersectionProps.value, void 0, { once: props.once }]
+    ])
 
     const transitionStyle = computed(
-      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+      () => `--q-transition-duration: ${props.transitionDuration}ms`
     )
 
-    function trigger (entry) {
+    function trigger(entry) {
       if (showing.value !== entry.isIntersecting) {
         showing.value = entry.isIntersecting
-        props.onVisibility !== void 0 && emit('visibility', showing.value)
+        if (props.onVisibility !== void 0) emit('visibility', showing.value)
       }
     }
 
-    function getContent () {
+    function getContent() {
       if (showing.value === true) {
-        return [ h('div', { key: 'content', style: transitionStyle.value }, hSlot(slots.default)) ]
+        return [
+          h(
+            'div',
+            { key: 'content', style: transitionStyle.value },
+            hSlot(slots.default)
+          )
+        ]
       }
 
       if (slots.hidden !== void 0) {
-        return [ h('div', { key: 'hidden', style: transitionStyle.value }, slots.hidden()) ]
+        return [
+          h(
+            'div',
+            { key: 'hidden', style: transitionStyle.value },
+            slots.hidden()
+          )
+        ]
       }
     }
 
     return () => {
       const child = props.transition
         ? [
-            h(Transition, {
-              name: 'q-transition--' + props.transition
-            }, getContent)
+            h(
+              Transition,
+              {
+                name: 'q-transition--' + props.transition
+              },
+              getContent
+            )
           ]
         : getContent()
 

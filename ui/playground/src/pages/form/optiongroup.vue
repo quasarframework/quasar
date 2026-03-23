@@ -1,15 +1,27 @@
 <template>
   <div>
     <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
-      <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
+      <q-toggle
+        v-model="dark"
+        :dark="dark"
+        :dense="dense"
+        label="Dark"
+        :false-value="null"
+      />
+      <q-toggle
+        v-model="keepColor"
+        :dark="dark"
+        :dense="dense"
+        label="Keep Color"
+      />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
-      <p class="text-h6 text-weight-bold">
-        Radio
-      </p>
+      <p class="text-h6 text-weight-bold">Radio</p>
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{ radio }}</em></span>
+        Model
+        <span class="right-detail"
+          ><em>{{ radio }}</em></span
+        >
       </div>
       <q-option-group
         inline
@@ -21,7 +33,11 @@
         :dense="dense"
         :keep-color="keepColor"
         :options="[
-          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+          {
+            label:
+              'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+            value: 'op2'
+          },
           { label: 'Option 3', value: 'op3' },
           { label: 'Option 4', value: 'op4' }
         ]"
@@ -36,17 +52,24 @@
         :dense="dense"
         :keep-color="keepColor"
         :options="[
-          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
+          {
+            label:
+              'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+            value: 'op2',
+            dark,
+            keepColor
+          },
           { label: 'Option 3', value: 'op3', dark, keepColor },
           { label: 'Option 4', value: 'op4', dark, keepColor }
         ]"
       />
 
-      <p class="text-h6 text-weight-bold">
-        Checkbox
-      </p>
+      <p class="text-h6 text-weight-bold">Checkbox</p>
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{ checkbox }}</em></span>
+        Model
+        <span class="right-detail"
+          ><em>{{ checkbox }}</em></span
+        >
       </div>
       <q-option-group
         inline
@@ -58,7 +81,11 @@
         :dense="dense"
         :keep-color="keepColor"
         :options="[
-          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+          {
+            label:
+              'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+            value: 'op2'
+          },
           { label: 'Option 3', value: 'op3' },
           { label: 'Option 4', value: 'op4' }
         ]"
@@ -73,17 +100,24 @@
         :dense="dense"
         :keep-color="keepColor"
         :options="[
-          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
+          {
+            label:
+              'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+            value: 'op2',
+            dark,
+            keepColor
+          },
           { label: 'Option 3', value: 'op3', dark, keepColor },
           { label: 'Option 4', value: 'op4', dark, keepColor }
         ]"
       />
 
-      <p class="text-h6 text-weight-bold">
-        Toggle
-      </p>
+      <p class="text-h6 text-weight-bold">Toggle</p>
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{ toggle }}</em></span>
+        Model
+        <span class="right-detail"
+          ><em>{{ toggle }}</em></span
+        >
       </div>
       <q-option-group
         inline
@@ -95,7 +129,11 @@
         :dense="dense"
         :keep-color="keepColor"
         :options="[
-          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+          {
+            label:
+              'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+            value: 'op2'
+          },
           { label: 'Option 3', value: 'op3' },
           { label: 'Option 4', value: 'op4' }
         ]"
@@ -110,16 +148,20 @@
         :dense="dense"
         :keep-color="keepColor"
         :options="[
-          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
+          {
+            label:
+              'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+            value: 'op2',
+            dark,
+            keepColor
+          },
           { label: 'Option 3', value: 'op3', dark, keepColor },
           { label: 'Option 4', value: 'op4', dark, keepColor }
         ]"
       />
     </div>
 
-    <p class="text-h6 text-weight-bold">
-      Slots
-    </p>
+    <p class="text-h6 text-weight-bold">Slots</p>
     <q-option-group
       type="toggle"
       color="secondary"
@@ -128,7 +170,11 @@
       :dense="dense"
       :keep-color="keepColor"
       :options="[
-        { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+        {
+          label:
+            'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ',
+          value: 'op2'
+        },
         { label: 'Option 3', value: 'op3' },
         { label: 'Option 4', value: 'op4' }
       ]"
@@ -147,32 +193,34 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       radio: 'op2',
-      checkbox: [ 'op2' ],
-      toggle: [ 'op2' ],
+      checkbox: ['op2'],
+      toggle: ['op2'],
       dark: null,
       dense: false,
       keepColor: false
     }
   },
   watch: {
-    group (val, old) {
-      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
+    group(val, old) {
+      console.log(
+        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
+      )
     }
   },
   methods: {
-    onChange (val) {
+    onChange(val) {
       console.log('@change', JSON.stringify(val))
     },
-    onInput (val) {
+    onInput(val) {
       console.log('@update:model-value', JSON.stringify(val))
     },
-    onFocus () {
+    onFocus() {
       console.log('focused')
     },
-    onBlur () {
+    onBlur() {
       console.log('blur')
     }
   }

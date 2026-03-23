@@ -10,13 +10,12 @@
       before-class="overflow-hidden"
       after-class="overflow-hidden"
     >
-
       <template v-slot:before>
         <img
           src="https://cdn.quasar.dev/img/parallax1.jpg"
           :width="width"
           class="absolute-top-left"
-        >
+        />
       </template>
 
       <template v-slot:after>
@@ -24,9 +23,8 @@
           src="https://cdn.quasar.dev/img/parallax1-bw.jpg"
           :width="width"
           class="absolute-top-right"
-        >
+        />
       </template>
-
     </q-splitter>
   </div>
 </template>
@@ -35,7 +33,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const width = ref(400)
 
     return {
@@ -49,7 +47,7 @@ export default {
 
       // we are using QResizeObserver to keep
       // this example mobile-friendly
-      onResize (info) {
+      onResize(info) {
         width.value = info.width
       }
     }

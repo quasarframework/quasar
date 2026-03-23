@@ -13,9 +13,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
-      expanded: ref([ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]),
+      expanded: ref([
+        'Satisfied customers (with avatar)',
+        'Good food (with icon)'
+      ]),
 
       simple: [
         {

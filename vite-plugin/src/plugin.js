@@ -11,49 +11,52 @@ const defaultOptions = {
   sassVariables: true,
   devTreeshaking: false,
   autoImportComponentCase: 'kebab',
-  autoImportVueExtensions: [ 'vue' ],
-  autoImportScriptExtensions: [ 'js', 'jsx', 'ts', 'tsx' ]
+  autoImportVueExtensions: ['vue'],
+  autoImportScriptExtensions: ['js', 'jsx', 'ts', 'tsx']
 }
 const defaultOptionsKeys = Object.keys(defaultOptions)
 
-function parsePluginOptions (userOpts = {}) {
+function parsePluginOptions(userOpts = {}) {
   const opts = { ...userOpts }
 
   for (const key of defaultOptionsKeys) {
-    if (opts[ key ] === void 0) {
-      opts[ key ] = defaultOptions[ key ]
+    if (opts[key] === void 0) {
+      opts[key] = defaultOptions[key]
     }
   }
 
   return opts
 }
 
-function getConfigPlugin (opts) {
+function getConfigPlugin(opts) {
   return {
     name: 'vite:quasar:vite-conf',
 
-    configResolved (viteConf) {
+    configResolved(viteConf) {
       const vueCfg = viteConf.plugins.find(entry => entry.name === 'vite:vue')
 
       if (vueCfg === void 0) {
-        console.error('\n\n[Quasar] Error: In your Vite config file, please add the Quasar plugin ** after ** the Vue one\n\n')
+        console.error(
+          '\n\n[Quasar] Error: In your Vite config file, please add the Quasar plugin ** after ** the Vue one\n\n'
+        )
         process.exit(1)
       }
     },
 
-    config (viteConf, { mode }) {
+    config(viteConf, { mode }) {
       return getViteConfig(opts.runMode, mode, viteConf)
     }
   }
 }
 
-const scssMatcher = createExtMatcher([ 'scss', 'module.scss' ])
-const sassMatcher = createExtMatcher([ 'sass', 'module.sass' ])
+const scssMatcher = createExtMatcher(['scss', 'module.scss'])
+const sassMatcher = createExtMatcher(['sass', 'module.sass'])
 
-function getScssTransformsPlugin (opts) {
-  const sassVariables = typeof opts.sassVariables === 'string'
-    ? normalizePath(opts.sassVariables)
-    : opts.sassVariables
+function getScssTransformsPlugin(opts) {
+  const sassVariables =
+    typeof opts.sassVariables === 'string'
+      ? normalizePath(opts.sassVariables)
+      : opts.sassVariables
 
   const scssTransform = createScssTransform('scss', sassVariables)
   const sassTransform = createScssTransform('sass', sassVariables)
@@ -63,7 +66,7 @@ function getScssTransformsPlugin (opts) {
 
     enforce: 'pre',
 
-    transform (src, id) {
+    transform(src, id) {
       const is = parseViteRequest(id)
 
       if (is.style(scssMatcher) === true) {
@@ -85,7 +88,7 @@ function getScssTransformsPlugin (opts) {
   }
 }
 
-function getScriptTransformsPlugin (opts) {
+function getScriptTransformsPlugin(opts) {
   let useTreeshaking = true
 
   const vueMatcher = createExtMatcher(opts.autoImportVueExtensions)
@@ -94,16 +97,18 @@ function getScriptTransformsPlugin (opts) {
   return {
     name: 'vite:quasar:script',
 
-    configResolved (resolvedConfig) {
-      if (opts.devTreeshaking === false && resolvedConfig.mode !== 'production') {
+    configResolved(resolvedConfig) {
+      if (
+        opts.devTreeshaking === false &&
+        resolvedConfig.mode !== 'production'
+      ) {
         useTreeshaking = false
-      }
-      else {
+      } else {
         loadQuasarImportMap()
       }
     },
 
-    transform (src, id) {
+    transform(src, id) {
       const is = parseViteRequest(id)
 
       if (is.template(vueMatcher) === true) {
@@ -125,23 +130,17 @@ function getScriptTransformsPlugin (opts) {
   }
 }
 
-export default function (userOpts) {
+export default function quasarPlugin(userOpts) {
   const opts = parsePluginOptions(userOpts)
 
-  const plugins = [
-    getConfigPlugin(opts)
-  ]
+  const plugins = [getConfigPlugin(opts)]
 
   if (opts.sassVariables) {
-    plugins.push(
-      getScssTransformsPlugin(opts)
-    )
+    plugins.push(getScssTransformsPlugin(opts))
   }
 
   if (opts.runMode !== 'ssr-server') {
-    plugins.push(
-      getScriptTransformsPlugin(opts)
-    )
+    plugins.push(getScriptTransformsPlugin(opts))
   }
 
   return plugins

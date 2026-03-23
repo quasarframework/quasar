@@ -5,7 +5,10 @@ import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
 type ExtendViteConfHandler = (
   fn: (
-    ...args: [...Parameters<ResolvedQuasarConfValue<"build.extendViteConf">>, api: IndexAPI]
+    ...args: [
+      ...Parameters<ResolvedQuasarConfValue<"build.extendViteConf">>,
+      api: IndexAPI
+    ]
   ) => void
 ) => void;
 
@@ -13,7 +16,7 @@ type GetPersistentConfHandler = () => Record<string, unknown>;
 type HasExtensionHandler = (extId: string) => boolean;
 
 interface BaseAPI {
-  engine: '@quasar/app-vite';
+  engine: "@quasar/app-vite";
 
   ctx: QuasarContext;
   extId: string;
@@ -25,8 +28,8 @@ interface BaseAPI {
 
   hasTypescript: () => Promise<boolean>;
   hasLint: () => Promise<boolean>;
-  getStorePackageName: () => 'pinia' | undefined;
-  getNodePackagerName: () => Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>;
+  getStorePackageName: () => "pinia" | undefined;
+  getNodePackagerName: () => Promise<"npm" | "yarn" | "pnpm" | "bun">;
 }
 
 interface SharedIndexInstallAPI {
@@ -48,39 +51,50 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
 
   extendViteConf: ExtendViteConfHandler;
 
-  extendBexScriptsConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
-  extendElectronMainConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
-  extendElectronPreloadConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
-  extendPWACustomSWConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
-  extendSSRWebserverConf: Callback<(cfg: EsbuildConfiguration, api: IndexAPI) => void>;
+  extendBexScriptsConf: Callback<
+    (cfg: EsbuildConfiguration, api: IndexAPI) => void
+  >;
+  extendElectronMainConf: Callback<
+    (cfg: EsbuildConfiguration, api: IndexAPI) => void
+  >;
+  extendElectronPreloadConf: Callback<
+    (cfg: EsbuildConfiguration, api: IndexAPI) => void
+  >;
+  extendPWACustomSWConf: Callback<
+    (cfg: EsbuildConfiguration, api: IndexAPI) => void
+  >;
+  extendSSRWebserverConf: Callback<
+    (cfg: EsbuildConfiguration, api: IndexAPI) => void
+  >;
 
   registerCommand: (
     commandName: string,
-    fn: (params: { args: string[]; params: Record<string, any> }) => Promise<void> | void
+    fn: (params: {
+      args: string[];
+      params: Record<string, any>;
+    }) => Promise<void> | void
   ) => void;
 
   registerDescribeApi: (name: string, relativePath: string) => void;
 
-  beforeDev: Callback<(
-    api: IndexAPI,
-    payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void>;
-  afterDev: Callback<(
-    api: IndexAPI,
-    payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void>;
-  beforeBuild: Callback<(
-    api: IndexAPI,
-    payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void>;
-  afterBuild: Callback<(
-    api: IndexAPI,
-    payload: { quasarConf: QuasarConf }
-  ) => Promise<void> | void>;
-  onPublish: Callback<(
-    api: IndexAPI,
-    opts: { arg: string; distDir: string }
-  ) => Promise<void> | void>;
+  beforeDev: Callback<
+    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+  >;
+  afterDev: Callback<
+    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+  >;
+  beforeBuild: Callback<
+    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+  >;
+  afterBuild: Callback<
+    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+  >;
+  onPublish: Callback<
+    (
+      api: IndexAPI,
+      opts: { arg: string; distDir: string }
+    ) => Promise<void> | void
+  >;
 }
 
 type ExitLogHandler = (msg: string) => void;

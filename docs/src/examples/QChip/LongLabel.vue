@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-xs row" style="max-width: 300px" :class="{ 'truncate-chip-labels': truncate }">
+    <div
+      class="q-gutter-xs row"
+      style="max-width: 300px"
+      :class="{ 'truncate-chip-labels': truncate }"
+    >
       <q-chip
         removable
         v-model="vanilla"
@@ -32,14 +36,9 @@
           <q-tooltip>{{ strawberryLabel }}</q-tooltip>
         </div>
       </q-chip>
-      <q-chip
-        removable
-        v-model="cookies"
-        color="red"
-        text-color="white"
-      >
+      <q-chip removable v-model="cookies" color="red" text-color="white">
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
         </q-avatar>
         <div class="ellipsis">
           {{ cookiesLabel }}
@@ -49,7 +48,12 @@
     </div>
 
     <div class="row items-center q-mt-sm">
-      <q-btn color="primary" label="Reset" @click="onResetClick" class="q-mr-sm" />
+      <q-btn
+        color="primary"
+        label="Reset"
+        @click="onResetClick"
+        class="q-mr-sm"
+      />
       <q-toggle v-model="truncate" label="Truncate labels" />
     </div>
   </div>
@@ -59,7 +63,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const vanilla = ref(true)
     const chocolate = ref(true)
     const strawberry = ref(true)
@@ -78,7 +82,7 @@ export default {
       strawberryLabel: 'I want strawberry flavoured ice cream',
       cookiesLabel: 'I want cookies flavoured ice cream',
 
-      onResetClick () {
+      onResetClick() {
         vanilla.value = true
         chocolate.value = true
         strawberry.value = true

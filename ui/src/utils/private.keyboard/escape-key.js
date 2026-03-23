@@ -4,34 +4,34 @@ import { isKeyCode } from '../private.keyboard/key-composition.js'
 const handlers = []
 let escDown
 
-function onKeydown (evt) {
+function onKeydown(evt) {
   escDown = evt.keyCode === 27
 }
 
-function onBlur () {
+function onBlur() {
   if (escDown === true) {
     escDown = false
   }
 }
 
-function onKeyup (evt) {
+function onKeyup(evt) {
   if (escDown === true) {
     escDown = false
 
     if (isKeyCode(evt, 27) === true) {
-      handlers[ handlers.length - 1 ](evt)
+      handlers[handlers.length - 1](evt)
     }
   }
 }
 
-function update (action) {
-  window[ action ]('keydown', onKeydown)
-  window[ action ]('blur', onBlur)
-  window[ action ]('keyup', onKeyup)
+function update(action) {
+  window[action]('keydown', onKeydown)
+  window[action]('blur', onBlur)
+  window[action]('keyup', onKeyup)
   escDown = false
 }
 
-export function addEscapeKey (fn) {
+export function addEscapeKey(fn) {
   if (client.is.desktop === true) {
     handlers.push(fn)
 
@@ -41,7 +41,7 @@ export function addEscapeKey (fn) {
   }
 }
 
-export function removeEscapeKey (fn) {
+export function removeEscapeKey(fn) {
   const index = handlers.indexOf(fn)
   if (index !== -1) {
     handlers.splice(index, 1)

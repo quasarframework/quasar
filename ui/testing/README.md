@@ -167,31 +167,32 @@ $ pnpm test:specs --target <target_file>
 
 ## Guidelines for testing
 
-* Keep testing code clean and easily understandable. Add comments if necessary.
-* Look into the code of what you are testing to decide the best approach for your tests.
-* Convert tests for multiple values/types of the same thing into an test.each() where it applies. There are lots of examples in the already existing test files.
-* Watch for `$computedStyle()` calls as these get cached, so you only get one chance per node to get the expected result. Usually leave this as the last expect() call.
-* Test the effect while not duplicating the implementation of what you are testing. Where you can, use `$computedStyle()`.
-* Be aware of the common formulas (below).
-* There are some custom matchers that you can use (`$any`, `$arrayValues`, `$objectValues`, `$ref`, `$reactive`) and also some extra @vue/test-utils mount() additions (`$style`, `$computedStyle`): [code](https://github.com/quasarframework/quasar/blob/dev/ui/testing/setup.js)
-* Use of Copilot when writing the tests is allowed ;)
+- Keep testing code clean and easily understandable. Add comments if necessary.
+- Look into the code of what you are testing to decide the best approach for your tests.
+- Convert tests for multiple values/types of the same thing into an test.each() where it applies. There are lots of examples in the already existing test files.
+- Watch for `$computedStyle()` calls as these get cached, so you only get one chance per node to get the expected result. Usually leave this as the last expect() call.
+- Test the effect while not duplicating the implementation of what you are testing. Where you can, use `$computedStyle()`.
+- Be aware of the common formulas (below).
+- There are some custom matchers that you can use (`$any`, `$arrayValues`, `$objectValues`, `$ref`, `$reactive`) and also some extra @vue/test-utils mount() additions (`$style`, `$computedStyle`): [code](https://github.com/quasarframework/quasar/blob/dev/ui/testing/setup.js)
+- Use of Copilot when writing the tests is allowed ;)
 
 Important reading list:
-* https://vitest.dev/api/expect.html
-* https://test-utils.vuejs.org/api/
-* https://vitest.dev/api/
-* https://vitest.dev/api/vi.html
+
+- https://vitest.dev/api/expect.html
+- https://test-utils.vuejs.org/api/
+- https://vitest.dev/api/
+- https://vitest.dev/api/vi.html
 
 ## Common formulas for writing tests
 
-> When instructed to search for something, do it in /ui/src/**/*.test.js files.
+> When instructed to search for something, do it in /ui/src/\*_/_.test.js files.
 
-| Need | Formula |
-| --- | --- |
-| Use Vue Router | Search for `getRouter` |
-| Testing Vue Router props | Search for `[(prop)to]` or `[(prop)active-class]`. Example: QBreadcrumbsEl.test.js |
-| Testing color/text-color props | Search for `[(prop)color]` and `[(prop)text-color]`. Example: QBtn.test.js |
-| Speed up timers | Search for `useFakeTimers()` |
+| Need                           | Formula                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| Use Vue Router                 | Search for `getRouter`                                                             |
+| Testing Vue Router props       | Search for `[(prop)to]` or `[(prop)active-class]`. Example: QBreadcrumbsEl.test.js |
+| Testing color/text-color props | Search for `[(prop)color]` and `[(prop)text-color]`. Example: QBtn.test.js         |
+| Speed up timers                | Search for `useFakeTimers()`                                                       |
 
 ## Changing the Specs script code
 

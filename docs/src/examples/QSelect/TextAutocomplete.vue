@@ -16,9 +16,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -30,7 +28,11 @@
 import { ref } from 'vue'
 
 const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+  'Google',
+  'Facebook',
+  'Twitter',
+  'Apple',
+  'Oracle'
 ].reduce((acc, opt) => {
   for (let i = 1; i <= 5; i++) {
     acc.push(opt + ' ' + i)
@@ -39,7 +41,7 @@ const stringOptions = [
 }, [])
 
 export default {
-  setup () {
+  setup() {
     const model = ref(null)
     const options = ref(stringOptions)
 
@@ -47,14 +49,16 @@ export default {
       model,
       options,
 
-      filterFn (val, update, abort) {
+      filterFn(val, update, abort) {
         update(() => {
           const needle = val.toLocaleLowerCase()
-          options.value = stringOptions.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+          options.value = stringOptions.filter(
+            v => v.toLocaleLowerCase().indexOf(needle) > -1
+          )
         })
       },
 
-      setModel (val) {
+      setModel(val) {
         model.value = val
       }
     }

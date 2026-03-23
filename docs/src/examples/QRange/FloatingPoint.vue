@@ -30,7 +30,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       precision: ref({
         min: 0.2,

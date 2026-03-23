@@ -1,9 +1,5 @@
 import readAssociatedJsonFile from '../readAssociatedJsonFile.js'
-import {
-  testIndent,
-  getTypeTest,
-  getFunctionCallTest
-} from '../specs.utils.js'
+import { testIndent, getTypeTest, getFunctionCallTest } from '../specs.utils.js'
 
 const identifiers = {
   injection: {
@@ -14,14 +10,14 @@ const identifiers = {
   props: {
     categoryId: '[Props]',
     testIdToken: 'prop',
-    getTestId: name => `[(prop)${ name }]`,
+    getTestId: name => `[(prop)${name}]`,
     createTestFn: createPropTest
   },
 
   methods: {
     categoryId: '[Methods]',
     testIdToken: 'method',
-    getTestId: name => `[(method)${ name }]`,
+    getTestId: name => `[(method)${name}]`,
     createTestFn: createMethodTest
   }
 }
@@ -40,13 +36,13 @@ const autoInstalledPlugins = [
   'IconSet'
 ]
 
-function getInjectionTest ({ jsonEntry, json, ctx }) {
-  const ref = `wrapper.vm.${ jsonEntry }`
+function getInjectionTest({ jsonEntry, json, ctx }) {
+  const ref = `wrapper.vm.${jsonEntry}`
   const target = jsonEntry.substring(3) // strip '$q.'
 
-  if (json.props?.[ target ] !== void 0) {
+  if (json.props?.[target] !== void 0) {
     return getTypeTest({
-      jsonEntry: json.props[ target ],
+      jsonEntry: json.props[target],
       ref,
       indent: testIndent
     })
@@ -54,43 +50,38 @@ function getInjectionTest ({ jsonEntry, json, ctx }) {
 
   // we're sniffing... we might make a wrong assumption
   if (json.methods?.create !== void 0) {
-    return `expect(${ ctx.camelCaseName }.create).toBe(${ ref })`
+    return `expect(${ctx.camelCaseName}.create).toBe(${ref})`
   }
 
-  return `expect(${ ctx.camelCaseName }).toMatchObject(${ ref })`
+  return `expect(${ctx.camelCaseName}).toMatchObject(${ref})`
 }
 
-function createInjection ({ categoryId, jsonEntry, json, ctx }) {
+function createInjection({ categoryId, jsonEntry, json, ctx }) {
   const typeTest = getInjectionTest({ jsonEntry, json, ctx })
 
   return `
-  describe('${ categoryId }', () => {
+  describe('${categoryId}', () => {
     test('is injected into $q', () => {
       const wrapper = mountPlugin()
-      ${ typeTest }
+      ${typeTest}
     })
   })\n`
 }
 
-function getReactivePropTest ({ ref }) {
+function getReactivePropTest({ ref }) {
   return `\n
       test.todo('is reactive', () => {
         mountPlugin()
-        const val = clone(${ ref })
+        const val = clone(${ref})
 
         // TODO: trigger something to test reactivity
 
-        expect(${ ref }).not.toStrictEqual(val)
+        expect(${ref}).not.toStrictEqual(val)
       })`
 }
 
-function createPropTest ({
-  camelCaseName,
-  testId,
-  jsonEntry,
-  ctx
-}) {
-  const ref = `${ ctx.camelCaseName }.${ camelCaseName }`
+function createPropTest({ camelCaseName, testId, jsonEntry, ctx }) {
+  const ref = `${ctx.camelCaseName}.${camelCaseName}`
 
   const typeTest = getTypeTest({
     jsonEntry,
@@ -98,36 +89,30 @@ function createPropTest ({
     indent: testIndent
   })
 
-  const reactiveTest = jsonEntry.reactive === true
-    ? getReactivePropTest({ jsonEntry, ref })
-    : ''
+  const reactiveTest =
+    jsonEntry.reactive === true ? getReactivePropTest({ jsonEntry, ref }) : ''
 
   return `
-    describe('${ testId }', () => {
+    describe('${testId}', () => {
       test('is correct type', () => {
         mountPlugin()
-        ${ typeTest }
-      })${ reactiveTest }
+        ${typeTest}
+      })${reactiveTest}
     })\n`
 }
 
-function createMethodTest ({
-  camelCaseName,
-  testId,
-  jsonEntry,
-  ctx
-}) {
+function createMethodTest({ camelCaseName, testId, jsonEntry, ctx }) {
   const callTest = getFunctionCallTest({
     jsonEntry: { ...jsonEntry, type: 'Function' },
-    ref: `${ ctx.camelCaseName }.${ camelCaseName }`,
+    ref: `${ctx.camelCaseName}.${camelCaseName}`,
     indent: testIndent
   })
 
   return `
-    describe('${ testId }', () => {
+    describe('${testId}', () => {
       test.todo('should be callable', () => {
         mountPlugin()
-        ${ callTest }
+        ${callTest}
 
         // TODO: test the effect
       })
@@ -138,50 +123,46 @@ export default {
   identifiers,
   getJson: readAssociatedJsonFile,
   getFileHeader: ({ ctx, json }) => {
-    const hasQuasarInstallOverride = (
+    const hasQuasarInstallOverride =
       autoInstalledPlugins.includes(ctx.camelCaseName) === false
-    )
 
     const acc = [
-      'import { describe, test, expect } from \'vitest\'',
-      `import { mount${ hasQuasarInstallOverride ? ', config' : '' } } from '@vue/test-utils'`
+      "import { describe, test, expect } from 'vitest'",
+      `import { mount${hasQuasarInstallOverride ? ', config' : ''} } from '@vue/test-utils'`
     ]
 
     if (
-      Object.keys(json.props || [])
-        .some(prop => json.props[ prop ].reactive === true)
-    ) {
-      acc.push(
-        'import { clone } from \'quasar\''
+      Object.keys(json.props || []).some(
+        prop => json.props[prop].reactive === true
       )
+    ) {
+      acc.push("import { clone } from 'quasar'")
     }
 
     acc.push(
       '',
-      `import ${ ctx.camelCaseName } from './${ ctx.localName }'`,
+      `import ${ctx.camelCaseName} from './${ctx.localName}'`,
       '',
-      'const mountPlugin = () => mount({ template: \'<div />\' })'
+      "const mountPlugin = () => mount({ template: '<div />' })"
     )
 
     if (hasQuasarInstallOverride === true) {
       acc.push(
         '',
         '// We override Quasar install so it installs this plugin',
-        'const quasarVuePlugin = config.global.plugins.find(entry => entry.name === \'Quasar\')',
+        "const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')",
         'const { install } = quasarVuePlugin',
-        `quasarVuePlugin.install = app => install(app, { plugins: { ${ ctx.camelCaseName } } })`
+        `quasarVuePlugin.install = app => install(app, { plugins: { ${ctx.camelCaseName} } })`
       )
     }
 
     return acc.join('\n')
   },
-  getGenericTest: ({ ctx }) => {
-    return `
+  getGenericTest: () => `
   describe('[Generic]', () => {
     test('should not throw error when installed', () => {
       const wrapper = mountPlugin()
       expect(wrapper).toBeDefined() // this is here for lint only
     })
   })\n`
-  }
 }

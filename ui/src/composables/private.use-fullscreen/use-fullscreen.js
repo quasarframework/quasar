@@ -1,4 +1,11 @@
-import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import {
+  ref,
+  watch,
+  onBeforeMount,
+  onMounted,
+  onBeforeUnmount,
+  getCurrentInstance
+} from 'vue'
 
 import History from '../../plugins/private.history/History.js'
 import { vmHasRouter } from '../../utils/private.vm/vm.js'
@@ -10,40 +17,49 @@ export const useFullscreenProps = {
   noRouteFullscreenExit: Boolean
 }
 
-export const useFullscreenEmits = [ 'update:fullscreen', 'fullscreen' ]
+export const useFullscreenEmits = ['update:fullscreen', 'fullscreen']
 
-export default function () {
+export default function useFullscreen() {
   const vm = getCurrentInstance()
   const { props, emit, proxy } = vm
 
   let historyEntry, fullscreenFillerNode, container
   const inFullscreen = ref(false)
 
-  vmHasRouter(vm) === true && watch(() => proxy.$route.fullPath, () => {
-    props.noRouteFullscreenExit !== true && exitFullscreen()
-  })
+  if (vmHasRouter(vm) === true) {
+    watch(
+      () => proxy.$route.fullPath,
+      () => {
+        if (props.noRouteFullscreenExit !== true) {
+          exitFullscreen()
+        }
+      }
+    )
+  }
 
-  watch(() => props.fullscreen, v => {
-    if (inFullscreen.value !== v) {
-      toggleFullscreen()
+  watch(
+    () => props.fullscreen,
+    v => {
+      if (inFullscreen.value !== v) {
+        toggleFullscreen()
+      }
     }
-  })
+  )
 
   watch(inFullscreen, v => {
     emit('update:fullscreen', v)
     emit('fullscreen', v)
   })
 
-  function toggleFullscreen () {
+  function toggleFullscreen() {
     if (inFullscreen.value === true) {
       exitFullscreen()
-    }
-    else {
+    } else {
       setFullscreen()
     }
   }
 
-  function setFullscreen () {
+  function setFullscreen() {
     if (inFullscreen.value === true) return
 
     inFullscreen.value = true
@@ -62,7 +78,7 @@ export default function () {
     History.add(historyEntry)
   }
 
-  function exitFullscreen () {
+  function exitFullscreen() {
     if (inFullscreen.value !== true) return
 
     if (historyEntry !== void 0) {
@@ -79,7 +95,9 @@ export default function () {
       document.body.classList.remove('q-body--fullscreen-mixin')
 
       if (proxy.$el.scrollIntoView !== void 0) {
-        setTimeout(() => { proxy.$el.scrollIntoView() })
+        setTimeout(() => {
+          proxy.$el.scrollIntoView()
+        })
       }
     }
   }
@@ -89,7 +107,7 @@ export default function () {
   })
 
   onMounted(() => {
-    props.fullscreen === true && setFullscreen()
+    if (props.fullscreen === true) setFullscreen()
   })
 
   onBeforeUnmount(exitFullscreen)

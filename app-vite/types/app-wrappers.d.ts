@@ -19,17 +19,11 @@ import type {
 
 export function defineConfig(callback: ConfigureCallback): ConfigureCallback;
 
-export function defineBoot(
-  callback: BootCallback
-): BootCallback;
+export function defineBoot(callback: BootCallback): BootCallback;
 
-export function definePreFetch(
-  callback: PrefetchCallback
-): PrefetchCallback;
+export function definePreFetch(callback: PrefetchCallback): PrefetchCallback;
 
-export function defineRouter(
-  callback: RouteCallback
-): RouteCallback;
+export function defineRouter(callback: RouteCallback): RouteCallback;
 
 export function defineStore(callback: StoreCallback): StoreCallback;
 
@@ -37,22 +31,15 @@ export function defineSsrMiddleware(
   callback: SsrMiddlewareCallback
 ): SsrMiddlewareCallback;
 
-export function defineSsrCreate(
-  callback: SsrCreateCallback
-): SsrCreateCallback;
+export function defineSsrCreate(callback: SsrCreateCallback): SsrCreateCallback;
 
 export function defineSsrInjectDevMiddleware(
-  callback: SsrInjectDevMiddlewareCallback,
+  callback: SsrInjectDevMiddlewareCallback
 ): SsrInjectDevMiddlewareCallback;
 
+export function defineSsrListen(callback: SsrListenCallback): SsrListenCallback;
 
-export function defineSsrListen(
-  callback: SsrListenCallback
-): SsrListenCallback;
-
-export function defineSsrClose(
-  callback: SsrCloseCallback
-): SsrCloseCallback;
+export function defineSsrClose(callback: SsrCloseCallback): SsrCloseCallback;
 
 export function defineSsrServeStaticContent(
   callback: SsrServeStaticContentCallback

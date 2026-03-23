@@ -1,5 +1,3 @@
 import QColor from './QColor.js'
 
-export {
-  QColor
-}
+export { QColor }

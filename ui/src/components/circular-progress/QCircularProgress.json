@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private.use-size/use-size" ],
+  "mixins": ["composables/private.use-size/use-size"],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/circular-progress"
@@ -45,7 +45,7 @@
     "font-size": {
       "type": "String",
       "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
-      "examples": [ "'1em'", "'16px'", "'2rem'" ],
+      "examples": ["'1em'", "'16px'", "'2rem'"],
       "category": "style"
     },
 

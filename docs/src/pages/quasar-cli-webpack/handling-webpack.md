@@ -4,9 +4,11 @@ desc: (@quasar/app-webpack) How to manage Webpack in a Quasar app.
 related:
   - /quasar-cli-webpack/quasar-config-file
 ---
+
 The build system uses Webpack to create your website/app. Don't worry if you aren't acquainted with Webpack. Out of the box, you won't need to configure it because it already has everything set up.
 
 ## Usage with quasar.config file
+
 For cases where you need to tweak the default Webpack config you can do so by editing the `/quasar.config` file and configuring `build > extendWebpack (cfg)` method or `build > chainWebpack (chain)`.
 
 Example of adding ESLint loader to Webpack (assuming you've installed it):
@@ -54,6 +56,7 @@ The two examples above are equivalent. Do NOT use both methods to tamper for the
 :::
 
 ## Inspecting Webpack Config
+
 Quasar CLI offers a useful command for this:
 
 ```bash
@@ -80,20 +83,21 @@ $ quasar inspect -h
 ```
 
 ## Webpack Aliases
+
 Quasar comes with a bunch of useful Webpack aliases preconfigured. You can use them anywhere in your project and webpack will resolve the correct path.
 
-| Alias | Resolves to |
-| --- | --- |
-| `src` | /src |
-| `app` | / |
-| `components` | /src/components |
-| `layouts` | /src/layouts |
-| `pages` | /src/pages |
-| `assets` | /src/assets |
-| `boot` | /src/boot |
-| `stores` | /src/stores (Pinia stores) |
+| Alias        | Resolves to                |
+| ------------ | -------------------------- |
+| `src`        | /src                       |
+| `app`        | /                          |
+| `components` | /src/components            |
+| `layouts`    | /src/layouts               |
+| `pages`      | /src/pages                 |
+| `assets`     | /src/assets                |
+| `boot`       | /src/boot                  |
+| `stores`     | /src/stores (Pinia stores) |
 
-Also if you configure to build with the Vue compiler version (quasar.config file > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
+Also if you configure to build with the Vue compiler version (quasar.config file > build > vueCompiler: true), `vue$` resolves to `vue/dist/vue.esm.js`.
 
 ### Adding Webpack aliases
 
@@ -103,15 +107,15 @@ To add your own alias you can extend the webpack config and merge it with the ex
 import { defineConfig } from '#q-app/wrappers'
 import { fileURLToPath } from 'node:url'
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     build: {
-      extendWebpack (cfg, { isServer, isClient }) {
+      extendWebpack(cfg, { isServer, isClient }) {
         cfg.resolve.alias = {
           ...cfg.resolve.alias, // This adds the existing alias
 
           // Add your own alias like this
-          myalias: fileURLToPath(new URL('./src/somefolder', import.meta.url)),
+          myalias: fileURLToPath(new URL('./src/somefolder', import.meta.url))
         }
       }
     }
@@ -125,12 +129,14 @@ Equivalent with chainWebpack():
 import { defineConfig } from '#q-app/wrappers'
 import { fileURLToPath } from 'node:url'
 
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     build: {
-      chainWebpack (chain, { isServer, isClient }) {
-        chain.resolve.alias
-          .set('myalias', fileURLToPath(new URL('./src/somefolder', import.meta.url)))
+      chainWebpack(chain, { isServer, isClient }) {
+        chain.resolve.alias.set(
+          'myalias',
+          fileURLToPath(new URL('./src/somefolder', import.meta.url))
+        )
       }
     }
   }
@@ -154,9 +160,11 @@ build: {
 ```
 
 ## Webpack loaders
+
 The build system uses Webpack, so it relies on using webpack loaders to handle different types of files (js, css, styl, scss, json, and so on). By default, the most used loaders are provided by default.
 
 ### Installing loaders
+
 Let's take an example. You want to be able to import `.json` files. **Out of the box, Quasar supplies json support so you don't actually need to follow these steps, but for the sake of demonstrating how to add a loader, we'll pretend Quasar doesn't offer it.**
 
 So, you need a loader for it. You search Google to see what webpack loader you need. In this case, it's "json-loader". We first install it:
@@ -207,6 +215,7 @@ Styles in `*.vue` files (and all other style files) are piped through PostCSS by
 By default, PostCSS is configured to use Autoprefixer. Take a look at `/postcss.config.cjs` where you can tweak it if you need to.
 
 ### Pug
+
 First, you need to install some dependencies:
 
 ```tabs
@@ -247,14 +256,13 @@ build: {
 ```
 
 ### Coffeescript
+
 If you are using Coffeescript then you need to EITHER disable ESLint OR tell ESLint which Vue components are using Coffeescript.
 
 Note that `vue-loader` uses `lang="coffee"` to identify components which are using Coffeescript, but `lang="coffee"` is not recognizable for ESLint. Fortunately, ESLint (following traditional HTML) uses `type="xxx"` to identify the type of scripts. As long as a `<script>` tag has any `type` other than `javascript`, ESLint would mark the script as non-javascript, and skips linting it. Coffeescript's convention is to use `type="text/coffeescript"` to identify itself. Therefore, in your Vue components which are using Coffeescript, using both `lang` and `type` to avoid ESLint warnings:
 
 ```html
-<template>
-  ...
-</template>
+<template> ... </template>
 <script lang="coffee" type="text/coffeescript">
   ...
 </script>

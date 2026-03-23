@@ -7,7 +7,11 @@
     separator
     v-slot="{ item, index }"
   >
-    <async-component :key="index" :index="item.index" :sent="item.sent"></async-component>
+    <async-component
+      :key="index"
+      :index="item.index"
+      :sent="item.sent"
+    ></async-component>
   </q-virtual-scroll>
 </template>
 
@@ -21,21 +25,27 @@ const AsyncComponent = defineComponent({
     sent: Boolean
   },
 
-  setup (props) {
+  setup(props) {
     const asyncContent = ref(null)
 
     let timer
 
     onBeforeMount(() => {
-      timer = setTimeout(() => {
-        asyncContent.value = {
-          sent: props.sent,
-          name: props.sent === true ? 'me' : 'Someone else',
-          avatar: props.sent === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
-          stamp: `${Math.floor(props.index / 1000)} minutes ago`,
-          text: [`Message with id ${props.index}`]
-        }
-      }, 300 + Math.random() * 2000)
+      timer = setTimeout(
+        () => {
+          asyncContent.value = {
+            sent: props.sent,
+            name: props.sent === true ? 'me' : 'Someone else',
+            avatar:
+              props.sent === true
+                ? 'https://cdn.quasar.dev/img/avatar4.jpg'
+                : 'https://cdn.quasar.dev/img/avatar3.jpg',
+            stamp: `${Math.floor(props.index / 1000)} minutes ago`,
+            text: [`Message with id ${props.index}`]
+          }
+        },
+        300 + Math.random() * 2000
+      )
     })
 
     onBeforeUnmount(() => {
@@ -61,42 +71,48 @@ const AsyncComponent = defineComponent({
         })
       ]
 
-      content[ props.sent === true ? 'push' : 'unshift' ](
+      content[props.sent === true ? 'push' : 'unshift'](
         h(QSkeleton, {
           animation: 'none',
           type: 'QAvatar'
         })
       )
 
-      return h('div', {
-        class: `row no-wrap items-center q-mx-sm justify-${props.sent === true ? 'end' : 'start'}`,
-        style: 'height: 78px',
-        key: props.index
-      }, content)
+      return h(
+        'div',
+        {
+          class: `row no-wrap items-center q-mx-sm justify-${props.sent === true ? 'end' : 'start'}`,
+          style: 'height: 78px',
+          key: props.index
+        },
+        content
+      )
     }
   }
 })
 
 const size = ref(100000)
-const allItems = Array(size.value).fill(null).map((_, index) => ({
-  index,
-  sent: Math.random() > 0.5
-}))
+const allItems = Array(size.value)
+  .fill(null)
+  .map((_, index) => ({
+    index,
+    sent: Math.random() > 0.5
+  }))
 
 export default {
   components: {
     AsyncComponent
   },
 
-  setup () {
+  setup() {
     return {
       size,
 
-      getItems (from, size) {
+      getItems(from, curSize) {
         const items = []
 
-        for (let i = 0; i < size; i++) {
-          items.push(allItems[ from + i ])
+        for (let i = 0; i < curSize; i++) {
+          items.push(allItems[from + i])
         }
 
         return Object.freeze(items)

@@ -3,7 +3,9 @@ import { computed } from 'vue'
 
 import {
   useFormProps,
-  useFormAttrs, useFormInject, useFormInputNameAttr
+  useFormAttrs,
+  useFormInject,
+  useFormInputNameAttr
 } from './private.use-form.js'
 
 describe('[useForm API]', () => {
@@ -42,13 +44,13 @@ describe('[useForm API]', () => {
 
         expect(acc).toHaveLength(2)
 
-        expect(acc[ 0 ].type).toBe('input')
-        expect(Object.keys(acc[ 0 ].props)).toHaveLength(1)
-        expect(acc[ 0 ].props.class).toBe('hidden')
+        expect(acc[0].type).toBe('input')
+        expect(Object.keys(acc[0].props)).toHaveLength(1)
+        expect(acc[0].props.class).toBe('hidden')
 
-        expect(acc[ 1 ].type).toBe('input')
-        expect(Object.keys(acc[ 1 ].props)).toHaveLength(1)
-        expect(acc[ 1 ].props.class).toBe('hidden MyClassName')
+        expect(acc[1].type).toBe('input')
+        expect(Object.keys(acc[1].props)).toHaveLength(1)
+        expect(acc[1].props.class).toBe('hidden MyClassName')
       })
 
       test('useFormInject(formAttrs)', () => {
@@ -65,15 +67,15 @@ describe('[useForm API]', () => {
 
         expect(acc).toHaveLength(2)
 
-        expect(acc[ 0 ].type).toBe('input')
-        expect(Object.keys(acc[ 0 ].props)).toHaveLength(2)
-        expect(acc[ 0 ].props.class).toBe('hidden')
-        expect(acc[ 0 ].props.myAttr).toBe('MyAttrValue')
+        expect(acc[0].type).toBe('input')
+        expect(Object.keys(acc[0].props)).toHaveLength(2)
+        expect(acc[0].props.class).toBe('hidden')
+        expect(acc[0].props.myAttr).toBe('MyAttrValue')
 
-        expect(acc[ 1 ].type).toBe('input')
-        expect(Object.keys(acc[ 1 ].props)).toHaveLength(2)
-        expect(acc[ 1 ].props.class).toBe('hidden MyClassName')
-        expect(acc[ 1 ].props.myAttr).toBe('MyAttrValue')
+        expect(acc[1].type).toBe('input')
+        expect(Object.keys(acc[1].props)).toHaveLength(2)
+        expect(acc[1].props.class).toBe('hidden MyClassName')
+        expect(acc[1].props.myAttr).toBe('MyAttrValue')
       })
     })
 

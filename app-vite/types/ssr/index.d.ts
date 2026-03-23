@@ -9,13 +9,12 @@ export {
   RenderVueParams,
   RenderError,
   RenderErrorParams,
-
   SsrMiddlewareCallback,
   SsrCreateCallback,
   SsrInjectDevMiddlewareCallback,
   SsrListenCallback,
   SsrCloseCallback,
   SsrServeStaticContentCallback,
-  SsrRenderPreloadTagCallback,
-} from './ssrmiddleware';
+  SsrRenderPreloadTagCallback
+} from "./ssrmiddleware";
 export { QSsrContext };

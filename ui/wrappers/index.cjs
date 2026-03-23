@@ -15,27 +15,27 @@
  * Use the new wrappers from #q-app/wrappers
  *******************************************************/
 
-module.exports.boot = function (callback) {
+module.exports.boot = function boot(callback) {
   return callback
 }
 
-module.exports.ssrMiddleware = function (callback) {
+module.exports.ssrMiddleware = function ssrMiddleware(callback) {
   return callback
 }
 
-module.exports.configure = function (callback) {
+module.exports.configure = function configure(callback) {
   return callback
 }
 
-module.exports.preFetch = function (callback) {
+module.exports.preFetch = function preFetch(callback) {
   return callback
 }
 
-module.exports.route = function (callback) {
+module.exports.route = function route(callback) {
   return callback
 }
 
-module.exports.store = function (callback) {
+module.exports.store = function store(callback) {
   return callback
 }
 
@@ -43,7 +43,7 @@ module.exports.store = function (callback) {
  * Below only for @quasar/app-webpack v3
  */
 
-module.exports.ssrProductionExport = function (callback) {
+module.exports.ssrProductionExport = function ssrProductionExport(callback) {
   return callback
 }
 
@@ -51,23 +51,25 @@ module.exports.ssrProductionExport = function (callback) {
  * Below only for @quasar/app-vite & @quasar/app-webpack v4+
  */
 
-module.exports.ssrCreate = function (callback) {
+module.exports.ssrCreate = function ssrCreate(callback) {
   return callback
 }
 
-module.exports.ssrListen = function (callback) {
+module.exports.ssrListen = function ssrListen(callback) {
   return callback
 }
 
-module.exports.ssrClose = function (callback) {
+module.exports.ssrClose = function ssrClose(callback) {
   return callback
 }
 
-module.exports.ssrServeStaticContent = function (callback) {
+module.exports.ssrServeStaticContent = function ssrServeStaticContent(
+  callback
+) {
   return callback
 }
 
-module.exports.ssrRenderPreloadTag = function (callback) {
+module.exports.ssrRenderPreloadTag = function ssrRenderPreloadTag(callback) {
   return callback
 }
 
@@ -75,14 +77,14 @@ module.exports.ssrRenderPreloadTag = function (callback) {
  * Below only for legacy @quasar/app-vite v1 & @quasar/app-webpack v3
  */
 
-module.exports.bexBackground = function (callback) {
+module.exports.bexBackground = function bexBackground(callback) {
   return callback
 }
 
-module.exports.bexContent = function (callback) {
+module.exports.bexContent = function bexContent(callback) {
   return callback
 }
 
-module.exports.bexDom = function (callback) {
+module.exports.bexDom = function bexDom(callback) {
   return callback
 }

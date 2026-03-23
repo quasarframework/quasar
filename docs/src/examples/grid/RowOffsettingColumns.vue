@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md example-row-offsetting-columns">
-
     <div class="row">
       <div class="col-md-4">.col-md-4</div>
       <div class="col-md-4 offset-md-4">.col-md-4 .offset-md-4</div>
@@ -14,7 +13,6 @@
     <div class="row">
       <div class="col-md-6 offset-md-3">.col-md-6 .offset-md-3</div>
     </div>
-
   </div>
 </template>
 

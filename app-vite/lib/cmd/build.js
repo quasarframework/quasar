@@ -16,8 +16,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: [ 'h', 'd', 'u', 'i' ],
-  string: [ 'm', 'T', 'P' ],
+  boolean: ['h', 'd', 'u', 'i'],
+  string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
   }
@@ -100,10 +100,7 @@ const path = await import('node:path')
 const { readFileSync } = await import('node:fs')
 
 console.log(
-  readFileSync(
-    new URL('../../assets/logo.art', import.meta.url),
-    'utf8'
-  )
+  readFileSync(new URL('../../assets/logo.art', import.meta.url), 'utf8')
 )
 
 const { getCtx } = await import('../utils/get-ctx.js')
@@ -123,7 +120,9 @@ await displayBanner({ argv, ctx, cmd: 'build' })
 const { log, fatal } = await import('../utils/logger.js')
 
 // install mode if it's missing
-const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+const { addMode } = await import(
+  `../modes/${argv.mode}/${argv.mode}-installation.js`
+)
 await addMode({ ctx, silent: true, target: argv.target })
 
 const { QuasarConfigFile } = await import('../quasar-config-file.js')
@@ -137,7 +136,9 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-const { QuasarModeBuilder } = await import(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
+const { QuasarModeBuilder } = await import(
+  `../modes/${argv.mode}/${argv.mode}-builder.js`
+)
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 
 const { default: fse } = await import('fs-extra')
@@ -157,11 +158,12 @@ if (typeof quasarConf.build.beforeBuild === 'function') {
 
 // run possible beforeBuild hooks
 await ctx.appExt.runAppExtensionHook('beforeBuild', async hook => {
-  log(`Extension(${ hook.api.extId }): Running beforeBuild hook...`)
+  log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
   await hook.fn(hook.api, { quasarConf })
 })
 
-appBuilder.build()
+appBuilder
+  .build()
   .catch(err => {
     console.error(err)
     fatal('App build failed (check the log above)', 'FAIL')
@@ -201,7 +203,7 @@ appBuilder.build()
 
     // run possible beforeBuild hooks
     await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
-      log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
+      log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
       await hook.fn(hook.api, { quasarConf })
     })
 
@@ -218,7 +220,7 @@ appBuilder.build()
 
       // run possible onPublish hooks
       await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
-        log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
+        log(`Extension(${hook.api.extId}): Running onPublish hook...`)
         await hook.fn(hook.api, opts)
       })
     }

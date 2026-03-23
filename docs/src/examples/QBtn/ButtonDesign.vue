@@ -3,22 +3,22 @@
     <q-btn flat color="primary" label="Flat" />
     <q-btn flat rounded color="primary" label="Flat Rounded" />
     <q-btn flat round color="primary" icon="card_giftcard" />
-    <br>
+    <br />
     <q-btn outline color="primary" label="Outline" />
     <q-btn outline rounded color="primary" label="Outline Rounded" />
     <q-btn outline round color="primary" icon="card_giftcard" />
-    <br>
+    <br />
     <q-btn push color="primary" label="Push" />
     <q-btn push color="primary" round icon="card_giftcard" />
     <q-btn push color="white" text-color="primary" label="Push" />
     <q-btn push color="white" text-color="primary" round icon="card_giftcard" />
-    <br>
+    <br />
     <q-btn unelevated color="primary" label="Unelevated" />
     <q-btn unelevated rounded color="primary" label="Unelevated Rounded" />
     <q-btn unelevated round color="primary" icon="card_giftcard" />
-    <br>
+    <br />
     <q-btn no-caps color="primary" label="No caps" />
-    <br>
+    <br />
     <q-btn class="glossy" color="teal" label="Glossy" />
     <q-btn class="glossy" rounded color="deep-orange" label="Glossy Rounded" />
     <q-btn class="glossy" round color="primary" icon="card_giftcard" />

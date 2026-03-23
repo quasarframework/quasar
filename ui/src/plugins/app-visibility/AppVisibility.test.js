@@ -6,7 +6,9 @@ import AppVisibility from './AppVisibility.js'
 const mountPlugin = () => mount({ template: '<div />' })
 
 // We override Quasar install so it installs this plugin
-const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')
+const quasarVuePlugin = config.global.plugins.find(
+  entry => entry.name === 'Quasar'
+)
 const { install } = quasarVuePlugin
 quasarVuePlugin.install = app => install(app, { plugins: { AppVisibility } })
 

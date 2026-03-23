@@ -7,9 +7,7 @@
       <div v-if="info" class="custom-info">
         <pre>{{ info }}</pre>
       </div>
-      <div v-else class="text-center">
-        Click/touch and hold.
-      </div>
+      <div v-else class="text-center"> Click/touch and hold. </div>
     </q-card>
   </div>
 </template>
@@ -18,12 +16,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const info = ref(null)
 
     return {
       info,
-      handleRepeat ({ evt, ...newInfo }) {
+      handleRepeat({ evt, ...newInfo }) {
         info.value = newInfo
 
         // native Javascript event

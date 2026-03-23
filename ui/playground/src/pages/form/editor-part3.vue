@@ -1,6 +1,7 @@
 <template>
   <div class="q-layout-padding">
-    Enter some text then for desktops, press Ctrl-Enter and for mobile click "Test" - if caret doesn't disappear it's good
+    Enter some text then for desktops, press Ctrl-Enter and for mobile click
+    "Test" - if caret doesn't disappear it's good
     <q-editor
       ref="editor"
       v-model="editorValue"
@@ -16,39 +17,35 @@
           handler: testCaret
         }
       }"
-      :toolbar="[
-        ['bold', 'italic', 'strike', 'underline'],
-        ['test']
-      ]"
+      :toolbar="[['bold', 'italic', 'strike', 'underline'], ['test']]"
     ></q-editor>
-
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       editorValue: ''
     }
   },
   methods: {
-    handleEditorEnter (e) {
+    handleEditorEnter(e) {
       if (e.ctrlKey) {
         console.log('OnEnter Editor value:', this.editorValue)
         this.editorValue = ''
       }
     },
-    logFocus (c) {
+    logFocus(c) {
       console.log(c, 'focus')
     },
-    logBlur (c) {
+    logBlur(c) {
       console.log(c, 'blur')
     },
-    logInput (c) {
+    logInput(c) {
       console.log(c, 'input')
     },
-    testCaret (e) {
+    testCaret(e) {
       console.log('testCaret Editor value:', this.editorValue)
       this.editorValue = ''
     }

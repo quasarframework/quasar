@@ -2,9 +2,7 @@
   <h6>Color Use (Sass)</h6>
 
   <div class="row justify-center">
-    <div class="my-colored-div rounded-borders">
-      &nbsp;
-    </div>
+    <div class="my-colored-div rounded-borders"> &nbsp; </div>
   </div>
 </template>
 

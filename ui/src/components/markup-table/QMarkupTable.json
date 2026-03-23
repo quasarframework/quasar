@@ -28,8 +28,8 @@
       "type": "String",
       "desc": "Use a separator/border between rows, columns or all cells",
       "default": "'horizontal'",
-      "values": [ "'horizontal'", "'vertical'", "'cell'", "'none'" ],
-      "examples": [ "'cell'" ],
+      "values": ["'horizontal'", "'vertical'", "'cell'", "'none'"],
+      "examples": ["'cell'"],
       "category": "content"
     },
 

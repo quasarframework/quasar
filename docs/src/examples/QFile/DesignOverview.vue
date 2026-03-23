@@ -9,7 +9,11 @@
 
       <q-file standout v-model="model" label="Standout" />
 
-      <q-file standout="bg-teal text-white" v-model="model" label="Custom standout" />
+      <q-file
+        standout="bg-teal text-white"
+        v-model="model"
+        label="Custom standout"
+      />
 
       <q-file borderless v-model="model" label="Borderless" />
 
@@ -32,7 +36,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(null)
     }

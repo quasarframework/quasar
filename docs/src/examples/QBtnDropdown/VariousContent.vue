@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown
-      class="glossy"
-      color="purple"
-      label="Account Settings"
-    >
+    <q-btn-dropdown class="glossy" color="purple" label="Account Settings">
       <div class="row no-wrap q-pa-md">
         <div class="column">
           <div class="text-h6 q-mb-md">Settings</div>
@@ -16,18 +12,12 @@
 
         <div class="column items-center">
           <q-avatar size="72px">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
 
           <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
 
-          <q-btn
-            color="primary"
-            label="Logout"
-            push
-            size="sm"
-            v-close-popup
-          />
+          <q-btn color="primary" label="Logout" push size="sm" v-close-popup />
         </div>
       </div>
     </q-btn-dropdown>
@@ -38,7 +28,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       mobileData: ref(false),
       bluetooth: ref(false)

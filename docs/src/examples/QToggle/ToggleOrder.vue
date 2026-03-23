@@ -1,12 +1,33 @@
 <template>
   <div class="q-pa-md">
-    <q-btn class="q-mb-md" color="primary" label="Reset models" @click="resetModels" />
+    <q-btn
+      class="q-mb-md"
+      color="primary"
+      label="Reset models"
+      @click="resetModels"
+    />
 
     <div class="q-gutter-sm">
       <q-toggle v-model="teal" label="'tf' order" color="teal" />
-      <q-toggle toggle-order="ft" v-model="orange" label="'ft' order" color="orange" />
-      <q-toggle toggle-indeterminate v-model="red" label="'tf' order + toggle-indeterminate" color="red" />
-      <q-toggle toggle-indeterminate toggle-order="ft" v-model="cyan" label="'ft' order + toggle-indeterminate" color="cyan" />
+      <q-toggle
+        toggle-order="ft"
+        v-model="orange"
+        label="'ft' order"
+        color="orange"
+      />
+      <q-toggle
+        toggle-indeterminate
+        v-model="red"
+        label="'tf' order + toggle-indeterminate"
+        color="red"
+      />
+      <q-toggle
+        toggle-indeterminate
+        toggle-order="ft"
+        v-model="cyan"
+        label="'ft' order + toggle-indeterminate"
+        color="cyan"
+      />
     </div>
   </div>
 </template>
@@ -15,7 +36,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const teal = ref(null)
     const orange = ref(null)
     const red = ref(true)
@@ -27,7 +48,7 @@ export default {
       red,
       cyan,
 
-      resetModels () {
+      resetModels() {
         teal.value = null
         orange.value = null
         red.value = true

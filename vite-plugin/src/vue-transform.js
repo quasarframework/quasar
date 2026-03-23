@@ -2,10 +2,14 @@ import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
 
 import { quasarPath } from './quasar-path.js'
-import { mapQuasarImports, removeQuasarImports, importTransformation } from './js-transform.js'
+import {
+  mapQuasarImports,
+  removeQuasarImports,
+  importTransformation
+} from './js-transform.js'
 
 let transformState
-function useTransformState () {
+function useTransformState() {
   if (transformState !== void 0) {
     return transformState
   }
@@ -15,12 +19,24 @@ function useTransformState () {
   )
 
   const compRegex = {
-    kebab: new RegExp(`_resolveComponent\\("${ autoImportData.regex.kebabComponents }"\\)`, 'g'),
-    pascal: new RegExp(`_resolveComponent\\("${ autoImportData.regex.pascalComponents }"\\)`, 'g'),
-    combined: new RegExp(`_resolveComponent\\("${ autoImportData.regex.components }"\\)`, 'g')
+    kebab: new RegExp(
+      `_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`,
+      'g'
+    ),
+    pascal: new RegExp(
+      `_resolveComponent\\("${autoImportData.regex.pascalComponents}"\\)`,
+      'g'
+    ),
+    combined: new RegExp(
+      `_resolveComponent\\("${autoImportData.regex.components}"\\)`,
+      'g'
+    )
   }
 
-  const dirRegex = new RegExp(`_resolveDirective\\("${ autoImportData.regex.directives.replace(/v-/g, '') }"\\)`, 'g')
+  const dirRegex = new RegExp(
+    `_resolveDirective\\("${autoImportData.regex.directives.replace(/v-/g, '')}"\\)`,
+    'g'
+  )
 
   transformState = {
     autoImportData,
@@ -32,7 +48,7 @@ function useTransformState () {
 
 const lengthSortFn = (a, b) => b.length - a.length
 
-export function vueTransform (content, autoImportComponentCase, useTreeshaking) {
+export function vueTransform(content, autoImportComponentCase, useTreeshaking) {
   const { autoImportData, compRegex, dirRegex } = useTransformState()
 
   const importSet = new Set()
@@ -42,36 +58,35 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
   const dirList = []
 
   const reverseMap = {}
-  const jsImportTransformed = useTreeshaking === true
-    ? mapQuasarImports(content, importMap)
-    : removeQuasarImports(content, importMap, importSet, reverseMap)
+  const jsImportTransformed =
+    useTreeshaking === true
+      ? mapQuasarImports(content, importMap)
+      : removeQuasarImports(content, importMap, importSet, reverseMap)
 
   let code = jsImportTransformed
-    .replace(compRegex[ autoImportComponentCase ], (_, match) => {
-      const name = autoImportData.importName[ match ]
+    .replace(compRegex[autoImportComponentCase], (_, match) => {
+      const name = autoImportData.importName[match]
       const reverseName = match.replace(/-/g, '_')
 
-      if (importMap[ name ] === void 0) {
+      if (importMap[name] === void 0) {
         importSet.add(name)
-        reverseMap[ reverseName ] = name
-      }
-      else {
-        reverseMap[ reverseName ] = importMap[ name ]
+        reverseMap[reverseName] = name
+      } else {
+        reverseMap[reverseName] = importMap[name]
       }
 
       compList.push(reverseName)
       return ''
     })
     .replace(dirRegex, (_, match) => {
-      const name = autoImportData.importName[ 'v-' + match ]
+      const name = autoImportData.importName['v-' + match]
       const reverseName = match.replace(/-/g, '_')
 
-      if (importMap[ name ] === void 0) {
+      if (importMap[name] === void 0) {
         importSet.add(name)
-        reverseMap[ reverseName ] = name
-      }
-      else {
-        reverseMap[ reverseName ] = importMap[ name ]
+        reverseMap[reverseName] = name
+      } else {
+        reverseMap[reverseName] = importMap[name]
       }
 
       dirList.push(reverseName)
@@ -81,25 +96,34 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
   if (compList.length !== 0) {
     const list = compList.sort(lengthSortFn).join('|')
     code = code
-      .replace(new RegExp(`const _component_(${ list }) = `, 'g'), '')
-      .replace(new RegExp(`_component_(${ list })`, 'g'), (_, match) => reverseMap[ match ])
+      .replace(new RegExp(`const _component_(${list}) = `, 'g'), '')
+      .replace(
+        new RegExp(`_component_(${list})`, 'g'),
+        (_, match) => reverseMap[match]
+      )
   }
 
   if (dirList.length !== 0) {
     const list = dirList.sort(lengthSortFn).join('|')
     code = code
-      .replace(new RegExp(`const _directive_(${ list }) = `, 'g'), '')
-      .replace(new RegExp(`_directive_(${ list })`, 'g'), (_, match) => reverseMap[ match ])
+      .replace(new RegExp(`const _directive_(${list}) = `, 'g'), '')
+      .replace(
+        new RegExp(`_directive_(${list})`, 'g'),
+        (_, match) => reverseMap[match]
+      )
   }
 
   if (importSet.size === 0) {
     return code
   }
 
-  const importList = [ ...importSet ]
-  const codePrefix = useTreeshaking === true
-    ? importList.map(name => `import ${ name } from '${ importTransformation(name) }'`).join(';')
-    : `import {${ importList.join(',') }} from 'quasar'`
+  const importList = [...importSet]
+  const codePrefix =
+    useTreeshaking === true
+      ? importList
+          .map(name => `import ${name} from '${importTransformation(name)}'`)
+          .join(';')
+      : `import {${importList.join(',')}} from 'quasar'`
 
   return codePrefix + ';' + code
 }

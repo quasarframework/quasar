@@ -16,7 +16,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       input: ref(''),
       date: ref('2018/11/03')

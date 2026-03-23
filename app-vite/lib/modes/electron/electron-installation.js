@@ -13,10 +13,7 @@ const electronDeps = {
  *   silent: boolean
  * }} options
  */
-export async function addMode ({
-  ctx: { appPaths, cacheProxy },
-  silent
-}) {
+export async function addMode({ ctx: { appPaths, cacheProxy }, silent }) {
   if (isModeInstalled(appPaths, 'electron')) {
     if (silent !== true) {
       warn('Electron support detected already. Aborting.')
@@ -26,7 +23,7 @@ export async function addMode ({
 
   const nodePackager = await cacheProxy.getModule('nodePackager')
   nodePackager.installPackage(
-    Object.entries(electronDeps).map(([ name, version ]) => `${ name }@${ version }`),
+    Object.entries(electronDeps).map(([name, version]) => `${name}@${version}`),
     { isDevDependency: true, displayName: 'Electron dependencies' }
   )
 
@@ -34,7 +31,7 @@ export async function addMode ({
   const hasTypescript = await cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'js'
   fse.copySync(
-    appPaths.resolve.cli(`templates/electron/${ format }`),
+    appPaths.resolve.cli(`templates/electron/${format}`),
     appPaths.electronDir
   )
 
@@ -52,9 +49,7 @@ export async function addMode ({
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  * }} options
  */
-export async function removeMode ({
-  ctx: { appPaths, cacheProxy }
-}) {
+export async function removeMode({ ctx: { appPaths, cacheProxy } }) {
   if (isModeInstalled(appPaths, 'electron') === false) {
     warn('No Electron support detected. Aborting.')
     return
@@ -66,9 +61,9 @@ export async function removeMode ({
   const deps = Object.keys(electronDeps)
 
   const { bundlerIsInstalled } = await cacheProxy.getModule('electron')
-  ;[ 'packager', 'builder' ].forEach(bundlerName => {
+  ;['packager', 'builder'].forEach(bundlerName => {
     if (bundlerIsInstalled(bundlerName)) {
-      deps.push(`electron-${ bundlerName }`)
+      deps.push(`electron-${bundlerName}`)
     }
   })
 

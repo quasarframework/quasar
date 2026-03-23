@@ -23,10 +23,12 @@ const pageSize = 50
 const lastPage = Math.ceil(allOptions.length / pageSize)
 
 export default {
-  setup () {
+  setup() {
     const loading = ref(false)
     const nextPage = ref(2)
-    const options = computed(() => allOptions.slice(0, pageSize * (nextPage.value - 1)))
+    const options = computed(() =>
+      allOptions.slice(0, pageSize * (nextPage.value - 1))
+    )
 
     return {
       model: ref(null),
@@ -35,16 +37,20 @@ export default {
       nextPage,
       options,
 
-      onScroll ({ to, ref }) {
+      onScroll({ to, ref: compRef }) {
         const lastIndex = options.value.length - 1
 
-        if (loading.value !== true && nextPage.value < lastPage && to === lastIndex) {
+        if (
+          loading.value !== true &&
+          nextPage.value < lastPage &&
+          to === lastIndex
+        ) {
           loading.value = true
 
           setTimeout(() => {
             nextPage.value++
             nextTick(() => {
-              ref.refresh()
+              compRef.refresh()
               loading.value = false
             })
           }, 500)

@@ -2,22 +2,29 @@
   <q-layout view="lHh LpR fFf">
     <q-page-container>
       <q-page padding class="bg-white q-pr-xl">
-        <div class="bg-grey-2" style="height: 60vh">
-          Spacer
-        </div>
+        <div class="bg-grey-2" style="height: 60vh">Spacer</div>
 
         <div>List index: {{ virtualListIndex1 }}</div>
-        <div class="scroll" style="max-height: 80vh" ref="virtualScrollTargetRef">
-          <div class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white" style="height: 500px">
+        <div
+          class="scroll"
+          style="max-height: 80vh"
+          ref="virtualScrollTargetRef"
+        >
+          <div
+            class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white"
+            style="height: 500px"
+          >
             Before list
           </div>
-          <q-virtual-scroll component="q-list" :items="heavyList" separator :scroll-target="scrollTarget" @virtual-scroll="onVirtualScroll1">
+          <q-virtual-scroll
+            component="q-list"
+            :items="heavyList"
+            separator
+            :scroll-target="scrollTarget"
+            @virtual-scroll="onVirtualScroll1"
+          >
             <template v-slot="{ item, index }">
-              <q-item
-                :key="'a'+index"
-                v-if="(index % 3) === 0"
-                clickable
-              >
+              <q-item :key="'a' + index" v-if="index % 3 === 0" clickable>
                 <q-item-section>
                   <q-item-label class="q-px-xl">
                     Option - {{ item.label }} #{{ index }}
@@ -25,7 +32,11 @@
                 </q-item-section>
               </q-item>
 
-              <q-banner :key="'b'+index" v-else-if="(index % 5) === 0" class="bg-negative">
+              <q-banner
+                :key="'b' + index"
+                v-else-if="index % 5 === 0"
+                class="bg-negative"
+              >
                 <template v-slot:avatar>
                   <q-avatar square color="warning" text-color="negative">
                     {{ item.value }}
@@ -34,12 +45,20 @@
                 {{ item.label }} #{{ index }}
               </q-banner>
 
-              <div :key="'c'+index" v-else class="bg-yellow q-py-lg text-center scroll" style="max-height: 100px">
+              <div
+                :key="'c' + index"
+                v-else
+                class="bg-yellow q-py-lg text-center scroll"
+                style="max-height: 100px"
+              >
                 {{ item.label }} #{{ index }}
               </div>
             </template>
           </q-virtual-scroll>
-          <div class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white" style="height: 800px">
+          <div
+            class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white"
+            style="height: 800px"
+          >
             After list
           </div>
         </div>
@@ -60,7 +79,7 @@
           <q-virtual-scroll
             ref="virtualListRef"
             class="q-my-md"
-            style="max-height: 300px;"
+            style="max-height: 300px"
             component="q-list"
             :items="heavyList"
             separator
@@ -77,9 +96,7 @@
                 :style="index === 99999 ? 'height: 800px' : void 0"
               >
                 <q-item-section>
-                  <q-item-label>
-                    #{{ index }} - {{ item.label }}
-                  </q-item-label>
+                  <q-item-label> #{{ index }} - {{ item.label }} </q-item-label>
                 </q-item-section>
               </q-item>
             </template>
@@ -104,7 +121,7 @@ for (let i = 0; i < 100000; i++) {
 Object.freeze(heavyList)
 
 export default {
-  data () {
+  data() {
     return {
       heavyList,
       scrollTarget: void 0,
@@ -113,19 +130,19 @@ export default {
     }
   },
 
-  mounted () {
+  mounted() {
     this.scrollTarget = this.$refs.virtualScrollTargetRef
     this.$refs.virtualListRef.scrollTo(this.virtualListIndex2)
   },
 
   methods: {
-    onIndexChange (index) {
+    onIndexChange(index) {
       this.$refs.virtualListRef.scrollTo(index)
     },
-    onVirtualScroll1 ({ index }) {
+    onVirtualScroll1({ index }) {
       this.virtualListIndex1 = index
     },
-    onVirtualScroll2 ({ index }) {
+    onVirtualScroll2({ index }) {
       this.virtualListIndex2 = index
     }
   }

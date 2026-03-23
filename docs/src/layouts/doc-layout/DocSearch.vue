@@ -7,7 +7,9 @@
     @focusin="onFocusin"
     @focusout="onFocusout"
   >
-    <div class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-md">
+    <div
+      class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-md"
+    >
       <input
         class="col"
         name="search"
@@ -17,7 +19,12 @@
         @keydown="onKeydown"
       />
 
-      <q-icon class="doc-search__icon cursor-pointer" :name="icon.name" size="24px" @click="icon.onClick" />
+      <q-icon
+        class="doc-search__icon cursor-pointer"
+        :name="icon.name"
+        size="24px"
+        @click="icon.onClick"
+      />
       <q-no-ssr v-if="keysLabel">
         <kbd class="doc-search__kbd q-ma-none">{{ keysLabel }}</kbd>
       </q-no-ssr>
@@ -59,23 +66,29 @@ const terms = ref('')
 const results = ref(null)
 const activeId = ref(null)
 
-const icon = computed(() => (
+const icon = computed(() =>
   terms.value.length !== 0
     ? { name: 'clear', onClick: resetSearch }
     : { name: 'search', onClick: () => {} }
-))
+)
 
-const keysLabel = computed(() => $q.platform.is.desktop === true ? ($q.platform.is.mac ? '⌘K' : 'Ctrl+K') : null)
+const keysLabel = computed(() =>
+  $q.platform.is.desktop === true
+    ? $q.platform.is.mac
+      ? '⌘K'
+      : 'Ctrl+K'
+    : null
+)
 
 let focusoutTimer
 const hasFocus = ref(false)
 
-function onFocusin () {
+function onFocusin() {
   clearTimeout(focusoutTimer)
   hasFocus.value = true
 }
 
-function onFocusout () {
+function onFocusout() {
   clearTimeout(focusoutTimer)
   focusoutTimer = setTimeout(() => {
     hasFocus.value = false
@@ -83,25 +96,27 @@ function onFocusout () {
 }
 
 const classes = computed(() => (hasFocus.value ? 'doc-search--focused' : null))
-const resultsClass = computed(() => (
-  'doc-search__results rounded-borders rounded-borders overflow-auto' +
-  ` doc-search__results--${ results.value ? 'active' : 'hidden' }`
-))
+const resultsClass = computed(
+  () =>
+    'doc-search__results rounded-borders rounded-borders overflow-auto' +
+    ` doc-search__results--${results.value ? 'active' : 'hidden'}`
+)
 
-function closePopup () {
+function closePopup() {
   hasFocus.value = false
   activeId.value = null
 }
 
-function resetSearch () {
+function resetSearch() {
   terms.value = ''
   results.value = null
   activeId.value = null
 }
 
-let requestId = 0, fetchTimer
+let requestId = 0,
+  fetchTimer
 
-function fetchQuery (val, onResult, onError) {
+function fetchQuery(val, onResult, onError) {
   const localRequestId = requestId
   clearTimeout(fetchTimer)
 
@@ -110,20 +125,30 @@ function fetchQuery (val, onResult, onError) {
 
     const xhr = new XMLHttpRequest()
     const data = JSON.stringify({
-      q: val, limit: 15, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
+      q: val,
+      limit: 15,
+      cropLength: 50,
+      attributesToCrop: ['content'],
+      attributesToHighlight: ['content']
     })
 
-    xhr.addEventListener('load', function () {
-      localRequestId === requestId && onResult(JSON.parse(this.responseText))
+    xhr.addEventListener('load', function onLoad() {
+      if (localRequestId === requestId) onResult(JSON.parse(this.responseText))
     })
 
     xhr.addEventListener('error', () => {
-      localRequestId === requestId && onError()
+      if (localRequestId === requestId) onError()
     })
 
-    xhr.open('POST', `https://search.quasar.dev/indexes/${ process.env.SEARCH_INDEX }/search`)
+    xhr.open(
+      'POST',
+      `https://search.quasar.dev/indexes/${process.env.SEARCH_INDEX}/search`
+    )
     xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.setRequestHeader('Authorization', 'Bearer b7a6ea9a9978a4e4d994c1f9451210327f207441adbcf04a4aada3d17d829359')
+    xhr.setRequestHeader(
+      'Authorization',
+      'Bearer b7a6ea9a9978a4e4d994c1f9451210327f207441adbcf04a4aada3d17d829359'
+    )
     xhr.send(data)
   }, 400)
 }
@@ -132,25 +157,23 @@ const contentRE = /(<em>|<\/em>)/
 const startsWithRE = /^[a-z0-9]/
 const endsWithRE = /[a-z0-9]$/
 
-function parseContent (content) {
+function parseContent(content) {
   if (!content) return
 
   let inToken = false
 
   const acc = []
-  const str = (
+  const str =
     (startsWithRE.test(content) ? '...' : '') +
     content +
     (endsWithRE.test(content) ? '...' : '')
-  )
 
-  str.split(contentRE).forEach(str => {
-    if (str === '') {
+  str.split(contentRE).forEach(entry => {
+    if (entry === '') {
       inToken = true
-    }
-    else if (str !== '<em>' && str !== '</em>') {
+    } else if (entry !== '<em>' && entry !== '</em>') {
       acc.push({
-        str,
+        str: entry,
         class: inToken ? 'app-search__result-token' : null
       })
       inToken = !inToken
@@ -160,9 +183,9 @@ function parseContent (content) {
   return acc
 }
 
-const supportedHitTypes = [ 'page-content', 'page-link' ]
+const supportedHitTypes = ['page-content', 'page-link']
 
-function parseResults (hits) {
+function parseResults(hits) {
   if (hits.length === 0) {
     return { masterComponent: markRaw(ResultEmpty) }
   }
@@ -178,13 +201,16 @@ function parseResults (hits) {
 
     const entry = {
       page: hit.menu.join(' » '),
-      section: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » ') || null,
+      section:
+        [hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6]
+          .filter(e => e)
+          .join(' » ') || null,
       content: parseContent(hit._formatted.content),
 
-      onMouseenter () {
+      onMouseenter() {
         activeId.value = entry.id
       },
-      onClick () {
+      onClick() {
         closePopup()
         $router.push(hit.url).catch(() => {})
       }
@@ -197,7 +223,7 @@ function parseResults (hits) {
   // otherwise keyboard up/down will not work correctly
   let globalId = 0
   acc.entries.forEach(hit => {
-    const id = 'search--' + (++globalId)
+    const id = 'search--' + ++globalId
     hit.id = id
     acc.ids.push(id)
   })
@@ -205,14 +231,13 @@ function parseResults (hits) {
   return acc
 }
 
-function onKeydown (evt) {
+function onKeydown(evt) {
   switch (evt.keyCode) {
     case 27: // escape
       evt.preventDefault()
       if (hasFocus.value === true) {
         closePopup()
-      }
-      else {
+      } else {
         resetSearch()
       }
       break
@@ -221,19 +246,20 @@ function onKeydown (evt) {
       evt.preventDefault()
       if (results.value !== null && results.value.ids !== void 0) {
         if (activeId.value === null) {
-          activeId.value = results.value.ids[ 0 ]
-        }
-        else {
+          activeId.value = results.value.ids[0]
+        } else {
           const ids = results.value.ids
           const index = ids.indexOf(activeId.value)
-          activeId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
+          activeId.value =
+            ids[
+              (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length
+            ]
         }
 
         const target = document.getElementById(activeId.value)
         if (target.scrollIntoViewIfNeeded !== void 0) {
           target.scrollIntoViewIfNeeded()
-        }
-        else {
+        } else {
           target.scrollIntoView({ block: 'center' })
         }
       }
@@ -255,13 +281,13 @@ function onKeydown (evt) {
   }
 }
 
-function onResultSuccess (response) {
+function onResultSuccess(response) {
   results.value = parseResults(response.hits)
   hasFocus.value = true
-  activeId.value = results.value.ids?.[ 0 ] || null
+  activeId.value = results.value.ids?.[0] || null
 }
 
-function onResultError () {
+function onResultError() {
   results.value = { masterComponent: markRaw(ResultError) }
 }
 
@@ -270,18 +296,17 @@ watch(terms, val => {
 
   if (!val) {
     resetSearch()
-  }
-  else {
+  } else {
     fetchQuery(val, onResultSuccess, onResultError)
   }
 })
 
-function onClick () {
+function onClick() {
   inputRef.value.focus()
   onFocusin()
 }
 
-function onGlobalKeydown (e) {
+function onGlobalKeydown(e) {
   if ((e.ctrlKey || e.metaKey) && e.keyCode === 75 /* K */) {
     e.preventDefault()
     inputRef.value.focus()

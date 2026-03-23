@@ -8,20 +8,53 @@
 
     <div class="q-gutter-md">
       <div>Single {{ day || 'none ' }}:</div>
-      <q-date v-model="day" today-btn @update:model-value="onInput" :no-unset="noUnset" />
+      <q-date
+        v-model="day"
+        today-btn
+        @update:model-value="onInput"
+        :no-unset="noUnset"
+      />
 
       <div>Multiple {{ days || 'none ' }}:</div>
-      <q-date v-model="days" multiple today-btn @update:model-value="onInput" :no-unset="noUnset" />
+      <q-date
+        v-model="days"
+        multiple
+        today-btn
+        @update:model-value="onInput"
+        :no-unset="noUnset"
+      />
 
       <div>Range {{ dayRange || 'none ' }}:</div>
-      <q-date v-model="dayRange" today-btn range @update:model-value="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
+      <q-date
+        v-model="dayRange"
+        today-btn
+        range
+        @update:model-value="onInput"
+        @range-start="onRangeStart"
+        @range-end="onRangeEnd"
+        :no-unset="noUnset"
+      />
 
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
       <div class="row no-wrap">
-        <q-date ref="daysRange" v-model="daysRange" multiple today-btn range @update:model-value="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
+        <q-date
+          ref="daysRange"
+          v-model="daysRange"
+          multiple
+          today-btn
+          range
+          @update:model-value="onInput"
+          @range-start="onRangeStart"
+          @range-end="onRangeEnd"
+          :no-unset="noUnset"
+        />
         <div class="q-gutter-sm q-ml-sm">
           <q-btn label="setEditingRange(from)" @click="setRangeFrom" no-caps />
-          <q-btn label="setEditingRange(from, to)" @click="setRangeFromTo" no-caps />
+          <q-btn
+            label="setEditingRange(from, to)"
+            @click="setRangeFromTo"
+            no-caps
+          />
           <q-btn label="setEditingRange()" @click="setRangeNull" no-caps />
         </div>
       </div>
@@ -30,10 +63,10 @@
 </template>
 
 <script>
-/* eslint-disable */
+/* oxlint-disable */
 
 export default {
-  data () {
+  data() {
     return {
       noUnset: false,
 
@@ -45,7 +78,7 @@ export default {
       day: '2020/07/02',
       days: [
         '2020/08/02',
-        '2020/08/10',
+        '2020/08/10'
         // '2021/09/11',
       ],
       dayRange: { from: '2020/07/08', to: '2020/07/17' },
@@ -59,18 +92,18 @@ export default {
     }
   },
   methods: {
-    nullify () {
+    nullify() {
       this.day = null
       this.days = null
       this.dayRange = null
       this.daysRange = null
     },
 
-    reset () {
+    reset() {
       this.day = '2020/07/02'
       this.days = [
         '2020/08/02',
-        '2020/08/10',
+        '2020/08/10'
         // '2021/09/11',
       ]
       this.dayRange = { from: '2020/07/08', to: '2020/07/17' }
@@ -83,32 +116,30 @@ export default {
       ]
     },
 
-    onInput (value, reason, details) {
+    onInput(value, reason, details) {
       console.log('@update:model-value:', value, reason, details)
     },
 
-    onRangeStart (payload) {
+    onRangeStart(payload) {
       console.log('@range-start', payload)
     },
 
-    onRangeEnd (payload) {
+    onRangeEnd(payload) {
       console.log('@range-end', payload)
     },
 
-    setRangeFrom () {
-      this.$refs.daysRange.setEditingRange(
-        { year: 2020, month: 8, day: 4 }
-      )
+    setRangeFrom() {
+      this.$refs.daysRange.setEditingRange({ year: 2020, month: 8, day: 4 })
     },
 
-    setRangeFromTo () {
+    setRangeFromTo() {
       this.$refs.daysRange.setEditingRange(
         { year: 2020, month: 8, day: 4 },
         { year: 2020, month: 8, day: 6 }
       )
     },
 
-    setRangeNull () {
+    setRangeNull() {
       this.$refs.daysRange.setEditingRange()
     }
   }

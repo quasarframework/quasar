@@ -30,23 +30,21 @@ function useHydration(): {
 ```html
 <template>
   <div>
-    <div v-if="isHydrated">
-      Gets rendered only after hydration.
-    </div>
+    <div v-if="isHydrated"> Gets rendered only after hydration. </div>
   </div>
 </template>
 
 <script>
-import { useHydration } from 'quasar'
+  import { useHydration } from 'quasar'
 
-export default {
-  setup () {
-    const { isHydrated } = useHydration()
+  export default {
+    setup() {
+      const { isHydrated } = useHydration()
 
-    return {
-      isHydrated
+      return {
+        isHydrated
+      }
     }
   }
-}
 </script>
 ```

@@ -8,18 +8,12 @@
       <q-separator v-if="index === 0" vertical spaced />
 
       <q-avatar v-if="item.avatar === true" class="bg-black text-white q-my-md">
-        {{ index % 10 + 1 }}
+        {{ (index % 10) + 1 }}
       </q-avatar>
 
-      <q-item
-        v-else
-        dense
-        clickable
-      >
+      <q-item v-else dense clickable>
         <q-item-section>
-          <q-item-label>
-            #{{ index }} - {{ item.label }}
-          </q-item-label>
+          <q-item-label> #{{ index }} - {{ item.label }} </q-item-label>
         </q-item-section>
       </q-item>
 
@@ -40,7 +34,7 @@ for (let i = 0; i < maxSize; i++) {
 }
 
 export default {
-  setup () {
+  setup() {
     return {
       heavyList
     }

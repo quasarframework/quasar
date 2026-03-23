@@ -1,11 +1,23 @@
-import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  withDirectives,
+  getCurrentInstance
+} from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/ripple/Ripple.js'
 
 import { hMergeSlot } from '../../utils/private.render/render.js'
-import { isKeyCode, shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
+import {
+  isKeyCode,
+  shouldIgnoreKey
+} from '../../utils/private.keyboard/key-composition.js'
 import { tabsKey, emptyRenderFn } from '../../utils/private.symbols/symbols.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import uid from '../../utils/uid/uid.js'
@@ -13,34 +25,34 @@ import { isDeepEqual } from '../../utils/is/is.js'
 
 let id = 0
 
-export const useTabEmits = [ 'click', 'keydown' ]
+export const useTabEmits = ['click', 'keydown']
 
 export const useTabProps = {
   icon: String,
-  label: [ Number, String ],
+  label: [Number, String],
 
-  alert: [ Boolean, String ],
+  alert: [Boolean, String],
   alertIcon: String,
 
   name: {
-    type: [ Number, String ],
-    default: () => `t_${ id++ }`
+    type: [Number, String],
+    default: () => `t_${id++}`
   },
 
   noCaps: Boolean,
 
-  tabindex: [ String, Number ],
+  tabindex: [String, Number],
   disable: Boolean,
 
   contentClass: String,
 
   ripple: {
-    type: [ Boolean, Object ],
+    type: [Boolean, Object],
     default: true
   }
 }
 
-export default function (props, slots, emit, routeData) {
+export default function useTab(props, slots, emit, routeData) {
   const $tabs = inject(tabsKey, emptyRenderFn)
   if ($tabs === emptyRenderFn) {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
@@ -53,52 +65,62 @@ export default function (props, slots, emit, routeData) {
   const rootRef = ref(null)
   const tabIndicatorRef = ref(null)
 
-  const ripple = computed(() => (
+  const ripple = computed(() =>
     props.disable === true || props.ripple === false
       ? false
       : Object.assign(
-        { keyCodes: [ 13, 32 ], early: true },
-        props.ripple === true ? {} : props.ripple
-      )
-  ))
+          { keyCodes: [13, 32], early: true },
+          props.ripple === true ? {} : props.ripple
+        )
+  )
 
   const isActive = computed(() => $tabs.currentModel.value === props.name)
 
-  const classes = computed(() =>
-    'q-tab relative-position self-stretch flex flex-center text-center'
-    + (
-      isActive.value === true
-        ? (
-            ' q-tab--active'
-            + ($tabs.tabProps.value.activeClass ? ' ' + $tabs.tabProps.value.activeClass : '')
-            + ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
-            + ($tabs.tabProps.value.activeBgColor ? ` bg-${ $tabs.tabProps.value.activeBgColor }` : '')
-          )
-        : ' q-tab--inactive'
-    )
-    + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
-    + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
-    + (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
-    + (routeData !== void 0 ? routeData.linkClass.value : '')
+  const classes = computed(
+    () =>
+      'q-tab relative-position self-stretch flex flex-center text-center' +
+      (isActive.value === true
+        ? ' q-tab--active' +
+          ($tabs.tabProps.value.activeClass
+            ? ' ' + $tabs.tabProps.value.activeClass
+            : '') +
+          ($tabs.tabProps.value.activeColor
+            ? ` text-${$tabs.tabProps.value.activeColor}`
+            : '') +
+          ($tabs.tabProps.value.activeBgColor
+            ? ` bg-${$tabs.tabProps.value.activeBgColor}`
+            : '')
+        : ' q-tab--inactive') +
+      (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false
+        ? ' q-tab--full'
+        : '') +
+      (props.noCaps === true || $tabs.tabProps.value.noCaps === true
+        ? ' q-tab--no-caps'
+        : '') +
+      (props.disable === true
+        ? ' disabled'
+        : ' q-focusable q-hoverable cursor-pointer') +
+      (routeData !== void 0 ? routeData.linkClass.value : '')
   )
 
-  const innerClass = computed(() =>
-    'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable '
-    + ($tabs.tabProps.value.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column')
-    + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
+  const innerClass = computed(
+    () =>
+      'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable ' +
+      ($tabs.tabProps.value.inlineLabel === true
+        ? 'row no-wrap q-tab__content--inline'
+        : 'column') +
+      (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
   )
 
-  const tabIndex = computed(() => (
-    (
-      props.disable === true
-      || $tabs.hasFocus.value === true
-      || (isActive.value === false && $tabs.hasActiveTab.value === true)
-    )
+  const tabIndex = computed(() =>
+    props.disable === true ||
+    $tabs.hasFocus.value === true ||
+    (isActive.value === false && $tabs.hasActiveTab.value === true)
       ? -1
       : props.tabindex || 0
-  ))
+  )
 
-  function onClick (e, keyboard) {
+  function onClick(e, keyboard) {
     if (keyboard !== true && e?.qAvoidFocus !== true) {
       blurTargetRef.value?.focus()
     }
@@ -124,12 +146,16 @@ export default function (props, slots, emit, routeData) {
         // let the QTabs route watcher do its job,
         // otherwise directly select this
         let hardError
-        const reqId = opts.to === void 0 || isDeepEqual(opts.to, props.to) === true
-          ? ($tabs.avoidRouteWatcher = uid())
-          : null
+        const reqId =
+          opts.to === void 0 || isDeepEqual(opts.to, props.to) === true
+            ? ($tabs.avoidRouteWatcher = uid())
+            : null
 
-        return routeData.navigateToRouterLink(e, { ...opts, returnRouterError: true })
-          .catch(err => { hardError = err })
+        return routeData
+          .navigateToRouterLink(e, { ...opts, returnRouterError: true })
+          .catch(err => {
+            hardError = err
+          })
           .then(softError => {
             if (reqId === $tabs.avoidRouteWatcher) {
               $tabs.avoidRouteWatcher = false
@@ -138,23 +164,26 @@ export default function (props, slots, emit, routeData) {
               // when navigating to the same route (on all other soft errors,
               // like when navigation was aborted in a nav guard, we don't activate this tab)
               if (
-                hardError === void 0 && (
-                  softError === void 0
-                  || (softError.message?.startsWith('Avoided redundant navigation') === true)
-                )
+                hardError === void 0 &&
+                (softError === void 0 ||
+                  softError.message?.startsWith(
+                    'Avoided redundant navigation'
+                  ) === true)
               ) {
                 $tabs.updateModel({ name: props.name })
               }
             }
 
             if (opts.returnRouterError === true) {
-              return hardError !== void 0 ? Promise.reject(hardError) : softError
+              return hardError !== void 0
+                ? Promise.reject(hardError)
+                : softError
             }
           })
       }
 
       emit('click', e, go)
-      e.defaultPrevented !== true && go()
+      if (e.defaultPrevented !== true) go()
 
       return
     }
@@ -162,69 +191,67 @@ export default function (props, slots, emit, routeData) {
     emit('click', e)
   }
 
-  function onKeydown (e) {
-    if (isKeyCode(e, [ 13, 32 ])) {
+  function onKeydown(e) {
+    if (isKeyCode(e, [13, 32])) {
       onClick(e, true)
-    }
-    else if (
-      shouldIgnoreKey(e) !== true
-      && e.keyCode >= 35
-      && e.keyCode <= 40
-      && e.altKey !== true
-      && e.metaKey !== true
+    } else if (
+      shouldIgnoreKey(e) !== true &&
+      e.keyCode >= 35 &&
+      e.keyCode <= 40 &&
+      e.altKey !== true &&
+      e.metaKey !== true
     ) {
-      $tabs.onKbdNavigate(e.keyCode, proxy.$el) === true && stopAndPrevent(e)
+      if ($tabs.onKbdNavigate(e.keyCode, proxy.$el) === true) stopAndPrevent(e)
     }
 
     emit('keydown', e)
   }
 
-  function getContent () {
-    const
-      narrow = $tabs.tabProps.value.narrowIndicator,
+  function getContent() {
+    const narrow = $tabs.tabProps.value.narrowIndicator,
       content = [],
       indicator = h('div', {
         ref: tabIndicatorRef,
-        class: [
-          'q-tab__indicator',
-          $tabs.tabProps.value.indicatorClass
-        ]
+        class: ['q-tab__indicator', $tabs.tabProps.value.indicatorClass]
       })
 
-    props.icon !== void 0 && content.push(
-      h(QIcon, {
-        class: 'q-tab__icon',
-        name: props.icon
-      })
-    )
-
-    props.label !== void 0 && content.push(
-      h('div', { class: 'q-tab__label' }, props.label)
-    )
-
-    props.alert !== false && content.push(
-      props.alertIcon !== void 0
-        ? h(QIcon, {
-          class: 'q-tab__alert-icon',
-          color: props.alert !== true
-            ? props.alert
-            : void 0,
-          name: props.alertIcon
+    if (props.icon !== void 0) {
+      content.push(
+        h(QIcon, {
+          class: 'q-tab__icon',
+          name: props.icon
         })
-        : h('div', {
-          class: 'q-tab__alert'
-            + (props.alert !== true ? ` text-${ props.alert }` : '')
-        })
-    )
+      )
+    }
 
-    narrow === true && content.push(indicator)
+    if (props.label !== void 0) {
+      content.push(h('div', { class: 'q-tab__label' }, props.label))
+    }
+
+    if (props.alert !== false) {
+      content.push(
+        props.alertIcon !== void 0
+          ? h(QIcon, {
+              class: 'q-tab__alert-icon',
+              color: props.alert !== true ? props.alert : void 0,
+              name: props.alertIcon
+            })
+          : h('div', {
+              class:
+                'q-tab__alert' +
+                (props.alert !== true ? ` text-${props.alert}` : '')
+            })
+      )
+    }
+
+    if (narrow === true) content.push(indicator)
 
     const node = [
       h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurTargetRef }),
       h('div', { class: innerClass.value }, hMergeSlot(slots.default, content))
     ]
 
-    narrow === false && node.push(indicator)
+    if (narrow === false) node.push(indicator)
 
     return node
   }
@@ -244,7 +271,7 @@ export default function (props, slots, emit, routeData) {
     $tabs.registerTab(tabData)
   })
 
-  function renderTab (tag, customData) {
+  function renderTab(tag, customData) {
     const data = {
       ref: rootRef,
       class: classes.value,
@@ -257,10 +284,7 @@ export default function (props, slots, emit, routeData) {
       ...customData
     }
 
-    return withDirectives(
-      h(tag, data, getContent()),
-      [ [ Ripple, ripple.value ] ]
-    )
+    return withDirectives(h(tag, data, getContent()), [[Ripple, ripple.value]])
   }
 
   return { renderTab, $tabs }

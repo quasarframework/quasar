@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/virtual-scroll/use-virtual-scroll" ],
+  "mixins": ["components/virtual-scroll/use-virtual-scroll"],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/virtual-scroll"
@@ -10,7 +10,7 @@
       "type": "String",
       "desc": "The type of content: list (default) or table",
       "default": "'list'",
-      "values": [ "'list'", "'table'" ],
+      "values": ["'list'", "'table'"],
       "category": "content"
     },
 
@@ -19,8 +19,8 @@
       "desc": "Available list items that will be passed to the scoped slot; For best performance freeze the list of items; Required if 'itemsFn' is not supplied",
       "default": "[]",
       "examples": [
-        "[ 'Tesla', 'iPhone' ]",
-        "[ { label: 'Tesla', value: 'car' }, { label: 'iPhone', value: 'phone' } ]"
+        "['Tesla', 'iPhone']",
+        "[{ label: 'Tesla', value: 'car' }, { label: 'iPhone', value: 'phone' }]"
       ],
       "category": "content"
     },
@@ -28,7 +28,7 @@
     "items-size": {
       "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
-      "examples": [ "100000" ],
+      "examples": ["100000"],
       "category": "content"
     },
 
@@ -76,7 +76,7 @@
     }
   },
 
-  "slots" : {
+  "slots": {
     "before": {
       "desc": "Template slot for the elements that should be rendered before the list; Suggestion: thead before a table"
     },

@@ -2,7 +2,12 @@
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Click me" color="primary" @click="persistent = true" />
 
-    <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
+    <q-dialog
+      v-model="persistent"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
       <q-card class="bg-teal text-white" style="width: 300px">
         <q-card-section>
           <div class="text-h6">Persistent</div>
@@ -24,7 +29,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       persistent: ref(false)
     }

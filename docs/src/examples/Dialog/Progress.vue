@@ -9,10 +9,10 @@
 import { useQuasar, QSpinnerGears } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function showDefault () {
+    function showDefault() {
       const dialog = $q.dialog({
         message: 'Uploading... 0%',
         progress: true, // we enable default settings
@@ -40,7 +40,7 @@ export default {
       }, 500)
     }
 
-    function showCustom () {
+    function showCustom() {
       const dialog = $q.dialog({
         title: 'Uploading...',
         dark: true,

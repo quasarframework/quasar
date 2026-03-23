@@ -2,12 +2,13 @@
   <div>
     <div class="q-layout-padding">
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{ model }}</em></span>
+        Model
+        <span class="right-detail"
+          ><em>{{ model }}</em></span
+        >
       </div>
 
-      <p class="caption">
-        Default (@update:model-value, @change)
-      </p>
+      <p class="caption">Default (@update:model-value, @change)</p>
       <div class="q-gutter-sm">
         <q-knob
           name="test"
@@ -30,43 +31,27 @@
           :max="max"
           :angle="90"
           @update:model-value="onInput"
-          @change="val => { model = val; onChange(val) }"
+          @change="
+            val => {
+              model = val
+              onChange(val)
+            }
+          "
         />
       </div>
 
-      <p class="caption">
-        With Step ({{ min }} to {{ max }}, step 10)
-      </p>
-      <q-knob
-        v-model="model"
-        :min="min"
-        :max="max"
-        :step="10"
-      />
+      <p class="caption">With Step ({{ min }} to {{ max }}, step 10)</p>
+      <q-knob v-model="model" :min="min" :max="max" :step="10" />
 
-      <p class="caption">
-        With Step ({{ min }} to {{ maxSmall }}, step 0.01)
-      </p>
-      <q-knob
-        v-model="modelSmall"
-        :min="min"
-        :max="maxSmall"
-        :step="0.01"
-      />
+      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01)</p>
+      <q-knob v-model="modelSmall" :min="min" :max="maxSmall" :step="0.01" />
 
-      <p class="caption">
-        With Step ({{ min }} to {{ max }}, step 0) -- {{ modelZero }}
-      </p>
-      <q-knob
-        v-model="modelZero"
-        :min="min"
-        :max="max"
-        :step="0"
-      />
+      <p class="caption"
+        >With Step ({{ min }} to {{ max }}, step 0) -- {{ modelZero }}</p
+      >
+      <q-knob v-model="modelZero" :min="min" :max="max" :step="0" />
 
-      <p class="caption">
-        Styling
-      </p>
+      <p class="caption">Styling</p>
       <div class="q-gutter-md">
         <q-knob
           v-model="model"
@@ -109,34 +94,17 @@
         </q-knob>
       </div>
 
-      <p class="caption">
-        Readonly state
-      </p>
-      <q-knob
-        v-model="model"
-        :min="min"
-        :max="max"
-        color="primary"
-        readonly
-      >
+      <p class="caption">Readonly state</p>
+      <q-knob v-model="model" :min="min" :max="max" color="primary" readonly>
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
-      <p class="caption">
-        Disabled state
-      </p>
-      <q-knob
-        v-model="model"
-        :min="min"
-        :max="max"
-        disable
-      >
+      <p class="caption">Disabled state</p>
+      <q-knob v-model="model" :min="min" :max="max" disable>
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
-      <p class="caption">
-        Icon and value added with default slot
-      </p>
+      <p class="caption">Icon and value added with default slot</p>
       <q-knob
         v-model="model"
         :thickness="0.15"
@@ -152,15 +120,9 @@
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
-      <p class="caption">
-        Inside Field
-      </p>
+      <p class="caption">Inside Field</p>
       <q-field>
-        <q-knob
-          v-model="model"
-          :min="min"
-          :max="max"
-        >
+        <q-knob v-model="model" :min="min" :max="max">
           <q-icon name="volume_up" /> {{ model }}
         </q-knob>
 
@@ -169,9 +131,7 @@
         </template>
 
         <template v-slot:message>
-          <div>
-            Touch to change
-          </div>
+          <div>Touch to change</div>
         </template>
       </q-field>
     </div>
@@ -180,7 +140,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       model: 30,
       modelZero: 20.03,
@@ -191,15 +151,17 @@ export default {
     }
   },
   watch: {
-    model (val, old) {
-      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
+    model(val, old) {
+      console.log(
+        `Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`
+      )
     }
   },
   methods: {
-    onChange (val) {
+    onChange(val) {
       console.log('@change', JSON.stringify(val))
     },
-    onInput (val) {
+    onInput(val) {
       console.log('@update:model-value', JSON.stringify(val))
     }
   }

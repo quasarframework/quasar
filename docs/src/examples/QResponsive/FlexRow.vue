@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="row items-start q-gutter-md">
-      <q-responsive :ratio="16/9" class="col">
+      <q-responsive :ratio="16 / 9" class="col">
         <div class="rounded-borders bg-primary text-white flex flex-center">
           Ratio 16:9
         </div>

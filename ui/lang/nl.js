@@ -15,13 +15,18 @@ export default {
     search: 'Zoek',
     filter: 'Filter',
     refresh: 'Ververs',
-    expand: label => (label ? `"${ label }" uitklappen` : 'Uitklappen'),
-    collapse: label => (label ? `"${ label }" inklappen` : 'Inklappen')
+    expand: label => (label ? `"${label}" uitklappen` : 'Uitklappen'),
+    collapse: label => (label ? `"${label}" inklappen` : 'Inklappen')
   },
   date: {
-    days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),
+    days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split(
+      '_'
+    ),
     daysShort: 'Zo_Ma_Di_Wo_Do_Vr_Za'.split('_'),
-    months: 'Januari_Februari_Maart_April_Mei_Juni_Juli_Augustus_September_Oktober_November_December'.split('_'),
+    months:
+      'Januari_Februari_Maart_April_Mei_Juni_Juli_Augustus_September_Oktober_November_December'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Vorig jaar',
     nextYear: 'Volgend jaar',
     today: 'Vandaag',
-    prevRangeYears: range => `Vorige ${ range } jaren`,
-    nextRangeYears: range => `Volgende ${ range } jaren`
+    prevRangeYears: range => `Vorige ${range} jaren`,
+    nextRangeYears: range => `Volgende ${range} jaren`
   },
   table: {
     noData: 'Geen gegevens beschikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 record geselecteerd.'
-        : (rows === 0 ? 'Geen' : rows) + ' geselecteerde records.'
-    ),
+        : (rows === 0 ? 'Geen' : rows) + ' geselecteerde records.',
     recordsPerPage: 'Records per pagina:',
     allRows: 'Alle',
     pagination: (start, end, total) => start + '-' + end + ' van ' + total,

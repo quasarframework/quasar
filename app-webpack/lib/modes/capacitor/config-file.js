@@ -10,10 +10,10 @@ const { ensureConsistency } = require('./ensure-consistency.js')
 const { getPackageJson } = require('../../utils/get-package-json.js')
 
 // for Capacitor 1-3
-function getAndroidMainActivity (capVersion, appId) {
+function getAndroidMainActivity(capVersion, appId) {
   if (capVersion === 1) {
     return `
-package ${ appId };
+package ${appId};
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
@@ -33,7 +33,7 @@ public class EnableHttpsSelfSigned {
 
   // capVersion 2+
   return `
-package ${ appId };
+package ${appId};
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
@@ -64,7 +64,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
   #ctx
   #tamperedFiles = []
 
-  async prepare (quasarConf, target) {
+  async prepare(quasarConf, target) {
     this.#ctx = quasarConf.ctx
 
     const { appPaths, cacheProxy } = quasarConf.ctx
@@ -78,9 +78,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
 
     // TODO: support other formats: .js and .ts
     const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
-    const capJson = parseJSON(
-      fs.readFileSync(capJsonPath, 'utf-8')
-    )
+    const capJson = parseJSON(fs.readFileSync(capJsonPath, 'utf-8'))
 
     const { capVersion } = cacheProxy.getModule('capCli')
 
@@ -95,7 +93,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     this.#updateSSL(quasarConf, target, capVersion)
   }
 
-  reset () {
+  reset() {
     if (this.#tamperedFiles.length === 0) return
 
     this.#tamperedFiles.forEach(file => {
@@ -106,17 +104,20 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     this.#tamperedFiles = []
   }
 
-  #save () {
+  #save() {
     this.#tamperedFiles.forEach(file => {
       fs.writeFileSync(file.path, file.content, 'utf8')
-      log(`Updated ${ file.name }`)
+      log(`Updated ${file.name}`)
     })
   }
 
-  #updateCapJson (quasarConf, originalCapCfg, capVersion, target) {
+  #updateCapJson(quasarConf, originalCapCfg, capVersion, target) {
     const capJson = { ...originalCapCfg }
 
-    capJson.appName = quasarConf.capacitor.appName || this.#ctx.pkg.appPkg.productName || 'Quasar App'
+    capJson.appName =
+      quasarConf.capacitor.appName ||
+      this.#ctx.pkg.appPkg.productName ||
+      'Quasar App'
 
     if (capVersion < 5) {
       capJson.bundledWebRuntime = false
@@ -128,8 +129,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
       if (target === 'android' && capVersion >= 2) {
         capJson.server.cleartext = true
       }
-    }
-    else {
+    } else {
       capJson.webDir = 'www'
 
       // ensure we don't run from a remote server
@@ -142,16 +142,14 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     return stringifyJSON(capJson)
   }
 
-  #updateCapPkg (quasarConf) {
+  #updateCapPkg(quasarConf) {
     const {
       appPaths,
       pkg: { appPkg }
     } = this.#ctx
 
     const capPkgPath = appPaths.resolve.capacitor('package.json')
-    const capPkg = parseJSON(
-      fs.readFileSync(capPkgPath, 'utf-8')
-    )
+    const capPkg = parseJSON(fs.readFileSync(capPkgPath, 'utf-8'))
 
     Object.assign(capPkg, {
       name: quasarConf.capacitor.appName || appPkg.name,
@@ -163,22 +161,28 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     fs.writeFileSync(capPkgPath, stringifyJSON(capPkg), 'utf-8')
   }
 
-  #updateSSL (quasarConf, target, capVersion) {
+  #updateSSL(quasarConf, target, capVersion) {
     const { appPaths, cacheProxy } = this.#ctx
-    const add = quasarConf.ctx.dev ? quasarConf.devServer.server.type === 'https' : false
+    const add = quasarConf.ctx.dev
+      ? quasarConf.devServer.server.type === 'https'
+      : false
 
     if (capVersion >= 4) {
-      const hasPlugin = getPackageJson('@jcesarmobile/ssl-skip', appPaths.capacitorDir) !== void 0
+      const hasPlugin =
+        getPackageJson('@jcesarmobile/ssl-skip', appPaths.capacitorDir) !==
+        void 0
 
       // nothing to do
       if (add ? hasPlugin : !hasPlugin) return
 
-      const fn = `${ add ? '' : 'un' }installPackage`
-      const version = sslSkipVersion[ capVersion ] || sslSkipVersion.default
-      const nameParam = add ? `@jcesarmobile/ssl-skip@${ version }` : '@jcesarmobile/ssl-skip'
+      const fn = `${add ? '' : 'un'}installPackage`
+      const version = sslSkipVersion[capVersion] || sslSkipVersion.default
+      const nameParam = add
+        ? `@jcesarmobile/ssl-skip@${version}`
+        : '@jcesarmobile/ssl-skip'
 
       const nodePackager = cacheProxy.getModule('nodePackager')
-      nodePackager[ fn ](nameParam, {
+      nodePackager[fn](nameParam, {
         cwd: appPaths.capacitorDir,
         displayName: 'Capacitor (DEVELOPMENT ONLY) SSL support'
       })
@@ -189,14 +193,13 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
 
     if (target === 'ios') {
       this.#handleSSLonIOS(add)
-    }
-    else {
+    } else {
       this.#handleSSLonAndroid(add, capVersion)
     }
   }
 
   // for Capacitor 1-3
-  #handleSSLonIOS (add) {
+  #handleSSLonIOS(add) {
     const file = this.#getIosCapacitorBridgeFile()
     const needle = 'public func getWebView() -> WKWebView {'
     const content = `
@@ -212,14 +215,13 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
 
     if (add) {
       this.#injectIntoFile(file, needle, content)
-    }
-    else {
+    } else {
       this.#removeFromFile(file, content)
     }
   }
 
   // for Capacitor 1-3
-  #getIosCapacitorBridgeFile () {
+  #getIosCapacitorBridgeFile() {
     const { appPaths } = this.#ctx
 
     // we need to try multiple files because
@@ -230,7 +232,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     ]
 
     for (let i = 0; i < fileList.length; i++) {
-      const file = appPaths.resolve.capacitor(fileList[ i ])
+      const file = appPaths.resolve.capacitor(fileList[i])
       if (fs.existsSync(file)) {
         return file
       }
@@ -238,7 +240,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
   }
 
   // for Capacitor 1-3
-  #injectIntoFile (file, needle, content) {
+  #injectIntoFile(file, needle, content) {
     const sslWarn = () => {
       const shortFilename = basename(file)
 
@@ -246,9 +248,11 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
       warn()
       warn()
       warn()
-      warn(`${ shortFilename } not found or content is unrecognized.`)
-      warn('Your App will revoke the devserver\'s SSL certificate.')
-      warn('Please disable HTTPS from quasar.config file > devServer > server > type: \'https\'')
+      warn(`${shortFilename} not found or content is unrecognized.`)
+      warn("Your App will revoke the devserver's SSL certificate.")
+      warn(
+        "Please disable HTTPS from quasar.config file > devServer > server > type: 'https'"
+      )
       warn()
       warn()
       warn()
@@ -272,13 +276,16 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
       return
     }
 
-    const newContent = originalContent.substring(0, index) + content + originalContent.substring(index)
+    const newContent =
+      originalContent.substring(0, index) +
+      content +
+      originalContent.substring(index)
 
     fs.writeFileSync(file, newContent, 'utf-8')
   }
 
   // for Capacitor 1-3
-  #removeFromFile (file, content) {
+  #removeFromFile(file, content) {
     if (!file) return
 
     const originalContent = fs.readFileSync(file, 'utf-8')
@@ -291,33 +298,44 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
   }
 
   // for Capacitor 1-3
-  #handleSSLonAndroid (add, capVersion) {
+  #handleSSLonAndroid(add, capVersion) {
     const { appPaths } = this.#ctx
 
-    const capacitorSrcPath = appPaths.resolve.capacitor('android/app/src/main/java')
-    let mainActivityPath = globSync('**/MainActivity.java', { cwd: capacitorSrcPath, absolute: true })
+    const capacitorSrcPath = appPaths.resolve.capacitor(
+      'android/app/src/main/java'
+    )
+    let mainActivityPath = globSync('**/MainActivity.java', {
+      cwd: capacitorSrcPath,
+      absolute: true
+    })
 
     if (mainActivityPath.length > 0) {
       if (mainActivityPath.length > 1) {
-        warn(`Found multiple matches for MainActivity.java file, https might not work. Using file ${ mainActivityPath[ 0 ] }.`)
+        warn(
+          `Found multiple matches for MainActivity.java file, https might not work. Using file ${mainActivityPath[0]}.`
+        )
       }
-      mainActivityPath = mainActivityPath[ 0 ]
-    }
-    else if (mainActivityPath.length === 0) {
+      mainActivityPath = mainActivityPath[0]
+    } else if (mainActivityPath.length === 0) {
       warn()
-      warn('IMPORTANT! Could not find MainActivity.java file and therefore cannot enable devServer > server > type: \'https\' support.')
+      warn(
+        "IMPORTANT! Could not find MainActivity.java file and therefore cannot enable devServer > server > type: 'https' support."
+      )
       warn()
       return
     }
 
-    const enableHttpsSelfSignedPath = join(dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
+    const enableHttpsSelfSignedPath = join(
+      dirname(mainActivityPath),
+      'EnableHttpsSelfSigned.java'
+    )
 
     if (fs.existsSync(mainActivityPath)) {
       let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
 
       const sslString = `
     if (BuildConfig.DEBUG) {
-      EnableHttpsSelfSigned.enable(${ capVersion === 1 ? 'findViewById(R.id.webview)' : 'this.bridge' });
+      EnableHttpsSelfSigned.enable(${capVersion === 1 ? 'findViewById(R.id.webview)' : 'this.bridge'});
     }
       `
 
@@ -326,23 +344,22 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
         if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
           mainActivity = mainActivity.replace(
             /this\.init\(.*}}\);/ms,
-            match => `${ match }
-${ sslString }
+            match => `${match}
+${sslString}
               `
           )
         }
 
         // Add helper file
         if (!fs.existsSync(enableHttpsSelfSignedPath)) {
-          const appId = mainActivity.match(/package ([\w\.]*);/)[ 1 ]
+          const appId = mainActivity.match(/package ([\w.]*);/)[1]
 
           fs.writeFileSync(
             enableHttpsSelfSignedPath,
             getAndroidMainActivity(capVersion, appId)
           )
         }
-      }
-      else {
+      } else {
         if (/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
           mainActivity = mainActivity.replace(sslString, '')
         }

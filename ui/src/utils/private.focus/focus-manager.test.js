@@ -1,6 +1,11 @@
 import { describe, test, expect, vi, afterEach } from 'vitest'
 
-import { addFocusWaitFlag, removeFocusWaitFlag, addFocusFn, removeFocusFn } from './focus-manager.js'
+import {
+  addFocusWaitFlag,
+  removeFocusWaitFlag,
+  addFocusFn,
+  removeFocusFn
+} from './focus-manager.js'
 
 let waitFlagList = []
 let fnList = []
@@ -18,13 +23,13 @@ afterEach(() => {
   fnList = []
 })
 
-function createTestFn () {
+function createTestFn() {
   const fn = vi.fn()
   fnList.push(fn)
   return fn
 }
 
-function createTestWaitFlag () {
+function createTestWaitFlag() {
   const obj = {}
   waitFlagList.push(obj)
   return obj
@@ -36,9 +41,7 @@ describe('[focusManager API]', () => {
       test('has correct return value', () => {
         const obj = createTestWaitFlag()
 
-        expect(
-          addFocusWaitFlag(obj)
-        ).toBeUndefined()
+        expect(addFocusWaitFlag(obj)).toBeUndefined()
       })
 
       test('can add multiple wait flags', () => {
@@ -52,9 +55,7 @@ describe('[focusManager API]', () => {
 
     describe('[(function)removeFocusWaitFlag]', () => {
       test('has correct return value', () => {
-        expect(
-          removeFocusWaitFlag({})
-        ).toBeUndefined()
+        expect(removeFocusWaitFlag({})).toBeUndefined()
       })
 
       test('calls only last registered fn when there is a wait flag', () => {
@@ -110,17 +111,13 @@ describe('[focusManager API]', () => {
       test('has correct return value', () => {
         const fn = createTestFn()
 
-        expect(
-          addFocusFn(fn)
-        ).toBeUndefined()
+        expect(addFocusFn(fn)).toBeUndefined()
       })
 
       test('triggers immediately if no wait flags', () => {
         const fn = createTestFn()
 
-        expect(
-          addFocusFn(fn)
-        ).toBeUndefined()
+        expect(addFocusFn(fn)).toBeUndefined()
 
         expect(fn).toHaveBeenCalledTimes(1)
         expect(fn).toHaveBeenCalledWith()
@@ -167,9 +164,7 @@ describe('[focusManager API]', () => {
 
     describe('[(function)removeFocusFn]', () => {
       test('works correctly', () => {
-        expect(
-          removeFocusFn({})
-        ).toBeUndefined()
+        expect(removeFocusFn({})).toBeUndefined()
       })
 
       test('should not call removed fn', () => {

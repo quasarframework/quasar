@@ -15,13 +15,16 @@ export default {
     search: 'Cerca',
     filter: 'Filtra',
     refresh: 'Aggiorna',
-    expand: label => (label ? `Espandi "${ label }"` : 'Espandere'),
-    collapse: label => (label ? `Comprimi "${ label }"` : 'Crollo')
+    expand: label => (label ? `Espandi "${label}"` : 'Espandere'),
+    collapse: label => (label ? `Comprimi "${label}"` : 'Crollo')
   },
   date: {
     days: 'Domenica_Lunedì_Martedì_Mercoledì_Giovedì_Venerdì_Sabato'.split('_'),
     daysShort: 'Dom_Lun_Mar_Mer_Gio_Ven_Sab'.split('_'),
-    months: 'Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settembre_Ottobre_Novembre_Dicembre'.split('_'),
+    months:
+      'Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settembre_Ottobre_Novembre_Dicembre'.split(
+        '_'
+      ),
     monthsShort: 'Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +34,20 @@ export default {
     prevYear: 'Anno precedente',
     nextYear: 'Anno successivo',
     today: 'Oggi',
-    prevRangeYears: range => `${ range } anni precedenti`,
-    nextRangeYears: range => `${ range } anni successivi`
+    prevRangeYears: range => `${range} anni precedenti`,
+    nextRangeYears: range => `${range} anni successivi`
   },
   table: {
     noData: 'Nessun dato disponibile',
     noResults: 'Nessuna corrispondenza trovata',
     loading: 'Caricamento...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' ' + (rows === 1 ? 'riga selezionata' : 'righe selezionate') + '.'
-        : 'Nessuna riga selezionata.'
-    ),
+        ? rows +
+          ' ' +
+          (rows === 1 ? 'riga selezionata' : 'righe selezionate') +
+          '.'
+        : 'Nessuna riga selezionata.',
     recordsPerPage: 'Righe per pagina:',
     allRows: 'Tutte',
     pagination: (start, end, total) => start + '-' + end + ' di ' + total,

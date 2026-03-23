@@ -25,7 +25,6 @@ import QSpinnerTail from './QSpinnerTail.js'
 
 export {
   QSpinner,
-
   QSpinnerAudio,
   QSpinnerBall,
   QSpinnerBars,

@@ -2,8 +2,19 @@
   <div class="q-pa-md q-gutter-sm">
     <div>
       <div class="q-gutter-sm">
-        <q-btn size="sm" color="primary" @click="selectGoodService" label="Select 'Good service'" />
-        <q-btn v-if="selected" size="sm" color="red" @click="unselectNode" label="Unselect node" />
+        <q-btn
+          size="sm"
+          color="primary"
+          @click="selectGoodService"
+          label="Select 'Good service'"
+        />
+        <q-btn
+          v-if="selected"
+          size="sm"
+          color="red"
+          @click="unselectNode"
+          label="Unselect node"
+        />
       </div>
     </div>
     <q-tree
@@ -19,19 +30,19 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const selected = ref(null)
 
     return {
       selected,
 
-      selectGoodService () {
+      selectGoodService() {
         if (selected.value !== 'Good service') {
           selected.value = 'Good service'
         }
       },
 
-      unselectNode () {
+      unselectNode() {
         selected.value = null
       },
 

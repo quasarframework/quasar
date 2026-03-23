@@ -1,30 +1,16 @@
 <template>
   <div class="q-pa-md example-row-column-width">
-
     <div class="row">
-      <div class="col">
-        .col
-      </div>
-      <div class="col-6">
-        .col-6 (wider)
-      </div>
-      <div class="col">
-        .col
-      </div>
+      <div class="col"> .col </div>
+      <div class="col-6"> .col-6 (wider) </div>
+      <div class="col"> .col </div>
     </div>
 
     <div class="row">
-      <div class="col">
-        .col
-      </div>
-      <div class="col-5">
-        .col-5 (wider)
-      </div>
-      <div class="col">
-        .col
-      </div>
+      <div class="col"> .col </div>
+      <div class="col-5"> .col-5 (wider) </div>
+      <div class="col"> .col </div>
     </div>
-
   </div>
 </template>
 

@@ -1,5 +1,3 @@
 import QPagination from './QPagination.js'
 
-export {
-  QPagination
-}
+export { QPagination }

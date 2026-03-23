@@ -14,13 +14,14 @@ export const quasarEsbuildInjectReplacementsDefine = {
 
 export const quasarEsbuildInjectReplacementsPlugin = {
   name: 'quasar:inject-replacements',
-  setup (build) {
+  setup(build) {
     build.onLoad({ filter: /\.[cm]?[jt]s$/ }, args => {
       const contents = fse.readFileSync(args.path, 'utf8')
 
-      const prefix = `const ${ dirnameReplacement } = ${ JSON.stringify(path.dirname(args.path)) };`
-        + `const ${ filenameReplacement } = ${ JSON.stringify(args.path) };`
-        + `const ${ importMetaUrlReplacement } = ${ JSON.stringify(pathToFileURL(args.path).href) };`
+      const prefix =
+        `const ${dirnameReplacement} = ${JSON.stringify(path.dirname(args.path))};` +
+        `const ${filenameReplacement} = ${JSON.stringify(args.path)};` +
+        `const ${importMetaUrlReplacement} = ${JSON.stringify(pathToFileURL(args.path).href)};`
 
       return {
         loader: args.path.endsWith('ts') ? 'ts' : 'js',

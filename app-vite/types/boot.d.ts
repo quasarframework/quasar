@@ -11,6 +11,4 @@ interface BootFileParams extends HasSsrParam, HasStoreParam {
   redirect: (url: string | RouteLocationRaw) => void;
 }
 
-export type BootCallback = (
-  params: BootFileParams
-) => void | Promise<void>;
+export type BootCallback = (params: BootFileParams) => void | Promise<void>;

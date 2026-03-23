@@ -16,10 +16,14 @@
         <div
           v-for="marker in scope.markerList"
           :key="marker.index"
-          :class="[ `text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
+          :class="[
+            `text-deep-orange-${2 + Math.ceil(marker.value / 2)}`,
+            marker.classes
+          ]"
           :style="marker.style"
           @click="model = marker.value"
-        >{{ marker.value }}</div>
+          >{{ marker.value }}</div
+        >
       </template>
     </q-range>
 
@@ -39,7 +43,8 @@
           :key="val"
           :class="markerList[val].classes"
           :style="markerList[val].style"
-        >{{ val }}</div>
+          >{{ val }}</div
+        >
 
         <q-icon
           v-for="val in [0, 5]"
@@ -126,16 +131,19 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       firstModel: ref({
-        min: 2, max: 4
+        min: 2,
+        max: 4
       }),
       secondModel: ref({
-        min: 2, max: 4
+        min: 2,
+        max: 4
       }),
       thirdModel: ref({
-        min: 2.5, max: 4.5
+        min: 2.5,
+        max: 4.5
       })
     }
   }

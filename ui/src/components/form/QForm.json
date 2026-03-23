@@ -40,7 +40,7 @@
       "desc": "Emitted when all validations have passed when tethered to a submit button",
       "params": {
         "evt": {
-          "type": [ "Event", "SubmitEvent" ],
+          "type": ["Event", "SubmitEvent"],
           "desc": "Form submission event object"
         }
       }
@@ -83,7 +83,7 @@
       "returns": {
         "type": "Promise<boolean>",
         "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
-        "examples": [ "validate().then(outcome => { ... })" ]
+        "examples": ["validate().then(outcome => { ... })"]
       }
     },
 

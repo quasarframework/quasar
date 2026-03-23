@@ -11,12 +11,17 @@ const quasarConfigList = [
   { name: 'quasar.config.cjs', inputFormat: 'cjs', outputFormat: 'cjs' }
 ]
 
-function getAppInfo (appDir) {
-  while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
+function getAppInfo(appDir) {
+  while (appDir.length && appDir[appDir.length - 1] !== sep) {
     for (const { name, inputFormat, outputFormat } of quasarConfigList) {
       const quasarConfigFilename = join(appDir, name)
       if (existsSync(quasarConfigFilename)) {
-        return { appDir, quasarConfigFilename, quasarConfigInputFormat: inputFormat, quasarConfigOutputFormat: outputFormat }
+        return {
+          appDir,
+          quasarConfigFilename,
+          quasarConfigInputFormat: inputFormat,
+          quasarConfigOutputFormat: outputFormat
+        }
       }
     }
 
@@ -35,7 +40,7 @@ const postcssConfigFilenameList = [
   '.postcssrc.mjs'
 ]
 
-function getPostcssConfigFile (appDir) {
+function getPostcssConfigFile(appDir) {
   for (const name of postcssConfigFilenameList) {
     const filename = join(appDir, name)
     if (existsSync(filename)) {
@@ -54,7 +59,7 @@ const babelConfigFilenameList = [
   '.babelrc'
 ]
 
-function getBabelConfigFile (appDir) {
+function getBabelConfigFile(appDir) {
   for (const name of babelConfigFilenameList) {
     const filename = join(appDir, name)
     if (existsSync(filename)) {
@@ -63,17 +68,14 @@ function getBabelConfigFile (appDir) {
   }
 }
 
-function getRunType (ctx) {
+function getRunType(ctx) {
   if (ctx.dev) return 'dev'
   if (ctx.prod) return 'prod'
   return 'unknown'
 }
 
-function getPrefixDir (ctx) {
-  const parts = [
-    getRunType(ctx),
-    ctx.modeName
-  ]
+function getPrefixDir(ctx) {
+  const parts = [getRunType(ctx), ctx.modeName]
 
   if (ctx.targetName) {
     parts.push(ctx.targetName)
@@ -82,12 +84,17 @@ function getPrefixDir (ctx) {
   return parts.join('-')
 }
 
-module.exports.getAppPaths = function getAppPaths ({
+module.exports.getAppPaths = function getAppPaths({
   ctx,
   rootDir,
   defineHiddenProp
 } = {}) {
-  const { appDir, quasarConfigFilename, quasarConfigInputFormat, quasarConfigOutputFormat } = getAppInfo(rootDir)
+  const {
+    appDir,
+    quasarConfigFilename,
+    quasarConfigInputFormat,
+    quasarConfigOutputFormat
+  } = getAppInfo(rootDir)
 
   const publicDir = resolve(appDir, 'public')
   const srcDir = resolve(appDir, 'src')

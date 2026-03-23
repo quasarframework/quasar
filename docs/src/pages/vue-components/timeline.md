@@ -9,9 +9,9 @@ The QTimeline component displays a list of events in chronological order. It is 
 
 QTimeline has 3 layouts:
 
-* `dense` (default) is showing headings, titles, subtitles and content on the **timeline-specified side** of the time line (default on right)
-* `comfortable` is showing headings, titles and content on the **timeline-specified side** of the time line (default on right) and the subtitles on the other side
-* `loose` is showing headings on center, titles and content on the **entry-specified side** of the time line (default on right) and the subtitles on the other side
+- `dense` (default) is showing headings, titles, subtitles and content on the **timeline-specified side** of the time line (default on right)
+- `comfortable` is showing headings, titles and content on the **timeline-specified side** of the time line (default on right) and the subtitles on the other side
+- `loose` is showing headings on center, titles and content on the **entry-specified side** of the time line (default on right) and the subtitles on the other side
 
 <DocApi file="QTimeline" />
 

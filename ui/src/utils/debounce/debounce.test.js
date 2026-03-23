@@ -1,7 +1,4 @@
-import {
-  describe, test, expect, vi,
-  beforeEach, afterEach
-} from 'vitest'
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 
 import debounce from './debounce.js'
 
@@ -20,13 +17,9 @@ describe('[debounce API]', () => {
       test('has correct return value', () => {
         const fn = debounce(() => {}, 1)
 
-        expect(
-          fn
-        ).toBeTypeOf('function')
+        expect(fn).toBeTypeOf('function')
 
-        expect(
-          fn.cancel
-        ).toBeTypeOf('function')
+        expect(fn.cancel).toBeTypeOf('function')
       })
 
       test('should debounce with fast timeout', () => {

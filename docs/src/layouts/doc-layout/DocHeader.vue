@@ -1,21 +1,30 @@
 <template>
-  <q-header class="doc-header header-toolbar doc-brand" bordered :height-hint="128">
-    <q-toolbar class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch">
-      <router-link to="/" class="doc-header__logo row items-center no-wrap cursor-pointer">
+  <q-header
+    class="doc-header header-toolbar doc-brand"
+    bordered
+    :height-hint="128"
+  >
+    <q-toolbar
+      class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch"
+    >
+      <router-link
+        to="/"
+        class="doc-header__logo row items-center no-wrap cursor-pointer"
+      >
         <img
           class="doc-header__logo-img"
           :src="logo.img"
           alt="Quasar Logo"
           width="48"
           height="48"
-        >
+        />
         <img
           class="doc-header__logo-text q-ml-md"
           :src="logo.text"
           alt="Quasar Logo"
           width="150"
           height="20"
-        >
+        />
       </router-link>
 
       <div class="doc-header__primary-left-spacer gt-lg" />
@@ -29,7 +38,10 @@
 
       <doc-search />
 
-      <div v-if="showThemeChanger" class="doc-header-icon-links q-ml-sm row no-wrap items-center">
+      <div
+        v-if="showThemeChanger"
+        class="doc-header-icon-links q-ml-sm row no-wrap items-center"
+      >
         <q-btn
           class="header-btn"
           type="a"
@@ -70,17 +82,17 @@
         />
       </div>
 
-      <doc-header-icon-links
-        class="gt-1310"
-        :menu="socialLinks.children"
-      />
+      <doc-header-icon-links class="gt-1310" :menu="socialLinks.children" />
 
       <doc-header-text-links
         :menu="versionLinks"
         nav-class="text-size-14 letter-spacing-100 doc-header__version q-ml-sm"
       />
 
-      <div v-if="hasToc" class="doc-header-icon-links q-ml-sm lt-md row no-wrap items-center">
+      <div
+        v-if="hasToc"
+        class="doc-header-icon-links q-ml-sm lt-md row no-wrap items-center"
+      >
         <q-btn
           class="header-btn"
           flat
@@ -91,8 +103,8 @@
           aria-controls="toc-drawer"
           @click="docStore.toggleTocDrawer"
         >
-        <q-tooltip>Table of Contents</q-tooltip>
-      </q-btn>
+          <q-tooltip>Table of Contents</q-tooltip>
+        </q-btn>
       </div>
     </q-toolbar>
   </q-header>
@@ -102,7 +114,12 @@
 import { computed } from 'vue'
 import { mdiCompare, mdiFolderPound } from '@quasar/extras/mdi-v7'
 
-import { versionLinks, primaryToolbarLinks, secondaryToolbarLinks, moreLinks } from 'src/assets/links.header.js'
+import {
+  versionLinks,
+  primaryToolbarLinks,
+  secondaryToolbarLinks,
+  moreLinks
+} from 'src/assets/links.header.js'
 import { socialLinks } from 'src/assets/links.social.js'
 
 import DocSearch from './DocSearch.vue'
@@ -121,7 +138,12 @@ const logo = computed(() => {
 })
 
 const showThemeChanger = computed(() => docStore.$route.meta.dark !== true)
-const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStore.$route.meta.fullscreen !== true && docStore.state.value.toc.length !== 0)
+const hasToc = computed(
+  () =>
+    docStore.$route.meta.fullwidth !== true &&
+    docStore.$route.meta.fullscreen !== true &&
+    docStore.state.value.toc.length !== 0
+)
 </script>
 
 <style lang="sass">

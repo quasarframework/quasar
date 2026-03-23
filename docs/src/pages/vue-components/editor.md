@@ -15,6 +15,7 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 <DocApi file="QEditor" />
 
 ## Examples
+
 <DocExample title="Default editor" file="Basic" />
 
 ::: warning
@@ -26,9 +27,7 @@ By default, QEditor offers most if not all the commands you’d need in a WYSIWY
 Each of these commands is pre-configured with icons and their own internationalized tooltips. However, if you want to override some of their settings you can do so with the help of definitions Object property.
 
 ```html
-:definitions="{
-  bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'}
-}"
+:definitions="{ bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'} }"
 ```
 
 <DocExample title="Redefine bold command" file="NewBold" />
@@ -83,12 +82,14 @@ The following is an example that adds custom definitions. In such cases, make su
   ]"
 />
 ```
+
 ### Dropdowns with exclusive options
+
 User can pick only one option from each dropdown.
 
-* First has icon and label changing based on current selection
-* Second has fixed label but dynamic icon
-* Third has fixed icon but dynamic label
+- First has icon and label changing based on current selection
+- Second has fixed label but dynamic icon
+- Third has fixed icon but dynamic label
 
 ```html
 <q-editor
@@ -123,6 +124,7 @@ User can pick only one option from each dropdown.
 ## Caveats
 
 ### Autocorrect & spellcheck
+
 There may be occasions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html
@@ -137,6 +139,7 @@ There may be occasions where you want to turn off the integrated autocorrect, au
 ```
 
 ### Images
+
 Pasting from the buffer and drag & dropping images into the editor is unfortunately different across browsers - and also highly dependent upon how the image got into the buffer in the first place. In fact, up until very recently, you could even resize images within the ContentEditable when using Firefox. If you want to allow image pasting / dropping, we highly recommend writing your own methods.
 
 ```html
@@ -144,16 +147,19 @@ Pasting from the buffer and drag & dropping images into the editor is unfortunat
   v-model="editor"
   @paste="evt => pasteCapture(evt)"
   @drop="evt => dropCapture(evt)"
- />
+/>
 ```
 
 ### Plaintext pasting
+
 If the paste event content type is text and depending on the source of text, there may already be a great deal of markup that the contentEditable automatically parses. If you want to paste only "clean, markup-free" text, then you can use the approach in this example (which also turns off spelling correction as mentioned above):
 
 <DocExample title="Paste Event Override" file="Pasting" />
 
 ### Printing
+
 If you don't set a font (or the user doesn't choose one), the print dialogue will default to the system font, which can vary depending on browser and underlying operating system. Make sure to take this into consideration.
 
 ### Internationalization
+
 The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.

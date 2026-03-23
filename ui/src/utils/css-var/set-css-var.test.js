@@ -6,13 +6,10 @@ describe('[setCssVar API]', () => {
   describe('[Functions]', () => {
     describe('[(function)default]', () => {
       test('setCss(prop)', () => {
-        expect(
-          setCssVar('prop', 'awesome')
-        ).toBeUndefined()
+        expect(setCssVar('prop', 'awesome')).toBeUndefined()
 
         expect(
-          getComputedStyle(document.body)
-            .getPropertyValue('--q-prop')
+          getComputedStyle(document.body).getPropertyValue('--q-prop')
         ).toBe('awesome')
       })
 
@@ -20,14 +17,11 @@ describe('[setCssVar API]', () => {
         const el = document.createElement('div')
         document.body.appendChild(el)
 
-        expect.soft(
-          setCssVar('my-prop', 'cool', el)
-        ).toBeUndefined()
+        expect.soft(setCssVar('my-prop', 'cool', el)).toBeUndefined()
 
-        expect.soft(
-          getComputedStyle(el)
-            .getPropertyValue('--q-my-prop')
-        ).toBe('cool')
+        expect
+          .soft(getComputedStyle(el).getPropertyValue('--q-my-prop'))
+          .toBe('cool')
 
         el.remove()
       })

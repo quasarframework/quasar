@@ -9,16 +9,30 @@
       height-hint="98"
     >
       <q-toolbar>
-        <q-btn v-if="pick.left" dense flat round :icon="mdiMenu" @click="play.left = !play.left" />
+        <q-btn
+          v-if="pick.left"
+          dense
+          flat
+          round
+          :icon="mdiMenu"
+          @click="play.left = !play.left"
+        />
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
 
-        <q-btn v-if="pick.right" dense flat round :icon="mdiMenu" @click="play.right = !play.right" />
+        <q-btn
+          v-if="pick.right"
+          dense
+          flat
+          round
+          :icon="mdiMenu"
+          @click="play.right = !play.right"
+        />
       </q-toolbar>
 
       <q-tabs v-if="pick.navtabs" v-model="navTabModel" align="left">
@@ -42,108 +56,185 @@
           ref="stepper"
           style="max-width: 600px"
         >
-          <q-step name="pick" title="Pick Layout Parts" :icon="mdiViewDashboard">
+          <q-step
+            name="pick"
+            title="Pick Layout Parts"
+            :icon="mdiViewDashboard"
+          >
             <div class="column">
               <q-toggle v-model="pick.header" label="I want a QHeader" />
               <q-toggle v-model="pick.footer" label="I want a QFooter" />
-              <q-toggle v-model="pick.left" label="I want a left-side QDrawer" />
-              <q-toggle v-model="pick.right" label="I want a right-side QDrawer" />
-              <q-toggle :disable="!pick.header" v-model="pick.navtabs" label="I want navigation tabs (requires QHeader)" />
+              <q-toggle
+                v-model="pick.left"
+                label="I want a left-side QDrawer"
+              />
+              <q-toggle
+                v-model="pick.right"
+                label="I want a right-side QDrawer"
+              />
+              <q-toggle
+                :disable="!pick.header"
+                v-model="pick.navtabs"
+                label="I want navigation tabs (requires QHeader)"
+              />
             </div>
           </q-step>
 
-          <q-step name="cfg" title="Configure Layout Parts" :icon="mdiCog" class="q-pb-lg">
+          <q-step
+            name="cfg"
+            title="Configure Layout Parts"
+            :icon="mdiCog"
+            class="q-pb-lg"
+          >
             <div class="q-mb-md text-grey-8">Layout "View"</div>
 
             <div class="q-mb-lg rounded-borders overflow-hidden shadow-2">
               <div class="row">
-                <div class="col-3 q-pa-md flex flex-center" :class="topL === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
+                <div
+                  class="col-3 q-pa-md flex flex-center"
+                  :class="
+                    topL === 'h'
+                      ? 'bg-primary text-white'
+                      : 'bg-orange text-grey-9'
+                  "
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="topL"
-                    :options="[{ label: 'l', value: 'l'}, { label: 'h', value: 'h'}]"
+                    :options="[
+                      { label: 'l', value: 'l' },
+                      { label: 'h', value: 'h' }
+                    ]"
                   />
                 </div>
-                <div class="col-6 q-pa-md flex flex-center bg-primary text-white">
+                <div
+                  class="col-6 q-pa-md flex flex-center bg-primary text-white"
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="topC"
-                    :options="[{ label: 'h', value: 'h'}, { label: 'H', value: 'H'}]"
+                    :options="[
+                      { label: 'h', value: 'h' },
+                      { label: 'H', value: 'H' }
+                    ]"
                   />
                 </div>
-                <div class="col-3 q-pa-md flex flex-center" :class="topR === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
+                <div
+                  class="col-3 q-pa-md flex flex-center"
+                  :class="
+                    topR === 'h'
+                      ? 'bg-primary text-white'
+                      : 'bg-orange text-grey-9'
+                  "
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="topR"
-                    :options="[{ label: 'r', value: 'r'}, { label: 'h', value: 'h'}]"
+                    :options="[
+                      { label: 'r', value: 'r' },
+                      { label: 'h', value: 'h' }
+                    ]"
                   />
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-3 q-px-md q-py-xl flex flex-center bg-orange text-grey-9">
+                <div
+                  class="col-3 q-px-md q-py-xl flex flex-center bg-orange text-grey-9"
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="middleL"
-                    :options="[{ label: 'l', value: 'l'}, { label: 'L', value: 'L'}]"
+                    :options="[
+                      { label: 'l', value: 'l' },
+                      { label: 'L', value: 'L' }
+                    ]"
                   />
                 </div>
-                <div class="col-6 q-px-md q-py-xl flex flex-center">
-                  Page
-                </div>
-                <div class="col-3 q-px-md q-py-xl flex flex-center bg-orange text-grey-9">
+                <div class="col-6 q-px-md q-py-xl flex flex-center"> Page </div>
+                <div
+                  class="col-3 q-px-md q-py-xl flex flex-center bg-orange text-grey-9"
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="middleR"
-                    :options="[{ label: 'r', value: 'r'}, { label: 'R', value: 'R'}]"
+                    :options="[
+                      { label: 'r', value: 'r' },
+                      { label: 'R', value: 'R' }
+                    ]"
                   />
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-3 q-pa-md flex flex-center" :class="bottomL === 'f' ? 'bg-grey-8 text-white' : 'bg-orange text-grey-9'">
+                <div
+                  class="col-3 q-pa-md flex flex-center"
+                  :class="
+                    bottomL === 'f'
+                      ? 'bg-grey-8 text-white'
+                      : 'bg-orange text-grey-9'
+                  "
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="bottomL"
-                    :options="[{ label: 'l', value: 'l'}, { label: 'f', value: 'f'}]"
+                    :options="[
+                      { label: 'l', value: 'l' },
+                      { label: 'f', value: 'f' }
+                    ]"
                   />
                 </div>
-                <div class="col-6 q-pa-md flex flex-center bg-grey-8 text-white">
+                <div
+                  class="col-6 q-pa-md flex flex-center bg-grey-8 text-white"
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="bottomC"
-                    :options="[{ label: 'f', value: 'f'}, { label: 'F', value: 'F'}]"
+                    :options="[
+                      { label: 'f', value: 'f' },
+                      { label: 'F', value: 'F' }
+                    ]"
                   />
                 </div>
-                <div class="col-3 q-pa-md flex flex-center" :class="bottomR === 'f' ? 'bg-grey-8 text-white' : 'bg-orange text-grey-9'">
+                <div
+                  class="col-3 q-pa-md flex flex-center"
+                  :class="
+                    bottomR === 'f'
+                      ? 'bg-grey-8 text-white'
+                      : 'bg-orange text-grey-9'
+                  "
+                >
                   <q-option-group
                     inline
                     color="white"
                     keep-color
                     dense
                     v-model="bottomR"
-                    :options="[{ label: 'r', value: 'r'}, { label: 'f', value: 'f'}]"
+                    :options="[
+                      { label: 'r', value: 'r' },
+                      { label: 'f', value: 'f' }
+                    ]"
                   />
                 </div>
               </div>
@@ -254,13 +345,37 @@
             </template>
           </q-step>
 
-          <q-step name="play" title="Play with Layout" :icon="mdiPlayCircleOutline">
+          <q-step
+            name="play"
+            title="Play with Layout"
+            :icon="mdiPlayCircleOutline"
+          >
             <div class="column">
-              <q-toggle v-model="play.header" label="Visible Header" :disable="pick.header !== true" />
-              <q-toggle v-model="play.footer" label="Visible Footer" :disable="pick.footer !== true" />
-              <q-toggle v-model="play.left" label="Visible left-side Drawer" :disable="pick.left !== true" />
-              <q-toggle v-model="play.right" label="Visible right-side Drawer" :disable="pick.right !== true" />
-              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" :disable="pick.left !== true && pick.right !== true" />
+              <q-toggle
+                v-model="play.header"
+                label="Visible Header"
+                :disable="pick.header !== true"
+              />
+              <q-toggle
+                v-model="play.footer"
+                label="Visible Footer"
+                :disable="pick.footer !== true"
+              />
+              <q-toggle
+                v-model="play.left"
+                label="Visible left-side Drawer"
+                :disable="pick.left !== true"
+              />
+              <q-toggle
+                v-model="play.right"
+                label="Visible right-side Drawer"
+                :disable="pick.right !== true"
+              />
+              <q-toggle
+                v-model="play.scroll"
+                label="Inject Drawer content for scrolling"
+                :disable="pick.left !== true && pick.right !== true"
+              />
             </div>
           </q-step>
 
@@ -269,10 +384,20 @@
               <q-separator spaced />
               <div class="row q-col-gutter-sm">
                 <div v-if="step !== 'play'" class="col-12 col-sm-auto">
-                  <q-btn class="full-width" color="brand-primary" @click="$refs.stepper.next()" label="Continue" />
+                  <q-btn
+                    class="full-width"
+                    color="brand-primary"
+                    @click="$refs.stepper.next()"
+                    label="Continue"
+                  />
                 </div>
                 <div class="col-12 col-sm-auto">
-                  <q-btn class="full-width" color="black" label="Export Layout" @click="exportDialog = true" />
+                  <q-btn
+                    class="full-width"
+                    color="black"
+                    label="Export Layout"
+                    @click="exportDialog = true"
+                  />
                 </div>
               </div>
             </q-stepper-navigation>
@@ -307,7 +432,11 @@
     >
       <q-scroll-area class="fit">
         <q-item-label header>Left Drawer</q-item-label>
-        <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
+        <div
+          v-if="play.scroll"
+          class="text-grey"
+          style="padding: 25px 16px 16px"
+        >
           <p v-for="n in 50" :key="`right-${n}`">
             <em>Left Drawer has intended scroll</em>
           </p>
@@ -328,17 +457,25 @@
     >
       <q-scroll-area style="height: calc(100% - 204px); margin-top: 204px">
         <q-item-label header>Right Drawer</q-item-label>
-        <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
+        <div
+          v-if="play.scroll"
+          class="text-grey"
+          style="padding: 25px 16px 16px"
+        >
           <p v-for="n in 50" :key="`right-${n}`">
             <em>Right Drawer has intended scroll</em>
           </p>
         </div>
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
+      <q-img
+        class="absolute-top"
+        src="https://cdn.quasar.dev/img/material.png"
+        style="height: 204px"
+      >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -355,11 +492,25 @@
       :bordered="cfg.footerSep === 'bordered'"
     >
       <q-toolbar>
-        <q-btn v-if="pick.left" dense flat round :icon="mdiMenu" @click="play.left = !play.left" />
+        <q-btn
+          v-if="pick.left"
+          dense
+          flat
+          round
+          :icon="mdiMenu"
+          @click="play.left = !play.left"
+        />
 
         <q-toolbar-title>Quasar</q-toolbar-title>
 
-        <q-btn v-if="pick.right" dense flat round :icon="mdiMenu" @click="play.right = !play.right" />
+        <q-btn
+          v-if="pick.right"
+          dense
+          flat
+          round
+          :icon="mdiMenu"
+          @click="play.right = !play.right"
+        />
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -370,7 +521,10 @@ import { useMeta, useQuasar } from 'quasar'
 import { ref, reactive, computed } from 'vue'
 
 import {
-  mdiMenu, mdiViewDashboard, mdiCog, mdiPlayCircleOutline
+  mdiMenu,
+  mdiViewDashboard,
+  mdiCog,
+  mdiPlayCircleOutline
 } from '@quasar/extras/mdi-v7'
 
 import getMeta from 'assets/get-meta.js'
@@ -442,8 +596,7 @@ const play = reactive({
 })
 
 const view = computed(() => {
-  const
-    top = `${topL.value}${topC.value}${topR.value}`,
+  const top = `${topL.value}${topC.value}${topR.value}`,
     middle = `${middleL.value}p${middleR.value}`,
     bottom = `${bottomL.value}${bottomC.value}${bottomR.value}`
 
@@ -454,15 +607,15 @@ const navTabModel = ref('tab1')
 const step = ref('pick')
 const exportDialog = ref(false)
 
-const isContracted = computed(() => {
-  return $q.screen.lt.sm === true || (
-    $q.screen.md === true &&
-    play.left === true &&
-    cfg.leftOverlay === false &&
-    play.right === true &&
-    cfg.rightOverlay === false
-  )
-})
+const isContracted = computed(
+  () =>
+    $q.screen.lt.sm === true ||
+    ($q.screen.md === true &&
+      play.left === true &&
+      cfg.leftOverlay === false &&
+      play.right === true &&
+      cfg.rightOverlay === false)
+)
 
 const layoutExport = computed(() => {
   let code = `<${'template'}>
@@ -472,24 +625,36 @@ const layoutExport = computed(() => {
   if (pick.header) {
     code += `
     <q-header ${cfg.headerReveal ? 'reveal ' : ''}${cfg.headerSep !== 'none' ? cfg.headerSep + ' ' : ''}class="bg-primary text-white"${pick.navtabs ? ' height-hint="98"' : ''}>
-      <q-toolbar>${pick.left ? `
+      <q-toolbar>${
+            pick.left
+              ? `
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
-` : ''}
+`
+              : ''
+          }
         <q-toolbar-title>
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           Title
-        </q-toolbar-title>${pick.right ? `
+        </q-toolbar-title>${
+              pick.right
+                ? `
 
-        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />` : ''}
-      </q-toolbar>${pick.navtabs ? `
+        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />`
+                : ''
+            }
+      </q-toolbar>${
+            pick.navtabs
+              ? `
 
       <q-tabs align="left">
         <q-route-tab to="/page1" label="Page One" />
         <q-route-tab to="/page2" label="Page Two" />
         <q-route-tab to="/page3" label="Page Three" />
-      </q-tabs>` : ''}
+      </q-tabs>`
+              : ''
+          }
     </q-header>
 `
   }
@@ -533,29 +698,49 @@ const layoutExport = computed(() => {
 
   code += `
   </q-layout>
-</${'template'}>${pick.left || pick.right ? `
+</${'template'}>${
+    pick.left || pick.right
+      ? `
 
 <${'script'}>
 import { ref } from 'vue'
 
 export default {
-  setup () {${pick.left ? `
-    const leftDrawerOpen = ref(false)` : ''}${pick.right ? `
-    const rightDrawerOpen = ref(false)` : ''}
+  setup () {${
+            pick.left
+              ? `
+    const leftDrawerOpen = ref(false)`
+              : ''
+          }${
+            pick.right
+              ? `
+    const rightDrawerOpen = ref(false)`
+              : ''
+          }
 
-    return {${pick.left ? `
+    return {${
+              pick.left
+                ? `
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }${pick.right ? ',\n' : ''}` : ''}${pick.right ? `
+      }${pick.right ? ',\n' : ''}`
+                : ''
+            }${
+              pick.right
+                ? `
       rightDrawerOpen,
       toggleRightDrawer () {
         rightDrawerOpen.value = !rightDrawerOpen.value
-      }` : ''}
+      }`
+                : ''
+            }
     }
   }
 }
-</${'script'}>` : ''}`
+</${'script'}>`
+      : ''
+  }`
 
   return code
 })

@@ -4,19 +4,22 @@ desc: (@quasar/app-webpack) Tips and tricks for a Quasar hybrid mobile app with 
 ---
 
 ## $q.cordova
+
 While you are developing a Mobile App with Cordova Mode, you can access `$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
 
 ## Android Tips
 
 ### Android remote debugging
+
 If you are debugging Android Apps, you can use Google Chrome [Remote Debugging](https://developer.chrome.com/docs/devtools/remote-debugging/webviews?hl=en) through a USB cable attached to your Android phone/tablet. It can be used for emulator too.
 
 This way you have Chrome Dev Tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.
 
-![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug.png "Android Remote Debugging")
-![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug-2.png "Android Remote Debugging")
+![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug.png 'Android Remote Debugging')
+![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug-2.png 'Android Remote Debugging')
 
 ### Accept Licenses
+
 If you are having problems getting Android builds to finish and you see a message like:
 
 ```
@@ -62,7 +65,6 @@ $ echo $ANDROID_SDK_ROOT
 ```
 
 The expected output should be a path similar to this `$HOME/Android/Sdk`. After this run:
-
 
 ```bash
 $ ls -la $ANDROID_HOME
@@ -113,6 +115,7 @@ sudo killall adb
 ```
 
 The content for `51-android.rules`:
+
 ```
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0bb4", MODE="0666"
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0e79", MODE="0666"
@@ -151,14 +154,15 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", MODE="0666"
 Now running `adb devices` should discover your device.
 
 ### Post-build debugging
+
 There are intermediate states to help with debugging, between `quasar dev` and distributing a completed app. If your app works fine on `quasar dev` but is not running properly after `quasar build`, you have two options:
 
-* go to your `src-cordova` directory and `cordova run [platform]`.
-  * You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
-  * For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)
-* open Android Studio and watch the Logcat
-  * Here you can watch everything related to the app and its interaction with the underlying Android OS. After opening your Cordova project in Android Studio, go to `Run`...`Debug` from the top menu. Android Studio will ask you to confirm the device or emulator, then will deploy the app. In the bottom window, choose `Logcat` You may want to use the filters to reduce the volume of messages. You should see `[your app id].MainActivity.onCreate()` signifying the app launch, then various messages related to your app functionality.
-  * Note: this should be for experienced Android developers only. If your app is not functioning properly, it is much more likely that `quasar dev` or `cordova run` can reveal the issue.
+- go to your `src-cordova` directory and `cordova run [platform]`.
+  - You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
+  - For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)
+- open Android Studio and watch the Logcat
+  - Here you can watch everything related to the app and its interaction with the underlying Android OS. After opening your Cordova project in Android Studio, go to `Run`...`Debug` from the top menu. Android Studio will ask you to confirm the device or emulator, then will deploy the app. In the bottom window, choose `Logcat` You may want to use the filters to reduce the volume of messages. You should see `[your app id].MainActivity.onCreate()` signifying the app launch, then various messages related to your app functionality.
+  - Note: this should be for experienced Android developers only. If your app is not functioning properly, it is much more likely that `quasar dev` or `cordova run` can reveal the issue.
 
 ::: danger Important!
 If you find a bug using one of the above methods, do not edit the output files (probably the `www` folder) directly, as they will soon be overwritten. Go back to your quasar source, fix the bug, then re-run `quasar build`.
@@ -167,6 +171,7 @@ If you find a bug using one of the above methods, do not edit the output files (
 ## iOS Tips
 
 ### Device type not found
+
 If you get this error while running `$ quasar dev -m cordova -T ios`:
 
 ```
@@ -183,6 +188,7 @@ $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iO
 ```
 
 ### Enabling modern build
+
 By default, Xcode modern build for iOS is disabled due to Cordova issues. However, if you know what you are doing and you want to enable it, do so from the `/quasar.config` file:
 
 ```js
@@ -194,6 +200,7 @@ cordova: {
 The above applies also if you want to specify the build type in your "build.json".
 
 ### iOS remote debugging
+
 If you are debugging iOS Apps, you can use the Safari developer tools to remotely debug through a USB cable attached to your iOS phone/tablet. It can be used for emulator too.
 
 This way you have Safari developer tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.
@@ -201,6 +208,7 @@ This way you have Safari developer tools directly for your App running on the em
 First enable the "developer" menu option in the Settings of Safari. Then if you navigate to the "developer" menu option you will see your emulator or connected device listed near the top. From here you can open the developer tools.
 
 ### Status bar and notch safe-areas
+
 Since mobile phones have a status bar and/or notches, your app's styling might need some tweaking when building on Cordova. In order to prevent parts of your app from going behind the status bar, there is a global CSS variable that can be used for creating a "safe-area". This variable can then be applied in your app's top and bottom padding or margin.
 
 Quasar has support for these CSS safe-areas by default in QHeader/QFooter and Notify. However it's important to always check your Cordova build on several models to see if all cases of your app are dealing with the safe areas correctly.
@@ -228,6 +236,7 @@ body.cordova .my-selector {
 ```
 
 ### Disabling iOS rubber band effect
+
 When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
 ```xml

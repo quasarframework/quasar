@@ -36,15 +36,19 @@ For your QField you can use only one of the main designs (`filled`, `outlined`, 
 <DocExample title="Coloring" file="Coloring" />
 
 ### Standard
+
 <DocExample title="Standard" file="DesignStandard" />
 
 ### Filled
+
 <DocExample title="Filled" file="DesignFilled" />
 
 ### Outlined
+
 <DocExample title="Outlined" file="DesignOutlined" />
 
 ### Standout
+
 <DocExample title="Standout" file="DesignStandout" />
 
 One of the most appropriate use cases for Standout design is in a QToolbar:
@@ -52,6 +56,7 @@ One of the most appropriate use cases for Standout design is in a QToolbar:
 <DocExample title="Standout in QToolbar" file="StandoutToolbar" />
 
 ### Borderless
+
 The `borderless` design allows you to seamlessly integrate your QField into other components without QField drawing a border around itself or changing its background color:
 
 <DocExample title="Borderless" file="Borderless" />
@@ -75,6 +80,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 ## Basic features
 
 ### Clearable
+
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
 ::: warning
@@ -133,9 +139,11 @@ This is so you can write convenient rules of shape like:
 
 ```js
 value => condition || errorMessage
- ```
+```
+
 For example:
- ```js
+
+```js
 value => value < 10 || 'Value should be lower'
 ```
 
@@ -150,6 +158,7 @@ If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is 
 <DocExample title="Lazy rules" file="ValidationLazy" />
 
 #### Async rules
+
 Rules can be async too, by using async/await or by directly returning a Promise.
 
 ::: tip

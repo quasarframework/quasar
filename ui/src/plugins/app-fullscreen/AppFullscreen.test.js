@@ -10,7 +10,9 @@ import AppFullscreen from './AppFullscreen.js'
 const mountPlugin = () => mount({ template: '<div />' })
 
 // We override Quasar install so it installs this plugin
-const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')
+const quasarVuePlugin = config.global.plugins.find(
+  entry => entry.name === 'Quasar'
+)
 const { install } = quasarVuePlugin
 quasarVuePlugin.install = app => install(app, { plugins: { AppFullscreen } })
 
@@ -56,10 +58,7 @@ describe('[AppFullscreen API]', () => {
     describe('[(prop)activeEl]', () => {
       test('is correct type', () => {
         mountPlugin()
-        expect(AppFullscreen.activeEl).$any([
-          expect.any(Element),
-          null
-        ])
+        expect(AppFullscreen.activeEl).$any([expect.any(Element), null])
       })
 
       test('is reactive', async () => {
@@ -81,9 +80,7 @@ describe('[AppFullscreen API]', () => {
         mountPlugin()
 
         const result = AppFullscreen.request()
-        expect(
-          result
-        ).toBeInstanceOf(Promise)
+        expect(result).toBeInstanceOf(Promise)
 
         await result
         expect(AppFullscreen.isActive).toBe(true)
@@ -100,9 +97,7 @@ describe('[AppFullscreen API]', () => {
         const el = createMockedEl()
 
         const result = AppFullscreen.request(el)
-        expect(
-          result
-        ).toBeInstanceOf(Promise)
+        expect(result).toBeInstanceOf(Promise)
 
         await result
 
@@ -121,9 +116,7 @@ describe('[AppFullscreen API]', () => {
         const el = createMockedEl()
 
         const result = AppFullscreen.request(el)
-        expect(
-          result
-        ).toBeInstanceOf(Promise)
+        expect(result).toBeInstanceOf(Promise)
 
         await result
         expect(el.requestFullscreen).toHaveBeenCalledTimes(1)
@@ -141,18 +134,14 @@ describe('[AppFullscreen API]', () => {
     describe('[(method)exit]', () => {
       test('should be callable', () => {
         mountPlugin()
-        expect(
-          AppFullscreen.exit()
-        ).toBeInstanceOf(Promise)
+        expect(AppFullscreen.exit()).toBeInstanceOf(Promise)
       })
 
       test('request() + exit()', async () => {
         mountPlugin()
 
         const result = AppFullscreen.request()
-        expect(
-          result
-        ).toBeInstanceOf(Promise)
+        expect(result).toBeInstanceOf(Promise)
 
         await result
         expect(AppFullscreen.isActive).toBe(true)
@@ -169,9 +158,7 @@ describe('[AppFullscreen API]', () => {
         mountPlugin()
 
         const result = AppFullscreen.toggle()
-        expect(
-          result
-        ).toBeInstanceOf(Promise)
+        expect(result).toBeInstanceOf(Promise)
 
         await result
         expect(AppFullscreen.isActive).toBe(true)
@@ -188,9 +175,7 @@ describe('[AppFullscreen API]', () => {
         const el = createMockedEl()
 
         const result = AppFullscreen.toggle(el)
-        expect(
-          result
-        ).toBeInstanceOf(Promise)
+        expect(result).toBeInstanceOf(Promise)
 
         await result
         expect(el.requestFullscreen).toHaveBeenCalledTimes(1)

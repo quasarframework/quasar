@@ -58,9 +58,9 @@ If you chose TypeScript support when scaffolding the project, the following decl
 ```ts /src/env.d.ts
 declare namespace NodeJS {
   interface ProcessEnv {
-    NODE_ENV: string;
-    VUE_ROUTER_MODE: 'hash' | 'history' | 'abstract' | undefined;
-    VUE_ROUTER_BASE: string | undefined;
+    NODE_ENV: string
+    VUE_ROUTER_MODE: 'hash' | 'history' | 'abstract' | undefined
+    VUE_ROUTER_BASE: string | undefined
     // Define any custom env variables you have here, if you wish
   }
 }
@@ -97,9 +97,9 @@ If you are using [PWA mode](/quasar-cli-webpack/developing-pwa/introduction), ma
 ```ts /src-pwa/pwa-env.d.ts
 declare namespace NodeJS {
   interface ProcessEnv {
-    SERVICE_WORKER_FILE: string;
-    PWA_FALLBACK_HTML: string;
-    PWA_SERVICE_WORKER_REGEX: string;
+    SERVICE_WORKER_FILE: string
+    PWA_FALLBACK_HTML: string
+    PWA_SERVICE_WORKER_REGEX: string
   }
 }
 ```
@@ -107,7 +107,7 @@ declare namespace NodeJS {
 ```ts /src-pwa/custom-service-worker.ts
 // at the top of the file
 declare const self: ServiceWorkerGlobalScope &
-  typeof globalThis & { skipWaiting: () => void };
+  typeof globalThis & { skipWaiting: () => void }
 ```
 
 ```json /src-pwa/tsconfig.json
@@ -127,10 +127,10 @@ If you are using [Electron mode](/quasar-cli-webpack/developing-electron-apps/in
 ```ts /src-electron/electron-env.d.ts
 declare namespace NodeJS {
   interface ProcessEnv {
-    QUASAR_PUBLIC_FOLDER: string;
-    QUASAR_ELECTRON_PRELOAD_FOLDER: string;
-    QUASAR_ELECTRON_PRELOAD_EXTENSION: string;
-    APP_URL: string;
+    QUASAR_PUBLIC_FOLDER: string
+    QUASAR_ELECTRON_PRELOAD_FOLDER: string
+    QUASAR_ELECTRON_PRELOAD_EXTENSION: string
+    APP_URL: string
   }
 }
 ```
@@ -143,12 +143,12 @@ If you are using [BEX mode](/quasar-cli-webpack/developing-browser-extensions/in
 declare module '@quasar/app-webpack' {
   interface BexEventMap {
     /* eslint-disable @typescript-eslint/no-explicit-any */
-    log: [{ message: string; data?: any[] }, never];
-    getTime: [never, number];
+    log: [{ message: string; data?: any[] }, never]
+    getTime: [never, number]
 
-    'storage.get': [{ key: string | null }, any];
-    'storage.set': [{ key: string; value: any }, any];
-    'storage.remove': [{ key: string }, any];
+    'storage.get': [{ key: string | null }, any]
+    'storage.set': [{ key: string; value: any }, any]
+    'storage.remove': [{ key: string }, any]
     /* eslint-enable @typescript-eslint/no-explicit-any */
   }
 }
@@ -160,7 +160,7 @@ You'll also need this in every content script file:
 declare module '@quasar/app-webpack' {
   interface BexEventMap {
     /* eslint-disable @typescript-eslint/no-explicit-any */
-    'some.event': [{ someProp: string }, void];
+    'some.event': [{ someProp: string }, void]
     /* eslint-enable @typescript-eslint/no-explicit-any */
   }
 }

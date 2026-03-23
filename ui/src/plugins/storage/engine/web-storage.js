@@ -1,7 +1,7 @@
 import { noop } from '../../../utils/event/event.js'
 import { isDate, isRegexp } from '../../../utils/is/is.js'
 
-function encode (value) {
+function encode(value) {
   if (isDate(value) === true) {
     return '__q_date|' + value.getTime()
   }
@@ -29,7 +29,7 @@ function encode (value) {
   return value
 }
 
-function decode (value) {
+function decode(value) {
   const length = value.length
   if (length < 9) {
     // then it wasn't encoded by us
@@ -54,7 +54,7 @@ function decode (value) {
       return Boolean(source === '1')
 
     case '__q_strn':
-      return '' + source
+      return String(source)
 
     case '__q_objt':
       return JSON.parse(source)
@@ -67,7 +67,7 @@ function decode (value) {
   }
 }
 
-export function getEmptyStorage () {
+export function getEmptyStorage() {
   const getVal = () => null
 
   return {
@@ -88,48 +88,44 @@ export function getEmptyStorage () {
   }
 }
 
-export function getStorage (type) {
-  const
-    webStorage = window[ type + 'Storage' ],
+export function getStorage(type) {
+  const webStorage = window[type + 'Storage'],
     get = key => {
       const item = webStorage.getItem(key)
-      return item
-        ? decode(item)
-        : null
+      return item ? decode(item) : null
     }
 
   const hasItem = key => webStorage.getItem(key) !== null
-  const setItem = (key, value) => { webStorage.setItem(key, encode(value)) }
-  const removeItem = key => { webStorage.removeItem(key) }
+  const setItem = (key, value) => {
+    webStorage.setItem(key, encode(value))
+  }
+  const removeItem = key => {
+    webStorage.removeItem(key)
+  }
 
   return {
     has: hasItem, // TODO: remove in Qv3
     hasItem,
     getLength: () => webStorage.length,
     getItem: get,
-    getIndex: index => {
-      return index < webStorage.length
-        ? get(webStorage.key(index))
-        : null
-    },
-    getKey: index => {
-      return index < webStorage.length
-        ? webStorage.key(index)
-        : null
-    },
+    getIndex: index =>
+      index < webStorage.length ? get(webStorage.key(index)) : null,
+    getKey: index => (index < webStorage.length ? webStorage.key(index) : null),
     getAll: () => {
       let key
-      const result = {}, len = webStorage.length
+      const result = {},
+        len = webStorage.length
 
       for (let i = 0; i < len; i++) {
         key = webStorage.key(i)
-        result[ key ] = get(key)
+        result[key] = get(key)
       }
 
       return result
     },
     getAllKeys: () => {
-      const result = [], len = webStorage.length
+      const result = [],
+        len = webStorage.length
 
       for (let i = 0; i < len; i++) {
         result.push(webStorage.key(i))
@@ -141,7 +137,9 @@ export function getStorage (type) {
     setItem,
     remove: removeItem, // TODO: remove in Qv3
     removeItem,
-    clear: () => { webStorage.clear() },
+    clear: () => {
+      webStorage.clear()
+    },
     isEmpty: () => webStorage.length === 0
   }
 }

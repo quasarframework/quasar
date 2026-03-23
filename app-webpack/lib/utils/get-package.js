@@ -3,7 +3,7 @@ const { getPackagePath } = require('./get-package-path.js')
 /**
  * Import a host package.
  */
-module.exports.getPackage = function getPackage (pkgName, dir) {
+module.exports.getPackage = function getPackage(pkgName, dir) {
   if (dir === void 0) {
     console.error('getPackage() -> dir param is required')
     process.exit(1)
@@ -12,8 +12,7 @@ module.exports.getPackage = function getPackage (pkgName, dir) {
   try {
     const pkgPath = getPackagePath(pkgName, dir)
     return require(pkgPath)
-  }
-  catch (_) {
+  } catch {
     /* do and return nothing */
   }
 }

@@ -21,7 +21,13 @@
       :dense="dense"
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -49,12 +55,7 @@
     />
 
     <h4>No separator</h4>
-    <q-table
-      separator="none"
-      :rows="data"
-      :columns="columns"
-      row-key="name"
-    />
+    <q-table separator="none" :rows="data" :columns="columns" row-key="name" />
 
     <h4>Column separator</h4>
     <q-table
@@ -65,12 +66,7 @@
     />
 
     <h4>Cell separator</h4>
-    <q-table
-      separator="cell"
-      :rows="data"
-      :columns="columns"
-      row-key="name"
-    />
+    <q-table separator="cell" :rows="data" :columns="columns" row-key="name" />
 
     <h4>No top/bottom</h4>
     <q-table
@@ -94,11 +90,42 @@
       color="primary"
     >
       <template v-slot:top>
-        <q-btn flat dense color="primary" :disable="loadingDyn" icon="add" label="Add row" @click="addRow" />
-        <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="remove" label="Remove row" @click="removeRow" />
-        <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="refresh" label="Refresh" />
+        <q-btn
+          flat
+          dense
+          color="primary"
+          :disable="loadingDyn"
+          icon="add"
+          label="Add row"
+          @click="addRow"
+        />
+        <q-btn
+          class="on-right"
+          flat
+          dense
+          color="primary"
+          :disable="loadingDyn"
+          icon="remove"
+          label="Remove row"
+          @click="removeRow"
+        />
+        <q-btn
+          class="on-right"
+          flat
+          dense
+          color="primary"
+          :disable="loadingDyn"
+          icon="refresh"
+          label="Refresh"
+        />
         <div class="col" />
-        <q-input borderless dense debounce="300" color="primary" v-model="filterDyn">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          color="primary"
+          v-model="filterDyn"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -118,7 +145,14 @@
       color="primary"
     >
       <template v-slot:top-right>
-        <q-input borderless dense debounce="300" color="primary" class="q-mr-sm" v-model="filter">
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          color="primary"
+          class="q-mr-sm"
+          v-model="filter"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -174,31 +208,65 @@
     >
       <template v-slot:header="props">
         <q-tr :props="props">
-          <th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
-            {{ props.cols[0].label }} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
+          <th
+            rowspan="2"
+            @click="props.sort(props.cols[0].name)"
+            :class="props.cols[0].__thClass"
+          >
+            {{ props.cols[0].label }}
+            <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
           </th>
-          <th @click="props.sort(props.cols[1].name)" :class="props.cols[1].__thClass">
-            {{ props.cols[1].label }} <q-icon :class="props.cols[1].__iconClass" name="arrow_upward" />
+          <th
+            @click="props.sort(props.cols[1].name)"
+            :class="props.cols[1].__thClass"
+          >
+            {{ props.cols[1].label }}
+            <q-icon :class="props.cols[1].__iconClass" name="arrow_upward" />
           </th>
-          <th @click="props.sort(props.cols[3].name)" :class="props.cols[3].__thClass">
-            {{ props.cols[3].label }} <q-icon :class="props.cols[3].__iconClass" name="arrow_upward" />
+          <th
+            @click="props.sort(props.cols[3].name)"
+            :class="props.cols[3].__thClass"
+          >
+            {{ props.cols[3].label }}
+            <q-icon :class="props.cols[3].__iconClass" name="arrow_upward" />
           </th>
-          <th @click="props.sort(props.cols[5].name)" :class="props.cols[5].__thClass">
-            {{ props.cols[5].label }} <q-icon :class="props.cols[5].__iconClass" name="arrow_upward" />
+          <th
+            @click="props.sort(props.cols[5].name)"
+            :class="props.cols[5].__thClass"
+          >
+            {{ props.cols[5].label }}
+            <q-icon :class="props.cols[5].__iconClass" name="arrow_upward" />
           </th>
-          <th rowspan="2" @click="props.sort(props.cols[7].name)" :class="props.cols[7].__thClass">
-            {{ props.cols[7].label }} <q-icon :class="props.cols[7].__iconClass" name="arrow_upward" />
+          <th
+            rowspan="2"
+            @click="props.sort(props.cols[7].name)"
+            :class="props.cols[7].__thClass"
+          >
+            {{ props.cols[7].label }}
+            <q-icon :class="props.cols[7].__iconClass" name="arrow_upward" />
           </th>
         </q-tr>
         <q-tr>
-          <th @click="props.sort(props.cols[2].name)" :class="props.cols[2].__thClass">
-            {{ props.cols[2].label }} <q-icon :class="props.cols[2].__iconClass" name="arrow_upward" />
+          <th
+            @click="props.sort(props.cols[2].name)"
+            :class="props.cols[2].__thClass"
+          >
+            {{ props.cols[2].label }}
+            <q-icon :class="props.cols[2].__iconClass" name="arrow_upward" />
           </th>
-          <th @click="props.sort(props.cols[4].name)" :class="props.cols[4].__thClass">
-            {{ props.cols[4].label }} <q-icon :class="props.cols[4].__iconClass" name="arrow_upward" />
+          <th
+            @click="props.sort(props.cols[4].name)"
+            :class="props.cols[4].__thClass"
+          >
+            {{ props.cols[4].label }}
+            <q-icon :class="props.cols[4].__iconClass" name="arrow_upward" />
           </th>
-          <th @click="props.sort(props.cols[6].name)" :class="props.cols[6].__thClass">
-            {{ props.cols[6].label }} <q-icon :class="props.cols[6].__iconClass" name="arrow_upward" />
+          <th
+            @click="props.sort(props.cols[6].name)"
+            :class="props.cols[6].__thClass"
+          >
+            {{ props.cols[6].label }}
+            <q-icon :class="props.cols[6].__iconClass" name="arrow_upward" />
           </th>
         </q-tr>
       </template>
@@ -237,14 +305,8 @@
     </q-table>
 
     <h4>Extra top/bottom rows</h4>
-    <q-table
-      :rows="data"
-      :columns="columns"
-      row-key="name"
-    >
-      <template v-slot:top>
-        Top
-      </template>
+    <q-table :rows="data" :columns="columns" row-key="name">
+      <template v-slot:top> Top </template>
       <template v-slot:top-row="props">
         <q-tr :props="props">
           <q-td colspan="100%">
@@ -261,9 +323,7 @@
         </q-tr>
       </template>
 
-      <template v-slot:bottom>
-        Bottom
-      </template>
+      <template v-slot:bottom> Bottom </template>
     </q-table>
 
     <h4>Single selection</h4>
@@ -312,12 +372,7 @@
       v-model:selected="selected"
     />
     <h4>No Data - Default</h4>
-    <q-table
-      :rows="[]"
-      :columns="columns"
-      title="No Data"
-      row-key="name"
-    />
+    <q-table :rows="[]" :columns="columns" title="No Data" row-key="name" />
     <h4>No Data - Label</h4>
     <q-table
       :rows="[]"
@@ -453,7 +508,7 @@ const data = [
 ]
 
 export default {
-  data () {
+  data() {
     return {
       dense: false,
       filter: '',
@@ -465,7 +520,15 @@ export default {
       serverData: [],
       loading: false,
       loadingDyn: false,
-      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
+      visibleColumns: [
+        'desc',
+        'fat',
+        'carbs',
+        'protein',
+        'sodium',
+        'calcium',
+        'iron'
+      ],
       selected: [],
 
       columns: [
@@ -477,90 +540,107 @@ export default {
           field: 'name',
           sortable: true
         },
-        { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
+        {
+          name: 'calories',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
-      data: [ ...data ],
-      dataDyn: [ ...data ]
+      data: [...data],
+      dataDyn: [...data]
     }
   },
   methods: {
-    getRowKey (row) {
+    getRowKey(row) {
       return row.name
     },
 
-    request (props) {
+    request(props) {
       // this.loading = true
       // console.log('REQUEST', props)
       // setTimeout(() => {
       //   this.serverPagination = props.pagination
-
       //   const
       //     table = this.$refs.server,
       //     { page, rowsPerPage, sortBy, descending } = props.pagination
       //   let rows = this.data.slice()
-
       //   if (props.filter) {
       //     console.log('filter hit')
       //     rows = table.computedFilterMethod(rows, props.filter)
       //   }
-
       //   if (sortBy) {
       //     rows = table.computedSortMethod(rows, sortBy, descending)
       //   }
-
       //   this.serverPagination.rowsNumber = rows.length
-
       //   if (rowsPerPage) {
       //     rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
       //   }
-
       //   this.serverData = rows
       //   this.loading = false
       // }, 1500)
     },
-    moveRowUp (name) {
+    moveRowUp(name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex > 0) {
-        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
+        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[0])
       }
     },
-    moveRowDown (name) {
+    moveRowDown(name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex < this.data.length - 1) {
-        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
+        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[0])
       }
     },
-    addRow () {
+    addRow() {
       this.loadingDyn = true
       setTimeout(() => {
-        const
-          addPoint = Math.floor(Math.random() * (this.dataDyn.length + 1)),
-          row = data[ Math.floor(Math.random() * data.length) ]
+        const addPoint = Math.floor(Math.random() * (this.dataDyn.length + 1)),
+          row = data[Math.floor(Math.random() * data.length)]
         if (!row.__count) {
           row.__count = 0
         }
         row.__count += 1
-        const addRow = extend({}, row, { name: `${ row.name } (${ row.__count })` })
-        this.dataDyn = [ ...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint) ]
+        const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
+        this.dataDyn = [
+          ...this.dataDyn.slice(0, addPoint),
+          addRow,
+          ...this.dataDyn.slice(addPoint)
+        ]
         this.loadingDyn = false
       }, 500)
     },
-    removeRow () {
+    removeRow() {
       this.loadingDyn = true
       setTimeout(() => {
         const removePoint = Math.floor(Math.random() * this.dataDyn.length)
-        this.dataDyn = [ ...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1) ]
+        this.dataDyn = [
+          ...this.dataDyn.slice(0, removePoint),
+          ...this.dataDyn.slice(removePoint + 1)
+        ]
         this.loadingDyn = false
       }, 500)
     }
   },
-  mounted () {
+  mounted() {
     const table = this.$refs.server
     this.request({
       pagination: table.computedPagination,

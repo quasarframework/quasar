@@ -44,17 +44,17 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const number = ref(110)
 
     return {
       number,
 
-      increment () {
+      increment() {
         number.value++
       },
 
-      decrement () {
+      decrement() {
         number.value--
       }
     }

@@ -4,9 +4,19 @@
 
     <q-linear-progress reverse :value="progress" class="q-mt-md" />
 
-    <q-linear-progress reverse :value="progress" color="warning" class="q-mt-sm" />
+    <q-linear-progress
+      reverse
+      :value="progress"
+      color="warning"
+      class="q-mt-sm"
+    />
 
-    <q-linear-progress reverse :value="progress" color="secondary" class="q-mt-sm" />
+    <q-linear-progress
+      reverse
+      :value="progress"
+      color="secondary"
+      class="q-mt-sm"
+    />
   </div>
 </template>
 
@@ -14,12 +24,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const progress = ref(0.4)
 
     return {
       progress,
-      randomize () {
+      randomize() {
         progress.value = Math.random()
       }
     }

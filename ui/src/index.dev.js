@@ -3,7 +3,9 @@
  * but also pointed to as entry-point in package.json
  */
 
+// oxlint-disable-next-line import/no-unassigned-import
 import './flags.dev.js'
+
 import installQuasar from './install-quasar.js'
 import Lang from './plugins/lang/Lang.js'
 import IconSet from './plugins/icon-set/IconSet.js'

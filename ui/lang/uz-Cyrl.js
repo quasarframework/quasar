@@ -15,8 +15,8 @@ export default {
     search: 'Қидириш',
     filter: 'Филтрлаш',
     refresh: 'Янгилаш',
-    expand: label => (label ? `"${ label }" ни кенгайтириш` : 'ъКенгайтиришъ'),
-    collapse: label => (label ? `"${ label }" ни йиғиш` : 'ъЙиқилишъ')
+    expand: label => (label ? `"${label}" ни кенгайтириш` : 'ъКенгайтиришъ'),
+    collapse: label => (label ? `"${label}" ни йиғиш` : 'ъЙиқилишъ')
   },
   date: {
     days: 'Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба'.split('_'),
@@ -34,14 +34,14 @@ export default {
     prevYear: 'Ўтган йили',
     nextYear: 'Кейинги йил',
     today: 'Бугун',
-    prevRangeYears: range => `Олдинги ${ range } Йиллар`,
-    nextRangeYears: range => `Кейинги ${ range } Йиллар`
+    prevRangeYears: range => `Олдинги ${range} Йиллар`,
+    nextRangeYears: range => `Кейинги ${range} Йиллар`
   },
   table: {
     noData: 'Маълумот топилмади',
     noResults: 'Қидирув бўйича маълумотлар топилмади',
     loading: 'Юкланмоқда...',
-    selectedRecords: (rows) => {
+    selectedRecords: rows => {
       if (rows === 0) {
         return 'Хеч қандай маълумотлар танланмади.'
       }

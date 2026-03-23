@@ -17,10 +17,10 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 Also check out [QBadge](/vue-components/badge).
 :::
 
-
 <DocApi file="QChip" />
 
 ## Usage
+
 <DocExample title="Basic" file="Basic" />
 
 <DocExample title="Dense" file="Dense" />

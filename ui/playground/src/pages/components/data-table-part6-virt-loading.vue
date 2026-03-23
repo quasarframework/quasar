@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-responsive :ratio="4/3" style="max-width: 700px">
+    <q-responsive :ratio="4 / 3" style="max-width: 700px">
       <q-table
         title="Treats; ratio 4/3"
         :rows="data"
@@ -18,18 +18,28 @@
         <template v-slot:body="props">
           <q-tr :props="props" :key="`m_${props.row.index}`" no-hover>
             <q-td auto-width>
-              <q-toggle dense v-model="props.expand" :label="`Row: ${props.row.index}`" />
+              <q-toggle
+                dense
+                v-model="props.expand"
+                :label="`Row: ${props.row.index}`"
+              />
             </q-td>
             <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>
             <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
           </q-tr>
-          <q-tr v-show="props.expand" :props="props" :key="`e_${props.row.index}`" no-hover class="q-virtual-scroll--with-prev">
+          <q-tr
+            v-show="props.expand"
+            :props="props"
+            :key="`e_${props.row.index}`"
+            no-hover
+            class="q-virtual-scroll--with-prev"
+          >
             <q-td colspan="100%">
-              <div class="q-pl-xl">
-                Row: {{ props.row.index }} - Fat: {{ props.row.fat }}
-              </div>
+              <div class="q-pl-xl"
+                >Row: {{ props.row.index }} - Fat: {{ props.row.fat }}</div
+              >
             </q-td>
           </q-tr>
         </template>
@@ -96,7 +106,9 @@ const seedSize = seed.length
 
 let data = []
 for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+  data = data.concat(
+    seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 }))
+  )
 }
 Object.freeze(data)
 
@@ -107,7 +119,7 @@ const nextPage = 2
 const lastPage = Math.ceil(data.length / pageSize)
 
 export default {
-  data () {
+  data() {
     return {
       pagination: {
         rowsPerPage: 0,
@@ -116,7 +128,13 @@ export default {
       columns: [
         { name: 'index', label: '#', field: 'index' },
         { name: 'name', label: 'Dessert', field: 'name' },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true }
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        }
       ],
       nextPage,
       expanded
@@ -124,13 +142,13 @@ export default {
   },
 
   computed: {
-    data () {
+    data() {
       return Object.freeze(data.slice(0, pageSize * (this.nextPage - 1)))
     }
   },
 
   methods: {
-    onScroll (evt) {
+    onScroll(evt) {
       const lastIndex = this.data.length - 1
 
       if (this.nextPage < lastPage && evt.to === lastIndex) {

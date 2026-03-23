@@ -1,11 +1,6 @@
 <template>
   <div class="q-pa-md bg-grey-9 text-white">
-    <q-tree
-      :nodes="simple"
-      node-key="label"
-      v-model:expanded="expanded"
-      dark
-    />
+    <q-tree :nodes="simple" node-key="label" v-model:expanded="expanded" dark />
   </div>
 </template>
 
@@ -13,9 +8,12 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
-      expanded: ref([ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]),
+      expanded: ref([
+        'Satisfied customers (with avatar)',
+        'Good food (with icon)'
+      ]),
 
       simple: [
         {

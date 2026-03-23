@@ -2,52 +2,68 @@
   <div class="q-layout-padding" :class="classes">
     <div style="max-width: 600px; margin-bottom: 100vh" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
+        <q-toggle
+          :dark="dark"
+          v-model="dark"
+          label="Dark"
+          :false-value="null"
+        />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="border" label="Border" />
-        <q-toggle :dark="dark" v-model="individualBorder" label="Individual Border" />
+        <q-toggle
+          :dark="dark"
+          v-model="individualBorder"
+          label="Individual Border"
+        />
       </div>
 
       <h1>Field wrapper tests</h1>
 
-      <q-field tag="div" model-value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
+      <q-field
+        tag="div"
+        model-value="We count this"
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        bottom-slots
+        counter
+        tabindex="0"
+      >
         <template v-slot:before>
           <q-icon name="event" />
         </template>
 
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
-        <template v-slot:hint>
-          Field message
-        </template>
+        <template v-slot:hint> Field message </template>
 
         <template v-slot:after>
           <q-icon name="search" />
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        bottom-slots
+        tabindex="0"
+      >
         <template v-slot:before>
           <q-icon name="event" />
         </template>
 
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
-        <template v-slot:hint>
-          Field message
-        </template>
+        <template v-slot:hint> Field message </template>
 
-        <template v-slot:counter>
-          3/12
-        </template>
+        <template v-slot:counter> 3/12 </template>
 
         <template v-slot:after>
           <q-icon name="search" />
@@ -55,15 +71,19 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        tabindex="0"
+      >
         <template v-slot:before>
           <q-icon name="event" color="orange" />
         </template>
 
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
         <template v-slot:after>
@@ -72,109 +92,119 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        bottom-slots
+        tabindex="0"
+      >
         <template v-slot:before>
           <q-icon name="event" />
         </template>
 
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
-        <template v-slot:hint>
-          Field message
-        </template>
+        <template v-slot:hint> Field message </template>
 
-        <template v-slot:counter>
-          3/12
-        </template>
+        <template v-slot:counter> 3/12 </template>
 
         <template v-slot:after>
           <q-spinner />
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        bottom-slots
+        tabindex="0"
+      >
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
-        <template v-slot:hint>
-          Field message
+        <template v-slot:hint> Field message </template>
+        <template v-slot:counter> 3/12 </template>
+      </q-field>
+
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        bottom-slots
+        tabindex="0"
+      >
+        <template v-slot:control>
+          <div>Field content</div>
         </template>
-        <template v-slot:counter>
-          3/12
+
+        <template v-slot:counter> 3/12 </template>
+      </q-field>
+
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        tabindex="0"
+      >
+        <template v-slot:control>
+          <div>Field content</div>
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
-        <template v-slot:control>
-          <div>
-            Field content
-          </div>
-        </template>
-
-        <template v-slot:counter>
-          3/12
-        </template>
-      </q-field>
-
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
-        <template v-slot:control>
-          <div>
-            Field content
-          </div>
-        </template>
-      </q-field>
-
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        label="Field label"
+        stack-label
+        bottom-slots
+        tabindex="0"
+      >
         <template v-slot:before>
           <q-btn flat round dense icon="event" />
         </template>
 
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
-        <template v-slot:hint>
-          Field message
-        </template>
+        <template v-slot:hint> Field message </template>
 
-        <template v-slot:counter>
-          3/12
-        </template>
+        <template v-slot:counter> 3/12 </template>
 
         <template v-slot:after>
           <q-btn flat round dense icon="delete" />
         </template>
       </q-field>
 
-      <p class="caption">
-        Item aligned test
-      </p>
+      <p class="caption">Item aligned test</p>
 
-      <q-field :dark="dark" :dense="dense" item-aligned label="Field label" stack-label bottom-slots tabindex="0">
+      <q-field
+        :dark="dark"
+        :dense="dense"
+        item-aligned
+        label="Field label"
+        stack-label
+        bottom-slots
+        tabindex="0"
+      >
         <template v-slot:before><q-icon name="event" /></template>
 
         <template v-slot:control>
-          <div>
-            Field content
-          </div>
+          <div>Field content</div>
         </template>
 
-        <template v-slot:hint>
-          Field message
-        </template>
+        <template v-slot:hint> Field message </template>
 
-        <template v-slot:counter>
-          3/12
-        </template>
+        <template v-slot:counter> 3/12 </template>
 
         <template v-slot:after>
           <q-icon name="search" />
@@ -187,26 +217,51 @@
         <q-item-section>List item</q-item-section>
       </q-item>
 
-      <p class="caption">
-        Control slot: {{ testValue }}
-      </p>
-      <q-field filled v-model="testValue" label="Tree Select - Single" tabindex="0">
+      <p class="caption">Control slot: {{ testValue }}</p>
+      <q-field
+        filled
+        v-model="testValue"
+        label="Tree Select - Single"
+        tabindex="0"
+      >
         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-          <input :id="id" :value="value" @input="e => emitValue(e.target.value)" v-show="floatingLabel">
+          <input
+            :id="id"
+            :value="value"
+            @input="e => emitValue(e.target.value)"
+            v-show="floatingLabel"
+          />
         </template>
       </q-field>
 
-      <q-field filled v-model="color" label="Pick a color" stack-label hint="Choose a color" tabindex="0">
+      <q-field
+        filled
+        v-model="color"
+        label="Pick a color"
+        stack-label
+        hint="Choose a color"
+        tabindex="0"
+      >
         <template v-slot:control="{ id, value, emitValue }">
-          <q-color class="col" no-header flat :id="id" :value="value" @input="emitValue" />
+          <q-color
+            class="col"
+            no-header
+            flat
+            :id="id"
+            :value="value"
+            @input="emitValue"
+          />
         </template>
       </q-field>
 
-      <p class="caption">
-        Tree select
-      </p>
+      <p class="caption">Tree select</p>
 
-      <q-field filled :model-value="selected" label="Tree Select - Single" tabindex="0">
+      <q-field
+        filled
+        :model-value="selected"
+        label="Tree Select - Single"
+        tabindex="0"
+      >
         <template v-slot:control>
           <div class="no-outline full-width">
             {{ selected }}
@@ -216,7 +271,10 @@
           <q-icon
             name="expand_more"
             class="q-expansion-item__toggle-icon"
-            :class="{ 'rotate-180': $refs.menu1 !== void 0 && $refs.menu1.showing === true }"
+            :class="{
+              'rotate-180':
+                $refs.menu1 !== void 0 && $refs.menu1.showing === true
+            }"
           />
         </template>
         <q-popup-proxy fit auto-close ref="menu1">
@@ -230,7 +288,12 @@
         </q-popup-proxy>
       </q-field>
 
-      <q-field filled :model-value="tickedValue" label="Tree Select - Multiple" tabindex="2">
+      <q-field
+        filled
+        :model-value="tickedValue"
+        label="Tree Select - Multiple"
+        tabindex="2"
+      >
         <template v-slot:control>
           <div class="no-outline full-width">
             {{ tickedValue }}
@@ -240,7 +303,10 @@
           <q-icon
             name="expand_more"
             class="q-expansion-item__toggle-icon"
-            :class="{ 'rotate-180': $refs.menu2 !== void 0 && $refs.menu2.showing === true }"
+            :class="{
+              'rotate-180':
+                $refs.menu2 !== void 0 && $refs.menu2.showing === true
+            }"
           />
         </template>
         <q-popup-proxy fit ref="menu2">
@@ -260,7 +326,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       dark: null,
       border: false,
@@ -315,17 +381,17 @@ export default {
   },
 
   watch: {
-    border (v) {
-      v && (this.individualBorder = false)
+    border(v) {
+      if (v) this.individualBorder = false
     },
 
-    individualBorder (v) {
-      v && (this.border = false)
+    individualBorder(v) {
+      if (v) this.border = false
     }
   },
 
   computed: {
-    classes () {
+    classes() {
       return {
         'bg-black text-white': this.dark,
         'fields-border': this.border,
@@ -333,7 +399,7 @@ export default {
       }
     },
 
-    tickedValue () {
+    tickedValue() {
       return this.ticked.join(', ')
     }
   }

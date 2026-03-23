@@ -10,13 +10,13 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
-    function radio () {
+    function radio() {
       $q.dialog({
         title: 'Options',
-        message: 'Choose your option, but make sure it\'s the second one :)',
+        message: "Choose your option, but make sure it's the second one :)",
         options: {
           type: 'radio',
           model: 'opt1',
@@ -35,10 +35,11 @@ export default {
       })
     }
 
-    function checkbox () {
+    function checkbox() {
       $q.dialog({
         title: 'Options',
-        message: 'Choose your options, but make sure you also pick the second one.',
+        message:
+          'Choose your options, but make sure you also pick the second one.',
         options: {
           type: 'checkbox',
           model: [],
@@ -57,10 +58,11 @@ export default {
       })
     }
 
-    function toggle () {
+    function toggle() {
       $q.dialog({
         title: 'Options',
-        message: 'Choose your options, but make sure you also pick the first two.',
+        message:
+          'Choose your options, but make sure you also pick the first two.',
         options: {
           type: 'toggle',
           model: [],

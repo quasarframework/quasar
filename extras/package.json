@@ -2,9 +2,33 @@
   "name": "@quasar/extras",
   "version": "1.17.0",
   "description": "Quasar Framework fonts, icons and animations",
-  "scripts": {
-    "lint": "eslint --cache --fix",
-    "build": "node build/index.js"
+  "keywords": [
+    "animations",
+    "fonts",
+    "framework",
+    "icons",
+    "quasar"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar/issues"
+  },
+  "license": "MIT",
+  "author": "Razvan Stoenescu",
+  "contributors": [
+    {
+      "name": "Jeff Galbraith",
+      "email": "jeff@quasar.dev",
+      "url": "https://jeffgalbraith.dev"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
   },
   "main": "index.js",
   "exports": {
@@ -126,40 +150,15 @@
     },
     "./*": "./*"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/quasarframework/quasar.git"
-  },
-  "keywords": [
-    "quasar",
-    "framework",
-    "fonts",
-    "icons",
-    "animations"
-  ],
-  "author": "Razvan Stoenescu",
-  "contributors": [
-    {
-      "name": "Jeff Galbraith",
-      "email": "jeff@quasar.dev",
-      "url": "https://jeffgalbraith.dev"
-    }
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/quasarframework/quasar/issues"
-  },
-  "funding": {
-    "type": "github",
-    "url": "https://donate.quasar.dev"
-  },
-  "homepage": "https://quasar.dev",
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint",
+    "build": "node build/index.js"
+  },
   "devDependencies": {
-    "eslint": "catalog:",
-    "eslint-config-quasar": "workspace:*",
     "@fortawesome/fontawesome-free": "6.7.2",
     "@mdi/font": "7.4.47",
     "@mdi/svg": "7.4.47",

@@ -20,7 +20,7 @@ $ quasar build
 
 This command will build your project in SPA mode and output your production ready bundle to a newly created folder `/dist/spa`.
 
-To serve your production files it is *required* to use a web server, so to serve over http(s):// protocol. Simply opening the `index.html` file from within your browser will not work, since this uses the file:// protocol instead.
+To serve your production files it is _required_ to use a web server, so to serve over http(s):// protocol. Simply opening the `index.html` file from within your browser will not work, since this uses the file:// protocol instead.
 
 Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.
 
@@ -117,9 +117,9 @@ The Vercel CLI should now display information regarding your deployment, like th
 
 You should consider adding some additional configurations to your project.
 
-* Important: Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default, so you will need to override the `Output Directory` in your Vercel project. Set it to `dist/spa` through the Vercel web ui under your project's settings > Build & Development Settings.
+- Important: Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default, so you will need to override the `Output Directory` in your Vercel project. Set it to `dist/spa` through the Vercel web ui under your project's settings > Build & Development Settings.
 
-* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
+- Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
 
 ```json /package.json
 "scripts": {
@@ -128,7 +128,7 @@ You should consider adding some additional configurations to your project.
 }
 ```
 
-* In order to support SPA routing in the deployed app, consider adding `vercel.json` file in your root folder:
+- In order to support SPA routing in the deployed app, consider adding `vercel.json` file in your root folder:
 
 ```json vercel.json
 {

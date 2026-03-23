@@ -2,9 +2,19 @@ const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash/throttle.js')
 const { green, gray, bold, trueColor } = require('kolorist')
 
-const { success, info, error, warning, clearConsole, dot } = require('../utils/logger.js')
+const {
+  success,
+  info,
+  error,
+  warning,
+  clearConsole,
+  dot
+} = require('../utils/logger.js')
 const { isMinimalTerminal } = require('../utils/is-minimal-terminal.js')
-const { printWebpackWarnings, printWebpackErrors } = require('../utils/print-webpack-issue/index.js')
+const {
+  printWebpackWarnings,
+  printWebpackErrors
+} = require('../utils/print-webpack-issue/index.js')
 const { progressLog } = require('../utils/progress-log.js')
 
 let maxLengthName = 0
@@ -12,11 +22,11 @@ let isDev = false
 
 const compilations = []
 
-function isCompilationIdle () {
+function isCompilationIdle() {
   return compilations.every(entry => entry.idle === true)
 }
 
-function createState (name) {
+function createState(name) {
   const state = {
     name,
     idle: true,
@@ -44,17 +54,17 @@ function createState (name) {
 
 const barLength = 20
 const barProgressFactor = barLength / 100
-const barString = Array.apply(null, { length: barLength })
-  .map((_, index) => {
-    const p = index / barLength
-    const colorize = p <= 0.5
+const barString = Array.apply(null, { length: barLength }).map((_, index) => {
+  const p = index / barLength
+  const colorize =
+    p <= 0.5
       ? trueColor(255, Math.round(p * 510), 0)
       : trueColor(255 - Math.round(p * 122), 255, 0)
 
-    return colorize('█')
-  })
+  return colorize('█')
+})
 
-function printBars () {
+function printBars() {
   if (progressLog.isActive !== true) return
 
   const prefixLen = compilations.length - 1
@@ -66,20 +76,31 @@ function printBars () {
 
     const barWidth = Math.floor(state.progress * barProgressFactor)
     const bar = barString
-      .map((char, index) => (index <= barWidth ? char : ' '))
+      .map((char, i) => (i <= barWidth ? char : ' '))
       .join('')
 
-    const details = state.idle === false
-      ? state.progress + '% ' + ([
-        state.progressMessage,
-        state.progressDetails ? [ state.progressDetails[ 0 ], state.progressDetails[ 1 ] ].filter(s => s).join(' ') : ''
-      ].filter(m => m).join(' '))
-      : 'idle'
+    const details =
+      state.idle === false
+        ? state.progress +
+          '% ' +
+          [
+            state.progressMessage,
+            state.progressDetails
+              ? [state.progressDetails[0], state.progressDetails[1]]
+                  .filter(s => s)
+                  .join(' ')
+              : ''
+          ]
+            .filter(m => m)
+            .join(' ')
+        : 'idle'
 
-    return ` ${ prefix } ${ name } ${ bar } ${ gray(details) }\n`
+    return ` ${prefix} ${name} ${bar} ${gray(details)}\n`
   })
 
-  progressLog(`\n ${ dot } ${ green(bold('Compiling with Webpack')) }:\n` + lines.join(''))
+  progressLog(
+    `\n ${dot} ${green(bold('Compiling with Webpack'))}:\n` + lines.join('')
+  )
 }
 
 const renderBars = throttle(printBars, 200)
@@ -88,17 +109,16 @@ const renderBars = throttle(printBars, 200)
  * Status related
  */
 
-function printStatus () {
-  if (
-    isDev === true
-    && isCompilationIdle() === false
-  ) return
+function printStatus() {
+  if (isDev === true && isCompilationIdle() === false) return
 
   const entriesWithErrors = compilations.filter(entry => entry.errors !== null)
   if (entriesWithErrors.length > 0) {
-    isDev === true && clearConsole()
+    if (isDev === true) clearConsole()
 
-    entriesWithErrors.forEach(entry => { printWebpackErrors(entry.name, entry.errors) })
+    entriesWithErrors.forEach(entry => {
+      printWebpackErrors(entry.name, entry.errors)
+    })
     console.log()
     error('Please check the log above for details.\n', 'COMPILATION FAILED')
 
@@ -109,22 +129,29 @@ function printStatus () {
     return
   }
 
-  if (
-    isDev !== true
-    && isCompilationIdle() === false
-  ) return
+  if (isDev !== true && isCompilationIdle() === false) return
 
-  const entriesWithWarnings = compilations.filter(entry => entry.warnings !== null)
+  const entriesWithWarnings = compilations.filter(
+    entry => entry.warnings !== null
+  )
   if (entriesWithWarnings.length > 0) {
-    entriesWithWarnings.forEach(entry => { printWebpackWarnings(entry.name, entry.warnings) })
+    entriesWithWarnings.forEach(entry => {
+      printWebpackWarnings(entry.name, entry.warnings)
+    })
     console.log()
-    warning('Compilation succeeded but there are warning(s). Please check the log above.\n')
+    warning(
+      'Compilation succeeded but there are warning(s). Please check the log above.\n'
+    )
   }
 }
 
-module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends ProgressPlugin {
-  constructor ({ name, quasarConf }) {
-    const useBars = isMinimalTerminal !== true && quasarConf.build.webpackShowProgress === true
+module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends (
+  ProgressPlugin
+) {
+  constructor({ name, quasarConf }) {
+    const useBars =
+      isMinimalTerminal !== true &&
+      quasarConf.build.webpackShowProgress === true
 
     if (useBars === true) {
       super({
@@ -132,8 +159,7 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
           this.updateBars(percent, msg, details)
         }
       })
-    }
-    else {
+    } else {
       super({ handler: () => {} })
     }
 
@@ -146,12 +172,13 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
     isDev = quasarConf.ctx.dev === true
   }
 
-  apply (compiler) {
+  apply(compiler) {
     if (this.opts.useBars) {
       super.apply(compiler)
     }
 
-    compiler.hooks.beforeCompile.tapAsync('QuasarProgressPlugin',
+    compiler.hooks.beforeCompile.tapAsync(
+      'QuasarProgressPlugin',
       (_, callback) => {
         progressLog.init().then(() => {
           callback()
@@ -181,20 +208,22 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
     compiler.hooks.compile.tap('QuasarProgressPlugin', () => {
       if (this.state === void 0) {
         this.state = createState(this.opts.name)
-      }
-      else {
+      } else {
         this.resetStats()
       }
 
       this.state.idle = false
 
-      info(`Compiling of "${ this.state.name }" by Webpack in progress...`, 'WAIT')
+      info(
+        `Compiling of "${this.state.name}" by Webpack in progress...`,
+        'WAIT'
+      )
 
       if (this.opts.useBars === true) {
         progressLog.start()
       }
 
-      this.state.startTime = +new Date()
+      this.state.startTime = Number(new Date())
     })
 
     compiler.hooks.done.tap('QuasarStatusPlugin', stats => {
@@ -203,8 +232,7 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
 
       if (stats.hasErrors()) {
         this.state.errors = stats
-      }
-      else {
+      } else {
         this.state.compiled = true
         if (stats.hasWarnings()) {
           this.state.warnings = stats
@@ -215,28 +243,35 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
         progressLog.stop()
       }
 
-      const diffTime = +new Date() - this.state.startTime
+      const diffTime = Number(new Date()) - this.state.startTime
 
       if (this.state.errors !== null) {
-        error(`"${ this.state.name }" compiled by Webpack with errors ${ dot } ${ diffTime }ms`, 'DONE')
-      }
-      else if (this.state.warnings !== null) {
-        warning(`"${ this.state.name }" compiled by Webpack, but with warnings ${ dot } ${ diffTime }ms`, 'DONE')
-      }
-      else {
-        success(`"${ this.state.name }" compiled with success by Webpack ${ dot } ${ diffTime }ms`, 'DONE')
+        error(
+          `"${this.state.name}" compiled by Webpack with errors ${dot} ${diffTime}ms`,
+          'DONE'
+        )
+      } else if (this.state.warnings !== null) {
+        warning(
+          `"${this.state.name}" compiled by Webpack, but with warnings ${dot} ${diffTime}ms`,
+          'DONE'
+        )
+      } else {
+        success(
+          `"${this.state.name}" compiled with success by Webpack ${dot} ${diffTime}ms`,
+          'DONE'
+        )
       }
 
       printStatus()
     })
   }
 
-  resetStats () {
+  resetStats() {
     this.state.errors = null
     this.state.warnings = null
   }
 
-  updateBars (percent, msg, details) {
+  updateBars(percent, msg, details) {
     // it may still be called even after compilation was closed
     // due to Webpack's delayed call of handler
     if (this.state === void 0) return
@@ -248,6 +283,6 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
     this.state.progressMessage = running && msg ? msg : ''
     this.state.progressDetails = details
 
-    this.opts.useBars === true && renderBars()
+    if (this.opts.useBars === true) renderBars()
   }
 }

@@ -1,0 +1,160 @@
+{
+  "ignorePatterns": ["**/quasar.config.*.temporary.compiled*", "**/.quasar/"],
+
+  "plugins": ["vue", "import", "eslint"],
+
+  // Enable all rules in the `correctness` and `suspicious` categories
+  "categories": {
+    // "style": "warn",
+    // "pedantic": "warn",
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "error"
+  },
+
+  "rules": {
+    /** Style rule overrides */
+    "curly": ["error", "multi-line"],
+    "func-names": "error",
+    "new-cap": "error",
+    "default-case-last": "error",
+    "default-param-last": "error",
+    "no-duplicate-imports": "error",
+    "no-implicit-coercion": "error",
+    "no-lone-blocks": "error",
+    "no-useless-computed-key": "error",
+    "prefer-exponentiation-operator": "error",
+    "import/first": "error",
+    "import/no-duplicates": "error",
+    "import/no-named-default": "error",
+    "promise/avoid-new": "error",
+    "promise/no-nesting": "error",
+    "promise/no-return-wrap": "error",
+    "promise/param-names": "error",
+    "promise/prefer-catch": "error",
+    "unicorn/consistent-existence-index-check": "error",
+    "unicorn/empty-brace-spaces": "error",
+    "unicorn/error-message": "error",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": { "camelCase": true, "pascalCase": true },
+        "ignore": ".d.ts$"
+      }
+    ],
+    "unicorn/no-await-expression-member": "error",
+    "unicorn/no-console-spaces": "warn",
+    "unicorn/numeric-separators-style": "error",
+    "unicorn/prefer-modern-dom-apis": "error",
+    "unicorn/prefer-negative-index": "error",
+    "unicorn/catch-error-name": [
+      "error",
+      {
+        "name": "err"
+      }
+    ],
+    "unicorn/prefer-optional-catch-binding": "error",
+    "unicorn/no-useless-collection-argument": "error",
+    "unicorn/no-zero-fractions": "error",
+    "unicorn/number-literal-case": "error",
+    "unicorn/prefer-array-index-of": "error",
+    "unicorn/prefer-bigint-literals": "error",
+    "unicorn/prefer-class-fields": "error",
+    "unicorn/prefer-classlist-toggle": "error",
+    "unicorn/prefer-default-parameters": "error",
+    "unicorn/prefer-dom-node-text-content": "error",
+    "unicorn/prefer-includes": "error",
+    "unicorn/prefer-string-raw": "error",
+    "unicorn/prefer-response-static-json": "error",
+    "unicorn/prefer-reflect-apply": "error",
+    "unicorn/prefer-object-from-entries": "error",
+    "unicorn/prefer-logical-operator-over-ternary": "error",
+    "unicorn/text-encoding-identifier-case": "error",
+    "unicorn/require-array-join-separator": "error",
+    "unicorn/prefer-structured-clone": "error",
+    "unicorn/prefer-string-trim-start-end": "error",
+
+    /** Performance rule overrides */
+    "no-await-in-loop": "off",
+    "prefer-set-has": "off",
+    "no-map-spread": "off",
+
+    /** Suspicious rule overrides */
+    "no-array-sort": "off",
+    "no-array-reverse": "off",
+    "no-useless-concat": "off",
+    "require-post-message-target-origin": "off",
+    "no-unexpected-multiline": "error",
+
+    /** Correctness rule overrides */
+    "no-this-in-exported-function": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true
+      }
+    ],
+
+    /** Pedantic rule overrides */
+    "no-useless-return": "error",
+    "eqeqeq": "error",
+    "no-lonely-if": "error",
+    "no-new-wrappers": "error",
+    "require-await": "error",
+    "unicorn/escape-case": "error",
+    "unicorn/explicit-length-check": [
+      "error",
+      {
+        "non-zero": "not-equal"
+      }
+    ],
+    "unicorn/no-instanceof-array": "error",
+    "unicorn/no-new-buffer": "error",
+    "unicorn/no-unnecessary-array-flat-depth": "error",
+    "unicorn/no-unnecessary-array-splice-count": "error",
+    "unicorn/no-unnecessary-slice-end": "error",
+    "unicorn/no-useless-promise-resolve-reject": "error",
+    "unicorn/no-useless-undefined": "error",
+    "unicorn/no-useless-switch-case": "error",
+    "unicorn/prefer-array-some": "error",
+    "unicorn/prefer-date-now": "error",
+    "unicorn/prefer-math-min-max": "error",
+    "unicorn/prefer-regexp-test": "error",
+    "unicorn/prefer-string-slice": "error",
+    "unicorn/throw-new-error": "error",
+
+    /** Restriction rule overrides */
+    "no-undefined": "error", // use void 0 instead of undefined
+    "no-var": "error",
+
+    /** Import plugin rule overrides */
+    "import/no-anonymous-default-export": [
+      "error",
+      {
+        "allowArray": true,
+        "allowArrowFunction": true,
+        "allowLiteral": true,
+        "allowObject": true
+      }
+    ],
+
+    /** ESLint plugin rule overrides */
+    "eslint/arrow-body-style": ["error", "as-needed"],
+
+    /** Additional custom rules */
+    "no-unreachable": "error",
+    "import/export": "error",
+    "oxc/branches-sharing-code": "error",
+    "promise/no-return-in-finally": "error",
+    "no-unassigned-import": ["error", { "allow": ["**/*.{sass,scss,css}"] }]
+  },
+
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "rules": {
+        "no-unassigned-import": "off"
+      }
+    }
+  ]
+}

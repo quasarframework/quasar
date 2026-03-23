@@ -5,7 +5,7 @@
         <img
           src="https://cdn.quasar.dev/img/mountains.jpg"
           style="width: 100px; height: 64px"
-        >
+        />
       </template>
 
       Could not retrieve travel data.

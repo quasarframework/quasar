@@ -1,4 +1,4 @@
-export default function setCssVar (propName, value, element = document.body) {
+export default function setCssVar(propName, value, element = document.body) {
   if (typeof propName !== 'string') {
     throw new TypeError('Expected a string as propName')
   }
@@ -9,5 +9,5 @@ export default function setCssVar (propName, value, element = document.body) {
     throw new TypeError('Expected a DOM element')
   }
 
-  element.style.setProperty(`--q-${ propName }`, value)
+  element.style.setProperty(`--q-${propName}`, value)
 }

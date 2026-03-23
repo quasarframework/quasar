@@ -6,7 +6,9 @@
         <div class="text-dark">
           <div class="bg-amber q-pa-sm">Amber block</div>
           <div class="row q-gutter-lg bg-blue-4">
-            <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n">C</div>
+            <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n"
+              >C</div
+            >
           </div>
         </div>
       </div>
@@ -16,7 +18,9 @@
           <div class="bg-amber q-pa-sm">Amber block</div>
           <div class="bg-blue-4 row">
             <div class="row q-gutter-lg">
-              <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n">C</div>
+              <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n"
+                >C</div
+              >
             </div>
           </div>
         </div>
@@ -27,7 +31,9 @@
           <div class="bg-amber q-pa-sm">Amber block</div>
           <div class="bg-blue-4 overflow-auto">
             <div class="row q-gutter-lg">
-              <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n">C</div>
+              <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n"
+                >C</div
+              >
             </div>
           </div>
         </div>

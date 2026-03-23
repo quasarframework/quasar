@@ -1,5 +1,11 @@
-function plurals (n, opts) {
-  return opts[ n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2 ]
+function plurals(n, opts) {
+  return opts[
+    n % 10 === 1 && n % 100 !== 11
+      ? 0
+      : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)
+        ? 1
+        : 2
+  ]
 }
 
 export default {
@@ -19,13 +25,18 @@ export default {
     search: 'Поиск',
     filter: 'Фильтр',
     refresh: 'Обновить',
-    expand: label => (label ? `Расширьте "${ label }"` : 'Расширять'),
-    collapse: label => (label ? `Свернуть "${ label }"` : 'Крах')
+    expand: label => (label ? `Расширьте "${label}"` : 'Расширять'),
+    collapse: label => (label ? `Свернуть "${label}"` : 'Крах')
   },
   date: {
-    days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
+    days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split(
+      '_'
+    ),
     daysShort: 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
-    months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
+    months:
+      'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split(
+        '_'
+      ),
     monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -35,18 +46,20 @@ export default {
     prevYear: 'Предыдущий год',
     nextYear: 'Следующий год',
     today: 'Сегодня',
-    prevRangeYears: range => `Предыдущий ${ range } Годы`,
-    nextRangeYears: range => `Далее ${ range } годы`
+    prevRangeYears: range => `Предыдущий ${range} Годы`,
+    nextRangeYears: range => `Далее ${range} годы`
   },
   table: {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loading: 'Загрузка...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 0
-        ? rows + ' ' + plurals(rows, [ 'строка выбрана', 'строки выбраны', 'строк выбрано' ]) + '.'
-        : 'Ни одна строка не выбрана.'
-    ),
+        ? rows +
+          ' ' +
+          plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано']) +
+          '.'
+        : 'Ни одна строка не выбрана.',
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => start + '-' + end + ' из ' + total,

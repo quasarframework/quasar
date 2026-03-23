@@ -1,4 +1,4 @@
-export default function getCssVar (propName, element = document.body) {
+export default function getCssVar(propName, element = document.body) {
   if (typeof propName !== 'string') {
     throw new TypeError('Expected a string as propName')
   }
@@ -6,5 +6,7 @@ export default function getCssVar (propName, element = document.body) {
     throw new TypeError('Expected a DOM element')
   }
 
-  return getComputedStyle(element).getPropertyValue(`--q-${ propName }`).trim() || null
+  return (
+    getComputedStyle(element).getPropertyValue(`--q-${propName}`).trim() || null
+  )
 }

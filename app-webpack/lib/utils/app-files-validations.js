@@ -4,28 +4,30 @@ const { relative, sep } = require('node:path')
 const { warn } = require('./logger.js')
 const { entryPointMarkup, attachMarkup } = require('../utils/html-template.js')
 
-function getRelativePath (appPaths, file) {
+function getRelativePath(appPaths, file) {
   return sep + relative(appPaths.appDir, file)
 }
 
-module.exports.appFilesValidations = function appFilesValidations (appPaths, sourceFiles) {
+module.exports.appFilesValidations = function appFilesValidations(
+  appPaths,
+  sourceFiles
+) {
   let relativePath
-  const file = appPaths.resolve.app(
-    sourceFiles.indexHtmlTemplate
-  )
+  const file = appPaths.resolve.app(sourceFiles.indexHtmlTemplate)
 
   if (existsSync(file) === false) {
     relativePath = getRelativePath(appPaths, file)
     const oldIndexHtmlFile = appPaths.resolve.src('index.template.html')
-    const configuredBanner = sourceFiles.indexHtmlTemplate !== 'index.html'
-      ? ' (configured through quasar.config file > sourceFiles > indexHtmlTemplate)'
-      : ''
+    const configuredBanner =
+      sourceFiles.indexHtmlTemplate !== 'index.html'
+        ? ' (configured through quasar.config file > sourceFiles > indexHtmlTemplate)'
+        : ''
 
     if (existsSync(oldIndexHtmlFile)) {
-      warn(`The file ${ relativePath }${ configuredBanner } is missing but found the deprecated /src/index.template.html one instead.
+      warn(`The file ${relativePath}${configuredBanner} is missing but found the deprecated /src/index.template.html one instead.
 
   Please do the following to fix this:
-  1. Move /src/index.template.html to ${ relativePath }
+  1. Move /src/index.template.html to ${relativePath}
   2. Then replace the following content in it:
 
     <!-- DO NOT touch the following DIV -->
@@ -33,10 +35,11 @@ module.exports.appFilesValidations = function appFilesValidations (appPaths, sou
 
     with:
 
-    ${ entryPointMarkup }\n`)
-    }
-    else {
-      warn(`The file ${ relativePath }${ configuredBanner } is missing. Please add it back.\n`)
+    ${entryPointMarkup}\n`)
+    } else {
+      warn(
+        `The file ${relativePath}${configuredBanner} is missing. Please add it back.\n`
+      )
     }
 
     return false
@@ -50,8 +53,8 @@ module.exports.appFilesValidations = function appFilesValidations (appPaths, sou
       relativePath = getRelativePath(appPaths, file)
     }
 
-    warn(`Please remove ${ attachMarkup } from
-       ${ relativePath } inside of <body>\n`)
+    warn(`Please remove ${attachMarkup} from
+       ${relativePath} inside of <body>\n`)
     valid = false
   }
 
@@ -60,8 +63,8 @@ module.exports.appFilesValidations = function appFilesValidations (appPaths, sou
       relativePath = getRelativePath(appPaths, file)
     }
 
-    warn(`Please add ${ entryPointMarkup } to
-       ${ relativePath } inside of <body>\n`)
+    warn(`Please add ${entryPointMarkup} to
+       ${relativePath} inside of <body>\n`)
     valid = false
   }
 

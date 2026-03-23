@@ -1,9 +1,7 @@
 <template>
   <div class="q-layout-padding">
     <div class="q-pa-md" style="max-width: 400px">
-      <h5>
-        Form with async validation rules
-      </h5>
+      <h5>Form with async validation rules</h5>
       <q-form
         @submit="onSubmit"
         @reset="onReset"
@@ -20,7 +18,7 @@
           debounce="500"
           label="Your name *"
           hint="Name and surname"
-          :rules="[ validateNameAsync ]"
+          :rules="[validateNameAsync]"
         />
 
         <q-input
@@ -30,30 +28,48 @@
           @update:model-value="programaticSubmit"
           label="Your age *"
           debounce="500"
-          :rules="[
-            validateAgeRequiredAsync,
-            validateAgeRangeAsync,
-          ]"
+          :rules="[validateAgeRequiredAsync, validateAgeRangeAsync]"
         />
 
-        <q-toggle @update:model-value="programaticSubmit" v-model="accept" label="I accept the license and terms" />
+        <q-toggle
+          @update:model-value="programaticSubmit"
+          v-model="accept"
+          label="I accept the license and terms"
+        />
 
         <div>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn
+            label="Reset"
+            type="reset"
+            color="primary"
+            flat
+            class="q-ml-sm"
+          />
         </div>
       </q-form>
     </div>
 
     <div class="q-pa-md" style="max-width: 400px">
-      <h5>
-        Form that clears after submit
-      </h5>
+      <h5>Form that clears after submit</h5>
 
       <q-toggle v-model="autofocus" label="Autofocus form" />
 
       <q-form @submit="onSubmitClear" ref="form" :autofocus="autofocus">
-        <q-input dense filled v-model="form.text1" label="Not lazy" :rules="[isReq]" />
-        <q-input dense filled v-model="form.text2" label="Lazy" lazy-rules :rules="[isReq]" />
+        <q-input
+          dense
+          filled
+          v-model="form.text1"
+          label="Not lazy"
+          :rules="[isReq]"
+        />
+        <q-input
+          dense
+          filled
+          v-model="form.text2"
+          label="Lazy"
+          lazy-rules
+          :rules="[isReq]"
+        />
 
         <q-btn type="submit" label="go" />
       </q-form>
@@ -62,10 +78,8 @@
 </template>
 
 <script>
-/* eslint-disable */
-
 export default {
-  data () {
+  data() {
     return {
       name: null,
       age: null,
@@ -79,30 +93,30 @@ export default {
 
   methods: {
     validateNameAsync(val) {
-       return new Promise(function(resolve) {
-          resolve(val && val.length > 0 || 'Please type something');
-       });
+      return new Promise(function validateNameAsync(resolve) {
+        resolve((val && val.length > 0) || 'Please type something')
+      })
     },
 
     validateAgeRequiredAsync(val) {
-       return new Promise(function(resolve) {
-          resolve(val !== null && val !== '' || 'Please type your age');
-       });
+      return new Promise(function validateAgeRequiredAsync(resolve) {
+        resolve((val !== null && val !== '') || 'Please type your age')
+      })
     },
 
     validateAgeRangeAsync(val) {
-       return new Promise(function(resolve) {
-          resolve(val > 0 && val < 100 || 'Please type a real age');
-       });
+      return new Promise(function validateAgeRangeAsync(resolve) {
+        resolve((val > 0 && val < 100) || 'Please type a real age')
+      })
     },
 
-    programaticSubmit () {
-       const form = this.$refs.form;
-       setTimeout(function() {
-         form.submit();
-       }, 100);
+    programaticSubmit() {
+      const form = this.$refs.form
+      setTimeout(function programaticSubmit() {
+        form.submit()
+      }, 100)
     },
-    onSubmit () {
+    onSubmit() {
       this.$q.notify({
         color: 'green-4',
         textColor: 'white',
@@ -111,21 +125,21 @@ export default {
       })
     },
 
-    onReset () {
+    onReset() {
       this.name = null
       this.age = null
       this.accept = false
     },
 
-    onVal (status) {
+    onVal(status) {
       console.log('VALIDATION', status)
     },
 
-    isReq (val) {
-      return !!val || 'required'
+    isReq(val) {
+      return Boolean(val) || 'required'
     },
 
-    onSubmitClear () {
+    onSubmitClear() {
       this.form = {}
       this.$refs.form.reset()
     }

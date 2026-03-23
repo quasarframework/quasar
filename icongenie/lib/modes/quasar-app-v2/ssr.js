@@ -1,4 +1,3 @@
-
 import spaEntries from './spa.js'
 
-export default [ ...spaEntries ]
+export default [...spaEntries]

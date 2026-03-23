@@ -3,7 +3,7 @@ export default {
   nativeName: 'Català',
   label: {
     clear: 'Netejar',
-    ok: 'D\'acord',
+    ok: "D'acord",
     cancel: 'Cancel·lar',
     close: 'Tancar',
     set: 'Definir',
@@ -15,13 +15,18 @@ export default {
     search: 'Cercar',
     filter: 'Filtrar',
     refresh: 'Refrescar',
-    expand: label => (label ? `Amplia "${ label }"` : 'Expandir'),
-    collapse: label => (label ? `Col·lapse "${ label }"` : 'Col·lapse')
+    expand: label => (label ? `Amplia "${label}"` : 'Expandir'),
+    collapse: label => (label ? `Col·lapse "${label}"` : 'Col·lapse')
   },
   date: {
-    days: 'Diumenge_Dilluns_Dimarts_Dimecres_Dijous_Divendres_Dissabte'.split('_'),
+    days: 'Diumenge_Dilluns_Dimarts_Dimecres_Dijous_Divendres_Dissabte'.split(
+      '_'
+    ),
     daysShort: 'Dg_Dl_Dt_Dc_Dj_Dv_Ds'.split('_'),
-    months: 'Gener_Febrer_Març_Abril_Maig_Juny_Juliol_Agost_Setembre_Octubre_Novembre_Desembre'.split('_'),
+    months:
+      'Gener_Febrer_Març_Abril_Maig_Juny_Juliol_Agost_Setembre_Octubre_Novembre_Desembre'.split(
+        '_'
+      ),
     monthsShort: 'Gen_Feb_Mar_Abr_Mai_Jun_Jul_Ago_Set_Oct_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -29,20 +34,19 @@ export default {
     prevMonth: 'Mes anterior',
     nextMonth: 'El mes vinent',
     prevYear: 'Any anterior',
-    nextYear: 'L\'any vinent',
+    nextYear: "L'any vinent",
     today: 'Avui',
-    prevRangeYears: range => `Anterior ${ range } anys`,
-    nextRangeYears: range => `A continuació ${ range } anys`
+    prevRangeYears: range => `Anterior ${range} anys`,
+    nextRangeYears: range => `A continuació ${range} anys`
   },
   table: {
     noData: 'No hi ha dades disponibles',
-    noResults: 'No s\'han trobat resultats',
+    noResults: "No s'han trobat resultats",
     loading: 'Carregant...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 1
         ? rows + ' files seleccionades.'
-        : (rows === 0 ? 'Sense' : '1') + ' fila seleccionada.'
-    ),
+        : (rows === 0 ? 'Sense' : '1') + ' fila seleccionada.',
     recordsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
     pagination: (start, end, total) => start + '-' + end + ' de ' + total,
@@ -67,7 +71,7 @@ export default {
     hyperlink: 'Hiperenllaç',
     toggleFullscreen: 'Commutar pantalla completa',
     quote: 'Cita',
-    left: 'Alinear a l\'esquerra',
+    left: "Alinear a l'esquerra",
     center: 'Alinear al centre',
     right: 'Alinear a la dreta',
     justify: 'Alinear justificat',
@@ -101,6 +105,6 @@ export default {
   },
   tree: {
     noNodes: 'No hi ha nodes disponibles',
-    noResults: 'No s\'han trobat nodes'
+    noResults: "No s'han trobat nodes"
   }
 }

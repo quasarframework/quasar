@@ -1,4 +1,3 @@
-
 export default [
   {
     // macos (embedded icons)
@@ -19,6 +18,6 @@ export default [
     generator: 'png',
     name: 'icon.png',
     folder: 'src-electron/icons',
-    sizes: [ 512 ]
+    sizes: [512]
   }
 ]

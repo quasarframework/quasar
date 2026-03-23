@@ -4,15 +4,12 @@
       <div class="col-9">.col-9</div>
       <div class="col-5">
         .col-5
-        <br>Since 9 + 5 = 14 &gt; 12, this 5-row-wide div
-        <br>gets wrapped onto a new line as one
-        <br>contiguous unit.
+        <br />Since 9 + 5 = 14 &gt; 12, this 5-row-wide div <br />gets wrapped
+        onto a new line as one <br />contiguous unit.
       </div>
       <div class="col-6">
         .col-6
-        <br>Subsequent rows
-        <br>continue along the
-        <br>new line.
+        <br />Subsequent rows <br />continue along the <br />new line.
       </div>
     </div>
 

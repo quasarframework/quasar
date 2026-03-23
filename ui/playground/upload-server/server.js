@@ -5,8 +5,7 @@ const path = require('path')
 const fse = require('fs-extra')
 const throttle = require('express-throttle-bandwidth')
 
-const
-  port = process.env.PORT || 4444,
+const port = process.env.PORT || 4444,
   folder = path.join(__dirname, 'files')
 
 fse.removeSync(folder)
@@ -21,7 +20,10 @@ app.use(throttle(1024 * 128))
 
 app.use((_, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
   next()
 })
 

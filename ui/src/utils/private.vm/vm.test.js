@@ -2,7 +2,12 @@ import { describe, test, expect } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { h, getCurrentInstance } from 'vue'
 
-import { getParentProxy, getNormalizedVNodes, vmHasRouter, vmIsDestroyed } from './vm.js'
+import {
+  getParentProxy,
+  getNormalizedVNodes,
+  vmHasRouter,
+  vmIsDestroyed
+} from './vm.js'
 
 import { getRouter } from 'testing/runtime/router.js'
 
@@ -14,7 +19,7 @@ describe('[vm API]', () => {
 
         const ChildComponent = {
           template: '<div />',
-          setup () {
+          setup() {
             childVm = getCurrentInstance()
             return {}
           }
@@ -25,15 +30,13 @@ describe('[vm API]', () => {
           components: {
             ChildComponent
           },
-          setup () {
+          setup() {
             parentVm = getCurrentInstance()
             return {}
           }
         })
 
-        expect(
-          getParentProxy(childVm.proxy)
-        ).toBe(parentVm.proxy)
+        expect(getParentProxy(childVm.proxy)).toBe(parentVm.proxy)
       })
 
       test('handles complex hierarchy', async () => {
@@ -41,7 +44,7 @@ describe('[vm API]', () => {
 
         const ChildComponent = {
           template: '<div />',
-          setup () {
+          setup() {
             childVm = getCurrentInstance()
             return {}
           }
@@ -59,7 +62,7 @@ describe('[vm API]', () => {
           components: {
             IntermediateComponent
           },
-          setup () {
+          setup() {
             parentVm = getCurrentInstance()
             return {}
           }
@@ -67,11 +70,9 @@ describe('[vm API]', () => {
 
         await flushPromises()
 
-        expect(
-          getParentProxy(
-            getParentProxy(childVm.proxy)
-          )
-        ).toBe(parentVm.proxy)
+        expect(getParentProxy(getParentProxy(childVm.proxy))).toBe(
+          parentVm.proxy
+        )
       })
     })
 
@@ -80,7 +81,7 @@ describe('[vm API]', () => {
         let vnodes
 
         const ParentComponent = {
-          setup (_, { slots }) {
+          setup(_, { slots }) {
             return () => {
               vnodes = getNormalizedVNodes(slots.default())
               return h('div', {}, vnodes)
@@ -121,36 +122,35 @@ describe('[vm API]', () => {
 
         mount({
           template: '<div />',
-          setup () {
+          setup() {
             vm = getCurrentInstance()
             return {}
           }
         })
 
-        expect(
-          vmHasRouter(vm)
-        ).toBe(false)
+        expect(vmHasRouter(vm)).toBe(false)
       })
 
       test('returns correctly with router', async () => {
         let vm
         const router = await getRouter('/route')
 
-        mount({
-          template: '<div />',
-          setup () {
-            vm = getCurrentInstance()
-            return {}
+        mount(
+          {
+            template: '<div />',
+            setup() {
+              vm = getCurrentInstance()
+              return {}
+            }
+          },
+          {
+            global: {
+              plugins: [router]
+            }
           }
-        }, {
-          global: {
-            plugins: [ router ]
-          }
-        })
+        )
 
-        expect(
-          vmHasRouter(vm)
-        ).toBe(true)
+        expect(vmHasRouter(vm)).toBe(true)
       })
     })
 
@@ -160,7 +160,7 @@ describe('[vm API]', () => {
 
         const wrapper = mount({
           template: '<div />',
-          setup () {
+          setup() {
             vm = getCurrentInstance()
             return {}
           }

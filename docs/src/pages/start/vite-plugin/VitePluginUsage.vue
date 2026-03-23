@@ -2,7 +2,10 @@
   <q-card flat bordered>
     <q-card-section class="q-gutter-xs q-pa-sm">
       <q-toggle v-model="css['roboto-font']" label="Roboto font" />
-      <q-toggle v-model="css['roboto-font-latin-ext']" label="Roboto font extended" />
+      <q-toggle
+        v-model="css['roboto-font-latin-ext']"
+        label="Roboto font extended"
+      />
       <q-toggle v-model="css.animate" label="Animations from Animate.css" />
     </q-card-section>
 
@@ -10,12 +13,30 @@
 
     <q-card-section class="q-gutter-xs q-pa-sm">
       <q-toggle v-model="css['material-icons']" label="Material Icons" />
-      <q-toggle v-model="css['material-icons-outlined']" label="Material Icons (Outlined)" />
-      <q-toggle v-model="css['material-icons-round']" label="Material Icons (Round)" />
-      <q-toggle v-model="css['material-icons-sharp']" label="Material Icons (Sharp)" />
-      <q-toggle v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)" />
-      <q-toggle v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)" />
-      <q-toggle v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)" />
+      <q-toggle
+        v-model="css['material-icons-outlined']"
+        label="Material Icons (Outlined)"
+      />
+      <q-toggle
+        v-model="css['material-icons-round']"
+        label="Material Icons (Round)"
+      />
+      <q-toggle
+        v-model="css['material-icons-sharp']"
+        label="Material Icons (Sharp)"
+      />
+      <q-toggle
+        v-model="css['material-symbols-outlined']"
+        label="Material Symbols (Outlined)"
+      />
+      <q-toggle
+        v-model="css['material-symbols-rounded']"
+        label="Material Symbols (Rounded)"
+      />
+      <q-toggle
+        v-model="css['material-symbols-sharp']"
+        label="Material Symbols (Sharp)"
+      />
       <q-toggle v-model="css['mdi-v7']" label="MDI v7" />
       <q-toggle v-model="css['fontawesome-v6']" label="Fontawesome v6" />
       <q-toggle v-model="css['fontawesome-v5']" label="Fontawesome v5" />
@@ -117,7 +138,10 @@ const extrasOptions = [
   'bootstrap-icons'
 ]
 
-const langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
+const langOptions = languages.map(lang => ({
+  label: lang.nativeName,
+  value: lang.isoName
+}))
 
 const iconSetOptions = [
   { label: 'Material (webfont)', value: 'material-icons' },
@@ -125,9 +149,18 @@ const iconSetOptions = [
   { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
   { label: 'Material Round (webfont)', value: 'material-icons-round' },
   { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
-  { label: 'Material Symbols Outlined (webfont)', value: 'material-symbols-outlined' },
-  { label: 'Material Symbols Round (webfont)', value: 'material-symbols-rounded' },
-  { label: 'Material Symbols Sharp (webfont)', value: 'material-symbols-sharp' },
+  {
+    label: 'Material Symbols Outlined (webfont)',
+    value: 'material-symbols-outlined'
+  },
+  {
+    label: 'Material Symbols Round (webfont)',
+    value: 'material-symbols-rounded'
+  },
+  {
+    label: 'Material Symbols Sharp (webfont)',
+    value: 'material-symbols-sharp'
+  },
   { label: 'MDI v7 (webfont)', value: 'mdi-v7' },
   { label: 'MDI v7 (svg)', value: 'svg-mdi-v7' },
   { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },
@@ -148,11 +181,7 @@ const iconSetOptions = [
   { label: 'Bootstrap Icons (svg)', value: 'svg-bootstrap-icons' }
 ]
 
-const autoImportCaseOptions = [
-  'kebab',
-  'pascal',
-  'combined'
-]
+const autoImportCaseOptions = ['kebab', 'pascal', 'combined']
 
 const css = reactive({
   'roboto-font': false,
@@ -179,17 +208,23 @@ const css = reactive({
   animate: false
 })
 
-watch(() => css[ 'roboto-font' ], val => {
-  if (val === true) {
-    css[ 'roboto-font-latin-ext' ] = false
+watch(
+  () => css['roboto-font'],
+  val => {
+    if (val === true) {
+      css['roboto-font-latin-ext'] = false
+    }
   }
-})
+)
 
-watch(() => css[ 'roboto-font-latin-ext' ], val => {
-  if (val === true) {
-    css[ 'roboto-font' ] = false
+watch(
+  () => css['roboto-font-latin-ext'],
+  val => {
+    if (val === true) {
+      css['roboto-font'] = false
+    }
   }
-})
+)
 
 const cfgObject = ref(false)
 const useSassVariables = ref(true) // Vite plugin cfg
@@ -199,7 +234,7 @@ const iconSet = ref('material-icons')
 
 const cssImport = computed(() => {
   const acc = extrasOptions
-    .filter(key => css[ key ] === true)
+    .filter(key => css[key] === true)
     .map(key => `import '@quasar/extras/${key}/${key}.css'`)
 
   if (
@@ -213,19 +248,18 @@ const cssImport = computed(() => {
     }
   }
 
-  const libs = acc.length > 0
-    ? `// Import icon libraries\n${acc.join('\n')}\n\n`
-    : ''
+  const libs =
+    acc.length > 0 ? `// Import icon libraries\n${acc.join('\n')}\n\n` : ''
 
-  const animExample = css.animate === true
-    ? `// A few examples for animations from Animate.css:
+  const animExample =
+    css.animate === true
+      ? `// A few examples for animations from Animate.css:
 // import @quasar/extras/animate/fadeIn.css
 // import @quasar/extras/animate/fadeOut.css\n\n`
-    : ''
+      : ''
 
-  const quasarCssPath = useSassVariables.value === true
-    ? 'src/css/index.sass'
-    : 'dist/quasar.css'
+  const quasarCssPath =
+    useSassVariables.value === true ? 'src/css/index.sass' : 'dist/quasar.css'
 
   return `${libs}${animExample}// Import Quasar css
 import 'quasar/${quasarCssPath}'`
@@ -273,11 +307,14 @@ const configInstantiation = computed(() => {
   return `, {${str}\n}`
 })
 
-const fileMainJs = computed(() => {
-  return `// FILE: main.js
+const fileMainJs = computed(
+  () =>
+    `// FILE: main.js
 
 import { createApp } from 'vue'
-import { Quasar } from '` + 'quasar' + `'${jsImport.value}
+import { Quasar } from '` +
+    'quasar' +
+    `'${jsImport.value}
 
 ${cssImport.value}
 
@@ -292,13 +329,13 @@ myApp.use(Quasar${configInstantiation.value})
 // Assumes you have a <div id="app"></div> in your index.html
 myApp.mount('#app')
 `
-})
+)
 
-const extraImports = computed(() => {
-  return useSassVariables.value === true
-    ? 'import { fileURLToPath } from \'node:url\'\n'
+const extraImports = computed(() =>
+  useSassVariables.value === true
+    ? "import { fileURLToPath } from 'node:url'\n"
     : ''
-})
+)
 
 const vitePluginOptions = computed(() => {
   const acc = []
@@ -309,21 +346,19 @@ const vitePluginOptions = computed(() => {
 
   if (useSassVariables.value === true) {
     acc.push(
-      '      sassVariables: fileURLToPath(\n'
-      + '        new URL(\'./src/quasar-variables.sass\', import.meta.url)\n'
-      + '      )'
+      '      sassVariables: fileURLToPath(\n' +
+        "        new URL('./src/quasar-variables.sass', import.meta.url)\n" +
+        '      )'
     )
   }
 
-  return acc.length === 0
-    ? ''
-    : `{\n${acc.join(',\n')}\n    }`
+  return acc.length === 0 ? '' : `{\n${acc.join(',\n')}\n    }`
 })
 
-const fileViteConfigJs = computed(() => {
-  return `// FILE: vite.config.js
+const fileViteConfigJs = computed(
+  () => `// FILE: vite.config.js
 
-${ extraImports.value }import { defineConfig } from 'vite'
+${extraImports.value}import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
@@ -340,10 +375,10 @@ export default defineConfig({
   ]
 })
 `
-})
+)
 
-const fileSassVariables = computed(() => {
-  return `// FILE (create it): src/quasar-variables.sass
+const fileSassVariables = computed(
+  () => `// FILE (create it): src/quasar-variables.sass
 
 $primary   : #1976D2
 $secondary : #26A69A
@@ -356,5 +391,5 @@ $negative  : #C10015
 $info      : #31CCEC
 $warning   : #F2C037
 `
-})
+)
 </script>

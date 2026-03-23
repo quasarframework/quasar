@@ -5,28 +5,26 @@ class IgnoredFilesList {
   #list
   #shouldSave = false
 
-  constructor () {
+  constructor() {
     const content = fse.readFileSync(this.#file, 'utf-8')
 
-    this.#list = new Set(
-      content.split('\n').filter(v => v)
-    )
+    this.#list = new Set(content.split('\n').filter(v => v))
 
     process.on('exit', () => {
       this.#save()
     })
   }
 
-  add (item) {
+  add(item) {
     this.#list.add(item)
     this.#shouldSave = true
   }
 
-  has (item) {
+  has(item) {
     return this.#list.has(item)
   }
 
-  #save () {
+  #save() {
     if (this.#shouldSave === true) {
       const content = Array.from(this.#list).sort().join('\n')
       fse.writeFileSync(this.#file, content + '\n', 'utf-8')

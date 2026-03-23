@@ -15,8 +15,8 @@ Lists can encapsulate Items or Item-like components, for example [QExpansionItem
 
 List Items have the following pre-built child components:
 
-* **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
-* **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
+- **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
+- **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
 <DocApi file="QList" />
 
@@ -88,9 +88,7 @@ You can use QItems together with Vue Router through `<router-link>` properties b
     <q-icon name="inbox" />
   </q-item-section>
 
-  <q-item-section>
-    Inbox
-  </q-item-section>
+  <q-item-section> Inbox </q-item-section>
 </q-item>
 ```
 

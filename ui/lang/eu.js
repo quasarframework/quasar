@@ -15,13 +15,18 @@ export default {
     search: 'Bilatu',
     filter: 'Iragazi',
     refresh: 'Eguneratu',
-    expand: label => (label ? `Zabaldu "${ label }"` : 'Zabaldu'),
-    collapse: label => (label ? `Tolestu "${ label }"` : 'Tolestu')
+    expand: label => (label ? `Zabaldu "${label}"` : 'Zabaldu'),
+    collapse: label => (label ? `Tolestu "${label}"` : 'Tolestu')
   },
   date: {
-    days: 'Igandea_Astelehena_Astearte_Asteazkena_Osteguna_Ostirala_Larunbata'.split('_'),
+    days: 'Igandea_Astelehena_Astearte_Asteazkena_Osteguna_Ostirala_Larunbata'.split(
+      '_'
+    ),
     daysShort: 'Iga_Ast_Asr_Asz_Ost_Osr_Lar'.split('_'),
-    months: 'Urtarrila_Otsaila_Martxoa_Apirila_Maiatza_Ekaina_Uztailea_Abuztua_Iraila_Urria_Azaroa_Abendua'.split('_'),
+    months:
+      'Urtarrila_Otsaila_Martxoa_Apirila_Maiatza_Ekaina_Uztailea_Abuztua_Iraila_Urria_Azaroa_Abendua'.split(
+        '_'
+      ),
     monthsShort: 'Urt_Ots_Mar_Api_Mai_Eka_Uzt_Abu_Ira_Urr_Aza_Abe'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,21 +36,19 @@ export default {
     prevYear: 'Aurreko urtean',
     nextYear: 'Datorren urtean',
     today: 'Gaur',
-    prevRangeYears: range => `Aurrekoa ${ range } urteak`,
-    nextRangeYears: range => `Hurrengoa ${ range } urte`
+    prevRangeYears: range => `Aurrekoa ${range} urteak`,
+    nextRangeYears: range => `Hurrengoa ${range} urte`
   },
   table: {
     noData: 'Daturik ez',
     noResults: 'Ez da emaitzarik aurkitu',
     loading: 'Kargatzen...',
-    selectedRecords: rows => (
-      rows > 0
-        ? rows + ' errenkada hautatuta.'
-        : 'hautatutako errenkada gabe.'
-    ),
+    selectedRecords: rows =>
+      rows > 0 ? rows + ' errenkada hautatuta.' : 'hautatutako errenkada gabe.',
     recordsPerPage: 'Errenkadak orrialde bakoitzeko:',
     allRows: 'Denak',
-    pagination: (start, end, total) => start + 'tik -' + end + 'ra, guztira ' + total,
+    pagination: (start, end, total) =>
+      start + 'tik -' + end + 'ra, guztira ' + total,
     columns: 'Zutabeak'
   },
   pagination: {

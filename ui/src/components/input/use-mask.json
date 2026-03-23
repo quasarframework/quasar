@@ -4,15 +4,21 @@
       "type": "String",
       "desc": "Custom mask or one of the predefined mask names",
       "examples": [
-        "'###-##'", "'date'", "'datetime'", "'time'", "'fulltime'", "'phone'", "'card'"
+        "'###-##'",
+        "'date'",
+        "'datetime'",
+        "'time'",
+        "'fulltime'",
+        "'phone'",
+        "'card'"
       ],
       "category": "mask"
     },
 
     "fill-mask": {
-      "type": [ "Boolean", "String" ],
+      "type": ["Boolean", "String"],
       "desc": "Fills string with specified characters (or underscore if value is not string) to fill mask's length",
-      "examples": [ "true", "'0'", "'_'" ],
+      "examples": ["true", "'0'", "'_'"],
       "category": "mask"
     },
 
@@ -41,25 +47,25 @@
               "type": "String",
               "required": true,
               "desc": "A string representing a regular expression to match against a single character",
-              "examples": [ "'[0-9]'", "'[a-zA-Z]'" ]
+              "examples": ["'[0-9]'", "'[a-zA-Z]'"]
             },
             "negate": {
               "type": "String",
               "required": true,
               "desc": "A string representing a regular expression to NOT match against a single character",
-              "examples": [ "'[^0-9]'", "'[^a-zA-Z]'" ]
+              "examples": ["'[^0-9]'", "'[^a-zA-Z]'"]
             },
             "transform": {
               "type": "Function",
               "required": false,
               "desc": "A function that takes the character as argument and returns the transformed character",
-              "examples": [ "v => v.toLocaleUpperCase()" ],
+              "examples": ["v => v.toLocaleUpperCase()"],
               "params": {
                 "char": {
                   "type": "String",
                   "required": true,
                   "desc": "The character being transformed",
-                  "examples": [ "'a'", "'1'" ]
+                  "examples": ["'a'", "'1'"]
                 }
               },
               "returns": {
@@ -74,7 +80,9 @@
           ]
         }
       },
-      "examples": [ "{ C: { pattern: '[0-4a-eA-E]', negate: '[^0-4a-eA-E]', transform: v => v.toLocaleUpperCase() } }" ],
+      "examples": [
+        "{ C: { pattern: '[0-4a-eA-E]', negate: '[^0-4a-eA-E]', transform: v => v.toLocaleUpperCase() } }"
+      ],
       "category": "mask",
       "addedIn": "v2.18.4"
     }

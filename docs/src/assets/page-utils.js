@@ -1,7 +1,7 @@
 import { Notify } from 'quasar'
 import { slugify } from '../../build/utils.js'
 
-export function copyToClipboard (text) {
+export function copyToClipboard(text) {
   const textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
@@ -13,7 +13,7 @@ export function copyToClipboard (text) {
   document.body.removeChild(textArea)
 }
 
-export function copyHeading (id) {
+export function copyHeading(id) {
   const text = window.location.origin + window.location.pathname + '#' + id
   const el = document.getElementById(id)
 
@@ -23,8 +23,7 @@ export function copyHeading (id) {
 
   if ('replaceState' in history) {
     history.replaceState(history.state, '', `${location.pathname}#${id}`)
-  }
-  else {
+  } else {
     window.location.hash = '#' + id
   }
 

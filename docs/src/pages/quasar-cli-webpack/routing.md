@@ -5,8 +5,8 @@ desc: (@quasar/app-webpack) How to use the Vue Router in a Quasar app.
 
 You'll notice that your Quasar project contains a `/src/router` folder. This holds the routing configuration of your website/app:
 
-* "/src/router/index.js" holds the Vue Router initialization code
-* "/src/router/routes.js" holds the routes of your website/app
+- "/src/router/index.js" holds the Vue Router initialization code
+- "/src/router/routes.js" holds the routes of your website/app
 
 ::: warning
 Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).
@@ -22,7 +22,10 @@ export default function ({ store /*, ssrContext */ }) {
   const userStore = useUserStore(store)
 
   Router.beforeEach((to, from) => {
-    if (to.matched.some(record => record.meta.requiresAuth) && !userStore.isSignedIn) {
+    if (
+      to.matched.some(record => record.meta.requiresAuth) &&
+      !userStore.isSignedIn
+    ) {
       return { name: 'account-signin', query: { next: to.fullPath } }
     }
   })

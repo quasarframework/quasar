@@ -7,9 +7,10 @@ If you want to embed Quasar into your existing [Vite](https://vitejs.dev) projec
 What our Vite plugin offers out of the box is tree-shaking for Quasar and also Quasar Sass variables integration.
 
 ::: warning Warning! Limitation ahead:
-* Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) under the hood.
-* SSR builds with our Vite plugin are not supported (only through our Quasar CLI with Vite).
-:::
+
+- Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) under the hood.
+- SSR builds with our Vite plugin are not supported (only through our Quasar CLI with Vite).
+  :::
 
 > Cross-platform support with Vite is handled by community plugins. These are not tightly integrated with Quasar as with Quasar CLI and may have issues. This is why for the best developer experience we recommend using [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) instead.
 
@@ -34,11 +35,12 @@ For the official (and full) guide, please visit the [Vite guide for scaffolding]
 Navigate to your Vite project folder and install the necessary packages.
 
 ::: tip
-* Notice that `@quasar/extras` is optional.
-* Also, if you want to use the Quasar Sass/SCSS variables then you need to add the Sass dependency, based on your version of Quasar UI:
-  * For Quasar >= v2.14 then add `sass-embedded@^1.93.2`
-  * For Quasar <= v2.13 add `sass@1.32.12` (**_notice the exact pinned version_**)
-:::
+
+- Notice that `@quasar/extras` is optional.
+- Also, if you want to use the Quasar Sass/SCSS variables then you need to add the Sass dependency, based on your version of Quasar UI:
+  - For Quasar >= v2.14 then add `sass-embedded@^1.93.2`
+  - For Quasar <= v2.13 add `sass@1.32.12` (**_notice the exact pinned version_**)
+    :::
 
 ```tabs
 <<| bash Yarn |>>

@@ -42,10 +42,7 @@ describe('[Platform API]', () => {
           cordova: expect.any(Boolean),
           capacitor: expect.any(Boolean),
           nativeMobile: expect.any(Boolean),
-          nativeMobileWrapper: expect.$any([
-            'cordova',
-            'capacitor'
-          ]),
+          nativeMobileWrapper: expect.$any(['cordova', 'capacitor']),
           electron: expect.any(Boolean),
           bex: expect.any(Boolean),
 
@@ -80,12 +77,12 @@ describe('[Platform API]', () => {
 
         expect(actualKeys).not.toHaveLength(0)
 
-        expect(actualKeys).toSatisfy(
-          keys => keys.every(key => expected[ key ] !== void 0)
+        expect(actualKeys).toSatisfy(keys =>
+          keys.every(key => expected[key] !== void 0)
         )
 
         actualKeys.forEach(key => {
-          expect(Platform.is[ key ]).toStrictEqual(expected[ key ])
+          expect(Platform.is[key]).toStrictEqual(expected[key])
         })
       })
     })

@@ -6,13 +6,9 @@ import examplesPlugin from './build/examples.js'
 import { codeSplitting } from './build/chunks.js'
 
 export default defineConfig(ctx => ({
-  boot: [
-    { path: 'gdpr', server: false }
-  ],
+  boot: [{ path: 'gdpr', server: false }],
 
-  css: [
-    'app.sass'
-  ],
+  css: ['app.sass'],
 
   build: {
     vueRouterMode: 'history',
@@ -25,27 +21,21 @@ export default defineConfig(ctx => ({
       DOCS_BRANCH: 'dev',
       SEARCH_INDEX: 'quasar-v2',
       ...(ctx.dev
-        ? { FS_QUASAR_FOLDER: fileURLToPath(new URL('../ui', import.meta.url)).replace('\\', '/') }
-        : {}
-      )
+        ? {
+            FS_QUASAR_FOLDER: fileURLToPath(
+              new URL('../ui', import.meta.url)
+            ).replace('\\', '/')
+          }
+        : {})
     },
 
     viteVuePluginOptions: {
       include: [/\.(vue|md)$/]
     },
 
-    vitePlugins: [
-      mdPlugin,
-      examplesPlugin(ctx.prod),
-      [ 'vite-plugin-checker', {
-        eslint: {
-          lintCommand: 'eslint --cache "./**/*.{js,mjs,cjs,vue}"',
-          useFlatConfig: true
-        }
-      }, { server: false } ]
-    ],
+    vitePlugins: [mdPlugin, examplesPlugin(ctx.prod)],
 
-    extendViteConf (viteConf, { isClient }) {
+    extendViteConf(viteConf, { isClient }) {
       if (ctx.prod && isClient) {
         viteConf.build.chunkSizeWarningLimit = 650
         viteConf.build.rolldownOptions = {
@@ -68,7 +58,7 @@ export default defineConfig(ctx => ({
     iconSet: 'svg-mdi-v6',
 
     devTreeshaking: true,
-    autoImportVueExtensions: [ 'vue', 'md' ],
+    autoImportVueExtensions: ['vue', 'md'],
 
     config: {
       loadingBar: {
@@ -96,14 +86,12 @@ export default defineConfig(ctx => ({
     ]
   },
 
-  animations: [ 'fadeIn', 'fadeOut' ],
+  animations: ['fadeIn', 'fadeOut'],
 
   ssr: {
     pwa: ctx.prod,
     prodPort: 3111,
-    middlewares: [
-      'render'
-    ]
+    middlewares: ['render']
   },
 
   pwa: {
@@ -111,7 +99,7 @@ export default defineConfig(ctx => ({
     injectPwaMetaTags: false,
     swFilename: 'service-worker.js',
 
-    extendWorkboxGenerateSWOptions (cfg) {
+    extendWorkboxGenerateSWOptions(cfg) {
       Object.assign(cfg, {
         cleanupOutdatedCaches: true,
         skipWaiting: true,

@@ -16,25 +16,33 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  watch,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  getCurrentInstance
+} from 'vue'
 import { EventBus } from 'quasar'
 
 const bus = new EventBus()
 
-function onMyEvent () {
+function onMyEvent() {
   console.log('called onMyEvent')
 }
 
-function onMyEvent2 () {
+function onMyEvent2() {
   console.log('called onMyEvent2')
 }
 
-function onceMyEvent () {
+function onceMyEvent() {
   console.log('called onceMyEvent')
 }
 
-function onSomeOtherEvent () {
+function onSomeOtherEvent() {
   console.log('called onSomeOtherEvent')
 }
 

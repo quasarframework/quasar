@@ -2,7 +2,38 @@
   "name": "@quasar/babel-preset-app",
   "version": "2.0.3",
   "description": "Babel preset for Quasar CLI",
+  "keywords": [
+    "babel",
+    "cli",
+    "cordova",
+    "electron",
+    "pwa",
+    "quasar",
+    "spa",
+    "vue",
+    "vuejs",
+    "web"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,40 +59,9 @@
     "core-js": "^3.6.5",
     "core-js-compat": "^3.6.5"
   },
-  "keywords": [
-    "quasar",
-    "babel",
-    "cli",
-    "web",
-    "spa",
-    "pwa",
-    "electron",
-    "vue",
-    "vuejs",
-    "cordova"
-  ],
-  "author": {
-    "name": "Razvan Stoenescu",
-    "email": "razvan.stoenescu@gmail.com",
-    "url": "https://github.com/quasarframework"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/quasarframework/quasar"
-  },
-  "license": "MIT",
-  "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "https://quasar.dev",
-  "funding": {
-    "type": "github",
-    "url": "https://donate.quasar.dev"
-  },
   "engines": {
     "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

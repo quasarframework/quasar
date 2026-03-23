@@ -2,7 +2,9 @@
   <div class="page-all fit column doc-brand">
     <doc-stars />
 
-    <div class="page-all__search q-py-md q-px-xl q-pa-md row no-wrap items-center justify-center">
+    <div
+      class="page-all__search q-py-md q-px-xl q-pa-md row no-wrap items-center justify-center"
+    >
       <div
         class="page-all__search-field rounded-borders row items-center no-wrap q-pl-sm q-pr-xs"
         @click.prevent="onSearchFieldClick"
@@ -14,8 +16,20 @@
           v-model="searchTerms"
           placeholder="Search item"
         />
-        <q-icon v-if="!searchTerms" name="search" size="24px" color="brand-primary" />
-        <q-icon v-else name="clear" size="24px" color="brand-primary" class="cursor-pointer" @click.stop="clearSearchTerms" />
+        <q-icon
+          v-if="!searchTerms"
+          name="search"
+          size="24px"
+          color="brand-primary"
+        />
+        <q-icon
+          v-else
+          name="clear"
+          size="24px"
+          color="brand-primary"
+          class="cursor-pointer"
+          @click.stop="clearSearchTerms"
+        />
       </div>
 
       <div class="row justify-start q-ml-xl gt-sm">
@@ -23,7 +37,7 @@
           v-for="(chip, chipIndex) in filterChips"
           :key="chipIndex"
           :label="chip.label"
-          :color="chipColor[ chipIndex ]"
+          :color="chipColor[chipIndex]"
           clickable
           text-color="white"
           @click="chip.onClick"
@@ -34,23 +48,31 @@
     <div
       v-if="noResultsLabel"
       class="col flex flex-center text-size-20 letter-spacing-225 q-pa-xl"
-    >{{ noResultsLabel }}</div>
+      >{{ noResultsLabel }}</div
+    >
 
-    <div v-else class="q-py-xl text-size-16 row items-center justify-center q-gutter-lg relative-position">
+    <div
+      v-else
+      class="q-py-xl text-size-16 row items-center justify-center q-gutter-lg relative-position"
+    >
       <transition-group name="page-all-transition">
         <doc-card-link
           v-for="entry in searchResults"
           :key="entry.key"
           :to="entry.to"
         >
-          <q-card class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300">
+          <q-card
+            class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
+          >
             <div class="page-all__card-img">
               <q-img v-if="entry.img" :src="entry.img" />
             </div>
             <q-card-section class="text-brand-primary text-weight-bold">
               {{ entry.name }}
             </q-card-section>
-            <q-card-section class="page-all__card-description text-dark q-pt-none">
+            <q-card-section
+              class="page-all__card-description text-dark q-pt-none"
+            >
               {{ entry.description }}
             </q-card-section>
           </q-card>
@@ -83,7 +105,9 @@ const filterChips = [
   { label: 'Utils', value: 'util' }
 ].map((entry, index) => ({
   ...entry,
-  onClick: () => { setFilterTag(entry.value, index) }
+  onClick: () => {
+    setFilterTag(entry.value, index)
+  }
 }))
 
 const chipColor = ref(filterChips.map(_ => 'brand-primary'))
@@ -96,7 +120,7 @@ const searchResults = ref(quasarElements)
 const noResultsLabel = ref(false)
 
 let searchTimer
-watch([ searchTerms, filterTag ], () => {
+watch([searchTerms, filterTag], () => {
   clearTimeout(searchTimer)
   searchTimer = setTimeout(() => {
     const terms = searchTerms.value.trim().toLowerCase()
@@ -107,23 +131,23 @@ watch([ searchTerms, filterTag ], () => {
     }
 
     // allow to search for direct components name (example: qbtn)
-    const needle = terms.length !== 1 && terms.startsWith('q')
-      ? terms.substring(1)
-      : terms
+    const needle =
+      terms.length !== 1 && terms.startsWith('q') ? terms.substring(1) : terms
 
-    const results = quasarElements.filter(entry =>
-      (tag === null || entry.tag === tag) &&
-      entry.haystack.indexOf(needle) !== -1
+    const results = quasarElements.filter(
+      entry =>
+        (tag === null || entry.tag === tag) &&
+        entry.haystack.indexOf(needle) !== -1
     )
 
     if (results.length === 0) {
-      const tagLabel = tag !== null
-        ? filterChips.find(entry => entry.value === tag).label
-        : null
+      const tagLabel =
+        tag !== null
+          ? filterChips.find(entry => entry.value === tag).label
+          : null
 
-      noResultsLabel.value = `Nothing matches ${ tagLabel !== null ? `the "${ tagLabel }" tag and ` : ''}"${ terms }" search terms.`
-    }
-    else {
+      noResultsLabel.value = `Nothing matches ${tagLabel !== null ? `the "${tagLabel}" tag and ` : ''}"${terms}" search terms.`
+    } else {
       noResultsLabel.value = false
     }
 
@@ -133,11 +157,11 @@ watch([ searchTerms, filterTag ], () => {
 
 let lastIndex = null
 
-function setFilterTag (filterChipValue, index) {
+function setFilterTag(filterChipValue, index) {
   const tag = filterTag.value
 
   if (tag !== null && tag !== filterChipValue && lastIndex !== null) {
-    chipColor.value[ lastIndex ] = 'brand-primary'
+    chipColor.value[lastIndex] = 'brand-primary'
   }
 
   lastIndex = index
@@ -145,19 +169,18 @@ function setFilterTag (filterChipValue, index) {
   // if the filter tag is the same as the one we are trying to set, then we reset the filter tag
   if (tag === filterChipValue) {
     filterTag.value = null
-    chipColor.value[ index ] = 'brand-primary'
-  }
-  else {
+    chipColor.value[index] = 'brand-primary'
+  } else {
     filterTag.value = filterChipValue
-    chipColor.value[ index ] = 'brand-accent'
+    chipColor.value[index] = 'brand-accent'
   }
 }
 
-function clearSearchTerms () {
+function clearSearchTerms() {
   searchTerms.value = ''
 }
 
-function onSearchFieldClick () {
+function onSearchFieldClick() {
   inputRef.value.focus()
 }
 </script>

@@ -16,7 +16,12 @@
       :min="0"
       :max="50"
       label
-      @change="val => { modelXSimple = val; onXChange(val) }"
+      @change="
+        val => {
+          modelXSimple = val
+          onXChange(val)
+        }
+      "
     />
     <q-slider
       v-model="modelXSimple"
@@ -41,21 +46,20 @@
       :min="0"
       :max="50"
       label
-      @change="val => { modelX = val; onXChange(val) }"
+      @change="
+        val => {
+          modelX = val
+          onXChange(val)
+        }
+      "
     />
-    <q-range
-      v-model="modelX"
-      :min="0"
-      :max="50"
-      label
-      @change="onXChange"
-    />
+    <q-range v-model="modelX" :min="0" :max="50" label @change="onXChange" />
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       modelX: {
         min: 5,
@@ -66,11 +70,11 @@ export default {
     }
   },
   methods: {
-    onXInput (val) {
+    onXInput(val) {
       console.log('@update:model-value', val)
     },
 
-    onXChange (val) {
+    onXChange(val) {
       console.log('@change', val)
       this.$q.notify('@change ' + JSON.stringify(val))
     }

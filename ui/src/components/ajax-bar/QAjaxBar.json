@@ -8,7 +8,7 @@
       "type": "String",
       "desc": "Position within window of where QAjaxBar should be displayed",
       "default": "'top'",
-      "values": [ "'top'", "'right'", "'bottom'", "'left'" ],
+      "values": ["'top'", "'right'", "'bottom'", "'left'"],
       "category": "style"
     },
 
@@ -40,7 +40,7 @@
         "url": {
           "type": "String",
           "desc": "The URL being triggered",
-          "examples": [ "'https://some.url/path'" ]
+          "examples": ["'https://some.url/path'"]
         }
       },
       "returns": {

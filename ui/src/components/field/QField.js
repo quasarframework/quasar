@@ -1,4 +1,8 @@
-import useField, { useFieldState, useFieldProps, useFieldEmits } from '../../composables/private.use-field/use-field.js'
+import useField, {
+  useFieldState,
+  useFieldProps,
+  useFieldEmits
+} from '../../composables/private.use-field/use-field.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
@@ -18,9 +22,7 @@ export default createComponent({
 
   emits: useFieldEmits,
 
-  setup () {
-    return useField(
-      useFieldState({ tagProp: true })
-    )
+  setup() {
+    return useField(useFieldState({ tagProp: true }))
   }
 })

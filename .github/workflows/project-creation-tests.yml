@@ -13,6 +13,10 @@ on:
       - '.github/workflows/project-creation-tests.yml'
       - 'create-quasar/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     if: >-
@@ -38,15 +42,15 @@ jobs:
     name: Lint create-quasar
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -83,13 +87,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -105,7 +109,7 @@ jobs:
           echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
       - name: Setup pnpm cache
         if: ${{ matrix.package-manager == 'pnpm' }}
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
           key: pnpm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
@@ -121,7 +125,7 @@ jobs:
           echo "YARN_CACHE_PATH=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Setup yarn cache
         if: ${{ matrix.package-manager == 'yarn' }}
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.yarn-cache.outputs.YARN_CACHE_PATH }}
           key: yarn-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
@@ -137,7 +141,7 @@ jobs:
           echo "NPM_CACHE_PATH=$(npm config get cache)" >> $GITHUB_OUTPUT
       - name: Setup npm cache
         if: ${{ matrix.package-manager == 'npm' }}
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.npm-cache.outputs.NPM_CACHE_PATH }}
           key: npm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}

@@ -16,8 +16,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: [ 'h', 'd', 'u', 'i' ],
-  string: [ 'm', 'T', 'P' ],
+  boolean: ['h', 'd', 'u', 'i'],
+  string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
   }
@@ -100,12 +100,7 @@ const path = require('node:path')
 const { readFileSync } = require('node:fs')
 const { join } = require('node:path')
 
-console.log(
-  readFileSync(
-    join(__dirname, '../../assets/logo.art'),
-    'utf8'
-  )
-)
+console.log(readFileSync(join(__dirname, '../../assets/logo.art'), 'utf8'))
 
 const { getCtx } = require('../utils/get-ctx.js')
 const ctx = getCtx({
@@ -119,9 +114,11 @@ const ctx = getCtx({
 })
 
 const { log, fatal } = require('../utils/logger.js')
-async function runBuild () {
+async function runBuild() {
   // install mode if it's missing
-  const { addMode } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+  const { addMode } = require(
+    `../modes/${argv.mode}/${argv.mode}-installation.js`
+  )
   await addMode({ ctx, silent: true, target: argv.target })
 
   const { QuasarConfigFile } = require('../quasar-config-file.js')
@@ -135,7 +132,9 @@ async function runBuild () {
 
   const quasarConf = await quasarConfFile.read()
 
-  const { QuasarModeBuilder } = require(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
+  const { QuasarModeBuilder } = require(
+    `../modes/${argv.mode}/${argv.mode}-builder.js`
+  )
   const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 
   const fse = require('fs-extra')
@@ -155,11 +154,12 @@ async function runBuild () {
 
   // run possible beforeBuild hooks
   await ctx.appExt.runAppExtensionHook('beforeBuild', async hook => {
-    log(`Extension(${ hook.api.extId }): Running beforeBuild hook...`)
+    log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
-  appBuilder.build()
+  appBuilder
+    .build()
     .catch(err => {
       console.error(err)
       fatal('App build failed (check the log above)', 'FAIL')
@@ -200,7 +200,7 @@ async function runBuild () {
 
       // run possible beforeBuild hooks
       await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
-        log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
+        log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
         await hook.fn(hook.api, { quasarConf })
       })
 
@@ -217,7 +217,7 @@ async function runBuild () {
 
         // run possible onPublish hooks
         await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
-          log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
+          log(`Extension(${hook.api.extId}): Running onPublish hook...`)
           await hook.fn(hook.api, opts)
         })
       }

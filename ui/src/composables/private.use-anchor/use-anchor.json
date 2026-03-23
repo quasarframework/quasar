@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private.use-anchor/use-anchor-static" ],
+  "mixins": ["composables/private.use-anchor/use-anchor-static"],
 
   "props": {
     "context-menu": {

@@ -25,17 +25,17 @@
         "isoName": {
           "type": "String",
           "desc": "The ISO name of the Quasar language pack",
-          "examples": [ "'en-US'" ]
+          "examples": ["'en-US'"]
         },
         "nativeName": {
           "type": "String",
           "desc": "The native name of the Quasar language pack",
-          "examples": [ "'English (US)'" ]
+          "examples": ["'English (US)'"]
         },
         "rtl": {
           "type": "Boolean",
           "desc": "Whether the language is RTL (right-to-left)",
-          "examples": [ "false" ]
+          "examples": ["false"]
         },
         "label": {
           "type": "Object",
@@ -44,67 +44,67 @@
             "clear": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Clear'" ]
+              "examples": ["'Clear'"]
             },
             "ok": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'OK'" ]
+              "examples": ["'OK'"]
             },
             "cancel": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Cancel'" ]
+              "examples": ["'Cancel'"]
             },
             "close": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Close'" ]
+              "examples": ["'Close'"]
             },
             "set": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Set'" ]
+              "examples": ["'Set'"]
             },
             "select": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Select'" ]
+              "examples": ["'Select'"]
             },
             "reset": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Reset'" ]
+              "examples": ["'Reset'"]
             },
             "remove": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Remove'" ]
+              "examples": ["'Remove'"]
             },
             "update": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Update'" ]
+              "examples": ["'Update'"]
             },
             "create": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Create'" ]
+              "examples": ["'Create'"]
             },
             "search": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Search'" ]
+              "examples": ["'Search'"]
             },
             "filter": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Filter'" ]
+              "examples": ["'Filter'"]
             },
             "refresh": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Refresh'" ]
+              "examples": ["'Refresh'"]
             },
             "expand": {
               "type": "Function",
@@ -118,9 +118,11 @@
               "returns": {
                 "type": "String",
                 "desc": "Label",
-                "examples": [ "'Expand'" ]
+                "examples": ["'Expand'"]
               },
-              "examples": [ "label => (label ? `Expand '${ label }'` : 'Expand')" ]
+              "examples": [
+                "label => (label ? `Expand '${ label }'` : 'Expand')"
+              ]
             },
             "collapse": {
               "type": "Function",
@@ -134,9 +136,11 @@
               "returns": {
                 "type": "String",
                 "desc": "Label",
-                "examples": [ "'Collapse'" ]
+                "examples": ["'Collapse'"]
               },
-              "examples": [ "label => (label ? `Collapse '${ label }'` : 'Collapse')" ]
+              "examples": [
+                "label => (label ? `Collapse '${ label }'` : 'Collapse')"
+              ]
             }
           }
         },
@@ -147,27 +151,33 @@
             "days": {
               "type": "Array",
               "desc": "Label",
-              "examples": [ "[ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]" ]
+              "examples": [
+                "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']"
+              ]
             },
             "daysShort": {
               "type": "Array",
               "desc": "Label",
-              "examples": [ "[ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ]" ]
+              "examples": ["['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"]
             },
             "months": {
               "type": "Array",
               "desc": "Label",
-              "examples": [ "[ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]" ]
+              "examples": [
+                "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
+              ]
             },
             "monthsShort": {
               "type": "Array",
               "desc": "Label",
-              "examples": [ "[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
+              "examples": [
+                "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
+              ]
             },
             "firstDayOfWeek": {
               "type": "Number",
               "desc": "0-6, 0 - Sunday, 1 Monday, ...",
-              "examples": [ "0" ]
+              "examples": ["0"]
             },
             "format24h": {
               "type": "Boolean",
@@ -176,7 +186,7 @@
             "pluralDay": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'days'" ]
+              "examples": ["'days'"]
             }
           }
         },
@@ -187,17 +197,17 @@
             "noData": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'No data available'" ]
+              "examples": ["'No data available'"]
             },
             "noResults": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'No matching records found'" ]
+              "examples": ["'No matching records found'"]
             },
             "loading": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Loading...'" ]
+              "examples": ["'Loading...'"]
             },
             "selectedRecords": {
               "type": "Function",
@@ -207,25 +217,25 @@
                   "type": "Number",
                   "desc": "Number of selected rows",
                   "required": true,
-                  "examples": [ "5" ]
+                  "examples": ["5"]
                 }
               },
               "returns": {
                 "type": "String",
                 "desc": "Label",
-                "examples": [ "'5 records selected'" ]
+                "examples": ["'5 records selected'"]
               },
-              "examples": [ "rows => `${ rows } records selected`" ]
+              "examples": ["rows => `${ rows } records selected`"]
             },
             "recordsPerPage": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Records per page:'" ]
+              "examples": ["'Records per page:'"]
             },
             "allRows": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'All'" ]
+              "examples": ["'All'"]
             },
             "pagination": {
               "type": "Function",
@@ -235,32 +245,34 @@
                   "type": "Number",
                   "desc": "Page start index",
                   "required": true,
-                  "examples": [ "5" ]
+                  "examples": ["5"]
                 },
                 "end": {
                   "type": "Number",
                   "desc": "Page end index",
                   "required": true,
-                  "examples": [ "10" ]
+                  "examples": ["10"]
                 },
                 "total": {
                   "type": "Number",
                   "desc": "Total number of rows",
                   "required": true,
-                  "examples": [ "50" ]
+                  "examples": ["50"]
                 }
               },
               "returns": {
                 "type": "String",
                 "desc": "Label",
-                "examples": [ "'5-10 of 50'" ]
+                "examples": ["'5-10 of 50'"]
               },
-              "examples": [ "(start, end, total) => start + '-' + end + ' of ' + total" ]
+              "examples": [
+                "(start, end, total) => start + '-' + end + ' of ' + total"
+              ]
             },
             "columns": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Columns'" ]
+              "examples": ["'Columns'"]
             }
           }
         },
@@ -271,217 +283,217 @@
             "url": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'URL'" ]
+              "examples": ["'URL'"]
             },
             "bold": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Bold'" ]
+              "examples": ["'Bold'"]
             },
             "italic": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Italic'" ]
+              "examples": ["'Italic'"]
             },
             "strikethrough": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Strikethrough'" ]
+              "examples": ["'Strikethrough'"]
             },
             "underline": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Underline'" ]
+              "examples": ["'Underline'"]
             },
             "unorderedList": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Unordered List'" ]
+              "examples": ["'Unordered List'"]
             },
             "orderedList": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Ordered List'" ]
+              "examples": ["'Ordered List'"]
             },
             "subscript": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Subscript'" ]
+              "examples": ["'Subscript'"]
             },
             "superscript": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Superscript'" ]
+              "examples": ["'Superscript'"]
             },
             "hyperlink": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Hyperlink'" ]
+              "examples": ["'Hyperlink'"]
             },
             "toggleFullscreen": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Toggle Fullscreen'" ]
+              "examples": ["'Toggle Fullscreen'"]
             },
             "quote": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Quote'" ]
+              "examples": ["'Quote'"]
             },
             "left": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Left align'" ]
+              "examples": ["'Left align'"]
             },
             "center": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Center align'" ]
+              "examples": ["'Center align'"]
             },
             "right": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Right align'" ]
+              "examples": ["'Right align'"]
             },
             "justify": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Justify align'" ]
+              "examples": ["'Justify align'"]
             },
             "print": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Print'" ]
+              "examples": ["'Print'"]
             },
             "outdent": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Decrease indentation'" ]
+              "examples": ["'Decrease indentation'"]
             },
             "indent": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Increase indentation'" ]
+              "examples": ["'Increase indentation'"]
             },
             "removeFormat": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Remove formatting'" ]
+              "examples": ["'Remove formatting'"]
             },
             "formatting": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Formatting'" ]
+              "examples": ["'Formatting'"]
             },
             "fontSize": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Font Size'" ]
+              "examples": ["'Font Size'"]
             },
             "align": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Align'" ]
+              "examples": ["'Align'"]
             },
             "hr": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Insert Horizontal Rule'" ]
+              "examples": ["'Insert Horizontal Rule'"]
             },
             "undo": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Undo'" ]
+              "examples": ["'Undo'"]
             },
             "redo": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Redo'" ]
+              "examples": ["'Redo'"]
             },
             "heading1": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Heading 1'" ]
+              "examples": ["'Heading 1'"]
             },
             "heading2": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Heading 2'" ]
+              "examples": ["'Heading 2'"]
             },
             "heading3": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Heading 3'" ]
+              "examples": ["'Heading 3'"]
             },
             "heading4": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Heading 4'" ]
+              "examples": ["'Heading 4'"]
             },
             "heading5": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Heading 5'" ]
+              "examples": ["'Heading 5'"]
             },
             "heading6": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Heading 6'" ]
+              "examples": ["'Heading 6'"]
             },
             "paragraph": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Paragraph'" ]
+              "examples": ["'Paragraph'"]
             },
             "code": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Code'" ]
+              "examples": ["'Code'"]
             },
             "size1": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Very small'" ]
+              "examples": ["'Very small'"]
             },
             "size2": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'A bit small'" ]
+              "examples": ["'A bit small'"]
             },
             "size3": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Normal'" ]
+              "examples": ["'Normal'"]
             },
             "size4": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Medium-large'" ]
+              "examples": ["'Medium-large'"]
             },
             "size5": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Big'" ]
+              "examples": ["'Big'"]
             },
             "size6": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Very big'" ]
+              "examples": ["'Very big'"]
             },
             "size7": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Maximum'" ]
+              "examples": ["'Maximum'"]
             },
             "defaultFont": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'Default Font'" ]
+              "examples": ["'Default Font'"]
             },
             "viewSource": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'View Source'" ]
+              "examples": ["'View Source'"]
             }
           }
         },
@@ -492,12 +504,12 @@
             "noNodes": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'No nodes available'" ]
+              "examples": ["'No nodes available'"]
             },
             "noResults": {
               "type": "String",
               "desc": "Label",
-              "examples": [ "'No matching nodes found'" ]
+              "examples": ["'No matching nodes found'"]
             }
           }
         }
@@ -507,30 +519,30 @@
 
   "methods": {
     "set": {
-      "desc":  "Set another Quasar Language Pack",
+      "desc": "Set another Quasar Language Pack",
       "params": {
         "quasarLanguagePack": {
           "type": "Object",
-          "desc":  "Usually you will import such an object directly from quasar (eg: import qIconSet from 'quasar/lang/<lang-name>')",
+          "desc": "Usually you will import such an object directly from quasar (eg: import qIconSet from 'quasar/lang/<lang-name>')",
           "required": true,
           "definition": {
             "isoName": {
               "type": "String",
               "desc": "The ISO name of the Quasar language pack",
               "required": true,
-              "examples": [ "'en-US'" ]
+              "examples": ["'en-US'"]
             },
             "nativeName": {
               "type": "String",
               "desc": "The native name of the Quasar language pack",
               "required": true,
-              "examples": [ "'English (US)'" ]
+              "examples": ["'English (US)'"]
             },
             "rtl": {
               "type": "Boolean",
               "default": "true",
               "desc": "Whether the language is RTL (right-to-left)",
-              "examples": [ "false" ]
+              "examples": ["false"]
             },
             "label": {
               "type": "Object",
@@ -541,79 +553,79 @@
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Clear'" ]
+                  "examples": ["'Clear'"]
                 },
                 "ok": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'OK'" ]
+                  "examples": ["'OK'"]
                 },
                 "cancel": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Cancel'" ]
+                  "examples": ["'Cancel'"]
                 },
                 "close": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Close'" ]
+                  "examples": ["'Close'"]
                 },
                 "set": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Set'" ]
+                  "examples": ["'Set'"]
                 },
                 "select": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Select'" ]
+                  "examples": ["'Select'"]
                 },
                 "reset": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Reset'" ]
+                  "examples": ["'Reset'"]
                 },
                 "remove": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Remove'" ]
+                  "examples": ["'Remove'"]
                 },
                 "update": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Update'" ]
+                  "examples": ["'Update'"]
                 },
                 "create": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Create'" ]
+                  "examples": ["'Create'"]
                 },
                 "search": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Search'" ]
+                  "examples": ["'Search'"]
                 },
                 "filter": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Filter'" ]
+                  "examples": ["'Filter'"]
                 },
                 "refresh": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Refresh'" ]
+                  "examples": ["'Refresh'"]
                 },
                 "expand": {
                   "type": "Function",
@@ -628,9 +640,11 @@
                   "returns": {
                     "type": "String",
                     "desc": "Label",
-                    "examples": [ "'Expand'" ]
+                    "examples": ["'Expand'"]
                   },
-                  "examples": [ "label => (label ? `Expand '${ label }'` : 'Expand')" ]
+                  "examples": [
+                    "label => (label ? `Expand '${ label }'` : 'Expand')"
+                  ]
                 },
                 "collapse": {
                   "type": "Function",
@@ -645,9 +659,11 @@
                   "returns": {
                     "type": "String",
                     "desc": "Label",
-                    "examples": [ "'Collapse'" ]
+                    "examples": ["'Collapse'"]
                   },
-                  "examples": [ "label => (label ? `Collapse '${ label }'` : 'Collapse')" ]
+                  "examples": [
+                    "label => (label ? `Collapse '${ label }'` : 'Collapse')"
+                  ]
                 }
               }
             },
@@ -660,31 +676,39 @@
                   "type": "Array",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "[ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ]" ]
+                  "examples": [
+                    "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']"
+                  ]
                 },
                 "daysShort": {
                   "type": "Array",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "[ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ]" ]
+                  "examples": [
+                    "['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"
+                  ]
                 },
                 "months": {
                   "type": "Array",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "[ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]" ]
+                  "examples": [
+                    "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
+                  ]
                 },
                 "monthsShort": {
                   "type": "Array",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "[ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]" ]
+                  "examples": [
+                    "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
+                  ]
                 },
                 "firstDayOfWeek": {
                   "type": "Number",
                   "desc": "0-6, 0 - Sunday, 1 Monday, ...",
                   "required": true,
-                  "examples": [ "0" ]
+                  "examples": ["0"]
                 },
                 "format24h": {
                   "type": "Boolean",
@@ -695,7 +719,7 @@
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'days'" ]
+                  "examples": ["'days'"]
                 }
               }
             },
@@ -708,19 +732,19 @@
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'No data available'" ]
+                  "examples": ["'No data available'"]
                 },
                 "noResults": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'No matching records found'" ]
+                  "examples": ["'No matching records found'"]
                 },
                 "loading": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Loading...'" ]
+                  "examples": ["'Loading...'"]
                 },
                 "selectedRecords": {
                   "type": "Function",
@@ -731,27 +755,27 @@
                       "type": "Number",
                       "desc": "Number of selected rows",
                       "required": true,
-                      "examples": [ "5" ]
+                      "examples": ["5"]
                     }
                   },
                   "returns": {
                     "type": "String",
                     "desc": "Label",
-                    "examples": [ "'5 records selected'" ]
+                    "examples": ["'5 records selected'"]
                   },
-                  "examples": [ "rows => `${ rows } records selected`" ]
+                  "examples": ["rows => `${ rows } records selected`"]
                 },
                 "recordsPerPage": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Records per page:'" ]
+                  "examples": ["'Records per page:'"]
                 },
                 "allRows": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'All'" ]
+                  "examples": ["'All'"]
                 },
                 "pagination": {
                   "type": "Function",
@@ -762,33 +786,35 @@
                       "type": "Number",
                       "desc": "Page start index",
                       "required": true,
-                      "examples": [ "5" ]
+                      "examples": ["5"]
                     },
                     "end": {
                       "type": "Number",
                       "desc": "Page end index",
                       "required": true,
-                      "examples": [ "10" ]
+                      "examples": ["10"]
                     },
                     "total": {
                       "type": "Number",
                       "desc": "Total number of rows",
                       "required": true,
-                      "examples": [ "50" ]
+                      "examples": ["50"]
                     }
                   },
                   "returns": {
                     "type": "String",
                     "desc": "Label",
-                    "examples": [ "'5-10 of 50'" ]
+                    "examples": ["'5-10 of 50'"]
                   },
-                  "examples": [ "(start, end, total) => start + '-' + end + ' of ' + total" ]
+                  "examples": [
+                    "(start, end, total) => start + '-' + end + ' of ' + total"
+                  ]
                 },
                 "columns": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Columns'" ]
+                  "examples": ["'Columns'"]
                 }
               }
             },
@@ -801,259 +827,259 @@
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'URL'" ]
+                  "examples": ["'URL'"]
                 },
                 "bold": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Bold'" ]
+                  "examples": ["'Bold'"]
                 },
                 "italic": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Italic'" ]
+                  "examples": ["'Italic'"]
                 },
                 "strikethrough": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Strikethrough'" ]
+                  "examples": ["'Strikethrough'"]
                 },
                 "underline": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Underline'" ]
+                  "examples": ["'Underline'"]
                 },
                 "unorderedList": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Unordered List'" ]
+                  "examples": ["'Unordered List'"]
                 },
                 "orderedList": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Ordered List'" ]
+                  "examples": ["'Ordered List'"]
                 },
                 "subscript": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Subscript'" ]
+                  "examples": ["'Subscript'"]
                 },
                 "superscript": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Superscript'" ]
+                  "examples": ["'Superscript'"]
                 },
                 "hyperlink": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Hyperlink'" ]
+                  "examples": ["'Hyperlink'"]
                 },
                 "toggleFullscreen": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Toggle Fullscreen'" ]
+                  "examples": ["'Toggle Fullscreen'"]
                 },
                 "quote": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Quote'" ]
+                  "examples": ["'Quote'"]
                 },
                 "left": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Left align'" ]
+                  "examples": ["'Left align'"]
                 },
                 "center": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Center align'" ]
+                  "examples": ["'Center align'"]
                 },
                 "right": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Right align'" ]
+                  "examples": ["'Right align'"]
                 },
                 "justify": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Justify align'" ]
+                  "examples": ["'Justify align'"]
                 },
                 "print": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Print'" ]
+                  "examples": ["'Print'"]
                 },
                 "outdent": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Decrease indentation'" ]
+                  "examples": ["'Decrease indentation'"]
                 },
                 "indent": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Increase indentation'" ]
+                  "examples": ["'Increase indentation'"]
                 },
                 "removeFormat": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Remove formatting'" ]
+                  "examples": ["'Remove formatting'"]
                 },
                 "formatting": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Formatting'" ]
+                  "examples": ["'Formatting'"]
                 },
                 "fontSize": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Font Size'" ]
+                  "examples": ["'Font Size'"]
                 },
                 "align": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Align'" ]
+                  "examples": ["'Align'"]
                 },
                 "hr": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Insert Horizontal Rule'" ]
+                  "examples": ["'Insert Horizontal Rule'"]
                 },
                 "undo": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Undo'" ]
+                  "examples": ["'Undo'"]
                 },
                 "redo": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Redo'" ]
+                  "examples": ["'Redo'"]
                 },
                 "heading1": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Heading 1'" ]
+                  "examples": ["'Heading 1'"]
                 },
                 "heading2": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Heading 2'" ]
+                  "examples": ["'Heading 2'"]
                 },
                 "heading3": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Heading 3'" ]
+                  "examples": ["'Heading 3'"]
                 },
                 "heading4": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Heading 4'" ]
+                  "examples": ["'Heading 4'"]
                 },
                 "heading5": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Heading 5'" ]
+                  "examples": ["'Heading 5'"]
                 },
                 "heading6": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Heading 6'" ]
+                  "examples": ["'Heading 6'"]
                 },
                 "paragraph": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Paragraph'" ]
+                  "examples": ["'Paragraph'"]
                 },
                 "code": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Code'" ]
+                  "examples": ["'Code'"]
                 },
                 "size1": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Very small'" ]
+                  "examples": ["'Very small'"]
                 },
                 "size2": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'A bit small'" ]
+                  "examples": ["'A bit small'"]
                 },
                 "size3": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Normal'" ]
+                  "examples": ["'Normal'"]
                 },
                 "size4": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Medium-large'" ]
+                  "examples": ["'Medium-large'"]
                 },
                 "size5": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Big'" ]
+                  "examples": ["'Big'"]
                 },
                 "size6": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Very big'" ]
+                  "examples": ["'Very big'"]
                 },
                 "size7": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Maximum'" ]
+                  "examples": ["'Maximum'"]
                 },
                 "defaultFont": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'Default Font'" ]
+                  "examples": ["'Default Font'"]
                 },
                 "viewSource": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'View Source'" ]
+                  "examples": ["'View Source'"]
                 }
               }
             },
@@ -1066,13 +1092,13 @@
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'No nodes available'" ]
+                  "examples": ["'No nodes available'"]
                 },
                 "noResults": {
                   "type": "String",
                   "desc": "Label",
                   "required": true,
-                  "examples": [ "'No matching nodes found'" ]
+                  "examples": ["'No matching nodes found'"]
                 }
               }
             }
@@ -1081,7 +1107,7 @@
         "ssrContent": {
           "type": "Object",
           "desc": "Required for SSR only",
-          "__exemption": [ "examples" ]
+          "__exemption": ["examples"]
         }
       },
       "returns": null
@@ -1091,9 +1117,9 @@
       "desc": "Get the browser locale ISO name; Returns undefined when it cannot determine current browser locale or when running on server in SSR mode",
       "params": null,
       "returns": {
-        "type": [ "String", "undefined" ],
+        "type": ["String", "undefined"],
         "desc": "Browser locale ISO name",
-        "examples": [ "'en-US'" ]
+        "examples": ["'en-US'"]
       }
     }
   }

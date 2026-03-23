@@ -1,8 +1,17 @@
 import { h, ref, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import { useQuasar, useDialogPluginComponent, QDialog, QCard, QCardSection, QCardActions, QBtn, QSelect } from 'quasar'
+import {
+  useQuasar,
+  useDialogPluginComponent,
+  QDialog,
+  QCard,
+  QCardSection,
+  QCardActions,
+  QBtn,
+  QSelect
+} from 'quasar'
 
-const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5' ]
+const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5']
 
 export default defineComponent({
   name: 'CustomDialogComponent',
@@ -14,84 +23,98 @@ export default defineComponent({
     }
   },
 
-  emits: [ ...useDialogPluginComponent.emits ],
+  emits: [...useDialogPluginComponent.emits],
 
-  setup (props) {
+  setup(props) {
     const inc = ref(0)
     const sel = ref(null)
 
     const $q = useQuasar()
     const $route = useRoute()
 
-    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
+    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+      useDialogPluginComponent()
 
-    function increment () {
+    function increment() {
       inc.value++
     }
 
-    function onOK () {
+    function onOK() {
       onDialogOK(inc.value)
     }
 
-    return () => h(QDialog, {
-      ref: dialogRef,
-      onHide: onDialogHide
-    }, () => [
-      h(QCard, {
-        class: 'q-dialog-plugin'
-      }, () => [
-        h(QCardSection, {}, () => [
-          h('div', 'Prop "text": ' + props.text),
-          h('div', 'Quasar v' + $q.version),
-          h('div', 'Current route: ' + $route.path)
-        ]),
+    return () =>
+      h(
+        QDialog,
+        {
+          ref: dialogRef,
+          onHide: onDialogHide
+        },
+        () => [
+          h(
+            QCard,
+            {
+              class: 'q-dialog-plugin'
+            },
+            () => [
+              h(QCardSection, {}, () => [
+                h('div', 'Prop "text": ' + props.text),
+                h('div', 'Quasar v' + $q.version),
+                h('div', 'Current route: ' + $route.path)
+              ]),
 
-        h(QCardSection, {}, () => [
-          h(QSelect, {
-            label: 'Menu select',
-            color: 'accent',
-            options,
-            modelValue: sel.value,
-            behavior: 'menu',
-            'onUpdate:modelValue': val => { sel.value = val }
-          }),
+              h(QCardSection, {}, () => [
+                h(QSelect, {
+                  label: 'Menu select',
+                  color: 'accent',
+                  options,
+                  modelValue: sel.value,
+                  behavior: 'menu',
+                  'onUpdate:modelValue': val => {
+                    sel.value = val
+                  }
+                }),
 
-          h(QSelect, {
-            label: 'Dialog select',
-            color: 'accent',
-            options,
-            modelValue: sel.value,
-            behavior: 'dialog',
-            'onUpdate:modelValue': val => { sel.value = val }
-          })
-        ]),
+                h(QSelect, {
+                  label: 'Dialog select',
+                  color: 'accent',
+                  options,
+                  modelValue: sel.value,
+                  behavior: 'dialog',
+                  'onUpdate:modelValue': val => {
+                    sel.value = val
+                  }
+                })
+              ]),
 
-        h(QCardSection, {}, () => [
-          'Reactivity:',
+              h(QCardSection, {}, () => [
+                'Reactivity:',
 
-          h(QBtn, {
-            class: 'q-ml-xs',
-            label: 'Hit me: ' + inc.value,
-            color: 'accent',
-            noCaps: true,
-            onClick: increment
-          })
-        ]),
+                h(QBtn, {
+                  class: 'q-ml-xs',
+                  label: 'Hit me: ' + inc.value,
+                  color: 'accent',
+                  noCaps: true,
+                  onClick: increment
+                })
+              ]),
 
-        h(QCardActions, { align: 'right' }, () => [
-          h(QBtn, {
-            color: 'primary',
-            label: 'OK',
-            onClick: onOK
-          }),
+              h(QCardActions, { align: 'right' }, () => [
+                h(QBtn, {
+                  color: 'primary',
+                  label: 'OK',
+                  onClick: onOK
+                }),
 
-          h(QBtn, {
-            color: 'primary',
-            label: 'Cancel',
-            onClick: onDialogCancel
-          })
-        ])
-      ])
-    ])
+                h(QBtn, {
+                  color: 'primary',
+                  label: 'Cancel',
+                  onClick: onDialogCancel
+                })
+              ])
+            ]
+          )
+        ]
+      )
   }
 })

@@ -11,6 +11,10 @@ on:
       - 'ui/package.json'
       - 'ui/playground/package.json'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     permissions:
@@ -23,13 +27,13 @@ jobs:
     name: Build the packages
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: 'pnpm'
@@ -42,7 +46,7 @@ jobs:
         run: pnpm build
 
       - name: Upload UI build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ui-build
           path: ui/dist
@@ -52,7 +56,7 @@ jobs:
         run: pnpm build
 
       - name: Upload vite-plugin build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vite-plugin-build
           path: vite-plugin/dist
@@ -77,28 +81,28 @@ jobs:
     name: Tests
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i
 
       - name: Download UI build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ui-build
           path: ui/dist
 
       - name: Download vite-plugin build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: vite-plugin-build
           path: vite-plugin/dist
@@ -110,14 +114,14 @@ jobs:
 
       - name: Upload test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results
           path: ui/testing/test-results
 
       - name: Upload GitHub Actions event data
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: event-data
           path: ${{ github.event_path }}

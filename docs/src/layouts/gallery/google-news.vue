@@ -12,26 +12,38 @@
           class="q-mr-sm"
         />
 
-        <q-toolbar-title v-if="$q.screen.gt.xs" shrink class="row items-center no-wrap">
-          <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg">
+        <q-toolbar-title
+          v-if="$q.screen.gt.xs"
+          shrink
+          class="row items-center no-wrap"
+        >
+          <img
+            src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg"
+          />
           <span class="q-ml-sm">News</span>
         </q-toolbar-title>
 
         <q-space />
 
-        <q-input class="GNL__toolbar-input" outlined dense v-model="search" color="bg-grey-7 shadow-1" placeholder="Search for topics, locations & sources">
+        <q-input
+          class="GNL__toolbar-input"
+          outlined
+          dense
+          v-model="search"
+          color="bg-grey-7 shadow-1"
+          placeholder="Search for topics, locations & sources"
+        >
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="search = ''"
+            />
           </template>
           <template v-slot:append>
-            <q-btn
-              flat
-              dense
-              round
-              aria-label="Menu"
-              icon="arrow_drop_down"
-            >
+            <q-btn flat dense round aria-label="Menu" icon="arrow_drop_down">
               <q-menu anchor="bottom end" self="top end">
                 <div class="q-pa-md" style="width: 400px">
                   <div class="text-body2 text-grey q-mb-md">
@@ -60,16 +72,33 @@
                       <q-input dense v-model="excludeWords" />
                     </div>
 
-                    <div class="col-3 text-subtitle2 text-grey">
-                      Website
-                    </div>
+                    <div class="col-3 text-subtitle2 text-grey"> Website </div>
                     <div class="col-9 q-pl-md">
                       <q-input dense v-model="byWebsite" />
                     </div>
 
                     <div class="col-12 q-pt-lg row justify-end">
-                      <q-btn flat dense no-caps color="grey-7" size="md" style="min-width: 68px;" label="Search" v-close-popup />
-                      <q-btn flat dense no-caps color="grey-7" size="md" style="min-width: 68px;" @click="onClear" label="Clear" v-close-popup />
+                      <q-btn
+                        flat
+                        dense
+                        no-caps
+                        color="grey-7"
+                        size="md"
+                        style="min-width: 68px"
+                        label="Search"
+                        v-close-popup
+                      />
+                      <q-btn
+                        flat
+                        dense
+                        no-caps
+                        color="grey-7"
+                        size="md"
+                        style="min-width: 68px"
+                        @click="onClear"
+                        label="Clear"
+                        v-close-popup
+                      />
                     </div>
                   </div>
                 </div>
@@ -81,18 +110,23 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn v-if="$q.screen.gt.sm" round dense flat color="text-grey-7" icon="apps">
+          <q-btn
+            v-if="$q.screen.gt.sm"
+            round
+            dense
+            flat
+            color="text-grey-7"
+            icon="apps"
+          >
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
           <q-btn round dense flat color="grey-8" icon="notifications">
-            <q-badge color="red" text-color="white" floating>
-              2
-            </q-badge>
+            <q-badge color="red" text-color="white" floating> 2 </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
           <q-btn round flat>
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
             </q-avatar>
             <q-tooltip>Account</q-tooltip>
           </q-btn>
@@ -109,7 +143,13 @@
     >
       <q-scroll-area class="fit">
         <q-list padding class="text-grey-8">
-          <q-item class="GNL__drawer-item" v-ripple v-for="link in links1" :key="link.text" clickable>
+          <q-item
+            class="GNL__drawer-item"
+            v-ripple
+            v-for="link in links1"
+            :key="link.text"
+            clickable
+          >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -120,7 +160,13 @@
 
           <q-separator inset class="q-my-sm" />
 
-          <q-item class="GNL__drawer-item" v-ripple v-for="link in links2" :key="link.text" clickable>
+          <q-item
+            class="GNL__drawer-item"
+            v-ripple
+            v-for="link in links2"
+            :key="link.text"
+            clickable
+          >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -131,19 +177,42 @@
 
           <q-separator inset class="q-my-sm" />
 
-          <q-item class="GNL__drawer-item" v-ripple v-for="link in links3" :key="link.text" clickable>
+          <q-item
+            class="GNL__drawer-item"
+            v-ripple
+            v-for="link in links3"
+            :key="link.text"
+            clickable
+          >
             <q-item-section>
-              <q-item-label>{{ link.text }} <q-icon v-if="link.icon" :name="link.icon" /></q-item-label>
+              <q-item-label
+                >{{ link.text }} <q-icon v-if="link.icon" :name="link.icon"
+              /></q-item-label>
             </q-item-section>
           </q-item>
 
           <div class="q-mt-md">
             <div class="flex flex-center q-gutter-xs">
-              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="Privacy">Privacy</a>
+              <a
+                class="GNL__drawer-footer-link"
+                href="javascript:void(0)"
+                aria-label="Privacy"
+                >Privacy</a
+              >
               <span> · </span>
-              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="Terms">Terms</a>
+              <a
+                class="GNL__drawer-footer-link"
+                href="javascript:void(0)"
+                aria-label="Terms"
+                >Terms</a
+              >
               <span> · </span>
-              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="About">About Google</a>
+              <a
+                class="GNL__drawer-footer-link"
+                href="javascript:void(0)"
+                aria-label="About"
+                >About Google</a
+              >
             </div>
           </div>
         </q-list>
@@ -163,7 +232,7 @@ import { fasEarthAmericas, fasFlask } from '@quasar/extras/fontawesome-v6'
 export default {
   name: 'GoogleNewsLayout',
 
-  setup () {
+  setup() {
     const leftDrawerOpen = ref(false)
     const search = ref('')
     const showAdvanced = ref(false)
@@ -174,7 +243,7 @@ export default {
     const byWebsite = ref('')
     const byDate = ref('Any time')
 
-    function onClear () {
+    function onClear() {
       exactPhrase.value = ''
       hasWords.value = ''
       excludeWords.value = ''
@@ -182,12 +251,12 @@ export default {
       byDate.value = 'Any time'
     }
 
-    function changeDate (option) {
+    function changeDate(option) {
       byDate.value = option
       showDateOptions.value = false
     }
 
-    function toggleLeftDrawer () {
+    function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value
     }
 

@@ -9,10 +9,7 @@ import { isModeInstalled } from '../modes-utils.js'
  *   silent: boolean
  * }} options
  */
-export async function addMode ({
-  ctx: { appPaths, cacheProxy },
-  silent
-}) {
+export async function addMode({ ctx: { appPaths, cacheProxy }, silent }) {
   if (isModeInstalled(appPaths, 'ssr')) {
     if (silent !== true) {
       warn('SSR support detected already. Aborting.')
@@ -23,10 +20,7 @@ export async function addMode ({
   log('Creating SSR source folder...')
   const hasTypescript = await cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'js'
-  fse.copySync(
-    appPaths.resolve.cli(`templates/ssr/${ format }`),
-    appPaths.ssrDir
-  )
+  fse.copySync(appPaths.resolve.cli(`templates/ssr/${format}`), appPaths.ssrDir)
 
   log('SSR support was added')
 }
@@ -36,9 +30,7 @@ export async function addMode ({
  *   ctx: import('../../../types/configuration/context').InternalQuasarContext,
  * }} options
  */
-export function removeMode ({
-  ctx: { appPaths }
-}) {
+export function removeMode({ ctx: { appPaths } }) {
   if (isModeInstalled(appPaths, 'ssr') === false) {
     warn('No SSR support detected. Aborting.')
     return

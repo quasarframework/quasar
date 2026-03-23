@@ -7,9 +7,7 @@
           <q-item clickable @click="showNotify">
             <q-item-section>
               <q-item-label>Does nothing</q-item-label>
-              <q-item-label caption>
-                Sublabel
-              </q-item-label>
+              <q-item-label caption> Sublabel </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -19,13 +17,17 @@
     <q-btn color="primary" icon="map" :label="menu ? 'yes' : 'no'">
       <q-menu v-model="menu">
         <q-list link separator class="scroll" style="min-width: 100px">
-          <q-btn color="primary" v-close-popup label="X Shut up" icon="map" @click="showNotify" />
+          <q-btn
+            color="primary"
+            v-close-popup
+            label="X Shut up"
+            icon="map"
+            @click="showNotify"
+          />
           <q-item clickable @click="showNotify">
             <q-item-section>
               <q-item-label>X Does nothing</q-item-label>
-              <q-item-label caption>
-                sublabel
-              </q-item-label>
+              <q-item-label caption> sublabel </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -42,14 +44,10 @@
             <q-menu>
               <q-list>
                 <q-item clickable @click="dialog2 = true">
-                  <q-item-section>
-                    Open Dialog
-                  </q-item-section>
+                  <q-item-section> Open Dialog </q-item-section>
                 </q-item>
                 <q-item v-close-popup clickable @click="dialog2 = true">
-                  <q-item-section>
-                    Close Menu and Open Dialog
-                  </q-item-section>
+                  <q-item-section> Close Menu and Open Dialog </q-item-section>
                 </q-item>
                 <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                   <q-item-section>Menu Item {{ n }}</q-item-section>
@@ -77,7 +75,12 @@
                       </q-item-section>
                       <q-menu anchor="top right" self="top left">
                         <q-list>
-                          <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                          <q-item
+                            v-for="n in 5"
+                            :key="n"
+                            v-close-popup
+                            clickable
+                          >
                             <q-item-section>Menu Item {{ n }}</q-item-section>
                           </q-item>
                           <q-item clickable v-close-popup="2">
@@ -96,18 +99,11 @@
               <q-btn label="Menu2">
                 <q-menu>
                   <q-list>
-                    <q-item
-                      v-close-popup
-                      clickable
-                    >
+                    <q-item v-close-popup clickable>
                       <q-item-section>v-close-popup</q-item-section>
                     </q-item>
 
-                    <q-item
-                      v-for="n in 3"
-                      :key="n"
-                      clickable
-                    >
+                    <q-item v-for="n in 3" :key="n" clickable>
                       <q-item-section>Label</q-item-section>
                       <q-item-section side>
                         <q-icon name="keyboard_arrow_right" />
@@ -115,10 +111,7 @@
 
                       <q-menu anchor="top right" self="top left">
                         <q-list>
-                          <q-item
-                            v-close-popup
-                            clickable
-                          >
+                          <q-item v-close-popup clickable>
                             <q-item-section>v-close-popup</q-item-section>
                           </q-item>
 
@@ -127,14 +120,16 @@
                             <q-item-section side>
                               <q-icon name="keyboard_arrow_right" />
                             </q-item-section>
-                            <q-menu auto-close anchor="top right" self="top left">
+                            <q-menu
+                              auto-close
+                              anchor="top right"
+                              self="top left"
+                            >
                               <q-list>
-                                <q-item
-                                  v-for="y in 3"
-                                  :key="y"
-                                  clickable
-                                >
-                                  <q-item-section>3rd level Label</q-item-section>
+                                <q-item v-for="y in 3" :key="y" clickable>
+                                  <q-item-section
+                                    >3rd level Label</q-item-section
+                                  >
                                 </q-item>
                               </q-list>
                             </q-menu>
@@ -153,7 +148,9 @@
                                   clickable
                                   v-close-popup
                                 >
-                                  <q-item-section>3rd level Label</q-item-section>
+                                  <q-item-section
+                                    >3rd level Label</q-item-section
+                                  >
                                 </q-item>
                               </q-list>
                             </q-menu>
@@ -308,7 +305,9 @@
                 <q-menu separate-close-popup>
                   <q-list class="bg-white" separator clickable>
                     <q-item clickable v-close-popup>
-                      <q-item-section @click="text = 'QMenu - !close-as-tree - v-close-popup'">
+                      <q-item-section
+                        @click="text = 'QMenu - !close-as-tree - v-close-popup'"
+                      >
                         QMenu - !close-as-tree - v-close-popup
                       </q-item-section>
                     </q-item>
@@ -323,7 +322,9 @@
                 <q-menu separate-close-popup auto-close>
                   <q-list class="bg-white" separator clickable>
                     <q-item clickable>
-                      <q-item-section @click="text = 'QMenu - !close-as-tree - auto-close'">
+                      <q-item-section
+                        @click="text = 'QMenu - !close-as-tree - auto-close'"
+                      >
                         QMenu - !close-as-tree - auto-close
                       </q-item-section>
                     </q-item>
@@ -338,7 +339,9 @@
                 <q-popup-proxy>
                   <q-list class="bg-white" separator clickable>
                     <q-item clickable v-close-popup>
-                      <q-item-section @click="text = 'QPopupProxy - v-close-popup'">
+                      <q-item-section
+                        @click="text = 'QPopupProxy - v-close-popup'"
+                      >
                         QPopupProxy - v-close-popup
                       </q-item-section>
                     </q-item>
@@ -353,7 +356,9 @@
                 <q-popup-proxy auto-close>
                   <q-list class="bg-white" separator clickable>
                     <q-item clickable>
-                      <q-item-section @click="text = 'QPopupProxy - auto-close'">
+                      <q-item-section
+                        @click="text = 'QPopupProxy - auto-close'"
+                      >
                         QPopupProxy - auto-close
                       </q-item-section>
                     </q-item>
@@ -454,7 +459,9 @@
                         <q-menu>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable v-close-popup>
-                              <q-item-section @click="text = 'QMenu - v-close-popup'">
+                              <q-item-section
+                                @click="text = 'QMenu - v-close-popup'"
+                              >
                                 QMenu - v-close-popup
                               </q-item-section>
                             </q-item>
@@ -469,7 +476,9 @@
                         <q-menu auto-close>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable>
-                              <q-item-section @click="text = 'QMenu - auto-close'">
+                              <q-item-section
+                                @click="text = 'QMenu - auto-close'"
+                              >
                                 QMenu - auto-close
                               </q-item-section>
                             </q-item>
@@ -484,7 +493,12 @@
                         <q-menu separate-close-popup>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable v-close-popup>
-                              <q-item-section @click="text = 'QMenu - !close-as-tree - v-close-popup'">
+                              <q-item-section
+                                @click="
+                                  text =
+                                    'QMenu - !close-as-tree - v-close-popup'
+                                "
+                              >
                                 QMenu - !close-as-tree - v-close-popup
                               </q-item-section>
                             </q-item>
@@ -499,7 +513,11 @@
                         <q-menu separate-close-popup auto-close>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable>
-                              <q-item-section @click="text = 'QMenu - !close-as-tree - auto-close'">
+                              <q-item-section
+                                @click="
+                                  text = 'QMenu - !close-as-tree - auto-close'
+                                "
+                              >
                                 QMenu - !close-as-tree - auto-close
                               </q-item-section>
                             </q-item>
@@ -514,7 +532,9 @@
                         <q-popup-proxy>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable v-close-popup>
-                              <q-item-section @click="text = 'QPopupProxy - v-close-popup'">
+                              <q-item-section
+                                @click="text = 'QPopupProxy - v-close-popup'"
+                              >
                                 QPopupProxy - v-close-popup
                               </q-item-section>
                             </q-item>
@@ -529,7 +549,9 @@
                         <q-popup-proxy auto-close>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable>
-                              <q-item-section @click="text = 'QPopupProxy - auto-close'">
+                              <q-item-section
+                                @click="text = 'QPopupProxy - auto-close'"
+                              >
                                 QPopupProxy - auto-close
                               </q-item-section>
                             </q-item>
@@ -634,7 +656,9 @@
                         <q-menu>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable v-close-popup>
-                              <q-item-section @click="text = 'QMenu - v-close-popup'">
+                              <q-item-section
+                                @click="text = 'QMenu - v-close-popup'"
+                              >
                                 QMenu - v-close-popup
                               </q-item-section>
                             </q-item>
@@ -649,7 +673,9 @@
                         <q-menu auto-close>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable>
-                              <q-item-section @click="text = 'QMenu - auto-close'">
+                              <q-item-section
+                                @click="text = 'QMenu - auto-close'"
+                              >
                                 QMenu - auto-close
                               </q-item-section>
                             </q-item>
@@ -664,7 +690,12 @@
                         <q-menu separate-close-popup>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable v-close-popup>
-                              <q-item-section @click="text = 'QMenu - !close-as-tree - v-close-popup'">
+                              <q-item-section
+                                @click="
+                                  text =
+                                    'QMenu - !close-as-tree - v-close-popup'
+                                "
+                              >
                                 QMenu - !close-as-tree - v-close-popup
                               </q-item-section>
                             </q-item>
@@ -679,7 +710,11 @@
                         <q-menu separate-close-popup auto-close>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable>
-                              <q-item-section @click="text = 'QMenu - !close-as-tree - auto-close'">
+                              <q-item-section
+                                @click="
+                                  text = 'QMenu - !close-as-tree - auto-close'
+                                "
+                              >
                                 QMenu - !close-as-tree - auto-close
                               </q-item-section>
                             </q-item>
@@ -694,7 +729,9 @@
                         <q-popup-proxy>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable v-close-popup>
-                              <q-item-section @click="text = 'QPopupProxy - v-close-popup'">
+                              <q-item-section
+                                @click="text = 'QPopupProxy - v-close-popup'"
+                              >
                                 QPopupProxy - v-close-popup
                               </q-item-section>
                             </q-item>
@@ -709,7 +746,9 @@
                         <q-popup-proxy auto-close>
                           <q-list class="bg-white" separator clickable>
                             <q-item clickable>
-                              <q-item-section @click="text = 'QPopupProxy - auto-close'">
+                              <q-item-section
+                                @click="text = 'QPopupProxy - auto-close'"
+                              >
                                 QPopupProxy - auto-close
                               </q-item-section>
                             </q-item>
@@ -832,7 +871,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       menu: false,
 
@@ -844,11 +883,11 @@ export default {
       text: 'text',
 
       selection: 'item 1',
-      options: [ 'item 1', 'item 2' ]
+      options: ['item 1', 'item 2']
     }
   },
   methods: {
-    showNotify () {
+    showNotify() {
       console.log('@click')
     }
   }

@@ -127,7 +127,9 @@ describe('[Lang API]', () => {
       })
 
       test('can be set', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
 
         Lang.props.nativeName = 'new-lang'
         expect(Lang.props.nativeName).toBe('new-lang')
@@ -164,14 +166,48 @@ describe('[Lang API]', () => {
               search: 'Search',
               filter: 'Filter',
               refresh: 'Refresh',
-              expand: label => (label ? `Expand '${ label }'` : 'Expand'),
-              collapse: label => (label ? `Collapse '${ label }'` : 'Collapse')
+              expand: label => (label ? `Expand '${label}'` : 'Expand'),
+              collapse: label => (label ? `Collapse '${label}'` : 'Collapse')
             },
             date: {
-              days: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
-              daysShort: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
-              months: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
-              monthsShort: [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
+              days: [
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday'
+              ],
+              daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+              months: [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+              ],
+              monthsShort: [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec'
+              ],
               firstDayOfWeek: 0,
               format24h: true,
               pluralDay: 'days',
@@ -187,10 +223,11 @@ describe('[Lang API]', () => {
               noData: 'No data available',
               noResults: 'No matching records found',
               loading: 'Loading...',
-              selectedRecords: rows => `${ rows } records selected`,
+              selectedRecords: rows => `${rows} records selected`,
               recordsPerPage: 'Records per page:',
               allRows: 'All',
-              pagination: (start, end, total) => start + '-' + end + ' of ' + total,
+              pagination: (start, end, total) =>
+                start + '-' + end + ' of ' + total,
               columns: 'Columns'
             },
             pagination: {
@@ -256,7 +293,9 @@ describe('[Lang API]', () => {
       })
 
       test('should work with an imported lang pack', async () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         const { default: deLang } = await import('quasar/lang/de-DE.js')
 
         Lang.set(deLang)
@@ -274,18 +313,11 @@ describe('[Lang API]', () => {
       test('should be callable', () => {
         const wrapper = mountPlugin()
 
-        expect(
-          Lang.getLocale()
-        ).$any([
-          expect.any(String),
-          undefined
-        ])
+        expect(Lang.getLocale()).$any([expect.any(String), void 0])
 
-        expect(
-          wrapper.vm.$q.lang.getLocale()
-        ).$any([
+        expect(wrapper.vm.$q.lang.getLocale()).$any([
           expect.any(String),
-          undefined
+          void 0
         ])
       })
     })

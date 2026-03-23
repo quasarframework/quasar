@@ -6,14 +6,18 @@ import SessionStorage from './SessionStorage.js'
 const mountPlugin = () => mount({ template: '<div />' })
 
 // We override Quasar install so it installs this plugin
-const quasarVuePlugin = config.global.plugins.find(entry => entry.name === 'Quasar')
+const quasarVuePlugin = config.global.plugins.find(
+  entry => entry.name === 'Quasar'
+)
 const { install } = quasarVuePlugin
 quasarVuePlugin.install = app => install(app, { plugins: { SessionStorage } })
 
 describe('[SessionStorage API]', () => {
   describe('[Injection]', () => {
     test('is injected into $q', () => {
-      const { vm: { $q } } = mountPlugin()
+      const {
+        vm: { $q }
+      } = mountPlugin()
 
       expect($q.sessionStorage).toBeDefined()
       expect($q.sessionStorage).toBeTypeOf('object')
@@ -34,7 +38,9 @@ describe('[SessionStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.hasItem).toBe(SessionStorage.hasItem)
       })
     })
@@ -51,7 +57,9 @@ describe('[SessionStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.getLength).toBe(SessionStorage.getLength)
       })
     })
@@ -60,13 +68,13 @@ describe('[SessionStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(
-          SessionStorage.getItem('getItem')
-        ).toBeNull()
+        expect(SessionStorage.getItem('getItem')).toBeNull()
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.getItem).toBe(SessionStorage.getItem)
       })
     })
@@ -78,9 +86,7 @@ describe('[SessionStorage API]', () => {
         // ensure at least one element is defined
         SessionStorage.setItem('getIndex', 'rstoenescu')
 
-        expect(
-          SessionStorage.getIndex(0)
-        ).$any([
+        expect(SessionStorage.getIndex(0)).$any([
           expect.any(Number),
           expect.any(Boolean),
           expect.any(Date),
@@ -93,7 +99,9 @@ describe('[SessionStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.getIndex).toBe(SessionStorage.getIndex)
       })
     })
@@ -105,13 +113,13 @@ describe('[SessionStorage API]', () => {
         // ensure at least one element is defined
         SessionStorage.setItem('getKey', 'rstoenescu')
 
-        expect(
-          SessionStorage.getKey(0)
-        ).toBeTypeOf('string')
+        expect(SessionStorage.getKey(0)).toBeTypeOf('string')
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.getKey).toBe(SessionStorage.getKey)
       })
     })
@@ -129,7 +137,9 @@ describe('[SessionStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.getAll).toBe(SessionStorage.getAll)
       })
     })
@@ -141,17 +151,15 @@ describe('[SessionStorage API]', () => {
         // ensure at least one element is defined
         SessionStorage.setItem('getAllKeys', 'rstoenescu')
 
-        expect(
-          Array.isArray(SessionStorage.getAllKeys())
-        ).toBe(true)
+        expect(Array.isArray(SessionStorage.getAllKeys())).toBe(true)
 
-        expect(
-          SessionStorage.getAllKeys()
-        ).toContain('getAllKeys')
+        expect(SessionStorage.getAllKeys()).toContain('getAllKeys')
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.getAllKeys).toBe(SessionStorage.getAllKeys)
       })
     })
@@ -160,17 +168,15 @@ describe('[SessionStorage API]', () => {
       test('should be callable', () => {
         mountPlugin()
 
-        expect(
-          SessionStorage.setItem('set', 'rstoenescu')
-        ).toBeUndefined()
+        expect(SessionStorage.setItem('set', 'rstoenescu')).toBeUndefined()
 
-        expect(
-          SessionStorage.getItem('set')
-        ).toBe('rstoenescu')
+        expect(SessionStorage.getItem('set')).toBe('rstoenescu')
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.setItem).toBe(SessionStorage.setItem)
       })
 
@@ -203,27 +209,21 @@ describe('[SessionStorage API]', () => {
         const date = new Date()
 
         SessionStorage.setItem('Date', date)
-        expect(
-          SessionStorage.getItem('Date')
-        ).toStrictEqual(date)
+        expect(SessionStorage.getItem('Date')).toStrictEqual(date)
       })
 
       test('can encode + decode a String', () => {
         mountPlugin()
 
         SessionStorage.setItem('String', 'rstoenescu')
-        expect(
-          SessionStorage.getItem('String')
-        ).toBe('rstoenescu')
+        expect(SessionStorage.getItem('String')).toBe('rstoenescu')
       })
 
       test('can encode + decode a RegExp', () => {
         mountPlugin()
 
         SessionStorage.setItem('RegExp', /abc/)
-        expect(
-          SessionStorage.getItem('RegExp')
-        ).toStrictEqual(/abc/)
+        expect(SessionStorage.getItem('RegExp')).toStrictEqual(/abc/)
       })
 
       test('can encode + decode a Function', () => {
@@ -231,9 +231,7 @@ describe('[SessionStorage API]', () => {
         const fn = () => 5
 
         SessionStorage.setItem('Function', fn)
-        expect(
-          SessionStorage.getItem('Function')
-        ).toBe(fn.toString())
+        expect(SessionStorage.getItem('Function')).toBe(fn.toString())
       })
 
       test('can encode + decode an Object', () => {
@@ -241,19 +239,15 @@ describe('[SessionStorage API]', () => {
         const obj = { a: 1 }
 
         SessionStorage.setItem('Object', obj)
-        expect(
-          SessionStorage.getItem('Object')
-        ).toStrictEqual(obj)
+        expect(SessionStorage.getItem('Object')).toStrictEqual(obj)
       })
 
       test('can encode + decode an Array', () => {
         mountPlugin()
-        const arr = [ 1, 2, 3 ]
+        const arr = [1, 2, 3]
 
         SessionStorage.setItem('Array', arr)
-        expect(
-          SessionStorage.getItem('Array')
-        ).toStrictEqual(arr)
+        expect(SessionStorage.getItem('Array')).toStrictEqual(arr)
       })
     })
 
@@ -262,21 +256,17 @@ describe('[SessionStorage API]', () => {
         mountPlugin()
 
         SessionStorage.setItem('remove', 5)
-        expect(
-          SessionStorage.getItem('remove')
-        ).toBe(5)
+        expect(SessionStorage.getItem('remove')).toBe(5)
 
-        expect(
-          SessionStorage.removeItem('remove')
-        ).toBeUndefined()
+        expect(SessionStorage.removeItem('remove')).toBeUndefined()
 
-        expect(
-          SessionStorage.getItem('remove')
-        ).toBeNull()
+        expect(SessionStorage.getItem('remove')).toBeNull()
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.removeItem).toBe(SessionStorage.removeItem)
       })
     })
@@ -295,7 +285,9 @@ describe('[SessionStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.clear).toBe(SessionStorage.clear)
       })
     })
@@ -315,7 +307,9 @@ describe('[SessionStorage API]', () => {
       })
 
       test('matches $q API', () => {
-        const { vm: { $q } } = mountPlugin()
+        const {
+          vm: { $q }
+        } = mountPlugin()
         expect($q.sessionStorage.isEmpty).toBe(SessionStorage.isEmpty)
       })
     })

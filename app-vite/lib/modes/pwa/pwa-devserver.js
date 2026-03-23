@@ -1,5 +1,5 @@
 import { createServer } from 'vite'
-import chokidar from 'chokidar'
+import { watch as chokidarWatch } from 'chokidar'
 import debounce from 'lodash/debounce.js'
 
 import { AppDevserver } from '../../app-devserver.js'
@@ -15,7 +15,7 @@ export class QuasarModeDevserver extends AppDevserver {
   #pwaManifestWatcher
   #pwaServiceWorkerWatcher
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     // also update ssr-devserver.js when changing here
@@ -52,12 +52,10 @@ export class QuasarModeDevserver extends AppDevserver {
     ])
 
     // also update ssr-devserver.js when changing here
-    this.registerDiff('pwaFilenames', quasarConf => [
-      quasarConf.pwa.swFilename
-    ])
+    this.registerDiff('pwaFilenames', quasarConf => [quasarConf.pwa.swFilename])
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     // also update ssr-devserver.js when changing here
@@ -76,7 +74,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  async #runVite (quasarConf, urlDiffers) {
+  async #runVite(quasarConf, urlDiffers) {
     if (this.#server !== null) {
       await this.#server.close()
       this.#server = null
@@ -99,29 +97,36 @@ export class QuasarModeDevserver extends AppDevserver {
   }
 
   // also update ssr-devserver.js when changing here
-  #compilePwaManifest (quasarConf) {
+  #compilePwaManifest(quasarConf) {
     if (this.#pwaManifestWatcher !== void 0) {
       this.#pwaManifestWatcher.close()
     }
 
-    function inject () {
+    function inject() {
       injectPwaManifest(quasarConf)
-      log(`Generated the PWA manifest file (${ quasarConf.pwa.manifestFilename })`)
+      log(
+        `Generated the PWA manifest file (${quasarConf.pwa.manifestFilename})`
+      )
     }
 
-    this.#pwaManifestWatcher = chokidar.watch(
+    this.#pwaManifestWatcher = chokidarWatch(
       quasarConf.metaConf.pwaManifestFile,
-      { ignoreInitial: true }
-    ).on('change', debounce(() => {
-      inject()
-      this.#server?.ws.send({ type: 'full-reload' })
-    }, 550))
+      {
+        ignoreInitial: true
+      }
+    ).on(
+      'change',
+      debounce(() => {
+        inject()
+        this.#server?.ws.send({ type: 'full-reload' })
+      }, 550)
+    )
 
     inject()
   }
 
   // also update ssr-devserver.js when changing here
-  async #compilePwaServiceWorker (quasarConf, queue) {
+  async #compilePwaServiceWorker(quasarConf, queue) {
     if (this.#pwaServiceWorkerWatcher) {
       await this.#pwaServiceWorkerWatcher.close()
     }
@@ -130,9 +135,13 @@ export class QuasarModeDevserver extends AppDevserver {
 
     if (quasarConf.pwa.workboxMode === 'InjectManifest') {
       const esbuildConfig = await quasarPwaConfig.customSw(quasarConf)
-      await this.watchWithEsbuild('InjectManifest Custom SW', esbuildConfig, () => {
-        queue(() => buildPwaServiceWorker(quasarConf, workboxConfig))
-      }).then(esbuildCtx => {
+      await this.watchWithEsbuild(
+        'InjectManifest Custom SW',
+        esbuildConfig,
+        () => {
+          queue(() => buildPwaServiceWorker(quasarConf, workboxConfig))
+        }
+      ).then(esbuildCtx => {
         this.#pwaServiceWorkerWatcher = { close: esbuildCtx.dispose }
       })
     }

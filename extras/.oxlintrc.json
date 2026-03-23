@@ -1,0 +1,23 @@
+{
+  "extends": ["../.oxlintrc.json"],
+
+  "env": {
+    "node": true
+  },
+
+  "ignorePatterns": [
+    "bootstrap-icons/",
+    "eva-icons/",
+    "fontawesome-*/",
+    "ionicons-*/",
+    "line-awesome/",
+    "material-*/",
+    "mdi-*/",
+    "roboto-*/",
+    "themify/"
+  ],
+
+  "rules": {
+    "import/first": "off"
+  }
+}

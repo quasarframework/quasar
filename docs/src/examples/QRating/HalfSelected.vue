@@ -35,12 +35,7 @@
       />
 
       <div>
-        <q-btn
-          color="grey"
-          no-caps
-          label="Reset"
-          @click="resetModels"
-        />
+        <q-btn color="grey" no-caps label="Reset" @click="resetModels" />
       </div>
     </div>
   </div>
@@ -50,7 +45,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const model1 = ref(3.5)
     const model2 = ref(2.3)
     const model3 = ref(4.5)
@@ -60,7 +55,7 @@ export default {
       model2,
       model3,
 
-      resetModels () {
+      resetModels() {
         model1.value = 3.5
         model2.value = 2.3
         model3.value = 4.5

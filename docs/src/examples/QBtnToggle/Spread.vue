@@ -9,8 +9,8 @@
         color="white"
         text-color="black"
         :options="[
-          {label: 'Option 1', value: 'one'},
-          {label: 'Option 2', value: 'two'}
+          { label: 'Option 1', value: 'one' },
+          { label: 'Option 2', value: 'two' }
         ]"
       />
 
@@ -25,8 +25,8 @@
         color="white"
         text-color="primary"
         :options="[
-          {label: 'Option 1', value: 'one'},
-          {label: 'Option 2', value: 'two'}
+          { label: 'Option 1', value: 'one' },
+          { label: 'Option 2', value: 'two' }
         ]"
       />
     </div>
@@ -37,7 +37,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref('one'),
       secondModel: ref('one')

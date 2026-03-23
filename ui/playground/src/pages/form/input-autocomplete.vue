@@ -7,18 +7,10 @@
       label="Username"
       autocomplete="username"
     >
-      <template v-slot:before>
-        BEFORE
-      </template>
-      <template v-slot:prepend>
-        PREP
-      </template>
-      <template v-slot:append>
-        APPEND
-      </template>
-      <template v-slot:after>
-        AFTER
-      </template>
+      <template v-slot:before> BEFORE </template>
+      <template v-slot:prepend> PREP </template>
+      <template v-slot:append> APPEND </template>
+      <template v-slot:after> AFTER </template>
     </q-input>
 
     <q-input
@@ -28,18 +20,10 @@
       label="Username"
       autocomplete="username"
     >
-      <template v-slot:before>
-        BEFORE
-      </template>
-      <template v-slot:prepend>
-        PREP
-      </template>
-      <template v-slot:append>
-        APPEND
-      </template>
-      <template v-slot:after>
-        AFTER
-      </template>
+      <template v-slot:before> BEFORE </template>
+      <template v-slot:prepend> PREP </template>
+      <template v-slot:append> APPEND </template>
+      <template v-slot:after> AFTER </template>
     </q-input>
 
     <q-input
@@ -49,18 +33,10 @@
       label="Username"
       autocomplete="username"
     >
-      <template v-slot:before>
-        BEFORE
-      </template>
-      <template v-slot:prepend>
-        PREP
-      </template>
-      <template v-slot:append>
-        APPEND
-      </template>
-      <template v-slot:after>
-        AFTER
-      </template>
+      <template v-slot:before> BEFORE </template>
+      <template v-slot:prepend> PREP </template>
+      <template v-slot:append> APPEND </template>
+      <template v-slot:after> AFTER </template>
     </q-input>
 
     <q-input
@@ -70,18 +46,10 @@
       label="Username"
       autocomplete="username"
     >
-      <template v-slot:before>
-        BEFORE
-      </template>
-      <template v-slot:prepend>
-        PREP
-      </template>
-      <template v-slot:append>
-        APPEND
-      </template>
-      <template v-slot:after>
-        AFTER
-      </template>
+      <template v-slot:before> BEFORE </template>
+      <template v-slot:prepend> PREP </template>
+      <template v-slot:append> APPEND </template>
+      <template v-slot:after> AFTER </template>
     </q-input>
 
     <q-input
@@ -91,25 +59,17 @@
       label="Username"
       autocomplete="username"
     >
-      <template v-slot:before>
-        BEFORE
-      </template>
-      <template v-slot:prepend>
-        PREP
-      </template>
-      <template v-slot:append>
-        APPEND
-      </template>
-      <template v-slot:after>
-        AFTER
-      </template>
+      <template v-slot:before> BEFORE </template>
+      <template v-slot:prepend> PREP </template>
+      <template v-slot:append> APPEND </template>
+      <template v-slot:after> AFTER </template>
     </q-input>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       username: null
     }

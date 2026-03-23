@@ -15,27 +15,27 @@
  * Use the new wrappers from #q-app/wrappers
  *******************************************************/
 
-export function boot (callback) {
+export function boot(callback) {
   return callback
 }
 
-export function configure (callback) {
+export function configure(callback) {
   return callback
 }
 
-export function preFetch (callback) {
+export function preFetch(callback) {
   return callback
 }
 
-export function route (callback) {
+export function route(callback) {
   return callback
 }
 
-export function store (callback) {
+export function store(callback) {
   return callback
 }
 
-export function ssrMiddleware (callback) {
+export function ssrMiddleware(callback) {
   return callback
 }
 
@@ -43,7 +43,7 @@ export function ssrMiddleware (callback) {
  * Below only for @quasar/app-webpack v3
  */
 
-export function ssrProductionExport (callback) {
+export function ssrProductionExport(callback) {
   return callback
 }
 
@@ -51,23 +51,23 @@ export function ssrProductionExport (callback) {
  * Below only for @quasar/app-vite v1
  */
 
-export function ssrCreate (callback) {
+export function ssrCreate(callback) {
   return callback
 }
 
-export function ssrListen (callback) {
+export function ssrListen(callback) {
   return callback
 }
 
-export function ssrClose (callback) {
+export function ssrClose(callback) {
   return callback
 }
 
-export function ssrServeStaticContent (callback) {
+export function ssrServeStaticContent(callback) {
   return callback
 }
 
-export function ssrRenderPreloadTag (callback) {
+export function ssrRenderPreloadTag(callback) {
   return callback
 }
 
@@ -75,14 +75,14 @@ export function ssrRenderPreloadTag (callback) {
  * Below only for legacy @quasar/app-vite v1 & @quasar/app-webpack v3
  */
 
-export function bexBackground (callback) {
+export function bexBackground(callback) {
   return callback
 }
 
-export function bexContent (callback) {
+export function bexContent(callback) {
   return callback
 }
 
-export function bexDom (callback) {
+export function bexDom(callback) {
   return callback
 }

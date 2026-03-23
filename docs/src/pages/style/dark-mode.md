@@ -10,10 +10,10 @@ Dark Mode is a supplemental mode that can be used to display mostly dark surface
 
 The advantages of Dark Mode are that:
 
-* It enhances visual ergonomics by reducing eye strain.
-* It is important for eye protection also.
-* Provides comfort of use at night or in dark environments.
-* It conserves battery power mainly if the device screen is OLED or AMOLED, thereby enabling device usage for longer periods without charging.
+- It enhances visual ergonomics by reducing eye strain.
+- It is important for eye protection also.
+- Provides comfort of use at night or in dark environments.
+- It conserves battery power mainly if the device screen is OLED or AMOLED, thereby enabling device usage for longer periods without charging.
 
 ## What it does
 
@@ -44,6 +44,6 @@ Should you wish to override the default Dark mode page background color:
 
 ```css
 body.body--dark {
-  background: #000
+  background: #000;
 }
 ```

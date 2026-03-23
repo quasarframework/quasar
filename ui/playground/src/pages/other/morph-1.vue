@@ -20,21 +20,15 @@
           :label="card1PositionText"
         />
       </div>
-      <q-toggle
-        v-model="tween"
-        label="Use tween"
-      />
-      <q-toggle
-        v-model="forceResize"
-        label="Force resize"
-      />
-      <q-toggle
-        v-model="forceCssAnimation"
-        label="Force CSS animation"
-      />
+      <q-toggle v-model="tween" label="Use tween" />
+      <q-toggle v-model="forceResize" label="Force resize" />
+      <q-toggle v-model="forceCssAnimation" label="Force CSS animation" />
     </div>
 
-    <div class="q-pa-sm row no-wrap items-end justify-center" style="margin-top: 300px">
+    <div
+      class="q-pa-sm row no-wrap items-end justify-center"
+      style="margin-top: 300px"
+    >
       <div class="bg-red text-white q-pa-sm q-my-md q-mr-md">B</div>
 
       <q-btn
@@ -54,7 +48,8 @@
     </div>
 
     <div class="bg-green text-center q-pa-md">
-      After After After After After After After After After After After After After After After After After After
+      After After After After After After After After After After After After
+      After After After After After After
     </div>
 
     <div
@@ -77,7 +72,8 @@
             <div class="text-overline">Overline</div>
             <div class="text-h5 q-mt-sm q-mb-xs">Title</div>
             <div class="text-caption text-grey">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </div>
           </q-card-section>
 
@@ -92,20 +88,9 @@
         <q-separator />
 
         <q-card-actions>
-          <q-btn
-            flat
-            round
-            icon="event"
-          />
-          <q-btn flat>
-            7:30PM
-          </q-btn>
-          <q-btn
-            flat
-            color="primary"
-          >
-            Reserve
-          </q-btn>
+          <q-btn flat round icon="event" />
+          <q-btn flat> 7:30PM </q-btn>
+          <q-btn flat color="primary"> Reserve </q-btn>
         </q-card-actions>
       </q-card>
 
@@ -113,19 +98,12 @@
     </div>
 
     <div class="bg-green text-center q-pa-md">
-      After After After After After After After After After After After After After After After After After After
+      After After After After After After After After After After After After
+      After After After After After After
     </div>
 
-    <div
-      class="relative-position bg-red-4"
-      style="height: 200px"
-    >
-      <div
-        class="test-2"
-        :class="div2Class"
-        v-text="div2Text"
-        @click="test2"
-      />
+    <div class="relative-position bg-red-4" style="height: 200px">
+      <div class="test-2" :class="div2Class" v-text="div2Text" @click="test2" />
     </div>
   </div>
 </template>
@@ -134,7 +112,7 @@
 import { morph } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       forceResize: false,
       forceCssAnimation: false,
@@ -149,39 +127,45 @@ export default {
   },
 
   computed: {
-    btn1PositionText () {
+    btn1PositionText() {
       if (this.btn1Position === null) {
         return 'Static -> Fixed'
       }
-      return this.btn1Position === true ? 'Fixed -> Absolute' : 'Absolute -> Static'
+      return this.btn1Position === true
+        ? 'Fixed -> Absolute'
+        : 'Absolute -> Static'
     },
 
-    card1PositionText () {
+    card1PositionText() {
       if (this.card1Position === null) {
         return 'Static -> Fixed'
       }
-      return this.card1Position === true ? 'Fixed -> Absolute' : 'Absolute -> Static'
+      return this.card1Position === true
+        ? 'Fixed -> Absolute'
+        : 'Absolute -> Static'
     },
 
-    btn1Class () {
+    btn1Class() {
       if (this.btn1Position !== null) {
-        return this.btn1Position === true ? 'fixed-top-left' : 'absolute-top-left'
+        return this.btn1Position === true
+          ? 'fixed-top-left'
+          : 'absolute-top-left'
       }
     },
 
-    card1Class () {
+    card1Class() {
       if (this.card1Position !== null) {
         return this.card1Position === true ? 'fixed-bottom' : 'absolute-bottom'
       }
     },
 
-    div2Text () {
+    div2Text() {
       return this.toggle2 === false
         ? 'A short text'
         : 'A much longer text to show how it works. It should grow / shrink. Is it working?'
     },
 
-    div2Class () {
+    div2Class() {
       return this.toggle2 === false
         ? 'absolute-top-left rounded-borders bg-red-2 q-pa-lg q-ma-sm'
         : 'absolute-bottom-right bg-red-6 q-pa-sm q-ma-md'
@@ -189,13 +173,16 @@ export default {
   },
 
   methods: {
-    test1 () {
-      const onToggle = () => { this.toggle1 = this.toggle1 !== true }
+    test1() {
+      const onToggle = () => {
+        this.toggle1 = this.toggle1 !== true
+      }
 
       if (this.cancel1 === void 0 || this.cancel1() === false) {
         this.cancel1 = morph({
           from: () => {
-            const ref = this.$refs[ this.toggle1 === true ? 'flipTo1' : 'flipFrom1' ]
+            const ref =
+              this.$refs[this.toggle1 === true ? 'flipTo1' : 'flipFrom1']
             return ref ? ref.$el || ref : null
           },
           onToggle,
@@ -208,15 +195,17 @@ export default {
           tweenFromOpacity: 1,
           tweenToOpacity: 0.5,
           onEnd: end => {
-            end === 'from' && onToggle()
+            if (end === 'from') onToggle()
             console.log('Morph 1 ready: ' + end)
           }
         })
       }
     },
 
-    test2 () {
-      const onToggle = () => { this.toggle2 = this.toggle2 !== true }
+    test2() {
+      const onToggle = () => {
+        this.toggle2 = this.toggle2 !== true
+      }
 
       if (this.cancel2 === void 0 || this.cancel2() === false) {
         this.cancel2 = morph({
@@ -228,7 +217,7 @@ export default {
           useCSS: this.forceCssAnimation,
           classes: 'bg-orange',
           onEnd: end => {
-            end === 'from' && onToggle()
+            if (end === 'from') onToggle()
             console.log('Morph 2 ready: ' + end)
           }
         })

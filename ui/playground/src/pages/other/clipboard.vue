@@ -12,7 +12,7 @@
 import { copyToClipboard } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       copyText: 'Fill me',
       pasteText: 'Hit btn above then paste here'
@@ -20,7 +20,7 @@ export default {
   },
 
   methods: {
-    copy () {
+    copy() {
       copyToClipboard(this.copyText)
         .then(() => {
           this.$q.notify('Copied to clipboard')

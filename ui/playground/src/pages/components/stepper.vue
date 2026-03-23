@@ -49,7 +49,15 @@
         :contracted="contracted && !vertical"
         :header-class="customHeaderClass ? 'text-bold' : void 0"
       >
-        <q-step :name="1" :prefix="prefix ? 1 : ''" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
+        <q-step
+          :name="1"
+          :prefix="prefix ? 1 : ''"
+          :done="useDone && step > 1"
+          :header-nav="headerNavStep ? step > 1 : true"
+          title="Ad style"
+          icon="map"
+          :caption="caption ? 'Some caption' : null"
+        >
           <q-input v-model="myInput" />
           <div>{{ myInput || 'null' }}</div>
           <keep-alive-test name="one" />
@@ -61,15 +69,13 @@
           </q-fab>
           <q-btn dense round icon="map" class="absolute-top-right" />
 
-          <input v-model="myInput">
+          <input v-model="myInput" />
           <q-uploader
             multiple
             label="Multiple"
             url="http://localhost:4444/upload"
           />
-          <div v-for="n in 10" :key="'1.'+n">
-            {{ n }} Step 1
-          </div>
+          <div v-for="n in 10" :key="'1.' + n">{{ n }} Step 1</div>
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -80,78 +86,126 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="2" :prefix="prefix ? 2 : ''" :done="useDone && step > 2" :header-nav="headerNavStep ? step > 2 : true" error title="Custom channels" :caption="caption ? 'Alert message' : null" icon="map">
-          <div v-for="n in 10" :key="'2.'+n">
-            {{ n }} Step 2
-          </div>
+        <q-step
+          :name="2"
+          :prefix="prefix ? 2 : ''"
+          :done="useDone && step > 2"
+          :header-nav="headerNavStep ? step > 2 : true"
+          error
+          title="Custom channels"
+          :caption="caption ? 'Alert message' : null"
+          icon="map"
+        >
+          <div v-for="n in 10" :key="'2.' + n">{{ n }} Step 2</div>
           <keep-alive-test name="two" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
             </q-btn>
-            <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">
+            <q-btn
+              :color="color"
+              flat
+              @click="$refs.stepper.previous()"
+              class="q-ml-sm"
+            >
               Back
             </q-btn>
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="3" :prefix="prefix ? 3 : ''" done-color="orange" :done="useDone && step > 3" :header-nav="headerNavStep ? step > 3 : true" title="Get code" icon="map">
-          <div v-for="n in 3" :key="'3.'+n">
-            {{ n }} Step 3
-          </div>
+        <q-step
+          :name="3"
+          :prefix="prefix ? 3 : ''"
+          done-color="orange"
+          :done="useDone && step > 3"
+          :header-nav="headerNavStep ? step > 3 : true"
+          title="Get code"
+          icon="map"
+        >
+          <div v-for="n in 3" :key="'3.' + n">{{ n }} Step 3</div>
           <keep-alive-test name="three" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
             </q-btn>
-            <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">
+            <q-btn
+              :color="color"
+              flat
+              @click="$refs.stepper.previous()"
+              class="q-ml-sm"
+            >
               Back
             </q-btn>
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="4" :prefix="prefix ? 4 : ''" :done="useDone && step > 4" :header-nav="headerNavStep ? step > 4 : true" :disable="stepDisable" title="Disabled" icon="map">
-          <div v-for="n in 3" :key="'4.'+n">
-            {{ n }} Step 4
-          </div>
+        <q-step
+          :name="4"
+          :prefix="prefix ? 4 : ''"
+          :done="useDone && step > 4"
+          :header-nav="headerNavStep ? step > 4 : true"
+          :disable="stepDisable"
+          title="Disabled"
+          icon="map"
+        >
+          <div v-for="n in 3" :key="'4.' + n">{{ n }} Step 4</div>
           <keep-alive-test name="four" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
             </q-btn>
-            <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">
+            <q-btn
+              :color="color"
+              flat
+              @click="$refs.stepper.previous()"
+              class="q-ml-sm"
+            >
               Back
             </q-btn>
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="5" :prefix="prefix ? 5 : ''" title="Wrap up" :header-nav="headerNavStep ? step > 5 : true" icon="map">
-          <div v-for="n in 3" :key="'5.'+n">
-            {{ n }} Step 5
-          </div>
+        <q-step
+          :name="5"
+          :prefix="prefix ? 5 : ''"
+          title="Wrap up"
+          :header-nav="headerNavStep ? step > 5 : true"
+          icon="map"
+        >
+          <div v-for="n in 3" :key="'5.' + n">{{ n }} Step 5</div>
           <keep-alive-test name="five" />
           <q-stepper-navigation v-if="!globalNav">
-            <q-btn :color="color" @click="step = 1">
-              Restart
-            </q-btn>
-            <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">
+            <q-btn :color="color" @click="step = 1"> Restart </q-btn>
+            <q-btn
+              :color="color"
+              flat
+              @click="$refs.stepper.previous()"
+              class="q-ml-sm"
+            >
               Back
             </q-btn>
           </q-stepper-navigation>
         </q-step>
 
         <template v-slot:message>
-          <div class="q-pa-lg">
-            Message slot
-          </div>
+          <div class="q-pa-lg">Message slot</div>
         </template>
 
         <template v-if="globalNav" v-slot:navigation>
           <q-stepper-navigation>
-            <q-btn :disable="step === 5" :color="color" @click="$refs.stepper.next()">
+            <q-btn
+              :disable="step === 5"
+              :color="color"
+              @click="$refs.stepper.next()"
+            >
               Continue
             </q-btn>
-            <q-btn v-if="step !== 1" flat @click="$refs.stepper.previous()" class="q-ml-sm">
+            <q-btn
+              v-if="step !== 1"
+              flat
+              @click="$refs.stepper.previous()"
+              class="q-ml-sm"
+            >
               Back
             </q-btn>
           </q-stepper-navigation>
@@ -173,39 +227,39 @@ export default {
         name: String
       },
 
-      created () {
+      created() {
         this.log('created')
       },
 
-      beforeMount () {
+      beforeMount() {
         this.log('beforeMount')
       },
 
-      mounted () {
+      mounted() {
         this.log('mounted')
       },
 
-      beforeUnmount () {
+      beforeUnmount() {
         this.log('beforeUnmount')
       },
 
-      unmounted () {
+      unmounted() {
         this.log('unmounted')
       },
 
       methods: {
-        log (what) {
-          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
+        log(what) {
+          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
         }
       },
 
-      render () {
+      render() {
         return h('div', 'keep alive test ' + this.name)
       }
     }
   },
 
-  data () {
+  data() {
     return {
       color: 'primary',
       myInput: '',
@@ -239,11 +293,11 @@ export default {
     }
   },
   watch: {
-    dark (v) {
+    dark(v) {
       this.color = v ? 'deep-orange' : 'primary'
     }
   },
-  mounted () {
+  mounted() {
     window.x = this.$refs.stepper
   }
 }

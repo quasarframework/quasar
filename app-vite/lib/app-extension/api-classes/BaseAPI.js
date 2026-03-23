@@ -12,7 +12,7 @@ export class BaseAPI {
   resolve
   appDir
 
-  constructor ({ ctx, extId }) {
+  constructor({ ctx, extId }) {
     this.ctx = ctx
     this.extId = extId
     this.resolve = ctx.appPaths.resolve
@@ -24,7 +24,7 @@ export class BaseAPI {
    *
    * @return {Promise<boolean>}
    */
-  hasTypescript () {
+  hasTypescript() {
     // implicit async return value
     return this.ctx.cacheProxy.getModule('hasTypescript')
   }
@@ -34,7 +34,7 @@ export class BaseAPI {
    *
    * @return {Promise<boolean>}
    */
-  async hasLint () {
+  async hasLint() {
     const { hasEslint } = await this.ctx.cacheProxy.getModule('eslint')
     return hasEslint
   }
@@ -44,7 +44,7 @@ export class BaseAPI {
    *
    * @return {'pinia' | undefined}
    */
-  getStorePackageName () {
+  getStorePackageName() {
     if (getPackagePath('pinia', this.ctx.appPaths.appDir) !== void 0) {
       return 'pinia'
     }
@@ -55,7 +55,7 @@ export class BaseAPI {
    *
    * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}
    */
-  async getNodePackagerName () {
+  async getNodePackagerName() {
     const nodePackager = await this.ctx.cacheProxy.getModule('nodePackager')
     return nodePackager.name
   }

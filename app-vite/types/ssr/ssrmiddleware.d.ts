@@ -2,13 +2,15 @@ import { IncomingMessage, ServerResponse } from "node:http";
 import { Http2ServerRequest, Http2ServerResponse } from "node:http2";
 import {
   Server as HttpsServer,
-  ServerOptions as HttpsServerOptions,
+  ServerOptions as HttpsServerOptions
 } from "node:https";
 import { SsrDriverTypes } from "./driver";
 import { QSsrContext } from "./context";
 
-export interface RenderParams
-  extends Pick<QSsrContext, "req" | "res" | "url" | "originalUrl"> {}
+export interface RenderParams extends Pick<
+  QSsrContext,
+  "req" | "res" | "url" | "originalUrl"
+> {}
 
 export interface RenderVueParams extends RenderParams, Record<string, any> {}
 
@@ -69,7 +71,7 @@ interface SsrCreateParams {
 }
 
 export type SsrCreateCallback = (
-  params: SsrCreateParams,
+  params: SsrCreateParams
 ) => SsrDriverTypes["app"] | Promise<SsrDriverTypes["app"]>;
 
 interface SsrServeStaticContentParams extends SsrCreateParams {
@@ -99,11 +101,11 @@ interface SsrServeStaticFnParams {
 }
 
 type SsrServeStaticFn = (
-  params: SsrServeStaticFnParams,
+  params: SsrServeStaticFnParams
 ) => void | Promise<void>;
 
 export type SsrServeStaticContentCallback = (
-  params: SsrServeStaticContentParams,
+  params: SsrServeStaticContentParams
 ) => SsrServeStaticFn;
 
 interface SsrMiddlewareServe {
@@ -132,7 +134,7 @@ interface SsrMiddlewareParams extends SsrServeStaticContentParams {
 }
 
 export type SsrMiddlewareCallback = (
-  params: SsrMiddlewareParams,
+  params: SsrMiddlewareParams
 ) => void | Promise<void>;
 
 interface SsrListenHandlerResult {
@@ -140,7 +142,7 @@ interface SsrListenHandlerResult {
 }
 
 export type SsrListenCallback = (
-  params: SsrMiddlewareParams,
+  params: SsrMiddlewareParams
 ) =>
   | SsrDriverTypes["listenResult"]
   | SsrListenHandlerResult
@@ -159,7 +161,7 @@ interface SsrRenderPreloadTagCallbackOptions {
 
 export type SsrRenderPreloadTagCallback = (
   file: string,
-  options: SsrRenderPreloadTagCallbackOptions,
+  options: SsrRenderPreloadTagCallbackOptions
 ) => string;
 
 /**
@@ -170,13 +172,13 @@ export type SsrRenderPreloadTagCallback = (
 type SsrInjectDevMiddlewareParam = (
   req: IncomingMessage | Http2ServerRequest,
   res: ServerResponse | Http2ServerResponse,
-  next: (err?: Error) => void,
+  next: (err?: Error) => void
 ) => unknown | Promise<unknown>;
 
 type SsrInjectDevMiddlewareFn = (
-  middleware: SsrInjectDevMiddlewareParam,
+  middleware: SsrInjectDevMiddlewareParam
 ) => void | Promise<void>;
 
 export type SsrInjectDevMiddlewareCallback = (
-  params: SsrMiddlewareParams,
+  params: SsrMiddlewareParams
 ) => SsrInjectDevMiddlewareFn | Promise<SsrInjectDevMiddlewareFn>;

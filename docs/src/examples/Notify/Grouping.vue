@@ -2,8 +2,18 @@
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
       <q-btn no-caps color="teal" @click="triggerTwice" label="Trigger twice" />
-      <q-btn no-caps color="teal" @click="triggerNoGroupingTwice" label="Trigger twice (no grouping)" />
-      <q-btn no-caps color="teal" @click="triggerTwiceCustomGroup" label="Trigger twice (custom group)" />
+      <q-btn
+        no-caps
+        color="teal"
+        @click="triggerNoGroupingTwice"
+        label="Trigger twice (no grouping)"
+      />
+      <q-btn
+        no-caps
+        color="teal"
+        @click="triggerTwiceCustomGroup"
+        label="Trigger twice (custom group)"
+      />
     </div>
   </div>
 </template>
@@ -12,11 +22,11 @@
 import { useQuasar } from 'quasar'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
-      triggerTwice () {
+      triggerTwice() {
         $q.notify({
           message: 'Jim pinged you.',
           color: 'purple'
@@ -28,7 +38,7 @@ export default {
         })
       },
 
-      triggerNoGroupingTwice () {
+      triggerNoGroupingTwice() {
         $q.notify({
           group: false,
           message: 'Jim pinged you.',
@@ -42,7 +52,7 @@ export default {
         })
       },
 
-      triggerTwiceCustomGroup () {
+      triggerTwiceCustomGroup() {
         $q.notify({
           group: 'my-group',
           message: 'Jim pinged you.',

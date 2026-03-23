@@ -14,30 +14,29 @@
 import { LocalStorage } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       storage: LocalStorage.getAll()
     }
   },
   methods: {
-    toggle (key) {
+    toggle(key) {
       if (LocalStorage.has(key)) {
         LocalStorage.remove(key)
-      }
-      else {
-        LocalStorage.set(key, `${ key }-value`)
+      } else {
+        LocalStorage.set(key, `${key}-value`)
       }
       this.update()
     },
-    clear () {
+    clear() {
       LocalStorage.clear()
       this.update()
     },
-    update () {
+    update() {
       this.storage = LocalStorage.getAll()
     }
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
       this.update()
     })

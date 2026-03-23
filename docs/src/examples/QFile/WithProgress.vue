@@ -56,16 +56,16 @@
 import { ref, computed, onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const files = ref(null)
     const uploadProgress = ref([])
     const uploading = ref(null)
 
-    function cleanUp () {
+    function cleanUp() {
       clearTimeout(uploading.value)
     }
 
-    function updateUploadProgress () {
+    function updateUploadProgress() {
       let done = true
 
       uploadProgress.value = uploadProgress.value.map(progress => {
@@ -88,9 +88,8 @@ export default {
         }
       })
 
-      uploading.value = done !== true
-        ? setTimeout(updateUploadProgress, 300)
-        : null
+      uploading.value =
+        done !== true ? setTimeout(updateUploadProgress, 300) : null
     }
 
     onBeforeUnmount(cleanUp)
@@ -103,36 +102,37 @@ export default {
       isUploading: computed(() => uploading.value !== null),
       canUpload: computed(() => files.value !== null),
 
-      cancelFile (index) {
-        this.uploadProgress[ index ] = {
-          ...this.uploadProgress[ index ],
+      cancelFile(index) {
+        this.uploadProgress[index] = {
+          ...this.uploadProgress[index],
           error: true,
           color: 'orange-2'
         }
       },
 
-      updateFiles (newFiles) {
+      updateFiles(newFiles) {
         files.value = newFiles
         uploadProgress.value = (newFiles || []).map(file => ({
           error: false,
           color: 'green-2',
           percent: 0,
-          icon: file.type.indexOf('video/') === 0
-            ? 'movie'
-            : (file.type.indexOf('image/') === 0
+          icon:
+            file.type.indexOf('video/') === 0
+              ? 'movie'
+              : file.type.indexOf('image/') === 0
                 ? 'photo'
-                : (file.type.indexOf('audio/') === 0
-                    ? 'audiotrack'
-                    : 'insert_drive_file'
-                  )
-              )
+                : file.type.indexOf('audio/') === 0
+                  ? 'audiotrack'
+                  : 'insert_drive_file'
         }))
       },
 
-      upload () {
+      upload() {
         cleanUp()
 
-        const allDone = uploadProgress.value.every(progress => progress.percent === 1)
+        const allDone = uploadProgress.value.every(
+          progress => progress.percent === 1
+        )
 
         uploadProgress.value = uploadProgress.value.map(progress => ({
           ...progress,

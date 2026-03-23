@@ -52,7 +52,7 @@ A Quasar CLI with Webpack project relies on `/package.json > browserslist` to sp
 
 ### Step 2: Various files
 
-* Create `/babel.config.js`:
+- Create `/babel.config.js`:
 
   ```js
   export default api => {
@@ -68,9 +68,10 @@ A Quasar CLI with Webpack project relies on `/package.json > browserslist` to sp
     }
   }
   ```
+
   <br>
 
-* If you are using the RTL support, then edit `/postcss.config.js`. You will need to remove the `postcss-rtlcss` import and usage. This is handled automatically by Quasar CLI now:
+- If you are using the RTL support, then edit `/postcss.config.js`. You will need to remove the `postcss-rtlcss` import and usage. This is handled automatically by Quasar CLI now:
 
   ```diff /postcss.config.js
   - import rtlcss from 'postcss-rtlcss'
@@ -81,6 +82,7 @@ A Quasar CLI with Webpack project relies on `/package.json > browserslist` to sp
     ]
   }
   ```
+
   <br>
 
   Also, uninstall the `postcss-rtlcss` package.
@@ -88,13 +90,14 @@ A Quasar CLI with Webpack project relies on `/package.json > browserslist` to sp
 ### Step 3: Copy folders from original folder
 
 From your original project folder, copy these as they are:
-  * /src
-  * /src-cordova
-  * /src-capacitor
-  * /src-electron
-  * /src-pwa
-  * /src-ssr (with small caveat; see next steps)
-  * /src-bex (with small caveat; see next steps)
+
+- /src
+- /src-cordova
+- /src-capacitor
+- /src-electron
+- /src-pwa
+- /src-ssr (with small caveat; see next steps)
+- /src-bex (with small caveat; see next steps)
 
 ### Step 4: Check the new quasar.config file
 

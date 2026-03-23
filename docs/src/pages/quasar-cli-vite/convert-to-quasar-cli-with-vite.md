@@ -18,7 +18,7 @@ devDependencies: {
 - "@quasar/app-webpack": "^4.0.0"
 + "@quasar/app-vite": "^2.0.0"
 
-+ "postcss": "^8.4.14"
++ "postcss": "^8.5.8"
 + "postcss-rtlcss": "^5.4.0" // if using RTL support
 
 - eslint-webpack-plugin
@@ -33,8 +33,8 @@ Remember to yarn/npm/pnpm/bun install.
 
 ### Step 2: Various files
 
-* Delete `/babel.config.js`. It will serve no purpose now.
-* If you are using using the RTL support, then edit `/postcss.config.js`. You will need to manually install `postcss-rtlcss` and make the following edit:
+- Delete `/babel.config.js`. It will serve no purpose now.
+- If you are using using the RTL support, then edit `/postcss.config.js`. You will need to manually install `postcss-rtlcss` and make the following edit:
 
   ```diff /postcss.config.js
   + import rtlcss from 'postcss-rtlcss'
@@ -49,13 +49,14 @@ Remember to yarn/npm/pnpm/bun install.
 ### Step 3: Copy folders from original folder
 
 From your original project folder, copy these as they are:
-  * /src
-  * /src-cordova
-  * /src-capacitor
-  * /src-electron
-  * /src-pwa
-  * /src-ssr (with small caveat; see next steps)
-  * /src-bex (with small caveat; see next steps)
+
+- /src
+- /src-cordova
+- /src-capacitor
+- /src-electron
+- /src-pwa
+- /src-ssr (with small caveat; see next steps)
+- /src-bex (with small caveat; see next steps)
 
 ### Step 4: Explicitly specify extensions on all your import statements
 

@@ -1,5 +1,5 @@
 import { ESLint } from "eslint";
-import { Options as WebpackEslintOptions } from 'eslint-webpack-plugin';
+import { Options as WebpackEslintOptions } from "eslint-webpack-plugin";
 
 export interface QuasarEslintConfiguration {
   /**

@@ -1,22 +1,19 @@
 import { computed } from 'vue'
 
-export default function (props, typeGuard) {
-  function getFormDomProps () {
+export default function useFileDomProps(props, typeGuard) {
+  function getFormDomProps() {
     const model = props.modelValue
 
     try {
-      const dt = 'DataTransfer' in window
-        ? new DataTransfer()
-        : ('ClipboardEvent' in window
+      const dt =
+        'DataTransfer' in window
+          ? new DataTransfer()
+          : 'ClipboardEvent' in window
             ? new ClipboardEvent('').clipboardData
             : void 0
-          )
 
       if (Object(model) === model) {
-        ('length' in model
-          ? Array.from(model)
-          : [ model ]
-        ).forEach(file => {
+        ;('length' in model ? Array.from(model) : [model]).forEach(file => {
           dt.items.add(file)
         })
       }
@@ -24,8 +21,7 @@ export default function (props, typeGuard) {
       return {
         files: dt.files
       }
-    }
-    catch (e) {
+    } catch {
       return {
         files: void 0
       }
@@ -34,8 +30,8 @@ export default function (props, typeGuard) {
 
   return typeGuard === true
     ? computed(() => {
-      if (props.type !== 'file') return
-      return getFormDomProps()
-    })
+        if (props.type !== 'file') return
+        return getFormDomProps()
+      })
     : computed(getFormDomProps)
 }

@@ -15,13 +15,18 @@ export default {
     search: 'Kërko',
     filter: 'Filtro',
     refresh: 'Rifresko',
-    expand: label => (label ? `Zgjero "${ label }"` : 'Zgjero'),
-    collapse: label => (label ? `Tkur "${ label }"` : 'Tkur')
+    expand: label => (label ? `Zgjero "${label}"` : 'Zgjero'),
+    collapse: label => (label ? `Tkur "${label}"` : 'Tkur')
   },
   date: {
-    days: 'E diel_E hënë_E martë_E mërkurë_E enjte_E premte_E shtunë'.split('_'),
+    days: 'E diel_E hënë_E martë_E mërkurë_E enjte_E premte_E shtunë'.split(
+      '_'
+    ),
     daysShort: 'Die_Hën_Mar_Mër_Enj_Pre_Sht'.split('_'),
-    months: 'Janar_Shkurt_Mars_Pril_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor'.split('_'),
+    months:
+      'Janar_Shkurt_Mars_Pril_Maj_Qershor_Korrik_Gusht_Shtator_Tetor_Nëntor_Dhjetor'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Shk_Mar_Pri_Maj_Qer_Kor_Gus_Sht_Tet_Nën_Dhj'.split('_'),
     firstDayOfWeek: 1,
     format24h: true,
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Viti i kaluar',
     nextYear: 'Viti i ardhshëm',
     today: 'Sot',
-    prevRangeYears: range => `Vitet e mëparshme ${ range }`,
-    nextRangeYears: range => `Vitet e ardhshme ${ range }`
+    prevRangeYears: range => `Vitet e mëparshme ${range}`,
+    nextRangeYears: range => `Vitet e ardhshme ${range}`
   },
   table: {
     noData: 'Nuk ka të dhëna',
     noResults: 'Nuk u gjetën rezultate',
     loading: 'Duke ngarkuar...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 regjistrim i përzgjedhur.'
-        : (rows === 0 ? 'Asnjë' : rows) + ' regjistrime të përzgjedhura.'
-    ),
+        : (rows === 0 ? 'Asnjë' : rows) + ' regjistrime të përzgjedhura.',
     recordsPerPage: 'Regjistrime për faqe:',
     allRows: 'Të gjitha',
     pagination: (start, end, total) => `${start}-${end} nga ${total}`,

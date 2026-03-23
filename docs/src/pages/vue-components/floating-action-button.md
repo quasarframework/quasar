@@ -17,6 +17,7 @@ Note that you don’t need a QLayout to use FABs.
 <DocApi file="QFabAction" />
 
 ## Usage
+
 There are two types of FABs: expandable (has sub-actions) and non-expandable.
 
 ::: tip
@@ -24,6 +25,7 @@ For an exhausting list of options, please read the API cards (at the top of this
 :::
 
 ### Non-Expandable
+
 If you want a non-expandable FAB, all you need is a round button – wrapped in QPageSticky if used on a QLayout.
 
 <DocExample title="Non expandable" file="NonExpandable" />

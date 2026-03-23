@@ -1,7 +1,11 @@
 <template>
   <div class="q-pa-md relative-position" style="min-height: 300px">
     <div class="absolute-bottom-right q-ma-lg">
-      <div ref="refFab" class="absolute-center bg-accent" style="border-radius: 50%; width: 50%; height: 50%" />
+      <div
+        ref="refFab"
+        class="absolute-center bg-accent"
+        style="border-radius: 50%; width: 50%; height: 50%"
+      />
 
       <q-fab
         direction="up"
@@ -35,24 +39,28 @@
 import { morph } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       toggle: false,
 
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      lorem:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
   },
 
   methods: {
-    morph (state) {
+    morph(state) {
       if (state !== this.toggle) {
         const getFab = () => this.$refs.refFab
-        const getCard = () => (this.$refs.refCard ? this.$refs.refCard.$el : void 0)
+        const getCard = () =>
+          this.$refs.refCard ? this.$refs.refCard.$el : void 0
 
         morph({
           from: this.toggle === true ? getCard : getFab,
           to: this.toggle === true ? getFab : getCard,
-          onToggle: () => { this.toggle = state },
+          onToggle: () => {
+            this.toggle = state
+          },
           duration: 500
         })
       }

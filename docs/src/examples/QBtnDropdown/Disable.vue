@@ -1,12 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
-      <q-btn-dropdown
-        disable
-        class="glossy"
-        color="primary"
-        label="Default"
-      >
+      <q-btn-dropdown disable class="glossy" color="primary" label="Default">
         <q-list>
           <q-item clickable v-close-popup>
             <q-item-section avatar>
@@ -46,7 +41,11 @@
 
           <q-item clickable v-close-popup>
             <q-item-section avatar>
-              <q-avatar icon="assignment" color="secondary" text-color="white" />
+              <q-avatar
+                icon="assignment"
+                color="secondary"
+                text-color="white"
+              />
             </q-item-section>
             <q-item-section>
               <q-item-label>Vacation</q-item-label>

@@ -5,7 +5,7 @@ import getEmitsObject from '../../utils/private.get-emits-object/get-emits-objec
 // To be used for the custom component
 // used on a Dialog plugin
 
-export default function useDialogPluginComponent () {
+export default function useDialogPluginComponent() {
   const { emit, proxy } = getCurrentInstance()
 
   // we need a Vue reference to the QDialog
@@ -15,15 +15,21 @@ export default function useDialogPluginComponent () {
   // function is called returns dialogRef variable
   const dialogRef = ref(null)
 
-  function show () { dialogRef.value.show() }
-  function hide () { dialogRef.value.hide() }
+  function show() {
+    dialogRef.value.show()
+  }
+  function hide() {
+    dialogRef.value.hide()
+  }
 
-  function onDialogOK (payload) {
+  function onDialogOK(payload) {
     emit('ok', payload)
     hide()
   }
 
-  function onDialogHide () { emit('hide') }
+  function onDialogHide() {
+    emit('hide')
+  }
 
   // expose public methods required by Dialog plugin
   Object.assign(proxy, { show, hide })
@@ -37,7 +43,7 @@ export default function useDialogPluginComponent () {
 }
 
 // Don't forget to update the types in "ui/types/composables.d.ts"
-const emits = [ 'ok', 'hide' ]
+const emits = ['ok', 'hide']
 
 useDialogPluginComponent.emits = emits
 useDialogPluginComponent.emitsObject = getEmitsObject(emits)

@@ -50,7 +50,7 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
 
     return {
@@ -59,7 +59,7 @@ export default {
       filesMaxTotalSize: ref(null),
       filesMaxNumber: ref(null),
 
-      onRejected (rejectedEntries) {
+      onRejected(rejectedEntries) {
         // Notify plugin needs to be installed
         // https://v2.quasar.dev/quasar-plugins/notify#Installation
         $q.notify({

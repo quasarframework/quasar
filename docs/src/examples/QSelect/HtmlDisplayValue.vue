@@ -44,9 +44,9 @@ const options = [
 ]
 
 export default {
-  setup () {
+  setup() {
     return {
-      model: ref(options[ 0 ]),
+      model: ref(options[0]),
       displayHtml: ref(false),
       options
     }

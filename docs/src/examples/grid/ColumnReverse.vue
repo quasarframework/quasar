@@ -1,18 +1,10 @@
 <template>
   <div class="q-pa-md example-column-reverse">
-
     <div class="column reverse" style="height: 150px">
-      <div class="col">
-        First, but last
-      </div>
-      <div class="col">
-        Second, unchanged
-      </div>
-      <div class="col">
-        Third, but first
-      </div>
+      <div class="col"> First, but last </div>
+      <div class="col"> Second, unchanged </div>
+      <div class="col"> Third, but first </div>
     </div>
-
   </div>
 </template>
 

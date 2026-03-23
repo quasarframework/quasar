@@ -21,7 +21,7 @@ By default, QKnob inherits current text color (as arc progress color and inner l
 
 ### Show value
 
-In the example below, `show-value` property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The `font-size` prop refers to the inner label font size. 
+In the example below, `show-value` property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The `font-size` prop refers to the inner label font size.
 
 If the default slot contains an image, you have to style it with class `no-pointer-events` or set the `draggable` prop to false. Otherwise browser's default image dragging behaviour overrides QKnob's one
 

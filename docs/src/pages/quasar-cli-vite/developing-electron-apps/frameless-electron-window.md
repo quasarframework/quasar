@@ -9,7 +9,9 @@ related:
 A nice combo is to use frameless Electron window along with [QBar](/vue-components/bar) component. Here's why.
 
 ## Main thread
+
 ### Setting frameless window
+
 Firstly, install the `@electron/remote` dependency into your app.
 
 ```tabs
@@ -55,6 +57,7 @@ mainWindow.loadURL(process.env.APP_URL)
 Notice that we need to explicitly enable the remote module too. We'll be using it in the preload script to provide the renderer thread with the window minimize/maximize/close functionality.
 
 ### The preload script
+
 Since we can't directly access Electron from within the renderer thread, we'll need to provide the necessary functionality through the electron preload script (`src-electron/main-process/electron-preload.js`). So we edit it to:
 
 ```js /src-electron/main-process/electron-preload
@@ -62,11 +65,11 @@ import { contextBridge } from 'electron'
 import { BrowserWindow } from '@electron/remote'
 
 contextBridge.exposeInMainWorld('myWindowAPI', {
-  minimize () {
+  minimize() {
     BrowserWindow.getFocusedWindow().minimize()
   },
 
-  toggleMaximize () {
+  toggleMaximize() {
     const win = BrowserWindow.getFocusedWindow()
 
     if (win.isMaximized()) {
@@ -76,20 +79,20 @@ contextBridge.exposeInMainWorld('myWindowAPI', {
     }
   },
 
-  close () {
+  close() {
     BrowserWindow.getFocusedWindow().close()
   }
 })
 ```
 
 ## Renderer thread
+
 ### Handling window dragging
+
 When we use a frameless window (only frameless!) we also need a way for the user to be able to move the app window around the screen. You can use `q-electron-drag` and `q-electron-drag--exception` Quasar CSS helper classes for this.
 
 ```html
-<q-bar class="q-electron-drag">
-  ...
-</q-bar>
+<q-bar class="q-electron-drag"> ... </q-bar>
 ```
 
 What this does is that it allows the user to drag the app window when clicking, holding and simultaneously dragging the mouse on the screen.
@@ -118,21 +121,21 @@ In the example above, notice that we add `q-electron-drag` to our QBar and we al
 // Quasar Modes as well (SPA/PWA/Cordova/SSR...)
 
 export default {
-  setup () {
+  setup() {
     // we rely upon
-    function minimize () {
+    function minimize() {
       if (process.env.MODE === 'electron') {
         window.myWindowAPI.minimize()
       }
     }
 
-    function toggleMaximize () {
+    function toggleMaximize() {
       if (process.env.MODE === 'electron') {
         window.myWindowAPI.toggleMaximize()
       }
     }
 
-    function closeApp () {
+    function closeApp() {
       if (process.env.MODE === 'electron') {
         window.myWindowAPI.close()
       }

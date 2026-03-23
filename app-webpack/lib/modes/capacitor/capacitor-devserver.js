@@ -10,13 +10,15 @@ const { onShutdown } = require('../../utils/on-shutdown.js')
 const { openIDE } = require('../../utils/open-ide.js')
 const { quasarCapacitorConfig } = require('./capacitor-config.js')
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends (
+  AppDevserver
+) {
   #pid = 0
   #server = null
   #target
   #capacitorConfigFile = new CapacitorConfigFile()
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     this.#target = this.ctx.targetName
@@ -31,7 +33,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     ])
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (diff('webpack', quasarConf)) {
@@ -43,7 +45,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
   }
 
-  async #runWebpack (quasarConf) {
+  async #runWebpack(quasarConf) {
     if (this.#server !== null) {
       await this.#server.stop()
       this.#server = null
@@ -68,12 +70,15 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
       // start building & launch server
       // deep clone to avoid webpack-dev-server mutating the original config which causes double compilation
-      this.#server = new WebpackDevServer(cloneDeep(quasarConf.devServer), compiler)
+      this.#server = new WebpackDevServer(
+        cloneDeep(quasarConf.devServer),
+        compiler
+      )
       this.#server.start()
     })
   }
 
-  async #runCapacitor (quasarConf) {
+  async #runCapacitor(quasarConf) {
     this.#stopCapacitor()
     await this.#capacitorConfigFile.prepare(quasarConf, this.#target)
 
@@ -95,7 +100,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
   }
 
-  #stopCapacitor () {
+  #stopCapacitor() {
     if (this.#pid) {
       log('Shutting down Capacitor process...')
       process.kill(this.#pid)
@@ -103,26 +108,21 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
   }
 
-  async #runCapacitorCommand (args, cwd, capBin) {
+  #runCapacitorCommand(args, cwd, capBin) {
     return new Promise(resolve => {
-      this.#pid = spawn(
-        capBin,
-        args,
-        { cwd },
-        code => {
-          this.#cleanup()
+      this.#pid = spawn(capBin, args, { cwd }, code => {
+        this.#cleanup()
 
-          if (code) {
-            fatal('Capacitor CLI has failed', 'FAIL')
-          }
-
-          resolve && resolve()
+        if (code) {
+          fatal('Capacitor CLI has failed', 'FAIL')
         }
-      )
+
+        resolve()
+      })
     })
   }
 
-  #cleanup () {
+  #cleanup() {
     this.#pid = 0
     this.#capacitorConfigFile.reset()
   }

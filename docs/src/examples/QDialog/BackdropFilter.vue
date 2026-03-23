@@ -31,7 +31,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     /**
      * Values for backdrop-filter are the same as in the CSS specs.
      * The following list is not an exhaustive one.

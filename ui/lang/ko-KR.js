@@ -15,14 +15,16 @@ export default {
     search: '검색',
     filter: '필터',
     refresh: '새로 고침',
-    expand: label => (label ? `"${ label }" 확장` : '확장하다'),
-    collapse: label => (label ? `"${ label }" 접기` : '무너지다')
+    expand: label => (label ? `"${label}" 확장` : '확장하다'),
+    collapse: label => (label ? `"${label}" 접기` : '무너지다')
   },
   date: {
     days: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
     daysShort: '일_월_화_수_목_금_토'.split('_'),
     months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-    monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
+    monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split(
+      '_'
+    ),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: '일',
@@ -31,18 +33,15 @@ export default {
     prevYear: '작년',
     nextYear: '내년',
     today: '오늘',
-    prevRangeYears: range => `이전 ${ range } 년`,
-    nextRangeYears: range => `다음 ${ range } 년`
+    prevRangeYears: range => `이전 ${range} 년`,
+    nextRangeYears: range => `다음 ${range} 년`
   },
   table: {
     noData: '데이터가 없습니다.',
     noResults: '결과가 없습니다.',
     loading: '로드 중...',
-    selectedRecords: rows => (
-      rows > 0
-        ? rows + ' 개가 선택 되었습니다.'
-        : '선택된 항목이 없습니다.'
-    ),
+    selectedRecords: rows =>
+      rows > 0 ? rows + ' 개가 선택 되었습니다.' : '선택된 항목이 없습니다.',
     recordsPerPage: '페이지 당 개수:',
     allRows: '전체',
     pagination: (start, end, total) => total + ' 중 ' + start + '-' + end,

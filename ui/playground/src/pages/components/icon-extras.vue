@@ -2,9 +2,19 @@
   <div class="q-layout-padding">
     Icon Extras (SVG Viewer)
     <div class="row justify-start items-center">
-      <q-select v-model="selectedIcon" :options="iconOptions" class="q-mb-sm" style="min-width: 300px" />
+      <q-select
+        v-model="selectedIcon"
+        :options="iconOptions"
+        class="q-mb-sm"
+        style="min-width: 300px"
+      />
       <div class="q-ma-lg">Count: {{ iconSelectedKeys.length }}</div>
-      <q-input v-model="filter" class="q-ma-sm" placeholder="Filter" clearable />
+      <q-input
+        v-model="filter"
+        class="q-ma-sm"
+        placeholder="Filter"
+        clearable
+      />
     </div>
     <q-separator />
     <div class="row justify-start items-center">
@@ -104,28 +114,26 @@ const selectedIcon = ref('material-icons')
 const filter = ref('')
 const debouncedFilter = ref('')
 
-const iconSelected = computed(() => {
-  return icons.value.find((icon) => icon.name === selectedIcon.value)
-})
+const iconSelected = computed(() =>
+  icons.value.find(icon => icon.name === selectedIcon.value)
+)
 
-const iconSelectedKeys = computed(() => {
-  return Object.keys(iconSelected.value.icons)
-})
+const iconSelectedKeys = computed(() => Object.keys(iconSelected.value.icons))
 
-const iconOptions = computed(() => {
-  return icons.value.map((icon) => icon.name)
-})
+const iconOptions = computed(() => icons.value.map(icon => icon.name))
 
 const filtered = computed(() => {
   if (!debouncedFilter.value) {
     return iconSelectedKeys.value
   }
-  return iconSelectedKeys.value.filter((key) => key.toLowerCase().includes(debouncedFilter.value.toLowerCase()))
+  return iconSelectedKeys.value.filter(key =>
+    key.toLowerCase().includes(debouncedFilter.value.toLowerCase())
+  )
 })
 
 watch(
   () => filter.value,
-  (newValue) => {
+  newValue => {
     debouncedFilter.value = newValue
   },
   { debounce: 300 } // 300ms debounce

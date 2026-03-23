@@ -6,30 +6,80 @@
           <q-item-label>Width</q-item-label>
         </q-item-section>
         <q-item-section side>
-          <q-input dark dense borderless input-class="text-right" v-model.number="width" type="number" :min="300" />
+          <q-input
+            dark
+            dense
+            borderless
+            input-class="text-right"
+            v-model.number="width"
+            type="number"
+            :min="300"
+          />
         </q-item-section>
       </q-item>
       <q-separator />
-      <q-item dark class="bg-purple" dense v-ripple clickable @click="outsideArrows = outsideArrows === false">
+      <q-item
+        dark
+        class="bg-purple"
+        dense
+        v-ripple
+        clickable
+        @click="outsideArrows = outsideArrows === false"
+      >
         <q-item-section>
-          <q-item-label>{{ outsideArrows === true ? 'Arrows outside (change to inside)' : 'Arrows inside (change to outside)'}}</q-item-label>
+          <q-item-label>{{
+            outsideArrows === true
+              ? 'Arrows outside (change to inside)'
+              : 'Arrows inside (change to outside)'
+          }}</q-item-label>
         </q-item-section>
       </q-item>
       <q-separator />
-      <q-item dark class="bg-purple" dense v-ripple clickable @click="mobileArrows = mobileArrows === false">
+      <q-item
+        dark
+        class="bg-purple"
+        dense
+        v-ripple
+        clickable
+        @click="mobileArrows = mobileArrows === false"
+      >
         <q-item-section>
-          <q-item-label>{{ mobileArrows === true ? 'Arrows visible on mobile (change to invisible)' : 'Arrows invisible on mobile (change to visible)'}}</q-item-label>
+          <q-item-label>{{
+            mobileArrows === true
+              ? 'Arrows visible on mobile (change to invisible)'
+              : 'Arrows invisible on mobile (change to visible)'
+          }}</q-item-label>
         </q-item-section>
       </q-item>
       <q-separator />
-      <q-item dark class="bg-primary" dense v-ripple clickable @click="toggleAll">
+      <q-item
+        dark
+        class="bg-primary"
+        dense
+        v-ripple
+        clickable
+        @click="toggleAll"
+      >
         <q-item-section>
           <q-item-label>Toggle all</q-item-label>
         </q-item-section>
       </q-item>
-      <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
+      <q-item
+        v-for="item in allTabs"
+        :key="item.tab.name"
+        tag="label"
+        dense
+        v-ripple
+      >
         <q-item-section side>
-          <q-checkbox :model-value="item.selected" @update:model-value="status => { setTabSelected(item.tab, status) }" />
+          <q-checkbox
+            :model-value="item.selected"
+            @update:model-value="
+              status => {
+                setTabSelected(item.tab, status)
+              }
+            "
+          />
         </q-item-section>
 
         <q-item-section>
@@ -91,7 +141,7 @@ const allTabs = [
 ]
 
 export default {
-  data () {
+  data() {
     return {
       tab: 'mails',
       width: 300,
@@ -102,7 +152,7 @@ export default {
   },
 
   computed: {
-    allTabs () {
+    allTabs() {
       return allTabs.map(tab => ({
         tab,
         selected: this.tabs.indexOf(tab) > -1
@@ -111,11 +161,10 @@ export default {
   },
 
   methods: {
-    setTabSelected (tab, status) {
+    setTabSelected(tab, status) {
       if (status === true) {
         this.tabs.push(tab)
-      }
-      else {
+      } else {
         const index = this.tabs.indexOf(tab)
 
         if (index > -1) {
@@ -124,11 +173,10 @@ export default {
       }
     },
 
-    toggleAll () {
+    toggleAll() {
       if (this.tabs.length > 0) {
         this.tabs = []
-      }
-      else {
+      } else {
         this.tabs = this.allTabs.map(t => t.tab)
       }
     }

@@ -14,13 +14,21 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
 const colors = [
-  'primary', 'amber', 'secondary', 'orange', 'accent',
-  'lime', 'cyan', 'purple', 'brown', 'blue'
+  'primary',
+  'amber',
+  'secondary',
+  'orange',
+  'accent',
+  'lime',
+  'cyan',
+  'purple',
+  'brown',
+  'blue'
 ]
 
 export default {
-  setup () {
-    const color = ref(colors[ 0 ])
+  setup() {
+    const color = ref(colors[0])
     const index = ref(0)
 
     let timer
@@ -28,7 +36,7 @@ export default {
     onMounted(() => {
       timer = setInterval(() => {
         index.value = (index.value + 1) % colors.length
-        color.value = colors[ index.value ]
+        color.value = colors[index.value]
       }, 3000)
     })
 

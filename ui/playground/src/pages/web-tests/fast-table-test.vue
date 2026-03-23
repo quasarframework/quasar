@@ -29,12 +29,20 @@
 import { clone, uid } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       selectionToggle: false,
       loading: false,
       color: 'amber',
-      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
+      visibleColumns: [
+        'desc',
+        'fat',
+        'carbs',
+        'protein',
+        'sodium',
+        'calcium',
+        'iron'
+      ],
       separator: 'horizontal',
       selected: [],
       selection: 'multiple',
@@ -54,16 +62,34 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${ val }`,
+          format: val => `~${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
       data: [
         {
@@ -170,7 +196,7 @@ export default {
     }
   },
   computed: {
-    xxl () {
+    xxl() {
       const rand = () => Math.floor((Math.random() % 450) * 450)
       const data = clone(this.data)
       for (let i = 0; i < 500; i++) {
@@ -188,7 +214,6 @@ export default {
       return data
     }
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>

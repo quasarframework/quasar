@@ -6,12 +6,22 @@
 
     <div class="row justify-around items-center">
       <div class="row items-center q-px-md q-gutter-sm">
-        <q-btn label="Undo" color="primary" :disable="undoStack.length === 0" @click="undo" />
+        <q-btn
+          label="Undo"
+          color="primary"
+          :disable="undoStack.length === 0"
+          @click="undo"
+        />
         <div>Stack Depth: {{ undoStack.length }}</div>
       </div>
 
       <div class="row items-center q-px-md q-gutter-sm">
-        <q-btn label="Redo" color="accent" :disable="redoStack.length === 0" @click="redo" />
+        <q-btn
+          label="Redo"
+          color="accent"
+          :disable="redoStack.length === 0"
+          @click="redo"
+        />
         <div>Stack Depth: {{ redoStack.length }}</div>
       </div>
     </div>
@@ -22,7 +32,8 @@
         v-mutation="handler"
         contentEditable="true"
         class="editable rounded-borders q-pa-sm overflow-auto"
-      >Type here</div>
+        >Type here</div
+      >
     </div>
   </div>
 </template>
@@ -31,7 +42,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const maxStack = ref(100)
     const undoStack = ref([])
     const redoStack = ref([])
@@ -39,13 +50,13 @@ export default {
 
     const editorRef = ref(null)
 
-    function checkStack (stack) {
+    function checkStack(stack) {
       if (stack.length > maxStack.value) {
         stack.splice(maxStack.value)
       }
     }
 
-    function clearStack (stack) {
+    function clearStack(stack) {
       stack.splice(0)
     }
 
@@ -57,7 +68,7 @@ export default {
 
       editorRef,
 
-      undo () {
+      undo() {
         // shift the stack
         const data = undoStack.value.shift()
         if (data !== void 0) {
@@ -67,7 +78,7 @@ export default {
         }
       },
 
-      redo () {
+      redo() {
         // shift the stack
         const data = redoStack.value.shift()
         if (data !== void 0) {
@@ -77,20 +88,18 @@ export default {
         }
       },
 
-      handler (mutationRecords) {
+      handler(mutationRecords) {
         mutationRecords.forEach(record => {
           if (record.type === 'characterData') {
             undoStack.value.unshift(record.oldValue)
             checkStack(undoStack.value)
             clearStack(redoStack.value)
-          }
-          else if (record.type === 'childList') {
+          } else if (record.type === 'childList') {
             record.removedNodes.forEach(node => {
               if (undoBlocked.value === false) {
                 // comes from redo
                 undoStack.value.unshift(node.textContent)
-              }
-              else {
+              } else {
                 // comes from undo
                 redoStack.value.unshift(node.textContent)
               }

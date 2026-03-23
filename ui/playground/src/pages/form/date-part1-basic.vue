@@ -2,15 +2,28 @@
   <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
     <div class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
+        <q-toggle
+          :dark="dark"
+          v-model="dark"
+          label="Dark"
+          :false-value="null"
+        />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
         <q-toggle :dark="dark" v-model="biggerHeight" label="More Height" />
         <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
-        <q-toggle :dark="dark" v-model="yearsInMonthView" label="yearsInMonthView" />
-        <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
+        <q-toggle
+          :dark="dark"
+          v-model="yearsInMonthView"
+          label="yearsInMonthView"
+        />
+        <q-toggle
+          :dark="dark"
+          v-model="persian"
+          label="Persian calendar model"
+        />
       </div>
 
       <div>{{ date }}</div>
@@ -21,7 +34,8 @@
           v-bind="props"
           :style="style"
           @update:model-value="inputLog"
-          flat bordered
+          flat
+          bordered
           navigation-min-year-month="2018/05"
           navigation-max-year-month="2019/03"
         >
@@ -36,7 +50,8 @@
           v-bind="props"
           :style="style"
           @update:model-value="inputLog"
-          flat bordered
+          flat
+          bordered
           emit-immediately
         />
 
@@ -46,7 +61,8 @@
           :style="style"
           landscape
           @update:model-value="inputLog"
-          flat bordered
+          flat
+          bordered
         />
 
         <q-date
@@ -55,7 +71,8 @@
           :style="style"
           landscape
           @update:model-value="inputLog"
-          flat bordered
+          flat
+          bordered
         >
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="primary" flat />
@@ -75,14 +92,16 @@
 
       <div class="text-h6">
         Null/Undefined model
-        <q-btn outline color="primary" size="sm" label="Reset" @click="nullDate = null" />
+        <q-btn
+          outline
+          color="primary"
+          size="sm"
+          label="Reset"
+          @click="nullDate = null"
+        />
       </div>
       <div class="q-gutter-md">
-        <q-date
-          v-model="nullDate"
-          v-bind="props"
-          :style="style"
-        />
+        <q-date v-model="nullDate" v-bind="props" :style="style" />
 
         <q-date
           :default-year-month="defaultYearMonth"
@@ -93,16 +112,9 @@
         />
       </div>
 
-      <div class="text-h6">
-        Colored
-      </div>
+      <div class="text-h6">Colored</div>
       <div class="q-gutter-md">
-        <q-date
-          v-model="date"
-          v-bind="props"
-          color="orange"
-          :style="style"
-        />
+        <q-date v-model="date" v-bind="props" color="orange" :style="style" />
 
         <q-date
           v-model="date"
@@ -113,9 +125,7 @@
         />
       </div>
 
-      <div class="text-h6">
-        Events
-      </div>
+      <div class="text-h6">Events</div>
       <div class="q-gutter-md">
         <q-date
           v-model="date"
@@ -134,9 +144,7 @@
         />
       </div>
 
-      <div class="text-h6">
-        Limited options
-      </div>
+      <div class="text-h6">Limited options</div>
       <div class="q-gutter-md">
         <q-date
           v-model="date"
@@ -160,9 +168,7 @@
         />
       </div>
 
-      <div class="text-h6">
-        Default view
-      </div>
+      <div class="text-h6">Default view</div>
       <div class="q-gutter-md">
         <q-date
           v-model="date"
@@ -179,37 +185,34 @@
         />
       </div>
 
-      <div class="text-h6">
-        Negative years: {{ dateNeg }}
-      </div>
+      <div class="text-h6">Negative years: {{ dateNeg }}</div>
       <div class="q-gutter-md">
-        <q-date
-          v-model="dateNeg"
-          v-bind="props"
-          :style="style"
-        />
+        <q-date v-model="dateNeg" v-bind="props" :style="style" />
 
         <q-input :dark="dark" filled v-model="dateNeg">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
               <q-popup-proxy cover>
-                <q-date
-                  v-model="dateNeg"
-                  v-bind="props"
-                  :style="style"
-                />
+                <q-date v-model="dateNeg" v-bind="props" :style="style" />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
       </div>
 
-      <div class="text-h6 q-mt-xl q-mb-none">
-        ParseFormat: {{ dateParse }}
-      </div>
+      <div class="text-h6 q-mt-xl q-mb-none">ParseFormat: {{ dateParse }}</div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="mask" label="Mask" />
-        <q-select :dark="dark" filled v-model="locale" label="Locale" :options="localeOptions" emit-value map-options clearable />
+        <q-select
+          :dark="dark"
+          filled
+          v-model="locale"
+          label="Locale"
+          :options="localeOptions"
+          emit-value
+          map-options
+          clearable
+        />
 
         <q-date
           v-model="dateParse"
@@ -223,19 +226,19 @@
         <q-input :dark="dark" filled v-model="dateParse" />
       </div>
 
-      <div class="text-h6">
-        Input: {{ input }}
-      </div>
+      <div class="text-h6">Input: {{ input }}</div>
       <div class="q-gutter-md">
-        <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
+        <q-input
+          :dark="dark"
+          filled
+          v-model="input"
+          mask="date"
+          :rules="['date']"
+        >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
               <q-popup-proxy cover>
-                <q-date
-                  v-model="input"
-                  v-bind="props"
-                  :style="style"
-                >
+                <q-date v-model="input" v-bind="props" :style="style">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Close" color="primary" flat />
                   </div>
@@ -246,9 +249,7 @@
         </q-input>
       </div>
 
-      <div class="text-h6">
-        Input with close on selection: {{ input }}
-      </div>
+      <div class="text-h6">Input with close on selection: {{ input }}</div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="inputFull">
           <template v-slot:append>
@@ -260,7 +261,11 @@
                   mask="YYYY-MM-DD HH:mm"
                   today-btn
                   :style="style"
-                  @update:model-value="() => { $refs.qDateProxy1.hide() }"
+                  @update:model-value="
+                    () => {
+                      $refs.qDateProxy1.hide()
+                    }
+                  "
                 />
               </q-popup-proxy>
             </q-icon>
@@ -269,7 +274,11 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @update:model-value="() => { $refs.qDateProxy2.hide() }"
+                  @update:model-value="
+                    () => {
+                      $refs.qDateProxy2.hide()
+                    }
+                  "
                 />
               </q-popup-proxy>
             </q-icon>
@@ -286,7 +295,11 @@
                   mask="YYYY-MM-DD HH:mm"
                   today-btn
                   :style="style"
-                  @update:model-value="() => { $refs.qDateProxy3.hide() }"
+                  @update:model-value="
+                    () => {
+                      $refs.qDateProxy3.hide()
+                    }
+                  "
                 />
               </q-popup-proxy>
             </q-icon>
@@ -297,14 +310,23 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @update:model-value="() => { $refs.qDateProxy4.hide() }"
+                  @update:model-value="
+                    () => {
+                      $refs.qDateProxy4.hide()
+                    }
+                  "
                 />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
 
-        <q-input :dark="dark" filled v-model="inputFull" label="Default view - Years">
+        <q-input
+          :dark="dark"
+          filled
+          v-model="inputFull"
+          label="Default view - Years"
+        >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
               <q-popup-proxy cover ref="qDateProxy5">
@@ -315,7 +337,11 @@
                   today-btn
                   default-view="Years"
                   :style="style"
-                  @update:model-value="() => { $refs.qDateProxy5.hide() }"
+                  @update:model-value="
+                    () => {
+                      $refs.qDateProxy5.hide()
+                    }
+                  "
                 />
               </q-popup-proxy>
             </q-icon>
@@ -326,7 +352,11 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @update:model-value="() => { $refs.qDateProxy6.hide() }"
+                  @update:model-value="
+                    () => {
+                      $refs.qDateProxy6.hide()
+                    }
+                  "
                 />
               </q-popup-proxy>
             </q-icon>
@@ -334,12 +364,24 @@
         </q-input>
       </div>
 
-      <div class="text-h6">
-        Input that keeps focus: {{ input }}
-      </div>
+      <div class="text-h6">Input that keeps focus: {{ input }}</div>
       <div class="q-gutter-md">
-        <q-input :dark="dark" filled v-model="inputFull" label="Keep focus here" @focus="e => $refs.menuRef.show(e)" @blur="e => $refs.menuRef.hide(e)">
-          <q-menu ref="menuRef" anchor="bottom left" self="top left" no-focus no-refocus no-parent-event>
+        <q-input
+          :dark="dark"
+          filled
+          v-model="inputFull"
+          label="Keep focus here"
+          @focus="e => $refs.menuRef.show(e)"
+          @blur="e => $refs.menuRef.hide(e)"
+        >
+          <q-menu
+            ref="menuRef"
+            anchor="bottom left"
+            self="top left"
+            no-focus
+            no-refocus
+            no-parent-event
+          >
             <q-date
               v-model="inputFull"
               v-bind="props"
@@ -359,7 +401,7 @@
 const langList = import.meta.glob('../../../../lang/*.js')
 
 export default {
-  data () {
+  data() {
     return {
       dark: null,
       disable: false,
@@ -391,36 +433,35 @@ export default {
     }
   },
 
-  created () {
+  created() {
     const promises = []
     for (const key in langList) {
-      promises.push(langList[ key ]())
+      promises.push(langList[key]())
     }
 
-    Promise.all(promises)
-      .then(languages => {
-        this.localeOptions = languages.map(lang => ({
-          label: lang.nativeName,
-          value: lang
-        }))
-      })
+    Promise.all(promises).then(languages => {
+      this.localeOptions = languages.map(lang => ({
+        label: lang.nativeName,
+        value: lang
+      }))
+    })
   },
 
   computed: {
-    lang () {
+    lang() {
       return this.$q.lang.isoName
     },
-    events () {
+    events() {
       return this.persian === true
-        ? [ '1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28' ]
-        : [ '2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23' ]
+        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     },
-    options () {
+    options() {
       return this.persian === true
-        ? [ '1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28' ]
-        : [ '2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23' ]
+        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     },
-    props () {
+    props() {
       return {
         dark: this.dark,
         disable: this.disable,
@@ -432,7 +473,7 @@ export default {
       }
     },
 
-    style () {
+    style() {
       let style = ''
       if (this.fullWidth) {
         style += 'width: 100%;'
@@ -443,18 +484,17 @@ export default {
       return style
     },
 
-    localeComputed () {
+    localeComputed() {
       return this.locale ? this.locale.date : this.$q.lang.date
     }
   },
   watch: {
-    persian (val) {
+    persian(val) {
       if (val === true) {
         this.date = '1397/08/12'
-        this.nullDate = undefined
+        this.nullDate = void 0
         this.defaultYearMonth = '1364/11'
-      }
-      else {
+      } else {
         this.date = '2018/11/03'
         this.nullDate = null
         this.defaultYearMonth = '1986/02'
@@ -462,25 +502,25 @@ export default {
     }
   },
   methods: {
-    eventFn (date) {
-      return date[ 9 ] % 3 === 0
+    eventFn(date) {
+      return date[9] % 3 === 0
     },
 
-    eventColor (date) {
-      return date[ 9 ] % 2 === 0 ? 'teal' : 'orange'
+    eventColor(date) {
+      return date[9] % 2 === 0 ? 'teal' : 'orange'
     },
 
-    optionsFn (date) {
-      return date[ 9 ] % 3 === 0
+    optionsFn(date) {
+      return date[9] % 3 === 0
     },
 
-    optionsFn2 (date) {
+    optionsFn2(date) {
       return this.persian === true
         ? date >= '1397/08/12' && date <= '1397/08/24'
         : date >= '2018/11/03' && date <= '2018/11/15'
     },
 
-    inputLog (value, reason, date) {
+    inputLog(value, reason, date) {
       console.log('@update:model-value', value, reason, date)
     }
   }

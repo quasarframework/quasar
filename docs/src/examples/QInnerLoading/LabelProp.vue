@@ -1,8 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-md">
-    <q-btn color="primary" @click="showTextLoading">
-      Show it
-    </q-btn>
+    <q-btn color="primary" @click="showTextLoading"> Show it </q-btn>
 
     <q-card class="relative-position card-example" flat bordered>
       <q-card-section class="q-pb-none">
@@ -16,7 +14,12 @@
           leave-active-class="animated fadeOut"
         >
           <div v-show="showSimulatedReturnData">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel magna eu risus laoreet tristique. Nulla ut fermentum elit, nec consequat augue. Morbi et dolor nec metus tincidunt pellentesque. Nullam non semper ante. Fusce pellentesque sagittis felis quis porta. Aenean condimentum neque sed erat suscipit malesuada. Nulla eget rhoncus enim. Duis dictum interdum eros.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+            vel magna eu risus laoreet tristique. Nulla ut fermentum elit, nec
+            consequat augue. Morbi et dolor nec metus tincidunt pellentesque.
+            Nullam non semper ante. Fusce pellentesque sagittis felis quis
+            porta. Aenean condimentum neque sed erat suscipit malesuada. Nulla
+            eget rhoncus enim. Duis dictum interdum eros.
           </div>
         </transition>
       </q-card-section>
@@ -38,7 +41,7 @@ import { ref } from 'vue'
 // you are using in quasar.config file > animations.
 // Alternatively, if using UMD, load animate.css from CDN.
 export default {
-  setup () {
+  setup() {
     const visible = ref(false)
     const showSimulatedReturnData = ref(false)
 
@@ -46,7 +49,7 @@ export default {
       visible,
       showSimulatedReturnData,
 
-      showTextLoading () {
+      showTextLoading() {
         visible.value = true
         showSimulatedReturnData.value = false
 

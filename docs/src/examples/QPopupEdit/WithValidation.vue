@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-   <q-table
+    <q-table
       :rows="rows"
       :columns="columns"
       title="QDataTable with QPopupEdit"
@@ -55,7 +55,12 @@ import { ref } from 'vue'
 
 const columns = [
   { name: 'desc', align: 'left', label: 'Dessert', field: 'name' },
-  { name: 'calories', align: 'center', label: 'Calories (editable)', field: 'calories' },
+  {
+    name: 'calories',
+    align: 'center',
+    label: 'Calories (editable)',
+    field: 'calories'
+  },
   { name: 'fat', label: 'Fat', field: 'fat' },
   { name: 'carbs', label: 'Carbs', field: 'carbs' },
   { name: 'protein', label: 'Protein', field: 'protein' }
@@ -135,7 +140,7 @@ const rows = [
 ]
 
 export default {
-  setup () {
+  setup() {
     const errorCalories = ref(false)
     const errorMessageCalories = ref('')
 
@@ -146,7 +151,7 @@ export default {
       errorCalories,
       errorMessageCalories,
 
-      caloriesRangeValidation (val) {
+      caloriesRangeValidation(val) {
         if (val < 4 || val > 7) {
           errorCalories.value = true
           errorMessageCalories.value = 'The value must be between 4 and 7!'

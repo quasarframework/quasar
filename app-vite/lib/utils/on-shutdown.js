@@ -1,12 +1,11 @@
 import { log } from './logger.js'
 
-export function onShutdown (fn, msg) {
+export function onShutdown(fn, msg) {
   const cleanup = () => {
     try {
-      msg && log(msg)
+      if (msg) log(msg)
       fn()
-    }
-    finally {
+    } finally {
       process.exit()
     }
   }

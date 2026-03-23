@@ -1,6 +1,8 @@
 <template>
   <div class="doc-page__content">
-    <div v-if="props.overline" class="doc-page__overline text-brand-primary">{{ props.overline }}</div>
+    <div v-if="props.overline" class="doc-page__overline text-brand-primary">{{
+      props.overline
+    }}</div>
 
     <div class="doc-heading doc-h1" id="introduction" v-if="props.heading">
       <div class="row items-center q-gutter-sm">
@@ -13,7 +15,9 @@
       <q-btn
         v-if="props.editLink"
         class="self-start q-ml-sm"
-        :href="editHref" target="_blank" rel="noopener noreferrer"
+        :href="editHref"
+        target="_blank"
+        rel="noopener noreferrer"
         flat
         round
         color="brand-primary"
@@ -35,7 +39,9 @@
           :to="link.path"
         >
           <div class="doc-page__nav-categ">{{ link.category || 'Docs' }}</div>
-          <div class="doc-page__nav-name text-weight-bold row items-center no-wrap">
+          <div
+            class="doc-page__nav-name text-weight-bold row items-center no-wrap"
+          >
             <div class="q-mr-xs">{{ link.name }}</div>
             <q-icon :name="mdiLaunch" />
           </div>
@@ -66,12 +72,17 @@
 
       <div class="q-mb-md">
         <span>Caught a mistake?</span>
-        <doc-link class="q-ml-xs" :to="editHref">Edit this page in browser</doc-link>
+        <doc-link class="q-ml-xs" :to="editHref"
+          >Edit this page in browser</doc-link
+        >
       </div>
     </div>
   </div>
 
-  <div class="doc-page__toc-container col-grow row justify-center gt-sm" :class="tocClass">
+  <div
+    class="doc-page__toc-container col-grow row justify-center gt-sm"
+    :class="tocClass"
+  >
     <q-scroll-area class="doc-page__toc-area">
       <doc-page-toc />
     </q-scroll-area>
@@ -82,11 +93,7 @@
 import { useMeta } from 'quasar'
 import { computed } from 'vue'
 
-import {
-  mdiPencil,
-  mdiFlash,
-  mdiLaunch
-} from '@quasar/extras/mdi-v7'
+import { mdiPencil, mdiFlash, mdiLaunch } from '@quasar/extras/mdi-v7'
 
 import DocLink from 'src/components/DocLink.vue'
 import DocPageToc from './DocPageToc.vue'
@@ -110,19 +117,23 @@ const props = defineProps({
 
 useMeta(
   props.desc !== void 0
-    ? { title: props.title, meta: getMeta(props.title + ' | Quasar Framework', props.desc) }
+    ? {
+        title: props.title,
+        meta: getMeta(props.title + ' | Quasar Framework', props.desc)
+      }
     : { title: props.title }
 )
 
 const docStore = useDocStore()
 docStore.setToc(props.toc)
 
-const editHref = computed(() =>
-  `https://github.com/quasarframework/quasar/edit/${ process.env.DOCS_BRANCH }/docs/src/pages/${ props.editLink }.md`
+const editHref = computed(
+  () =>
+    `https://github.com/quasarframework/quasar/edit/${process.env.DOCS_BRANCH}/docs/src/pages/${props.editLink}.md`
 )
 
-const tocClass = computed(() =>
-  `doc-page__toc-container--${ props.toc !== void 0 ? 'fixed' : 'flowing' }`
+const tocClass = computed(
+  () => `doc-page__toc-container--${props.toc !== void 0 ? 'fixed' : 'flowing'}`
 )
 </script>
 

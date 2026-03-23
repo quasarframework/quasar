@@ -2,7 +2,7 @@ import { ref, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
-export default function () {
+export default function useSplitAttrs() {
   const { attrs, vnode } = getCurrentInstance()
 
   const acc = {
@@ -10,19 +10,23 @@ export default function () {
     attributes: ref({})
   }
 
-  function update () {
+  function update() {
     const attributes = {}
     const listeners = {}
 
     for (const key in attrs) {
-      if (key !== 'class' && key !== 'style' && listenerRE.test(key) === false) {
-        attributes[ key ] = attrs[ key ]
+      if (
+        key !== 'class' &&
+        key !== 'style' &&
+        listenerRE.test(key) === false
+      ) {
+        attributes[key] = attrs[key]
       }
     }
 
     for (const key in vnode.props) {
       if (listenerRE.test(key) === true) {
-        listeners[ key ] = vnode.props[ key ]
+        listeners[key] = vnode.props[key]
       }
     }
 

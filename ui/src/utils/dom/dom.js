@@ -1,6 +1,6 @@
 import { unref } from 'vue'
 
-export function offset (el) {
+export function offset(el) {
   if (el === window) {
     return { top: 0, left: 0 }
   }
@@ -8,35 +8,31 @@ export function offset (el) {
   return { top, left }
 }
 
-export function style (el, property) {
+export function style(el, property) {
   return window.getComputedStyle(el).getPropertyValue(property)
 }
 
-export function height (el) {
-  return el === window
-    ? window.innerHeight
-    : el.getBoundingClientRect().height
+export function height(el) {
+  return el === window ? window.innerHeight : el.getBoundingClientRect().height
 }
 
-export function width (el) {
-  return el === window
-    ? window.innerWidth
-    : el.getBoundingClientRect().width
+export function width(el) {
+  return el === window ? window.innerWidth : el.getBoundingClientRect().width
 }
 
-export function css (element, css) {
-  const style = element.style
+export function css(element, cssObject) {
+  const elementStyle = element.style
 
-  for (const prop in css) {
-    style[ prop ] = css[ prop ]
+  for (const prop in cssObject) {
+    elementStyle[prop] = cssObject[prop]
   }
 }
 
-export function cssBatch (elements, style) {
-  elements.forEach(el => css(el, style))
+export function cssBatch(elements, elementCssObject) {
+  elements.forEach(el => css(el, elementCssObject))
 }
 
-export function ready (fn) {
+export function ready(fn) {
   if (typeof fn !== 'function') return
 
   if (document.readyState !== 'loading') {
@@ -47,7 +43,7 @@ export function ready (fn) {
 }
 
 // internal
-export function getElement (el) {
+export function getElement(el) {
   if (el === void 0 || el === null) {
     return void 0
   }
@@ -55,8 +51,7 @@ export function getElement (el) {
   if (typeof el === 'string') {
     try {
       return document.querySelector(el) || void 0
-    }
-    catch (err) {
+    } catch {
       return void 0
     }
   }
@@ -68,12 +63,16 @@ export function getElement (el) {
 }
 
 // internal
-export function childHasFocus (el, focusedEl) {
+export function childHasFocus(el, focusedEl) {
   if (el === void 0 || el === null || el.contains(focusedEl) === true) {
     return true
   }
 
-  for (let next = el.nextElementSibling; next !== null; next = next.nextElementSibling) {
+  for (
+    let next = el.nextElementSibling;
+    next !== null;
+    next = next.nextElementSibling
+  ) {
     if (next.contains(focusedEl)) {
       return true
     }

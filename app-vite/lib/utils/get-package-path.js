@@ -10,7 +10,7 @@ const require = createRequire(import.meta.url)
 /**
  * Get the resolved path of a host package.
  */
-export function getPackagePath (pkgName, dir) {
+export function getPackagePath(pkgName, dir) {
   if (dir === void 0) {
     console.error('getPackagePath() -> dir param is required')
     process.exit(1)
@@ -18,17 +18,15 @@ export function getPackagePath (pkgName, dir) {
 
   try {
     return resolvePathSync(pkgName, { url: dir })
-  }
-  catch (_) {
+  } catch {
     /* do nothing, let the next method try as well */
   }
 
   try {
     return require.resolve(pkgName, {
-      paths: [ dir ]
+      paths: [dir]
     })
-  }
-  catch (_) {
+  } catch {
     /* do and return nothing */
   }
 }

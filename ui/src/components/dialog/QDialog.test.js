@@ -5,8 +5,13 @@
 
 import { mount, flushPromises } from '@vue/test-utils'
 import {
-  describe, test, expect, vi,
-  beforeEach, afterEach, onTestFinished
+  describe,
+  test,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  onTestFinished
 } from 'vitest'
 
 import QDialog from './QDialog.js'
@@ -29,24 +34,27 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-async function triggerBackdropClick (wrapper) {
-  await wrapper.findComponent({ name: 'QPortal' })
+async function triggerBackdropClick(localWrapper) {
+  await localWrapper
+    .findComponent({ name: 'QPortal' })
     .find('.q-dialog__backdrop')
     .trigger('click')
 }
 
-async function triggerEscKey (wrapper) {
-  const portal = await wrapper.findComponent({ name: 'QPortal' })
+async function triggerEscKey(localWrapper) {
+  const portal = await localWrapper.findComponent({ name: 'QPortal' })
   await portal.trigger('keydown', { keyCode: 27 })
   await portal.trigger('keyup', { keyCode: 27 })
 }
 
-function createFocusEl () {
+function createFocusEl() {
   const el = document.createElement('div')
   el.setAttribute('tabindex', '0')
   document.body.appendChild(el)
 
-  onTestFinished(() => { el.remove() })
+  onTestFinished(() => {
+    el.remove()
+  })
 
   return el
 }
@@ -66,7 +74,8 @@ describe('[QDialog API]', () => {
         const content = wrapper.findComponent({ name: 'QPortal' })
 
         expect(
-          content.get('transition-stub[enterfromclass]')
+          content
+            .get('transition-stub[enterfromclass]')
             .attributes('enterfromclass')
         ).toBe('q-transition--flip-enter-from')
       })
@@ -85,7 +94,8 @@ describe('[QDialog API]', () => {
         let content = wrapper.findComponent({ name: 'QPortal' })
 
         expect(
-          content.get('transition-stub[enterfromclass]')
+          content
+            .get('transition-stub[enterfromclass]')
             .attributes('enterfromclass')
         ).toBe('q-transition--scale-enter-from')
 
@@ -95,7 +105,8 @@ describe('[QDialog API]', () => {
         content = wrapper.findComponent({ name: 'QPortal' })
 
         expect(
-          content.get('transition-stub[leavefromclass]')
+          content
+            .get('transition-stub[leavefromclass]')
             .attributes('leavefromclass')
         ).toBe('q-transition--flip-leave-from')
       })
@@ -103,8 +114,8 @@ describe('[QDialog API]', () => {
 
     describe('[(prop)transition-duration]', () => {
       test.each([
-        [ 'String', '1000' ],
-        [ 'Number', 1000 ]
+        ['String', '1000'],
+        ['Number', 1000]
       ])('type %s has effect', async (_, propVal) => {
         const onShowFn = vi.fn()
         wrapper = mount(QDialog, {
@@ -134,26 +145,20 @@ describe('[QDialog API]', () => {
           }
         })
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
 
         await wrapper.setProps({ modelValue: true })
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
       })
     })
 
     describe('[(prop)persistent]', () => {
       test.each([
-        [ 'Backdrop click', triggerBackdropClick ],
-        [ 'ESC key', triggerEscKey ]
+        ['Backdrop click', triggerBackdropClick],
+        ['ESC key', triggerEscKey]
       ])('handles %s correctly', async (_, trigger) => {
         wrapper = mount(QDialog, {
           props: {
@@ -169,10 +174,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
 
         await wrapper.setProps({ persistent: true })
 
@@ -185,10 +187,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
       })
     })
 
@@ -208,10 +207,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
 
         await wrapper.setProps({ noEscDismiss: true })
 
@@ -224,10 +220,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
       })
     })
 
@@ -247,10 +240,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
 
         await wrapper.setProps({ noBackdropDismiss: true })
 
@@ -263,23 +253,20 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
       })
     })
 
     describe('[(prop)no-route-dismiss]', () => {
       test('type Boolean has effect', async () => {
-        const router = await getRouter([ '/home', '/account' ])
+        const router = await getRouter(['/home', '/account'])
 
         wrapper = mount(QDialog, {
           props: {
             noRouteDismiss: true
           },
           global: {
-            plugins: [ router ]
+            plugins: [router]
           }
         })
 
@@ -291,10 +278,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
 
         await wrapper.setProps({ noRouteDismiss: false })
         await flushPromises()
@@ -303,10 +287,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
       })
     })
 
@@ -318,40 +299,30 @@ describe('[QDialog API]', () => {
           }
         })
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
 
-        await wrapper.findComponent({ name: 'QBtn' })
-          .trigger('click')
+        await wrapper.findComponent({ name: 'QBtn' }).trigger('click')
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
 
         await wrapper.setProps({ autoClose: true })
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        await wrapper.findComponent({ name: 'QBtn' })
-          .trigger('click')
+        await wrapper.findComponent({ name: 'QBtn' }).trigger('click')
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
       })
     })
 
@@ -368,18 +339,14 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .get('.q-dialog')
-            .classes()
+          wrapper.findComponent({ name: 'QPortal' }).get('.q-dialog').classes()
         ).toContain('q-dialog--seamless')
 
         await wrapper.setProps({ seamless: false })
         await flushPromises()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .get('.q-dialog')
-            .classes()
+          wrapper.findComponent({ name: 'QPortal' }).get('.q-dialog').classes()
         ).not.toContain('q-dialog--seamless')
       })
     })
@@ -431,7 +398,8 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).toContain('q-dialog__inner--maximized')
@@ -440,7 +408,8 @@ describe('[QDialog API]', () => {
         await flushPromises()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).not.toContain('q-dialog__inner--maximized')
@@ -460,7 +429,8 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).toContain('q-dialog__inner--fullwidth')
@@ -469,7 +439,8 @@ describe('[QDialog API]', () => {
         await flushPromises()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).not.toContain('q-dialog__inner--fullwidth')
@@ -489,7 +460,8 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).toContain('q-dialog__inner--fullheight')
@@ -498,7 +470,8 @@ describe('[QDialog API]', () => {
         await flushPromises()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).not.toContain('q-dialog__inner--fullheight')
@@ -516,8 +489,9 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        const positionList = [ 'top', 'right', 'bottom', 'left' ]
-        const target = wrapper.findComponent({ name: 'QPortal' })
+        const positionList = ['top', 'right', 'bottom', 'left']
+        const target = wrapper
+          .findComponent({ name: 'QPortal' })
           .get('.q-dialog__inner')
 
         for (const position of positionList) {
@@ -525,8 +499,8 @@ describe('[QDialog API]', () => {
           await flushPromises()
 
           const cls = target.classes()
-          expect(cls).toContain(`q-dialog__inner--${ position }`)
-          expect(cls).toContain(`fixed-${ position }`)
+          expect(cls).toContain(`q-dialog__inner--${position}`)
+          expect(cls).toContain(`fixed-${position}`)
         }
       })
     })
@@ -548,7 +522,7 @@ describe('[QDialog API]', () => {
             .findComponent({ name: 'QCard' })
             .get('.q-card')
             .$computedStyle('border-radius')
-        ).toBe('0')
+        ).toBe('0px')
 
         await wrapper.setProps({ square: false })
         await flushPromises()
@@ -558,7 +532,7 @@ describe('[QDialog API]', () => {
             .findComponent({ name: 'QCard' })
             .get('.q-card')
             .$computedStyle('border-radius')
-        ).not.toBe('0')
+        ).not.toBe('0px')
       })
     })
 
@@ -570,49 +544,33 @@ describe('[QDialog API]', () => {
 
         wrapper = mount(QDialog)
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).not.toBe(
-          el
-        )
+        expect(document.activeElement).not.toBe(el)
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.hide()
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).toBe(
-          el
-        )
+        expect(document.activeElement).toBe(el)
 
         await wrapper.setProps({ noRefocus: true })
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.hide()
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).not.toBe(
-          el
-        )
+        expect(document.activeElement).not.toBe(el)
       })
     })
 
@@ -624,43 +582,28 @@ describe('[QDialog API]', () => {
 
         wrapper = mount(QDialog)
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).not.toBe(
-          el
-        )
+        expect(document.activeElement).not.toBe(el)
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.hide()
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).toBe(
-          el
-        )
+        expect(document.activeElement).toBe(el)
 
         await wrapper.setProps({ noFocus: true })
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).toBe(
-          el
-        )
+        expect(document.activeElement).toBe(el)
       })
     })
 
@@ -682,7 +625,8 @@ describe('[QDialog API]', () => {
         await flushPromises()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).not.toContain('q-animate--scale')
@@ -693,7 +637,8 @@ describe('[QDialog API]', () => {
         await triggerBackdropClick(wrapper)
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).toContain('q-animate--scale')
@@ -718,11 +663,7 @@ describe('[QDialog API]', () => {
 
         await flushPromises()
 
-        expect(
-          document.activeElement
-        ).not.toBe(
-          el
-        )
+        expect(document.activeElement).not.toBe(el)
 
         await wrapper.setProps({ allowFocusOutside: true })
         await flushPromises()
@@ -732,11 +673,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          document.activeElement
-        ).toBe(
-          el
-        )
+        expect(document.activeElement).toBe(el)
       })
     })
   })
@@ -757,10 +694,9 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .html()
-        ).toContain(slotContent)
+        expect(wrapper.findComponent({ name: 'QPortal' }).html()).toContain(
+          slotContent
+        )
       })
     })
   })
@@ -780,17 +716,16 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show()
+        wrapper.findComponent({ name: 'QDialog' }).vm.show()
 
         await flushPromises()
         await vi.runAllTimers()
 
         const eventList = wrapper.emitted()
         expect(eventList).toHaveProperty('update:modelValue')
-        expect(eventList[ 'update:modelValue' ]).toHaveLength(1)
+        expect(eventList['update:modelValue']).toHaveLength(1)
 
-        const [ value ] = eventList[ 'update:modelValue' ][ 0 ]
+        const [value] = eventList['update:modelValue'][0]
         expect(value).toBeTypeOf('boolean')
       })
     })
@@ -803,8 +738,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show(event)
+        wrapper.findComponent({ name: 'QDialog' }).vm.show(event)
 
         await flushPromises()
         await vi.runAllTimers()
@@ -813,7 +747,7 @@ describe('[QDialog API]', () => {
         expect(eventList).toHaveProperty('show')
         expect(eventList.show).toHaveLength(1)
 
-        const [ evt ] = eventList.show[ 0 ]
+        const [evt] = eventList.show[0]
         expect(evt).toBe(evt)
       })
     })
@@ -826,8 +760,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.show(event)
+        wrapper.findComponent({ name: 'QDialog' }).vm.show(event)
 
         await flushPromises()
         await vi.runAllTimers()
@@ -836,7 +769,7 @@ describe('[QDialog API]', () => {
         expect(eventList).toHaveProperty('beforeShow')
         expect(eventList.beforeShow).toHaveLength(1)
 
-        const [ evt ] = eventList.beforeShow[ 0 ]
+        const [evt] = eventList.beforeShow[0]
         expect(evt).toBe(event)
       })
     })
@@ -856,8 +789,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.hide(event)
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide(event)
 
         await flushPromises()
         await vi.runAllTimers()
@@ -866,7 +798,7 @@ describe('[QDialog API]', () => {
         expect(eventList).toHaveProperty('hide')
         expect(eventList.hide).toHaveLength(1)
 
-        const [ evt ] = eventList.hide[ 0 ]
+        const [evt] = eventList.hide[0]
         expect(evt).toBe(event)
       })
     })
@@ -886,8 +818,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.hide(event)
+        wrapper.findComponent({ name: 'QDialog' }).vm.hide(event)
 
         await flushPromises()
         await vi.runAllTimers()
@@ -896,7 +827,7 @@ describe('[QDialog API]', () => {
         expect(eventList).toHaveProperty('beforeHide')
         expect(eventList.beforeHide).toHaveLength(1)
 
-        const [ evt ] = eventList.beforeHide[ 0 ]
+        const [evt] = eventList.beforeHide[0]
         expect(evt).toBe(event)
       })
     })
@@ -916,7 +847,8 @@ describe('[QDialog API]', () => {
         await triggerEscKey(wrapper)
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).toContain('q-animate--scale')
@@ -925,7 +857,7 @@ describe('[QDialog API]', () => {
         expect(eventList).toHaveProperty('shake')
         expect(eventList.shake).toHaveLength(1)
 
-        expect(eventList.shake[ 0 ]).toHaveLength(0)
+        expect(eventList.shake[0]).toHaveLength(0)
       })
     })
 
@@ -946,7 +878,7 @@ describe('[QDialog API]', () => {
         expect(eventList).toHaveProperty('escapeKey')
         expect(eventList.escapeKey).toHaveLength(1)
 
-        expect(eventList.escapeKey[ 0 ]).toHaveLength(0)
+        expect(eventList.escapeKey[0]).toHaveLength(0)
       })
     })
   })
@@ -956,22 +888,14 @@ describe('[QDialog API]', () => {
       test('should be callable', async () => {
         wrapper = mount(QDialog)
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
 
-        expect(
-          wrapper.vm.show()
-        ).toBeUndefined()
+        expect(wrapper.vm.show()).toBeUndefined()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
       })
     })
 
@@ -986,22 +910,14 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
 
-        expect(
-          wrapper.vm.hide()
-        ).toBeUndefined()
+        expect(wrapper.vm.hide()).toBeUndefined()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
       })
     })
 
@@ -1016,34 +932,21 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
 
-        expect(
-          wrapper.vm.toggle()
-        ).toBeUndefined()
+        expect(wrapper.vm.toggle()).toBeUndefined()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(false)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(false)
 
-        expect(
-          wrapper.vm.toggle()
-        ).toBeUndefined()
+        expect(wrapper.vm.toggle()).toBeUndefined()
 
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.findComponent({ name: 'QPortal' })
-            .exists()
-        ).toBe(true)
+        expect(wrapper.findComponent({ name: 'QPortal' }).exists()).toBe(true)
       })
     })
 
@@ -1059,15 +962,12 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(
-          wrapper.findComponent({ name: 'QDialog' })
-            .vm.focus('.q-btn')
+          wrapper.findComponent({ name: 'QDialog' }).vm.focus('.q-btn')
         ).toBeUndefined()
 
         await flushPromises()
 
-        expect(
-          document.activeElement
-        ).toBe(
+        expect(document.activeElement).toBe(
           wrapper.findComponent({ name: 'QBtn' }).element
         )
       })
@@ -1083,17 +983,14 @@ describe('[QDialog API]', () => {
         await vi.runAllTimers()
 
         expect(
-          wrapper.findComponent({ name: 'QDialog' })
-            .vm.focus()
+          wrapper.findComponent({ name: 'QDialog' }).vm.focus()
         ).toBeUndefined()
 
         await flushPromises()
 
-        expect(
-          document.activeElement
-        ).toBe(
-          wrapper.findComponent({ name: 'QPortal' })
-            .get('.q-dialog__inner').element
+        expect(document.activeElement).toBe(
+          wrapper.findComponent({ name: 'QPortal' }).get('.q-dialog__inner')
+            .element
         )
       })
     })
@@ -1109,11 +1006,11 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        wrapper.findComponent({ name: 'QDialog' })
-          .vm.shake()
+        wrapper.findComponent({ name: 'QDialog' }).vm.shake()
 
         expect(
-          wrapper.findComponent({ name: 'QPortal' })
+          wrapper
+            .findComponent({ name: 'QPortal' })
             .get('.q-dialog__inner')
             .classes()
         ).toContain('q-animate--scale')
@@ -1133,9 +1030,7 @@ describe('[QDialog API]', () => {
         await flushPromises()
         await vi.runAllTimers()
 
-        expect(
-          wrapper.vm.contentEl
-        ).toBeInstanceOf(Element)
+        expect(wrapper.vm.contentEl).toBeInstanceOf(Element)
       })
     })
   })

@@ -33,16 +33,7 @@
             label: $q.lang.editor.formatting,
             icon: $q.iconSet.editor.formatting,
             list: 'no-icons',
-            options: [
-              'p',
-              'h1',
-              'h2',
-              'h3',
-              'h4',
-              'h5',
-              'h6',
-              'code'
-            ]
+            options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
           },
           {
             label: $q.lang.editor.fontSize,
@@ -94,33 +85,34 @@
         verdana: 'Verdana'
       }"
     />
-    </div>
+  </div>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
-      qeditor: '<pre>Check out the two different types of dropdowns'
-        + ' in each of the "Align" buttons.</pre> '
+      qeditor:
+        '<pre>Check out the two different types of dropdowns' +
+        ' in each of the "Align" buttons.</pre> '
     }
   },
   methods: {
-    dropdownBeforeShow (evt) {
+    dropdownBeforeShow(evt) {
       console.log('dropdownBeforeShow', evt)
     },
-    dropdownBeforeHide (evt) {
+    dropdownBeforeHide(evt) {
       console.log('dropdownBeforeHide', evt)
     },
-    dropdownShow (evt) {
+    dropdownShow(evt) {
       console.log('dropdownShow', evt)
     },
-    dropdownHide (evt) {
+    dropdownHide(evt) {
       console.log('dropdownHide', evt)
     },
-    linkShow () {
+    linkShow() {
       console.log('linkShow')
     },
-    linkHide () {
+    linkHide() {
       console.log('linkHide')
     }
   }

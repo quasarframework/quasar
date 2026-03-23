@@ -2,7 +2,10 @@
   <div class="doc-copy-btn">
     <q-icon name="content_paste" color="brand-primary" @click="copy" />
 
-    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <transition
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+    >
       <q-badge
         class="absolute header-badge"
         v-show="copied"
@@ -25,7 +28,7 @@ const { proxy } = getCurrentInstance()
 let timer
 const copied = ref(false)
 
-function copy () {
+function copy() {
   const target = proxy.$el.previousSibling
 
   // We need to remove artifacts (like line numbers)
@@ -37,7 +40,10 @@ function copy () {
 
   if (props.lang === 'bash') {
     const bashStartRE = /^\$ /
-    text = text.split('\n').map(line => line.replace(bashStartRE, '')).join('\n')
+    text = text
+      .split('\n')
+      .map(line => line.replace(bashStartRE, ''))
+      .join('\n')
   }
 
   copyToClipboard(text)

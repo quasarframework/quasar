@@ -12,13 +12,13 @@ afterEach(() => {
   fnList = []
 })
 
-function createTestFn () {
+function createTestFn() {
   const fn = vi.fn()
   fnList.push(fn)
   return fn
 }
 
-function triggerEvt (name = 'focusin') {
+function triggerEvt(name = 'focusin') {
   const evt = new Event(name)
   document.body.dispatchEvent(evt)
 
@@ -28,12 +28,10 @@ function triggerEvt (name = 'focusin') {
 describe('[focusout API]', () => {
   describe('[Functions]', () => {
     describe('[(function)addFocusout]', () => {
-      test('registers correctly', async () => {
+      test('registers correctly', () => {
         const fn = createTestFn()
 
-        expect(
-          addFocusout(fn)
-        ).toBeUndefined()
+        expect(addFocusout(fn)).toBeUndefined()
 
         expect(fn).not.toHaveBeenCalled()
 
@@ -43,17 +41,13 @@ describe('[focusout API]', () => {
         expect(fn).toHaveBeenCalledWith(evt)
       })
 
-      test('calls only last registered fn', async () => {
+      test('calls only last registered fn', () => {
         const fnFirst = createTestFn()
         const fnLast = createTestFn()
 
-        expect(
-          addFocusout(fnFirst)
-        ).toBeUndefined()
+        expect(addFocusout(fnFirst)).toBeUndefined()
 
-        expect(
-          addFocusout(fnLast)
-        ).toBeUndefined()
+        expect(addFocusout(fnLast)).toBeUndefined()
 
         expect(fnFirst).not.toHaveBeenCalled()
         expect(fnLast).not.toHaveBeenCalled()
@@ -75,9 +69,7 @@ describe('[focusout API]', () => {
       test('triggers only on focusin evt', () => {
         const fn = createTestFn()
 
-        expect(
-          addFocusout(fn)
-        ).toBeUndefined()
+        expect(addFocusout(fn)).toBeUndefined()
 
         expect(fn).not.toHaveBeenCalled()
 
@@ -93,9 +85,7 @@ describe('[focusout API]', () => {
 
         addFocusout(fn)
 
-        expect(
-          removeFocusout(fn)
-        ).toBeUndefined()
+        expect(removeFocusout(fn)).toBeUndefined()
 
         triggerEvt()
 
@@ -105,9 +95,7 @@ describe('[focusout API]', () => {
       test('does not error out if fn is not registered', () => {
         const fn = createTestFn()
 
-        expect(
-          removeFocusout(fn)
-        ).toBeUndefined()
+        expect(removeFocusout(fn)).toBeUndefined()
       })
     })
   })

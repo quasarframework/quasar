@@ -9,7 +9,7 @@ import { useQuasar, QSpinnerGears } from 'quasar'
 import { onBeforeUnmount } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const $q = useQuasar()
     let timer
 
@@ -21,7 +21,7 @@ export default {
     })
 
     return {
-      showLoading () {
+      showLoading() {
         $q.loading.show({
           message: 'First message. Gonna change it in 3 seconds...'
         })

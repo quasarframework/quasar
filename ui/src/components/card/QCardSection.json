@@ -13,7 +13,7 @@
     "tag": {
       "extends": "tag",
       "default": "'div'",
-      "examples": [ "'div'", "'form'" ]
+      "examples": ["'div'", "'form'"]
     }
   },
 

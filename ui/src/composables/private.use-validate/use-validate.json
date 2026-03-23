@@ -7,7 +7,7 @@
     },
 
     "error": {
-      "type": [ "Boolean", "null" ],
+      "type": ["Boolean", "null"],
       "default": "null",
       "desc": "Does field have validation errors?",
       "category": "validation"
@@ -16,7 +16,7 @@
     "error-message": {
       "type": "String",
       "desc": "Validation error message (gets displayed only if 'error' is set to 'true')",
-      "examples": [ "'Username must have at least 5 characters'" ],
+      "examples": ["'Username must have at least 5 characters'"],
       "category": "validation"
     },
 
@@ -31,9 +31,9 @@
       "tsType": "ValidationRule",
       "desc": "Array of Functions/Strings; If String, then it must be a name of one of the embedded validation rules",
       "examples": [
-        "[ val => val.length <= 3 || 'Please use maximum 3 characters' ]",
-        "[ 'fulltime' ]",
-        "[ (val, rules) => rules.email(val) || 'Please enter a valid email address' ]"
+        "[val => val.length <= 3 || 'Please use maximum 3 characters']",
+        "['fulltime']",
+        "[(val, rules) => rules.email(val) || 'Please enter a valid email address']"
       ],
       "category": "validation"
     },
@@ -45,10 +45,10 @@
     },
 
     "lazy-rules": {
-      "type": [ "Boolean", "String" ],
+      "type": ["Boolean", "String"],
       "desc": "If set to boolean true then it checks validation status against the 'rules' only after field loses focus for first time; If set to 'ondemand' then it will trigger only when component's validate() method is manually called or when the wrapper QForm submits itself",
       "default": "false",
-      "values": [ "true", "false", "'ondemand'" ],
+      "values": ["true", "false", "'ondemand'"],
       "category": "validation"
     }
   },
@@ -69,12 +69,9 @@
         }
       },
       "returns": {
-        "type": [ "Boolean", "Promise<boolean>" ],
+        "type": ["Boolean", "Promise<boolean>"],
         "desc": "True/false if no async rules, otherwise a Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
-        "examples": [
-          "true",
-          "validate().then(outcome => { ... })"
-        ]
+        "examples": ["true", "validate().then(outcome => { ... })"]
       }
     }
   },

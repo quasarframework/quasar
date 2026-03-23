@@ -12,18 +12,18 @@
       "delay": {
         "type": "Number",
         "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time",
-        "examples": [ "400" ]
+        "examples": ["400"]
       },
       "message": {
         "type": "String",
         "desc": "Message to display",
-        "examples": [ "'Processing your request'" ]
+        "examples": ["'Processing your request'"]
       },
       "group": {
         "type": "String",
         "desc": "Default Loading group name",
         "default": "'__default_quasar_group__'",
-        "examples": [ "'default-group-name'" ],
+        "examples": ["'default-group-name'"],
         "addedIn": "v2.8"
       },
       "html": {
@@ -33,7 +33,7 @@
       "boxClass": {
         "type": "String",
         "desc": "Content wrapped element custom classes",
-        "examples": [ "'bg-amber text-black'", "'q-pa-xl'" ]
+        "examples": ["'bg-amber text-black'", "'q-pa-xl'"]
       },
       "spinnerSize": {
         "type": "Number",
@@ -55,12 +55,12 @@
         "type": "Component",
         "configFileType": "String",
         "desc": "One of the QSpinners",
-        "examples": [ "QSpinnerAudio" ]
+        "examples": ["QSpinnerAudio"]
       },
       "customClass": {
         "type": "String",
         "desc": "Add a CSS class to the container element to easily customize the component",
-        "examples": [ "'my-class'" ]
+        "examples": ["'my-class'"]
       }
     }
   },
@@ -90,12 +90,12 @@
             "message": {
               "type": "String",
               "desc": "Message to display",
-              "examples": [ "'Processing your request'" ]
+              "examples": ["'Processing your request'"]
             },
             "group": {
               "type": "String",
               "desc": "Loading group name",
-              "examples": [ "'some-api-call'" ],
+              "examples": ["'some-api-call'"],
               "addedIn": "v2.8"
             },
             "html": {
@@ -105,7 +105,7 @@
             "boxClass": {
               "type": "String",
               "desc": "Content wrapped element custom classes",
-              "examples": [ "'bg-amber text-black'", "'q-pa-xl'" ]
+              "examples": ["'bg-amber text-black'", "'q-pa-xl'"]
             },
             "spinnerSize": {
               "type": "Number",
@@ -130,7 +130,7 @@
             "customClass": {
               "type": "String",
               "desc": "Add a CSS class to easily customize the component",
-              "examples": [ "'my-class'" ]
+              "examples": ["'my-class'"]
             },
             "ignoreDefaults": {
               "type": "Boolean",
@@ -148,7 +148,7 @@
             "tsType": "QLoadingUpdateOptions",
             "required": false,
             "desc": "Loading properties that will be shallow merged to the group ones; (See 'opts' param of 'show()' for object properties, except 'group')",
-            "__exemption": [ "definition" ]
+            "__exemption": ["definition"]
           }
         },
         "returns": null,
@@ -163,7 +163,7 @@
           "type": "String",
           "desc": "Optional Loading group name to hide instead of hiding all groups",
           "required": false,
-          "examples": [ "'some-api-call'" ],
+          "examples": ["'some-api-call'"],
           "addedIn": "v2.8"
         }
       },
@@ -185,13 +185,13 @@
             "message": {
               "type": "String",
               "desc": "Message to display",
-              "examples": [ "'Processing your request'" ]
+              "examples": ["'Processing your request'"]
             },
             "group": {
               "type": "String",
               "desc": "Default Loading group name",
               "default": "'__default_quasar_group__'",
-              "examples": [ "'default-group-name'" ],
+              "examples": ["'default-group-name'"],
               "addedIn": "v2.8"
             },
             "spinnerSize": {
@@ -217,7 +217,7 @@
             "customClass": {
               "type": "String",
               "desc": "Add a CSS class to easily customize the component",
-              "examples": [ "'my-class'" ]
+              "examples": ["'my-class'"]
             }
           }
         }

@@ -1,4 +1,12 @@
-import { h, ref, computed, Transition, onBeforeUnmount, withDirectives, getCurrentInstance } from 'vue'
+import {
+  h,
+  ref,
+  computed,
+  Transition,
+  onBeforeUnmount,
+  withDirectives,
+  getCurrentInstance
+} from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -9,13 +17,17 @@ import useBtn, { useBtnProps } from './use-btn.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
-import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event/event.js'
+import {
+  stop,
+  prevent,
+  stopAndPrevent,
+  listenOpts
+} from '../../utils/event/event.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 
 const { passiveCapture } = listenOpts
 
-let
-  touchTarget = null,
+let touchTarget = null,
   keyboardTarget = null,
   mouseTarget = null
 
@@ -28,45 +40,54 @@ export default createComponent({
     percentage: Number,
     darkPercentage: Boolean,
 
-    onTouchstart: [ Function, Array ]
+    onTouchstart: [Function, Array]
   },
 
-  emits: [ 'click', 'keydown', 'mousedown', 'keyup' ],
+  emits: ['click', 'keydown', 'mousedown', 'keyup'],
 
-  setup (props, { slots, emit }) {
+  setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
 
     const {
-      classes, style, innerClasses,
+      classes,
+      style,
+      innerClasses,
       attributes,
-      hasLink, linkTag, navigateOnClick,
+      hasLink,
+      linkTag,
+      navigateOnClick,
       isActionable
     } = useBtn(props)
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
 
-    let localTouchTargetEl = null, avoidMouseRipple, mouseTimer = null
+    let localTouchTargetEl = null,
+      avoidMouseRipple,
+      mouseTimer = null
 
-    const hasLabel = computed(() =>
-      props.label !== void 0 && props.label !== null && props.label !== ''
+    const hasLabel = computed(
+      () => props.label !== void 0 && props.label !== null && props.label !== ''
     )
 
-    const ripple = computed(() => (
+    const ripple = computed(() =>
       props.disable === true || props.ripple === false
         ? false
         : {
-            keyCodes: hasLink.value === true ? [ 13, 32 ] : [ 13 ],
+            keyCodes: hasLink.value === true ? [13, 32] : [13],
             ...(props.ripple === true ? {} : props.ripple)
           }
-    ))
+    )
 
     const rippleProps = computed(() => ({ center: props.round }))
 
     const percentageStyle = computed(() => {
       const val = Math.max(0, Math.min(100, props.percentage))
       return val > 0
-        ? { transition: 'transform 0.6s', transform: `translateX(${ val - 100 }%)` }
+        ? {
+            transition: 'transform 0.6s',
+            transform: `translateX(${val - 100}%)`
+          }
         : {}
     })
 
@@ -89,11 +110,9 @@ export default createComponent({
         }
 
         if (proxy.$q.platform.has.touch === true) {
-          const suffix = props.onTouchstart !== void 0
-            ? ''
-            : 'Passive'
+          const suffix = props.onTouchstart !== void 0 ? '' : 'Passive'
 
-          acc[ `onTouchstart${ suffix }` ] = onTouchstart
+          acc[`onTouchstart${suffix}`] = onTouchstart
         }
 
         return acc
@@ -113,7 +132,7 @@ export default createComponent({
       ...onEvents.value
     }))
 
-    function onClick (e) {
+    function onClick(e) {
       // is it already destroyed?
       if (rootRef.value === null) return
 
@@ -124,18 +143,26 @@ export default createComponent({
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
         if (
-          props.type === 'submit'
-          && el !== document.body
-          && rootRef.value.contains(el) === false
+          props.type === 'submit' &&
+          el !== document.body &&
+          rootRef.value.contains(el) === false &&
           // required for iOS and desktop Safari
-          && el.contains(rootRef.value) === false
+          el.contains(rootRef.value) === false
         ) {
-          e.qAvoidFocus !== true && rootRef.value.focus()
+          if (e.qAvoidFocus !== true) rootRef.value.focus()
 
           const onClickCleanup = () => {
             document.removeEventListener('keydown', stopAndPrevent, true)
-            document.removeEventListener('keyup', onClickCleanup, passiveCapture)
-            rootRef.value?.removeEventListener('blur', onClickCleanup, passiveCapture)
+            document.removeEventListener(
+              'keyup',
+              onClickCleanup,
+              passiveCapture
+            )
+            rootRef.value?.removeEventListener(
+              'blur',
+              onClickCleanup,
+              passiveCapture
+            )
           }
 
           document.addEventListener('keydown', stopAndPrevent, true)
@@ -147,18 +174,18 @@ export default createComponent({
       navigateOnClick(e)
     }
 
-    function onKeydown (e) {
+    function onKeydown(e) {
       // is it already destroyed?
       if (rootRef.value === null) return
 
       emit('keydown', e)
 
-      if (isKeyCode(e, [ 13, 32 ]) === true && keyboardTarget !== rootRef.value) {
-        keyboardTarget !== null && cleanup()
+      if (isKeyCode(e, [13, 32]) === true && keyboardTarget !== rootRef.value) {
+        if (keyboardTarget !== null) cleanup()
 
         if (e.defaultPrevented !== true) {
           // focus external button if the focus helper was focused before
-          e.qAvoidFocus !== true && rootRef.value.focus()
+          if (e.qAvoidFocus !== true) rootRef.value.focus()
 
           keyboardTarget = rootRef.value
           rootRef.value.classList.add('q-btn--active')
@@ -170,7 +197,7 @@ export default createComponent({
       }
     }
 
-    function onTouchstart (e) {
+    function onTouchstart(e) {
       // is it already destroyed?
       if (rootRef.value === null) return
 
@@ -179,25 +206,33 @@ export default createComponent({
       if (e.defaultPrevented === true) return
 
       if (touchTarget !== rootRef.value) {
-        touchTarget !== null && cleanup()
+        if (touchTarget !== null) cleanup()
         touchTarget = rootRef.value
 
         localTouchTargetEl = e.target
-        localTouchTargetEl.addEventListener('touchcancel', onPressEnd, passiveCapture)
-        localTouchTargetEl.addEventListener('touchend', onPressEnd, passiveCapture)
+        localTouchTargetEl.addEventListener(
+          'touchcancel',
+          onPressEnd,
+          passiveCapture
+        )
+        localTouchTargetEl.addEventListener(
+          'touchend',
+          onPressEnd,
+          passiveCapture
+        )
       }
 
       // avoid duplicated mousedown event
       // triggering another early ripple
       avoidMouseRipple = true
-      mouseTimer !== null && clearTimeout(mouseTimer)
+      if (mouseTimer !== null) clearTimeout(mouseTimer)
       mouseTimer = setTimeout(() => {
         mouseTimer = null
         avoidMouseRipple = false
       }, 200)
     }
 
-    function onMousedown (e) {
+    function onMousedown(e) {
       // is it already destroyed?
       if (rootRef.value === null) return
 
@@ -205,30 +240,30 @@ export default createComponent({
       emit('mousedown', e)
 
       if (e.defaultPrevented !== true && mouseTarget !== rootRef.value) {
-        mouseTarget !== null && cleanup()
+        if (mouseTarget !== null) cleanup()
         mouseTarget = rootRef.value
         rootRef.value.classList.add('q-btn--active')
         document.addEventListener('mouseup', onPressEnd, passiveCapture)
       }
     }
 
-    function onPressEnd (e) {
+    function onPressEnd(e) {
       // is it already destroyed?
       if (rootRef.value === null) return
 
       // needed for IE (because it emits blur when focusing button from focus helper)
-      if (
-        e?.type === 'blur'
-        && document.activeElement === rootRef.value
-      ) return
+      if (e?.type === 'blur' && document.activeElement === rootRef.value) return
 
       if (e?.type === 'keyup') {
-        if (keyboardTarget === rootRef.value && isKeyCode(e, [ 13, 32 ]) === true) {
+        if (
+          keyboardTarget === rootRef.value &&
+          isKeyCode(e, [13, 32]) === true
+        ) {
           // for click trigger
           const evt = new MouseEvent('click', e)
           evt.qKeyEvent = true
-          e.defaultPrevented === true && prevent(evt)
-          e.cancelBubble === true && stop(evt)
+          if (e.defaultPrevented === true) prevent(evt)
+          if (e.cancelBubble === true) stop(evt)
           rootRef.value.dispatchEvent(evt)
 
           stopAndPrevent(e)
@@ -243,14 +278,14 @@ export default createComponent({
       cleanup()
     }
 
-    function cleanup (destroying) {
+    function cleanup(destroying) {
       const blurTarget = blurTargetRef.value
 
       if (
-        destroying !== true
-        && (touchTarget === rootRef.value || mouseTarget === rootRef.value)
-        && blurTarget !== null
-        && blurTarget !== document.activeElement
+        destroying !== true &&
+        (touchTarget === rootRef.value || mouseTarget === rootRef.value) &&
+        blurTarget !== null &&
+        blurTarget !== document.activeElement
       ) {
         blurTarget.setAttribute('tabindex', -1)
         blurTarget.focus()
@@ -258,8 +293,16 @@ export default createComponent({
 
       if (touchTarget === rootRef.value) {
         if (localTouchTargetEl !== null) {
-          localTouchTargetEl.removeEventListener('touchcancel', onPressEnd, passiveCapture)
-          localTouchTargetEl.removeEventListener('touchend', onPressEnd, passiveCapture)
+          localTouchTargetEl.removeEventListener(
+            'touchcancel',
+            onPressEnd,
+            passiveCapture
+          )
+          localTouchTargetEl.removeEventListener(
+            'touchend',
+            onPressEnd,
+            passiveCapture
+          )
         }
         touchTarget = localTouchTargetEl = null
       }
@@ -278,7 +321,7 @@ export default createComponent({
       rootRef.value?.classList.remove('q-btn--active')
     }
 
-    function onLoadingEvt (evt) {
+    function onLoadingEvt(evt) {
       stopAndPrevent(evt)
       evt.qSkipRipple = true
     }
@@ -299,17 +342,19 @@ export default createComponent({
     return () => {
       let inner = []
 
-      props.icon !== void 0 && inner.push(
-        h(QIcon, {
-          name: props.icon,
-          left: props.stack !== true && hasLabel.value === true,
-          role: 'img'
-        })
-      )
+      if (props.icon !== void 0) {
+        inner.push(
+          h(QIcon, {
+            name: props.icon,
+            left: props.stack !== true && hasLabel.value === true,
+            role: 'img'
+          })
+        )
+      }
 
-      hasLabel.value === true && inner.push(
-        h('span', { class: 'block' }, [ props.label ])
-      )
+      if (hasLabel.value === true) {
+        inner.push(h('span', { class: 'block' }, [props.label]))
+      }
 
       inner = hMergeSlot(slots.default, inner)
 
@@ -332,51 +377,62 @@ export default createComponent({
 
       if (props.loading === true && props.percentage !== void 0) {
         child.push(
-          h('span', {
-            class: 'q-btn__progress absolute-full overflow-hidden' + (props.darkPercentage === true ? ' q-btn__progress--dark' : '')
-          }, [
-            h('span', {
-              class: 'q-btn__progress-indicator fit block',
-              style: percentageStyle.value
-            })
-          ])
+          h(
+            'span',
+            {
+              class:
+                'q-btn__progress absolute-full overflow-hidden' +
+                (props.darkPercentage === true ? ' q-btn__progress--dark' : '')
+            },
+            [
+              h('span', {
+                class: 'q-btn__progress-indicator fit block',
+                style: percentageStyle.value
+              })
+            ]
+          )
         )
       }
 
       child.push(
-        h('span', {
-          class: 'q-btn__content text-center col items-center q-anchor--skip ' + innerClasses.value
-        }, inner)
-      )
-
-      props.loading !== null && child.push(
-        h(Transition, {
-          name: 'q-transition--fade'
-        }, () => (
-          props.loading === true
-            ? [
-                h('span', {
-                  key: 'loading',
-                  class: 'absolute-full flex flex-center'
-                }, slots.loading !== void 0 ? slots.loading() : [ h(QSpinner) ])
-              ]
-            : null
-        ))
-      )
-
-      return withDirectives(
         h(
-          linkTag.value,
-          nodeProps.value,
-          child
-        ),
-        [ [
-          Ripple,
-          ripple.value,
-          void 0,
-          rippleProps.value
-        ] ]
+          'span',
+          {
+            class:
+              'q-btn__content text-center col items-center q-anchor--skip ' +
+              innerClasses.value
+          },
+          inner
+        )
       )
+
+      if (props.loading !== null) {
+        child.push(
+          h(
+            Transition,
+            {
+              name: 'q-transition--fade'
+            },
+            () =>
+              props.loading === true
+                ? [
+                    h(
+                      'span',
+                      {
+                        key: 'loading',
+                        class: 'absolute-full flex flex-center'
+                      },
+                      slots.loading !== void 0 ? slots.loading() : [h(QSpinner)]
+                    )
+                  ]
+                : null
+          )
+        )
+      }
+
+      return withDirectives(h(linkTag.value, nodeProps.value, child), [
+        [Ripple, ripple.value, void 0, rippleProps.value]
+      ])
     }
   }
 })

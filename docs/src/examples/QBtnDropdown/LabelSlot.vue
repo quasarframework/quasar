@@ -1,18 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown
-      split
-      color="cyan"
-      push
-      no-caps
-      @click="onMainClick"
-    >
+    <q-btn-dropdown split color="cyan" push no-caps @click="onMainClick">
       <template v-slot:label>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />
-          <div class="text-center">
-            Custom<br>Content
-          </div>
+          <div class="text-center"> Custom<br />Content </div>
         </div>
       </template>
 
@@ -49,13 +41,13 @@
 
 <script>
 export default {
-  setup () {
+  setup() {
     return {
-      onMainClick () {
+      onMainClick() {
         // console.log('Clicked on main button')
       },
 
-      onItemClick () {
+      onItemClick() {
         // console.log('Clicked on an Item')
       }
     }

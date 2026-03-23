@@ -3,9 +3,13 @@ const daysShort = 'ات_پیر_منگ_بدھ_جمعر_جمعہ_ہف'.split('_')
 // You can refine abbreviations if needed; e.g.
 // 'ات_پیر_من_بد_جم_جمع_ہف' or any shorter versions that make sense.
 
-const months = 'جنوری_فروری_مارچ_اپریل_مئی_جون_جولائی_اگست_ستمبر_اکتوبر_نومبر_دسمبر'.split('_')
+const months =
+  'جنوری_فروری_مارچ_اپریل_مئی_جون_جولائی_اگست_ستمبر_اکتوبر_نومبر_دسمبر'.split(
+    '_'
+  )
 // Short forms below can also be adjusted if you prefer more concise abbreviations.
-const monthsShort = 'جن._فر._مار._اپر._مئی_جون_جول._اگ._ستم._اکت._نوم._دسم.'.split('_')
+const monthsShort =
+  'جن._فر._مار._اپر._مئی_جون_جول._اگ._ستم._اکت._نوم._دسم.'.split('_')
 
 export default {
   isoName: 'ur-PK',
@@ -25,8 +29,8 @@ export default {
     search: 'تلاش کریں',
     filter: 'فلٹر',
     refresh: 'تازہ کریں',
-    expand: label => (label ? `"${ label }" کو وسیع کریں` : 'وسیع کریں'),
-    collapse: label => (label ? `"${ label }" کو سکیڑیں` : 'سکیڑیں')
+    expand: label => (label ? `"${label}" کو وسیع کریں` : 'وسیع کریں'),
+    collapse: label => (label ? `"${label}" کو سکیڑیں` : 'سکیڑیں')
   },
   date: {
     days,
@@ -35,7 +39,7 @@ export default {
     monthsShort,
     // Shown on the Quasar date picker’s title bar; you can adjust the format if needed
     headerTitle: (date, model) =>
-      `${ days[ date.getDay() ] }، ${ model.day } ${ months[ model.month - 1 ] }`,
+      `${days[date.getDay()]}، ${model.day} ${months[model.month - 1]}`,
     firstDayOfWeek: 0, // 0-6; 0 = اتوار, 1 = پیر, etc.
     format24h: true,
     pluralDay: 'دن',
@@ -44,20 +48,18 @@ export default {
     prevYear: 'پچھلے سال',
     nextYear: 'اگلے سال',
     today: 'آج',
-    prevRangeYears: range => `پچھلا ${ range } سال`,
-    nextRangeYears: range => `اگلا ${ range } سال`
+    prevRangeYears: range => `پچھلا ${range} سال`,
+    nextRangeYears: range => `اگلا ${range} سال`
   },
   table: {
     noData: 'کوئی ڈیٹا دستیاب نہیں',
     noResults: 'کوئی نتیجہ نہیں ملا',
     loading: 'لوڈ ہو رہا ہے...',
     selectedRecords: rows =>
-      rows === 0
-        ? 'کوئی ریکارڈ منتخب نہیں ہوا'
-        : `${ rows } ریکارڈ منتخب ہوئے`,
+      rows === 0 ? 'کوئی ریکارڈ منتخب نہیں ہوا' : `${rows} ریکارڈ منتخب ہوئے`,
     recordsPerPage: 'ریکارڈز فی صفحہ:',
     allRows: 'سب',
-    pagination: (start, end, total) => `${ start }-${ end } / ${ total }`,
+    pagination: (start, end, total) => `${start}-${end} / ${total}`,
     columns: 'کالم'
   },
   pagination: {

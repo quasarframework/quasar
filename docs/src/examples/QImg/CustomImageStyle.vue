@@ -7,9 +7,7 @@
       img-class="my-custom-image"
       class="rounded-borders"
     >
-      <div class="absolute-bottom text-subtitle1 text-center">
-        Caption
-      </div>
+      <div class="absolute-bottom text-subtitle1 text-center"> Caption </div>
     </q-img>
   </div>
 </template>

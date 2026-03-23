@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding q-gutter-md" style="max-width: 1400px;">
+  <div class="q-layout-padding q-gutter-md" style="max-width: 1400px">
     <q-table
       :rows="data"
       :columns="columns"
@@ -10,7 +10,11 @@
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             <div class="row items-center">
-              <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+              <q-toggle
+                v-model="props.expand"
+                checked-icon="add"
+                unchecked-icon="remove"
+              />
               <div>%%% {{ props.row.name }} %%%</div>
             </div>
           </q-td>
@@ -61,7 +65,11 @@
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             <div class="row items-center">
-              <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+              <q-toggle
+                v-model="props.expand"
+                checked-icon="add"
+                unchecked-icon="remove"
+              />
               <div>%%% {{ props.row.name }} %%%</div>
             </div>
           </q-td>
@@ -105,7 +113,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       expanded: [],
       columns: [
@@ -115,16 +123,40 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${ val }`,
+          format: val => `~${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+        {
+          name: 'calories',
+          align: 'center',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true
+        },
+        {
+          name: 'fat',
+          label: 'Fat (g)',
+          field: 'fat',
+          sortable: true,
+          style: 'width: 10px'
+        },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        {
+          name: 'calcium',
+          label: 'Calcium (%)',
+          field: 'calcium',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        },
+        {
+          name: 'iron',
+          label: 'Iron (%)',
+          field: 'iron',
+          sortable: true,
+          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+        }
       ],
       data: [
         {
@@ -242,7 +274,7 @@ export default {
   },
 
   methods: {
-    onExpanded (rows, added) {
+    onExpanded(rows, added) {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   }

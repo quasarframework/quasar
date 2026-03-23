@@ -1,4 +1,4 @@
-function clean (link) {
+function clean(link) {
   // allow time for iOS
   setTimeout(() => {
     window.URL.revokeObjectURL(link.href)
@@ -27,17 +27,17 @@ function clean (link) {
  *                  Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)
  *                  https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder
  */
-export default function (fileName, rawData, opts = {}) {
-  const { mimeType, byteOrderMark, encoding } = typeof opts === 'string'
-    ? { mimeType: opts }
-    : opts
+export default function exportFile(fileName, rawData, opts = {}) {
+  const { mimeType, byteOrderMark, encoding } =
+    typeof opts === 'string' ? { mimeType: opts } : opts
 
-  const data = encoding !== void 0
-    ? (new TextEncoder(encoding)).encode([ rawData ])
-    : rawData
+  const data =
+    encoding !== void 0 ? new TextEncoder(encoding).encode([rawData]) : rawData
 
-  const blobData = byteOrderMark !== void 0 ? [ byteOrderMark, data ] : [ data ]
-  const blob = new Blob(blobData, { type: mimeType || 'application/octet-stream' })
+  const blobData = byteOrderMark !== void 0 ? [byteOrderMark, data] : [data]
+  const blob = new Blob(blobData, {
+    type: mimeType || 'application/octet-stream'
+  })
   const link = document.createElement('a')
 
   link.href = window.URL.createObjectURL(blob)
@@ -57,8 +57,7 @@ export default function (fileName, rawData, opts = {}) {
     link.click()
     clean(link)
     return true
-  }
-  catch (err) {
+  } catch (err) {
     clean(link)
     return err
   }

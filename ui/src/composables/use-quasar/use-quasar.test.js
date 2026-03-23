@@ -11,24 +11,18 @@ describe('[useQuasar API]', () => {
         const wrapper = mount(
           defineComponent({
             template: '<div />',
-            setup () {
+            setup() {
               const result = useQuasar()
               return { result }
             }
           })
         )
 
-        expect(
-          wrapper.vm.result
-        ).toBeTypeOf('object')
+        expect(wrapper.vm.result).toBeTypeOf('object')
 
-        expect(
-          Object.keys(wrapper.vm.result)
-        ).not.toHaveLength(0)
+        expect(Object.keys(wrapper.vm.result)).not.toHaveLength(0)
 
-        expect(
-          wrapper.vm.result.version
-        ).toMatch(/^\d+\.\d+\.\d+$/)
+        expect(wrapper.vm.result.version).toMatch(/^\d+\.\d+\.\d+$/)
       })
     })
   })

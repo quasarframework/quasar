@@ -2,7 +2,9 @@ const fse = require('fs-extra')
 const semver = require('semver')
 
 const { getPackageJson } = require('../../utils/get-package-json.js')
-const { getBackwardCompatiblePackageName } = require('../utils.app-extension.js')
+const {
+  getBackwardCompatiblePackageName
+} = require('../utils.app-extension.js')
 const { BaseAPI } = require('./BaseAPI.js')
 
 /**
@@ -11,7 +13,7 @@ const { BaseAPI } = require('./BaseAPI.js')
 module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
   prompts
 
-  constructor (opts, appExtJson) {
+  constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
@@ -24,7 +26,7 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    *
    * @return {object} internal persistent config of this extension
    */
-  getPersistentConf () {
+  getPersistentConf() {
     return this.#appExtJson.getInternal(this.extId)
   }
 
@@ -39,7 +41,7 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    * @param {string} semverCondition
    * @return {boolean} package is installed and meets optional semver condition
    */
-  hasPackage (packageName, semverCondition) {
+  hasPackage(packageName, semverCondition) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
 
@@ -58,7 +60,7 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    * @param {string} extId
    * @return {boolean} has the extension installed.
    */
-  hasExtension (extId) {
+  hasExtension(extId) {
     return this.#appExtJson.has(extId)
   }
 
@@ -68,12 +70,10 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    * @param {string} packageName
    * @return {string|undefined} version of app's package
    */
-  getPackageVersion (packageName) {
+  getPackageVersion(packageName) {
     const name = getBackwardCompatiblePackageName(packageName)
     const json = getPackageJson(name, this.appDir)
-    return json !== void 0
-      ? json.version
-      : void 0
+    return json !== void 0 ? json.version : void 0
   }
 
   /**
@@ -88,7 +88,7 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    *
    * @param {string} __path
    */
-  removePath (__path) {
+  removePath(__path) {
     fse.removeSync(this.resolve.app(__path))
   }
 
@@ -97,7 +97,7 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    *
    * @param {string} msg
    */
-  onExitLog (msg) {
+  onExitLog(msg) {
     this.#hooks.exitLog.push(msg)
   }
 
@@ -111,7 +111,7 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
     exitLog: []
   }
 
-  __getHooks (appExtJson) {
+  __getHooks(appExtJson) {
     // protect against external access
     if (appExtJson === this.#appExtJson) {
       return this.#hooks

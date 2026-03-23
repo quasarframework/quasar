@@ -1,11 +1,6 @@
 <template>
   <div class="q-pa-md flex flex-center">
-    <q-knob
-      v-model="value"
-      size="50px"
-      color="orange"
-      class="q-ma-md"
-    />
+    <q-knob v-model="value" size="50px" color="orange" class="q-ma-md" />
 
     <q-knob
       v-model="value"
@@ -59,7 +54,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       value: ref(71)
     }

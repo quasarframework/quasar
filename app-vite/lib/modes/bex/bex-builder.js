@@ -8,7 +8,7 @@ import { quasarBexConfig } from './bex-config.js'
 import { createManifest, copyBexAssets } from './bex-utils.js'
 
 export class QuasarModeBuilder extends AppBuilder {
-  async build () {
+  async build() {
     const viteConfig = await quasarBexConfig.vite(this.quasarConf)
     await this.buildWithVite('BEX UI', viteConfig)
 
@@ -16,8 +16,11 @@ export class QuasarModeBuilder extends AppBuilder {
     if (err !== void 0) process.exit(1)
 
     for (const entry of scriptList) {
-      const contentConfig = await quasarBexConfig.bexScript(this.quasarConf, entry)
-      await this.buildWithEsbuild(`Bex Script (${ entry.name })`, contentConfig)
+      const contentConfig = await quasarBexConfig.bexScript(
+        this.quasarConf,
+        entry
+      )
+      await this.buildWithEsbuild(`Bex Script (${entry.name})`, contentConfig)
     }
 
     copyBexAssets(this.quasarConf)
@@ -26,9 +29,9 @@ export class QuasarModeBuilder extends AppBuilder {
     await this.#bundlePackage(this.quasarConf.build.distDir)
   }
 
-  async #bundlePackage (dir) {
+  #bundlePackage(dir) {
     const done = progress('Bundling in progress...')
-    const zipName = `Packaged.${ this.ctx.pkg.appPkg.name }.zip`
+    const zipName = `Packaged.${this.ctx.pkg.appPkg.name}.zip`
     const file = join(dir, zipName)
 
     const output = fse.createWriteStream(file)
@@ -37,20 +40,24 @@ export class QuasarModeBuilder extends AppBuilder {
     })
 
     archive.pipe(output)
-    archive.directory(dir, false, entryData => ((entryData.name !== zipName) ? entryData : false))
+    archive.directory(dir, false, entryData =>
+      entryData.name !== zipName ? entryData : false
+    )
 
     return new Promise((resolve, reject) => {
-      archive.on('warning', (error) => {
+      archive.on('warning', error => {
         /*
           It could be any of the following:
           - stat failures (e.g. ENOENT)
           - symlink/directory not supported by module (e.g. zip), but it is supported, so it won't happen
           - given file is not a file/directory/symlink, but something else (e.g. socket)
         */
-        if (error instanceof archiver.ArchiverError && error.code === 'ENTRYNOTSUPPORTED') {
+        if (
+          error instanceof archiver.ArchiverError &&
+          error.code === 'ENTRYNOTSUPPORTED'
+        ) {
           warn(error)
-        }
-        else {
+        } else {
           reject(error)
           archive.abort()
         }
@@ -58,7 +65,7 @@ export class QuasarModeBuilder extends AppBuilder {
       archive.on('error', error => reject(error))
 
       output.on('close', () => {
-        done(`Bundle has been generated at: ${ file }`)
+        done(`Bundle has been generated at: ${file}`)
         resolve()
       })
 

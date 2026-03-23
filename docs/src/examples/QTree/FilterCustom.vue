@@ -7,7 +7,12 @@
       label="Search - only filters labels that have also '(*)'"
     >
       <template v-slot:append>
-        <q-icon v-if="filter !== ''" name="clear" class="cursor-pointer" @click="resetFilter" />
+        <q-icon
+          v-if="filter !== ''"
+          name="clear"
+          class="cursor-pointer"
+          @click="resetFilter"
+        />
       </template>
     </q-input>
 
@@ -26,7 +31,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const filter = ref('de')
     const filterRef = ref(null)
 
@@ -66,12 +71,16 @@ export default {
         }
       ],
 
-      myFilterMethod (node, filter) {
-        const filt = filter.toLowerCase()
-        return node.label && node.label.toLowerCase().indexOf(filt) > -1 && node.label.toLowerCase().indexOf('(*)') > -1
+      myFilterMethod(node, filterStr) {
+        const filt = filterStr.toLowerCase()
+        return (
+          node.label &&
+          node.label.toLowerCase().indexOf(filt) > -1 &&
+          node.label.toLowerCase().indexOf('(*)') > -1
+        )
       },
 
-      resetFilter () {
+      resetFilter() {
         filter.value = ''
         filterRef.value.focus()
       }

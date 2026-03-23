@@ -28,10 +28,10 @@ You can also close multiple levels of popups by supplying a level number to the 
 <... v-close-popup="3">
 ```
 
-* If value is 0 or boolean `false` then directive is disabled
-* If value is < 0 then it closes all popups in the chain
-* If value is 1 or boolean `true` or undefined then it closes only the parent popup
-* If value is > 1 it closes the specified number of parent popups in the chain (note that chained QMenus are considered 1 popup only & QPopupProxy separates chained menus)
+- If value is 0 or boolean `false` then directive is disabled
+- If value is < 0 then it closes all popups in the chain
+- If value is 1 or boolean `true` or undefined then it closes only the parent popup
+- If value is > 1 it closes the specified number of parent popups in the chain (note that chained QMenus are considered 1 popup only & QPopupProxy separates chained menus)
 
 Notice below that chained QMenus (one directly put under the other) do not require you to specify multiple levels. When `v-close-popup` is used in a chained QMenu, it considers all directly chained QMenus as one level only.
 

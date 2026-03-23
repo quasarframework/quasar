@@ -15,14 +15,19 @@ export default {
     search: 'Tìm kiếm',
     filter: 'Bộ lọc',
     refresh: 'Làm mới',
-    expand: label => (label ? `Mở rộng "${ label }"` : 'Mở rộng'),
-    collapse: label => (label ? `Thu gọn "${ label }"` : 'Sụp đổ')
+    expand: label => (label ? `Mở rộng "${label}"` : 'Mở rộng'),
+    collapse: label => (label ? `Thu gọn "${label}"` : 'Sụp đổ')
   },
   date: {
     days: 'Chủ Nhật_Thứ Hai_Thứ Ba_Thứ Tư_Thứ Năm_Thứ Sáu_Thứ Bảy'.split('_'),
     daysShort: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
-    months: 'Tháng Một_Tháng Hai_Tháng Ba_Tháng Tư_Tháng Năm_Tháng Sáu_Tháng Bảy_Tháng Tám_Tháng Chín_Tháng Mười_Tháng Mười Một_Tháng Mười Hai'.split('_'),
-    monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split('_'),
+    months:
+      'Tháng Một_Tháng Hai_Tháng Ba_Tháng Tư_Tháng Năm_Tháng Sáu_Tháng Bảy_Tháng Tám_Tháng Chín_Tháng Mười_Tháng Mười Một_Tháng Mười Hai'.split(
+        '_'
+      ),
+    monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split(
+      '_'
+    ),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'ngày',
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Năm trước',
     nextYear: 'Năm sau',
     today: 'Hôm nay',
-    prevRangeYears: range => `Trước ${ range } năm`,
-    nextRangeYears: range => `Tiếp theo ${ range } năm`
+    prevRangeYears: range => `Trước ${range} năm`,
+    nextRangeYears: range => `Tiếp theo ${range} năm`
   },
   table: {
     noData: 'Không có dữ liệu',
     noResults: 'Không tìm thấy kết quả',
     loading: 'Đang tải',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows === 1
         ? '1 hàng đã chọn.'
-        : (rows === 0 ? 'Không có hàng nào' : rows) + ' hàng đã chọn.'
-    ),
+        : (rows === 0 ? 'Không có hàng nào' : rows) + ' hàng đã chọn.',
     recordsPerPage: 'Hàng trên mỗi trang:',
     allRows: 'Tất cả',
     pagination: (start, end, total) => start + '-' + end + ' của ' + total,

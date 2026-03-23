@@ -1,6 +1,9 @@
 <template>
   <div class="q-pa-md">
-    <div class="row justify-center q-gutter-sm q-mx-auto" style="max-width: 80vw">
+    <div
+      class="row justify-center q-gutter-sm q-mx-auto"
+      style="max-width: 80vw"
+    >
       <q-img
         v-for="(src, index) in images"
         :key="index"
@@ -30,7 +33,7 @@
 import { morph } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       indexZoomed: void 0,
       imgLoaded: {
@@ -38,20 +41,22 @@ export default {
         resolve: () => {},
         reject: () => {}
       },
-      images: Array(24).fill(null).map((_, i) => 'https://picsum.photos/id/' + i + '/500/300')
+      images: Array(24)
+        .fill(null)
+        .map((_, i) => 'https://picsum.photos/id/' + i + '/500/300')
     }
   },
 
   methods: {
-    imgLoadedResolve () {
+    imgLoadedResolve() {
       this.imgLoaded.resolve()
     },
 
-    imgLoadedReject () {
+    imgLoadedReject() {
       this.imgLoaded.reject()
     },
 
-    zoomImage (index) {
+    zoomImage(index) {
       const { indexZoomed } = this
 
       this.imgLoaded.reject()
@@ -74,9 +79,11 @@ export default {
           })
 
           this.cancel = morph({
-            from: this.$refs.refThumb[ index ].$el,
+            from: this.$refs.refThumb[index].$el,
             to: this.$refs.refFull.$el,
-            onToggle: () => { this.indexZoomed = index },
+            onToggle: () => {
+              this.indexZoomed = index
+            },
             waitFor: this.imgLoaded.promise,
             duration: 400,
             hideFromClone: true,
@@ -90,19 +97,20 @@ export default {
       }
 
       if (
-        indexZoomed !== void 0
-        && (this.cancel === void 0 || this.cancel() === false)
+        indexZoomed !== void 0 &&
+        (this.cancel === void 0 || this.cancel() === false)
       ) {
         morph({
           from: this.$refs.refFull.$el,
-          to: this.$refs.refThumb[ indexZoomed ].$el,
-          onToggle: () => { this.indexZoomed = void 0 },
+          to: this.$refs.refThumb[indexZoomed].$el,
+          onToggle: () => {
+            this.indexZoomed = void 0
+          },
           duration: 200,
           keepToClone: true,
           onEnd: zoom
         })
-      }
-      else {
+      } else {
         zoom()
       }
     }

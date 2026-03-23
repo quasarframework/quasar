@@ -10,9 +10,7 @@
         :label="behavior || 'auto'"
       />
 
-      <div class="q-pa-md bg-grey-2 rounded-borders">
-        Model: [{{ model }}]
-      </div>
+      <div class="q-pa-md bg-grey-2 rounded-borders">Model: [{{ model }}]</div>
 
       <q-select
         :model-value="model"
@@ -23,13 +21,15 @@
         fill-input
         hide-selected
         @filter="filterOptions"
-        @update:model-value-value="val => { model = val }"
+        @update:model-value-value="
+          val => {
+            model = val
+          }
+        "
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No results
-            </q-item-section>
+            <q-item-section class="text-grey"> No results </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -38,11 +38,16 @@
 </template>
 
 <script>
-const prefixes = [ 'Item', 'Option', 'Address', 'Selection' ]
-const options = Array(200).fill(0).map((item, i) => `${ prefixes[ Math.floor(Math.random() * prefixes.length) ] } ${ i }`).sort(() => Math.random() * 2 - 1)
+const prefixes = ['Item', 'Option', 'Address', 'Selection']
+const options = Array(200)
+  .fill(0)
+  .map(
+    (item, i) => `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${i}`
+  )
+  .sort(() => Math.random() * 2 - 1)
 
 export default {
-  data: function () {
+  data: function data() {
     return {
       model: '',
       filteredOptions: options.slice(),
@@ -51,14 +56,15 @@ export default {
   },
 
   methods: {
-    filterOptions (val, update) {
+    filterOptions(val, update) {
       update(() => {
         if (val === '') {
           this.filteredOptions = options.slice()
-        }
-        else {
+        } else {
           const needle = val.toLocaleLowerCase()
-          this.filteredOptions = options.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+          this.filteredOptions = options.filter(
+            v => v.toLocaleLowerCase().indexOf(needle) > -1
+          )
         }
       })
     }

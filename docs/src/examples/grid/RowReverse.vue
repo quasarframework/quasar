@@ -1,18 +1,10 @@
 <template>
   <div class="q-pa-md example-row-reverse">
-
     <div class="row reverse">
-      <div class="col">
-        First, but last
-      </div>
-      <div class="col">
-        Second, unchanged
-      </div>
-      <div class="col">
-        Third, but first
-      </div>
+      <div class="col"> First, but last </div>
+      <div class="col"> Second, unchanged </div>
+      <div class="col"> Third, but first </div>
     </div>
-
   </div>
 </template>
 

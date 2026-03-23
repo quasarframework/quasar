@@ -7,10 +7,10 @@ scope:
   nodeJsTree:
     l: src-ssr
     c:
-    - l: middlewares/
-      e: SSR middleware files
-    - l: server.js
-      e: (or .ts) SSR webserver
+      - l: middlewares/
+        e: SSR middleware files
+      - l: server.js
+        e: (or .ts) SSR webserver
 ---
 
 ## quasar.config file
@@ -115,10 +115,10 @@ return {
 Should you want to tamper with the Vite config for UI in /src:
 
 ```js /quasar.config file
-export default defineConfig((ctx) => {
+export default defineConfig(ctx => {
   return {
     build: {
-      extendViteConf (viteConf, { isClient, isServer }) {
+      extendViteConf(viteConf, { isClient, isServer }) {
         if (ctx.mode.ssr) {
           // do something with viteConf
           // or return an object to deeply merge with current viteConf
@@ -198,9 +198,9 @@ return {
   // ...
   ssr: {
     // ...
-    extendSSRWebserverConf (esbuildConf) {
+    extendSSRWebserverConf(esbuildConf) {
       // tamper with esbuildConf here
-    },
+    }
   }
 }
 ```

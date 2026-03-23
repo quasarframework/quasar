@@ -1,7 +1,9 @@
 const { getPackagePath } = require('../utils/get-package-path.js')
-const { getPackageMajorVersion } = require('../utils/get-package-major-version.js')
+const {
+  getPackageMajorVersion
+} = require('../utils/get-package-major-version.js')
 
-module.exports.createInstance = function createInstance ({
+module.exports.createInstance = function createInstance({
   appPaths: { capacitorDir }
 }) {
   return {

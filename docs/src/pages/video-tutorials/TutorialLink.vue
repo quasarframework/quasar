@@ -19,9 +19,9 @@
 <script setup>
 import { openURL } from 'quasar'
 
-const props = defineProps([ 't', 'd', 'u', 'i' ])
+const props = defineProps(['t', 'd', 'u', 'i'])
 
-function openWebsite () {
+function openWebsite() {
   openURL(props.u)
 }
 </script>

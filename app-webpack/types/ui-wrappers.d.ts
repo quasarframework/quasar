@@ -25,7 +25,7 @@ declare module "quasar/wrappers" {
     SsrListenCallback,
     SsrCloseCallback,
     SsrServeStaticContentCallback,
-    SsrRenderPreloadTagCallback,
+    SsrRenderPreloadTagCallback
   } from "@quasar/app-webpack";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
@@ -49,17 +49,11 @@ declare module "quasar/wrappers" {
     callback: SsrMiddlewareCallback
   ): SsrMiddlewareCallback;
 
-  function ssrCreate(
-    callback: SsrCreateCallback
-  ): SsrCreateCallback;
+  function ssrCreate(callback: SsrCreateCallback): SsrCreateCallback;
 
-  function ssrListen(
-    callback: SsrListenCallback
-  ): SsrListenCallback;
+  function ssrListen(callback: SsrListenCallback): SsrListenCallback;
 
-  function ssrClose(
-    callback: SsrCloseCallback
-  ): SsrCloseCallback;
+  function ssrClose(callback: SsrCloseCallback): SsrCloseCallback;
 
   function ssrServeStaticContent(
     callback: SsrServeStaticContentCallback

@@ -7,10 +7,10 @@ related:
 
 The PreFetch is a feature (**only available when using Quasar CLI**) which allows the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
 
-* pre-fetch data
-* validate the route
-* redirect to another route, when some conditions aren't met (like user isn't logged in)
-* can help in initializing the Store state
+- pre-fetch data
+- validate the route
+- redirect to another route, when some conditions aren't met (like user isn't logged in)
+- can help in initializing the Store state
 
 All the above will run before the actual route component is rendered.
 
@@ -29,6 +29,7 @@ When you use it to pre-fetch data, you are required to use Pinia, so make sure t
 :::
 
 ## How PreFetch Helps SSR Mode
+
 This feature is especially useful for the SSR mode (but not limited to it only). During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, **then this data needs to be pre-fetched and resolved before we start the rendering process**.
 
 Another concern is that on the client, the same data needs to be available before we mount the client side app - otherwise the client app would render using a different state and the hydration would fail.
@@ -36,12 +37,13 @@ Another concern is that on the client, the same data needs to be available befor
 To address this, the fetched data needs to live outside the view components, in a dedicated data store, or a "state container". On the server, we can pre-fetch and fill data into the store before rendering. The client-side store will directly pick up the server state before we mount the app.
 
 ## When PreFetch Gets Activated
+
 The `preFetch` hook (described in next sections) is determined by the route visited - which also determines what components are rendered. In fact, the data needed for a given route is also the data needed by the components rendered at that route. **So it is natural (and also required) to place the hook logic ONLY inside route components.** This includes `/src/App.vue`, which in this case will run only once at the app bootup.
 
 Let's take an example in order to understand when the hook is being called. Let's say we have these routes and we've written `preFetch` hooks for all these components:
 
 ```js Routes
-[
+;[
   {
     path: '/',
     component: LandingPage
@@ -61,10 +63,12 @@ Let's take an example in order to understand when the hook is being called. Let'
       {
         path: 'product/:name',
         component: ShopProduct,
-        children: [{
-          path: 'overview',
-          component: ShopProductOverview
-        }]
+        children: [
+          {
+            path: 'overview',
+            component: ShopProductOverview
+          }
+        ]
       }
     ]
   }
@@ -73,17 +77,18 @@ Let's take an example in order to understand when the hook is being called. Let'
 
 Now, let's see how the hooks are called when the user visits these routes in the order specified below, one after another.
 
-| Route being visited | Hooks called from | Observations |
-| --- | --- | --- |
-| `/` | App.vue then LandingPage | App.vue hook is called since our app boots up. |
-| `/shop/all` | ShopLayout then ShopAll | - |
-| `/shop/new` | ShopNew | ShopNew is a child of ShopLayout, and ShopLayout is already rendered, so ShopLayout isn't called again. |
-| `/shop/product/pyjamas` | ShopProduct | - |
-| `/shop/product/shoes` | ShopProduct | Quasar notices the same component is already rendered, but the route has been updated and it has route params, so it calls the hook again. |
-| `/shop/product/shoes/overview` | ShopProduct then ShopProductOverview | ShopProduct has route params so it is called even though it's already rendered. |
-| `/` | LandingPage | - |
+| Route being visited            | Hooks called from                    | Observations                                                                                                                               |
+| ------------------------------ | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                            | App.vue then LandingPage             | App.vue hook is called since our app boots up.                                                                                             |
+| `/shop/all`                    | ShopLayout then ShopAll              | -                                                                                                                                          |
+| `/shop/new`                    | ShopNew                              | ShopNew is a child of ShopLayout, and ShopLayout is already rendered, so ShopLayout isn't called again.                                    |
+| `/shop/product/pyjamas`        | ShopProduct                          | -                                                                                                                                          |
+| `/shop/product/shoes`          | ShopProduct                          | Quasar notices the same component is already rendered, but the route has been updated and it has route params, so it calls the hook again. |
+| `/shop/product/shoes/overview` | ShopProduct then ShopProductOverview | ShopProduct has route params so it is called even though it's already rendered.                                                            |
+| `/`                            | LandingPage                          | -                                                                                                                                          |
 
 ## Usage
+
 The hook is defined as a custom static function called `preFetch` on our route components. Note that because this function will be called before the components are instantiated, it doesn't have access to `this`.
 
 ```html Some .vue component used as route
@@ -92,34 +97,42 @@ The hook is defined as a custom static function called `preFetch` on our route c
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
-import { useMyStore } from 'stores/myStore'
+  import { useRoute } from 'vue-router'
+  import { useMyStore } from 'stores/myStore'
 
-export default {
-  // our hook here
-  preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-    // fetch data, validate route and optionally redirect to some other route...
+  export default {
+    // our hook here
+    preFetch({
+      store,
+      currentRoute,
+      previousRoute,
+      redirect,
+      ssrContext,
+      urlPath,
+      publicPath
+    }) {
+      // fetch data, validate route and optionally redirect to some other route...
 
-    // ssrContext is available only server-side in SSR mode
+      // ssrContext is available only server-side in SSR mode
 
-    // No access to "this" here
+      // No access to "this" here
 
-    // Return a Promise if you are running an async job
-    // Example:
-    const myStore = useMyStore() // useMyStore(store) for SSR
-    return myStore.fetchItem(currentRoute.params.id) // assumes it is async
-  },
+      // Return a Promise if you are running an async job
+      // Example:
+      const myStore = useMyStore() // useMyStore(store) for SSR
+      return myStore.fetchItem(currentRoute.params.id) // assumes it is async
+    },
 
-  setup () {
-    const myStore = useMyStore()
-    const $route = useRoute()
+    setup() {
+      const myStore = useMyStore()
+      const $route = useRoute()
 
-    // display the item from store state.
-    const item = computed(() => myStore.items[$route.params.id])
+      // display the item from store state.
+      const item = computed(() => myStore.items[$route.params.id])
 
-    return { item }
+      return { item }
+    }
   }
-}
 </script>
 ```
 
@@ -127,16 +140,16 @@ If you are using `<script setup>` (and Vue 3.3+):
 
 ```html
 <script setup>
-/**
- * The defineOptions is a macro.
- * The options will be hoisted to module scope and cannot access local
- * variables in <script setup> that are not literal constants.
- */
-defineOptions({
-  preFetch ({ store }) {
-    console.log('running preFetch')
-  }
-})
+  /**
+   * The defineOptions is a macro.
+   * The options will be hoisted to module scope and cannot access local
+   * variables in <script setup> that are not literal constants.
+   */
+  defineOptions({
+    preFetch({ store }) {
+      console.log('running preFetch')
+    }
+  })
 </script>
 ```
 
@@ -160,6 +173,7 @@ actions: {
 ```
 
 ### Redirecting Example
+
 Below is an example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.
 
 ```js
@@ -221,12 +235,15 @@ export default {
 ```
 
 ## Loading State
+
 A good UX includes notifying the user that something is being worked on in the background while he/she waits for the page to be ready. Quasar CLI offers two options for this out of the box.
 
 ### LoadingBar
+
 When you add Quasar [LoadingBar](/quasar-plugins/loading-bar) plugin to your app, Quasar CLI will use it while it runs the preFetch hooks by default.
 
 ### Loading
+
 There's also the possibility to use Quasar [Loading](/quasar-plugins/loading) plugin. Here's an example:
 
 ```js A route .vue component
@@ -234,7 +251,11 @@ import { Loading } from 'quasar'
 
 export default {
   // ...
-  preFetch ({ /* ... */ }) {
+  preFetch(
+    {
+      /* ... */
+    }
+  ) {
     Loading.show()
 
     return new Promise(resolve => {

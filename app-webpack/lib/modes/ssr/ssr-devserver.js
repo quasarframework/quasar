@@ -20,56 +20,55 @@ const { quasarSsrConfig } = require('./ssr-config.js')
 
 const doubleSlashRE = /\/\//g
 
-// backward compat (Express v5 vs v4)
-function convertStarPath (url) {
-  return url === '*' ? '{*path}' : url
-}
-
-function logServerMessage (title, msg, additional) {
+function logServerMessage(title, msg, additional) {
   log()
-  info(`${ msg }${ additional !== void 0 ? ` ${ green(dot) } ${ additional }` : '' }`, title)
+  info(
+    `${msg}${additional !== void 0 ? ` ${green(dot)} ${additional}` : ''}`,
+    title
+  )
 }
 
 /** @type {import('@quasar/render-ssr-error').default} */
 let renderSSRError = null
 let vueRenderToString = null
 
-function getClientHMRScriptQuery (devServerCfg) {
+function getClientHMRScriptQuery(devServerCfg) {
   const { overlay } = devServerCfg.client
   const acc = []
 
   if (!overlay) {
     acc.push('overlay=false')
-  }
-  else if (overlay !== true) {
+  } else if (overlay !== true) {
     if (overlay.warnings === false) {
       acc.push('warn=false')
     }
     if (overlay.timeout) {
-      acc.push(`timeout=${ overlay.timeout }`)
+      acc.push(`timeout=${overlay.timeout}`)
     }
   }
 
-  return acc.length === 0
-    ? ''
-    : '&' + acc.join('&')
+  return acc.length === 0 ? '' : '&' + acc.join('&')
 }
 
-function injectHMREntryPoints (webpackConf, devServerCfg) {
-  const entryPoint = 'webpack-hot-middleware/client?reload=true' + getClientHMRScriptQuery(devServerCfg)
+function injectHMREntryPoints(webpackConf, devServerCfg) {
+  const entryPoint =
+    'webpack-hot-middleware/client?reload=true' +
+    getClientHMRScriptQuery(devServerCfg)
 
   for (const key in webpackConf.entry) {
-    webpackConf.entry[ key ].unshift(entryPoint)
+    webpackConf.entry[key].unshift(entryPoint)
   }
 
   return webpackConf
 }
 
-function promisify (fn) {
+function promisify(fn) {
   return () => new Promise(resolve => fn(resolve))
 }
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends (
+  AppDevserver
+) {
   #esbuildWebserverWatcher
   #closeWebserver
   #webpackWatcherList = []
@@ -86,7 +85,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
   #pathMap = {}
 
-  constructor (opts) {
+  constructor(opts) {
     super(opts)
 
     const { appPaths } = this.ctx
@@ -97,7 +96,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       publicFolder,
       serverFile: appPaths.resolve.entry('compiled-dev-webserver.cjs'),
       serverEntryFile: appPaths.resolve.entry('server-entry.js'),
-      resolvePublicFolder () {
+      resolvePublicFolder() {
         return join(publicFolder, ...arguments)
       }
     }
@@ -151,7 +150,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     ])
   }
 
-  run (quasarConf, __isRetry) {
+  run(quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
     if (quasarConf.ssr.pwa === true) {
@@ -168,11 +167,13 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     // also update pwa-devserver.js when changing here
     if (diff('webpackPWA', quasarConf) === true) {
-      return queue(() => this.#runWebpack(quasarConf, diff('webpackUrl', quasarConf)))
+      return queue(() =>
+        this.#runWebpack(quasarConf, diff('webpackUrl', quasarConf))
+      )
     }
   }
 
-  async #compileWebserver (quasarConf, queue) {
+  async #compileWebserver(quasarConf, queue) {
     if (this.#esbuildWebserverWatcher) {
       await this.#esbuildWebserverWatcher.close()
     }
@@ -190,9 +191,11 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
   }
 
-  async #runWebpack (quasarConf, urlDiffers) {
+  async #runWebpack(quasarConf, urlDiffers) {
     if (this.#closeWebserver !== void 0) {
-      await this.clearWatcherList(this.#webpackWatcherList, () => { this.#webpackWatcherList = [] })
+      await this.clearWatcherList(this.#webpackWatcherList, () => {
+        this.#webpackWatcherList = []
+      })
       await this.#closeWebserver()
     }
 
@@ -202,25 +205,34 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
 
     if (vueRenderToString === null) {
-      const { renderToString } = await getPackage('vue/server-renderer', quasarConf.ctx.appPaths.appDir)
+      const { renderToString } = await getPackage(
+        'vue/server-renderer',
+        quasarConf.ctx.appPaths.appDir
+      )
       vueRenderToString = renderToString
     }
 
     const { appPaths } = quasarConf.ctx
 
     this.#appOptions.port = quasarConf.devServer.port
-    const clientHMR = this.#appOptions.clientHMR = !!quasarConf.devServer.hot
+    const clientHMR = (this.#appOptions.clientHMR = Boolean(
+      quasarConf.devServer.hot
+    ))
 
-    const publicPath = this.#appOptions.publicPath = quasarConf.build.publicPath
-    this.#appOptions.resolveUrlPath = publicPath === '/'
-      ? url => convertStarPath(url) || '/'
-      : url => (url ? (publicPath + convertStarPath(url)).replace(doubleSlashRE, '/') : publicPath)
+    const publicPath = (this.#appOptions.publicPath =
+      quasarConf.build.publicPath)
+    this.#appOptions.resolveUrlPath =
+      publicPath === '/'
+        ? url => url || '/'
+        : url =>
+            url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
     const renderer = createDevRenderer({
       vueRenderToString,
       basedir: appPaths.appDir,
-      manualStoreSerialization: quasarConf.ssr.manualStoreSerialization === true,
-      onReadyForTemplate () {
+      manualStoreSerialization:
+        quasarConf.ssr.manualStoreSerialization === true,
+      onReadyForTemplate() {
         // we need to call it here for first time
         // to leave room for injectWebpackHtml() to have all data (from client webpack)
         updateTemplate()
@@ -239,20 +251,24 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     const webpackClientCompiler = webpack(clientWebpackConf)
     const webpackServerCompiler = webpack(serverWebpackConf)
 
-    webpackClientCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
-      compilation.hooks.processAssets.tapAsync(
-        { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
-        (_, callback) => {
-          if (compilation.errors.length === 0) {
-            renderer.updateClientManifest(
-              getClientManifest(compilation)
-            )
-          }
+    webpackClientCompiler.hooks.thisCompilation.tap(
+      'quasar-ssr-server-plugin',
+      compilation => {
+        compilation.hooks.processAssets.tapAsync(
+          {
+            name: 'quasar-ssr-server-plugin',
+            state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL
+          },
+          (_, callback) => {
+            if (compilation.errors.length === 0) {
+              renderer.updateClientManifest(getClientManifest(compilation))
+            }
 
-          callback()
-        }
-      )
-    })
+            callback()
+          }
+        )
+      }
+    )
 
     webpackClientCompiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
@@ -261,22 +277,33 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     })
 
     if (clientHMR === true) {
-      const webpackClientHMRMiddleware = webpackHotMiddleware(webpackClientCompiler, { log: () => {} })
+      const webpackClientHMRMiddleware = webpackHotMiddleware(
+        webpackClientCompiler,
+        { log: () => {} }
+      )
       this.#appOptions.webpackClientHMRMiddleware = webpackClientHMRMiddleware
       this.#webpackWatcherList.push(() => webpackClientHMRMiddleware.close())
     }
 
-    const webpackClientMiddleware = webpackDevMiddleware(webpackClientCompiler, quasarConf.devServer.devMiddleware)
+    const webpackClientMiddleware = webpackDevMiddleware(
+      webpackClientCompiler,
+      quasarConf.devServer.devMiddleware
+    )
     this.#appOptions.webpackClientMiddleware = webpackClientMiddleware
     this.#webpackWatcherList.push(
       promisify(callback => webpackClientMiddleware.close(callback))
     )
 
-    const templatePath = appPaths.resolve.app(quasarConf.sourceFiles.indexHtmlTemplate)
+    const templatePath = appPaths.resolve.app(
+      quasarConf.sourceFiles.indexHtmlTemplate
+    )
 
-    async function updateTemplate () {
+    async function updateTemplate() {
       renderer.updateRenderTemplate(
-        await getSsrHtmlTemplateFn(readFileSync(templatePath, 'utf-8'), quasarConf)
+        await getSsrHtmlTemplateFn(
+          readFileSync(templatePath, 'utf-8'),
+          quasarConf
+        )
       )
     }
 
@@ -291,27 +318,34 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     this.#appOptions.render = ssrContext => {
       const startTime = Date.now()
 
-      return renderer.renderToString(ssrContext)
-        .then(html => {
-          logServerMessage('Rendered', ssrContext.url || ssrContext.req.url, `${ Date.now() - startTime }ms`)
-          return html
-        })
+      return renderer.renderToString(ssrContext).then(html => {
+        logServerMessage(
+          'Rendered',
+          ssrContext.url || ssrContext.req.url,
+          `${Date.now() - startTime}ms`
+        )
+        return html
+      })
     }
 
-    webpackServerCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
-      compilation.hooks.processAssets.tapAsync(
-        { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
-        (_, callback) => {
-          if (compilation.errors.length === 0) {
-            renderer.updateServerManifest(
-              getServerDevManifest(compilation)
-            )
-          }
+    webpackServerCompiler.hooks.thisCompilation.tap(
+      'quasar-ssr-server-plugin',
+      compilation => {
+        compilation.hooks.processAssets.tapAsync(
+          {
+            name: 'quasar-ssr-server-plugin',
+            state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL
+          },
+          (_, callback) => {
+            if (compilation.errors.length === 0) {
+              renderer.updateServerManifest(getServerDevManifest(compilation))
+            }
 
-          callback()
-        }
-      )
-    })
+            callback()
+          }
+        )
+      }
+    )
 
     webpackServerCompiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
@@ -336,13 +370,17 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
   }
 
-  async #bootWebserver (quasarConf) {
-    const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
+  async #bootWebserver(quasarConf) {
+    const done = progress(
+      `${this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting'} webserver...`
+    )
 
-    delete require.cache[ this.#pathMap.serverFile ]
+    delete require.cache[this.#pathMap.serverFile]
     const {
       create,
-      injectDevMiddleware = ({ app }) => (middleware) => app.use(middleware),
+      injectDevMiddleware = ({ app }) =>
+        middleware =>
+          app.use(middleware),
       listen,
       close,
       injectMiddlewares,
@@ -354,16 +392,19 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     const { resolvePublicFolder } = this.#pathMap
     const {
-      publicPath, resolveUrlPath,
-      clientHMR, webpackClientHMRMiddleware,
+      publicPath,
+      resolveUrlPath,
+      clientHMR,
+      webpackClientHMRMiddleware,
       webpackClientMiddleware
     } = this.#appOptions
 
     const middlewareParams = {
       port: this.#appOptions.port,
-      devHttpsOptions: quasarConf.devServer.server.type === 'https'
-        ? quasarConf.devServer.server.options
-        : void 0,
+      devHttpsOptions:
+        quasarConf.devServer.server.type === 'https'
+          ? quasarConf.devServer.server.options
+          : void 0,
       resolve: {
         urlPath: resolveUrlPath,
         root: (...args) => join(this.#pathMap.rootFolder, ...args),
@@ -377,7 +418,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       render: this.#appOptions.render
     }
 
-    const app = middlewareParams.app = await create(middlewareParams)
+    const app = (middlewareParams.app = await create(middlewareParams))
 
     const serveStatic = await serveStaticContent(middlewareParams)
     middlewareParams.serve = {
@@ -386,14 +427,22 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
         log()
         warn(req.url, 'Render failed')
 
-        renderSSRError({ err, req, res, projectRootFolder: quasarConf.ctx.appPaths.appDir })
+        renderSSRError({
+          err,
+          req,
+          res,
+          projectRootFolder: quasarConf.ctx.appPaths.appDir
+        })
       }
     }
 
     /** @type {import('../../../types').SsrInjectDevMiddlewareFn} */
     const registerDevMiddleware = await injectDevMiddleware(middlewareParams)
 
-    clientHMR === true && await registerDevMiddleware(webpackClientHMRMiddleware)
+    if (clientHMR === true) {
+      await registerDevMiddleware(webpackClientHMRMiddleware)
+    }
+
     await registerDevMiddleware(webpackClientMiddleware)
 
     if (quasarConf.build.ignorePublicFolder !== true) {
@@ -402,47 +451,50 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     await injectMiddlewares(middlewareParams)
 
-    publicPath !== '/' && await registerDevMiddleware((req, res, next) => {
-      const pathname = new URL(req.url, `http://${ req.headers.host }`).pathname || '/'
+    if (publicPath !== '/') {
+      await registerDevMiddleware((req, res, next) => {
+        const pathname =
+          new URL(req.url, `http://${req.headers.host}`).pathname || '/'
 
-      if (pathname.startsWith(publicPath) === true) {
+        if (pathname.startsWith(publicPath) === true) {
+          next()
+          return
+        }
+
+        if (req.url === '/' || req.url === '/index.html') {
+          res.writeHead(302, { Location: publicPath })
+          res.end()
+          return
+        }
+
+        if (req.headers.accept && req.headers.accept.includes('text/html')) {
+          const parsedPath = pathname.slice(1)
+          const redirectPaths = [publicPath + parsedPath]
+          const splitted = parsedPath.split('/')
+
+          if (splitted.length > 1) {
+            redirectPaths.push(publicPath + splitted.slice(1).join('/'))
+          }
+
+          if (redirectPaths[redirectPaths.length - 1] !== publicPath) {
+            redirectPaths.push(publicPath)
+          }
+
+          const linkList = redirectPaths
+            .map(link => `<a href="${link}">${link}</a>`)
+            .join(' or ')
+
+          res.writeHead(404, { 'Content-Type': 'text/html' })
+          res.end(
+            `<div>The Quasar CLI devserver is configured with a publicPath of "${publicPath}"</div>` +
+              `<div> - Did you mean to visit ${linkList} instead?</div>`
+          )
+          return
+        }
+
         next()
-        return
-      }
-
-      if (req.url === '/' || req.url === '/index.html') {
-        res.writeHead(302, { Location: publicPath })
-        res.end()
-        return
-      }
-
-      if (req.headers.accept && req.headers.accept.includes('text/html')) {
-        const parsedPath = pathname.slice(1)
-        const redirectPaths = [ publicPath + parsedPath ]
-        const splitted = parsedPath.split('/')
-
-        if (splitted.length > 1) {
-          redirectPaths.push(publicPath + splitted.slice(1).join('/'))
-        }
-
-        if (redirectPaths[ redirectPaths.length - 1 ] !== publicPath) {
-          redirectPaths.push(publicPath)
-        }
-
-        const linkList = redirectPaths
-          .map(link => `<a href="${ link }">${ link }</a>`)
-          .join(' or ')
-
-        res.writeHead(404, { 'Content-Type': 'text/html' })
-        res.end(
-          `<div>The Quasar CLI devserver is configured with a publicPath of "${ publicPath }"</div>`
-          + `<div> - Did you mean to visit ${ linkList } instead?</div>`
-        )
-        return
-      }
-
-      next()
-    })
+      })
+    }
 
     if (quasarConf.devServer.server.type === 'https') {
       middlewareParams.devHttpsApp = this.#createLazyDevHttpsServer(
@@ -465,63 +517,67 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
    * This allows the user to handle the devHttpsApp manually if they need to.
    * This is useful when they are using an custom SSR webserver such as Fastify and h3
    */
-  #createLazyDevHttpsServer (httpsOptions, app) {
+  #createLazyDevHttpsServer(httpsOptions, app) {
     const { createServer } = require('node:https')
     const createInstance = () => {
       try {
         return createServer(httpsOptions, app)
-      }
-      catch (error) {
+      } catch (error) {
         if (error.code === 'ERR_INVALID_ARG_TYPE') {
           warn(
-            'The SSR app instance is not compatible with automatic HTTPS support. '
-            + 'Please use `devHttpsOptions` property from callback scope in `create` or `listen` to set up HTTPS manually.'
+            'The SSR app instance is not compatible with automatic HTTPS support. ' +
+              'Please use `devHttpsOptions` property from callback scope in `create` or `listen` to set up HTTPS manually.'
           )
-        }
-        else {
+        } else {
           warn(
-            `An error occurred while setting up HTTPS for the SSR app instance, devHttpsApp won't be available. Error: ${ error.message }`
+            `An error occurred while setting up HTTPS for the SSR app instance, devHttpsApp won't be available. Error: ${error.message}`
           )
         }
       }
     }
 
-    return new Proxy({}, {
-      get: (target, prop) => {
-        // If handling the result of this function as a Promise, we don't want to do anything
-        if (prop === 'then' || prop === 'catch' || prop === 'finally') {
-          return
-        }
+    return new Proxy(
+      {},
+      {
+        get: (target, prop) => {
+          // If handling the result of this function as a Promise, we don't want to do anything
+          if (prop === 'then' || prop === 'catch' || prop === 'finally') {
+            return
+          }
 
-        if (!target.instance) {
-          target.instance = createInstance()
-        }
+          if (!target.instance) {
+            target.instance = createInstance()
+          }
 
-        return target.instance?.[ prop ]
-      },
-      set: (target, prop, value) => {
-        if (!target.instance) {
-          target.instance = createInstance()
-        }
+          return target.instance?.[prop]
+        },
+        set: (target, prop, value) => {
+          if (!target.instance) {
+            target.instance = createInstance()
+          }
 
-        target.instance[ prop ] = value
-        return true
+          target.instance[prop] = value
+          return true
+        }
       }
-    })
+    )
   }
 
   // also update ssr-devserver.js when changing here
-  async #compileCustomServiceWorker (quasarConf) {
+  async #compileCustomServiceWorker(quasarConf) {
     if (this.#pwaServiceWorkerWatcher) {
       await this.#pwaServiceWorkerWatcher.close()
     }
 
     if (quasarConf.pwa.workboxMode === 'InjectManifest') {
       const esbuildConfig = await quasarSsrConfig.customSw(quasarConf)
-      await this.watchWithEsbuild('InjectManifest Custom SW', esbuildConfig, () => {})
-        .then(esbuildCtx => {
-          this.#pwaServiceWorkerWatcher = { close: esbuildCtx.dispose }
-        })
+      await this.watchWithEsbuild(
+        'InjectManifest Custom SW',
+        esbuildConfig,
+        () => {}
+      ).then(esbuildCtx => {
+        this.#pwaServiceWorkerWatcher = { close: esbuildCtx.dispose }
+      })
     }
   }
 }

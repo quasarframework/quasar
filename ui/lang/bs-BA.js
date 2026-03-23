@@ -15,13 +15,18 @@ export default {
     search: 'Traži',
     filter: 'Filter',
     refresh: 'Osvježi',
-    expand: label => (label ? `Proširi "${ label }"` : 'Proširiti'),
-    collapse: label => (label ? `Sažmi "${ label }"` : 'Kolaps')
+    expand: label => (label ? `Proširi "${label}"` : 'Proširiti'),
+    collapse: label => (label ? `Sažmi "${label}"` : 'Kolaps')
   },
   date: {
-    days: 'Nedjelja_Ponedjeljak_Utorak_Srijeda_Četvrtak_Petak_Subota'.split('_'),
+    days: 'Nedjelja_Ponedjeljak_Utorak_Srijeda_Četvrtak_Petak_Subota'.split(
+      '_'
+    ),
     daysShort: 'Ned_Pon_Uto_Sri_Čet_Pet_Sub'.split('_'),
-    months: 'Januar_Februar_Mart_April_Maj_Juni_Juli_August_Septembar_Oktobar_Novembar_Decembar'.split('_'),
+    months:
+      'Januar_Februar_Mart_April_Maj_Juni_Juli_August_Septembar_Oktobar_Novembar_Decembar'.split(
+        '_'
+      ),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -31,18 +36,17 @@ export default {
     prevYear: 'Prethodne godine',
     nextYear: 'Sljedeće godine',
     today: 'Danas',
-    prevRangeYears: range => `Prethodni ${ range } godina`,
-    nextRangeYears: range => `Sljedeći ${ range } Godina`
+    prevRangeYears: range => `Prethodni ${range} godina`,
+    nextRangeYears: range => `Sljedeći ${range} Godina`
   },
   table: {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih rezultata',
     loading: 'Učitavanje...',
-    selectedRecords: rows => (
+    selectedRecords: rows =>
       rows > 1
         ? rows + ' odabranih redova.'
-        : (rows === 0 ? 'Nema' : '1') + ' odabranih redova.'
-    ),
+        : (rows === 0 ? 'Nema' : '1') + ' odabranih redova.',
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
     pagination: (start, end, total) => start + '-' + end + ' od ' + total,

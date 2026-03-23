@@ -16,7 +16,12 @@
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-time v-model="date1" mask="YYYY-MM-DD HH:mm:ssZ" format24h with-seconds>
+            <q-time
+              v-model="date1"
+              mask="YYYY-MM-DD HH:mm:ssZ"
+              format24h
+              with-seconds
+            >
               <div class="row items-center justify-end q-gutter-sm">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
@@ -84,7 +89,7 @@
 import { date as qDate } from 'quasar'
 
 export default {
-  data () {
+  data() {
     return {
       date1: '2020-03-18 17:40:45+05:00',
       date2: '2020-03-18 17:40 -0730',
@@ -92,13 +97,16 @@ export default {
     }
   },
   methods: {
-    test (dateString, formatMask) {
+    test(dateString, formatMask) {
       const date = new Date(dateString)
       console.log('date [' + dateString + ']: ', date)
-      console.log('extr [' + dateString + ']: ', qDate.extractDate(dateString, formatMask))
+      console.log(
+        'extr [' + dateString + ']: ',
+        qDate.extractDate(dateString, formatMask)
+      )
     }
   },
-  mounted () {
+  mounted() {
     this.test('2020-03-14 10:44:05+05:00', 'YYYY-MM-DD HH:mm:ssZ')
     this.test('2020-03-14 10:44:05+02:00', 'YYYY-MM-DD HH:mm:ssZ')
     this.test('2020-03-14 10:44:05+05:30', 'YYYY-MM-DD HH:mm:ssZ')

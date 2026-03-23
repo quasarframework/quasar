@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-
     <q-bar>
       <div class="cursor-pointer">File</div>
       <div class="cursor-pointer">Edit</div>
@@ -24,6 +23,5 @@
       <q-btn dense flat icon="crop_square" />
       <q-btn dense flat icon="close" />
     </q-bar>
-
   </div>
 </template>

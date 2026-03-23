@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-
     <q-bar dense class="bg-black text-white">
       <div>mobi-net</div>
       <q-icon name="email" />
@@ -24,6 +23,5 @@
       <q-icon name="battery_full" />
       <div>10:00AM</div>
     </q-bar>
-
   </div>
 </template>

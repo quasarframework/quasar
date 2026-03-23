@@ -1,7 +1,11 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-toggle indeterminate-value="maybe" v-model="theModel2" label="Did you eat lunch today?" />
+      <q-toggle
+        indeterminate-value="maybe"
+        v-model="theModel2"
+        label="Did you eat lunch today?"
+      />
     </div>
 
     <div class="q-px-sm">
@@ -9,7 +13,11 @@
     </div>
 
     <div class="q-gutter-sm">
-      <q-toggle toggle-indeterminate v-model="theModel" label="Did you eat lunch today?" />
+      <q-toggle
+        toggle-indeterminate
+        v-model="theModel"
+        label="Did you eat lunch today?"
+      />
     </div>
 
     <div class="q-px-sm row no-wrap items-center">
@@ -25,7 +33,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const theModel = ref(null)
     const theModel2 = ref('maybe')
 
@@ -33,7 +41,7 @@ export default {
       theModel,
       theModel2,
 
-      reset () {
+      reset() {
         theModel.value = null
         theModel2.value = 'maybe'
       }

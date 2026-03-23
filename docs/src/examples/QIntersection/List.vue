@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md flex justify-center">
-    <div style="max-width: 90%; width: 300px;">
+    <div style="max-width: 90%; width: 300px">
       <q-intersection
         v-for="index in 60"
         :key="index"
@@ -9,9 +9,7 @@
       >
         <q-item clickable v-ripple>
           <q-item-section avatar>
-            <q-avatar color="primary" text-color="white">
-              Q
-            </q-avatar>
+            <q-avatar color="primary" text-color="white"> Q </q-avatar>
           </q-item-section>
 
           <q-item-section>

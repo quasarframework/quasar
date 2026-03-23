@@ -10,13 +10,11 @@ interface SliderMarkerLabelPartialDefinition {
   style?: VueStyleObjectProp;
 }
 
-interface SliderMarkerLabelDefinition
-  extends SliderMarkerLabelPartialDefinition {
+interface SliderMarkerLabelDefinition extends SliderMarkerLabelPartialDefinition {
   value?: number;
 }
 
-interface SliderMarkerLabelDefinitionRequiredValue
-  extends SliderMarkerLabelPartialDefinition {
+interface SliderMarkerLabelDefinitionRequiredValue extends SliderMarkerLabelPartialDefinition {
   value: number;
 }
 

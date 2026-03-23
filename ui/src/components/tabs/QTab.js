@@ -9,7 +9,7 @@ export default createComponent({
 
   emits: useTabEmits,
 
-  setup (props, { slots, emit }) {
+  setup(props, { slots, emit }) {
     const { renderTab } = useTab(props, slots, emit)
     return () => renderTab('div')
   }

@@ -1,4 +1,3 @@
-
 import { existsSync } from 'node:fs'
 import { green, red, underline } from 'kolorist'
 
@@ -14,7 +13,7 @@ import { mergeObjects } from '../utils/merge-objects.js'
 import { getProfileContent } from '../utils/get-profile-content.js'
 import { validateProfileObject } from '../utils/validate-profile-object.js'
 
-function getFileStatus (file) {
+function getFileStatus(file) {
   if (!existsSync(file.absoluteName)) {
     return red('ERROR: missing!')
   }
@@ -27,46 +26,48 @@ function getFileStatus (file) {
     }
 
     if (width !== file.width || height !== file.height) {
-      return red(`ERROR: incorrect resolution! ${ width }x${ height }`)
+      return red(`ERROR: incorrect resolution! ${width}x${height}`)
     }
   }
 
   return green('SIZE OK')
 }
 
-function printMode (modeName, files) {
-  console.log(` ${ green(underline(`Mode ${ modeName.toUpperCase() }`)) } \n`)
+function printMode(modeName, files) {
+  console.log(` ${green(underline(`Mode ${modeName.toUpperCase()}`))} \n`)
 
   files.forEach(file => {
-    console.log(` ${ getFileStatus(file) } - ${ (file.generator + ':').padEnd(13, ' ') } ${ file.relativeName } ${ verifyMount(file) }`)
+    console.log(
+      ` ${getFileStatus(file)} - ${(file.generator + ':').padEnd(13, ' ')} ${file.relativeName} ${verifyMount(file)}`
+    )
   })
 
   console.log()
 }
 
-function printBanner (assetsOf, params) {
+function printBanner(assetsOf, params) {
   console.log(` VERIFYING with the following options:
  ================
- Root folder..... ${ green(appDir) }
- Assets of....... ${ green(assetsOf) }
- Assets filter... ${ !params.filter ? 'none' : green(params.filter) }
+ Root folder..... ${green(appDir)}
+ Assets of....... ${green(assetsOf)}
+ Assets filter... ${!params.filter ? 'none' : green(params.filter)}
  ================
 `)
 }
 
-function parseAssets (assets, include) {
+function parseAssets(assets, include) {
   const filesMap = []
   let assetsOf = []
 
   if (include) {
-    const embeddedModes = include.filter(
-      mode => existsSync(resolveDir(modes[ mode ].folder))
+    const embeddedModes = include.filter(mode =>
+      existsSync(resolveDir(modes[mode].folder))
     )
 
     embeddedModes.forEach(mode => {
       filesMap.push({
         name: mode,
-        files: getAssetsFiles(modes[ mode ].assets)
+        files: getAssetsFiles(modes[mode].assets)
       })
     })
 
@@ -88,12 +89,14 @@ function parseAssets (assets, include) {
   }
 }
 
-function verifyProfile (profile) {
+function verifyProfile(profile) {
   const params = profile.params
   const { assetsOf, filesMap } = parseAssets(profile.assets, params.include)
 
   if (assetsOf.length === 0) {
-    warn(`No assets to generate! No mode/include specified, filter too specific or the respective Quasar mode(s) are not installed`)
+    warn(
+      `No assets to generate! No mode/include specified, filter too specific or the respective Quasar mode(s) are not installed`
+    )
     return
   }
 
@@ -110,14 +113,14 @@ function verifyProfile (profile) {
   })
 }
 
-export function verify (argv) {
+export function verify(argv) {
   const profile = {
     params: {},
     assets: []
   }
 
   if (argv.profile) {
-    parseArgv(argv, [ 'profile' ])
+    parseArgv(argv, ['profile'])
 
     const userProfile = getProfileContent(argv.profile)
 
@@ -125,14 +128,13 @@ export function verify (argv) {
       const { profile: _, ...params } = argv
 
       profile.params = mergeObjects(userProfile.params, params)
-      parseArgv(profile.params, [ 'include' ])
+      parseArgv(profile.params, ['include'])
     }
     if (userProfile.assets) {
       profile.assets = userProfile.assets
     }
-  }
-  else {
-    parseArgv(argv, [ 'mode' ])
+  } else {
+    parseArgv(argv, ['mode'])
 
     const { mode, ...params } = argv
 
@@ -140,7 +142,7 @@ export function verify (argv) {
     profile.params.include = mode
   }
 
-  parseArgv(profile.params, [ 'filter' ])
+  parseArgv(profile.params, ['filter'])
 
   // final thorough validation
   validateProfileObject(profile)

@@ -80,6 +80,7 @@ You can also customize the HTTP headers and HTTP method through `headers` and `m
 :::
 
 ### Factory function
+
 There is a `factory` prop you can use which must be a Function. This function can return either an Object or a Promise resolving with an Object (and in case the Promise fails, `@factory-failed` event is emitted).
 
 The Object described above can override the following QUploader props: `url`, `method`, `headers`, `formFields`, `fieldName`, `withCredentials`, `sendRaw`). The props of this Object can be Functions as well (of form `(file[s]) => value`):
@@ -135,7 +136,10 @@ app.use(throttle(1024 * 128)) // throttling bandwidth
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
   next()
 })
 
@@ -158,6 +162,7 @@ app.listen(port, () => {
 ```
 
 ### ASP.NET MVC/Core
+
 QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.
 In your Vue file, configure the QUploader component with the desired Web API endpoint:
 
@@ -173,35 +178,29 @@ If your server requires authentication such as a JWT token, use QUploader's fact
 
 ```html
 <template>
-  <q-uploader
-    label="Upload"
-    :factory="factoryFn"
-    style="max-width: 300px"
-  />
+  <q-uploader label="Upload" :factory="factoryFn" style="max-width: 300px" />
 </template>
 
 <script>
-export default {
-  methods: {
-    factoryFn (file) {
-      return new Promise((resolve, reject) => {
-        // Retrieve JWT token from your store.
-        const token = "myToken";
-        resolve({
-          url: 'http://localhost:4444/fileuploader/upload',
-          method: 'POST',
-          headers: [
-            { name: 'Authorization', value: `Bearer ${token}` }
-          ]
+  export default {
+    methods: {
+      factoryFn(file) {
+        return new Promise((resolve, reject) => {
+          // Retrieve JWT token from your store.
+          const token = 'myToken'
+          resolve({
+            url: 'http://localhost:4444/fileuploader/upload',
+            method: 'POST',
+            headers: [{ name: 'Authorization', value: `Bearer ${token}` }]
+          })
         })
-      })
+      }
     }
   }
-}
 </script>
 ```
 
-The file(s) payload of QUploader will be a properly formed ```IFormFileCollection``` object that you can read via your ASP.NET Web API controller's ```.Request``` property.
+The file(s) payload of QUploader will be a properly formed `IFormFileCollection` object that you can read via your ASP.NET Web API controller's `.Request` property.
 ASP.NET Core 2.2 Controller:
 
 ```
@@ -285,7 +284,6 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-
 ### Julia/Genie
 
 ```
@@ -354,6 +352,7 @@ app->start;
 ```
 
 ## Supporting other services
+
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
 ::: warning Help appreciated
@@ -380,7 +379,7 @@ export default createUploaderComponent({
     // ...your custom events name list
   ],
 
-  injectPlugin ({ props, emit, helpers }) {
+  injectPlugin({ props, emit, helpers }) {
     // can call any other composables here
     // as this function will run in the component's setup()
 
@@ -401,13 +400,13 @@ export default createUploaderComponent({
     // [ REQUIRED! ]
     // Abort and clean up any process
     // that is in progress
-    function abort () {
+    function abort() {
       // ...
     }
 
     // [ REQUIRED! ]
     // Start the uploading process
-    function upload () {
+    function upload() {
       // ...
     }
 
@@ -423,9 +422,10 @@ export default createUploaderComponent({
 ```
 
 ::: tip TIPS
-* For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
-* For the UMD version use `Quasar.createUploaderComponent({ ... })`.
-:::
+
+- For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
+- For the UMD version use `Quasar.createUploaderComponent({ ... })`.
+  :::
 
 Then you register this component globally with Vue or you import it and add it to the "components: {}" in your Vue components.
 

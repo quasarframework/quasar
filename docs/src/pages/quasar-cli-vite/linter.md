@@ -89,7 +89,7 @@ export default [
    * pluginVue.configs["flat/recommended"]
    *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
    */
-  ...pluginVue.configs[ 'flat/essential' ],
+  ...pluginVue.configs['flat/essential'],
 
   {
     languageOptions: {
@@ -118,7 +118,7 @@ export default [
   },
 
   {
-    files: [ 'src-pwa/custom-service-worker.js' ],
+    files: ['src-pwa/custom-service-worker.js'],
     languageOptions: {
       globals: {
         ...globals.serviceworker
@@ -181,7 +181,10 @@ import js from '@eslint/js'
 import globals from 'globals'
 import pluginVue from 'eslint-plugin-vue'
 import pluginQuasar from '@quasar/app-vite/eslint'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs
+} from '@vue/eslint-config-typescript'
 
 // the following is optional, if you want prettier too:
 import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
@@ -214,7 +217,7 @@ export default defineConfigWithVueTs(
    * pluginVue.configs["flat/recommended"]
    *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
    */
-  pluginVue.configs[ 'flat/essential' ],
+  pluginVue.configs['flat/essential'],
 
   {
     files: ['**/*.ts', '**/*.vue'],
@@ -222,7 +225,7 @@ export default defineConfigWithVueTs(
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports' }
-      ],
+      ]
     }
   },
   vueTsConfigs.recommendedTypeChecked,
@@ -254,7 +257,7 @@ export default defineConfigWithVueTs(
   },
 
   {
-    files: [ 'src-pwa/custom-service-worker.ts' ],
+    files: ['src-pwa/custom-service-worker.ts'],
     languageOptions: {
       globals: {
         ...globals.serviceworker
@@ -293,7 +296,7 @@ Notice that `pluginQuasar.configs.recommended()` from a few sections above will 
 
 ```js
 // not an exhaustive list auto-added to "ignores"
-[
+;[
   'dist/*',
   'src-capacitor/*',
   'src-cordova/*',
@@ -306,7 +309,7 @@ Notice that `pluginQuasar.configs.recommended()` from a few sections above will 
 
 The linting rules can be removed, changed, or added. Notice some things:
 
-* Some rules are standard ESLint ones. Example: 'brace-style'.
-* Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
+- Some rules are standard ESLint ones. Example: 'brace-style'.
+- Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
 
 You can add/remove/change rules by first visiting [https://eslint.org/docs/rules/](https://eslint.org/docs/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).

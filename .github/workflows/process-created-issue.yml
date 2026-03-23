@@ -21,14 +21,14 @@ jobs:
       TEMPLATE_VERSION: 'v2'
       # TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv2') && 'v2' || 'v3' }} # uncomment when Quasar v3 is available
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--quasar-${{ env.TEMPLATE_VERSION }}.yml
 
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         env:
           ISSUE_MODEL: ${{ steps.issue-parser.outputs.jsonString }}
           INVALID_REPRO_MESSAGE: |

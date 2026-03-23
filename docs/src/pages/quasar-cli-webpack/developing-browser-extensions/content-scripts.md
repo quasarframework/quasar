@@ -70,7 +70,8 @@ bridge.on('highlight.content', ({ payload }) => {
   }
 })
 
-bridge.connectToBackground()
+bridge
+  .connectToBackground()
   .then(() => {
     console.log('Connected to background')
   })

@@ -15,9 +15,11 @@
             :src="url"
             class="absolute-full"
             style="width: 150px; height: 150px"
-          >
+          />
         </transition>
-        <div class="bg-black text-center text-white absolute-top">{{ transition }}</div>
+        <div class="bg-black text-center text-white absolute-top">{{
+          transition
+        }}</div>
       </div>
     </div>
   </div>
@@ -27,18 +29,19 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     let index = 0
 
     const url = ref('https://cdn.quasar.dev/img/parallax2.jpg')
     const gIndex = ref('q_0_')
 
     return {
-      trigger () {
-        gIndex.value = 'q_' + (++index) + '_'
-        url.value = url.value === 'https://cdn.quasar.dev/img/parallax2.jpg'
-          ? 'https://cdn.quasar.dev/img/parallax1.jpg'
-          : 'https://cdn.quasar.dev/img/parallax2.jpg'
+      trigger() {
+        gIndex.value = 'q_' + ++index + '_'
+        url.value =
+          url.value === 'https://cdn.quasar.dev/img/parallax2.jpg'
+            ? 'https://cdn.quasar.dev/img/parallax1.jpg'
+            : 'https://cdn.quasar.dev/img/parallax2.jpg'
       },
       url,
       gIndex,

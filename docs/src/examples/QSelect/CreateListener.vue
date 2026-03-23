@@ -19,10 +19,10 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       model: ref(null),
-      createValue (val, done) {
+      createValue(val, done) {
         // specific logic to eventually call done(...) -- or not
         done(val)
 

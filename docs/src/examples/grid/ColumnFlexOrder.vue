@@ -1,21 +1,19 @@
 <template>
   <div class="q-pa-md example-column-flex-order">
-
     <div class="column" style="height: 190px">
       <div class="col order-none">
         First, but unordered
-        <br>(.order-none)
+        <br />(.order-none)
       </div>
       <div class="col order-last">
         Second, but last
-        <br>(.order-last)
+        <br />(.order-last)
       </div>
       <div class="col order-first">
         Third, but first
-        <br>(.order-first)
+        <br />(.order-first)
       </div>
     </div>
-
   </div>
 </template>
 

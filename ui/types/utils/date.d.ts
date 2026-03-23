@@ -55,7 +55,7 @@ export namespace date {
     date: DateInput,
     from: DateInput,
     to: DateInput,
-    opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean },
+    opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean }
   ): boolean;
 
   function addToDate(date: DateInput, options: DateOptions): Date;
@@ -65,19 +65,19 @@ export namespace date {
   function adjustDate(
     date: DateInput,
     options: DateOptions,
-    utc?: boolean,
+    utc?: boolean
   ): Date;
 
   function startOfDate(
     date: DateInput,
     option: DateUnitOptions,
-    utc?: boolean,
+    utc?: boolean
   ): Date;
 
   function endOfDate(
     date: DateInput,
     option: DateUnitOptions,
-    utc?: boolean,
+    utc?: boolean
   ): Date;
 
   function getMaxDate(...args: DateInput[]): Date;
@@ -87,7 +87,7 @@ export namespace date {
   function getDateDiff(
     date: DateInput,
     subtract: DateInput,
-    unit?: `${DateUnitOptions}s`,
+    unit?: `${DateUnitOptions}s`
   ): number;
 
   function getDayOfYear(date: DateInput): number;
@@ -97,13 +97,13 @@ export namespace date {
   function getDateBetween(
     date: DateInput,
     min?: DateInput,
-    max?: DateInput,
+    max?: DateInput
   ): Date;
 
   function isSameDate(
     date: DateInput,
     date2: DateInput,
-    unit?: DateUnitOptions,
+    unit?: DateUnitOptions
   ): boolean;
 
   function daysInMonth(date: DateInput): number;
@@ -113,7 +113,7 @@ export namespace date {
     format?: string,
     locale?: DateLocale,
     __forcedYear?: number,
-    __forcedTimezoneOffset?: number,
+    __forcedTimezoneOffset?: number
   ): string;
 
   function clone<D extends DateInput>(date: D): D;

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/spinner/spinner" ],
+  "mixins": ["components/spinner/spinner"],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/spinners"

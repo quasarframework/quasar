@@ -18,9 +18,11 @@ The QLinearProgress component displays a colored loading bar. The bar can either
 ## Usage
 
 ### Determined state
+
 <DocExample title="Determined state" file="Determinate" />
 
 ### Indeterminate state
+
 <DocExample title="Indeterminate state" file="Indeterminate" />
 
 ::: tip
@@ -50,7 +52,8 @@ For indeterminate state (above) or query state (below) you don't need to specify
 ### With a label
 
 To add a label to the progress bar you can use the default slot. Take care to:
-  - use a `size` big enough to allow showing the label
-  - set a text color for the label so that it is visible both on the filled and unfilled areas, or use text-shadow CSS, or use a QBadge as in the example below
+
+- use a `size` big enough to allow showing the label
+- set a text color for the label so that it is visible both on the filled and unfilled areas, or use text-shadow CSS, or use a QBadge as in the example below
 
 <DocExample title="With a label" file="Label" />

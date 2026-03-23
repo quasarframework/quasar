@@ -27,7 +27,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     return {
       modelOne: ref('op1'),
       modelTwo: ref('op1'),

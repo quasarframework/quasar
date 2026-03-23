@@ -1,8 +1,14 @@
 import { computed } from 'vue'
 
-import useAlign, { useAlignProps } from '../../composables/private.use-align/use-align.js'
-import useSize, { useSizeProps } from '../../composables/private.use-size/use-size.js'
-import useRouterLink, { useRouterLinkNonMatchingProps } from '../../composables/private.use-router-link/use-router-link.js'
+import useAlign, {
+  useAlignProps
+} from '../../composables/private.use-align/use-align.js'
+import useSize, {
+  useSizeProps
+} from '../../composables/private.use-size/use-size.js'
+import useRouterLink, {
+  useRouterLinkNonMatchingProps
+} from '../../composables/private.use-router-link/use-router-link.js'
 
 export const btnPadding = {
   none: 0,
@@ -21,12 +27,12 @@ export const defaultSizes = {
   xl: 24
 }
 
-const formTypes = [ 'button', 'submit', 'reset' ]
+const formTypes = ['button', 'submit', 'reset']
 const mediaTypeRE = /[^\s]\/[^\s]/
 
-export const btnDesignOptions = [ 'flat', 'outline', 'push', 'unelevated' ]
+export const btnDesignOptions = ['flat', 'outline', 'push', 'unelevated']
 
-export function getBtnDesign (props, defaultValue) {
+export function getBtnDesign(props, defaultValue) {
   if (props.flat === true) return 'flat'
   if (props.outline === true) return 'outline'
   if (props.push === true) return 'push'
@@ -34,11 +40,9 @@ export function getBtnDesign (props, defaultValue) {
   return defaultValue
 }
 
-export function getBtnDesignAttr (props) {
+export function getBtnDesignAttr(props) {
   const design = getBtnDesign(props)
-  return design !== void 0
-    ? { [ design ]: true }
-    : {}
+  return design !== void 0 ? { [design]: true } : {}
 }
 
 export const nonRoundBtnProps = {
@@ -50,14 +54,11 @@ export const nonRoundBtnProps = {
     default: 'button'
   },
 
-  label: [ Number, String ],
+  label: [Number, String],
   icon: String,
   iconRight: String,
 
-  ...btnDesignOptions.reduce(
-    (acc, val) => (acc[ val ] = Boolean) && acc,
-    {}
-  ),
+  ...btnDesignOptions.reduce((acc, val) => (acc[val] = Boolean) && acc, {}),
 
   square: Boolean,
   rounded: Boolean,
@@ -74,10 +75,10 @@ export const nonRoundBtnProps = {
   noWrap: Boolean,
   dense: Boolean,
 
-  tabindex: [ Number, String ],
+  tabindex: [Number, String],
 
   ripple: {
-    type: [ Boolean, Object ],
+    type: [Boolean, Object],
     default: true
   },
 
@@ -99,41 +100,41 @@ export const useBtnProps = {
   round: Boolean
 }
 
-export default function (props) {
+export default function useBtn(props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateOnClick } = useRouterLink({
-    fallbackTag: 'button'
-  })
+  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateOnClick } =
+    useRouterLink({
+      fallbackTag: 'button'
+    })
 
   const style = computed(() => {
-    const obj = props.fab === false && props.fabMini === false
-      ? sizeStyle.value
-      : {}
+    const obj =
+      props.fab === false && props.fabMini === false ? sizeStyle.value : {}
 
     return props.padding !== void 0
       ? Object.assign({}, obj, {
-        padding: props.padding
-          .split(/\s+/)
-          .map(v => (v in btnPadding ? btnPadding[ v ] + 'px' : v))
-          .join(' '),
-        minWidth: '0',
-        minHeight: '0'
-      })
+          padding: props.padding
+            .split(/\s+/)
+            .map(v => (v in btnPadding ? btnPadding[v] + 'px' : v))
+            .join(' '),
+          minWidth: '0',
+          minHeight: '0'
+        })
       : obj
   })
 
-  const isRounded = computed(() =>
-    props.rounded === true || props.fab === true || props.fabMini === true
+  const isRounded = computed(
+    () => props.rounded === true || props.fab === true || props.fabMini === true
   )
 
-  const isActionable = computed(() =>
-    props.disable !== true && props.loading !== true
+  const isActionable = computed(
+    () => props.disable !== true && props.loading !== true
   )
 
-  const tabIndex = computed(() => (
+  const tabIndex = computed(() =>
     isActionable.value === true ? props.tabindex || 0 : -1
-  ))
+  )
 
   const design = computed(() => getBtnDesign(props, 'standard'))
 
@@ -142,26 +143,26 @@ export default function (props) {
 
     if (hasLink.value === true) {
       Object.assign(acc, linkAttrs.value)
-    }
-    else if (formTypes.includes(props.type) === true) {
+    } else if (formTypes.includes(props.type) === true) {
       acc.type = props.type
     }
 
     if (linkTag.value === 'a') {
       if (props.disable === true) {
-        acc[ 'aria-disabled' ] = 'true'
-      }
-      else if (acc.href === void 0) {
+        acc['aria-disabled'] = 'true'
+      } else if (acc.href === void 0) {
         acc.role = 'button'
       }
 
-      if (hasRouterLink.value !== true && mediaTypeRE.test(props.type) === true) {
+      if (
+        hasRouterLink.value !== true &&
+        mediaTypeRE.test(props.type) === true
+      ) {
         acc.type = props.type
       }
-    }
-    else if (props.disable === true) {
+    } else if (props.disable === true) {
       acc.disabled = ''
-      acc[ 'aria-disabled' ] = 'true'
+      acc['aria-disabled'] = 'true'
     }
 
     if (props.loading === true && props.percentage !== void 0) {
@@ -181,35 +182,46 @@ export default function (props) {
 
     if (props.color !== void 0) {
       if (props.flat === true || props.outline === true) {
-        colors = `text-${ props.textColor || props.color }`
+        colors = `text-${props.textColor || props.color}`
+      } else {
+        colors = `bg-${props.color} text-${props.textColor || 'white'}`
       }
-      else {
-        colors = `bg-${ props.color } text-${ props.textColor || 'white' }`
-      }
-    }
-    else if (props.textColor) {
-      colors = `text-${ props.textColor }`
+    } else if (props.textColor) {
+      colors = `text-${props.textColor}`
     }
 
-    const shape = props.round === true
-      ? 'round'
-      : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : (props.square === true ? ' q-btn--square' : '') }`
+    const shape =
+      props.round === true
+        ? 'round'
+        : `rectangle${isRounded.value === true ? ' q-btn--rounded' : props.square === true ? ' q-btn--square' : ''}`
 
-    return `q-btn--${ design.value } q-btn--${ shape }`
-      + (colors !== void 0 ? ' ' + colors : '')
-      + (isActionable.value === true ? ' q-btn--actionable q-focusable q-hoverable' : (props.disable === true ? ' disabled' : ''))
-      + (props.fab === true ? ' q-btn--fab' : (props.fabMini === true ? ' q-btn--fab-mini' : ''))
-      + (props.noCaps === true ? ' q-btn--no-uppercase' : '')
-      + (props.dense === true ? ' q-btn--dense' : '')
-      + (props.stretch === true ? ' no-border-radius self-stretch' : '')
-      + (props.glossy === true ? ' glossy' : '')
-      + (props.square ? ' q-btn--square' : '')
+    return (
+      `q-btn--${design.value} q-btn--${shape}` +
+      (colors !== void 0 ? ' ' + colors : '') +
+      (isActionable.value === true
+        ? ' q-btn--actionable q-focusable q-hoverable'
+        : props.disable === true
+          ? ' disabled'
+          : '') +
+      (props.fab === true
+        ? ' q-btn--fab'
+        : props.fabMini === true
+          ? ' q-btn--fab-mini'
+          : '') +
+      (props.noCaps === true ? ' q-btn--no-uppercase' : '') +
+      (props.dense === true ? ' q-btn--dense' : '') +
+      (props.stretch === true ? ' no-border-radius self-stretch' : '') +
+      (props.glossy === true ? ' glossy' : '') +
+      (props.square ? ' q-btn--square' : '')
+    )
   })
 
-  const innerClasses = computed(() =>
-    alignClass.value + (props.stack === true ? ' column' : ' row')
-    + (props.noWrap === true ? ' no-wrap text-no-wrap' : '')
-    + (props.loading === true ? ' q-btn__content--hidden' : '')
+  const innerClasses = computed(
+    () =>
+      alignClass.value +
+      (props.stack === true ? ' column' : ' row') +
+      (props.noWrap === true ? ' no-wrap text-no-wrap' : '') +
+      (props.loading === true ? ' q-btn__content--hidden' : '')
   )
 
   return {

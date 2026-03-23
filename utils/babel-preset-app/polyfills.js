@@ -5,7 +5,7 @@ const { addSideEffect } = require('@babel/helper-module-imports')
 // TODO: remove the `useAbsolutePath` option in v5,
 // because `core-js` is sure to be present in newer projects;
 // we only need absolute path for babel runtime helpers, not for polyfills
-function getModulePath (mod, useAbsolutePath) {
+function getModulePath(mod, useAbsolutePath) {
   const modPath =
     mod === 'regenerator-runtime'
       ? 'regenerator-runtime/runtime'
@@ -14,20 +14,19 @@ function getModulePath (mod, useAbsolutePath) {
 }
 
 // add polyfill imports to the first file encountered.
-module.exports = ({}, { polyfills, useAbsolutePath }) => {
-  return {
-    name: 'quasar-cli-inject-polyfills',
-    visitor: {
-      Program (path) {
-        // imports are injected in reverse order
-        polyfills
-          .slice()
-          .reverse()
-          .forEach(mod => {
-            // create import
-            addSideEffect(path, getModulePath(mod, useAbsolutePath))
-          })
-      }
+// oxlint-disable-next-line no-empty-pattern
+module.exports = ({}, { polyfills, useAbsolutePath }) => ({
+  name: 'quasar-cli-inject-polyfills',
+  visitor: {
+    Program(path) {
+      // imports are injected in reverse order
+      polyfills
+        .slice()
+        .reverse()
+        .forEach(mod => {
+          // create import
+          addSideEffect(path, getModulePath(mod, useAbsolutePath))
+        })
     }
   }
-}
+})

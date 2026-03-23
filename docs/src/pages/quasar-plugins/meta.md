@@ -15,6 +15,7 @@ Take full advantage of this feature by using it with **Quasar CLI**, especially 
 <DocInstallation plugins="Meta" />
 
 ## Usage
+
 What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.
 
 ::: warning Important!
@@ -38,12 +39,15 @@ const metaData = {
   meta: {
     description: { name: 'description', content: 'Page 1' },
     keywords: { name: 'keywords', content: 'Quasar website' },
-    equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+    equiv: {
+      'http-equiv': 'Content-Type',
+      content: 'text/html; charset=UTF-8'
+    },
     // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
-    ogTitle:  {
+    ogTitle: {
       property: 'og:title',
       // optional; similar to titleTemplate, but allows templating with other meta properties
-      template (ogTitle) {
+      template(ogTitle) {
         return `${ogTitle} - My Website`
       }
     }
@@ -51,7 +55,10 @@ const metaData = {
 
   // CSS tags
   link: {
-    material: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+    material: {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/icon?family=Material+Icons'
+    }
   },
 
   // JS tags
@@ -81,7 +88,7 @@ const metaData = {
 }
 
 export default {
-  setup () {
+  setup() {
     // needs to be called in setup()
     useMeta(metaData)
   }
@@ -105,12 +112,15 @@ const metaData = {
   meta: {
     description: { name: 'description', content: 'Page 1' },
     keywords: { name: 'keywords', content: 'Quasar website' },
-    equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
+    equiv: {
+      'http-equiv': 'Content-Type',
+      content: 'text/html; charset=UTF-8'
+    },
     // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
-    ogTitle:  {
+    ogTitle: {
       property: 'og:title',
       // optional; similar to titleTemplate, but allows templating with other meta properties
-      template (ogTitle) {
+      template(ogTitle) {
         return `${ogTitle} - My Website`
       }
     }
@@ -118,7 +128,10 @@ const metaData = {
 
   // CSS tags
   link: {
-    material: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+    material: {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/icon?family=Material+Icons'
+    }
   },
 
   // JS tags
@@ -148,9 +161,7 @@ const metaData = {
 }
 
 export default {
-  mixins: [
-    createMetaMixin(metaData)
-  ]
+  mixins: [createMetaMixin(metaData)]
 }
 ```
 
@@ -171,11 +182,13 @@ export default {
 ```
 
 ## How It Works
+
 Metas are computed from .vue files in the order their vue components are activated by Vue Router (let’s call this a chain for further explanations). Example: App.vue > SomeLayout.vue > IndexPage.vue > …?
 
 When a component that uses Meta plugin gets rendered or destroyed, it is added/removed to/from the chain and metas are updated accordingly.
 
 ### Handling HTML attributes
+
 When you need to set a Boolean HTML attribute in `meta`, `link` or `script` sections, set its value to Boolean `true`.
 
 ```js
@@ -243,7 +256,7 @@ import { useMeta } from 'quasar'
 import { ref } from 'vue'
 
 export default {
-  setup () {
+  setup() {
     const title = ref('Some title') // we define the "title" prop
 
     // NOTICE the parameter here is a function
@@ -255,7 +268,7 @@ export default {
       }
     })
 
-    function setAnotherTitle () {
+    function setAnotherTitle() {
       title.value = 'Another title' // will automatically trigger a Meta update due to the binding
     }
 
@@ -267,6 +280,7 @@ export default {
 ```
 
 ## Testing Meta
+
 Before you deploy, you really should make sure that your work on the meta tags is compliant. Although you could just copy and paste your link into a Discord chat, a Facebook post or a Tweet, we recommend verifying with [https://metatags.io/](https://metatags.io/).
 
 ::: warning Important!

@@ -8,7 +8,9 @@
     <q-img v-if="props.avatar" alt="avatar" :src="url.avatar" :ratio="1" />
 
     <q-card-section class="team-member__front col">
-      <div class="text-grey text-italic q-mt-xs team-member__role">{{ props.role }}</div>
+      <div class="text-grey text-italic q-mt-xs team-member__role">{{
+        props.role
+      }}</div>
       <div class="q-mt-xs">{{ props.desc }}</div>
     </q-card-section>
 
@@ -16,13 +18,34 @@
 
     <q-card-actions align="around">
       <div v-if="props.twitter">
-        <q-btn :href="url.twitter" target="_blank" rel="noopener" round flat :icon="fabTwitter" />
+        <q-btn
+          :href="url.twitter"
+          target="_blank"
+          rel="noopener"
+          round
+          flat
+          :icon="fabTwitter"
+        />
       </div>
       <div v-if="props.github">
-        <q-btn :href="url.github" target="_blank" rel="noopener" round flat :icon="fabGithub" />
+        <q-btn
+          :href="url.github"
+          target="_blank"
+          rel="noopener"
+          round
+          flat
+          :icon="fabGithub"
+        />
       </div>
       <div v-if="props.email">
-        <q-btn :href="url.email" target="_blank" rel="noopener" round flat icon="mail" />
+        <q-btn
+          :href="url.email"
+          target="_blank"
+          rel="noopener"
+          round
+          flat
+          icon="mail"
+        />
       </div>
     </q-card-actions>
   </q-card>

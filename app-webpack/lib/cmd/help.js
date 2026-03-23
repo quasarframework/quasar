@@ -1,12 +1,7 @@
 const { readFileSync } = require('node:fs')
 const { join } = require('node:path')
 
-console.log(
-  readFileSync(
-    join(__dirname, '../../assets/logo.art'),
-    'utf8'
-  )
-)
+console.log(readFileSync(join(__dirname, '../../assets/logo.art'), 'utf8'))
 
 const { cliPkg } = require('../utils/cli-runtime.js')
 

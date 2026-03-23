@@ -15,17 +15,26 @@ export default {
     search: '搜索',
     filter: '过滤',
     refresh: '刷新',
-    expand: label => (label ? `展开"${ label }"` : '扩张'),
-    collapse: label => (label ? `折叠"${ label }"` : '坍塌')
+    expand: label => (label ? `展开"${label}"` : '扩张'),
+    collapse: label => (label ? `折叠"${label}"` : '坍塌')
   },
   date: {
     days: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),
     daysShort: '周日_周一_周二_周三_周四_周五_周六'.split('_'),
-    months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-    monthsShort: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-    headerTitle: date => new Intl.DateTimeFormat('zh-CN', {
-      weekday: 'short', month: 'short', day: 'numeric'
-    }).format(date),
+    months:
+      '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split(
+        '_'
+      ),
+    monthsShort:
+      '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split(
+        '_'
+      ),
+    headerTitle: date =>
+      new Intl.DateTimeFormat('zh-CN', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      }).format(date),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: '天',
@@ -34,8 +43,8 @@ export default {
     prevYear: '上一年',
     nextYear: '下一年',
     today: '今天',
-    prevRangeYears: range => `以前${ range }年`,
-    nextRangeYears: range => `接下来${ range }年`
+    prevRangeYears: range => `以前${range}年`,
+    nextRangeYears: range => `接下来${range}年`
   },
   table: {
     noData: '没有可用数据',
