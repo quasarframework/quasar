@@ -1,6 +1,6 @@
 @use 'sass:map'
 
-\:root
+\:root, :host
   @each $name, $size in $sizes
     #{"--q-size-"}#{$name}: #{$size}
 

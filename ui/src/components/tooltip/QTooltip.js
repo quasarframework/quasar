@@ -7,6 +7,7 @@ import {
   Transition,
   getCurrentInstance
 } from 'vue'
+import { getRootElement } from '../../utils/private.dom/root.js'
 
 import useAnchor, {
   useAnchorStaticProps
@@ -266,7 +267,9 @@ export default createComponent({
     function delayShow(evt) {
       if ($q.platform.is.mobile === true) {
         clearSelection()
-        document.body.classList.add('non-selectable')
+        let rootTarget = getRootElement()
+        if (rootTarget instanceof ShadowRoot) rootTarget = rootTarget.host
+        if (rootTarget?.classList) rootTarget.classList.add('non-selectable')
 
         const target = anchorEl.value
         const evts = ['touchmove', 'touchcancel', 'touchend', 'click'].map(
@@ -287,7 +290,10 @@ export default createComponent({
         clearSelection()
         // delay needed otherwise selection still occurs
         setTimeout(() => {
-          document.body.classList.remove('non-selectable')
+          let rootTarget = getRootElement()
+          if (rootTarget instanceof ShadowRoot) rootTarget = rootTarget.host
+          if (rootTarget?.classList)
+            {rootTarget.classList.remove('non-selectable')}
         }, 10)
       }
 

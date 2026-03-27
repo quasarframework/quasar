@@ -1,10 +1,11 @@
 import { globalConfig } from '../private.config/instance-config.js'
+import { getRootElement } from '../private.dom/root.js'
 
 const nodesList = []
 const portalTypeList = []
 
 let portalIndex = 1
-let target = __QUASAR_SSR_SERVER__ ? void 0 : document.body
+let target = null
 
 export function createGlobalNode(id, portalType) {
   const el = document.createElement('div')
@@ -19,7 +20,14 @@ export function createGlobalNode(id, portalType) {
     }
   }
 
-  target.appendChild(el)
+  if (target === null && !__QUASAR_SSR_SERVER__) {
+    target = getRootElement()
+  }
+
+  if (target) {
+    target.appendChild(el)
+  }
+
   nodesList.push(el)
   portalTypeList.push(portalType)
 
@@ -36,12 +44,16 @@ export function removeGlobalNode(el) {
 }
 
 export function changeGlobalNodesTarget(newTarget) {
+  if (target === null && !__QUASAR_SSR_SERVER__) {
+    target = getRootElement()
+  }
+
   if (newTarget === target) return
 
   target = newTarget
 
   if (
-    target === document.body ||
+    target === getRootElement() ||
     // or we have less than 2 dialogs:
     portalTypeList.reduce(
       (acc, type) => (type === 'dialog' ? acc + 1 : acc),

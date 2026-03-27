@@ -1,4 +1,5 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
+import { getRootElement } from '../../utils/private.dom/root.js'
 
 const Plugin = createReactivePlugin(
   {
@@ -29,8 +30,13 @@ const Plugin = createReactivePlugin(
       }
 
       Plugin.isActive = val === true
-      document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
-      document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
+
+      const root = getRootElement()
+      const target = root instanceof ShadowRoot ? root.host : root
+      if (target?.classList) {
+        target.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
+        target.classList.add(`body--${val === true ? 'dark' : 'light'}`)
+      }
     },
 
     toggle() {
@@ -40,8 +46,10 @@ const Plugin = createReactivePlugin(
     },
 
     install({ $q, ssrContext }) {
+      const root = __QUASAR_SSR_CLIENT__ ? getRootElement() : null
+      const target = root instanceof ShadowRoot ? root.host : root
       const dark = __QUASAR_SSR_CLIENT__
-        ? document.body.classList.contains('body--dark')
+        ? target?.classList?.contains('body--dark')
         : $q.config.dark
 
       if (__QUASAR_SSR_SERVER__) {

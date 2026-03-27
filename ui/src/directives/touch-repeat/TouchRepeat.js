@@ -12,6 +12,7 @@ import {
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
+import { getRootElement } from '../../utils/private.dom/root.js'
 
 const keyCodes = {
     esc: 27,
@@ -128,7 +129,10 @@ export default createDirective(
                 document.documentElement.style.cursor = ''
 
                 const remove = () => {
-                  document.body.classList.remove('non-selectable')
+                  let target = getRootElement()
+                  if (target instanceof ShadowRoot) target = target.host
+                  if (target?.classList)
+                    {target.classList.remove('non-selectable')}
                 }
 
                 if (withDelay === true) {
@@ -140,7 +144,9 @@ export default createDirective(
               }
 
               if (client.is.mobile === true) {
-                document.body.classList.add('non-selectable')
+                let target = getRootElement()
+                if (target instanceof ShadowRoot) target = target.host
+                if (target?.classList) target.classList.add('non-selectable')
                 clearSelection()
                 ctx.styleCleanup = styleCleanup
               }
@@ -169,7 +175,10 @@ export default createDirective(
 
                   if (client.is.mobile !== true) {
                     document.documentElement.style.cursor = 'pointer'
-                    document.body.classList.add('non-selectable')
+                    let target = getRootElement()
+                    if (target instanceof ShadowRoot) target = target.host
+                    if (target?.classList)
+                      {target.classList.add('non-selectable')}
                     clearSelection()
                     ctx.styleCleanup = styleCleanup
                   }

@@ -6,6 +6,7 @@ import {
   onBeforeUnmount,
   getCurrentInstance
 } from 'vue'
+import { getRootElement } from '../../utils/private.dom/root.js'
 
 import History from '../../plugins/private.history/History.js'
 import { vmHasRouter } from '../../utils/private.vm/vm.js'
@@ -65,11 +66,13 @@ export default function useFullscreen() {
     inFullscreen.value = true
     container = proxy.$el.parentNode
     container.replaceChild(fullscreenFillerNode, proxy.$el)
-    document.body.appendChild(proxy.$el)
+    let root = getRootElement()
+    root.appendChild(proxy.$el)
 
     counter++
     if (counter === 1) {
-      document.body.classList.add('q-body--fullscreen-mixin')
+      let target = root instanceof ShadowRoot ? root.host : root
+      if (target?.classList) target.classList.add('q-body--fullscreen-mixin')
     }
 
     historyEntry = {
@@ -92,7 +95,9 @@ export default function useFullscreen() {
     counter = Math.max(0, counter - 1)
 
     if (counter === 0) {
-      document.body.classList.remove('q-body--fullscreen-mixin')
+      let root = getRootElement()
+      let target = root instanceof ShadowRoot ? root.host : root
+      if (target?.classList) target.classList.remove('q-body--fullscreen-mixin')
 
       if (proxy.$el.scrollIntoView !== void 0) {
         setTimeout(() => {
