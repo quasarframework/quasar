@@ -37,9 +37,9 @@ declare module '@quasar/app-webpack' {
 }
 
 /**
- * Call useBridge() to enable communication with the app & content scripts
+ * Call createBridge() to enable communication with the app & content scripts
  * (and between the app & content scripts), otherwise skip calling
- * useBridge() and use no bridge.
+ * createBridge() and use no bridge.
  */
 const bridge = createBridge({ debug: false });
 

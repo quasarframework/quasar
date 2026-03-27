@@ -70,7 +70,7 @@ type BexBridgeOptions = {
    * @see {@link BexBridge.log} for logging a message if the debug mode is enabled
    *
    * @example
-   * const bridge = useBridge({ debug: process.env.DEBUGGING });
+   * const bridge = createBridge({ debug: process.env.DEBUGGING });
    */
   debug?: boolean;
 } & (
@@ -185,7 +185,7 @@ export interface BexBridge {
    * @see {@link BexBridge.isConnected} for checking the connection status
    *
    * @throws {string} if the bridge is already connected
-   * @throws {string} if there is no bridge for the background script. If you didn't call `useBridge` in the background script, it will not be created.
+   * @throws {string} if there is no bridge for the background script. If you didn't call `createBridge` in the background script, it will not be created.
    * @throws {string} if the bridge is for the background script, e.g. created with `type: 'background'`
    */
   connectToBackground(): Promise<void>;
