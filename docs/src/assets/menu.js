@@ -88,6 +88,10 @@ export default [
       {
         name: 'Transitions',
         path: 'transitions'
+      },
+      {
+        name: 'Config Root Element',
+        path: 'root-element'
       }
     ]
   },
