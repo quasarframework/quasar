@@ -61,9 +61,7 @@ module.exports.log = log
 
 module.exports.warn = function warn(msg, pill) {
   if (msg !== void 0) {
-    const pillBanner =
-      pill !== void 0 ? bgYellow(black('', pill, '')) + ' ' : ''
-
+    const pillBanner = pill !== void 0 ? warningPill(pill) + ' ' : ''
     console.warn(` ${yellowBanner} ⚠️  ${pillBanner}${msg}`)
   } else {
     console.warn()

@@ -54,9 +54,7 @@ export function log(msg) {
 
 export function warn(msg, pill) {
   if (msg !== void 0) {
-    const pillBanner =
-      pill !== void 0 ? bgYellow(black('', pill, '')) + ' ' : ''
-
+    const pillBanner = pill !== void 0 ? warningPill(pill) + ' ' : ''
     console.warn(` ${yellowBanner} ⚠️  ${pillBanner}${msg}`)
   } else {
     console.warn()
