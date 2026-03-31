@@ -109,7 +109,7 @@
     "dotenv-expand": "^12.0.3",
     "elementtree": "0.1.7",
     "esbuild": "^0.27.4",
-    "express": "^5.2.1",
+    "express": "^4.0.0",
     "fs-extra": "^11.3.4",
     "html-minifier-terser": "^7.2.0",
     "inquirer": "^13.3.2",
