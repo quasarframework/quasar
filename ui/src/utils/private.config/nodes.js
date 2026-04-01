@@ -5,7 +5,7 @@ const nodesList = []
 const portalTypeList = []
 
 let portalIndex = 1
-let target = null
+let target = __QUASAR_SSR_SERVER__ ? void 0 : document.body
 
 export function createGlobalNode(id, portalType) {
   const el = document.createElement('div')
@@ -20,14 +20,15 @@ export function createGlobalNode(id, portalType) {
     }
   }
 
-  if (target === null && !__QUASAR_SSR_SERVER__) {
-    target = getRootElement()
-  }
+  if (!__QUASAR_SSR_SERVER__) {
+    const root = getRootElement()
 
-  if (target) {
+    if (root !== target && root !== void 0 && root !== null) {
+      changeGlobalNodesTarget(root)
+    }
+
     target.appendChild(el)
   }
-
   nodesList.push(el)
   portalTypeList.push(portalType)
 
@@ -44,15 +45,12 @@ export function removeGlobalNode(el) {
 }
 
 export function changeGlobalNodesTarget(newTarget) {
-  if (target === null && !__QUASAR_SSR_SERVER__) {
-    target = getRootElement()
-  }
-
   if (newTarget === target) return
 
   target = newTarget
 
   if (
+    target === document.body ||
     target === getRootElement() ||
     // or we have less than 2 dialogs:
     portalTypeList.reduce(

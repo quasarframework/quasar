@@ -7,7 +7,6 @@ import {
   Transition,
   getCurrentInstance
 } from 'vue'
-import { getRootElement } from '../../utils/private.dom/root.js'
 
 import useHistory from '../../composables/private.use-history/use-history.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
@@ -370,9 +369,7 @@ export default createComponent({
       if (active === true) {
         if (isMaximized !== true) {
           if (maximizedModals < 1) {
-            let target = getRootElement()
-            if (target instanceof ShadowRoot) target = target.host
-            if (target?.classList) target.classList.add('q-body--dialog')
+            document.body.classList.add('q-body--dialog')
           }
           maximizedModals++
 
@@ -380,9 +377,7 @@ export default createComponent({
         }
       } else if (isMaximized === true) {
         if (maximizedModals < 2) {
-          let target = getRootElement()
-          if (target instanceof ShadowRoot) target = target.host
-          if (target?.classList) target.classList.remove('q-body--dialog')
+          document.body.classList.remove('q-body--dialog')
         }
 
         maximizedModals--

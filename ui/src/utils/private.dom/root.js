@@ -1,3 +1,4 @@
+import { isShadowRoot } from '../dom/dom.js'
 import { globalConfig } from '../private.config/instance-config.js'
 
 export function getRootElement() {
@@ -13,4 +14,9 @@ export function getRootElement() {
     return globalConfig.root
   }
   return document.body
+}
+
+export function getRootTarget() {
+  const root = getRootElement()
+  return isShadowRoot(root) === true ? root.host : root
 }

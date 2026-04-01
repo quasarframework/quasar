@@ -77,7 +77,7 @@ export function getActualActiveElement() {
 // internal
 export function childHasFocus(el, focusedEl) {
   if (el === void 0 || el === null) {
-    return false
+    return true
   }
 
   if (focusedEl === void 0 || focusedEl === null) {
@@ -110,6 +110,10 @@ export function childHasFocus(el, focusedEl) {
   }
 
   return false
+}
+
+export function isShadowRoot(el) {
+  return typeof ShadowRoot !== 'undefined' && el instanceof ShadowRoot
 }
 
 export default {

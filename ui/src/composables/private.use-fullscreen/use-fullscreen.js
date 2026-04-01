@@ -6,7 +6,7 @@ import {
   onBeforeUnmount,
   getCurrentInstance
 } from 'vue'
-import { getRootElement } from '../../utils/private.dom/root.js'
+import { getRootElement, getRootTarget } from '../../utils/private.dom/root.js'
 
 import History from '../../plugins/private.history/History.js'
 import { vmHasRouter } from '../../utils/private.vm/vm.js'
@@ -71,7 +71,7 @@ export default function useFullscreen() {
 
     counter++
     if (counter === 1) {
-      let target = root instanceof ShadowRoot ? root.host : root
+      const target = getRootTarget()
       if (target?.classList) target.classList.add('q-body--fullscreen-mixin')
     }
 
@@ -95,8 +95,7 @@ export default function useFullscreen() {
     counter = Math.max(0, counter - 1)
 
     if (counter === 0) {
-      let root = getRootElement()
-      let target = root instanceof ShadowRoot ? root.host : root
+      const target = getRootTarget()
       if (target?.classList) target.classList.remove('q-body--fullscreen-mixin')
 
       if (proxy.$el.scrollIntoView !== void 0) {
