@@ -39,7 +39,7 @@ import {
   addFocusout,
   removeFocusout
 } from '../../utils/private.focus/focusout.js'
-import { childHasFocus } from '../../utils/dom/dom.js'
+import { childHasFocus, getActualActiveElement } from '../../utils/dom/dom.js'
 import {
   addClickOutside,
   removeClickOutside
@@ -211,7 +211,7 @@ export default createComponent({
       addFocusFn(() => {
         let node = innerRef.value
 
-        if (node && node.contains(document.activeElement) !== true) {
+        if (node && node.contains(getActualActiveElement()) !== true) {
           node =
             node.querySelector(
               '[autofocus][tabindex], [data-autofocus][tabindex]'
@@ -227,7 +227,8 @@ export default createComponent({
     }
 
     function handleShow(evt) {
-      refocusTarget = props.noRefocus === false ? document.activeElement : null
+      refocusTarget =
+        props.noRefocus === false ? getActualActiveElement() : null
 
       addFocusout(onFocusout)
 
@@ -262,7 +263,7 @@ export default createComponent({
       }
 
       if (props.noFocus !== true) {
-        document.activeElement.blur()
+        getActualActiveElement().blur()
       }
 
       // should removeTick() if this gets removed

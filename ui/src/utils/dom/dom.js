@@ -62,9 +62,40 @@ export function getElement(el) {
   }
 }
 
+export function getActualActiveElement() {
+  let el = document.activeElement
+  while (
+    el !== null &&
+    el.shadowRoot !== null &&
+    el.shadowRoot.activeElement !== null
+  ) {
+    el = el.shadowRoot.activeElement
+  }
+  return el
+}
+
 // internal
 export function childHasFocus(el, focusedEl) {
-  if (el === void 0 || el === null || el.contains(focusedEl) === true) {
+  if (el === void 0 || el === null) {
+    return false
+  }
+
+  if (focusedEl === void 0 || focusedEl === null) {
+    focusedEl = getActualActiveElement()
+  }
+
+  // If focusedEl is the host of the Shadow DOM containing el,
+  // we must get the ACTUAL focused element inside said Shadow DOM.
+  let actualFocused = focusedEl
+  while (
+    actualFocused !== null &&
+    actualFocused.shadowRoot !== null &&
+    actualFocused.shadowRoot.activeElement !== null
+  ) {
+    actualFocused = actualFocused.shadowRoot.activeElement
+  }
+
+  if (el.contains(actualFocused) === true) {
     return true
   }
 
@@ -73,7 +104,7 @@ export function childHasFocus(el, focusedEl) {
     next !== null;
     next = next.nextElementSibling
   ) {
-    if (next.contains(focusedEl)) {
+    if (next.contains(actualFocused)) {
       return true
     }
   }

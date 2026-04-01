@@ -310,8 +310,13 @@ export default function useField(state) {
     return acc
   })
 
+  function getActiveEl() {
+    const root = state.rootRef?.value?.getRootNode?.()
+    return (root && root.activeElement) || document.activeElement
+  }
+
   function focusHandler() {
-    const el = document.activeElement
+    const el = getActiveEl()
     let target = state.targetRef?.value
 
     if (target && (el === null || el.id !== state.targetUid.value)) {
@@ -331,7 +336,7 @@ export default function useField(state) {
 
   function blur() {
     removeFocusFn(focusHandler)
-    const el = document.activeElement
+    const el = getActiveEl()
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
     }
@@ -359,7 +364,7 @@ export default function useField(state) {
         (state.hasPopupOpen === true ||
           state.controlRef === void 0 ||
           state.controlRef.value === null ||
-          state.controlRef.value.contains(document.activeElement) !== false)
+          state.controlRef.value.contains(getActiveEl()) !== false)
       ) {
         return
       }

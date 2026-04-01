@@ -46,13 +46,18 @@ function globalHandler(evt) {
 
   for (let i = registeredList.length - 1; i >= 0; i--) {
     const state = registeredList[i]
+    const path = evt.composedPath !== void 0 ? evt.composedPath() : []
 
     if (
       (state.anchorEl.value === null ||
-        state.anchorEl.value.contains(target) === false) &&
+        (path.length > 0
+          ? path.includes(state.anchorEl.value) === false
+          : state.anchorEl.value.contains(target) === false)) &&
       (target === document.body ||
         (state.innerRef.value !== null &&
-          state.innerRef.value.contains(target) === false))
+          (path.length > 0
+            ? path.includes(state.innerRef.value) === false
+            : state.innerRef.value.contains(target) === false)))
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
