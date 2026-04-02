@@ -50,6 +50,9 @@ export class AppDevserver extends AppTool {
       quasarConf.htmlVariables,
       quasarConf.devServer,
       quasarConf.build,
+      quasarConf.framework.autoImportComponentCase,
+      quasarConf.framework.autoImportVueExtensions,
+      quasarConf.framework.devTreeshaking,
       quasarConf.sourceFiles
     ])
 
