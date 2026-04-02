@@ -50,9 +50,6 @@ export class QuasarModeDevserver extends AppDevserver {
             quasarConf.sourceFiles.pwaServiceWorker
           ]
     ])
-
-    // also update ssr-devserver.js when changing here
-    this.registerDiff('pwaFilenames', quasarConf => [quasarConf.pwa.swFilename])
   }
 
   run(quasarConf, __isRetry) {
