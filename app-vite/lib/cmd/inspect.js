@@ -82,6 +82,7 @@ const quasarConfFile = new QuasarConfigFile({
   host: argv.hostname
 })
 
+await quasarConfFile.init()
 const quasarConf = await quasarConfFile.read()
 
 const { modeConfig } = await import(
