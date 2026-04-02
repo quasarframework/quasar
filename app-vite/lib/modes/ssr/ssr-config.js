@@ -143,8 +143,26 @@ export const quasarSsrConfig = {
     )
   },
 
-  workbox: quasarPwaConfig.workbox,
-  customSw: quasarPwaConfig.customSw
+  workbox: quasarConf => {
+    // returning null for the "inspect" cmd
+    // otherwise this fn won't be called if not needed anyway
+    if (quasarConf.ssr.pwa !== true) return null
+
+    return quasarPwaConfig.workbox(quasarConf)
+  },
+
+  customSw: quasarConf => {
+    if (
+      quasarConf.ssr.pwa !== true ||
+      quasarConf.pwa.workboxMode !== 'InjectManifest'
+    ) {
+      // returning null for the "inspect" cmd
+      // otherwise this fn won't be called if not needed anyway
+      return null
+    }
+
+    return quasarPwaConfig.customSw(quasarConf)
+  }
 }
 
 export const modeConfig = quasarSsrConfig
