@@ -10,7 +10,7 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
-[![UI Tests](https://github.com/quasarframework/quasar/actions/workflows/tests-on-pr.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/tests-on-pr.yml)
+[![Build types](https://github.com/quasarframework/quasar/actions/workflows/build-types.yml/badge.svg)](https://github.com/quasarframework/quasar/actions/workflows/build-types.yml)
 
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 
