@@ -11,7 +11,7 @@ function findXcodeWorkspace(folder) {
   for (const item of root) {
     const __path = path.join(folder, item)
 
-    if (item.endsWith('.xcworkspace')) {
+    if (item.endsWith('.xcworkspace') || item.endsWith('.xcodeproj')) {
       return __path
     }
   }
