@@ -1,5 +1,9 @@
 import { DeepRequired, DeepNonNullable } from "ts-essentials";
-import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
+import {
+  QuasarFonts,
+  QuasarAnimations,
+  QuasarExtrasIcons
+} from "@quasar/extras";
 import { QuasarBootConfiguration } from "./boot";
 import { QuasarBuildConfiguration } from "./build";
 import { QuasarCapacitorConfiguration } from "./capacitor-conf";
@@ -19,8 +23,6 @@ type DevServerOptions = Omit<ViteServerOptions, "open" | "https"> & {
   open?: Omit<OpenOptions, "wait"> | boolean;
   https?: ViteServerOptions["https"] | boolean;
 };
-
-type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
 /**
  * Use this property to change the default names of some files of your website/app if you have to.
@@ -65,7 +67,7 @@ interface BaseQuasarConfiguration {
    * What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package.
    * @example ['material-icons', 'roboto-font', 'ionicons-v4']
    */
-  extras?: (QuasarIconSets | QuasarFonts)[];
+  extras?: (QuasarFonts | QuasarExtrasIcons)[];
   /**
    * Add variables that you can use in index.html
    *
@@ -82,7 +84,7 @@ interface BaseQuasarConfiguration {
    *
    * @example: [ 'bounceInLeft', 'bounceOutRight' ]
    */
-  animations?: QuasarAnimationsConfiguration | "all";
+  animations?: "all" | QuasarAnimations[];
   /**
    * Vite server [options](https://vitejs.dev/config/#server-options).
    * Some properties are overwritten based on the Quasar mode you're using in order
@@ -122,7 +124,6 @@ interface QuasarMetaConf {
   needsAppMountHook: boolean;
   vueDevtools: boolean | Record<string, any>;
   versions: {
-    // workbox?: number
     capacitor?: number;
     capacitorPluginApp?: number | true;
     capacitorPluginSplashscreen?: number | true;

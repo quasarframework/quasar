@@ -90,9 +90,9 @@
     "build:ts": "pnpm --filter app-vite-playground-ts build"
   },
   "dependencies": {
-    "@quasar/render-ssr-error": "workspace:^",
-    "@quasar/ssl-certificate": "workspace:^",
-    "@quasar/vite-plugin": "workspace:^",
+    "@quasar/render-ssr-error": "1.0.4",
+    "@quasar/ssl-certificate": "2.0.0",
+    "@quasar/vite-plugin": "^1.11.0",
     "@types/chrome": "^0.1.38",
     "@types/compression": "^1.7.5",
     "@types/cordova": "^11.0.3",
@@ -132,14 +132,15 @@
     "@electron/packager": "^19.1.0",
     "electron-builder": "^26.8.1",
     "pinia": "^3.0.4",
-    "quasar": "workspace:^",
+    "quasar": "^2.19.0",
     "typescript": "^5.6.3",
-    "vue": "catalog:",
-    "vue-router": "catalog:",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4",
     "workbox-build": "^7.4.0"
   },
   "peerDependencies": {
     "@electron/packager": ">= 18",
+    "@quasar/extras": "^1.18.0",
     "electron-builder": ">= 22",
     "pinia": "^2.0.0 || ^3.0.0",
     "quasar": "^2.16.0",
@@ -149,6 +150,9 @@
     "workbox-build": ">= 6"
   },
   "peerDependenciesMeta": {
+    "@quasar/extras": {
+      "optional": true
+    },
     "typescript": {
       "optional": true
     },
