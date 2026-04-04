@@ -2,29 +2,6 @@ packages:
   - app-vite
   - app-vite/playground-js
   - app-vite/playground-ts
-  - app-webpack
-  - app-webpack/playground-js
-  - app-webpack/playground-ts
-  - vite-plugin
-  - vite-plugin/playground
-  - extras
-  - ui
-  - ui/playground
-  - ui/testing
-  - create-quasar
-  - cli
-  - docs
-  - utils/render-ssr-error
-  - utils/ssl-certificate
-
-# The packages below are not included. Use their individual folders.
-# - icongenie
-# - utils/babel-preset-app
-# - utils/ssr-helpers
-
-catalog:
-  vue: ^3.5.30
-  vue-router: ^5.0.4
 
 onlyBuiltDependencies:
   - '@parcel/watcher'

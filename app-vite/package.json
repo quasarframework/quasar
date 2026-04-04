@@ -140,7 +140,7 @@
   },
   "peerDependencies": {
     "@electron/packager": ">= 18",
-    "@quasar/extras": "^1.18.0",
+    "@quasar/extras": "^1.17.0",
     "electron-builder": ">= 22",
     "pinia": "^2.0.0 || ^3.0.0",
     "quasar": "^2.16.0",
