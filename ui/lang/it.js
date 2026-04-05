@@ -16,7 +16,7 @@ export default {
     filter: 'Filtra',
     refresh: 'Aggiorna',
     expand: label => (label ? `Espandi "${label}"` : 'Espandere'),
-    collapse: label => (label ? `Comprimi "${label}"` : 'Crollo')
+    collapse: label => (label ? `Comprimi "${label}"` : 'Comprimere')
   },
   date: {
     days: 'Domenica_Lunedì_Martedì_Mercoledì_Giovedì_Venerdì_Sabato'.split('_'),
@@ -56,7 +56,7 @@ export default {
   pagination: {
     first: 'Prima pagina',
     prev: 'Pagina precedente',
-    next: 'Prossima pagina',
+    next: 'Pagina successiva',
     last: 'Ultima pagina'
   },
   editor: {
@@ -69,8 +69,8 @@ export default {
     orderedList: 'Lista ordinata',
     subscript: 'Pedice',
     superscript: 'Apice',
-    hyperlink: 'Hyperlink',
-    toggleFullscreen: 'Fullscreen on/off',
+    hyperlink: 'Collegamento',
+    toggleFullscreen: 'Schermo intero on/off',
     quote: 'Citazione',
     left: 'A sinistra',
     center: 'Centra',
@@ -81,11 +81,11 @@ export default {
     indent: 'Aumenta identazione',
     removeFormat: 'Rimuovi formattazione',
     formatting: 'Formattazione',
-    fontSize: 'Dimensione del font',
+    fontSize: 'Dimensione carattere',
     align: 'Allinea',
     hr: 'Inserisci righello orizzontale',
-    undo: 'Indietro',
-    redo: 'Avanti',
+    undo: 'Annulla',
+    redo: 'Ripristina',
     heading1: 'Intestazione 1',
     heading2: 'Intestazione 2',
     heading3: 'Intestazione 3',
@@ -102,7 +102,7 @@ export default {
     size6: 'Molto grande',
     size7: 'Massimo',
     defaultFont: 'Font predefinito',
-    viewSource: 'Vedi la fonte'
+    viewSource: 'Vedi sorgente'
   },
   tree: {
     noData: 'Nessun nodo disponibile',
