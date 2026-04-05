@@ -70,7 +70,7 @@ export default {
     subscript: 'Pedice',
     superscript: 'Apice',
     hyperlink: 'Collegamento',
-    toggleFullscreen: 'Schermo intero on/off',
+    toggleFullscreen: 'Attiva/disattiva schermo intero',
     quote: 'Citazione',
     left: 'A sinistra',
     center: 'Centra',
