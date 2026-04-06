@@ -167,8 +167,10 @@ export default createComponent({
       menuRef.value?.hide(evt)
     }
 
-    function getSplitButtonMenu (menuContent) {
-      return props.disable !== true && props.disableDropdown !== true ? [ menuContent ] : []
+    function getSplitButtonMenu(menuContent) {
+      return props.disable !== true && props.disableDropdown !== true
+        ? [menuContent]
+        : []
     }
 
     // expose public methods
@@ -189,43 +191,39 @@ export default createComponent({
       })
 
       const dropdownMenu = h(
-            QMenu,
-            {
-              ref: menuRef,
-              id: targetUid.value,
-              class: props.contentClass,
-              style: props.contentStyle,
-              cover: props.cover,
-              fit: true,
-              persistent: props.persistent,
-              noEscDismiss: props.noEscDismiss,
-              noRouteDismiss: props.noRouteDismiss,
-              autoClose: props.autoClose,
-              noFocus: props.noFocus,
-              noRefocus: props.noRefocus,
-              anchor: props.menuAnchor,
-              self: props.menuSelf,
-              offset: props.menuOffset,
-              separateClosePopup: true,
-              transitionShow: props.transitionShow,
-              transitionHide: props.transitionHide,
-              transitionDuration: props.transitionDuration,
-              onBeforeShow,
-              onShow,
-              onBeforeHide,
-              onHide
-            },
-            slots.default
-          )
+        QMenu,
+        {
+          ref: menuRef,
+          id: targetUid.value,
+          class: props.contentClass,
+          style: props.contentStyle,
+          cover: props.cover,
+          fit: true,
+          persistent: props.persistent,
+          noEscDismiss: props.noEscDismiss,
+          noRouteDismiss: props.noRouteDismiss,
+          autoClose: props.autoClose,
+          noFocus: props.noFocus,
+          noRefocus: props.noRefocus,
+          anchor: props.menuAnchor,
+          self: props.menuSelf,
+          offset: props.menuOffset,
+          separateClosePopup: true,
+          transitionShow: props.transitionShow,
+          transitionHide: props.transitionHide,
+          transitionDuration: props.transitionDuration,
+          onBeforeShow,
+          onShow,
+          onBeforeHide,
+          onHide
+        },
+        slots.default
+      )
 
-      const Arrow = [
-        icon
-      ]
+      const Arrow = [icon]
 
       if (props.disableDropdown !== true) {
-        Arrow.push(
-          dropdownMenu
-        )
+        Arrow.push(dropdownMenu)
       }
 
       if (props.split === false) {
@@ -290,7 +288,10 @@ export default createComponent({
               ripple: props.ripple
             },
             {
-              default: () => hSlot(slots[ 'arrow-container' ], [icon]).concat(getSplitButtonMenu(dropdownMenu))
+              default: () =>
+                hSlot(slots['arrow-container'], [icon]).concat(
+                  getSplitButtonMenu(dropdownMenu)
+                )
             }
           )
         ]
