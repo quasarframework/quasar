@@ -1,17 +1,17 @@
 ---
-title: Quick Start
-desc: Get up and developing a Quasar app in less than 3 minutes.
+tiêu đề: Bắt đầu nhanh
+desc: Thiết lập và phát triển ứng dụng Quasar trong vòng chưa đầy 3 phút.
 ---
 
-It takes two easy steps and in a couple of minutes, you are off and running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI and also ready with Quasar's own powerful UI library.
+Chỉ cần hai bước đơn giản và trong vài phút, bạn sẽ sẵn sàng và chạy với ứng dụng Vue chính thức, được xây dựng bằng các phương pháp thực hành tốt nhất hiện đại thông qua CLI của Quasar và cũng sẵn sàng với thư viện giao diện người dùng mạnh mẽ của Quasar.
 
-::: tip
-If you are a more advanced Vue developer, we invite you to start off by [deciding between all Quasar flavours](/start/pick-quasar-flavour).
+::: mẹo
+Điều kiện tiên quyếtNếu bạn là nhà phát triển Vue nâng cao hơn, chúng tôi mời bạn bắt đầu bằng cáchquyết định giữa tất cả các hương vị Quasar](/start/pick-quasar-hương vị).
 :::
 
-## Prerequisites
+##Điều kiện tiên quyết
 
-Make sure that you have Node.js >=22 (or any newer **LTS Node.js version**) and NPM v6+ or Yarn v1 (classic) or PNPM v8+ or Bun installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/previous-releases).
+Phiên bản LTS Node.jsĐảm bảo rằng bạn có Node.js >=22 (hoặc bất kỳ phiên bản mới hơn nàoPhiên bản LTS Node.js**) và NPM v6 hoặc Yarn v1 (cổ điển) hoặc PNPM v8 hoặc Bun được cài đặt trên máy của bạn. được coi là thử nghiệmđược coi là thử nghiệm](https://nodejs.org/en/about/previous-releases).
 
 ## Step 1: Create a Project
 
