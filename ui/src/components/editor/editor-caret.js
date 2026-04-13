@@ -308,7 +308,6 @@ export default class Caret {
 
         this.eVm.editLinkUrl.value = urlRegex.test(url) ? url : 'https://'
         this.save(selection.getRangeAt(0))
-        document.execCommand('createLink', false, this.eVm.editLinkUrl.value)
       } else {
         this.eVm.editLinkUrl.value = link
 

@@ -268,9 +268,15 @@ export function getLinkEditor(eVm) {
     let link = eVm.editLinkUrl.value
     const updateLink = () => {
       eVm.caret.restore()
+      const nextLink = link.trim()
 
-      if (link !== eVm.editLinkUrl.value) {
-        document.execCommand('createLink', false, link === '' ? ' ' : link)
+      if (nextLink === '' || nextLink === 'https://') {
+        eVm.editLinkUrl.value = null
+        return
+      }
+
+      if (nextLink !== eVm.editLinkUrl.value) {
+        document.execCommand('createLink', false, nextLink)
       }
 
       eVm.editLinkUrl.value = null
@@ -290,6 +296,11 @@ export function getLinkEditor(eVm) {
           stop(evt)
           link = evt.target.value
         },
+
+        onBlur: () => {
+          updateLink()
+        },
+
         onKeydown: evt => {
           if (shouldIgnoreKey(evt) === true) return
 
