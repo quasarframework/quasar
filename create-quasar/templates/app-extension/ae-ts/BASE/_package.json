@@ -6,18 +6,14 @@
   "type": "module",
   <% if (scope.packageManager?.name !== 'pnpm') { %>"workspaces": [
     "app-extension",
-    "playground/*"
+    "playground"
   ],<% } %>
   "scripts": {
     <% if (scope.packageManager) { %>
-    "build": <% if (['pnpm', 'bun'].includes(scope.packageManager.name)) { %>"<%= scope.packageManager.name %> --filter ./app-extension build"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn workspace <%= scope.pkgName %> build"<% } else { %>"npm run --workspace <%= scope.pkgName %> build"<% } %>,
-    "dev:vite": <% if (['pnpm', 'bun'].includes(scope.packageManager.name)) { %>"<%= scope.packageManager.name %> --filter ./playground/quasar-cli-vite dev"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn workspace playground-quasar-cli-vite dev"<% } else { %>"npm run --workspace playground-quasar-cli-vite dev"<% } %>,
-    "dev:webpack": <% if (['pnpm', 'bun'].includes(scope.packageManager.name)) { %>"<%= scope.packageManager.name %> --filter ./playground/quasar-cli-webpack dev"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn workspace playground-quasar-cli-webpack dev"<% } else { %>"npm run --workspace playground-quasar-cli-webpack dev"<% } %>,
+    "dev": <% if (['pnpm', 'bun'].includes(scope.packageManager.name)) { %>"<%= scope.packageManager.name %> --filter ./playground dev"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn workspace playground dev"<% } else { %>"npm run --workspace playground dev"<% } %>,
     "format": <% if (scope.packageManager.name === 'pnpm') { %>"pnpm format:root && pnpm --recursive format"<% } else if (scope.packageManager.name === 'bun') { %>"bun format:root && bun --filter '*' format"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn format:root && yarn workspace <%= scope.pkgName %> format"<% } else { %>"npm run format:root && npm run --workspaces format"<% } %>,
     <% } else { %>
-    "build": "pnpm --filter ./app-extension build",
-    "dev:vite": "pnpm --filter ./playground/quasar-cli-vite dev",
-    "dev:webpack": "pnpm --filter ./playground/quasar-cli-webpack dev",
+    "dev": "pnpm --filter ./playground dev",
     "format": "pnpm format:root && pnpm --recursive format",
     <% } %>
     "lint": "eslint",

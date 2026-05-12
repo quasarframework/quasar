@@ -7,6 +7,6 @@
     "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
-  "eslint.workingDirectories": ["./app-extension", "./ui", "./playground/*"],
+  "eslint.workingDirectories": ["./app-extension", "./playground"],
   "js/ts.tsdk.path": "node_modules/typescript/lib"
 }

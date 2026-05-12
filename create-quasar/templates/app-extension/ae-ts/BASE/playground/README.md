@@ -1,6 +1,6 @@
-# Quasar AE <%= name %> Playground (quasar-cli-webpack)
+# Quasar AE <%= scope.name %> Playground
 
-Playground for Quasar AE <%= name %>
+Playground for Quasar AE <%= scope.name %>
 
 ## Install the dependencies
 
@@ -64,4 +64,4 @@ bun build
 
 ### Customize the configuration
 
-See [Configuring quasar.config file](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
+See [Configuring quasar.config file](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).

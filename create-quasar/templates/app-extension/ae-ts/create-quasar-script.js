@@ -70,11 +70,6 @@ export async function createQuasarScript({ scope, utils }) {
   if (scope.preset.install) utils.renderTemplate('install-script', scope)
   if (scope.preset.uninstall) utils.renderTemplate('uninstall-script', scope)
 
-  if (scope.scriptType === 'js') {
-    // nothing to install, so we'll skip it
-    scope.skipDepsInstall = true
-  } else {
-    // enable linting after deps installation for the TS template
-    scope.preset.lint = true
-  }
+  // enable linting after deps installation for the TS template
+  scope.preset.lint = true
 }

@@ -1,0 +1,3 @@
+{
+  "extends": "./.quasar/tsconfig.json"
+}

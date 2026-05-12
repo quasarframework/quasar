@@ -104,6 +104,9 @@ importers:
       isbinaryfile:
         specifier: ^5.0.2
         version: 5.0.7
+      jiti:
+        specifier: ^2.4.2
+        version: 2.7.0
       kolorist:
         specifier: ^1.8.0
         version: 1.8.0
@@ -5376,7 +5379,7 @@ packages:
     hasBin: true
 
   themify-icons@https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d}
+    resolution: {gitHosted: true, integrity: sha512-hnhpYfrzFj6VJG7LLIgbOJbfcNM4QR8VdVj/lKoqH7lEmPBWWnyBmwL/l5BRvwYo34bOfnCQON8k21zt9jEuDw==, tarball: https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d}
     version: 0.0.0
 
   thenify-all@1.6.0:

@@ -5,47 +5,27 @@
   "author": "<%= scope.author %>",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/runtime/index.js",
-  "module": "./dist/runtime/index.js",
-  "types": "./dist/runtime/index.d.ts",
+  "files": ["src", "README.md"],
   "exports": {
-    ".": {
-      "types": "./dist/runtime/index.d.ts",
-      "import": "./dist/runtime/index.js"
-    },
+    ".": "./src/runtime/index.ts",
     "./package.json": "./package.json",
-    <% if (scope.preset.prompts) { %>"./dist/prompts": "./dist/prompts.js",<% } %>
-    <% if (scope.preset.install) { %>"./dist/install": "./dist/install.js",<% } %>
-    <% if (scope.preset.uninstall) { %>"./dist/uninstall": "./dist/uninstall.js",<% } %>
-    "./dist/index": "./dist/index.js",
-    "./*": "./dist/runtime/*"
+    "./index": "./src/index.ts",
+    <% if (scope.preset.prompts) { %>"./prompts": "./src/prompts.ts",<% } %>
+    <% if (scope.preset.install) { %>"./install": "./src/install.ts",<% } %>
+    <% if (scope.preset.uninstall) { %>"./uninstall": "./src/uninstall.ts",<% } %>
+    "./*": "./src/runtime/*"
   },
   "scripts": {
-    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    <% if (scope.preset.install) { %>"build:code": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts' --pattern='!templates/**'",
-    "build:templates": "mkdist ./ --src ./src/templates --dist ./dist/templates --loaders='raw'",
-    "build": "<%= scope.packageManager?.name ?? 'pnpm' %> run build:code && <%= scope.packageManager?.name ?? 'pnpm' %> run build:templates"<% } else { %>"build": "mkdist ./ --ext=js --declaration --pattern='**' --pattern='!shims-vue.d.ts'"<% } %>
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.1.0",
-    "@quasar/app-webpack": "^4.1.0",
-    "mkdist": "^1.5.4",
+    "@quasar/app-vite": "^3.0.0-beta.8",
     "quasar": "^2.16.7",
-    "vue": "^3.4.36",
-    "vue-tsc": "^3.2.6"
+    "vue": "^3.4.36"
   },
   "peerDependencies": {
-    "@quasar/app-vite": "^2.1.0",
-    "@quasar/app-webpack": "^4.1.0",
+    "@quasar/app-vite": "^3.0.0-0",
     "quasar": "^2.16.0",
     "vue": "^3.4.0"
-  },
-  "peerDependenciesMeta": {
-    "@quasar/app-vite": {
-      "optional": true
-    },
-    "@quasar/app-webpack": {
-      "optional": true
-    }
   }
 }

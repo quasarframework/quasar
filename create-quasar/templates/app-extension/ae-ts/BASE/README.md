@@ -1,25 +1,21 @@
-<img src="https://img.shields.io/npm/v/<%= pkgName %>.svg?label=<%= pkgName %>">
+<img src="https://img.shields.io/npm/v/<%= scope.pkgName %>.svg?label=<%= scope.pkgName %>">
 
 Compatible with:
 
 - Quasar UI v2 and Vue 3
-- Quasar CLI with Vite v1.5+ and v2
-- Quasar CLI with Webpack v3.10+ and v4
+- Quasar CLI with Vite v3+
 
 # Structure
 
 - [/app-extension](app-extension) - App Extension for Quasar CLI
-- [/playground](playground) - collection of playground apps to test the UI and App Extension
+- [/playground](playground) - playground app for live testing
 
 # Development
 
 ```bash
 $ <%= scope.packageManager?.name ?? 'pnpm' %> i # install the dependencies
 
-$ <%= scope.packageManager?.name ?? 'pnpm' %> build # build the app-extension. Run this after making any change in ./app-extension
-
-$ <%= scope.packageManager?.name ?? 'pnpm' %> dev:vite # start the app-vite playground
-$ <%= scope.packageManager?.name ?? 'pnpm' %> dev:webpack # start the app-webpack playground
+$ <%= scope.packageManager?.name ?? 'pnpm' %> dev # start the playground; edits to the app-extension reflect on rerun
 ```
 
 For more development-related explanation, see:

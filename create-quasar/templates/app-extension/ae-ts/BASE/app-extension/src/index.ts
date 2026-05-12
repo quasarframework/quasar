@@ -5,32 +5,16 @@
  * Docs: https://quasar.dev/app-extensions/development-guide/index-api
  */
 
-import { QuasarConfProxy as WebpackQuasarConfProxy } from '@quasar/app-webpack';
-import { IndexAPI } from './quasar';
+import type { IndexAPI } from '@quasar/app-vite';
 
 export default function (api: IndexAPI) {
   // Quasar compatibility check; you may need hard dependencies,
   // as in a minimum version of the "quasar" package or
-  // a minimum version of "@quasar/app-*" CLI
+  // a minimum version of "@quasar/app-vite" CLI
   api.compatibleWith('quasar', '^2.0.0');
+  api.compatibleWith('@quasar/app-vite', '^3.0.0-0');
 
-  if (api.hasVite) {
-    api.compatibleWith('@quasar/app-vite', '^2.0.0');
-  }
-
-  if (api.hasWebpack) {
-    api.compatibleWith('@quasar/app-webpack', '^4.0.0');
-  }
-
-  api.extendQuasarConf((conf, api) => {
+  api.extendQuasarConf((conf) => {
     conf.boot!.push('~<%= scope.pkgName %>/boot/register');
-
-    // make sure app extension files get transpiled
-    if (api.hasWebpack) {
-      const config = conf as unknown as WebpackQuasarConfProxy;
-      config.build.webpackTranspileDependencies.push(
-        /<%= scope.pkgName.replace('/', '[\\\\/]') %>[\\/]dist/,
-      );
-    }
   });
 }

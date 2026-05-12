@@ -128,6 +128,7 @@
     "html-minifier-terser": "^7.2.0",
     "inquirer": "^13.4.2",
     "isbinaryfile": "^5.0.2",
+    "jiti": "^2.4.2",
     "kolorist": "^1.8.0",
     "magic-string": "^0.30.21",
     "minimist": "^1.2.8",

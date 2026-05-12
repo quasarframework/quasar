@@ -1,6 +1,6 @@
-import { boot } from 'quasar/wrappers';
+import { defineBoot } from '@quasar/app-vite';
 import MyButton from '../components/MyButton.vue';
 
-export default boot(({ app }) => {
+export default defineBoot(({ app }) => {
   app.component('MyButton', MyButton);
 });

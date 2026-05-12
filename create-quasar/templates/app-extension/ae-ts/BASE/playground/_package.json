@@ -1,5 +1,5 @@
 {
-  "name": "playground-quasar-cli-vite",
+  "name": "playground",
   "version": "0.0.1",
   "description": "Playground for Quasar AE <%= scope.name %>",
   "productName": "Quasar AE <%= scope.name %> Playground",
@@ -20,10 +20,11 @@
     "<%= scope.pkgName %>": <% if (!scope.packageManager || ['pnpm', 'bun'].includes(scope.packageManager.name)) { %>"workspace:*"<% } else { %>"*"<% } %>
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.1.0",
+    "@quasar/app-vite": "^3.0.0-beta.8",
+    "@types/node": "^22.19.11",
     "autoprefixer": "^10.4.20"
   },
   "engines": {
-    "node": "^20 || ^18"
+    "node": "^26 || ^24 || ^22.12"
   }
 }

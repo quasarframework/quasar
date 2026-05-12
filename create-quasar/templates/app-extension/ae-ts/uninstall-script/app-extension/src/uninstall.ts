@@ -4,7 +4,7 @@
  * Docs: https://quasar.dev/app-extensions/development-guide/uninstall-api
  */
 
-import { UninstallAPI } from './quasar';
+import type { UninstallAPI } from '@quasar/app-vite';
 
 export default function (_api: UninstallAPI) {
   //

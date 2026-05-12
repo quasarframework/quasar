@@ -39,7 +39,7 @@
 
  */
 
-import { PromptsAPI } from './quasar';
+import type { PromptsAPI } from '@quasar/app-vite';
 
 export default function (_api: PromptsAPI) {
   return []

@@ -31,15 +31,12 @@ export default defineConfig(
     ignores: [
       "**/dist",
 
-      "playground/*/.quasar",
-      "playground/*/quasar.config.*.temporary.compiled*",
-      "playground/*/src-cordova",
-      "playground/*/src-capacitor",
-      "playground/*/src-ssr",
-      "playground/*/postcss.config.cjs",
-
-      "playground/quasar-cli-webpack/src-bex/www",
-      "playground/quasar-cli-webpack/babel.config.cjs",
+      "playground/.quasar",
+      "playground/quasar.config.*.temporary.compiled*",
+      "playground/src-cordova",
+      "playground/src-capacitor",
+      "playground/src-ssr",
+      "playground/postcss.config.cjs",
     ],
   },
 
@@ -98,8 +95,8 @@ export default defineConfig(
     // Layout/page components are not used as components in templates, so they don't need to be multi-word
     name: 'playground/vue-layout-and-page',
     files: [
-      'playground/*/src/layouts/**/*.vue',
-      'playground/*/src/pages/**/*.vue',
+      'playground/src/layouts/**/*.vue',
+      'playground/src/pages/**/*.vue',
     ],
     rules: {
       'vue/multi-word-component-names': 'off',

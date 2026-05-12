@@ -19,15 +19,14 @@ If you need more entrypoints(e.g. `<%= scope.pkgName %>/another`) for a good rea
 
 ### Boot files
 
-For each boot file you create, you will need to add an entrypoint to `package.json > exports`. For example, given a boot file at `./boot/some-boot-file.ts`, you would add the following to `package.json`:
+The default `package.json > exports` block contains a `./*` entry mapped to `./src/runtime/*`, so any boot file you place under `./src/runtime/boot/` is reachable without further config. For example, a boot file at `./src/runtime/boot/some-boot-file.ts` is available as `<%= scope.pkgName %>/boot/some-boot-file` automatically.
+
+If you want a more explicit entry (e.g., to override or document it), add it to `package.json > exports`:
 
 ```json
 {
   "exports": {
-    "./boot/some-boot-file": {
-      "types": "./dist/runtime/boot/some-boot-file.d.ts",
-      "import": "./dist/runtime/boot/some-boot-file.js"
-    },
+    "./boot/some-boot-file": "./src/runtime/boot/some-boot-file.ts"
   }
 }
 ```

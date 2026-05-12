@@ -6,6 +6,7 @@
   "author": "<%= scope.author %>",
   "license": "MIT",
   "type": "module",
+  "files": ["src", "README.md"],
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
   },
