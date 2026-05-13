@@ -1,7 +1,6 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
+    "oxc.oxc-vscode",
     "editorconfig.editorconfig",
     "vue.volar",
     "wayou.vscode-todo-highlight"

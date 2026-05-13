@@ -11,25 +11,20 @@
   "scripts": {
     <% if (scope.packageManager) { %>
     "dev": <% if (['pnpm', 'bun'].includes(scope.packageManager.name)) { %>"<%= scope.packageManager.name %> --filter ./playground dev"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn workspace playground dev"<% } else { %>"npm run --workspace playground dev"<% } %>,
-    "format": <% if (scope.packageManager.name === 'pnpm') { %>"pnpm format:root && pnpm --recursive format"<% } else if (scope.packageManager.name === 'bun') { %>"bun format:root && bun --filter '*' format"<% } else if (scope.packageManager.name === 'yarn') { %>"yarn format:root && yarn workspace <%= scope.pkgName %> format"<% } else { %>"npm run format:root && npm run --workspaces format"<% } %>,
     <% } else { %>
     "dev": "pnpm --filter ./playground dev",
-    "format": "pnpm format:root && pnpm --recursive format",
     <% } %>
-    "lint": "eslint",
-    "format:root": "prettier --write \"./*.{json,md,vue,js,ts,yml}\" \"./.vscode/*.json\" --ignore-path .gitignore"
+    "lint": "oxfmt && oxlint --fix",
+    "lint:check": "oxfmt --check && oxlint"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.4",
-    "@types/eslint": "^9.6.0",
-    "@types/eslint__js": "^8.42.3",
-    "@types/node": "^20.12.8",
-    "eslint": "^9.39.4",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-vue": "^9.27.0",
-    "globals": "^17.4.0",
-    "prettier": "^3.8.1",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.1"
+    "@types/node": "^22.19.11",
+    "oxfmt": "^0.x",
+    "oxlint": "^1.64.0",
+    "oxlint-tsgolint": "^0.22.1",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": "^26 || ^24 || ^22.12"
   }
 }

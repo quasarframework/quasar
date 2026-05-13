@@ -2,11 +2,15 @@
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": true,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.oxc": "always"
   },
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
-  "eslint.workingDirectories": ["./app-extension", "./playground"],
-  "js/ts.tsdk.path": "node_modules/typescript/lib"
+  "oxc.fmt.configPath": "oxfmt.config.ts",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "search.exclude": {
+    "**/dist/": true,
+    "**/.quasar/": true,
+    "**/quasar.config.*.temporary.compiled*": true
+  }
 }

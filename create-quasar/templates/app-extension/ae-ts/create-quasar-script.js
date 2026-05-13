@@ -70,6 +70,6 @@ export async function createQuasarScript({ scope, utils }) {
   if (scope.preset.install) utils.renderTemplate('install-script', scope)
   if (scope.preset.uninstall) utils.renderTemplate('uninstall-script', scope)
 
-  // enable linting after deps installation for the TS template
-  scope.preset.lint = true
+  // run oxlint+oxfmt after deps install
+  scope.linter = 'oxlint'
 }

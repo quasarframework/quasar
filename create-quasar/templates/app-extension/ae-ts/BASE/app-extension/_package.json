@@ -15,9 +15,6 @@
     <% if (scope.preset.uninstall) { %>"./uninstall": "./src/uninstall.ts",<% } %>
     "./*": "./src/runtime/*"
   },
-  "scripts": {
-    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore"
-  },
   "devDependencies": {
     "@quasar/app-vite": "^3.0.0-beta.8",
     "quasar": "^2.16.7",
