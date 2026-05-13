@@ -44,10 +44,12 @@
     max-width: 100%
 
     &--overline
-      color: rgba(0,0,0,.7)
+      color: inherit
+      opacity: .7
 
     &--caption
-      color: rgba(0,0,0,.54)
+      color: inherit
+      opacity: .54
 
     &--header
       color: $grey-7
@@ -109,8 +111,10 @@
   .q-item__label
     &--header
       color: rgba(255,255,255,.64)
-    &--overline, &--caption
-      color: rgba(255,255,255,.8)
+    &--overline
+      opacity: .8
+    &--caption
+      opacity: .64
 
 .q-item
   position: relative
