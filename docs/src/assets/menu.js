@@ -1228,6 +1228,10 @@ export default [
           {
             name: 'Uninstall API',
             path: 'uninstall-api'
+          },
+          {
+            name: 'Runtime Files',
+            path: 'runtime-files'
           }
         ]
       },

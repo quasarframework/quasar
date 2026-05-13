@@ -116,7 +116,7 @@ api.compatibleWith(packageName, '3.x')
 if (api.hasVite) {
   api.compatibleWith('@quasar/app-vite', '^3.0.0')
 } else {
-  api.compatbileWith('@quasar/app-webpack', '^4.0.0')
+  api.compatibleWith('@quasar/app-webpack', '^4.0.0')
 }
 ```
 
@@ -220,6 +220,36 @@ Needs a relative path to the folder of the file calling render().
  */
 api.render('./path/to/a/template/folder')
 ```
+
+#### Template directory layout
+
+By convention, the files scaffolded into the host project are placed under `src/templates/` in your App Extension. The internal structure of this directory is unconstrained; `api.render()` copies whichever path you provide.
+
+A common approach is to split templates into subdirectories that can be rendered independently:
+
+- A `base/` subdirectory for files included in every install.
+- One subdirectory per optional feature (components, pages, boot files, etc.) so it can be rendered only when the user selects it via [Prompts API](/app-extensions/development-guide/prompts-api).
+- One subdirectory per variant when the same files are shipped in multiple flavours (for example `typescript/` and `no-typescript/`).
+
+Example install script that uses all three:
+
+```js src/install.js
+export default async function (api) {
+  // Files included in every install.
+  api.render('./templates/base', api.prompts)
+
+  // Optional feature, rendered only when the user selected it in prompts.
+  if (api.prompts.withRouter) {
+    api.render('./templates/router', api.prompts)
+  }
+
+  // Variant selected based on whether the host project uses TypeScript.
+  const variant = (await api.hasTypescript()) ? 'typescript' : 'no-typescript'
+  api.render(`./templates/${variant}`, api.prompts)
+}
+```
+
+For the helpers used above, see [`api.prompts`](#api-prompts) and [`api.hasTypescript`](#api-hastypescript).
 
 #### Filename edge cases
 

@@ -19,8 +19,10 @@ $ <%= scope.packageManager?.name ?? 'pnpm' %> dev # start the playground; edits 
 ```
 
 For more development-related explanation, see:
-- [`app-extension/src/runtime/README.md`](app-extension/src/runtime/README.md)
-<% if (scope.preset.install) { %>- [`app-extension/src/templates/README.md`](app-extension/src/templates/README.md)<% } %>
+
+- [App Extension development guide](https://quasar.dev/app-extensions/development-guide/introduction)
+- [Runtime files](https://quasar.dev/app-extensions/development-guide/runtime-files)
+<% if (scope.preset.install) { %>- [Install templates](https://quasar.dev/app-extensions/development-guide/install-api#template-directory-layout)<% } %>
 
 # Donate
 

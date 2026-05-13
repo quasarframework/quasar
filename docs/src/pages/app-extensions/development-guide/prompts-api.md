@@ -196,7 +196,7 @@ api.compatibleWith(packageName, '3.x')
 if (api.hasVite) {
   api.compatibleWith('@quasar/app-vite', '^3.0.0')
 } else {
-  api.compatbileWith('@quasar/app-webpack', '^4.0.0')
+  api.compatibleWith('@quasar/app-webpack', '^4.0.0')
 }
 ```
 

@@ -16,6 +16,10 @@ scope:
             e: Described in Prompts API
           - l: uninstall.js
             e: Described in Uninstall API
+          - l: runtime/
+            e: '(optional, TS template only for now) Runtime code shipped to host apps. Described in Runtime Files'
+          - l: templates/
+            e: '(optional) Files scaffolded into the host project by api.render(). Described in Install API'
   uiKitTree:
     l: '.'
     c:

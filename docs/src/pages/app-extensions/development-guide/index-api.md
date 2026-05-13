@@ -3,13 +3,21 @@ title: App Extension Index API
 desc: The API for the index script of a Quasar App Extension. Provides access to Quasar context, registers new CLI commands, extends Vite config and more.
 ---
 
-This page refers to `src/index.js` file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, modifying the Vite configuration, registering CSS, registering a UI component, registering a Quasar CLI command, etc.
+This page refers to `src/index.js` (or `src/index.ts`) file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, modifying the Vite configuration, registering CSS, registering a UI component, registering a Quasar CLI command, etc.
 
 Example of basic structure of the file:
 
-```js
+```tabs
+<<| js src/index.js |>>
 // can be async
 export default function (api) {
+  // props & methods for "api" Object described below
+}
+<<| ts src/index.ts |>>
+import type { IndexAPI } from '@quasar/app-vite'
+
+// can be async
+export default function (api: IndexAPI) {
   // props & methods for "api" Object described below
 }
 ```
@@ -117,7 +125,7 @@ await api.getNodePackagerName()
 
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
-If the semver condition is not met, then @quasar/app errors out and halts execution.
+If the semver condition is not met, then `@quasar/app-vite` (or `@quasar/app-webpack`) errors out and halts execution.
 
 Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 
@@ -133,7 +141,7 @@ api.compatibleWith('@quasar/app-vite', '3.x')
 if (api.hasVite) {
   api.compatibleWith('@quasar/app-vite', '^3.0.0')
 } else {
-  api.compatbileWith('@quasar/app-webpack', '^4.0.0')
+  api.compatibleWith('@quasar/app-webpack', '^4.0.0')
 }
 ```
 
