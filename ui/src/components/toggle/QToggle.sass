@@ -132,3 +132,30 @@ body.desktop
     &:hover
       .q-toggle__thumb:before
         transform: scale3d(1.5, 1.5, 1)
+
+@media (forced-colors: active)
+  .q-toggle
+    &__track
+      border: 2px solid ButtonText
+      background: Canvas
+
+    &__thumb
+      &:after
+        background: ButtonText
+        box-shadow: none
+
+    &__inner
+      &--truthy
+        .q-toggle__track
+          background: Highlight
+          border-color: Highlight
+        .q-toggle__thumb
+          &:after
+            background: HighlightText
+
+    &.disabled
+      .q-toggle__track
+        border-color: GrayText
+      .q-toggle__thumb
+        &:after
+          background: GrayText
