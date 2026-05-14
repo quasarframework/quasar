@@ -187,6 +187,14 @@ export default createComponent({
 
           updateMaskValue(v)
         } else if (innerValue.value !== v) {
+          if (
+            inputRef.value !== null &&
+            inputRef.value === document.activeElement &&
+            typeof innerValue.value === 'string' &&
+            innerValue.value.trim() === v
+          ) {
+            return
+          }
           innerValue.value = v
 
           if (props.type === 'number' && Object.hasOwn(temp, 'value')) {
