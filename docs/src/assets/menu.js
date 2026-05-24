@@ -1063,6 +1063,10 @@ export default [
             path: 'build-commands'
           },
           {
+            name: 'Live Updates',
+            path: 'live-updates'
+          },
+          {
             name: 'Preload Script',
             path: 'electron-preload-script'
           },
