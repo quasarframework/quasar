@@ -170,3 +170,7 @@ The folder passed to `bundle zip` must contain `index.html` at its root. Upload 
 ::: warning
 Serve update metadata and bundles over HTTPS, keep checksums enabled and only publish renderer changes through live updates. Any change that affects Electron main/preload code or the packaged app should go through your signed desktop release process.
 :::
+
+## Hosted option
+
+If you do not want to run the update API, bundle storage, channels, rollbacks and analytics yourself, [Capgo Cloud](https://capgo.app/) provides a managed hosted option for the same updater package. You can start with the self-hosted flow above and move to the hosted service later if you prefer managed infrastructure.
