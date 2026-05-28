@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Quasar Framework App CLI with Vite",
   "keywords": [
     "cli",
@@ -140,7 +140,7 @@
   },
   "peerDependencies": {
     "@electron/packager": ">= 18",
-    "@quasar/extras": "^1.17.0",
+    "@quasar/extras": "^1.17.0 || ^2.0.0",
     "electron-builder": ">= 22",
     "pinia": "^2.0.0 || ^3.0.0",
     "quasar": "^2.16.0",
