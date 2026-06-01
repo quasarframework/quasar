@@ -5,6 +5,12 @@
   border-radius: inherit
   max-height: 70vh
 
+  // Twoslash blocks scroll normally (so long code/error lines stay inside
+  // the box), and only lift overflow to `visible` while a hover is active so
+  // the popup can render outside. See the :has() rule below.
+  &.twoslash
+    max-height: none
+
   code
     display: block
     padding: 16px
@@ -113,7 +119,113 @@
   &[open] &__chevron
     transform: rotate(90deg)
 
+// Twoslash popups stay out of layout (display: none) until the trigger is
+// hovered. style-rich.css hides them with opacity, but an opacity-hidden popup
+// still extends .doc-code's scrollWidth and forces a scrollbar. The display
+// swap avoids that.
+.twoslash .twoslash-popup-container
+  // max-content keeps short signatures snug; max-width caps long ones so they
+  // wrap (fit-content misbehaves for absolutely-positioned elements).
+  width: max-content
+  max-width: min(750px, calc(100vw - 32px))
+  display: none
+  transform: translateY(1.6em)
+
+// Invisible hover bridge below the trigger covering the gap between trigger
+// and popup. The cursor traverses through .twoslash-hover's pseudo, so the
+// trigger's :hover state stays active while crossing.
+.twoslash .twoslash-hover::after
+  content: ''
+  position: absolute
+  left: 0
+  right: 0
+  top: 100%
+  height: 2.2em
+
+.twoslash .twoslash-hover:hover > .twoslash-popup-container,
+.twoslash .twoslash-error-hover:hover > .twoslash-popup-container,
+.twoslash .twoslash-query-persisted > .twoslash-popup-container,
+.twoslash .twoslash-query-line > .twoslash-popup-container
+  // inline-flex matches style-rich's default, which preserves static position
+  // and overall sizing so the popup lands where it should (a few `em`s
+  // below the trigger), not at the block-static position much further down.
+  display: inline-flex
+
+// While a hover is active, lift overflow on the code box (and the QTabPanels
+// wrappers `.q-panel-parent` / `.q-panel.scroll`) so the popup floats outside
+// instead of being clipped or growing a scrollbar.
+.doc-code.twoslash:has(.twoslash-hover:hover),
+.doc-code.twoslash:has(.twoslash-error-hover:hover),
+.q-panel:has(.twoslash-hover:hover),
+.q-panel:has(.twoslash-error-hover:hover),
+.q-panel-parent:has(.twoslash-hover:hover),
+.q-panel-parent:has(.twoslash-error-hover:hover)
+  overflow: visible
+
+// Error / custom-tag lines default to `width: max-content` (single long
+// line). Let them wrap to the code box width instead of overflowing.
+.twoslash .twoslash-error-line,
+.twoslash .twoslash-tag-line
+  width: auto
+  white-space: normal
+  overflow-wrap: anywhere
+
+// Wrapping rules for every popup descendant: min-width: 0 lets flex children
+// stop honoring min-content, max-width caps them to the container, and
+// overflow-wrap folds long tokens. Only DESCENDANTS, because capping the container
+// itself would shrink it to the trigger's width.
+.twoslash .twoslash-popup-container *
+  min-width: 0
+  max-width: 100%
+  box-sizing: border-box
+  overflow-wrap: anywhere
+
+.twoslash .twoslash-popup-code,
+.twoslash .twoslash-popup-code pre,
+.twoslash .twoslash-popup-code code
+  display: block
+  width: 100%
+  white-space: pre-wrap
+
+// The docs-tag spans live inside the .twoslash-popup-docs-tags flex column.
+// Forcing block + width: 100% pins each tag row to the container width so
+// the inline tag-name + tag-value text inside can wrap normally.
+.twoslash .twoslash-popup-docs-tag
+  display: block
+  width: 100%
+
+// Docs body text. The !important beats `.shiki span { color: var(--shiki-dark) }`
+// (specificity 0,2,2 vs our 0,2,1) without inflating selectors. white-space
+// is forced normal because the popup lives inside <code> (white-space: pre)
+// and prose would otherwise not wrap.
+.twoslash .twoslash-popup-docs,
+.twoslash .twoslash-popup-docs *
+  color: var(--twoslash-docs-color) !important
+  font-weight: normal
+  font-size: 1em
+  white-space: normal
+
+// Give the @param/@returns/@see labels their own dim, mono treatment so the
+// value text reads as the primary content.
+.twoslash .twoslash-popup-docs-tag-name
+  font-family: var(--twoslash-code-font)
+  opacity: .7
+  margin-right: .5em
+
+// Links in JSDoc descriptions: distinct color + underline so they read as
+// links, overriding the docs-color !important from the popup-docs rule.
+.twoslash .twoslash-popup-docs a
+  color: $brand-primary !important
+  text-decoration: underline
+  cursor: pointer
+
 body.body--light
+  --twoslash-popup-bg: #e1e1e1
+  --twoslash-popup-color: #212121
+  --twoslash-border-color: #{$separator-color}
+  --twoslash-docs-color: #555555
+  --twoslash-popup-shadow: rgba(0, 0, 0, .18) 0 4px 14px
+
   .shiki, .shiki span
     color: var(--shiki-light)
 
@@ -142,6 +254,12 @@ body.body--light
     background: rgba($grey, .25)
 
 body.body--dark
+  --twoslash-popup-bg: #001620
+  --twoslash-popup-color: #f8f8f2
+  --twoslash-border-color: #{$separator-dark-color}
+  --twoslash-docs-color: #b8b8b8
+  --twoslash-popup-shadow: rgba(0, 0, 0, .55) 0 4px 14px
+
   .shiki, .shiki span
     color: var(--shiki-dark)
 

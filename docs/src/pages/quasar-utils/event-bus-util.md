@@ -34,16 +34,24 @@ bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
 
 When using TypeScript the events can be strongly-typed:
 
-```js
+<!-- prettier-ignore -->
+```ts [twoslash]
+// @errors: 2345 2554
 // Quasar v2.11.11+
 import { EventBus } from 'quasar'
 
 const bus = new EventBus<{
-    'some-event': (arg1: string, arg2: string, arg3: string) => void;
-    'other': (arg: boolean) => void;
+  'some-event': (arg1: string, arg2: string, arg3: string) => void
+  other: (arg: boolean) => void
 }>()
 
 bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
+//        ^|
+               //
+
+bus.emit('some-evnt', 'arg1 value', 'arg2 value', 'arg3 value')
+
+bus.emit('some-event', 'arg1 value', 'arg2 value')
 ```
 
 ### Convenience usage

@@ -41,9 +41,13 @@ function notationTransformers() {
   ]
 }
 
-export function buildFenceTransformers(attrs = {}) {
+// Build-only transformers (twoslash, etc.) are injected via this hook so
+// they don't leak Node imports into the browser bundle. `md-plugin-codeblock.js`
+// passes them in but `DocCodeHighlight.js` does not.
+export function buildFenceTransformers(attrs = {}, buildOnly = []) {
   return [
     docCodePreTransformer,
+    ...buildOnly,
     ...notationTransformers(),
     bashPromptTransformer(),
     lineDecorTransformer(attrs),
