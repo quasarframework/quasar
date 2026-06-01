@@ -56,7 +56,7 @@
     </div>
 
     <q-slide-transition>
-      <div v-show="expanded">
+      <div v-if="expanded">
         <q-tabs
           class="header-tabs"
           v-model="currentTab"
