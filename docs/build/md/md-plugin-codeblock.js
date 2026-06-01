@@ -2,6 +2,7 @@ import { highlighter } from '#md/highlight/build-highlighter.js'
 import { langMatch } from '#md/highlight/build-langs.js'
 import { buildFenceTransformers, themeOptions } from '#md/highlight/shared.js'
 import { getFenceBuildOnlyTransformers } from '#md/highlight/twoslash.js'
+import { getSharedStyleToClasses } from '../shiki-css-stash.js'
 
 /**
  * lang -> one of the supported languages
@@ -88,10 +89,10 @@ function getHighlightedContent(rawContent, attrs) {
     .codeToHtml(content, {
       lang,
       ...themeOptions,
-      transformers: buildFenceTransformers(
-        attrs,
-        getFenceBuildOnlyTransformers(attrs)
-      )
+      transformers: [
+        ...buildFenceTransformers(attrs, getFenceBuildOnlyTransformers(attrs)),
+        ...getSharedStyleToClasses()
+      ]
     })
     .replace('<pre ', '<pre v-pre ')
 

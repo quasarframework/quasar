@@ -3,12 +3,17 @@ import { defineConfig } from '#q-app'
 import mdPlugin from './build/md/index.js'
 import examplesPlugin from './build/examples.js'
 import highlightRawPlugin from './build/highlight-raw.js'
+import shikiCssStashPlugin from './build/shiki-css-stash.js'
 import { codeSplitting } from './build/chunks.js'
 
 export default defineConfig(ctx => ({
   boot: [{ path: 'gdpr', server: false }],
 
-  css: ['~@shikijs/twoslash/style-rich.css', 'app.sass'],
+  css: [
+    '~@shikijs/twoslash/style-rich.css',
+    'app.sass',
+    '~virtual:shiki-tokens.css'
+  ],
 
   build: {
     vueRouterMode: 'history',
@@ -24,7 +29,12 @@ export default defineConfig(ctx => ({
       include: [/\.(vue|md)$/]
     },
 
-    vitePlugins: [mdPlugin, examplesPlugin(ctx.prod), highlightRawPlugin()],
+    vitePlugins: [
+      mdPlugin,
+      examplesPlugin(ctx.prod),
+      shikiCssStashPlugin(),
+      highlightRawPlugin()
+    ],
 
     extendViteConf(_viteConf, { isClient }) {
       if (ctx.prod && isClient) {

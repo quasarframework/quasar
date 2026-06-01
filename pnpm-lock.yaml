@@ -295,6 +295,9 @@ importers:
       '@quasar/app-vite':
         specifier: ^3.0.0-beta.34
         version: link:../app-vite
+      '@rolldown/pluginutils':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@shikijs/twoslash':
         specifier: ^4.1.0
         version: 4.1.0(typescript@6.0.3)
