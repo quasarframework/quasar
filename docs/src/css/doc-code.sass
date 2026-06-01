@@ -1,0 +1,142 @@
+.doc-code
+  margin: 0
+  position: relative
+  overflow: auto
+  border-radius: inherit
+  max-height: 70vh
+
+  code
+    display: block
+    padding: 16px
+    width: fit-content
+    min-width: 100%
+
+    font-size: ($font-size - 2px)
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    line-height: 1.5em
+    tab-size: 2
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    hyphens: none
+
+    border-radius: inherit
+
+  .line
+    position: relative
+    display: inline-block
+    width: 100%
+
+  &--copying
+    .c-lpref,
+    .line.diff.remove
+      display: none
+
+.c-lpref
+  position: sticky
+  pointer-events: none
+  user-select: none
+  left: 8px
+  padding: 0 16px 0 8px
+  margin: -16px 0 -16px -8px
+  &:before
+    border-right: 1px solid
+    content: ''
+    position: absolute
+    pointer-events: none
+    top: -1px
+    left: -8px
+    right: 8px
+    bottom: -2px
+    z-index: -1
+
+// Line-level decorations from Shiki notation transformers and our line-decor:
+//   .highlighted              -> notation-highlight, fence-meta highlight=
+//   .diff.add / .diff.remove  -> notation-diff, fence-meta add= / rem=
+//   .focused / .has-focused   -> notation-focus
+//   .highlighted.warning      -> notation-error-level (warning)
+//   .highlighted.error        -> notation-error-level (error)
+//   .highlighted-word         -> notation-word-highlight
+
+.line
+  &.highlighted:before,
+  &.diff:before
+    content: ' '
+    position: absolute
+    pointer-events: none
+    top: 0
+    left: -16px
+    right: -16px
+    height: 1.5em
+
+.has-focused
+  .line:not(.focused)
+    filter: blur(0.095rem)
+    opacity: 0.7
+    transition: filter 0.35s, opacity 0.35s
+  &:hover .line:not(.focused)
+    filter: none
+    opacity: 1
+
+.highlighted-word
+  border-radius: 3px
+  padding: 1px 3px
+  margin: -1px -3px
+
+body.body--light
+  .shiki, .shiki span
+    color: var(--shiki-light)
+
+  .doc-code
+    background-color: var(--shiki-light-bg)
+
+  .c-lpref
+    color: $header-btn-color--light
+    &:before
+      border-right-color: $separator-color
+      background: var(--shiki-light-bg)
+
+  .line
+    &.highlighted:before
+      background: rgba($grey, .2)
+    &.diff.add:before
+      background: rgba($positive, .2)
+    &.diff.remove:before
+      background: rgba($negative, .2)
+    &.highlighted.warning:before
+      background: rgba(#cb7800, .2)
+    &.highlighted.error:before
+      background: rgba($negative, .25)
+
+  .highlighted-word
+    background: rgba($grey, .25)
+
+body.body--dark
+  .shiki, .shiki span
+    color: var(--shiki-dark)
+
+  .doc-code
+    background-color: var(--shiki-dark-bg)
+
+  .c-lpref
+    color: $header-btn-color--dark
+    &:before
+      border-right-color: $separator-dark-color
+      background: var(--shiki-dark-bg)
+
+  .line
+    &.highlighted:before
+      background: rgba($grey-3, .2)
+    &.diff.add:before
+      background: rgba($positive, .25)
+    &.diff.remove:before
+      background: rgba($red, .3)
+    &.highlighted.warning:before
+      background: rgba(#ffcc66, .2)
+    &.highlighted.error:before
+      background: rgba($negative, .3)
+
+  .highlighted-word
+    background: rgba($grey-3, .25)

@@ -1,39 +1,14 @@
-import prism from 'prismjs'
-import loadLanguages from 'prismjs/components/index.js'
-
-const langList = [
-  { name: 'markup' },
-  { name: 'bash', customCopy: true },
-  { name: 'javascript', aliases: 'javascript|js' },
-  { name: 'typescript', aliases: 'typescript|ts' },
-  { name: 'yaml' },
-  { name: 'sass' },
-  { name: 'scss' },
-  { name: 'css' },
-  { name: 'json' },
-  { name: 'xml' },
-  { name: 'nginx' },
-  { name: 'html' },
-
-  // special grammars:
-  { name: 'diff' }
-]
-
-const customCopyLangList = langList
-  .filter(l => l.customCopy === true)
-  .map(l => l.name)
-
-loadLanguages(langList.map(l => l.name))
-
-const langMatch = langList.map(l => l.aliases || l.name).join('|')
+import { highlighter } from '#md/highlight/build-highlighter.js'
+import { langMatch } from '#md/highlight/build-langs.js'
+import { buildFenceTransformers, themeOptions } from '#md/highlight/shared.js'
 
 /**
- * lang -> one of the supported languages (langList)
+ * lang -> one of the supported languages
  * attrs -> optional attributes:
  *    * numbered - lines are numbered
  *    * highlight="1,2-4,6" - lines are highlighted
- *    * add="1,2-4,6" - lines are added
- *    * rem="1,2-4,6" - lines are removed
+ *    * add="1,2-4,6" - lines are marked as added (diff gutter)
+ *    * rem="1,2-4,6" - lines are marked as removed (diff gutter)
  * title -> optional card title
  */
 const definitionLineRE = new RegExp(
@@ -55,6 +30,8 @@ const tabsLineRE = new RegExp(
     String.raw`(\s+(?<title>.+))?` + // then optional title
     String.raw`\s*\|>>$` // then any number of space chars + the ending "|>>"
 )
+
+const customCopyLangs = new Set(['bash'])
 
 function extractTabs(content) {
   const list = []
@@ -102,120 +79,21 @@ function extractTabs(content) {
   }
 }
 
-const magicCommentList = ['highlight', 'rem', 'add']
-const magicCommentRE = new RegExp(
-  ` *\\[\\[! (?<type>(${magicCommentList.join('|')}))\\]\\] *`
-)
-const magicCommentGlobalRE = new RegExp(magicCommentRE, 'g')
-
-function extractCodeLineProps(lines, attrs) {
-  const acc = {}
-
-  for (const type of magicCommentList) {
-    acc[type] = attrs[type] !== void 0 ? attrs[type].split(',') : []
-  }
-
-  lines.forEach((line, lineIndex) => {
-    const match = line.match(magicCommentRE)
-
-    if (match !== null) {
-      const {
-        groups: { type }
-      } = match
-      acc[type].push(String(lineIndex + 1))
-    }
-  })
-
-  return acc
-}
-
-function parseCodeLine(content, attrs) {
-  const lines = content.split('\n')
-
-  const props = extractCodeLineProps(lines, attrs)
-
-  const acc = lines.map(() => ({
-    prefix: [],
-    classList: []
-  }))
-
-  const hasRemOrAdd = props.rem.length !== 0 || props.add.length !== 0
-
-  for (const type of magicCommentList) {
-    const target = props[type]
-
-    for (const value of target) {
-      // oxlint-disable-next-line prefer-const
-      let [from, to] = value.split('-').map(i => Number.parseInt(i, 10))
-      if (to === void 0) to = from
-
-      for (let i = from; i <= to; i++) {
-        acc[i - 1].classList.push(`c-${type}`)
-      }
-    }
-  }
-
-  if (attrs.numbered === true) {
-    const lineCount = String(lines.length).length
-
-    lines.forEach((_, lineIndex) => {
-      acc[lineIndex].prefix.push(String(lineIndex + 1).padStart(lineCount, ' '))
-    })
-  }
-
-  if (hasRemOrAdd) {
-    lines.forEach((_, lineIndex) => {
-      const target = acc[lineIndex]
-
-      target.prefix.push(
-        target.classList.includes('c-add')
-          ? '+'
-          : target.classList.includes('c-rem')
-            ? '-'
-            : ' '
-      )
-    })
-  }
-
-  return acc
-}
-
 function getHighlightedContent(rawContent, attrs) {
   const { lang } = attrs
-
   const content = rawContent.trim()
-  const lineList = parseCodeLine(content, attrs)
 
-  const html = prism
-    .highlight(
-      content.replace(magicCommentGlobalRE, ''),
-      prism.languages[lang],
-      lang
-    )
-    .split('\n')
-    .map((line, lineIndex) => {
-      const target = lineList[lineIndex]
-
-      return (
-        (target.classList.length !== 0
-          ? `<span class="c-line ${target.classList.join(' ')}"></span>`
-          : '') +
-        (target.prefix.length !== 0
-          ? `<span class="c-lpref">${target.prefix.join(' ')}</span>`
-          : '') +
-        line
-      )
+  const html = highlighter
+    .codeToHtml(content, {
+      lang,
+      ...themeOptions,
+      transformers: buildFenceTransformers(attrs)
     })
-    .join('\n')
+    .replace('<pre ', '<pre v-pre ')
 
-  const codeClass =
-    lang === 'css'
-      ? ' language-css' // we need this class explicitly
-      : '' // in all other cases it's useless (it doesn't have special token classes)
+  const langProp = customCopyLangs.has(lang) ? ` lang="${lang}"` : ''
 
-  const langProp = customCopyLangList.includes(lang) ? ` lang="${lang}"` : ''
-
-  return `<pre v-pre class="doc-code${codeClass}"><code>${html}</code></pre><copy-button${langProp} />`
+  return `${html}<copy-button${langProp} />`
 }
 
 function parseAttrs(rawAttrs) {
@@ -237,7 +115,7 @@ export function parseDefinitionLine(token) {
 
   if (match === null) {
     return {
-      lang: 'markup',
+      lang: 'html',
       title: null
     }
   }
