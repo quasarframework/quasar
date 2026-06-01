@@ -1,10 +1,13 @@
 <template>
   <q-card flat bordered>
-    <doc-code lang="markup" :code="rawVariables" />
+    <div class="relative-position copybtn-hover">
+      <div v-html="rawVariablesHtml" />
+      <CopyButton />
+    </div>
   </q-card>
 </template>
 
 <script setup>
-import DocCode from '@/components/DocCode.vue'
-import rawVariables from 'quasar/src/css/variables.sass?raw'
+import CopyButton from '@/components/CopyButton.vue'
+import rawVariablesHtml from 'quasar/src/css/variables.sass?highlighted'
 </script>
