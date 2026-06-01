@@ -14,6 +14,7 @@ import quasarDark from './themes/quasar-dark.json' with { type: 'json' }
 
 import { bashPromptTransformer } from './bash-prompt-transformer.js'
 import { lineDecorTransformer } from './line-decor-transformer.js'
+import { regionFoldTransformer } from './region-fold-transformer.js'
 
 export const themes = [quasarLight, quasarDark]
 
@@ -45,10 +46,15 @@ export function buildFenceTransformers(attrs = {}) {
     docCodePreTransformer,
     ...notationTransformers(),
     bashPromptTransformer(),
-    lineDecorTransformer(attrs)
+    lineDecorTransformer(attrs),
+    regionFoldTransformer()
   ]
 }
 
 export function buildBareTransformers() {
-  return [docCodePreTransformer, bashPromptTransformer()]
+  return [
+    docCodePreTransformer,
+    bashPromptTransformer(),
+    regionFoldTransformer()
+  ]
 }

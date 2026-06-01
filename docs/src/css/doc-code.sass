@@ -31,7 +31,8 @@
 
   &--copying
     .c-lpref,
-    .line.diff.remove
+    .line.diff.remove,
+    .doc-code-fold__summary
       display: none
 
 .c-lpref
@@ -88,6 +89,29 @@
 .shell-prompt
   user-select: none
   -webkit-user-select: none
+
+.doc-code-fold
+  display: block
+
+  &__summary
+    cursor: pointer
+    list-style: none
+
+    &::-webkit-details-marker
+      display: none
+    &::marker
+      content: ''
+
+  &__placeholder
+    opacity: .6
+    font-style: italic
+
+  &__chevron
+    display: inline-block
+    transition: transform .15s ease
+
+  &[open] &__chevron
+    transform: rotate(90deg)
 
 body.body--light
   .shiki, .shiki span

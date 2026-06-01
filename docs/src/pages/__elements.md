@@ -404,6 +404,22 @@ const x = {
 }
 ```
 
+### Collapsible regions
+
+Wrap a block in `// #region <label>` and `// #endregion` markers and it renders folded by default. Users can expand it on demand. This is useful for hiding repetitive scaffolding (data arrays, boilerplate) that are needed to make the example run, but not so important when understanding the code. This way, the interesting parts are easier to spot. Supports all languages which uses `//`, `/* */` or `<!-- -->` as comment markers, e.g., JavaScript, CSS, HTML, etc.
+
+```js
+function heavySetup() {
+  // #region boilerplate
+  const a = 1
+  const b = 2
+  const c = 3
+  // #endregion
+
+  return a + b + c
+}
+```
+
 ## Tree
 
 <DocTree :def="scope.tree" />

@@ -31,13 +31,24 @@ const copied = ref(false)
 function copy() {
   const target = proxy.$el.previousSibling
 
-  // We need to remove artifacts (like line numbers)
-  // before we copy the content.
-  // The doc-code--copying class will do that for us
+  // We need to remove artifacts (like line numbers) and reveal any folded
+  // #region blocks before reading text. The doc-code--copying class hides
+  // line-number/diff/fold-placeholder noise; opening every <details>
+  // ensures their inner code is included in innerText.
+  const folds = target.querySelectorAll('.doc-code-fold')
+  const previousOpen = Array.from(folds, fold => fold.open)
+  folds.forEach(fold => {
+    fold.open = true
+  })
+
   target.classList.add('doc-code--copying')
   // oxlint-disable-next-line unicorn/prefer-dom-node-text-content
   let text = target.innerText
   target.classList.remove('doc-code--copying')
+
+  folds.forEach((fold, index) => {
+    fold.open = previousOpen[index]
+  })
 
   if (props.lang === 'bash') {
     const bashStartRE = /^\$ /
