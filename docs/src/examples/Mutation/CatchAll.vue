@@ -64,6 +64,7 @@ function domToObj(domEl, whitelist) {
 }
 
 const whitelist = [
+  // #region
   'id',
   'type',
   'addedNodes',
@@ -77,6 +78,7 @@ const whitelist = [
   'tagName',
   'className',
   'childNodes'
+  // #endregion
 ]
 
 export default {

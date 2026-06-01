@@ -35,6 +35,7 @@
 import { onMounted, ref } from 'vue'
 
 const columns = [
+  // #region
   {
     name: 'desc',
     required: true,
@@ -69,9 +70,11 @@ const columns = [
     sortable: true,
     sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
   }
+  // #endregion
 ]
 
 const originalRows = [
+  // #region
   {
     id: 1,
     name: 'Frozen Yogurt',
@@ -512,6 +515,7 @@ const originalRows = [
     calcium: '12%',
     iron: '6%'
   }
+  // #endregion
 ]
 
 export default {

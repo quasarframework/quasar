@@ -35,6 +35,7 @@ export default {
             img: 'https://cdn.quasar.dev/img/logo_drive_128px.png',
             id: 'drive'
           },
+          // #region
           {
             label: 'Keep',
             img: 'https://cdn.quasar.dev/img/logo_keep_128px.png',
@@ -50,6 +51,7 @@ export default {
             img: 'https://cdn.quasar.dev/img/logo_calendar_128px.png',
             id: 'calendar'
           },
+          // #endregion
           {},
           {
             label: 'Share',

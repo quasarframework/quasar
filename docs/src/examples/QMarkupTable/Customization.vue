@@ -32,6 +32,7 @@
           <td class="text-right">24</td>
           <td class="text-right">4</td>
         </tr>
+        <!-- #region -->
         <tr>
           <td class="text-left">Ice cream sandwich</td>
           <td class="text-right">237</td>
@@ -60,6 +61,7 @@
           <td class="text-right">49</td>
           <td class="text-right">3.9</td>
         </tr>
+        <!-- #endregion -->
       </tbody>
     </q-markup-table>
   </div>

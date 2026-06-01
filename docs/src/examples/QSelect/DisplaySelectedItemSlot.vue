@@ -76,6 +76,7 @@ export default {
           value: 'goog',
           icon: 'mail'
         },
+        // #region
         {
           label: 'Facebook',
           value: 'fb',
@@ -91,6 +92,7 @@ export default {
           value: 'app',
           icon: 'golf_course'
         },
+        // #endregion
         {
           label: 'Oracle',
           value: 'ora',

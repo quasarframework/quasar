@@ -65,6 +65,7 @@ const contacts = [
     email: 'rjedrzej0@discuz.net',
     letter: 'R'
   },
+  // #region
   {
     id: 2,
     name: 'Mallorie Alessandrini',
@@ -83,6 +84,7 @@ const contacts = [
     email: 'sfawdrey3@wired.com',
     letter: 'S'
   }
+  // #endregion
 ]
 
 const offline = [

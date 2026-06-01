@@ -51,6 +51,7 @@ export default {
           id: 'goog',
           desc: 'Google'
         },
+        // #region
         {
           id: 'fb',
           desc: 'Facebook'
@@ -63,6 +64,7 @@ export default {
           id: 'app',
           desc: 'Apple'
         },
+        // #endregion
         {
           id: 'ora',
           desc: 'Oracle',

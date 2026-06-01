@@ -27,6 +27,7 @@
 import { ref } from 'vue'
 
 const columns = [
+  // #region
   {
     name: 'calories',
     align: 'right',
@@ -44,9 +45,11 @@ const columns = [
   { name: 'carbs', align: 'right', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', align: 'right', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', align: 'right', label: 'Sodium (mg)', field: 'sodium' }
+  // #endregion
 ]
 
 const rows = [
+  // #region
   {
     id: 1,
     calories: 159,
@@ -79,6 +82,7 @@ const rows = [
     protein: 4.3,
     sodium: 413
   }
+  // #endregion
 ]
 
 export default {

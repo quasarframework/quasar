@@ -10,6 +10,7 @@
         :body="body"
       />
 
+      <!-- #region -->
       <q-timeline-entry
         title="Event Title"
         subtitle="February 21, 1986"
@@ -50,6 +51,7 @@
         subtitle="February 22, 1986"
         :body="body"
       />
+      <!-- #endregion -->
     </q-timeline>
   </div>
 </template>

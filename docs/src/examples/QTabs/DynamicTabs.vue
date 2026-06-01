@@ -50,12 +50,14 @@
 import { computed, ref } from 'vue'
 
 const tabsDefinition = [
+  // #region
   { name: 'mails', icon: 'mail', label: 'Mails' },
   { name: 'alarms', icon: 'alarm', label: 'Alarms' },
   { name: 'movies', icon: 'movie', label: 'Movies' },
   { name: 'photos', icon: 'photo', label: 'Photos' },
   { name: 'videos', icon: 'slow_motion_video', label: 'Videos' },
   { name: 'addressbook', icon: 'people', label: 'Address Book' }
+  // #endregion
 ]
 
 export default {

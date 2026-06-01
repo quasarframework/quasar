@@ -59,6 +59,7 @@
 import { ref } from 'vue'
 
 const menuList = [
+  // #region
   {
     icon: 'inbox',
     label: 'Inbox',
@@ -95,6 +96,7 @@ const menuList = [
     label: 'Help',
     separator: false
   }
+  // #endregion
 ]
 
 export default {

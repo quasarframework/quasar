@@ -72,6 +72,7 @@
 
 <script>
 const rows = [
+  // #region
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -162,9 +163,11 @@ const rows = [
     sodium: 54,
     calcium: '12%'
   }
+  // #endregion
 ]
 
 const columns = [
+  // #region
   { name1: '(100g serving)', name2: 'Dessert', prop: 'name' },
   { name1: '(val)', name2: 'Calories', prop: 'calories' },
   { name1: '(g)', name2: 'Fat', prop: 'fat' },
@@ -172,6 +175,7 @@ const columns = [
   { name1: '(g)', name2: 'Protein', prop: 'protein' },
   { name1: '(mg)', name2: 'Sodium', prop: 'sodium' },
   { name1: '(%)', name2: 'Calcium', prop: 'calcium' }
+  // #endregion
 ]
 
 const heavyList = []

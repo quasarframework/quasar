@@ -6,6 +6,7 @@
           <q-item clickable>
             <q-item-section>New tab</q-item-section>
           </q-item>
+          <!-- #region -->
           <q-item clickable>
             <q-item-section>New incognito tab</q-item-section>
           </q-item>
@@ -27,6 +28,7 @@
           <q-item clickable>
             <q-item-section>Help &amp; Feedback</q-item-section>
           </q-item>
+          <!-- #endregion -->
         </q-list>
       </q-menu>
     </q-btn>

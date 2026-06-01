@@ -13,6 +13,7 @@
         geographical locations you want your ads to show on, and more.
       </q-step>
 
+      <!-- #region -->
       <q-step
         :name="2"
         title="Create an ad group"
@@ -30,6 +31,7 @@
         run into any problems with your ads, find out how to tell if they're
         running and how to resolve approval issues.
       </q-step>
+      <!-- #endregion -->
 
       <template v-slot:navigation>
         <q-stepper-navigation>

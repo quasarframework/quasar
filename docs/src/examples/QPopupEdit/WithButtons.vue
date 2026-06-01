@@ -132,6 +132,7 @@
 import { ref } from 'vue'
 
 const columns = [
+  // #region
   {
     name: 'desc',
     align: 'left',
@@ -145,9 +146,11 @@ const columns = [
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
   { name: 'calcium', label: 'Calcium (%)', field: 'calcium' },
   { name: 'iron', label: 'Iron (%)', field: 'iron' }
+  // #endregion
 ]
 
 const rows = [
+  // #region
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -248,6 +251,7 @@ const rows = [
     calcium: '12%',
     iron: '6%'
   }
+  // #endregion
 ]
 
 export default {

@@ -24,6 +24,7 @@
             {{ lorem }}
           </div>
         </q-carousel-slide>
+        <!-- #region -->
         <q-carousel-slide :name="2" class="column no-wrap flex-center">
           <q-icon name="live_tv" color="primary" size="56px" />
           <div class="q-mt-md text-center">
@@ -42,6 +43,7 @@
             {{ lorem }}
           </div>
         </q-carousel-slide>
+        <!-- #endregion -->
       </q-carousel>
     </q-dialog>
 

@@ -46,6 +46,7 @@ export default {
       filter: ref(''),
 
       columns: [
+        // #region
         {
           name: 'name',
           required: true,
@@ -80,6 +81,7 @@ export default {
           sortable: true,
           sort: (a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10)
         }
+        // #endregion
       ]
     }
   }

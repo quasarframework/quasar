@@ -21,6 +21,7 @@
 
 <script>
 const rows = [
+  // #region
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -121,9 +122,11 @@ const rows = [
     calcium: '12%',
     iron: '6%'
   }
+  // #endregion
 ]
 
 const columns = [
+  // #region
   'name',
   'calories',
   'fat',
@@ -132,6 +135,7 @@ const columns = [
   'sodium',
   'calcium',
   'iron'
+  // #endregion
 ]
 
 const heavyList = []

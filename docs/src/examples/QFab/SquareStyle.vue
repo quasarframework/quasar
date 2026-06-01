@@ -17,6 +17,7 @@
           icon="mail"
           label="Email"
         />
+        <!-- #region -->
         <q-fab-action
           square
           external-label
@@ -44,6 +45,7 @@
           icon="room"
           label="Map"
         />
+        <!-- #endregion -->
       </q-fab>
     </div>
 
@@ -65,6 +67,7 @@
           label="Email"
           label-position="left"
         />
+        <!-- #region -->
         <q-fab-action
           square
           color="secondary"
@@ -73,6 +76,7 @@
           label="Alarm"
           label-position="left"
         />
+        <!-- #endregion -->
         <q-fab-action
           glossy
           square
@@ -82,6 +86,7 @@
           label="Airplay"
           label-position="left"
         />
+        <!-- #region -->
         <q-fab-action
           square
           color="accent"
@@ -90,6 +95,7 @@
           label="Map"
           label-position="left"
         />
+        <!-- #endregion -->
       </q-fab>
     </div>
   </div>

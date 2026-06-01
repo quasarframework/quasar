@@ -36,6 +36,7 @@
               <q-item-section> Inbox </q-item-section>
             </q-item>
 
+            <!-- #region -->
             <q-item active clickable v-ripple>
               <q-item-section avatar>
                 <q-icon name="star" />
@@ -59,6 +60,7 @@
 
               <q-item-section> Drafts </q-item-section>
             </q-item>
+            <!-- #endregion -->
           </q-list>
         </q-scroll-area>
 

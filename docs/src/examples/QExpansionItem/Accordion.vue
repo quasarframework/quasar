@@ -18,6 +18,7 @@
         </q-card>
       </q-expansion-item>
 
+      <!-- #region -->
       <q-separator />
 
       <q-expansion-item
@@ -72,6 +73,7 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
+      <!-- #endregion -->
     </q-list>
   </div>
 </template>

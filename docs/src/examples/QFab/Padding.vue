@@ -50,6 +50,7 @@
           icon="mail"
           label="Email"
         />
+        <!-- #region -->
         <q-fab-action
           padding="3px"
           external-label
@@ -74,6 +75,7 @@
           icon="room"
           label="Map"
         />
+        <!-- #endregion -->
       </q-fab>
     </div>
   </div>

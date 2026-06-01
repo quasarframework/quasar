@@ -30,6 +30,7 @@
             >
           </q-tab-panel>
 
+          <!-- #region -->
           <q-tab-panel name="2019/02/05">
             <div class="text-h4 q-mb-md">2019/02/05</div>
             <p
@@ -67,6 +68,7 @@
               nulla ullam. In, libero.</p
             >
           </q-tab-panel>
+          <!-- #endregion -->
         </q-tab-panels>
       </template>
     </q-splitter>

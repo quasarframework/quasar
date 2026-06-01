@@ -20,6 +20,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </q-tab-panel>
 
+          <!-- #region -->
           <q-tab-panel name="alarms">
             <div class="text-h6">Alarms</div>
             Ad molestiae non facere animi nobis, similique nemo velit.
@@ -29,6 +30,7 @@
             <div class="text-h6">Movies</div>
             Nostrum necessitatibus expedita dolores? Voluptatem.
           </q-tab-panel>
+          <!-- #endregion -->
         </q-tab-panels>
 
         <q-tab-panels
@@ -43,6 +45,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </q-tab-panel>
 
+          <!-- #region -->
           <q-tab-panel name="alarms">
             <div class="text-h6">Alarms</div>
             Ad molestiae non facere animi nobis, similique nemo.
@@ -52,6 +55,7 @@
             <div class="text-h6">Movies</div>
             Nostrum necessitatibus expedita dolores? Voluptatem.
           </q-tab-panel>
+          <!-- #endregion -->
         </q-tab-panels>
 
         <q-tab-panels
@@ -66,6 +70,7 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </q-tab-panel>
 
+          <!-- #region -->
           <q-tab-panel name="alarms">
             <div class="text-h6">Alarms</div>
             Ad molestiae non facere animi nobis, similique nemo.
@@ -75,6 +80,7 @@
             <div class="text-h6">Movies</div>
             Nostrum necessitatibus expedita dolores? Voluptatem.
           </q-tab-panel>
+          <!-- #endregion -->
         </q-tab-panels>
       </div>
     </div>

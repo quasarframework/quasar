@@ -23,6 +23,7 @@ export default {
           description: 'Search engine',
           category: '1'
         },
+        // #region
         {
           label: 'Facebook',
           value: 'Facebook',
@@ -41,6 +42,7 @@ export default {
           description: 'iStuff',
           category: '2'
         },
+        // #endregion
         {
           label: 'Oracle',
           value: 'Oracle',

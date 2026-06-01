@@ -24,11 +24,13 @@ export default {
     return {
       date: ref('2019/02/01'),
       events: [
+        // #region
         '2019/02/01',
         '2019/02/05',
         '2019/02/06',
         '2019/02/09',
         '2019/02/23'
+        // #endregion
       ],
       eventsFn(date) {
         if (

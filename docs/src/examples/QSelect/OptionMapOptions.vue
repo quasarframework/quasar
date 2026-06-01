@@ -28,6 +28,7 @@ export default {
           label: 'Google',
           value: 'goog'
         },
+        // #region
         {
           label: 'Facebook',
           value: 'fb'
@@ -40,6 +41,7 @@ export default {
           label: 'Apple',
           value: 'app'
         },
+        // #endregion
         {
           label: 'Oracle',
           value: 'ora',

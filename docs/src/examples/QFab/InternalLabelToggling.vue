@@ -46,6 +46,7 @@
           icon="mail"
           label="Email"
         />
+        <!-- #region -->
         <q-fab-action
           :hide-label="hideLabels"
           color="secondary"
@@ -67,6 +68,7 @@
           icon="room"
           label="Map"
         />
+        <!-- #endregion -->
       </q-fab>
     </div>
   </div>

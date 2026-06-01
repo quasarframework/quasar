@@ -15,6 +15,7 @@
           </q-item-section>
         </q-item>
 
+        <!-- #region -->
         <q-item clickable>
           <q-item-section avatar>
             <q-icon color="red" name="local_gas_station" />
@@ -36,6 +37,7 @@
             <q-item-label caption>Watch a movie.</q-item-label>
           </q-item-section>
         </q-item>
+        <!-- #endregion -->
       </q-list>
     </q-card>
 
