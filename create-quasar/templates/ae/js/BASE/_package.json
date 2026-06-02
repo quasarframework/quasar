@@ -24,8 +24,7 @@
   },
 <% } %>
   "engines": {
-    "node": ">= 26 || ^24 || ^22.12",
-    "pnpm": ">= 11"
+    "node": ">= 26 || ^24 || ^22.12"
   },
   "productName": "Quasar App Extension"
 }

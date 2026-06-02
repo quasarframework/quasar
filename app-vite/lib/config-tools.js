@@ -321,6 +321,12 @@ export function createNodeRolldownConfig(
           : ['.cjs', '.js', '.ts', '.json', '.jsx', '.tsx']
     },
 
+    /**
+     * Required for Windows host, otherwise Node.js will complain
+     * about importing with absolute paths and will fail with
+     * ESM error ("ERR_UNSUPPORTED_ESM_URL_SCHEME"):
+     */
+    makeAbsoluteExternalsRelative: true,
     external: quasarConf.ctx.dev ? [/node_modules/] : [],
 
     transform: {

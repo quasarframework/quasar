@@ -303,23 +303,9 @@ function getStrDefineValue(value) {
   if (asIsList.includes(value)) return value
 
   const trimmed = value.trim()
-  if (trimmed !== '') {
-    if (!Number.isNaN(Number(trimmed))) return value
-
-    if (
-      (trimmed.startsWith('[') && trimmed.endsWith(']')) ||
-      (trimmed.startsWith('Array(') && trimmed.endsWith(')')) ||
-      (trimmed.startsWith('new Array(') && trimmed.endsWith(')'))
-    ) {
-      return value
-    }
-
-    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-      return value
-    }
-  }
-
-  return JSON.stringify(value)
+  return trimmed !== '' && !Number.isNaN(Number(trimmed))
+    ? value
+    : JSON.stringify(value)
 }
 
 function parseEnvDefineList(env, regex) {

@@ -43,7 +43,7 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "prettier": "^3.8.1",
     <% } %>
-    "@quasar/app-vite": "^3.0.0-beta.35",
+    "@quasar/app-vite": "^3.0.0-beta.36",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8"
   },
@@ -57,9 +57,6 @@
     "vuejs"
   ],
   "engines": {
-    "node": ">= 26 || ^24 || ^22.12",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1",
-    "pnpm": ">= 10"
+    "node": ">= 26 || ^24 || ^22.12"
   }
 }

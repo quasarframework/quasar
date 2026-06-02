@@ -47,7 +47,7 @@
     <% } %>
     "@types/node": "^22.19.11",
     <% if (scope.preset.i18n) { %>"@intlify/unplugin-vue-i18n": "^11.0.0",<% } %>
-    "@quasar/app-vite": "^3.0.0-beta.35",
+    "@quasar/app-vite": "^3.0.0-beta.36",
     "autoprefixer": "^10.4.27",
     "typescript": "^6.0.0"
   },
@@ -61,9 +61,6 @@
     "vuejs"
   ],
   "engines": {
-    "node": ">= 26 || ^24 || ^22.12",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1",
-    "pnpm": ">= 10"
+    "node": ">= 26 || ^24 || ^22.12"
   }
 }

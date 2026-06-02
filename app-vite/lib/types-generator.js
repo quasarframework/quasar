@@ -60,7 +60,7 @@ export function generateTypes(quasarConf) {
  * @param {import('../types/configuration/conf').ResolvedQuasarConf} quasarConf
  */
 function generateTsConfig(quasarConf, fsUtils) {
-  const { appPaths } = quasarConf.ctx
+  const { appPaths, pkg } = quasarConf.ctx
 
   /** Returns the path relative to the tsconfig.json file, in POSIX format */
   const toTsPath = pathToTransform => {
@@ -78,7 +78,7 @@ function generateTsConfig(quasarConf, fsUtils) {
     )
 
     if (relativePath.length === 0) return '.'
-    if (!relativePath.startsWith('./')) return './' + relativePath
+    if (!relativePath.startsWith('./')) return `./${relativePath}`
     return relativePath
   }
 
@@ -93,50 +93,47 @@ function generateTsConfig(quasarConf, fsUtils) {
 
   if (isModeInstalled(appPaths, 'capacitor')) {
     const target = appPaths.resolve.capacitor('node_modules')
-    const json = JSON.parse(
-      fse.readFileSync(appPaths.resolve.capacitor('package.json'), 'utf8')
-    )
-
-    Object.keys(json.dependencies || {}).forEach(dep => {
-      aliasMap[dep] = join(target, dep)
-    })
+    const { dependencies } = pkg.capacitorPkg
+    if (dependencies) {
+      Object.keys(dependencies).forEach(dep => {
+        aliasMap[dep] = join(target, dep)
+      })
+    }
   }
 
   if (isModeInstalled(appPaths, 'electron')) {
     const target = appPaths.resolve.electron('node_modules')
-    const json = JSON.parse(
-      fse.readFileSync(appPaths.resolve.electron('package.json'), 'utf8')
-    )
 
     // We alias `electron` itself because it's a runtime dep
     // (and specified in devDependencies)
     aliasMap['electron'] = join(target, 'electron')
 
-    Object.keys(json.dependencies || {}).forEach(dep => {
-      aliasMap[dep] = join(target, dep)
-    })
+    const { dependencies } = pkg.electronPkg
+    if (dependencies) {
+      Object.keys(dependencies).forEach(dep => {
+        aliasMap[dep] = join(target, dep)
+      })
+    }
   }
 
   if (isModeInstalled(appPaths, 'pwa')) {
     const target = appPaths.resolve.pwa('node_modules')
-    const json = JSON.parse(
-      fse.readFileSync(appPaths.resolve.pwa('package.json'), 'utf8')
-    )
-
-    Object.keys(json.dependencies || {}).forEach(dep => {
-      aliasMap[dep] = join(target, dep)
-    })
+    const { dependencies } = pkg.pwaPkg
+    if (dependencies) {
+      Object.keys(dependencies).forEach(dep => {
+        aliasMap[dep] = join(target, dep)
+      })
+    }
   }
 
   if (isModeInstalled(appPaths, 'bex')) {
     const target = appPaths.resolve.bex('node_modules')
-    const json = JSON.parse(
-      fse.readFileSync(appPaths.resolve.bex('package.json'), 'utf8')
-    )
-
-    Object.keys(json.dependencies || {}).forEach(dep => {
-      aliasMap[dep] = join(target, dep)
-    })
+    const { dependencies } = pkg.bexPkg
+    if (dependencies) {
+      Object.keys(dependencies).forEach(dep => {
+        aliasMap[dep] = join(target, dep)
+      })
+    }
   }
 
   const paths = {}
@@ -148,12 +145,12 @@ function generateTsConfig(quasarConf, fsUtils) {
       throwIfNoEntry: false
     })
 
-    // import ... from 'src' (resolves to 'src/index')
+    // import ... from '@' (resolves to 'src/index')
     paths[alias] = [tsPath]
 
     if (stats === void 0 || stats.isFile()) return
 
-    // import ... from 'src/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
+    // import ... from '@/something' (resolves to 'src/something.ts' or 'src/something/index.ts')
     paths[`${alias}/*`] = [`${tsPath}/*`]
   })
 
@@ -308,23 +305,7 @@ function getStrDefineType(value) {
   if (value === 'null') return 'null'
 
   const trimmed = value.trim()
-  if (trimmed !== '') {
-    if (!Number.isNaN(Number(trimmed))) return 'number'
-
-    if (
-      (trimmed.startsWith('[') && trimmed.endsWith(']')) ||
-      (trimmed.startsWith('Array(') && trimmed.endsWith(')')) ||
-      (trimmed.startsWith('new Array(') && trimmed.endsWith(')'))
-    ) {
-      return 'unknown[]'
-    }
-
-    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
-      return 'Record<string, unknown>'
-    }
-  }
-
-  return 'string'
+  return trimmed !== '' && !Number.isNaN(Number(trimmed)) ? 'number' : 'string'
 }
 
 function getImportMetaEnvDeclaration(quasarConf) {

@@ -329,7 +329,7 @@ export class QuasarModeDevserver extends AppDevserver {
       injectMiddlewares,
       serveStaticContent
     } = await import(
-      pathToFileURL(this.#pathMap.serverFile) + '?t=' + Date.now()
+      pathToFileURL(this.#pathMap.serverFile).href + '?t=' + Date.now()
     )
     const { publicPath } = this.#appOptions
 

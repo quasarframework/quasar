@@ -31,6 +31,20 @@ async function preloadScript(quasarConf, name) {
   })
   const { appPaths } = quasarConf.ctx
 
+  if (process.platform === 'win32') {
+    /**
+     * Required for Windows, otherwise Rolldown will fail to build
+     * because it will report that matched alias "#q-app/electron/preload"
+     * cannot be resolved (even though #q-app alias is defined).
+     * The order of aliases also matters, as '#q-app' needs to be defined
+     * only after the more specific ones.
+     */
+    cfg.resolve.alias = {
+      '#q-app/electron/preload': '@quasar/app-vite/electron/preload',
+      ...cfg.resolve.alias
+    }
+  }
+
   cfg.input = appPaths.resolve.electron(name)
   cfg.resolve.modules = [
     'node_modules',
@@ -93,6 +107,20 @@ export const quasarElectronConfig = {
       shippedToClient: true
     })
     const { appPaths } = quasarConf.ctx
+
+    if (process.platform === 'win32') {
+      /**
+       * Required for Windows, otherwise Rolldown will fail to build
+       * because it will report that matched alias "#q-app/electron/main"
+       * cannot be resolved (even though #q-app alias is defined).
+       * The order of aliases also matters, as '#q-app' needs to be defined
+       * only after the more specific ones.
+       */
+      cfg.resolve.alias = {
+        '#q-app/electron/main': '@quasar/app-vite/electron/main',
+        ...cfg.resolve.alias
+      }
+    }
 
     cfg.input = quasarConf.sourceFiles.electronMain
     cfg.output.file = quasarConf.ctx.dev
