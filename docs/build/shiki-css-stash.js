@@ -39,7 +39,14 @@ export default function shikiCssStashPlugin() {
     enforce: 'pre',
 
     config(_config, { command }) {
-      activeTransformer = command === 'build' ? transformerStyleToClass() : null
+      // Use a short prefix to reduce the final HTML size. It saves ~7 bytes per token reference
+      // compares to the default `__shiki_`, which adds up across the whole website. Final class
+      // names look like `s25s62j`. Shouldn't cause any conflicts since the only "random" names
+      // we have come from Shiki.
+      activeTransformer =
+        command === 'build'
+          ? transformerStyleToClass({ classPrefix: 's' })
+          : null
     },
 
     resolveId: {
