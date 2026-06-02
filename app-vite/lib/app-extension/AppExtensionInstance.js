@@ -156,9 +156,9 @@ export class AppExtensionInstance {
     try {
       const resolvedPath =
         // Try `import('quasar-app-extension-foo/package.json')`. It might not work if using `package.json > exports` and the file is not listed
-        getPackagePath(`${this.packageFullName}/package.json`, appDir) ||
+        getPackagePath(`${this.packageName}/package.json`, appDir) ||
         // Try `import('quasar-app-extension-foo')` to see if the root import is available (through `package.json > exports` or `package.json > main`)
-        getPackagePath(this.packageFullName, appDir) ||
+        getPackagePath(this.packageName, appDir) ||
         // As a last resort, try to resolve the index script. By not doing this as the only/first option, we can give a more precise error message
         // if the package is installed but the index script is missing
         this.#getScriptPath('index')
@@ -334,7 +334,7 @@ export class AppExtensionInstance {
     for (const ext of this.#scriptsExtensionList) {
       for (const folder of this.#scriptsTargetFolderList) {
         const path = getPackagePath(
-          `${this.packageFullName}/${folder}/${scriptName}${ext}`,
+          `${this.packageName}/${folder}/${scriptName}${ext}`,
           this.#ctx.appPaths.appDir
         )
 
