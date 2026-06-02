@@ -4,9 +4,10 @@
 // html/vue are broken in that combo. See: https://github.com/shikijs/shiki/issues/918
 
 import javascript from '@shikijs/langs/javascript'
+import sass from '@shikijs/langs/sass'
 import vue from '@shikijs/langs/vue'
 
-const userLangs = { javascript, vue }
+const userLangs = { javascript, sass, vue }
 
 export const langs = Object.values(userLangs)
 
