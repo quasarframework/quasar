@@ -55,10 +55,14 @@ export function buildFenceTransformers(attrs = {}, buildOnly = []) {
   ]
 }
 
+// Used by the release-notes pipeline (build-only). Includes bash-prompt
+// since release notes show CLI commands.
 export function buildBareTransformers() {
-  return [
-    docCodePreTransformer,
-    bashPromptTransformer(),
-    regionFoldTransformer()
-  ]
+  return [docCodePreTransformer, bashPromptTransformer()]
+}
+
+// Used by `DocCodeHighlight.js` at runtime (in-browser) for DocExample's
+// "view source" tabs and DocInstallation snippets. Keep it minimal.
+export function buildBrowserTransformers() {
+  return [docCodePreTransformer, regionFoldTransformer()]
 }

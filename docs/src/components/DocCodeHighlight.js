@@ -2,7 +2,7 @@ import { h } from 'vue'
 
 import { getBrowserHighlighter } from '#md/highlight/browser-highlighter.js'
 import { supportedLangs } from '#md/highlight/browser-langs.js'
-import { buildBareTransformers, themeOptions } from '#md/highlight/shared.js'
+import { buildBrowserTransformers, themeOptions } from '#md/highlight/shared.js'
 
 const supportedLangSet = new Set(supportedLangs)
 
@@ -19,7 +19,7 @@ export default {
     const html = getBrowserHighlighter().codeToHtml(props.code, {
       lang,
       ...themeOptions,
-      transformers: buildBareTransformers()
+      transformers: buildBrowserTransformers()
     })
 
     return () => h('div', { innerHTML: html })
