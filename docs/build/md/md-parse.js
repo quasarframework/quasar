@@ -1,6 +1,7 @@
 import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
 import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
+import { preprocessDocInstallation } from '../doc-installation/preprocess.js'
 
 const docApiRE = /<DocApi /
 const docInstallationRE = /<DocInstallation /
@@ -22,7 +23,8 @@ function splitRenderedContent(mdPageContent) {
 }
 
 export default function mdParse(code, id) {
-  const { data: frontMatter, content } = parseFrontMatter(code)
+  const { data: frontMatter, content: rawContent } = parseFrontMatter(code)
+  const content = preprocessDocInstallation(rawContent)
 
   frontMatter.id = id
   frontMatter.title ||= 'Generic Page'
