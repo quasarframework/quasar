@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.',
     recordsPerPage: 'Baris per halaman:',
     allRows: 'Semua',
-    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' dari ' + total,
     columns: 'Kolom'
   },
   pagination: {

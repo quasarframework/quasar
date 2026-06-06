@@ -51,7 +51,7 @@ export default {
         : (rows === 0 ? 'לא' : rows) + ' שורות נבחרו',
     recordsPerPage: 'שורות בעמוד:',
     allRows: 'הכל',
-    pagination: (start, end, total) => start + '-' + end + ' מתוך ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' מתוך ' + total,
     columns: 'עמודות'
   },
   pagination: {

@@ -49,7 +49,7 @@ export default {
     recordsPerPage: 'တစ်မျက်နှာခြင်း အတန်းရေတွက်',
     allRows: 'အားလုံး',
     pagination: (start, end, total) =>
-      start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
+      start + ' မှ ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
     columns: 'ကော်လံ'
   },
   pagination: {

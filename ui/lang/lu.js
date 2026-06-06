@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Keng' : rows) + ' Zeilen ausgewielt.',
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
-    pagination: (start, end, total) => start + '-' + end + ' vun ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' vun ' + total,
     columns: 'Kolonnen'
   },
   pagination: {

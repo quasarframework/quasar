@@ -52,7 +52,7 @@ export default {
             : 'عدد المُدخَلات المحدّدة ' + rows + '.',
     recordsPerPage: 'عدد المُدخَلات في كل صفحة:',
     allRows: 'الكل',
-    pagination: (start, end, total) => start + '-' + end + ' من ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' من ' + total,
     columns: 'أعمدة'
   },
   pagination: {

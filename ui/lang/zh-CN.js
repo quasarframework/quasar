@@ -53,7 +53,7 @@ export default {
     selectedRecords: rows => '已选择' + rows + '行',
     recordsPerPage: '每页的行数:',
     allRows: '全部',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: '列'
   },
   pagination: {

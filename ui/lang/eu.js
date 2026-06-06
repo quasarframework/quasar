@@ -48,7 +48,7 @@ export default {
     recordsPerPage: 'Errenkadak orrialde bakoitzeko:',
     allRows: 'Denak',
     pagination: (start, end, total) =>
-      start + 'tik -' + end + 'ra, guztira ' + total,
+      start + ' tik - ' + end + 'ra, guztira ' + total,
     columns: 'Zutabeak'
   },
   pagination: {

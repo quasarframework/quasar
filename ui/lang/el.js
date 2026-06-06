@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Καμμία' : rows) + ' επιλεγμένες εγγραφές.',
     recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
-    pagination: (start, end, total) => start + '-' + end + ' από ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' από ' + total,
     columns: 'Στήλες'
   },
   pagination: {

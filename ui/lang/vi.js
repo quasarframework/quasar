@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Không có hàng nào' : rows) + ' hàng đã chọn.',
     recordsPerPage: 'Hàng trên mỗi trang:',
     allRows: 'Tất cả',
-    pagination: (start, end, total) => start + '-' + end + ' của ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' của ' + total,
     columns: 'Cột'
   },
   pagination: {

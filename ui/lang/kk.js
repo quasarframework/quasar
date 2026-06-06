@@ -60,7 +60,7 @@ export default {
         : 'Ешбір жол таңдалмады.',
     recordsPerPage: 'Беттегі жолдар:',
     allRows: 'Бәрі',
-    pagination: (start, end, total) => start + '-' + end + ' из ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' из ' + total,
     columns: 'Бағандар'
   },
   pagination: {

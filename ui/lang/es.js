@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Sin' : '1') + ' fila seleccionada.',
     recordsPerPage: 'Filas por página:',
     allRows: 'Todas',
-    pagination: (start, end, total) => start + '-' + end + ' de ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' de ' + total,
     columns: 'Columnas'
   },
   pagination: {

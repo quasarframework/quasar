@@ -56,7 +56,7 @@ export default {
         : 'Aucune ligne sélectionnée.',
     recordsPerPage: 'Lignes par page :',
     allRows: 'Tous',
-    pagination: (start, end, total) => start + '-' + end + ' sur ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' sur ' + total,
     columns: 'Colonnes'
   },
   pagination: {

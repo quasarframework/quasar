@@ -46,7 +46,7 @@ export default {
       rows > 0 ? 'เลือกทั้งหมด ' + rows + ' แถว' : 'ไม่มีแถวที่ถูกเลือก',
     recordsPerPage: 'แถวต่อหน้า:',
     allRows: 'แถวทั้งหมด',
-    pagination: (start, end, total) => start + '-' + end + ' of ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' of ' + total,
     columns: 'คอลัมน์'
   },
   pagination: {

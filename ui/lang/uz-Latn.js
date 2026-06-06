@@ -56,7 +56,7 @@ export default {
     },
     recordsPerPage: 'Saxifadagi qatorlar:',
     allRows: 'Barchasi',
-    pagination: (start, end, total) => start + '-' + end + ' jami ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' jami ' + total,
     columns: 'Ustunlar'
   },
   pagination: {

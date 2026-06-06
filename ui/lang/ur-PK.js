@@ -59,7 +59,7 @@ export default {
       rows === 0 ? 'کوئی ریکارڈ منتخب نہیں ہوا' : `${rows} ریکارڈ منتخب ہوئے`,
     recordsPerPage: 'ریکارڈز فی صفحہ:',
     allRows: 'سب',
-    pagination: (start, end, total) => `${start}-${end} / ${total}`,
+    pagination: (start, end, total) => `${start} - ${end} / ${total}`,
     columns: 'کالم'
   },
   pagination: {

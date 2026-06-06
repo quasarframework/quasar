@@ -50,7 +50,7 @@ export default {
         : 'Nessuna riga selezionata.',
     recordsPerPage: 'Righe per pagina:',
     allRows: 'Tutte',
-    pagination: (start, end, total) => start + '-' + end + ' di ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' di ' + total,
     columns: 'Colonne'
   },
   pagination: {

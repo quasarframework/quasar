@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Asnjë' : rows) + ' regjistrime të përzgjedhura.',
     recordsPerPage: 'Regjistrime për faqe:',
     allRows: 'Të gjitha',
-    pagination: (start, end, total) => `${start}-${end} nga ${total}`,
+    pagination: (start, end, total) => `${start} - ${end} nga ${total}`,
     columns: 'Kolonat'
   },
   pagination: {

@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Nincs' : rows) + ' kiválasztott elem.',
     recordsPerPage: 'Elemek száma oldalanként:',
     allRows: 'Összes',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: 'Oszlopok'
   },
   pagination: {

@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Nici o' : '1') + ' înregistrare selectată.',
     recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
-    pagination: (start, end, total) => start + '-' + end + ' din ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' din ' + total,
     columns: 'Coloane'
   },
   pagination: {

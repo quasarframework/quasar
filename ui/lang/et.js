@@ -48,7 +48,7 @@ export default {
       rows === 1 ? '1 kirje valitud.' : rows + ' kirjet valitud.',
     recordsPerPage: 'Kirjed lehel:',
     allRows: 'Kõik',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: 'Veerud'
   },
   pagination: {

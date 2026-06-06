@@ -50,7 +50,7 @@ export default {
         : (rows === 0 ? '' : rows) + ' রেকর্ড নির্বাচিত',
     recordsPerPage: 'প্রতি পৃষ্ঠায় রেকর্ড:',
     allRows: 'সব',
-    pagination: (start, end, total) => start + '-' + end + ' মধ্যে ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' মধ্যে ' + total,
     columns: 'কলাম'
   },
   pagination: {

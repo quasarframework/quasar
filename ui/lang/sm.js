@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Lēai ni' : rows) + " laina 'ua filifilia.",
     recordsPerPage: "Laina 'i le ītūlau:",
     allRows: "Laina 'uma",
-    pagination: (start, end, total) => start + '-' + end + ' o ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' o ' + total,
     columns: 'Poutū'
   },
   pagination: {

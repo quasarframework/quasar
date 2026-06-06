@@ -44,7 +44,7 @@ export default {
     selectedRecords: rows => rows + ' seçili kayıt.',
     recordsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
-    pagination: (start, end, total) => start + '-' + end + ' toplam ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' toplam ' + total,
     columns: 'Sütunlar'
   },
   pagination: {

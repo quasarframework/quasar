@@ -49,7 +49,7 @@ export default {
     selectedRecords: rows => (rows > 0 ? rows + '行を選択中' : '行を選択'),
     recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
-    pagination: (start, end, total) => start + '-' + end + ' ／ ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' ／ ' + total,
     columns: '列' // 'Columns'
   },
   pagination: {

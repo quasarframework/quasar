@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Engar' : rows) + ' færslur valdar.',
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
-    pagination: (start, end, total) => start + '-' + end + ' af ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' af ' + total,
     columns: 'Dálkar'
   },
   pagination: {

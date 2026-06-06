@@ -266,7 +266,7 @@
                 "examples": ["'5-10 of 50'"]
               },
               "examples": [
-                "(start, end, total) => start + '-' + end + ' of ' + total"
+                "(start, end, total) => start + ' - ' + end + ' of ' + total"
               ]
             },
             "columns": {
@@ -807,7 +807,7 @@
                     "examples": ["'5-10 of 50'"]
                   },
                   "examples": [
-                    "(start, end, total) => start + '-' + end + ' of ' + total"
+                    "(start, end, total) => start + ' - ' + end + ' of ' + total"
                   ]
                 },
                 "columns": {

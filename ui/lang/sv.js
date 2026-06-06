@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Inga' : rows) + ' valda rader.',
     recordsPerPage: 'Rader per sida:',
     allRows: 'Alla',
-    pagination: (start, end, total) => start + '-' + end + ' av ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' av ' + total,
     columns: 'Kolumner'
   },
   pagination: {

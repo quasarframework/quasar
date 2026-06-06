@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? '0' : rows) + ' பதிவு தேர்ந்தெடுக்கப்பட்டது.',
     recordsPerPage: 'ஒரு பக்கத்திற்கு பதிவுகள்:',
     allRows: 'அனைத்தும்',
-    pagination: (start, end, total) => start + '-' + end + ' மொத்தம் ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' மொத்தம் ' + total,
     columns: 'பத்திகள்'
   },
   pagination: {

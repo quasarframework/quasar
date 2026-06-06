@@ -54,7 +54,7 @@ export default {
         : 'Žiadne vybraté riadky.',
     recordsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',
-    pagination: (start, end, total) => start + '-' + end + ' z ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' z ' + total,
     columns: 'Stĺpce'
   },
   pagination: {

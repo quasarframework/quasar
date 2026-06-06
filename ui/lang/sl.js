@@ -49,7 +49,7 @@ export default {
           : (rows === 0 ? 'Ni' : rows) + ' izbranih vrstic.',
     recordsPerPage: 'Vrstic na stran:',
     allRows: 'Vse',
-    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' od ' + total,
     columns: 'Stolpci'
   },
   pagination: {

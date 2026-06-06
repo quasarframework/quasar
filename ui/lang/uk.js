@@ -60,7 +60,7 @@ export default {
         : 'Жодного рядку не обрано.',
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
-    pagination: (start, end, total) => start + '-' + end + ' з ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' з ' + total,
     columns: 'Колонки'
   },
   pagination: {

@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Brak' : '1') + ' zaznaczony wiersz.',
     recordsPerPage: 'Wierszy na stronę:',
     allRows: 'Wszystkie',
-    pagination: (start, end, total) => start + '-' + end + ' z ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' z ' + total,
     columns: 'Kolumny'
   },
   pagination: {

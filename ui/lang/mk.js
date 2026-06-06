@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Нема' : rows) + ' записи се избрани.',
     recordsPerPage: 'Записи по страница:',
     allRows: 'Сите',
-    pagination: (start, end, total) => start + '-' + end + ' од ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' од ' + total,
     columns: 'Колони'
   },
   pagination: {

@@ -53,7 +53,7 @@ export default {
         : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.',
     recordsPerPage: 'Rekod setiap halaman:',
     allRows: 'Semua',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: 'Senaraikan'
   },
   pagination: {

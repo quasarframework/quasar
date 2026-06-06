@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Hindi' : rows) + ' mga rekord na napili.',
     recordsPerPage: 'Mga tala sa bawat pahina:',
     allRows: 'Lahat',
-    pagination: (start, end, total) => start + '-' + end + ' ng ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' ng ' + total,
     columns: 'Mga hanay'
   },
   pagination: {

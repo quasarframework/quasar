@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Ingen' : rows) + ' rækker valgt.',
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
-    pagination: (start, end, total) => start + '-' + end + ' af ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' af ' + total,
     columns: 'Kolonner'
   },
   pagination: {

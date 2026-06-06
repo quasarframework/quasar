@@ -53,7 +53,7 @@ export default {
     selectedRecords: rows => 'جەمئىي ' + rows + ' قۇر تاللاندى',
     recordsPerPage: 'ھەربەتتىكى قۇر سانى:',
     allRows: 'ھەممىسى',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: 'ئىستون'
   },
   editor: {

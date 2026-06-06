@@ -46,7 +46,7 @@ export default {
         : (rows === 0 ? 'មិនមាន' : rows) + ' ជួរដេកត្រូវបានជ្រើសរើស',
     recordsPerPage: 'ជួរដេកក្នុងមួយទំព័រ:',
     allRows: 'ទាំងអស់',
-    pagination: (start, end, total) => start + '-' + end + ' នៃ ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' នៃ ' + total,
     columns: 'ជួរឈរ'
   },
   pagination: {

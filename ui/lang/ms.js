@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.',
     recordsPerPage: 'Rekod per halaman:',
     allRows: 'Semua',
-    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' dari ' + total,
     columns: 'Kolum'
   },
   pagination: {

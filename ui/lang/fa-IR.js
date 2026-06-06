@@ -54,7 +54,7 @@ export default {
       rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده',
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
-    pagination: (start, end, total) => start + '-' + end + ' از ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' از ' + total,
     columns: 'ستون'
   },
   pagination: {

@@ -52,7 +52,7 @@ export default {
         : 'Nenhum registro selecionado.',
     recordsPerPage: 'Registros por página:',
     allRows: 'Todos',
-    pagination: (start, end, total) => start + '-' + end + ' de ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' de ' + total,
     columns: 'Colunas'
   },
   pagination: {

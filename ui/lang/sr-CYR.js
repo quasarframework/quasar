@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Нема' : '1') + ' изабраних редова.',
     recordsPerPage: 'Редова по страници:',
     allRows: 'Све',
-    pagination: (start, end, total) => start + '-' + end + ' од ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' од ' + total,
     columns: 'Колоне'
   },
   pagination: {

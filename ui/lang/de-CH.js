@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Keine' : '1') + ' ausgewählt.',
     recordsPerPage: 'Zeilen pro Seite',
     allRows: 'Alle',
-    pagination: (start, end, total) => start + '-' + end + ' von ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' von ' + total,
     columns: 'Spalten'
   },
   pagination: {

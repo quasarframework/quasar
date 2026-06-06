@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Nema' : '1') + ' izabranih redova.',
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
-    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' od ' + total,
     columns: 'Kolone'
   },
   pagination: {

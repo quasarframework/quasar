@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Sense' : '1') + ' fila seleccionada.',
     recordsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
-    pagination: (start, end, total) => start + '-' + end + ' de ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' de ' + total,
     columns: 'Columnes'
   },
   pagination: {

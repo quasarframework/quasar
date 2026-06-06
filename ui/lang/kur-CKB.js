@@ -54,7 +54,7 @@ export default {
         : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.',
     recordsPerPage: 'ئەنجام بۆهەر پەڕەیەک:',
     allRows: 'هەمووی',
-    pagination: (start, end, total) => start + '-' + end + ' لە ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' لە ' + total,
     columns: 'ڕیز'
   },
   pagination: {

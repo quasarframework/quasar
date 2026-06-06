@@ -49,7 +49,7 @@ export default {
         : (rows === 0 ? 'Nav' : rows) + ' izvēlētas rindas.',
     recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
-    pagination: (start, end, total) => start + '-' + end + ' no ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' no ' + total,
     columns: 'Kolonnas'
   },
   pagination: {

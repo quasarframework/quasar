@@ -51,7 +51,7 @@ export default {
     selectedRecords: rows => 'dipilih' + rows + 'baris',
     recordsPerPage: 'baris setiap muka surat:',
     allRows: 'semua',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: 'Senaraikan'
   },
   pagination: {

@@ -62,7 +62,7 @@ export default {
         : 'Ни одна строка не выбрана.',
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
-    pagination: (start, end, total) => start + '-' + end + ' из ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' из ' + total,
     columns: 'Колонки'
   },
   pagination: {

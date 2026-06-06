@@ -45,7 +45,7 @@ export default {
         : (rows === 0 ? 'कोई' : rows) + ' रिकॉर्ड चयनित।',
     recordsPerPage: 'प्रति पृष्ठ रिकॉर्ड:',
     allRows: 'सभी',
-    pagination: (start, end, total) => start + '-' + end + ' कुल ' + total,
+    pagination: (start, end, total) => start + ' - ' + end + ' कुल ' + total,
     columns: 'कॉलम'
   },
   pagination: {
