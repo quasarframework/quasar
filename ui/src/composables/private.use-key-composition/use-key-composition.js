@@ -20,7 +20,8 @@ export default function useKeyComposition(onInput) {
     ) {
       const isComposing = client.is.firefox
         ? !isPlainText.test(e.data)
-        : isJapanese.test(e.data) ||
+        : isPlainText.test(e.data) ||
+          isJapanese.test(e.data) ||
           isChinese.test(e.data) ||
           isKorean.test(e.data)
 
