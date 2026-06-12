@@ -190,12 +190,20 @@ export default createComponent({
       // should removeTick() if this gets removed
       registerTick(() => {
         observer = new MutationObserver(() => updatePosition())
-        observer.observe(innerRef.value, {
-          attributes: false,
-          childList: true,
-          characterData: true,
-          subtree: true
-        })
+        if (innerRef.value === null) {
+          observer = void 0
+          return
+        }
+        try {
+          observer.observe(innerRef.value, {
+            attributes: false,
+            childList: true,
+            characterData: true,
+            subtree: true
+          })
+        } catch (_e) {
+          observer = void 0
+        }
         updatePosition()
         configureScrollTarget()
       })
