@@ -6,15 +6,17 @@ import open from 'open'
 import { fatal, warn } from './logger.js'
 
 function findXcodeWorkspace(folder) {
-  const root = fs.readdirSync(folder)
+  const items = fs.readdirSync(folder)
 
-  for (const item of root) {
-    const __path = path.join(folder, item)
+  // Prefer the .xcworkspace: it's the CocoaPods-integrated container that
+  // links the Pods providing the Capacitor module. readdirSync() can list
+  // the bare .xcodeproj first, and opening that builds without the Pods,
+  // failing with "No such module 'Capacitor'".
+  const target =
+    items.find(item => item.endsWith('.xcworkspace'))
+    || items.find(item => item.endsWith('.xcodeproj'))
 
-    if (item.endsWith('.xcworkspace') || item.endsWith('.xcodeproj')) {
-      return __path
-    }
-  }
+  return target !== undefined ? path.join(folder, target) : undefined
 }
 
 function runMacOS(mode, target, appPaths) {
