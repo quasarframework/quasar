@@ -16,7 +16,9 @@ function findXcodeWorkspace(folder) {
     items.find(item => item.endsWith('.xcworkspace'))
     || items.find(item => item.endsWith('.xcodeproj'))
 
-  return target !== undefined ? path.join(folder, target) : undefined
+  if (target) {
+    return path.join(folder, target)
+  }
 }
 
 function runMacOS(mode, target, appPaths) {
