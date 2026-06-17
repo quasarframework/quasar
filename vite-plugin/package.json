@@ -10,7 +10,9 @@
     "vuejs"
   ],
   "homepage": "https://quasar.dev",
-  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar/issues"
+  },
   "license": "MIT",
   "author": {
     "name": "Razvan Stoenescu",
