@@ -73,7 +73,11 @@ function getChanges(evt, ctx, isFinal) {
 
   let synthetic = false
 
-  if (dir === void 0 && !isFinal) {
+  if (
+    dir === void 0 &&
+    /* can also be undefined */
+    isFinal === false
+  ) {
     if (ctx.event.isFirst || ctx.event.lastDir === void 0) {
       return {}
     }
