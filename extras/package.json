@@ -118,7 +118,7 @@
     "build": "node build/index.js"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "7.2.0",
+    "@fortawesome/fontawesome-free": "7.3.0",
     "@mdi/font": "7.4.47",
     "@mdi/svg": "7.4.47",
     "@xmldom/xmldom": "0.9.10",
