@@ -1,6 +1,6 @@
 import fse from 'fs-extra'
 
-import { resolveToRoot, writeFile } from './build.utils.js'
+import { logError, resolveToRoot, writeFile } from './build.utils.js'
 
 const svgIconSetBanner = setName => `
 /*
@@ -99,6 +99,56 @@ const iconTypes = [
   }
 ]
 
+// material-icons is the canonical icon-set shape. Optional editor entries are
+// declared by the public type and fall back at runtime when a pack omits them.
+const optionalPaths = new Set([
+  // fallbacks to editor.heading
+  'editor.heading1',
+  'editor.heading2',
+  'editor.heading3',
+  'editor.heading4',
+  'editor.heading5',
+  'editor.heading6',
+
+  // fallbacks to editor.size
+  'editor.size1',
+  'editor.size2',
+  'editor.size3',
+  'editor.size4',
+  'editor.size5',
+  'editor.size6',
+  'editor.size7'
+])
+
+function getType(value) {
+  return Array.isArray(value) ? `array:${value.length}` : typeof value
+}
+
+// Compare nested icon-set objects as "section.key" paths. This mirrors the
+// language audit approach and catches missing, renamed, or incorrectly typed
+// icon entries without maintaining a second schema by hand.
+function flatten(obj, prefix = '') {
+  const entries = new Map()
+
+  for (const [key, value] of Object.entries(obj)) {
+    const path = prefix === '' ? key : `${prefix}.${key}`
+
+    if (
+      value !== null &&
+      typeof value === 'object' &&
+      Array.isArray(value) === false
+    ) {
+      for (const entry of flatten(value, path)) {
+        entries.set(entry[0], entry[1])
+      }
+    } else {
+      entries.set(path, value)
+    }
+  }
+
+  return entries
+}
+
 function convertWebfont(name, originalType) {
   const type = originalType.regex.test(name)
     ? originalType
@@ -128,6 +178,42 @@ function splitContent(str) {
   return {
     outsideOfExport: content[0],
     insideOfExport: splitDelimiter + content[1]
+  }
+}
+
+function validateIconSetShape(filename, iconSet, expectedPaths) {
+  const paths = flatten(iconSet)
+
+  if (iconSet.name !== filename.slice(0, -3)) {
+    throw new Error(
+      `${filename}: name should match filename; found ${iconSet.name}`
+    )
+  }
+
+  for (const [path, expectedValue] of expectedPaths) {
+    if (paths.has(path) === false) {
+      throw new Error(`${filename}: missing ${path}`)
+    }
+
+    const value = paths.get(path)
+    const type = getType(value)
+    const expectedType = getType(expectedValue)
+
+    if (type !== expectedType) {
+      throw new Error(
+        `${filename}: ${path} is ${type}; expected ${expectedType}`
+      )
+    }
+
+    if (path !== 'name' && typeof value === 'string' && value.length === 0) {
+      throw new Error(`${filename}: ${path} must be a non-empty string`)
+    }
+  }
+
+  for (const path of paths.keys()) {
+    if (!expectedPaths.has(path) && !optionalPaths.has(path)) {
+      throw new Error(`${filename}: unknown ${path}`)
+    }
   }
 }
 
@@ -184,6 +270,36 @@ function generateSvgFile(type) {
     : Promise.resolve()
 }
 
-export function generate() {
-  return Promise.all(iconTypes.map(generateSvgFile))
+export async function generate() {
+  try {
+    const expectedPaths = flatten(
+      await import(resolveToRoot('icon-set/material-icons.js')).then(
+        module => module.default
+      )
+    )
+
+    for (const type of iconTypes) {
+      const filename = `${type.name}.js`
+
+      // also validates import statements from q/extras are valid
+      const iconSet = await import(resolveToRoot(`icon-set/${filename}`)).then(
+        module => module.default
+      )
+
+      validateIconSetShape(filename, iconSet, expectedPaths)
+
+      await generateSvgFile(type)
+
+      // validates import statements from q/extras are valid
+      await import(resolveToRoot(`icon-set/svg-${filename}`)).then(
+        module => module.default
+      )
+    }
+  } catch (err) {
+    logError('build.icon-sets.js: something went wrong...')
+    console.log()
+    console.error(err)
+    console.log()
+    process.exit(1)
+  }
 }

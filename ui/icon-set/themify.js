@@ -56,8 +56,7 @@ export default {
     right: 'ti-angle-right',
     up: 'ti-angle-up',
     down: 'ti-angle-down',
-    navigationIcon: 'ti-control-record',
-    thumbnails: 'ti-layout-slider-alt'
+    navigationIcon: 'ti-control-record'
   },
   chip: {
     remove: 'ti-close',
