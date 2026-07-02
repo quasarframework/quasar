@@ -24,7 +24,7 @@ export default {
     ),
     daysShort: 'Sv_Pi_Ot_Tr_Ce_Pi_Se'.split('_'),
     months:
-      'Janvāris_Februāris_Marts_Aprīlis_Maijs_Jūnijs_Jūlijs_Augusts_Septembris_Okrobris_Novembris_Decembris'.split(
+      'Janvāris_Februāris_Marts_Aprīlis_Maijs_Jūnijs_Jūlijs_Augusts_Septembris_Oktobris_Novembris_Decembris'.split(
         '_'
       ),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jūn_Jūl_Aug_Sep_Okt_Nov_Dec'.split('_'),
