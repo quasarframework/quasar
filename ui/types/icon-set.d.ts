@@ -146,8 +146,6 @@ export type QuasarIconSets =
   | "fontawesome-v5-pro"
   | "fontawesome-v6"
   | "fontawesome-v6-pro"
-  | "svg-mdi-v4"
-  | "svg-mdi-v5"
   | "svg-mdi-v6"
   | "svg-fontawesome-v5"
   | "svg-fontawesome-v6"
