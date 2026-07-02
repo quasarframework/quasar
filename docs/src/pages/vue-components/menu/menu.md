@@ -77,6 +77,10 @@ The final position of QMenu popup is calculated so that it will be displayed on 
 
 For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
+::: tip
+The `offset` prop is applied to the **anchor element's bounding box**, and only then is the final position clamped to the available screen real estate. As a result, a large offset — or anchoring QMenu to a full-width / screen-edge element — can push the popup against a viewport edge, where it gets clamped and the offset appears to have no effect (the clamped position then becomes independent of the offset value). If an `offset` seems to be ignored on one axis, make sure the chosen `anchor`/`self` lets the popup expand into free space on that axis — for example, attach QMenu to an inline / `inline-block` trigger rather than to a full-width block element.
+:::
+
 <script doc>
 import MenuPositioning from './MenuPositioning.vue'
 </script>
