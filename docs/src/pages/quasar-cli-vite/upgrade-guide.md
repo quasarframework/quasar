@@ -465,7 +465,8 @@ build: {
   env: {}, // [!code --]
   defineEnv: {}, // or long form "define" with 'import.meta.env.' prefix in key
 
-  // change to "true" if needed; defaults to "false" now. It's worth checking whether your other Vue3 packages still use the Options API. If they do, you'll need to set this to true.
+  // change to "true" if needed; defaults to "false" now!
+  // check your deps too!
   vueOptionsAPI,
 
   // removed; deferring to Vite's default // [!code --]
