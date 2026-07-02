@@ -111,7 +111,7 @@ export default {
     viewSource: 'Voir la source'
   },
   tree: {
-    noData: 'Aucun nœud à afficher',
+    noNodes: 'Aucun nœud à afficher',
     noResults: 'Aucun nœud trouvé'
   }
 }

@@ -105,7 +105,7 @@ export default {
     viewSource: 'Vedi sorgente'
   },
   tree: {
-    noData: 'Nessun nodo disponibile',
+    noNodes: 'Nessun nodo disponibile',
     noResults: 'Nessuna corrispondenza trovata'
   }
 }

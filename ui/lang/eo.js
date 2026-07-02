@@ -105,7 +105,7 @@ export default {
     viewSource: 'Vida Fonto'
   },
   tree: {
-    noData: 'Neniu nodo afiŝenda',
+    noNodes: 'Neniu nodo afiŝenda',
     noResults: 'Neniu nodo trovita'
   }
 }

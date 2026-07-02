@@ -1,5 +1,4 @@
-const days =
-  'يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_پەيشەنبە_جۈمە_شەنبە_يەكشەنبە'.split('_')
+const days = 'يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_پەيشەنبە_جۈمە_شەنبە'.split('_')
 
 export default {
   isoName: 'ug',
@@ -55,6 +54,12 @@ export default {
     allRows: 'ھەممىسى',
     pagination: (start, end, total) => start + ' - ' + end + ' / ' + total,
     columns: 'ئىستون'
+  },
+  pagination: {
+    first: 'بىرىنچى بەت',
+    prev: 'ئالدىنقى بەت',
+    next: 'كېيىنكى بەت',
+    last: 'ئاخىرقى بەت'
   },
   editor: {
     url: 'URL',

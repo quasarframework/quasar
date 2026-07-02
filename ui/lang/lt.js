@@ -11,7 +11,7 @@ function plurals(n, opts) {
 
 export default {
   isoName: 'lt',
-  nativeName: 'Lithuanian',
+  nativeName: 'Lietuvių',
   label: {
     clear: 'Išvalyti',
     ok: 'Gerai',
