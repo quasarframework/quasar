@@ -32,7 +32,7 @@
     "markdown-it": "^14.2.0",
     "markdown-it-container": "^4.0.0",
     "tinyglobby": "^0.2.17",
-    "toml": "^4.1.1",
+    "toml": "^4.1.2",
     "workbox-build": "^7.4.1"
   },
   "productName": "quasar-docs"
