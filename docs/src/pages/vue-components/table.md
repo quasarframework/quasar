@@ -286,7 +286,7 @@ If you are using virtual scroll with QTable, you should know that there are 2 ut
 <DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
 
 ::: tip
-An expanded row is just another `QTr` rendered for the same row of data, so the same rules from [Virtual scroll with multiple rows for a data row](#virtual-scrolling) apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.
+An expanded row is just another `QTr` rendered for the same row of data, so the same rules from "Virtual scrolling" apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.
 :::
 
 ## Before/after slots
