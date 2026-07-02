@@ -170,73 +170,6 @@ function parseTemplate(regex, code) {
     : null
 }
 
-function transformToScriptSetup(sourceCode) {
-  const exportMatch = sourceCode.match(/export\s+default\s*\{/)
-  if (!exportMatch) return sourceCode
-
-  const imports = sourceCode.slice(0, exportMatch.index).trim()
-  const body = sourceCode.slice(exportMatch.index)
-  const setupMatch = body.match(/(?:async\s+)?setup\s*\([^)]*\)\s*\{/)
-  if (!setupMatch) return sourceCode
-
-  const setupStart = setupMatch.index + setupMatch[0].length
-  let braces = 1
-  let setupEnd = -1
-
-  for (let i = setupStart; i < body.length; i++) {
-    if (body[i] === '{') braces++
-    if (body[i] === '}') braces--
-
-    if (braces === 0) {
-      setupEnd = i
-      break
-    }
-  }
-
-  if (setupEnd === -1) throw new Error('Mismatched braces in setup()')
-
-  let setupContent = body.slice(setupStart, setupEnd)
-
-  const lastReturn = setupContent.lastIndexOf('return')
-  if (lastReturn !== -1) {
-    const afterReturn = setupContent.slice(lastReturn + 6).trim()
-
-    if (afterReturn.startsWith('{')) {
-      let retBraces = 0
-      let returnEnd = -1
-      let started = false
-
-      for (let i = lastReturn; i < setupContent.length; i++) {
-        if (setupContent[i] === '{') {
-          retBraces++
-          started = true
-        }
-        if (setupContent[i] === '}') {
-          retBraces--
-        }
-        if (started && retBraces === 0) {
-          returnEnd = i
-          break
-        }
-      }
-
-      if (returnEnd !== -1) {
-        setupContent =
-          setupContent.slice(0, lastReturn) + setupContent.slice(returnEnd + 1)
-      }
-    }
-  }
-
-  setupContent = setupContent.replace(/^\s*\n/, '').replace(/\s*$/, '')
-  const lines = setupContent
-    ? setupContent
-        .split('\n')
-        .map(line => (line.trim().length === 0 ? '' : line.slice(4)))
-    : null
-
-  return `${imports}${lines ? '\n\n' + lines.join('\n').trim() : ''}`
-}
-
 function parseComponent(code) {
   const tabs = []
 
@@ -256,14 +189,11 @@ function parseComponent(code) {
   }
 
   const script = parseTemplate(scriptRE, code)
-  let jsContent
   if (script) {
-    jsContent = transformToScriptSetup(script.content)
     tabs.push({
       codepen: 'js',
       name: 'Script setup',
-      content: jsContent,
-      codepenContent: script.content,
+      content: script.content,
       lang: 'js'
     })
   }
@@ -285,16 +215,9 @@ function parseComponent(code) {
   }
 
   if (tabs.length > 1) {
-    const content = jsContent
-      ? code.replace(
-          scriptRE,
-          '<' + `script setup>\n` + jsContent + '\n<' + '/script>'
-        )
-      : code
-
     tabs.push({
       name: 'All (SFC)',
-      content,
+      content: code,
       lang: 'html'
     })
   }

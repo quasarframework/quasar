@@ -4,13 +4,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const date = ref(null)
-    return { date }
-  }
-}
+const date = ref(null)
 </script>

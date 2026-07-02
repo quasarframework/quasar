@@ -22,23 +22,3 @@
     </q-img>
   </div>
 </template>
-
-<script>
-import { ref } from 'vue'
-
-export default {
-  setup() {
-    const url = ref('https://cdn.quasar.dev/img/no-image-src.png')
-
-    function refresh() {
-      url.value =
-        'https://cdn.quasar.dev/img/no-image-src.png?t=' + Math.random()
-    }
-
-    return {
-      url,
-      refresh
-    }
-  }
-}
-</script>

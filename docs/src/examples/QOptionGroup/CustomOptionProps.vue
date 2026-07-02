@@ -23,46 +23,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const modelOne = ref('op1')
-    const modelTwo = ref('op1')
+const modelOne = ref('op1')
+const modelTwo = ref('op1')
 
-    const options = [
-      {
-        title: 'Option 1',
-        key: 'op1',
-        inactive: false
-      },
-      {
-        title: 'Option 2 (disabled)',
-        key: 'op2',
-        inactive: true
-      },
-      {
-        title: 'Option 3',
-        key: 'op3',
-        inactive: false
-      }
-    ]
-
-    const optValueFn = item => item.key
-    const optLabelFn = item => item.title
-    const optDisableFn = item => item.inactive
-
-    return {
-      modelOne,
-      modelTwo,
-
-      options,
-
-      optValueFn,
-      optLabelFn,
-      optDisableFn
-    }
+const options = [
+  {
+    title: 'Option 1',
+    key: 'op1',
+    inactive: false
+  },
+  {
+    title: 'Option 2 (disabled)',
+    key: 'op2',
+    inactive: true
+  },
+  {
+    title: 'Option 3',
+    key: 'op3',
+    inactive: false
   }
-}
+]
+
+const optValueFn = item => item.key
+const optLabelFn = item => item.title
+const optDisableFn = item => item.inactive
 </script>

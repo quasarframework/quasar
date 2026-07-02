@@ -105,15 +105,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const stars = ref(4)
-    return { stars }
-  }
-}
+const stars = ref(4)
 </script>
 
 <style lang="sass" scoped>

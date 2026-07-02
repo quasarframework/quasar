@@ -25,19 +25,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(null)
-    const model2 = ref(null)
-    const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
-    return {
-      model,
-      model2,
-      options
-    }
-  }
-}
+const model = ref(null)
+const model2 = ref(null)
+const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 </script>

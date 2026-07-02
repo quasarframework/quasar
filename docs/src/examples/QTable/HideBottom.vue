@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
 const columns = [
@@ -117,27 +117,11 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const hasData = ref(true)
-    const hideBottom = ref(false)
-    const hideSelectedBanner = ref(false)
-    const hideNoData = ref(false)
-    const hidePagination = ref(false)
-    const selected = ref([rows[1]])
-    const records = computed(() => (hasData.value ? rows : []))
-
-    return {
-      hasData,
-      hideBottom,
-      hideSelectedBanner,
-      hideNoData,
-      hidePagination,
-
-      selected,
-      columns,
-      records
-    }
-  }
-}
+const hasData = ref(true)
+const hideBottom = ref(false)
+const hideSelectedBanner = ref(false)
+const hideNoData = ref(false)
+const hidePagination = ref(false)
+const selected = ref([rows[1]])
+const records = computed(() => (hasData.value ? rows : []))
 </script>

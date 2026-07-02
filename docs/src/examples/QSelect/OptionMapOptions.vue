@@ -15,39 +15,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(null)
-    const options = [
-      {
-        label: 'Google',
-        value: 'goog'
-      },
-      // #region
-      {
-        label: 'Facebook',
-        value: 'fb'
-      },
-      {
-        label: 'Twitter',
-        value: 'twt'
-      },
-      {
-        label: 'Apple',
-        value: 'app'
-      },
-      // #endregion
-      {
-        label: 'Oracle',
-        value: 'ora',
-        disable: true
-      }
-    ]
-
-    return { model, options }
+const model = ref(null)
+const options = [
+  {
+    label: 'Google',
+    value: 'goog'
+  },
+  // #region
+  {
+    label: 'Facebook',
+    value: 'fb'
+  },
+  {
+    label: 'Twitter',
+    value: 'twt'
+  },
+  {
+    label: 'Apple',
+    value: 'app'
+  },
+  // #endregion
+  {
+    label: 'Oracle',
+    value: 'ora',
+    disable: true
   }
-}
+]
 </script>

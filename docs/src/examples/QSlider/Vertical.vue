@@ -25,13 +25,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const standard = ref(10)
-    return { standard }
-  }
-}
+const standard = ref(10)
 </script>

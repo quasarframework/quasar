@@ -8,13 +8,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const nullModel = ref(null)
-    return { nullModel }
-  }
-}
+const nullModel = ref(null)
 </script>

@@ -14,24 +14,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const url = ref(null)
+const url = ref(null)
 
-    function toggle() {
-      url.value =
-        url.value === null
-          ? 'https://picsum.photos/500/300?t=' + Math.random()
-          : null
-    }
-
-    return {
-      url,
-      toggle
-    }
-  }
+function toggle() {
+  url.value =
+    url.value === null
+      ? 'https://picsum.photos/500/300?t=' + Math.random()
+      : null
 }
 </script>

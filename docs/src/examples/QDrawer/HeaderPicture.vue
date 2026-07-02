@@ -87,13 +87,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const drawer = ref(false)
-    return { drawer }
-  }
-}
+const drawer = ref(false)
 </script>

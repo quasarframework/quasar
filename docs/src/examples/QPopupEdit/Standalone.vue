@@ -15,13 +15,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const label = ref('Click me')
-    return { label }
-  }
-}
+const label = ref('Click me')
 </script>

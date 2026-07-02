@@ -15,16 +15,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const label = ref({
-      min: -12,
-      max: 8
-    })
-    return { label }
-  }
-}
+const label = ref({
+  min: -12,
+  max: 8
+})
 </script>

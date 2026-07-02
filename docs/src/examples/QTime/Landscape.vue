@@ -8,14 +8,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const time = ref('10:56')
-    const timeWithSeconds = ref('09:24:10')
-    return { time, timeWithSeconds }
-  }
-}
+const time = ref('10:56')
+const timeWithSeconds = ref('09:24:10')
 </script>

@@ -8,16 +8,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const range = ref({
-      min: 20,
-      max: 65
-    })
-    return { range }
-  }
-}
+const range = ref({
+  min: 20,
+  max: 65
+})
 </script>

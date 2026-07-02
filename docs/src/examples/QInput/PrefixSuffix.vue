@@ -30,19 +30,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const email = ref('')
-    const number = ref(null)
-    const text = ref('')
-    return {
-      email,
-      number,
-      text
-    }
-  }
-}
+const email = ref('')
+const number = ref(null)
+const text = ref('')
 </script>

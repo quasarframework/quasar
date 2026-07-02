@@ -34,65 +34,54 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const firstRef = useTemplateRef('firstRef')
-    const secondRef = useTemplateRef('secondRef')
+const firstRef = useTemplateRef('firstRef')
+const secondRef = useTemplateRef('secondRef')
 
-    let ignoreSource
+let ignoreSource
 
-    function scroll(source, position) {
-      // if we previously just updated
-      // the scroll position, then ignore
-      // this update as otherwise we'll flicker
-      // the position from one scroll area to
-      // the other in an infinite loop
-      if (ignoreSource === source) {
-        ignoreSource = null
-        return
-      }
-
-      // we'll now update the other scroll area,
-      // which will also trigger a @scroll event...
-      // and we need to ignore that one
-      ignoreSource = source === 'first' ? 'second' : 'first'
-
-      const areaRef = source === 'first' ? secondRef : firstRef
-
-      areaRef.value.setScrollPosition('vertical', position)
-    }
-
-    const thumbStyle = {
-      borderRadius: '7px',
-      backgroundColor: '#027be3',
-      width: '4px',
-      opacity: 0.75
-    }
-
-    const barStyle = {
-      borderRadius: '9px',
-      backgroundColor: '#027be3',
-      width: '8px',
-      opacity: 0.2
-    }
-
-    function onScrollFirst({ verticalPosition }) {
-      scroll('first', verticalPosition)
-    }
-
-    function onScrollSecond({ verticalPosition }) {
-      scroll('second', verticalPosition)
-    }
-
-    return {
-      thumbStyle,
-      barStyle,
-      onScrollFirst,
-      onScrollSecond
-    }
+function scroll(source, position) {
+  // if we previously just updated
+  // the scroll position, then ignore
+  // this update as otherwise we'll flicker
+  // the position from one scroll area to
+  // the other in an infinite loop
+  if (ignoreSource === source) {
+    ignoreSource = null
+    return
   }
+
+  // we'll now update the other scroll area,
+  // which will also trigger a @scroll event...
+  // and we need to ignore that one
+  ignoreSource = source === 'first' ? 'second' : 'first'
+
+  const areaRef = source === 'first' ? secondRef : firstRef
+
+  areaRef.value.setScrollPosition('vertical', position)
+}
+
+const thumbStyle = {
+  borderRadius: '7px',
+  backgroundColor: '#027be3',
+  width: '4px',
+  opacity: 0.75
+}
+
+const barStyle = {
+  borderRadius: '9px',
+  backgroundColor: '#027be3',
+  width: '8px',
+  opacity: 0.2
+}
+
+function onScrollFirst({ verticalPosition }) {
+  scroll('first', verticalPosition)
+}
+
+function onScrollSecond({ verticalPosition }) {
+  scroll('second', verticalPosition)
 }
 </script>

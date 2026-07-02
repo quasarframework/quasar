@@ -53,15 +53,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    function onClick() {
-      // console.log('Clicked on a fab action')
-    }
-
-    return { onClick }
-  }
+<script setup>
+function onClick() {
+  console.log('Clicked on a fab action')
 }
 </script>
 

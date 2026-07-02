@@ -38,18 +38,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    function onMainClick() {
-      // console.log('Clicked on main button')
-    }
+<script setup>
+function onMainClick() {
+  console.log('Clicked on main button')
+}
 
-    function onItemClick() {
-      // console.log('Clicked on an Item')
-    }
-
-    return { onMainClick, onItemClick }
-  }
+function onItemClick() {
+  console.log('Clicked on an Item')
 }
 </script>

@@ -87,22 +87,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
-export default {
-  setup() {
-    const text = ref('Field content')
-    const readonly = ref(false)
-    const disable = ref(false)
-    const tabindex = computed(() => (disable.value || readonly.value ? -1 : 0))
-
-    return {
-      text,
-      readonly,
-      disable,
-      tabindex
-    }
-  }
-}
+const text = ref('Field content')
+const readonly = ref(false)
+const disable = ref(false)
+const tabindex = computed(() => (disable.value || readonly.value ? -1 : 0))
 </script>

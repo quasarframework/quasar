@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { onMounted, ref, useTemplateRef } from 'vue'
 
 const columns = [
@@ -518,114 +518,100 @@ const originalRows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const tableRef = useTemplateRef('tableRef')
-    const rows = ref([])
-    const filter = ref('')
-    const loading = ref(false)
-    const pagination = ref({
-      sortBy: 'desc',
-      descending: false,
-      page: 1,
-      rowsPerPage: 3,
-      rowsNumber: 10
-    })
+const tableRef = useTemplateRef('tableRef')
+const rows = ref([])
+const filter = ref('')
+const loading = ref(false)
+const pagination = ref({
+  sortBy: 'desc',
+  descending: false,
+  page: 1,
+  rowsPerPage: 3,
+  rowsNumber: 10
+})
 
-    // emulate ajax call
-    // SELECT * FROM ... WHERE...LIMIT...
-    function fetchFromServer(startRow, count, filterStr, sortBy, descending) {
-      const data = filterStr
-        ? originalRows.filter(row => row.name.includes(filterStr))
-        : [...originalRows]
+// emulate ajax call
+// SELECT * FROM ... WHERE...LIMIT...
+function fetchFromServer(startRow, count, filterStr, sortBy, descending) {
+  const data = filterStr
+    ? originalRows.filter(row => row.name.includes(filterStr))
+    : [...originalRows]
 
-      // handle sortBy
-      if (sortBy) {
-        const sortFn =
-          sortBy === 'desc'
-            ? descending
-              ? (a, b) => (a.name > b.name ? -1 : a.name < b.name ? 1 : 0)
-              : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-            : descending
-              ? (a, b) =>
-                  Number.parseFloat(b[sortBy]) - Number.parseFloat(a[sortBy])
-              : (a, b) =>
-                  Number.parseFloat(a[sortBy]) - Number.parseFloat(b[sortBy])
-        data.sort(sortFn)
-      }
-
-      return data.slice(startRow, startRow + count)
-    }
-
-    // emulate 'SELECT count(*) FROM ...WHERE...'
-    function getRowsNumberCount(filterStr) {
-      if (!filterStr) {
-        return originalRows.length
-      }
-      let count = 0
-      originalRows.forEach(treat => {
-        if (treat.name.includes(filterStr)) {
-          ++count
-        }
-      })
-      return count
-    }
-
-    function onRequest(props) {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination
-      const filterStr = props.filter
-
-      loading.value = true
-
-      // emulate server
-      setTimeout(() => {
-        // update rowsCount with appropriate value
-        pagination.value.rowsNumber = getRowsNumberCount(filterStr)
-
-        // get all rows if "All" (0) is selected
-        const fetchCount =
-          rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage
-
-        // calculate starting row of data
-        const startRow = (page - 1) * rowsPerPage
-
-        // fetch data from "server"
-        const returnedData = fetchFromServer(
-          startRow,
-          fetchCount,
-          filterStr,
-          sortBy,
-          descending
-        )
-
-        // clear out existing data and add new
-        rows.value.splice(0, rows.value.length, ...returnedData)
-
-        // don't forget to update local pagination object
-        pagination.value.page = page
-        pagination.value.rowsPerPage = rowsPerPage
-        pagination.value.sortBy = sortBy
-        pagination.value.descending = descending
-
-        // ...and turn of loading indicator
-        loading.value = false
-      }, 1500)
-    }
-
-    onMounted(() => {
-      // get initial data from server (1st page)
-      tableRef.value.requestServerInteraction()
-    })
-
-    return {
-      filter,
-      loading,
-      pagination,
-      columns,
-      rows,
-
-      onRequest
-    }
+  // handle sortBy
+  if (sortBy) {
+    const sortFn =
+      sortBy === 'desc'
+        ? descending
+          ? (a, b) => (a.name > b.name ? -1 : a.name < b.name ? 1 : 0)
+          : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+        : descending
+          ? (a, b) =>
+              Number.parseFloat(b[sortBy]) - Number.parseFloat(a[sortBy])
+          : (a, b) =>
+              Number.parseFloat(a[sortBy]) - Number.parseFloat(b[sortBy])
+    data.sort(sortFn)
   }
+
+  return data.slice(startRow, startRow + count)
 }
+
+// emulate 'SELECT count(*) FROM ...WHERE...'
+function getRowsNumberCount(filterStr) {
+  if (!filterStr) {
+    return originalRows.length
+  }
+  let count = 0
+  originalRows.forEach(treat => {
+    if (treat.name.includes(filterStr)) {
+      ++count
+    }
+  })
+  return count
+}
+
+function onRequest(props) {
+  const { page, rowsPerPage, sortBy, descending } = props.pagination
+  const filterStr = props.filter
+
+  loading.value = true
+
+  // emulate server
+  setTimeout(() => {
+    // update rowsCount with appropriate value
+    pagination.value.rowsNumber = getRowsNumberCount(filterStr)
+
+    // get all rows if "All" (0) is selected
+    const fetchCount =
+      rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage
+
+    // calculate starting row of data
+    const startRow = (page - 1) * rowsPerPage
+
+    // fetch data from "server"
+    const returnedData = fetchFromServer(
+      startRow,
+      fetchCount,
+      filterStr,
+      sortBy,
+      descending
+    )
+
+    // clear out existing data and add new
+    rows.value.splice(0, rows.value.length, ...returnedData)
+
+    // don't forget to update local pagination object
+    pagination.value.page = page
+    pagination.value.rowsPerPage = rowsPerPage
+    pagination.value.sortBy = sortBy
+    pagination.value.descending = descending
+
+    // ...and turn of loading indicator
+    loading.value = false
+  }, 1500)
+}
+
+onMounted(() => {
+  // get initial data from server (1st page)
+  tableRef.value.requestServerInteraction()
+})
 </script>

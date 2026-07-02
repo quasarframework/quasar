@@ -50,30 +50,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const controlType = ref('flat')
-    const controlTypeOptions = [
-      { value: 'regular', label: 'regular' },
-      { value: 'unelevated', label: 'unelevated' },
-      { value: 'flat', label: 'flat (default)' },
-      { value: 'outline', label: 'outline' },
-      { value: 'push', label: 'push' }
-    ]
+const controlType = ref('flat')
+const controlTypeOptions = [
+  { value: 'regular', label: 'regular' },
+  { value: 'unelevated', label: 'unelevated' },
+  { value: 'flat', label: 'flat (default)' },
+  { value: 'outline', label: 'outline' },
+  { value: 'push', label: 'push' }
+]
 
-    const slide = ref('style')
-    const lorem =
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
-
-    return {
-      controlType,
-      controlTypeOptions,
-      slide,
-      lorem
-    }
-  }
-}
+const slide = ref('style')
+const lorem =
+  'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
 </script>

@@ -60,23 +60,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const value1 = ref(6)
-    const value2 = ref(70)
-    const value3 = ref(102)
-    const value4 = ref(35)
-    const value5 = ref(95)
-    return {
-      value1,
-      value2,
-      value3,
-      value4,
-      value5
-    }
-  }
-}
+const value1 = ref(6)
+const value2 = ref(70)
+const value3 = ref(102)
+const value4 = ref(35)
+const value5 = ref(95)
 </script>

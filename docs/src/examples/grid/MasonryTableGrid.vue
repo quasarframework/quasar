@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { computed, ref, watch } from 'vue'
 
@@ -80,61 +80,46 @@ deserts.forEach(name => {
 
 rows.sort(() => -1 + Math.floor(3 * Math.random()))
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function getItemsPerPage() {
-      if ($q.screen.lt.sm) {
-        return 3
-      }
-      if ($q.screen.lt.md) {
-        return 6
-      }
-      return 9
-    }
-
-    const filter = ref('')
-    const pagination = ref({
-      page: 1,
-      rowsPerPage: getItemsPerPage()
-    })
-
-    watch(
-      () => $q.screen.name,
-      () => {
-        pagination.value.rowsPerPage = getItemsPerPage()
-      }
-    )
-
-    const columns = [
-      { name: 'name', label: 'Name', field: 'name' },
-      { name: 'calories', label: 'Calories (g)', field: 'calories' }
-    ]
-
-    const cardContainerClass = computed(() =>
-      $q.screen.gt.xs
-        ? 'example-masonry-table-grid example-masonry-table-grid--' +
-          ($q.screen.gt.sm ? '3' : '2')
-        : null
-    )
-
-    const rowsPerPageOptions = computed(() =>
-      $q.screen.gt.xs ? ($q.screen.gt.sm ? [3, 6, 9] : [3, 6]) : [3]
-    )
-
-    return {
-      rows,
-
-      filter,
-      pagination,
-
-      columns,
-      cardContainerClass,
-      rowsPerPageOptions
-    }
+function getItemsPerPage() {
+  if ($q.screen.lt.sm) {
+    return 3
   }
+  if ($q.screen.lt.md) {
+    return 6
+  }
+  return 9
 }
+
+const filter = ref('')
+const pagination = ref({
+  page: 1,
+  rowsPerPage: getItemsPerPage()
+})
+
+watch(
+  () => $q.screen.name,
+  () => {
+    pagination.value.rowsPerPage = getItemsPerPage()
+  }
+)
+
+const columns = [
+  { name: 'name', label: 'Name', field: 'name' },
+  { name: 'calories', label: 'Calories (g)', field: 'calories' }
+]
+
+const cardContainerClass = computed(() =>
+  $q.screen.gt.xs
+    ? 'example-masonry-table-grid example-masonry-table-grid--' +
+      ($q.screen.gt.sm ? '3' : '2')
+    : null
+)
+
+const rowsPerPageOptions = computed(() =>
+  $q.screen.gt.xs ? ($q.screen.gt.sm ? [3, 6, 9] : [3, 6]) : [3]
+)
 </script>
 
 <style lang="sass">

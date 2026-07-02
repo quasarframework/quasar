@@ -63,11 +63,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    const value = 71
-    return { value }
-  }
-}
+<script setup>
+const value = 71
 </script>

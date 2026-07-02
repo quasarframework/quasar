@@ -22,59 +22,44 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const ticked = ref(['Pleasant surroundings'])
-    const expanded = ref(['Good service (disabled node)'])
-    const tickStrategy = ref('strict')
-    const tickStrategies = [
-      { value: 'none', label: 'None' },
-      { value: 'strict', label: 'Strict' },
-      { value: 'leaf', label: 'Leaf' },
-      { value: 'leaf-filtered', label: 'Leaf Filtered' }
-    ]
+const ticked = ref(['Pleasant surroundings'])
+const expanded = ref(['Good service (disabled node)'])
+const tickStrategy = ref('strict')
+const tickStrategies = [
+  { value: 'none', label: 'None' },
+  { value: 'strict', label: 'Strict' },
+  { value: 'leaf', label: 'Leaf' },
+  { value: 'leaf-filtered', label: 'Leaf Filtered' }
+]
 
-    const simple = [
+const simple = [
+  {
+    label: 'Satisfied customers',
+    children: [
       {
-        label: 'Satisfied customers',
+        label: 'Good food',
+        children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+      },
+      {
+        label: 'Good service (disabled node)',
+        disabled: true,
         children: [
-          {
-            label: 'Good food',
-            children: [
-              { label: 'Quality ingredients' },
-              { label: 'Good recipe' }
-            ]
-          },
-          {
-            label: 'Good service (disabled node)',
-            disabled: true,
-            children: [
-              { label: 'Prompt attention' },
-              { label: 'Professional waiter' }
-            ]
-          },
-          {
-            label: 'Pleasant surroundings',
-            children: [
-              { label: 'Happy atmosphere (*)' },
-              { label: 'Good table presentation' },
-              { label: 'Pleasing decor (*)' }
-            ]
-          }
+          { label: 'Prompt attention' },
+          { label: 'Professional waiter' }
+        ]
+      },
+      {
+        label: 'Pleasant surroundings',
+        children: [
+          { label: 'Happy atmosphere (*)' },
+          { label: 'Good table presentation' },
+          { label: 'Pleasing decor (*)' }
         ]
       }
     ]
-
-    return {
-      ticked,
-      expanded,
-      tickStrategy,
-      tickStrategies,
-      simple
-    }
   }
-}
+]
 </script>

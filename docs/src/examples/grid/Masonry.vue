@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const generateCells = () =>
@@ -40,19 +40,10 @@ const generateCells = () =>
     )
   )
 
-export default {
-  setup() {
-    const cells = ref(generateCells())
+const cells = ref(generateCells())
 
-    function onClick() {
-      cells.value = generateCells()
-    }
-
-    return {
-      cells,
-      onClick
-    }
-  }
+function onClick() {
+  cells.value = generateCells()
 }
 </script>
 

@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const columns = [
   // #region
   {
@@ -156,13 +156,4 @@ const rows = [
   }
   // #endregion
 ]
-
-export default {
-  setup() {
-    return {
-      columns,
-      rows
-    }
-  }
-}
 </script>

@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -176,17 +176,7 @@ rows.forEach((row, index) => {
   row.index = index
 })
 
-export default {
-  setup() {
-    const pagination = ref({
-      rowsPerPage: 1000
-    })
-
-    return {
-      columns,
-      rows,
-      pagination
-    }
-  }
-}
+const pagination = ref({
+  rowsPerPage: 1000
+})
 </script>

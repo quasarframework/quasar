@@ -72,14 +72,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const slide = ref(1)
-    const autoplay = ref(false)
-    return { slide, autoplay }
-  }
-}
+const slide = ref(1)
+const autoplay = ref(false)
 </script>

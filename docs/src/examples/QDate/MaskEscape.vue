@@ -30,14 +30,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model1 = ref('Sunday, Apr 28, 2019')
-    const model2 = ref('Month ( March ) 14th, Year ( 2019 )')
-    return { model1, model2 }
-  }
-}
+const model1 = ref('Sunday, Apr 28, 2019')
+const model2 = ref('Month ( March ) 14th, Year ( 2019 )')
 </script>

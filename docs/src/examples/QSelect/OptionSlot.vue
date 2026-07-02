@@ -28,49 +28,43 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(null)
-    const options = [
-      {
-        label: 'Google',
-        value: 'Google',
-        description: 'Search engine',
-        icon: 'mail'
-      },
-      // #region
-      {
-        label: 'Facebook',
-        value: 'Facebook',
-        description: 'Social media',
-        icon: 'bluetooth'
-      },
-      {
-        label: 'Twitter',
-        value: 'Twitter',
-        description: 'Quick updates',
-        icon: 'map'
-      },
-      {
-        label: 'Apple',
-        value: 'Apple',
-        description: 'iStuff',
-        icon: 'golf_course'
-      },
-      // #endregion
-      {
-        label: 'Oracle',
-        value: 'Oracle',
-        disable: true,
-        description: 'Databases',
-        icon: 'casino'
-      }
-    ]
-
-    return { model, options }
+const model = ref(null)
+const options = [
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
+  },
+  // #region
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  },
+  {
+    label: 'Twitter',
+    value: 'Twitter',
+    description: 'Quick updates',
+    icon: 'map'
+  },
+  {
+    label: 'Apple',
+    value: 'Apple',
+    description: 'iStuff',
+    icon: 'golf_course'
+  },
+  // #endregion
+  {
+    label: 'Oracle',
+    value: 'Oracle',
+    disable: true,
+    description: 'Databases',
+    icon: 'casino'
   }
-}
+]
 </script>

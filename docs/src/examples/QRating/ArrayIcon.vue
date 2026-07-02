@@ -12,19 +12,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const ratingModel = ref(3)
-    const icons = [
-      'sentiment_very_dissatisfied',
-      'sentiment_dissatisfied',
-      'sentiment_satisfied',
-      'sentiment_very_satisfied'
-    ]
-    return { ratingModel, icons }
-  }
-}
+const ratingModel = ref(3)
+const icons = [
+  'sentiment_very_dissatisfied',
+  'sentiment_dissatisfied',
+  'sentiment_satisfied',
+  'sentiment_very_satisfied'
+]
 </script>

@@ -71,21 +71,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const small = ref(false)
-    const medium = ref(false)
-    const fullWidth = ref(false)
-    const fullHeight = ref(false)
-    return {
-      small,
-      medium,
-      fullWidth,
-      fullHeight
-    }
-  }
-}
+const small = ref(false)
+const medium = ref(false)
+const fullWidth = ref(false)
+const fullHeight = ref(false)
 </script>

@@ -7,87 +7,81 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function customBtn() {
-      $q.dialog({
-        title: 'Confirm',
-        message: 'Would you like to turn on the wifi?',
-        ok: {
-          push: true
-        },
-        cancel: {
-          push: true,
-          color: 'negative'
-        },
-        persistent: true
+function customBtn() {
+  $q.dialog({
+    title: 'Confirm',
+    message: 'Would you like to turn on the wifi?',
+    ok: {
+      push: true
+    },
+    cancel: {
+      push: true,
+      color: 'negative'
+    },
+    persistent: true
+  })
+    .onOk(() => {
+      console.log('>>>> OK')
+    })
+    .onCancel(() => {
+      console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      console.log('I am triggered on both OK and Cancel')
+    })
+}
+
+function positioned() {
+  $q.dialog({
+    title: 'Positioned',
+    message: 'This dialog appears from bottom.',
+    position: 'bottom'
+  })
+}
+
+function stacked() {
+  $q.dialog({
+    title: 'Stacked Buttons',
+    stackButtons: true,
+    cancel: true
+  })
+}
+
+function autoClose() {
+  let seconds = 3
+
+  const dialog = $q
+    .dialog({
+      title: 'Alert',
+      message: `Autoclosing in ${seconds} seconds.`
+    })
+    .onOk(() => {
+      console.log('OK')
+    })
+    .onCancel(() => {
+      console.log('Cancel')
+    })
+    .onDismiss(() => {
+      clearTimeout(timer)
+      console.log('I am triggered on both OK and Cancel')
+    })
+
+  const timer = setInterval(() => {
+    seconds--
+
+    if (seconds > 0) {
+      dialog.update({
+        message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
       })
-        .onOk(() => {
-          // console.log('>>>> OK')
-        })
-        .onCancel(() => {
-          // console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          // console.log('I am triggered on both OK and Cancel')
-        })
+    } else {
+      clearInterval(timer)
+      dialog.hide()
     }
-
-    function positioned() {
-      $q.dialog({
-        title: 'Positioned',
-        message: 'This dialog appears from bottom.',
-        position: 'bottom'
-      })
-    }
-
-    function stacked() {
-      $q.dialog({
-        title: 'Stacked Buttons',
-        stackButtons: true,
-        cancel: true
-      })
-    }
-
-    function autoClose() {
-      let seconds = 3
-
-      const dialog = $q
-        .dialog({
-          title: 'Alert',
-          message: `Autoclosing in ${seconds} seconds.`
-        })
-        .onOk(() => {
-          // console.log('OK')
-        })
-        .onCancel(() => {
-          // console.log('Cancel')
-        })
-        .onDismiss(() => {
-          clearTimeout(timer)
-          // console.log('I am triggered on both OK and Cancel')
-        })
-
-      const timer = setInterval(() => {
-        seconds--
-
-        if (seconds > 0) {
-          dialog.update({
-            message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
-          })
-        } else {
-          clearInterval(timer)
-          dialog.hide()
-        }
-      }, 1000)
-    }
-
-    return { customBtn, positioned, stacked, autoClose }
-  }
+  }, 1000)
 }
 </script>

@@ -25,13 +25,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const persistent = ref(false)
-    return { persistent }
-  }
-}
+const persistent = ref(false)
 </script>

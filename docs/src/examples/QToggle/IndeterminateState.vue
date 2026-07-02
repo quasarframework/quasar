@@ -29,24 +29,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const theModel = ref(null)
-    const theModel2 = ref('maybe')
+const theModel = ref(null)
+const theModel2 = ref('maybe')
 
-    function reset() {
-      theModel.value = null
-      theModel2.value = 'maybe'
-    }
-
-    return {
-      theModel,
-      theModel2,
-      reset
-    }
-  }
+function reset() {
+  theModel.value = null
+  theModel2.value = 'maybe'
 }
 </script>

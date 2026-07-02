@@ -50,14 +50,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const firstModel = ref(2)
-    const secondModel = ref(4)
-    return { firstModel, secondModel }
-  }
-}
+const firstModel = ref(2)
+const secondModel = ref(4)
 </script>

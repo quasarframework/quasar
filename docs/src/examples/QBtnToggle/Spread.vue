@@ -33,16 +33,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref('one')
-    const secondModel = ref('one')
-    return { model, secondModel }
-  }
-}
+const model = ref('one')
+const secondModel = ref('one')
 </script>
 
 <style lang="sass" scoped>

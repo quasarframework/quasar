@@ -9,16 +9,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const standard = ref({
-      min: 5,
-      max: 15
-    })
-    return { standard }
-  }
-}
+const standard = ref({
+  min: 5,
+  max: 15
+})
 </script>

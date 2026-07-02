@@ -13,15 +13,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const state = ref(true)
-    return { state }
-  }
-}
+const state = ref(true)
 </script>
 
 <style lang="sass" scoped>

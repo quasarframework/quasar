@@ -16,13 +16,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const customModel = ref('no')
-    return { customModel }
-  }
-}
+const customModel = ref('no')
 </script>

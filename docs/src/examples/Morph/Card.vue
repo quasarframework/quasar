@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const nextMorphStep = {
@@ -56,18 +56,9 @@ const nextMorphStep = {
   card2: 'btn'
 }
 
-export default {
-  setup() {
-    const morphGroupModel = ref('btn')
+const morphGroupModel = ref('btn')
 
-    function nextMorph() {
-      morphGroupModel.value = nextMorphStep[morphGroupModel.value]
-    }
-
-    return {
-      morphGroupModel,
-      nextMorph
-    }
-  }
+function nextMorph() {
+  morphGroupModel.value = nextMorphStep[morphGroupModel.value]
 }
 </script>

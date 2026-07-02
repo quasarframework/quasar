@@ -28,19 +28,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const id = ref(null)
-    const phone = ref(null)
-    const serialNumber = ref(null)
-    return {
-      id,
-      phone,
-      serialNumber
-    }
-  }
-}
+const id = ref(null)
+const phone = ref(null)
+const serialNumber = ref(null)
 </script>

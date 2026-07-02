@@ -42,116 +42,93 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { event } from 'quasar'
 import { computed, ref } from 'vue'
 
 const { stopAndPrevent } = event
 
-export default {
-  setup() {
-    const inputModel = ref('')
-    const inputFillCancelled = ref(false)
-    const inputShadowText = computed(() => {
-      if (inputFillCancelled.value) return ''
+const inputModel = ref('')
+const inputFillCancelled = ref(false)
+const inputShadowText = computed(() => {
+  if (inputFillCancelled.value) return ''
 
-      const t = 'Text filled when you press TAB'
-      const empty =
-        typeof inputModel.value !== 'string' || inputModel.value.length === 0
+  const t = 'Text filled when you press TAB'
+  const empty =
+    typeof inputModel.value !== 'string' || inputModel.value.length === 0
 
-      if (empty) {
-        return t
-      } else if (t.indexOf(inputModel.value) !== 0) {
-        return ''
-      }
+  if (empty) {
+    return t
+  } else if (t.indexOf(inputModel.value) !== 0) {
+    return ''
+  }
 
-      return t.split(inputModel.value).slice(1).join(inputModel.value)
-    })
+  return t.split(inputModel.value).slice(1).join(inputModel.value)
+})
 
-    const textareaModel = ref('')
-    const textareaFillCancelled = ref(false)
-    const textareaShadowText = computed(() => {
-      if (textareaFillCancelled.value) {
-        return ''
-      }
+const textareaModel = ref('')
+const textareaFillCancelled = ref(false)
+const textareaShadowText = computed(() => {
+  if (textareaFillCancelled.value) {
+    return ''
+  }
 
-      const t =
-          'This text\nwill be filled\non multiple lines\nwhen you press TAB',
-        empty =
-          typeof textareaModel.value !== 'string' ||
-          textareaModel.value.length === 0
+  const t = 'This text\nwill be filled\non multiple lines\nwhen you press TAB',
+    empty =
+      typeof textareaModel.value !== 'string' ||
+      textareaModel.value.length === 0
 
-      if (empty) {
-        return t.split('\n')[0]
-      } else if (t.indexOf(textareaModel.value) !== 0) {
-        return ''
-      }
+  if (empty) {
+    return t.split('\n')[0]
+  } else if (t.indexOf(textareaModel.value) !== 0) {
+    return ''
+  }
 
-      return t
-        .split(textareaModel.value)
-        .slice(1)
-        .join(textareaModel.value)
-        .split('\n')[0]
-    })
+  return t
+    .split(textareaModel.value)
+    .slice(1)
+    .join(textareaModel.value)
+    .split('\n')[0]
+})
 
-    function processInputFill(e) {
-      if (e === void 0) return
+function processInputFill(e) {
+  if (e === void 0) return
 
-      if (e.keyCode === 27) {
-        if (inputFillCancelled.value !== true) {
-          inputFillCancelled.value = true
-        }
-      } else if (e.keyCode === 9) {
-        if (
-          inputFillCancelled.value !== true &&
-          inputShadowText.value.length !== 0
-        ) {
-          stopAndPrevent(e)
-          inputModel.value =
-            (typeof inputModel.value === 'string' ? inputModel.value : '') +
-            inputShadowText.value
-        }
-      } else if (inputFillCancelled.value) {
-        inputFillCancelled.value = false
-      }
+  if (e.keyCode === 27) {
+    if (inputFillCancelled.value !== true) {
+      inputFillCancelled.value = true
     }
-
-    function processTextareaFill(e) {
-      if (e === void 0) return
-
-      if (e.keyCode === 27) {
-        if (!textareaFillCancelled.value) {
-          textareaFillCancelled.value = true
-        }
-      } else if (e.keyCode === 9) {
-        if (
-          !textareaFillCancelled.value &&
-          textareaShadowText.value.length !== 0
-        ) {
-          stopAndPrevent(e)
-          textareaModel.value =
-            (typeof textareaModel.value === 'string'
-              ? textareaModel.value
-              : '') + textareaShadowText.value
-        }
-      } else if (textareaFillCancelled.value) {
-        textareaFillCancelled.value = false
-      }
+  } else if (e.keyCode === 9) {
+    if (
+      inputFillCancelled.value !== true &&
+      inputShadowText.value.length !== 0
+    ) {
+      stopAndPrevent(e)
+      inputModel.value =
+        (typeof inputModel.value === 'string' ? inputModel.value : '') +
+        inputShadowText.value
     }
+  } else if (inputFillCancelled.value) {
+    inputFillCancelled.value = false
+  }
+}
 
-    return {
-      inputModel,
-      inputFillCancelled,
-      inputShadowText,
+function processTextareaFill(e) {
+  if (e === void 0) return
 
-      processInputFill,
-
-      textareaModel,
-      textareaFillCancelled,
-      textareaShadowText,
-
-      processTextareaFill
+  if (e.keyCode === 27) {
+    if (!textareaFillCancelled.value) {
+      textareaFillCancelled.value = true
     }
+  } else if (e.keyCode === 9) {
+    if (!textareaFillCancelled.value && textareaShadowText.value.length !== 0) {
+      stopAndPrevent(e)
+      textareaModel.value =
+        (typeof textareaModel.value === 'string' ? textareaModel.value : '') +
+        textareaShadowText.value
+    }
+  } else if (textareaFillCancelled.value) {
+    textareaFillCancelled.value = false
   }
 }
 </script>

@@ -8,16 +8,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const snap = ref({
-      min: 2,
-      max: 12
-    })
-    return { snap }
-  }
-}
+const snap = ref({
+  min: 2,
+  max: 12
+})
 </script>

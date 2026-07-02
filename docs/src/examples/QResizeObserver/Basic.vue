@@ -23,35 +23,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const style = ref({ width: '200px', height: '200px' })
-    const report = ref(null)
+const style = ref({ width: '200px', height: '200px' })
+const report = ref(null)
 
-    function onResize(size) {
-      report.value = size
-      // {
-      //   width: 20 // width of container (in px)
-      //   height: 50 // height of container (in px)
-      // }
-    }
+function onResize(size) {
+  report.value = size
+  // {
+  //   width: 20 // width of container (in px)
+  //   height: 50 // height of container (in px)
+  // }
+}
 
-    function setRandomSize() {
-      style.value = {
-        width: Math.floor(100 + Math.random() * 200) + 'px',
-        height: Math.floor(100 + Math.random() * 200) + 'px'
-      }
-    }
-
-    return {
-      style,
-      report,
-      onResize,
-      setRandomSize
-    }
+function setRandomSize() {
+  style.value = {
+    width: Math.floor(100 + Math.random() * 200) + 'px',
+    height: Math.floor(100 + Math.random() * 200) + 'px'
   }
 }
 </script>

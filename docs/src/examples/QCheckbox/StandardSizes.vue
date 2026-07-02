@@ -22,13 +22,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const shape = ref(['line'])
-    return { shape }
-  }
-}
+const shape = ref(['line'])
 </script>

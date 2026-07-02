@@ -4,13 +4,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const current = ref(3)
-    return { current }
-  }
-}
+const current = ref(3)
 </script>

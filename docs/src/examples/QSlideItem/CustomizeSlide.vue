@@ -27,71 +27,58 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { computed, onBeforeUnmount, ref } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
-    let timer
+const $q = useQuasar()
+let timer
 
-    const slideRatio = ref({
-      left: 0,
-      right: 0
-    })
+const slideRatio = ref({
+  left: 0,
+  right: 0
+})
 
-    const leftColor = computed(() =>
-      slideRatio.value.left >= 1
-        ? 'red-10'
-        : 'red-' + (3 + Math.round(Math.min(3, slideRatio.value.left * 3)))
-    )
+const leftColor = computed(() =>
+  slideRatio.value.left >= 1
+    ? 'red-10'
+    : 'red-' + (3 + Math.round(Math.min(3, slideRatio.value.left * 3)))
+)
 
-    const rightColor = computed(() =>
-      slideRatio.value.right >= 1
-        ? 'green-10'
-        : 'green-' + (3 + Math.round(Math.min(3, slideRatio.value.right * 3)))
-    )
+const rightColor = computed(() =>
+  slideRatio.value.right >= 1
+    ? 'green-10'
+    : 'green-' + (3 + Math.round(Math.min(3, slideRatio.value.right * 3)))
+)
 
-    function finalize(reset) {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        reset()
-      }, 1000)
-    }
+function finalize(reset) {
+  clearTimeout(timer)
+  timer = setTimeout(() => {
+    reset()
+  }, 1000)
+}
 
-    onBeforeUnmount(() => {
-      clearTimeout(timer)
-    })
+onBeforeUnmount(() => {
+  clearTimeout(timer)
+})
 
-    function onLeft({ reset }) {
-      $q.notify('Left action triggered. Resetting in 1 second.')
-      finalize(reset)
-    }
+function onLeft({ reset }) {
+  $q.notify('Left action triggered. Resetting in 1 second.')
+  finalize(reset)
+}
 
-    function onRight({ reset }) {
-      $q.notify('Right action triggered. Resetting in 1 second.')
-      finalize(reset)
-    }
+function onRight({ reset }) {
+  $q.notify('Right action triggered. Resetting in 1 second.')
+  finalize(reset)
+}
 
-    function onSlide({ side, ratio, isReset }) {
-      clearTimeout(timer)
-      timer = setTimeout(
-        () => {
-          slideRatio.value[side] = ratio
-        },
-        isReset ? 200 : void 0
-      )
-    }
-
-    return {
-      leftColor,
-      rightColor,
-
-      onLeft,
-      onRight,
-      onSlide
-    }
-  }
+function onSlide({ side, ratio, isReset }) {
+  clearTimeout(timer)
+  timer = setTimeout(
+    () => {
+      slideRatio.value[side] = ratio
+    },
+    isReset ? 200 : void 0
+  )
 }
 </script>

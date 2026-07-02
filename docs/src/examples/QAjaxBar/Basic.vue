@@ -12,27 +12,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const barRef = useTemplateRef('barRef')
+const barRef = useTemplateRef('barRef')
 
-    // we manually trigger it (this is not needed if we
-    // don't skip Ajax calls hijacking)
-    function trigger() {
-      barRef.value.start()
+// we manually trigger it (this is not needed if we
+// don't skip Ajax calls hijacking)
+function trigger() {
+  barRef.value.start()
 
-      setTimeout(
-        () => {
-          barRef.value?.stop()
-        },
-        Math.random() * 3000 + 1000
-      )
-    }
-
-    return { trigger }
-  }
+  setTimeout(
+    () => {
+      barRef.value?.stop()
+    },
+    Math.random() * 3000 + 1000
+  )
 }
 </script>

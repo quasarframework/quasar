@@ -89,88 +89,70 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const status1 = ref([])
-    const status2 = ref([])
+const status1 = ref([])
+const status2 = ref([])
 
-    function handler1(mutationRecords) {
-      status1.value = []
-      for (const index in mutationRecords) {
-        const record = mutationRecords[index]
-        const info = `type: ${record.type}, nodes added: ${record.addedNodes.length !== 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length !== 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
-        status1.value.push(info)
-      }
-    }
-
-    function handler2(mutationRecords) {
-      status2.value = []
-      for (const index in mutationRecords) {
-        const record = mutationRecords[index]
-        const info = `type: ${record.type}, nodes added: ${record.addedNodes.length !== 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length !== 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
-        status2.value.push(info)
-      }
-    }
-
-    // store the id of the draggable element
-    function onDragStart(e) {
-      e.dataTransfer.setData('text', e.target.id)
-      e.dataTransfer.dropEffect = 'move'
-    }
-
-    function onDragEnter(e) {
-      // don't drop on other draggables
-      if (e.target.draggable !== true) {
-        e.target.classList.add('drag-enter')
-      }
-    }
-
-    function onDragLeave(e) {
-      e.target.classList.remove('drag-enter')
-    }
-
-    function onDragOver(e) {
-      e.preventDefault()
-    }
-
-    function onDrop(e) {
-      e.preventDefault()
-
-      // don't drop on other draggables
-      if (e.target.draggable) return
-
-      const draggedId = e.dataTransfer.getData('text')
-      const draggedEl = document.getElementById(draggedId)
-
-      // check if original parent node
-      if (draggedEl.parentNode === e.target) {
-        e.target.classList.remove('drag-enter')
-        return
-      }
-
-      // make the exchange
-      draggedEl.remove()
-      e.target.append(draggedEl)
-      e.target.classList.remove('drag-enter')
-    }
-
-    return {
-      status1,
-      status2,
-
-      handler1,
-      handler2,
-
-      onDragStart,
-      onDragEnter,
-      onDragLeave,
-      onDragOver,
-      onDrop
-    }
+function handler1(mutationRecords) {
+  status1.value = []
+  for (const index in mutationRecords) {
+    const record = mutationRecords[index]
+    const info = `type: ${record.type}, nodes added: ${record.addedNodes.length !== 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length !== 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
+    status1.value.push(info)
   }
+}
+
+function handler2(mutationRecords) {
+  status2.value = []
+  for (const index in mutationRecords) {
+    const record = mutationRecords[index]
+    const info = `type: ${record.type}, nodes added: ${record.addedNodes.length !== 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length !== 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
+    status2.value.push(info)
+  }
+}
+
+// store the id of the draggable element
+function onDragStart(e) {
+  e.dataTransfer.setData('text', e.target.id)
+  e.dataTransfer.dropEffect = 'move'
+}
+
+function onDragEnter(e) {
+  // don't drop on other draggables
+  if (e.target.draggable !== true) {
+    e.target.classList.add('drag-enter')
+  }
+}
+
+function onDragLeave(e) {
+  e.target.classList.remove('drag-enter')
+}
+
+function onDragOver(e) {
+  e.preventDefault()
+}
+
+function onDrop(e) {
+  e.preventDefault()
+
+  // don't drop on other draggables
+  if (e.target.draggable) return
+
+  const draggedId = e.dataTransfer.getData('text')
+  const draggedEl = document.getElementById(draggedId)
+
+  // check if original parent node
+  if (draggedEl.parentNode === e.target) {
+    e.target.classList.remove('drag-enter')
+    return
+  }
+
+  // make the exchange
+  draggedEl.remove()
+  e.target.append(draggedEl)
+  e.target.classList.remove('drag-enter')
 }
 </script>
 

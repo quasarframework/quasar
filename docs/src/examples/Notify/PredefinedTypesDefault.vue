@@ -41,66 +41,54 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function triggerPositive() {
-      $q.notify({
-        type: 'positive',
-        message: 'This is a "positive" type notification.'
-      })
-    }
+function triggerPositive() {
+  $q.notify({
+    type: 'positive',
+    message: 'This is a "positive" type notification.'
+  })
+}
 
-    function triggerNegative() {
-      $q.notify({
-        type: 'negative',
-        message: 'This is a "negative" type notification.'
-      })
-    }
+function triggerNegative() {
+  $q.notify({
+    type: 'negative',
+    message: 'This is a "negative" type notification.'
+  })
+}
 
-    function triggerWarning() {
-      $q.notify({
-        type: 'warning',
-        message: 'This is a "warning" type notification.'
-      })
-    }
+function triggerWarning() {
+  $q.notify({
+    type: 'warning',
+    message: 'This is a "warning" type notification.'
+  })
+}
 
-    function triggerInfo() {
-      $q.notify({
-        type: 'info',
-        message: 'This is a "info" type notification.'
-      })
-    }
+function triggerInfo() {
+  $q.notify({
+    type: 'info',
+    message: 'This is a "info" type notification.'
+  })
+}
 
-    function triggerOngoing() {
-      // we need to get the notification reference
-      // otherwise it will never get dismissed ('ongoing' type has timeout 0)
-      const notif = $q.notify({
-        type: 'ongoing',
-        message: 'Looking up the search terms...'
-      })
+function triggerOngoing() {
+  // we need to get the notification reference
+  // otherwise it will never get dismissed ('ongoing' type has timeout 0)
+  const notif = $q.notify({
+    type: 'ongoing',
+    message: 'Looking up the search terms...'
+  })
 
-      // simulate delay
-      setTimeout(() => {
-        notif({
-          type: 'positive',
-          message: 'Found the results that you were looking for',
-          timeout: 1000
-        })
-      }, 4000)
-    }
-
-    return {
-      triggerPositive,
-      triggerNegative,
-      triggerWarning,
-      triggerInfo,
-      triggerOngoing
-    }
-  }
+  // simulate delay
+  setTimeout(() => {
+    notif({
+      type: 'positive',
+      message: 'Found the results that you were looking for',
+      timeout: 1000
+    })
+  }, 4000)
 }
 </script>

@@ -10,13 +10,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const value = ref(false)
-    return { value }
-  }
-}
+const value = ref(false)
 </script>

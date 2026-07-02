@@ -129,39 +129,20 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const carousel = ref(false)
-    const card = ref(false)
-    const sliders = ref(false)
+const carousel = ref(false)
+const card = ref(false)
+const sliders = ref(false)
 
-    const slide = ref(1)
-    const lorem =
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
+const slide = ref(1)
+const lorem =
+  'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
 
-    const stars = ref(3)
+const stars = ref(3)
 
-    const slideVol = ref(39)
-    const slideAlarm = ref(56)
-    const slideVibration = ref(63)
-
-    return {
-      carousel,
-      card,
-      sliders,
-
-      slide,
-      lorem,
-
-      stars,
-
-      slideVol,
-      slideAlarm,
-      slideVibration
-    }
-  }
-}
+const slideVol = ref(39)
+const slideAlarm = ref(56)
+const slideVibration = ref(63)
 </script>

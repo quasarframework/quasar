@@ -112,21 +112,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const icon = ref(false)
-    const bar = ref(false)
-    const bar2 = ref(false)
-    const toolbar = ref(false)
-    return {
-      icon,
-      bar,
-      bar2,
-      toolbar
-    }
-  }
-}
+const icon = ref(false)
+const bar = ref(false)
+const bar2 = ref(false)
+const toolbar = ref(false)
 </script>

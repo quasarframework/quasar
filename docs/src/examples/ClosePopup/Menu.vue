@@ -26,28 +26,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
-    const firstItemEnabled = ref(false)
+const $q = useQuasar()
+const firstItemEnabled = ref(false)
 
-    function onClick(index) {
-      if (index > 1 || firstItemEnabled.value) {
-        $q.notify({
-          message: `Clicked on menu item #${index} and closed QMenu`,
-          color: 'primary'
-        })
-      }
-    }
-
-    return {
-      firstItemEnabled,
-      onClick
-    }
+function onClick(index) {
+  if (index > 1 || firstItemEnabled.value) {
+    $q.notify({
+      message: `Clicked on menu item #${index} and closed QMenu`,
+      color: 'primary'
+    })
   }
 }
 </script>

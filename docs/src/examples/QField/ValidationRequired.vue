@@ -31,27 +31,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const date = ref('')
-    const fieldRef = useTemplateRef('fieldRef')
+const date = ref('')
+const fieldRef = useTemplateRef('fieldRef')
 
-    function resetValidation() {
-      fieldRef.value.resetValidation()
-    }
+function resetValidation() {
+  fieldRef.value.resetValidation()
+}
 
-    function resetDate() {
-      date.value = ''
-    }
-
-    return {
-      date,
-      resetValidation,
-      resetDate
-    }
-  }
+function resetDate() {
+  date.value = ''
 }
 </script>

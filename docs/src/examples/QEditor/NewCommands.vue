@@ -24,41 +24,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
-    const editor = ref(
-      'After you define a new button,' +
-        ' you have to make sure to put it in the toolbar too!'
-    )
+const $q = useQuasar()
+const editor = ref(
+  'After you define a new button,' +
+    ' you have to make sure to put it in the toolbar too!'
+)
 
-    function saveWork() {
-      $q.notify({
-        message: 'Saved your text to local storage',
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done'
-      })
-    }
+function saveWork() {
+  $q.notify({
+    message: 'Saved your text to local storage',
+    color: 'green-4',
+    textColor: 'white',
+    icon: 'cloud_done'
+  })
+}
 
-    function uploadIt() {
-      $q.notify({
-        message: 'Server unavailable. Check connectivity.',
-        color: 'red-5',
-        textColor: 'white',
-        icon: 'warning'
-      })
-    }
-
-    return {
-      editor,
-      saveWork,
-      uploadIt
-    }
-  }
+function uploadIt() {
+  $q.notify({
+    message: 'Server unavailable. Check connectivity.',
+    color: 'red-5',
+    textColor: 'white',
+    icon: 'warning'
+  })
 }
 </script>

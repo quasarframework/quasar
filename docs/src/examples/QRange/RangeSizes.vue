@@ -21,16 +21,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref({
-      min: 1,
-      max: 6
-    })
-    return { model }
-  }
-}
+const model = ref({
+  min: 1,
+  max: 6
+})
 </script>

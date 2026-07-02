@@ -30,43 +30,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 function sortAtoi(a, b) {
   return Number(a) - Number(b)
 }
 
-export default {
-  setup() {
-    const inView = ref([])
+const inView = ref([])
 
-    function onIntersection(entry) {
-      if (entry.isIntersecting) {
-        add(entry.target.dataset.id)
-      } else {
-        remove(entry.target.dataset.id)
-      }
-    }
+function onIntersection(entry) {
+  if (entry.isIntersecting) {
+    add(entry.target.dataset.id)
+  } else {
+    remove(entry.target.dataset.id)
+  }
+}
 
-    function add(i) {
-      remove(i)
-      inView.value.push(i)
-      inView.value.sort(sortAtoi)
-    }
+function add(i) {
+  remove(i)
+  inView.value.push(i)
+  inView.value.sort(sortAtoi)
+}
 
-    function remove(i) {
-      let index
-      while ((index = inView.value.indexOf(i)) > -1) {
-        inView.value.splice(index, 1)
-        inView.value.sort(sortAtoi)
-      }
-    }
-
-    return {
-      inView,
-      onIntersection
-    }
+function remove(i) {
+  let index
+  while ((index = inView.value.indexOf(i)) > -1) {
+    inView.value.splice(index, 1)
+    inView.value.sort(sortAtoi)
   }
 }
 </script>

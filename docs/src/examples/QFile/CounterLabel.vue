@@ -19,18 +19,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const files = ref(null)
+const files = ref(null)
 
-    function counterLabelFn({ totalSize, filesNumber, maxFiles }) {
-      return `${filesNumber} files of ${maxFiles} | ${totalSize}`
-    }
-
-    return { files, counterLabelFn }
-  }
+function counterLabelFn({ totalSize, filesNumber, maxFiles }) {
+  return `${filesNumber} files of ${maxFiles} | ${totalSize}`
 }
 </script>

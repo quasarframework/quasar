@@ -31,13 +31,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const text = ref('')
-    return { text }
-  }
-}
+const text = ref('')
 </script>

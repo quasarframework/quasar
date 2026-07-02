@@ -22,13 +22,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const value = ref(25)
-    return { value }
-  }
-}
+const value = ref(25)
 </script>

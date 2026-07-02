@@ -18,16 +18,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const lazy = ref({
-      min: 10,
-      max: 35
-    })
-    return { lazy }
-  }
-}
+const lazy = ref({
+  min: 10,
+  max: 35
+})
 </script>

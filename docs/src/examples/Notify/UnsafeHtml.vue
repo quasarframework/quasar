@@ -9,22 +9,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function showNotif() {
-      $q.notify({
-        message:
-          '<em>I can</em> <span style="color: red">use</span> <strong>HTML</strong>',
-        html: true
-      })
-    }
-
-    return { showNotif }
-  }
+function showNotif() {
+  $q.notify({
+    message:
+      '<em>I can</em> <span style="color: red">use</span> <strong>HTML</strong>',
+    html: true
+  })
 }
 </script>

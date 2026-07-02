@@ -32,15 +32,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const slide = ref('first')
-    return { slide }
-  }
-}
+const slide = ref('first')
 </script>
 
 <style lang="sass" scoped>

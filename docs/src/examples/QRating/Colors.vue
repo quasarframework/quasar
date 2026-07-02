@@ -11,20 +11,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const ratingModel = ref(4)
-    const ratingColors = [
-      'light-green-3',
-      'light-green-6',
-      'green',
-      'green-9',
-      'green-10'
-    ]
-    return { ratingModel, ratingColors }
-  }
-}
+const ratingModel = ref(4)
+const ratingColors = [
+  'light-green-3',
+  'light-green-6',
+  'green',
+  'green-9',
+  'green-10'
+]
 </script>

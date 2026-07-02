@@ -29,29 +29,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
-export default {
-  setup() {
-    const width = ref(400)
-    const splitterModel = ref(50) // start at 50%
+const width = ref(400)
+const splitterModel = ref(50) // start at 50%
 
-    const splitterStyle = computed(() => ({
-      height: Math.min(600, 0.66 * width.value) + 'px',
-      width: width.value + 'px'
-    }))
+const splitterStyle = computed(() => ({
+  height: Math.min(600, 0.66 * width.value) + 'px',
+  width: width.value + 'px'
+}))
 
-    function onResize(info) {
-      width.value = info.width
-    }
-
-    return {
-      width,
-      splitterModel,
-      splitterStyle,
-      onResize
-    }
-  }
+function onResize(info) {
+  width.value = info.width
 }
 </script>

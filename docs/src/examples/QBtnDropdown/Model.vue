@@ -39,17 +39,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const menu = ref(false)
-    function onItemClick() {
-      // console.log('Clicked on an Item')
-    }
-
-    return { menu, onItemClick }
-  }
+const menu = ref(false)
+function onItemClick() {
+  console.log('Clicked on an Item')
 }
 </script>

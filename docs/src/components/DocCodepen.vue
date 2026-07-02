@@ -57,34 +57,111 @@ const cssPreprocessor = computed(() => {
   return lang === 'css' ? 'none' : lang || 'none'
 })
 
+const importRegex = /^import\s+[\s\S]+?from\s+['"].+['"];?$/gm
+const varRegex = /^const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/gm
+const funcRegex = /^function\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*\(/gm
+const defineComponentRegex =
+  /const\s+[a-zA-Z_$][0-9a-zA-Z_$]*\s*=\s*defineComponent\(/m
+
+const quasarImports = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
+const vueImports = /import\s+{([^}'\n]+)}\s+from\s+'vue'/g
+const otherImports = /import ([^'\n]*) from ([^\n]*)/g
+
 const js = computed(() => {
-  const content = parts.value.js?.content || ''
+  const jsCode = parts.value.js?.content || ''
+  const imports = []
+  const defineComponents = []
+  const exportedKeys = new Set()
 
-  const quasarImports = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
-  const vueImports = /import\s+{([^}'\n]+)}\s+from\s+'vue'/g
-  const otherImports = /import ([^'\n]*) from ([^\n]*)/g
-  let component = /export default {([\s\S]*)}/g.exec(content)
+  let codeWithoutImports = jsCode.replace(importRegex, match => {
+    imports.push(match)
+    return ''
+  })
 
-  component = ((component && component[1]) || '').trim()
-  if (component.length !== 0) {
-    component = '\n  ' + component + '\n'
+  let dcMatch
+  while ((dcMatch = defineComponentRegex.exec(codeWithoutImports)) !== null) {
+    const compStart = dcMatch.index + dcMatch[0].length
+    let braces = 1
+    let compEnd = -1
+
+    for (let i = compStart; i < codeWithoutImports.length; i++) {
+      if (codeWithoutImports[i] === '(') braces++
+      if (codeWithoutImports[i] === ')') braces--
+
+      if (braces === 0) {
+        compEnd = i + 1
+        break
+      }
+    }
+
+    if (compEnd === -1) {
+      throw new Error('Mismatched braces in defineComponent()')
+    }
+
+    defineComponents.push({
+      name: dcMatch[0].match(/const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/)[1],
+      code: codeWithoutImports.slice(dcMatch.index, compEnd)
+    })
+
+    codeWithoutImports =
+      codeWithoutImports.slice(0, dcMatch.index) +
+      codeWithoutImports.slice(compEnd)
   }
 
-  let script = /([\s\S]*)export default {/g.exec(content)
-  script = ((script && script[1]) || '')
-    .replace(quasarImports, replace('Quasar'))
-    .replace(vueImports, replace('Vue'))
-    .replace(otherImports, '')
-    .trim()
+  let varMatch
+  while ((varMatch = varRegex.exec(codeWithoutImports)) !== null) {
+    if (varMatch[1] !== '$q') {
+      exportedKeys.add(varMatch[1])
+    }
+  }
 
-  script += script ? '\n\n' : ''
+  let funcMatch
+  while ((funcMatch = funcRegex.exec(codeWithoutImports)) !== null) {
+    exportedKeys.add(funcMatch[1])
+  }
+
+  const bodyCode = codeWithoutImports
+    ? codeWithoutImports
+        .trim()
+        .split('\n')
+        .map(line => `    ${line}`)
+        .join('\n')
+    : ''
+
+  const returnCode = codeWithoutImports
+    ? `    return {\n      ${[...exportedKeys].join(',\n      ')}\n    }`
+    : ''
+
+  const optionsInjection =
+    defineComponents.length !== 0
+      ? `  components: {\n    ${defineComponents.map(dc => dc.name).join(',\n    ')}\n  }`
+      : ''
+
+  const setupCode = bodyCode
+    ? `  setup() {\n${bodyCode}\n\n${returnCode}\n  }`
+    : ''
+
+  const createAppCode = [optionsInjection, setupCode]
+    .filter(Boolean)
+    .join(',\n\n')
+
   return (
-    script +
-    `const app = Vue.createApp({${component}})
+    [
+      imports
+        .join('\n')
+        .replace(quasarImports, replace('Quasar'))
+        .replace(vueImports, replace('Vue'))
+        .replace(otherImports, '')
+        .trim(),
 
-app.use(Quasar, { config: {} })
-app.mount('#q-app')
-`
+      defineComponents.length !== 0
+        ? defineComponents.map(dc => dc.code).join('\n\n')
+        : '',
+
+      `const app = Vue.createApp({${createAppCode ? `\n${createAppCode}\n` : ''}})`
+    ]
+      .filter(Boolean)
+      .join('\n\n') + `\n\napp.use(Quasar, { config: {} })\napp.mount('#q-app')`
   )
 })
 
@@ -180,7 +257,7 @@ function open(whichParts) {
   parts.value = whichParts.reduce((acc, item) => {
     if (item.codepen) {
       acc[item.codepen] = {
-        content: stripRegions(item.codepenContent || item.content),
+        content: stripRegions(item.content),
         lang: item.lang
       }
     }

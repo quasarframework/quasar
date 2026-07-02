@@ -30,38 +30,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref([])
-    const options = [
-      {
-        label: 'Google',
-        value: 1
-      },
-      // #region
-      {
-        label: 'Facebook',
-        value: 2
-      },
-      {
-        label: 'Twitter',
-        value: 3
-      },
-      {
-        label: 'Apple',
-        value: 4
-      },
-      {
-        label: 'Oracle',
-        value: 5
-      }
-      // #endregion
-    ]
-
-    return { model, options }
+const model = ref([])
+const options = [
+  {
+    label: 'Google',
+    value: 1
+  },
+  // #region
+  {
+    label: 'Facebook',
+    value: 2
+  },
+  {
+    label: 'Twitter',
+    value: 3
+  },
+  {
+    label: 'Apple',
+    value: 4
+  },
+  {
+    label: 'Oracle',
+    value: 5
   }
-}
+  // #endregion
+]
 </script>

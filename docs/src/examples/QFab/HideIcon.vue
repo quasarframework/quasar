@@ -19,17 +19,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const fab = ref(true)
-    function onClick() {
-      // console.log('Clicked on a fab action')
-    }
-
-    return { fab, onClick }
-  }
+const fab = ref(true)
+function onClick() {
+  console.log('Clicked on a fab action')
 }
 </script>

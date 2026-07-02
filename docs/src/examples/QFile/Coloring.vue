@@ -67,13 +67,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(null)
-    return { model }
-  }
-}
+const model = ref(null)
 </script>

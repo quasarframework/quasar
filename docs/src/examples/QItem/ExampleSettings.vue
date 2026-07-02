@@ -146,36 +146,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const check1 = ref(true)
-    const check2 = ref(false)
-    const check3 = ref(false)
+const check1 = ref(true)
+const check2 = ref(false)
+const check3 = ref(false)
 
-    const notif1 = ref(true)
-    const notif2 = ref(true)
-    const notif3 = ref(false)
+const notif1 = ref(true)
+const notif2 = ref(true)
+const notif3 = ref(false)
 
-    const volume = ref(6)
-    const brightness = ref(3)
-    const mic = ref(8)
-
-    return {
-      check1,
-      check2,
-      check3,
-
-      notif1,
-      notif2,
-      notif3,
-
-      volume,
-      brightness,
-      mic
-    }
-  }
-}
+const volume = ref(6)
+const brightness = ref(3)
+const mic = ref(8)
 </script>

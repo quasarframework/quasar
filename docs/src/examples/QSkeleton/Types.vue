@@ -22,26 +22,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    const skeletonTypes = [
-      'text',
-      'rect',
-      'circle',
-      'QBtn',
-      'QBadge',
-      'QChip',
-      'QToolbar',
-      'QCheckbox',
-      'QRadio',
-      'QToggle',
-      'QSlider',
-      'QRange',
-      'QInput',
-      'QAvatar'
-    ]
-    return { skeletonTypes }
-  }
-}
+<script setup>
+const skeletonTypes = [
+  'text',
+  'rect',
+  'circle',
+  'QBtn',
+  'QBadge',
+  'QChip',
+  'QToolbar',
+  'QCheckbox',
+  'QRadio',
+  'QToggle',
+  'QSlider',
+  'QRange',
+  'QInput',
+  'QAvatar'
+]
 </script>

@@ -93,7 +93,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -114,7 +114,7 @@ const columns = [
   // #endregion
 ]
 
-const rowsData = [
+const rows = ref([
   // #region
   {
     name: 'Frozen Yogurt',
@@ -217,12 +217,5 @@ const rowsData = [
     iron: '6%'
   }
   // #endregion
-]
-
-export default {
-  setup() {
-    const rows = ref(rowsData)
-    return { rows, columns }
-  }
-}
+])
 </script>

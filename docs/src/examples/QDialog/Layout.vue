@@ -52,29 +52,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
-export default {
-  setup() {
-    const moreContent = ref(true)
-    const layout = ref(false)
-    const contentSize = computed(() => (moreContent.value ? 150 : 5))
-    const drawer = ref(false)
-    const drawerR = ref(false)
-    const lorem =
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
-
-    return {
-      layout,
-
-      moreContent,
-      contentSize,
-      drawer,
-      drawerR,
-
-      lorem
-    }
-  }
-}
+const moreContent = ref(true)
+const layout = ref(false)
+const contentSize = computed(() => (moreContent.value ? 150 : 5))
+const drawer = ref(false)
+const drawerR = ref(false)
+const lorem =
+  'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
 </script>

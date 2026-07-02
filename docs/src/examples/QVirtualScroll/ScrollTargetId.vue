@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const maxSize = 10_000
 const heavyList = []
 
@@ -31,13 +31,5 @@ for (let i = 0; i < maxSize; i++) {
   heavyList.push({
     label: 'Option ' + (i + 1)
   })
-}
-
-export default {
-  setup() {
-    return {
-      heavyList
-    }
-  }
 }
 </script>

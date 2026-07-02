@@ -15,16 +15,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const step = ref({
-      min: 10,
-      max: 20
-    })
-    return { step }
-  }
-}
+const step = ref({
+  min: 10,
+  max: 20
+})
 </script>

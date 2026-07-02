@@ -48,29 +48,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const navPos = ref('bottom')
-    const navigationPositions = [
-      { value: 'top', label: 'top' },
-      { value: 'right', label: 'right' },
-      { value: 'bottom', label: 'bottom (default)' },
-      { value: 'left', label: 'left' }
-    ]
+const navPos = ref('bottom')
+const navigationPositions = [
+  { value: 'top', label: 'top' },
+  { value: 'right', label: 'right' },
+  { value: 'bottom', label: 'bottom (default)' },
+  { value: 'left', label: 'left' }
+]
 
-    const slide = ref('style')
-    const lorem =
-      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
-
-    return {
-      navPos,
-      navigationPositions,
-      slide,
-      lorem
-    }
-  }
-}
+const slide = ref('style')
+const lorem =
+  'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
 </script>

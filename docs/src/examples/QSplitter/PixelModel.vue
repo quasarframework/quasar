@@ -28,13 +28,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const splitterModel = ref(150) // start at 150px
-    return { splitterModel }
-  }
-}
+const splitterModel = ref(150) // start at 150px
 </script>

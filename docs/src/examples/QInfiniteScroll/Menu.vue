@@ -33,33 +33,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const itemsMenu = ref([{}, {}, {}, {}, {}, {}, {}])
-    const scrollTargetRef = ref(null)
+const itemsMenu = ref([{}, {}, {}, {}, {}, {}, {}])
+const scrollTargetRef = ref(null)
 
-    function onLoadMenu(index, done) {
-      if (index > 1) {
-        setTimeout(() => {
-          itemsMenu.value.push({}, {}, {}, {}, {}, {}, {})
-          done()
-        }, 2000)
-      } else {
-        setTimeout(() => {
-          done()
-        }, 200)
-      }
-    }
-
-    return {
-      itemsMenu,
-      scrollTargetRef,
-
-      onLoadMenu
-    }
+function onLoadMenu(index, done) {
+  if (index > 1) {
+    setTimeout(() => {
+      itemsMenu.value.push({}, {}, {}, {}, {}, {}, {})
+      done()
+    }, 2000)
+  } else {
+    setTimeout(() => {
+      done()
+    }, 200)
   }
 }
 </script>

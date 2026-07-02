@@ -17,55 +17,46 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    /**
-     * The reason we have this here
-     * is that the type needs to be
-     * registered before using it.
-     *
-     * The best place would be a boot file instead
-     * of a .vue file, otherwise it'll keep on
-     * registering it every time your component
-     * gets to be used :)
-     */
+/**
+ * The reason we have this here
+ * is that the type needs to be
+ * registered before using it.
+ *
+ * The best place would be a boot file instead
+ * of a .vue file, otherwise it'll keep on
+ * registering it every time your component
+ * gets to be used :)
+ */
 
-    $q.notify.registerType('my-notif', {
-      icon: 'announcement',
-      progress: true,
-      color: 'brown',
-      textColor: 'white',
-      classes: 'glossy'
-    })
+$q.notify.registerType('my-notif', {
+  icon: 'announcement',
+  progress: true,
+  color: 'brown',
+  textColor: 'white',
+  classes: 'glossy'
+})
 
-    function triggerCustomRegisteredType1() {
-      $q.notify({
-        type: 'my-notif',
-        message: 'This notification is using a custom type.'
-      })
-    }
+function triggerCustomRegisteredType1() {
+  $q.notify({
+    type: 'my-notif',
+    message: 'This notification is using a custom type.'
+  })
+}
 
-    function triggerCustomRegisteredType2() {
-      // this one overrides some of the original
-      // options of the "my-notif" registered type
-      $q.notify({
-        type: 'my-notif',
-        icon: 'contactless',
-        message: 'This notification is using a custom type.',
-        caption: "It overrides the type's default icon and color.",
-        color: 'primary'
-      })
-    }
-
-    return {
-      triggerCustomRegisteredType1,
-      triggerCustomRegisteredType2
-    }
-  }
+function triggerCustomRegisteredType2() {
+  // this one overrides some of the original
+  // options of the "my-notif" registered type
+  $q.notify({
+    type: 'my-notif',
+    icon: 'contactless',
+    message: 'This notification is using a custom type.',
+    caption: "It overrides the type's default icon and color.",
+    color: 'primary'
+  })
 }
 </script>

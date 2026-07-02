@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const rows = [
   // #region
   {
@@ -144,14 +144,5 @@ const heavyList = []
 // create a huge list
 for (let i = 0; i <= 1000; i++) {
   Array.prototype.push.apply(heavyList, rows)
-}
-
-export default {
-  setup() {
-    return {
-      heavyList,
-      columns
-    }
-  }
 }
 </script>

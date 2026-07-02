@@ -136,18 +136,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    const drawerLeft = ref($q.screen.width > 700)
-    const drawerRight = ref($q.screen.width > 500)
-
-    return { drawerLeft, drawerRight }
-  }
-}
+const drawerLeft = ref($q.screen.width > 700)
+const drawerRight = ref($q.screen.width > 500)
 </script>

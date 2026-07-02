@@ -52,105 +52,85 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
 
-export default {
-  setup() {
-    const files = ref(null)
-    const uploadProgress = ref([])
-    const uploading = ref(null)
+const files = ref(null)
+const uploadProgress = ref([])
+const uploading = ref(null)
 
-    const isUploading = computed(() => uploading.value !== null)
-    const canUpload = computed(() => files.value !== null)
+const isUploading = computed(() => uploading.value !== null)
+const canUpload = computed(() => files.value !== null)
 
-    function cleanUp() {
-      clearTimeout(uploading.value)
+function cleanUp() {
+  clearTimeout(uploading.value)
+}
+
+function updateUploadProgress() {
+  let done = true
+
+  uploadProgress.value = uploadProgress.value.map(progress => {
+    if (progress.percent === 1 || progress.error) {
+      return progress
     }
 
-    function updateUploadProgress() {
-      let done = true
+    const percent = Math.min(1, progress.percent + Math.random() / 10)
+    const error = percent < 1 && Math.random() > 0.95
 
-      uploadProgress.value = uploadProgress.value.map(progress => {
-        if (progress.percent === 1 || progress.error) {
-          return progress
-        }
-
-        const percent = Math.min(1, progress.percent + Math.random() / 10)
-        const error = percent < 1 && Math.random() > 0.95
-
-        if (!error && percent < 1 && done) {
-          done = false
-        }
-
-        return {
-          ...progress,
-          error,
-          color: error ? 'red-2' : 'green-2',
-          percent
-        }
-      })
-
-      uploading.value =
-        done !== true ? setTimeout(updateUploadProgress, 300) : null
-    }
-
-    onBeforeUnmount(cleanUp)
-
-    function cancelFile(index) {
-      uploadProgress.value[index] = {
-        ...uploadProgress.value[index],
-        error: true,
-        color: 'orange-2'
-      }
-    }
-
-    function updateFiles(newFiles) {
-      files.value = newFiles
-      uploadProgress.value = (newFiles || []).map(file => ({
-        error: false,
-        color: 'green-2',
-        percent: 0,
-        icon:
-          file.type.indexOf('video/') === 0
-            ? 'movie'
-            : file.type.indexOf('image/') === 0
-              ? 'photo'
-              : file.type.indexOf('audio/') === 0
-                ? 'audiotrack'
-                : 'insert_drive_file'
-      }))
-    }
-
-    function upload() {
-      cleanUp()
-
-      const allDone = uploadProgress.value.every(
-        progress => progress.percent === 1
-      )
-
-      uploadProgress.value = uploadProgress.value.map(progress => ({
-        ...progress,
-        error: false,
-        color: 'green-2',
-        percent: allDone ? 0 : progress.percent
-      }))
-
-      updateUploadProgress()
+    if (!error && percent < 1 && done) {
+      done = false
     }
 
     return {
-      files,
-      uploadProgress,
-      uploading,
-
-      isUploading,
-      canUpload,
-
-      cancelFile,
-      updateFiles,
-      upload
+      ...progress,
+      error,
+      color: error ? 'red-2' : 'green-2',
+      percent
     }
+  })
+
+  uploading.value = done !== true ? setTimeout(updateUploadProgress, 300) : null
+}
+
+onBeforeUnmount(cleanUp)
+
+function cancelFile(index) {
+  uploadProgress.value[index] = {
+    ...uploadProgress.value[index],
+    error: true,
+    color: 'orange-2'
   }
+}
+
+function updateFiles(newFiles) {
+  files.value = newFiles
+  uploadProgress.value = (newFiles || []).map(file => ({
+    error: false,
+    color: 'green-2',
+    percent: 0,
+    icon:
+      file.type.indexOf('video/') === 0
+        ? 'movie'
+        : file.type.indexOf('image/') === 0
+          ? 'photo'
+          : file.type.indexOf('audio/') === 0
+            ? 'audiotrack'
+            : 'insert_drive_file'
+  }))
+}
+
+function upload() {
+  cleanUp()
+
+  const allDone = uploadProgress.value.every(progress => progress.percent === 1)
+
+  uploadProgress.value = uploadProgress.value.map(progress => ({
+    ...progress,
+    error: false,
+    color: 'green-2',
+    percent: allDone ? 0 : progress.percent
+  }))
+
+  updateUploadProgress()
 }
 </script>

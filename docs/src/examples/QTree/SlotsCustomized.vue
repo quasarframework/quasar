@@ -43,60 +43,54 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const customize = ref([
+const customize = ref([
+  {
+    label: 'Satisfied customers',
+    header: 'root',
+    children: [
       {
-        label: 'Satisfied customers',
-        header: 'root',
+        label: 'Good food',
+        icon: 'restaurant_menu',
+        header: 'generic',
         children: [
           {
-            label: 'Good food',
-            icon: 'restaurant_menu',
+            label: 'Quality ingredients',
             header: 'generic',
-            children: [
-              {
-                label: 'Quality ingredients',
-                header: 'generic',
-                body: 'story',
-                story: 'Lorem ipsum dolor sit amet.'
-              },
-              {
-                label: 'Good recipe',
-                body: 'story',
-                story:
-                  'A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.'
-              }
-            ]
+            body: 'story',
+            story: 'Lorem ipsum dolor sit amet.'
           },
           {
-            label: 'Good service',
-            header: 'generic',
-            body: 'toggle',
-            caption:
-              'Why are we as consumers so captivated by stories of great customer service? Perhaps it is because...',
-            enabled: false,
-            children: [
-              { label: 'Prompt attention' },
-              { label: 'Professional waiter' }
-            ]
-          },
-          {
-            label: 'Pleasant surroundings',
-            children: [
-              { label: 'Happy atmosphere' },
-              { label: 'Good table presentation', header: 'generic' },
-              { label: 'Pleasing decor' }
-            ]
+            label: 'Good recipe',
+            body: 'story',
+            story:
+              'A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.'
           }
         ]
+      },
+      {
+        label: 'Good service',
+        header: 'generic',
+        body: 'toggle',
+        caption:
+          'Why are we as consumers so captivated by stories of great customer service? Perhaps it is because...',
+        enabled: false,
+        children: [
+          { label: 'Prompt attention' },
+          { label: 'Professional waiter' }
+        ]
+      },
+      {
+        label: 'Pleasant surroundings',
+        children: [
+          { label: 'Happy atmosphere' },
+          { label: 'Good table presentation', header: 'generic' },
+          { label: 'Pleasing decor' }
+        ]
       }
-    ])
-
-    return { customize }
+    ]
   }
-}
+])
 </script>

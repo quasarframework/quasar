@@ -7,14 +7,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const text = ref('')
-    const loadingState = ref(false)
-    return { text, loadingState }
-  }
-}
+const text = ref('')
+const loadingState = ref(false)
 </script>

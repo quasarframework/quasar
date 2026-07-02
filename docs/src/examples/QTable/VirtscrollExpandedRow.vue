@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { onMounted, ref, useTemplateRef } from 'vue'
 
 const columns = [
@@ -221,22 +221,11 @@ for (let i = 0; i < 1000; i++) {
 
 const initialExpanded = rows.filter((r, i) => i % 3 === 0).map(r => r.index)
 
-export default {
-  setup() {
-    const expanded = ref(initialExpanded)
-    const tableRef = useTemplateRef('tableRef')
-    const pagination = { rowsPerPage: 0 }
+const expanded = ref(initialExpanded)
+const tableRef = useTemplateRef('tableRef')
+const pagination = { rowsPerPage: 0 }
 
-    onMounted(() => {
-      tableRef.value.scrollTo(5000)
-    })
-
-    return {
-      expanded,
-      columns,
-      rows,
-      pagination
-    }
-  }
-}
+onMounted(() => {
+  tableRef.value.scrollTo(5000)
+})
 </script>

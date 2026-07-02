@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 function domToObj(domEl, whitelist) {
@@ -81,59 +81,46 @@ const whitelist = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const listItems = ref([])
-    const mutationInfo = ref('')
+const listItems = ref([])
+const mutationInfo = ref('')
 
-    function handler(mutationRecords) {
-      const info = []
+function handler(mutationRecords) {
+  const info = []
 
-      for (const index in mutationRecords) {
-        const record = mutationRecords[index]
+  for (const index in mutationRecords) {
+    const record = mutationRecords[index]
 
-        info.push(
-          JSON.stringify(
-            record,
-            (name, value) => {
-              if (name === '') {
-                return domToObj(value, whitelist)
-              }
-              if (Array.isArray(this)) {
-                if (typeof value === 'object') {
-                  return domToObj(value, whitelist)
-                }
-                return value
-              }
-              if (whitelist.some(x => x === name)) {
-                return value
-              }
-            },
-            2
-          )
-        )
-      }
-
-      mutationInfo.value = info.join('\n')
-    }
-
-    function addRow() {
-      listItems.value.push(`List item #${listItems.value.length + 1}`)
-    }
-
-    function removeRow() {
-      listItems.value.pop()
-    }
-
-    return {
-      listItems,
-      mutationInfo,
-
-      handler,
-      addRow,
-      removeRow
-    }
+    info.push(
+      JSON.stringify(
+        record,
+        (name, value) => {
+          if (name === '') {
+            return domToObj(value, whitelist)
+          }
+          if (Array.isArray(this)) {
+            if (typeof value === 'object') {
+              return domToObj(value, whitelist)
+            }
+            return value
+          }
+          if (whitelist.some(x => x === name)) {
+            return value
+          }
+        },
+        2
+      )
+    )
   }
+
+  mutationInfo.value = info.join('\n')
+}
+
+function addRow() {
+  listItems.value.push(`List item #${listItems.value.length + 1}`)
+}
+
+function removeRow() {
+  listItems.value.pop()
 }
 </script>
 

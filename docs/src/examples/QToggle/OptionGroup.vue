@@ -4,18 +4,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const group = ref([])
-    const options = [
-      { label: 'Battery too low', value: 'bat' },
-      { label: 'Friend request', value: 'friend', color: 'green' },
-      { label: 'Picture uploaded', value: 'upload', color: 'red' }
-    ]
-    return { group, options }
-  }
-}
+const group = ref([])
+const options = [
+  { label: 'Battery too low', value: 'bat' },
+  { label: 'Friend request', value: 'friend', color: 'green' },
+  { label: 'Picture uploaded', value: 'upload', color: 'red' }
+]
 </script>

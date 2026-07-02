@@ -51,7 +51,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -198,24 +198,14 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const visibleColumns = ref([
-      'calories',
-      'desc',
-      'fat',
-      'carbs',
-      'protein',
-      'sodium',
-      'calcium',
-      'iron'
-    ])
-
-    return {
-      visibleColumns,
-      columns,
-      rows
-    }
-  }
-}
+const visibleColumns = ref([
+  'calories',
+  'desc',
+  'fat',
+  'carbs',
+  'protein',
+  'sodium',
+  'calcium',
+  'iron'
+])
 </script>

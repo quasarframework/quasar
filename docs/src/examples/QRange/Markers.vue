@@ -41,23 +41,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const marker = ref({
-      min: 6,
-      max: 8
-    })
-    const orangeModel = ref({
-      min: 6,
-      max: 10
-    })
-    return {
-      marker,
-      orangeModel
-    }
-  }
-}
+const marker = ref({
+  min: 6,
+  max: 8
+})
+const orangeModel = ref({
+  min: 6,
+  max: 10
+})
 </script>

@@ -15,31 +15,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    const contentStyle = {
-      backgroundColor: 'rgba(0,0,0,0.02)',
-      color: '#555'
-    }
+<script setup>
+const contentStyle = {
+  backgroundColor: 'rgba(0,0,0,0.02)',
+  color: '#555'
+}
 
-    const contentActiveStyle = {
-      backgroundColor: '#eee',
-      color: 'black'
-    }
+const contentActiveStyle = {
+  backgroundColor: '#eee',
+  color: 'black'
+}
 
-    const thumbStyle = {
-      borderRadius: '5px',
-      backgroundColor: '#027be3',
-      width: '5px',
-      opacity: '0.75'
-    }
-
-    return {
-      contentStyle,
-      contentActiveStyle,
-      thumbStyle
-    }
-  }
+const thumbStyle = {
+  borderRadius: '5px',
+  backgroundColor: '#027be3',
+  width: '5px',
+  opacity: '0.75'
 }
 </script>

@@ -53,14 +53,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const basic = ref(false)
-    const fixed = ref(false)
-    return { basic, fixed }
-  }
-}
+const basic = ref(false)
+const fixed = ref(false)
 </script>

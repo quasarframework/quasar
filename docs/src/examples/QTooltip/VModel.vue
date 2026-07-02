@@ -15,13 +15,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const showing = ref(false)
-    return { showing }
-  }
-}
+const showing = ref(false)
 </script>

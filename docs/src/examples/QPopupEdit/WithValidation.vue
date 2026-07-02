@@ -50,7 +50,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -66,7 +66,7 @@ const columns = [
   { name: 'protein', label: 'Protein', field: 'protein' }
 ]
 
-const rowsData = [
+const rows = ref([
   // #region
   {
     name: 'Frozen Yogurt',
@@ -139,35 +139,19 @@ const rowsData = [
     protein: 7
   }
   // #endregion
-]
+])
 
-export default {
-  setup() {
-    const rows = ref(rowsData)
+const errorCalories = ref(false)
+const errorMessageCalories = ref('')
 
-    const errorCalories = ref(false)
-    const errorMessageCalories = ref('')
-
-    function caloriesRangeValidation(val) {
-      if (val < 4 || val > 7) {
-        errorCalories.value = true
-        errorMessageCalories.value = 'The value must be between 4 and 7!'
-        return false
-      }
-      errorCalories.value = false
-      errorMessageCalories.value = ''
-      return true
-    }
-
-    return {
-      rows,
-      columns,
-
-      errorCalories,
-      errorMessageCalories,
-
-      caloriesRangeValidation
-    }
+function caloriesRangeValidation(val) {
+  if (val < 4 || val > 7) {
+    errorCalories.value = true
+    errorMessageCalories.value = 'The value must be between 4 and 7!'
+    return false
   }
+  errorCalories.value = false
+  errorMessageCalories.value = ''
+  return true
 }
 </script>

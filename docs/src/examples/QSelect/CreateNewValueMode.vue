@@ -43,19 +43,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const modelAdd = ref(null)
-    const modelAddUnique = ref(null)
-    const modelToggle = ref(null)
-    return {
-      modelAdd,
-      modelAddUnique,
-      modelToggle
-    }
-  }
-}
+const modelAdd = ref(null)
+const modelAddUnique = ref(null)
+const modelToggle = ref(null)
 </script>

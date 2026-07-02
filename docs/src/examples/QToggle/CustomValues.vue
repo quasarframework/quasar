@@ -31,21 +31,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const blueModel = ref(true)
-    const pinkModel = ref('Agreed')
-    const greenModel = ref(42)
-    const redModel = ref(true)
-    return {
-      blueModel,
-      pinkModel,
-      greenModel,
-      redModel
-    }
-  }
-}
+const blueModel = ref(true)
+const pinkModel = ref('Agreed')
+const greenModel = ref(42)
+const redModel = ref(true)
 </script>

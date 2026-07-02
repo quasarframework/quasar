@@ -86,7 +86,7 @@ In order to enable the behavior above, edit your /quasar.config file like below.
 framework: {
   config: {
     screen: {
-      bodyClasses: true // <<< add this
+      bodyClasses: true // [!code highlight]
     }
   }
 }

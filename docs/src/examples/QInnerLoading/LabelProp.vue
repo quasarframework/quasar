@@ -34,33 +34,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 // Don't forget to specify which animations
 // you are using in quasar.config file > animations.
 // Alternatively, if using UMD, load animate.css from CDN.
-export default {
-  setup() {
-    const visible = ref(false)
-    const showSimulatedReturnData = ref(false)
 
-    function showTextLoading() {
-      visible.value = true
-      showSimulatedReturnData.value = false
+const visible = ref(false)
+const showSimulatedReturnData = ref(false)
 
-      setTimeout(() => {
-        visible.value = false
-        showSimulatedReturnData.value = true
-      }, 3000)
-    }
+function showTextLoading() {
+  visible.value = true
+  showSimulatedReturnData.value = false
 
-    return {
-      visible,
-      showSimulatedReturnData,
-      showTextLoading
-    }
-  }
+  setTimeout(() => {
+    visible.value = false
+    showSimulatedReturnData.value = true
+  }, 3000)
 }
 </script>
 

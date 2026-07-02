@@ -59,46 +59,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const vanilla = ref(true)
-    const chocolate = ref(true)
-    const strawberry = ref(true)
-    const cookies = ref(true)
+const vanilla = ref(true)
+const chocolate = ref(true)
+const strawberry = ref(true)
+const cookies = ref(true)
 
-    const truncate = ref(true)
+const truncate = ref(true)
 
-    const vanillaLabel = 'I want vanilla flavoured ice cream'
-    const chocolateLabel = 'I want chocolate flavoured ice cream'
-    const strawberryLabel = 'I want strawberry flavoured ice cream'
-    const cookiesLabel = 'I want cookies flavoured ice cream'
+const vanillaLabel = 'I want vanilla flavoured ice cream'
+const chocolateLabel = 'I want chocolate flavoured ice cream'
+const strawberryLabel = 'I want strawberry flavoured ice cream'
+const cookiesLabel = 'I want cookies flavoured ice cream'
 
-    function onResetClick() {
-      vanilla.value = true
-      chocolate.value = true
-      strawberry.value = true
-      cookies.value = true
-    }
-
-    return {
-      truncate,
-
-      vanilla,
-      chocolate,
-      strawberry,
-      cookies,
-
-      vanillaLabel,
-      chocolateLabel,
-      strawberryLabel,
-      cookiesLabel,
-
-      onResetClick
-    }
-  }
+function onResetClick() {
+  vanilla.value = true
+  chocolate.value = true
+  strawberry.value = true
+  cookies.value = true
 }
 </script>
 

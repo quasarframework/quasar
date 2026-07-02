@@ -29,44 +29,34 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const fieldRef = useTemplateRef('fieldRef')
-    const slider = ref(10)
+const fieldRef = useTemplateRef('fieldRef')
+const slider = ref(10)
 
-    function myRule(val) {
-      // simulating a delay
-      return new Promise(resolve => {
-        setTimeout(() => {
-          // call
-          //  resolve(true)
-          //     --> content is valid
-          //  resolve(false)
-          //     --> content is NOT valid, no error message
-          //  resolve(error_message)
-          //     --> content is NOT valid, we have error message
-          resolve((val >= 10 && val <= 60) || 'Please set value to maximum 60')
+function myRule(val) {
+  // simulating a delay
+  return new Promise(resolve => {
+    setTimeout(() => {
+      // call
+      //  resolve(true)
+      //     --> content is valid
+      //  resolve(false)
+      //     --> content is NOT valid, no error message
+      //  resolve(error_message)
+      //     --> content is NOT valid, we have error message
+      resolve((val >= 10 && val <= 60) || 'Please set value to maximum 60')
 
-          // calling reject(...) will also mark the input
-          // as having an error, but there will not be any
-          // error message displayed below the input
-          // (only in browser console)
-        }, 1000)
-      })
-    }
+      // calling reject(...) will also mark the input
+      // as having an error, but there will not be any
+      // error message displayed below the input
+      // (only in browser console)
+    }, 1000)
+  })
+}
 
-    function reset() {
-      fieldRef.value.resetValidation()
-    }
-
-    return {
-      slider,
-      myRule,
-      reset
-    }
-  }
+function reset() {
+  fieldRef.value.resetValidation()
 }
 </script>

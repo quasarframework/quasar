@@ -81,23 +81,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const fab1 = ref(false)
-    const fab2 = ref(false)
+const fab1 = ref(false)
+const fab2 = ref(false)
 
-    function onClick() {
-      // console.log('Clicked on a fab action')
-    }
-
-    return {
-      fab1,
-      fab2,
-      onClick
-    }
-  }
+function onClick() {
+  console.log('Clicked on a fab action')
 }
 </script>

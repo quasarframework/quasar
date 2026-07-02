@@ -4,30 +4,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function prompt() {
-      $q.dialog({
-        title: 'Prompt',
-        message: 'What is your name? (Minimum 3 characters)',
-        prompt: {
-          model: '',
-          isValid: val => val.length > 2, // << here is the magic
-          type: 'text' // optional
-        },
-        cancel: true,
-        persistent: true
-      }).onOk(data => {
-        // console.log('>>>> OK, received', data)
-      })
-    }
-
-    return { prompt }
-  }
+function prompt() {
+  $q.dialog({
+    title: 'Prompt',
+    message: 'What is your name? (Minimum 3 characters)',
+    prompt: {
+      model: '',
+      isValid: val => val.length > 2, // << here is the magic
+      type: 'text' // optional
+    },
+    cancel: true,
+    persistent: true
+  }).onOk(data => {
+    console.log('>>>> OK, received', data)
+  })
 }
 </script>

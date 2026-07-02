@@ -44,7 +44,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 // supports URL too!
@@ -53,10 +53,5 @@ import { ref } from 'vue'
 const img =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
 
-export default {
-  setup() {
-    const model = ref(6)
-    return { model, img }
-  }
-}
+const model = ref(6)
 </script>

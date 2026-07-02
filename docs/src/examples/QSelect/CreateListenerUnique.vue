@@ -15,27 +15,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(null)
+const model = ref(null)
 
-    function createValue(val, done) {
-      // specific logic to eventually call done(...) -- or not
-      done(val, 'add-unique')
+function createValue(val, done) {
+  // specific logic to eventually call done(...) -- or not
+  done(val, 'add-unique')
 
-      // done callback has two optional parameters:
-      //  - the value to be added
-      //  - the behavior (same values of new-value-mode prop,
-      //    and when it is specified it overrides that prop –
-      //    if it is used); default behavior (if not using
-      //    new-value-mode) is to add the value even if it would
-      //    be a duplicate
-    }
-
-    return { model, createValue }
-  }
+  // done callback has two optional parameters:
+  //  - the value to be added
+  //  - the behavior (same values of new-value-mode prop,
+  //    and when it is specified it overrides that prop –
+  //    if it is used); default behavior (if not using
+  //    new-value-mode) is to add the value even if it would
+  //    be a duplicate
 }
 </script>

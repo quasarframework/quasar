@@ -50,14 +50,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const label = ref('Click me')
-    const label2 = ref('Also click me')
-    return { label, label2 }
-  }
-}
+const label = ref('Click me')
+const label2 = ref('Also click me')
 </script>

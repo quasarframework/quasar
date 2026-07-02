@@ -52,13 +52,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const targetEl = ref('#target-img-1')
-    return { targetEl }
-  }
-}
+const targetEl = ref('#target-img-1')
 </script>

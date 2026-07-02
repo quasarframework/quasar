@@ -27,43 +27,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    /**
-     * Values for backdrop-filter are the same as in the CSS specs.
-     * The following list is not an exhaustive one.
-     */
-    const list = [
-      'blur(4px)',
-      'blur(4px) saturate(150%)',
-      'brightness(60%)',
-      'invert(70%)',
-      'grayscale(100%)',
-      'contrast(40%)',
-      'hue-rotate(120deg)',
-      'sepia(90%)',
-      'saturate(80%)'
-    ]
+/**
+ * Values for backdrop-filter are the same as in the CSS specs.
+ * The following list is not an exhaustive one.
+ */
+const list = [
+  'blur(4px)',
+  'blur(4px) saturate(150%)',
+  'brightness(60%)',
+  'invert(70%)',
+  'grayscale(100%)',
+  'contrast(40%)',
+  'hue-rotate(120deg)',
+  'sepia(90%)',
+  'saturate(80%)'
+]
 
-    const dialog = ref(false)
-    const backdropFilter = ref(null)
+const dialog = ref(false)
+const backdropFilter = ref(null)
 
-    const backdropFilterList = list.map(filter => ({
-      label: filter,
-      onClick: () => {
-        backdropFilter.value = filter
-        dialog.value = true
-      }
-    }))
-
-    return {
-      dialog,
-      backdropFilter,
-      backdropFilterList
-    }
+const backdropFilterList = list.map(filter => ({
+  label: filter,
+  onClick: () => {
+    backdropFilter.value = filter
+    dialog.value = true
   }
-}
+}))
 </script>

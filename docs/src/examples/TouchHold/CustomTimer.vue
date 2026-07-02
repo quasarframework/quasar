@@ -14,22 +14,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const info = ref(null)
+const info = ref(null)
 
-    function handleHold({ evt, ...newInfo }) {
-      info.value = newInfo
+function handleHold({ evt, ...newInfo }) {
+  info.value = newInfo
 
-      // native Javascript event
-      // console.log(evt)
-    }
-
-    return { info, handleHold }
-  }
+  // native Javascript event
+  console.log(evt)
 }
 </script>
 

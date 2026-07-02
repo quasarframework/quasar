@@ -13,13 +13,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(2.3)
-    return { model }
-  }
-}
+const model = ref(2.3)
 </script>

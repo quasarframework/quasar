@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const options = []
@@ -14,10 +14,5 @@ for (let i = 0; i <= 100_000; i++) {
   options.push('Opt ' + i)
 }
 
-export default {
-  setup() {
-    const model = ref(null)
-    return { model, options }
-  }
-}
+const model = ref(null)
 </script>

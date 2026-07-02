@@ -21,7 +21,7 @@
   </q-virtual-scroll>
 </template>
 
-<script>
+<script setup>
 const maxSize = 10_000
 const heavyList = []
 
@@ -30,13 +30,5 @@ for (let i = 0; i < maxSize; i++) {
     label: 'Option ' + (i + 1),
     banner: i % 5 === 0
   })
-}
-
-export default {
-  setup() {
-    return {
-      heavyList
-    }
-  }
 }
 </script>

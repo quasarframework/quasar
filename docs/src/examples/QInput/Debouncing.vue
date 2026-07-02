@@ -32,13 +32,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const search = ref('')
-    return { search }
-  }
-}
+const search = ref('')
 </script>

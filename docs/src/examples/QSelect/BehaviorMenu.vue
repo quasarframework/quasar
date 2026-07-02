@@ -31,38 +31,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
-export default {
-  setup() {
-    const model = ref(null)
-    const options = ref(stringOptions)
+const model = ref(null)
+const options = ref(stringOptions)
 
-    function filterFn(val, update) {
-      if (val === '') {
-        update(() => {
-          options.value = stringOptions
-        })
-        return
-      }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        options.value = stringOptions.filter(v =>
-          v.toLowerCase().includes(needle)
-        )
-      })
-    }
-
-    return {
-      model,
-      stringOptions,
-      options,
-      filterFn
-    }
+function filterFn(val, update) {
+  if (val === '') {
+    update(() => {
+      options.value = stringOptions
+    })
+    return
   }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    options.value = stringOptions.filter(v => v.toLowerCase().includes(needle))
+  })
 }
 </script>

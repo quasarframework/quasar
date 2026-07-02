@@ -9,21 +9,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const teal = ref(true)
-    const orange = ref(false)
-    const red = ref(true)
-    const cyan = ref(false)
-    return {
-      teal,
-      orange,
-      red,
-      cyan
-    }
-  }
-}
+const teal = ref(true)
+const orange = ref(false)
+const red = ref(true)
+const cyan = ref(false)
 </script>

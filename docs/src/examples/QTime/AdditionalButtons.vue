@@ -28,29 +28,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const time = ref('10:56')
-    const proxyTime = ref('10:56')
+const time = ref('10:56')
+const proxyTime = ref('10:56')
 
-    function updateProxy() {
-      proxyTime.value = time.value
-    }
+function updateProxy() {
+  proxyTime.value = time.value
+}
 
-    function save() {
-      time.value = proxyTime.value
-    }
-
-    return {
-      time,
-      proxyTime,
-
-      updateProxy,
-      save
-    }
-  }
+function save() {
+  time.value = proxyTime.value
 }
 </script>

@@ -41,25 +41,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, reactive } from 'vue'
 
-export default {
-  setup() {
-    const desert = reactive({
-      Icecream: false,
-      Eclair: true,
-      Cupcake: false,
-      Gingerbread: false
-    })
+const desert = reactive({
+  Icecream: false,
+  Eclair: true,
+  Cupcake: false,
+  Gingerbread: false
+})
 
-    const selection = computed(() =>
-      Object.keys(desert)
-        .filter(type => desert[type])
-        .join(', ')
-    )
-
-    return { desert, selection }
-  }
-}
+const selection = computed(() =>
+  Object.keys(desert)
+    .filter(type => desert[type])
+    .join(', ')
+)
 </script>

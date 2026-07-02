@@ -95,37 +95,28 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const splitterModel = ref(50)
-    const selected = ref('Food')
-    const simple = [
+const splitterModel = ref(50)
+const selected = ref('Food')
+const simple = [
+  {
+    label: 'Relax Hotel',
+    children: [
       {
-        label: 'Relax Hotel',
-        children: [
-          {
-            label: 'Food',
-            icon: 'restaurant_menu'
-          },
-          {
-            label: 'Room service',
-            icon: 'room_service'
-          },
-          {
-            label: 'Room view',
-            icon: 'photo'
-          }
-        ]
+        label: 'Food',
+        icon: 'restaurant_menu'
+      },
+      {
+        label: 'Room service',
+        icon: 'room_service'
+      },
+      {
+        label: 'Room view',
+        icon: 'photo'
       }
     ]
-    return {
-      splitterModel,
-      selected,
-      simple
-    }
   }
-}
+]
 </script>

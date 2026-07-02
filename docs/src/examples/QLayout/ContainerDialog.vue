@@ -104,19 +104,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const dialog = ref(false)
-    const drawerLeft = ref(false)
-    const drawerRight = ref(true)
-    return {
-      dialog,
-      drawerLeft,
-      drawerRight
-    }
-  }
-}
+const dialog = ref(false)
+const drawerLeft = ref(false)
+const drawerRight = ref(true)
 </script>

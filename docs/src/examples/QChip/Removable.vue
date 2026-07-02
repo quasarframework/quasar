@@ -55,36 +55,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const icecream = ref(true)
-    const eclair = ref(true)
-    const cupcake = ref(true)
-    const gingerbread = ref(true)
+const icecream = ref(true)
+const eclair = ref(true)
+const cupcake = ref(true)
+const gingerbread = ref(true)
 
-    function onResetClick() {
-      icecream.value = true
-      eclair.value = true
-      cupcake.value = true
-      gingerbread.value = true
-    }
+function onResetClick() {
+  icecream.value = true
+  eclair.value = true
+  cupcake.value = true
+  gingerbread.value = true
+}
 
-    function log(desert) {
-      // console.log(`${desert} has been removed`)
-    }
-
-    return {
-      icecream,
-      eclair,
-      cupcake,
-      gingerbread,
-
-      onResetClick,
-      log
-    }
-  }
+function log(desert) {
+  console.log(`${desert} has been removed`)
 }
 </script>

@@ -45,43 +45,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
 
-export default {
-  setup() {
-    const model = ref(null)
-    const options = ref(stringOptions)
+const model = ref(null)
+const options = ref(stringOptions)
 
-    function filterFn(val, update, abort) {
-      // call abort() at any time if you can't retrieve data somehow
+function filterFn(val, update, abort) {
+  // call abort() at any time if you can't retrieve data somehow
 
-      setTimeout(() => {
-        update(() => {
-          if (val === '') {
-            options.value = stringOptions
-          } else {
-            const needle = val.toLowerCase()
-            options.value = stringOptions.filter(v =>
-              v.toLowerCase().includes(needle)
-            )
-          }
-        })
-      }, 1500)
-    }
+  setTimeout(() => {
+    update(() => {
+      if (val === '') {
+        options.value = stringOptions
+      } else {
+        const needle = val.toLowerCase()
+        options.value = stringOptions.filter(v =>
+          v.toLowerCase().includes(needle)
+        )
+      }
+    })
+  }, 1500)
+}
 
-    function abortFilterFn() {
-      // console.log('delayed filter aborted')
-    }
-
-    return {
-      model,
-      options,
-      filterFn,
-      abortFilterFn
-    }
-  }
+function abortFilterFn() {
+  console.log('delayed filter aborted')
 }
 </script>

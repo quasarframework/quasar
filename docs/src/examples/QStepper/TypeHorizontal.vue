@@ -57,13 +57,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const step = ref(1)
-    return { step }
-  }
-}
+const step = ref(1)
 </script>

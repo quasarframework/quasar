@@ -26,69 +26,55 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const selected = ref(null)
+const selected = ref(null)
 
-    function selectGoodService() {
-      if (selected.value !== 'Good service') {
-        selected.value = 'Good service'
-      }
-    }
+function selectGoodService() {
+  if (selected.value !== 'Good service') {
+    selected.value = 'Good service'
+  }
+}
 
-    function unselectNode() {
-      selected.value = null
-    }
+function unselectNode() {
+  selected.value = null
+}
 
-    const props = [
+const props = [
+  {
+    label: 'Satisfied customers',
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    children: [
       {
-        label: 'Satisfied customers',
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+        label: 'Good food',
+        icon: 'restaurant_menu',
+        children: [{ label: 'Quality ingredients' }, { label: 'Good recipe' }]
+      },
+      {
+        label: 'Good service',
+        icon: 'room_service',
+        children: [
+          { label: 'Prompt attention' },
+          { label: 'Professional waiter' }
+        ]
+      },
+      {
+        label: 'Pleasant surroundings',
+        icon: 'photo',
         children: [
           {
-            label: 'Good food',
-            icon: 'restaurant_menu',
-            children: [
-              { label: 'Quality ingredients' },
-              { label: 'Good recipe' }
-            ]
+            label: 'Happy atmosphere'
           },
           {
-            label: 'Good service',
-            icon: 'room_service',
-            children: [
-              { label: 'Prompt attention' },
-              { label: 'Professional waiter' }
-            ]
+            label: 'Good table presentation'
           },
           {
-            label: 'Pleasant surroundings',
-            icon: 'photo',
-            children: [
-              {
-                label: 'Happy atmosphere'
-              },
-              {
-                label: 'Good table presentation'
-              },
-              {
-                label: 'Pleasing decor'
-              }
-            ]
+            label: 'Pleasing decor'
           }
         ]
       }
     ]
-
-    return {
-      selected,
-      props,
-      selectGoodService,
-      unselectNode
-    }
   }
-}
+]
 </script>

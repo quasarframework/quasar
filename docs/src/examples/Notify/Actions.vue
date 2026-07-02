@@ -4,69 +4,63 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function showNotif() {
-      $q.notify({
-        message: 'Jim just pinged you.',
-        color: 'primary',
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          {
-            label: 'Dismiss',
-            color: 'white',
-            handler: () => {
-              /* ... */
-            }
-          }
-        ]
-      })
+function showNotif() {
+  $q.notify({
+    message: 'Jim just pinged you.',
+    color: 'primary',
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    actions: [
+      {
+        label: 'Dismiss',
+        color: 'white',
+        handler: () => {
+          /* ... */
+        }
+      }
+    ]
+  })
 
-      $q.notify({
-        message: 'Jim just pinged you.',
-        color: 'primary',
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          {
-            label: 'Reply',
-            color: 'yellow',
-            handler: () => {
-              /* ... */
-            }
-          },
-          {
-            label: 'Dismiss',
-            color: 'white',
-            handler: () => {
-              /* ... */
-            }
-          }
-        ]
-      })
+  $q.notify({
+    message: 'Jim just pinged you.',
+    color: 'primary',
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    actions: [
+      {
+        label: 'Reply',
+        color: 'yellow',
+        handler: () => {
+          /* ... */
+        }
+      },
+      {
+        label: 'Dismiss',
+        color: 'white',
+        handler: () => {
+          /* ... */
+        }
+      }
+    ]
+  })
 
-      $q.notify({
-        message: 'Jim just pinged you.',
-        color: 'primary',
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          {
-            icon: 'close',
-            color: 'white',
-            round: true,
-            handler: () => {
-              /* ... */
-            }
-          }
-        ]
-      })
-    }
-
-    return { showNotif }
-  }
+  $q.notify({
+    message: 'Jim just pinged you.',
+    color: 'primary',
+    avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+    actions: [
+      {
+        icon: 'close',
+        color: 'white',
+        round: true,
+        handler: () => {
+          /* ... */
+        }
+      }
+    ]
+  })
 }
 </script>

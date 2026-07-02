@@ -16,16 +16,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const onlyRange = ref({
-      min: 10,
-      max: 35
-    })
-    return { onlyRange }
-  }
-}
+const onlyRange = ref({
+  min: 10,
+  max: 35
+})
 </script>

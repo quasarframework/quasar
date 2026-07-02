@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const seed = [
@@ -133,6 +133,8 @@ rowsData.forEach((row, index) => {
   row.index = index
 })
 
+const rows = ref(rowsData)
+
 const columns = [
   // #region
   {
@@ -177,15 +179,9 @@ const columns = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const rows = ref(rowsData)
-    const pagination = ref({
-      rowsPerPage: 0
-    })
-    return { rows, columns, pagination }
-  }
-}
+const pagination = ref({
+  rowsPerPage: 0
+})
 </script>
 
 <style lang="sass">

@@ -6,13 +6,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const days = ref(['2019/02/01', '2019/02/10'])
-    return { days }
-  }
-}
+const days = ref(['2019/02/01', '2019/02/10'])
 </script>

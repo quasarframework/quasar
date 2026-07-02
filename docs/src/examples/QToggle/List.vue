@@ -35,13 +35,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const notifications = ref(['friend'])
-    return { notifications }
-  }
-}
+const notifications = ref(['friend'])
 </script>

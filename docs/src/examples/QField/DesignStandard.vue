@@ -177,14 +177,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const text = ref('Field content')
-    const dense = ref(false)
-    return { text, dense }
-  }
-}
+const text = ref('Field content')
+const dense = ref(false)
 </script>

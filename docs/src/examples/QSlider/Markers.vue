@@ -28,15 +28,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const basicModel = ref(2)
-    const greenModel = ref(0)
-    const orangeModel = ref(6)
-    return { basicModel, greenModel, orangeModel }
-  }
-}
+const basicModel = ref(2)
+const greenModel = ref(0)
+const orangeModel = ref(6)
 </script>

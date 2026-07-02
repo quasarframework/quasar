@@ -45,36 +45,23 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    const filesImages = ref(null)
-    const filesMaxSize = ref(null)
-    const filesMaxTotalSize = ref(null)
-    const filesMaxNumber = ref(null)
+const filesImages = ref(null)
+const filesMaxSize = ref(null)
+const filesMaxTotalSize = ref(null)
+const filesMaxNumber = ref(null)
 
-    function onRejected(rejectedEntries) {
-      // Notify plugin needs to be installed
-      // https://v2.quasar.dev/quasar-plugins/notify#Installation
-      $q.notify({
-        type: 'negative',
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      })
-    }
-
-    return {
-      filesImages,
-      filesMaxSize,
-      filesMaxTotalSize,
-      filesMaxNumber,
-
-      onRejected
-    }
-  }
+function onRejected(rejectedEntries) {
+  // Notify plugin needs to be installed
+  // https://v2.quasar.dev/quasar-plugins/notify#Installation
+  $q.notify({
+    type: 'negative',
+    message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+  })
 }
 </script>

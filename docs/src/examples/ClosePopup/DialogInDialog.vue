@@ -32,17 +32,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const dialog = ref(false)
-    const dialog2 = ref(false)
-    return {
-      dialog,
-      dialog2
-    }
-  }
-}
+const dialog = ref(false)
+const dialog2 = ref(false)
 </script>

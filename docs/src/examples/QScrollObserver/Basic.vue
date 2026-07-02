@@ -5,22 +5,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const scrollInfo = ref({})
+const scrollInfo = ref({})
 
-    function onScroll(info) {
-      scrollInfo.value = info
-    }
-
-    return {
-      scrollInfo,
-      onScroll
-    }
-  }
+function onScroll(info) {
+  scrollInfo.value = info
 }
 </script>
 

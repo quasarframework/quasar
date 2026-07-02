@@ -44,14 +44,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const splitterModel = ref(50) // start at 50%
-    const insideModel = ref(50)
-    return { splitterModel, insideModel }
-  }
-}
+const splitterModel = ref(50) // start at 50%
+const insideModel = ref(50)
 </script>

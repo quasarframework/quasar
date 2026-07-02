@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const stringOptions = [
@@ -42,30 +42,19 @@ const stringOptions = [
   return acc
 }, [])
 
-export default {
-  setup() {
-    const model = ref(null)
-    const options = ref(stringOptions)
+const model = ref(null)
+const options = ref(stringOptions)
 
-    function filterFn(val, update, abort) {
-      update(() => {
-        const needle = val.toLocaleLowerCase()
-        options.value = stringOptions.filter(v =>
-          v.toLocaleLowerCase().includes(needle)
-        )
-      })
-    }
+function filterFn(val, update, abort) {
+  update(() => {
+    const needle = val.toLocaleLowerCase()
+    options.value = stringOptions.filter(v =>
+      v.toLocaleLowerCase().includes(needle)
+    )
+  })
+}
 
-    function setModel(val) {
-      model.value = val
-    }
-
-    return {
-      model,
-      options,
-      filterFn,
-      setModel
-    }
-  }
+function setModel(val) {
+  model.value = val
 }
 </script>

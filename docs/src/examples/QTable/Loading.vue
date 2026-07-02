@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -161,14 +161,5 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const loading = ref(false)
-    return {
-      loading,
-      columns,
-      rows
-    }
-  }
-}
+const loading = ref(false)
 </script>

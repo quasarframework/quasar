@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -192,18 +192,8 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const expanded = ref([
-      // Array of row keys
-      'Ice cream sandwich'
-    ])
-
-    return {
-      expanded,
-      columns,
-      rows
-    }
-  }
-}
+const expanded = ref([
+  // Array of row keys
+  'Ice cream sandwich'
+])
 </script>

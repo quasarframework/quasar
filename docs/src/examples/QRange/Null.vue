@@ -23,36 +23,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const bothNull = ref({
-      min: null,
-      max: null
-    })
+const bothNull = ref({
+  min: null,
+  max: null
+})
 
-    const minNull = ref({
-      min: null,
-      max: 40
-    })
+const minNull = ref({
+  min: null,
+  max: 40
+})
 
-    const maxNull = ref({
-      min: 20,
-      max: null
-    })
+const maxNull = ref({
+  min: 20,
+  max: null
+})
 
-    function getNullLabel(val) {
-      return val === null ? 'null' : val
-    }
-
-    return {
-      bothNull,
-      minNull,
-      maxNull,
-      getNullLabel
-    }
-  }
+function getNullLabel(val) {
+  return val === null ? 'null' : val
 }
 </script>

@@ -10,7 +10,7 @@
   </q-virtual-scroll>
 </template>
 
-<script>
+<script setup>
 const maxSize = 10_000
 const heavyList = []
 
@@ -22,13 +22,5 @@ for (let i = 0; i < maxSize; i++) {
         ? 'q-pa-md self-center bg-grey-2 text-black'
         : 'q-pa-lg bg-black text-white'
   })
-}
-
-export default {
-  setup() {
-    return {
-      heavyList
-    }
-  }
 }
 </script>

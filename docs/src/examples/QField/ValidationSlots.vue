@@ -24,17 +24,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
-export default {
-  setup() {
-    const slider = ref(10)
-    const isValid = computed(() => slider.value <= 30)
-    return {
-      slider,
-      isValid
-    }
-  }
-}
+const slider = ref(10)
+const isValid = computed(() => slider.value <= 30)
 </script>

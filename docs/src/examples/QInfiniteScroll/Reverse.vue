@@ -20,24 +20,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const items = ref([{}, {}, {}, {}, {}, {}, {}])
+const items = ref([{}, {}, {}, {}, {}, {}, {}])
 
-    function onLoad(index, done) {
-      setTimeout(() => {
-        items.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
-        done()
-      }, 2000)
-    }
-
-    return {
-      items,
-      onLoad
-    }
-  }
+function onLoad(index, done) {
+  setTimeout(() => {
+    items.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2000)
 }
 </script>

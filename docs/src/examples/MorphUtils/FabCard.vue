@@ -35,40 +35,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { morph } from 'quasar'
 import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const toggle = ref(false)
-    const fabRef = useTemplateRef('fabRef')
-    const cardRef = useTemplateRef('cardRef')
+const toggle = ref(false)
+const fabRef = useTemplateRef('fabRef')
+const cardRef = useTemplateRef('cardRef')
 
-    const getFab = () => fabRef.value
-    const getCard = () => cardRef.value?.$el
+const getFab = () => fabRef.value
+const getCard = () => cardRef.value?.$el
 
-    const lorem =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+const lorem =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
 
-    function morphState(state) {
-      if (state === toggle.value) return
+function morphState(state) {
+  if (state === toggle.value) return
 
-      morph({
-        from: toggle.value ? getCard : getFab,
-        to: toggle.value ? getFab : getCard,
-        onToggle: () => {
-          toggle.value = state
-        },
-        duration: 500
-      })
-    }
-
-    return {
-      toggle,
-      lorem,
-      morphState
-    }
-  }
+  morph({
+    from: toggle.value ? getCard : getFab,
+    to: toggle.value ? getFab : getCard,
+    onToggle: () => {
+      toggle.value = state
+    },
+    duration: 500
+  })
 }
 </script>

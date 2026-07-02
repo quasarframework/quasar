@@ -4,13 +4,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    function getUrl(files) {
-      return `http://localhost:4444/upload?count=${files.length}`
-    }
-    return { getUrl }
-  }
+<script setup>
+function getUrl(files) {
+  return `http://localhost:4444/upload?count=${files.length}`
 }
 </script>

@@ -15,7 +15,7 @@
   </q-virtual-scroll>
 </template>
 
-<script>
+<script setup>
 import { QChatMessage, QSkeleton } from 'quasar'
 import { defineComponent, h, onBeforeMount, onBeforeUnmount, ref } from 'vue'
 
@@ -91,31 +91,18 @@ const AsyncComponent = defineComponent({
 })
 
 const size = ref(100_000)
-// oxlint-disable-next-line unicorn/new-for-builtins
-const allItems = Array(size.value)
-  .fill(null)
-  .map((_, index) => ({
-    index,
-    sent: Math.random() > 0.5
-  }))
+const allItems = Array.from({ length: size.value }, (_, index) => ({
+  index,
+  sent: Math.random() > 0.5
+}))
 
-export default {
-  components: {
-    AsyncComponent
-  },
+function getItems(from, curSize) {
+  const items = []
 
-  setup() {
-    function getItems(from, curSize) {
-      const items = []
-
-      for (let i = 0; i < curSize; i++) {
-        items.push(allItems[from + i])
-      }
-
-      return Object.freeze(items)
-    }
-
-    return { size, getItems }
+  for (let i = 0; i < curSize; i++) {
+    items.push(allItems[from + i])
   }
+
+  return Object.freeze(items)
 }
 </script>

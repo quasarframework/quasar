@@ -17,19 +17,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const inputRef = useTemplateRef('inputRef')
-    const model = ref('')
+const inputRef = useTemplateRef('inputRef')
+const model = ref('')
 
-    function reset() {
-      inputRef.value.resetValidation()
-    }
-
-    return { model, reset }
-  }
+function reset() {
+  inputRef.value.resetValidation()
 }
 </script>

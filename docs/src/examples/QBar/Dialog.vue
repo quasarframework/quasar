@@ -61,18 +61,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const lightDialog = ref(false)
-    const darkDialog = ref(false)
-
-    return {
-      lightDialog,
-      darkDialog
-    }
-  }
-}
+const lightDialog = ref(false)
+const darkDialog = ref(false)
 </script>

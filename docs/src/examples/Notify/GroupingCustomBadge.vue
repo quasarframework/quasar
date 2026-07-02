@@ -9,33 +9,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function triggerTwice() {
-      $q.notify({
-        message: 'Jim pinged you.',
-        color: 'purple',
-        badgeColor: 'yellow',
-        badgeTextColor: 'dark',
-        badgeClass: 'shadow-3 glossy my-badge-class'
-      })
+function triggerTwice() {
+  $q.notify({
+    message: 'Jim pinged you.',
+    color: 'purple',
+    badgeColor: 'yellow',
+    badgeTextColor: 'dark',
+    badgeClass: 'shadow-3 glossy my-badge-class'
+  })
 
-      $q.notify({
-        message: 'Jim pinged you.',
-        color: 'purple',
-        badgeColor: 'yellow',
-        badgeTextColor: 'dark',
-        badgeClass: 'shadow-3 glossy my-badge-class'
-      })
-    }
-
-    return { triggerTwice }
-  }
+  $q.notify({
+    message: 'Jim pinged you.',
+    color: 'purple',
+    badgeColor: 'yellow',
+    badgeTextColor: 'dark',
+    badgeClass: 'shadow-3 glossy my-badge-class'
+  })
 }
 </script>
 

@@ -14,13 +14,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const editor = ref('What you see is <b>what</b> you get.')
-    return { editor }
-  }
-}
+const editor = ref('What you see is <b>what</b> you get.')
 </script>

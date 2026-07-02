@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const columns = [
   // #region
   {
@@ -157,21 +157,11 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const initialPagination = {
-      sortBy: 'desc',
-      descending: false,
-      page: 2,
-      rowsPerPage: 3
-      // rowsNumber: xx if getting data from a server
-    }
-
-    return {
-      initialPagination,
-      columns,
-      rows
-    }
-  }
+const initialPagination = {
+  sortBy: 'desc',
+  descending: false,
+  page: 2,
+  rowsPerPage: 3
+  // rowsNumber: xx if getting data from a server
 }
 </script>

@@ -4,22 +4,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    function factoryFn(files) {
-      // returning a Promise
+<script setup>
+function factoryFn(files) {
+  // returning a Promise
 
-      return new Promise(resolve => {
-        // simulating a delay of 2 seconds
-        setTimeout(() => {
-          resolve({
-            url: 'http://localhost:4444/upload'
-          })
-        }, 2000)
+  return new Promise(resolve => {
+    // simulating a delay of 2 seconds
+    setTimeout(() => {
+      resolve({
+        url: 'http://localhost:4444/upload'
       })
-    }
-    return { factoryFn }
-  }
+    }, 2000)
+  })
 }
 </script>

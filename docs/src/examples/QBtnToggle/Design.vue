@@ -65,15 +65,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref('one')
-    return { model }
-  }
-}
+const model = ref('one')
 </script>
 
 <style lang="sass" scoped>

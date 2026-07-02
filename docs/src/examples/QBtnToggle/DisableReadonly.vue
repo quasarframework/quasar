@@ -29,13 +29,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref('two')
-    return { model }
-  }
-}
+const model = ref('two')
 </script>

@@ -17,13 +17,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const tab = ref('')
-    return { tab }
-  }
-}
+const tab = ref('')
 </script>

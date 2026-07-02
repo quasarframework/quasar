@@ -28,14 +28,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    function onItemClick() {
-      // console.log('Clicked on an Item')
-    }
-
-    return { onItemClick }
-  }
+<script setup>
+function onItemClick() {
+  console.log('Clicked on an Item')
 }
 </script>

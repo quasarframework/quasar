@@ -32,33 +32,23 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const date = ref('2020/03/20')
-    const submitResult = ref([])
+const date = ref('2020/03/20')
+const submitResult = ref([])
 
-    function onSubmit(evt) {
-      const formData = new FormData(evt.target)
-      const data = []
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const data = []
 
-      for (const [name, value] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
-      }
-
-      submitResult.value = data
-    }
-
-    return {
-      date,
-      submitResult,
-      onSubmit
-    }
+  for (const [name, value] of formData.entries()) {
+    data.push({
+      name,
+      value
+    })
   }
+
+  submitResult.value = data
 }
 </script>

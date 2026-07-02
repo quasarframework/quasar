@@ -23,29 +23,19 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const position = ref(300)
-    const scrollAreaRef = useTemplateRef('scrollAreaRef')
+const position = ref(300)
+const scrollAreaRef = useTemplateRef('scrollAreaRef')
 
-    function scroll() {
-      scrollAreaRef.value.setScrollPosition('vertical', position.value)
-      position.value = Math.floor(Math.random() * 1001) * 20
-    }
+function scroll() {
+  scrollAreaRef.value.setScrollPosition('vertical', position.value)
+  position.value = Math.floor(Math.random() * 1001) * 20
+}
 
-    function animateScroll() {
-      scrollAreaRef.value.setScrollPosition('vertical', position.value, 300)
-      position.value = Math.floor(Math.random() * 1001) * 20
-    }
-
-    return {
-      position,
-      scroll,
-      animateScroll
-    }
-  }
+function animateScroll() {
+  scrollAreaRef.value.setScrollPosition('vertical', position.value, 300)
+  position.value = Math.floor(Math.random() * 1001) * 20
 }
 </script>

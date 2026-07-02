@@ -13,14 +13,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const text = ref('Field content')
-    const loadingState = ref(false)
-    return { text, loadingState }
-  }
-}
+const text = ref('Field content')
+const loadingState = ref(false)
 </script>

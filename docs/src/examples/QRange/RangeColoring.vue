@@ -66,22 +66,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref({
-      min: 2,
-      max: 4
-    })
+const model = ref({
+  min: 2,
+  max: 4
+})
 
-    const secondModel = ref({
-      min: 3,
-      max: 5
-    })
-
-    return { model, secondModel }
-  }
-}
+const secondModel = ref({
+  min: 3,
+  max: 5
+})
 </script>

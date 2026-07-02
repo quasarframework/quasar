@@ -45,14 +45,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const time = ref('10:56')
-    const timeWithSeconds = ref('10:56:00')
-    return { time, timeWithSeconds }
-  }
-}
+const time = ref('10:56')
+const timeWithSeconds = ref('10:56:00')
 </script>

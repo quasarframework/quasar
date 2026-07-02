@@ -16,11 +16,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    const fitModes = ['cover', 'fill', 'contain', 'none', 'scale-down']
-    return { fitModes }
-  }
-}
+<script setup>
+const fitModes = ['cover', 'fill', 'contain', 'none', 'scale-down']
 </script>

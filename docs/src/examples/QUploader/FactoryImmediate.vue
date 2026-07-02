@@ -4,16 +4,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  setup() {
-    function factoryFn(files) {
-      return {
-        url: 'http://localhost:4444/upload',
-        method: 'POST'
-      }
-    }
-    return { factoryFn }
+<script setup>
+function factoryFn(files) {
+  return {
+    url: 'http://localhost:4444/upload',
+    method: 'POST'
   }
 }
 </script>

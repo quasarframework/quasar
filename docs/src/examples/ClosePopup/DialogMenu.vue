@@ -60,13 +60,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const dialog = ref(false)
-    return { dialog }
-  }
-}
+const dialog = ref(false)
 </script>

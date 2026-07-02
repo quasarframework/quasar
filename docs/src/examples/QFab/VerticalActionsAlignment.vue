@@ -115,25 +115,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const fabLeft = ref(true)
-    const fabCenter = ref(true)
-    const fabRight = ref(true)
+const fabLeft = ref(true)
+const fabCenter = ref(true)
+const fabRight = ref(true)
 
-    function onClick() {
-      // console.log('Clicked on a fab action')
-    }
-
-    return {
-      fabLeft,
-      fabCenter,
-      fabRight,
-      onClick
-    }
-  }
+function onClick() {
+  console.log('Clicked on a fab action')
 }
 </script>

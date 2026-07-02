@@ -74,14 +74,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const drawerLeft = ref(false)
-    const drawerRight = ref(false)
-    return { drawerLeft, drawerRight }
-  }
-}
+const drawerLeft = ref(false)
+const drawerRight = ref(false)
 </script>

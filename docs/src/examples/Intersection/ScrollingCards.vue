@@ -23,26 +23,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    // oxlint-disable-next-line unicorn/new-for-builtins
-    const inView = ref(Array(50).fill(false))
+// oxlint-disable-next-line unicorn/new-for-builtins
+const inView = ref(Array(50).fill(false))
 
-    function onIntersection(entry) {
-      const index = Number.parseInt(entry.target.dataset.id, 10)
-      setTimeout(() => {
-        inView.value.splice(index, 1, entry.isIntersecting)
-      }, 50)
-    }
-
-    return {
-      inView,
-      onIntersection
-    }
-  }
+function onIntersection(entry) {
+  const index = Number.parseInt(entry.target.dataset.id, 10)
+  setTimeout(() => {
+    inView.value.splice(index, 1, entry.isIntersecting)
+  }, 50)
 }
 </script>
 

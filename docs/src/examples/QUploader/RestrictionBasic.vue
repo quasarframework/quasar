@@ -40,23 +40,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    function onRejected(rejectedEntries) {
-      // Notify plugin needs to be installed
-      // https://v2.quasar.dev/quasar-plugins/notify#Installation
-      $q.notify({
-        type: 'negative',
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      })
-    }
-
-    return { onRejected }
-  }
+function onRejected(rejectedEntries) {
+  // Notify plugin needs to be installed
+  // https://v2.quasar.dev/quasar-plugins/notify#Installation
+  $q.notify({
+    type: 'negative',
+    message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+  })
 }
 </script>

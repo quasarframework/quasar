@@ -41,33 +41,23 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const speed = ref(40)
-    const submitResult = ref([])
+const speed = ref(40)
+const submitResult = ref([])
 
-    function onSubmit(evt) {
-      const formData = new FormData(evt.target)
-      const data = []
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const data = []
 
-      for (const [name, value] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
-      }
-
-      submitResult.value = data
-    }
-
-    return {
-      speed,
-      submitResult,
-      onSubmit
-    }
+  for (const [name, value] of formData.entries()) {
+    data.push({
+      name,
+      value
+    })
   }
+
+  submitResult.value = data
 }
 </script>

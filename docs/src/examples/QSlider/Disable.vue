@@ -6,14 +6,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const basicModel = ref(40)
-    const greenModel = ref(10)
-    return { basicModel, greenModel }
-  }
-}
+const basicModel = ref(40)
+const greenModel = ref(10)
 </script>

@@ -31,22 +31,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, useTemplateRef } from 'vue'
 
-export default {
-  setup() {
-    const fieldRef = useTemplateRef('fieldRef')
-    const slider = ref(50)
+const fieldRef = useTemplateRef('fieldRef')
+const slider = ref(50)
 
-    function reset() {
-      fieldRef.value.resetValidation()
-    }
-
-    return {
-      slider,
-      reset
-    }
-  }
+function reset() {
+  fieldRef.value.resetValidation()
 }
 </script>

@@ -8,32 +8,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const date = ref('2019/02/01')
-    const events = [
-      // #region
-      '2019/02/01',
-      '2019/02/05',
-      '2019/02/06',
-      '2019/02/09',
-      '2019/02/23'
-      // #endregion
-    ]
+const date = ref('2019/02/01')
+const events = [
+  // #region
+  '2019/02/01',
+  '2019/02/05',
+  '2019/02/06',
+  '2019/02/09',
+  '2019/02/23'
+  // #endregion
+]
 
-    function eventsFn(d) {
-      const parts = d.split('/')
-      return parts[2] % 2 === 0
-    }
-
-    return {
-      date,
-      events,
-      eventsFn
-    }
-  }
+function eventsFn(d) {
+  const parts = d.split('/')
+  return parts[2] % 2 === 0
 }
 </script>

@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 const maxSize = 10_000
 const heavyList = []
 
@@ -46,15 +46,5 @@ const barStyle = {
   backgroundColor: '#027be3',
   width: '14px',
   opacity: 0.2
-}
-
-export default {
-  setup() {
-    return {
-      heavyList,
-      thumbStyle,
-      barStyle
-    }
-  }
 }
 </script>

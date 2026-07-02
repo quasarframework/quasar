@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, nextTick, ref } from 'vue'
 
 const columns = [
@@ -183,47 +183,25 @@ allRows.forEach((row, index) => {
 const pageSize = 50
 const lastPage = Math.ceil(allRows.length / pageSize)
 
-export default {
-  setup() {
-    const pagination = { rowsPerPage: 0 }
-    const nextPage = ref(2)
-    const loading = ref(false)
+const pagination = { rowsPerPage: 0 }
+const nextPage = ref(2)
+const loading = ref(false)
 
-    const rows = computed(() =>
-      allRows.slice(0, pageSize * (nextPage.value - 1))
-    )
+const rows = computed(() => allRows.slice(0, pageSize * (nextPage.value - 1)))
 
-    function onScroll({ to, ref: compRef }) {
-      const lastIndex = rows.value.length - 1
+function onScroll({ to, ref: compRef }) {
+  const lastIndex = rows.value.length - 1
 
-      if (
-        loading.value !== true &&
-        nextPage.value < lastPage &&
-        to === lastIndex
-      ) {
-        loading.value = true
+  if (loading.value !== true && nextPage.value < lastPage && to === lastIndex) {
+    loading.value = true
 
-        setTimeout(() => {
-          nextPage.value++
-          nextTick(() => {
-            compRef.refresh()
-            loading.value = false
-          })
-        }, 500)
-      }
-    }
-
-    return {
-      columns,
-      rows,
-
-      nextPage,
-      loading,
-
-      pagination,
-
-      onScroll
-    }
+    setTimeout(() => {
+      nextPage.value++
+      nextTick(() => {
+        compRef.refresh()
+        loading.value = false
+      })
+    }, 500)
   }
 }
 </script>

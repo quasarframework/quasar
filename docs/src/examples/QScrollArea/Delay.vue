@@ -14,28 +14,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const number = ref(4)
+const number = ref(4)
 
-    function less() {
-      if (number.value > 1) {
-        number.value--
-      }
-    }
-
-    function more() {
-      number.value++
-    }
-
-    return {
-      number,
-      less,
-      more
-    }
+function less() {
+  if (number.value > 1) {
+    number.value--
   }
+}
+
+function more() {
+  number.value++
 }
 </script>

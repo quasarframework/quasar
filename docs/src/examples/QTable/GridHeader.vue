@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const columns = [
@@ -117,14 +117,5 @@ const rows = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const filter = ref('')
-    return {
-      filter,
-      columns,
-      rows
-    }
-  }
-}
+const filter = ref('')
 </script>

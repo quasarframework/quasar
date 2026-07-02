@@ -28,13 +28,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const date = ref('2019-02-01 12:44')
-    return { date }
-  }
-}
+const date = ref('2019-02-01 12:44')
 </script>

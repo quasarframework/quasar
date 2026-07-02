@@ -18,32 +18,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const model = ref(null)
-    const optionsHtml = ref(false)
-    const options = [
-      {
-        label:
-          '<span class="text-primary text-bold text-underline">Goo</span>gle',
-        value: 'Google'
-      },
-      {
-        label:
-          '<span class="text-primary">This is</span> in <span class="text-negative text-bold">HTML form</span> through an option prop',
-        value: 'Facebook',
-        html: true
-      }
-    ]
-
-    return {
-      model,
-      optionsHtml,
-      options
-    }
+const model = ref(null)
+const optionsHtml = ref(false)
+const options = [
+  {
+    label: '<span class="text-primary text-bold text-underline">Goo</span>gle',
+    value: 'Google'
+  },
+  {
+    label:
+      '<span class="text-primary">This is</span> in <span class="text-negative text-bold">HTML form</span> through an option prop',
+    value: 'Facebook',
+    html: true
   }
-}
+]
 </script>

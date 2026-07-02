@@ -149,14 +149,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const layout = ref('dense')
-    const side = ref('right')
-    return { layout, side }
-  }
-}
+const layout = ref('dense')
+const side = ref('right')
 </script>

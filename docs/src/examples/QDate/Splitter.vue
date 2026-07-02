@@ -75,19 +75,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const splitterModel = ref(50)
-    const date = ref('2019/02/01')
-    const events = ['2019/02/01', '2019/02/05', '2019/02/06']
-    return {
-      splitterModel,
-      date,
-      events
-    }
-  }
-}
+const splitterModel = ref(50)
+const date = ref('2019/02/01')
+const events = ['2019/02/01', '2019/02/05', '2019/02/06']
 </script>

@@ -79,14 +79,9 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const tab = ref('mails')
-    const splitterModel = ref(20)
-    return { tab, splitterModel }
-  }
-}
+const tab = ref('mails')
+const splitterModel = ref(20)
 </script>

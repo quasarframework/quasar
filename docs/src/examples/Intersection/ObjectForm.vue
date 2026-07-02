@@ -22,40 +22,29 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue'
 
 const thresholds = []
+const percent = ref(0)
 
 for (let i = 0; i <= 1; i += 0.01) {
   thresholds.push(i)
 }
 
-export default {
-  setup() {
-    const percent = ref(0)
+const visibleClass = computed(
+  () => `bg-${percent.value > 0 ? 'positive' : 'negative'}`
+)
 
-    const visibleClass = computed(
-      () => `bg-${percent.value > 0 ? 'positive' : 'negative'}`
-    )
-
-    const options = {
-      handler(entry) {
-        const val = (entry.intersectionRatio * 100).toFixed(0)
-        if (percent.value !== val) {
-          percent.value = val
-        }
-      },
-      cfg: {
-        threshold: thresholds
-      }
+const options = {
+  handler(entry) {
+    const val = (entry.intersectionRatio * 100).toFixed(0)
+    if (percent.value !== val) {
+      percent.value = val
     }
-
-    return {
-      percent,
-      visibleClass,
-      options
-    }
+  },
+  cfg: {
+    threshold: thresholds
   }
 }
 </script>

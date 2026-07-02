@@ -34,36 +34,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const range = ref({
-      min: 10,
-      max: 50
+const range = ref({
+  min: 10,
+  max: 50
+})
+const submitResult = ref([])
+
+function onSubmit(evt) {
+  const formData = new FormData(evt.target)
+  const data = []
+
+  for (const [name, value] of formData.entries()) {
+    data.push({
+      name,
+      value
     })
-    const submitResult = ref([])
-
-    function onSubmit(evt) {
-      const formData = new FormData(evt.target)
-      const data = []
-
-      for (const [name, value] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
-      }
-
-      submitResult.value = data
-    }
-
-    return {
-      range,
-      submitResult,
-      onSubmit
-    }
   }
+
+  submitResult.value = data
 }
 </script>

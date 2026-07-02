@@ -46,25 +46,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const dialog = ref(false)
-    const position = ref('top')
+const dialog = ref(false)
+const position = ref('top')
 
-    function open(pos) {
-      position.value = pos
-      dialog.value = true
-    }
-
-    return {
-      dialog,
-      position,
-
-      open
-    }
-  }
+function open(pos) {
+  position.value = pos
+  dialog.value = true
 }
 </script>

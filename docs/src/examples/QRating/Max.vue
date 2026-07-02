@@ -4,13 +4,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const ratingModel = ref(3)
-    return { ratingModel }
-  }
-}
+const ratingModel = ref(3)
 </script>

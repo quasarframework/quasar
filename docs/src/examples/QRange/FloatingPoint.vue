@@ -26,25 +26,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const precision = ref({
-      min: 0.2,
-      max: 0.7
-    })
+const precision = ref({
+  min: 0.2,
+  max: 0.7
+})
 
-    const zeroPrecision = ref({
-      min: 0.2,
-      max: 0.7
-    })
-
-    return {
-      precision,
-      zeroPrecision
-    }
-  }
-}
+const zeroPrecision = ref({
+  min: 0.2,
+  max: 0.7
+})
 </script>

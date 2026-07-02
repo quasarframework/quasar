@@ -25,13 +25,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const panel = ref('mails')
-    return { panel }
-  }
-}
+const panel = ref('mails')
 </script>

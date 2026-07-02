@@ -16,37 +16,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const date = ref('2019/02/01')
-    const events = [
-      // #region
-      '2019/02/01',
-      '2019/02/05',
-      '2019/02/06',
-      '2019/02/09',
-      '2019/02/23'
-      // #endregion
-    ]
+const date = ref('2019/02/01')
+const events = [
+  // #region
+  '2019/02/01',
+  '2019/02/05',
+  '2019/02/06',
+  '2019/02/09',
+  '2019/02/23'
+  // #endregion
+]
 
-    function eventsFn(d) {
-      return (
-        d === '2019/02/01' ||
-        d === '2019/02/05' ||
-        d === '2019/02/06' ||
-        d === '2019/02/09' ||
-        d === '2019/02/23'
-      )
-    }
-
-    return {
-      date,
-      events,
-      eventsFn
-    }
-  }
+function eventsFn(d) {
+  return (
+    d === '2019/02/01' ||
+    d === '2019/02/05' ||
+    d === '2019/02/06' ||
+    d === '2019/02/09' ||
+    d === '2019/02/23'
+  )
 }
 </script>

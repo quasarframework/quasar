@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const colors = [
@@ -28,32 +28,22 @@ const colors = [
   // #endregion
 ]
 
-export default {
-  setup() {
-    const color = ref(colors[0])
-    const classes = computed(() => `bg-${color.value}`)
-    const index = ref(0)
+const color = ref(colors[0])
+const classes = computed(() => `bg-${color.value}`)
+const index = ref(0)
 
-    let timer
+let timer
 
-    onMounted(() => {
-      timer = setInterval(() => {
-        index.value = (index.value + 1) % colors.length
-        color.value = colors[index.value]
-      }, 3000)
-    })
+onMounted(() => {
+  timer = setInterval(() => {
+    index.value = (index.value + 1) % colors.length
+    color.value = colors[index.value]
+  }, 3000)
+})
 
-    onBeforeUnmount(() => {
-      clearTimeout(timer)
-    })
-
-    return {
-      color,
-      index,
-      classes
-    }
-  }
-}
+onBeforeUnmount(() => {
+  clearTimeout(timer)
+})
 </script>
 
 <style lang="sass" scoped>
