@@ -2441,6 +2441,27 @@
         }
       },
       "returns": null
+    },
+
+    "getCellValue": {
+      "desc": "Get parsed/processed cell value for a column and row",
+      "params": {
+        "col": {
+          "type": "Object",
+          "required": true,
+          "desc": "Column definition object"
+        },
+        "row": {
+          "type": "Object",
+          "required": true,
+          "desc": "The row object"
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Parsed/Processed cell value",
+        "examples": ["'Ice Cream Sandwich'"]
+      }
     }
   },
 
