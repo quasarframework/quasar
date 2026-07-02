@@ -68,7 +68,6 @@
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd ./playground/upload-server && pnpm i && cd ../.. && node playground/upload-server/server.js",
     "audit:icon-set": "node build/script.icon-set-audit.js",
-    "audit:lang": "node build/script.lang-audit.js",
     "test": "pnpm --filter quasar-ui-test test",
     "test:watch": "pnpm --filter quasar-ui-test test:watch",
     "test:watch:ui": "pnpm --filter quasar-ui-test test:watch:ui",
