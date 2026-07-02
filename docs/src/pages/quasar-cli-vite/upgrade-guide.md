@@ -466,6 +466,7 @@ build: {
   defineEnv: {}, // or long form "define" with 'import.meta.env.' prefix in key
 
   // change to "true" if needed; defaults to "false" now!
+  // check your deps too!
   vueOptionsAPI,
 
   // removed; deferring to Vite's default // [!code --]
@@ -664,7 +665,7 @@ Make sure to update your `/quasar.config` file with the newest specs in order to
 
 - All imports from `#q-app/wrappers` need to be replaced with `#q-app`. Do a global search and replace.
 - Switched from `process.env` to the modern `import.meta.env`. [Link](/quasar-cli-vite/handling-import-meta-env)
-- /quasar.config > build > vueOptionsAPI is now `false` by default
+- /quasar.config > build > vueOptionsAPI is now `false` by default. Check other Vue 3 packages and components. If they use the `Options` API, you will need to set this to true.
 - /quasar.config > build > polyfillModulePreload (removed and now defaulting to Vite's own config for this)
 - /index.html -> new [HTML Constant Replacement](/quasar-cli-vite/handling-import-meta-env#html-constant-replacement). `<% if (process.env.X) %>` will no longer work.
 - New [dotenv files support](/quasar-cli-vite/handling-import-meta-end#more-on-dotenv-files), including for the `/quasar.config` file itself. By default, Quasar CLI will only look for `.env` and `.env.local`, but you can add other files as well to support the ones with prod/dev/mode suffixes.
