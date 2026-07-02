@@ -203,6 +203,10 @@ There are 2 utility CSS classes that control VirtualScroll size calculation:
 
 <DocExample title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
 
+::: tip
+When rendering more than one `QTr` for the same row of data (through the `body` slot), give each `QTr` a distinct `key` and add the `q-virtual-scroll--with-prev` class to every extra `QTr` after the first one. This tells VirtualScroll to group their sizes together with the previous element, so the total height of the data row is measured correctly. If a row should not be measured at all (for example, a separator), use `q-virtual-scroll--skip` instead. This is especially important when also using a sticky header or row expansion, otherwise you may notice an incorrect scroll height or a jumping scroll position.
+:::
+
 ## Selection
 
 ::: warning
@@ -280,6 +284,10 @@ If you are using virtual scroll with QTable, you should know that there are 2 ut
 - Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
 <DocExample title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
+
+::: tip
+An expanded row is just another `QTr` rendered for the same row of data, so the same rules from [Virtual scroll with multiple rows for a data row](#virtual-scrolling) apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.
+:::
 
 ## Before/after slots
 
