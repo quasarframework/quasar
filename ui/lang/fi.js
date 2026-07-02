@@ -42,11 +42,6 @@ export default {
     prevRangeYears: range => `Edellinen ${range} vuotta`,
     nextRangeYears: range => `Seuraava ${range} vuotta`
   },
-  pullToRefresh: {
-    pull: 'Vedä alas päivittääksesi',
-    release: 'Vapauta päivittääksesi',
-    refresh: 'Päivitetään...'
-  },
   table: {
     noData: 'Ei tietoja',
     noResults: 'Ei tuloksia',
