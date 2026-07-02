@@ -1,18 +1,51 @@
 import { computed } from 'vue'
 
 export const useTableRowSelectionProps = {
+  /**
+   * Selection type
+   *
+   * @api prop selection
+   * @type {String}
+   * @default 'none'
+   * @category selection
+   */
   selection: {
     type: String,
     default: 'none',
     validator: v => ['single', 'multiple', 'none'].includes(v)
   },
+
+  /**
+   * Keeps the user selection array
+   *
+   * @api prop selected
+   * @type {Array}
+   * @category selection
+   * @syncable
+   */
   selected: {
     type: Array,
     default: () => []
   }
 }
 
-export const useTableRowSelectionEmits = ['update:selected', 'selection']
+export const useTableRowSelectionEmits = [
+  /**
+   * Emitted when the selected rows change
+   *
+   * @api event update:selected
+   * @param {Array} newSelected New selected rows
+   */
+  'update:selected',
+
+  /**
+   * Emitted when rows are selected/unselected
+   *
+   * @api event selection
+   * @param {Object} details Selection details
+   */
+  'selection'
+]
 
 export function useTableRowSelection(props, emit, computedRows, getRowKey) {
   const selectedKeys = computed(() => {
@@ -40,10 +73,22 @@ export function useTableRowSelection(props, emit, computedRows, getRowKey) {
 
   const rowsSelectedNumber = computed(() => props.selected.length)
 
+  /**
+   * Determine if a row key is selected
+   *
+   * @api method isRowSelected
+   * @param {Any} key Row key
+   * @returns {Boolean} Is row selected
+   */
   function isRowSelected(key) {
     return selectedKeys.value[key] === true
   }
 
+  /**
+   * Clears user selection
+   *
+   * @api method clearSelection
+   */
   function clearSelection() {
     emit('update:selected', [])
   }

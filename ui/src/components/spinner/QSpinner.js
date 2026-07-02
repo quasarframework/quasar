@@ -4,12 +4,24 @@ import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/spinners
+ */
 export default createComponent({
   name: 'QSpinner',
 
   props: {
     ...useSpinnerProps,
 
+    /**
+     * Override value to use for stroke-width
+     *
+     * @api prop thickness
+     * @type {Number}
+     * @default 5
+     * @category style
+     */
     thickness: {
       type: Number,
       default: 5

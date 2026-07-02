@@ -28,6 +28,33 @@ import { hDir, hMergeSlot } from '../../utils/private.render/render.js'
 const navigationPositionOptions = ['top', 'right', 'bottom', 'left']
 const controlTypeOptions = ['regular', 'flat', 'outline', 'push', 'unelevated']
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/carousel
+ */
+/**
+ * Suggestion: QCarouselSlide
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot specific for QCarouselControl
+ *
+ * @api slot control
+ */
+
+/**
+ * Slot for navigation icon/btn; Suggestion: QBtn
+ *
+ * @api slot navigation-icon
+ * @scope index {Number} The 0-based index of corresponding slide
+ * @scope maxIndex {Number} The available number of slides
+ * @scope name {Any} The name of the corresponding slide
+ * @scope active {Boolean} Is this the current slide?
+ * @scope btnProps {Object} Default QBtn props that can be binded to your own QBtn
+ * @scope onClick {Function} Default trigger when clicked/tapped on
+ */
 export default createComponent({
   name: 'QCarousel',
 
@@ -36,42 +63,140 @@ export default createComponent({
     ...usePanelProps,
     ...useFullscreenProps,
 
+    /**
+     * @api prop transition-prev
+     * @default 'fade'
+     */
     transitionPrev: {
       // usePanelParentProps override
       type: String,
       default: 'fade'
     },
+    /**
+     * @api prop transition-next
+     * @default 'fade'
+     */
     transitionNext: {
       // usePanelParentProps override
       type: String,
       default: 'fade'
     },
 
+    /**
+     * Height of Carousel in CSS units, including unit name
+     *
+     * @api prop height
+     * @extends size
+     */
     height: String,
+    /**
+     * Applies a default padding to each slide, according to the usage of 'arrows' and 'navigation' props
+     *
+     * @api prop padding
+     * @type {Boolean}
+     * @category content
+     */
     padding: Boolean,
 
+    /**
+     * Color name for QCarousel button controls (arrows, navigation) from the Quasar Color Palette
+     *
+     * @api prop control-color
+     * @extends color
+     */
     controlColor: String,
+    /**
+     * Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette
+     *
+     * @api prop control-text-color
+     * @extends color
+     */
     controlTextColor: String,
+    /**
+     * Type of button to use for controls (arrows, navigation)
+     *
+     * @api prop control-type
+     * @type {String}
+     * @default 'flat'
+     * @category style
+     */
     controlType: {
       type: String,
       validator: v => controlTypeOptions.includes(v),
       default: 'flat'
     },
 
+    /**
+     * Jump to next slide (if 'true' or val > 0) or previous slide (if val < 0) at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals
+     *
+     * @api prop autoplay
+     * @type {Number|Boolean}
+     * @category behavior
+     * @example true
+     * @example false
+     * @example 2500
+     */
     autoplay: [Number, Boolean],
 
+    /**
+     * Show navigation arrow buttons
+     *
+     * @api prop arrows
+     * @type {Boolean}
+     * @category content
+     */
     arrows: Boolean,
+    /**
+     * @api prop prev-icon
+     * @extends icon
+     */
     prevIcon: String,
+    /**
+     * @api prop next-icon
+     * @extends icon
+     */
     nextIcon: String,
 
+    /**
+     * Show navigation dots
+     *
+     * @api prop navigation
+     * @type {Boolean}
+     * @category content
+     */
     navigation: Boolean,
+    /**
+     * Side to stick navigation to
+     *
+     * @api prop navigation-position
+     * @type {String}
+     * @default # 'bottom'/'right'
+     * @category content
+     */
     navigationPosition: {
       type: String,
       validator: v => navigationPositionOptions.includes(v)
     },
+    /**
+     * @api prop navigation-icon
+     * @extends icon
+     */
     navigationIcon: String,
+    /**
+     * Icon name following Quasar convention for the active (current slide) navigation icon; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop navigation-active-icon
+     * @extends icon
+     */
     navigationActiveIcon: String,
 
+    /**
+     * Show thumbnails
+     *
+     * @api prop thumbnails
+     * @type {Boolean}
+     * @category content
+     */
     thumbnails: Boolean
   },
 

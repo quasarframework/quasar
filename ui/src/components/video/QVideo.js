@@ -1,51 +1,27 @@
-import { computed, h } from 'vue'
-
-import useRatio, {
-  useRatioProps
-} from '../../composables/private.use-ratio/use-ratio.js'
+import { h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
+import useVideo, { useVideoProps } from './use-video.js'
+
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/video
+ */
 export default createComponent({
   name: 'QVideo',
 
-  props: {
-    ...useRatioProps,
-
-    src: {
-      type: String,
-      required: true
-    },
-
-    title: String,
-
-    fetchpriority: {
-      type: String,
-      default: 'auto'
-    },
-    loading: {
-      type: String,
-      default: 'eager'
-    },
-    referrerpolicy: {
-      type: String,
-      default: 'strict-origin-when-cross-origin'
-    }
-  },
+  props: useVideoProps,
 
   setup(props) {
-    const ratioStyle = useRatio(props)
-
-    const classes = computed(
-      () => 'q-video' + (props.ratio !== void 0 ? ' q-video--responsive' : '')
-    )
+    const video = useVideo(props)
 
     return () =>
       h(
         'div',
         {
-          class: classes.value,
-          style: ratioStyle.value
+          class: video.classes.value,
+          style: video.ratioStyle.value
         },
         [
           h('iframe', {

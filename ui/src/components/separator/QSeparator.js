@@ -1,87 +1,27 @@
-import { computed, getCurrentInstance, h } from 'vue'
-
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
+import { getCurrentInstance, h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
-const insetMap = {
-  true: 'inset',
-  item: 'item-inset',
-  'item-thumbnail': 'item-thumbnail-inset'
-}
+import useSeparator, { useSeparatorProps } from './use-separator.js'
 
-export const margins = {
-  xs: 2,
-  sm: 4,
-  md: 8,
-  lg: 16,
-  xl: 24
-}
-
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/separator
+ */
 export default createComponent({
   name: 'QSeparator',
 
-  props: {
-    ...useDarkProps,
-
-    spaced: [Boolean, String],
-    inset: [Boolean, String],
-    vertical: Boolean,
-    color: String,
-    size: String
-  },
+  props: useSeparatorProps,
 
   setup(props) {
     const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
-
-    const orientation = computed(() =>
-      props.vertical ? 'vertical' : 'horizontal'
-    )
-
-    const orientClass = computed(() => ` q-separator--${orientation.value}`)
-
-    const insetClass = computed(() =>
-      props.inset ? `${orientClass.value}-${insetMap[props.inset]}` : ''
-    )
-
-    const classes = computed(
-      () =>
-        `q-separator${orientClass.value}${insetClass.value}` +
-        (props.color !== void 0 ? ` bg-${props.color}` : '') +
-        (isDark.value ? ' q-separator--dark' : '')
-    )
-
-    const style = computed(() => {
-      const acc = {}
-
-      if (props.size !== void 0) {
-        acc[props.vertical ? 'width' : 'height'] = props.size
-      }
-
-      if (props.spaced) {
-        const size =
-          props.spaced === true
-            ? `${margins.md}px`
-            : props.spaced in margins
-              ? `${margins[props.spaced]}px`
-              : props.spaced
-
-        const dir = props.vertical ? ['Left', 'Right'] : ['Top', 'Bottom']
-
-        acc[`margin${dir[0]}`] = acc[`margin${dir[1]}`] = size
-      }
-
-      return acc
-    })
+    const separator = useSeparator(props, vm.proxy.$q)
 
     return () =>
       h('hr', {
-        class: classes.value,
-        style: style.value,
-        'aria-orientation': orientation.value
+        class: separator.classes.value,
+        style: separator.style.value,
+        'aria-orientation': separator.orientation.value
       })
   }
 })

@@ -20,6 +20,10 @@ function update(ctx, { value, oldValue }) {
   }
 }
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/scroll-fire
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'scroll-fire', getSSRProps }

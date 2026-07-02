@@ -25,16 +25,58 @@ import { hDir, hSlot } from '../../utils/private.render/render.js'
 const PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/pull-to-refresh
+ */
+/**
+ * Content (area controlled by the component) goes here
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QPullToRefresh',
 
   props: {
+    /**
+     * Color name for the icon from the Quasar Color Palette
+     *
+     * @api prop color
+     * @extends color
+     */
     color: String,
+    /**
+     * Color name for background of the icon container from the Quasar Color Palette
+     *
+     * @api prop bg-color
+     * @extends color
+     */
     bgColor: String,
+    /**
+     * Icon to display when refreshing the content
+     *
+     * @api prop icon
+     * @extends icon
+     */
     icon: String,
+    /**
+     * Don't listen for mouse events
+     *
+     * @api prop no-mouse
+     * @type {Boolean}
+     * @category behavior
+     */
     noMouse: Boolean,
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
 
+    /**
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp
   },
 
@@ -137,6 +179,11 @@ export default createComponent({
         `q-pull-to-refresh__content${pulling.value ? ' no-pointer-events' : ''}`
     )
 
+    /**
+     * Triggers a refresh
+     *
+     * @api method trigger
+     */
     function trigger() {
       emit('refresh', () => {
         animateTo({ pos: -PULLER_HEIGHT, ratio: 0 }, () => {
@@ -164,6 +211,11 @@ export default createComponent({
       }, 300)
     }
 
+    /**
+     * Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes
+     *
+     * @api method updateScrollTarget
+     */
     function updateScrollTarget() {
       localScrollTarget = getScrollTarget(proxy.$el, props.scrollTarget)
     }

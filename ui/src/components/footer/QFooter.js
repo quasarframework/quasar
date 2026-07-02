@@ -25,18 +25,62 @@ function updateLocal(prop, val) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/layout/header-and-footer
+ */
+/**
+ * Default slot in the devland unslotted content of the component; Suggestion: QToolbar
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QFooter',
 
   props: {
+    /**
+     * Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @default true
+     * @syncable
+     * @example # v-model="footerState"
+     */
     modelValue: {
       type: Boolean,
       default: true
     },
+    /**
+     * Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide footer
+     *
+     * @api prop reveal
+     * @type {Boolean}
+     * @category behavior
+     */
     reveal: Boolean,
+    /**
+     * @api prop bordered
+     * @extends bordered
+     */
     bordered: Boolean,
+    /**
+     * Adds a default shadow to the footer
+     *
+     * @api prop elevated
+     * @type {Boolean}
+     * @category style
+     */
     elevated: Boolean,
 
+    /**
+     * When using SSR, you can optionally hint of the height (in pixels) of the QFooter
+     *
+     * @api prop height-hint
+     * @type {Number|String}
+     * @default 50
+     * @category behavior
+     */
     heightHint: {
       type: [String, Number],
       default: 50

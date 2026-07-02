@@ -40,6 +40,21 @@ function updateLocal(prop, val) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/layout/drawer
+ */
+/**
+ * Default slot in the devland unslotted content of the component (overridden by 'mini' slot if used and drawer is in mini mode)
+ *
+ * @api slot default
+ */
+
+/**
+ * Content to show when in mini mode (overrides 'default' slot)
+ *
+ * @api slot mini
+ */
 export default createComponent({
   name: 'QDrawer',
 
@@ -49,48 +64,182 @@ export default createComponent({
     ...useModelToggleProps,
     ...useDarkProps,
 
+    /**
+     * Side to attach to
+     *
+     * @api prop side
+     * @type {String}
+     * @default 'left'
+     * @category behavior
+     */
     side: {
       type: String,
       default: 'left',
       validator: v => ['left', 'right'].includes(v)
     },
 
+    /**
+     * Width of drawer (in pixels)
+     *
+     * @api prop width
+     * @type {Number}
+     * @default 300
+     * @category style
+     */
     width: {
       type: Number,
       default: 300
     },
 
+    /**
+     * Puts drawer into mini mode
+     *
+     * @api prop mini
+     * @type {Boolean}
+     * @category behavior
+     */
     mini: Boolean,
+    /**
+     * Mini mode will expand as an overlay
+     *
+     * @api prop mini-to-overlay
+     * @type {Boolean}
+     * @category behavior
+     */
     miniToOverlay: Boolean,
+    /**
+     * Width of drawer (in pixels) when in mini mode
+     *
+     * @api prop mini-width
+     * @type {Number}
+     * @default 57
+     * @category style
+     */
     miniWidth: {
       type: Number,
       default: 57
     },
+    /**
+     * Disables animation of the drawer when toggling mini mode
+     *
+     * @api prop no-mini-animation
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.12
+     */
     noMiniAnimation: Boolean,
 
+    /**
+     * Breakpoint (in pixels) of layout width up to which mobile mode is used
+     *
+     * @api prop breakpoint
+     * @type {Number}
+     * @default 1023
+     * @category behavior
+     * @example 1200
+     */
     breakpoint: {
       type: Number,
       default: 1023
     },
+    /**
+     * Forces drawer to be shown on screen on initial render if the layout width is above breakpoint, regardless of v-model; This is the default behavior when SSR is taken over by client on initial render
+     *
+     * @api prop show-if-above
+     * @type {Boolean}
+     * @category behavior
+     */
     showIfAbove: Boolean,
 
+    /**
+     * Overrides the default dynamic mode into which the drawer is put on
+     *
+     * @api prop behavior
+     * @type {String}
+     * @default 'default'
+     * @category behavior
+     */
     behavior: {
       type: String,
       validator: v => ['default', 'desktop', 'mobile'].includes(v),
       default: 'default'
     },
 
+    /**
+     * @api prop bordered
+     * @extends bordered
+     */
     bordered: Boolean,
+    /**
+     * Adds a default shadow to the header
+     *
+     * @api prop elevated
+     * @type {Boolean}
+     * @category style
+     */
     elevated: Boolean,
 
+    /**
+     * Puts drawer into overlay mode (does not occupy space on screen, narrowing the page)
+     *
+     * @api prop overlay
+     * @type {Boolean}
+     * @category behavior
+     */
     overlay: Boolean,
+    /**
+     * Prevents drawer from auto-closing when app's route changes; Also, an app route change won't hide it
+     *
+     * @api prop persistent
+     * @type {Boolean}
+     * @category behavior
+     */
     persistent: Boolean,
+    /**
+     * Disables the default behavior where drawer can be swiped into view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature
+     *
+     * @api prop no-swipe-open
+     * @type {Boolean}
+     * @category behavior
+     */
     noSwipeOpen: Boolean,
+    /**
+     * Disables the default behavior where drawer can be swiped out of view (applies to drawer content only); Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature
+     *
+     * @api prop no-swipe-close
+     * @type {Boolean}
+     * @category behavior
+     */
     noSwipeClose: Boolean,
+    /**
+     * Disables the default behavior where drawer backdrop can be swiped
+     *
+     * @api prop no-swipe-backdrop
+     * @type {Boolean}
+     * @category behavior
+     */
     noSwipeBackdrop: Boolean
   },
 
-  emits: [...useModelToggleEmits, 'onLayout', 'miniState'],
+  emits: [
+    ...useModelToggleEmits,
+
+    /**
+     * Emitted when drawer toggles between occupying space on page or not
+     *
+     * @api event on-layout
+     * @param {Boolean} state New state
+     */
+    'onLayout',
+
+    /**
+     * Emitted when drawer changes the mini-mode state
+     *
+     * @api event mini-state
+     * @param {Boolean} state New state
+     */
+    'miniState'
+  ],
 
   setup(props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()

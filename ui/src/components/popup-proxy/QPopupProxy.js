@@ -10,12 +10,29 @@ import useAnchor, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/popup-proxy
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QPopupProxy',
 
   props: {
     ...useAnchorProps,
 
+    /**
+     * Breakpoint (in pixels) of window width/height (whichever is smaller) from where a Menu will get to be used instead of a Dialog
+     *
+     * @api prop breakpoint
+     * @type {Number|String}
+     * @default 450
+     * @category behavior
+     */
     breakpoint: {
       type: [String, Number],
       default: 450
@@ -67,12 +84,21 @@ export default createComponent({
 
     // expose public methods
     Object.assign(proxy, {
+      /**
+       * @api method show
+       */
       show(evt) {
         if (canShow(evt)) popupRef.value.show(evt)
       },
+      /**
+       * @api method hide
+       */
       hide(evt) {
         popupRef.value.hide(evt)
       },
+      /**
+       * @api method toggle
+       */
       toggle(evt) {
         popupRef.value.toggle(evt)
       }

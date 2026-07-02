@@ -37,28 +37,119 @@ const PanelWrapper = {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/stepper
+ */
+/**
+ * The content of the step; Can also contain a QStepperNavigation if you want to handle step navigation and don't have a global navigation in place
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QStep',
 
   props: {
     ...usePanelChildProps,
 
+    /**
+     * @api prop icon
+     * @extends icon
+     * @category header
+     */
     icon: String,
+    /**
+     * @api prop color
+     * @extends color
+     */
     color: String,
+    /**
+     * Step title
+     *
+     * @api prop title
+     * @type {String}
+     * @category header
+     * @required
+     * @example 'Ad Groups'
+     * @example 'Payment'
+     */
     title: {
       type: String,
       required: true
     },
+    /**
+     * Step’s additional information that appears beneath the title
+     *
+     * @api prop caption
+     * @type {String}
+     * @category header
+     * @example 'Create an account'
+     * @example 'Payment details'
+     */
     caption: String,
+    /**
+     * Step's prefix (max 2 characters) which replaces the icon if step does not has error, is being edited or is marked as done
+     *
+     * @api prop prefix
+     * @type {String|Number}
+     * @category header
+     * @example '1'
+     * @example 2
+     * @example 'A'
+     */
     prefix: [String, Number],
 
+    /**
+     * Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop done-icon
+     * @extends icon
+     * @category header
+     */
     doneIcon: String,
+    /**
+     * @api prop done-color
+     * @extends color
+     * @category header
+     */
     doneColor: String,
+    /**
+     * Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop active-icon
+     * @extends icon
+     * @category header
+     */
     activeIcon: String,
+    /**
+     * @api prop active-color
+     * @extends color
+     * @category header
+     */
     activeColor: String,
+    /**
+     * Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop error-icon
+     * @extends icon
+     * @category header
+     */
     errorIcon: String,
+    /**
+     * @api prop error-color
+     * @extends color
+     * @category header
+     */
     errorColor: String,
 
+    /**
+     * Allow navigation through the header
+     *
+     * @api prop header-nav
+     * @type {Boolean}
+     * @default true
+     * @category behavior
+     */
     headerNav: {
       type: Boolean,
       default: true

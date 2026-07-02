@@ -16,33 +16,157 @@ const dragType = {
   MAX: 2
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/range
+ */
+/**
+ * What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>
+ *
+ * @api slot marker-label
+ * @scope marker {Object} Config for current marker label
+ * @scope markerList {Array} Array of marker label configs
+ * @scope markerMap {Object} Object with key-value where key is the model and the value is the marker label config
+ * @scope classes {String} Required CSS classes to be applied to the marker element
+ * @scope getStyle {Function} Get CSS style Object to apply to a marker element at respective model value; For perf reasons, use only if requested model value is not already part of markerMap
+ */
+
+/**
+ * What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>
+ *
+ * @api slot marker-label-group
+ * @scope markerList {Array} Array of marker label configs
+ * @scope markerMap {Object} Object with key-value where key is the model and the value is the marker label config
+ * @scope classes {String} Required CSS classes to be applied to the marker element
+ * @scope getStyle {Function} Get CSS style Object to apply to a marker element at respective model value; For perf reasons, use only if requested model value is not already part of markerMap
+ */
 export default createComponent({
   name: 'QRange',
 
   props: {
     ...useSliderProps,
 
+    /**
+     * Model of the component of type { min, max } (both values must be between global min/max); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @type {Object|null|undefined}
+     * @default { min: null, max: null }
+     * @category model
+     * @syncable
+     * @example # v-model="positionModel"
+     */
     modelValue: {
       type: Object,
       default: () => ({ min: null, max: null }),
       validator: v => 'min' in v && 'max' in v
     },
 
+    /**
+     * User can drag range instead of just the two thumbs
+     *
+     * @api prop drag-range
+     * @type {Boolean}
+     * @category content
+     */
     dragRange: Boolean,
+
+    /**
+     * User can drag only the range instead and NOT the two thumbs
+     *
+     * @api prop drag-only-range
+     * @type {Boolean}
+     * @category content
+     */
     dragOnlyRange: Boolean,
 
+    /**
+     * Color name for left label background from the Quasar Color Palette
+     *
+     * @api prop left-label-color
+     * @type {String}
+     * @ts-type NamedColor
+     * @category labels
+     */
     leftLabelColor: String,
+
+    /**
+     * Color name for left label text from the Quasar Color Palette
+     *
+     * @api prop left-label-text-color
+     * @type {String}
+     * @ts-type NamedColor
+     * @category labels
+     */
     leftLabelTextColor: String,
+
+    /**
+     * Color name for right label background from the Quasar Color Palette
+     *
+     * @api prop right-label-color
+     * @type {String}
+     * @ts-type NamedColor
+     * @category labels
+     */
     rightLabelColor: String,
+
+    /**
+     * Color name for right label text from the Quasar Color Palette
+     *
+     * @api prop right-label-text-color
+     * @type {String}
+     * @ts-type NamedColor
+     * @category labels
+     */
     rightLabelTextColor: String,
 
+    /**
+     * Override default label for min value
+     *
+     * @api prop left-label-value
+     * @type {String|Number}
+     * @category labels
+     * @example # :left-label-value="model.min + 'px'"
+     */
     leftLabelValue: [String, Number],
+
+    /**
+     * Override default label for max value
+     *
+     * @api prop right-label-value
+     * @type {String|Number}
+     * @category labels
+     * @example # :right-label-value="model.max + 'px'"
+     */
     rightLabelValue: [String, Number],
 
+    /**
+     * Color name from the Quasar Color Palette for left thumb
+     *
+     * @api prop left-thumb-color
+     * @type {String}
+     * @ts-type NamedColor
+     * @category labels
+     * @added-in v2.4
+     */
     leftThumbColor: String,
+
+    /**
+     * Color name from the Quasar Color Palette for right thumb
+     *
+     * @api prop right-thumb-color
+     * @type {String}
+     * @ts-type NamedColor
+     * @category labels
+     * @added-in v2.4
+     */
     rightThumbColor: String
   },
 
+  /**
+   * @api event update:model-value
+   * @extends update:model-value
+   */
   emits: useSliderEmits,
 
   setup(props, { emit }) {

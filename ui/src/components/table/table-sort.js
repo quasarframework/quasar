@@ -4,8 +4,32 @@ import { sortDate } from '../../utils/private.sort/sort.js'
 import { isDate, isNumber, isObject } from '../../utils/is/is.js'
 
 export const useTableSortProps = {
+  /**
+   * The actual sort mechanism; Function (rows, sortBy, descending) => sorted rows; For best performance, reference it from your scope and do not define it inline
+   *
+   * @api prop sort-method
+   * @type {Function}
+   * @category sorting
+   */
   sortMethod: Function,
+
+  /**
+   * Skip the third state (unsorted) when user toggles column sort direction
+   *
+   * @api prop binary-state-sort
+   * @type {Boolean}
+   * @category sorting
+   */
   binaryStateSort: Boolean,
+
+  /**
+   * Default sort order for each column
+   *
+   * @api prop column-sort-order
+   * @type {String}
+   * @default 'ad'
+   * @category sorting
+   */
   columnSortOrder: {
     type: String,
     validator: v => v === 'ad' || v === 'da',
@@ -77,6 +101,12 @@ export function useTableSort(
         }
   )
 
+  /**
+   * Sort rows by column
+   *
+   * @api method sort
+   * @param {String|Object} col String column name or column definition Object
+   */
   function sort(col /* String(col name) or Object(col definition) */) {
     let sortOrder = props.columnSortOrder
 

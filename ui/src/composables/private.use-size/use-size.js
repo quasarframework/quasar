@@ -9,6 +9,17 @@ export const useSizeDefaults = {
 }
 
 export const useSizeProps = {
+  /**
+   * Size in CSS units, including unit name or standard size name (xs|sm|md|lg|xl)
+   *
+   * @api prop size
+   * @type {String}
+   * @category style
+   * @example '16px'
+   * @example '2rem'
+   * @example 'xs'
+   * @example 'md'
+   */
   size: String
 }
 

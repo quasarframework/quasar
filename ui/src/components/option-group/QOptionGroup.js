@@ -27,25 +27,106 @@ function getPropValueFn(userPropName, defaultPropName) {
   return opt => opt[propName]
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/option-group
+ */
+/**
+ * Generic slot for all labels
+ *
+ * @api slot label
+ * @scope ...self {Object} The corresponding option entry from the 'options' prop
+ */
+
+/**
+ * Slot to define the specific label for the option at '[name]' where name is a 0-based index; Overrides the generic 'label' slot if used
+ *
+ * @api slot label-[name]
+ * @scope ...self {Object} The corresponding option entry from the 'options' prop
+ */
 export default createComponent({
   name: 'QOptionGroup',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="group"
+     */
     modelValue: {
       required: true
     },
+    /**
+     * Array of objects that the binary components will be created from. For best performance reference a variable in your scope. Canonical form of each object is with 'label' (String), 'value' (Any) and optional 'disable' (Boolean) props (can be customized with options-value/option-label/option-disable props) along with any other props from QToggle, QCheckbox, or QRadio.
+     *
+     * @api prop options
+     * @type {Array}
+     * @default []
+     * @category options
+     * @example [{ label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3', disable: true }]
+     */
     options: {
+      /**
+       * The type of input component to be used
+       *
+       * @api prop type
+       * @type {String}
+       * @default 'radio'
+       * @category content
+       */
       type: Array,
       validator: opts => opts.every(isObject),
       default: () => []
     },
 
+    /**
+     * Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop option-value
+     * @type {Function|String}
+     * @default 'value'
+     * @category options
+     * @added-in v2.17
+     * @example 'modelNumber'
+     * @example item => (item === null ? null : item.modelNumber)
+     */
     optionValue: [Function, String],
+    /**
+     * Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop option-label
+     * @type {Function|String}
+     * @default 'label'
+     * @category options
+     * @added-in v2.17
+     * @example 'itemName'
+     * @example item => (item === null ? 'Null value' : item.itemName)
+     */
     optionLabel: [Function, String],
+    /**
+     * Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop option-disable
+     * @type {Function|String}
+     * @default 'disable'
+     * @category options
+     * @added-in v2.17
+     * @example item => (item === null ? true : item.cannotSelect)
+     * @example # option-disable="cannotSelect"
+     */
     optionDisable: [Function, String],
 
+    /**
+     * Used to specify the name of the controls; Useful if dealing with forms submitted directly to a URL
+     *
+     * @api prop name
+     * @type {String}
+     * @category behavior
+     * @example 'car_id'
+     */
     name: String,
 
     type: {
@@ -54,14 +135,47 @@ export default createComponent({
       validator: v => typeValues.includes(v)
     },
 
+    /**
+     * @api prop color
+     * @extends color
+     */
     color: String,
+    /**
+     * Should the color (if specified any) be kept when input components are unticked?
+     *
+     * @api prop keep-color
+     * @type {Boolean}
+     * @category behavior
+     */
     keepColor: Boolean,
+    /**
+     * @api prop dense
+     * @extends dense
+     */
     dense: Boolean,
 
     size: String,
 
+    /**
+     * Label (if any specified) should be displayed on the left side of the input components
+     *
+     * @api prop left-label
+     * @type {Boolean}
+     * @category content
+     */
     leftLabel: Boolean,
+    /**
+     * Show input components as inline-block rather than each having their own row
+     *
+     * @api prop inline
+     * @type {Boolean}
+     * @category content
+     */
     inline: Boolean,
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean
   },
 

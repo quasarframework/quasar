@@ -18,6 +18,15 @@ import { useCircularCommonProps } from '../circular-progress/circular-progress.j
 const keyCodes = [34, 37, 40, 33, 39, 38]
 const commonPropsName = Object.keys(useCircularCommonProps)
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/knob
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QKnob',
 
@@ -25,30 +34,100 @@ export default createComponent({
     ...useFormProps,
     ...useCircularCommonProps,
 
+    /**
+     * Any number to indicate the given value of the knob. Either use this property (along with a listener for 'update:modelValue' event) OR use the v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="myValue"
+     */
     modelValue: {
       type: Number,
       required: true
     },
 
+    /**
+     * Inner minimum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be higher or equal to 'min' prop; Defaults to 'min' prop
+     *
+     * @api prop inner-min
+     * @type {Number}
+     * @category model
+     * @added-in v2.5.4
+     */
     innerMin: Number,
+    /**
+     * Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be lower or equal to 'max' prop; Defaults to 'max' prop
+     *
+     * @api prop inner-max
+     * @type {Number}
+     * @category model
+     * @added-in v2.5.4
+     */
     innerMax: Number,
 
+    /**
+     * A number representing steps in the value of the model, while adjusting the knob
+     *
+     * @api prop step
+     * @type {Number}
+     * @default 1
+     * @category model
+     */
     step: {
       type: Number,
       default: 1,
       validator: v => v >= 0
     },
 
+    /**
+     * @api prop tabindex
+     * @extends tabindex
+     * @default 0
+     */
     tabindex: {
       type: [Number, String],
       default: 0
     },
 
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
+    /**
+     * @api prop readonly
+     * @extends readonly
+     */
     readonly: Boolean
   },
 
-  emits: ['update:modelValue', 'change', 'dragValue'],
+  emits: [
+    /**
+     * Emitted when the model changes
+     *
+     * @api event update:model-value
+     * @extends update:model-value
+     * @param {Number} value New model value
+     */
+    'update:modelValue',
+
+    /**
+     * Fires at the end of a knob's adjustment and offers the value of the model
+     *
+     * @api event change
+     * @param {Number} value New model value
+     */
+    'change',
+
+    /**
+     * The value of the model while dragging is still in progress
+     *
+     * @api event drag-value
+     * @param {Number} value New model value
+     */
+    'dragValue'
+  ],
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()

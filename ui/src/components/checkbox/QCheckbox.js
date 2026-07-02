@@ -38,6 +38,15 @@ const createBgNode = () =>
     ]
   )
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/checkbox
+ */
+/**
+ * Default slot can be used as label, unless 'label' prop is specified; Suggestion: string
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QCheckbox',
 

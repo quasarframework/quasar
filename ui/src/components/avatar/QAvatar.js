@@ -1,70 +1,44 @@
-import { computed, h } from 'vue'
-
-import QIcon from '../icon/QIcon.js'
-
-import useSize, {
-  useSizeProps
-} from '../../composables/private.use-size/use-size.js'
+import { h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hMergeSlotSafely } from '../../utils/private.render/render.js'
 
+import useAvatar, { useAvatarProps } from './use-avatar.js'
+
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/avatar
+ */
+/**
+ * Optional; Suggestions: one character string, <img> tag
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QAvatar',
 
-  props: {
-    ...useSizeProps,
-
-    fontSize: String,
-
-    color: String,
-    textColor: String,
-
-    icon: String,
-    square: Boolean,
-    rounded: Boolean
-  },
+  props: useAvatarProps,
 
   setup(props, { slots }) {
-    const sizeStyle = useSize(props)
+    const avatar = useAvatar(props)
 
-    const classes = computed(
-      () =>
-        'q-avatar' +
-        (props.color ? ` bg-${props.color}` : '') +
-        (props.textColor ? ` text-${props.textColor} q-chip--colored` : '') +
-        (props.square
-          ? ' q-avatar--square'
-          : props.rounded
-            ? ' rounded-borders'
-            : '')
-    )
-
-    const contentStyle = computed(() =>
-      props.fontSize ? { fontSize: props.fontSize } : null
-    )
-
-    return () => {
-      const icon =
-        props.icon !== void 0 ? [h(QIcon, { name: props.icon })] : void 0
-
-      return h(
+    return () =>
+      h(
         'div',
         {
-          class: classes.value,
-          style: sizeStyle.value
+          class: avatar.classes.value,
+          style: avatar.sizeStyle.value
         },
         [
           h(
             'div',
             {
               class: 'q-avatar__content row flex-center overflow-hidden',
-              style: contentStyle.value
+              style: avatar.contentStyle.value
             },
-            hMergeSlotSafely(slots.default, icon)
+            hMergeSlotSafely(slots.default, avatar.getIcon())
           )
         ]
       )
-    }
   }
 })

@@ -54,6 +54,13 @@ const Plugin = createReactivePlugin(
     isActive: false
   },
   {
+    /**
+     * Activate and show
+     *
+     * @api method show
+     * @param {Object} opts All props are optional
+     * @returns {Function} Function that hides or updates the Loading group
+     */
     show(opts) {
       if (__QUASAR_SSR_SERVER__) return
 
@@ -181,6 +188,12 @@ const Plugin = createReactivePlugin(
       }
     },
 
+    /**
+     * Hide it
+     *
+     * @api method hide
+     * @param {String} [group] Optional Loading group name to hide instead of hiding all groups
+     */
     hide(group) {
       if (!__QUASAR_SSR_SERVER__ && Plugin.isActive) {
         if (group === void 0) {
@@ -214,6 +227,12 @@ const Plugin = createReactivePlugin(
       }
     },
 
+    /**
+     * Merge options into the default ones
+     *
+     * @api method setDefaults
+     * @param {Object} opts Pick the subprop you want to define
+     */
     setDefaults(opts) {
       if (!__QUASAR_SSR_SERVER__ && isObject(opts)) {
         Object.assign(defaults, opts)
@@ -234,4 +253,8 @@ const Plugin = createReactivePlugin(
   }
 )
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/quasar-plugins/loading
+ */
 export default Plugin

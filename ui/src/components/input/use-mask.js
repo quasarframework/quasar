@@ -72,10 +72,64 @@ const DEFAULT_TOKEN_REGEX_MASK = getTokenRegexMask(DEFAULT_TOKEN_MAP_KEYS)
 const MARKER = String.fromCodePoint(1)
 
 export const useMaskProps = {
+  /**
+   * Custom mask or one of the predefined mask names
+   *
+   * @api prop mask
+   * @type {String}
+   * @category mask
+   * @example '###-##'
+   * @example 'date'
+   * @example 'datetime'
+   * @example 'time'
+   * @example 'fulltime'
+   * @example 'phone'
+   * @example 'card'
+   */
   mask: String,
+
+  /**
+   * Fills string from the right side of the mask
+   *
+   * @api prop reverse-fill-mask
+   * @type {Boolean}
+   * @category mask
+   */
   reverseFillMask: Boolean,
+
+  /**
+   * Fills string with specified characters (or underscore if value is not string) to fill mask's length
+   *
+   * @api prop fill-mask
+   * @type {Boolean|String}
+   * @category mask
+   * @example true
+   * @example '0'
+   * @example '_'
+   */
   fillMask: [Boolean, String],
+
+  /**
+   * Model will be unmasked (won't contain tokens/separation characters)
+   *
+   * @api prop unmasked-value
+   * @type {Boolean}
+   * @category mask
+   */
   unmaskedValue: Boolean,
+
+  /**
+   * Object of custom mask tokens to be added on top of the default ones; Can also override any of the default ones
+   *
+   * @api prop mask-tokens
+   * @type {Object}
+   * @category mask
+   * @addedIn v2.18.4
+   * @example { C: { pattern: '[0-4a-eA-E]', negate: '[^0-4a-eA-E]', transform: v => v.toLocaleUpperCase() } }
+   * @definition pattern A string representing a regular expression to match against a single character
+   * @definition negate A string representing a regular expression to NOT match against a single character
+   * @definition transform A function that takes the character as argument and returns the transformed character
+   */
   maskTokens: Object
 }
 

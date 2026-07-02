@@ -1,42 +1,41 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { getCurrentInstance, h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
-
 import { hSlot } from '../../utils/private.render/render.js'
 
+import useBanner, { useBannerProps } from './use-banner.js'
+
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/banner
+ */
+/**
+ * This is where Banner content goes
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot for displaying an avatar (suggestions: QIcon, QAvatar)
+ *
+ * @api slot avatar
+ */
+
+/**
+ * Slot for Banner action (suggestions: QBtn)
+ *
+ * @api slot action
+ */
 export default createComponent({
   name: 'QBanner',
 
-  props: {
-    ...useDarkProps,
-
-    inlineActions: Boolean,
-    dense: Boolean,
-    rounded: Boolean
-  },
+  props: useBannerProps,
 
   setup(props, { slots }) {
     const {
       proxy: { $q }
     } = getCurrentInstance()
-    const isDark = useDark(props, $q)
-
-    const classes = computed(
-      () =>
-        'q-banner row items-center' +
-        (props.dense ? ' q-banner--dense' : '') +
-        (isDark.value ? ' q-banner--dark q-dark' : '') +
-        (props.rounded ? ' rounded-borders' : '')
-    )
-
-    const actionClass = computed(
-      () =>
-        'q-banner__actions row items-center justify-end' +
-        ` col-${props.inlineActions ? 'auto' : 'all'}`
-    )
+    const banner = useBanner(props, $q)
 
     return () => {
       const child = [
@@ -59,14 +58,14 @@ export default createComponent({
 
       const actions = hSlot(slots.action)
       if (actions !== void 0) {
-        child.push(h('div', { class: actionClass.value }, actions))
+        child.push(h('div', { class: banner.actionClass.value }, actions))
       }
 
       return h(
         'div',
         {
           class:
-            classes.value +
+            banner.classes.value +
             (!props.inlineActions && actions !== void 0
               ? ' q-banner--top-padding'
               : ''),

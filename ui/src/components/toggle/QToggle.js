@@ -2,24 +2,26 @@ import { computed, h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useCheckbox, {
-  useCheckboxEmits,
-  useCheckboxProps
-} from '../checkbox/use-checkbox.js'
+import useCheckbox from '../checkbox/use-checkbox.js'
+import { useToggleEmits, useToggleProps } from './use-toggle.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/toggle
+ */
+/**
+ * Default slot can be used as label, unless 'label' prop is specified; Suggestion: string
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QToggle',
 
-  props: {
-    ...useCheckboxProps,
+  props: useToggleProps,
 
-    icon: String,
-    iconColor: String
-  },
-
-  emits: useCheckboxEmits,
+  emits: useToggleEmits,
 
   setup(props) {
     function getInner(isTrue, isIndeterminate) {

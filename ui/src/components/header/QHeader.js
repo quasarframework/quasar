@@ -23,22 +23,74 @@ function updateLocal(prop, val) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/layout/header-and-footer
+ */
+/**
+ * Default slot in the devland unslotted content of the component; Suggestion: QToolbar
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QHeader',
 
   props: {
+    /**
+     * Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @default true
+     * @syncable
+     * @example # v-model="headerState"
+     */
     modelValue: {
       type: Boolean,
       default: true
     },
+    /**
+     * Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide header
+     *
+     * @api prop reveal
+     * @type {Boolean}
+     * @category behavior
+     */
     reveal: Boolean,
+    /**
+     * Amount of scroll (in pixels) that should trigger a 'reveal' state change
+     *
+     * @api prop reveal-offset
+     * @type {Number}
+     * @default 250
+     * @category behavior
+     */
     revealOffset: {
       type: Number,
       default: 250
     },
+    /**
+     * @api prop bordered
+     * @extends bordered
+     */
     bordered: Boolean,
+    /**
+     * Adds a default shadow to the header
+     *
+     * @api prop elevated
+     * @type {Boolean}
+     * @category style
+     */
     elevated: Boolean,
 
+    /**
+     * When using SSR, you can optionally hint of the height (in pixels) of the QHeader
+     *
+     * @api prop height-hint
+     * @type {Number|String}
+     * @default 50
+     * @category behavior
+     */
     heightHint: {
       type: [String, Number],
       default: 50

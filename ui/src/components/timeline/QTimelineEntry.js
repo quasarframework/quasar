@@ -9,28 +9,114 @@ import {
   timelineKey
 } from '../../utils/private.symbols/symbols.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/timeline
+ */
+/**
+ * Timeline entry content (body)
+ *
+ * @api slot default
+ */
+
+/**
+ * Optional slot for title; When used, it overrides 'title' prop
+ *
+ * @api slot title
+ */
+
+/**
+ * Optional slot for subtitle; When used, it overrides 'subtitle' prop
+ *
+ * @api slot subtitle
+ */
 export default createComponent({
   name: 'QTimelineEntry',
 
   props: {
+    /**
+     * Defines a heading timeline item
+     *
+     * @api prop heading
+     * @type {Boolean}
+     * @category content
+     */
     heading: Boolean,
+    /**
+     * Tag to use, if of type 'heading' only
+     *
+     * @api prop tag
+     * @extends tag
+     * @default 'h3'
+     * @example 'h1'
+     */
     tag: {
       type: String,
       default: 'h3'
     },
+    /**
+     * Side to place the timeline entry; Works only if QTimeline layout is loose.
+     *
+     * @api prop side
+     * @type {String}
+     * @default 'right'
+     * @category behavior
+     */
     side: {
       type: String,
       default: 'right',
       validator: v => ['left', 'right'].includes(v)
     },
 
+    /**
+     * @api prop icon
+     * @extends icon
+     */
     icon: String,
+    /**
+     * URL to the avatar image; Icon takes precedence if used, so it replaces avatar
+     *
+     * @api prop avatar
+     * @type {String}
+     * @category content
+     * @example # (public folder) src="img/my-bg.png"
+     * @example # (assets folder) src="~@/assets/my-img.png"
+     * @example # (relative path format) :src="require('./my_img.jpg')"
+     */
     avatar: String,
 
+    /**
+     * @api prop color
+     * @extends color
+     */
     color: String,
 
+    /**
+     * Title of timeline entry; Is overridden if using 'title' slot
+     *
+     * @api prop title
+     * @type {String}
+     * @category content
+     * @example 'December party'
+     */
     title: String,
+    /**
+     * Subtitle of timeline entry; Is overridden if using 'subtitle' slot
+     *
+     * @api prop subtitle
+     * @type {String}
+     * @category content
+     * @example 'All invited'
+     */
     subtitle: String,
+    /**
+     * Body content of timeline entry; Use this prop or the default slot
+     *
+     * @api prop body
+     * @type {String}
+     * @category content
+     * @example 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+     */
     body: String
   },
 

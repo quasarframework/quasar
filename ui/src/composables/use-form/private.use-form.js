@@ -1,6 +1,14 @@
 import { computed, h } from 'vue'
 
 export const useFormProps = {
+  /**
+   * Used to specify the name of the control; Useful if dealing with forms submitted directly to a URL
+   *
+   * @api prop name
+   * @type {String}
+   * @category behavior
+   * @example 'car_id'
+   */
   name: String
 }
 

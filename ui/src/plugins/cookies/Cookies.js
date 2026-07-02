@@ -159,10 +159,51 @@ function has(key, ssr) {
 
 export function getObject(ssr) {
   return {
+    /**
+     * Get cookie value by name
+     *
+     * @api method get
+     * @param {String} key Cookie name
+     * @returns {String|Object|Array|null}
+     */
     get: key => get(key, ssr),
+
+    /**
+     * Set cookie value
+     *
+     * @api method set
+     * @param {String} key Cookie name
+     * @param {Any} val Cookie value
+     * @param {Object} opts Cookie options
+     * @returns {void}
+     */
     set: (key, val, opts) => set(key, val, opts, ssr),
+
+    /**
+     * Determine if cookie exists
+     *
+     * @api method has
+     * @param {String} key Cookie name
+     * @returns {Boolean}
+     */
     has: key => has(key, ssr),
+
+    /**
+     * Remove cookie by name
+     *
+     * @api method remove
+     * @param {String} key Cookie name
+     * @param {Object} options Cookie options
+     * @returns {void}
+     */
     remove: (key, options) => remove(key, options, ssr),
+
+    /**
+     * Get all cookies
+     *
+     * @api method getAll
+     * @returns {Object}
+     */
     getAll: () => get(null, ssr)
   }
 }
@@ -174,6 +215,13 @@ const Plugin = {
 }
 
 if (__QUASAR_SSR__) {
+  /**
+   * Get the SSR cookie API bound to the supplied SSR context
+   *
+   * @api method parseSSR
+   * @param {Object} ssrContext Quasar SSR context
+   * @returns {Object|void}
+   */
   Plugin.parseSSR = ssrContext => {
     if (ssrContext !== void 0) {
       return getObject(ssrContext)
@@ -185,4 +233,8 @@ if (!__QUASAR_SSR_SERVER__) {
   Object.assign(Plugin, getObject())
 }
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/quasar-plugins/cookies
+ */
 export default Plugin

@@ -36,19 +36,82 @@ function onLoadingEvt(evt) {
   evt.qSkipRipple = true
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/button
+ */
+/**
+ * Use for custom content, instead of relying on 'icon' and 'label' props
+ *
+ * @api slot default
+ */
+
+/**
+ * Override the default QSpinner when in 'loading' state
+ *
+ * @api slot loading
+ */
 export default createComponent({
   name: 'QBtn',
 
   props: {
     ...useBtnProps,
 
+    /**
+     * Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background
+     *
+     * @api prop percentage
+     * @type {Number}
+     * @category behavior
+     */
     percentage: Number,
+
+    /**
+     * Progress bar on the background should have dark color; To be used along with 'percentage' and 'loading' props
+     *
+     * @api prop dark-percentage
+     * @type {Boolean}
+     * @category behavior
+     */
     darkPercentage: Boolean,
 
     onTouchstart: [Function, Array]
   },
 
-  emits: ['click', 'keydown', 'mousedown', 'keyup'],
+  emits: [
+    /**
+     * Emitted when the component is clicked
+     *
+     * @api event click
+     * @param {Event} evt JS event object; If you are using route navigation ('to'/'replace' props) and you want to cancel navigation then call evt.preventDefault() synchronously in your event handler
+     * @param {Function} go Available ONLY if you are using route navigation ('to'/'replace' props)
+     */
+    'click',
+
+    /**
+     * Internal keyboard event
+     *
+     * @api event keydown
+     * @internal
+     */
+    'keydown',
+
+    /**
+     * Internal pointer event
+     *
+     * @api event mousedown
+     * @internal
+     */
+    'mousedown',
+
+    /**
+     * Internal keyboard event
+     *
+     * @api event keyup
+     * @internal
+     */
+    'keyup'
+  ],
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
@@ -329,6 +392,12 @@ export default createComponent({
 
     // expose public methods
     Object.assign(proxy, {
+      /**
+       * Emulate click on QBtn
+       *
+       * @api method click
+       * @param {Any} evt
+       */
       click: e => {
         if (isActionable.value) onClick(e)
       }

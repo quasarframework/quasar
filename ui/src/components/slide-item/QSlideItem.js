@@ -25,15 +25,76 @@ const slotsDef = [
   ['bottom', 'end', 'center', 'height']
 ]
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/slide-item
+ */
+/**
+ * This is where item's sections go; Suggestion: QItemSection
+ *
+ * @api slot default
+ */
+
+/**
+ * Left side content when sliding
+ *
+ * @api slot left
+ */
+
+/**
+ * Right side content when sliding
+ *
+ * @api slot right
+ */
+
+/**
+ * Top side content when sliding
+ *
+ * @api slot top
+ */
+
+/**
+ * Bottom side content when sliding
+ *
+ * @api slot bottom
+ */
 export default createComponent({
   name: 'QSlideItem',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * Color name for left-side background from the Quasar Color Palette
+     *
+     * @api prop left-color
+     * @extends color
+     * @category style
+     */
     leftColor: String,
+    /**
+     * Color name for right-side background from the Quasar Color Palette
+     *
+     * @api prop right-color
+     * @extends color
+     * @category style
+     */
     rightColor: String,
+    /**
+     * Color name for top-side background from the Quasar Color Palette
+     *
+     * @api prop top-color
+     * @extends color
+     * @category style
+     */
     topColor: String,
+    /**
+     * Color name for bottom-side background from the Quasar Color Palette
+     *
+     * @api prop bottom-color
+     * @extends color
+     * @category style
+     */
     bottomColor: String,
 
     onSlide: Function
@@ -67,6 +128,11 @@ export default createComponent({
         (isDark.value ? ' q-slide-item--dark q-dark' : '')
     )
 
+    /**
+     * Reset to initial state (not swiped to any side)
+     *
+     * @api method reset
+     */
     function reset() {
       contentRef.value.style.transform = 'translate(0,0)'
     }

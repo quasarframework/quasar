@@ -217,43 +217,112 @@ function sumSize(sizeAgg, size, from, to) {
 }
 
 const commonVirtScrollProps = {
+  /**
+   * Minimum number of items to render in the virtual list
+   *
+   * @api prop virtual-scroll-slice-size
+   * @type {Number|String|null}
+   * @default 10
+   * @category virtual-scroll
+   */
   virtualScrollSliceSize: {
     type: [Number, String],
     default: 10
   },
 
+  /**
+   * Ratio of number of items in visible zone to render before it
+   *
+   * @api prop virtual-scroll-slice-ratio-before
+   * @type {Number|String}
+   * @default 1
+   * @category virtual-scroll
+   */
   virtualScrollSliceRatioBefore: {
     type: [Number, String],
     default: 1
   },
 
+  /**
+   * Ratio of number of items in visible zone to render after it
+   *
+   * @api prop virtual-scroll-slice-ratio-after
+   * @type {Number|String}
+   * @default 1
+   * @category virtual-scroll
+   */
   virtualScrollSliceRatioAfter: {
     type: [Number, String],
     default: 1
   },
 
+  /**
+   * Default size in pixels of an item
+   *
+   * @api prop virtual-scroll-item-size
+   * @type {Number|String}
+   * @default 24
+   * @category virtual-scroll
+   */
   virtualScrollItemSize: {
     type: [Number, String],
     default: 24
   },
 
+  /**
+   * Size in pixels of the sticky part at the start of the list
+   *
+   * @api prop virtual-scroll-sticky-size-start
+   * @type {Number|String}
+   * @default 0
+   * @category virtual-scroll
+   */
   virtualScrollStickySizeStart: {
     type: [Number, String],
     default: 0
   },
 
+  /**
+   * Size in pixels of the sticky part at the end of the list
+   *
+   * @api prop virtual-scroll-sticky-size-end
+   * @type {Number|String}
+   * @default 0
+   * @category virtual-scroll
+   */
   virtualScrollStickySizeEnd: {
     type: [Number, String],
     default: 0
   },
 
+  /**
+   * The number of columns in the table
+   *
+   * @api prop table-colspan
+   * @type {Number|String}
+   * @category virtual-scroll|content
+   */
   tableColspan: [Number, String]
 }
 
 export const commonVirtScrollPropsList = Object.keys(commonVirtScrollProps)
 
 export const useVirtualScrollProps = {
+  /**
+   * Make virtual list work in horizontal mode
+   *
+   * @api prop virtual-scroll-horizontal
+   * @type {Boolean}
+   * @category behavior
+   */
   virtualScrollHorizontal: Boolean,
+
+  /**
+   * Emitted when the virtual scroll occurs
+   *
+   * @api event virtual-scroll
+   * @param {Object} details Object of properties on the new scroll position
+   */
   onVirtualScroll: Function,
   ...commonVirtScrollProps
 }
@@ -312,14 +381,32 @@ export function useVirtualScroll({
   })
   watch(needsReset, reset)
 
+  /**
+   * Resets the virtual scroll computations
+   *
+   * @api method reset
+   */
   function reset() {
     localResetVirtualScroll(prevToIndex, true)
   }
 
+  /**
+   * Refreshes the virtual scroll list
+   *
+   * @api method refresh
+   * @param {String|Number} [index] The index of the list item to scroll to after refresh
+   */
   function refresh(toIndex) {
     localResetVirtualScroll(toIndex === void 0 ? prevToIndex : toIndex)
   }
 
+  /**
+   * Scroll the virtual scroll list to the item with the specified index
+   *
+   * @api method scrollTo
+   * @param {Number|String} index The index of the list item
+   * @param {String} [edge] The edge to align to if the item is not visible already
+   */
   function scrollTo(toIndex, edge) {
     const scrollEl = getVirtualScrollTarget()
 
@@ -703,6 +790,13 @@ export function useVirtualScroll({
     if (toIndex >= 0) {
       updateVirtualScrollSizes(virtualScrollSliceRange.value.from)
       nextTick(() => {
+        /**
+         * Scroll the virtual scroll list to the item with the specified index (0 based)
+         *
+         * @api method scrollTo
+         * @param {Number|String} index The index of the list item (0 based)
+         * @param {String} edge The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns
+         */
         scrollTo(toIndex)
       })
     } else {

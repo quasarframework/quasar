@@ -1,42 +1,28 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { getCurrentInstance, h } from 'vue'
 
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
-
+import useCard, { useCardProps } from './use-card.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/card
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QCard',
 
-  props: {
-    ...useDarkProps,
-
-    tag: {
-      type: String,
-      default: 'div'
-    },
-
-    square: Boolean,
-    flat: Boolean,
-    bordered: Boolean
-  },
+  props: useCardProps,
 
   setup(props, { slots }) {
     const {
       proxy: { $q }
     } = getCurrentInstance()
-    const isDark = useDark(props, $q)
-
-    const classes = computed(
-      () =>
-        'q-card' +
-        (isDark.value ? ' q-card--dark q-dark' : '') +
-        (props.bordered ? ' q-card--bordered' : '') +
-        (props.square ? ' q-card--square no-border-radius' : '') +
-        (props.flat ? ' q-card--flat no-shadow' : '')
-    )
+    const { classes } = useCard(props, $q)
 
     return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
   }

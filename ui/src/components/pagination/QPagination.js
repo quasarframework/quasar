@@ -16,92 +16,339 @@ function getBool(val, otherwise) {
   return val === true || val === false ? val : otherwise
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/pagination
+ */
 export default createComponent({
   name: 'QPagination',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * Current page (must be between min/max)
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     */
     modelValue: {
       type: Number,
       required: true
     },
+    /**
+     * Minimum page (must be lower than 'max')
+     *
+     * @api prop min
+     * @type {Number|String}
+     * @default 1
+     * @category model
+     */
     min: {
       type: [Number, String],
       default: 1
     },
+    /**
+     * Number of last page (must be higher than 'min')
+     *
+     * @api prop max
+     * @type {Number|String}
+     * @category model
+     * @required
+     */
     max: {
       type: [Number, String],
       required: true
     },
+    /**
+     * Maximum number of page links to display at a time; 0 means Infinite
+     *
+     * @api prop max-pages
+     * @type {Number|String}
+     * @default 0
+     * @category content
+     */
     maxPages: {
       type: [Number, String],
       default: 0,
       validator: v => (typeof v === 'string' ? Number.parseInt(v, 10) : v) >= 0
     },
 
+    /**
+     * Style definitions to be attributed to the input (if using one)
+     *
+     * @api prop input-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     inputStyle: [Array, String, Object],
+    /**
+     * Class definitions to be attributed to the input (if using one)
+     *
+     * @api prop input-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     inputClass: [Array, String, Object],
 
+    /**
+     * Button size in CSS units, including unit name
+     *
+     * @api prop size
+     * @type {String}
+     * @category style
+     * @example '20px'
+     */
     size: String,
 
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
 
+    /**
+     * Use an input instead of buttons
+     *
+     * @api prop input
+     * @type {Boolean}
+     * @category content
+     */
     input: Boolean,
 
+    /**
+     * @api prop icon-prev
+     * @extends icon
+     */
     iconPrev: String,
+    /**
+     * @api prop icon-next
+     * @extends icon
+     */
     iconNext: String,
+    /**
+     * @api prop icon-first
+     * @extends icon
+     */
     iconFirst: String,
+    /**
+     * @api prop icon-last
+     * @extends icon
+     */
     iconLast: String,
 
+    /**
+     * Generate link for page buttons; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop to-fn
+     * @type {Function}
+     * @category content
+     * @example page => ({ query: { page } })
+     */
     toFn: Function,
 
+    /**
+     * Show boundary button links
+     *
+     * @api prop boundary-links
+     * @type {Boolean|null}
+     * @default null
+     * @category content
+     */
     boundaryLinks: {
       type: Boolean,
       default: null
     },
+    /**
+     * Always show first and last page buttons (if not using 'input')
+     *
+     * @api prop boundary-numbers
+     * @type {Boolean|null}
+     * @default null
+     * @category content
+     */
     boundaryNumbers: {
       type: Boolean,
       default: null
     },
+    /**
+     * Show direction buttons
+     *
+     * @api prop direction-links
+     * @type {Boolean|null}
+     * @default null
+     * @category content
+     */
     directionLinks: {
       type: Boolean,
       default: null
     },
+    /**
+     * Show ellipses (...) when pages are available
+     *
+     * @api prop ellipses
+     * @type {Boolean|null}
+     * @default null
+     * @category content
+     */
     ellipses: {
       type: Boolean,
       default: null
     },
 
+    /**
+     * Configure buttons material ripple (disable it by setting it to 'false' or supply a config object); Does not applies to boundary and ellipsis buttons
+     *
+     * @api prop ripple
+     * @type {Boolean|Object|null}
+     * @default true
+     * @category style
+     * @example false
+     * @example { early: true, center: true, color: 'teal', keyCodes: [] }
+     */
     ripple: {
       type: [Boolean, Object],
       default: null
     },
 
+    /**
+     * Makes a circle shaped button for all buttons
+     *
+     * @api prop round
+     * @type {Boolean}
+     * @category style
+     */
     round: Boolean,
+    /**
+     * Applies a more prominent border-radius for a squared shape button for all buttons
+     *
+     * @api prop rounded
+     * @type {Boolean}
+     * @category style
+     */
     rounded: Boolean,
 
+    /**
+     * Use 'flat' design for non-active buttons (it's the default option)
+     *
+     * @api prop flat
+     * @type {Boolean}
+     * @category style
+     */
     flat: Boolean,
+    /**
+     * Use 'outline' design for non-active buttons
+     *
+     * @api prop outline
+     * @type {Boolean}
+     * @category style
+     */
     outline: Boolean,
+    /**
+     * Remove shadow for non-active buttons
+     *
+     * @api prop unelevated
+     * @type {Boolean}
+     * @category style
+     */
     unelevated: Boolean,
+    /**
+     * Use 'push' design for non-active buttons
+     *
+     * @api prop push
+     * @type {Boolean}
+     * @category style
+     */
     push: Boolean,
+    /**
+     * Applies a glossy effect for all buttons
+     *
+     * @api prop glossy
+     * @type {Boolean}
+     * @category style
+     */
     glossy: Boolean,
 
+    /**
+     * Color name from the Quasar Color Palette for the non-active buttons
+     *
+     * @api prop color
+     * @extends color
+     * @default 'primary'
+     */
     color: {
       type: String,
       default: 'primary'
     },
+    /**
+     * Text color name from the Quasar Color Palette for the ACTIVE buttons
+     *
+     * @api prop text-color
+     * @extends text-color
+     */
     textColor: String,
 
+    /**
+     * The design of the ACTIVE button, similar to the flat/outline/push/unelevated props (but those are used for non-active buttons)
+     *
+     * @api prop active-design
+     * @type {String}
+     * @default ''
+     * @category style
+     * @added-in v2.10
+     */
     activeDesign: {
       type: String,
       default: '',
       values: v => v === '' || btnDesignOptions.includes(v)
     },
+    /**
+     * Color name from the Quasar Color Palette for the ACTIVE button
+     *
+     * @api prop active-color
+     * @extends color
+     * @default 'primary'
+     */
     activeColor: String,
+    /**
+     * Text color name from the Quasar Color Palette for the ACTIVE button
+     *
+     * @api prop active-text-color
+     * @extends text-color
+     */
     activeTextColor: String,
 
+    /**
+     * Apply custom gutter; Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl)
+     *
+     * @api prop gutter
+     * @type {String}
+     * @default '2px'
+     * @category style
+     * @added-in v2.10
+     * @example '16px'
+     * @example '10px 5px'
+     * @example '2rem'
+     */
     gutter: String,
+    /**
+     * Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set
+     *
+     * @api prop padding
+     * @type {String}
+     * @default '3px 2px'
+     * @category style
+     * @example '16px'
+     * @example '10px 5px'
+     * @example '2rem'
+     */
     padding: {
       type: String,
       default: '3px 2px'
@@ -274,10 +521,22 @@ export default createComponent({
       return acc
     })
 
+    /**
+     * Go directly to the specified page
+     *
+     * @api method set
+     * @param {Number} pageNumber Page number to go to
+     */
     function set(value) {
       model.value = value
     }
 
+    /**
+     * Increment/Decrement current page by offset
+     *
+     * @api method setByOffset
+     * @param {Number} offset Offset page, can be negative or positive
+     */
     function setByOffset(offset) {
       model.value = model.value + offset
     }

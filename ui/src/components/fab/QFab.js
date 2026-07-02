@@ -17,6 +17,38 @@ import { fabKey } from '../../utils/private.symbols/symbols.js'
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = ['left', 'center', 'right']
 
+/**
+ * This is where QFabActions may go into
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot specifically designed for a QTooltip
+ *
+ * @api slot tooltip
+ */
+
+/**
+ * Slot for icon shown when FAB is closed; Suggestion: QIcon
+ *
+ * @api slot icon
+ * @scope opened {Boolean} FAB is opened
+ */
+
+/**
+ * Slot for icon shown when FAB is opened; Suggestion: QIcon
+ *
+ * @api slot active-icon
+ * @scope opened {Boolean} FAB is opened
+ */
+
+/**
+ * Slot for label
+ *
+ * @api slot label
+ * @scope opened {Boolean} FAB is opened
+ */
 export default createComponent({
   name: 'QFab',
 
@@ -24,23 +56,65 @@ export default createComponent({
     ...useFabProps,
     ...useModelToggleProps,
 
+    /**
+     * @api prop icon
+     * @extends icon
+     */
     icon: String,
+    /**
+     * @api prop active-icon
+     * @extends icon
+     */
     activeIcon: String,
 
+    /**
+     * Hide the icon (don't use any)
+     *
+     * @api prop hide-icon
+     * @type {Boolean}
+     * @category style|content
+     */
     hideIcon: Boolean,
+    /**
+     * @api prop hide-label
+     * @default null
+     */
     hideLabel: {
       ...useFabProps.hideLabel,
       default: null
     },
 
+    /**
+     * Direction to expand Fab Actions to
+     *
+     * @api prop direction
+     * @type {String}
+     * @default 'right'
+     * @category behavior
+     */
     direction: {
       type: String,
       default: 'right',
       validator: v => directions.includes(v)
     },
 
+    /**
+     * By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior
+     *
+     * @api prop persistent
+     * @type {Boolean}
+     * @category behavior
+     */
     persistent: Boolean,
 
+    /**
+     * The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')
+     *
+     * @api prop vertical-actions-align
+     * @type {String}
+     * @default 'center'
+     * @category style|content
+     */
     verticalActionsAlign: {
       type: String,
       default: 'center',
@@ -145,6 +219,11 @@ export default createComponent({
       showing,
 
       onChildClick(evt) {
+        /**
+         * Collapses fab actions list
+         *
+         * @api method hide
+         */
         hide(evt)
 
         if (evt?.qAvoidFocus !== true) {

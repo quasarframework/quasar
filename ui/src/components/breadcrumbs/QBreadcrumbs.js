@@ -1,51 +1,34 @@
-import { computed, h } from 'vue'
+import { h } from 'vue'
 
-import useAlign, {
-  useAlignProps
-} from '../../composables/private.use-align/use-align.js'
-
+import useBreadcrumbs, { useBreadcrumbsProps } from './use-breadcrumbs.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import { getNormalizedVNodes } from '../../utils/private.vm/vm.js'
 
 const disabledValues = ['', true]
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/breadcrumbs
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
+
+/**
+ * HTML or component you can slot in to separate the breadcrumbs
+ *
+ * @api slot separator
+ */
 export default createComponent({
   name: 'QBreadcrumbs',
 
-  props: {
-    ...useAlignProps,
-
-    separator: {
-      type: String,
-      default: '/'
-    },
-    separatorColor: String,
-
-    activeColor: {
-      type: String,
-      default: 'primary'
-    },
-
-    gutter: {
-      type: String,
-      validator: v => ['none', 'xs', 'sm', 'md', 'lg', 'xl'].includes(v),
-      default: 'sm'
-    }
-  },
+  props: useBreadcrumbsProps,
 
   setup(props, { slots }) {
-    const alignClass = useAlign(props)
-
-    const classes = computed(
-      () =>
-        `flex items-center ${alignClass.value}${props.gutter === 'none' ? '' : ` q-gutter-${props.gutter}`}`
-    )
-
-    const sepClass = computed(() =>
-      props.separatorColor ? ` text-${props.separatorColor}` : ''
-    )
-    const activeClass = computed(() => ` text-${props.activeColor}`)
+    const { classes, sepClass, activeClass } = useBreadcrumbs(props)
 
     return () => {
       if (slots.default === void 0) return

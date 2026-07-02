@@ -12,22 +12,54 @@ const radius = 50,
   circumference = diameter * Math.PI,
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/circular-progress
+ */
+/**
+ * Used for component content only if 'show-value' prop is set; Make sure the content has enough space to be displayed inside the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QCircularProgress',
 
   props: {
     ...useCircularCommonProps,
 
+    /**
+     * Current progress (must be between min/max)
+     *
+     * @api prop value
+     * @type {Number}
+     * @default 0
+     * @category model
+     */
     value: {
       type: Number,
       default: 0
     },
 
+    /**
+     * Animation speed, in milliseconds
+     *
+     * @api prop animation-speed
+     * @extends animation-speed
+     * @default 600
+     * @addedIn v2.3
+     */
     animationSpeed: {
       type: [String, Number],
       default: 600
     },
 
+    /**
+     * Put component into 'indeterminate' state; Ignores 'value' prop
+     *
+     * @api prop indeterminate
+     * @type {Boolean}
+     * @category behavior
+     */
     indeterminate: Boolean
   },
 

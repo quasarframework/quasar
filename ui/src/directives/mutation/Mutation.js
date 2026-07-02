@@ -35,6 +35,10 @@ function destroy(el) {
   }
 }
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/mutation
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'mutation', getSSRProps }

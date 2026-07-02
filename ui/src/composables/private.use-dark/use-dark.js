@@ -1,6 +1,15 @@
 import { computed } from 'vue'
 
 export const useDarkProps = {
+  /**
+   * Notify the component that the background is a dark color
+   *
+   * @api prop dark
+   * @type {Boolean|null}
+   * @default null
+   * @category style
+   * @optional
+   */
   dark: {
     type: Boolean,
     default: null

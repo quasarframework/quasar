@@ -28,6 +28,69 @@ import { stop } from '../../utils/event/event.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/input
+ */
+/**
+ * Field main content
+ *
+ * @api slot default
+ */
+
+/**
+ * Prepend inner field; Suggestions: QIcon, QBtn
+ *
+ * @api slot prepend
+ */
+
+/**
+ * Append to inner field; Suggestions: QIcon, QBtn
+ *
+ * @api slot append
+ */
+
+/**
+ * Prepend outer field; Suggestions: QIcon, QBtn
+ *
+ * @api slot before
+ */
+
+/**
+ * Append outer field; Suggestions: QIcon, QBtn
+ *
+ * @api slot after
+ */
+
+/**
+ * Slot for label; Used only if 'label-slot' prop is set or the 'label' prop is set; When it is used the text in the 'label' prop is ignored
+ *
+ * @api slot label
+ */
+
+/**
+ * Slot for errors; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot error
+ */
+
+/**
+ * Slot for hint text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot hint
+ */
+
+/**
+ * Slot for counter text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot counter
+ */
+
+/**
+ * Override default spinner when component is in loading mode; Use in conjunction with 'loading' prop
+ *
+ * @api slot loading
+ */
 export default createComponent({
   name: 'QInput',
 
@@ -39,31 +102,104 @@ export default createComponent({
     ...useFormProps,
 
     // override of useFieldProps > modelValue
+    /**
+     * Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="myText"
+     */
     modelValue: __QUASAR_SSR_SERVER__
       ? {} // SSR does not know about FileList
       : [String, Number, FileList],
 
+    /**
+     * Text to be displayed as shadow at the end of the text in the control; Does NOT applies to type=file
+     *
+     * @api prop shadow-text
+     * @type {String}
+     * @category content
+     * @example 'rest of the fill value'
+     */
     shadowText: String,
 
+    /**
+     * Input type
+     *
+     * @api prop type
+     * @type {String}
+     * @default 'text'
+     * @category general
+     */
     type: {
       type: String,
       default: 'text'
     },
 
+    /**
+     * Debounce amount (in milliseconds) when updating model
+     *
+     * @api prop debounce
+     * @type {String|Number}
+     * @category model
+     */
     debounce: [String, Number],
 
+    /**
+     * Make field autogrow along with its content (uses a textarea)
+     *
+     * @api prop autogrow
+     * @type {Boolean}
+     * @category content
+     */
     autogrow: Boolean, // makes a textarea
 
+    /**
+     * Class definitions to be attributed to the underlying input tag
+     *
+     * @api prop input-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     inputClass: [Array, String, Object],
+    /**
+     * Style definitions to be attributed to the underlying input tag
+     *
+     * @api prop input-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     inputStyle: [Array, String, Object]
   },
 
   emits: [
     ...useFieldEmits,
+    /**
+     * @api event paste
+     */
     'paste',
+    /**
+     * @api event change
+     */
     'change',
+    /**
+     * @api event keydown
+     */
     'keydown',
+    /**
+     * @api event click
+     */
     'click',
+    /**
+     * @api event animationend
+     */
     'animationend'
   ],
 
@@ -224,6 +360,11 @@ export default createComponent({
       }
     )
 
+    /**
+     * Focus underlying input tag
+     *
+     * @api method focus
+     */
     function focus() {
       addFocusFn(() => {
         const el = document.activeElement
@@ -237,6 +378,11 @@ export default createComponent({
       })
     }
 
+    /**
+     * Select input text
+     *
+     * @api method select
+     */
     function select() {
       inputRef.value?.select()
     }
@@ -489,6 +635,12 @@ export default createComponent({
     Object.assign(proxy, {
       focus,
       select,
+      /**
+       * DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element
+       *
+       * @api method getNativeElement
+       * @returns {Element} The underlying native input/textarea DOM Element
+       */
       getNativeElement: () => inputRef.value // deprecated
     })
 

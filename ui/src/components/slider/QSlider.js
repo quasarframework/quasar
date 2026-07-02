@@ -14,21 +14,69 @@ import { stopAndPrevent } from '../../utils/event/event.js'
 
 const getNodeData = () => ({})
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/slider
+ */
+/**
+ * What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>
+ *
+ * @api slot marker-label
+ * @scope marker {Object} Config for current marker label
+ * @scope markerList {Array} Array of marker label configs
+ * @scope markerMap {Object} Object with key-value where key is the model and the value is the marker label config
+ * @scope classes {String} Required CSS classes to be applied to the marker element
+ * @scope getStyle {Function} Get CSS style Object to apply to a marker element at respective model value; For perf reasons, use only if requested model value is not already part of markerMap
+ */
+
+/**
+ * What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>
+ *
+ * @api slot marker-label-group
+ * @scope markerList {Array} Array of marker label configs
+ * @scope markerMap {Object} Object with key-value where key is the model and the value is the marker label config
+ * @scope classes {String} Required CSS classes to be applied to the marker element
+ * @scope getStyle {Function} Get CSS style Object to apply to a marker element at respective model value; For perf reasons, use only if requested model value is not already part of markerMap
+ */
 export default createComponent({
   name: 'QSlider',
 
   props: {
     ...useSliderProps,
 
+    /**
+     * Model of the component (must be between min/max); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @type {Number|null|undefined}
+     * @default null
+     * @category model
+     * @required
+     * @syncable
+     * @example # v-model="positionModel"
+     */
     modelValue: {
       required: true,
       default: null,
       validator: v => typeof v === 'number' || v === null
     },
 
+    /**
+     * Override default label value
+     *
+     * @api prop label-value
+     * @type {String|Number}
+     * @category content
+     * @example # :label-value="model + 'px'"
+     */
     labelValue: [String, Number]
   },
 
+  /**
+   * @api event update:model-value
+   * @extends update:model-value
+   * @param {Number|null} value New model value
+   */
   emits: useSliderEmits,
 
   setup(props, { emit }) {

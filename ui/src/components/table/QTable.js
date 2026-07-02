@@ -61,82 +61,728 @@ function getCellValue(col, row) {
   return col.format !== void 0 ? col.format(val, row) : val
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/table
+ */
+/**
+ * Override default effect when table is in loading state; Suggestion: QInnerLoading
+ *
+ * @api slot loading
+ */
+
+/**
+ * Slot to use for defining an item when in 'grid' mode; Suggestion: QCard
+ *
+ * @api slot item
+ * @scope key {Any} Row/Item's key
+ * @scope row {Object} Row/Item object
+ * @scope rowIndex {Number} Row/Item's index (0 based) in the filtered and sorted table
+ * @scope pageIndex {Number} Row/Item's index (0 based) in the current page of the filtered and sorted table
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row/item selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row/item expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how a body row looks like; Suggestion: QTr + Td
+ *
+ * @api slot body
+ * @scope key {Any} Row's key
+ * @scope row {Object} Row object
+ * @scope rowIndex {Number} Row's index (0 based) in the filtered and sorted table
+ * @scope pageIndex {Number} Row's index (0 based) in the current page of the filtered and sorted table
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ * @scope __trClass {String} Internal prop passed down to QTr (if used)
+ * @scope __trStyle {String} Internal prop passed down to QTr (if used)
+ */
+
+/**
+ * Slot to define how all body cells look like; Suggestion: QTd
+ *
+ * @api slot body-cell
+ * @scope col {Object} Column definition for column associated with table cell
+ * @scope value {Any} Parsed/Formatted value of table cell
+ * @scope key {Any} Row's key
+ * @scope row {Object} Row object
+ * @scope rowIndex {Number} Row's index (0 based) in the filtered and sorted table
+ * @scope pageIndex {Number} Row's index (0 based) in the current page of the filtered and sorted table
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how a specific column cell looks like; replace '[name]' with column name (from columns definition object)
+ *
+ * @api slot body-cell-[name]
+ * @scope col {Object} Column definition for column associated with table cell
+ * @scope value {Any} Parsed/Formatted value of table cell
+ * @scope key {Any} Row's key
+ * @scope row {Object} Row object
+ * @scope rowIndex {Number} Row's index (0 based) in the filtered and sorted table
+ * @scope pageIndex {Number} Row's index (0 based) in the current page of the filtered and sorted table
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how header looks like; Suggestion: QTr + QTh
+ *
+ * @api slot header
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ * @scope __trClass {String} Internal prop passed down to QTr (if used)
+ * @scope header {Boolean} Internal prop passed down to QTh (if used); Always 'true'
+ */
+
+/**
+ * Slot to define how each header cell looks like; Suggestion: QTh
+ *
+ * @api slot header-cell
+ * @scope col {Object} Column definition associated to header cell
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how a specific header cell looks like; replace '[name]' with column name (from columns definition object)
+ *
+ * @api slot header-cell-[name]
+ * @scope col {Object} Column definition associated to header cell
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how body selection column looks like; Suggestion: QCheckbox
+ *
+ * @api slot body-selection
+ * @scope key {Any} Row's key
+ * @scope row {Object} Row object
+ * @scope rowIndex {Number} Row's index (0 based) in the filtered and sorted table
+ * @scope pageIndex {Number} Row's index (0 based) in the current page of the filtered and sorted table
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how header selection column looks like (available only for multiple selection mode); Suggestion: QCheckbox
+ *
+ * @api slot header-selection
+ * @scope cols {Object} Column definitions
+ * @scope colsMap {Object} Column mapping (key is column name, value is column object)
+ * @scope sort {Function} Trigger a table sort
+ * @scope selected {Boolean} (Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state
+ * @scope expand {Boolean} Is row expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope color {String} Color name for component from the Quasar Color Palette
+ * @scope dark {Boolean|null} Notify the component that the background is a dark color
+ * @scope dense {Boolean} Dense mode; occupies less space
+ */
+
+/**
+ * Slot to define how top extra row looks like
+ *
+ * @api slot top-row
+ * @scope cols {Object} Column definitions
+ */
+
+/**
+ * Slot to define how bottom extra row looks like
+ *
+ * @api slot bottom-row
+ * @scope cols {Object} Column definitions
+ */
+
+/**
+ * Slot to define how table top looks like
+ *
+ * @api slot top
+ * @scope pagination {Object} Pagination object
+ * @scope pagesNumber {Number} Number of pages available
+ * @scope isFirstPage {Boolean} Are we on first page?
+ * @scope isLastPage {Boolean} Are we on last page?
+ * @scope firstPage {Function} Navigates to first page
+ * @scope prevPage {Function} Navigates to previous page, if available
+ * @scope nextPage {Function} Navigates to next page, if available
+ * @scope lastPage {Function} Navigates to last page
+ * @scope inFullscreen {Boolean} Is table in fullscreen mode?
+ * @scope toggleFullscreen {Function} Toggles fullscreen mode
+ */
+
+/**
+ * Slot to define how table bottom looks like
+ *
+ * @api slot bottom
+ * @scope pagination {Object} Pagination object
+ * @scope pagesNumber {Number} Number of pages available
+ * @scope isFirstPage {Boolean} Are we on first page?
+ * @scope isLastPage {Boolean} Are we on last page?
+ * @scope firstPage {Function} Navigates to first page
+ * @scope prevPage {Function} Navigates to previous page, if available
+ * @scope nextPage {Function} Navigates to next page, if available
+ * @scope lastPage {Function} Navigates to last page
+ * @scope inFullscreen {Boolean} Is table in fullscreen mode?
+ * @scope toggleFullscreen {Function} Toggles fullscreen mode
+ */
+
+/**
+ * Slot to override default pagination label and buttons
+ *
+ * @api slot pagination
+ * @scope pagination {Object} Pagination object
+ * @scope pagesNumber {Number} Number of pages available
+ * @scope isFirstPage {Boolean} Are we on first page?
+ * @scope isLastPage {Boolean} Are we on last page?
+ * @scope firstPage {Function} Navigates to first page
+ * @scope prevPage {Function} Navigates to previous page, if available
+ * @scope nextPage {Function} Navigates to next page, if available
+ * @scope lastPage {Function} Navigates to last page
+ * @scope inFullscreen {Boolean} Is table in fullscreen mode?
+ * @scope toggleFullscreen {Function} Toggles fullscreen mode
+ */
+
+/**
+ * Slot to define how left part of the table top looks like
+ *
+ * @api slot top-left
+ * @scope pagination {Object} Pagination object
+ * @scope pagesNumber {Number} Number of pages available
+ * @scope isFirstPage {Boolean} Are we on first page?
+ * @scope isLastPage {Boolean} Are we on last page?
+ * @scope firstPage {Function} Navigates to first page
+ * @scope prevPage {Function} Navigates to previous page, if available
+ * @scope nextPage {Function} Navigates to next page, if available
+ * @scope lastPage {Function} Navigates to last page
+ * @scope inFullscreen {Boolean} Is table in fullscreen mode?
+ * @scope toggleFullscreen {Function} Toggles fullscreen mode
+ */
+
+/**
+ * Slot to define how right part of the table top looks like
+ *
+ * @api slot top-right
+ * @scope pagination {Object} Pagination object
+ * @scope pagesNumber {Number} Number of pages available
+ * @scope isFirstPage {Boolean} Are we on first page?
+ * @scope isLastPage {Boolean} Are we on last page?
+ * @scope firstPage {Function} Navigates to first page
+ * @scope prevPage {Function} Navigates to previous page, if available
+ * @scope nextPage {Function} Navigates to next page, if available
+ * @scope lastPage {Function} Navigates to last page
+ * @scope inFullscreen {Boolean} Is table in fullscreen mode?
+ * @scope toggleFullscreen {Function} Toggles fullscreen mode
+ */
+
+/**
+ * Slot to define how top table section looks like when user has selected at least one row
+ *
+ * @api slot top-selection
+ * @scope pagination {Object} Pagination object
+ * @scope pagesNumber {Number} Number of pages available
+ * @scope isFirstPage {Boolean} Are we on first page?
+ * @scope isLastPage {Boolean} Are we on last page?
+ * @scope firstPage {Function} Navigates to first page
+ * @scope prevPage {Function} Navigates to previous page, if available
+ * @scope nextPage {Function} Navigates to next page, if available
+ * @scope lastPage {Function} Navigates to last page
+ * @scope inFullscreen {Boolean} Is table in fullscreen mode?
+ * @scope toggleFullscreen {Function} Toggles fullscreen mode
+ */
+
+/**
+ * Slot to define how the bottom will look like when is nothing to display
+ *
+ * @api slot no-data
+ * @scope message {String} The suggested message
+ * @scope icon {String} The suggested icon name (following Quasar convention)
+ * @scope filter {String|Object} String/Object to filter table with (the 'filter' prop)
+ */
 export default createComponent({
   name: 'QTable',
 
   props: {
+    /**
+     * Rows of data to display
+     *
+     * @api prop rows
+     * @type {Array}
+     * @category general
+     * @required
+     * @example # :rows="myData"
+     */
     rows: {
       type: Array,
       required: true
     },
+    /**
+     * Property of each row that defines the unique key of each row (the result must be a primitive, not Object, Array, etc); The value of property must be string or a function taking a row and returning the desired (nested) key in the row; If supplying a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop row-key
+     * @type {String|Function}
+     * @default 'id'
+     * @category general
+     * @example 'name'
+     * @example row => row.name
+     */
     rowKey: {
       type: [String, Function],
       default: 'id'
     },
 
+    /**
+     * The column definitions (Array of Objects)
+     *
+     * @api prop columns
+     * @type {Array}
+     * @category column
+     * @example # :columns="tableColumns"
+     */
     columns: Array,
+    /**
+     * Put Table into 'loading' state; Notify the user something is happening behind the scenes
+     *
+     * @api prop loading
+     * @type {Boolean}
+     * @category behavior|content
+     */
     loading: Boolean,
 
+    /**
+     * Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop icon-first-page
+     * @extends icon
+     */
     iconFirstPage: String,
+    /**
+     * Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop icon-prev-page
+     * @extends icon
+     */
     iconPrevPage: String,
+    /**
+     * Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop icon-next-page
+     * @extends icon
+     */
     iconNextPage: String,
+    /**
+     * Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix
+     *
+     * @api prop icon-last-page
+     * @extends icon
+     */
     iconLastPage: String,
 
+    /**
+     * Table title
+     *
+     * @api prop title
+     * @type {String}
+     * @category content
+     * @example 'Device list'
+     */
     title: String,
 
+    /**
+     * Hide table header layer
+     *
+     * @api prop hide-header
+     * @type {Boolean}
+     * @category content
+     */
     hideHeader: Boolean,
 
+    /**
+     * Display data as a grid instead of the default table
+     *
+     * @api prop grid
+     * @type {Boolean}
+     * @category behavior
+     */
     grid: Boolean,
+    /**
+     * Display header for grid-mode also
+     *
+     * @api prop grid-header
+     * @type {Boolean}
+     * @category behavior|content
+     */
     gridHeader: Boolean,
 
+    /**
+     * Dense mode; Connect with $q.screen for responsive behavior
+     *
+     * @api prop dense
+     * @extends dense
+     */
     dense: Boolean,
+    /**
+     * @api prop flat
+     * @extends flat
+     */
     flat: Boolean,
+    /**
+     * @api prop bordered
+     * @extends bordered
+     */
     bordered: Boolean,
+    /**
+     * @api prop square
+     * @extends square
+     */
     square: Boolean,
+    /**
+     * Use a separator/border between rows, columns or all cells
+     *
+     * @api prop separator
+     * @type {String}
+     * @default 'horizontal'
+     * @category content
+     */
     separator: {
       type: String,
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
+    /**
+     * Wrap text within table cells
+     *
+     * @api prop wrap-cells
+     * @type {Boolean}
+     * @category content
+     */
     wrapCells: Boolean,
 
+    /**
+     * Display data using QVirtualScroll (for non-grid mode only)
+     *
+     * @api prop virtual-scroll
+     * @type {Boolean}
+     * @category virtual-scroll
+     */
     virtualScroll: Boolean,
+    /**
+     * @api prop virtual-scroll-target
+     * @extends scroll-target
+     */
     virtualScrollTarget: {},
     ...virtScrollPassthroughProps,
 
+    /**
+     * Override default text to display when no data is available
+     *
+     * @api prop no-data-label
+     * @type {String}
+     * @category content
+     * @example 'No devices available'
+     */
     noDataLabel: String,
+    /**
+     * Override default text to display when user filters the table and no matched results are found
+     *
+     * @api prop no-results-label
+     * @type {String}
+     * @category content
+     * @example 'No matched records'
+     */
     noResultsLabel: String,
+    /**
+     * Override default text to display when table is in loading state (see 'loading' prop)
+     *
+     * @api prop loading-label
+     * @type {String}
+     * @category content
+     * @example 'Loading devices...'
+     */
     loadingLabel: String,
+    /**
+     * Text to display when user selected at least one row; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop selected-rows-label
+     * @type {Function}
+     * @category selection
+     * @example (numberOfRows) => `Selected: ${ numberOfRows } entries`
+     */
     selectedRowsLabel: Function,
+    /**
+     * Text to override default rows per page label at bottom of table
+     *
+     * @api prop rows-per-page-label
+     * @type {String}
+     * @category pagination
+     * @example 'Records per page:'
+     */
     rowsPerPageLabel: String,
+    /**
+     * Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used); For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop pagination-label
+     * @type {Function}
+     * @category pagination
+     * @example (start, end, total) => `${ start }-${ end } of ${ total }`
+     */
     paginationLabel: Function,
 
+    /**
+     * @api prop color
+     * @extends color
+     * @default 'grey-8'
+     */
     color: {
       type: String,
       default: 'grey-8'
     },
 
+    /**
+     * CSS classes to apply to the title (if using 'title' prop)
+     *
+     * @api prop title-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example 'text-h1'
+     * @example { 'text-h1': true }
+     */
     titleClass: [String, Array, Object],
+    /**
+     * CSS style to apply to native HTML <table> element's wrapper (which is a DIV)
+     *
+     * @api prop table-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     tableStyle: [String, Array, Object],
+    /**
+     * CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)
+     *
+     * @api prop table-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     tableClass: [String, Array, Object],
+    /**
+     * CSS style to apply to header of native HTML <table> (which is a TR)
+     *
+     * @api prop table-header-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     tableHeaderStyle: [String, Array, Object],
+    /**
+     * CSS classes to apply to header of native HTML <table> (which is a TR)
+     *
+     * @api prop table-header-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     tableHeaderClass: [String, Array, Object],
+    /**
+     * CSS style to apply to the table rows (which are TR elements); For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop table-row-style-fn
+     * @type {Function}
+     * @category style
+     * @added-in v2.18
+     */
     tableRowStyleFn: Function,
+    /**
+     * CSS class(es) to apply the table rows (which are TR elements); For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop table-row-class-fn
+     * @type {Function}
+     * @category style
+     * @added-in v2.18
+     */
     tableRowClassFn: Function,
+    /**
+     * CSS classes to apply to the cards container (when in grid mode)
+     *
+     * @api prop card-container-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example 'justify-center'
+     * @example { 'my-special-class': true }
+     */
     cardContainerClass: [String, Array, Object],
+    /**
+     * CSS style to apply to the cards container (when in grid mode)
+     *
+     * @api prop card-container-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     cardContainerStyle: [String, Array, Object],
+    /**
+     * CSS style to apply to the card (when in grid mode) or container card (when not in grid mode)
+     *
+     * @api prop card-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     cardStyle: [String, Array, Object],
+    /**
+     * CSS classes to apply to the card (when in grid mode) or container card (when not in grid mode)
+     *
+     * @api prop card-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     cardClass: [String, Array, Object],
+    /**
+     * (Grid mode only) CSS style to apply to the row/record card; Has no effect when the 'item' slot is used; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop card-style-fn
+     * @type {Function}
+     * @category style
+     * @added-in v2.18
+     */
     cardStyleFn: Function,
+    /**
+     * (Grid mode only) CSS class(es) to apply the row/record card; Has no effect when the 'item' slot is used; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop card-class-fn
+     * @type {Function}
+     * @category style
+     * @added-in v2.18
+     */
     cardClassFn: Function,
 
+    /**
+     * Hide table bottom layer regardless of what it has to display
+     *
+     * @api prop hide-bottom
+     * @type {Boolean}
+     * @category content
+     */
     hideBottom: Boolean,
+    /**
+     * Hide the selected rows banner (if any)
+     *
+     * @api prop hide-selected-banner
+     * @type {Boolean}
+     * @category content
+     */
     hideSelectedBanner: Boolean,
+    /**
+     * Hide the default no data bottom layer
+     *
+     * @api prop hide-no-data
+     * @type {Boolean}
+     * @category content
+     */
     hideNoData: Boolean,
+    /**
+     * Hide the pagination controls at the bottom
+     *
+     * @api prop hide-pagination
+     * @type {Boolean}
+     * @category content
+     */
     hidePagination: Boolean,
 
+    /**
+     * Emitted when user clicks/taps on a row; Is not emitted when using body/row/item scoped slots
+     *
+     * @api event row-click
+     * @param {Event} evt JS event object
+     * @param {Object} row Row data
+     * @param {Number} index Row page index
+     */
     onRowClick: Function,
+
+    /**
+     * Emitted when user quickly double clicks/taps on a row; Is not emitted when using body/row/item scoped slots
+     *
+     * @api event row-dblclick
+     * @param {Event} evt JS event object
+     * @param {Object} row Row data
+     * @param {Number} index Row page index
+     */
     onRowDblclick: Function,
+
+    /**
+     * Emitted when user right clicks/long taps on a row; Is not emitted when using body/row/item scoped slots
+     *
+     * @api event row-contextmenu
+     * @param {Event} evt JS event object
+     * @param {Object} row Row data
+     * @param {Number} index Row page index
+     */
     onRowContextmenu: Function,
 
     ...useDarkProps,
@@ -151,7 +797,20 @@ export default createComponent({
   },
 
   emits: [
+    /**
+     * Emitted when a server request is triggered
+     *
+     * @api event request
+     * @param {Object} requestProp Props of the request
+     */
     'request',
+
+    /**
+     * Emitted when the virtual scroll occurs, if using virtual scroll
+     *
+     * @api event virtual-scroll
+     * @param {Object} details Object of properties on the new scroll position
+     */
     'virtualScroll',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
@@ -341,6 +1000,11 @@ export default createComponent({
       return acc
     })
 
+    /**
+     * Resets the virtual scroll (if using it) computations; Needed for custom edge-cases
+     *
+     * @api method resetVirtualScroll
+     */
     function resetVirtualScroll() {
       if (hasVirtScroll.value) virtScrollRef.value.reset()
     }
@@ -404,6 +1068,13 @@ export default createComponent({
       )
     }
 
+    /**
+     * Scroll the table to the row with the specified index in page (0 based)
+     *
+     * @api method scrollTo
+     * @param {Number|String} index The index of the row in page (0 based)
+     * @param {String} edge Only for virtual scroll - the edge to align to if the row is not visible already; If the '-force' version is used then it always aligns; Default value: end (if scrolling towards the end) / start (if scrolling towards the start)
+     */
     function scrollTo(toIndex, edge) {
       if (virtScrollRef.value !== null) {
         virtScrollRef.value.scrollTo(toIndex, edge)
@@ -890,6 +1561,13 @@ export default createComponent({
     }
 
     function onPagSelection(pag) {
+      /**
+       * Unless using an external pagination Object (through 'v-model:pagination' prop), you can use this method and force the internal pagination to change
+       *
+       * @api method setPagination
+       * @param {Object} pagination Pagination object
+       * @param {Boolean} forceServerRequest Also force a server request
+       */
       setPagination({
         page: 1,
         rowsPerPage: pag.value

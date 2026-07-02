@@ -18,24 +18,61 @@ import {
 
 import { createComponent } from '../../utils/private.create/create.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/layout/page-scroller
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QPageScroller',
 
   props: {
     ...usePageStickyProps,
 
+    /**
+     * Scroll offset (in pixels) from which point the component is shown on page; Measured from the top of the page (or from the bottom if in 'reverse' mode)
+     *
+     * @api prop scroll-offset
+     * @type {Number}
+     * @default 1000
+     * @category behavior
+     */
     scrollOffset: {
       type: Number,
       default: 1000
     },
 
+    /**
+     * Work in reverse (shows when scrolling to the top of the page and scrolls to bottom when triggered)
+     *
+     * @api prop reverse
+     * @type {Boolean}
+     * @category behavior
+     */
     reverse: Boolean,
 
+    /**
+     * Duration (in milliseconds) of the scrolling until it reaches its target
+     *
+     * @api prop duration
+     * @type {Number}
+     * @default 300
+     * @category behavior
+     */
     duration: {
       type: Number,
       default: 300
     },
 
+    /**
+     * @api prop offset
+     * @default [18, 18]
+     * @category content
+     */
     offset: {
       ...usePageStickyProps.offset,
       default: () => [18, 18]

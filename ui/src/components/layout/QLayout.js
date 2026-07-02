@@ -21,11 +21,36 @@ import { layoutKey } from '../../utils/private.symbols/symbols.js'
 
 const viewRE = /^(h|l)h(h|r) lpr (f|l)f(f|r)$/
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/layout/layout
+ */
+/**
+ * Suggestion: QHeader, QFooter, QDrawer, QPageContainer
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QLayout',
 
   props: {
+    /**
+     * Containerize the layout which means it changes the default behavior of expanding to the whole window; Useful (but not limited to) for when using on a QDialog
+     *
+     * @api prop container
+     * @type {Boolean}
+     * @category content
+     */
     container: Boolean,
+    /**
+     * Defines how your layout components (header/footer/drawer) should be placed on screen; See docs examples
+     *
+     * @api prop view
+     * @type {String}
+     * @default 'hhh lpr fff'
+     * @category content
+     * @example 'hHh lpR fFf'
+     */
     view: {
       type: String,
       default: 'hhh lpr fff',

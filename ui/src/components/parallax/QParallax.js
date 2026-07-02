@@ -10,21 +10,73 @@ import { listenOpts } from '../../utils/event/event.js'
 const { passive } = listenOpts
 const mediaEvents = ['load', 'loadstart', 'loadedmetadata']
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/parallax
+ */
+/**
+ * Default slot can be used for content that gets displayed on top of the component
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot for describing <img> or <video> tags
+ *
+ * @api slot media
+ */
+
+/**
+ * Scoped slot for describing content that gets displayed on top of the component; If specified, it overrides the default slot
+ *
+ * @api slot content
+ * @scope percentScrolled {Number} Percentage (0.0 < x < 1.0) of scroll in regards to QParallax
+ */
 export default createComponent({
   name: 'QParallax',
 
   props: {
+    /**
+     * Path to image (unless a 'media' slot is used)
+     *
+     * @api prop src
+     * @type {String}
+     * @category model
+     * @example # (public folder) src="img/something.png"
+     * @example # (assets folder) src="~@/assets/my-img.png"
+     * @example # (relative path format) :src="require('./my_img.jpg')"
+     */
     src: String,
+    /**
+     * Height of component (in pixels)
+     *
+     * @api prop height
+     * @type {Number}
+     * @default 500
+     * @category style
+     */
     height: {
       type: Number,
       default: 500
     },
+    /**
+     * Speed of parallax effect (0.0 < x < 1.0)
+     *
+     * @api prop speed
+     * @type {Number}
+     * @default 1
+     * @category behavior
+     */
     speed: {
       type: Number,
       default: 1,
       validator: v => v >= 0 && v <= 1
     },
 
+    /**
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp,
 
     onScroll: Function

@@ -1,25 +1,14 @@
 import { createDirective } from '../../utils/private.create/create.js'
-import {
-  closePortals,
-  getPortalProxy
-} from '../../utils/private.portal/portal.js'
-import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
+import {
+  createClosePopupContext,
+  getClosePopupDepth
+} from './use-close-popup.js'
 
-/*
- * depth
- *   < 0  --> close all chain
- *   0    --> disabled
- *   > 0  --> close chain up to N parent
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/close-popup
  */
-
-function getDepth(value) {
-  if (value === false) return 0
-  if (value === true || value === void 0) return 1
-
-  return Number.parseInt(value, 10) || 0
-}
-
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'close-popup', getSSRProps }
@@ -27,25 +16,7 @@ export default createDirective(
         name: 'close-popup',
 
         beforeMount(el, { value }) {
-          const ctx = {
-            depth: getDepth(value),
-
-            handler(evt) {
-              // allow @click to be emitted
-              if (ctx.depth !== 0) {
-                setTimeout(() => {
-                  const proxy = getPortalProxy(el)
-                  if (proxy !== void 0) {
-                    closePortals(proxy, evt, ctx.depth)
-                  }
-                })
-              }
-            },
-
-            handlerKey(evt) {
-              if (isKeyCode(evt, 13)) ctx.handler(evt)
-            }
-          }
+          const ctx = createClosePopupContext(el, value)
 
           el.__qclosepopup = ctx
 
@@ -55,7 +26,7 @@ export default createDirective(
 
         updated(el, { value, oldValue }) {
           if (value !== oldValue) {
-            el.__qclosepopup.depth = getDepth(value)
+            el.__qclosepopup.depth = getClosePopupDepth(value)
           }
         },
 

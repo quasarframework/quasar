@@ -3,6 +3,14 @@ import { computed } from 'vue'
 import { isNumber } from '../../utils/is/is.js'
 
 export const useTableColumnSelectionProps = {
+  /**
+   * Array of Strings defining column names that are displayed
+   *
+   * @api prop visible-columns
+   * @type {Array}
+   * @category column
+   * @example # :visible-columns="myCols"
+   */
   visibleColumns: Array
 }
 

@@ -6,6 +6,10 @@ import {
   uploaderKey
 } from '../../utils/private.symbols/symbols.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/uploader
+ */
 export default createComponent({
   name: 'QUploaderAddTrigger',
 

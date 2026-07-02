@@ -35,70 +35,373 @@ export const useSliderProps = {
   ...useDarkProps,
   ...useFormProps,
 
+  /**
+   * Minimum value of the model; Set track's minimum value
+   *
+   * @api prop min
+   * @type {Number}
+   * @default 0
+   * @category model
+   */
   min: {
     type: Number,
     default: 0
   },
+
+  /**
+   * Maximum value of the model; Set track's maximum value
+   *
+   * @api prop max
+   * @type {Number}
+   * @default 100
+   * @category model
+   */
   max: {
     type: Number,
     default: 100
   },
+
+  /**
+   * Inner minimum value of the model; Use in case you need the model value to be inside of the track's min-max values; Defaults to 'min' prop
+   *
+   * @api prop inner-min
+   * @type {Number}
+   * @category model
+   * @added-in v2.4
+   */
   innerMin: Number,
+
+  /**
+   * Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Defaults to 'max' prop
+   *
+   * @api prop inner-max
+   * @type {Number}
+   * @category model
+   * @added-in v2.4
+   */
   innerMax: Number,
 
+  /**
+   * Specify step amount between valid values (> 0.0); When step equals to 0 it defines infinite granularity
+   *
+   * @api prop step
+   * @type {Number}
+   * @default 1
+   * @category model
+   */
   step: {
     type: Number,
     default: 1,
     validator: v => v >= 0
   },
 
+  /**
+   * Snap on valid values, rather than sliding freely; Suggestion: use with 'step' prop
+   *
+   * @api prop snap
+   * @type {Boolean}
+   * @category behavior
+   */
   snap: Boolean,
 
+  /**
+   * Display in vertical direction
+   *
+   * @api prop vertical
+   * @type {Boolean}
+   * @category behavior
+   */
   vertical: Boolean,
+
+  /**
+   * Work in reverse (changes direction)
+   *
+   * @api prop reverse
+   * @type {Boolean}
+   * @category behavior
+   */
   reverse: Boolean,
 
+  /**
+   * Color name for component from the Quasar Color Palette
+   *
+   * @api prop color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   * @example 'primary'
+   * @example 'teal'
+   * @example 'teal-10'
+   */
   color: String,
+
+  /**
+   * CSS class(es) to apply to the marker labels container
+   *
+   * @api prop marker-labels-class
+   * @type {String}
+   * @category style
+   * @added-in v2.4
+   * @example 'text-orange'
+   */
   markerLabelsClass: String,
 
+  /**
+   * Popup a label when user clicks/taps on the slider thumb and moves it
+   *
+   * @api prop label
+   * @type {Boolean}
+   * @category content
+   */
   label: Boolean,
+
+  /**
+   * Color name for the label background from the Quasar Color Palette
+   *
+   * @api prop label-color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   */
   labelColor: String,
+
+  /**
+   * Color name for the label text from the Quasar Color Palette
+   *
+   * @api prop label-text-color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   */
   labelTextColor: String,
+
+  /**
+   * Always display the label
+   *
+   * @api prop label-always
+   * @type {Boolean}
+   * @category behavior|content
+   */
   labelAlways: Boolean,
+
+  /**
+   * Switch the position of the label (top <-> bottom or left <-> right)
+   *
+   * @api prop switch-label-side
+   * @type {Boolean}
+   * @category style
+   * @added-in v2.4
+   */
   switchLabelSide: Boolean,
 
+  /**
+   * Display markers on the track, one for each possible value for the model or using a custom step
+   *
+   * @api prop markers
+   * @type {Boolean|Number}
+   * @category content
+   * @example 5
+   * @example true
+   */
   markers: [Boolean, Number],
+
+  /**
+   * Configure the marker labels (or show the default ones if 'true')
+   *
+   * @api prop marker-labels
+   * @type {Boolean|Array|Object|Function}
+   * @ts-type SliderMarkerLabels
+   * @category content
+   * @added-in v2.4
+   * @example true
+   * @example [{ value: 0, label: '0%' }, { value: 5, classes: 'my-class', style: { width: '24px' } }]
+   * @example { 0: '0%', 5: { label: '5%', classes: 'my-class', style: { width: '24px' } } }
+   * @example val => (10 * val) + '%'
+   * @example val => ({ label: (10 * val) + '%', classes: 'my-class', style: { width: '24px' } })
+   */
   markerLabels: [Boolean, Array, Object, Function],
+
+  /**
+   * Switch the position of the marker labels (top <-> bottom or left <-> right)
+   *
+   * @api prop switch-marker-labels-side
+   * @type {Boolean}
+   * @category style
+   * @added-in v2.4
+   */
   switchMarkerLabelsSide: Boolean,
 
+  /**
+   * Apply a pattern image on the track
+   *
+   * @api prop track-img
+   * @type {String}
+   * @category style
+   * @transform-asset-urls
+   * @added-in v2.4
+   * @example '~@/assets/my-pattern.png'
+   */
   trackImg: String,
+
+  /**
+   * Color name for the track from the Quasar Color Palette
+   *
+   * @api prop track-color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   * @added-in v2.4
+   */
   trackColor: String,
+
+  /**
+   * Apply a pattern image on the inner track
+   *
+   * @api prop inner-track-img
+   * @type {String}
+   * @category style
+   * @transform-asset-urls
+   * @added-in v2.4
+   * @example '~@/assets/my-pattern.png'
+   */
   innerTrackImg: String,
+
+  /**
+   * Color name for the inner track from the Quasar Color Palette
+   *
+   * @api prop inner-track-color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   * @added-in v2.4
+   */
   innerTrackColor: String,
+
+  /**
+   * Color name for the selection bar from the Quasar Color Palette
+   *
+   * @api prop selection-color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   * @added-in v2.4
+   */
   selectionColor: String,
+
+  /**
+   * Apply a pattern image on the selection bar
+   *
+   * @api prop selection-img
+   * @type {String}
+   * @category style
+   * @transform-asset-urls
+   * @added-in v2.4
+   * @example '~@/assets/my-pattern.png'
+   */
   selectionImg: String,
 
+  /**
+   * Thumb size (including CSS unit)
+   *
+   * @api prop thumb-size
+   * @type {String}
+   * @default '20px'
+   * @category style
+   * @added-in v2.4
+   * @example '20px'
+   */
   thumbSize: {
     type: String,
     default: '20px'
   },
+
+  /**
+   * Track size (including CSS unit)
+   *
+   * @api prop track-size
+   * @type {String}
+   * @default '4px'
+   * @category style
+   * @added-in v2.4
+   * @example '35px'
+   */
   trackSize: {
     type: String,
     default: '4px'
   },
 
+  /**
+   * Put component in disabled mode
+   *
+   * @api prop disable
+   * @type {Boolean}
+   * @category state
+   */
   disable: Boolean,
+
+  /**
+   * Put component in readonly mode
+   *
+   * @api prop readonly
+   * @type {Boolean}
+   * @category state
+   */
   readonly: Boolean,
+
+  /**
+   * Dense mode; occupies less space
+   *
+   * @api prop dense
+   * @type {Boolean}
+   * @category style
+   */
   dense: Boolean,
 
+  /**
+   * Tabindex HTML attribute value
+   *
+   * @api prop tabindex
+   * @type {String|Number}
+   * @category general
+   */
   tabindex: [String, Number],
 
+  /**
+   * Color name for the thumb from the Quasar Color Palette
+   *
+   * @api prop thumb-color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   * @added-in v2.4
+   */
   thumbColor: String,
+
+  /**
+   * Set custom thumb svg path
+   *
+   * @api prop thumb-path
+   * @type {String}
+   * @default 'M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0'
+   * @category style
+   * @example 'M5 5 h10 v10 h-10 v-10'
+   */
   thumbPath: {
     type: String,
     default: 'M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0'
   }
 }
 
+/**
+ * @api event change
+ * @extends update:model-value
+ * @desc Emitted on lazy model value change (after user slides then releases the thumb)
+ */
+/**
+ * @api event pan
+ * @desc Triggered when user starts panning on the component
+ * @param {'start'|'end'} phase Phase of panning
+ */
 export const useSliderEmits = ['pan', 'update:modelValue', 'change']
 
 export default function useSlider({

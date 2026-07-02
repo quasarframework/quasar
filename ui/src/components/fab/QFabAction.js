@@ -18,23 +18,68 @@ const anchorMap = {
 
 const anchorValues = Object.keys(anchorMap)
 
+/**
+ * Suggestion for this slot: QTooltip
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot for icon; Suggestion: QIcon
+ *
+ * @api slot icon
+ */
+
+/**
+ * Slot for label
+ *
+ * @api slot label
+ */
 export default createComponent({
   name: 'QFabAction',
 
   props: {
     ...useFabProps,
 
+    /**
+     * @api prop icon
+     * @extends icon
+     * @default ''
+     */
     icon: {
       type: String,
       default: ''
     },
 
+    /**
+     * How to align the Fab Action relative to Fab expand side; By default it uses the align specified in QFab
+     *
+     * @api prop anchor
+     * @type {String}
+     * @category style|content
+     */
     anchor: {
       type: String,
       validator: v => anchorValues.includes(v)
     },
 
+    /**
+     * Equivalent to Vue Router <router-link> 'to' property
+     *
+     * @api prop to
+     * @type {String|Object}
+     * @category router
+     * @example '/home/dashboard'
+     * @example { name: 'my-route-name' }
+     */
     to: [String, Object],
+    /**
+     * Equivalent to Vue Router <router-link> 'replace' property
+     *
+     * @api prop replace
+     * @type {Boolean}
+     * @category router
+     */
     replace: Boolean
   },
 
@@ -55,6 +100,12 @@ export default createComponent({
 
     const isDisabled = computed(() => props.disable || !$fab.showing.value)
 
+    /**
+     * Emulate click on QFabAction
+     *
+     * @api method click
+     * @param {Any} evt
+     */
     function click(e) {
       $fab.onChildClick(e)
       emit('click', e)

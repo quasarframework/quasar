@@ -4,29 +4,30 @@ import QIcon from '../icon/QIcon.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
-import useRouterLink, {
-  useRouterLinkProps
-} from '../../composables/private.use-router-link/use-router-link.js'
+import useBreadcrumbsEl, {
+  useBreadcrumbsElEmits,
+  useBreadcrumbsElProps
+} from './use-breadcrumbs-el.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/breadcrumbs
+ */
+/**
+ * This is where custom content goes, unless 'icon' and 'label' props are not enough
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QBreadcrumbsEl',
 
-  props: {
-    ...useRouterLinkProps,
+  props: useBreadcrumbsElProps,
 
-    label: String,
-    icon: String,
-
-    tag: {
-      type: String,
-      default: 'span'
-    }
-  },
-
-  emits: ['click'],
+  emits: useBreadcrumbsElEmits,
 
   setup(props, { slots }) {
-    const { linkTag, linkAttrs, linkClass, navigateOnClick } = useRouterLink()
+    const { linkTag, linkAttrs, linkClass, navigateOnClick } =
+      useBreadcrumbsEl()
 
     const data = computed(() => ({
       class:

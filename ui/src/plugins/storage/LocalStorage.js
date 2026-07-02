@@ -1,16 +1,3 @@
-import { client } from '../platform/Platform.js'
-import { getEmptyStorage, getStorage } from './engine/web-storage.js'
+import createWebStoragePlugin from './create-web-storage-plugin.js'
 
-const storage =
-  __QUASAR_SSR_SERVER__ || !client.has.webStorage
-    ? getEmptyStorage()
-    : getStorage('local')
-
-const Plugin = {
-  install({ $q }) {
-    $q.localStorage = storage
-  },
-  ...storage
-}
-
-export default Plugin
+export default createWebStoragePlugin('local', 'localStorage')

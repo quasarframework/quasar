@@ -1,54 +1,33 @@
-import { computed, getCurrentInstance, h } from 'vue'
-
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
+import { getCurrentInstance, h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-const separatorValues = ['horizontal', 'vertical', 'cell', 'none']
+import useMarkupTable, { useMarkupTableProps } from './use-markup-table.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/markup-table
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QMarkupTable',
 
-  props: {
-    ...useDarkProps,
-
-    dense: Boolean,
-    flat: Boolean,
-    bordered: Boolean,
-    square: Boolean,
-    wrapCells: Boolean,
-
-    separator: {
-      type: String,
-      default: 'horizontal',
-      validator: v => separatorValues.includes(v)
-    }
-  },
+  props: useMarkupTableProps,
 
   setup(props, { slots }) {
     const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
-
-    const classes = computed(
-      () =>
-        'q-markup-table q-table__container q-table__card' +
-        ` q-table--${props.separator}-separator` +
-        (isDark.value ? ' q-table--dark q-table__card--dark q-dark' : '') +
-        (props.dense ? ' q-table--dense' : '') +
-        (props.flat ? ' q-table--flat' : '') +
-        (props.bordered ? ' q-table--bordered' : '') +
-        (props.square ? ' q-table--square' : '') +
-        (props.wrapCells ? '' : ' q-table--no-wrap')
-    )
+    const table = useMarkupTable(props, vm.proxy.$q)
 
     return () =>
       h(
         'div',
         {
-          class: classes.value
+          class: table.classes.value
         },
         [h('table', { class: 'q-table' }, hSlot(slots.default))]
       )

@@ -37,6 +37,10 @@ function removeBodyChildrenNoPointerEvents() {
   document.body.classList.remove('no-pointer-events--children')
 }
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/touch-swipe
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'touch-swipe', getSSRProps }

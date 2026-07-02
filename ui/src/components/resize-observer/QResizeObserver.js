@@ -20,17 +20,41 @@ const resizeProps = hasObserver
       url: 'about:blank'
     }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/resize-observer
+ */
 export default createComponent({
   name: 'QResizeObserver',
 
   props: {
+    /**
+     * Debounce amount (in milliseconds)
+     *
+     * @api prop debounce
+     * @type {String|Number}
+     * @default 100
+     * @category behavior
+     * @example 0
+     * @example '530'
+     */
     debounce: {
       type: [String, Number],
       default: 100
     }
   },
 
-  emits: ['resize'],
+  emits: [
+    /**
+     * Parent element has resized (width or height changed)
+     *
+     * @api event resize
+     * @param {Object} size New size
+     * @definition height Layout height
+     * @definition width Layout width
+     */
+    'resize'
+  ],
 
   setup(props, { emit }) {
     if (__QUASAR_SSR_SERVER__) return noop
@@ -39,6 +63,13 @@ export default createComponent({
       targetEl,
       size = { width: -1, height: -1 }
 
+    /**
+     * Emit a 'resize' event
+     *
+     * @api method trigger
+     * @param {Boolean} immediately Skip over the debounce amount
+     * @returns {void}
+     */
     function trigger(immediately) {
       if (
         immediately === true ||

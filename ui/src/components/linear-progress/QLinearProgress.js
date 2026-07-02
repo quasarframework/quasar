@@ -26,6 +26,15 @@ function width(val, reverse, $q) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/linear-progress
+ */
+/**
+ * Suggestion: QTooltip
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QLinearProgress',
 
@@ -33,26 +42,108 @@ export default createComponent({
     ...useDarkProps,
     ...useSizeProps,
 
+    /**
+     * Progress value (0.0 < x < 1.0)
+     *
+     * @api prop value
+     * @type {Number}
+     * @default 0
+     * @category model
+     */
     value: {
       type: Number,
       default: 0
     },
+
+    /**
+     * Optional buffer value (0.0 < x < 1.0)
+     *
+     * @api prop buffer
+     * @type {Number}
+     * @category behavior
+     */
     buffer: Number,
 
+    /**
+     * Color name for component from the Quasar Color Palette
+     *
+     * @api prop color
+     * @extends color
+     */
     color: String,
+
+    /**
+     * Color name for component's track from the Quasar Color Palette
+     *
+     * @api prop track-color
+     * @extends color
+     */
     trackColor: String,
 
+    /**
+     * Reverse direction of progress
+     *
+     * @api prop reverse
+     * @type {Boolean}
+     * @category behavior
+     */
     reverse: Boolean,
+
+    /**
+     * Draw stripes; For determinate state only (for performance reasons)
+     *
+     * @api prop stripe
+     * @type {Boolean}
+     * @category content
+     */
     stripe: Boolean,
+
+    /**
+     * Put component into indeterminate mode
+     *
+     * @api prop indeterminate
+     * @type {Boolean}
+     * @category behavior
+     */
     indeterminate: Boolean,
+
+    /**
+     * Put component into query mode
+     *
+     * @api prop query
+     * @type {Boolean}
+     * @category behavior
+     */
     query: Boolean,
+
+    /**
+     * Applies a small standard border-radius for a squared shape of the component
+     *
+     * @api prop rounded
+     * @extends rounded
+     */
     rounded: Boolean,
 
+    /**
+     * Animation speed, in milliseconds
+     *
+     * @api prop animation-speed
+     * @extends animation-speed
+     * @default 2100
+     * @addedIn v2.3
+     */
     animationSpeed: {
       type: [String, Number],
       default: 2100
     },
 
+    /**
+     * No transition when model changes
+     *
+     * @api prop instant-feedback
+     * @type {Boolean}
+     * @category behavior
+     */
     instantFeedback: Boolean
   },
 

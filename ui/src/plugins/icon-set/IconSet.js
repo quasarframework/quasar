@@ -11,6 +11,13 @@ const Plugin = createReactivePlugin(
   {
     // props: object
 
+    /**
+     * Set another Quasar Icon Set
+     *
+     * @api method set
+     * @param {Object} setObject Usually imported directly from quasar/icon-set/<icon-set-name>
+     * @param {Object} [ssrContext] SSR context; required on server
+     */
     set(setObject, ssrContext) {
       const def = { ...setObject }
 
@@ -79,4 +86,8 @@ const Plugin = createReactivePlugin(
   }
 )
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/options/quasar-icon-sets
+ */
 export default Plugin

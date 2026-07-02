@@ -21,34 +21,194 @@ export const useCheckboxProps = {
   ...useSizeProps,
   ...useFormProps,
 
+  /**
+   * Model of the component; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive
+   *
+   * @api prop model-value
+   * @type {Any|Array}
+   * @default null
+   * @category model
+   * @required
+   * @syncable
+   * @example false
+   * @example ['car', 'building']
+   */
   modelValue: {
     required: true,
     default: null
   },
+
+  /**
+   * Works when model ('value') is Array. It tells the component which value should add/remove when ticked/unticked
+   *
+   * @api prop val
+   * @type {Any}
+   * @category model
+   * @example 'car'
+   */
   val: {},
 
+  /**
+   * What model value should be considered as checked/ticked/on?
+   *
+   * @api prop true-value
+   * @type {Any}
+   * @default true
+   * @category model
+   * @optional
+   * @example 'Agreed'
+   */
   trueValue: { default: true },
+
+  /**
+   * What model value should be considered as unchecked/unticked/off?
+   *
+   * @api prop false-value
+   * @type {Any}
+   * @default false
+   * @category model
+   * @optional
+   * @example 'Disagree'
+   */
   falseValue: { default: false },
+
+  /**
+   * What model value should be considered as 'indeterminate'?
+   *
+   * @api prop indeterminate-value
+   * @type {Any}
+   * @default null
+   * @category model
+   * @optional
+   * @example 0
+   * @example 'not_answered'
+   */
   indeterminateValue: { default: null },
 
+  /**
+   * The icon to be used when the model is truthy (instead of the default design)
+   *
+   * @api prop checked-icon
+   * @type {String}
+   * @category icons
+   * @added-in v2.5
+   * @example 'visibility'
+   */
   checkedIcon: String,
+
+  /**
+   * The icon to be used when the toggle is falsy (instead of the default design)
+   *
+   * @api prop unchecked-icon
+   * @type {String}
+   * @category icons
+   * @added-in v2.5
+   * @example 'visibility_off'
+   */
   uncheckedIcon: String,
+
+  /**
+   * The icon to be used when the model is indeterminate (instead of the default design)
+   *
+   * @api prop indeterminate-icon
+   * @type {String}
+   * @category icons
+   * @added-in v2.5
+   * @example 'help'
+   */
   indeterminateIcon: String,
 
+  /**
+   * Determines toggle order of the two states ('t' stands for state of true, 'f' for state of false); If 'toggle-indeterminate' is true, then the order is: indet -> first state -> second state -> indet (and repeat), otherwise: indet -> first state -> second state -> first state -> second state -> ...
+   *
+   * @api prop toggle-order
+   * @type {String}
+   * @category behavior
+   * @value 'tf'
+   * @value 'ft'
+   */
   toggleOrder: {
     type: String,
     validator: v => v === 'tf' || v === 'ft'
   },
+
+  /**
+   * When user clicks/taps on the component, should we toggle through the indeterminate state too?
+   *
+   * @api prop toggle-indeterminate
+   * @type {Boolean}
+   * @category behavior
+   */
   toggleIndeterminate: Boolean,
 
+  /**
+   * Label to display along the component (or use the default slot instead of this prop)
+   *
+   * @api prop label
+   * @type {String}
+   * @category label
+   * @example 'I agree with the Terms and Conditions'
+   */
   label: String,
+
+  /**
+   * Label (if any specified) should be displayed on the left side of the component
+   *
+   * @api prop left-label
+   * @type {Boolean}
+   * @category label
+   */
   leftLabel: Boolean,
 
+  /**
+   * Color name for component from the Quasar Color Palette
+   *
+   * @api prop color
+   * @type {String}
+   * @ts-type NamedColor
+   * @category style
+   * @example 'primary'
+   * @example 'teal'
+   * @example 'teal-10'
+   */
   color: String,
+
+  /**
+   * Should the color (if specified any) be kept when the component is unticked/ off?
+   *
+   * @api prop keep-color
+   * @type {Boolean}
+   * @category behavior
+   */
   keepColor: Boolean,
+
+  /**
+   * Dense mode; occupies less space
+   *
+   * @api prop dense
+   * @type {Boolean}
+   * @category style
+   */
   dense: Boolean,
 
+  /**
+   * Put component in disabled mode
+   *
+   * @api prop disable
+   * @type {Boolean}
+   * @category state
+   */
   disable: Boolean,
+
+  /**
+   * Tabindex HTML attribute value
+   *
+   * @api prop tabindex
+   * @type {String|Number}
+   * @category general
+   * @example 100
+   * @example '0'
+   */
   tabindex: [String, Number]
 }
 

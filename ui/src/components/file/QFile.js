@@ -28,6 +28,86 @@ function onKeydown(e) {
   if (e.keyCode === 13) prevent(e)
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/file
+ */
+/**
+ * Field main content
+ *
+ * @api slot default
+ */
+
+/**
+ * Prepend inner field; Suggestions: QIcon, QBtn
+ *
+ * @api slot prepend
+ */
+
+/**
+ * Append to inner field; Suggestions: QIcon, QBtn
+ *
+ * @api slot append
+ */
+
+/**
+ * Prepend outer field; Suggestions: QIcon, QBtn
+ *
+ * @api slot before
+ */
+
+/**
+ * Append outer field; Suggestions: QIcon, QBtn
+ *
+ * @api slot after
+ */
+
+/**
+ * Slot for label; Used only if 'label-slot' prop is set or the 'label' prop is set; When it is used the text in the 'label' prop is ignored
+ *
+ * @api slot label
+ */
+
+/**
+ * Slot for errors; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot error
+ */
+
+/**
+ * Slot for hint text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot hint
+ */
+
+/**
+ * Slot for counter text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot counter
+ */
+
+/**
+ * Override default spinner when component is in loading mode; Use in conjunction with 'loading' prop
+ *
+ * @api slot loading
+ */
+
+/**
+ * Override default node to render a file from the user picked list
+ *
+ * @api slot file
+ * @scope index {Number} Selection index
+ * @scope file {File} File object
+ * @scope ref {Component} Reference to the QFile component
+ */
+
+/**
+ * Override default selection slot; Suggestion: QChip
+ *
+ * @api slot selected
+ * @scope files {Array} Array of File objects
+ * @scope ref {Component} Reference to the QFile component
+ */
 export default createComponent({
   name: 'QFile',
 
@@ -39,20 +119,83 @@ export default createComponent({
     ...useFileProps,
 
     /* SSR does not know about File & FileList */
+    /**
+     * Model of the component; Must be FileList or Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="myModel"
+     */
     modelValue: __QUASAR_SSR_SERVER__ ? {} : [File, FileList, Array],
 
+    /**
+     * Append file(s) to current model rather than replacing them; Has effect only when using 'multiple' mode
+     *
+     * @api prop append
+     * @type {Boolean}
+     * @category behavior
+     */
     append: Boolean,
+    /**
+     * Use QChip to show picked files
+     *
+     * @api prop use-chips
+     * @type {Boolean}
+     * @category selection
+     */
     useChips: Boolean,
+    /**
+     * Override default selection string, if not using 'file' or 'selected' scoped slots and if not using 'use-chips' prop
+     *
+     * @api prop display-value
+     * @type {Number|String}
+     * @category selection
+     * @example 'Options: x, y, z'
+     */
     displayValue: [String, Number],
 
+    /**
+     * @api prop tabindex
+     * @extends tabindex
+     * @default 0
+     */
     tabindex: {
       type: [String, Number],
       default: 0
     },
 
+    /**
+     * Label for the counter; The 'counter' prop is necessary to enable this one
+     *
+     * @api prop counter-label
+     * @type {Function}
+     * @category behavior
+     * @example (totalSize, filesNumber, maxFiles) => `${ filesNumber }${ maxFiles !== void 0 ? ' / ' + maxFiles : '' } (${ totalSize })`
+     */
     counterLabel: Function,
 
+    /**
+     * Class definitions to be attributed to the underlying selection container
+     *
+     * @api prop input-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     inputClass: [Array, String, Object],
+    /**
+     * Style definitions to be attributed to the underlying selection container
+     *
+     * @api prop input-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     inputStyle: [Array, String, Object]
   },
 
@@ -121,12 +264,24 @@ export default createComponent({
 
     const isAppending = computed(() => props.multiple && props.append)
 
+    /**
+     * Remove file located at specific index in the model
+     *
+     * @api method removeAtIndex
+     * @param {Number} index Index at which to remove selection
+     */
     function removeAtIndex(index) {
       const files = [...innerValue.value]
       files.splice(index, 1)
       emitValue(files)
     }
 
+    /**
+     * Remove specified file from the model
+     *
+     * @api method removeFile
+     * @param {File} file File to remove (instance of File)
+     */
     function removeFile(file) {
       const index = innerValue.value.indexOf(file)
       if (index !== -1) {
@@ -298,6 +453,12 @@ export default createComponent({
     Object.assign(proxy, {
       removeAtIndex,
       removeFile,
+      /**
+       * DEPRECATED; Access 'nativeEl' directly; Gets the native input DOM Element
+       *
+       * @api method getNativeElement
+       * @returns {Element} The underlying native input DOM Element
+       */
       getNativeElement: () => inputRef.value // deprecated
     })
 

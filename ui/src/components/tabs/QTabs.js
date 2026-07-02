@@ -39,44 +39,198 @@ function hasQueryIncluded(targetQuery, matchingQuery) {
 
 const alignValues = ['left', 'center', 'right', 'justify']
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/tabs
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QTabs',
 
   props: {
+    /**
+     * Model of the component defining current panel name; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="selectedTab"
+     */
     modelValue: [Number, String],
 
+    /**
+     * Horizontal alignment the tabs within the tabs container
+     *
+     * @api prop align
+     * @type {String}
+     * @default 'center'
+     * @category content
+     */
     align: {
       type: String,
       default: 'center',
       validator: v => alignValues.includes(v)
     },
+    /**
+     * Breakpoint (in pixels) of tabs container width at which the tabs automatically turn to a justify alignment
+     *
+     * @api prop breakpoint
+     * @type {Number|String}
+     * @default 600
+     * @category content|behavior
+     */
     breakpoint: {
       type: [String, Number],
       default: 600
     },
 
+    /**
+     * Use vertical design (tabs one on top of each other rather than one next to the other horizontally)
+     *
+     * @api prop vertical
+     * @type {Boolean}
+     * @category content
+     */
     vertical: Boolean,
+    /**
+     * By default, QTabs is set to grow to the available space; However, you can reverse that with this prop; Useful (and required) when placing the component in a QToolbar
+     *
+     * @api prop shrink
+     * @type {Boolean}
+     * @category content
+     */
     shrink: Boolean,
+    /**
+     * When used on flexbox parent, tabs will stretch to parent's height
+     *
+     * @api prop stretch
+     * @type {Boolean}
+     * @category content
+     */
     stretch: Boolean,
 
+    /**
+     * The class to be set on the active tab
+     *
+     * @api prop active-class
+     * @type {String}
+     * @category style
+     * @added-in v2.1.4
+     * @example 'my-active-class'
+     */
     activeClass: String,
+    /**
+     * The color to be attributed to the text of the active tab
+     *
+     * @api prop active-color
+     * @extends color
+     * @category style
+     */
     activeColor: String,
+    /**
+     * The color to be attributed to the background of the active tab
+     *
+     * @api prop active-bg-color
+     * @extends color
+     * @category style
+     */
     activeBgColor: String,
+    /**
+     * The color to be attributed to the indicator (the underline) of the active tab
+     *
+     * @api prop indicator-color
+     * @extends color
+     * @category style
+     */
     indicatorColor: String,
+    /**
+     * The name of an icon to replace the default arrow used to scroll through the tabs to the left, when the tabs extend past the width of the tabs container
+     *
+     * @api prop left-icon
+     * @type {String}
+     * @category content
+     * @example 'arrow_left'
+     */
     leftIcon: String,
+    /**
+     * The name of an icon to replace the default arrow used to scroll through the tabs to the right, when the tabs extend past the width of the tabs container
+     *
+     * @api prop right-icon
+     * @type {String}
+     * @category content
+     * @example 'arrow_right'
+     */
     rightIcon: String,
 
+    /**
+     * Reserve space for arrows to place them on each side of the tabs (the arrows fade when inactive)
+     *
+     * @api prop outside-arrows
+     * @type {Boolean}
+     * @category content
+     */
     outsideArrows: Boolean,
+    /**
+     * Force display of arrows (if needed) on mobile
+     *
+     * @api prop mobile-arrows
+     * @type {Boolean}
+     * @category content
+     */
     mobileArrows: Boolean,
 
+    /**
+     * Switches the indicator position (on left of tab for vertical mode or above the tab for default horizontal mode)
+     *
+     * @api prop switch-indicator
+     * @type {Boolean}
+     * @category content
+     */
     switchIndicator: Boolean,
 
+    /**
+     * Allows the indicator to be the same width as the tab's content (text or icon), instead of the whole width of the tab
+     *
+     * @api prop narrow-indicator
+     * @type {Boolean}
+     * @category content
+     */
     narrowIndicator: Boolean,
+    /**
+     * Allows the text to be inline with the icon, should one be used
+     *
+     * @api prop inline-label
+     * @type {Boolean}
+     * @category content
+     */
     inlineLabel: Boolean,
+    /**
+     * Turns off capitalizing all letters within the tab (which is the default)
+     *
+     * @api prop no-caps
+     * @type {Boolean}
+     * @category content
+     */
     noCaps: Boolean,
 
+    /**
+     * @api prop dense
+     * @extends dense
+     */
     dense: Boolean,
 
+    /**
+     * Class definitions to be attributed to the content wrapper
+     *
+     * @api prop content-class
+     * @type {String}
+     * @category style
+     * @example 'my-special-class'
+     */
     contentClass: String,
 
     'onUpdate:modelValue': [Function, Array]

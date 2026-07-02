@@ -12,22 +12,60 @@ import { listenOpts, noop } from '../../utils/event/event.js'
 const { passive } = listenOpts
 const axisValues = ['both', 'horizontal', 'vertical']
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/scroll-observer
+ */
 export default createComponent({
   name: 'QScrollObserver',
 
   props: {
+    /**
+     * Axis on which to detect changes
+     *
+     * @api prop axis
+     * @type {String}
+     * @default 'vertical'
+     * @category behavior
+     * @value 'both'
+     * @value 'vertical'
+     * @value 'horizontal'
+     */
     axis: {
       type: String,
       validator: v => axisValues.includes(v),
       default: 'vertical'
     },
 
+    /**
+     * Debounce amount (in milliseconds)
+     *
+     * @api prop debounce
+     * @type {String|Number}
+     * @category behavior
+     * @example 0
+     * @example '530'
+     */
     debounce: [String, Number],
 
+    /**
+     * CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one
+     *
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp
   },
 
-  emits: ['scroll'],
+  emits: [
+    /**
+     * Emitted when scroll position changes
+     *
+     * @api event scroll
+     * @param {Object} details Scroll details
+     */
+    'scroll'
+  ],
 
   setup(props, { emit }) {
     const scroll = {
@@ -114,6 +152,13 @@ export default createComponent({
       }
     }
 
+    /**
+     * Emit a 'scroll' event
+     *
+     * @api method trigger
+     * @param {Boolean} immediately Skip over the debounce amount
+     * @returns {void}
+     */
     function trigger(immediately) {
       if (
         immediately === true ||
@@ -150,6 +195,13 @@ export default createComponent({
     // expose public methods
     Object.assign(proxy, {
       trigger,
+
+      /**
+       * Get current scroll details under the form of an Object: { position, direction, directionChanged, inflectionPoint }
+       *
+       * @api method getPosition
+       * @returns {Object}
+       */
       getPosition: () => scroll
     })
 

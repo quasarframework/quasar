@@ -259,6 +259,10 @@ export function planClientUpdate() {
   updateId = setTimeout(updateClientMeta, 50)
 }
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/quasar-plugins/meta
+ */
 export default {
   install(opts) {
     if (__QUASAR_SSR_SERVER__) {

@@ -60,6 +60,10 @@ function destroy(el) {
   }
 }
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/intersection
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'intersection', getSSRProps }

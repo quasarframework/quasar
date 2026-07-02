@@ -5,11 +5,35 @@ import QIcon from '../icon/QIcon.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/table
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QTh',
 
   props: {
+    /**
+     * QTable's header column scoped slot property
+     *
+     * @api prop props
+     * @type {Object}
+     * @category general
+     * @example # :props="props"
+     */
     props: Object,
+    /**
+     * Tries to shrink header column width size; Useful for columns with a checkbox/radio/toggle
+     *
+     * @api prop auto-width
+     * @type {Boolean}
+     * @category content
+     */
     autoWidth: Boolean
   },
 

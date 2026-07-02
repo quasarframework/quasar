@@ -22,63 +22,293 @@ import useTimeout from '../../composables/use-timeout/use-timeout.js'
 
 const defaultRatio = 1.7778 /* 16/9 */
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/img
+ */
+/**
+ * Default slot can be used for captions. See examples
+ *
+ * @api slot default
+ */
+
+/**
+ * While image is loading, this slot is being displayed on top of the component; Suggestions: a spinner or text
+ *
+ * @api slot loading
+ */
+
+/**
+ * Optional slot to be used when image could not be loaded; make sure you assign a min-height and min-width to the component through CSS
+ *
+ * @api slot error
+ */
 export default createComponent({
   name: 'QImg',
 
   props: {
     ...useRatioProps,
 
+    /**
+     * Path to image
+     *
+     * @api prop src
+     * @type {String}
+     * @category model
+     * @example # (public folder) src="img/something.png"
+     * @example # (assets folder) src="~@/assets/my-img.gif"
+     * @example # (relative path format) :src="require('./my_img.jpg')"
+     */
     src: String,
+    /**
+     * Same syntax as <img> srcset attribute
+     *
+     * @api prop srcset
+     * @type {String}
+     * @category model
+     * @example 'elva-fairy-320w.jpg 320w, elva-fairy-480w.jpg 480w'
+     */
     srcset: String,
+    /**
+     * Same syntax as <img> sizes attribute
+     *
+     * @api prop sizes
+     * @type {String}
+     * @category model
+     * @example '(max-width: 320px) 280px, (max-width: 480px) 440px, 800px'
+     */
     sizes: String,
 
+    /**
+     * Specifies an alternate text for the image, if the image cannot be displayed
+     *
+     * @api prop alt
+     * @type {String}
+     * @category miscellaneous
+     * @example 'Two cats'
+     */
     alt: String,
+    /**
+     * Same syntax as <img> crossorigin attribute
+     *
+     * @api prop crossorigin
+     * @type {String}
+     * @category behavior
+     */
     crossorigin: String,
+    /**
+     * Same syntax as <img> decoding attribute
+     *
+     * @api prop decoding
+     * @type {String}
+     * @category behavior
+     */
     decoding: String,
+    /**
+     * Same syntax as <img> referrerpolicy attribute
+     *
+     * @api prop referrerpolicy
+     * @type {String}
+     * @category behavior
+     */
     referrerpolicy: String,
 
+    /**
+     * Adds the native 'draggable' attribute
+     *
+     * @api prop draggable
+     * @type {Boolean}
+     * @category miscellaneous
+     */
     draggable: Boolean,
 
+    /**
+     * Lazy or immediate load; Same syntax as <img> loading attribute
+     *
+     * @api prop loading
+     * @type {String}
+     * @default 'lazy'
+     * @category behavior
+     */
     loading: {
       type: String,
       default: 'lazy'
     },
+    /**
+     * Delay showing the spinner when image changes; Gives time for the browser to load the image from cache to prevent flashing the spinner unnecessarily; Value should represent milliseconds
+     *
+     * @api prop loading-show-delay
+     * @type {Number|String}
+     * @default 0
+     * @category behavior
+     * @added-in v2.14.6
+     * @example 500
+     * @example '700'
+     */
     loadingShowDelay: {
       type: [Number, String],
       default: 0
     },
 
+    /**
+     * Provides a hint of the relative priority to use when fetching the image
+     *
+     * @api prop fetchpriority
+     * @type {String}
+     * @default 'auto'
+     * @category behavior
+     * @added-in v2.6.6
+     */
     fetchpriority: {
       type: String,
       default: 'auto'
     },
+    /**
+     * Forces image width; Must also include the unit (px or %)
+     *
+     * @api prop width
+     * @type {String}
+     * @category style
+     * @example '280px'
+     * @example '70%'
+     */
     width: String,
+    /**
+     * Forces image height; Must also include the unit (px or %)
+     *
+     * @api prop height
+     * @type {String}
+     * @category style
+     * @example '280px'
+     * @example '70%'
+     */
     height: String,
+    /**
+     * Use it when not specifying 'ratio' but still wanting an initial aspect ratio
+     *
+     * @api prop initial-ratio
+     * @type {String|Number}
+     * @default 1.7778
+     * @category style
+     * @example # (Number format) :initial-ratio="16/9"
+     * @example # (String format) initial-ratio="1"
+     */
     initialRatio: {
       type: [Number, String],
       default: defaultRatio
     },
 
+    /**
+     * While waiting for your image to load, you can use a placeholder image
+     *
+     * @api prop placeholder-src
+     * @type {String}
+     * @category model
+     * @example # (public folder) placeholder-src="img/some-placeholder.png"
+     * @example # (assets folder) placeholder-src="~@/assets/my-placeholder.gif"
+     * @example # (relative path format) :placeholder-src="require('./placeholder.jpg')"
+     */
     placeholderSrc: String,
+    /**
+     * In case your image fails to load, you can use an error image
+     *
+     * @api prop error-src
+     * @type {String}
+     * @category model
+     * @added-in v2.15
+     * @example # (public folder) error-src="img/some-placeholder.png"
+     * @example # (assets folder) error-src="~@/assets/my-placeholder.gif"
+     * @example # (relative path format) :error-src="require('./placeholder.jpg')"
+     */
     errorSrc: String,
 
+    /**
+     * How the image will fit into the container; Equivalent of the object-fit prop; Can be coordinated with 'position' prop
+     *
+     * @api prop fit
+     * @type {String}
+     * @default 'cover'
+     * @category style
+     */
     fit: {
       type: String,
       default: 'cover'
     },
+    /**
+     * The alignment of the image into the container; Equivalent of the object-position CSS prop
+     *
+     * @api prop position
+     * @type {String}
+     * @default '50% 50%'
+     * @category style
+     * @example '0 0'
+     * @example '20px 50px'
+     */
     position: {
       type: String,
       default: '50% 50%'
     },
 
+    /**
+     * CSS classes to be attributed to the native img element
+     *
+     * @api prop img-class
+     * @type {String}
+     * @category style
+     * @example 'my-special-class'
+     */
     imgClass: String,
+    /**
+     * Apply CSS to the native img element
+     *
+     * @api prop img-style
+     * @type {Object}
+     * @ts-type VueStyleObjectProp
+     * @category style
+     * @example { transform: 'rotate(45deg)' }
+     */
     imgStyle: Object,
 
+    /**
+     * Do not display the default spinner while waiting for the image to be loaded; It is overriden by the 'loading' slot when one is present
+     *
+     * @api prop no-spinner
+     * @type {Boolean}
+     * @category behavior
+     */
     noSpinner: Boolean,
+    /**
+     * Disables the native context menu for the image
+     *
+     * @api prop no-native-menu
+     * @type {Boolean}
+     * @category behavior
+     */
     noNativeMenu: Boolean,
+    /**
+     * Disable default transition when switching between old and new image
+     *
+     * @api prop no-transition
+     * @type {Boolean}
+     * @category behavior
+     */
     noTransition: Boolean,
 
+    /**
+     * Color name for default Spinner (unless using a 'loading' slot)
+     *
+     * @api prop spinner-color
+     * @extends color
+     * @category style
+     */
     spinnerColor: String,
+    /**
+     * Size in CSS units, including unit name, for default Spinner (unless using a 'loading' slot)
+     *
+     * @api prop spinner-size
+     * @extends size
+     * @category style
+     */
     spinnerSize: String
   },
 

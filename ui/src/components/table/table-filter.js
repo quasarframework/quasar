@@ -1,7 +1,23 @@
 import { computed, nextTick, watch } from 'vue'
 
 export const useTableFilterProps = {
+  /**
+   * Filter String/Object
+   *
+   * @api prop filter
+   * @type {String|Object}
+   * @category filtering
+   * @example 'car'
+   */
   filter: [String, Object],
+
+  /**
+   * The actual filtering mechanism; For best performance, reference it from your scope and do not define it inline
+   *
+   * @api prop filter-method
+   * @type {Function}
+   * @category filtering
+   */
   filterMethod: Function
 }
 

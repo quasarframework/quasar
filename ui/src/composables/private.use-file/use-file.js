@@ -26,16 +26,86 @@ function stopAndPreventDrag(e) {
 }
 
 export const useFileProps = {
+  /**
+   * Allow multiple file uploads
+   *
+   * @api prop multiple
+   * @type {Boolean}
+   * @category behavior
+   */
   multiple: Boolean,
+
+  /**
+   * Comma separated list of unique file type specifiers
+   *
+   * @api prop accept
+   * @type {String}
+   * @category behavior
+   * @example '.jpg, .pdf, image/*'
+   * @example 'image/jpeg, .pdf'
+   */
   accept: String,
+
+  /**
+   * Specify that a new file should be captured, and which device should be used
+   *
+   * @api prop capture
+   * @type {String}
+   * @category behavior
+   * @value 'user'
+   * @value 'environment'
+   */
   capture: String,
+
+  /**
+   * Maximum size of individual file in bytes
+   *
+   * @api prop max-file-size
+   * @type {Number|String}
+   * @category behavior
+   * @example 1024
+   * @example '1048576'
+   */
   maxFileSize: [Number, String],
+
+  /**
+   * Maximum size of all files combined in bytes
+   *
+   * @api prop max-total-size
+   * @type {Number|String}
+   * @category behavior
+   */
   maxTotalSize: [Number, String],
+
+  /**
+   * Maximum number of files to contain
+   *
+   * @api prop max-files
+   * @type {Number|String}
+   * @category behavior
+   */
   maxFiles: [Number, String],
+
+  /**
+   * Custom filter for added files
+   *
+   * @api prop filter
+   * @type {Function}
+   * @category behavior
+   * @example files => files.filter(file => file.size === 1024)
+   */
   filter: Function
 }
 
-export const useFileEmits = ['rejected']
+export const useFileEmits = [
+  /**
+   * Emitted after files are picked and some do not pass the validation props
+   *
+   * @api event rejected
+   * @param {Array} rejectedEntries Array of rejected file entries
+   */
+  'rejected'
+]
 
 export default function useFile({
   editable,
@@ -68,6 +138,12 @@ export default function useFile({
     Number.parseInt(props.maxTotalSize, 10)
   )
 
+  /**
+   * Trigger file pick; Must be called as a direct consequence of user interaction
+   *
+   * @api method pickFiles
+   * @param {Event} evt JS event object
+   */
   function pickFiles(e) {
     if (editable.value) {
       if (e !== Object(e)) {
@@ -84,6 +160,12 @@ export default function useFile({
     }
   }
 
+  /**
+   * Add files programmatically
+   *
+   * @api method addFiles
+   * @param {Array|FileList} files Array of files or FileList
+   */
   function addFiles(files) {
     if (editable.value && files) {
       addFilesToQueue(null, files)

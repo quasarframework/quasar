@@ -53,6 +53,15 @@ import {
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/menu
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QMenu',
 
@@ -64,40 +73,161 @@ export default createComponent({
     ...useDarkProps,
     ...useTransitionProps,
 
+    /**
+     * Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it
+     *
+     * @api prop persistent
+     * @type {Boolean}
+     * @category behavior
+     */
     persistent: Boolean,
+    /**
+     * Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap
+     *
+     * @api prop auto-close
+     * @type {Boolean}
+     * @category behavior
+     */
     autoClose: Boolean,
+    /**
+     * Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)
+     *
+     * @api prop separate-close-popup
+     * @type {Boolean}
+     * @category behavior
+     */
     separateClosePopup: Boolean,
+    /**
+     * User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-esc-dismiss
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.18
+     */
     noEscDismiss: Boolean,
+    /**
+     * Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-route-dismiss
+     * @type {Boolean}
+     * @category behavior
+     */
     noRouteDismiss: Boolean,
+    /**
+     * (Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus
+     *
+     * @api prop no-refocus
+     * @type {Boolean}
+     * @category behavior
+     */
     noRefocus: Boolean,
+    /**
+     * (Accessibility) When Menu gets shown, do not switch focus on it
+     *
+     * @api prop no-focus
+     * @type {Boolean}
+     * @category behavior
+     */
     noFocus: Boolean,
 
+    /**
+     * Allows the menu to match at least the full width of its target
+     *
+     * @api prop fit
+     * @type {Boolean}
+     * @category position
+     */
     fit: Boolean,
+    /**
+     * Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective
+     *
+     * @api prop cover
+     * @type {Boolean}
+     * @category position
+     */
     cover: Boolean,
 
+    /**
+     * Forces content to have squared borders
+     *
+     * @api prop square
+     * @type {Boolean}
+     * @category style
+     */
     square: Boolean,
 
+    /**
+     * Two values setting the starting position or anchor point of the menu relative to its target
+     *
+     * @api prop anchor
+     * @type {String}
+     * @category position
+     */
     anchor: {
       type: String,
       validator: validatePosition
     },
+    /**
+     * Two values setting the menu's own position relative to its target
+     *
+     * @api prop self
+     * @type {String}
+     * @category position
+     */
     self: {
       type: String,
       validator: validatePosition
     },
+    /**
+     * An array of two numbers to offset the menu horizontally and vertically in pixels
+     *
+     * @api prop offset
+     * @type {Array}
+     * @category position
+     * @example [8, 8]
+     * @example [5, 10]
+     */
     offset: {
       type: Array,
       validator: validateOffset
     },
 
+    /**
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp,
 
+    /**
+     * Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched
+     *
+     * @api prop touch-position
+     * @type {Boolean}
+     * @category behavior
+     */
     touchPosition: Boolean,
 
+    /**
+     * The maximum height of the menu; Size in CSS units, including unit name
+     *
+     * @api prop max-height
+     * @extends size
+     * @default null
+     * @category style
+     */
     maxHeight: {
       type: String,
       default: null
     },
+    /**
+     * The maximum width of the menu; Size in CSS units, including unit name
+     *
+     * @api prop max-width
+     * @extends size
+     * @default null
+     * @category style
+     */
     maxWidth: {
       type: String,
       default: null
@@ -204,6 +334,11 @@ export default createComponent({
       }
     })
 
+    /**
+     * Focus menu; if you have content with autofocus attribute, it will directly focus it
+     *
+     * @api method focus
+     */
     function focus() {
       addFocusFn(() => {
         let node = innerRef.value
@@ -372,6 +507,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * There are some custom scenarios for which Quasar cannot automatically reposition the menu without significant performance drawbacks so the optimal solution is for you to call this method when you need it
+     *
+     * @api method updatePosition
+     */
     function updatePosition() {
       setPosition({
         targetEl: innerRef.value,

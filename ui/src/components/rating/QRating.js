@@ -16,6 +16,15 @@ import { stopAndPrevent } from '../../utils/event/event.js'
 import { between } from '../../utils/format/format.js'
 import { hMergeSlot } from '../../utils/private.render/render.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/rating
+ */
+/**
+ * Slot to define the tooltip of icon at '[name]' where name is a 1-based index; Suggestion: QTooltip
+ *
+ * @api slot tip-[name]
+ */
 export default createComponent({
   name: 'QRating',
 
@@ -23,30 +32,127 @@ export default createComponent({
     ...useSizeProps,
     ...useFormProps,
 
+    /**
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="rating"
+     * @example # :model-value="rating"
+     * @example # :model-value="2"
+     */
     modelValue: {
       type: Number,
       required: true
     },
 
+    /**
+     * Number of icons to display
+     *
+     * @api prop max
+     * @type {Number|String}
+     * @default 5
+     * @category general
+     */
     max: {
       type: [String, Number],
       default: 5
     },
 
+    /**
+     * Icon name following Quasar convention; make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)
+     *
+     * @api prop icon
+     * @type {String|Array}
+     * @category content
+     * @example 'map'
+     * @example 'ion-add'
+     * @example 'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'
+     */
     icon: [String, Array],
+    /**
+     * Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)
+     *
+     * @api prop icon-half
+     * @type {String|Array}
+     * @category content
+     * @example 'map'
+     * @example 'ion-add'
+     * @example 'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'
+     */
     iconHalf: [String, Array],
+    /**
+     * Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)
+     *
+     * @api prop icon-selected
+     * @type {String|Array}
+     * @category content
+     * @example 'map'
+     * @example 'ion-add'
+     * @example 'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'
+     */
     iconSelected: [String, Array],
 
+    /**
+     * Label to be set on aria-label for Icon; If an array is provided each rating value will use the corresponding aria-label in the array (0 based); If string value is provided the rating value will be appended; If not provided the name of the icon will be used
+     *
+     * @api prop icon-aria-label
+     * @type {String|Array}
+     * @category accessibility
+     * @added-in v1.20.3
+     * @example 'Rating'
+     * @example ['Bad', 'Normal', 'Good']
+     */
     iconAriaLabel: [String, Array],
 
+    /**
+     * Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)
+     *
+     * @api prop color
+     * @extends color
+     * @example ['accent', 'grey-7']
+     */
     color: [String, Array],
+    /**
+     * Color name from the Quasar Palette for half selected icons
+     *
+     * @api prop color-half
+     * @extends color
+     */
     colorHalf: [String, Array],
+    /**
+     * Color name from the Quasar Palette for selected icons
+     *
+     * @api prop color-selected
+     * @extends color
+     */
     colorSelected: [String, Array],
 
+    /**
+     * When used, disables default behavior of clicking/tapping on icon which represents current model value to reset model to 0
+     *
+     * @api prop no-reset
+     * @type {Boolean}
+     * @category model
+     */
     noReset: Boolean,
+    /**
+     * Does not lower opacity for unselected icons
+     *
+     * @api prop no-dimming
+     * @type {Boolean}
+     * @category style
+     */
     noDimming: Boolean,
 
+    /**
+     * @api prop readonly
+     * @extends readonly
+     */
     readonly: Boolean,
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean
   },
 

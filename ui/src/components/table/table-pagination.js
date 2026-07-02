@@ -20,12 +20,35 @@ function fixPagination(p) {
 }
 
 export const useTablePaginationProps = {
+  /**
+   * Pagination object; When not using the .sync modifier, it simply initializes the pagination on first render
+   *
+   * @api prop pagination
+   * @type {Object}
+   * @category pagination
+   * @syncable
+   */
   pagination: Object,
+
+  /**
+   * Options to offer the user for number of rows per page
+   *
+   * @api prop rows-per-page-options
+   * @type {Array}
+   * @default [5, 7, 10, 15, 20, 25, 50, 0]
+   * @category pagination
+   */
   rowsPerPageOptions: {
     type: Array,
     default: () => [5, 7, 10, 15, 20, 25, 50, 0]
   },
 
+  /**
+   * Emitted when pagination changes
+   *
+   * @api event update:pagination
+   * @param {Object} newPagination New pagination object
+   */
   'onUpdate:pagination': [Function, Array]
 }
 
@@ -61,6 +84,12 @@ export function useTablePaginationState(vm, getCellValue) {
     })
   }
 
+  /**
+   * Trigger a server request
+   *
+   * @api method requestServerInteraction
+   * @param {Object} [prop] Optional pagination/filter override
+   */
   function requestServerInteraction(prop = {}) {
     nextTick(() => {
       emit('request', {
@@ -182,10 +211,20 @@ export function useTablePagination(
     }
   })
 
+  /**
+   * Navigates to first page
+   *
+   * @api method firstPage
+   */
   function firstPage() {
     setPagination({ page: 1 })
   }
 
+  /**
+   * Navigates to previous page, if available
+   *
+   * @api method prevPage
+   */
   function prevPage() {
     const { page } = computedPagination.value
     if (page > 1) {
@@ -193,6 +232,11 @@ export function useTablePagination(
     }
   }
 
+  /**
+   * Navigates to next page, if available
+   *
+   * @api method nextPage
+   */
   function nextPage() {
     const { page, rowsPerPage } = computedPagination.value
     if (
@@ -203,6 +247,11 @@ export function useTablePagination(
     }
   }
 
+  /**
+   * Navigates to last page
+   *
+   * @api method lastPage
+   */
   function lastPage() {
     setPagination({ page: pagesNumber.value })
   }

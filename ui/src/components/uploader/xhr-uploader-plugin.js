@@ -22,10 +22,52 @@ const componentProps = {
   sendRaw: [Function, Boolean],
 
   batch: [Function, Boolean],
+
+  /**
+   * Function which should return an Object or a Promise resolving with an Object
+   *
+   * @api prop factory
+   * @type {Function}
+   * @ts-type QUploaderFactoryFn
+   * @category upload
+   */
   factory: Function
 }
 
-const emits = ['factoryFailed', 'uploaded', 'failed', 'uploading']
+const emits = [
+  /**
+   * Emitted when factory function is supplied with a Promise which is rejected
+   *
+   * @api event factory-failed
+   * @param {Error} err Error object which is the Promise rejection reason
+   * @param {Array} files Files which were to get uploaded
+   */
+  'factoryFailed',
+
+  /**
+   * Emitted when file or batch of files is uploaded
+   *
+   * @api event uploaded
+   * @param {Object} info Upload information
+   */
+  'uploaded',
+
+  /**
+   * Emitted when file or batch of files has encountered error while uploading
+   *
+   * @api event failed
+   * @param {Object} info Upload failure information
+   */
+  'failed',
+
+  /**
+   * Emitted when file or batch of files starts uploading
+   *
+   * @api event uploading
+   * @param {Object} info Upload information
+   */
+  'uploading'
+]
 
 function injectPlugin({ props, emit, helpers }) {
   const xhrs = ref([])
@@ -33,13 +75,88 @@ function injectPlugin({ props, emit, helpers }) {
   const workingThreads = ref(0)
 
   const xhrProps = computed(() => ({
+    /**
+     * URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop url
+     * @type {String|Function}
+     * @category upload
+     * @example 'https://example.com/path'
+     * @example files => `https://example.com?count=${ files.length }`
+     */
     url: getFn(props.url),
+    /**
+     * HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop method
+     * @type {String|Function}
+     * @default 'POST'
+     * @category upload
+     * @example 'POST'
+     * @example files => (files.length > 10 ? 'POST' : 'PUT')
+     */
     method: getFn(props.method),
+    /**
+     * Array or a factory function which returns an array; Array consists of objects with header definitions; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop headers
+     * @type {Array|Function}
+     * @category upload
+     * @example [{ name: 'Content-Type', value: 'application/json' }, { name: 'Accept', value: 'application/json' }]
+     * @example () => [ { name: 'X-Custom-Timestamp', value: Date.now() }]
+     * @example files => [ { name: 'X-Custom-Count', value: files.length }]
+     */
     headers: getFn(props.headers),
+    /**
+     * Array or a factory function which returns an array; Array consists of objects with additional fields definitions (used by Form to be uploaded); Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop form-fields
+     * @type {Array|Function}
+     * @category upload
+     * @example [{ name: 'my-field', value: 'my-value' }]
+     * @example () => [ { name: 'my-field', value: 'my-value' }]
+     * @example files => [ { name: 'my-field', value: 'my-value' + files.length }]
+     */
     formFields: getFn(props.formFields),
+    /**
+     * Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name="__HERE__"; filename="somefile.png"; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop field-name
+     * @type {String|Function}
+     * @default file => file.name
+     * @category upload
+     * @example 'backgroundFile'
+     * @example file => ('background' + file.name)
+     */
     fieldName: getFn(props.fieldName),
+    /**
+     * Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop with-credentials
+     * @type {Boolean|Function}
+     * @category upload
+     * @example true
+     * @example files => (files.length === 2)
+     */
     withCredentials: getFn(props.withCredentials),
+    /**
+     * Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop send-raw
+     * @type {Boolean|Function}
+     * @category upload
+     * @example true
+     * @example files => (files.length > 2)
+     */
     sendRaw: getFn(props.sendRaw),
+    /**
+     * Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop batch
+     * @type {Boolean|Function}
+     * @category upload
+     * @example files => files.length > 10
+     */
     batch: getFn(props.batch)
   }))
 
@@ -48,6 +165,11 @@ function injectPlugin({ props, emit, helpers }) {
 
   let abortPromises
 
+  /**
+   * Abort upload of all files
+   *
+   * @api method abort
+   */
   function abort() {
     xhrs.value.forEach(x => {
       x.abort()

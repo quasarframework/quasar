@@ -39,6 +39,15 @@ import {
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/tooltip
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QTooltip',
 
@@ -49,52 +58,129 @@ export default createComponent({
     ...useModelToggleProps,
     ...useTransitionProps,
 
+    /**
+     * The maximum height of the Tooltip; Size in CSS units, including unit name
+     *
+     * @api prop max-height
+     * @extends size
+     * @default null
+     * @category content
+     */
     maxHeight: {
       type: String,
       default: null
     },
+    /**
+     * The maximum width of the Tooltip; Size in CSS units, including unit name
+     *
+     * @api prop max-width
+     * @extends size
+     * @default null
+     * @category content
+     */
     maxWidth: {
       type: String,
       default: null
     },
 
+    /**
+     * @api prop transition-show
+     * @default 'jump-down'
+     */
     transitionShow: {
       ...useTransitionProps.transitionShow,
       default: 'jump-down'
     },
+    /**
+     * @api prop transition-hide
+     * @default 'jump-up'
+     */
     transitionHide: {
       ...useTransitionProps.transitionHide,
       default: 'jump-up'
     },
 
+    /**
+     * Two values setting the starting position or anchor point of the Tooltip relative to its target
+     *
+     * @api prop anchor
+     * @type {String}
+     * @default 'bottom middle'
+     * @category position
+     */
     anchor: {
       type: String,
       default: 'bottom middle',
       validator: validatePosition
     },
+    /**
+     * Two values setting the Tooltip's own position relative to its target
+     *
+     * @api prop self
+     * @type {String}
+     * @default 'top middle'
+     * @category position
+     */
     self: {
       type: String,
       default: 'top middle',
       validator: validatePosition
     },
+    /**
+     * An array of two numbers to offset the Tooltip horizontally and vertically in pixels
+     *
+     * @api prop offset
+     * @type {Array}
+     * @default [14, 14]
+     * @category position
+     * @example [8, 8]
+     * @example [5, 10]
+     */
     offset: {
       type: Array,
       default: () => [14, 14],
       validator: validateOffset
     },
 
+    /**
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp,
 
+    /**
+     * Configure Tooltip to appear with delay
+     *
+     * @api prop delay
+     * @type {Number}
+     * @default 0
+     * @category behavior
+     */
     delay: {
       type: Number,
       default: 0
     },
 
+    /**
+     * Configure Tooltip to disappear with delay
+     *
+     * @api prop hide-delay
+     * @type {Number}
+     * @default 0
+     * @category behavior
+     */
     hideDelay: {
       type: Number,
       default: 0
     },
 
+    /**
+     * Prevents Tooltip from auto-closing when app's route changes
+     *
+     * @api prop persistent
+     * @type {Boolean}
+     * @category behavior
+     */
     persistent: Boolean
   },
 
@@ -251,6 +337,11 @@ export default createComponent({
       cleanEvt(anchorEvents, 'tooltipTemp')
     }
 
+    /**
+     * There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it
+     *
+     * @api method updatePosition
+     */
     function updatePosition() {
       setPosition({
         targetEl: innerRef.value,

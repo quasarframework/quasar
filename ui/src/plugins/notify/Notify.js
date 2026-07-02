@@ -535,13 +535,30 @@ function getComponent() {
   })
 }
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/quasar-plugins/notify
+ */
 export default {
+  /**
+   * Merge options into the default ones
+   *
+   * @api method setDefaults
+   * @param {Object} opts Pick the subprop you want to define
+   */
   setDefaults(opts) {
     if (!__QUASAR_SSR_SERVER__ && isObject(opts)) {
       Object.assign(defaults, opts)
     }
   },
 
+  /**
+   * Register a new type of notification
+   *
+   * @api method registerType
+   * @param {String} typeName Name of the type (to be used as 'type' prop later on)
+   * @param {Object} typeOpts Notification options
+   */
   registerType(typeName, typeOpts) {
     if (!__QUASAR_SSR_SERVER__ && isObject(typeOpts)) {
       notifTypes[typeName] = typeOpts
@@ -549,6 +566,13 @@ export default {
   },
 
   install({ $q, parentApp }) {
+    /**
+     * Creates a notification; Same as calling $q.notify(...)
+     *
+     * @api method create
+     * @param {Object|String} opts Notification options
+     * @returns {Function} Function that dismisses or updates the notification
+     */
     $q.notify = this.create = __QUASAR_SSR_SERVER__
       ? noop
       : opts => addNotification(opts, $q)

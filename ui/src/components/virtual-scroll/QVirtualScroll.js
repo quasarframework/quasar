@@ -31,26 +31,87 @@ const comps = {
 
 const typeOptions = ['list', 'table', '__qtable']
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/virtual-scroll
+ */
+/**
+ * Template slot for the elements that should be rendered before the list; Suggestion: thead before a table
+ *
+ * @api slot before
+ */
+
+/**
+ * Template slot for the elements that should be rendered after the list; Suggestion: tfoot after a table
+ *
+ * @api slot after
+ */
+
+/**
+ * Template slot for defining the list item; Suggestion: QItem
+ *
+ * @api slot default
+ * @scope index {Number} Item index in the items list
+ * @scope item {Any} Item data -- its value is taken from 'items' prop
+ */
 export default createComponent({
   name: 'QVirtualScroll',
 
   props: {
     ...useVirtualScrollProps,
 
+    /**
+     * The type of content: list (default) or table
+     *
+     * @api prop type
+     * @type {String}
+     * @default 'list'
+     * @category content
+     */
     type: {
       type: String,
       default: 'list',
       validator: v => typeOptions.includes(v)
     },
 
+    /**
+     * Available list items that will be passed to the scoped slot; For best performance freeze the list of items; Required if 'itemsFn' is not supplied
+     *
+     * @api prop items
+     * @type {Array}
+     * @default []
+     * @category content
+     * @example ['Tesla', 'iPhone']
+     * @example [{ label: 'Tesla', value: 'car' }, { label: 'iPhone', value: 'phone' }]
+     */
     items: {
       type: Array,
       default: () => []
     },
 
+    /**
+     * Function to return the scope for the items to be displayed; Should return an array for items starting from 'from' index for size length; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop items-fn
+     * @type {Function}
+     * @category content
+     * @example (from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push('Item ' + i) }; return items }
+     */
     itemsFn: Function,
+    /**
+     * Number of available items in the list; Required and used only if 'itemsFn' is provided
+     *
+     * @api prop items-size
+     * @type {Number}
+     * @category content
+     * @example 100000
+     */
     itemsSize: Number,
 
+    /**
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp
   },
 

@@ -2,11 +2,35 @@ import { Transition, h, onBeforeUnmount } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/slide-transition
+ */
+/**
+ * This is where content goes
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QSlideTransition',
 
   props: {
+    /**
+     * If set to true, the transition will be applied on the initial render.
+     *
+     * @api prop appear
+     * @type {Boolean}
+     * @category behavior
+     */
     appear: Boolean,
+    /**
+     * Duration (in milliseconds) enabling animated scroll.
+     *
+     * @api prop duration
+     * @type {Number}
+     * @default 300
+     * @category behavior
+     */
     duration: {
       type: Number,
       default: 300

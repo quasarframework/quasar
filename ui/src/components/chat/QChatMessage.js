@@ -3,22 +3,145 @@ import { computed, h } from 'vue'
 import { createComponent } from '../../utils/private.create/create.js'
 import { getNormalizedVNodes } from '../../utils/private.vm/vm.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/chat
+ */
+/**
+ * You can use this slot to define a custom message (overrides props)
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot for avatar; Suggestion: QAvatar, img
+ *
+ * @api slot avatar
+ */
+
+/**
+ * Slot for name; Overrides the 'name' prop
+ *
+ * @api slot name
+ */
+
+/**
+ * Slot for stamp; Overrides the 'stamp' prop
+ *
+ * @api slot stamp
+ */
+
+/**
+ * Slot for label; Overrides the 'label' prop
+ *
+ * @api slot label
+ */
 export default createComponent({
   name: 'QChatMessage',
 
   props: {
+    /**
+     * Render as a sent message (so from current user)
+     *
+     * @api prop sent
+     * @type {Boolean}
+     * @category content
+     */
     sent: Boolean,
+    /**
+     * Renders a label header/section only
+     *
+     * @api prop label
+     * @type {String}
+     * @category content
+     * @example 'Friday, 18th'
+     */
     label: String,
+    /**
+     * Color name (from the Quasar Color Palette) for chat bubble background
+     *
+     * @api prop bg-color
+     * @extends color
+     * @category style
+     */
     bgColor: String,
+    /**
+     * Color name (from the Quasar Color Palette) for chat bubble text
+     *
+     * @api prop text-color
+     * @extends text-color
+     * @category style
+     */
     textColor: String,
+    /**
+     * Author's name
+     *
+     * @api prop name
+     * @type {String}
+     * @category content
+     * @example 'John Doe'
+     */
     name: String,
+    /**
+     * URL to the avatar image of the author
+     *
+     * @api prop avatar
+     * @type {String}
+     * @category content
+     * @example # (public folder) src="boy-avatar.png"
+     * @example # (assets folder) src="~@/assets/boy-avatar.png"
+     * @example # (relative path format) :src="require('./my_img.jpg')"
+     */
     avatar: String,
     text: Array,
+    /**
+     * Creation timestamp
+     *
+     * @api prop stamp
+     * @type {String}
+     * @category content
+     * @example '13:55'
+     * @example 'Yesterday at 13:51'
+     */
     stamp: String,
+    /**
+     * 1-12 out of 12 (same as col-*)
+     *
+     * @api prop size
+     * @type {String}
+     * @category style
+     * @example '4'
+     * @example '6'
+     * @example '12'
+     */
     size: String,
+    /**
+     * Render the label as HTML; This can lead to XSS attacks so make sure that you sanitize the message first
+     *
+     * @api prop label-html
+     * @extends html
+     */
     labelHtml: Boolean,
+    /**
+     * Render the name as HTML; This can lead to XSS attacks so make sure that you sanitize the message first
+     *
+     * @api prop name-html
+     * @extends html
+     */
     nameHtml: Boolean,
+    /**
+     * Render the text as HTML; This can lead to XSS attacks so make sure that you sanitize the message first
+     *
+     * @api prop text-html
+     * @extends html
+     */
     textHtml: Boolean,
+    /**
+     * Render the stamp as HTML; This can lead to XSS attacks so make sure that you sanitize the message first
+     *
+     * @api prop stamp-html
+     * @extends html
+     */
     stampHtml: Boolean
   },
 

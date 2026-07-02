@@ -1,21 +1,9 @@
-import { computed, getCurrentInstance, h, ref, toRaw } from 'vue'
+import { getCurrentInstance, h } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
-import useSize, {
-  useSizeProps
-} from '../../composables/private.use-size/use-size.js'
-import useRefocusTarget from '../../composables/private.use-refocus-target/use-refocus-target.js'
-import {
-  useFormInject,
-  useFormProps
-} from '../../composables/use-form/private.use-form.js'
-
+import useRadio, { useRadioEmits, useRadioProps } from './use-radio.js'
 import { createComponent } from '../../utils/private.create/create.js'
-import optionSizes from '../../utils/private.option-sizes/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { hMergeSlot, hSlot } from '../../utils/private.render/render.js'
 
@@ -45,114 +33,34 @@ function onKeydown(e) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/radio
+ */
+/**
+ * Default slot can be used as label, unless 'label' prop is specified; Suggestion: string
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QRadio',
 
-  props: {
-    ...useDarkProps,
-    ...useSizeProps,
-    ...useFormProps,
+  props: useRadioProps,
 
-    modelValue: { required: true },
-    val: { required: true },
-
-    label: String,
-    leftLabel: Boolean,
-
-    checkedIcon: String,
-    uncheckedIcon: String,
-
-    color: String,
-    keepColor: Boolean,
-    dense: Boolean,
-
-    disable: Boolean,
-    tabindex: [String, Number]
-  },
-
-  emits: ['update:modelValue'],
+  emits: useRadioEmits,
 
   setup(props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
-
-    const isDark = useDark(props, proxy.$q)
-    const sizeStyle = useSize(props, optionSizes)
-
-    const rootRef = ref(null)
-    const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
-
-    const isTrue = computed(() => toRaw(props.modelValue) === toRaw(props.val))
-
-    const classes = computed(
-      () =>
-        'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
-        (props.disable ? ' disabled' : '') +
-        (isDark.value ? ' q-radio--dark' : '') +
-        (props.dense ? ' q-radio--dense' : '') +
-        (props.leftLabel ? ' reverse' : '')
-    )
-
-    const innerClass = computed(() => {
-      const color =
-        props.color !== void 0 && (props.keepColor || isTrue.value)
-          ? ` text-${props.color}`
-          : ''
-
-      return (
-        'q-radio__inner relative-position ' +
-        `q-radio__inner--${isTrue.value ? 'truthy' : 'falsy'}${color}`
-      )
-    })
-
-    const icon = computed(
-      () => (isTrue.value ? props.checkedIcon : props.uncheckedIcon) || null
-    )
-
-    const tabindex = computed(() => (props.disable ? -1 : props.tabindex || 0))
-
-    const formAttrs = computed(() => {
-      const prop = { type: 'radio' }
-
-      if (props.name !== void 0) {
-        Object.assign(prop, {
-          // see https://vuejs.org/guide/extras/render-function.html#creating-vnodes (.prop)
-          '.checked': isTrue.value,
-          '^checked': isTrue.value ? 'checked' : void 0,
-          name: props.name,
-          value: props.val
-        })
-      }
-
-      return prop
-    })
-
-    const injectFormInput = useFormInject(formAttrs)
-
-    function onClick(e) {
-      if (e !== void 0) {
-        stopAndPrevent(e)
-        refocusTarget(e)
-      }
-
-      if (!props.disable && !isTrue.value) {
-        emit('update:modelValue', props.val, e)
-      }
-    }
-
-    function onKeyup(e) {
-      if (e.keyCode === 13 || e.keyCode === 32) {
-        onClick(e)
-      }
-    }
+    const radio = useRadio(props, proxy, emit)
 
     // expose public methods
-    Object.assign(proxy, { set: onClick })
+    Object.assign(proxy, { set: radio.onClick })
 
     const svg = createSvg()
 
     return () => {
       const content =
-        icon.value !== null
+        radio.icon.value !== null
           ? [
               h(
                 'div',
@@ -164,7 +72,7 @@ export default createComponent({
                 [
                   h(QIcon, {
                     class: 'q-radio__icon',
-                    name: icon.value
+                    name: radio.icon.value
                   })
                 ]
               )
@@ -172,7 +80,7 @@ export default createComponent({
           : [svg]
 
       if (!props.disable) {
-        injectFormInput(
+        radio.injectFormInput(
           content,
           'unshift',
           ' q-radio__native q-ma-none q-pa-none'
@@ -183,16 +91,16 @@ export default createComponent({
         h(
           'div',
           {
-            class: innerClass.value,
-            style: sizeStyle.value,
+            class: radio.innerClass.value,
+            style: radio.sizeStyle.value,
             'aria-hidden': 'true'
           },
           content
         )
       ]
 
-      if (refocusTargetEl.value !== null) {
-        child.push(refocusTargetEl.value)
+      if (radio.refocusTargetEl.value !== null) {
+        child.push(radio.refocusTargetEl.value)
       }
 
       const label =
@@ -215,16 +123,16 @@ export default createComponent({
       return h(
         'div',
         {
-          ref: rootRef,
-          class: classes.value,
-          tabindex: tabindex.value,
+          ref: radio.rootRef,
+          class: radio.classes.value,
+          tabindex: radio.tabindex.value,
           role: 'radio',
           'aria-label': props.label,
-          'aria-checked': isTrue.value ? 'true' : 'false',
+          'aria-checked': radio.isTrue.value ? 'true' : 'false',
           'aria-disabled': props.disable ? 'true' : void 0,
-          onClick,
+          onClick: radio.onClick,
           onKeydown,
-          onKeyup
+          onKeyup: radio.onKeyup
         },
         child
       )

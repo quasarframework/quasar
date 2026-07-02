@@ -23,6 +23,15 @@ export const defaultSizes = {
   xl: 24
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/chip
+ */
+/**
+ * This is where QChip content goes, if not using 'label' property
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QChip',
 
@@ -30,36 +39,138 @@ export default createComponent({
     ...useDarkProps,
     ...useSizeProps,
 
+    /**
+     * @api prop dense
+     * @extends dense
+     */
     dense: Boolean,
 
+    /**
+     * @api prop icon
+     * @extends icon
+     */
     icon: String,
+    /**
+     * @api prop icon-right
+     * @extends icon
+     */
     iconRight: String,
+    /**
+     * @api prop icon-remove
+     * @extends icon
+     */
     iconRemove: String,
+    /**
+     * @api prop icon-selected
+     * @extends icon
+     */
     iconSelected: String,
+    /**
+     * Chip's content as string; overrides default slot if specified
+     *
+     * @api prop label
+     * @type {String|Number}
+     * @category content
+     * @example 'John Doe'
+     * @example 'Book'
+     */
     label: [String, Number],
 
+    /**
+     * @api prop color
+     * @extends color
+     */
     color: String,
+    /**
+     * @api prop text-color
+     * @extends text-color
+     */
     textColor: String,
 
+    /**
+     * Model of the component determining if QChip should be rendered or not
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @default true
+     * @syncable
+     */
     modelValue: {
       type: Boolean,
       default: true
     },
+    /**
+     * Model for QChip if it's selected or not
+     *
+     * @api prop selected
+     * @type {Boolean|null}
+     * @default null
+     * @category model
+     * @example # v-model:selected="myState"
+     */
     selected: {
       type: Boolean,
       default: null
     },
 
+    /**
+     * Sets a low value for border-radius instead of the default one, making it close to a square
+     *
+     * @api prop square
+     * @extends square
+     */
     square: Boolean,
+    /**
+     * Display using the 'outline' design
+     *
+     * @api prop outline
+     * @type {Boolean}
+     * @category style
+     */
     outline: Boolean,
+    /**
+     * Is QChip clickable? If it's the case, then it will add hover effects and emit 'click' events
+     *
+     * @api prop clickable
+     * @type {Boolean}
+     * @category state
+     */
     clickable: Boolean,
+    /**
+     * If set, then it displays a 'remove' icon that when clicked the QChip emits 'remove' event
+     *
+     * @api prop removable
+     * @type {Boolean}
+     * @category state
+     */
     removable: Boolean,
 
+    /**
+     * aria-label to be used on the remove icon
+     *
+     * @api prop remove-aria-label
+     * @type {String}
+     * @category accessibility
+     * @added-in v2.8.4
+     * @example 'Remove item'
+     */
     removeAriaLabel: String,
 
+    /**
+     * @api prop tabindex
+     * @extends tabindex
+     */
     tabindex: [String, Number],
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
 
+    /**
+     * @api prop ripple
+     * @extends ripple
+     */
     ripple: {
       type: [Boolean, Object],
       default: true

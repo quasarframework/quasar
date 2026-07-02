@@ -27,6 +27,15 @@ import extend from '../../utils/extend/extend.js'
 import { shouldIgnoreKey } from '../../utils/private.keyboard/key-composition.js'
 import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/editor
+ */
+/**
+ * Content for the given command in the toolbar
+ *
+ * @api slot [command]
+ */
 export default createComponent({
   name: 'QEditor',
 
@@ -34,22 +43,99 @@ export default createComponent({
     ...useDarkProps,
     ...useFullscreenProps,
 
+    /**
+     * Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="content"
+     */
     modelValue: {
       type: String,
       required: true
     },
+    /**
+     * @api prop readonly
+     * @extends readonly
+     */
     readonly: Boolean,
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
+    /**
+     * CSS unit for the minimum height of the editable area
+     *
+     * @api prop min-height
+     * @type {String}
+     * @default '10rem'
+     * @category style
+     * @example '15rem'
+     * @example '50vh'
+     */
     minHeight: {
       type: String,
       default: '10rem'
     },
+    /**
+     * CSS unit for maximum height of the input area
+     *
+     * @api prop max-height
+     * @type {String}
+     * @category style
+     * @example '1000px'
+     * @example '90vh'
+     */
     maxHeight: String,
+    /**
+     * CSS value to set the height of the editable area
+     *
+     * @api prop height
+     * @type {String}
+     * @category style
+     * @example '100px'
+     * @example '50vh'
+     */
     height: String,
+    /**
+     * Definition of commands and their buttons to be included in the 'toolbar' prop
+     *
+     * @api prop definitions
+     * @type {Object}
+     * @category toolbar
+     * @example { save: { tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork }, upload: { tip: 'Upload to cloud', icon: 'cloud_upload', label: 'Upload', handler: uploadIt } }
+     */
     definitions: Object,
+    /**
+     * Object with definitions of fonts
+     *
+     * @api prop fonts
+     * @type {Object}
+     * @category toolbar
+     * @example { arial: 'Arial', arial_black: 'Arial Black', comic_sans: 'Comic Sans MS' }
+     */
     fonts: Object,
+    /**
+     * Text to display as placeholder
+     *
+     * @api prop placeholder
+     * @type {String}
+     * @category content
+     * @example 'Type your story here ...'
+     */
     placeholder: String,
 
+    /**
+     * An array of arrays of Objects/Strings that you use to define the construction of the elements and commands available in the toolbar
+     *
+     * @api prop toolbar
+     * @type {Array}
+     * @default [['left', 'center', 'right', 'justify'], ['bold', 'italic', 'underline', 'strike'], ['undo', 'redo']]
+     * @category toolbar
+     * @example ['left', 'center', 'right', 'justify']
+     */
     toolbar: {
       type: Array,
       validator: v => v.every(group => group.length),
@@ -57,43 +143,192 @@ export default createComponent({
       // oxfmt-ignore
       default: () => [['left', 'center', 'right', 'justify'], ['bold', 'italic', 'underline', 'strike'], ['undo', 'redo']]
     },
+    /**
+     * Font color (from the Quasar Palette) of buttons and text in the toolbar
+     *
+     * @api prop toolbar-color
+     * @extends color
+     * @category toolbar
+     */
     toolbarColor: String,
+    /**
+     * Toolbar background color (from Quasar Palette)
+     *
+     * @api prop toolbar-bg
+     * @type {String}
+     * @default 'grey-3'
+     * @category toolbar
+     * @example 'secondary'
+     * @example 'blue-3'
+     */
     toolbarBg: String,
+    /**
+     * Text color (from the Quasar Palette) of toolbar commands
+     *
+     * @api prop toolbar-text-color
+     * @extends text-color
+     * @category toolbar
+     */
     toolbarTextColor: String,
+    /**
+     * Choose the active color (from the Quasar Palette) of toolbar commands button
+     *
+     * @api prop toolbar-toggle-color
+     * @type {String}
+     * @default 'primary'
+     * @category toolbar
+     * @example 'secondary'
+     * @example 'blue-3'
+     */
     toolbarToggleColor: {
       type: String,
       default: 'primary'
     },
+    /**
+     * Toolbar buttons are rendered "outlined"
+     *
+     * @api prop toolbar-outline
+     * @type {Boolean}
+     * @category toolbar|style
+     */
     toolbarOutline: Boolean,
+    /**
+     * Toolbar buttons are rendered as a "push-button" type
+     *
+     * @api prop toolbar-push
+     * @type {Boolean}
+     * @category toolbar|style
+     */
     toolbarPush: Boolean,
+    /**
+     * Toolbar buttons are rendered "rounded"
+     *
+     * @api prop toolbar-rounded
+     * @type {Boolean}
+     * @category toolbar|style
+     */
     toolbarRounded: Boolean,
 
+    /**
+     * Paragraph tag to be used
+     *
+     * @api prop paragraph-tag
+     * @type {String}
+     * @default 'div'
+     * @category behavior
+     */
     paragraphTag: {
       type: String,
       validator: v => ['div', 'p'].includes(v),
       default: 'div'
     },
 
+    /**
+     * Object with CSS properties and values for styling the container of QEditor
+     *
+     * @api prop content-style
+     * @type {Object}
+     * @ts-type VueStyleObjectProp
+     * @category style
+     * @example { backgroundColor: '#C0C0C0' }
+     */
     contentStyle: Object,
+    /**
+     * CSS classes for the input area
+     *
+     * @api prop content-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     contentClass: [Object, Array, String],
 
+    /**
+     * @api prop square
+     * @extends square
+     */
     square: Boolean,
+    /**
+     * Applies a 'flat' design (no borders)
+     *
+     * @api prop flat
+     * @extends flat
+     */
     flat: Boolean,
+    /**
+     * Dense mode; toolbar buttons are shown on one-line only
+     *
+     * @api prop dense
+     * @extends dense
+     */
     dense: Boolean
   },
 
   emits: [
     ...useFullscreenEmits,
+    /**
+     * @api event update:model-value
+     * @extends update:model-value
+     * @param {String} value The pure HTML of the content
+     */
     'update:modelValue',
+    /**
+     * @api event keydown
+     */
     'keydown',
+    /**
+     * @api event click
+     */
     'click',
+    /**
+     * @api event focus
+     */
     'focus',
+    /**
+     * @api event blur
+     */
     'blur',
+    /**
+     * Emitted after a dropdown in the toolbar has triggered show()
+     *
+     * @api event dropdown-show
+     * @param {Any} evt
+     */
     'dropdownShow',
+    /**
+     * Emitted after a dropdown in the toolbar has triggered hide()
+     *
+     * @api event dropdown-hide
+     * @param {Any} evt
+     */
     'dropdownHide',
+    /**
+     * Emitted when a dropdown in the toolbar triggers show() but before it finishes doing it
+     *
+     * @api event dropdown-before-show
+     * @param {Any} evt
+     */
     'dropdownBeforeShow',
+    /**
+     * Emitted when a dropdown in the toolbar triggers hide() but before it finishes doing it
+     *
+     * @api event dropdown-before-hide
+     * @param {Any} evt
+     */
     'dropdownBeforeHide',
+    /**
+     * Emitted when the toolbar for editing a link is shown
+     *
+     * @api event link-show
+     */
     'linkShow',
+    /**
+     * Emitted when the toolbar for editing a link is hidden
+     *
+     * @api event link-hide
+     */
     'linkHide'
   ],
 
@@ -635,6 +870,14 @@ export default createComponent({
       }
     }
 
+    /**
+     * Run contentEditable command at caret position and range
+     *
+     * @api method runCmd
+     * @param {String} cmd Must be a valid execCommand method according to the designMode API
+     * @param {String} param The argument to pass to the command
+     * @param {Boolean} update Refresh the toolbar
+     */
     function runCmd(cmd, param, update = true) {
       focus()
       eVm.caret.restore()
@@ -647,6 +890,11 @@ export default createComponent({
       })
     }
 
+    /**
+     * Hide the link editor if visible and force the instance to re-render
+     *
+     * @api method refreshToolbar
+     */
     function refreshToolbar() {
       setTimeout(() => {
         editLinkUrl.value = null
@@ -654,12 +902,23 @@ export default createComponent({
       }, 1)
     }
 
+    /**
+     * Focus on the contentEditable at saved cursor position
+     *
+     * @api method focus
+     */
     function focus() {
       addFocusFn(() => {
         contentRef.value?.focus({ preventScroll: true })
       })
     }
 
+    /**
+     * Retrieve the content of the Editor
+     *
+     * @api method getContentEl
+     * @returns {Element} Provides the pure HTML within the editable area
+     */
     function getContentEl() {
       return contentRef.value
     }

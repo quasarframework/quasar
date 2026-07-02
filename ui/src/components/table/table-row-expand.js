@@ -5,10 +5,26 @@ function getVal(val) {
 }
 
 export const useTableRowExpandProps = {
+  /**
+   * Keeps the array with expanded rows keys
+   *
+   * @api prop expanded
+   * @type {Array}
+   * @category expansion
+   * @syncable
+   */
   expanded: Array // v-model:expanded
 }
 
-export const useTableRowExpandEmits = ['update:expanded']
+export const useTableRowExpandEmits = [
+  /**
+   * Emitted when the expanded rows change
+   *
+   * @api event update:expanded
+   * @param {Array} newExpanded New expanded rows keys
+   */
+  'update:expanded'
+]
 
 export function useTableRowExpand(props, emit) {
   const innerExpanded = ref(getVal(props.expanded))
@@ -20,10 +36,23 @@ export function useTableRowExpand(props, emit) {
     }
   )
 
+  /**
+   * Determine if a row key is expanded
+   *
+   * @api method isRowExpanded
+   * @param {Any} key Row key
+   * @returns {Boolean} Is row expanded
+   */
   function isRowExpanded(key) {
     return innerExpanded.value.includes(key)
   }
 
+  /**
+   * Sets the expanded rows keys
+   *
+   * @api method setExpanded
+   * @param {Array} val Expanded rows keys
+   */
   function setExpanded(val) {
     if (props.expanded !== void 0) {
       emit('update:expanded', val)

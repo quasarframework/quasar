@@ -11,21 +11,51 @@ import { timelineKey } from '../../utils/private.symbols/symbols.js'
 const sideValues = ['left', 'right']
 const layoutValues = ['dense', 'comfortable', 'loose']
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/timeline
+ */
+/**
+ * Used for content of component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QTimeline',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * @api prop color
+     * @extends color
+     * @default 'primary'
+     */
     color: {
       type: String,
       default: 'primary'
     },
+    /**
+     * Side to place the timeline entries in dense and comfortable layout; For loose layout it gets overridden by QTimelineEntry side prop
+     *
+     * @api prop side
+     * @type {String}
+     * @default 'right'
+     * @category behavior
+     */
     side: {
       type: String,
       default: 'right',
       validator: v => sideValues.includes(v)
     },
+    /**
+     * Layout of the timeline. Dense keeps content and labels on one side. Comfortable keeps content on one side and labels on the opposite side. Loose puts content on both sides.
+     *
+     * @api prop layout
+     * @type {String}
+     * @default 'dense'
+     * @category behavior
+     */
     layout: {
       type: String,
       default: 'dense',

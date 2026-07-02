@@ -25,6 +25,27 @@ export function passBtnProps(props) {
   }, {})
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/button-dropdown
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
+
+/**
+ * Customize main button's content through this slot, unless you're using the 'icon' and 'label' props
+ *
+ * @api slot label
+ */
+
+/**
+ * Override the default QSpinner when in 'loading' state
+ *
+ * @api slot loading
+ */
 export default createComponent({
   name: 'QBtnDropdown',
 
@@ -32,41 +53,189 @@ export default createComponent({
     ...nonRoundBtnProps,
     ...useTransitionProps,
 
+    /**
+     * @api prop model-value
+     * @type {Boolean}
+     */
     modelValue: Boolean,
+    /**
+     * Split dropdown icon into its own button
+     *
+     * @api prop split
+     * @type {Boolean}
+     * @category content|behavior
+     */
     split: Boolean,
+    /**
+     * @api prop dropdown-icon
+     * @extends icon
+     */
     dropdownIcon: String,
 
+    /**
+     * Class definitions to be attributed to the menu
+     *
+     * @api prop content-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     contentClass: [Array, String, Object],
+    /**
+     * Style definitions to be attributed to the menu
+     *
+     * @api prop content-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     contentStyle: [Array, String, Object],
 
+    /**
+     * Allows the menu to cover the button. When used, the 'menu-self' prop is no longer effective
+     *
+     * @api prop cover
+     * @type {Boolean}
+     * @category position
+     */
     cover: Boolean,
+    /**
+     * Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it
+     *
+     * @api prop persistent
+     * @type {Boolean}
+     * @category behavior
+     */
     persistent: Boolean,
+    /**
+     * User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-esc-dismiss
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.18
+     */
     noEscDismiss: Boolean,
+    /**
+     * Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-route-dismiss
+     * @type {Boolean}
+     * @category behavior
+     */
     noRouteDismiss: Boolean,
+    /**
+     * Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap
+     *
+     * @api prop auto-close
+     * @type {Boolean}
+     * @category behavior
+     */
     autoClose: Boolean,
+    /**
+     * (Accessibility) When the dropdown gets hidden, do not refocus on the DOM element that previously had focus
+     *
+     * @api prop no-refocus
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.18
+     */
     noRefocus: Boolean,
+    /**
+     * (Accessibility) When the dropdown gets shown, do not switch focus on it
+     *
+     * @api prop no-focus
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.18
+     */
     noFocus: Boolean,
 
+    /**
+     * Two values setting the starting position or anchor point of the menu relative to its target
+     *
+     * @api prop menu-anchor
+     * @type {String}
+     * @default 'bottom end'
+     * @category position
+     */
     menuAnchor: {
       type: String,
       default: 'bottom end'
     },
+    /**
+     * Two values setting the menu's own position relative to its target
+     *
+     * @api prop menu-self
+     * @type {String}
+     * @default 'top end'
+     * @category position
+     */
     menuSelf: {
       type: String,
       default: 'top end'
     },
+    /**
+     * An array of two numbers to offset the menu horizontally and vertically in pixels
+     *
+     * @api prop menu-offset
+     * @type {Array}
+     * @category position
+     * @example [8, 8]
+     * @example [5, 10]
+     */
     menuOffset: Array,
 
+    /**
+     * Disable main button (useful along with 'split' prop)
+     *
+     * @api prop disable-main-btn
+     * @type {Boolean}
+     * @category behavior
+     */
     disableMainBtn: Boolean,
+    /**
+     * Disables dropdown (dropdown button if using along 'split' prop)
+     *
+     * @api prop disable-dropdown
+     * @type {Boolean}
+     * @category behavior
+     */
     disableDropdown: Boolean,
 
+    /**
+     * Disables the rotation of the dropdown icon when state is toggled
+     *
+     * @api prop no-icon-animation
+     * @type {Boolean}
+     * @category style
+     */
     noIconAnimation: Boolean,
 
+    /**
+     * aria-label to be used on the dropdown toggle element
+     *
+     * @api prop toggle-aria-label
+     * @type {String}
+     * @category accessibility
+     * @added-in v2.8.4
+     * @example 'Open menu'
+     */
     toggleAriaLabel: String
   },
 
   emits: [
     'update:modelValue',
+    /**
+     * Emitted when user clicks/taps on the main button (not the icon one, if using 'split')
+     *
+     * @api event click
+     * @extends click
+     */
     'click',
     'beforeShow',
     'show',

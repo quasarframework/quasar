@@ -129,6 +129,10 @@ function removeChildrenNoPointerEvents() {
 
 let uid = 0
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/touch-pan
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'touch-pan', getSSRProps }

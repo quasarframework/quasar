@@ -9,23 +9,83 @@ import useDark, {
 import { createComponent } from '../../utils/private.create/create.js'
 import { hDir, hMergeSlot, hSlot } from '../../utils/private.render/render.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/splitter
+ */
+/**
+ * Default slot in the devland unslotted content of the component; Suggestion: QTooltip, QMenu
+ *
+ * @api slot default
+ */
+
+/**
+ * Content of the panel on left/top
+ *
+ * @api slot before
+ */
+
+/**
+ * Content of the panel on right/bottom
+ *
+ * @api slot after
+ */
+
+/**
+ * Content to be placed inside the separator; By default it is centered
+ *
+ * @api slot separator
+ */
 export default createComponent({
   name: 'QSplitter',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * Model of the component defining the size of first panel (or second if using reverse) in the unit specified (for '%' it's the split ratio percent - 0.0 < x < 100.0; for 'px' it's the size in px); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="ratio"
+     */
     modelValue: {
       type: Number,
       required: true
     },
+    /**
+     * Apply the model size to the second panel (by default it applies to the first)
+     *
+     * @api prop reverse
+     * @type {Boolean}
+     * @category model
+     */
     reverse: Boolean,
+    /**
+     * CSS unit for the model
+     *
+     * @api prop unit
+     * @type {String}
+     * @default '%'
+     * @category model
+     */
     unit: {
       type: String,
       default: '%',
       validator: v => ['%', 'px'].includes(v)
     },
 
+    /**
+     * An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side; Default value: for '%' unit it is [10, 90], while for 'px' unit it is [50, Infinity]
+     *
+     * @api prop limits
+     * @type {Array}
+     * @default # [10, 90]/[50, Infinity]
+     * @category content|model
+     * @example [30, 70]
+     * @example [0, Infinity]
+     */
     limits: {
       type: Array,
       validator: v => {
@@ -35,15 +95,73 @@ export default createComponent({
       }
     },
 
+    /**
+     * Emit model while user is panning on the separator
+     *
+     * @api prop emit-immediately
+     * @type {Boolean}
+     * @category model
+     */
     emitImmediately: Boolean,
 
+    /**
+     * Allows the splitter to split its two panels horizontally, instead of vertically
+     *
+     * @api prop horizontal
+     * @type {Boolean}
+     * @category content
+     */
     horizontal: Boolean,
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
 
+    /**
+     * Class definitions to be attributed to the 'before' panel
+     *
+     * @api prop before-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'bg-deep-orange'
+     * @example { 'my-special-class': true }
+     */
     beforeClass: [Array, String, Object],
+    /**
+     * Class definitions to be attributed to the 'after' panel
+     *
+     * @api prop after-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'bg-deep-orange'
+     * @example { 'my-special-class': true }
+     */
     afterClass: [Array, String, Object],
 
+    /**
+     * Class definitions to be attributed to the splitter separator
+     *
+     * @api prop separator-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'bg-deep-orange'
+     * @example { 'my-special-class': true }
+     */
     separatorClass: [Array, String, Object],
+    /**
+     * Style definitions to be attributed to the splitter separator
+     *
+     * @api prop separator-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     separatorStyle: [Array, String, Object]
   },
 

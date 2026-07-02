@@ -29,6 +29,10 @@ function encode(value) {
   return value
 }
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/quasar-plugins/web-storage
+ */
 const numberRE = /^-?\d+$/
 
 function decode(value) {
@@ -78,19 +82,130 @@ function decode(value) {
 
 export function getEmptyStorage() {
   return {
+    /**
+     * Determine if item exists
+     *
+     * @api method has
+     * @alias hasItem
+     * @param {String} key Entry key
+     * @returns {Boolean}
+     */
     has: () => false, // alias for hasItem; TODO: remove in Qv3
+
+    /**
+     * Determine if item exists
+     *
+     * @api method hasItem
+     * @param {String} key Entry key
+     * @returns {Boolean}
+     */
     hasItem: () => false,
+
+    /**
+     * Get number of entries
+     *
+     * @api method getLength
+     * @returns {Number}
+     */
     getLength: () => 0,
+
+    /**
+     * Get item value
+     *
+     * @api method getItem
+     * @param {String} key Entry key
+     * @returns {Any}
+     */
     getItem: () => null,
+
+    /**
+     * Get item value by index
+     *
+     * @api method getIndex
+     * @param {Number} index Entry index
+     * @returns {Any}
+     */
     getIndex: () => null,
+
+    /**
+     * Get item key by index
+     *
+     * @api method getKey
+     * @param {Number} index Entry index
+     * @returns {String|null}
+     */
     getKey: () => null,
+
+    /**
+     * Get all items as an Object
+     *
+     * @api method getAll
+     * @returns {Object}
+     */
     getAll: () => ({}),
+
+    /**
+     * Get all item keys
+     *
+     * @api method getAllKeys
+     * @returns {Array}
+     */
     getAllKeys: () => [],
+
+    /**
+     * Set item value
+     *
+     * @api method set
+     * @alias setItem
+     * @param {String} key Entry key
+     * @param {Any} value Entry value
+     * @returns {void}
+     */
     set: noop, // alias for setItem; TODO: remove in Qv3
+
+    /**
+     * Set item value
+     *
+     * @api method setItem
+     * @param {String} key Entry key
+     * @param {Any} value Entry value
+     * @returns {void}
+     */
     setItem: noop,
+
+    /**
+     * Remove item
+     *
+     * @api method remove
+     * @alias removeItem
+     * @param {String} key Entry key
+     * @returns {void}
+     */
     remove: noop, // alias for removeItem; TODO: remove in Qv3
+
+    /**
+     * Remove item
+     *
+     * @api method removeItem
+     * @param {String} key Entry key
+     * @returns {void}
+     */
     removeItem: noop,
+
+    /**
+     * Remove all items
+     *
+     * @api method clear
+     * @returns {void}
+     */
     clear: noop,
+
+    /**
+     * Determine if storage has no items
+     *
+     * @api method isEmpty
+     * @returns {Boolean}
+     */
     isEmpty: () => true
   }
 }
@@ -111,13 +226,67 @@ export function getStorage(type) {
   }
 
   return {
+    /**
+     * Determine if item exists
+     *
+     * @api method has
+     * @alias hasItem
+     * @param {String} key Entry key
+     * @returns {Boolean}
+     */
     has: hasItem, // TODO: remove in Qv3
+
+    /**
+     * Determine if item exists
+     *
+     * @api method hasItem
+     * @param {String} key Entry key
+     * @returns {Boolean}
+     */
     hasItem,
+
+    /**
+     * Get number of entries
+     *
+     * @api method getLength
+     * @returns {Number}
+     */
     getLength: () => webStorage.length,
+
+    /**
+     * Get item value
+     *
+     * @api method getItem
+     * @param {String} key Entry key
+     * @returns {Any}
+     */
     getItem: get,
+
+    /**
+     * Get item value by index
+     *
+     * @api method getIndex
+     * @param {Number} index Entry index
+     * @returns {Any}
+     */
     getIndex: index =>
       index < webStorage.length ? get(webStorage.key(index)) : null,
+
+    /**
+     * Get item key by index
+     *
+     * @api method getKey
+     * @param {Number} index Entry index
+     * @returns {String|null}
+     */
     getKey: index => (index < webStorage.length ? webStorage.key(index) : null),
+
+    /**
+     * Get all items as an Object
+     *
+     * @api method getAll
+     * @returns {Object}
+     */
     getAll: () => {
       let key
       const result = {},
@@ -130,6 +299,13 @@ export function getStorage(type) {
 
       return result
     },
+
+    /**
+     * Get all item keys
+     *
+     * @api method getAllKeys
+     * @returns {Array}
+     */
     getAllKeys: () => {
       const result = [],
         len = webStorage.length
@@ -140,13 +316,63 @@ export function getStorage(type) {
 
       return result
     },
+
+    /**
+     * Set item value
+     *
+     * @api method set
+     * @alias setItem
+     * @param {String} key Entry key
+     * @param {Any} value Entry value
+     * @returns {void}
+     */
     set: setItem, // TODO: remove in Qv3
+
+    /**
+     * Set item value
+     *
+     * @api method setItem
+     * @param {String} key Entry key
+     * @param {Any} value Entry value
+     * @returns {void}
+     */
     setItem,
+
+    /**
+     * Remove item
+     *
+     * @api method remove
+     * @alias removeItem
+     * @param {String} key Entry key
+     * @returns {void}
+     */
     remove: removeItem, // TODO: remove in Qv3
+
+    /**
+     * Remove item
+     *
+     * @api method removeItem
+     * @param {String} key Entry key
+     * @returns {void}
+     */
     removeItem,
+
+    /**
+     * Remove all items
+     *
+     * @api method clear
+     * @returns {void}
+     */
     clear: () => {
       webStorage.clear()
     },
+
+    /**
+     * Determine if storage has no items
+     *
+     * @api method isEmpty
+     * @returns {Boolean}
+     */
     isEmpty: () => webStorage.length === 0
   }
 }

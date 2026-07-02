@@ -159,6 +159,10 @@ function updateValue(ctx, value) {
   }
 }
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/morph
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? {

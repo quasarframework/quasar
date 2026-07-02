@@ -10,6 +10,15 @@ import useTransition, {
   useTransitionProps
 } from '../../composables/private.use-transition/use-transition.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/inner-loading
+ */
+/**
+ * Default slot is used for replacing default Spinner; Suggestions: a spinner or text
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QInnerLoading',
 
@@ -17,16 +26,65 @@ export default createComponent({
     ...useDarkProps,
     ...useTransitionProps,
 
+    /**
+     * State - loading or not
+     *
+     * @api prop showing
+     * @type {Boolean}
+     * @category state
+     */
     showing: Boolean,
+    /**
+     * Color name for component from the Quasar Color Palette for the inner Spinner (unless using the default slot)
+     *
+     * @api prop color
+     * @extends color
+     */
     color: String,
 
+    /**
+     * Size in CSS units, including unit name, or standard size name (xs|sm|md|lg|xl), for the inner Spinner (unless using the default slot)
+     *
+     * @api prop size
+     * @type {String|Number}
+     * @default '42px'
+     */
     size: {
       type: [String, Number],
       default: '42px'
     },
 
+    /**
+     * Add a label; Gets overriden when using the default slot
+     *
+     * @api prop label
+     * @type {String}
+     * @category label
+     * @added-in v2.2
+     * @example 'Please wait...'
+     */
     label: String,
+    /**
+     * Add CSS class(es) to the label; Works along the 'label' prop only
+     *
+     * @api prop label-class
+     * @type {String}
+     * @category label
+     * @added-in v2.2
+     * @example 'text-red q-mt-xl'
+     */
     labelClass: String,
+    /**
+     * Apply custom style to the label; Works along the 'label' prop only
+     *
+     * @api prop label-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category label
+     * @added-in v2.2
+     * @example 'font-size: 28px'
+     * @example { color: '#ff0000' }
+     */
     labelStyle: [String, Array, Object]
   },
 

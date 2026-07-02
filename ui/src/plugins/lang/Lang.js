@@ -33,8 +33,21 @@ const Plugin = createReactivePlugin(
     // props: object
     // __langConfig: object
 
+    /**
+     * Get browser locale in Quasar lang pack format
+     *
+     * @api method getLocale
+     * @returns {String|undefined} Browser locale, when available
+     */
     getLocale,
 
+    /**
+     * Set another Quasar Language Pack
+     *
+     * @api method set
+     * @param {Object} langObject Usually imported directly from quasar/lang/<lang-name>
+     * @param {Object} [ssrContext] SSR context; required on server
+     */
     // oxlint-disable-next-line default-param-last
     set(langObject = defaultLang, ssrContext) {
       const lang = {
@@ -130,5 +143,9 @@ const Plugin = createReactivePlugin(
   }
 )
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/options/quasar-language-packs
+ */
 export default Plugin
 export { defaultLang }

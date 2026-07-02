@@ -77,6 +77,15 @@ function getValidValues(start, count, testFn) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/time
+ */
+/**
+ * This is where additional buttons can go
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QTime',
 
@@ -85,32 +94,111 @@ export default createComponent({
     ...useFormProps,
     ...useDatetimeProps,
 
+    /**
+     * Time of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="currentTime"
+     */
     modelValue: {
       required: true,
       validator: val => typeof val === 'string' || val === null
     },
 
+    /**
+     * @api prop mask
+     * @type {String|null}
+     * @default 'HH:mm'
+     * @example 'HH:mm:ss'
+     * @example 'YYYY-MM-DD HH:mm:ss'
+     * @example 'HH:mm MMMM Do, YYYY'
+     */
     mask: {
       ...useDatetimeProps.mask,
       default: null
     },
 
+    /**
+     * Forces 24 hour time display instead of AM/PM system; If prop is not set, then the default is based on Quasar lang language being used
+     *
+     * @api prop format24h
+     * @type {Boolean|null}
+     * @default null
+     * @category behavior
+     */
     format24h: {
       type: Boolean,
       default: null
     },
 
+    /**
+     * The default date to use (in YYYY/MM/DD format) when model is unfilled (undefined or null)
+     *
+     * @api prop default-date
+     * @type {String}
+     * @default # current day
+     * @category model
+     * @example '1995/02/23'
+     */
     defaultDate: {
       type: String,
       validator: v => defaultDateRE.test(v)
     },
 
+    /**
+     * Optionally configure what time is the user allowed to set; Overridden by 'hour-options', 'minute-options' and 'second-options' if those are set; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop options
+     * @type {Function}
+     * @category behavior
+     * @example (hr, min, sec) => hr <= 6
+     */
     options: Function,
+    /**
+     * Optionally configure what hours is the user allowed to set; Overrides 'options' prop if that is also set
+     *
+     * @api prop hour-options
+     * @type {Array}
+     * @category behavior
+     * @example [3, 6, 9]
+     */
     hourOptions: Array,
+    /**
+     * Optionally configure what minutes is the user allowed to set; Overrides 'options' prop if that is also set
+     *
+     * @api prop minute-options
+     * @type {Array}
+     * @category behavior
+     * @example [0, 15, 30, 45]
+     */
     minuteOptions: Array,
+    /**
+     * Optionally configure what seconds is the user allowed to set; Overrides 'options' prop if that is also set
+     *
+     * @api prop second-options
+     * @type {Array}
+     * @category behavior
+     * @example [0, 7, 10, 23]
+     */
     secondOptions: Array,
 
+    /**
+     * Allow the time to be set with seconds
+     *
+     * @api prop with-seconds
+     * @type {Boolean}
+     * @category model|behavior
+     */
     withSeconds: Boolean,
+    /**
+     * Display a button that selects the current time
+     *
+     * @api prop now-btn
+     * @type {Boolean}
+     * @category content
+     */
     nowBtn: Boolean
   },
 
@@ -351,6 +439,11 @@ export default createComponent({
       })
     })
 
+    /**
+     * Change model to current moment
+     *
+     * @api method setNow
+     */
     function setNow() {
       const date = {
         ...getCurrentDate(),

@@ -50,6 +50,15 @@ function getShortDate(date) {
   return { year: date.year, month: date.month, day: date.day }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/date
+ */
+/**
+ * This is where additional buttons can go
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QDate',
 
@@ -58,6 +67,16 @@ export default createComponent({
     ...useFormProps,
     ...useDarkProps,
 
+    /**
+     * Date(s) of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="myDate"
+     * @example # v-model="[myDate1, myDate2]"
+     * @example # v-model="[{ from: myDateFrom, to: myDateTo }]"
+     */
     modelValue: {
       required: true,
       validator: val =>
@@ -67,12 +86,49 @@ export default createComponent({
         val === null
     },
 
+    /**
+     * Allow multiple selection; Model must be Array
+     *
+     * @api prop multiple
+     * @type {Boolean}
+     * @category model|selection
+     */
     multiple: Boolean,
+    /**
+     * Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days
+     *
+     * @api prop range
+     * @type {Boolean}
+     * @category model|selection
+     */
     range: Boolean,
 
+    /**
+     * When specified, it overrides the default header title; Makes sense when not in 'minimal' mode
+     *
+     * @api prop title
+     * @type {String}
+     * @category content
+     * @example 'Birthday'
+     */
     title: String,
+    /**
+     * When specified, it overrides the default header subtitle; Makes sense when not in 'minimal' mode
+     *
+     * @api prop subtitle
+     * @type {String}
+     * @category content
+     * @example 'John Doe'
+     */
     subtitle: String,
 
+    /**
+     * @api prop mask
+     * @default 'YYYY/MM/DD'
+     * @example 'YYYY-MM-DD'
+     * @example 'MMMM Do, YYYY'
+     * @example 'YYYY-MM-DD HH:mm:ss'
+     */
     mask: {
       ...useDatetimeProps.mask,
       // this mask is forced
@@ -80,35 +136,141 @@ export default createComponent({
       default: 'YYYY/MM/DD'
     },
 
+    /**
+     * The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null); Please ensure it is within the navigation min/max year-month (if using them)
+     *
+     * @api prop default-year-month
+     * @type {String}
+     * @category model
+     * @example '1986/02'
+     */
     defaultYearMonth: {
       type: String,
       validator: yearMonthValidator
     },
 
+    /**
+     * Show the years selector in months view
+     *
+     * @api prop years-in-month-view
+     * @type {Boolean}
+     * @category behavior
+     */
     yearsInMonthView: Boolean,
 
+    /**
+     * A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not); If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop events
+     * @type {Array|Function}
+     * @category model
+     * @example ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+     * @example date => (date[ 9 ] % 3 === 0)
+     */
     events: [Array, Function],
+    /**
+     * Color name (from the Quasar Color Palette); If using a function, it receives the date as a String and must return a String (color for the received date); If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop event-color
+     * @type {String|Function}
+     * @category style
+     * @example 'teal-10'
+     * @example date => (date[ 9 ] % 2 === 0 ? 'teal' : 'orange')
+     */
     eventColor: [String, Function],
 
+    /**
+     * Emit model when user browses month and year too; ONLY for single selection (non-multiple, non-range)
+     *
+     * @api prop emit-immediately
+     * @type {Boolean}
+     * @category model
+     */
     emitImmediately: Boolean,
 
+    /**
+     * Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline; Incompatible with 'range' prop
+     *
+     * @api prop options
+     * @type {Array|Function}
+     * @category model
+     * @example ['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26']
+     * @example date => (date[ 9 ] % 3 === 0)
+     * @example date => (date >= '2018/11/03' && date <= '2018/11/15')
+     */
     options: [Array, Function],
 
+    /**
+     * Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop
+     *
+     * @api prop navigation-min-year-month
+     * @type {String}
+     * @category selection
+     * @example '2020/07'
+     */
     navigationMinYearMonth: {
       type: String,
       validator: yearMonthValidator
     },
 
+    /**
+     * Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop
+     *
+     * @api prop navigation-max-year-month
+     * @type {String}
+     * @category selection
+     * @example '2020/10'
+     */
     navigationMaxYearMonth: {
       type: String,
       validator: yearMonthValidator
     },
 
+    /**
+     * Remove ability to unselect a date; It does not apply to selecting a range over already selected dates
+     *
+     * @api prop no-unset
+     * @type {Boolean}
+     * @category selection
+     */
     noUnset: Boolean,
 
+    /**
+     * Sets the day of the week that is considered the first day (0 - Sunday, 1 - Monday, ...); This day will show in the left-most column of the calendar
+     *
+     * @api prop first-day-of-week
+     * @type {String|Number}
+     * @default # based on configured Quasar lang language
+     * @category model
+     * @example 1
+     * @example # first-day-of-week="1"
+     * @example # :first-day-of-week="selectedFirstDayOfTheWeek"
+     */
     firstDayOfWeek: [String, Number],
+    /**
+     * Display a button that selects the current day
+     *
+     * @api prop today-btn
+     * @type {Boolean}
+     * @category content
+     */
     todayBtn: Boolean,
+    /**
+     * Don’t display the header
+     *
+     * @api prop minimal
+     * @type {Boolean}
+     * @category content
+     */
     minimal: Boolean,
+    /**
+     * The view which will be displayed by default
+     *
+     * @api prop default-view
+     * @type {String}
+     * @default 'Calendar'
+     * @category model
+     */
     defaultView: {
       type: String,
       default: 'Calendar',
@@ -826,6 +988,11 @@ export default createComponent({
       lastEmitValue = JSON.stringify(v)
     }
 
+    /**
+     * Change model to today
+     *
+     * @api method setToday
+     */
     function setToday() {
       const { year, month, day } = today.value
 
@@ -849,10 +1016,23 @@ export default createComponent({
       setCalendarTo(date.year, date.month)
     }
 
+    /**
+     * Change current view
+     *
+     * @api method setView
+     * @param {String} view QDate view name
+     */
     function setView(viewMode) {
       if (viewIsValid(viewMode)) view.value = viewMode
     }
 
+    /**
+     * Increment or decrement calendar view's month or year
+     *
+     * @api method offsetCalendar
+     * @param {String} type What to increment/decrement
+     * @param {Boolean} descending Decrement?
+     */
     function offsetCalendar(type, descending) {
       if (['month', 'year'].includes(type)) {
         const fn = type === 'month' ? goToMonth : goToYear
@@ -860,11 +1040,25 @@ export default createComponent({
       }
     }
 
+    /**
+     * Change current year and month of the Calendar view; It gets corrected if using navigation-min/max-year-month and sets the current view to Calendar
+     *
+     * @api method setCalendarTo
+     * @param {Number} year The year
+     * @param {Number} month The month
+     */
     function setCalendarTo(year, month) {
       view.value = 'Calendar'
       updateViewModel(year, month)
     }
 
+    /**
+     * Configure the current editing range
+     *
+     * @api method setEditingRange
+     * @param {Object} from Definition of date from where the range begins
+     * @param {Object} to Definition of date to where the range ends
+     */
     function setEditingRange(from, to) {
       if (!props.range || !from) {
         editRange.value = null

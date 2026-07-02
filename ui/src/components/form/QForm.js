@@ -27,13 +27,50 @@ function validateComponent(comp) {
     : Promise.resolve({ valid, comp })
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/form
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QForm',
 
   props: {
+    /**
+     * Focus first focusable element on initial component render
+     *
+     * @api prop autofocus
+     * @type {Boolean}
+     * @category behavior
+     */
     autofocus: Boolean,
+    /**
+     * Do not try to focus on first component that has a validation error when submitting form
+     *
+     * @api prop no-error-focus
+     * @type {Boolean}
+     * @category behavior
+     */
     noErrorFocus: Boolean,
+    /**
+     * Do not try to focus on first component when resetting form
+     *
+     * @api prop no-reset-focus
+     * @type {Boolean}
+     * @category behavior
+     */
     noResetFocus: Boolean,
+    /**
+     * Validate all fields in form (by default it stops after finding the first invalid field with synchronous validation)
+     *
+     * @api prop greedy
+     * @type {Boolean}
+     * @category behavior
+     */
     greedy: Boolean,
 
     onSubmit: Function
@@ -48,6 +85,13 @@ export default createComponent({
     let validateIndex = 0
     const registeredComponents = []
 
+    /**
+     * Triggers a validation on all applicable inner Quasar components
+     *
+     * @api method validate
+     * @param {Boolean} shouldFocus Tell if it should focus or not on component with error on submitting form; Overrides 'no-focus-error' prop if specified
+     * @returns {Promise<boolean>} Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)
+     */
     function validate(shouldFocus) {
       const localFocus =
         typeof shouldFocus === 'boolean' ? shouldFocus : !props.noErrorFocus
@@ -104,6 +148,11 @@ export default createComponent({
       })
     }
 
+    /**
+     * Resets the validation on all applicable inner Quasar components
+     *
+     * @api method resetValidation
+     */
     function resetValidation() {
       validateIndex++
 
@@ -114,6 +163,12 @@ export default createComponent({
       })
     }
 
+    /**
+     * Manually trigger form validation and submit
+     *
+     * @api method submit
+     * @param {Any} evt
+     */
     function submit(evt) {
       if (evt !== void 0) stopAndPrevent(evt)
 
@@ -148,6 +203,11 @@ export default createComponent({
       })
     }
 
+    /**
+     * Focus on first focusable element/component in the form
+     *
+     * @api method focus
+     */
     function focus() {
       addFocusFn(() => {
         if (rootRef.value === null) return
@@ -205,6 +265,12 @@ export default createComponent({
       submit,
       reset,
       focus,
+      /**
+       * Get an array of children Vue component instances that support Quasar validation API (derived from QField, or using useFormChild()/QFormChildMixin)
+       *
+       * @api method getValidationComponents
+       * @returns {Array} Quasar validation API-compatible Vue component instances
+       */
       getValidationComponents: () => registeredComponents
     })
 

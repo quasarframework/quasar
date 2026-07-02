@@ -107,29 +107,98 @@ function restoreAjax(start) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/ajax-bar
+ */
 export default createComponent({
   name: 'QAjaxBar',
 
   props: {
+    /**
+     * Position within window of where QAjaxBar should be displayed
+     *
+     * @api prop position
+     * @type {String}
+     * @default 'top'
+     * @category style
+     * @value 'top'
+     * @value 'right'
+     * @value 'bottom'
+     * @value 'left'
+     */
     position: {
       type: String,
       default: 'top',
       validator: val => positionValues.includes(val)
     },
 
+    /**
+     * Size in CSS units, including unit name
+     *
+     * @api prop size
+     * @extends size
+     * @default '2px'
+     */
     size: {
       type: String,
       default: '2px'
     },
 
+    /**
+     * Color name for component from the Quasar Color Palette
+     *
+     * @api prop color
+     * @extends color
+     */
     color: String,
+
+    /**
+     * Skip Ajax hijacking (not a reactive prop)
+     *
+     * @api prop skip-hijack
+     * @type {Boolean}
+     * @category behavior
+     */
     skipHijack: Boolean,
+
+    /**
+     * Reverse direction of progress
+     *
+     * @api prop reverse
+     * @type {Boolean}
+     * @category behavior
+     */
     reverse: Boolean,
 
+    /**
+     * Filter which URL should trigger start() + stop()
+     *
+     * @api prop hijack-filter
+     * @type {Function}
+     * @category behavior
+     * @addedIn v2.4.5
+     * @param {String} url The URL being triggered
+     * @returns {Boolean} Should the URL received as param trigger start() + stop()?
+     */
     hijackFilter: Function
   },
 
-  emits: ['start', 'stop'],
+  emits: [
+    /**
+     * Emitted when bar is triggered to appear
+     *
+     * @api event start
+     */
+    'start',
+
+    /**
+     * Emitted when bar has finished its job
+     *
+     * @api event stop
+     */
+    'stop'
+  ],
 
   setup(props, { emit }) {
     const { proxy } = getCurrentInstance()
@@ -186,6 +255,14 @@ export default createComponent({
         : { 'aria-hidden': 'true' }
     )
 
+    /**
+     * Notify bar you are waiting for a new process to finish
+     *
+     * @api method start
+     * @param {Number} speed Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing
+     * @default 300
+     * @returns {Number} Number of active simultaneous sessions
+     */
     function start(newSpeed = 300) {
       const oldSpeed = speed
       speed = Math.max(0, newSpeed) || 0
@@ -233,6 +310,13 @@ export default createComponent({
       return sessions
     }
 
+    /**
+     * Manually trigger a bar progress increment
+     *
+     * @api method increment
+     * @param {Number} amount Amount (0 < x <= 100) to increment with
+     * @returns {Number} Number of active simultaneous sessions
+     */
     function increment(amount) {
       if (sessions > 0) {
         progress.value = inc(progress.value, amount)
@@ -241,6 +325,12 @@ export default createComponent({
       return sessions
     }
 
+    /**
+     * Notify bar that one process you were waiting has finished
+     *
+     * @api method stop
+     * @returns {Number} Number of active simultaneous sessions
+     */
     function stop() {
       sessions = Math.max(0, sessions - 1)
       if (sessions > 0) return sessions

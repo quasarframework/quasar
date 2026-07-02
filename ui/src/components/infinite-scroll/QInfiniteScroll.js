@@ -26,28 +26,82 @@ import { hSlot, hUniqueSlot } from '../../utils/private.render/render.js'
 
 const { passive } = listenOpts
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/infinite-scroll
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
+
+/**
+ * Slot displaying something while loading content; Example: QSpinner
+ *
+ * @api slot loading
+ */
 export default createComponent({
   name: 'QInfiniteScroll',
 
   props: {
+    /**
+     * Offset (pixels) to bottom of Infinite Scroll container from which the component should start loading more content in advance
+     *
+     * @api prop offset
+     * @type {Number}
+     * @default 500
+     * @category behavior
+     */
     offset: {
       type: Number,
       default: 500
     },
 
+    /**
+     * Debounce amount (in milliseconds)
+     *
+     * @api prop debounce
+     * @type {String|Number}
+     * @default 100
+     * @category behavior
+     */
     debounce: {
       type: [String, Number],
       default: 100
     },
 
+    /**
+     * @api prop scroll-target
+     * @extends scroll-target
+     */
     scrollTarget: scrollTargetProp,
 
+    /**
+     * Initialize the pagination index (used for the @load event)
+     *
+     * @api prop initial-index
+     * @type {Number}
+     * @default 0
+     * @category behavior
+     */
     initialIndex: {
       type: Number,
       default: 0
     },
 
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
+    /**
+     * Scroll area should behave like a messenger - starting scrolled to bottom and loading when reaching the top
+     *
+     * @api prop reverse
+     * @type {Boolean}
+     * @category behavior
+     */
     reverse: Boolean
   },
 
@@ -88,6 +142,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * Tells Infinite Scroll to load more content, regardless of the scroll position
+     *
+     * @api method trigger
+     */
     function trigger() {
       if (props.disable || isFetching.value || !isWorking.value) {
         return
@@ -116,6 +175,11 @@ export default createComponent({
             if (isDone === true) {
               stop()
             } else if (rootRef.value?.closest('body')) {
+              /**
+               * Checks scroll position and loads more content if necessary
+               *
+               * @api method poll
+               */
               poll()
             }
           })
@@ -123,10 +187,20 @@ export default createComponent({
       })
     }
 
+    /**
+     * Resets calling index to 0
+     *
+     * @api method reset
+     */
     function reset() {
       index = 0
     }
 
+    /**
+     * Starts working. Checks scroll position upon call and if trigger is hit, it loads more content
+     *
+     * @api method resume
+     */
     function resume() {
       if (!isWorking.value) {
         isWorking.value = true
@@ -136,6 +210,11 @@ export default createComponent({
       immediatePoll()
     }
 
+    /**
+     * Stops working, regardless of scroll position
+     *
+     * @api method stop
+     */
     function stop() {
       if (isWorking.value) {
         isWorking.value = false
@@ -145,6 +224,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes
+     *
+     * @api method updateScrollTarget
+     */
     function updateScrollTarget() {
       if (localScrollTarget && isWorking.value) {
         localScrollTarget.removeEventListener('scroll', poll, passive)
@@ -169,6 +253,12 @@ export default createComponent({
       }
     }
 
+    /**
+     * Overwrite the current pagination index
+     *
+     * @api method setIndex
+     * @param {Number} newIndex New pagination index
+     */
     function setIndex(newIndex) {
       index = newIndex
     }

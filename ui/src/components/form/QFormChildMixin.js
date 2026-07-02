@@ -23,7 +23,18 @@ export default {
   },
 
   methods: {
+    /**
+     * Needs to be overwritten when getting extended/mixed in
+     *
+     * @api method validate
+     * @returns {Boolean|Promise<boolean>} Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)
+     */
     validate() {},
+    /**
+     * Needs to be overwritten when getting extended/mixed in
+     *
+     * @api method resetValidation
+     */
     resetValidation() {}
   },
 

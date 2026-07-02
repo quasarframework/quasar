@@ -13,6 +13,21 @@ export const alignMap = {
 export const alignValues = Object.keys(alignMap)
 
 export const useAlignProps = {
+  /**
+   * Specify how to align content
+   *
+   * @api prop align
+   * @type {String}
+   * @category content
+   * @optional
+   * @value 'left'
+   * @value 'center'
+   * @value 'right'
+   * @value 'between'
+   * @value 'around'
+   * @value 'evenly'
+   * @value 'stretch'
+   */
   align: {
     type: String,
     validator: v => alignValues.includes(v)

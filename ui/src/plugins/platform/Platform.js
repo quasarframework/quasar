@@ -326,11 +326,51 @@ const ssrClient = {
 export const client = __QUASAR_SSR_SERVER__
   ? ssrClient
   : {
+      /**
+       * Client browser User Agent
+       *
+       * @api prop userAgent
+       * @type {String}
+       * @example 'mozilla/5.0 (macintosh; intel mac os x 10_14_5) applewebkit/537.36 (khtml, like gecko) chrome/75.0.3770.100 safari/537.36'
+       */
       userAgent,
+
+      /**
+       * Client browser details (property names depend on browser)
+       *
+       * @api prop is
+       * @type {Object}
+       * @definition name Browser name
+       * @definition platform Platform name
+       * @definition version Detailed browser version
+       * @definition versionNumber Major browser version as a number
+       * @definition mobile Whether the platform is mobile
+       * @definition desktop Whether the platform is desktop
+       * @example { chrome: true, version: '71.0.3578.98', versionNumber: 71, mac: true, desktop: true, webkit: true, name: 'chrome', platform: 'mac' }
+       */
       is: getPlatform(userAgent),
+
+      /**
+       * Client browser detectable properties
+       *
+       * @api prop has
+       * @type {Object}
+       * @definition touch Client browser runs on device with touch support
+       * @definition webStorage Client browser has Web Storage support
+       * @example { touch: false, webStorage: true }
+       */
       has: {
         touch: hasTouch
       },
+
+      /**
+       * Client browser environment
+       *
+       * @api prop within
+       * @type {Object}
+       * @definition iframe Does the app run under an iframe?
+       * @example { iframe: false }
+       */
       within: {
         iframe: window.self !== window.top
       }
@@ -361,6 +401,14 @@ const Platform = {
 }
 
 if (__QUASAR_SSR_SERVER__) {
+  /**
+   * For SSR usage only, and only on the global import (not on $q.platform)
+   *
+   * @api method parseSSR
+   * @param {Object} ssrContext SSR Context Object
+   * @returns {Object}
+   * @ts-type Platform
+   */
   Platform.parseSSR = ssrContext => {
     const ua =
       ssrContext.req.headers['user-agent'] ||
@@ -408,4 +456,8 @@ if (__QUASAR_SSR_SERVER__) {
   }
 }
 
+/**
+ * @api plugin
+ * @docsUrl https://v2.quasar.dev/options/platform-detection
+ */
 export default Platform

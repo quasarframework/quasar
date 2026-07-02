@@ -46,42 +46,161 @@ const panOpts = {
 
 const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/scroll-area
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QScrollArea',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * Object with CSS properties and values for custom styling the thumb of scrollbars (both vertical and horizontal)
+     *
+     * @api prop thumb-style
+     * @type {Object}
+     * @ts-type VueStyleObjectProp
+     * @category style
+     * @example { right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }
+     */
     thumbStyle: Object,
+    /**
+     * Object with CSS properties and values for custom styling the thumb of the vertical scrollbar; Is applied on top of 'thumb-style' prop
+     *
+     * @api prop vertical-thumb-style
+     * @type {Object}
+     * @ts-type VueStyleObjectProp
+     * @category style
+     * @example { right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }
+     */
     verticalThumbStyle: Object,
+    /**
+     * Object with CSS properties and values for custom styling the thumb of the horizontal scrollbar; Is applied on top of 'thumb-style' prop
+     *
+     * @api prop horizontal-thumb-style
+     * @type {Object}
+     * @ts-type VueStyleObjectProp
+     * @category style
+     * @example { bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }
+     */
     horizontalThumbStyle: Object,
 
+    /**
+     * Object with CSS properties and values for custom styling the scrollbars (both vertical and horizontal)
+     *
+     * @api prop bar-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example { borderRadius: '5px', background: 'red', opacity: 1 }
+     */
     barStyle: [Array, String, Object],
+    /**
+     * Object with CSS properties and values for custom styling the vertical scrollbar; Is applied on top of 'bar-style' prop
+     *
+     * @api prop vertical-bar-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example { right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }
+     */
     verticalBarStyle: [Array, String, Object],
+    /**
+     * Object with CSS properties and values for custom styling the horizontal scrollbar; Is applied on top of 'bar-style' prop
+     *
+     * @api prop horizontal-bar-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example { bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }
+     */
     horizontalBarStyle: [Array, String, Object],
 
+    /**
+     * Adds [top, bottom] offset to vertical thumb
+     *
+     * @api prop vertical-offset
+     * @type {Array}
+     * @default # [0, 0]
+     * @category style
+     * @added-in v2.17
+     */
     verticalOffset: {
       type: Array,
       default: [0, 0]
     },
+    /**
+     * Adds [left, right] offset to horizontal thumb
+     *
+     * @api prop horizontal-offset
+     * @type {Array}
+     * @default # [0, 0]
+     * @category style
+     * @added-in v2.17
+     */
     horizontalOffset: {
       type: Array,
       default: [0, 0]
     },
 
+    /**
+     * Object with CSS properties and values for styling the container of QScrollArea
+     *
+     * @api prop content-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example { backgroundColor: '#C0C0C0' }
+     */
     contentStyle: [Array, String, Object],
+    /**
+     * Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered)
+     *
+     * @api prop content-active-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example { backgroundColor: 'white' }
+     */
     contentActiveStyle: [Array, String, Object],
 
+    /**
+     * When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars disappear again (if component is not hovered)
+     *
+     * @api prop delay
+     * @type {Number|String}
+     * @default 1000
+     * @category behavior
+     */
     delay: {
       type: [String, Number],
       default: 1000
     },
 
+    /**
+     * Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior
+     *
+     * @api prop visible
+     * @type {Boolean|null}
+     * @default null
+     * @category behavior
+     */
     visible: {
       type: Boolean,
       default: null
     },
 
+    /**
+     * @api prop tabindex
+     * @extends tabindex
+     */
     tabindex: [String, Number],
 
     onScroll: Function
@@ -478,17 +597,51 @@ export default createComponent({
 
     // expose public methods
     Object.assign(proxy, {
+      /**
+       * Get the scrolling DOM element target
+       *
+       * @api method getScrollTarget
+       * @returns {Element} DOM element upon which scrolling takes place
+       */
       getScrollTarget: () => targetRef.value,
       getScroll,
+      /**
+       * Get current scroll position
+       *
+       * @api method getScrollPosition
+       * @returns {Object} An object containing scroll position information
+       */
       getScrollPosition: () => ({
         top: scroll.vertical.position.value,
         left: scroll.horizontal.position.value
       }),
+      /**
+       * Get current scroll position in percentage (0.0 <= x <= 1.0)
+       *
+       * @api method getScrollPercentage
+       * @returns {Object} An object containing scroll position information in percentage
+       */
       getScrollPercentage: () => ({
         top: scroll.vertical.percentage.value,
         left: scroll.horizontal.percentage.value
       }),
+      /**
+       * Set scroll position to an offset; If a duration (in milliseconds) is specified then the scroll is animated
+       *
+       * @api method setScrollPosition
+       * @param {String} axis Scroll axis
+       * @param {Number} offset Scroll position offset from top (in pixels)
+       * @param {Number} duration Duration (in milliseconds) enabling animated scroll
+       */
       setScrollPosition: localSetScrollPosition,
+      /**
+       * Set scroll position to a percentage (0.0 <= x <= 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated
+       *
+       * @api method setScrollPercentage
+       * @param {String} axis Scroll axis
+       * @param {Number} offset Scroll percentage (0.0 <= x <= 1.0) of the total scrolling size
+       * @param {Number} duration Duration (in milliseconds) enabling animated scroll
+       */
       setScrollPercentage(axis, percentage, duration) {
         localSetScrollPosition(
           axis,

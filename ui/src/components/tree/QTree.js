@@ -43,69 +43,329 @@ function getNodeMedia(node) {
   }
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/tree
+ */
+/**
+ * Slot to use for defining the header of a node
+ *
+ * @api slot default-header
+ * @scope expanded {Boolean} Is node expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope ticked {Boolean} Is node ticked? Can directly be assigned new Boolean value which changes ticked state
+ * @scope tree {Component} QTree instance
+ * @scope node {Object} Node object
+ * @scope key {Any} Node's key
+ * @scope color {String} QTree instance 'color' supplied prop value
+ * @scope dark {Boolean} QTree instance 'dark' supplied prop value
+ */
+
+/**
+ * Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string
+ *
+ * @api slot header-[name]
+ * @scope expanded {Boolean} Is node expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope ticked {Boolean} Is node ticked? Can directly be assigned new Boolean value which changes ticked state
+ * @scope tree {Component} QTree instance
+ * @scope node {Object} Node object
+ * @scope key {Any} Node's key
+ * @scope color {String} QTree instance 'color' supplied prop value
+ * @scope dark {Boolean} QTree instance 'dark' supplied prop value
+ */
+
+/**
+ * Slot to use for defining the body of a node
+ *
+ * @api slot default-body
+ * @scope expanded {Boolean} Is node expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope ticked {Boolean} Is node ticked? Can directly be assigned new Boolean value which changes ticked state
+ * @scope tree {Component} QTree instance
+ * @scope node {Object} Node object
+ * @scope key {Any} Node's key
+ * @scope color {String} QTree instance 'color' supplied prop value
+ * @scope dark {Boolean} QTree instance 'dark' supplied prop value
+ */
+
+/**
+ * Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string
+ *
+ * @api slot body-[name]
+ * @scope expanded {Boolean} Is node expanded? Can directly be assigned new Boolean value which changes expanded state
+ * @scope ticked {Boolean} Is node ticked? Can directly be assigned new Boolean value which changes ticked state
+ * @scope tree {Component} QTree instance
+ * @scope node {Object} Node object
+ * @scope key {Any} Node's key
+ * @scope color {String} QTree instance 'color' supplied prop value
+ * @scope dark {Boolean} QTree instance 'dark' supplied prop value
+ */
 export default createComponent({
   name: 'QTree',
 
   props: {
     ...useDarkProps,
 
+    /**
+     * The array of nodes that designates the tree structure
+     *
+     * @api prop nodes
+     * @type {Array}
+     * @ts-type QTreeNode
+     * @category content
+     * @required
+     * @example [{}, {}]
+     */
     nodes: {
       type: Array,
       required: true
     },
+    /**
+     * The property name of each node object that holds a unique node id
+     *
+     * @api prop node-key
+     * @type {String}
+     * @category content
+     * @required
+     * @example 'key'
+     * @example 'id'
+     */
     nodeKey: {
       type: String,
       required: true
     },
+    /**
+     * The property name of each node object that holds the label of the node
+     *
+     * @api prop label-key
+     * @type {String}
+     * @default 'label'
+     * @category content
+     * @example 'name'
+     * @example 'description'
+     */
     labelKey: {
       type: String,
       default: 'label'
     },
+    /**
+     * The property name of each node object that holds the list of children of the node
+     *
+     * @api prop children-key
+     * @type {String}
+     * @default 'children'
+     * @category content
+     * @example 'roles'
+     * @example 'relatives'
+     */
     childrenKey: {
       type: String,
       default: 'children'
     },
 
+    /**
+     * @api prop dense
+     * @extends dense
+     * @added-in v2.2.4
+     */
     dense: Boolean,
 
+    /**
+     * Color name for component from the Quasar Color Palette
+     *
+     * @api prop color
+     * @extends color
+     */
     color: String,
+    /**
+     * Color name for controls (like checkboxes) from the Quasar Color Palette
+     *
+     * @api prop control-color
+     * @extends color
+     * @category style
+     */
     controlColor: String,
+    /**
+     * @api prop text-color
+     * @extends text-color
+     */
     textColor: String,
+    /**
+     * Color name for selected nodes (from the Quasar Color Palette)
+     *
+     * @api prop selected-color
+     * @extends color
+     */
     selectedColor: String,
 
+    /**
+     * @api prop icon
+     * @extends icon
+     */
     icon: String,
 
+    /**
+     * The type of strategy to use for the selection of the nodes
+     *
+     * @api prop tick-strategy
+     * @type {String}
+     * @default 'none'
+     * @category behavior
+     */
     tickStrategy: {
       type: String,
       default: 'none',
       validator: v => tickStrategyOptions.includes(v)
     },
+    /**
+     * Keys of nodes that are ticked
+     *
+     * @api prop ticked
+     * @type {Array}
+     * @category state
+     * @example # v-model:ticked="tickedKeys"
+     */
     ticked: Array, // v-model:ticked
+    /**
+     * Keys of nodes that are expanded
+     *
+     * @api prop expanded
+     * @type {Array}
+     * @category state
+     * @example # v-model:expanded="expandedKeys"
+     */
     expanded: Array, // v-model:expanded
     selected: {}, // v-model:selected
 
+    /**
+     * Do not allow un-selection when clicking currently selected node
+     *
+     * @api prop no-selection-unset
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.4.10
+     */
     noSelectionUnset: Boolean,
 
+    /**
+     * Allow the tree to have all its branches expanded, when first rendered
+     *
+     * @api prop default-expand-all
+     * @type {Boolean}
+     * @category behavior
+     */
     defaultExpandAll: Boolean,
+    /**
+     * Allows the tree to be set in accordion mode
+     *
+     * @api prop accordion
+     * @type {Boolean}
+     * @category behavior
+     */
     accordion: Boolean,
 
+    /**
+     * The text value to be used for filtering nodes
+     *
+     * @api prop filter
+     * @type {String}
+     * @category filter
+     * @example 'car'
+     */
     filter: String,
+    /**
+     * The function to use to filter the tree nodes; For best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop filter-method
+     * @type {Function}
+     * @category filter
+     * @example (node, filter) => node.label.toLowerCase().includes(filter.toLowerCase())
+     */
     filterMethod: Function,
 
+    /**
+     * Toggle animation duration (in milliseconds)
+     *
+     * @api prop duration
+     * @type {Number}
+     * @default 300
+     * @category style
+     */
     duration: {},
+    /**
+     * Do not display the connector lines between nodes
+     *
+     * @api prop no-connectors
+     * @type {Boolean}
+     * @category style
+     */
     noConnectors: Boolean,
+    /**
+     * Turn off transition effects when expanding/collapsing nodes; Also enhances perf by a lot as a side-effect; Recommended for big trees
+     *
+     * @api prop no-transition
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.9.2
+     */
     noTransition: Boolean,
 
+    /**
+     * Override default such label for when no nodes are available
+     *
+     * @api prop no-nodes-label
+     * @type {String}
+     * @category content
+     * @example 'No nodes to show!'
+     */
     noNodesLabel: String,
+    /**
+     * Override default such label for when no nodes are available due to filtering
+     *
+     * @api prop no-results-label
+     * @type {String}
+     * @category content
+     * @example 'No results'
+     */
     noResultsLabel: String
   },
 
   emits: [
+    /**
+     * Triggered when nodes are expanded or collapsed; Used by Vue on 'v-model:update' to update its value
+     *
+     * @api event update:expanded
+     * @param {Array} expanded The expanded node keys
+     */
     'update:expanded',
+    /**
+     * Emitted when nodes are ticked/unticked via the checkbox; Used by Vue on 'v-model:ticked' to update its value
+     *
+     * @api event update:ticked
+     * @param {Array} target The ticked node keys
+     */
     'update:ticked',
+    /**
+     * Emitted when selected node changes; Used by Vue on 'v-model:selected' to update its value
+     *
+     * @api event update:selected
+     * @param {Any} target The selected node key
+     */
     'update:selected',
+    /**
+     * Emitted when the lazy loading of nodes is finished
+     *
+     * @api event lazy-load
+     * @param {Object} details Lazy loading details
+     */
     'lazyLoad',
+    /**
+     * @api event after-show
+     * @extends after-show
+     */
     'afterShow',
+    /**
+     * @api event after-hide
+     * @extends after-hide
+     */
     'afterHide'
   ],
 
@@ -320,6 +580,13 @@ export default createComponent({
       }
     )
 
+    /**
+     * Get the node with the given key
+     *
+     * @api method getNodeByKey
+     * @param {Any} key The key of a node
+     * @returns {Object} Requested node
+     */
     function getNodeByKey(key) {
       const find = (result, node) => {
         if (result || !node) {
@@ -339,18 +606,42 @@ export default createComponent({
       return find(null, props.nodes)
     }
 
+    /**
+     * Get array of nodes that are ticked
+     *
+     * @api method getTickedNodes
+     * @returns {Array} Ticked node objects
+     */
     function getTickedNodes() {
       return innerTicked.value.map(key => getNodeByKey(key))
     }
 
+    /**
+     * Get array of nodes that are expanded
+     *
+     * @api method getExpandedNodes
+     * @returns {Array} Expanded node objects
+     */
     function getExpandedNodes() {
       return innerExpanded.value.map(key => getNodeByKey(key))
     }
 
+    /**
+     * Determine if a node is expanded
+     *
+     * @api method isExpanded
+     * @param {Any} key The key of a node
+     * @returns {Boolean} Is specified node expanded?
+     */
     function isExpanded(key) {
       return key && meta.value[key] ? meta.value[key].expanded : false
     }
 
+    /**
+     * Use to collapse all branches of the tree
+     *
+     * @api method collapseAll
+     */
     function collapseAll() {
       if (props.expanded !== void 0) {
         emit('update:expanded', [])
@@ -359,6 +650,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * Use to expand all branches of the tree
+     *
+     * @api method expandAll
+     */
     function expandAll() {
       const expanded = []
       const travel = node => {
@@ -382,6 +678,13 @@ export default createComponent({
       }
     }
 
+    /**
+     * Expands the tree at the point of the node with the key given
+     *
+     * @api method setExpanded
+     * @param {Any} key The key of a node
+     * @param {Boolean} state Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it
+     */
     function setExpanded(
       key,
       state,
@@ -463,10 +766,24 @@ export default createComponent({
       }
     }
 
+    /**
+     * Method to check if a node's checkbox is selected or not
+     *
+     * @api method isTicked
+     * @param {Any} key The key of a node
+     * @returns {Boolean} Is specified node ticked?
+     */
     function isTicked(key) {
       return key && meta.value[key] ? meta.value[key].ticked : false
     }
 
+    /**
+     * Method to set a node's checkbox programmatically
+     *
+     * @api method setTicked
+     * @param {Array} keys The keys of nodes to tick/untick
+     * @param {Boolean} state Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them
+     */
     function setTicked(keys, state) {
       let target = innerTicked.value
       const shouldEmit = props.ticked !== void 0

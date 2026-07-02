@@ -25,27 +25,119 @@ import { isDeepEqual } from '../../utils/is/is.js'
 
 let id = 0
 
-export const useTabEmits = ['click', 'keydown']
+export const useTabEmits = [
+  /**
+   * Internal click event used by tab navigation
+   *
+   * @api event click
+   * @internal
+   */
+  'click',
+
+  /**
+   * Internal keyboard event used by tab navigation
+   *
+   * @api event keydown
+   * @internal
+   */
+  'keydown'
+]
 
 export const useTabProps = {
+  /**
+   * Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix
+   *
+   * @api prop icon
+   * @extends icon
+   */
   icon: String,
+
+  /**
+   * A number or string to label the tab
+   *
+   * @api prop label
+   * @type {Number|String}
+   * @category content
+   * @example 'Home'
+   */
   label: [Number, String],
 
+  /**
+   * Adds an alert symbol to the tab, notifying the user there are some updates; If its value is not a Boolean, then you can specify a color
+   *
+   * @api prop alert
+   * @type {Boolean|String}
+   * @category content
+   * @example 'purple'
+   */
   alert: [Boolean, String],
+
+  /**
+   * Adds a floating icon to the tab, notifying the user there are some updates; It's displayed only if 'alert' is set; Can use the color specified by 'alert' prop
+   *
+   * @api prop alert-icon
+   * @type {String}
+   * @category content
+   * @example 'alarm_on'
+   */
   alertIcon: String,
 
+  /**
+   * Panel name
+   *
+   * @api prop name
+   * @type {Number|String}
+   * @default # a random UUID
+   * @category general
+   * @example 'home'
+   * @example 1
+   */
   name: {
     type: [Number, String],
     default: () => `t_${id++}`
   },
 
+  /**
+   * Turns off capitalizing all letters within the tab (which is the default)
+   *
+   * @api prop no-caps
+   * @type {Boolean}
+   * @category content
+   */
   noCaps: Boolean,
 
+  /**
+   * Tabindex HTML attribute value
+   *
+   * @api prop tabindex
+   * @extends tabindex
+   */
   tabindex: [String, Number],
+
+  /**
+   * Put component in disabled mode
+   *
+   * @api prop disable
+   * @extends disable
+   */
   disable: Boolean,
 
+  /**
+   * Class definitions to be attributed to the content wrapper
+   *
+   * @api prop content-class
+   * @type {String}
+   * @category style
+   * @example 'my-special-class'
+   */
   contentClass: String,
 
+  /**
+   * Configure material ripple or disable it
+   *
+   * @api prop ripple
+   * @extends ripple
+   */
   ripple: {
     type: [Boolean, Object],
     default: true

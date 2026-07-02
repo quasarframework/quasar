@@ -1,107 +1,34 @@
-import { computed, getCurrentInstance, h } from 'vue'
-
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
+import { getCurrentInstance, h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-export const skeletonTypes = [
-  'text',
-  'rect',
-  'circle',
-  'QBtn',
-  'QBadge',
-  'QChip',
-  'QToolbar',
-  'QCheckbox',
-  'QRadio',
-  'QToggle',
-  'QSlider',
-  'QRange',
-  'QInput',
-  'QAvatar'
-]
+import useSkeleton, { useSkeletonProps } from './use-skeleton.js'
 
-export const skeletonAnimations = [
-  'wave',
-  'pulse',
-  'pulse-x',
-  'pulse-y',
-  'fade',
-  'blink',
-  'none'
-]
-
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/skeleton
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QSkeleton',
 
-  props: {
-    ...useDarkProps,
-
-    tag: {
-      type: String,
-      default: 'div'
-    },
-
-    type: {
-      type: String,
-      validator: v => skeletonTypes.includes(v),
-      default: 'rect'
-    },
-
-    animation: {
-      type: String,
-      validator: v => skeletonAnimations.includes(v),
-      default: 'wave'
-    },
-    animationSpeed: {
-      type: [String, Number],
-      default: 1500
-    },
-
-    square: Boolean,
-    bordered: Boolean,
-
-    size: String,
-    width: String,
-    height: String
-  },
+  props: useSkeletonProps,
 
   setup(props, { slots }) {
     const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
-
-    const style = computed(() => {
-      const size =
-        props.size !== void 0
-          ? [props.size, props.size]
-          : [props.width, props.height]
-
-      return {
-        '--q-skeleton-speed': `${props.animationSpeed}ms`,
-        width: size[0],
-        height: size[1]
-      }
-    })
-
-    const classes = computed(
-      () =>
-        `q-skeleton q-skeleton--${isDark.value ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
-        (props.animation !== 'none'
-          ? ` q-skeleton--anim q-skeleton--anim-${props.animation}`
-          : '') +
-        (props.square ? ' q-skeleton--square' : '') +
-        (props.bordered ? ' q-skeleton--bordered' : '')
-    )
+    const skeleton = useSkeleton(props, vm.proxy.$q)
 
     return () =>
       h(
         props.tag,
         {
-          class: classes.value,
-          style: style.value
+          class: skeleton.classes.value,
+          style: skeleton.style.value
         },
         hSlot(slots.default)
       )

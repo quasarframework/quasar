@@ -63,6 +63,122 @@ function getPropValueFn(userPropName, defaultPropName) {
       : opt
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/select
+ */
+/**
+ * Field main content
+ *
+ * @api slot default
+ */
+
+/**
+ * Prepend inner field; Suggestions: QIcon, QBtn
+ *
+ * @api slot prepend
+ */
+
+/**
+ * Append to inner field; Suggestions: QIcon, QBtn
+ *
+ * @api slot append
+ */
+
+/**
+ * Prepend outer field; Suggestions: QIcon, QBtn
+ *
+ * @api slot before
+ */
+
+/**
+ * Append outer field; Suggestions: QIcon, QBtn
+ *
+ * @api slot after
+ */
+
+/**
+ * Slot for label; Used only if 'label-slot' prop is set or the 'label' prop is set; When it is used the text in the 'label' prop is ignored
+ *
+ * @api slot label
+ */
+
+/**
+ * Slot for errors; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot error
+ */
+
+/**
+ * Slot for hint text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot hint
+ */
+
+/**
+ * Slot for counter text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>
+ *
+ * @api slot counter
+ */
+
+/**
+ * Override default spinner when component is in loading mode; Suggestion: spinners
+ *
+ * @api slot loading
+ */
+
+/**
+ * Override default selection slot; Suggestion: QChip
+ *
+ * @api slot selected
+ */
+
+/**
+ * Template slot for the elements that should be rendered before the list of options
+ *
+ * @api slot before-options
+ */
+
+/**
+ * Template slot for the elements that should be rendered after the list of options
+ *
+ * @api slot after-options
+ */
+
+/**
+ * What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>
+ *
+ * @api slot no-option
+ * @scope inputValue {String} Input textfield value, if any (not QSelect model)
+ */
+
+/**
+ * Override default selection slot; Suggestion: QChip
+ *
+ * @api slot selected-item
+ * @scope index {Number} Selection index
+ * @scope opt {Any} Selected option -- its value is taken from model
+ * @scope selected {Boolean} Always true -- passed down as prop to QItem (when using QItem)
+ * @scope html {Boolean} Is the content HTML?
+ * @scope removeAtIndex {Function} Remove selected option located at specific index
+ * @scope toggleOption {Function} Add/remove option from model
+ * @scope tabindex {Number} Tabindex HTML attribute value associated with respective option
+ */
+
+/**
+ * Customize how options are rendered; Suggestion: QItem
+ *
+ * @api slot option
+ * @scope index {Number} Option index
+ * @scope opt {Any} Option -- its value is taken from 'options' prop
+ * @scope html {Boolean} Is the content HTML?
+ * @scope label {String} Label of the option
+ * @scope selected {Boolean} Is option selected?
+ * @scope focused {Boolean} Is option focused?
+ * @scope toggleOption {Function} Add/remove option from model
+ * @scope setOptionIndex {Function} Sets option from menu as 'focused'
+ * @scope itemProps {Object} Computed properties passed down to QItem
+ */
 export default createComponent({
   name: 'QSelect',
 
@@ -74,82 +190,393 @@ export default createComponent({
     ...useFieldProps,
 
     // override of useFieldProps > modelValue
+    /**
+     * Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive
+     *
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="myModel"
+     */
     modelValue: {
       required: true
     },
 
+    /**
+     * Allow multiple selection; Model must be Array
+     *
+     * @api prop multiple
+     * @type {Boolean}
+     * @category model|selection
+     */
     multiple: Boolean,
 
+    /**
+     * Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop
+     *
+     * @api prop display-value
+     * @type {Number|String}
+     * @category selection
+     * @example 'Options: x, y, z'
+     */
     displayValue: [String, Number],
+    /**
+     * Force render the selected option(s) as HTML; This can lead to XSS attacks so make sure that you sanitize the content; Does NOT apply when using 'selected' or 'selected-item' slots!
+     *
+     * @api prop display-value-html
+     * @extends html
+     * @category selection
+     */
     displayValueHtml: Boolean,
+    /**
+     * @api prop dropdown-icon
+     * @extends icon
+     */
     dropdownIcon: String,
 
+    /**
+     * Array of objects with available options that the user can select from. For best performance freeze the list of options. Canonical form of each object is with 'label' (String), 'value' (Any) and optional 'disable' (Boolean) props (can be customized with options-value/option-label/option-disable props).
+     *
+     * @api prop options
+     * @type {Array}
+     * @default []
+     * @category options
+     * @example ['Tesla', 'iPhone']
+     * @example [{ label: 'Tesla', value: 'car' }, { label: 'iPhone', value: 'phone' }]
+     */
     options: {
       type: Array,
       default: () => []
     },
 
+    /**
+     * Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop option-value
+     * @type {Function|String}
+     * @default 'value'
+     * @category options
+     * @example 'modelNumber'
+     * @example item => (item === null ? null : item.modelNumber)
+     */
     optionValue: [Function, String],
+    /**
+     * Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop option-label
+     * @type {Function|String}
+     * @default 'label'
+     * @category options
+     * @example 'itemName'
+     * @example item => (item === null ? 'Null value' : item.itemName)
+     */
     optionLabel: [Function, String],
+    /**
+     * Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline
+     *
+     * @api prop option-disable
+     * @type {Function|String}
+     * @default 'disable'
+     * @category options
+     * @example item => (item === null ? true : item.cannotSelect)
+     * @example # option-disable="cannotSelect"
+     */
     optionDisable: [Function, String],
 
+    /**
+     * Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects
+     *
+     * @api prop hide-selected
+     * @type {Boolean}
+     * @category selection
+     */
     hideSelected: Boolean,
+    /**
+     * Hides dropdown icon
+     *
+     * @api prop hide-dropdown-icon
+     * @type {Boolean}
+     * @category content|behavior
+     */
     hideDropdownIcon: Boolean,
+    /**
+     * Fills the input with current value; Useful along with 'hide-selected'; Does NOT work along with 'multiple' selection
+     *
+     * @api prop fill-input
+     * @type {Boolean}
+     * @category behavior
+     */
     fillInput: Boolean,
 
+    /**
+     * Allow a maximum number of selections that the user can do
+     *
+     * @api prop max-values
+     * @type {Number|String}
+     * @category selection
+     */
     maxValues: [Number, String],
 
+    /**
+     * Dense mode for options list; occupies less space
+     *
+     * @api prop options-dense
+     * @extends dense
+     * @category options
+     */
     optionsDense: Boolean,
+    /**
+     * Options menu will be colored with a dark color
+     *
+     * @api prop options-dark
+     * @type {Boolean|null}
+     * @default null
+     * @category options
+     */
     optionsDark: {
       type: Boolean,
       default: null
     },
+    /**
+     * CSS class name for options that are active/selected; Set it to an empty string to stop applying the default (which is text-* where * is the 'color' prop value)
+     *
+     * @api prop options-selected-class
+     * @type {String}
+     * @category options
+     * @example 'text-orange'
+     */
     optionsSelectedClass: String,
+    /**
+     * Force render the options as HTML; This can lead to XSS attacks so make sure that you sanitize the content; Does NOT apply when using 'option' slot!
+     *
+     * @api prop options-html
+     * @extends html
+     * @category options
+     */
     optionsHtml: Boolean,
 
+    /**
+     * Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)
+     *
+     * @api prop options-cover
+     * @type {Boolean}
+     * @category options
+     */
     optionsCover: Boolean,
 
+    /**
+     * Allow the options list to be narrower than the field (only in menu mode)
+     *
+     * @api prop menu-shrink
+     * @type {Boolean}
+     * @category options
+     */
     menuShrink: Boolean,
+    /**
+     * Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)
+     *
+     * @api prop menu-anchor
+     * @type {String}
+     * @category position
+     */
     menuAnchor: String,
+    /**
+     * Two values setting the options list's own position relative to its target (only in menu mode)
+     *
+     * @api prop menu-self
+     * @type {String}
+     * @category position
+     */
     menuSelf: String,
+    /**
+     * An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)
+     *
+     * @api prop menu-offset
+     * @type {Array}
+     * @category position
+     * @example [8, 8]
+     * @example [5, 10]
+     */
     menuOffset: Array,
 
+    /**
+     * Class definitions to be attributed to the popup content
+     *
+     * @api prop popup-content-class
+     * @type {String}
+     * @category style
+     * @example 'my-special-class'
+     */
     popupContentClass: String,
+    /**
+     * Style definitions to be attributed to the popup content
+     *
+     * @api prop popup-content-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     popupContentStyle: [String, Array, Object],
+    /**
+     * Changing route app won't dismiss the popup (menu or dialog)
+     *
+     * @api prop popup-no-route-dismiss
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.15
+     */
     popupNoRouteDismiss: Boolean,
 
+    /**
+     * Use an input tag where users can type
+     *
+     * @api prop use-input
+     * @type {Boolean}
+     * @category content
+     */
     useInput: Boolean,
+    /**
+     * Use QChip to show what is currently selected
+     *
+     * @api prop use-chips
+     * @type {Boolean}
+     * @category selection
+     */
     useChips: Boolean,
 
+    /**
+     * Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')
+     *
+     * @api prop new-value-mode
+     * @type {String}
+     * @category behavior
+     */
     newValueMode: {
       type: String,
       validator: validateNewValueMode
     },
 
+    /**
+     * Try to map labels of model from 'options' Array; has a small performance penalty; If you are using emit-value you will probably need to use map-options to display the label text in the select field rather than the value;  Refer to the 'Affecting model' section above
+     *
+     * @api prop map-options
+     * @type {Boolean}
+     * @category options
+     */
     mapOptions: Boolean,
+    /**
+     * Update model with the value of the selected option instead of the whole option
+     *
+     * @api prop emit-value
+     * @type {Boolean}
+     * @category model
+     */
     emitValue: Boolean,
 
+    /**
+     * Prevents the tab key from confirming the currently hovered option
+     *
+     * @api prop disable-tab-selection
+     * @type {Boolean}
+     * @category options
+     * @added-in v2.17
+     */
     disableTabSelection: Boolean,
 
+    /**
+     * Debounce the input model update with an amount of milliseconds (also affects the 'filter' event, if used)
+     *
+     * @api prop input-debounce
+     * @type {Number|String}
+     * @default 500
+     * @category content
+     */
     inputDebounce: {
       type: [Number, String],
       default: 500
     },
 
+    /**
+     * Class definitions to be attributed to the underlying input tag
+     *
+     * @api prop input-class
+     * @type {String|Array|Object}
+     * @ts-type VueClassProp
+     * @category style
+     * @example 'my-special-class'
+     * @example { 'my-special-class': true }
+     */
     inputClass: [Array, String, Object],
+    /**
+     * Style definitions to be attributed to the underlying input tag
+     *
+     * @api prop input-style
+     * @type {String|Array|Object}
+     * @ts-type VueStyleProp
+     * @category style
+     * @example 'background-color: #ff0000'
+     * @example { backgroundColor: '#ff0000' }
+     */
     inputStyle: [Array, String, Object],
 
+    /**
+     * @api prop tabindex
+     * @extends tabindex
+     * @default 0
+     */
     tabindex: {
       type: [String, Number],
       default: 0
     },
 
+    /**
+     * Autocomplete attribute for field
+     *
+     * @api prop autocomplete
+     * @type {String}
+     * @category behavior
+     * @example 'country'
+     */
     autocomplete: String,
 
+    /**
+     * Transition when showing the menu/dialog; One of Quasar's embedded transitions
+     *
+     * @api prop transition-show
+     * @extends transition
+     * @default 'fade'
+     * @category behavior
+     */
     transitionShow: {},
+    /**
+     * Transition when hiding the menu/dialog; One of Quasar's embedded transitions
+     *
+     * @api prop transition-hide
+     * @extends transition
+     * @default 'fade'
+     * @category behavior
+     */
     transitionHide: {},
+    /**
+     * Transition duration when hiding the menu/dialog (in milliseconds, without unit)
+     *
+     * @api prop transition-duration
+     * @type {String|Number}
+     * @default 300
+     * @category behavior
+     */
     transitionDuration: {},
 
+    /**
+     * Overrides the default dynamic mode of showing as menu on desktop and dialog on mobiles
+     *
+     * @api prop behavior
+     * @type {String}
+     * @default 'default'
+     * @category behavior
+     */
     behavior: {
       type: String,
       validator: v => ['default', 'menu', 'dialog'].includes(v),
@@ -157,6 +584,9 @@ export default createComponent({
     },
 
     // override of useVirtualScrollProps > virtualScrollItemSize (no default)
+    /**
+     * @api prop virtual-scroll-item-size
+     */
     virtualScrollItemSize: useVirtualScrollProps.virtualScrollItemSize.type,
 
     onNewValue: Function,
@@ -165,14 +595,58 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
+    /**
+     * Emitted when an option is added to the selection
+     *
+     * @api event add
+     * @param {Object} details Addition details
+     */
     'add',
+    /**
+     * Emitted when an option is removed from selection
+     *
+     * @api event remove
+     * @param {Object} details Removal details
+     */
     'remove',
+    /**
+     * Emitted when the value in the text input changes
+     *
+     * @api event input-value
+     * @param {String} value New text value
+     */
     'inputValue',
+    /**
+     * @api event keyup
+     */
     'keyup',
+    /**
+     * @api event keypress
+     */
     'keypress',
+    /**
+     * @api event keydown
+     */
     'keydown',
+    /**
+     * Emitted when the select options menu or dialog is shown.
+     *
+     * @api event popup-show
+     * @param {Any} evt
+     */
     'popupShow',
+    /**
+     * Emitted when the select options menu or dialog is hidden.
+     *
+     * @api event popup-hide
+     * @param {Any} evt
+     */
     'popupHide',
+    /**
+     * Emitted when a filtering was aborted; Probably a new one was requested?
+     *
+     * @api event filter-abort
+     */
     'filterAbort'
   ],
 
@@ -504,10 +978,23 @@ export default createComponent({
 
     watch(virtualScrollLength, rerenderMenu)
 
+    /**
+     * Get the model value that would be emitted by QSelect when selecting a said option; Also takes into consideration if 'emit-value' is set
+     *
+     * @api method getEmittingOptionValue
+     * @param {Any} opt Option entry
+     * @returns {Any} Emitting model value of said option
+     */
     function getEmittingOptionValue(opt) {
       return props.emitValue ? getOptionValue.value(opt) : opt
     }
 
+    /**
+     * Remove selected option located at specific index
+     *
+     * @api method removeAtIndex
+     * @param {Number} index Index at which to remove selection
+     */
     function removeAtIndex(index) {
       if (index !== -1 && index < innerValue.value.length) {
         if (props.multiple) {
@@ -525,6 +1012,13 @@ export default createComponent({
       state.focus()
     }
 
+    /**
+     * Adds option to model
+     *
+     * @api method add
+     * @param {Any} opt Option to add to model
+     * @param {Boolean} unique Option must be unique
+     */
     function add(opt, unique) {
       const val = getEmittingOptionValue(opt)
 
@@ -559,6 +1053,13 @@ export default createComponent({
       emit('update:modelValue', model)
     }
 
+    /**
+     * Add/remove option from model
+     *
+     * @api method toggleOption
+     * @param {Any} opt Option to add to model
+     * @param {Boolean} keepOpen Don't close the menu and do not clear the filter
+     */
     function toggleOption(opt, keepOpen) {
       if (
         !state.editable.value ||
@@ -623,6 +1124,12 @@ export default createComponent({
       emit('update:modelValue', model)
     }
 
+    /**
+     * Sets option from menu as 'focused'; -1 to focus none
+     *
+     * @api method setOptionIndex
+     * @param {Number} index Index of option from menu; -1 to focus none
+     */
     function setOptionIndex(index) {
       if (!$q.platform.is.desktop) return
 
@@ -633,6 +1140,13 @@ export default createComponent({
       }
     }
 
+    /**
+     * Move selected option from menu by index offset
+     *
+     * @api method moveOptionSelection
+     * @param {Number} offset Number of options to move up or down
+     * @param {Boolean} skipInputValue Don't set input-value on navigation
+     */
     // oxlint-disable-next-line default-param-last
     function moveOptionSelection(localOffset = 1, skipInputValue) {
       if (menu.value) {
@@ -670,6 +1184,13 @@ export default createComponent({
       return props.options.find(fn) || valueCache.find(fn) || value
     }
 
+    /**
+     * Tells if an option is selected
+     *
+     * @api method isOptionSelected
+     * @param {Any} opt Option entry
+     * @returns {Boolean} Option is selected or not
+     */
     function isOptionSelected(opt) {
       const val = getOptionValue.value(opt)
       return innerOptionsValue.value.find(v => isDeepEqual(v, val)) !== void 0
@@ -1147,6 +1668,13 @@ export default createComponent({
       }
     }
 
+    /**
+     * If 'use-input' is specified, this updates the value that it holds
+     *
+     * @api method updateInputValue
+     * @param {String} value String to set the input value to
+     * @param {Boolean} noFilter Set to true if you don't want the filter (if any) to be also triggered
+     */
     function updateInputValue(val, noFiltering, internal) {
       userInputValue = internal !== true
 
@@ -1161,6 +1689,12 @@ export default createComponent({
       }
     }
 
+    /**
+     * Filter options
+     *
+     * @api method filter
+     * @param {String} value String to filter with
+     */
     function filter(val, keepClosed, afterUpdateFn) {
       if (props.onFilter === void 0 || (!keepClosed && !state.focused.value)) {
         return
@@ -1191,6 +1725,14 @@ export default createComponent({
       filterId = localFilterId
 
       emit(
+        /**
+         * Emitted when user wants to filter a value
+         *
+         * @api event filter
+         * @param {String} inputValue What the user typed
+         * @param {Function} doneFn Supply a function which makes the necessary updates
+         * @param {Function} abortFn Call this function if something went wrong
+         */
         'filter',
         val,
         (fn, afterFn) => {
@@ -1432,6 +1974,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * Focus and open popup
+     *
+     * @api method showPopup
+     */
     function showPopup(e) {
       if (!state.editable.value) return
 
@@ -1452,6 +1999,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * Hide popup
+     *
+     * @api method hidePopup
+     */
     function hidePopup() {
       dialog.value = false
       closeMenu()
@@ -1502,6 +2054,11 @@ export default createComponent({
       }
     }
 
+    /**
+     * Recomputes menu position
+     *
+     * @api method updateMenuPosition
+     */
     function updateMenuPosition() {
       if (!dialog.value) menuRef.value?.updatePosition()
     }
@@ -1554,6 +2111,12 @@ export default createComponent({
       removeAtIndex,
       add,
       toggleOption,
+      /**
+       * Gets current focused option index from menu; It's -1 if no option is focused
+       *
+       * @api method getOptionIndex
+       * @returns {Number} Index of option from menu; It's -1 if no option is focused
+       */
       getOptionIndex: () => optionIndex.value,
       setOptionIndex,
       moveOptionSelection,
@@ -1562,8 +2125,29 @@ export default createComponent({
       updateInputValue,
       isOptionSelected,
       getEmittingOptionValue,
+      /**
+       * Tells if an option is disabled; Takes into consideration 'option-disable' prop (if used)
+       *
+       * @api method isOptionDisabled
+       * @param {Any} opt Option entry
+       * @returns {Boolean} Option is disabled or not
+       */
       isOptionDisabled: (...args) => isOptionDisabled.value(...args) === true,
+      /**
+       * Get the model value of an option; Takes into consideration 'option-value' (if used), but does not looks for 'emit-value', like getEmittingOptionValue() does
+       *
+       * @api method getOptionValue
+       * @param {Any} opt Option entry
+       * @returns {Any} Model value of said option
+       */
       getOptionValue: (...args) => getOptionValue.value(...args),
+      /**
+       * Get the label of an option; Takes into consideration the 'option-label' prop (if used)
+       *
+       * @api method getOptionLabel
+       * @param {Any} opt Option entry
+       * @returns {Any} Label of said option
+       */
       getOptionLabel: (...args) => getOptionLabel.value(...args)
     })
 

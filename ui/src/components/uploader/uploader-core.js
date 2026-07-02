@@ -39,32 +39,145 @@ export const coreProps = {
   ...useDarkProps,
   ...useFileProps,
 
+  /**
+   * Label for the uploader
+   *
+   * @api prop label
+   * @type {String}
+   * @category content
+   * @example 'Upload photo here'
+   */
   label: String,
 
+  /**
+   * Color name for component from the Quasar Color Palette
+   *
+   * @api prop color
+   * @extends color
+   */
   color: String,
+
+  /**
+   * Overrides text color, if needed
+   *
+   * @api prop text-color
+   * @extends text-color
+   */
   textColor: String,
 
+  /**
+   * Removes border-radius so borders are squared
+   *
+   * @api prop square
+   * @extends square
+   */
   square: Boolean,
+
+  /**
+   * Applies a 'flat' design
+   *
+   * @api prop flat
+   * @extends flat
+   */
   flat: Boolean,
+
+  /**
+   * Applies a default border to the component
+   *
+   * @api prop bordered
+   * @extends bordered
+   */
   bordered: Boolean,
 
+  /**
+   * Don't display thumbnails for image files
+   *
+   * @api prop no-thumbnails
+   * @type {Boolean}
+   * @category content
+   */
   noThumbnails: Boolean,
+
+  /**
+   * How the thumbnail image will fit into the container
+   *
+   * @api prop thumbnail-fit
+   * @type {String}
+   * @default 'cover'
+   * @category style
+   * @added-in v2.17
+   */
   thumbnailFit: {
     type: String,
     default: 'cover'
   },
 
+  /**
+   * Upload files immediately when added
+   *
+   * @api prop auto-upload
+   * @type {Boolean}
+   * @category behavior
+   */
   autoUpload: Boolean,
+
+  /**
+   * Don't show the upload button
+   *
+   * @api prop hide-upload-btn
+   * @type {Boolean}
+   * @category behavior
+   */
   hideUploadBtn: Boolean,
+
+  /**
+   * Put component in disabled mode
+   *
+   * @api prop disable
+   * @extends disable
+   */
   disable: Boolean,
+
+  /**
+   * Put component in readonly mode
+   *
+   * @api prop readonly
+   * @extends readonly
+   */
   readonly: Boolean
 }
 
 export const coreEmits = [
   ...useFileEmits,
+
+  /**
+   * Started working
+   *
+   * @api event start
+   */
   'start',
+
+  /**
+   * Finished working
+   *
+   * @api event finish
+   */
   'finish',
+
+  /**
+   * Emitted when files are added into the list
+   *
+   * @api event added
+   * @param {Array} files Array of files that were added
+   */
   'added',
+
+  /**
+   * Emitted when files are removed from the list
+   *
+   * @api event removed
+   * @param {Array} files Array of files that were removed
+   */
   'removed'
 ]
 
@@ -75,6 +188,14 @@ export function getRenderer(getPlugin, expose) {
 
   const isDark = useDark(props, $q)
 
+  /**
+   * Update the status of a file
+   *
+   * @api method updateFileStatus
+   * @param {File} file The file to update
+   * @param {String} status Status of file
+   * @param {Number} uploadedSize Number of uploaded bytes
+   */
   function updateFileStatus(file, status, uploadedSize) {
     file.__status = status
 
@@ -112,6 +233,12 @@ export function getRenderer(getPlugin, expose) {
     uploadedSize: ref(0),
 
     updateFileStatus,
+    /**
+     * Is the component alive
+     *
+     * @api method isAlive
+     * @returns {Boolean} If true, the current component is still activated and mounted
+     */
     isAlive: () => !vmIsDestroyed(vm)
   }
 
@@ -202,6 +329,11 @@ export function getRenderer(getPlugin, expose) {
     }
   })
 
+  /**
+   * Resets uploader to default; Empties queue, aborts current uploads
+   *
+   * @api method reset
+   */
   function reset() {
     if (!props.disable) {
       state.abort()
@@ -214,6 +346,11 @@ export function getRenderer(getPlugin, expose) {
     }
   }
 
+  /**
+   * Removes already uploaded files from the list
+   *
+   * @api method removeUploadedFiles
+   */
   function removeUploadedFiles() {
     if (!props.disable) {
       batchRemoveFiles(['uploaded'], () => {
@@ -222,6 +359,11 @@ export function getRenderer(getPlugin, expose) {
     }
   }
 
+  /**
+   * Remove files that are waiting for upload to start
+   *
+   * @api method removeQueuedFiles
+   */
   function removeQueuedFiles() {
     batchRemoveFiles(['idle', 'failed'], ({ size }) => {
       uploadSize.value -= size
@@ -255,6 +397,12 @@ export function getRenderer(getPlugin, expose) {
     }
   }
 
+  /**
+   * Remove specified file from the queue
+   *
+   * @api method removeFile
+   * @param {File} file The file to remove
+   */
   function removeFile(file) {
     if (props.disable) return
 
@@ -324,6 +472,11 @@ export function getRenderer(getPlugin, expose) {
     if (props.autoUpload) state.upload()
   }
 
+  /**
+   * Start uploading
+   *
+   * @api method upload
+   */
   function upload() {
     if (canUpload.value) state.upload()
   }

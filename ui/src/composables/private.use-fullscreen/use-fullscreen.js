@@ -13,11 +13,43 @@ import { vmHasRouter } from '../../utils/private.vm/vm.js'
 let counter = 0
 
 export const useFullscreenProps = {
+  /**
+   * Fullscreen mode
+   *
+   * @api prop fullscreen
+   * @type {Boolean}
+   * @category behavior
+   * @syncable
+   */
   fullscreen: Boolean,
+
+  /**
+   * Changing route app won't exit fullscreen
+   *
+   * @api prop no-route-fullscreen-exit
+   * @type {Boolean}
+   * @category behavior
+   */
   noRouteFullscreenExit: Boolean
 }
 
-export const useFullscreenEmits = ['update:fullscreen', 'fullscreen']
+export const useFullscreenEmits = [
+  /**
+   * Emitted when fullscreen state changes
+   *
+   * @api event update:fullscreen
+   * @param {Boolean} fullscreen Fullscreen state
+   */
+  'update:fullscreen',
+
+  /**
+   * Emitted when fullscreen state changes
+   *
+   * @api event fullscreen
+   * @param {Boolean} fullscreen Fullscreen state
+   */
+  'fullscreen'
+]
 
 export default function useFullscreen() {
   const vm = getCurrentInstance()
@@ -47,6 +79,11 @@ export default function useFullscreen() {
     emit('fullscreen', v)
   })
 
+  /**
+   * Toggle fullscreen mode
+   *
+   * @api method toggleFullscreen
+   */
   function toggleFullscreen() {
     if (inFullscreen.value) {
       exitFullscreen()
@@ -55,6 +92,11 @@ export default function useFullscreen() {
     }
   }
 
+  /**
+   * Enter fullscreen mode
+   *
+   * @api method setFullscreen
+   */
   function setFullscreen() {
     if (inFullscreen.value) return
 
@@ -73,6 +115,11 @@ export default function useFullscreen() {
     History.add(historyEntry)
   }
 
+  /**
+   * Leave fullscreen mode
+   *
+   * @api method exitFullscreen
+   */
   function exitFullscreen() {
     if (!inFullscreen.value) return
 

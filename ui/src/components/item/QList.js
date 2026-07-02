@@ -1,52 +1,32 @@
-import { computed, getCurrentInstance, h } from 'vue'
+import { getCurrentInstance, h } from 'vue'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import useDark, {
-  useDarkProps
-} from '../../composables/private.use-dark/use-dark.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
-const roleAttrExceptions = ['ul', 'ol']
+import useList, { useListProps } from './use-list.js'
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/list-and-list-items
+ */
+/**
+ * This is where the content goes; Suggestion: QItem, QExpansionItem, ...
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QList',
 
-  props: {
-    ...useDarkProps,
-
-    bordered: Boolean,
-    dense: Boolean,
-    separator: Boolean,
-    padding: Boolean,
-
-    tag: {
-      type: String,
-      default: 'div'
-    }
-  },
+  props: useListProps,
 
   setup(props, { slots }) {
     const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
-
-    const role = computed(() =>
-      roleAttrExceptions.includes(props.tag) ? null : 'list'
-    )
-
-    const classes = computed(
-      () =>
-        'q-list' +
-        (props.bordered ? ' q-list--bordered' : '') +
-        (props.dense ? ' q-list--dense' : '') +
-        (props.separator ? ' q-list--separator' : '') +
-        (isDark.value ? ' q-list--dark' : '') +
-        (props.padding ? ' q-list--padding' : '')
-    )
+    const list = useList(props, vm.proxy.$q)
 
     return () =>
       h(
         props.tag,
-        { class: classes.value, role: role.value },
+        { class: list.classes.value, role: list.role.value },
         hSlot(slots.default)
       )
   }

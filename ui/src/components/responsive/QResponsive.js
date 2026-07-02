@@ -1,19 +1,26 @@
 import { h } from 'vue'
 
-import useRatio, {
-  useRatioProps
-} from '../../composables/private.use-ratio/use-ratio.js'
-
 import { createComponent } from '../../utils/private.create/create.js'
 import { hSlot } from '../../utils/private.render/render.js'
 
+import useResponsive, { useResponsiveProps } from './use-responsive.js'
+
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/responsive
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QResponsive',
 
-  props: useRatioProps,
+  props: useResponsiveProps,
 
   setup(props, { slots }) {
-    const ratioStyle = useRatio(props)
+    const responsive = useResponsive(props)
 
     return () =>
       h(
@@ -27,7 +34,7 @@ export default createComponent({
             {
               class: 'q-responsive__filler overflow-hidden'
             },
-            [h('div', { style: ratioStyle.value })]
+            [h('div', { style: responsive.ratioStyle.value })]
           ),
 
           h(

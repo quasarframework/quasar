@@ -35,6 +35,10 @@ function removeBodyNonSelectable() {
   document.body.classList.remove('non-selectable')
 }
 
+/**
+ * @api directive
+ * @docsUrl https://v2.quasar.dev/vue-directives/touch-repeat
+ */
 export default createDirective(
   __QUASAR_SSR_SERVER__
     ? { name: 'touch-repeat', getSSRProps }

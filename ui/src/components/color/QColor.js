@@ -147,6 +147,10 @@ const rgbRE = /^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/
 const rgbaRE =
   /^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/color-picker
+ */
 export default createComponent({
   name: 'QColor',
 
@@ -154,32 +158,113 @@ export default createComponent({
     ...useDarkProps,
     ...useFormProps,
 
+    /**
+     * @api prop model-value
+     * @extends model-value
+     * @syncable
+     * @example # v-model="myColor"
+     */
     modelValue: String,
 
+    /**
+     * The default value to show when the model doesn't have one
+     *
+     * @api prop default-value
+     * @type {String}
+     * @category model
+     * @example '#c0c0c0'
+     */
     defaultValue: String,
+    /**
+     * The default view of the picker
+     *
+     * @api prop default-view
+     * @type {String}
+     * @default 'spectrum'
+     * @category behavior
+     */
     defaultView: {
       type: String,
       default: 'spectrum',
       validator: v => ['spectrum', 'tune', 'palette'].includes(v)
     },
 
+    /**
+     * Forces a certain model format upon the model
+     *
+     * @api prop format-model
+     * @type {String}
+     * @default 'auto'
+     * @category model
+     */
     formatModel: {
       type: String,
       default: 'auto',
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
 
+    /**
+     * Use a custom palette of colors for the palette tab
+     *
+     * @api prop palette
+     * @type {Array}
+     * @default # hard-coded palette
+     * @category content
+     * @example ['#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A']
+     */
     palette: Array,
 
+    /**
+     * Do not render header
+     *
+     * @api prop no-header
+     * @type {Boolean}
+     * @category content
+     */
     noHeader: Boolean,
+    /**
+     * Do not render header tabs (only the input)
+     *
+     * @api prop no-header-tabs
+     * @type {Boolean}
+     * @category content
+     * @added-in v2.2
+     */
     noHeaderTabs: Boolean,
+    /**
+     * Do not render footer; Useful when you want a specific view ('default-view' prop) and don't want the user to be able to switch it
+     *
+     * @api prop no-footer
+     * @type {Boolean}
+     * @category content
+     */
     noFooter: Boolean,
 
+    /**
+     * @api prop square
+     * @extends square
+     */
     square: Boolean,
+    /**
+     * @api prop flat
+     * @extends flat
+     */
     flat: Boolean,
+    /**
+     * @api prop bordered
+     * @extends bordered
+     */
     bordered: Boolean,
 
+    /**
+     * @api prop disable
+     * @extends disable
+     */
     disable: Boolean,
+    /**
+     * @api prop readonly
+     * @extends readonly
+     */
     readonly: Boolean
   },
 

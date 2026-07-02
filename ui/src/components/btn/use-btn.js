@@ -49,54 +49,289 @@ export const nonRoundBtnProps = {
   ...useSizeProps,
   ...useRouterLinkNonMatchingProps,
 
+  /**
+   * 1) Define the button native type attribute (submit, reset, button) or 2) render component with <a> tag so you can access events even if disable or 3) Use 'href' prop and specify 'type' as a media tag
+   *
+   * @api prop type
+   * @type {String}
+   * @default 'button'
+   * @category general
+   * @example 'a'
+   * @example 'submit'
+   * @example 'button'
+   * @example 'reset'
+   * @example 'image/png'
+   */
   type: {
     type: String,
     default: 'button'
   },
 
+  /**
+   * The text that will be shown on the button
+   *
+   * @api prop label
+   * @type {String|Number}
+   * @category content
+   * @example 'Button Label'
+   */
   label: [Number, String],
+
+  /**
+   * Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix
+   *
+   * @api prop icon
+   * @extends icon
+   */
   icon: String,
+
+  /**
+   * Icon name for the right side of the button, following Quasar convention
+   *
+   * @api prop icon-right
+   * @extends icon
+   */
   iconRight: String,
 
-  ...btnDesignOptions.reduce((acc, val) => (acc[val] = Boolean) && acc, {}),
+  /**
+   * Use 'flat' design
+   *
+   * @api prop flat
+   * @type {Boolean}
+   * @category style
+   */
+  flat: Boolean,
 
+  /**
+   * Use 'outline' design
+   *
+   * @api prop outline
+   * @type {Boolean}
+   * @category style
+   */
+  outline: Boolean,
+
+  /**
+   * Use 'push' design
+   *
+   * @api prop push
+   * @type {Boolean}
+   * @category style
+   */
+  push: Boolean,
+
+  /**
+   * Remove shadow
+   *
+   * @api prop unelevated
+   * @type {Boolean}
+   * @category style
+   */
+  unelevated: Boolean,
+
+  /**
+   * Removes border-radius so borders are squared
+   *
+   * @api prop square
+   * @extends square
+   * @addedIn v2.7.6
+   */
   square: Boolean,
+
+  /**
+   * Applies a more prominent border-radius for a squared shape button
+   *
+   * @api prop rounded
+   * @type {Boolean}
+   * @category style
+   */
   rounded: Boolean,
+
+  /**
+   * Applies a glossy effect
+   *
+   * @api prop glossy
+   * @type {Boolean}
+   * @category style
+   */
   glossy: Boolean,
 
+  /**
+   * Size in CSS units, including unit name or standard size name (xs|sm|md|lg|xl)
+   *
+   * @api prop size
+   * @type {String}
+   * @category style
+   * @example '16px'
+   * @example '2rem'
+   * @example 'xs'
+   * @example 'md'
+   */
   size: String,
+
+  /**
+   * Makes button size and shape to fit a Floating Action Button
+   *
+   * @api prop fab
+   * @type {Boolean}
+   * @category style
+   */
   fab: Boolean,
+
+  /**
+   * Makes button size and shape to fit a small Floating Action Button
+   *
+   * @api prop fab-mini
+   * @type {Boolean}
+   * @category style
+   */
   fabMini: Boolean,
+
+  /**
+   * Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set
+   *
+   * @api prop padding
+   * @type {String}
+   * @category style
+   * @example '16px'
+   * @example '10px 5px'
+   * @example '2rem'
+   * @example 'xs'
+   * @example 'md lg'
+   * @example '2px 2px 5px 7px'
+   */
   padding: String,
 
+  /**
+   * Color name for component from the Quasar Color Palette
+   *
+   * @api prop color
+   * @extends color
+   */
   color: String,
+
+  /**
+   * Overrides text color, if needed; Color name from the Quasar Color Palette
+   *
+   * @api prop text-color
+   * @extends text-color
+   */
   textColor: String,
+
+  /**
+   * Avoid turning label text into caps (which happens by default)
+   *
+   * @api prop no-caps
+   * @type {Boolean}
+   * @category content
+   */
   noCaps: Boolean,
+
+  /**
+   * Avoid label text wrapping
+   *
+   * @api prop no-wrap
+   * @type {Boolean}
+   * @category content
+   */
   noWrap: Boolean,
+
+  /**
+   * Dense mode; occupies less space
+   *
+   * @api prop dense
+   * @extends dense
+   */
   dense: Boolean,
 
+  /**
+   * Tabindex HTML attribute value
+   *
+   * @api prop tabindex
+   * @extends tabindex
+   */
   tabindex: [Number, String],
 
+  /**
+   * Configure material ripple or disable it
+   *
+   * @api prop ripple
+   * @extends ripple
+   */
   ripple: {
     type: [Boolean, Object],
     default: true
   },
 
+  /**
+   * Label or content alignment
+   *
+   * @api prop align
+   * @type {String}
+   * @default 'center'
+   * @category content
+   * @value 'left'
+   * @value 'right'
+   * @value 'center'
+   * @value 'around'
+   * @value 'between'
+   * @value 'evenly'
+   */
   align: {
     ...useAlignProps.align,
     default: 'center'
   },
+
+  /**
+   * Stack icon and label vertically instead of on same line (like it is by default)
+   *
+   * @api prop stack
+   * @type {Boolean}
+   * @category content
+   */
   stack: Boolean,
+
+  /**
+   * When used on flexbox parent, button will stretch to parent's height
+   *
+   * @api prop stretch
+   * @type {Boolean}
+   * @category content
+   */
   stretch: Boolean,
+
+  /**
+   * Put button into loading state (displays a QSpinner -- can be overridden by using a 'loading' slot)
+   *
+   * @api prop loading
+   * @type {Boolean|null}
+   * @default null
+   * @category behavior|state
+   */
   loading: {
     type: Boolean,
     default: null
   },
+
+  /**
+   * Put component in disabled mode
+   *
+   * @api prop disable
+   * @extends disable
+   */
   disable: Boolean
 }
 
 export const useBtnProps = {
   ...nonRoundBtnProps,
+
+  /**
+   * Makes a circle shaped button
+   *
+   * @api prop round
+   * @type {Boolean}
+   * @category style
+   */
   round: Boolean
 }
 

@@ -52,6 +52,15 @@ const defaultTransitions = {
   left: ['slide-right', 'slide-left']
 }
 
+/**
+ * @api component
+ * @docsUrl https://v2.quasar.dev/vue-components/dialog
+ */
+/**
+ * Default slot in the devland unslotted content of the component
+ *
+ * @api slot default
+ */
 export default createComponent({
   name: 'QDialog',
 
@@ -61,30 +70,155 @@ export default createComponent({
     ...useModelToggleProps,
     ...useTransitionProps,
 
+    /**
+     * @api prop transition-show
+     */
     transitionShow: String, // override useTransitionProps
+    /**
+     * @api prop transition-hide
+     */
     transitionHide: String, // override useTransitionProps
 
+    /**
+     * User cannot dismiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it
+     *
+     * @api prop persistent
+     * @type {Boolean}
+     * @category behavior
+     */
     persistent: Boolean,
+    /**
+     * Any click/tap inside of the dialog will close it
+     *
+     * @api prop auto-close
+     * @type {Boolean}
+     * @category behavior
+     */
     autoClose: Boolean,
+    /**
+     * Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus
+     *
+     * @api prop allow-focus-outside
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.7.2
+     */
     allowFocusOutside: Boolean,
 
+    /**
+     * User cannot dismiss Dialog by hitting ESC key; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-esc-dismiss
+     * @type {Boolean}
+     * @category behavior
+     */
     noEscDismiss: Boolean,
+    /**
+     * User cannot dismiss Dialog by clicking outside of it; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-backdrop-dismiss
+     * @type {Boolean}
+     * @category behavior
+     */
     noBackdropDismiss: Boolean,
+    /**
+     * Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set
+     *
+     * @api prop no-route-dismiss
+     * @type {Boolean}
+     * @category behavior
+     */
     noRouteDismiss: Boolean,
+    /**
+     * (Accessibility) When Dialog gets hidden, do not refocus on the DOM element that previously had focus
+     *
+     * @api prop no-refocus
+     * @type {Boolean}
+     * @category behavior
+     */
     noRefocus: Boolean,
+    /**
+     * (Accessibility) When Dialog gets shown, do not switch focus on it
+     *
+     * @api prop no-focus
+     * @type {Boolean}
+     * @category behavior
+     */
     noFocus: Boolean,
+    /**
+     * Do not shake up the Dialog to catch user's attention
+     *
+     * @api prop no-shake
+     * @type {Boolean}
+     * @category behavior
+     * @added-in v2.1.1
+     */
     noShake: Boolean,
 
+    /**
+     * Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too
+     *
+     * @api prop seamless
+     * @type {Boolean}
+     * @category content
+     */
     seamless: Boolean,
 
+    /**
+     * Put Dialog into maximized mode
+     *
+     * @api prop maximized
+     * @type {Boolean}
+     * @category content
+     */
     maximized: Boolean,
+    /**
+     * Dialog will try to render with same width as the window
+     *
+     * @api prop full-width
+     * @type {Boolean}
+     * @category content
+     */
     fullWidth: Boolean,
+    /**
+     * Dialog will try to render with same height as the window
+     *
+     * @api prop full-height
+     * @type {Boolean}
+     * @category content
+     */
     fullHeight: Boolean,
 
+    /**
+     * Forces content to have squared borders
+     *
+     * @api prop square
+     * @type {Boolean}
+     * @category style
+     */
     square: Boolean,
 
+    /**
+     * Apply a backdrop filter; The value needs to be the same as in the CSS specs for backdrop-filter; The examples are not an exhaustive list
+     *
+     * @api prop backdrop-filter
+     * @type {String}
+     * @category style
+     * @added-in v2.15
+     * @example 'blur(4px)'
+     * @example 'blur(4px) saturate(150%)'
+     * @example 'brightness(60%)'
+     */
     backdropFilter: String,
 
+    /**
+     * Stick dialog to one of the sides (top, right, bottom or left)
+     *
+     * @api prop position
+     * @type {String}
+     * @default 'standard'
+     * @category content
+     */
     position: {
       type: String,
       default: 'standard',
@@ -270,6 +404,12 @@ export default createComponent({
       }, props.transitionDuration)
     }
 
+    /**
+     * Focus dialog; if you have content with autofocus attribute, it will directly focus it
+     *
+     * @api method focus
+     * @param {String} [selector] Optional CSS selector to override default focusable element
+     */
     function focus(selector) {
       addFocusFn(() => {
         let node = innerRef.value
@@ -300,6 +440,12 @@ export default createComponent({
       })
     }
 
+    /**
+     * Shakes dialog
+     *
+     * @api method shake
+     * @param {Element} focusTarget Optional DOM Element to be focused after shake
+     */
     function shake(focusTarget) {
       if (focusTarget && typeof focusTarget.focus === 'function') {
         focusTarget.focus({ preventScroll: true })
