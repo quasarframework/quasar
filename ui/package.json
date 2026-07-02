@@ -67,6 +67,7 @@
     "dev:build:ssr": "cd ./playground && quasar build -m ssr && cd ..",
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd ./playground/upload-server && pnpm i && cd ../.. && node playground/upload-server/server.js",
+    "audit:generated-files": "node build/script.generated-files-audit.js",
     "test": "pnpm --filter quasar-ui-test test",
     "test:watch": "pnpm --filter quasar-ui-test test:watch",
     "test:watch:ui": "pnpm --filter quasar-ui-test test:watch:ui",
