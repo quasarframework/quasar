@@ -282,8 +282,8 @@ export async function generate() {
       const filename = `${type.name}.js`
 
       // also validates import statements from q/extras are valid
-      const iconSet = await import(resolveToRoot(`icon-set/${filename}`)).then(
-        module => module.default
+      const { default: iconSet } = await import(
+        resolveToRoot(`icon-set/${filename}`)
       )
 
       validateIconSetShape(filename, iconSet, expectedPaths)
@@ -291,9 +291,7 @@ export async function generate() {
       await generateSvgFile(type)
 
       // validates import statements from q/extras are valid
-      await import(resolveToRoot(`icon-set/svg-${filename}`)).then(
-        module => module.default
-      )
+      await import(resolveToRoot(`icon-set/svg-${filename}`))
     }
   } catch (err) {
     logError('build.icon-sets.js: something went wrong...')
