@@ -25,6 +25,8 @@ const passthroughValues = [true, false, 'child']
 
 const slotRE = /slots\[\s*['"](\S+)['"]\s*\]|slots\.([A-Za-z]+)/g
 const emitRE = /emit\(\s*['"](\S+)['"]/g
+const assignRE = /Object\.assign\(\s*(?:vm\.)?proxy\s*,\s*\{/g
+const assignEntryRE = /^[A-Za-z$_][\w$]*$/
 
 const apiIgnoreValueRegex = /^# /
 const apiValuePromiseRegex = /\.then\(/
@@ -1124,6 +1126,105 @@ function parseObject({
   })
 }
 
+function findMatchingBrace(content, startIndex) {
+  let depth = 0
+  let quote = null
+  let escaped = false
+
+  for (let index = startIndex; index < content.length; index++) {
+    const char = content[index]
+
+    if (quote !== null) {
+      if (escaped === true) {
+        escaped = false
+      } else if (char === '\\') {
+        escaped = true
+      } else if (char === quote) {
+        quote = null
+      }
+
+      continue
+    }
+
+    if (char === '"' || char === "'" || char === '`') {
+      quote = char
+      continue
+    }
+
+    if (char === '{') depth++
+    if (char === '}') {
+      depth--
+      if (depth === 0) return index
+    }
+  }
+
+  return -1
+}
+
+function splitTopLevelObjectEntries(content) {
+  const entries = []
+  let start = 0
+  let depth = 0
+  let quote = null
+  let escaped = false
+
+  for (let index = 0; index < content.length; index++) {
+    const char = content[index]
+
+    if (quote !== null) {
+      if (escaped === true) {
+        escaped = false
+      } else if (char === '\\') {
+        escaped = true
+      } else if (char === quote) {
+        quote = null
+      }
+
+      continue
+    }
+
+    if (char === '"' || char === "'" || char === '`') {
+      quote = char
+      continue
+    }
+
+    if (char === '(' || char === '[' || char === '{') depth++
+    if (char === ')' || char === ']' || char === '}') depth--
+
+    if (char === ',' && depth === 0) {
+      entries.push(content.slice(start, index).trim())
+      start = index + 1
+    }
+  }
+
+  entries.push(content.slice(start).trim())
+  return entries.filter(Boolean)
+}
+
+function getExposedMethodNames(content) {
+  const names = new Set()
+  let match
+
+  while ((match = assignRE.exec(content)) !== null) {
+    const bodyStart = match.index + match[0].length - 1
+    const bodyEnd = findMatchingBrace(content, bodyStart)
+
+    if (bodyEnd === -1) continue
+
+    splitTopLevelObjectEntries(content.slice(bodyStart + 1, bodyEnd)).forEach(
+      entry => {
+        const key = entry.split(':')[0].trim()
+
+        if (assignEntryRE.test(key)) {
+          names.add(key)
+        }
+      }
+    )
+  }
+
+  return names
+}
+
 function parseAPI(file, apiType) {
   let api = readJsonFile(file)
 
@@ -1245,6 +1346,7 @@ function fillAPI(apiType, list, encodeFn) {
       const apiProps = api.props || {}
       const apiEvents = api.events || {}
       const apiSlots = api.slots || {}
+      const apiMethods = api.methods || {}
 
       const runtimeProps = RuntimeComponent.props || {}
       const runtimeEmits = RuntimeComponent.emits || []
@@ -1573,6 +1675,20 @@ function fillAPI(apiType, list, encodeFn) {
               'not in the Component (is it a passthrough?)'
           )
           console.log(apiEntry)
+          hasError = true
+        }
+      }
+
+      // API defined methods should exist in the component
+      // Warning!!! It's just a best effort. It is NOT exhaustive as it only
+      // checks the direct component file content, but methods can be
+      // registered in other imported files as well.
+      const exposedMethods = getExposedMethodNames(componentContent)
+      for (const methodName of exposedMethods) {
+        if (apiMethods[methodName] === void 0) {
+          logError(
+            `${name}: missing JSON method "${methodName}" found in Object.assign(proxy, ...)`
+          )
           hasError = true
         }
       }
