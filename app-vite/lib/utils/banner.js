@@ -34,10 +34,6 @@ export async function displayBanner({ argv, ctx, cmd, details }) {
  Pkg vite............... ${green('v' + ctx.pkg.vitePkg.version)}
  Debugging.............. ${cmd === 'dev' || argv.debug ? green('enabled') : gray('no')}`
 
-  if (cmd === 'build') {
-    banner += `\n Publishing............. ${argv.publish !== void 0 ? green('yes') : gray('no')}`
-  }
-
   if (['cordova', 'capacitor'].includes(argv.mode)) {
     const packaging = argv['skip-pkg']
       ? gray('skip')
