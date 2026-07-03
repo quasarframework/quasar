@@ -62,6 +62,7 @@ export function capitalize(str) {
 }
 
 export const rootFolder = normalize(join(import.meta.dirname, '..'))
+export const distDir = join(rootFolder, 'dist')
 
 export function resolveToRoot(...pathList) {
   return resolve(rootFolder, ...pathList)
@@ -72,7 +73,7 @@ export function relativeToRoot(...pathList) {
 }
 
 export const { version } = readJsonFile(
-  new URL('../package.json', import.meta.url)
+  join(import.meta.dirname, '../package.json')
 )
 
 export const banner =
@@ -163,7 +164,7 @@ export function writeFile(dest, code, { summary = false, gzip = false } = {}) {
   const { banner: writeFileBanner, tableEntryType } = getDestinationInfo(dest)
 
   const fileSize = getSize(code)
-  const filePath = relative(process.cwd(), dest)
+  const filePath = relative(distDir, dest)
 
   let msg = `${writeFileBanner} ${filePath.padEnd(55)} ${fileSize.padStart(8)}`
   const tableEntry = summary ? [tableEntryType, filePath, fileSize] : null
