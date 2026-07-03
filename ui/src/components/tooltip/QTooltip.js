@@ -189,6 +189,12 @@ export default createComponent({
 
       // should removeTick() if this gets removed
       registerTick(() => {
+        observer?.disconnect()
+        if (innerRef.value === null) {
+          observer = void 0
+          return
+        }
+
         observer = new MutationObserver(() => updatePosition())
         observer.observe(innerRef.value, {
           attributes: false,
