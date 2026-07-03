@@ -1156,7 +1156,12 @@ export default createComponent({
       sort,
       resetVirtualScroll,
       scrollTo,
-      getCellValue
+      getCellValue: (colName, row) => {
+        const col = computedColsMap.value[colName]
+        if (col !== void 0) {
+          return getCellValue(col, row)
+        }
+      }
     })
 
     injectMultipleProps(vm.proxy, {

@@ -730,7 +730,7 @@
             "col": {
               "type": "Object",
               "required": true,
-              "desc": "Column name from column definitions"
+              "desc": "Column entry from column definitions"
             },
             "row": {
               "type": "Object",
@@ -2043,7 +2043,7 @@
                 "col": {
                   "type": "Object",
                   "required": true,
-                  "desc": "Column name from column definitions"
+                  "desc": "Column entry from column definitions"
                 },
                 "row": {
                   "type": "Object",
@@ -2253,10 +2253,12 @@
                   "params": {
                     "col": {
                       "type": "Object",
-                      "desc": "Column name from column definitions"
+                      "required": true,
+                      "desc": "Column entry from column definitions"
                     },
                     "row": {
                       "type": "Object",
+                      "required": true,
                       "desc": "The row object"
                     }
                   },
@@ -2441,6 +2443,29 @@
         }
       },
       "returns": null
+    },
+
+    "getCellValue": {
+      "type": "Function",
+      "desc": "Method to get a cell value",
+      "params": {
+        "colName": {
+          "type": "String",
+          "required": true,
+          "desc": "Column name"
+        },
+        "row": {
+          "type": "Object",
+          "required": true,
+          "desc": "The row object"
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Parsed/Processed cell value",
+        "examples": ["'Ice Cream Sandwich'"]
+      },
+      "addedIn": "v2.20.4"
     }
   },
 
