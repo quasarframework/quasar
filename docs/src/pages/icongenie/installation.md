@@ -3,8 +3,6 @@ title: Icon Genie CLI Installation
 desc: How to install the Icon Genie CLI on your development machine.
 ---
 
-Make sure that you have Node.js >=16 installed on your machine.
-
 ::: warning
 **Do not use uneven versions of Node.js i.e. 19, 21, 23 etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
