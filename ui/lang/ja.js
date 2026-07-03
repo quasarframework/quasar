@@ -15,7 +15,7 @@ export default {
     search: '検索', // 'Search',
     filter: 'フィルタ', // 'Filter',
     refresh: '再読込', // 'Refresh'
-    expand: label => (label ? `「${label}」を展開します。` : '拡大'),
+    expand: label => (label ? `「${label}」を展開します。` : '展開'),
     collapse: label => (label ? `「${label}」を折りたたむ` : '折りたたむ')
   },
   date: {
