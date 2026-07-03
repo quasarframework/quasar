@@ -47,7 +47,7 @@ export const pagesToDiscover = [
   {
     name: 'quasar.config',
     icon: mdiHumanMaleBoard,
-    path: '/quasar-cli-vite/quasar-config-js'
+    path: '/quasar-cli-vite/quasar-config-file'
   },
   {
     name: 'Boot Files',
