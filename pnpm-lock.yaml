@@ -273,7 +273,7 @@ importers:
         specifier: ^4.3.0
         version: 4.3.0
       quasar:
-        specifier: ^2.20.3
+        specifier: ^2.21.0
         version: link:../ui
       shiki:
         specifier: ^4.3.0

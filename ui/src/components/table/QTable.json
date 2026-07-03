@@ -2465,7 +2465,7 @@
         "desc": "Parsed/Processed cell value",
         "examples": ["'Ice Cream Sandwich'"]
       },
-      "addedIn": "v2.20.4"
+      "addedIn": "v2.21"
     }
   },
 
