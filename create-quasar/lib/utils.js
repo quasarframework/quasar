@@ -380,10 +380,6 @@ const definitions = {
 
   template: {
     default: 'app'
-  },
-
-  engine: {
-    default: 'vite-3'
   }
 }
 
