@@ -1,9 +1,8 @@
 import {
   getHorizontalScrollPosition,
-  getVerticalScrollPosition,
-  hasScrollbar
+  getVerticalScrollPosition
 } from './scroll.js'
-import { getEventPath, listenOpts, stopAndPrevent } from '../event/event.js'
+import { listenOpts } from '../event/event.js'
 import { client } from '../../plugins/platform/Platform.js'
 
 let registered = 0,
@@ -15,42 +14,6 @@ let registered = 0,
   bodyTop,
   href,
   closeTimer = null
-
-function onWheel(e) {
-  if (shouldPreventScroll(e)) {
-    stopAndPrevent(e)
-  }
-}
-
-function shouldPreventScroll(e) {
-  if (
-    e.target === document.body ||
-    e.target.classList.contains('q-layout__backdrop')
-  ) {
-    return true
-  }
-
-  const path = getEventPath(e),
-    shift = e.shiftKey && !e.deltaX,
-    scrollY = !shift && Math.abs(e.deltaX) <= Math.abs(e.deltaY),
-    delta = shift || scrollY ? e.deltaY : e.deltaX
-
-  for (let index = 0; index < path.length; index++) {
-    const el = path[index]
-
-    if (hasScrollbar(el, scrollY)) {
-      return scrollY
-        ? delta < 0 && el.scrollTop === 0
-          ? true
-          : delta > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
-        : delta < 0 && el.scrollLeft === 0
-          ? true
-          : delta > 0 && el.scrollLeft + el.clientWidth === el.scrollWidth
-    }
-  }
-
-  return true
-}
 
 function onAppleScroll(e) {
   if (e.target === document) {
@@ -114,7 +77,7 @@ function apply(action) {
       body.classList.add('q-body--force-scrollbar-y')
     }
 
-    body.classList.add('q-body--prevent-scroll')
+    document.documentElement.classList.add('q-document--prevent-scroll')
     document.qScrollPrevented = true
 
     if (client.is.ios) {
@@ -139,14 +102,9 @@ function apply(action) {
         )
       }
     }
-  }
+  } else {
+    // action === 'remove'
 
-  if (client.is.desktop && client.is.mac) {
-    // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
-    window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
-  }
-
-  if (action === 'remove') {
     if (client.is.ios) {
       if (hasViewport) {
         window.visualViewport.removeEventListener(
@@ -168,8 +126,8 @@ function apply(action) {
       }
     }
 
+    document.documentElement.classList.remove('q-document--prevent-scroll')
     body.classList.remove(
-      'q-body--prevent-scroll',
       'q-body--force-scrollbar-x',
       'q-body--force-scrollbar-y'
     )

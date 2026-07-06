@@ -16,8 +16,13 @@
   color: inherit
   opacity: .7
 
+.q-document--prevent-scroll
+  overscroll-behavior: none !important
+  body
+    position: fixed !important
+
 /* body */
-.q-body--fullscreen-mixin, .q-body--prevent-scroll
+.q-body--fullscreen-mixin
   position: fixed !important
 
 .q-body--force-scrollbar-x
