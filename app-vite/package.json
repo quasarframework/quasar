@@ -102,12 +102,12 @@
     "build:ts": "pnpm --filter app-vite-playground-ts build"
   },
   "dependencies": {
-    "@clack/prompts": "^1.6.0",
+    "@clack/prompts": "^1.7.0",
     "@quasar/art": "workspace:^",
     "@quasar/render-ssr-error": "workspace:^",
     "@quasar/ssl-certificate": "workspace:^",
     "@quasar/vite-plugin": "workspace:^",
-    "@types/chrome": "^0.2.0",
+    "@types/chrome": "^0.2.2",
     "@types/cordova": "^11.0.3",
     "@vitejs/plugin-vue": "^6.0.6",
     "chokidar": "^5.0.0",

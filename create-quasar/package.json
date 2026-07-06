@@ -27,7 +27,7 @@
     "test": "node bin/create-quasar.js"
   },
   "dependencies": {
-    "@clack/prompts": "^1.6.0",
+    "@clack/prompts": "^1.7.0",
     "@quasar/art": "workspace:^",
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
