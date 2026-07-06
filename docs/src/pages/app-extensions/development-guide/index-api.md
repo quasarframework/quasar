@@ -190,7 +190,7 @@ api.compatibleWith('@quasar/app-vite', '3.x')
 ```
 
 ```js A more complex example
-api.compatibleWith('@quasar/app-vite', '^3.0.0-rc.1')
+api.compatibleWith('@quasar/app-vite', '^3.0.0')
 ```
 
 ### api.hasPackage

@@ -43,7 +43,7 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "prettier": "^3.8.1",
     <% } %>
-    "@quasar/app-vite": "^3.0.0-rc.6",
+    "@quasar/app-vite": "^3.0.0",
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8"
   },
