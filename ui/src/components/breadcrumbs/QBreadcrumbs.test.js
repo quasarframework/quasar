@@ -42,7 +42,6 @@ describe('[QBreadcrumbs API]', () => {
         await wrapper.setProps({ activeColor: propVal })
         await flushPromises()
 
-        console.log('gigi')
         expect(
           wrapper
             .get('div > .flex.items-center:not(.q-breadcrumbs--last)')
