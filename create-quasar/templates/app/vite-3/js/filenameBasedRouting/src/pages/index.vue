@@ -23,7 +23,7 @@
 
         <EssentialLink
           v-for="link in linksList"
-          :key="link.title"
+          :key="link.label"
           v-bind="link"
         />
       </q-list>
