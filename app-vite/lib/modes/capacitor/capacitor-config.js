@@ -27,6 +27,7 @@ export const quasarCapacitorConfig = {
     })
 
     if (quasarConf.ctx.prod) {
+      cfg.build.emptyOutDir = true
       cfg.build.outDir = appPaths.resolve.capacitor('www')
     }
 
