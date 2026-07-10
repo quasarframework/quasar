@@ -1,21 +1,10 @@
 import type { HasSsg } from "quasar";
+import type { RouteRecordRaw } from "vue-router";
+
 import type { QSsrContext, RenderVueParams } from "../ssr/ssrcontext.d.ts";
 import type { QuasarContext } from "../configuration/context.d.ts";
 
 export type HasSsgParam = HasSsg<{ ssrContext?: QSsrContext | null }>;
-
-interface SsgRenderPreloadTagCallbackOptions {
-  ssrContext: RenderVueParams;
-}
-
-export type SsgRenderPreloadTagCallback = (
-  file: string,
-  options: SsgRenderPreloadTagCallbackOptions
-) => string;
-
-export interface SsgGetPagesParams {
-  ctx: QuasarContext;
-}
 
 export interface SsgPage {
   /**
@@ -45,6 +34,54 @@ export interface SsgPage {
    * @type ssrContext {@link QSsrContext}
    */
   ssrContext?: QSsrContext;
+}
+
+interface SsgRenderPreloadTagCallbackOptions {
+  ssrContext: RenderVueParams;
+}
+
+export type SsgRenderPreloadTagCallback = (
+  file: string,
+  options: SsgRenderPreloadTagCallbackOptions
+) => string;
+
+export interface SsgGetPagesParams {
+  /**
+   * The Quasar context object.
+   * @type ctx {@link QuasarContext}
+   */
+  ctx: QuasarContext;
+
+  /**
+   * Helper to parse Vue Router routes into SSG pages.
+   *
+   * @param {Object} options - The configuration object.
+   * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse.
+   * @param {string} [options.parentPath=''] - Optional parent path to use for these routes.
+   * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
+   * @returns {SsgPage[]} Array of SSG pages.
+   */
+  parseVueRouterRoutes: ({
+    routes,
+    parentPath,
+    verbose
+  }: {
+    /**
+     * Vue Router routes definition to parse.
+     */
+    routes: RouteRecordRaw[];
+    /**
+     * Optional parent path to use for these routes.
+     * @default ''
+     */
+    parentPath?: string;
+    /**
+     * Optional flag to enable verbose logging.
+     * If true, it will log the ignored routes with dynamic parameters.
+     * @default false
+     */
+    verbose?: boolean;
+  }) => SsgPage[];
 }
 
 export type SsgGetPagesCallback = (

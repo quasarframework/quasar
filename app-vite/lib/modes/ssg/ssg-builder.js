@@ -8,11 +8,44 @@ import {
   transformProdHtmlShell
 } from '../../plugins/vite.html.js'
 
-import { fatal, progress } from '../../utils/logger.js'
+import { fatal, info, progress } from '../../utils/logger.js'
 import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
+
+function parseVueRouterRoutes({ routes, parentPath = '', verbose = false }) {
+  const acc = []
+
+  for (const route of routes) {
+    if (route.path.includes(':')) {
+      if (verbose) {
+        info(
+          `Ignored route with dynamic parameter: ${route.path}`,
+          'parseVueRouterRoutes()'
+        )
+      }
+
+      continue
+    }
+
+    const fullPath = parentPath + route.path
+
+    if (route.children) {
+      acc.push(
+        ...parseVueRouterRoutes({
+          routes: route.children,
+          parentPath: fullPath,
+          verbose
+        })
+      )
+    } else {
+      acc.push({ route: fullPath })
+    }
+  }
+
+  return acc
+}
 
 export class QuasarModeBuilder extends AppBuilder {
   async build() {
@@ -184,7 +217,8 @@ export class QuasarModeBuilder extends AppBuilder {
     )
 
     const ssgPages = await getSsgPages({
-      ctx: this.quasarConf.ctx
+      ctx: this.quasarConf.ctx,
+      parseVueRouterRoutes
     })
 
     if (ssgPages.length === 0) {
