@@ -8,7 +8,7 @@ import {
   transformProdHtmlShell
 } from '../../plugins/vite.html.js'
 
-import { fatal, info, progress } from '../../utils/logger.js'
+import { error, fatal, progress, warn } from '../../utils/logger.js'
 import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 
 const ssrManifestIdQueryRE = /vue\?vue/
@@ -20,8 +20,8 @@ function parseVueRouterRoutes({ routes, parentPath = '', verbose = false }) {
   for (const route of routes) {
     if (route.path.includes(':')) {
       if (verbose) {
-        info(
-          `Ignored route with dynamic parameter: ${route.path}`,
+        warn(
+          `Ignored route with dynamic parameter "${route.path}"`,
           'parseVueRouterRoutes()'
         )
       }
@@ -113,13 +113,35 @@ export class QuasarModeBuilder extends AppBuilder {
             if (this.quasarConf.ssg.pwa) {
               this.writeFile(
                 `${this.quasarConf.ssg.pwaOfflineHtmlFilename}`,
-                content
+                content,
+                () => {
+                  console.log()
+                  fatal(
+                    `Tried to write the ssg.pwaOfflineHtmlFilename file` +
+                      ` (${this.quasarConf.ssg.pwaOfflineHtmlFilename})` +
+                      ' but the file already exists.' +
+                      ' Check your SSG configuration for duplicate routes' +
+                      ' or filenames or quasar.config html filenames settings.',
+                    'ERROR'
+                  )
+                }
               )
             }
             if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
               this.writeFile(
                 `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
-                content
+                content,
+                () => {
+                  console.log()
+                  fatal(
+                    `Tried to write the ssg.clientSideRenderingHtmlFilename file` +
+                      ` (${this.quasarConf.ssg.clientSideRenderingHtmlFilename})` +
+                      ' but the file already exists.' +
+                      ' Check your SSG configuration for duplicate routes' +
+                      ' or filenames or quasar.config html filenames settings.',
+                    'ERROR'
+                  )
+                }
               )
             }
           })
@@ -283,7 +305,22 @@ export class QuasarModeBuilder extends AppBuilder {
           page.dir ?? page.route.slice(1),
           page.filename ?? 'index.html'
         ),
-        html
+        html,
+        () => {
+          console.log()
+          error(
+            `Rendered SSG page for route "${page.route}"` +
+              `${page.label ? ` [${page.label}]` : ''}, but` +
+              ' the target file already exists.' +
+              ' Check your SSG configuration for duplicate routes or filenames or' +
+              ' quasar.config html filenames settings.'
+          )
+          console.log()
+          console.error('Offending SSG page definition:')
+          console.error(page)
+          console.log()
+          process.exit(1)
+        }
       )
     }
 

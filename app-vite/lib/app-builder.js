@@ -20,10 +20,14 @@ export class AppBuilder extends AppTool {
     return fse.readFileSync(target, 'utf8')
   }
 
-  writeFile(filename, content) {
+  writeFile(filename, content, onOverwrite) {
     const target = isAbsolute(filename)
       ? filename
       : join(this.quasarConf.build.distDir, filename)
+
+    if (onOverwrite && fse.existsSync(target)) {
+      onOverwrite()
+    }
 
     fse.ensureDirSync(dirname(target))
     fse.writeFileSync(target, content, 'utf8')
