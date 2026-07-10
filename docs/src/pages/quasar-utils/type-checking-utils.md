@@ -16,12 +16,8 @@ Recursively checks if one Object is equal to another. Also supports Map, Set, Ar
 ```js
 import { is } from 'quasar'
 
-const objA = {
-  /* ... */
-}
-const objB = {
-  /* ... */
-}
+const objA = {/* ... */}
+const objB = {/* ... */}
 
 console.log(is.deepEqual(objA, objB)) // true or false
 ```

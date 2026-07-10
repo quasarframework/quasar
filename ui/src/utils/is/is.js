@@ -22,7 +22,7 @@ export function isDeepEqual(a, b) {
         return false
       }
 
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if (!isDeepEqual(a[i], b[i])) return false
       }
 
@@ -74,7 +74,7 @@ export function isDeepEqual(a, b) {
 
       if (length !== b.length) return false
 
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if (a[i] !== b[i]) return false
       }
 
@@ -100,7 +100,7 @@ export function isDeepEqual(a, b) {
       return false
     }
 
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       const key = keys[i]
       if (!isDeepEqual(a[key], b[key])) return false
     }

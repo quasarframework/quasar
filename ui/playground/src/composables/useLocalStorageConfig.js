@@ -7,7 +7,7 @@ function hasDifferentKeys(a, b) {
 
   if (length !== Object.keys(b).length) return true
 
-  for (let i = length; i-- !== 0; ) {
+  for (let i = length; i-- !== 0;) {
     const key = keys[i]
     const valA = a[key]
     const valB = b[key]

@@ -335,12 +335,7 @@ When configuring threadsNumber (`opts > threadsNumber`) AND using http requests,
 ```js
 import { runSequentialPromises } from 'quasar'
 
-runSequentialPromises(
-  [
-    /* ... */
-  ],
-  { threadsNumber: 3 }
-)
+runSequentialPromises([/* ... */], { threadsNumber: 3 })
   .then(resultAggregator => {
     resultAggregator.forEach(result => {
       console.log(result.value)

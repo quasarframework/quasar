@@ -367,7 +367,7 @@ export default function useField(state) {
       }
 
       then?.()
-    })
+    }, 0)
   }
 
   function clearValue(e) {

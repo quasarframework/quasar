@@ -14,7 +14,7 @@ export default function injectScroll(store) {
     (newRoute, oldRoute) => {
       setTimeout(() => {
         scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
-      })
+      }, 0)
     }
   )
 
@@ -95,7 +95,7 @@ export default function injectScroll(store) {
   onMounted(() => {
     setTimeout(() => {
       scrollToCurrentAnchor(true)
-    })
+    }, 0)
   })
 
   onBeforeUnmount(() => {

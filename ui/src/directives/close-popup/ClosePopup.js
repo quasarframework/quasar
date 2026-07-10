@@ -38,7 +38,7 @@ export default createDirective(
                   if (proxy !== void 0) {
                     closePortals(proxy, evt, ctx.depth)
                   }
-                })
+                }, 0)
               }
             },
 

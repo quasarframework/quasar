@@ -49,7 +49,7 @@
     "ci-info": "^4.4.0",
     "cross-spawn": "^7.0.6",
     "fs-extra": "^11.3.6",
-    "hono": "^4.12.27",
+    "hono": "^4.12.28",
     "kolorist": "^1.8.0",
     "open": "^11.0.0",
     "update-notifier": "^7.3.1"

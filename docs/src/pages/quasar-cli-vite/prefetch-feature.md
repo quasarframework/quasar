@@ -324,11 +324,7 @@ There's also the possibility to use Quasar [Loading](/quasar-plugins/loading) pl
 import { Loading } from 'quasar'
 
 defineOptions({
-  preFetch(
-    {
-      /* ... */
-    }
-  ) {
+  preFetch({/* ... */}) {
     Loading.show()
 
     return new Promise(resolve => {

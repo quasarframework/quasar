@@ -495,9 +495,8 @@ We will use the `$q.iconMapFn` approach using `<script setup>` in the use case e
 The structure of `iconMapFn` is as follows:
 
 ```ts
-type GlobalQuasarIconMapFn = (
-  iconName: string
-) => // Map to another existing icon
+type GlobalQuasarIconMapFn = (iconName: string) =>
+  // Map to another existing icon
   | {
       icon: string // the mapped icon string, which will be handled
       // by Quasar as if the original QIcon name was this value

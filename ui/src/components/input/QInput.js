@@ -405,7 +405,7 @@ export default createComponent({
             inputRef.value.value =
               innerValue.value !== void 0 ? innerValue.value : ''
           }
-        })
+        }, 0)
       }
     }
 

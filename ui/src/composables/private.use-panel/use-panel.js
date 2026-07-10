@@ -212,7 +212,7 @@ export default function usePanel() {
         // oxlint-disable-next-line no-loop-func
         setTimeout(() => {
           forcedPanelTransition = false
-        })
+        }, 0)
 
         return
       }

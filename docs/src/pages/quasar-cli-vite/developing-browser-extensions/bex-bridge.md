@@ -226,9 +226,7 @@ bridge.send({
   event: 'some.event',
   to: 'background',
   payload: {
-    myArray: [
-      /*...*/
-    ]
+    myArray: [/*...*/]
   }
 })
 ```

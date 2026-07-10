@@ -72,19 +72,8 @@ Make sure to pnpm/yarn/npm/bun install the vite plugin package that you want to 
 build: {
   vitePlugins: [
     // both are perfectly equivalent:
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      }
-    ],
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      },
-      { server: true, client: true }
-    ]
+    ['<plugin-name>', {/* plugin options */}],
+    ['<plugin-name>', {/* plugin options */}, { server: true, client: true }]
   ]
 }
 ```
@@ -95,22 +84,10 @@ You can disable a plugin on the client-side or the server-side, which is especia
 build: {
   vitePlugins: [
     // disable on the server-side:
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      },
-      { server: false }
-    ],
+    ['<plugin-name>', {/* plugin options */}, { server: false }],
 
     // disable on the client-side:
-    [
-      '<plugin-name>',
-      {
-        /* plugin options */
-      },
-      { client: false }
-    ]
+    ['<plugin-name>', {/* plugin options */}, { client: false }]
   ]
 }
 ```
@@ -119,20 +96,8 @@ There are multiple syntaxes supported:
 
 ```js /quasar.config file
 vitePlugins: [
-  [
-    '<plugin1-name>',
-    {
-      /* plugin1 options */
-    },
-    { server: true, client: true }
-  ],
-  [
-    '<plugin2-name>',
-    {
-      /* plugin2 options */
-    },
-    { server: true, client: true }
-  ]
+  ['<plugin1-name>', {/* plugin1 options */}, { server: true, client: true }],
+  ['<plugin2-name>', {/* plugin2 options */}, { server: true, client: true }]
   // ...
 ]
 
@@ -141,20 +106,8 @@ import plugin1 from 'plugin1'
 import plugin2 from 'plugin2'
 
 vitePlugins: [
-  [
-    plugin1,
-    {
-      /* plugin1 options */
-    },
-    { server: true, client: true }
-  ],
-  [
-    plugin2,
-    {
-      /* plugin2 options */
-    },
-    { server: true, client: true }
-  ]
+  [plugin1, {/* plugin1 options */}, { server: true, client: true }],
+  [plugin2, {/* plugin2 options */}, { server: true, client: true }]
   // ...
 ]
 
@@ -166,12 +119,8 @@ import plugin1 from 'plugin1'
 import plugin2 from 'plugin2'
 
 vitePlugins: [
-  plugin1({
-    /* plugin1 options */
-  }),
-  plugin2({
-    /* plugin2 options */
-  })
+  plugin1({/* plugin1 options */}),
+  plugin2({/* plugin2 options */})
   // ...
 ]
 ```

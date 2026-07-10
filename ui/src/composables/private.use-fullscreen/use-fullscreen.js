@@ -92,7 +92,7 @@ export default function useFullscreen() {
       if (proxy.$el.scrollIntoView !== void 0) {
         setTimeout(() => {
           proxy.$el.scrollIntoView()
-        })
+        }, 0)
       }
     }
   }

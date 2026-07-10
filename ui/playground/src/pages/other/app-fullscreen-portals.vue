@@ -376,7 +376,7 @@ export default {
           setTimeout(() => {
             // oxlint-disable-next-line promise/no-nesting
             this.$q.fullscreen.request(el).catch(() => {})
-          })
+          }, 0)
         })
     },
 

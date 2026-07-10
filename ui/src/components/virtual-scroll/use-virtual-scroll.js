@@ -501,7 +501,7 @@ export function useVirtualScroll({
 
       setTimeout(() => {
         contentEl?.removeEventListener('focusout', onBlurRefocusFn)
-      })
+      }, 0)
     }
 
     setOverflowAnchor(contentEl, toIndex - from)
@@ -626,7 +626,7 @@ export function useVirtualScroll({
         size,
         diff
 
-      for (let i = 0; i < childrenLength; ) {
+      for (let i = 0; i < childrenLength;) {
         size = sizeFn(children[i])
         i++
 

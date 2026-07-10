@@ -128,17 +128,11 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default defineBoot(
-  (
-    {
-      /* app, router, store */
-    }
-  ) => {
-    return new Promise((resolve, reject) => {
-      // do something
-    })
-  }
-)
+export default defineBoot(({/* app, router, store */}) => {
+  return new Promise((resolve, reject) => {
+    // do something
+  })
+})
 ```
 
 ::: tip

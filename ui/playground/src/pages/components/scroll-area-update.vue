@@ -35,7 +35,7 @@ export default {
     scrollDown() {
       setTimeout(() => {
         this.$refs.scroll.setScrollPercentage('vertical', 1)
-      })
+      }, 0)
     }
   },
   watch: {
