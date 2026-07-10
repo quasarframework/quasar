@@ -216,6 +216,7 @@ export class QuasarModeBuilder extends AppBuilder {
           ...ssrContext,
           url,
           req: {
+            headers: {},
             ...ssrContext.req,
             url
           }
