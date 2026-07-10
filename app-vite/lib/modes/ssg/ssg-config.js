@@ -12,6 +12,7 @@ import { cliPkg } from '../../utils/cli-runtime.js'
 
 import { quasarPwaConfig } from '../pwa/pwa-config.js'
 import { quasarVitePluginPwaResources } from '../pwa/pwa-utils.js'
+import { quasarRolldownVueShimPlugin } from '../../plugins/rolldown.vue-shim.js'
 
 /**
  * Warning!
@@ -146,6 +147,9 @@ export const quasarSsgConfig = {
     )
 
     cfg.resolve.modules = ['node_modules', appPaths.resolve.ssg('node_modules')]
+
+    cfg.plugins ||= []
+    cfg.plugins.push(quasarRolldownVueShimPlugin())
 
     return extendRolldownConfig(
       cfg,
