@@ -299,13 +299,13 @@ function getFileEnvResult({ appDir, fileList, folderList }) {
 }
 
 const asIsList = ['true', 'false', 'null']
+const numericLiteralRE = /^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/
+
 function getStrDefineValue(value) {
   if (asIsList.includes(value)) return value
 
   const trimmed = value.trim()
-  return trimmed !== '' && !Number.isNaN(Number(trimmed))
-    ? value
-    : JSON.stringify(value)
+  return numericLiteralRE.test(trimmed) ? trimmed : JSON.stringify(value)
 }
 
 function parseEnvDefineList(env, regex) {
