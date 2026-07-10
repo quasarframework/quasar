@@ -137,7 +137,6 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
     ssr: {
-      pwa: false,
       /**
        * The default port that the production server should use
        * (gets superseded if process.env.PORT is specified at runtime)
@@ -156,10 +155,10 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
+      // pwa: true,
       // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
-
       // extendSSRGenerateSWOptions (cfg) {},
-      // extendSSRInjectManifestOptions (cfg) {}
+      // extendSSRInjectManifestOptions (cfg) {},
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg
