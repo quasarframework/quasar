@@ -8,11 +8,11 @@
   "scripts": {
     "prepare:types": "quasar prepare --silent",
     "dev": "quasar dev",
+    "dev:ssg": "quasar dev -m ssg",
     "dev:ssr": "quasar dev -m ssr",
-    "preview": "quasar clean && DOCS_PREVIEW=true quasar build -m ssr && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && node dist/quasar.dev",
-    "build": "quasar clean && node build/search.js && quasar build -m ssr --no-summary && du -sh dist/quasar.dev/client && node build/fix-ssr-manifest.js && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && node build/ssg.js && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && du -h dist/quasar.dev/client/service-worker.js",
-    "relnotes": "node build/release-notes/index.js",
-    "test": "echo \"No test specified\" && exit 0"
+    "preview": "quasar clean && quasar build -m ssr --no-summary && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && node dist/quasar.dev",
+    "build": "quasar clean && node build/search.js && quasar build -m ssg --no-summary && du -sh dist/quasar.dev && du -h dist/quasar.dev/service-worker.js",
+    "relnotes": "node build/release-notes/index.js"
   },
   "dependencies": {
     "@quasar/extras": "^2.0.0",

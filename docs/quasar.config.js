@@ -90,9 +90,18 @@ export default defineConfig(ctx => ({
   animations: ['fadeIn', 'fadeOut'],
 
   ssr: {
-    pwa: ctx.prod && !import.meta.env.DOCS_PREVIEW,
-    middlewares: ['render'],
-    prodScriptNamedExport: 'renderSsrContext'
+    middlewares: ['render']
+  },
+
+  ssg: {
+    pwa: ctx.prod,
+    extendSSGManifestJson(ssrManifest) {
+      for (const key in ssrManifest) {
+        ssrManifest[key] = ssrManifest[key].filter(
+          entry => entry !== '/assets/vendor.css'
+        )
+      }
+    }
   },
 
   pwa: {

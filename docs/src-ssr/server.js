@@ -95,8 +95,6 @@ export const injectDevMiddleware = defineSsrInjectDevMiddleware(
  */
 export const listen = defineSsrListen(
   async ({ app, devHttpsOptions, port }) => {
-    if (import.meta.env.QUASAR_PROD && !import.meta.env.DOCS_PREVIEW) return
-
     const opts = {
       fetch: app.fetch,
       port
@@ -120,11 +118,9 @@ export const listen = defineSsrListen(
     }
 
     const { serve } = await import('@hono/node-server')
-    if (import.meta.env.DOCS_PREVIEW) {
-      console.log(
-        `\nRunning preview at http${devHttpsOptions ? 's' : ''}://localhost:${port}`
-      )
-    }
+    console.log(
+      `\nRunning preview at http${devHttpsOptions ? 's' : ''}://localhost:${port}`
+    )
 
     return serve(opts)
   }

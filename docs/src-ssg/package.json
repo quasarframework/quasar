@@ -1,0 +1,10 @@
+{
+  "name": "quasar-ssg-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Quasar SSG folder",
+  "type": "module",
+  "dependencies": {
+    "tinyglobby": "^0.2.17"
+  }
+}
