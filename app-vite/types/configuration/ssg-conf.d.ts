@@ -25,6 +25,20 @@ export interface QuasarSsgConfiguration {
   pwaOfflineHtmlFilename?: string;
 
   /**
+   * The name of the html file that will be used for the 404 page.
+   * If set to false, no 404 page will be generated.
+   *
+   * You will need to properly configure the webserver to serve this
+   * file for 404 errors.
+   *
+   * Make sure to name it so that the SSG generated html files
+   * don't conflict with it!
+   *
+   * @default '404.html'
+   */
+  error404HtmlFilename?: string | false;
+
+  /**
    * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
    * build, where you want the client to use an empty shell html for some
    * of the pages (as if those pages are part of a SPA) and let the client-side

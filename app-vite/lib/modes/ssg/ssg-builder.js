@@ -228,6 +228,15 @@ export class QuasarModeBuilder extends AppBuilder {
       )
     }
 
+    if (this.quasarConf.ssg.error404HtmlFilename) {
+      ssgPages.push({
+        route: '/______get-a-quasar-404-page______',
+        label: '404 page',
+        dir: '',
+        filename: this.quasarConf.ssg.error404HtmlFilename
+      })
+    }
+
     const done = progress({
       tool: 'Vite',
       waitAction: 'Rendering',

@@ -95,6 +95,7 @@ export default defineConfig(ctx => ({
 
   ssg: {
     pwa: ctx.prod,
+    error404HtmlFilename: false,
     extendSSGManifestJson(ssrManifest) {
       for (const key in ssrManifest) {
         ssrManifest[key] = ssrManifest[key].filter(

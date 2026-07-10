@@ -823,6 +823,7 @@ export class QuasarConfigFile {
       cfg.ssg = merge(
         {
           pwa: false,
+          error404HtmlFilename: '404.html',
           pwaOfflineHtmlFilename: 'offline.html',
           manualStoreHydration: false,
           manualPostHydrationTrigger: false
