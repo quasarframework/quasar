@@ -36,7 +36,7 @@ if (argv.help) {
     $ quasar build -m electron '--' some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios]

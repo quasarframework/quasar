@@ -36,7 +36,8 @@ const quasarModesList = [
   'electron',
   'pwa',
   'spa',
-  'ssr'
+  'ssr',
+  'ssg'
 ]
 
 const urlRegex = /^http(s)?:\/\//i
@@ -47,7 +48,8 @@ const defaultPortMapping = {
   electron: 9300,
   cordova: 9400,
   capacitor: 9500,
-  bex: 9600
+  bex: 9600,
+  ssg: 9700 // 9750 for SSG + PWA
 }
 
 const quasarComponentRE = /^(Q[A-Z]|q-)/
@@ -743,6 +745,7 @@ export class QuasarConfigFile {
         ssr: {
           middlewares: []
         },
+        ssg: {},
         pwa: {},
         electron: {
           preloadScripts: [],
@@ -816,6 +819,16 @@ export class QuasarConfigFile {
         },
         cfg.ssr
       )
+    } else if (this.#ctx.mode.ssg) {
+      cfg.ssg = merge(
+        {
+          pwa: false,
+          pwaOfflineHtmlFilename: 'offline.html',
+          manualStoreHydration: false,
+          manualPostHydrationTrigger: false
+        },
+        cfg.ssg
+      )
     }
 
     if (this.#ctx.dev) {
@@ -833,7 +846,8 @@ export class QuasarConfigFile {
       } else if (!cfg.devServer.port) {
         cfg.devServer.port =
           defaultPortMapping[this.#ctx.modeName] +
-          (this.#ctx.mode.ssr && cfg.ssr.pwa ? 50 : 0)
+          (this.#ctx.mode.ssr && cfg.ssr.pwa ? 50 : 0) +
+          (this.#ctx.mode.ssg && cfg.ssg.pwa ? 50 : 0)
       } else {
         tip(
           'You (or an AE) specified an explicit quasar.config file > devServer > port. It is recommended to use' +
@@ -1093,7 +1107,7 @@ export class QuasarConfigFile {
           : defaultOptions
     }
 
-    if (this.#ctx.mode.ssr) {
+    if (this.#ctx.mode.ssr || this.#ctx.mode.ssg) {
       cfg.build.vueRouterMode = 'history'
     } else if (
       this.#ctx.mode.cordova ||
@@ -1128,7 +1142,8 @@ export class QuasarConfigFile {
     }
 
     cfg.build.publicPath =
-      cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.#ctx.modeName)
+      cfg.build.publicPath &&
+      ['spa', 'pwa', 'ssr', 'ssg'].includes(this.#ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
         : ['capacitor', 'cordova', 'electron', 'bex'].includes(
               this.#ctx.modeName
@@ -1211,6 +1226,18 @@ export class QuasarConfigFile {
       }
 
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = Boolean(cfg.ssr.pwa)
+    } else if (this.#ctx.mode.ssg) {
+      if (cfg.ssg.manualPostHydrationTrigger !== true) {
+        cfg.metaConf.needsAppMountHook = true
+      }
+
+      if (cfg.ssg.pwa) {
+        // install pwa mode if it's missing
+        const { addMode } = await import('../lib/modes/pwa/pwa-installation.js')
+        await addMode({ ctx: this.#ctx, silent: true })
+      }
+
+      this.#ctx.mode.pwa = cfg.ctx.mode.pwa = Boolean(cfg.ssg.pwa)
     }
 
     if (this.#ctx.dev) {

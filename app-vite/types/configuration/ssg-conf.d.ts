@@ -5,7 +5,7 @@ interface QuasarSsrManifest {
   [key: string]: string[];
 }
 
-export interface QuasarSsrConfiguration {
+export interface QuasarSsgConfiguration {
   /**
    * If a PWA should take over or just a SPA.
    * @default false
@@ -13,14 +13,37 @@ export interface QuasarSsrConfiguration {
   pwa?: boolean;
 
   /**
-   * When using SSR+PWA, this is the name of the
+   * When using SSG+PWA, this is the name of the
    * PWA index html file that the client-side fallbacks to.
    *
-   * Do NOT use index.html as name as it will mess SSR up!
+   * Make sure to name it so that the SSG generated html files
+   * don't conflict with it! Also, it shouldn't clash with the
+   * "clientSideRenderingHtmlFilename" option if you are using that.
    *
    * @default 'offline.html'
    */
   pwaOfflineHtmlFilename?: string;
+
+  /**
+   * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
+   * build, where you want the client to use an empty shell html for some
+   * of the pages (as if those pages are part of a SPA) and let the client-side
+   * code take over and render the page.
+   *
+   * For production only. You will need to properly configure the webserver
+   * to fallback to this html file for the pages that are not pre-rendered by SSG.
+   *
+   * Make sure to name it so that the SSG generated html files
+   * don't conflict with it!
+   *
+   * If you are building a SSG+PWA app, you might want to directly use the
+   * `pwaOfflineHtmlFilename` as the empty shell html file instead,
+   * as it will have the same content. Otherwise, make sure to use a different
+   * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
+   *
+   * @example 'csr.html'
+   */
+  clientSideRenderingHtmlFilename?: string;
 
   /**
    * Extend/configure the Workbox GenerateSW options
@@ -34,7 +57,7 @@ export interface QuasarSsrConfiguration {
    *
    * @type config {@link GenerateSWOptions}
    */
-  extendSSRGenerateSWOptions?: (
+  extendSSGGenerateSWOptions?: (
     config: GenerateSWOptions
   ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
 
@@ -50,7 +73,7 @@ export interface QuasarSsrConfiguration {
    *
    * @type config {@link InjectManifestOptions}
    */
-  extendSSRInjectManifestOptions?: (
+  extendSSGInjectManifestOptions?: (
     config: InjectManifestOptions
   ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
 
@@ -84,95 +107,15 @@ export interface QuasarSsrConfiguration {
   manualPostHydrationTrigger?: boolean;
 
   /**
-   * The default port (3000) that the production server should use
-   * (gets superseded if process.env.PORT is specified at runtime)
-   * @default 3000
-   */
-  prodPort?: number;
-
-  /**
-   * The named exports to use for the production generated SSR index.js script.
-   * Works with `false` (no named exports), a single string (one named export),
-   * or an array of strings (multiple named exports).
-   *
-   * Useful for serverless environments where you might want to export the
-   * handler function. It creates one or more named exports from the
-   * object returned by the defineSsrListen() function in /src-ssr/server file.
-   *
-   * @default false
-   *
-   * @example
-   * prodScriptNamedExport: ['handler', 'ssr']
-   * export const listen = defineSsrListen(() => {
-   *   if (import.meta.env.QUASAR_PROD) {
-   *     return { handler, ssr }
-   *   }
-   * })
-   *
-   * This will generate an SSR index.js with the following exports:
-   * const { handler, ssr } = await listen({...})
-   * export { handler, ssr }
-   *
-   * @example
-   * prodScriptNamedExport: 'default'
-   * export const listen = defineSsrListen(({ app }) => {
-   *   if (import.meta.env.QUASAR_PROD) {
-   *     return { default: app }
-   *   }
-   * })
-   *
-   * This will generate an SSR index.js with the following exports:
-   * const listenResult = await listen({...})
-   * export default listenResult?.default
-   *
-   * @example
-   * prodScriptNamedExport: 'app'
-   * export const listen = defineSsrListen(({ app }) => {
-   *   if (import.meta.env.QUASAR_PROD) {
-   *     return { app }
-   *   }
-   * })
-   *
-   * This will generate an SSR index.js with the following exports:
-   * const { app } = await listen({...})
-   * export { app }
-   *
-   * @example 'renderSsrContext' (special case)
-   *
-   * This will generate an SSR index.js with the following export:
-   *   export { render as renderSsrContext }
-   * where "render" is the same function used in
-   * the /src-ssr/middlewares/render file
-   */
-  prodScriptNamedExport?: false | string | string[];
-
-  /**
-   * List of middleware files in src-ssr/middlewares
-   * Order is important.
-   */
-  middlewares?: string[];
-
-  /**
-   * Add/remove/change properties of SSR production generated package.json
-   *
-   * Can be async. Can directly modify the "pkgJson" parameter or
-   * return a new one that will be merged with the default one.
-   */
-  extendSSRPackageJson?: (pkgJson: { [index in string]: any }) =>
-    | void
-    | { [index in string]: any }
-    | Promise<void | { [index in string]: any }>;
-
-  /**
-   * Extend the Rolldown config that is used for the SSR webserver
-   * (which includes the SSR middlewares).
+   * Extend the Rolldown config that is used for the SSG renderer,
+   * which is your /src-ssg/ssg file.
    *
    * Can be async. Can directly modify the "config" parameter or
    * return a new one that will be merged with the default one.
    *
    * @type config {@link RolldownOptions}
    */
-  extendSSRWebserverConf?: (
+  extendSSGRendererConf?: (
     config: RolldownOptions
   ) => void | RolldownOptions | Promise<void | RolldownOptions>;
 
@@ -185,7 +128,7 @@ export interface QuasarSsrConfiguration {
    *
    * @type config {@link QuasarSsrManifest}
    */
-  extendSSRManifestJson?: (
+  extendSSGManifestJson?: (
     ssrManifest: QuasarSsrManifest
   ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
 }

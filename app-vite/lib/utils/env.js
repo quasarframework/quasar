@@ -218,7 +218,7 @@ export function getAppEnv({ ctx, envCfg, useSnapshot }) {
     : backendPrefix
 
   const backendBanner =
-    ctx.mode.ssr === true
+    ctx.mode.ssr || ctx.mode.ssg
       ? `${backendPrefix ? `Backend code prefix: ${backendPrefixLabel}` : 'No backend code prefix'}; `
       : ''
   result.backendEnvDefineList = parseEnvDefineList(rawFileEnv, backendPrefixRE)

@@ -1,16 +1,14 @@
 import { join } from 'node:path'
-import { stringifyJSON } from 'confbox'
 import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
-import { quasarSsrConfig } from './ssr-config.js'
-import { getFixedDeps } from '../../utils/get-fixed-deps.js'
-import { getPackageJson } from '../../utils/get-package-json.js'
+import { quasarSsgConfig } from './ssg-config.js'
 import {
   getProdSsrRenderTemplateFileContent,
   transformProdHtmlShell
 } from '../../plugins/vite.html.js'
 
+import { fatal, progress } from '../../utils/logger.js'
 import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 
 const ssrManifestIdQueryRE = /vue\?vue/
@@ -19,81 +17,86 @@ const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 export class QuasarModeBuilder extends AppBuilder {
   async build() {
     this.cleanArtifacts()
-    this.#copyWebserverFiles()
 
-    await this.#writePackageJson()
-
-    if (this.quasarConf.ssr.pwa) {
+    if (this.quasarConf.ssg.pwa) {
       // also update pwa-builder.js when changing here
       await injectPwaManifest(
         this.quasarConf,
         join(
           this.quasarConf.build.distDir,
-          'client',
           this.quasarConf.pwa.manifestFilename
         )
       )
     }
 
     await Promise.all([
-      this.#buildWebserver(),
+      this.#buildSSGRenderer(),
       this.#buildSSRServer(),
       this.#buildSSRClient()
     ])
 
+    await this.#renderSsgPages()
+
     this.printSummary(this.quasarConf.build.distDir, true)
   }
 
-  async #buildWebserver() {
-    const rolldownConfig = await quasarSsrConfig.webserver(this.quasarConf)
-    await this.buildWithRolldown('SSR Webserver', rolldownConfig)
+  async #buildSSGRenderer() {
+    const rolldownConfig = await quasarSsgConfig.ssgRenderer(this.quasarConf)
+    await this.buildWithRolldown('SSG Renderer', rolldownConfig)
   }
 
   async #buildSSRServer() {
-    const viteServerConfig = await quasarSsrConfig.viteServer(this.quasarConf)
+    const viteServerConfig = await quasarSsgConfig.viteServer(this.quasarConf)
     await this.buildWithVite('SSR Server', viteServerConfig)
   }
 
   async #buildSSRClient() {
-    const viteClientConfig = await quasarSsrConfig.viteClient(this.quasarConf)
+    const viteClientConfig = await quasarSsgConfig.viteClient(this.quasarConf)
     await this.buildWithVite('SSR Client', viteClientConfig)
 
     await Promise.all([this.#writeSsrManifest(), this.#writeRenderTemplate()])
 
-    if (this.quasarConf.ssr.pwa) {
+    if (this.quasarConf.ssg.pwa) {
       await this.#buildPWA()
     }
   }
 
   async #writeRenderTemplate() {
-    const html = this.readFile('client/index.html')
+    const htmlFile = join(this.quasarConf.build.distDir, 'index.html')
+    const html = this.readFile(htmlFile)
+
+    this.removeFile(htmlFile)
 
     await Promise.all([
       getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(
         content => {
-          this.writeFile('render-template.js', content)
+          this.writeFile('__ssg__/render-template.js', content)
         }
       ),
 
-      this.quasarConf.ssr.pwa
+      this.quasarConf.ssg.pwa ||
+      this.quasarConf.ssg.clientSideRenderingHtmlFilename
         ? transformProdHtmlShell(html, this.quasarConf).then(content => {
-            this.writeFile(
-              `client/${this.quasarConf.ssr.pwaOfflineHtmlFilename}`,
-              content
-            )
+            if (this.quasarConf.ssg.pwa) {
+              this.writeFile(
+                `${this.quasarConf.ssg.pwaOfflineHtmlFilename}`,
+                content
+              )
+            }
+            if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
+              this.writeFile(
+                `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
+                content
+              )
+            }
           })
         : null
     ])
-
-    this.removeFile('client/index.html')
   }
 
   async #writeSsrManifest() {
-    const viteManifest = JSON.parse(
-      this.readFile('client/.vite/ssr-manifest.json')
-    )
-
-    this.removeFile('client/.vite')
+    const viteManifest = JSON.parse(this.readFile('.vite/ssr-manifest.json'))
+    this.removeFile('.vite')
 
     /**
      * See https://github.com/quasarframework/quasar/issues/17864
@@ -125,18 +128,18 @@ export class QuasarModeBuilder extends AppBuilder {
       ssrManifest[key] = value
     }
 
-    if (typeof this.quasarConf.ssr.extendSSRManifestJson === 'function') {
+    if (typeof this.quasarConf.ssg.extendSSGManifestJson === 'function') {
       const overrides =
-        await this.quasarConf.ssr.extendSSRManifestJson(ssrManifest)
+        await this.quasarConf.ssg.extendSSGManifestJson(ssrManifest)
       if (Object(overrides) === overrides) {
         ssrManifest = merge({}, ssrManifest, overrides)
       }
     }
 
     await this.ctx.appExt.runAppExtensionHook(
-      'extendSSRManifestJson',
+      'extendSSGManifestJson',
       async hook => {
-        hook.api.logger.log(`Running "extendSSRManifestJson(ssrManifest)"`)
+        hook.api.logger.log(`Running "extendSSGManifestJson(ssrManifest)"`)
         const overrides = await hook.fn(ssrManifest, hook.api)
         if (Object(overrides) === overrides) {
           ssrManifest = merge({}, ssrManifest, overrides)
@@ -145,7 +148,7 @@ export class QuasarModeBuilder extends AppBuilder {
     )
 
     this.writeFile(
-      'quasar.manifest.json',
+      '__ssg__/quasar.manifest.json',
       JSON.stringify(
         ssrManifest,
         null,
@@ -155,7 +158,7 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #buildPWA() {
-    const distDir = join(this.quasarConf.build.distDir, 'client')
+    const distDir = this.quasarConf.build.distDir
     const pwaQuasarConf = {
       ...this.quasarConf,
       build: {
@@ -164,81 +167,83 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     }
 
-    // also update pwa-builder.js & ssg-builder.js when changing here
+    // also update pwa-builder.js & ssr-builder.js when changing here
     if (this.quasarConf.pwa.workboxMode === 'InjectManifest') {
-      const rolldownConfig = await quasarSsrConfig.customSw(pwaQuasarConf)
+      const rolldownConfig = await quasarSsgConfig.customSw(pwaQuasarConf)
       await this.buildWithRolldown('InjectManifest Custom SW', rolldownConfig)
     }
 
-    // also update pwa-builder.js & ssg-builder.js when changing here
-    const workboxConfig = await quasarSsrConfig.workbox(pwaQuasarConf)
+    // also update pwa-builder.js & ssr-builder.js when changing here
+    const workboxConfig = await quasarSsgConfig.workbox(pwaQuasarConf)
     await buildPwaServiceWorker(this.quasarConf, workboxConfig)
   }
 
-  #copyWebserverFiles() {
-    const patterns = [
-      '.npmrc',
-      '.yarnrc',
-      'src-ssr/server-assets',
-      'src-ssr/pnpm-workspace.yaml'
-    ].map(filename => ({
-      from: filename,
-      to: '.'
-    }))
-
-    this.copyFiles(patterns)
-  }
-
-  async #writePackageJson() {
-    const {
-      appPaths,
-      pkg: { appPkg, ssrPkg }
-    } = this.ctx
-
-    const rootAppDeps = getFixedDeps(appPkg.dependencies, appPaths.appDir)
-    const ssrAppDeps = getFixedDeps(ssrPkg.dependencies, appPaths.ssrDir)
-
-    let pkg = {
-      name: appPkg.name,
-      version: appPkg.version,
-      description: appPkg.description,
-      author: appPkg.author,
-      private: true,
-      type: 'module',
-      module: 'index.js',
-      scripts: {
-        start: 'node index.js'
-      },
-      dependencies: { ...rootAppDeps, ...ssrAppDeps },
-      engines: appPkg.engines
-    }
-
-    if (this.quasarConf.ssr.manualStoreSerialization !== true) {
-      const { version } = getPackageJson(
-        'serialize-javascript',
-        appPaths.cliDir
-      )
-      pkg.dependencies['serialize-javascript'] = version
-    }
-
-    if (typeof this.quasarConf.ssr.extendSSRPackageJson === 'function') {
-      const overrides = await this.quasarConf.ssr.extendSSRPackageJson(pkg)
-      if (Object(overrides) === overrides) {
-        pkg = merge({}, pkg, overrides)
-      }
-    }
-
-    await this.ctx.appExt.runAppExtensionHook(
-      'extendSSRPackageJson',
-      async hook => {
-        hook.api.logger.log(`Running "extendSSRPackageJson(pkgJson)"`)
-        const overrides = await hook.fn(pkg, hook.api)
-        if (Object(overrides) === overrides) {
-          pkg = merge({}, pkg, overrides)
-        }
-      }
+  async #renderSsgPages() {
+    const { renderSsgPage, getSsgPages } = await import(
+      join(this.quasarConf.build.distDir, '__ssg__/ssg-renderer.js')
     )
 
-    this.writeFile('package.json', stringifyJSON(pkg, { indent: 2 }))
+    const ssgPages = await getSsgPages({
+      ctx: this.quasarConf.ctx
+    })
+
+    if (ssgPages.length === 0) {
+      fatal(
+        'No SSG pages returned by getSsgPages() (see /src-ssg/ssg). Nothing to render.',
+        'FAIL'
+      )
+    }
+
+    const done = progress({
+      tool: 'Vite',
+      waitAction: 'Rendering',
+      doneAction: 'Rendered',
+      target: `${ssgPages.length} SSG page${ssgPages.length > 1 ? 's' : ''}`
+    })
+
+    for (const page of ssgPages) {
+      const ssrContext = page.ssrContext ?? {}
+      const url =
+        'http://localhost' +
+        (this.quasarConf.build.publicPath + page.route.slice(1)).replaceAll(
+          '//',
+          '/'
+        )
+
+      let html
+      try {
+        html = await renderSsgPage({
+          ...ssrContext,
+          url,
+          req: {
+            ...ssrContext.req,
+            url
+          }
+        })
+      } catch (err) {
+        console.log()
+        console.error(err)
+        console.error('\nOffending SSG page definition:')
+        console.error(page)
+
+        fatal(
+          `Failed to render SSG page for route "${page.route}"` +
+            `${page.label ? ` [${page.label}]` : ''}. Check details above.`,
+          'FAIL'
+        )
+      }
+
+      this.writeFile(
+        join(
+          this.quasarConf.build.distDir,
+          page.dir ?? page.route.slice(1),
+          page.filename ?? 'index.html'
+        ),
+        html
+      )
+    }
+
+    this.removeFile('__ssg__')
+    done()
   }
 }

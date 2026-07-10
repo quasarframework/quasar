@@ -11,10 +11,10 @@
  * Boot files are your "main.js"
  **/
 
-<% if (quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa) { %>
+<% if ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa) { %>
 import { createSSRApp, createApp } from 'vue'
 <% } else { %>
-import { <%= quasarConf.ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
+import { <%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'createSSRApp' : 'createApp' %> } from 'vue'
 <% } %>
 
 <% if (quasarConf.ctx.mode.bex) { %>
@@ -43,7 +43,7 @@ import 'quasar/src/css/flex-addon.sass'
 import '<%= asset.path %>'
 <% }) %>
 
-import createQuasarApp<% if (quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa) { %>, { ssrIsRunningOnClientPWA }<% } %> from './app.js'
+import createQuasarApp<% if ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa) { %>, { ssrIsRunningOnClientPWA }<% } %> from './app.js'
 import quasarUserOptions from './quasar-user-options.js'
 
 <% if (quasarConf.ctx.mode.pwa) { %>
@@ -55,7 +55,7 @@ import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
 <% if (quasarConf.ctx.dev) { %>
-console.info('[Quasar] Running <%= quasarConf.ctx.modeName.toUpperCase() + (quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa ? ' + PWA' : '') %>.')
+console.info('[Quasar] Running <%= quasarConf.ctx.modeName.toUpperCase() + ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa ? ' + PWA' : '') %>.')
 <% } %>
 
 const publicPath = `<%= quasarConf.build.publicPath %>`
@@ -117,7 +117,7 @@ async function start ({
 
   app.use(router)
 
-  <% if (quasarConf.ctx.mode.ssr) { %>
+  <% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
     <% if (quasarConf.ctx.mode.pwa) { %>
       if (ssrIsRunningOnClientPWA) {
         <% if (quasarConf.preFetch) { %>
@@ -158,7 +158,7 @@ async function start ({
 }
 
 createQuasarApp(<%=
-  quasarConf.ctx.mode.ssr
+  quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg
     ? (quasarConf.ctx.mode.pwa ? 'ssrIsRunningOnClientPWA ? createApp : createSSRApp' : 'createSSRApp')
     : 'createApp'
 %>, quasarUserOptions)

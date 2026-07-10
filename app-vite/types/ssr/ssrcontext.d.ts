@@ -38,3 +38,10 @@ export interface QSsrContext extends HasStoreParam {
    */
   rendered?: () => void;
 }
+
+export interface RenderParams extends Pick<
+  QSsrContext,
+  "req" | "res" | "url" | "originalUrl"
+> {}
+
+export interface RenderVueParams extends RenderParams, Record<string, any> {}

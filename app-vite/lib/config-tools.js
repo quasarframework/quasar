@@ -108,8 +108,12 @@ async function parseVitePlugins(entries, appDir, compileId) {
 }
 
 function getQuasarVitePluginRunMode(compileId) {
-  if (compileId === 'vite-ssr-client') return 'ssr-client'
-  if (compileId === 'vite-ssr-server') return 'ssr-server'
+  if (compileId === 'vite-ssr-client' || compileId === 'vite-ssg-client') {
+    return 'ssr-client'
+  }
+  if (compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server') {
+    return 'ssr-server'
+  }
   return 'web-client'
 }
 
@@ -134,7 +138,7 @@ export async function createViteConfig(
 
   // protect against Vite mutating its own options and triggering endless cfg diff loop
   const vueVitePluginOptions = merge(
-    compileId === 'vite-ssr-server'
+    compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server'
       ? { ssr: true, template: { ssr: true } }
       : {},
     build.viteVuePluginOptions
@@ -190,7 +194,7 @@ export async function createViteConfig(
 
     build: {
       target:
-        compileId === 'vite-ssr-server'
+        compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server'
           ? build.target.node
           : build.target.browser,
       emptyOutDir: false,
@@ -204,7 +208,7 @@ export async function createViteConfig(
 
     plugins: [
       vueVitePlugin(vueVitePluginOptions),
-      quasarVitePlugin({
+      ...quasarVitePlugin({
         runMode: getQuasarVitePluginRunMode(compileId),
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
         autoImportVueExtensions: quasarConf.framework.autoImportVueExtensions,
@@ -229,19 +233,22 @@ export async function createViteConfig(
     )
   }
 
-  if (compileId !== 'vite-ssr-server') {
+  if (compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server') {
     if (ctx.prod && quasarConf.build.useFilenameHashes !== true) {
       viteConf.plugins.push(quasarViteStripFilenameHashesPlugin())
     }
 
-    if (compileId !== 'vite-ssr-client' || quasarConf.ctx.prod) {
+    if (
+      (compileId !== 'vite-ssr-client' && compileId !== 'vite-ssg-client') ||
+      quasarConf.ctx.prod
+    ) {
       viteConf.plugins.unshift(quasarViteIndexHtmlTransformPlugin(quasarConf))
     }
   }
 
   if (ctx.dev) {
     const warmup =
-      compileId !== 'vite-ssr-server'
+      compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server'
         ? {
             clientFiles: [quasarConf.metaConf.entryScript.absolutePath]
           }

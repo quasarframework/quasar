@@ -375,6 +375,65 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
   ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
 
   /**
+   * Extend the Rolldown config that is used for the SSG renderer
+   * (which is your /src-ssg/ssg file).
+   *
+   * Can be async. Can directly modify the "rolldownConf" parameter or
+   * return a new one that will be merged with the default one.
+   *
+   * Similar in use to /quasar.config > ssg > extendSSGRendererConf
+   *
+   * @param cfg {@link RolldownOptions}
+   * @param api {@link IndexAPI}
+   */
+  readonly extendSSGRendererConf: Callback<
+    (
+      cfg: RolldownOptions,
+      api: IndexAPI
+    ) => void | RolldownOptions | Promise<void | RolldownOptions>
+  >;
+
+  /**
+   * Extend/configure the Workbox GenerateSW options
+   * Specify Workbox options which will be applied on top of
+   *  `pwa > extendPWAGenerateSWOptions()`.
+   *
+   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+   *
+   * Can be async. Can directly modify the "config" parameter or
+   * return a new one that will be merged with the default one.
+   *
+   * Similar in use to /quasar.config > ssg > extendSSGGenerateSWOptions
+   *
+   * @param config {@link GenerateSWOptions}
+   * @param api {@link IndexAPI}
+   */
+  readonly extendSSGGenerateSWOptions: (
+    config: GenerateSWOptions,
+    api: IndexAPI
+  ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+
+  /**
+   * Extend/configure the Workbox InjectManifest options
+   * Specify Workbox options which will be applied on top of
+   *  `pwa > extendPWAInjectManifestOptions()`.
+   *
+   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+   *
+   * Can be async. Can directly modify the "config" parameter or
+   * return a new one that will be merged with the default one.
+   *
+   * Similar in use to /quasar.config > ssg > extendSSGInjectManifestOptions
+   *
+   * @param config {@link InjectManifestOptions}
+   * @param api {@link IndexAPI}
+   */
+  readonly extendSSGInjectManifestOptions: (
+    config: InjectManifestOptions,
+    api: IndexAPI
+  ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+
+  /**
    * Register a custom CLI command
    *
    * @param commandName The name of the command

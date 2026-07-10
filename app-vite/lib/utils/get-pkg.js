@@ -9,7 +9,7 @@ import { getPackageJson } from '../utils/get-package-json.js'
  * /src-<mode>/package.json, so that they can be injected
  * into the context and accessed via ctx.pkg
  */
-const modesList = ['bex', 'ssr', 'pwa', 'electron', 'capacitor']
+const modesList = ['bex', 'ssr', 'ssg', 'pwa', 'electron', 'capacitor']
 
 function injectPkg(acc, propName, pkgPath) {
   let pkg = {}

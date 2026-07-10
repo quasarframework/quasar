@@ -303,7 +303,7 @@ function writeFeatureFlags(quasarConf, fsUtils) {
   }
 
   // spa does not have a feature flag, so we skip it
-  const modes = ['pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex']
+  const modes = ['pwa', 'ssr', 'ssg', 'cordova', 'capacitor', 'electron', 'bex']
   for (const modeName of modes) {
     if (isModeInstalled(appPaths, modeName)) {
       featureFlags.add(modeName)

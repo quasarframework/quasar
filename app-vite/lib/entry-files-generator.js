@@ -22,6 +22,11 @@ export class EntryFilesGenerator {
         'ssr-middlewares.js',
         `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )
+    } else if (ctx.mode.ssg) {
+      templateFiles.push('server-entry.js')
+      if (ctx.prod) {
+        templateFiles.push('ssg-renderer.js')
+      }
     } else if (ctx.mode.bex) {
       regularFiles.push('bex-app.js')
     }

@@ -4,7 +4,7 @@ import { gzipSync } from 'node:zlib'
 import { blue, cyan, gray, green, magenta, underline } from 'kolorist'
 import { globSync } from 'tinyglobby'
 
-const highlightTypes = ['js', 'css']
+const highlightTypes = ['js', 'css', 'html']
 const delimiters = {
   top: { start: ' ╔', middle: '═', end: '╗', join: '╦' },
   separator: { start: ' ╟', middle: '─', end: '╢', join: '╫' },

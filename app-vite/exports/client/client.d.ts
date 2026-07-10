@@ -21,6 +21,7 @@ interface ImportMetaEnv {
   readonly QUASAR_MODE:
     | "spa"
     | "ssr"
+    | "ssg"
     | "pwa"
     | "cordova"
     | "capacitor"
@@ -35,6 +36,10 @@ interface ImportMetaEnv {
    * Is the code running in Quasar SSR mode?
    */
   readonly QUASAR_SSR_MODE: boolean;
+  /**
+   * Is the code running in Quasar SSG mode?
+   */
+  readonly QUASAR_SSG_MODE: boolean;
   /**
    * Is the code running in Quasar PWA mode?
    */

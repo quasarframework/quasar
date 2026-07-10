@@ -15,6 +15,7 @@ import type {
 export type QuasarMode =
   | "spa"
   | "ssr"
+  | "ssg"
   | "pwa"
   | "cordova"
   | "capacitor"
@@ -151,6 +152,11 @@ interface SsrQuasarContext extends BaseQuasarContext {
   readonly modeName: "ssr";
 }
 
+interface SsgQuasarContext extends BaseQuasarContext {
+  readonly mode: { ssg: true; pwa?: true };
+  readonly modeName: "ssg";
+}
+
 type QuasarBexTargets = "chrome" | "firefox";
 interface BexQuasarContext extends BaseQuasarContext {
   readonly mode: { bex: true };
@@ -170,6 +176,7 @@ export type QuasarContext =
   | SpaQuasarContext
   | PwaQuasarContext
   | SsrQuasarContext
+  | SsgQuasarContext
   | CapacitorQuasarContext
   | CordovaQuasarContext
   | ElectronQuasarContext

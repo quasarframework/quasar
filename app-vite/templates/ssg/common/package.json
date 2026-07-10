@@ -1,0 +1,7 @@
+{
+  "name": "quasar-ssg-app",
+  "version": "1.0.0",
+  "description": "Quasar SSG folder",
+  "type": "module",
+  "private": true
+}

@@ -16,6 +16,7 @@ import type { QuasarElectronConfiguration } from "./electron-conf.d.ts";
 import type { QuasarFrameworkConfiguration } from "./framework-conf.d.ts";
 import type { QuasarPwaConfiguration } from "./pwa-conf.d.ts";
 import type { QuasarSsrConfiguration } from "./ssr-conf.d.ts";
+import type { QuasarSsgConfiguration } from "./ssg-conf.d.ts";
 import type { QuasarMobileConfiguration } from "./mobile-conf.d.ts";
 import type { QuasarBexConfiguration } from "./bex-conf.d.ts";
 
@@ -130,6 +131,11 @@ export interface QuasarConf
    * @type options {@link QuasarSsrConfiguration}
    */
   ssr?: QuasarSsrConfiguration;
+  /**
+   * SSG specific [config](https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg).
+   * @type options {@link QuasarSsgConfiguration}
+   */
+  ssg?: QuasarSsgConfiguration;
   /**
    * Capacitor specific [config](https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor).
    * @type options {@link QuasarCapacitorConfiguration}

@@ -19,12 +19,12 @@ import { quasarVitePluginPwaResources } from '../pwa/pwa-utils.js'
  * Remember to update this.#registerDiff() calls when adding/removing quasarConf
  * properties needed for the build.
  */
-export const quasarSsrConfig = {
+export const quasarSsgConfig = {
   viteClient: async quasarConf => {
     let cfg = await createViteConfig(quasarConf, {
-      compileId: 'vite-ssr-client',
+      compileId: 'vite-ssg-client',
       shippedToClient: true,
-      modeDeps: quasarConf.ssr.pwa
+      modeDeps: quasarConf.ssg.pwa
         ? /**
            * We specify modeDeps because the SW register file
            * is part of the /src build and it uses dependencies
@@ -39,20 +39,17 @@ export const quasarSsrConfig = {
       define: {
         'import.meta.env.QUASAR_CLIENT': 'true',
         'import.meta.env.QUASAR_SERVER': 'false',
-        __QUASAR_SSR_PWA__: String(Boolean(quasarConf.ssr.pwa))
+        __QUASAR_SSR_PWA__: String(Boolean(quasarConf.ssg.pwa))
       },
       appType: 'custom',
-      server: {
-        middlewareMode: true
-      },
       build: {
         ssrManifest: true,
-        outDir: join(quasarConf.build.distDir, 'client')
+        outDir: quasarConf.build.distDir
       }
     })
 
-    // also update pwa-config.js & ssg-config.js when changing here
-    if (quasarConf.ssr.pwa) {
+    // also update pwa-config.js & ssr-config.js when changing here
+    if (quasarConf.ssg.pwa) {
       cfg.plugins.push(quasarVitePluginPwaResources(quasarConf))
     }
 
@@ -68,9 +65,9 @@ export const quasarSsrConfig = {
 
   viteServer: async quasarConf => {
     let cfg = await createViteConfig(quasarConf, {
-      compileId: 'vite-ssr-server',
+      compileId: 'vite-ssg-server',
       shippedToClient: false,
-      modeDeps: quasarConf.ssr.pwa
+      modeDeps: quasarConf.ssg.pwa
         ? /**
            * We specify modeDeps because the SW register file
            * is part of the /src build and it uses dependencies
@@ -88,7 +85,7 @@ export const quasarSsrConfig = {
       define: {
         'import.meta.env.QUASAR_CLIENT': 'false',
         'import.meta.env.QUASAR_SERVER': 'true',
-        __QUASAR_SSR_PWA__: String(Boolean(quasarConf.ssr.pwa))
+        __QUASAR_SSR_PWA__: String(Boolean(quasarConf.ssg.pwa))
       },
       appType: 'custom',
       server: {
@@ -106,7 +103,7 @@ export const quasarSsrConfig = {
       },
       build: {
         ssr: true,
-        outDir: join(quasarConf.build.distDir, 'server'),
+        outDir: join(quasarConf.build.distDir, '__ssg__'),
         rolldownOptions: {
           input: ssrEntryFile
         }
@@ -117,9 +114,13 @@ export const quasarSsrConfig = {
   },
 
   // returns a Promise
-  webserver: quasarConf => {
+  ssgRenderer: quasarConf => {
+    // returning null for the "inspect" cmd
+    // otherwise this fn won't be called if not needed anyway
+    if (!quasarConf.ctx.prod) return null
+
     const cfg = createNodeRolldownConfig(quasarConf, {
-      compileId: 'ssr-webserver',
+      compileId: 'ssg-renderer',
       format: 'esm',
       shippedToClient: false
     })
@@ -131,45 +132,40 @@ export const quasarSsrConfig = {
       'import.meta.env.QUASAR_SERVER': 'true'
     }
 
-    if (quasarConf.ctx.dev) {
-      cfg.input = appPaths.resolve.entry('ssr-dev-webserver.js')
-      cfg.output.file = appPaths.resolve.entry('compiled-dev-webserver.js')
-    } else {
-      cfg.input = appPaths.resolve.entry('ssr-prod-webserver.js')
-      cfg.output.file = join(quasarConf.build.distDir, 'index.js')
+    cfg.input = appPaths.resolve.entry('ssg-renderer.js')
+    cfg.output.file = join(quasarConf.build.distDir, '__ssg__/ssg-renderer.js')
 
-      cfg.external.push(
-        ...Object.keys(quasarConf.ctx.pkg.appPkg.dependencies || {}),
-        ...Object.keys(quasarConf.ctx.pkg.ssrPkg.dependencies || {}),
-        'vue/server-renderer',
-        'vue/compiler-sfc',
-        './render-template.js',
-        './quasar.manifest.json',
-        './server/server-entry.js'
-      )
-    }
+    cfg.external.push(
+      ...Object.keys(quasarConf.ctx.pkg.appPkg.dependencies || {}),
+      ...Object.keys(quasarConf.ctx.pkg.ssgPkg.dependencies || {}),
+      'vue/server-renderer',
+      'vue/compiler-sfc',
+      './render-template.js',
+      './quasar.manifest.json',
+      './server-entry.js'
+    )
 
-    cfg.resolve.modules = ['node_modules', appPaths.resolve.ssr('node_modules')]
+    cfg.resolve.modules = ['node_modules', appPaths.resolve.ssg('node_modules')]
 
     return extendRolldownConfig(
       cfg,
-      quasarConf.ssr,
+      quasarConf.ssg,
       quasarConf.ctx,
-      'extendSSRWebserverConf'
+      'extendSSGRendererConf'
     )
   },
 
   workbox: quasarConf => {
     // returning null for the "inspect" cmd
     // otherwise this fn won't be called if not needed anyway
-    if (!quasarConf.ssr.pwa) return null
+    if (!quasarConf.ssg.pwa) return null
 
     return quasarPwaConfig.workbox(quasarConf)
   },
 
   customSw: quasarConf => {
     if (
-      !quasarConf.ssr.pwa ||
+      !quasarConf.ssg.pwa ||
       quasarConf.pwa.workboxMode !== 'InjectManifest'
     ) {
       // returning null for the "inspect" cmd
@@ -181,4 +177,4 @@ export const quasarSsrConfig = {
   }
 }
 
-export const modeConfig = quasarSsrConfig
+export const modeConfig = quasarSsgConfig

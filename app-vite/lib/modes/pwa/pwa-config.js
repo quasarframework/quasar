@@ -38,12 +38,13 @@ export const quasarPwaConfig = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  // exported to ssr-config.js as well
+  // exported to ssr-config.js & ssg-config.js as well
   workbox: async quasarConf => {
     const {
       ctx,
       pwa: { workboxMode }
     } = quasarConf
+
     const { appPaths, pkg } = ctx
     let opts = {}
 
@@ -97,12 +98,19 @@ export const quasarPwaConfig = {
       if (ctx.prod) {
         opts.navigateFallback = ctx.mode.ssr
           ? quasarConf.ssr.pwaOfflineHtmlFilename
-          : 'index.html'
+          : ctx.mode.ssg
+            ? quasarConf.ssg.pwaOfflineHtmlFilename
+            : 'index.html'
 
         opts.navigateFallbackDenylist = [
           new RegExp(escapeRegexString(quasarConf.pwa.swFilename) + '$'),
           /workbox-(.)*\\.js$/
         ]
+
+        if (ctx.mode.ssg) {
+          opts.globIgnores ||= []
+          opts.globIgnores.push('__ssg__/**/*')
+        }
       } else {
         // no one to serve workbox files if they are externalized
         opts.inlineWorkboxRuntime = true
@@ -139,6 +147,25 @@ export const quasarPwaConfig = {
           'extendSSRGenerateSWOptions',
           async hook => {
             hook.api.logger.log(`Running "extendSSRGenerateSWOptions(opts)"`)
+            const overrides = await hook.fn(opts, hook.api)
+            if (Object(overrides) === overrides) {
+              opts = merge({}, opts, overrides)
+            }
+          }
+        )
+      } else if (ctx.mode.ssg) {
+        if (typeof quasarConf.ssg.extendSSGGenerateSWOptions === 'function') {
+          const overrides =
+            await quasarConf.ssg.extendSSGGenerateSWOptions(opts)
+          if (Object(overrides) === overrides) {
+            opts = merge({}, opts, overrides)
+          }
+        }
+
+        await ctx.appExt.runAppExtensionHook(
+          'extendSSGGenerateSWOptions',
+          async hook => {
+            hook.api.logger.log(`Running "extendSSGGenerateSWOptions(opts)"`)
             const overrides = await hook.fn(opts, hook.api)
             if (Object(overrides) === overrides) {
               opts = merge({}, opts, overrides)
@@ -202,6 +229,30 @@ export const quasarPwaConfig = {
             }
           }
         )
+      } else if (ctx.mode.ssg) {
+        if (
+          typeof quasarConf.ssg.extendSSGInjectManifestOptions === 'function'
+        ) {
+          const overrides =
+            await quasarConf.ssg.extendSSGInjectManifestOptions(opts)
+
+          if (Object(overrides) === overrides) {
+            opts = merge({}, opts, overrides)
+          }
+        }
+
+        await ctx.appExt.runAppExtensionHook(
+          'extendSSGInjectManifestOptions',
+          async hook => {
+            hook.api.logger.log(
+              `Running "extendSSGInjectManifestOptions(opts)"`
+            )
+            const overrides = await hook.fn(opts, hook.api)
+            if (Object(overrides) === overrides) {
+              opts = merge({}, opts, overrides)
+            }
+          }
+        )
       }
 
       opts.swSrc = appPaths.resolve.entry('compiled-custom-sw.js')
@@ -214,7 +265,7 @@ export const quasarPwaConfig = {
     return opts
   },
 
-  // exported to ssr-config.js as well;
+  // exported to ssr-config.js & ssg-config.js as well;
   // returns a Promise
   customSw: quasarConf => {
     const { ctx } = quasarConf
@@ -228,7 +279,9 @@ export const quasarPwaConfig = {
       JSON.stringify(
         ctx.mode.ssr && ctx.prod
           ? quasarConf.ssr.pwaOfflineHtmlFilename
-          : 'index.html'
+          : ctx.mode.ssg && ctx.prod
+            ? quasarConf.ssg.pwaOfflineHtmlFilename
+            : 'index.html'
       )
 
     cfg.transform.define['import.meta.env.QUASAR_PWA_SERVICE_WORKER_REGEX'] =

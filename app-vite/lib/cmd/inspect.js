@@ -22,7 +22,7 @@ if (argv.help) {
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|bex|cordova|capacitor|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:

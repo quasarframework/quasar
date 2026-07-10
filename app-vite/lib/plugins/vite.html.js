@@ -200,8 +200,9 @@ async function transformHtml(template, htmlVariables, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    (quasarConf.ctx.mode.ssr ? entryPointMarkup : attachMarkup) +
-      quasarConf.metaConf.entryScript.tag
+    (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg
+      ? entryPointMarkup
+      : attachMarkup) + quasarConf.metaConf.entryScript.tag
   )
 
   // publicPath will be handled by Vite middleware
@@ -210,7 +211,11 @@ async function transformHtml(template, htmlVariables, quasarConf) {
     html = injectPublicPath(html, '/')
   }
 
-  if (!quasarConf.ctx.mode.ssr && quasarConf.build.minify) {
+  if (
+    !quasarConf.ctx.mode.ssr &&
+    !quasarConf.ctx.mode.ssg &&
+    quasarConf.build.minify
+  ) {
     html = await minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
@@ -218,10 +223,10 @@ async function transformHtml(template, htmlVariables, quasarConf) {
 }
 
 /**
- * Used by production SSR only.
+ * Used by production SSR+PWA and Hybrid SSG+CSR only.
  * Gets index.html generated content as param.
  */
-export async function transformProdSsrPwaOfflineHtml(html, quasarConf) {
+export async function transformProdHtmlShell(html, quasarConf) {
   html = html.replace(entryPointMarkup, attachMarkup)
 
   if (quasarConf.build.minify !== false) {

@@ -42,7 +42,7 @@ if (argv.help) {
     $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --target, -T     App target

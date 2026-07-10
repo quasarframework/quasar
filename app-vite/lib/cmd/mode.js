@@ -13,7 +13,7 @@ function showHelp() {
     Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
 
   Usage
-    $ quasar mode [add|remove] [pwa|ssr|bex|cordova|capacitor|electron] [--yes]
+    $ quasar mode [add|remove] [pwa|ssr|ssg|bex|cordova|capacitor|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
@@ -62,9 +62,16 @@ async function run() {
   }
 
   if (
-    ![void 0, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(
-      mode
-    )
+    ![
+      void 0,
+      'pwa',
+      'cordova',
+      'capacitor',
+      'electron',
+      'ssr',
+      'ssg',
+      'bex'
+    ].includes(mode)
   ) {
     fatal(`Unknown mode "${mode}" to ${action}`)
   }
@@ -125,6 +132,7 @@ function displayModes() {
   for (const mode of [
     'pwa',
     'ssr',
+    'ssg',
     'cordova',
     'capacitor',
     'electron',

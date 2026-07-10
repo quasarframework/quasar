@@ -36,7 +36,7 @@ import createStore from '@/../<%= quasarConf.sourceFiles.store %>'
 import createRouter from '@/../<%= quasarConf.sourceFiles.router %>'
 
 <% if (quasarConf.metaConf.needsAppMountHook) { %>
-import { defineComponent, h, onMounted<%= quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
+import { defineComponent, h, onMounted<%= (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualPostHydrationTrigger !== true) ? ', getCurrentInstance' : '' %> } from 'vue'
 
 const RootComponent = defineComponent({
   name: 'AppWrapper',
@@ -46,7 +46,7 @@ const RootComponent = defineComponent({
       SplashScreen.hide()
       <% } %>
 
-      <% if (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) { %>
+      <% if ((quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualPostHydrationTrigger !== true)) { %>
       const { proxy: { $q } } = getCurrentInstance()
       $q.onSSRHydrated !== void 0 && $q.onSSRHydrated()
       <% } %>
@@ -57,12 +57,12 @@ const RootComponent = defineComponent({
 })
 <% } %>
 
-<% if (quasarConf.ctx.mode.ssr && quasarConf.ctx.mode.pwa) { %>
+<% if ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa) { %>
 export const ssrIsRunningOnClientPWA = typeof window !== 'undefined' &&
   document.body.getAttribute('data-server-rendered') === null
 <% } %>
 
-export default async function (createAppFn, quasarUserOptions<%= quasarConf.ctx.mode.ssr ? ', ssrContext' : '' %>) {
+export default async function (createAppFn, quasarUserOptions<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? ', ssrContext' : '' %>) {
   <% if (quasarConf.ctx.mode.bex) { %>
     await bex.promise
     delete bex.promise
@@ -76,7 +76,7 @@ export default async function (createAppFn, quasarUserOptions<%= quasarConf.ctx.
   app.config.performance = true
   <% } %>
 
-  app.use(Quasar, quasarUserOptions<%= quasarConf.ctx.mode.ssr ? ', ssrContext' : '' %>)
+  app.use(Quasar, quasarUserOptions<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? ', ssrContext' : '' %>)
 
   <% if (quasarConf.ctx.mode.bex) { %>
     app.config.globalProperties.$q.bex = bex.bridge
@@ -86,7 +86,7 @@ export default async function (createAppFn, quasarUserOptions<%= quasarConf.ctx.
 
   <% if (quasarConf.metaConf.hasStore) { %>
     const store = typeof createStore === 'function'
-      ? await createStore({<%= quasarConf.ctx.mode.ssr ? 'ssrContext' : '' %>})
+      ? await createStore({<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'ssrContext' : '' %>})
       : createStore
 
     <% if (quasarConf.metaConf.storePackage === 'pinia') { %>
@@ -106,7 +106,7 @@ export default async function (createAppFn, quasarUserOptions<%= quasarConf.ctx.
 
   const router = markRaw(
     typeof createRouter === 'function'
-      ? await createRouter({<%= quasarConf.ctx.mode.ssr ? 'ssrContext' + (quasarConf.metaConf.hasStore ? ',' : '') : '' %><%= quasarConf.metaConf.hasStore ? 'store' : '' %>})
+      ? await createRouter({<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'ssrContext' + (quasarConf.metaConf.hasStore ? ',' : '') : '' %><%= quasarConf.metaConf.hasStore ? 'store' : '' %>})
       : createRouter
   )
 

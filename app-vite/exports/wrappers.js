@@ -59,6 +59,15 @@ export const defineSsrServeStaticContent = wrapper
 export const defineSsrRenderPreloadTag = wrapper
 
 /**
+ * Define the SSG render preload tag function.
+ */
+export const defineSsgRenderPreloadTag = wrapper
+/**
+ * Define the SSG get pages function.
+ */
+export const defineSsgGetPages = wrapper
+
+/**
  * Define the function that creates the install script.
  */
 export const defineInstallScript = wrapper

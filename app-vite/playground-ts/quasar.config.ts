@@ -117,6 +117,7 @@ export default defineConfig((/* ctx */) => ({
     ],
 
     // extendSSRPackageJson (pkgJson) {},
+    // extendSSRManifestJson (json) {},
     // extendSSRWebserverConf (rolldownConf) {},
 
     // manualStoreSerialization: true,
@@ -129,6 +130,24 @@ export default defineConfig((/* ctx */) => ({
 
     // extendSSRGenerateSWOptions (cfg) {},
     // extendSSRInjectManifestOptions (cfg) {}
+  },
+
+  // https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg
+  ssg: {
+    // extendSSGManifestJson (json) {},
+    // extendSSGRendererConf (rolldownConf) {},
+
+    // manualStoreSerialization: true,
+    // manualStoreSsrContextInjection: true,
+    // manualStoreHydration: true,
+    // manualPostHydrationTrigger: true,
+
+    pwa: false
+    // pwaOfflineHtmlFilename: 'offline.html',
+    // clientSideRenderingHtmlFilename: 'csr.html'
+
+    // extendSSGGenerateSWOptions (cfg) {},
+    // extendSSGInjectManifestOptions (cfg) {},
   },
 
   // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa

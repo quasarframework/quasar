@@ -18,9 +18,16 @@ export function ensureArgv(argv, cmd) {
   }
 
   if (
-    !['spa', 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(
-      argv.mode
-    )
+    ![
+      'spa',
+      'pwa',
+      'cordova',
+      'capacitor',
+      'electron',
+      'ssr',
+      'ssg',
+      'bex'
+    ].includes(argv.mode)
   ) {
     fatal(`Unknown mode "${argv.mode}"`)
   }
