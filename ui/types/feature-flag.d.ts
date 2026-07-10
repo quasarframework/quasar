@@ -51,11 +51,11 @@ export type HasStore<T, U = {}> = IsFeatureEnabled<"store", T, U>;
 
 export type HasSsr<T, U = {}> = IsFeatureEnabled<"ssr", T, U>;
 export type HasSsg<T, U = {}> = IsFeatureEnabled<"ssg", T, U>;
-export type HasSsrOrSsg<T, U = {}> = true extends QuasarFeatureFlags[
-  | "ssr"
-  | "ssg"]
+export type HasSsrOrSsg<T, U = {}> = QuasarFeatureFlags["ssr"] extends true
   ? T
-  : U;
+  : QuasarFeatureFlags["ssg"] extends true
+    ? T
+    : U;
 
 export type HasPwa<T, U = {}> = IsFeatureEnabled<"pwa", T, U>;
 export type HasCapacitor<T, U = {}> = IsFeatureEnabled<"capacitor", T, U>;
