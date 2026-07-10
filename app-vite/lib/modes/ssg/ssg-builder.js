@@ -260,7 +260,7 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     const done = progress({
-      tool: 'Vite',
+      tool: 'SSG',
       waitAction: 'Rendering',
       doneAction: 'Rendered',
       target: `${ssgPages.length} SSG page${ssgPages.length > 1 ? 's' : ''}`
