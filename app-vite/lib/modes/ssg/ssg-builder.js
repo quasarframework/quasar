@@ -48,6 +48,8 @@ function parseVueRouterRoutes({ routes, parentPath = '', verbose = false }) {
 }
 
 export class QuasarModeBuilder extends AppBuilder {
+  #viteServerConfig
+
   async build() {
     this.cleanArtifacts()
 
@@ -80,6 +82,10 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #buildSSRServer() {
     const viteServerConfig = await quasarSsgConfig.viteServer(this.quasarConf)
+    if (this.quasarConf.build.filenameBasedRouting) {
+      this.#viteServerConfig = viteServerConfig
+    }
+
     await this.buildWithVite('SSR Server', viteServerConfig)
   }
 
@@ -240,7 +246,8 @@ export class QuasarModeBuilder extends AppBuilder {
 
     const ssgPages = await getSsgPages({
       ctx: this.quasarConf.ctx,
-      parseVueRouterRoutes
+      parseVueRouterRoutes,
+      getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
 
     if (ssgPages.length === 0) {
@@ -326,5 +333,32 @@ export class QuasarModeBuilder extends AppBuilder {
 
     this.removeFile('__ssg__')
     done()
+  }
+
+  async #getFilenameBasedRoutes() {
+    if (!this.quasarConf.build.filenameBasedRouting) {
+      fatal(
+        'Called getFilenameBasedRoutes() but filename-based routing is not enabled in the quasar.config file',
+        'SSG FAIL'
+      )
+    }
+
+    const { createServer } = await import('vite')
+    const vite = await createServer(this.#viteServerConfig)
+
+    try {
+      const { routes } = await vite.ssrLoadModule('vue-router/auto-routes')
+      await vite.close()
+
+      return routes
+    } catch (err) {
+      console.log()
+      console.error(err)
+
+      fatal(
+        'Called getFilenameBasedRoutes() but could not generate the routes with vue-router/auto-routes',
+        'SSG FAIL'
+      )
+    }
   }
 }

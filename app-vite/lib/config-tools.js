@@ -14,6 +14,13 @@ import {
 import { quasarViteIndexHtmlTransformPlugin } from './plugins/vite.html.js'
 import { quasarViteStripFilenameHashesPlugin } from './plugins/vite.strip-filename-hashes.js'
 
+const compileIdToRunModeMap = {
+  'vite-ssr-client': 'ssr-client',
+  'vite-ssr-server': 'ssr-server',
+  'vite-ssg-client': 'ssr-client',
+  'vite-ssg-server': 'ssr-server'
+}
+
 async function parseVitePlugins(entries, appDir, compileId) {
   const acc = []
   let showTip = false
@@ -105,16 +112,6 @@ async function parseVitePlugins(entries, appDir, compileId) {
   }
 
   return acc
-}
-
-function getQuasarVitePluginRunMode(compileId) {
-  if (compileId === 'vite-ssr-client' || compileId === 'vite-ssg-client') {
-    return 'ssr-client'
-  }
-  if (compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server') {
-    return 'ssr-server'
-  }
-  return 'web-client'
 }
 
 /**
@@ -209,7 +206,7 @@ export async function createViteConfig(
     plugins: [
       vueVitePlugin(vueVitePluginOptions),
       ...quasarVitePlugin({
-        runMode: getQuasarVitePluginRunMode(compileId),
+        runMode: compileIdToRunModeMap[compileId] || 'web-client',
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
         autoImportVueExtensions: quasarConf.framework.autoImportVueExtensions,
         autoImportScriptExtensions:

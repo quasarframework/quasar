@@ -29,6 +29,15 @@ export async function addMode({ ctx, silent }) {
   }
 
   const promptSession = await createPromptSession('Installing SSG Mode...')
+
+  const scope = await promptSession.prompt({
+    filenameBasedRouting: () =>
+      promptSession.confirm({
+        message: `Are you using filename-based routing?`,
+        initialValue: false
+      })
+  })
+
   const copyTask = promptSession.taskLog({ title: 'Creating /src-ssg...' })
 
   await copyModeWorkspace('ssg', ctx)
@@ -37,7 +46,22 @@ export async function addMode({ ctx, silent }) {
   const format = hasTypescript ? 'ts' : 'js'
 
   fse.copySync(appPaths.resolve.cli(`templates/ssg/common`), appPaths.ssgDir)
-  fse.copySync(appPaths.resolve.cli(`templates/ssg/${format}`), appPaths.ssgDir)
+
+  const { renderTemplate } = await import('../../utils/template.js')
+  const { globSync } = await import('tinyglobby')
+  const formatFiles = globSync(['**/*'], {
+    cwd: appPaths.resolve.cli(`templates/ssg/${format}`)
+  })
+
+  for (const file of formatFiles) {
+    const srcFile = appPaths.resolve.cli(`templates/ssg/${format}/${file}`)
+    const destFile = appPaths.resolve.ssg(file)
+
+    const content = fse.readFileSync(srcFile, 'utf8')
+    const renderedContent = renderTemplate(content, scope)
+
+    fse.writeFileSync(destFile, renderedContent, 'utf8')
+  }
 
   copyTask.success('Created /src-ssg')
   await ensureModeDeps('ssg', ctx, true)
