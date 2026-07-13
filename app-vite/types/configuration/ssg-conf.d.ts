@@ -140,7 +140,7 @@ export interface QuasarSsgConfiguration {
    * Can be async. Can directly modify the "ssrManifest" parameter or
    * return a new one that will be merged with the default one.
    *
-   * @type config {@link QuasarSsrManifest}
+   * @type ssrManifest {@link QuasarSsrManifest}
    */
   extendSSGManifestJson?: (
     ssrManifest: QuasarSsrManifest

@@ -1,7 +1,7 @@
 import type { RolldownOptions } from "rolldown";
 import type { GenerateSWOptions, InjectManifestOptions } from "workbox-build";
 
-interface QuasarSsrManifest {
+export interface QuasarSsrManifest {
   [key: string]: string[];
 }
 
@@ -183,7 +183,7 @@ export interface QuasarSsrConfiguration {
    * Can be async. Can directly modify the "ssrManifest" parameter or
    * return a new one that will be merged with the default one.
    *
-   * @type config {@link QuasarSsrManifest}
+   * @type ssrManifest {@link QuasarSsrManifest}
    */
   extendSSRManifestJson?: (
     ssrManifest: QuasarSsrManifest

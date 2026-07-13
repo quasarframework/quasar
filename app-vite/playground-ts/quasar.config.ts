@@ -129,7 +129,6 @@ export default defineConfig((/* ctx */) => ({
     // manualPostHydrationTrigger: true,
 
     // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
-
     // extendSSRGenerateSWOptions (cfg) {},
     // extendSSRInjectManifestOptions (cfg) {}
   },
