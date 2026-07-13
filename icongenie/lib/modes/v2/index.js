@@ -1,6 +1,7 @@
 import spaAssets from './spa.js'
 import pwaAssets from './pwa.js'
 import ssrAssets from './ssr.js'
+import ssgAssets from './ssg.js'
 import bexAssets from './bex.js'
 import cordovaAssets from './cordova.js'
 import capacitorAssets from './capacitor.js'
@@ -20,6 +21,11 @@ export const modes = {
   ssr: {
     folder: '/src-ssr',
     assets: ssrAssets
+  },
+
+  ssg: {
+    folder: '/src-ssg',
+    assets: ssgAssets
   },
 
   bex: {
