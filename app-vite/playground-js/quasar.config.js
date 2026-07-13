@@ -138,7 +138,8 @@ export default defineConfig((/* ctx */) => ({
     // manualPostHydrationTrigger: true,
     // error404HtmlFilename: '404.html'
     // pwaOfflineHtmlFilename: 'offline.html',
-    // clientSideRenderingHtmlFilename: 'csr.html'
+    // clientSideRenderingHtmlFilename: 'csr.html',
+    // clientSideRenderingRoutes: [],
     // extendSSGGenerateSWOptions (cfg) {},
     // extendSSGInjectManifestOptions (cfg) {},
   },

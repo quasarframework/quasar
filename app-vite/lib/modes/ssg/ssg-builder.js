@@ -1,5 +1,6 @@
 import { join } from 'node:path'
 import { merge } from 'webpack-merge'
+import picomatch from 'picomatch'
 
 import { AppBuilder } from '../../app-builder.js'
 import { quasarSsgConfig } from './ssg-config.js'
@@ -14,48 +15,74 @@ import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 
-function parseVueRouterRoutes({ routes, parentPath = '', verbose = false }) {
-  const acc = []
+function getParseVueRouterRoutesFn(quasarConf) {
+  const { clientSideRenderingRoutes } = quasarConf.ssg
+  const isCSRMatch =
+    clientSideRenderingRoutes.length !== 0
+      ? picomatch(clientSideRenderingRoutes)
+      : () => false
 
-  for (const route of routes) {
-    if (route.path.includes(':')) {
-      if (verbose) {
-        warn(
-          `Ignored route with dynamic parameter "${route.path}"`,
-          'parseVueRouterRoutes()'
-        )
+  const parseVueRouterRoutes = ({
+    routes,
+    parentPath = '',
+    verbose = false
+  }) => {
+    const acc = []
+
+    for (const route of routes) {
+      const routePath = route.path
+      const fullPath = parentPath + routePath
+
+      if (isCSRMatch(fullPath)) {
+        if (verbose) {
+          warn(
+            `Ignored route with client-side rendering "${fullPath}"`,
+            'parseVueRouterRoutes()'
+          )
+        }
+
+        continue
       }
 
-      continue
-    }
+      if (routePath.includes(':')) {
+        if (verbose) {
+          warn(
+            `Ignored route with dynamic parameter "${fullPath}"`,
+            'parseVueRouterRoutes()'
+          )
+        }
 
-    if (route.redirect) {
-      if (verbose) {
-        warn(
-          `Ignored route with redirect "${route.path}"`,
-          'parseVueRouterRoutes()'
-        )
+        continue
       }
 
-      continue
+      if (route.redirect) {
+        if (verbose) {
+          warn(
+            `Ignored route with redirect "${fullPath}"`,
+            'parseVueRouterRoutes()'
+          )
+        }
+
+        continue
+      }
+
+      if (route.children) {
+        acc.push(
+          ...parseVueRouterRoutes({
+            routes: route.children,
+            parentPath: fullPath,
+            verbose
+          })
+        )
+      } else {
+        acc.push({ route: fullPath })
+      }
     }
 
-    const fullPath = parentPath + route.path
-
-    if (route.children) {
-      acc.push(
-        ...parseVueRouterRoutes({
-          routes: route.children,
-          parentPath: fullPath,
-          verbose
-        })
-      )
-    } else {
-      acc.push({ route: fullPath })
-    }
+    return acc
   }
 
-  return acc
+  return parseVueRouterRoutes
 }
 
 export class QuasarModeBuilder extends AppBuilder {
@@ -144,6 +171,7 @@ export class QuasarModeBuilder extends AppBuilder {
                 }
               )
             }
+
             if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
               this.writeFile(
                 `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
@@ -257,7 +285,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     const ssgPages = await getSsgPages({
       ctx: this.quasarConf.ctx,
-      parseVueRouterRoutes,
+      parseVueRouterRoutes: getParseVueRouterRoutesFn(this.quasarConf),
       getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
 

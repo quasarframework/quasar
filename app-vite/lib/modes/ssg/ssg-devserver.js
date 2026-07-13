@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { createServer, createServerModuleRunner } from 'vite'
 import { watch as chokidarWatch } from 'chokidar'
+import picomatch from 'picomatch'
 import serialize from 'serialize-javascript'
 import { green } from 'kolorist'
 
@@ -10,6 +11,7 @@ import { openBrowser } from '../../utils/open-browser.js'
 import { dot, info, log, warn } from '../../utils/logger.js'
 import { debounce } from '../../utils/rate-limit.js'
 import {
+  attachMarkup,
   entryPointMarkup,
   getDevSsrTemplateFn,
   updateHtmlVariables
@@ -43,6 +45,8 @@ function renderStoreState(ssrContext) {
 export class QuasarModeDevserver extends AppDevserver {
   /** @type {import('vite').ViteDevServer|null} */
   #viteWatcherList = []
+  #isCsrRoute = null
+  #csrTemplate = null
   #renderTemplate = null
 
   // also update pwa-devserver.js & ssr-devserver.js when changing here
@@ -62,6 +66,10 @@ export class QuasarModeDevserver extends AppDevserver {
       serverEntryFile: appPaths.resolve.entry('server-entry.js'),
       ssgCompiledFile: appPaths.resolve.entry('ssg.js')
     }
+
+    this.registerDiff('csrRouteList', quasarConf => [
+      quasarConf.ssg.clientSideRenderingRoutes
+    ])
 
     this.registerDiff('viteSSG', (quasarConf, diffMap) => [
       quasarConf.ssg.pwa,
@@ -89,6 +97,11 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     }
 
+    if (diff('csrRouteList', quasarConf)) {
+      this.clientNeedsReload = true
+      this.#registerCSRMatch(quasarConf)
+    }
+
     if (diff('htmlTemplate', quasarConf)) {
       this.clientNeedsReload = true
       const htmlStore = updateHtmlVariables(quasarConf)
@@ -104,9 +117,20 @@ export class QuasarModeDevserver extends AppDevserver {
     if (this.clientNeedsReload) this.reloadClient()
   }
 
+  #registerCSRMatch(quasarConf) {
+    const { clientSideRenderingRoutes } = quasarConf.ssg
+    this.#isCsrRoute =
+      clientSideRenderingRoutes.length !== 0
+        ? picomatch(clientSideRenderingRoutes)
+        : null
+  }
+
   #updateTemplate(htmlStore, quasarConf) {
+    const template = readFileSync(this.#pathMap.templatePath, 'utf8')
+
+    this.#csrTemplate = template
     this.#renderTemplate = getDevSsrTemplateFn(
-      readFileSync(this.#pathMap.templatePath, 'utf8'),
+      template,
       htmlStore.htmlVariables,
       quasarConf
     )
@@ -152,7 +176,16 @@ export class QuasarModeDevserver extends AppDevserver {
       })
     )
 
-    const render = async ssrContext => {
+    const renderSsrContext = async ssrContext => {
+      const url = ssrContext.url || ssrContext.req.url
+      const originalUrl = ssrContext.originalUrl || ssrContext.req.originalUrl
+
+      if (this.#isCsrRoute?.(url)) {
+        let html = this.#csrTemplate
+        html = await viteClient.transformIndexHtml(url, html, originalUrl)
+        return html.replace(entryPointMarkup, attachMarkup)
+      }
+
       const startTime = Date.now()
       const onRenderedList = []
 
@@ -189,8 +222,6 @@ export class QuasarModeDevserver extends AppDevserver {
 
         let html = this.#renderTemplate(ssrContext)
 
-        const url = ssrContext.url || ssrContext.req.url
-        const originalUrl = ssrContext.originalUrl || ssrContext.req.originalUrl
         html = await viteClient.transformIndexHtml(url, html, originalUrl)
         html = html.replace(
           entryPointMarkup,
@@ -216,7 +247,7 @@ export class QuasarModeDevserver extends AppDevserver {
         return () => {
           server.middlewares.use(async (req, res) => {
             try {
-              const renderedHtml = await render(
+              const renderedHtml = await renderSsrContext(
                 /* the ssrContext: */ { req, res }
               )
               res.end(renderedHtml)
@@ -237,7 +268,9 @@ export class QuasarModeDevserver extends AppDevserver {
                  * but we're in SSG mode, so we cannot!
                  */
                 res.writeHead(500)
-                res.end('500 | Internal Server Error due to redirect')
+                res.end(
+                  '500 | Internal Server Error due to redirect in SSG mode'
+                )
                 return
               }
 

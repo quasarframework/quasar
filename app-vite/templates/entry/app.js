@@ -48,7 +48,7 @@ const RootComponent = defineComponent({
 
       <% if ((quasarConf.ctx.mode.ssr && quasarConf.ssr.manualPostHydrationTrigger !== true) || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualPostHydrationTrigger !== true)) { %>
       const { proxy: { $q } } = getCurrentInstance()
-      $q.onSSRHydrated !== void 0 && $q.onSSRHydrated()
+      $q.onSSRHydrated?.()
       <% } %>
     })
 
@@ -57,8 +57,8 @@ const RootComponent = defineComponent({
 })
 <% } %>
 
-<% if ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa) { %>
-export const ssrIsRunningOnClientPWA = typeof window !== 'undefined' &&
+<% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
+export const isClientSideRenderedPage = typeof window !== 'undefined' &&
   document.body.getAttribute('data-server-rendered') === null
 <% } %>
 
@@ -92,10 +92,10 @@ export default async function (createAppFn, quasarUserOptions<%= (quasarConf.ctx
     <% if (quasarConf.metaConf.storePackage === 'pinia') { %>
       app.use(store)
 
-      <% if (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualStoreHydration !== true) { %>
+      <% if ((quasarConf.ctx.mode.ssr && !quasarConf.ssr.manualStoreHydration) || (quasarConf.ctx.mode.ssg && !quasarConf.ssg.manualStoreHydration)) { %>
         // prime the store with server-initialized state.
         // the state is determined during SSR and inlined in the page markup.
-        if (typeof window !== 'undefined' && <% if (quasarConf.ctx.mode.pwa) { %>ssrIsRunningOnClientPWA !== true && <% } %>window.__INITIAL_STATE__ !== void 0) {
+        if (typeof window !== 'undefined' && !isClientSideRenderedPage && window.__INITIAL_STATE__ !== void 0) {
           store.state.value = window.__INITIAL_STATE__
           // for security reasons, we'll delete this
           delete window.__INITIAL_STATE__

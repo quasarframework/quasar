@@ -745,7 +745,9 @@ export class QuasarConfigFile {
         ssr: {
           middlewares: []
         },
-        ssg: {},
+        ssg: {
+          clientSideRenderingRoutes: []
+        },
         pwa: {},
         electron: {
           preloadScripts: [],
@@ -830,6 +832,13 @@ export class QuasarConfigFile {
         },
         cfg.ssg
       )
+
+      if (
+        cfg.ssg.clientSideRenderingRoutes.length !== 0 &&
+        cfg.ssg.clientSideRenderingHtmlFilename !== false
+      ) {
+        cfg.ssg.clientSideRenderingHtmlFilename = 'csr.html'
+      }
     }
 
     if (this.#ctx.dev) {

@@ -124,6 +124,7 @@
     "kolorist": "^1.8.0",
     "mlly": "^1.8.2",
     "open": "^11.0.0",
+    "picomatch": "^4.0.5",
     "rolldown": "^1.1.5",
     "sass-embedded": "^1.100.0",
     "semver": "^7.8.5",

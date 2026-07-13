@@ -251,7 +251,7 @@ We've also massively upgraded the dev setup for AEs. You might want to do a top 
 
 - 📂 New Server Assets Folder for SSR: We've introduced a /src-ssr/server-assets folder alongside helpful utility functions. This makes it incredibly easy to reference assets (like HTTPS certificates) across dev and production runtimes, eliminating the strict need for an Apache/Nginx wrapper. We've also made the serverless support a breeze.
 
-- 🚀 New Quasar Mode: [SSG (Static Site Generator)](/quasar-cli-vite/developing-ssg/introduction).
+- 🚀 New Quasar Mode: [SSG (Static Site Generator)](/quasar-cli-vite/developing-ssg/introduction) with optional PWA takeover and optional partial CSR.
 
 - 🖥️ Revamped Electron Mode: We've added lots of new features to make desktop development smoother. Similar to SSR, we've introduced a /src-electron/electron-assets folder. Referencing files from here (or from the /public folder) is now much easier via new utility methods available in both /src-electron and /src.
 
@@ -633,18 +633,19 @@ bex: {
 
 // new Quasar Mode (SSG) in @quasar/app-vite v3.1+!
 ssg: {
-  pwa: false,
+  pwa,
   extendSSGManifestJson (json) {},
   extendSSGRendererConf (rolldownConf) {},
 
-  manualStoreSerialization: true,
-  manualStoreSsrContextInjection: true,
-  manualStoreHydration: true,
-  manualPostHydrationTrigger: true,
+  manualStoreSerialization,
+  manualStoreSsrContextInjection,
+  manualStoreHydration,
+  manualPostHydrationTrigger,
 
-  error404HtmlFilename: '404.html'
-  pwaOfflineHtmlFilename: 'offline.html',
-  clientSideRenderingHtmlFilename: 'csr.html'
+  error404HtmlFilename,
+  pwaOfflineHtmlFilename,
+  clientSideRenderingHtmlFilename,
+  clientSideRenderingRoutes,
 
   extendSSGGenerateSWOptions (cfg) {},
   extendSSGInjectManifestOptions (cfg) {},

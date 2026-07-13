@@ -181,7 +181,8 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
 
       // error404HtmlFilename: '404.html'
       // pwaOfflineHtmlFilename: 'offline.html',
-      // clientSideRenderingHtmlFilename: 'csr.html'
+      // clientSideRenderingHtmlFilename: 'csr.html',
+      // clientSideRenderingRoutes: [],
 
       // extendSSGGenerateSWOptions (cfg) {},
       // extendSSGInjectManifestOptions (cfg) {},

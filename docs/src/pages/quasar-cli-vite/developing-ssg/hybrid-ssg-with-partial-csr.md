@@ -32,9 +32,33 @@ ssg: {
    * as it will have the same content. Otherwise, make sure to use a different
    * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
    *
-   * @example 'csr.html'
+   * If not explicitly configured to `false` and `clientSideRenderingRoutes`
+   * is not its default value (an empty array), then this option will
+   * default to 'csr.html'.
+   *
+   * @default false | 'csr.html'
    */
-  clientSideRenderingHtmlFilename?: string;
+  clientSideRenderingHtmlFilename?: string | false;
+
+  /**
+   * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
+   * approach, where you have some Vue Router routes that you want to be
+   * rendered on the client-side exclusively.
+   *
+   * When not also specifying `clientSideRenderingHtmlFilename`, the default
+   * value for it becomes 'csr.html'.
+   *
+   * For production, you will need to properly configure the webserver
+   * to fallback to the `clientSideRenderingHtmlFilename` for the pages that
+   * are not pre-rendered by SSG.
+   *
+   * You can use picomatch patterns to match the routes you want to be rendered
+   * on the client-side. https://www.npmjs.com/package/picomatch
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default []
+   */
+  clientSideRenderingRoutes?: string[];
 }
 ```
 
@@ -42,6 +66,8 @@ You will then need to configure your deployment webserver to point to this html 
 
 ## How It Works
 
-On production, if you have configured ssg.clientSideRenderingHtmlFilename, then the Quasar CLI will generate a shell html file that will act similar to a SPA's generated index.html. It will load your app and Vue Router will handle what gets displayed for the respective route(s), along with its resources.
+For dev mode, these pages will not go through rendering with the underlying SSR.
+
+On production, if you have configured ssg.clientSideRenderingHtmlFilename or ssg.clientSideRenderingRoutes, then the Quasar CLI will generate a shell html file that will act similar to a SPA's generated index.html. It will load your app and Vue Router will handle what gets displayed for the respective route(s), along with its resources.
 
 It is important that you configure your deployment webserver correctly for the respective route(s).

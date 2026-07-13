@@ -11,10 +11,10 @@
  * Boot files are your "main.js"
  **/
 
-<% if ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa) { %>
+<% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
 import { createSSRApp, createApp } from 'vue'
 <% } else { %>
-import { <%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'createSSRApp' : 'createApp' %> } from 'vue'
+import { createApp } from 'vue'
 <% } %>
 
 <% if (quasarConf.ctx.mode.bex) { %>
@@ -43,7 +43,7 @@ import 'quasar/src/css/flex-addon.sass'
 import '<%= asset.path %>'
 <% }) %>
 
-import createQuasarApp<% if ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa) { %>, { ssrIsRunningOnClientPWA }<% } %> from './app.js'
+import createQuasarApp<% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>, { isClientSideRenderedPage }<% } %> from './app.js'
 import quasarUserOptions from './quasar-user-options.js'
 
 <% if (quasarConf.ctx.mode.pwa) { %>
@@ -56,6 +56,13 @@ import { addPreFetchHooks } from './client-prefetch.js'
 
 <% if (quasarConf.ctx.dev) { %>
 console.info('[Quasar] Running <%= quasarConf.ctx.modeName.toUpperCase() + ((quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa ? ' + PWA' : '') %>.')
+<% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
+if (isClientSideRenderedPage) {
+  console.info(
+    '[Quasar] Initial loaded page is Client Side Rendered.'
+  )
+}
+<% } %>
 <% } %>
 
 const publicPath = `<%= quasarConf.build.publicPath %>`
@@ -118,26 +125,22 @@ async function start ({
   app.use(router)
 
   <% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
-    <% if (quasarConf.ctx.mode.pwa) { %>
-      if (ssrIsRunningOnClientPWA) {
-        <% if (quasarConf.preFetch) { %>
-        addPreFetchHooks({ router, ssrIsRunningOnClientPWA<%= quasarConf.metaConf.hasStore ? ', store' : '' %> })
-        <% } %>
-        app.mount('#q-app')
-      }
-      else {
-    <% } %>
-    // wait until router has resolved all async before hooks
-    // and async components...
-    router.isReady().then(() => {
+    if (isClientSideRenderedPage) {
       <% if (quasarConf.preFetch) { %>
-      addPreFetchHooks({ router<%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath })
+      addPreFetchHooks({ router, isClientSideRenderedPage<%= quasarConf.metaConf.hasStore ? ', store' : '' %> })
       <% } %>
       app.mount('#q-app')
-    })
-    <% if (quasarConf.ctx.mode.pwa) { %>
     }
-    <% } %>
+    else {
+      // wait until router has resolved all async before hooks
+      // and async components...
+      router.isReady().then(() => {
+        <% if (quasarConf.preFetch) { %>
+        addPreFetchHooks({ router<%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath })
+        <% } %>
+        app.mount('#q-app')
+      })
+    }
 
   <% } else { // not SSR %>
 
@@ -159,7 +162,7 @@ async function start ({
 
 createQuasarApp(<%=
   quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg
-    ? (quasarConf.ctx.mode.pwa ? 'ssrIsRunningOnClientPWA ? createApp : createSSRApp' : 'createSSRApp')
+    ? 'isClientSideRenderedPage ? createApp : createSSRApp'
     : 'createApp'
 %>, quasarUserOptions)
 <% if (bootEntries.length !== 0) { %>

@@ -48,7 +48,7 @@ function getMatchedComponents (to, router) {
   }))
 }
 
-export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa ? ', ssrIsRunningOnClientPWA' : '' %><%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath }) {
+export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? ', isClientSideRenderedPage' : '' %><%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath }) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
@@ -76,7 +76,7 @@ export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasar
       .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
 
     <% if ((!quasarConf.ctx.mode.ssr && !quasarConf.ctx.mode.ssg) || quasarConf.ctx.mode.pwa) { %>
-    if (<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) && quasarConf.ctx.mode.pwa ? 'ssrIsRunningOnClientPWA && ' : '' %>appPrefetch !== false) {
+    if (<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'isClientSideRenderedPage && ' : '' %>appPrefetch !== false) {
       preFetchList.unshift(appPrefetch)
       appPrefetch = false
     }

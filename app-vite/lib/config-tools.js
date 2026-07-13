@@ -235,10 +235,7 @@ export async function createViteConfig(
       viteConf.plugins.push(quasarViteStripFilenameHashesPlugin())
     }
 
-    if (
-      (compileId !== 'vite-ssr-client' && compileId !== 'vite-ssg-client') ||
-      quasarConf.ctx.prod
-    ) {
+    if (compileId !== 'vite-ssr-client' || quasarConf.ctx.prod) {
       viteConf.plugins.unshift(quasarViteIndexHtmlTransformPlugin(quasarConf))
     }
   }

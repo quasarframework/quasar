@@ -55,9 +55,33 @@ export interface QuasarSsgConfiguration {
    * as it will have the same content. Otherwise, make sure to use a different
    * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
    *
-   * @example 'csr.html'
+   * If not explicitly configured to `false` and `clientSideRenderingRoutes`
+   * is not its default value (an empty array), then this option will
+   * default to 'csr.html'.
+   *
+   * @default false | 'csr.html'
    */
-  clientSideRenderingHtmlFilename?: string;
+  clientSideRenderingHtmlFilename?: string | false;
+
+  /**
+   * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
+   * approach, where you have some Vue Router routes that you want to be
+   * rendered on the client-side exclusively.
+   *
+   * When not also specifying `clientSideRenderingHtmlFilename`, the default
+   * value for it becomes 'csr.html'.
+   *
+   * For production, you will need to properly configure the webserver
+   * to fallback to the `clientSideRenderingHtmlFilename` for the pages that
+   * are not pre-rendered by SSG.
+   *
+   * You can use picomatch patterns to match the routes you want to be rendered
+   * on the client-side. https://www.npmjs.com/package/picomatch
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default []
+   */
+  clientSideRenderingRoutes?: string[];
 
   /**
    * Extend/configure the Workbox GenerateSW options
