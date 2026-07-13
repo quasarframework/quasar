@@ -43,6 +43,7 @@ Same as the `ctx` from the `/quasar.config` file.
     publicDir: '...absolute path of it',
     pwaDir: '...absolute path of it',
     ssrDir: '...absolute path of it',
+    ssgDir: '...absolute path of it',
     cordovaDir: '...absolute path of it',
     capacitorDir: '...absolute path of it',
     electronDir: '...absolute path of it',
@@ -56,6 +57,7 @@ Same as the `ctx` from the `/quasar.config` file.
       public: (...paths) => theAbsolutePathToPublicDir,
       pwa: (...paths) => theAbsolutePathToAppSrcPwaDir,
       ssr: (...paths) => theAbsolutePathToAppSrcSsrDir,
+      ssg: (...paths) => theAbsolutePathToAppSrcSsgDir,
       cordova: (...paths) => theAbsolutePathToAppSrcCordovaDir,
       capacitor: (...paths) => theAbsolutePathToAppSrcCapacitorDir,
       electron: (...paths) => theAbsolutePathToAppSrcElectronDir,
@@ -88,6 +90,9 @@ api.resolve.pwa('some-file.js')
 
 // resolves to root/src-ssr of app
 api.resolve.ssr('some-file.js')
+
+// resolves to root/src-ssg of app
+api.resolve.ssg('some-file.js')
 
 // resolves to root/src-cordova of app
 api.resolve.cordova('config.xml')

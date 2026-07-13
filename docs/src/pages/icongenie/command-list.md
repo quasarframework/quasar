@@ -93,7 +93,7 @@ $ icongenie generate -h
 
     --mode, -m            For which Quasar mode(s) to generate the assets;
                           Default: all
-                            [all|spa|pwa|ssr|bex|cordova|capacitor|electron]
+                            [all|spa|pwa|ssr|ssg|bex|cordova|capacitor|electron]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 
@@ -195,7 +195,7 @@ $ icongenie -h
   Options
     --mode, -m      For which Quasar mode(s) to verify the assets;
                     Default: all
-                      [all|spa|pwa|ssr|bex|cordova|capacitor|electron]
+                      [all|spa|pwa|ssr|ssg|bex|cordova|capacitor|electron]
                     Multiple can be specified, separated by ",":
                       spa,cordova,capacitor
 
@@ -256,7 +256,7 @@ $ icongenie profile -h
 
     --assets, -a          Prefill the assets Array with Icon Genie's
                           internal list, based on the modes that you indicate;
-                            [all|spa|pwa|ssr|bex|cordova|capacitor|electron]
+                            [all|spa|pwa|ssr|ssg|bex|cordova|capacitor|electron]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 
@@ -282,7 +282,7 @@ $ icongenie profile -h
                           Recommended min size: 1024x1024 px
 
     --include             Prefill the params.include property;
-                            [all|spa|pwa|ssr|bex|cordova|capacitor|electron]
+                            [all|spa|pwa|ssr|ssg|bex|cordova|capacitor|electron]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 

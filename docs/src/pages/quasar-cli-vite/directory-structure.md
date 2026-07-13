@@ -55,6 +55,9 @@ scope:
       - l: src-ssr/
         e: SSR specific code (like production Node.js webserver)
         url: '/quasar-cli-vite/developing-ssr/introduction'
+      - l: src-ssg/
+        e: SSG specific code (like ssg-renderer script)
+        url: '/quasar-cli-vite/developing-ssg/introduction'
       - l: src-pwa/
         e: PWA specific code (like Service Worker)
         url: '/quasar-cli-vite/developing-pwa/introduction'

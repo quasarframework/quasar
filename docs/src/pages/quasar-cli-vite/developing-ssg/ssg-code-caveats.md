@@ -11,7 +11,7 @@ The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the
 
 When developing a SSG app, you will need to be very familiar with [SSR Mode](/quasar-cli-vite/developing-ssr/introduction), because a SSG app is essentially a build-time rendered SSR app. Therefore, writing code for SSG is the same as for SSR. All SSR concepts apply for it too, like [writing universal code](/quasar-cli-vite/developing-ssr/writing-universal-code), [handling the ssrContext](/quasar-cli-vite/developing-ssr/ssr-context), [client-side hydration](/quasar-cli-vite/developing-ssr/client-side-hydration), and so on.
 
-Both Static Site Generation (SSG) and [Server-Side Rendering (SSR)](/quasar-cli-vite/developing-ssr/introduction) solve the same fundamental problems of traditional SPAs: they both provide excellent SEO and drastically improve the time-to-content. However, they take fundamentally different approaches to when the HTML is actually rendered.
+Both Static Site Generator (SSG) and [Server-Side Rendering (SSR)](/quasar-cli-vite/developing-ssr/introduction) solve the same fundamental problems of traditional SPAs: they both provide excellent SEO and drastically improve the time-to-content. However, they take fundamentally different approaches to when the HTML is actually rendered.
 
 The core difference lies in the rendering timing: SSG renders at build time, while SSR renders at request time. Therefore, when writing your app, you will need to do it in such a way that your content will NOT rely on client specific ssrContext, otherwise you will end up with [client-side hydration errors](/quasar-cli-vite/developing-ssr/client-side-hydration).
 

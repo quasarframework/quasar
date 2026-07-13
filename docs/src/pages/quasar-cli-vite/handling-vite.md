@@ -54,7 +54,7 @@ $ quasar inspect -h
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|bex|cordova|capacitor|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -125,7 +125,7 @@ vitePlugins: [
 ]
 ```
 
-And, should you want, you can also add Vite plugins through `extendViteConf()` in the `/quasar.config` file. This is especially useful for (but not limited to) SSR mode where you'd want a Vite plugin to be applied only on the server-side or the client-side:
+And, should you want, you can also add Vite plugins through `extendViteConf()` in the `/quasar.config` file. This is especially useful for (but not limited to) SSR/SSG mode where you'd want a Vite plugin to be applied only on the server-side or the client-side:
 
 ```js
 import plugin1 from 'plugin1'
@@ -181,7 +181,7 @@ build: {
             dest: '[DEST_PATH]'
           },
           {
-            // Copying firebase-messaging-sw.js to SPA/PWA/SSR dest build folder
+            // Copying firebase-messaging-sw.js to SPA/PWA/SSR/SSG dist build folder
             src: 'config/firebase/firebase-messaging-sw.js',
             dest: 'dest/spa' // example when building SPA
           }

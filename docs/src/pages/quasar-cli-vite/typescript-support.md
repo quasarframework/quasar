@@ -97,6 +97,7 @@ Please refer to:
 - [Electron with TypeScript](/quasar-cli-vite/developing-electron-apps/electron-with-typescript) page.
 - [BEX with TypeScript](/quasar-cli-vite/developing-browser-extensions/bex-with-typescript) page.
 - [SSR with TypeScript](/quasar-cli-vite/developing-ssr/ssr-with-typescript) page.
+- [SSG with TypeScript](/quasar-cli-vite/developing-ssg/ssg-with-typescript) page.
 
 ## Configuring TypeScript
 

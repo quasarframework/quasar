@@ -308,7 +308,7 @@ export default [
 
       globals: {
         ...globals.browser,
-        ...globals.node, // SSR, Electron, config files
+        ...globals.node, // SSR, SSG, Electron, config files
         ga: 'readonly', // Google Analytics
         cordova: 'readonly',
         Capacitor: 'readonly',
@@ -451,7 +451,7 @@ export default defineConfigWithVueTs(
 
       globals: {
         ...globals.browser,
-        ...globals.node, // SSR, Electron, config files
+        ...globals.node, // SSR, SSG, Electron, config files
         process: 'readonly', // process.env.*
         ga: 'readonly', // Google Analytics
         cordova: 'readonly',

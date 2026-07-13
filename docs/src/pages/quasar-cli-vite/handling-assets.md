@@ -29,7 +29,7 @@ Every file and folder from the "public" folder are copied into your production b
 :::
 
 ::: danger
-When not building a SPA/PWA/SSR, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
+When not building a SPA/PWA/SSR/SSG, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
 :::
 
 ## More info with Vite

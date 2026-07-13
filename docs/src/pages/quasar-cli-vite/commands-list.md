@@ -137,7 +137,7 @@ $ quasar dev -h
     $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --devtools, -d   Open remote Vue Devtools
@@ -186,7 +186,7 @@ $ quasar dev -h
     $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --target, -T     App target
@@ -242,7 +242,7 @@ $ quasar build -h
     $ quasar build -m electron '--' some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
+    --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios]
@@ -400,7 +400,7 @@ $ quasar mode -h
     Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
 
   Usage
-    $ quasar mode [add|remove] [pwa|ssr|bex|cordova|capacitor|electron] [--yes]
+    $ quasar mode [add|remove] [pwa|ssr|ssg|bex|cordova|capacitor|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
@@ -412,13 +412,14 @@ $ quasar mode -h
     --help, -h    Displays this message
 ```
 
-When you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, PWA, Cordova or Electron, you need these modes installed. If you issue "quasar dev" or "quasar build" they will automatically be installed.
+When you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), SSG (Static Site Generator with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, SSG, PWA, Cordova or Electron, you need these modes installed. If you issue "quasar dev" or "quasar build" they will automatically be installed.
 
 These modes will add a "src-\*" folder into your project with very specific code for it:
 
 | Folder       | Mode     | Description                                                                                                                                                                                                                                                           |
 | ------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | src-ssr      | ssr      | Contains the production Node.js server files.                                                                                                                                                                                                                         |
+| src-ssg      | ssg      | Contains the ssg-renderer script file.                                                                                                                                                                                                                                |
 | src-pwa      | pwa      | Contains the Service Worker file that you can tweak.                                                                                                                                                                                                                  |
 | src-cordova  | cordova  | Is a Cordova project folder that will be using your 'src' as content. Tweak Cordova config, add/remove platforms, splash screens, Cordova plugins and so on from this folder. Do NOT touch "src-cordova/www" folder though as it will get overwritten at every build. |
 | src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'.                                                                                                                                                                                 |
@@ -549,7 +550,7 @@ $ quasar inspect -h
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|ssg|pwa|bex|cordova|capacitor|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:

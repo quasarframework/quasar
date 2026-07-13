@@ -16,7 +16,7 @@ Also because:
 - It's based on Vue.js
 - You get a state-of-the-art UI (that follows Material Guidelines) for your **websites** and **apps** out of the box
 - Best support for desktop and **mobile browsers** (including iOS Safari!) out of the box
-- Best-in-class support for each build mode (SPA, SSR, PWA, Mobile app, Desktop app & Browser Extension) and the best developer experience through a tight integration with our own CLI
+- Best-in-class support for each build mode (SPA, SSR, SSG, PWA, Mobile app, Desktop app & Browser Extension) and the best developer experience through a tight integration with our own CLI
 - It's easily customizable (CSS) and extendable (JS)
 - It's the most performance-focused framework
 - It's tree-shakable automatically
@@ -33,6 +33,7 @@ Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js base
 
 - SPAs (Single Page App)
 - SSR (Server-side Rendered App) (+ optional PWA client takeover)
+- SSG (Static Site Generator App) (+ optional PWA client takeover; + optional partial CSR)
 - PWAs (Progressive Web App)
 - BEX (Browser Extension)
 - Mobile Apps (Android, iOS, …) through Cordova or Capacitor
@@ -57,7 +58,7 @@ Below is a non-exhaustive list of Quasar's great aspects and features.
 
 #### All Platforms in One Go
 
-One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
+One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover, SSG + partial CSR, SSG + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
 
 #### The largest set of top-class, fast and responsive web components
 

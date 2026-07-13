@@ -95,7 +95,7 @@ The default model mask is `YYYY/MM/DD`, however you can use custom ones too.
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
-::: warning Note on SSR
+::: warning Note on SSR/SSG
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
 :::
 

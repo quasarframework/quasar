@@ -42,7 +42,7 @@ import { defineStore } from '#q-app'
 import { createPinia } from 'pinia'
 
 /*
- * If not building with SSR mode, you can
+ * If not building with SSR/SSG mode, you can
  * directly export the Store instantiation;
  *
  * The function below can be async too; either use

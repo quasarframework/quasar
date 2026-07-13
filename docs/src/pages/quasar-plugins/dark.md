@@ -42,7 +42,7 @@ setup () {
 }
 ```
 
-On a **SSR build**, you may want to set this from your `/src/App.vue`:
+On a **SSR/SSG build**, you may want to set this from your `/src/App.vue`:
 
 ```js
 import { useQuasar } from 'quasar'
@@ -61,7 +61,7 @@ export default {
 
 ```js
 // Warning! This method will not
-// work on SSR builds.
+// work on SSR/SSG builds.
 
 import { Dark } from 'quasar'
 
@@ -78,12 +78,12 @@ Dark.set(true) // or false or "auto"
 Dark.toggle()
 ```
 
-## Note about SSR
+## Note about SSR/SSG
 
-When on a SSR build:
+When on a SSR/SSG build:
 
 - Import `Dark` from 'quasar' method of using Dark mode will not error out but it will not work (won't do anything). But, you can use the [Inside of a Vue file](/quasar-plugins/dark#inside-of-a-vue-file) approach or the [Configuration](/quasar-plugins/dark#configuration) (recommended) approach.
-- It's preferred to avoid setting Dark mode to 'auto' for SSR builds. It's because the client dark mode preference cannot be inferred, so SSR will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
+- It's preferred to avoid setting Dark mode to 'auto' for SSR/SSG builds. It's because the client dark mode preference cannot be inferred, so SSR/SSG will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
 
 ## Watching for status change
 

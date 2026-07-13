@@ -7,7 +7,7 @@ desc: (@quasar/app-vite) Configuring the Quasar SSG Renderer.
 The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-When you develop a Static Site Generated (SSG) application with Quasar, the `/src-ssg/ssg-renderer` file is the heart of your generation process. This file is responsible for telling Quasar which pages to generate and how to preload assets for those generated pages.
+When you develop a Static Site Generator (SSG) application with Quasar, the `/src-ssg/ssg-renderer` file is the heart of your generation process. This file is responsible for telling Quasar which pages to generate and how to preload assets for those generated pages.
 
 ::: warning
 The SSG renderer script is being used for production only ("quasar build -m ssg"). The script will not be invoked in dev mode as it serves no purpose in this case.

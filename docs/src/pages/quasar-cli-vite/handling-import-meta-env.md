@@ -12,7 +12,7 @@ Using `import.meta.env` can help you in many ways:
 ::: tip Terminology on client vs backend code
 We will be using `client code` and `backend code` on this page:
 
-- The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR Server code.
+- The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR/SSG Server code.
 - The client code refers to code that is being shipped to your client, like /src, /src-pwa, /src-electron, SSR Client etc.
 
 :::
@@ -445,7 +445,7 @@ console.log(
 );
 <<| js From dotenv (backend code) |>>
 /**
- * /quasar.config file, /src-ssr
+ * /quasar.config file, /src-ssr, /src-ssg
  */
 console.log(
   import.meta.env.QCLI_DOTENV_BOOL, // true
@@ -592,7 +592,7 @@ NODE_ENV=development
 
 ### Exposing to client code
 
-For security purposes and exposing variables with clear intent only, Quasar CLI filters out variables names not starting with the `QCLI_` prefix for the code exposed to the client-side, while leaving all of them for backend code (example: SSR server-side code that the clients cannot view it directly). This prefix can be changed through the /quasar.config file.
+For security purposes and exposing variables with clear intent only, Quasar CLI filters out variables names not starting with the `QCLI_` prefix for the code exposed to the client-side, while leaving all of them for backend code (example: SSR/SSG server-side code that the clients cannot view it directly). This prefix can be changed through the /quasar.config file.
 
 ```bash
 # NOT exposed to client code, but exposed to backend;
@@ -651,7 +651,7 @@ build: {
     clientPrefix?: string | string[];
     /**
      * Setting this prefix will filter out env files variables and Node.js process.env
-     * variables that are exposed to the backend code (like the SSR server-side).
+     * variables that are exposed to the backend code (like the SSR/SSG server-side).
      *
      * Avoid setting it to 'QUASAR_' so it won't conflict with
      * Quasar's own environment variables.

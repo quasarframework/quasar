@@ -105,7 +105,7 @@ build: {
     clientPrefix?: string | string[];
     /**
      * Setting this prefix will filter out env files variables and Node.js process.env
-     * variables that are exposed to the backend code (like the SSR server-side).
+     * variables that are exposed to the backend code (like the SSR/SSG server-side).
      *
      * Avoid setting it to 'QUASAR_' so it won't conflict with
      * Quasar's own environment variables.

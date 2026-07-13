@@ -9,7 +9,7 @@ The `useId()` composable returns a Vue Ref holding a string that can be used as 
 
 Should you supply a function (`getValue` from the typing below) to get the value that the id might have, it will make sure to keep it updated.
 
-On SSR, it takes into account the process of hydration so that your component won't generate any such errors.
+On SSR/SSG, it takes into account the process of hydration so that your component won't generate any such errors.
 
 ## Syntax
 

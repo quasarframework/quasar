@@ -9,7 +9,7 @@ What our Vite plugin offers out of the box is tree-shaking for Quasar and also Q
 ::: warning Warning! Limitation ahead:
 
 - Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) under the hood.
-- SSR builds with our Vite plugin are not supported (only through our Quasar CLI with Vite).
+- SSR/SSG builds with our Vite plugin are not supported (only through our Quasar CLI with Vite).
 
 :::
 

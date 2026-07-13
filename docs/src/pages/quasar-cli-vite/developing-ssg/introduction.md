@@ -1,6 +1,6 @@
 ---
 title: What is SSG
-desc: (@quasar/app-vite) Introduction on Static Site Generation (SSG) apps with Quasar CLI.
+desc: (@quasar/app-vite) Introduction on Static Site Generator (SSG) apps with Quasar CLI.
 ---
 
 ::: warning Warning! Alpha Stage

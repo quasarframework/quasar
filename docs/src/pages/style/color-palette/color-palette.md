@@ -189,7 +189,7 @@ export default defineBoot(() => {
 })
 ```
 
-If using SSR mode, disable this boot file when running on server-side:
+If using SSR/SSG mode, disable this boot file when running on server-side:
 
 ```js /quasar.config file
 boot: [

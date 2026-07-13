@@ -71,7 +71,7 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
           // you need to set `runtimeOnly: false`
           // runtimeOnly: false,
 
-          ssr: ctx.modeName === 'ssr',
+          ssr: ctx.mode.ssr || ctx.mode.ssg,
 
           // you need to set i18n resource including paths !
           include: [ ctx.appPaths.resolve.app('src/i18n') ]

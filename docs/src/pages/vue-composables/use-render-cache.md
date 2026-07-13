@@ -7,7 +7,7 @@ badge: Quasar v2.15+
 
 The `useRenderCache()` composable is useful especially when you are dealing with Vue render functions (though not restricted to it). When you are building nodes through an iteration, this composable can help you inline the code while (for performance reasons) also benefitting from a cache.
 
-When dealing with SSR, on the server-side you will not want to cache anything because the render will only happen once per client (and you don't want your memory footprint to needlessly grow). Thus the useRenderCache composable will not actually use any cache on server-side, but rather the default values supplied on each call.
+When dealing with SSR/SSG, on the server-side you will not want to cache anything because the render will only happen once per client (and you don't want your memory footprint to needlessly grow). Thus the useRenderCache composable will not actually use any cache on server-side, but rather the default values supplied on each call.
 
 You can directly cache any type of value that you want. Some examples:
 

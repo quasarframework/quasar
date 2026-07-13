@@ -13,6 +13,7 @@ Here are the links to each mode's list:
 | App icons for SPA mode       | [SPA mode](/quasar-cli-vite/developing-spa/app-icons-spa)                              |
 | App icons for PWA mode       | [PWA mode](/quasar-cli-vite/developing-pwa/app-icons-pwa)                              |
 | App icons for SSR mode       | [SSR mode](/quasar-cli-vite/developing-ssr/app-icons-ssr)                              |
+| App icons for SSG mode       | [SSR mode](/quasar-cli-vite/developing-ssg/app-icons-ssg)                              |
 | App icons for Capacitor mode | [Capacitor mode](/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor)       |
 | App icons for Cordova mode   | [Cordova mode](/quasar-cli-vite/developing-cordova-apps/app-icons-cordova)             |
 | App icons for Electron mode  | [Electron mode](/quasar-cli-vite/developing-electron-apps/app-icons-electron)          |

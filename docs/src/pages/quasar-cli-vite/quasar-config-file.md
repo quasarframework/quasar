@@ -16,7 +16,7 @@ Notice that your scaffolded project folder contains a `/quasar.config` file. So 
 - [CSS animations](/options/animations) that you wish to use
 - [Boot Files](/quasar-cli-vite/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
 - Global CSS/Sass/... files to be included in the bundle
-- SPA, PWA, Electron, Capacitor, Cordova, SSR, BEX (browser extensions) configuration
+- SPA, PWA, Electron, Capacitor, Cordova, SSR, SSG, BEX (browser extensions) configuration
 - Extend the under the hood tools, like the generated Vite config
 - ...and many many more that you'll discover along the way
 
@@ -779,7 +779,7 @@ interface QuasarStaticBuildConfiguration {
     clientPrefix?: string | string[]
     /**
      * Setting this prefix will filter out env files variables and Node.js process.env
-     * variables that are exposed to the backend code (like the SSR server-side).
+     * variables that are exposed to the backend code (like the SSR/SSG server-side).
      *
      * Avoid setting it to 'QUASAR_' so it won't conflict with
      * Quasar's own environment variables.
@@ -1008,6 +1008,7 @@ Then, as an example:
 | capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor). |
 | pwa       | Object | PWA specific [config](/quasar-cli-vite/developing-pwa/configuring-pwa).                                   |
 | ssr       | Object | SSR specific [config](/quasar-cli-vite/developing-ssr/configuring-ssr).                                   |
+| ssg       | Object | SSG specific [config](/quasar-cli-vite/developing-ssg/configuring-ssg).                                   |
 | electron  | Object | Electron specific [config](/quasar-cli-vite/developing-electron-apps/configuring-electron).               |
 | bex       | Object | BEX specific [config](/quasar-cli-vite/developing-browser-extensions/configuring-bex).                    |
 
