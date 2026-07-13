@@ -1,14 +1,18 @@
 ---
-title: SSR with PWA Client Takeover
-desc: (@quasar/app-vite) How to configure your Quasar server-side rendered app to become a Progressive Web App on the client side.
+title: SSG with PWA Client Takeover
+desc: (@quasar/app-vite) How to configure your Quasar SSG app to become a Progressive Web App on the client side.
 ---
 
-With Quasar CLI you can build your app with the killer combo of SSR + PWA. In order to enable PWA for SSR builds, you need to edit your `/quasar.config` file first:
+::: warning Warning! Alpha Stage
+The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+:::
+
+With Quasar CLI you can build your app with the killer combo of SSG + PWA. In order to enable PWA for SSG builds, you need to edit your `/quasar.config` file first:
 
 ```js /quasar.config file
 return {
   // ...
-  ssr: {
+  ssg: {
     /**
      * If a PWA should take over or just a SPA.
      * @default false
@@ -16,11 +20,12 @@ return {
     pwa?: boolean;
 
     /**
-     * When using SSR+PWA, this is the name of the
+     * When using SSG+PWA, this is the name of the
      * PWA index html file that the client-side fallbacks to.
-     * For production only.
      *
-     * Do NOT use index.html as name as it will mess SSR up!
+     * Make sure to name it so that the SSG generated html files
+     * don't conflict with it! Also, it shouldn't clash with the
+     * "clientSideRenderingHtmlFilename" option if you are using that.
      *
      * @default 'offline.html'
      */
@@ -36,7 +41,7 @@ return {
      * Can be async. Can directly modify the "config" parameter or
      * return a new one that will be merged with the default one.
      */
-    extendSSRGenerateSWOptions?: (
+    extendSSGGenerateSWOptions?: (
       config: GenerateSWOptions
     ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
 
@@ -50,7 +55,7 @@ return {
      * Can be async. Can directly modify the "config" parameter or
      * return a new one that will be merged with the default one.
      */
-    extendSSRInjectManifestOptions?: (
+    extendSSGInjectManifestOptions?: (
       config: InjectManifestOptions
     ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
   }

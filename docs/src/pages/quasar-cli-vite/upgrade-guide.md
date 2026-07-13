@@ -187,7 +187,7 @@ We've also massively upgraded the dev setup for AEs. You might want to do a top 
 
 - 🖥️ Revamped Electron Mode: We've added lots of new features to make desktop development smoother. Similar to SSR, we've introduced a /src-electron/electron-assets folder. Referencing files from here (or from the /public folder) is now much easier via new utility methods available in both /src-electron and /src.
 
-- 🛣️ Vue Router: First-class support for the [filename-based routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing).
+- 🛣️ Vue Router: First-class support for the [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing).
 
 - 🚀 Smarter reloads (when absolutely needed): You'll notice the DX on dev has improved significantly, with even smarter heuristics when changing the quasar.config file or the dotenv files.
 

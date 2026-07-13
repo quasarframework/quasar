@@ -281,10 +281,16 @@ Notice a few things:
 return {
   // ...
   ssr: {
-    // ...
-    extendSSRWebserverConf(rolldownConf) {
-      // tamper with rolldownConf here
-    }
+    /**
+     * Extend the Rolldown config that is used for the SSR webserver
+     * (which includes the SSR middlewares).
+     *
+     * Can be async. Can directly modify the "config" parameter or
+     * return a new one that will be merged with the default one.
+     */
+    extendSSRWebserverConf?: (
+      config: RolldownOptions
+    ) => void | RolldownOptions | Promise<void | RolldownOptions>;
   }
 }
 ```

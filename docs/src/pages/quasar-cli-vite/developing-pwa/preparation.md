@@ -22,7 +22,7 @@ scope:
             e: 'TypeScript only - WebWorker lib, scoped to /src-pwa/sw/'
 ---
 
-We'll be using Quasar CLI to develop and build a PWA. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
+We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, SSR, SSG, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
 In order to build a PWA, we first need to add the PWA mode to our Quasar project:
 
