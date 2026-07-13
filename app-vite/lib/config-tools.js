@@ -47,7 +47,7 @@ async function parseVitePlugins(entries, appDir, compileId) {
     const [name, pluginOpts = {}, runOpts = { client: true, server: true }] =
       entry
 
-    if (compileId === 'vite-ssr-server') {
+    if (compileId === 'vite-ssr-server' || compileId === 'vite-ssg-server') {
       // if it's configured to not run on server, then skip it
       if (runOpts.server === false) continue
     } else if (runOpts.client === false) {

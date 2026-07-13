@@ -29,6 +29,17 @@ function parseVueRouterRoutes({ routes, parentPath = '', verbose = false }) {
       continue
     }
 
+    if (route.redirect) {
+      if (verbose) {
+        warn(
+          `Ignored route with redirect "${route.path}"`,
+          'parseVueRouterRoutes()'
+        )
+      }
+
+      continue
+    }
+
     const fullPath = parentPath + route.path
 
     if (route.children) {
@@ -241,7 +252,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #renderSsgPages() {
     const { renderSsgPage, getSsgPages } = await import(
-      join(this.quasarConf.build.distDir, '__ssg__/ssg-renderer.js')
+      join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
     )
 
     const ssgPages = await getSsgPages({
@@ -252,7 +263,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     if (ssgPages.length === 0) {
       fatal(
-        'No SSG pages returned by getSsgPages() (see /src-ssg/ssg). Nothing to render.',
+        'No SSG pages returned by getSsgPages() (see /src-ssg/ssg-renderer). Nothing to render.',
         'FAIL'
       )
     }

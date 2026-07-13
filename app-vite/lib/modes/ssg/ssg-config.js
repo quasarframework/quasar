@@ -121,7 +121,7 @@ export const quasarSsgConfig = {
     if (!quasarConf.ctx.prod) return null
 
     const cfg = createNodeRolldownConfig(quasarConf, {
-      compileId: 'ssg-renderer',
+      compileId: 'ssg-script',
       format: 'esm',
       shippedToClient: false
     })
@@ -133,8 +133,8 @@ export const quasarSsgConfig = {
       'import.meta.env.QUASAR_SERVER': 'true'
     }
 
-    cfg.input = appPaths.resolve.entry('ssg-renderer.js')
-    cfg.output.file = join(quasarConf.build.distDir, '__ssg__/ssg-renderer.js')
+    cfg.input = appPaths.resolve.entry('ssg-script.js')
+    cfg.output.file = join(quasarConf.build.distDir, '__ssg__/ssg-script.js')
 
     cfg.external.push(
       ...Object.keys(quasarConf.ctx.pkg.appPkg.dependencies || {}),

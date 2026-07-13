@@ -14,9 +14,9 @@ import renderTemplate from './render-template.js'
 import serverEntry from './server-entry.js'
 import clientManifest from './quasar.manifest.json' with { type: 'json' }
 
-import { renderPreloadTag } from '@/../src-ssg/ssg'
+import { renderPreloadTag } from '@/../src-ssg/ssg-renderer'
 
-export { getSsgPages } from '@/../src-ssg/ssg'
+export { getSsgPages } from '@/../src-ssg/ssg-renderer'
 
 function renderModulesPreload (modules, opts) {
   let links = ''

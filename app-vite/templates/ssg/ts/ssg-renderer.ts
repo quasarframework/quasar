@@ -65,33 +65,33 @@ const pngRE = /\.png$/
 export const renderPreloadTag = defineSsgRenderPreloadTag(
   (file /* , { ssrContext } */) => {
     if (jsRE.test(file)) {
-      return `<link rel="modulepreload" href="${file}" crossorigin>`
+      return `<link rel="modulepreload" href="${file}" crossorigin>`;
     }
 
     if (cssRE.test(file)) {
-      return `<link rel="stylesheet" href="${file}" crossorigin>`
+      return `<link rel="stylesheet" href="${file}" crossorigin>`;
     }
 
     if (woffRE.test(file)) {
-      return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
+      return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`;
     }
 
     if (woff2RE.test(file)) {
-      return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
+      return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`;
     }
 
     if (gifRE.test(file)) {
-      return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`
+      return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`;
     }
 
     if (jpgRE.test(file)) {
-      return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`
+      return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`;
     }
 
     if (pngRE.test(file)) {
-      return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`
+      return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`;
     }
 
-    return ''
+    return '';
   }
 );

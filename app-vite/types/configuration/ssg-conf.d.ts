@@ -122,7 +122,7 @@ export interface QuasarSsgConfiguration {
 
   /**
    * Extend the Rolldown config that is used for the SSG renderer,
-   * which is your /src-ssg/ssg file.
+   * which is your /src-ssg/ssg-renderer file.
    *
    * Can be async. Can directly modify the "config" parameter or
    * return a new one that will be merged with the default one.

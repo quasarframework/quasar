@@ -25,7 +25,7 @@ export class EntryFilesGenerator {
     } else if (ctx.mode.ssg) {
       templateFiles.push('server-entry.js')
       if (ctx.prod) {
-        templateFiles.push('ssg-renderer.js')
+        templateFiles.push('ssg-script.js')
       }
     } else if (ctx.mode.bex) {
       regularFiles.push('bex-app.js')
