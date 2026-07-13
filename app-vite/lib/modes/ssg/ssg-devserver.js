@@ -330,7 +330,11 @@ export class QuasarModeDevserver extends AppDevserver {
         'InjectManifest Custom SW',
         rolldownConfig,
         () => {
-          queue(() => buildPwaServiceWorker(quasarConf, workboxConfig))
+          queue(() =>
+            buildPwaServiceWorker(quasarConf, workboxConfig).then(() =>
+              this.reloadClient()
+            )
+          )
         }
       ).then(watcher => {
         this.#pwaServiceWorkerWatcher = watcher
