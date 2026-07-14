@@ -59,8 +59,11 @@ If you access the development server through a hostname that the browser does no
 
 Here is a tunnelmole example. Install it first:
 
-```bash
+```tabs
+<<| bash PNPM |>>
 pnpm add --global tunnelmole
+<<| bash NPM |>>
+npm install --global tunnelmole
 ```
 
 ```
