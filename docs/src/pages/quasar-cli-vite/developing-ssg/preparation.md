@@ -17,22 +17,24 @@ scope:
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, SSR, SSG, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
+Quasar CLI selects the application target through the `--mode` (`-m`) option of the `quasar dev` and `quasar build` commands.
 
-In order to develop or build a SSG website, we first need to add the SSG mode to our Quasar project:
+Add SSG mode to an existing Quasar project with:
 
 ```bash
 quasar mode add ssg
 ```
 
-If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
+You can also start the SSG development server directly:
 
 ```bash
 quasar dev -m ssg
 ```
 
-This will add SSG mode automatically, if it is missing.
+If SSG mode is missing, Quasar CLI offers to add it before starting the server.
 
-After answering the question of whether you're using [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing), a new folder will appear in your project folder (which is explained in detail on the [Configuring SSG](/quasar-cli-vite/developing-ssg/configuring-ssg) page):
+After you choose whether to use [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing), Quasar creates the following folder:
 
 <DocTree :def="scope.nodeJsTree" />
+
+The renderer defines which routes become static pages. See [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) before creating your first production build.

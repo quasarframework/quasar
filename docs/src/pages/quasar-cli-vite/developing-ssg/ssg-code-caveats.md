@@ -9,24 +9,24 @@ related:
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-When developing a SSG app, you will need to be very familiar with [SSR Mode](/quasar-cli-vite/developing-ssr/introduction), because a SSG app is essentially a build-time rendered SSR app. Therefore, writing code for SSG is the same as for SSR. All SSR concepts apply for it too, like [writing universal code](/quasar-cli-vite/developing-ssr/writing-universal-code), [handling the ssrContext](/quasar-cli-vite/developing-ssr/ssr-context), [client-side hydration](/quasar-cli-vite/developing-ssr/client-side-hydration), and so on.
+An SSG app uses the SSR rendering pipeline at build time. The same principles apply: [write universal code](/quasar-cli-vite/developing-ssr/writing-universal-code), use the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) only while rendering, and keep the first client render compatible with the generated HTML to avoid [hydration errors](/quasar-cli-vite/developing-ssr/client-side-hydration).
 
-Both Static Site Generator (SSG) and [Server-Side Rendering (SSR)](/quasar-cli-vite/developing-ssr/introduction) solve the same fundamental problems of traditional SPAs: they both provide excellent SEO and drastically improve the time-to-content. However, they take fundamentally different approaches to when the HTML is actually rendered.
+Both SSG and [SSR](/quasar-cli-vite/developing-ssr/introduction) send rendered HTML. SSG renders during the build, while SSR renders for each request. An SSG build therefore has no real browser request, cookies, user agent, viewport, or browser storage unless you deliberately simulate values through a page's `ssrContext`.
 
-The core difference lies in the rendering timing: SSG renders at build time, while SSR renders at request time. Therefore, when writing your app, you will need to do it in such a way that your content will NOT rely on client specific ssrContext, otherwise you will end up with [client-side hydration errors](/quasar-cli-vite/developing-ssr/client-side-hydration).
+Do not render user-specific markup on the server and immediately replace it with different browser-specific markup during hydration.
 
 ## Things to avoid
 
-Avoid using the following features **before client-side gets hydrated**:
+Avoid using the following browser-dependent values to choose initial markup **before the client has hydrated**:
 
 - $q.screen ([Screen Plugin](/options/screen-plugin)). Use Quasar [Window-Width related CSS classes](/style/visibility#window-width-related) instead.
 - $q.platform ([Platform Plugin](/options/platform-detection)). Unless you use the [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) to generate a SSG page for each $q.platform prop combination that you use (and fill ssrContext with a specific req.headers['User-Agent']).
-- $q.cookies ([Cookies Plugin](/quasar-plugins/cookies)). Unless you use the [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) to generate a SSG page for each Cookie that you expect (and fill ssrContext with a specific req.headers.cookies).
-- $q.dark ([Dark Plugin](/quasar-plugins/dark)). Unless you use the [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) to generates one "light" and one "dark" SSG page for each route (probably use a cookie with ssrContext.req.headers.cookies to handle it).
+- $q.cookies ([Cookies Plugin](/quasar-plugins/cookies)). Unless you generate a page variant with a specific `ssrContext.req.headers.cookie` value.
+- $q.dark ([Dark Plugin](/quasar-plugins/dark)). Unless you generate separate variants and configure the host to serve the matching file.
 - $q.localStorage ([LocalStorage Plugin](/quasar-plugins/web-storage#localstorage-api))
 - $q.sessionStorage ([SessionStorage Plugin](/quasar-plugins/web-storage#sessionstorage-api))
 
-However, you can use all the above should you combine it with Quasar's [useHydration](/vue-composables/use-hydration) Vue Composable:
+You can defer browser-dependent markup with Quasar's [useHydration](/vue-composables/use-hydration) composable:
 
 ```html Some .vue file
 <template>
@@ -53,9 +53,9 @@ However, you can use all the above should you combine it with Quasar's [useHydra
 </script>
 ```
 
-## Study Case: light and dark mode pages
+## Case Study: Light and Dark Pages
 
-Let's take an example on how to handle light vs dark mode by leveraging the [Dark Plugin](/quasar-plugins/dark) and [Cookies Plugin](/quasar-plugins/cookies). We need to be careful not to generate hydration errors. So:
+The following advanced example generates light and dark variants, then uses nginx to select one from a cookie:
 
 - We will be using a cookie named `theme` which can be `light` or `dark`.
 - We will generate two SSG pages for each Vue Router route, one for each theme.
@@ -140,7 +140,7 @@ export const getSsgPages = defineSsgGetPages(
             }
           }
         }
-        // Finally, we add it to our accummulator that we will return:
+        // Finally, add it to the array that we return:
         ssgPages.push(def)
       })
     }
@@ -154,10 +154,10 @@ On our deployment server, we configure our nginx. We look for the `theme` cookie
 
 ```nginx nginx config
 server {
-  // ...
+  # ...
 
   location / {
-    // ...
+    # ...
 
     set $theme "light";
     if ($cookie_theme = "dark") {

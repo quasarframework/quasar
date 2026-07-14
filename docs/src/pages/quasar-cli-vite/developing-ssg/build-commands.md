@@ -16,7 +16,7 @@ quasar dev -m ssg
 quasar dev --mode ssg
 ```
 
-For SSG Mode, the development server is similar to SSR Mode, except that you don't need to configure the webserver too.
+The development server renders normal SSG routes through the SSR pipeline. Routes matched by `ssg.clientSideRenderingRoutes` are rendered on the client. The `/src-ssg/ssg-renderer` file is used only during a production build, so the development server does not write static HTML files.
 
 ## Building for Production
 
@@ -26,6 +26,8 @@ quasar build -m ssg
 # ..or the longer form:
 quasar build --mode ssg
 ```
+
+The default output directory is `dist/ssg`. The build fails if `getSsgPages()` returns no pages or if two page definitions try to write the same file.
 
 If you want a production build with debugging enabled:
 

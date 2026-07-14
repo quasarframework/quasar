@@ -9,24 +9,24 @@ The Quasar SSG Mode is currently in the "beta" stage. Based on the community fee
 
 Quasar and Vue.js are frameworks for building client-side applications. By default, Vue components produce and manipulate DOM in the browser as output. However, it is also possible to pre-render the exact same components into HTML strings at build time, send those static pages directly to the browser, and finally "hydrate" the static markup into a fully interactive app on the client.
 
-A statically site generated (SSG) Quasar app allows you to write your application using the same Vue architecture you are used to, but outputs flat HTML files for each of your routes.
+A statically generated Quasar app uses the same Vue architecture as other Quasar modes, but renders selected routes to HTML files at build time. When a browser loads one of those files, Vue hydrates the existing markup and the app becomes interactive.
 
 ## Why SSG?
 
 Compared to a traditional SPA (Single-Page Application) or an SSR (Server-Side Rendered) application, the advantages of SSG primarily lie in:
 
-- Can improve SEO, as search engine crawlers will directly see the fully rendered page.
-- Fast time-to-content. Because the HTML is pre-rendered at build time, it doesn't require a server to generate the page on the fly. You can serve these static files directly from a global CDN, meaning your users will see a fully-rendered page almost instantly.
-- Cheaper and easier hosting. You do not need to maintain, monitor, or pay for a Node.js server to render your pages. Your entire app can be hosted on any static file hosting service (like Netlify, Vercel, GitHub Pages, or Amazon S3).
-- Reduces server-rendering attack surface. Since there is no database or server-side execution running to generate the page, there are fewer vulnerabilities and attack vectors.
+- Better initial HTML and SEO. Search engines and link preview crawlers receive the rendered page instead of an empty application shell.
+- Fast time-to-content. A CDN or static server can return pre-rendered HTML without waiting for a server to render it for each request.
+- Simpler hosting. Production does not require a Node.js rendering server. You can deploy the generated files to a static host such as Netlify, Vercel, Cloudflare Pages, GitHub Pages, or Amazon S3.
+- A smaller production attack surface. There is no application server involved in rendering each page. Any APIs used by the client remain separate and must still be secured normally.
 
 There are also some trade-offs to consider when using SSG:
 
-- Development constraints. Just like with SSR, browser-specific code (like window or document) can only be used inside certain lifecycle hooks. Some external libraries may need special treatment to run during the build process.
-- Build times. Because every route must be generated when you build the application, large sites with thousands of pages can take a significant amount of time to compile.
-- Dynamic content. Since pages are rendered at build time, content can become stale. If a page relies on data that changes frequently (like a live feed or user-specific dashboard), SSG might not be the best fit, or it will require fetching that dynamic data on the client-side after the static shell loads. Alternatively, you can configure certain routes of your app to be rendered on client-side only ([Hybrid SSG + partial CSR](/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr)).
+- Universal-code constraints. As with SSR, code executed during rendering cannot assume that browser globals such as `window` or `document` exist.
+- Build time. Every generated page must be rendered during each production build. Large or data-heavy sites can therefore take longer to build.
+- Stale content. Build-time HTML does not change until the next deployment. Frequently changing or user-specific data must be refreshed by rebuilding, fetched on the client, or handled through [hybrid SSG + partial CSR](/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr).
 
-Before using SSG for your app, the first question you should ask is how often your data changes and how important SEO and initial load times are. If you are building a blog, documentation site, marketing page, or e-commerce storefront, SSG is often the perfect choice. However, if you are building an internal dashboard or a highly dynamic application tailored to individual logged-in users, a standard SPA or SSR approach might be more appropriate.
+SSG is a good fit for documentation, marketing pages, blogs, catalogs, and other content that can be known at build time. A SPA or SSR app may be a better fit when most pages depend on the current user or on data that must be fresh for every request.
 
 ## SSG Caveats
 
