@@ -5,8 +5,11 @@ desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or buil
 
 Before we dive in, make sure you got the Cordova CLI installed.
 
-```bash
+```tabs
+<<| bash PNPM |>>
 pnpm add --global cordova
+<<| bash NPM |>>
+npm install --global cordova
 ```
 
 ## Developing

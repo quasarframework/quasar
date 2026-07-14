@@ -7,8 +7,11 @@ desc: (@quasar/app-vite) What you need before developing a Quasar hybrid mobile 
 
 Quasar invokes the `cordova` executable directly, so install Cordova CLI globally using your selected Node package manager:
 
-```bash
+```tabs
+<<| bash PNPM |>>
 pnpm add --global cordova
+<<| bash NPM |>>
+npm install --global cordova
 ```
 
 Verify the installation:
