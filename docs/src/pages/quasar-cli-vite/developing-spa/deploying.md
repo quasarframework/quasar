@@ -191,7 +191,7 @@ app.use(serveStatic(path.join(import.meta.dirname, 'dist/spa')))
 app.listen(port)
 ```
 
-Heroku assumes a set of npm scripts to be available, so we have to alter our `package.json` and add the following under the `script` section:
+Heroku expects a set of package scripts, so add the following under `scripts` in `package.json`:
 
 ```js /package.json
 "scripts": {
@@ -231,7 +231,7 @@ heroku git:remote -a <heroku app name>
 If you want to deploy your application with Surge you first need to install the Surge CLI tool:
 
 ```bash
-npm install -g surge
+pnpm add --global surge
 ```
 
 Next, we will use Quasar CLI to build our app:
