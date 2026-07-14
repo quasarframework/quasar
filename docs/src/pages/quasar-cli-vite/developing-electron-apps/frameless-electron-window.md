@@ -8,7 +8,7 @@ related:
 
 A nice combo is to use frameless Electron window along with [QBar](/vue-components/bar) component. Here's why.
 
-## Main thread
+## Main process
 
 ### Setting frameless window
 
@@ -31,12 +31,12 @@ function createWindow() {
 
 // Add this function:
 function registerWindowControls() {
-  ipcMain.on('window:minimize', () => {
-    BrowserWindow.getFocusedWindow()?.minimize()
+  ipcMain.on('window:minimize', event => {
+    getSenderWindow(event)?.minimize()
   })
 
-  ipcMain.on('window:toggle-maximize', () => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.on('window:toggle-maximize', event => {
+    const win = getSenderWindow(event)
     if (!win) return
 
     if (win.isMaximized()) {
@@ -46,9 +46,15 @@ function registerWindowControls() {
     }
   })
 
-  ipcMain.on('window:close', () => {
-    BrowserWindow.getFocusedWindow()?.close()
+  ipcMain.on('window:close', event => {
+    getSenderWindow(event)?.close()
   })
+}
+
+function getSenderWindow(event) {
+  const win = BrowserWindow.fromWebContents(event.sender)
+
+  return event.senderFrame === win?.webContents.mainFrame ? win : undefined
 }
 
 app.whenReady().then(async () => {
@@ -60,13 +66,13 @@ app.whenReady().then(async () => {
 
 ### The preload script
 
-We will expose our window API to the renderer thread through our `/src-electron/electron-preload` script:
+Expose the window API to the renderer process through `/src-electron/electron-preload`:
 
 ```js /src-electron/electron-preload
 import { contextBridge, ipcRenderer } from 'electron'
 
 // notice "myWindowAPI" (can be anything as long as we reference
-// the same name that we define here in the renderer thread)
+// the same name that we use in the renderer process)
 contextBridge.exposeInMainWorld('myWindowAPI', {
   minimize() {
     ipcRenderer.send('window:minimize')
@@ -80,19 +86,19 @@ contextBridge.exposeInMainWorld('myWindowAPI', {
 })
 ```
 
-## Renderer thread
+## Renderer process
 
 ### Handling window dragging
 
-When we use a frameless window (only frameless!) we also need a way for the user to be able to move the app window around the screen. You can use `q-electron-drag` and `q-electron-drag--exception` Quasar CSS helper classes for this.
+A frameless window needs a draggable region. Use the `q-electron-drag` and `q-electron-drag--exception` Quasar CSS helper classes.
 
 ```html
 <q-bar class="q-electron-drag"> ... </q-bar>
 ```
 
-What this does is that it allows the user to drag the app window when clicking, holding and simultaneously dragging the mouse on the screen.
+The class allows the user to drag the window from that region.
 
-While this is a good feature, you must also take into account that you'll need to specify some exceptions. There may be elements in your custom statusbar that you do not want to trigger the window dragging. By default, [QBtn](/vue-components/button) is **excepted from this behavior** (no need to do anything for this). Should you want to add exceptions to any children of the element having `q-electron-drag` class, you can attach the `q-electron-drag--exception` CSS class to them.
+Interactive children must not trigger dragging. [QBtn](/vue-components/button) is excluded automatically; add `q-electron-drag--exception` to other interactive children.
 
 Example of adding an exception to an icon:
 

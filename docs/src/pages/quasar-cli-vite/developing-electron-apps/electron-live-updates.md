@@ -14,15 +14,15 @@ One open-source option is [`@capgo/electron-updater`](https://www.npmjs.com/pack
 The updater is used by the Electron main and preload scripts, so install it from your Electron folder:
 
 ```tabs
+<<| bash PNPM |>>
+cd src-electron
+pnpm add @capgo/electron-updater
 <<| bash Yarn |>>
 cd src-electron
 yarn add @capgo/electron-updater
 <<| bash NPM |>>
 cd src-electron
 npm install @capgo/electron-updater
-<<| bash PNPM |>>
-cd src-electron
-pnpm add @capgo/electron-updater
 <<| bash Bun |>>
 cd src-electron
 bun add @capgo/electron-updater
@@ -41,6 +41,7 @@ import {
   setupEventForwarding,
   setupIPCHandlers
 } from '@capgo/electron-updater' // [!code highlight]
+import { registerQuasarRuntime } from '#q-app/electron/main' // [!code highlight]
 
 const updater = new ElectronUpdater({ // [!code highlight]
   // [!code highlight]
@@ -73,8 +74,9 @@ async function createWindow() {
   }
 }
 
-void app.whenReady().then(() => {
-  createWindow()
+void app.whenReady().then(async () => {
+  await registerQuasarRuntime() // [!code highlight]
+  await createWindow()
 })
 ```
 
@@ -154,7 +156,7 @@ Build the Electron app without packaging it into an installer:
 quasar build -m electron --skip-pkg
 ```
 
-The renderer files are created in `/dist/electron/UnPackaged`. Stage the files that belong to the web bundle, such as `index.html`, `assets/` and any files copied from `/public`, then create a zip with the CLI:
+The renderer files are created in `/dist/electron/UnPackaged`. Copy the files that belong to the web bundle, such as `index.html`, `assets/`, and files originating from `/public`, into a separate staging directory. Do not include `electron-main.js`, preload scripts, `package.json`, `node_modules`, or `electron-assets` in a live-update archive. Then create a zip with the CLI:
 
 ```bash
 npx @capgo/cli@latest bundle zip --path dist/electron/live-update

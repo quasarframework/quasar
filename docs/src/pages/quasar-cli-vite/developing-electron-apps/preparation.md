@@ -6,72 +6,54 @@ scope:
     l: src-electron
     c:
       - l: electron-assets
-        e: Assets that can be referenced from electron files
+        e: Assets that can be referenced from Electron files
         c:
           - l: icons
             e: Icons of your app for all platforms
             c:
               - l: icon.icns
-                e: Icon file for Darwin (MacOS) platform
+                e: Icon file for macOS
               - l: icon.ico
-                e: Icon file for win32 (Windows) platform
+                e: Icon file for Windows
               - l: icon.png
-                e: Tray icon file for all platforms
+                e: PNG icon used by Linux and at runtime
       - l: electron-preload.js
-        e: '(or .ts) Electron preload script (injects Node.js stuff into renderer thread)'
+        e: '(or .ts) Electron preload script (exposes a controlled API to the renderer)'
       - l: electron-main.js
-        e: '(or .ts) Main thread code'
+        e: '(or .ts) Main process code'
       - l: package.json
-        e: 'helps install Electron only deps directly under /src-electron'
+        e: 'Electron-specific dependencies'
 ---
 
-Before we dive in to the actual development, we need to do some preparation work.
+## Add Quasar Electron mode
 
-## Step 1: Add Quasar Electron Mode
-
-In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it pnpm/yarn/npm/bun installs some Electron packages and creates `/src-electron` folder.
+Add Electron mode to create `/src-electron` and install its workspace dependencies with your project's package manager:
 
 ```bash
 quasar mode add electron
 ```
 
-Every Electron app has two threads: the main thread (deals with the window and initialization code -- from the newly created folder `/src-electron`) and the renderer thread (which deals with the actual content of your app from `/src`).
+The main process and preload sources live in `/src-electron`; the renderer UI remains in `/src`.
 
 The new folder has the following structure:
 
 <DocTree :def="scope.tree" />
 
-### A note for Windows Users
+### Native dependencies
 
-If you run into errors during npm install about node-gyp, then you most likely do not have the proper build tools installed on your system. Build tools include items like Python and Visual Studio. Fortunately, there are a few packages to help simplify this process.
+Most Electron packages use prebuilt binaries and require no local compiler. A dependency containing a native Node.js addon may need to be rebuilt for Electron's ABI.
 
-The first item we need to check is our npm version and ensure that it is not outdated. This is accomplished using [npm-windows-upgrade](https://github.com/felixrieseberg/npm-windows-upgrade). If you are using yarn, then you can skip this check.
+On Windows, install Python 3 and Visual Studio's **Desktop development with C++** workload if a native dependency must compile. The Node.js installer can install the **Tools for Native Modules** for you. On macOS, install the Xcode Command Line Tools; on Linux, install Python, `make`, and a supported C/C++ compiler. See Electron's [native modules guide](https://www.electronjs.org/docs/latest/tutorial/using-native-node-modules/) for rebuilding and troubleshooting native dependencies.
 
-Once that is complete, we can then continue to setup the needed build tools. Using [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools), most of the dirty work is done for us. Installing this globally will in turn setup Visual C++ packages, Python, and more.
+## Start developing
 
-::: warning Note: April 2019
-In Powershell.exe (Run as Admin) `npm install --global windows-build-tools` seems to fail at the moment with errors pointing to python2 and vctools. You can get around this with Chocolatey. One-liner install:
-
-**Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))**
-
-and then run `choco upgrade python2 visualstudio2017-workload-vctools`.
-:::
-
-At this point things should successfully install, but if not then you will need a clean installation of Visual Studio. Please note that these are not problems with Quasar, but they are related to NPM and Windows.
-
-## Step 2: Start Developing
-
-If you want to jump right in and start developing, you can skip the previous step with "quasar mode" command and issue:
+Run:
 
 ```bash
 quasar dev -m electron
 
-# passing extra parameters and/or options to
-# underlying "electron" executable:
-quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
-# when on Windows and using Powershell:
-quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
-This will add Electron mode automatically, if it is missing.
-It will open up an Electron window which will render your app along with Developer Tools opened side by side.
+This also adds Electron mode automatically when it is missing. It opens the application window and, with the default template, the renderer DevTools.
+
+Arguments after `--` are forwarded to the Electron executable. Avoid disabling Chromium's sandbox as a general workaround; doing so removes an important security boundary.
