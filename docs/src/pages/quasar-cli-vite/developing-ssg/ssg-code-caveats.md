@@ -79,7 +79,7 @@ Then we edit `/src/App.vue` where we will initialize the Dark plugin with the ap
 
 ```js /src/App.vue
 import { useSSRContext } from 'vue'
-import { Cookies } from 'quasar'
+import { Cookies, useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
@@ -118,7 +118,7 @@ export const getSsgPages = defineSsgGetPages(
         ssrContext: {
           req: {
             headers: {
-              cookies: `theme=${theme}`
+              cookie: `theme=${theme}`
             }
           }
         }
@@ -133,7 +133,13 @@ export const getSsgPages = defineSsgGetPages(
         // We define a custom filename:
         def.filename = `index-${theme}.html`
         // We tamper with the ssrContext to set the "theme" cookie when rendering:
-        def.ssrContext.req.headers.cookies = `theme=${theme}`
+        def.ssrContext = {
+          req: {
+            headers: {
+              cookie: `theme=${theme}`
+            }
+          }
+        }
         // Finally, we add it to our accummulator that we will return:
         ssgPages.push(def)
       })
