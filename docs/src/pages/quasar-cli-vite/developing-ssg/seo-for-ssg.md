@@ -19,39 +19,39 @@ The Meta Plugin is integrated with Quasar's rendering pipeline, so metadata decl
 
 For example, an article page can provide its title, description, Open Graph fields, and canonical URL:
 
-```vue /src/pages/ArticlePage.vue
+```html /src/pages/ArticlePage.vue
 <script setup>
-import { useMeta } from 'quasar'
+  import { useMeta } from 'quasar'
 
-const article = {
-  title: 'Choosing a rendering mode',
-  description: 'Compare SPA, SSR, and SSG for a Quasar application.',
-  url: 'https://example.com/guides/rendering-modes'
-}
-
-useMeta({
-  title: article.title,
-  meta: {
-    description: {
-      name: 'description',
-      content: article.description
-    },
-    ogTitle: {
-      property: 'og:title',
-      content: article.title
-    },
-    ogDescription: {
-      property: 'og:description',
-      content: article.description
-    }
-  },
-  link: {
-    canonical: {
-      rel: 'canonical',
-      href: article.url
-    }
+  const article = {
+    title: 'Choosing a rendering mode',
+    description: 'Compare SPA, SSR, and SSG for a Quasar application.',
+    url: 'https://example.com/guides/rendering-modes'
   }
-})
+
+  useMeta({
+    title: article.title,
+    meta: {
+      description: {
+        name: 'description',
+        content: article.description
+      },
+      ogTitle: {
+        property: 'og:title',
+        content: article.title
+      },
+      ogDescription: {
+        property: 'og:description',
+        content: article.description
+      }
+    },
+    link: {
+      canonical: {
+        rel: 'canonical',
+        href: article.url
+      }
+    }
+  })
 </script>
 ```
 
