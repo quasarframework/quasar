@@ -11,10 +11,10 @@ Before we dive in to the actual development, we need to do some preparation work
 
 - You will need to install Android Studio and the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
 
-- Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin and call `sdkmanager --licenses`.
+- After installing the Android SDK, accept its licenses by running `sdkmanager --licenses`. With a current command-line tools installation, `sdkmanager` is under `$ANDROID_HOME/cmdline-tools/latest/bin`.
 
 ::: warning
-The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+`ANDROID_HOME` is the current variable for the Android SDK location. `ANDROID_SDK_ROOT` is deprecated; if an older tool still requires it, give both variables the same value.
 :::
 
 - Add Android installation to your path:
@@ -23,18 +23,16 @@ The environmental variable `ANDROID_HOME` has been deprecated and replaced with 
 
 ```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
-export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
-PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools"
 ```
 
-> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_SDK_ROOT="$HOME/Library/Android/Sdk"` or `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
+> On macOS, the default SDK location is usually `$HOME/Library/Android/sdk`.
 
 #### Windows
 
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx ANDROID_SDK_ROOT "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools"
+setx path "%path%;%ANDROID_HOME%\cmdline-tools\latest\bin;%ANDROID_HOME%\platform-tools"
 ```
 
 - Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
@@ -82,7 +80,7 @@ quasar dev -m capacitor -T [android|ios]
 Once the dev server is ready, your IDE will open (Android Studio or Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.
 
 ::: warning
-In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
+Do not accept Android Studio upgrade suggestions automatically. Keep Gradle, the Android Gradle Plugin, Java, and SDK versions within the requirements of the Capacitor major version used by the project. Consult Capacitor's upgrade guide before changing the generated native toolchain.
 
 <img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
 
