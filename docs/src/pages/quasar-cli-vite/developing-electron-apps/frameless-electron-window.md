@@ -31,12 +31,12 @@ function createWindow() {
 
 // Add this function:
 function registerWindowControls() {
-  ipcMain.on('window:minimize', () => {
-    BrowserWindow.getFocusedWindow()?.minimize()
+  ipcMain.on('window:minimize', event => {
+    BrowserWindow.fromWebContents(event.sender)?.minimize()
   })
 
-  ipcMain.on('window:toggle-maximize', () => {
-    const win = BrowserWindow.getFocusedWindow()
+  ipcMain.on('window:toggle-maximize', event => {
+    const win = BrowserWindow.fromWebContents(event.sender)
     if (!win) return
 
     if (win.isMaximized()) {
@@ -46,8 +46,8 @@ function registerWindowControls() {
     }
   })
 
-  ipcMain.on('window:close', () => {
-    BrowserWindow.getFocusedWindow()?.close()
+  ipcMain.on('window:close', event => {
+    BrowserWindow.fromWebContents(event.sender)?.close()
   })
 }
 
@@ -57,6 +57,8 @@ app.whenReady().then(async () => {
   // ...
 })
 ```
+
+Resolving the window from `event.sender` ensures that each renderer controls only its own window. If your app loads remote content or accepts navigation away from its packaged UI, also [validate the sender of every IPC message](/quasar-cli-vite/developing-electron-apps/electron-security-concerns#checklist-security-recommendations) before performing privileged actions.
 
 ### The preload script
 

@@ -26,7 +26,7 @@ keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg R
 You’ll first be prompted to create a password for the keystore. Then, answer the rest of the nice tool’s questions and when it’s all done, you should have a file called my-release-key.keystore created in the current directory.
 
 ::: danger
-Make sure to save this file somewhere safe and secure, if you lose it you won’t be able to submit updates to your app!
+Keep the keystore and its passwords out of version control and build logs. Store encrypted backups separately from the source repository and restrict access to the people or release system that signs the app. Losing the signing key can prevent you from publishing updates; leaking it can let someone sign malicious releases as your app.
 :::
 
 Next, we need to _zip align_ and to sign the APK. For this we use a couple of applications that can be found in the Android SDK `build-tools` folder, something like `/path/to/Android/Sdk/build-tools/VERSION/`. For example, on OS X with Android Studio installed, `zipalign` is in `~/Library/Android/Sdk/build-tools/VERSION/`.

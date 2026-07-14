@@ -131,10 +131,10 @@ $ quasar dev -h
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron -- --force-device-scale-factor=1
     # when on Windows and using Powershell:
     $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron '--' --force-device-scale-factor=1
 
   Options
     --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
@@ -180,10 +180,10 @@ $ quasar dev -h
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron -- --force-device-scale-factor=1
     # when on Windows and using Powershell:
     $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron '--' --force-device-scale-factor=1
 
   Options
     --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
@@ -668,8 +668,12 @@ $ quasar serve -h
       app.get('/proxy/:path', (c) => {
         return proxy('http://some.api.com/' + c.req.param('path'))
       })
-    }
+}
 ```
+
+::: warning
+`quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.
+:::
 
 ### Custom Node.js server
 

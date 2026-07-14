@@ -68,9 +68,9 @@ quasar dev -m electron
 
 # passing extra parameters and/or options to
 # underlying "electron" executable:
-quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+quasar dev -m electron -- --force-device-scale-factor=1
 # when on Windows and using Powershell:
-quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+quasar dev -m electron '--' --force-device-scale-factor=1
 ```
 
 This will add Electron mode automatically, if it is missing.

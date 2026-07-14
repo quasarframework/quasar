@@ -17,6 +17,10 @@ You can use our BEX bridge to directly communicate between the background script
 
 The use of the BEX bridge is optional for each part of the BEX, however if you want to be able to directly communicate between any bex part, then you need to create it in your background script. Under the hood, the background script acts as the main point of communication. All messages go through the bridge in the background script (and get redirected to the right recipient).
 
+::: warning
+Treat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.
+:::
+
 ## The Bridge
 
 The bridge is a promise based event system which is shared between all parts of the BEX and as such allows you to listen for events in your Quasar App, emit them from other parts or vice versa. This is what gives Quasar BEX mode it's power.

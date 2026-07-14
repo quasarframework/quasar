@@ -13,6 +13,10 @@ You may also want to read this tutorial: [Google Analytics Setup for a Cordova A
 You'll need to include a `<script>` tag provided by Google in `/index.html`, which will make your App depend on an Internet connection!
 :::
 
+::: warning
+A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
+:::
+
 ## Prerequisites
 
 - Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Page Routing with Vue Router](/quasar-cli-vite/page-routing-with-vue-router) for more info on routing.
