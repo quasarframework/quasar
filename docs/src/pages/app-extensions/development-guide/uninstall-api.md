@@ -59,7 +59,7 @@ Contains the `ext-id` (String) of this App Extension.
 
 ### api.prompts
 
-Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
+An object containing the answers returned by the prompts script when this App Extension was installed. For more information, see the [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ### api.resolve
 
@@ -137,9 +137,9 @@ await api.hasTypescript()
 
 ```js
 /**
- * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ * @return {'pinia'|undefined}
  */
-await api.getStorePackageName()
+api.getStorePackageName()
 ```
 
 ### api.getNodePackagerName
