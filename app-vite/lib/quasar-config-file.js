@@ -834,11 +834,9 @@ export class QuasarConfigFile {
         cfg.ssg
       )
 
-      if (
-        cfg.ssg.clientSideRenderingHtmlFilename === void 0 &&
-        cfg.ssg.clientSideRenderingRoutes.length !== 0
-      ) {
-        cfg.ssg.clientSideRenderingHtmlFilename = 'csr.html'
+      if (cfg.ssg.clientSideRenderingHtmlFilename === void 0) {
+        cfg.ssg.clientSideRenderingHtmlFilename =
+          cfg.ssg.clientSideRenderingRoutes.length !== 0 ? 'csr.html' : false
       }
     }
 
