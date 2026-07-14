@@ -12,6 +12,7 @@ import {
 import { error, fatal, progress, warn } from '../../utils/logger.js'
 import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 
+const multiSlashRE = /\/{2,}/g
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 
@@ -24,21 +25,21 @@ function getParseVueRouterRoutesFn(quasarConf) {
 
   const parseVueRouterRoutes = ({
     routes,
-    parentPath = '',
+    parentPath = '/',
     verbose = false
   }) => {
     const acc = []
 
     for (const route of routes) {
       const routePath = route.path
-      const fullPath = parentPath + routePath
+      const fullPath = `${parentPath}/${routePath}`.replaceAll(
+        multiSlashRE,
+        '/'
+      )
 
       if (isCSRMatch(fullPath)) {
         if (verbose) {
-          warn(
-            `Ignored route with client-side rendering "${fullPath}"`,
-            'parseVueRouterRoutes()'
-          )
+          warn(`Ignored route (CSR): ${fullPath}`, 'parseVueRouterRoutes()')
         }
 
         continue
@@ -47,7 +48,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       if (routePath.includes(':')) {
         if (verbose) {
           warn(
-            `Ignored route with dynamic parameter "${fullPath}"`,
+            `Ignored route (dynamic param): ${fullPath}`,
             'parseVueRouterRoutes()'
           )
         }
@@ -58,7 +59,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       if (route.redirect) {
         if (verbose) {
           warn(
-            `Ignored route with redirect "${fullPath}"`,
+            `Ignored route (redirects): ${fullPath}`,
             'parseVueRouterRoutes()'
           )
         }
@@ -314,8 +315,8 @@ export class QuasarModeBuilder extends AppBuilder {
       const ssrContext = page.ssrContext ?? {}
       const url =
         'http://localhost' +
-        (this.quasarConf.build.publicPath + page.route.slice(1)).replaceAll(
-          '//',
+        (this.quasarConf.build.publicPath + page.route).replace(
+          multiSlashRE,
           '/'
         )
 

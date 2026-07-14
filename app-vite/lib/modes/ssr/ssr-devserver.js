@@ -23,7 +23,7 @@ import {
 import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 import { quasarSsrConfig } from './ssr-config.js'
 
-const doubleSlashRE = /\/\//g
+const multiSlashRE = /\/{2,}/g
 const autoRemove = 'document.currentScript.remove()'
 
 function logServerMessage(title, msg, additional) {
@@ -239,7 +239,7 @@ export class QuasarModeDevserver extends AppDevserver {
       publicPath === '/'
         ? url => url || '/'
         : url =>
-            url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
+            url ? (publicPath + url).replace(multiSlashRE, '/') : publicPath
 
     const viteClient = (this.clientServer = await createServer(
       await quasarSsrConfig.viteClient(quasarConf)

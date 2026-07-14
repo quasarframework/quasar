@@ -20,11 +20,11 @@ import injectMiddlewares from './ssr-middlewares'
 
 const port = process.env.PORT || <%= quasarConf.ssr.prodPort %>
 
-const doubleSlashRE = /\/\//g
+const multiSlashRE = /\/{2,}/g
 const publicPath = `<%= quasarConf.build.publicPath %>`
 const resolveUrlPath = publicPath === '/'
   ? url => url || '/'
-  : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
+  : url => url ? (publicPath + url).replace(multiSlashRE, '/') : publicPath
 
 const rootFolder = import.meta.dirname
 const publicFolder = join(rootFolder, 'client')

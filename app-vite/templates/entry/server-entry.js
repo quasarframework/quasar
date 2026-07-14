@@ -49,8 +49,8 @@ const appPrefetch = typeof App.preFetch === 'function'
 
 const publicPath = `<%= quasarConf.build.publicPath %>`
 <% if (quasarConf.build.publicPath !== '/') { %>
-const doubleSlashRE = /\/\//
-const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
+const multiSlashRE = /\/{2,}/g
+const addPublicPath = url => (publicPath + url).replace(multiSlashRE, '/')
 <% } %>
 
 const redirectStatusCodeList = [301, 302, 303, 307, 308]
