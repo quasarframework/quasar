@@ -58,7 +58,7 @@ export interface SsgGetPagesParams {
    *
    * @param {Object} options - The configuration object.
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse. {@link RouteRecordRaw}
-   * @param {string} [options.parentPath=''] - Optional parent path to use for these routes.
+   * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
    * @returns {SsgPage[]} Array of SSG pages. {@link SsgPage}
    */
@@ -73,7 +73,7 @@ export interface SsgGetPagesParams {
     routes: RouteRecordRaw[];
     /**
      * Optional parent path to use for these routes.
-     * @default ''
+     * @default '/'
      */
     parentPath?: string;
     /**

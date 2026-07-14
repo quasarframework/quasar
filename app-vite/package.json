@@ -99,7 +99,8 @@
     "dev": "pnpm --filter app-vite-playground-js dev",
     "dev:ts": "pnpm --filter app-vite-playground-ts dev",
     "build": "pnpm --filter app-vite-playground-js build",
-    "build:ts": "pnpm --filter app-vite-playground-ts build"
+    "build:ts": "pnpm --filter app-vite-playground-ts build",
+    "test:unit": "node --test test/**/*.test.js"
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0",
