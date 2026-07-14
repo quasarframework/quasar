@@ -219,7 +219,7 @@ As a side-note, please read the [SSG 404 Error Page](/quasar-cli-vite/developing
 
 ## Rendering Preload Tags
 
-To ensure maximum performance and excellent Lighthouse scores, Quasar allows you to inject `<link rel="preload">` and `<link rel="modulepreload">` tags into the `<head>` of your generated HTML files.
+To ensure boost performance and Lighthouse scores, Quasar allows you to inject `<link rel="preload">` and `<link rel="modulepreload">` tags into the `<head>` of your generated HTML files.
 The `renderPreloadTag` evaluates the assets required by the current page and returns a string with the appropriate HTML output.
 
 Out of the box, Quasar provides a robust default setup using Regex to match file extensions (.js, .css, fonts, and images) and applies the correct rel, as, and type attributes. You can customize this function to support additional file types or custom caching strategies.

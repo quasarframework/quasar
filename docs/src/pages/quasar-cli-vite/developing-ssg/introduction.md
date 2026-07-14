@@ -15,10 +15,10 @@ A statically site generated (SSG) Quasar app allows you to write your applicatio
 
 Compared to a traditional SPA (Single-Page Application) or an SSR (Server-Side Rendered) application, the advantages of SSG primarily lie in:
 
-- Better SEO, as search engine crawlers will directly see the fully rendered page.
-- Extremely fast time-to-content. Because the HTML is pre-rendered at build time, it doesn't require a server to generate the page on the fly. You can serve these static files directly from a global CDN, meaning your users will see a fully-rendered page almost instantly.
+- Can improve SEO, as search engine crawlers will directly see the fully rendered page.
+- Fast time-to-content. Because the HTML is pre-rendered at build time, it doesn't require a server to generate the page on the fly. You can serve these static files directly from a global CDN, meaning your users will see a fully-rendered page almost instantly.
 - Cheaper and easier hosting. You do not need to maintain, monitor, or pay for a Node.js server to render your pages. Your entire app can be hosted on any static file hosting service (like Netlify, Vercel, GitHub Pages, or Amazon S3).
-- Better security. Since there is no database or server-side execution running to generate the page, there are fewer vulnerabilities and attack vectors.
+- Reduces server-rendering attack surface. Since there is no database or server-side execution running to generate the page, there are fewer vulnerabilities and attack vectors.
 
 There are also some trade-offs to consider when using SSG:
 
