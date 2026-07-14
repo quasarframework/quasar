@@ -55,7 +55,7 @@ export interface QuasarSsgConfiguration {
    * as it will have the same content. Otherwise, make sure to use a different
    * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
    *
-   * If not explicitly configured to `false` and `clientSideRenderingRoutes`
+   * If not explicitly configured and `clientSideRenderingRoutes`
    * is not its default value (an empty array), then this option will
    * default to 'csr.html'.
    *
