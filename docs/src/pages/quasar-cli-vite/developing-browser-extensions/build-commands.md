@@ -37,9 +37,9 @@ quasar dev -m bex -T [chrome|firefox]
 quasar dev --mode bex --target [chrome|firefox]
 ```
 
-The default target is `chrome`, so the `-T` param can be ommitted.
+The default target is `chrome`, so the `-T` parameter can be omitted.
 
-You may or may not have already had a `src-bex` folder, but you will definitely have one now. Now that we've created a development environment, we need to load generated browser extension into your browser.
+Quasar adds BEX mode if necessary and generates the development extension. Load that generated extension into the target browser.
 
 While you develop your BEX, you will notice that Quasar CLI builds the actual extension in the dist folder (normally in `/dist/bex-chrome--dev/` or `/dist/bex-firefox--dev` based on the dev target in "quasar dev" command):
 
@@ -58,7 +58,7 @@ In line with the screenshot above, the following steps must be taken:
 
 More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
 
-### Other Chromium Browsers
+### Other Chromium browsers
 
 Although we haven't tested all the various Chromium based browsers, BEX mode should be compatible with them. Please refer to the appropriate browser documentation on how to add a browser extension to that particular browser.
 
@@ -88,7 +88,7 @@ On the other hand, we cannot offer the same experience for Firefox too. However,
 
 ## Debugging
 
-Browser extensions runs in three different environments (more on upcoming pages) and it requires various environments for debugging.
+Browser extensions run in several isolated contexts, so inspect the context where the failing code executes.
 
 ### With Chrome
 
@@ -103,11 +103,11 @@ You can find following places to investigate the errors and outputs from the con
 
 ![Background scripts, Content scripts and Extension Errors](https://cdn.quasar.dev/img/bex-debug-bg.png)
 
-If your code changes are not propagated to the browser you can try to: - Update or Reload extension - from the Extensions list (screenshots) - Restart browser - Restart dev process
+If changes do not reach the browser, reload the extension from the extensions page. If that does not help, restart the browser and the Quasar development process.
 
 For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).
 
-## Building for Production
+## Building for production
 
 ```bash
 quasar build -m bex -T [chrome|firefox]
@@ -116,7 +116,7 @@ quasar build -m bex -T [chrome|firefox]
 quasar build --mode bex --target [chrome|firefox]
 ```
 
-The default target is `chrome`, so the `-T` param can be ommitted.
+The default target is `chrome`, so the `-T` parameter can be omitted.
 
 You will be instructed which is the output folder. Normally, it's `/dist/bex-chrome/` and `/dist/bex-firefox`, based on the target specified for the "quasar build" command.
 
@@ -126,13 +126,11 @@ You will be instructed which is the output folder. Normally, it's `/dist/bex-chr
 If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.
 :::
 
-### A Note on Minification
+### Minification
 
-Part of the review process for Browser Extensions in both Chrome and Firefox must allow the relative teams to examine the code being deployed as a live extension. With this in mind, minified code is not allowed. So, to allow for the review process, Quasar will not obfuscate and minify the built code for Browser Extensions.
+Browser stores may require submitted code to be readable during review, so Quasar disables minification for BEX builds by default. If the requirements of your target store allow it, opt in with `bex.minify: true` in the Quasar config file.
 
-Given any extension will be ran directly on the user's computer, upload speed isn't a factor to worry about here, so minifying the code isn't necessary.
-
-## Publishing to the Stores
+## Publishing to extension stores
 
 Since Quasar removes the burden of building and packaging your Browser Extension, once you are finished developing your extension, it is ready to be published. The publishing process differs between browsers, but the official documentation will guide you through the process.
 

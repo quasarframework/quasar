@@ -5,11 +5,11 @@ desc: (@quasar/app-vite) How to communicate between different parts of your Brow
 
 Allowing a Quasar App to communicate with the various parts of the BEX is essential. Quasar closes this gap using a `bridge`.
 
-There are 3 areas in a BEX which will need a communication layer:
+There are three areas in a BEX that may need a communication layer:
 
-1. The Quasar App itself - this is true for all types of BEX i.e Popup, Options Page, Dev Tools or Web Page
-2. Background Script
-3. Content Script
+1. The Quasar App, such as a popup, options page, developer-tools page, or embedded web page
+2. The background script or service worker
+3. Content scripts
 
 ## Communication Rules
 
@@ -19,7 +19,7 @@ The use of the BEX bridge is optional for each part of the BEX, however if you w
 
 ## The Bridge
 
-The bridge is a promise based event system which is shared between all parts of the BEX and as such allows you to listen for events in your Quasar App, emit them from other parts or vice versa. This is what gives Quasar BEX mode it's power.
+The bridge is a Promise-based event system shared by the BEX contexts. It lets each context listen for events, send messages to a specific connected port, and return synchronous or asynchronous responses.
 
 To access the bridge from within your Quasar App (/src) you can use `$q.bex`. In other areas, the bridge is made available via creating an instance of it.
 

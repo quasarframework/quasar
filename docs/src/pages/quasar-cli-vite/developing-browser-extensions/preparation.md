@@ -34,7 +34,7 @@ scope:
         e: 'TypeScript only'
 ---
 
-We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, SSR, SSG, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
+Quasar CLI selects the browser-extension build target through the mode and target arguments passed to `quasar dev` and `quasar build`.
 
 ## Add Quasar BEX Mode
 
@@ -48,7 +48,7 @@ If you want to jump right in and start developing, you can skip the "quasar mode
 
 ```bash
 quasar dev -m bex -T [chrome|firefox]
-# default target is "chrome" and -T can be ommitted
+# default target is "chrome", so -T can be omitted
 ```
 
 This will add BEX mode automatically, if it is missing, by creating the `/src-bex` folder into your project.
