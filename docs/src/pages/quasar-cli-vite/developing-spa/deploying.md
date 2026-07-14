@@ -230,8 +230,11 @@ heroku git:remote -a <heroku app name>
 
 If you want to deploy your application with Surge you first need to install the Surge CLI tool:
 
-```bash
+```tabs
+<<| bash PNPM |>>
 pnpm add --global surge
+<<| bash NPM |>>
+npm install --global surge
 ```
 
 Next, we will use Quasar CLI to build our app:
