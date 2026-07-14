@@ -21,9 +21,34 @@ Check that:
 
 Inspect the WebView console for the exact network or certificate error. Quasar restores the original `config.xml` content URL when the Cordova process stops.
 
+If the process was forcibly terminated and a later build still tries to load the development server, check `/src-cordova/config.xml`. Restore `<content src="index.html" />` and remove the `allow-navigation` entry for the old development URL.
+
+## Inspect the Cordova project state
+
+Run Cordova commands from `/src-cordova`. These commands provide a useful snapshot when a build starts failing after a platform or plugin change:
+
+```bash
+cordova platform ls
+cordova plugin ls
+cordova requirements [android|ios]
+cordova info
+```
+
+Compare the installed platform and plugin versions with those recorded in `/src-cordova/package.json`. Include the output of `cordova info` when reporting a reproducible Cordova issue, after checking it for sensitive environment details.
+
+After changing `config.xml`, plugins, or platform resources, prepare the native project again:
+
+```bash
+cordova prepare [android|ios]
+```
+
+For stale build artifacts, try `cordova clean [android|ios]` before removing and re-adding a platform. Treat `/src-cordova/platforms` as generated output; make durable configuration changes through `config.xml`, Cordova plugins, hooks, or platform-specific source files managed by your project.
+
 ## Android
 
 Use Chrome's [WebView remote debugging](https://developer.chrome.com/docs/devtools/remote-debugging/webviews) to inspect an Android device or emulator. Open `chrome://inspect` after enabling USB debugging and connecting the device.
+
+For native failures, use Android Studio's [Logcat window](https://developer.android.com/studio/debug/logcat) or stream device logs from a terminal with `adb logcat`. Filter by your application ID or process to reduce unrelated system output.
 
 Accept SDK licenses with `sdkmanager --licenses`. Set `ANDROID_HOME` and the current `cmdline-tools/latest/bin` and `platform-tools` paths as described on the [Preparation](/quasar-cli-vite/developing-cordova-apps/preparation) page. Run these commands to inspect the installed toolchain and device connection:
 
