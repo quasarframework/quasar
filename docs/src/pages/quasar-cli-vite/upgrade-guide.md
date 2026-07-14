@@ -574,6 +574,8 @@ ssr: {
   extendSSRPackageJson (pkgJson) {},
 
   // @quasar/app-vite v3.1+
+  clientSideRenderingRoutes: [],
+  // @quasar/app-vite v3.1+
   extendSSRManifestJson (ssrManifestJson) {},
 
   extendSSRWebserverConf (esbuildConf) {}, // [!code --]

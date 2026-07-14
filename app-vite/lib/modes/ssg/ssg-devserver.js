@@ -13,6 +13,7 @@ import { debounce } from '../../utils/rate-limit.js'
 import {
   attachMarkup,
   entryPointMarkup,
+  fastExtractPath,
   getDevSsrTemplateFn,
   updateHtmlVariables
 } from '../../plugins/vite.html.js'
@@ -68,6 +69,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     this.registerDiff('csrRouteList', quasarConf => [
+      quasarConf.build.publicPath,
       quasarConf.ssg.clientSideRenderingRoutes
     ])
 
@@ -119,10 +121,24 @@ export class QuasarModeDevserver extends AppDevserver {
 
   #registerCSRMatch(quasarConf) {
     const { clientSideRenderingRoutes } = quasarConf.ssg
+    if (clientSideRenderingRoutes.length === 0) {
+      this.#isCsrRoute = null
+      return
+    }
+
+    const isMatch = picomatch(clientSideRenderingRoutes)
+    const { publicPath } = quasarConf.build
+
     this.#isCsrRoute =
-      clientSideRenderingRoutes.length !== 0
-        ? picomatch(clientSideRenderingRoutes)
-        : null
+      publicPath === '/'
+        ? url => {
+            const route = fastExtractPath(url)
+            return isMatch(route)
+          }
+        : url => {
+            const route = fastExtractPath(url).replace(publicPath, '/')
+            return isMatch(route)
+          }
   }
 
   #updateTemplate(htmlStore, quasarConf) {

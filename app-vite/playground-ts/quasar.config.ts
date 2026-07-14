@@ -127,6 +127,7 @@ export default defineConfig((/* ctx */) => ({
     // manualStoreSsrContextInjection: true,
     // manualStoreHydration: true,
     // manualPostHydrationTrigger: true,
+    // clientSideRenderingRoutes: [],
 
     // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
     // extendSSRGenerateSWOptions (cfg) {},

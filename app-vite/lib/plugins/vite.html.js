@@ -302,3 +302,27 @@ export async function getProdSsrRenderTemplateFileContent(
 
   return compileTemplateToFile(html, ssrTemplateCompileOpts)
 }
+
+export function fastExtractPath(url) {
+  let endIdx = url.length
+
+  const hashIdx = url.indexOf('#')
+  const queryIdx = url.indexOf('?')
+  if (hashIdx !== -1) endIdx = hashIdx
+  if (queryIdx !== -1 && queryIdx < endIdx) endIdx = queryIdx
+
+  const cleanInput = url.slice(0, endIdx)
+
+  if (cleanInput.startsWith('http://') || cleanInput.startsWith('https://')) {
+    const protocolEnd = cleanInput.indexOf('://') + 3
+    const pathStart = cleanInput.indexOf('/', protocolEnd)
+    return pathStart === -1 ? '/' : cleanInput.slice(pathStart)
+  }
+
+  if (cleanInput.startsWith('//')) {
+    const pathStart = cleanInput.indexOf('/', 2)
+    return pathStart === -1 ? '/' : cleanInput.slice(pathStart)
+  }
+
+  return cleanInput.startsWith('/') ? cleanInput : '/' + cleanInput
+}

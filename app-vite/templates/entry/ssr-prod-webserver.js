@@ -30,6 +30,42 @@ const rootFolder = import.meta.dirname
 const publicFolder = join(rootFolder, 'client')
 const serverAssetsFolder = join(rootFolder, 'server-assets')
 
+<% if (quasarConf.ssr.clientSideRenderingRoutes.length !== 0) { %>
+import picomatch from '#q-picomatch'
+const csrHtml = readFileSync(
+  join(
+    import.meta.dirname,
+    '<%= quasarConf.ssr.pwa ? `./client/${quasarConf.ssr.pwaOfflineHtmlFilename}` : './server/csr.html' %>'
+  ),
+  'utf8'
+)
+const isCsrRoute = picomatch(<%= JSON.stringify(quasarConf.ssr.clientSideRenderingRoutes) %>)
+
+function fastExtractPath(url) {
+  let endIdx = url.length
+
+  const hashIdx = url.indexOf('#')
+  if (hashIdx !== -1) endIdx = hashIdx
+  const queryIdx = url.indexOf('?')
+  if (queryIdx !== -1 && queryIdx < endIdx) endIdx = queryIdx
+
+  const cleanInput = url.slice(0, endIdx)
+
+  if (cleanInput.startsWith('http://') || cleanInput.startsWith('https://')) {
+    const protocolEnd = cleanInput.indexOf('://') + 3
+    const pathStart = cleanInput.indexOf('/', protocolEnd)
+    return pathStart === -1 ? '/' : cleanInput.slice(pathStart)
+  }
+
+  if (cleanInput.startsWith('//')) {
+    const pathStart = cleanInput.indexOf('/', 2)
+    return pathStart === -1 ? '/' : cleanInput.slice(pathStart)
+  }
+
+  return cleanInput.startsWith('/') ? cleanInput : '/' + cleanInput
+}
+<% } %>
+
 function renderModulesPreload (modules, opts) {
   let links = ''
   const seen = new Set()
@@ -74,6 +110,14 @@ function renderStoreState (ssrContext) {
 <% } %>
 
 async function render (ssrContext) {
+  <% if (quasarConf.ssr.clientSideRenderingRoutes.length !== 0) { %>
+  if (
+    isCsrRoute(
+      fastExtractPath(ssrContext.url || ssrContext.req.url)<% if (quasarConf.build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
+    )
+  ) return csrHtml
+  <% } %>
+
   const onRenderedList = []
 
   Object.assign(ssrContext, {

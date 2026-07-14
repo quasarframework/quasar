@@ -743,7 +743,8 @@ export class QuasarConfigFile {
         },
 
         ssr: {
-          middlewares: []
+          middlewares: [],
+          clientSideRenderingRoutes: []
         },
         ssg: {
           clientSideRenderingRoutes: []

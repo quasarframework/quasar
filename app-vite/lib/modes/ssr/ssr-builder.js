@@ -67,6 +67,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #writeRenderTemplate() {
     const html = this.readFile('client/index.html')
+    this.removeFile('client/index.html')
 
     await Promise.all([
       getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(
@@ -75,17 +76,22 @@ export class QuasarModeBuilder extends AppBuilder {
         }
       ),
 
-      this.quasarConf.ssr.pwa
+      this.quasarConf.ssr.pwa ||
+      this.quasarConf.ssr.clientSideRenderingRoutes.length !== 0
         ? transformProdHtmlShell(html, this.quasarConf).then(content => {
-            this.writeFile(
-              `client/${this.quasarConf.ssr.pwaOfflineHtmlFilename}`,
-              content
-            )
+            if (this.quasarConf.ssr.pwa) {
+              this.writeFile(
+                `client/${this.quasarConf.ssr.pwaOfflineHtmlFilename}`,
+                content
+              )
+            } else if (
+              this.quasarConf.ssr.clientSideRenderingRoutes.length !== 0
+            ) {
+              this.writeFile(`server/csr.html`, content)
+            }
           })
         : null
     ])
-
-    this.removeFile('client/index.html')
   }
 
   async #writeSsrManifest() {

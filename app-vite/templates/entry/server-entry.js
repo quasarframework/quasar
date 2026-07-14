@@ -67,18 +67,33 @@ function getRedirectUrl (url, router) {
   return url
 }
 
-function getUrlPath(ssrContext) {
-  <% /* In case the `req.url` is not available or different due to a custom webserver, also check for `ssrContext.url` */ %>
-  const url = ssrContext.url || ssrContext.req.url
-
-  try {
-    <% /* Fetch API's Request.url, used by more modern web servers and runtime environments. Contains the full URL */ %>
-    const parsedUrl = new URL(url)
-    return parsedUrl.pathname + parsedUrl.search + parsedUrl.hash
-  } catch {
-    <% /* Node IncomingMessage.url, used by Express and similar. It doesn't contain the protocol and host, only the path, so new URL(url) above would fail */ %>
-    return url
+function fastStripHost(url) {
+  let offset = 0
+  if (url.startsWith('https://')) {
+    offset = 8
+  } else if (url.startsWith('http://')) {
+    offset = 7
+  } else if (url.startsWith('//')) {
+    offset = 2
+  } else {
+    return url.startsWith('/') ? url : '/' + url;
   }
+
+  const slashIdx = url.indexOf('/', offset)
+  const queryIdx = url.indexOf('?', offset)
+  const hashIdx  = url.indexOf('#', offset)
+
+  let splitIdx = url.length
+
+  if (slashIdx !== -1) splitIdx = slashIdx
+  if (queryIdx !== -1 && queryIdx < splitIdx) splitIdx = queryIdx
+  if (hashIdx !== -1 && hashIdx < splitIdx) splitIdx = hashIdx
+
+  return splitIdx === url.length
+    ? '/'
+    : splitIdx !== slashIdx
+      ? '/' + url.slice(splitIdx)
+      : url.slice(splitIdx)
 }
 
 const { components, directives, ...qUserOptions } = quasarUserOptions
@@ -118,6 +133,9 @@ export default async ssrContext => {
     app, router<%= quasarConf.metaConf.hasStore ? ', store' : '' %>
   } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
+  const origUrlPath = fastStripHost(ssrContext.url || ssrContext.req.url)
+  const urlPath = origUrlPath<% if (quasarConf.build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
+
   <% if (bootEntries.length !== 0) { %>
   let bootRedirect = false
   const bootRedirectFn = (url, httpStatusCode) => {
@@ -138,7 +156,7 @@ export default async ssrContext => {
       <%= quasarConf.metaConf.hasStore ? 'store,' : '' %>
       ssrContext,
       redirect: bootRedirectFn,
-      urlPath: getUrlPath(ssrContext),
+      urlPath: origUrlPath,
       publicPath
     })
 
@@ -147,8 +165,6 @@ export default async ssrContext => {
   <% } %>
 
   app.use(router)
-
-  const urlPath = getUrlPath(ssrContext)<% if (quasarConf.build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
 
   const { fullPath } = router.resolve(urlPath)
   if (fullPath !== urlPath) {
@@ -212,7 +228,7 @@ export default async ssrContext => {
       ssrContext,
       currentRoute: router.currentRoute.value,
       redirect: prefetchRedirectFn,
-      urlPath: getUrlPath(ssrContext),
+      urlPath: origUrlPath,
       publicPath
     })),
     Promise.resolve()

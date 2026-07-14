@@ -231,12 +231,10 @@ export async function createViteConfig(
   }
 
   if (compileId !== 'vite-ssr-server' && compileId !== 'vite-ssg-server') {
+    viteConf.plugins.unshift(quasarViteIndexHtmlTransformPlugin(quasarConf))
+
     if (ctx.prod && quasarConf.build.useFilenameHashes !== true) {
       viteConf.plugins.push(quasarViteStripFilenameHashesPlugin())
-    }
-
-    if (compileId !== 'vite-ssr-client' || quasarConf.ctx.prod) {
-      viteConf.plugins.unshift(quasarViteIndexHtmlTransformPlugin(quasarConf))
     }
   }
 

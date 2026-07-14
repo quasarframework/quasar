@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createServer, createServerModuleRunner } from 'vite'
 import { watch as chokidarWatch } from 'chokidar'
+import picomatch from 'picomatch'
 import serialize from 'serialize-javascript'
 import { green } from 'kolorist'
 
@@ -12,7 +13,9 @@ import { openBrowser } from '../../utils/open-browser.js'
 import { dot, info, log, progress, warn } from '../../utils/logger.js'
 import { debounce } from '../../utils/rate-limit.js'
 import {
+  attachMarkup,
   entryPointMarkup,
+  fastExtractPath,
   getDevSsrTemplateFn,
   updateHtmlVariables
 } from '../../plugins/vite.html.js'
@@ -47,8 +50,10 @@ export class QuasarModeDevserver extends AppDevserver {
   #webserver = null
   /** @type {import('vite').ViteDevServer|null} */
   #viteWatcherList = []
-  #webserverWatcher = null
+  #isCsrRoute = null
+  #csrTemplate = null
   #renderTemplate = null
+  #webserverWatcher = null
 
   /**
    * @type {{
@@ -95,6 +100,12 @@ export class QuasarModeDevserver extends AppDevserver {
       ...diffMap.rolldown(quasarConf)
     ])
 
+    // also update the diff for ssg-devserver.js when changing here
+    this.registerDiff('csrRouteList', quasarConf => [
+      quasarConf.build.publicPath,
+      quasarConf.ssr.clientSideRenderingRoutes
+    ])
+
     this.registerDiff('viteSSR', (quasarConf, diffMap) => [
       quasarConf.ssr.pwa,
       quasarConf.metaConf.backendEnvDefineList,
@@ -121,6 +132,12 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     }
 
+    // also update ssg-devserver.js when changing here
+    if (diff('csrRouteList', quasarConf)) {
+      this.clientNeedsReload = true
+      this.#registerCSRMatch(quasarConf)
+    }
+
     if (diff('htmlTemplate', quasarConf)) {
       this.clientNeedsReload = true
       const htmlStore = updateHtmlVariables(quasarConf)
@@ -141,9 +158,34 @@ export class QuasarModeDevserver extends AppDevserver {
     if (this.clientNeedsReload) this.reloadClient()
   }
 
+  #registerCSRMatch(quasarConf) {
+    const { clientSideRenderingRoutes } = quasarConf.ssr
+    if (clientSideRenderingRoutes.length === 0) {
+      this.#isCsrRoute = null
+      return
+    }
+
+    const isMatch = picomatch(clientSideRenderingRoutes)
+    const { publicPath } = quasarConf.build
+
+    this.#isCsrRoute =
+      publicPath === '/'
+        ? url => {
+            const route = fastExtractPath(url)
+            return isMatch(route)
+          }
+        : url => {
+            const route = fastExtractPath(url).replace(publicPath, '/')
+            return isMatch(route)
+          }
+  }
+
   #updateTemplate(htmlStore, quasarConf) {
+    const template = readFileSync(this.#pathMap.templatePath, 'utf8')
+
+    this.#csrTemplate = template
     this.#renderTemplate = getDevSsrTemplateFn(
-      readFileSync(this.#pathMap.templatePath, 'utf8'),
+      template,
       htmlStore.htmlVariables,
       quasarConf
     )
@@ -230,6 +272,15 @@ export class QuasarModeDevserver extends AppDevserver {
     )
 
     this.#appOptions.render = async ssrContext => {
+      const url = ssrContext.url || ssrContext.req.url
+      const originalUrl = ssrContext.originalUrl || ssrContext.req.originalUrl
+
+      if (this.#isCsrRoute?.(url)) {
+        let html = this.#csrTemplate
+        html = await viteClient.transformIndexHtml(url, html, originalUrl)
+        return html.replace(entryPointMarkup, attachMarkup)
+      }
+
       const startTime = Date.now()
       const onRenderedList = []
 
@@ -266,8 +317,6 @@ export class QuasarModeDevserver extends AppDevserver {
 
         let html = this.#renderTemplate(ssrContext)
 
-        const url = ssrContext.url || ssrContext.req.url
-        const originalUrl = ssrContext.originalUrl || ssrContext.req.originalUrl
         html = await viteClient.transformIndexHtml(url, html, originalUrl)
         html = html.replace(
           entryPointMarkup,

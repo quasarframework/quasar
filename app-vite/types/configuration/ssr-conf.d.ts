@@ -55,6 +55,19 @@ export interface QuasarSsrConfiguration {
   ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
 
   /**
+   * Configure this for a hybrid SSR + partial CSR (Client-Side Rendering)
+   * approach, where you have some Vue Router routes that you want to be
+   * rendered on the client-side exclusively.
+   *
+   * You can use picomatch patterns to match the routes you want to be rendered
+   * on the client-side. https://www.npmjs.com/package/picomatch
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default []
+   */
+  clientSideRenderingRoutes?: string[];
+
+  /**
    * Manually serialize the store state and provide it yourself
    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
    * @default false

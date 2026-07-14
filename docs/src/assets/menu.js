@@ -859,6 +859,11 @@ export default [
             path: 'handling-404-and-500-errors'
           },
           {
+            name: 'Hybrid SSR with partial CSR',
+            path: 'hybrid-ssr-with-partial-csr',
+            badge: 'new'
+          },
+          {
             name: 'SSR with TypeScript',
             path: 'ssr-with-typescript'
           },

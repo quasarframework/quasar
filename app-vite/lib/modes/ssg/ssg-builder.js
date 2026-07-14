@@ -139,10 +139,8 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeRenderTemplate() {
-    const htmlFile = join(this.quasarConf.build.distDir, 'index.html')
-    const html = this.readFile(htmlFile)
-
-    this.removeFile(htmlFile)
+    const html = this.readFile('index.html')
+    this.removeFile('index.html')
 
     await Promise.all([
       getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(
