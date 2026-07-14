@@ -26,17 +26,13 @@ quasar build -m ssg
 
 The default output folder is:
 
-```bash
-dist/ssg
-```
+> dist/ssg
 
 Deploy the contents of `dist/ssg`, not the folder itself, unless your host asks for a publish directory.
 
 For example, when a route is rendered as `/guide/install`, the generated file is usually written as:
 
-```bash
-dist/ssg/guide/install/index.html
-```
+> dist/ssg/guide/install/index.html
 
 Static hosts that support directory indexes can serve that file for `/guide/install` or `/guide/install/`.
 
@@ -56,9 +52,7 @@ Avoid copying the usual SPA rule of rewriting every unknown request to `index.ht
 
 By default, Quasar generates:
 
-```bash
-dist/ssg/404.html
-```
+> dist/ssg/404.html
 
 Configure your host to serve it when a request does not match a generated file or static asset.
 
@@ -98,13 +92,13 @@ export default defineConfig(() => {
 
 In this setup, configure your host to rewrite only those route patterns to:
 
-```bash
-dist/ssg/csr.html
-```
+> dist/ssg/csr.html
 
 Do not use `csr.html` as the fallback for every unknown URL unless you intentionally want unmatched routes to become client-rendered pages. Keep `404.html` for real not-found requests.
 
-## Example: nginx
+## Examples
+
+### Example: nginx
 
 This example serves generated SSG files first, uses a CSR shell only for `/dashboard` and `/admin`, and uses `404.html` for all other missing files:
 
@@ -146,19 +140,17 @@ server {
 
 If your site does not use hybrid CSR routes, remove the `/dashboard` and `/admin` blocks.
 
-## Example: Netlify
+### Example: Netlify
 
 Set the publish directory to:
 
-```bash
-dist/ssg
-```
+> dist/ssg
 
 For a fully pre-rendered SSG site, the generated files and root `404.html` are enough. Netlify automatically serves the root `404.html` for requests that do not resolve to a static file.
 
 For hybrid CSR routes, add a `_redirects` file to `/public`. Quasar copies it to the root of the output folder:
 
-```txt public/_redirects
+```text public/_redirects
 /dashboard    /csr.html  200
 /dashboard/*  /csr.html  200
 /admin        /csr.html  200
@@ -169,19 +161,17 @@ Netlify serves existing static files before applying these unforced rewrites. Yo
 
 Adjust the route patterns to match your `ssg.clientSideRenderingRoutes` configuration. See the [Netlify redirects documentation](https://docs.netlify.com/manage/routing/redirects/overview/) for more options.
 
-## Example: Cloudflare Pages
+### Example: Cloudflare Pages
 
 Set the build output directory to:
 
-```bash
-dist/ssg
-```
+> dist/ssg
 
 Cloudflare Pages serves matching html files and automatically uses a root `404.html` for not-found requests. The presence of `404.html` is also important because, without it, Cloudflare Pages assumes that the site is an SPA and applies an automatic SPA fallback.
 
 For hybrid CSR routes, add the same route-specific proxy rules to `/public/_redirects`:
 
-```txt public/_redirects
+```text public/_redirects
 /dashboard    /csr.html  200
 /dashboard/*  /csr.html  200
 /admin        /csr.html  200
@@ -192,13 +182,11 @@ Cloudflare Pages applies `_redirects` rules before matching static files. Make s
 
 See the Cloudflare Pages documentation for details about [redirects](https://developers.cloudflare.com/pages/configuration/redirects/) and [not-found behavior](https://developers.cloudflare.com/pages/configuration/serving-pages/#not-found-behavior).
 
-## Example: Vercel
+### Example: Vercel
 
 Set the output directory to:
 
-```bash
-dist/ssg
-```
+> dist/ssg
 
 For a fully pre-rendered SSG site, Vercel can serve the generated static files directly.
 
@@ -217,7 +205,7 @@ For hybrid CSR routes, add rewrites for only those routes:
 
 Vercel automatically serves a `404.html` from the output directory when no other static file or route matches. See the [Vercel rewrites documentation](https://vercel.com/docs/rewrites) for more routing options.
 
-## Example: GitHub Pages
+### Example: GitHub Pages
 
 GitHub Pages works best for fully pre-rendered SSG sites:
 
@@ -233,9 +221,7 @@ For a project site such as `https://username.github.io/repository/`, also set `b
 
 When `ssg.pwa` is enabled, Quasar also generates service worker assets and an offline shell, usually:
 
-```bash
-dist/ssg/offline.html
-```
+> dist/ssg/offline.html
 
 Deploy the whole `dist/ssg` directory, including the service worker and manifest assets. Make sure your host does not rewrite service worker files, the web manifest, icons, or generated Workbox assets to another html file.
 
