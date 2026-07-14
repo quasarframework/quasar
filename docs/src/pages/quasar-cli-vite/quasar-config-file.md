@@ -422,7 +422,7 @@ devServer: {
 import { Plugin, UserConfig as ViteUserConfig } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import { CompilerOptions, TypeAcquisition } from 'typescript'
-import { QuasarHookParams } from './conf'
+import { QuasarHookParams, QuasarPublishParams } from './conf'
 import type { Options as VueRouterVitePluginOptions } from 'vue-router/dist/unplugin/options.d.mts'
 
 interface HtmlMinifierOptions {
@@ -845,34 +845,34 @@ interface QuasarStaticBuildConfiguration {
    * like starting some backend or any other service that the app relies on.
    * Can use async/await or directly return a Promise.
    */
-  beforeDev?: (params: QuasarHookParams) => void
+  beforeDev?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook after Quasar dev server is started (`quasar dev`).
    * At this point, the dev server has been started and is available should you wish to do something with it.
    * Can use async/await or directly return a Promise.
    */
-  afterDev?: (params: QuasarHookParams) => void
+  afterDev?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook before Quasar builds app for production (`quasar build`).
    * At this point, the distributables folder hasn’t been created yet.
    * Can use async/await or directly return a Promise.
    */
-  beforeBuild?: (params: QuasarHookParams) => void
+  beforeBuild?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook after Quasar built app for production (`quasar build`).
    * At this point, the distributables folder has been created and is available
    *  should you wish to do something with it.
    * Can use async/await or directly return a Promise.
    */
-  afterBuild?: (params: QuasarHookParams) => void
+  afterBuild?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook if publishing was requested (`quasar build -P`),
    *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
    * Can use async/await or directly return a Promise.
-   * `opts` is Object of form `{arg, distDir}`,
-   * where “arg” is the argument supplied (if any) to -P parameter.
+   *
+   * @param params {@link QuasarPublishParams}
    */
-  onPublish?: (ops: { arg: string; distDir: string }) => void
+  onPublish?: (params: QuasarPublishParams) => void | Promise<void>
 }
 
 /**

@@ -5,6 +5,8 @@ import type { RolldownOptions } from "rolldown";
 import type { QuasarAppPathsResolve } from "./app-paths.d.ts";
 import type {
   QuasarConf,
+  QuasarHookParams,
+  QuasarPublishParams,
   ResolvedQuasarConfValue
 } from "./configuration/conf.d.ts";
 import type { QuasarContext } from "./configuration/context.d.ts";
@@ -490,7 +492,7 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
    * @param payload The payload containing the Quasar configuration object
    */
   readonly beforeDev: Callback<
-    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+    (api: IndexAPI, payload: QuasarHookParams) => Promise<void> | void
   >;
   /**
    * Register a callback to be called after the "quasar dev" command.
@@ -499,7 +501,7 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
    * @param payload The payload containing the Quasar configuration object
    */
   readonly afterDev: Callback<
-    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+    (api: IndexAPI, payload: QuasarHookParams) => Promise<void> | void
   >;
   /**
    * Run hook before Quasar builds app for production ("quasar build").
@@ -509,7 +511,7 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
    *   (api, { quasarConf }) => ?Promise
    */
   readonly beforeBuild: Callback<
-    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+    (api: IndexAPI, payload: QuasarHookParams) => Promise<void> | void
   >;
   /**
    * Register a callback to be called after the "quasar build" command.
@@ -518,7 +520,7 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
    * @param payload The payload containing the Quasar configuration object
    */
   readonly afterBuild: Callback<
-    (api: IndexAPI, payload: { quasarConf: QuasarConf }) => Promise<void> | void
+    (api: IndexAPI, payload: QuasarHookParams) => Promise<void> | void
   >;
   /**
    * Run hook if publishing was requested ("quasar build -P"),
@@ -532,10 +534,7 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
    *      * distDir - folder where distributables were built
    */
   readonly onPublish: Callback<
-    (
-      api: IndexAPI,
-      opts: { arg: string; distDir: string }
-    ) => Promise<void> | void
+    (api: IndexAPI, opts: QuasarPublishParams) => Promise<void> | void
   >;
 }
 

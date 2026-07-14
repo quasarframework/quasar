@@ -119,6 +119,13 @@ export interface QuasarHookParams {
   quasarConf: QuasarConf;
 }
 
+export interface QuasarPublishParams extends QuasarHookParams {
+  /** Argument supplied to the `--publish`/`-P` parameter. */
+  arg: string;
+  /** Folder where the distributables were built. */
+  distDir: string;
+}
+
 export interface QuasarConf
   extends BaseQuasarConfiguration, QuasarMobileConfiguration {
   /**

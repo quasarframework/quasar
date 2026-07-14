@@ -185,7 +185,7 @@ appBuilder
       await quasarConf.build.afterBuild({ quasarConf })
     }
 
-    // run possible beforeBuild hooks
+    // run possible afterBuild hooks
     await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
       hook.api.logger.log(`Running afterBuild hook...`)
       await hook.fn(hook.api, { quasarConf })
