@@ -9,7 +9,7 @@ SPA and PWA output can be served by a static webserver. An SSR build also contai
 
 After building in SSR mode (`quasar build -m ssr`), the generated folder contains the compiled application, production webserver, and a deployment-specific `package.json`.
 
-You'll notice that it contains a `package.json` file of its own. It has an npm script defined, called "start":
+The generated `package.json` defines a `start` script:
 
 ```js
 "scripts": {
@@ -27,7 +27,7 @@ The distributables folder does not require the rest of the project or a global `
 
 By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](http://pm2.keymetrics.io/).
 
-After installing PM2 on your server, your npm start script can look like this instead:
+After installing PM2 on the server, the `start` script can look like this instead:
 
 ```js
 "scripts": {
@@ -42,7 +42,7 @@ You can use [Cleavr](https://cleavr.io) to deploy Quasar SSR apps to several pop
 Add a new **Node.JS SSR** site to Cleavr and then configure the web app settings with the following:
 
 - **Entry point:** index.js
-- **Build command:** npx quasar build --mode ssr
+- **Build command:** pnpm exec quasar build --mode ssr
 - **Artifact path:** dist/ssr
 
 ## Serverless
