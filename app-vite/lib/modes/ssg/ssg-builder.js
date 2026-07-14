@@ -16,7 +16,7 @@ const multiSlashRE = /\/{2,}/g
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 
-function getParseVueRouterRoutesFn(quasarConf) {
+export function getParseVueRouterRoutesFn(quasarConf) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
@@ -56,17 +56,6 @@ function getParseVueRouterRoutesFn(quasarConf) {
         continue
       }
 
-      if (route.redirect) {
-        if (verbose) {
-          warn(
-            `Ignored route (redirects): ${fullPath}`,
-            'parseVueRouterRoutes()'
-          )
-        }
-
-        continue
-      }
-
       if (route.children) {
         acc.push(
           ...parseVueRouterRoutes({
@@ -75,6 +64,13 @@ function getParseVueRouterRoutesFn(quasarConf) {
             verbose
           })
         )
+      } else if (route.redirect) {
+        if (verbose) {
+          warn(
+            `Ignored route (redirects): ${fullPath}`,
+            'parseVueRouterRoutes()'
+          )
+        }
       } else {
         acc.push({ route: fullPath })
       }
@@ -84,6 +80,17 @@ function getParseVueRouterRoutesFn(quasarConf) {
   }
 
   return parseVueRouterRoutes
+}
+
+export async function loadFilenameBasedRoutes(viteServerConfig, createServer) {
+  const vite = await createServer(viteServerConfig)
+
+  try {
+    const { routes } = await vite.ssrLoadModule('vue-router/auto-routes')
+    return routes
+  } finally {
+    await vite.close()
+  }
 }
 
 export class QuasarModeBuilder extends AppBuilder {
@@ -382,13 +389,8 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     const { createServer } = await import('vite')
-    const vite = await createServer(this.#viteServerConfig)
-
     try {
-      const { routes } = await vite.ssrLoadModule('vue-router/auto-routes')
-      await vite.close()
-
-      return routes
+      return await loadFilenameBasedRoutes(this.#viteServerConfig, createServer)
     } catch (err) {
       console.log()
       console.error(err)
