@@ -26,7 +26,7 @@ scope:
           - l: icon.png
             e: 57x57
           - l: icon@2x.png
-            e: 144x144
+            e: 114x114
           - l: icon-20@2x.png
           - l: icon-20@3x.png
           - l: icon-29.png
@@ -95,7 +95,7 @@ scope:
               - l: Default@2x~ipad~anyany.png
 ---
 
-Cordova is one of the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splash screens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml.
+Cordova icons and splash screens are native resources declared in `/src-cordova/config.xml`. The required files and declarations depend on the installed `cordova-android` and `cordova-ios` versions.
 
 If you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
@@ -115,13 +115,7 @@ icongenie generate -m cordova -i /path/to/source/icon.png [-b /path/to/backgroun
 
 ## Manual instructions
 
-Unless you are using the Icon Genie CLI, this is what you need to do:
-
-```bash
-cd src-cordova
-cordova plugin add cordova-plugin-splashscreen
-cordova plugin save
-```
+Unless you are using Icon Genie CLI, replace the generated resources and keep their `config.xml` declarations aligned with the requirements of each installed Cordova platform. Current Cordova platforms provide splash-screen handling; install `cordova-plugin-splashscreen` only when an older platform version explicitly requires it.
 
 <DocTree :def="scope.tree" />
 
@@ -182,14 +176,5 @@ And here is part of what your config.xml should look like:
     <icon height="40" src="res/ios/icon-40.png" width="40" />
     <icon height="50" src="res/ios/icon-50.png" width="50" />
     <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
-    <splash src="res/screen/ios/Default-Landscape-2436h.png" />
-    <splash src="res/screen/ios/Default@2x~iphone~anyany" />
-    <splash src="res/screen/ios/Default@2x~iphone~comany" />
-    <splash src="res/screen/ios/Default@2x~iphone~comcom" />
-    <splash src="res/screen/ios/Default@3x~iphone~anyany" />
-    <splash src="res/screen/ios/Default@3x~iphone~anycom" />
-    <splash src="res/screen/ios/Default@3x~iphone~comany" />
-    <splash src="res/screen/ios/Default@2x~ipad~anyany" />
-    <splash src="res/screen/ios/Default@2x~ipad~comany" />
 </platform>
 ```
