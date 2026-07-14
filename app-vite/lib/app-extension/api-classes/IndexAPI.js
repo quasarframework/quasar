@@ -11,10 +11,13 @@ import { BaseAPI } from './BaseAPI.js'
 export class IndexAPI extends BaseAPI {
   prompts
 
+  #packageDir
+
   constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
+    this.#packageDir = opts.packageDir
     this.#appExtJson = appExtJson
   }
 
@@ -316,6 +319,6 @@ export class IndexAPI extends BaseAPI {
   }
 
   #addHook(name, fn) {
-    this.#hooks[name].push({ fn, api: this })
+    this.#hooks[name].push({ fn, api: this, packageDir: this.#packageDir })
   }
 }
