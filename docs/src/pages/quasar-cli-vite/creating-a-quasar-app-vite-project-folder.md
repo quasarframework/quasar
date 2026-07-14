@@ -33,7 +33,7 @@ npm i -g @quasar/cli
 npm init quasar@latest
 <<| bash Bun |>>
 # optional, if you don't have it already:
-bun install -g @quasar/cli
+bun add -g @quasar/cli
 
 # now create the project folder:
 bun create quasar@latest
@@ -42,7 +42,7 @@ bun create quasar@latest
 Pick `App with Quasar CLI`.
 
 ::: tip
-Under the cover, the package managers globally install our `create-quasar` package and run it. It is NOT recommended, however, to manually install this package yourself because you can easily get out of sync with the "latest" version. We push updates constantly!
+The package-manager `create`/`init` commands download and run the `create-quasar` package for you. Do not install `create-quasar` globally because that installation can fall behind the latest release.
 :::
 
 ## Optional params

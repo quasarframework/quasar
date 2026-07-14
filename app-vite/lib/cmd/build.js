@@ -31,9 +31,9 @@ if (argv.help) {
 
     # passing extra parameters and/or options to
     # underlying "cordova" executable:
-    $ quasar build -m electron -- some params --and options --here
-    # when on Windows and using Powershell:
-    $ quasar build -m electron '--' some params --and options --here
+    $ quasar build -m cordova -T ios -- some params --and options --here
+    # when on Windows and using PowerShell:
+    $ quasar build -m cordova -T ios '--' some params --and options --here
 
   Options
     --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
@@ -55,8 +55,8 @@ if (argv.help) {
     --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables or BEX zip file)
                       - Cordova (it only fills in /src-cordova/www folder with the UI code)
                       - Capacitor (it only fills in /src-capacitor/www folder with the UI code)
-                      - Electron (it only creates the /dist/electron/UnPackaged folder)
-                      - BEX (it only creates the /dist/bex-* folder)
+                      - Electron (it only creates the unpackaged app folder)
+                      - BEX (it only creates the unpackaged extension folder)
     --no-summary    Don't output build summary at the end of the process
     --no-color      Disable colored output
     --help, -h      Displays this message

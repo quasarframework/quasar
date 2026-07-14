@@ -5,7 +5,10 @@ import { cliPkg } from '../utils/cli-runtime.js'
 import { getIPs } from '../utils/net.js'
 
 function getPackager(argv, cmd) {
-  if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
+  if (
+    argv.ide ||
+    (cmd === 'dev' && ['capacitor', 'cordova'].includes(argv.mode))
+  ) {
     return 'IDE (manual)'
   }
 

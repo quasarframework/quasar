@@ -29,7 +29,7 @@ export default defineBoot(({ app }) => {
 export { axios, api }
 ```
 
-Also make sure to pnpm/yarn/npm/bun install the `axios` package.
+Also install the `axios` package with your project's package manager.
 
 ::: tip
 Be sure to check out [Prefetch Feature](/quasar-cli-vite/prefetch-feature) if you are using Quasar CLI.
