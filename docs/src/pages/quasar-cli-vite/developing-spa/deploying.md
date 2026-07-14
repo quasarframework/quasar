@@ -3,14 +3,13 @@ title: Deploying a SPA
 desc: (@quasar/app-vite) How to publish a Single Page App built by Quasar CLI.
 ---
 
-There exist many services that allow deploying applications with ease.
-To list all of them would not be possible so we will focus on the general deployment process and some specifics for common services.
+Many services can deploy a static SPA. This page focuses on the general requirements and gives examples for several common providers.
 
 If your favorite deployment tool is missing feel free to create a pull request on GitHub to add it to the list.
 
 ## General deployment
 
-The first step in deploying your Quasar SPA is always to build a production-ready bundle of your files, which gets rid of development statements and minifies your source.
+The first step is to build a production bundle:
 
 To produce such a build use Quasar CLI with the following command:
 
@@ -18,25 +17,24 @@ To produce such a build use Quasar CLI with the following command:
 quasar build
 ```
 
-This command will build your project in SPA mode and output your production ready bundle to a newly created folder `/dist/spa`.
+By default, this writes the production-ready files to `/dist/spa`. If you configure `build.distDir`, deploy that directory instead.
 
-To serve your production files it is _required_ to use a web server, so to serve over http(s):// protocol. Simply opening the `index.html` file from within your browser will not work, since this uses the file:// protocol instead.
+Serve these files through HTTP or HTTPS. Opening `index.html` directly with the `file://` protocol is not supported.
 
 Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.
 
-The web server requires no special setup (unless you built with Vue Router in "history" mode in the `/quasar.config` file). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
+Hash-mode routing requires only static file hosting. History-mode routing also requires a fallback that serves `index.html` when a requested application route does not match a static file. Do not rewrite requests for existing assets.
 
 An example config for nginx may look like this:
 
 ```nginx
 server {
-    listen 80 http2;
+    listen 80;
     server_name quasar.myapp.com;
 
     root /home/user/quasar.myapp.com/public;
 
     add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
     add_header X-Content-Type-Options "nosniff";
 
     index index.html;
@@ -60,9 +58,9 @@ server {
 
 ## Important Hosting Configuration
 
-It's important that you do not allow browsers to cache the `index.html` file. Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the index.html from cache.
+Do not cache `index.html` for long periods. Otherwise, returning visitors may continue loading asset URLs from an older deployment. Hashed JavaScript, CSS, and other immutable assets can be cached for much longer.
 
-This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of the `index.html` file via your hosting service.
+Configure a revalidation policy for `index.html`, such as `Cache-Control: no-cache`, through your hosting service.
 
 As an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:
 
@@ -71,11 +69,11 @@ As an example how this is done for Google Firebase, you would add the following 
   "hosting": {
     "headers": [
       {
-        "source": "/**",
+        "source": "/index.html",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "no-cache"
           }
         ]
       },
@@ -84,7 +82,7 @@ As an example how this is done for Google Firebase, you would add the following 
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=604800"
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       }
@@ -95,135 +93,72 @@ As an example how this is done for Google Firebase, you would add the following 
 
 ## Deploying with Cloudflare Pages
 
-Cloudflare Pages offers a powerful platform for deploying Quasar SPAs with built-in performance, security, and scalability features. Let's set up your Quasar application for deployment.
-
-First, install the required dependencies:
-
-```tabs
-<<| bash PNPM |>>
-pnpm add -D @cloudflare/vite-plugin wrangler
-<<| bash Yarn |>>
-yarn add -D @cloudflare/vite-plugin wrangler
-<<| bash NPM |>>
-npm install -D @cloudflare/vite-plugin wrangler
-<<| bash Bun |>>
-bun add -D @cloudflare/vite-plugin wrangler
-```
-
-Next, modify your `/quasar.config` file to include the Cloudflare Vite plugin:
-
-```js /quasar.config file
-import { cloudflare } from '@cloudflare/vite-plugin'
-
-export default defineConfig(() => {
-  return {
-    build: {
-      vitePlugins: [cloudflare()]
-    }
-    // ... rest of your config
-  }
-})
-```
-
-Create a `wrangler.jsonc` file in your project root:
-
-```json wrangler.jsonc
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "your-project-name",
-  "compatibility_date": "2025-04-12",
-  "pages_build_output_dir": "./dist/spa"
-}
-```
-
-Add the deploy script to your `package.json`:
-
-```json /package.json
-"scripts": {
-  "build": "quasar build",
-  "deploy": "wrangler pages deploy"
-}
-```
-
-Now you can build and deploy your application using:
-
-```tabs
-<<| bash PNPM |>>
-pnpm run build
-pnpm run deploy
-<<| bash Yarn |>>
-yarn build
-yarn deploy
-<<| bash NPM |>>
-npm run build
-npm run deploy
-<<| bash Bun |>>
-bun run build
-bun run deploy
-```
-
-For existing Git repositories, you can set up continuous deployment by connecting your repository to Cloudflare Pages:
-
-```bash
-wrangler pages project create my-quasar-app
-git remote add cloudflare https://github.com/your-username/your-repo.git
-git push cloudflare main
-```
-
-Configure your build settings in the Cloudflare Pages dashboard:
+Cloudflare Pages can deploy the SPA directly from a Git repository. Configure the Pages project with:
 
 - Build command: `quasar build`
 - Build output directory: `dist/spa`
-- Environment variables (if needed)
 
-For more information about Cloudflare Pages features and configuration options, visit the [Cloudflare Pages documentation](https://developers.cloudflare.com/pages).
+Cloudflare rebuilds the site when you push to the connected production or preview branches. When no top-level `404.html` is deployed, Pages treats the project as a SPA and routes unknown paths to `index.html`.
+
+For a direct upload instead, install Wrangler and deploy the built directory:
+
+```tabs
+<<| bash PNPM |>>
+pnpm add -D wrangler
+pnpm quasar build
+pnpm wrangler pages deploy dist/spa
+<<| bash Yarn |>>
+yarn add -D wrangler
+yarn quasar build
+yarn wrangler pages deploy dist/spa
+<<| bash NPM |>>
+npm install -D wrangler
+npx quasar build
+npx wrangler pages deploy dist/spa
+<<| bash Bun |>>
+bun add -D wrangler
+bunx quasar build
+bunx wrangler pages deploy dist/spa
+```
+
+If you change `build.distDir`, pass the configured output directory instead. See the [Cloudflare Pages documentation](https://developers.cloudflare.com/pages/) for Git integration, direct uploads, redirects, and custom domains.
 
 ## Deploying with Vercel
 
-Deploying your Quasar application with [Vercel](https://vercel.com/) is really easy.
-All you have to do is to download the [vercel-cli](https://vercel.com/download#now-cli) and log in by running:
+Connect the Git repository to Vercel and configure:
+
+- Build command: `quasar build`
+- Output directory: `dist/spa`
+
+For CLI deployment, install the [Vercel CLI](https://vercel.com/docs/cli), log in, and run it from the project root:
 
 ```bash
 vercel login
-```
-
-Then proceed to build your Quasar application using the steps described in "General deployment" section.
-
-After the build is finished, change directory into your deploy root (example: `/dist/spa`) and run:
-
-```bash
-# from /dist/spa (or your distDir)
 vercel
 ```
 
-The Vercel CLI should now display information regarding your deployment, like the URL. That's it. You're done.
+For history-mode routing, add `vercel.json` at the project root. The filesystem check lets static assets resolve before the SPA fallback:
 
-### Vercel configuration tips
+```json vercel.json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
 
-You should consider adding some additional configurations to your project.
-
-- Important: Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default, so you will need to override the `Output Directory` in your Vercel project. Set it to `dist/spa` through the Vercel web ui under your project's settings > Build & Development Settings.
-
-- Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
+You can also define project scripts:
 
 ```json /package.json
 "scripts": {
   "build": "quasar build",
-  "deploy": "vercel"
+  "deploy": "vercel --prod"
 }
 ```
 
-- In order to support SPA routing in the deployed app, consider adding `vercel.json` file in your root folder:
-
-```json vercel.json
-{
-  "routes": [{ "handle": "filesystem" }, { "src": "/.*", "dest": "/" }]
-}
-```
+If you change `build.distDir`, update Vercel's output directory to match.
 
 ## Deploying with Heroku
 
-Unfortunately, Heroku does not support static sites out of the box. But don't worry, we just need to add an HTTP server to our project so Heroku can serve our Quasar application.
+Heroku does not serve static sites directly, so the application needs a small HTTP server.
 
 In this example, we will use [Express](https://expressjs.com/) to create a minimal server which Heroku can use.
 
@@ -252,7 +187,7 @@ const port = process.env.PORT || 5000
 const app = express()
 
 app.use(history())
-app.use(serveStatic(path.join(import.meta.dirname, '/dist/spa')))
+app.use(serveStatic(path.join(import.meta.dirname, 'dist/spa')))
 app.listen(port)
 ```
 
@@ -262,7 +197,7 @@ Heroku assumes a set of npm scripts to be available, so we have to alter our `pa
 "scripts": {
   "build": "quasar build",
   "start": "node server.js",
-  "heroku-postbuild": "yarn && yarn build"
+  "heroku-postbuild": "quasar build"
 }
 ```
 
@@ -280,7 +215,7 @@ heroku git:remote -a <heroku app name>
 
 git add .
 git commit -am "make it better"
-git push heroku master
+git push heroku main
 ```
 
 For existing Git repositories, simply add the heroku remote:
@@ -315,52 +250,55 @@ Now your application should be successfully deployed using Surge. You should be 
 
 ## Deploying on GitHub Pages
 
-To deploy your Quasar application to GitHub pages the first step is to create a special repository on GitHub which is named `<username>.github.io`. Clone this repository to your local machine.
+GitHub Pages can deploy the production bundle with GitHub Actions. In the repository settings, select **Pages > Build and deployment > GitHub Actions**, then add `.github/workflows/deploy.yml`:
 
-Next, you need to build your Quasar application like it is described in the "General deployment section". This will result in a `/dist/spa` directory. Copy the content of this folder to your cloned repository.
+```yaml
+name: Deploy Quasar SPA to GitHub Pages
 
-The last step is to add a commit in your repository and push to GitHub. After a short time, you should be able to visit your Quasar application at `https://<username>.github.io/`.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
-### Adding a custom domain to GitHub pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-Please see the [GitHub pages guides](https://help.github.com/articles/using-a-custom-domain-with-github-pages/) for an in-depth explanation on how to set up a custom domain.
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
-### Automated deployment to GitHub pages with push-dir
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm quasar build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/spa
 
-Manual copying all your files to your GitHub Pages repository can be a cumbersome task to do. This step can be automated by using the [push-dir](https://github.com/L33T-KR3W/push-dir) package.
-
-First, install the package with:
-
-```tabs
-<<| bash PNPM |>>
-pnpm add -D push-dir
-<<| bash Yarn |>>
-yarn add -D push-dir
-<<| bash NPM |>>
-npm install -D push-dir
-<<| bash Bun |>>
-bun add -D push-dir
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
-Then add a `deploy` script command to your `package.json`:
+For a project site served from `https://<username>.github.io/<repository>/`, set `build.publicPath` to `/<repository>/`. A user or organization site named `<username>.github.io` is served from `/` and does not need that override.
 
-```json /package.json
-"scripts": {
-  "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
-}
-```
+GitHub Pages does not provide a general history-mode fallback to `index.html`. Use Vue Router's hash mode unless every route has a corresponding static file or another layer handles the rewrites.
 
-Add your GitHub Pages repository as a remote named `gh-pages`:
-
-```bash
-git remote add gh-pages git@github.com:<username>/<username>.github.io.git
-```
-
-Now you can build and deploy your application using:
-
-```bash
-quasar build
-yarn deploy # or npm/pnpm/bun equivalents
-```
-
-which will push the content of your build directory to your master branch on your GitHub Pages repository.
+To use a custom domain, configure it in the repository's Pages settings. See the [GitHub Pages documentation](https://docs.github.com/en/pages) for DNS and domain-verification instructions.
