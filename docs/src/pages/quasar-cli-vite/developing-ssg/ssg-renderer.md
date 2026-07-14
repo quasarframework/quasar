@@ -3,8 +3,8 @@ title: SSG Renderer
 desc: (@quasar/app-vite) Configuring the Quasar SSG Renderer.
 ---
 
-::: warning Warning! Alpha Stage
-The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+::: warning Warning! Beta Stage
+The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
 When you develop a Static Site Generator (SSG) application with Quasar, the `/src-ssg/ssg-renderer` file is the heart of your generation process. This file is responsible for telling Quasar which pages to generate and how to preload assets for those generated pages.
@@ -68,7 +68,7 @@ export const renderPreloadTag = defineSsgRenderPreloadTag(
     return ''
   }
 )
-<<| js With filenameBasedRouter |>>
+<<| js With filenameBasedRouting |>>
 import { defineSsgGetPages, defineSsgRenderPreloadTag } from '#q-app'
 
 export const getSsgPages = defineSsgGetPages(
@@ -191,7 +191,7 @@ export const getSsgPages = defineSsgGetPages(
     return parseVueRouterRoutes({ routes, verbose: true })
   }
 )
-<<| js With filenameBasedRouter |>>
+<<| js With filenameBasedRouting |>>
 import { defineSsgGetPages } from "#q-app";
 
 export const getSsgPages = defineSsgGetPages(

@@ -579,8 +579,8 @@ extendSSRManifestJson?: (
 ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
 
 // Example:
-api.extendSSRManifestJson((pkgJson, api) => {
-  // add/remove/change pkgJson;
+api.extendSSRManifestJson((ssrManifest, api) => {
+  // add/remove/change ssrManifest;
   // similar in use to /quasar.config > ssr > extendSSRManifestJson
 })
 ```
@@ -671,8 +671,8 @@ extendSSGManifestJson?: (
 ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
 
 // Example:
-api.extendSSGManifestJson((pkgJson, api) => {
-  // add/remove/change pkgJson;
+api.extendSSGManifestJson((ssrManifest, api) => {
+  // add/remove/change ssrManifest;
   // similar in use to /quasar.config > ssg > extendSSGManifestJson
 })
 ```

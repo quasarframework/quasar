@@ -247,7 +247,7 @@ We've also massively upgraded the dev setup for AEs. You might want to do a top 
 
 - 📦 Smarter Dependency Isolation: We now have a clear separation of dependencies for each Quasar mode. You can install mode-specific packages directly in their respective /src-\* folders. For example, the default Electron app will no longer require dependencies to be installed in its dist folder—only what you explicitly install in /src-electron will be included.
 
-- 🌍 Redesigned SSR Architecture: SSR mode now features superior support for custom web servers and proper TypeScript integration. When adding SSR, the CLI will prompt you to spawn a preconfigured /src-ssr folder using Hono, Fastify, Express, or Koa (let us know what other out-of-the-box servers you’d like!).
+- 🌍 Redesigned SSR Architecture: SSR mode now features superior support for custom web servers and proper TypeScript integration. When adding SSR, the CLI will prompt you to spawn a preconfigured /src-ssr folder using Hono, Fastify, Express, or Koa (let us know what other out-of-the-box servers you’d like!). Hybrid SSR + partial CSR now available, too!
 
 - 📂 New Server Assets Folder for SSR: We've introduced a /src-ssr/server-assets folder alongside helpful utility functions. This makes it incredibly easy to reference assets (like HTTPS certificates) across dev and production runtimes, eliminating the strict need for an Apache/Nginx wrapper. We've also made the serverless support a breeze.
 
@@ -1003,6 +1003,7 @@ We've added way better support for non-Express.js webservers and highly improved
 Instead of diffing here, you might want to check the next pages (even if you still want to stay with Express.js):
 
 - [Installing SSR Dependencies](/quasar-cli-vite/developing-ssr/installing-ssr-dependencies)
+- New ability to run as [Hybrid SSR + partial CSR](/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr)
 - Webserver: check out examples with Hono/Express/Fastify/Koa: [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver); or remove and add SSR mode again.
 - Middlewares: check out examples with Hono/Express/Fastify/Koa: [SSR Middleware](/quasar-cli-vite/developing-ssr/ssr-middleware); or remove and add SSR mode again.
 - Check out the [SSR Handling of 404 and 500 Errors](/quasar-cli-vite/developing-ssr/handling-404-and-500-errors) page.

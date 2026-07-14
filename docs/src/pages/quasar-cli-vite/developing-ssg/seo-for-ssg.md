@@ -3,8 +3,8 @@ title: SEO for SSG
 desc: (@quasar/app-vite) Managing the search engine optimizations in a Quasar SSG app.
 ---
 
-::: warning Warning! Alpha Stage
-The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+::: warning Warning! Beta Stage
+The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
 The term SEO refers to Search Engine Optimization. And Quasar covers this aspect too through the [Quasar Meta Plugin](/quasar-plugins/meta).

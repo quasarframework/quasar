@@ -150,7 +150,7 @@ const maxAge = import.meta.env.QUASAR_DEV ? 0 : 1000 * 60 * 60 * 24 * 30
  * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
 export const serveStaticContent = defineSsrServeStaticContent(
-  async ({ app, resolve }) => {
+  async ({ app, resolve, publicPath }) => {
     const { lstatSync } = await import('node:fs')
     const { serveStatic } = await import('@hono/node-server/serve-static')
 
@@ -173,6 +173,10 @@ export const serveStaticContent = defineSsrServeStaticContent(
           c.header('Cache-Control', `public, max-age=${cacheAge}`)
           await next()
         })
+      }
+
+      if (publicPath !== '/') {
+        serveOpts.rewriteRequestPath = p => p.replace(publicPath, '/')
       }
 
       app.use(

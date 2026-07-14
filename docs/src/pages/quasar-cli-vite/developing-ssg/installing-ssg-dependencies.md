@@ -3,8 +3,8 @@ title: Installing SSG-specific dependencies
 desc: (@quasar/app-vite) How to handle SSG-specific dependencies.
 ---
 
-::: warning Warning! Alpha Stage
-The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+::: warning Warning! Beta Stage
+The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
 Notice the `/src-ssg/package.json` file in your generated `/src-ssg` folder. The purpose of it is for you to be able to install packages used by the SSG mode directly under this folder (and not pollute the common `/src`).

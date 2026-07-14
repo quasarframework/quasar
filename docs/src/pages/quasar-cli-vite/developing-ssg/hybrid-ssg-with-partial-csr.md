@@ -3,8 +3,8 @@ title: Hybrid SSG with partial CSR
 desc: (@quasar/app-vite) How to handle a hybrid SSG with partial CSR with Quasar CLI.
 ---
 
-::: warning Warning! Alpha Stage
-The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+::: warning Warning! Beta Stage
+The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
 Quasar CLI allows you to build a hybrid SSG with partial CSR (Client-Side Rendering). This is helpful for cases where you want to generate SSG pages only for some of your routes and leave the other be handled on the client-side like a regular SPA.

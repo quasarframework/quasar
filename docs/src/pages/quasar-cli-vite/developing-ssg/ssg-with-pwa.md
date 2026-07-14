@@ -3,8 +3,8 @@ title: SSG with PWA Client Takeover
 desc: (@quasar/app-vite) How to configure your Quasar SSG app to become a Progressive Web App on the client side.
 ---
 
-::: warning Warning! Alpha Stage
-The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+::: warning Warning! Beta Stage
+The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
 With Quasar CLI you can build your app with the killer combo of SSG + PWA. In order to enable PWA for SSG builds, you need to edit your `/quasar.config` file first:
@@ -62,6 +62,6 @@ return {
 }
 ```
 
-The first request of a **new** client will be served from the webserver (so SSR supplies the initial page content). The PWA gets installed then it takes over on client side. All further requests will be served from cache (unless you have some custom configuration to change that).
+The first request of a **new** client will be statically served from the webserver (as SSG generates it at build time). The PWA gets installed then it takes over on client side. All further requests will be served from cache (unless you have some custom configuration to change that).
 
 > For more information on PWA, head on to [PWA Introduction](/quasar-cli-vite/developing-pwa/introduction) and read the whole PWA Guide section.

@@ -859,7 +859,7 @@ export default [
             path: 'handling-404-and-500-errors'
           },
           {
-            name: 'Hybrid SSR with partial CSR',
+            name: 'Hybrid SSR + partial CSR',
             path: 'hybrid-ssr-with-partial-csr',
             badge: 'new'
           },
@@ -934,7 +934,7 @@ export default [
             path: 'ssg-404-error-page'
           },
           {
-            name: 'Hybrid SSG with partial CSR',
+            name: 'Hybrid SSG + partial CSR',
             path: 'hybrid-ssg-with-partial-csr'
           },
           {

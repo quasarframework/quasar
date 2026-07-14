@@ -13,8 +13,8 @@ scope:
         e: helps install SSG only deps directly under /src-ssg
 ---
 
-::: warning Warning! Alpha Stage
-The Quasar SSG Mode is currently in the "alpha" stage. The API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
+::: warning Warning! Beta Stage
+The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
 ## quasar.config file
@@ -185,6 +185,8 @@ return {
 ```
 
 > If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli-vite/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSG with PWA](/quasar-cli-vite/developing-ssg/ssg-with-pwa) page.
+
+> If you want certain routes of your app to be rendered exclusively on the client side, [Hybrid SSG + partial CSR](/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr) is here for you.
 
 Should you want to tamper with the Vite config for UI in /src:
 
