@@ -10,7 +10,11 @@
  *
  * Boot files are your "main.js"
  **/
-import { createApp<%= quasarConf.metaConf.hasStore && ((quasarConf.ctx.mode.ssr && quasarConf.ssr.manualStoreSsrContextInjection !== true) || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualStoreSsrContextInjection !== true)) ? ', unref' : '' %> } from 'vue'
+import { createApp<%=
+  quasarConf.metaConf.hasStore && (
+    (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualStoreSsrContextInjection !== true) ||
+    (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualStoreSsrContextInjection !== true)
+  ) ? ', unref' : '' %> } from 'vue'
 
 <% quasarConf.extras.length !== 0 && quasarConf.extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -237,7 +241,15 @@ export default async ssrContext => {
   if (prefetchRedirect) throw prefetchRedirect
   <% } %>
 
-  <% if (quasarConf.metaConf.hasStore && quasarConf.ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
+  <% if (
+    quasarConf.metaConf.hasStore &&
+    (
+      (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualStoreSsrContextInjection !== true)
+      || (quasarConf.ctx.mode.ssg && quasarConf.ssg.manualStoreSsrContextInjection !== true)
+    )
+  ) { %>
+  ssrContext.state = unref(store.state)
+  <% } %>
 
   return app
 }

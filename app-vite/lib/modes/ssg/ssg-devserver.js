@@ -230,7 +230,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
         if (
           ssrContext.state !== void 0 &&
-          quasarConf.ssr.manualStoreSerialization !== true
+          quasarConf.ssg.manualStoreSerialization !== true
         ) {
           ssrContext._meta.headTags =
             renderStoreState(ssrContext) + ssrContext._meta.headTags
