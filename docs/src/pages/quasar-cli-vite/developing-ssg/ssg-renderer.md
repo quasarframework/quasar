@@ -7,15 +7,15 @@ desc: (@quasar/app-vite) Configuring the Quasar SSG Renderer.
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-When you develop a Static Site Generator (SSG) application with Quasar, the `/src-ssg/ssg-renderer` file is the heart of your generation process. This file is responsible for telling Quasar which pages to generate and how to preload assets for those generated pages.
+The `/src-ssg/ssg-renderer` file tells Quasar which routes to render during a production build. It can also customize the preload tags added for each page's assets.
 
 ::: warning
-The SSG renderer script is being used for production only ("quasar build -m ssg"). The script will not be invoked in dev mode as it serves no purpose in this case.
+The SSG renderer runs only for `quasar build -m ssg`. Development mode renders requested routes on demand and does not invoke `getSsgPages()`.
 :::
 
 ## Anatomy
 
-This file exports two main functions: `getSsgPages` and `renderPreloadTag`. The following is the default content of /src-ssg/ssg-renderer:
+The file exports `getSsgPages` and can optionally export `renderPreloadTag`. The generated template includes both:
 
 ```tabs /src-ssg/ssg-renderer
 <<| js Manually defined routes |>>
@@ -125,7 +125,7 @@ export const renderPreloadTag = defineSsgRenderPreloadTag(
 
 ## Defining SSG Pages
 
-The `getSsgPages` export uses the `defineSsgGetPages` wrapper. It must return an Array of page objects that tell the SSG engine what html pages to render (based on Vue Router routes). The function passed to `defineSsgGetPages` can be synchronous or asynchronous.
+The `getSsgPages` export uses the `defineSsgGetPages` wrapper. It returns an array of page definitions and may be synchronous or asynchronous. The build stops when the array is empty.
 
 ### The Callback Parameters
 
@@ -143,7 +143,7 @@ Each object in the returned array represents a single HTML page to be generated.
 
 | Property   | Type        | Description                                                                                                                                                                                            |
 | ---------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| route      | string      | **Required!** The vue-router route to render. It must be a valid route in your Vue Router configuration.                                                                                               |
+| route      | string      | **Required.** The Vue Router route to render. It must start with `/` and resolve through your router.                                                                                                  |
 | label      | string      | An optional label to identify the SSG page in your build logs.                                                                                                                                         |
 | dir        | string      | The directory to place the generated HTML file in. Must be a relative path to the dist folder. If omitted, the route path determines the directory.                                                    |
 | filename   | string      | The name of the generated HTML file. Defaults to "index.html".                                                                                                                                         |
@@ -154,45 +154,31 @@ When defining the `route` prop of a SSG page, do not include the quasar.config >
 :::
 
 ```tabs getSsgPages example
-<<| js Explicit SSG pages |>>
-import { defineSsgGetPages } from "#q-app"
+<<| js Dynamic routes from data |>>
+import { defineSsgGetPages } from '#q-app'
+import products from '@/data/products.json'
 
-export const getSsgPages = defineSsgGetPages(
-  async ({ ctx }) => {
-    return [
-      { route: '/' },
-      { route: '/second-page' },
-      ...(
-        ['light', 'dark'].map(theme => ({
-          route: '/third-page',
-          label: theme,
-          filename: `index-${theme}.html`,
-          ssrContext: {
-            req: {
-              headers: {
-                cookie: `theme=${theme}`
-              }
-            }
-          }
-        }))
-      )
-    ]
-  }
-)
+export const getSsgPages = defineSsgGetPages(() => [
+  { route: '/' },
+  ...products.map(product => ({
+    route: `/products/${product.slug}`,
+    label: product.name
+  }))
+])
 <<| js Manually defined routes |>>
-import { defineSsgGetPages } from "#q-app"
+import { defineSsgGetPages } from '#q-app'
 // Importing the manually defined app routes:
-import routes from "@/router/routes"
+import routes from '@/router/routes'
 
 export const getSsgPages = defineSsgGetPages(
-  async ({ parseVueRouterRoutes, ctx }) => {
+  ({ parseVueRouterRoutes }) => {
     // The parseVueRouterRoutes helper is optional, but highly recommended
     // for standard routing setups.
     return parseVueRouterRoutes({ routes, verbose: true })
   }
 )
 <<| js With filenameBasedRouting |>>
-import { defineSsgGetPages } from "#q-app";
+import { defineSsgGetPages } from '#q-app'
 
 export const getSsgPages = defineSsgGetPages(
   async ({ getFilenameBasedRoutes, parseVueRouterRoutes /*, ctx */ }) => {
@@ -206,23 +192,22 @@ export const getSsgPages = defineSsgGetPages(
 
 ### Warning on 404 errors
 
-When defining the SSG pages to render, please be aware that your app might have a Vue Router route defined as a catch-all which handles this error:
+Your app will commonly have a Vue Router catch-all route:
 
 ```js /src/router/routes file
 // Example of route for catching 404 with Vue Router
 { path: '/:catchAll(.*)*', component: () => import('@/pages/Error404.vue') }
 ```
 
-Therefore, if your `getSsgPages()` returns a SSG page configured with a non-existent Vue Router route, the html page that will be generated will essentially contain such a 404 rendered page and not your probably expected content and no build-time error will be generated.
+If a page definition contains a route that does not otherwise exist, Vue Router resolves it to this catch-all and Quasar writes the rendered 404 markup. This is valid rendering, so the build cannot infer that the route was a mistake.
 
-As a side-note, please read the [SSG 404 Error Page](/quasar-cli-vite/developing-ssg/ssg-404-error-page) too. By default, such a page is generated so you don't need a specific entry in the returned array of your `getSsgPages()` for it.
+Quasar generates the configured [SSG 404 Error Page](/quasar-cli-vite/developing-ssg/ssg-404-error-page) separately, so do not add a page definition for the default `404.html`.
 
 ## Rendering Preload Tags
 
-To ensure boost performance and Lighthouse scores, Quasar allows you to inject `<link rel="preload">` and `<link rel="modulepreload">` tags into the `<head>` of your generated HTML files.
-The `renderPreloadTag` evaluates the assets required by the current page and returns a string with the appropriate HTML output.
+Quasar can inject `<link rel="preload">` and `<link rel="modulepreload">` tags for assets used by each generated page. `renderPreloadTag` receives each asset URL and returns its HTML tag.
 
-Out of the box, Quasar provides a robust default setup using Regex to match file extensions (.js, .css, fonts, and images) and applies the correct rel, as, and type attributes. You can customize this function to support additional file types or custom caching strategies.
+The generated renderer handles JavaScript, CSS, WOFF fonts, and common image formats. Customize it to omit expensive image preloads or support another asset type.
 
 ```js renderPreloadTag example
 import { defineSsgRenderPreloadTag } from '#q-app'

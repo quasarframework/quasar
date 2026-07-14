@@ -7,7 +7,7 @@ desc: (@quasar/app-vite) How to handle SSG-specific dependencies.
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-Notice the `/src-ssg/package.json` file in your generated `/src-ssg` folder. The purpose of it is for you to be able to install packages used by the SSG mode directly under this folder (and not pollute the common `/src`).
+The generated `/src-ssg/package.json` keeps build-time renderer dependencies separate from your application dependencies. Add a package here when it is imported directly by `/src-ssg/ssg-renderer`.
 
 ```json /src-ssg/package.json
 {
@@ -21,22 +21,22 @@ Notice the `/src-ssg/package.json` file in your generated `/src-ssg` folder. The
 ```
 
 ::: warning
-If you import anything from node_modules in /src-ssg, then be aware that you will need to install those packages directly in /src-ssg. All these dependencies are used when building the SSG html files.
+Packages imported by application code under `/src` still belong in the root `package.json`. Install only renderer-specific packages under `/src-ssg`.
 :::
 
-Installing SSG specific packages:
+For example, to discover Markdown files from the renderer with `tinyglobby`:
 
 ```tabs
 <<| bash PNPM |>>
-# run in /src-ssg:
-pnpm add <deps>
+# run in /src-ssg
+pnpm add tinyglobby
 <<| bash Yarn |>>
-# run in /src-ssg:
-yarn add <deps>
+# run in /src-ssg
+yarn add tinyglobby
 <<| bash NPM |>>
-# run in /src-ssg:
-npm install <deps>
+# run in /src-ssg
+npm install tinyglobby
 <<| bash Bun |>>
-# run in /src-ssg:
-bun add <deps>
+# run in /src-ssg
+bun add tinyglobby
 ```

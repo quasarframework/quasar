@@ -33,23 +33,23 @@ scope:
           - l: apple-icon-152x152.png
           - l: apple-icon-167x167.png
           - l: apple-icon-180x180.png
-          - l: apple-icon-828x1792.png
-          - l: apple-icon-1125x2436.png
-          - l: apple-icon-1242x2688.png
-          - l: apple-icon-750x1334.png
-          - l: apple-icon-1242x2208.png
-          - l: apple-icon-640x1136.png
-          - l: apple-icon-1536x2048.png
-          - l: apple-icon-1668x2224.png
-          - l: apple-icon-1668x2388.png
-          - l: apple-icon-2048x2732.png
+          - l: apple-launch-828x1792.png
+          - l: apple-launch-1125x2436.png
+          - l: apple-launch-1242x2688.png
+          - l: apple-launch-750x1334.png
+          - l: apple-launch-1242x2208.png
+          - l: apple-launch-640x1136.png
+          - l: apple-launch-1536x2048.png
+          - l: apple-launch-1668x2224.png
+          - l: apple-launch-1668x2388.png
+          - l: apple-launch-2048x2732.png
 ---
 
 ::: warning Warning! Beta Stage
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+An SSG site uses the same favicon assets as a SPA. When PWA takeover is enabled, it also needs manifest icons and may include Apple touch icons and launch images.
 
 <img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
@@ -59,7 +59,7 @@ This build target includes a variety of special icons for individual browsers an
 We highly recommend using the [Icon Genie CLI](/icongenie/introduction) v6.1+, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html file.
 :::
 
-Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
+Generate the appropriate assets with Icon Genie CLI. For the complete option list, see the [Icon Genie CLI command list](/icongenie/command-list).
 
 ```bash
 # SSG only:
@@ -103,7 +103,7 @@ The required HTML code that goes into `/index.html` to reference the above files
 />
 ```
 
-However, if you are developing with SSG + PWA mode, then you'll also need the PWA assets:
+With SSG + PWA mode, you also need the PWA assets:
 
 <DocTree :def="scope.ssgTree" />
 

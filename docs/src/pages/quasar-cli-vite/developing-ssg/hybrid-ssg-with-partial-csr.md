@@ -7,11 +7,11 @@ desc: (@quasar/app-vite) How to handle a hybrid SSG with partial CSR with Quasar
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
-Quasar CLI allows you to build a hybrid SSG with partial CSR (Client-Side Rendering). This is helpful for cases where you want to generate SSG pages only for some of your routes and leave the other be handled on the client-side like a regular SPA.
+Hybrid SSG lets most routes use pre-rendered HTML while selected routes behave like pages in a SPA. It is useful for authenticated dashboards, account settings, or other pages whose initial content is meaningful only in the browser.
 
 ## Configuration
 
-You can instruct the Quasar CLI to generate a specific html page that will be used for your CSR handled pages:
+The following options are generated in the `ssg` section of `/quasar.config`:
 
 ```js /quasar.config file
 ssg: {
@@ -62,12 +62,27 @@ ssg: {
 }
 ```
 
-You will then need to configure your deployment webserver to point to this html file when serving your CSR only routes, instead of the default "index.html".
+For example, this configuration renders account routes on the client and writes the shell to `dist/ssg/app-shell.html`:
+
+```js /quasar.config file
+ssg: {
+  clientSideRenderingRoutes: ['/account', '/account/**'],
+  clientSideRenderingHtmlFilename: 'app-shell.html'
+}
+```
+
+Do not use a filename that can also be produced by an SSG page. Setting `clientSideRenderingHtmlFilename: false` disables shell generation even when route patterns are configured.
 
 ## How It Works
 
-For dev mode, these pages will not go through rendering with the underlying SSR.
+- In development, matching routes bypass server rendering and use the client application shell.
+- During a production build, `parseVueRouterRoutes()` excludes matching routes from the generated-page list.
+- The production build writes one CSR shell file. Your static host must rewrite each matching request to that file without changing the browser URL.
 
-On production, if you have configured ssg.clientSideRenderingHtmlFilename or ssg.clientSideRenderingRoutes, then the Quasar CLI will generate a shell html file that will act similar to a SPA's generated index.html. It will load your app and Vue Router will handle what gets displayed for the respective route(s), along with its resources.
+With the configuration above, requests for `/account/profile` and `/account/security` must both serve `/app-shell.html`. Do not rewrite every missing URL to the CSR shell, because that would turn real not-found requests into client-rendered pages.
 
-It is important that you configure your deployment webserver correctly for the respective route(s).
+See [Deploying SSG](/quasar-cli-vite/developing-ssg/deploying#hybrid-ssg-partial-csr) for nginx and static-host examples.
+
+::: tip SSG + PWA
+The PWA offline shell has the same application-shell content. You may set `clientSideRenderingHtmlFilename` to the value of `pwaOfflineHtmlFilename` so both features use one file. Otherwise, the two filenames must be different.
+:::

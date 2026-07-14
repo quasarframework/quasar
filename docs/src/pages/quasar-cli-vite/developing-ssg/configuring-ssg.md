@@ -19,7 +19,26 @@ The Quasar SSG Mode is currently in the "beta" stage. Based on the community fee
 
 ## quasar.config file
 
-This is the place where you can configure some SSG options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
+The `ssg` section controls generated fallback files, client-rendered routes, PWA takeover, store hydration, and advanced build hooks. Page generation itself belongs in `/src-ssg/ssg-renderer`.
+
+A typical configuration needs only a few options:
+
+```js /quasar.config file
+export default defineConfig(() => ({
+  ssg: {
+    // Generate a PWA service worker and offline shell
+    pwa: false,
+
+    // Generate dist/ssg/404.html
+    error404HtmlFilename: '404.html',
+
+    // Exclude these routes from pre-rendering and generate csr.html
+    clientSideRenderingRoutes: ['/account', '/account/**']
+  }
+}))
+```
+
+The complete option reference follows. Most applications should leave the manual hydration and build-extension options at their defaults.
 
 ```ts /quasar.config file
 return {
@@ -74,7 +93,7 @@ return {
      * as it will have the same content. Otherwise, make sure to use a different
      * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
      *
-     * If not explicitly configured  and `clientSideRenderingRoutes`
+     * If not explicitly configured and `clientSideRenderingRoutes`
      * is not its default value (an empty array), then this option will
      * default to 'csr.html'.
      *
@@ -184,11 +203,11 @@ return {
 }
 ```
 
-> If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli-vite/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSG with PWA](/quasar-cli-vite/developing-ssg/ssg-with-pwa) page.
+> If you enable PWA client takeover, Quasar CLI installs PWA mode too. Read [SSG with PWA](/quasar-cli-vite/developing-ssg/ssg-with-pwa) and the [Quasar PWA guide](/quasar-cli-vite/developing-pwa/introduction).
 
 > If you want certain routes of your app to be rendered exclusively on the client side, [Hybrid SSG + partial CSR](/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr) is here for you.
 
-Should you want to tamper with the Vite config for UI in /src:
+To extend the Vite configuration used to build application code under `/src`, use the normal `build.extendViteConf` hook and check for SSG mode:
 
 ```js /quasar.config file
 export default defineConfig(ctx => {
@@ -207,9 +226,9 @@ export default defineConfig(ctx => {
 
 ### Manually triggering store hydration
 
-By default, Quasar CLI takes care of hydrating the Pinia stores (if you use it) on client-side.
+By default, Quasar CLI serializes the Pinia state into the generated HTML and hydrates the store on the client.
 
-However, should you wish to manually hydrate it yourself, you need to set quasar.config file > ssg > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-vite/boot-files):
+Set `ssg.manualStoreHydration: true` only when you need to replace that client-side hydration step. For example, use a client-only [boot file](/quasar-cli-vite/boot-files):
 
 ```js Some boot file
 // MAKE SURE TO CONFIGURE THIS BOOT FILE
@@ -226,7 +245,7 @@ export default defineBoot(({ store }) => {
 
 By default, Quasar CLI wraps your App component and calls `$q.onSSRHydrated()` on the client-side when this wrapper component gets mounted. This is the moment that the client-side takes over. You don't need to configure anything for this to happen.
 
-However should you wish to override the moment when this happens, you need to set quasar.config file > ssg > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
+For an advanced integration that must control this timing, set `ssg.manualPostHydrationTrigger: true` and call the hook yourself after mounting:
 
 ```tabs
 <<| js Composition API |>>
@@ -261,11 +280,11 @@ Adding SSG mode to a Quasar project means a new folder will be created: `/src-ss
 
 <DocTree :def="scope.nodeJsTree" />
 
-Notice a few things:
+Important details:
 
-1. If you import anything from node_modules in /src-ssg, then make sure that the package is specified in /src-ssg/package.json > "dependencies" (and install that dependency in /src-ssg folder).
+1. A package imported directly by `/src-ssg/ssg-renderer` must be listed in `/src-ssg/package.json` and installed in that folder.
 
-2. The SSG renderer file (src-ssg/ssg-renderer) is built through a separate Rolldown config. You can extend the Rolldown configuration of this file through the `/quasar.config` file:
+2. The renderer is built with a separate Rolldown configuration. Extend it through `/quasar.config` only when the renderer needs custom build behavior:
 
 ```ts /quasar.config file
 return {
@@ -285,17 +304,17 @@ return {
 }
 ```
 
-4. The `/src-ssg/ssg-renderer.js` file is detailed in [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) page.
+3. See [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) for the renderer API and page examples.
 
 ## Helping SEO
 
-One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.
+Use the [Quasar Meta Plugin](/quasar-plugins/meta) to include route-specific titles, descriptions, canonical links, and social metadata in generated HTML. See [SEO for SSG](/quasar-cli-vite/developing-ssg/seo-for-ssg).
 
 ## Boot Files
 
-When running on SSG mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node.js context and in the browser. This applies to your [Boot Files](/quasar-cli-vite/boot-files) too.
+In SSG mode, application code must be universal: it runs in Node.js during the production build and again in the browser during hydration. This also applies to [Boot Files](/quasar-cli-vite/boot-files).
 
-However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
+Mark browser-only or build-time-only boot files explicitly:
 
 ```js /quasar.config file
 return {
@@ -308,21 +327,19 @@ return {
 }
 ```
 
-Just make sure that your app is consistent, though.
+Server-only boot files run at build time for every rendered page. They do not run on the production static host.
 
-When a boot file runs on the server-side (at build time), you will have access to one more parameter (called [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context)) on the default exported function:
+When a boot file runs during server-side generation, its callback receives the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context):
 
 ```js Some boot file
 import { defineBoot } from '#q-app'
 
-export default defineBoot(({ app, ..., ssrContext }) => {
-  // You can add props to the ssrContext then use them in the /index.html.
-  // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
-  // {{ ssrContext.someProp }}
+export default defineBoot(({ ssrContext }) => {
+  ssrContext.someProp = 'some value'
 })
 ```
 
-When you add such references into your `/index.html`, make sure you tell Quasar it's only valid for SSG builds. And also, that your /src-ssg/ssg-renderer file returns SSG pages with configured ssrContext props that you reference.
+When `/index.html` references a custom value, guard it by mode and ensure every applicable page definition provides that value:
 
 ```html /index.html
 <% if (ctx.mode.ssg) { %>{{ ssrContext.someProp }} <% } %>
