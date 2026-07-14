@@ -16,7 +16,7 @@ const multiSlashRE = /\/{2,}/g
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 
-export function getParseVueRouterRoutesFn(quasarConf) {
+function getParseVueRouterRoutesFn(quasarConf) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
@@ -82,7 +82,7 @@ export function getParseVueRouterRoutesFn(quasarConf) {
   return parseVueRouterRoutes
 }
 
-export async function loadFilenameBasedRoutes(viteServerConfig, createServer) {
+async function loadFilenameBasedRoutes(viteServerConfig, createServer) {
   const vite = await createServer(viteServerConfig)
 
   try {
