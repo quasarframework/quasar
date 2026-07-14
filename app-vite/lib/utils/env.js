@@ -15,6 +15,18 @@ export const defaultBackendAppEnvPrefix = ''
 const validEnvKeyRE = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/
 const appEnvBannerPrefix = green(`Env ${dot}`)
 
+function escapeRegex(value) {
+  return value.replaceAll('$', String.raw`\$`)
+}
+
+function getEnvPrefixRE(prefix) {
+  const source = Array.isArray(prefix)
+    ? `(${prefix.map(escapeRegex).join('|')})`
+    : escapeRegex(prefix)
+
+  return new RegExp(`^${source}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+}
+
 /**
  * Filter out keys that cannot be used in JS
  * as import.meta.env.[key]
@@ -137,9 +149,7 @@ export function getQuasarConfEnv({ ctx, envCfg, useSnapshot }) {
   })
 
   const prefixLabel = Array.isArray(prefix) ? prefix.join(' | ') : prefix
-  const prefixRE = Array.isArray(prefix)
-    ? new RegExp(`^(${prefix.join('|')})[a-zA-Z_$][a-zA-Z0-9_$]*$`)
-    : new RegExp(`^${prefix}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+  const prefixRE = getEnvPrefixRE(prefix)
 
   const envDefineList = parseEnvDefineList(rawFileEnv, prefixRE)
 
@@ -194,9 +204,7 @@ export function getAppEnv({ ctx, envCfg, useSnapshot }) {
     defaultPrefix: defaultClientAppEnvPrefix,
     banner: 'App envClientPrefix'
   })
-  const clientPrefixRE = Array.isArray(clientPrefix)
-    ? new RegExp(`^(${clientPrefix.join('|')})[a-zA-Z_$][a-zA-Z0-9_$]*$`)
-    : new RegExp(`^${clientPrefix}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+  const clientPrefixRE = getEnvPrefixRE(clientPrefix)
   const clientPrefixLabel = Array.isArray(clientPrefix)
     ? clientPrefix.join(' | ')
     : clientPrefix
@@ -210,9 +218,7 @@ export function getAppEnv({ ctx, envCfg, useSnapshot }) {
     defaultPrefix: defaultBackendAppEnvPrefix,
     banner: 'App envBackendPrefix'
   })
-  const backendPrefixRE = Array.isArray(backendPrefix)
-    ? new RegExp(`^(${backendPrefix.join('|')})[a-zA-Z_$][a-zA-Z0-9_$]*$`)
-    : new RegExp(`^${backendPrefix}[a-zA-Z_$][a-zA-Z0-9_$]*$`)
+  const backendPrefixRE = getEnvPrefixRE(backendPrefix)
   const backendPrefixLabel = Array.isArray(backendPrefix)
     ? backendPrefix.join(' | ')
     : backendPrefix

@@ -32,7 +32,7 @@ We will be using `client code` and `backend code` on this page:
 
 ## Usage
 
-### Javascript / Typescript
+### JavaScript / TypeScript
 
 ```js Basic example
 if (import.meta.env.QUASAR_DEV) {
@@ -439,7 +439,7 @@ console.log(
   import.meta.env.DOTENV_BOOL, // undefined
   import.meta.env.DOTENV_STR, // undefined
   import.meta.env.DOTENV_NUMBER, // undefined
-  import.meta.env.DOTENV_NULL // undefined
+  import.meta.env.DOTENV_NULL, // undefined
   import.meta.env.DOTENV_ARR, // undefined
   import.meta.env.DOTENV_OBJ, // undefined
 );
@@ -535,7 +535,7 @@ For cases where the auto-type inference and declaration does not work for your s
 build: {
   env: {
     /**
-     * Ignore auto-infering and declaring type for these variables;
+     * Ignore automatically inferring and declaring types for these variables.
      * Variables can come from process.env (terminal variables) or
      * dotenv files or quasar.config > build > define/defineEnv.
      *
@@ -567,10 +567,12 @@ These files will be automatically detected and used (the order matters):
 
 ```
 .env        # loaded in all cases
-.env.local  # loaded in dev only, ignored by git
+.env.local  # loaded outside CI, ignored by git
 ```
 
-...where "ignored by git" assumes a default project folder created after releasing this package, otherwise add `.env.local` to your `/.gitignore` file.
+This means `.env.local` is used for both development and production builds run on your local machine, but is skipped when Quasar CLI detects a CI environment. The `.env.local` values take precedence over values from `.env`, while terminal variables take precedence over both.
+
+The "ignored by git" comment assumes a project created with a current Quasar template. Otherwise, add `.env.local` to your `/.gitignore` file.
 
 You can configure Quasar CLI to take into account even more files, as you'll learn in the next sections.
 
@@ -592,7 +594,7 @@ NODE_ENV=development
 
 ### Exposing to client code
 
-For security purposes and exposing variables with clear intent only, Quasar CLI filters out variables names not starting with the `QCLI_` prefix for the code exposed to the client-side, while leaving all of them for backend code (example: SSR/SSG server-side code that the clients cannot view it directly). This prefix can be changed through the /quasar.config file.
+For security and to make client exposure explicit, Quasar CLI excludes variables that do not start with the `QCLI_` prefix from client-side code. Backend code, such as the SSR/SSG server, receives all variables by default. You can change both prefixes through the /quasar.config file.
 
 ```bash
 # NOT exposed to client code, but exposed to backend;
@@ -676,7 +678,7 @@ build: {
     file?: string | string[];
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
@@ -685,7 +687,7 @@ build: {
     ) => Record<string, string>;
 
     /**
-     * Ignore auto-infering and declaring type for these variables;
+     * Ignore automatically inferring and declaring types for these variables.
      * Variables can come from process.env (terminal variables) or
      * dotenv files or quasar.config > build > define/defineEnv.
      *

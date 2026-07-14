@@ -804,7 +804,7 @@ interface QuasarStaticBuildConfiguration {
     file?: string | string[]
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
