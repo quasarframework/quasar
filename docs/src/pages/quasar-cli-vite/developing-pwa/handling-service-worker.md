@@ -9,7 +9,7 @@ It's important to note that the Service Worker (which gets automatically generat
 
 ## Interacting with Service Worker
 
-Add the [register-service-worker](https://github.com/yyx990803/register-service-worker) npm package in your package.json file as a dependency (if it's not already there).
+Add the [register-service-worker](https://github.com/yyx990803/register-service-worker) package to `package.json` as a dependency if it is not already installed.
 
 ```js /src-pwa/register-sw file
 import { register } from 'register-service-worker'
@@ -57,7 +57,11 @@ If you access the development server through a hostname that the browser does no
 - set quasar.config file > devServer > `https: true`
 - when testing through a LAN address, custom hostname, or another device, serve your development server through an HTTPS tunnel such as [tunnelmole](https://github.com/robbie-cahill/tunnelmole-client), [localhost.run](https://localhost.run/) or [ngrok](https://ngrok.com/)
 
-Here is a tunnelmole example (install it first with `yarn global add tunnelmole` or `npm i -g tunnelmole`):
+Here is a tunnelmole example. Install it first:
+
+```bash
+pnpm add --global tunnelmole
+```
 
 ```
 $ tmole 80
