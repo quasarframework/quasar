@@ -18,7 +18,7 @@ export function getArgv(options, { strict = true } = {}) {
       // Should be handled if (argv.help) in the caller
       __warn() {
         warn(
-          err?.code === 'ERR_PARSE_ARGS_UNKNOWN_OPTION'
+          err instanceof Error
             ? err.message
             : 'Unknown error while parsing arguments'
         )

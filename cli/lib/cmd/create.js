@@ -1,13 +1,13 @@
 console.log(`
  · For scaffolding an official Quasar project please use this instead:
 
-   npm init quasar
+   npm init quasar@latest
      (or)
-   yarn create quasar
+   yarn create quasar@latest
      (or)
-   pnpm create quasar
+   pnpm create quasar@latest
      (or)
-   bun create quasar
+   bun create quasar@latest
 
  · For scaffolding a custom starter kit please use this instead:
 

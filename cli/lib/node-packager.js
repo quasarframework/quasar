@@ -11,7 +11,7 @@ const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
 function getNpmRegistryUrl() {
   try {
-    const url = execSync('npm config get registry')
+    const url = String(execSync('npm config get registry')).trim()
     if (url) {
       return url.endsWith('/') ? url : url + '/'
     }
@@ -21,33 +21,18 @@ function getNpmRegistryUrl() {
 }
 
 async function getPackageVersionList(packageName, npmRegistryUrl) {
-  const https = await import('node:https')
-  const url = `${npmRegistryUrl}${packageName}`
+  try {
+    const url = new URL(encodeURIComponent(packageName), npmRegistryUrl)
+    const response = await fetch(url)
+    if (!response.ok) return null
 
-  return new Promise(resolve => {
-    https.get(url, async response => {
-      let data = ''
+    const json = await response.json()
+    const versionList = Object.keys(json.versions || {})
 
-      try {
-        for await (const chunk of response) {
-          data += chunk
-        }
-      } catch {
-        resolve(null)
-        return
-      }
-
-      try {
-        const json = JSON.parse(data)
-        const versionList = Object.keys(json.versions)
-
-        resolve(versionList.length !== 0 ? versionList : null)
-      } catch {
-        // oxlint-disable-next-line promise/no-multiple-resolved
-        resolve(null)
-      }
-    })
-  })
+    return versionList.length !== 0 ? versionList : null
+  } catch {
+    return null
+  }
 }
 
 // returns a Promise!
@@ -161,7 +146,7 @@ class PackageManager {
 
   async getPackageLatestVersion({
     packageName,
-    npmRegistryUrl = this.#npmRegistryUrl,
+    npmRegistryUrl = this.npmRegistryUrl,
     currentVersion = null,
     majorVersion = false,
     preReleaseVersion = false
@@ -176,7 +161,10 @@ class PackageManager {
       return versionList.at(-1)
     }
 
-    const [, major, prerelease] = currentVersion.match(versionRegex)
+    const versionMatch = currentVersion.match(versionRegex)
+    if (versionMatch === null) return null
+
+    const [, major, prerelease] = versionMatch
     const majorSyntax = majorVersion ? String.raw`(\d+)` : major
     const regex = new RegExp(
       prerelease || preReleaseVersion

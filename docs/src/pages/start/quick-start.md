@@ -11,7 +11,7 @@ If you are a more advanced Vue developer, we invite you to start off by [decidin
 
 ## Prerequisites
 
-Make sure that you have Node.js >=22 (or any newer **LTS Node.js version**) and PNPM v11+ or Yarn v1 classic or or NPM or Bun installed on your machine. Again, please do not use non LTS versions of Node.js.
+Make sure that you have Node.js >=22 (or any newer **LTS Node.js version**) and PNPM v11+, Yarn v1 classic, NPM or Bun installed on your machine. Again, please do not use non-LTS versions of Node.js.
 
 ## Step 1: Create a Project
 
