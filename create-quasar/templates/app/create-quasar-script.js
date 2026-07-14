@@ -22,7 +22,12 @@ export async function createQuasarScript({ scope, utils }) {
         message:
           'Project product name: (must start with letter if building mobile apps)',
         placeholder: utils.definitions.product.default,
-        defaultValue: utils.definitions.product.default
+        defaultValue: utils.definitions.product.default,
+        validate: val => {
+          if (!utils.definitions.product.isValid(val)) {
+            return 'Product name must start with a letter'
+          }
+        }
       })
   })
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { join } from 'node:path'
+import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 
 if (process.argv.includes('--version') || process.argv.includes('-v')) {
@@ -132,7 +132,7 @@ async function getArgv() {
     positionals = pos
   } catch (err) {
     return argvError(
-      err?.code === 'ERR_PARSE_ARGS_UNKNOWN_OPTION'
+      err instanceof Error
         ? err.message
         : 'Unknown error while parsing arguments'
     )
@@ -146,11 +146,8 @@ async function getArgv() {
   }
 
   const { default: utils } = await import('../lib/utils.js')
-  if (scope.defaults) {
-    if (scope.overwrite === void 0) scope.overwrite = true
-    if (!scope.template) {
-      scope.template = utils.definitions.template.default
-    }
+  if (scope.defaults && !scope.template) {
+    scope.template = utils.definitions.template.default
   }
 
   const { template } = scope
@@ -303,7 +300,7 @@ async function getArgv() {
     (scope.defaults && utils.definitions.projectFolder.default)
 
   if (dir) {
-    scope.projectFolder = join(process.cwd(), dir)
+    scope.projectFolder = resolve(process.cwd(), dir)
     scope.projectFolderName = dir
 
     if (!scope.name) scope.name = utils.definitions.name.default(dir)
@@ -314,6 +311,17 @@ async function getArgv() {
       'Invalid package name specified with --name: ' +
         scope.name +
         '. It must be a valid npm package name.'
+    )
+  }
+
+  if (
+    scope.product !== void 0 &&
+    !utils.definitions.product.isValid(scope.product)
+  ) {
+    return argvError(
+      'Invalid product name specified with --product: ' +
+        scope.product +
+        '. It must start with a letter.'
     )
   }
 

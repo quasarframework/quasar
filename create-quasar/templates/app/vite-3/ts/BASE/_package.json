@@ -2,9 +2,9 @@
   "name": "<%= scope.name %>",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "<%= scope.product %>",
+  "productName": <%= JSON.stringify(scope.product) %>,
   <% if (scope.author) { %>
-  "author": "<%= scope.author %>",
+  "author": <%= JSON.stringify(scope.author) %>,
   <% } %>
   "type": "module",
   "private": true,
@@ -50,6 +50,7 @@
     <% if (scope.preset.i18n) { %>"@intlify/unplugin-vue-i18n": "^11.0.0",<% } %>
     "@quasar/app-vite": "^3.0.0",
     "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
     "typescript": "^6.0.0"
   },
   "keywords": [

@@ -10,7 +10,6 @@ _Think about the organization of this file and how the information will be benef
 
 ```bash
 quasar ext add <%= scope.aeShortName %>
-
 ```
 
 ### Prompts
@@ -21,7 +20,6 @@ quasar ext add <%= scope.aeShortName %>
 
 ```bash
 quasar ext remove <%= scope.aeShortName %>
-
 ```
 
 ## Info

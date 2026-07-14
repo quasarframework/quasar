@@ -4,7 +4,7 @@
   "private": true,
   "description": "A Quasar App Extension Project",
   <% if (scope.author) { %>
-  "author": "<%= scope.author %>",
+  "author": <%= JSON.stringify(scope.author) %>,
   <% } %>
   "type": "module",
   "scripts": {

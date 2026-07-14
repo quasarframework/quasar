@@ -6,7 +6,7 @@ export async function createQuasarScript({ scope, utils }) {
         initialValues: ['sass', 'linting'],
         options: [
           {
-            label: 'Typescript',
+            label: 'TypeScript',
             value: 'typescript'
           },
           {

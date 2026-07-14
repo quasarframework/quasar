@@ -10,9 +10,10 @@ pnpm install
 ### Start the app in development mode (HMR, error reporting, etc.)
 
 ```bash
-quasar dev
+pnpm dev
+# or: yarn dev / npm run dev / bun run dev
 ```
-<% if (scope.preset.linter) { %>
+<% if (scope.preset.linting) { %>
 
 ### Format & Lint the files
 
@@ -32,8 +33,10 @@ pnpm run lint:check
 ### Build the app for production
 
 ```bash
-quasar build
+pnpm build
+# or: yarn build / npm run build / bun run build
 ```
 
 ### Customize the configuration
+
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-file).

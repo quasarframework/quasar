@@ -1,5 +1,5 @@
 import { existsSync, readdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { resolve } from 'node:path'
 
 import utils from './utils.js'
 import { runningPackageManager } from './running-pm.js'
@@ -55,7 +55,7 @@ export async function createProjectFolder(scope) {
       const name = val.trim()
       // inject the "short" name
       scope.projectFolderName = name
-      return join(process.cwd(), name)
+      return resolve(process.cwd(), name)
     }
   })
 
@@ -64,6 +64,16 @@ export async function createProjectFolder(scope) {
     existsSync(scope.projectFolder) &&
     readdirSync(scope.projectFolder).length !== 0
   ) {
+    if (scope.defaults) {
+      utils.cancelScaffolding({
+        message:
+          (scope.projectFolderName === '.'
+            ? 'Current directory'
+            : `Target directory "${scope.projectFolderName}"`) +
+          ' is not empty. Use --overwrite to remove its existing files.'
+      })
+    }
+
     const val = await utils.prompts.confirm({
       message:
         (scope.projectFolderName === '.'
@@ -105,7 +115,10 @@ export async function createProjectFolder(scope) {
       scope.meta.hasInstalledDeps = true
 
       if (scope.preset.linting) {
-        await utils.lintFolder(scope)
+        const hadLintError = await utils.lintFolder(scope)
+        if (hadLintError) {
+          scope.meta.lintCmd = `${scope.install} run lint`
+        }
       }
     }
   }
@@ -129,7 +142,7 @@ export async function createProjectFolder(scope) {
 
   utils.prompts.note(
     'Documentation → https://quasar.dev' +
-      '\nGithub → https://github.quasar.dev' +
+      '\nGitHub → https://github.quasar.dev' +
       '\nDiscussions → https://forum.quasar.dev' +
       '\nDiscord → https://chat.quasar.dev' +
       '\nDonations → https://donate.quasar.dev',

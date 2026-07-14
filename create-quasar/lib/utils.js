@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { dirname, extname, join, resolve } from 'node:path'
+import { basename, dirname, extname, join, resolve } from 'node:path'
 import { execSync as exec } from 'node:child_process'
 import { sync as spawnSync } from 'cross-spawn'
 import {
@@ -363,7 +363,7 @@ const definitions = {
 
   name: {
     default: projectFolderName =>
-      projectFolderName
+      basename(resolve(projectFolderName))
         .trim()
         .toLowerCase()
         .replaceAll(/\s+/g, '-')
@@ -371,11 +371,15 @@ const definitions = {
         .replaceAll(/[^a-z0-9-~]+/g, '-'),
 
     isValid: name =>
-      /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
+      name.length <= 214 &&
+      name !== 'node_modules' &&
+      name !== 'favicon.ico' &&
+      /^(?:@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
   },
 
   product: {
-    default: 'Quasar App'
+    default: 'Quasar App',
+    isValid: name => /^[a-z]/i.test(name)
   },
 
   template: {
