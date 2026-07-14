@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) Tips and tricks for a Quasar server-side rendered app.
 
 ## Why am I getting hydration errors?
 
-Take a look at our [Client Side Hydration](/quasar-cli-vite/developing-ssr/client-side-hydration) page. When you get hydration errors, it means the HTML rendered on the server does not match the equivalent HTML rendered on client-side. This error will appear only when developing (and NOT on production) and it definitely needs to be addressed, before you release your website. Is there some content that you can only generate on client-side? Then use [QNoSsr](/vue-components/no-ssr).
+Take a look at the [Client Side Hydration](/quasar-cli-vite/developing-ssr/client-side-hydration) page. A mismatch means the server-rendered HTML differs from the client's initial render. Development builds provide the useful diagnostics, but the underlying mismatch can also affect production and should be fixed before release. Use [QNoSsr](/vue-components/no-ssr) for content that can only be rendered in the browser.
 
 ## Why doesn't importing Platform and Cookies work?
 
@@ -33,4 +33,4 @@ Also a good idea is to read the [Writing Universal Code](/quasar-cli-vite/develo
 
 ## Why isn't LocalStorage and SessionStorage working?
 
-When running the code on server-side, the storage facilities can't work. Web Storage is a browser only API.
+Web Storage is a browser-only API and is unavailable while code runs on the server. Access it only in client-side code, such as after the component mounts.
