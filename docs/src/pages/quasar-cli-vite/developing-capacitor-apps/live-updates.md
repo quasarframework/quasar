@@ -33,7 +33,7 @@ bun add @capawesome/capacitor-live-update
 After that, you need to sync the changes with your native projects:
 
 ```bash
-pnpm exec cap sync
+npx cap sync
 ```
 
 ## Configuration
