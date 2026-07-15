@@ -62,11 +62,11 @@ Devices can reserve space for status bars, rounded corners, camera cutouts, and 
 For custom layout elements, use the standard CSS environment variables:
 
 ```css
-.app-header {
+.top-element {
   padding-top: env(safe-area-inset-top, 0px);
 }
 
-.app-footer {
+.bottom-element {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 ```
