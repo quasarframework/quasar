@@ -63,7 +63,7 @@ scope:
                               - l: ic_launcher.png
                               - l: ic_launcher_foreground.png
                               - l: ic_launcher_round.png
-                          - l: mipmap-xxhdpi
+                          - l: mipmap-xxxhdpi
                             c:
                               - l: ic_launcher.png
                               - l: ic_launcher_foreground.png
@@ -125,8 +125,6 @@ Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list 
 ```bash
 icongenie generate -m capacitor -i /path/to/source/icon.png [-b /path/to/background.png]
 ```
-
-Depending on what packager (@electron/packager or electron-builder) you will be using, please see their docs on how to hook the icons.
 
 ## Manual instructions
 

@@ -15,7 +15,7 @@ quasar dev --mode capacitor --target [ios|android]
 It will open the IDE (Android Studio / Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a real mobile/tablet device.
 
 ::: warning
-In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
+Do not accept Android Studio upgrade suggestions automatically. Check the requirements and upgrade guide for your Capacitor major version before changing Gradle, the Android Gradle Plugin, Java, or SDK versions.
 
 <img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
 
@@ -37,7 +37,7 @@ In order for you to be able to develop on a device emulator or directly on a pho
 If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
 :::
 
-## Building for Production
+## Building for production
 
 ```bash
 quasar build -m capacitor -T [ios|android]
@@ -46,7 +46,7 @@ quasar build -m capacitor -T [ios|android]
 quasar build --mode capacitor --target [ios|android]
 ```
 
-- These commands parse and build your `/src` folder then overwrite `/src-capacitor/www` then use the Gradle/xcodebuild to generate the final assets that go into a phone/tablet.
+- These commands build `/src` into `/src-capacitor/www`, run the configured Capacitor preparation command, and then invoke Gradle or `xcodebuild` to produce the native output.
 
 - Built packages will be located in `/dist/capacitor` unless configured otherwise.
 
@@ -63,7 +63,7 @@ quasar build -m capacitor -T [ios|android] --ide
 ```
 
 ::: warning
-In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
+Do not accept Android Studio upgrade suggestions automatically. Check the requirements and upgrade guide for your Capacitor major version before changing the generated native toolchain.
 
 <img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md rounded-borders" style="max-width: 350px">
 
