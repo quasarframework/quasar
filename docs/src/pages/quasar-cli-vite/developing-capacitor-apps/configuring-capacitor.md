@@ -135,7 +135,7 @@ Same goes for `QUASAR_PROD`, `QUASAR_CLIENT`, `QUASAR_SERVER`, and any other boo
 
 ### Running cap directly
 
-If you run the Capacitor CLI yourself from `/src-capacitor` (`pnpm exec cap sync`, `pnpm exec cap doctor`, or an IDE-triggered sync), Quasar isn't in the loop to populate the environment. The file still loads, `defineCapacitorConfig` still defaults `webDir`, and static fields still work. But anything that reads `process.env.QUASAR_*` or your own `.env` file values comes back `undefined`, because nothing put them there. Code defensively if a config branch matters in that path.
+If you run the Capacitor CLI yourself from `/src-capacitor` (`npx cap sync`, `npx cap doctor`, or an IDE-triggered sync), Quasar isn't in the loop to populate the environment. The file still loads, `defineCapacitorConfig` still defaults `webDir`, and static fields still work. But anything that reads `process.env.QUASAR_*` or your own `.env` file values comes back `undefined`, because nothing put them there. Code defensively if a config branch matters in that path.
 
 ### appId and appName
 
