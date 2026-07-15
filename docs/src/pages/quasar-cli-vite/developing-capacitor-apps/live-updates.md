@@ -61,7 +61,7 @@ Replace `00000000-0000-0000-0000-000000000000` with your actual App ID from the 
 After configuring the App ID, sync your Capacitor project again:
 
 ```bash
-pnpm exec cap sync
+npx cap sync
 ```
 
 ## Usage
