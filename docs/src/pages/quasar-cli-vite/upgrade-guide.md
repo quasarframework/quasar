@@ -710,6 +710,23 @@ export default defineConfig(ctx => {
 
 The `ctx` object now includes a logger that prints in the Quasar CLI's own output style. See [Logging via ctx](/quasar-cli-vite/quasar-config-file#logging-via-ctx).
 
+You might also want to change the `ssr` prop value fed to the i18n plugin, especially if you plan on using SSG mode too:
+
+```js /quasar.config file
+// @quasar/app-vite v3.1+
+build: {
+  vitePlugins: [
+    [
+      '@intlify/unplugin-vue-i18n/vite',
+      {
+        // ...
+        ssr: ctx.mode.ssr || ctx.mode.ssg // [!code highlight]
+      }
+    ]
+  ]
+}
+```
+
 ### TypeScript changes
 
 The only `.d.ts` file that you need will be in the root of your project folder:
