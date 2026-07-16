@@ -24,7 +24,7 @@ setup () {
 
 ```js
 function useInterval(): {
-  registerInterval(fn: () => void, interval: string | number): void;
+  registerInterval(fn: () => void, interval?: string | number): void;
   removeInterval(): void;
 };
 ```

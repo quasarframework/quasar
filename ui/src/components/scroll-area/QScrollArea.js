@@ -62,11 +62,11 @@ export default createComponent({
 
     verticalOffset: {
       type: Array,
-      default: [0, 0]
+      default: () => [0, 0]
     },
     horizontalOffset: {
       type: Array,
-      default: [0, 0]
+      default: () => [0, 0]
     },
 
     contentStyle: [Array, String, Object],
