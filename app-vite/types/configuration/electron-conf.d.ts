@@ -3,6 +3,7 @@ import type * as ElectronBuilder from "electron-builder";
 import type * as ElectronPackager from "@electron/packager";
 import type { LiteralUnion } from "quasar";
 import type { RolldownOptions } from "rolldown";
+import type { QuasarAppPaths } from "../app-paths.d.ts";
 
 export type QuasarElectronBundlers = "builder" | "packager";
 
@@ -11,7 +12,7 @@ type ElectronPackagerOptions = ElectronPackager.Options;
 
 interface QuasarElectronConfiguration {
   /**
-   * The list of content scripts (js/ts) that you want embedded.
+   * The list of preload scripts (js/ts) that you want compiled.
    * Each entry in the list should be a filename (WITHOUT its extension) from /src-electron/
    *
    * @default [ 'electron-preload' ]
@@ -31,7 +32,18 @@ interface QuasarElectronConfiguration {
     | Promise<void | { [index in string]: any }>;
 
   /**
-   * Extend the Rolldown config that is used for the electron-main thread.
+   * Run after the production dependencies have been installed in the
+   * UnPackaged directory and before the selected Electron bundler runs.
+   *
+   * Can be async.
+   */
+  beforePackaging?: (context: {
+    readonly appPaths: QuasarAppPaths;
+    readonly unpackagedDir: string;
+  }) => void | Promise<void>;
+
+  /**
+   * Extend the Rolldown config that is used for the Electron main process.
    *
    * Can be async. Can directly modify the "config" parameter or
    * return a new one that will be merged with the default one.
@@ -43,7 +55,7 @@ interface QuasarElectronConfiguration {
   ) => void | RolldownOptions | Promise<void | RolldownOptions>;
 
   /**
-   * Extend the Rolldown config that is used for the electron-preload thread.
+   * Extend the Rolldown config that is used for Electron preload scripts.
    *
    * Can be async. Can directly modify the "config" parameter or
    * return a new one that will be merged with the default one.
@@ -56,14 +68,9 @@ interface QuasarElectronConfiguration {
 
   /**
    * You have to choose to use either "packager" or "builder".
-   * They are both excellent open-source projects,
-   *  however they serve slightly different needs.
-   * With packager you will be able to build unsigned projects
-   *  for all major platforms from one machine.
-   * Although this is great, if you just want something quick and dirty,
-   *  there is more platform granularity (and general polish) in builder.
-   * Cross-compiling your binaries from one computer doesn’t really work with builder,
-   *  or we haven’t found the recipe yet.
+   * They serve different needs: packager creates an application bundle,
+   * while builder can also create installers, sign, and publish artifacts.
+   * Host-platform restrictions still apply to signing and some targets.
    *
    * Use along with either the `packager` or `builder` property to
    * configure the options for the chosen bundler.

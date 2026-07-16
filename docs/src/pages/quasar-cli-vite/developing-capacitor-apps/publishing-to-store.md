@@ -1,9 +1,9 @@
 ---
-title: Publishing to Store
-desc: (@quasar/app-vite) How to publish a Quasar hybrid mobile app with Capacitor to Google Play Store and to Apple App Store.
+title: Publishing to Stores
+desc: (@quasar/app-vite) How to publish a Quasar hybrid mobile app to Google Play and the Apple App Store.
 ---
 
-So, you've finished working on your Mobile App. Now it's time to deploy it. Let's learn how.
+Store submission is handled by the native Android and iOS toolchains. Quasar builds the web application and synchronizes the Capacitor project; Android Studio, Xcode, and the store portals handle signing, packaging, and submission.
 
 ## Android Publishing
 
@@ -26,133 +26,57 @@ keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg R
 You’ll first be prompted to create a password for the keystore. Then, answer the rest of the nice tool’s questions and when it’s all done, you should have a file called my-release-key.keystore created in the current directory.
 
 ::: danger
-Keep the keystore and its passwords out of version control and build logs. Store encrypted backups separately from the source repository and restrict access to the people or release system that signs the app. Losing the signing key can prevent you from publishing updates; leaking it can let someone sign malicious releases as your app.
+- Keep the keystore and its passwords out of version control and build logs. Store encrypted backups separately from the source repository and restrict access to the people or release system that signs the app. Losing the signing key can prevent you from publishing updates; leaking it can let someone sign malicious releases as your app.
+- Store policies, target SDK requirements, signing workflows, and developer-program details change regularly. Treat the platform documentation linked below as authoritative.
 :::
 
-Next, we need to _zip align_ and to sign the APK. For this we use a couple of applications that can be found in the Android SDK `build-tools` folder, something like `/path/to/Android/Sdk/build-tools/VERSION/`. For example, on OS X with Android Studio installed, `zipalign` is in `~/Library/Android/Sdk/build-tools/VERSION/`.
+Before creating a release:
 
-To zip align the APK:
+- commit or back up native changes under `/src-capacitor`
+- remove development-only endpoints, logging, and permissions
+- set the native version and build numbers
+- verify icons, splash screens, privacy disclosures, permissions, and production services
+- test a release build on physical devices
 
-```bash
-zipalign -v 4 <path-to-same-apk-file> HelloWorld.apk
-```
+## Google Play
 
-To sign the APK:
-
-```bash
-apksigner sign --ks my-release-key.keystore --ks-key-alias alias_name <path-to-unsigned-apk-file>
-```
-
-Now we have our final release binary called HelloWorld.apk and we can release this on the Google Play Store for all the world to enjoy!
-
-(There are a few other ways to sign APKs. Refer to the official Android App Signing documentation for more information.)
-
-### Google Play Store
-
-Now that we have our release APK ready for the Google Play Store, we can create a Play Store listing and upload our APK.
-
-To start, you’ll need to visit the [Google Play Store Developer Console](https://play.google.com/apps/publish) and create a new developer account. Unfortunately, this is not free. However, the cost is only $25 compared to Apple’s $99.
-
-Once you have a developer account, you can go ahead and click “Publish an Android App on Google Play”.
-
-Then, you can go ahead and click the button to edit the store listing (We will upload an APK later). You’ll want to fill out the description for the app.
-
-When you are ready, upload the APK for the release build and publish the listing. Be patient and your hard work should be live in the wild!
-
-### Updating your App
-
-As you develop your app, you’ll want to update it periodically.
-
-In order for the Google Play Store to accept updated APKs, you'll need to bump the app version directly in `/src-capacitor/android/app/build.gradle`: `versionCode` (integer, must increment for each upload) and `versionName` (display string). Capacitor's CLI does not propagate any JS-side version into the native project, so editing these gradle values is the only mechanism the Play Store sees. Then rebuild the app for release.
-
-## iOS Publishing
-
-First, you need to enroll in [Apple Developer Program](https://developer.apple.com/programs/). As with Google, if you have a personal account with Apple, you can create an additional one for your applications.
-
-### Connecting Xcode with your developer account
-
-After you receive your developer status, open Xcode on your Mac and go to Preferences > Accounts. Add your account to Xcode by clicking the `+` button on the lower left-hand side and follow the instructions.
-
-### Signing
-
-Now that you linked Xcode with your developer account, go to Preferences > Accounts, select your Apple Id on the left-hand side and then click the View Details button shown on the previous image.
-
-Click the Create button next to the iOS Distribution option.
-
-You can learn more about maintaining your signing identities and certificates from the official documentation.
-
-### Setting up the app identifier
-
-Next, through the Apple Developer Member Center we’ll set up the app ID identifier details. Identifiers are used to allow an app to have access to certain app services like for example Apple Pay. You can login to Apple Developer Member Center with your Apple ID and password.
-
-Once you’re logged in you should choose Certificates, Identifiers, and Profiles option. Also select the Identifiers option under the iOS Apps. Then select the `+` button in order to add a new iOS App ID.
-
-Then you’ll have to set the name of your app, use the Explicit App ID option and set the Bundle ID to the value of the id in your capacitor.config.json.
-
-Additionally, you’ll have to choose any of the services that need to be enabled. For example, if you use Apple Pay or Wallet in your app, you need to choose those option.
-
-You can learn more about registering app identifiers from the [official documentation](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingProfiles/MaintainingProfiles.html).
-
-### Creating the app listing
-
-Apple uses iTunes Connect to manage app submissions. After your login, you should select the My Apps button, and on the next screen select the `+` button, just below the iTunes Connect My Apps header.
-
-This will show three options in a dropdown, and you should select the New App. After this the popup appears where you have to choose the name of the application, platform, primary language, bundle ID and SKU.
-
-Once you’re done, click on the Create button and you’ll be presented with a screen where you’ll have to set some basic options like Privacy Policy URL, category and sub category.
-
-Now, before we fill out everything in the listing, we’ll build our app and get it uploaded with Xcode. Then you’ll come back to finish the listing.
-
-You can learn more about managing your app in iTunes Connect from the [official documentation](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/UsingiTunesConnect/UsingiTunesConnect.html).
-
-### Building the app for production
+Build the web assets, synchronize Capacitor, and open Android Studio:
 
 ```bash
-quasar build -m capacitor -T ios
+quasar build -m capacitor -T android --ide
 ```
 
-This will compile the web assets (and if "--ide" param is also specified, it will open up Xcode where you need to trigger a release build).
+In Android Studio, use **Build > Generate Signed Bundle / APK**. Google Play normally expects an Android App Bundle (`.aab`). Configure a release signing key and keep both the key and its credentials backed up securely; losing the upload key can disrupt future releases.
 
-### Configuring the project in Xcode
+Set the Android release versions in `/src-capacitor/android/app/build.gradle` (or `build.gradle.kts`, depending on the generated project):
 
-Once Xcode opens up the project ("--ide" param required), you should see the details about your app in the general view.
+- `versionCode` is an integer that must increase for each Play upload.
+- `versionName` is the user-visible release version.
 
-You should just check that the bundle identifier is set up correctly, so that it’s the same as the value you specified earlier in the app ID. Also, make sure that the version and build numbers are correct. Team option should be set to your Apple developer account. Under the deployment target you can choose which devices your application will support.
+Then create or update the app in [Google Play Console](https://play.google.com/console/), complete its policy and store-listing requirements, upload the signed bundle to a testing track, and promote it after testing.
 
-### Creating an archive of the application
+Refer to Android's current guides for [signing an app](https://developer.android.com/studio/publish/app-signing), [preparing a release](https://developer.android.com/studio/publish/preparing), and [publishing on Google Play](https://developer.android.com/studio/publish/upload-bundle).
 
-In Xcode, select Product > Scheme > Edit Scheme to open the scheme editor. Next, select the Archive from the list on the left-hand side. Make sure that the Build configuration is set to Release.
+## Apple App Store
 
-To create an archive, choose a Generic iOS Device, or your device if it’s connected to your Mac (you can’t create an archive if simulator is selected), from the Scheme toolbar menu in the project editor.
+Apple releases require macOS, Xcode, and membership in the Apple Developer Program. Build the web assets, synchronize Capacitor, and open Xcode:
 
-Next, select Product > Archive, and the Archive organizer appears and displays the new archive.
+```bash
+quasar build -m capacitor -T ios --ide
+```
 
-At this point you can click the `Upload to App Store...` button, and if everything goes fine you’ll have an uploaded app, and the only thing that’s left to do is to complete the iTunes Connect listing and submit it for review!
+In Xcode:
 
-At this point you should get an email from iTunes Connect shortly after you uploaded the archive with the content.
+1. Select the app target and configure **Signing & Capabilities** with the correct team and bundle identifier.
+2. Set the user-visible version and build number. Each uploaded build needs a unique build number.
+3. Select a generic or connected iOS device as the destination.
+4. Choose **Product > Archive**.
+5. In the Organizer, validate and distribute the archive to App Store Connect.
 
-### Finishing the app list process
+Create the app record in [App Store Connect](https://appstoreconnect.apple.com/), select the uploaded build, complete the privacy and store metadata, test with TestFlight, and submit the release for review.
 
-Now you should head back to the iTunes Connect portal and login. Next, click on the Pricing and Availability on the left-hand side under APP STORE INFORMATION.
+Refer to Apple's current documentation for [distributing an app through the App Store](https://developer.apple.com/documentation/xcode/distributing-your-app-for-beta-testing-and-releases), [uploading builds](https://developer.apple.com/help/app-store-connect/manage-builds/upload-builds-overview), and [submitting for review](https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app-for-review).
 
-You don’t have to worry about forgetting to insert any crucial and required information about your application, since you’ll be notified about what’s missing and what needs to be added/changed if you try to submit the app for review before all details are filled in.
+## Command-line native builds
 
-Next, click on the 1.0 Prepare for Submission button on the left-hand side, as shown on the image below. When we uploaded our archive, iTunes Connect automatically determined which device sizes are supported. You’ll need to upload at least one screenshot image for each of the various app sizes that were detected by iTunes Connect.
-
-Next, you’ll have to insert Description, Keywords, Support URL and Marketing URL (optionally).
-
-In the Build section you have to click on the `+` button and select the build that was uploaded through Xcode in the previous steps.
-
-Next, you’ll have to upload the icon, edit the rating, and set some additional info like copyright and your information. Note that the size of the icon that you’ll have to upload here will have to be 1024 by 1024 pixels. Thankfully, you can use the splash.png from the second tutorial. If you’re the sole developer then the data in the App Review Information should be your own. Finally, as the last option, you can leave the default checked option that once your app is approved that it is automatically released to the App Store.
-
-Now that we’re finished with adding all of the details to the app listing, we can press Save and then Submit for Review. Finally, you’ll be presented with the last form that you’ll have to fill out.
-
-After you submit your app for review you’ll see the status of it in the My Apps as Waiting for review, as shown on the image below. Also, shortly after you submit your app for review you’ll get a confirmation email from iTunes Connect that your app is in review.
-
-Apple prides itself with a manual review process, which basically means it can take several days for your app to be reviewed. You’ll be notified of any issues or updates to your app status.
-
-### Updating the app
-
-Since you'll probably want to update your app at some point you'll first need to bump the app version directly in `/src-capacitor/ios/App/App/Info.plist`: `CFBundleShortVersionString` (the user-visible version) and `CFBundleVersion` (the build number, must increase on each App Store upload). Capacitor's CLI does not propagate any JS-side version into the native project, so editing the plist is the only mechanism App Store Connect sees. Then rebuild the app for release. Once Xcode opens, follow the same steps all over again.
-
-Once you submit for the review, you’ll have to wait for the review process again.
+Without `--ide`, Quasar invokes Gradle or `xcodebuild` and places the collected native output under `/dist/capacitor/<target>`. Signing requirements still come from the native project and platform toolchain. For store releases, opening the IDE is often the clearest way to select signing identities, inspect warnings, archive, and upload the build.

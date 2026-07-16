@@ -18,13 +18,13 @@ Among other places, it is supplied as parameter to [boot files](/quasar-cli-vite
 export default defineBoot(({ ..., ssrContext }) => { /* ... */ })
 
 // src/router/index.js
-export default defineRouter(({ ..., ssrContext }) { /* ... */ })
+export default defineRouter(({ ..., ssrContext }) => { /* ... */ })
 
 // src/store/index.js
-export default defineStore(({ ..., ssrContext }) { /* ... */ })
+export default defineStore(({ ..., ssrContext }) => { /* ... */ })
 
 // with preFetch:
-preFetch: definePreFetch(({ ..., ssrContext }) { /* ... */ })
+preFetch: definePreFetch(({ ..., ssrContext }) => { /* ... */ })
 ```
 
 You can also access the ssrContext in your Vue components. Below are two examples, one with Composition API and one with Options API:
@@ -54,8 +54,8 @@ export default {
 
 ```json
 ssrContext: {
-  req, // Express.js object
-  res, // Express.js object
+  req, // Webserver-specific request object
+  res, // Webserver-specific response object
   $q, // The Quasar's $q Object
   nonce, // (optional to set it yourself)
   // The global "nonce" attribute to use
@@ -78,7 +78,7 @@ ssrContext: {
 
 More information on the purpose of the "nonce" property is available on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce).
 
-The `req` and `res` are the Request and Response objects for the current server client. One use-case for `req` is accessing `req.url` to get the URL that the client is requesting.
+The exact `req` and `res` types depend on the selected webserver (Hono, Express, Fastify, or Koa). They represent the current request and response; consult that webserver's API before using framework-specific properties.
 
 ::: tip
 Feel free to inject your own stuff into ssrContext too, but do NOT tamper with any of the private props (props that start with an underscore, eg. `_someProp`).

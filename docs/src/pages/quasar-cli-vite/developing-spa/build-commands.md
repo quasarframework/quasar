@@ -9,7 +9,7 @@ Developing:
 quasar dev
 ```
 
-Building for Production:
+Building for production:
 
 ```bash
 quasar build

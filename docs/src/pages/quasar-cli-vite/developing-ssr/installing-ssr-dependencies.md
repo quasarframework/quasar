@@ -76,35 +76,35 @@ Notice the `/src-ssr/package.json` file in your generated `/src-ssr` folder. The
 ::: warning
 If you import anything from node_modules in /src-ssr, then be aware that:
 
-- The packages specified in /src-ssr/package.json > `dependencies` are runtime deps and will get embedded into your production dist/
-- The packages specified in `devDependencies` are considered build system deps, like `@types/*` and they will NOT get embedded into dist/.
+- Packages in `/src-ssr/package.json > dependencies` are runtime dependencies. Quasar adds them to the generated `/dist/ssr/package.json`, and they must be installed when deploying the build.
+- Packages in `devDependencies`, such as `@types/*`, are build-time dependencies and are not added to the generated package.
 
-<br>Only the `dependencies` will be embedded into your dist/, to ensure it's as small as possible and no time is lost installing unnecessary deps.
+<br>Only runtime `dependencies` are carried into the generated package manifest, keeping production installation focused on what the server needs.
 :::
 
 Installing SSR specific packages, like the actual webserver & middlewares & plugins:
 
 ```tabs
 <<| bash PNPM |>>
-# run in /src-ssr for runtime deps (will be embedded into /dist):
+# run in /src-ssr for runtime dependencies:
 pnpm add <deps>
 
 # run in /src-ssr for deps used by the build system (if any)
 pnpm add -D <dev-deps>
 <<| bash Yarn |>>
-# run in /src-ssr for runtime deps (will be embedded into /dist):
+# run in /src-ssr for runtime dependencies:
 yarn add <deps>
 
 # run in /src-ssr for deps used by the build system (if any)
 yarn add -D <dev-deps>
 <<| bash NPM |>>
-# run in /src-ssr for runtime deps (will be embedded into /dist):
+# run in /src-ssr for runtime dependencies:
 npm install <deps>
 
 # run in /src-ssr for deps used by the build system (if any)
 npm install -D <dev-deps>
 <<| bash Bun |>>
-# run in /src-ssr for runtime deps (will be embedded into /dist):
+# run in /src-ssr for runtime dependencies:
 bun add <deps>
 
 # run in /src-ssr for deps used by the build system (if any)

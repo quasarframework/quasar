@@ -3,15 +3,13 @@ title: Capacitor APIs
 desc: (@quasar/app-vite) How to use the Capacitor plugins in a Quasar app.
 ---
 
-You can hook into the native device APIs by using [Capacitor APIs](https://capacitorjs.com/docs/apis).
+You can access native device features through [Capacitor plugins](https://capacitorjs.com/docs/plugins).
 
 ## Capacitor APIs
 
-A few examples of such APIs:
+A few examples include:
 
-- Background Task
 - Camera
-- Console
 - Device
 - Filesystem
 - Geolocation
@@ -28,15 +26,19 @@ Let's learn by taking some examples, assuming you've added Capacitor mode to you
 
 ### Example: Geolocation
 
-First step is to read the documentation of the Capacitor API that we want to use. We look at Capacitor's [Geolocation API](https://capacitorjs.com/docs/apis/geolocation).
+First install the plugin in `/src-capacitor`, then synchronize the native projects:
+
+```bash
+cd src-capacitor
+pnpm add @capacitor/geolocation
+pnpm exec cap sync
+```
+
+Review the plugin's [installation and permission requirements](https://capacitorjs.com/docs/apis/geolocation) for each target platform before using it.
 
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
 ```html
-// some Vue file // remember this is simply an example; // only look at how we
-use the API described in the plugin's page; // the rest of things here are of no
-importance
-
 <template>
   <div> GPS position: <strong>{{ position }}</strong> </div>
 </template>
@@ -47,43 +49,45 @@ importance
 
   const position = ref('determining...')
 
-  function getCurrentPosition() {
-    Geolocation.getCurrentPosition().then(newPosition => {
-      console.log('Current', newPosition)
-      position.value = newPosition
-    })
+  async function getCurrentPosition() {
+    const newPosition = await Geolocation.getCurrentPosition()
+    console.log('Current', newPosition)
+    position.value = newPosition
   }
 
   let geoId
 
-  onMounted(() => {
-    getCurrentPosition()
+  onMounted(async () => {
+    await getCurrentPosition()
 
     // we start listening
-    geoId = Geolocation.watchPosition({}, (newPosition, err) => {
+    geoId = await Geolocation.watchPosition({}, (newPosition, err) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+
       console.log('New GPS position')
       position.value = newPosition
     })
   })
 
-  onBeforeUnmount(() => {
+  onBeforeUnmount(async () => {
     // we do cleanup
-    Geolocation.clearWatch(geoId)
+    if (geoId !== void 0) {
+      await Geolocation.clearWatch({ id: geoId })
+    }
   })
 </script>
 ```
 
 ### Example: Camera
 
-First step is to read the documentation of the Capacitor API that we want to use. We look at Capacitor's [Camera API](https://capacitorjs.com/docs/apis/camera).
+Install `@capacitor/camera` in `/src-capacitor`, run `pnpm exec cap sync`, and follow the [Camera plugin's platform setup](https://capacitorjs.com/docs/apis/camera) before using it.
 
 Now let's put this API to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
 ```html
-// some Vue file // remember this is simply an example; // only look at how we
-use the API described in the plugin's page; // the rest of things here are of no
-importance
-
 <template>
   <div>
     <q-btn color="primary" label="Get Picture" @click="captureImage" />
@@ -114,10 +118,10 @@ importance
 </script>
 ```
 
-Some Capacitor plugins, such as Camera, have a web-based UI available when not running natively but in a standard web browser. To enable these controls, add @ionic/pwa-elements to your project:
+Some Capacitor plugins, such as Camera, have a web-based UI available when running in a browser. To enable these controls, add `@ionic/pwa-elements` to the main Quasar project:
 
 ```bash
-npm install @ionic/pwa-elements
+pnpm add @ionic/pwa-elements
 ```
 
 Then create a boot file to initialize them, for example `/src/boot/capacitor.js`:
@@ -137,19 +141,15 @@ Don't forget to call the boot script in the `quasar.config` file:
 boot: ['capacitor']
 ```
 
-Now you are able to use the Camera API not just in native Android or iOS, but also in web based projects like a SPA or PWA.
+You can now use the Camera API in native Android and iOS builds as well as browser-based modes such as SPA and PWA, subject to the plugin's platform support.
 
 ### Example: Device
 
-First step is to read the documentation of the Capacitor API that we want to use. Look at the Capacitor's [Device API](https://capacitorjs.com/docs/apis/device).
+Install `@capacitor/device` in `/src-capacitor`, run `pnpm exec cap sync`, and review the [Device plugin documentation](https://capacitorjs.com/docs/apis/device) before using it.
 
 Now let's put this API to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
 ```html
-// some Vue file // remember this is simply an example; // only look at how we
-use the API described in the plugin's page; // the rest of things here are of no
-importance
-
 <template>
   <div>
     <div>Model: {{ model }}</div>

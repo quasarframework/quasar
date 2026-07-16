@@ -3,16 +3,11 @@ title: Managing Google Analytics
 desc: (@quasar/app-vite) How to use analytics in a Quasar hybrid mobile app with Capacitor.
 ---
 
-Getting to know your users and measuring user behavior is an important step in App Development. Unfortunately, it takes a bit of non-standard work to get Google Analytics to work after wrapping your mobile app with Capacitor. Setting up Google Analytics in a pure web application is quite easy, but Capacitor somehow prevents pageviews and events from being sent to Google Analytics.
-
-Follow this guide to implement Google Analytics into your Capacitor powered Quasar App.
+Google Analytics does not provide an official Capacitor plugin. Choose an analytics integration that supports the platforms and consent requirements of your app. For native Google Analytics, a common approach is to use Firebase Analytics through a community Capacitor plugin.
 
 ::: warning
-You'll need to include a `<script>` tag provided by Google in `/index.html`, which will make your App depend on an Internet connection!
-:::
-
-::: warning
-A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
+- Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.
+- A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
 :::
 
 ## Prerequisites
@@ -24,60 +19,47 @@ A remote script executes inside your app's WebView and receives the access avail
 
 Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.
 
-## Implementing this into application
+## Install an analytics plugin
 
-> For this guide, we'll assume you have a fixed sessionId that you send to Google Analytics. Google Analytics uses a sessionId to distinguish different users from each other. If you want to create an anonymous sessionId, see [Analytics Documentation on user id](https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id).
+The example below uses [`@capacitor-firebase/analytics`](https://capawesome.io/plugins/firebase/analytics/). Follow its installation guide completely, including creating the Firebase projects, adding the Android and iOS configuration files, and configuring each native project.
 
-Place the Tag Manager snippet into head of your `index.html` file (if you've followed the [Multiminds article](http://www.multiminds.eu/2016/12/06/google-analytics-tag-manager-ionic-cordova/), you already have this.) Create a new file in your codebase called `analytics.js` with the following contents:
-
-```js
-export default {
-  logEvent(category, action, label, sessionId = null) {
-    window.dataLayer.push({
-      appEventCategory: category,
-      appEventAction: action,
-      appEventLabel: label,
-      sessionId: sessionId
-    })
-    window.dataLayer.push({ event: 'appEvent' })
-  },
-
-  logPage(path, name, sessionId = null) {
-    window.dataLayer.push({
-      screenPath: path,
-      screenName: name,
-      sessionId: sessionId
-    })
-    window.dataLayer.push({ event: 'appScreenView' })
-  }
-}
-```
-
-To make sure all the pages in your application are automatically posted to Google Analytics, we create an app boot file:
+Install Capacitor-specific dependencies from `/src-capacitor`, then synchronize the native projects:
 
 ```bash
-quasar new boot google-analytics [--format ts]
+cd src-capacitor
+pnpm add @capacitor-firebase/analytics firebase
+pnpm exec cap sync
 ```
 
-Then we edit the newly created file: `/src/boot/google-analytics.js`:
+## Track route changes
 
-```js
-import { defineRouter } from '#q-app'
-import ga from 'analytics.js'
+Create a boot file that reports route changes after navigation:
 
-export default defineRouter(({ router }) => {
-  router.afterEach((to, from) => {
-    ga.logPage(to.path, to.name, sessionId)
+```bash
+quasar new boot firebase-analytics [--format ts]
+```
+
+```js /src/boot/firebase-analytics.js
+import { FirebaseAnalytics } from '@capacitor-firebase/analytics'
+import { defineBoot } from '#q-app'
+
+export default defineBoot(({ router }) => {
+  router.afterEach(to => {
+    FirebaseAnalytics.setCurrentScreen({
+      screenName: String(to.name ?? to.path)
+    }).catch(error => {
+      console.error('Unable to record analytics screen', error)
+    })
   })
 })
 ```
 
-Finally we register the app boot file in the `/quasar.config` file. We can do so only for Capacitor wrapped apps if we want:
+Register the boot file only for Capacitor mode:
 
-```js
-boot: [ctx.mode.capacitor ? 'google-analytics' : '']
+```js /quasar.config file
+export default defineConfig(ctx => ({
+  boot: [...(ctx.mode.capacitor ? ['firebase-analytics'] : [])]
+}))
 ```
 
-More information about events can be found in the [Analytics documentation on events](https://developers.google.com/analytics/devguides/collection/analyticsjs/events).
-
-You'll see the events and pageviews coming in when you run your app. It usually takes around 5 to 10 seconds for a pageview to be registered in the realtime view.
+Refer to the plugin documentation for recording events, setting user properties, managing collection, and handling platform-specific behavior. Keep analytics calls behind a small application service if you may change providers later.

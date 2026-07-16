@@ -1,20 +1,15 @@
 ---
 title: Managing Google Analytics
-desc: (@quasar/app-vite) How to use analytics in a Quasar hybrid mobile app with Cordova.
+desc: (@quasar/app-vite) How to plan analytics integration in a Quasar Cordova app.
 ---
 
-Getting to know your users and measuring user behavior is an important step in App Development. Unfortunately, it takes a bit of non-standard work to get Google Analytics to work after wrapping your mobile app with Cordova. Setting up Google Analytics in a pure web application is quite easy, but Cordova somehow prevents pageviews and events from being sent to Google Analytics.
+The former Analytics.js integration is no longer appropriate for new applications. Google Analytics 4 replaced the Universal Analytics APIs that older Cordova examples used, and Google does not maintain an official Cordova analytics plugin.
 
-Follow this guide to implement Google Analytics into your Cordova powered Quasar App.
-
-You may also want to read this tutorial: [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/).
+Choose a maintained Cordova plugin or analytics provider that supports your target platform versions. Follow that provider's native Android and iOS setup, install the plugin from `/src-cordova`, and keep its platform configuration files out of `/src-cordova/www`.
 
 ::: warning
-You'll need to include a `<script>` tag provided by Google in `/index.html`, which will make your App depend on an Internet connection!
-:::
-
-::: warning
-A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
+- Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.
+- A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
 :::
 
 ## Prerequisites
@@ -26,60 +21,37 @@ A remote script executes inside your app's WebView and receives the access avail
 
 Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.
 
-## Implementing this into application
+## Application integration
 
 > For this guide, we'll assume you have a fixed sessionId that you send to Google Analytics. Google Analytics uses a sessionId to distinguish different users from each other. If you want to create an anonymous sessionId, see [Analytics Documentation on user id](https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id).
 
-Place the Tag Manager snippet into head of your `index.html` file (if you've followed the [Multiminds article](http://www.multiminds.eu/2016/12/06/google-analytics-tag-manager-ionic-cordova/), you already have this.) Create a new file in your codebase called `analytics.js` with the following contents:
+Wrap the selected plugin behind a small application service rather than calling a plugin global throughout the UI. This gives the app one place to:
 
-```js
-export default {
-  logEvent(category, action, label, sessionId = null) {
-    window.dataLayer.push({
-      appEventCategory: category,
-      appEventAction: action,
-      appEventLabel: label,
-      sessionId: sessionId
-    })
-    window.dataLayer.push({ event: 'appEvent' })
-  },
+- wait for Cordova's `deviceready` event
+- disable collection until consent is available
+- normalize screen names and event parameters
+- handle unsupported browser or development environments
+- replace the provider later
 
-  logPage(path, name, sessionId = null) {
-    window.dataLayer.push({
-      screenPath: path,
-      screenName: name,
-      sessionId: sessionId
-    })
-    window.dataLayer.push({ event: 'appScreenView' })
-  }
-}
-```
+To report route changes, create a Quasar boot file with `defineBoot`, then call the service from `router.afterEach`:
 
-To make sure all the pages in your application are automatically posted to Google Analytics, we create an app boot file:
+```js /src/boot/analytics.js
+import { defineBoot } from '#q-app'
+import analytics from 'src/services/analytics'
 
-```bash
-quasar new boot google-analytics [--format ts]
-```
-
-Then we edit the newly created file: `/src/boot/google-analytics.js`:
-
-```js
-import { defineRouter } from '#q-app'
-import ga from 'analytics.js'
-
-export default defineRouter(({ router }) => {
-  router.afterEach((to, from) => {
-    ga.logPage(to.path, to.name, sessionId)
+export default defineBoot(({ router }) => {
+  router.afterEach(to => {
+    analytics.setCurrentScreen(String(to.name ?? to.path))
   })
 })
 ```
 
-Finally we register the app boot file in the `/quasar.config` file. We can do so only for Cordova wrapped apps if we want:
+Register it only in Cordova mode:
 
-```js
-boot: [ctx.mode.cordova ? 'google-analytics' : '']
+```js /quasar.config file
+export default defineConfig(ctx => ({
+  boot: [...(ctx.mode.cordova ? ['analytics'] : [])]
+}))
 ```
 
-More information about events can be found in the [Analytics documentation on events](https://developers.google.com/analytics/devguides/collection/analyticsjs/events).
-
-You'll see the events and pageviews coming in when you run your app. It usually takes around 5 to 10 seconds for a pageview to be registered in the realtime view.
+The exact service implementation depends on the plugin you select. Verify that the plugin is actively maintained, supports GA4 if Google Analytics is required, and documents the necessary consent and native configuration steps.

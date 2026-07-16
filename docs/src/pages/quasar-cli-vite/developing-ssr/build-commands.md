@@ -12,7 +12,7 @@ quasar dev -m ssr
 quasar dev --mode ssr
 ```
 
-## Building for Production
+## Building for production
 
 ```bash
 quasar build -m ssr

@@ -110,7 +110,7 @@ export class CapacitorConfigFile {
       : '@jcesarmobile/ssl-skip'
 
     const nodePackager = await cacheProxy.getModule('nodePackager')
-    nodePackager[fn](nameParam, {
+    await nodePackager[fn](nameParam, {
       cwd: appPaths.capacitorDir
     })
 

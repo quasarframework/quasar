@@ -52,14 +52,14 @@ scope:
           - l: apple-launch-1536x2048.png
 ---
 
-This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+This build target includes manifest icons, favicons, and platform-specific assets. Icon Genie generates the recommended set for you. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
 <img src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
 
 ## Icon Genie CLI
 
 ::: tip
-We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html file.
+We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your `/index.html` file.
 :::
 
 Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
@@ -75,7 +75,7 @@ icongenie generate -m pwa -i /path/to/source/icon.png [-b /path/to/background.pn
 The required HTML code that goes into `/index.html` to reference the above files (notice not all files need to be manually referenced as Quasar CLI automatically injects the other PWA ones):
 
 ```html
-<link rel="icon" type="image/ico" href="icons/favicon.ico" />
+<link rel="icon" type="image/ico" href="favicon.ico" />
 <link
   rel="icon"
   type="image/png"

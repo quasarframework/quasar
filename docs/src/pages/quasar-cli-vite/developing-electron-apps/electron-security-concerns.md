@@ -1,17 +1,13 @@
 ---
 title: Electron Security Concerns
-desc: (@quasar/app-vite) The things you should know about security in a Quasar desktop app.
+desc: (@quasar/app-vite) Security practices for a Quasar desktop app with Electron.
 ---
 
-If you are not vigilant when building Electron apps, you will probably be placing the users of your app in tangible digital danger. Things like XSS (Cross Site Scripting) and remote code execution can literally enable attackers to get deep access to the data in your app - and potentially even the underlying operating system.
+Electron applications combine web content with native desktop capabilities. A renderer vulnerability such as cross-site scripting can therefore have more serious consequences than the same vulnerability in a normal browser.
 
-Especially when working "in the open", i.e. as an open-source project, you will definitely want to consider hardening your application with code-signing and integrity checking. (See "Tips" section)
+Start with Electron's current [security checklist](https://www.electronjs.org/docs/latest/tutorial/security) and reassess it whenever Electron is upgraded or the application begins loading new content.
 
-::: danger
-Under no circumstances should you load and execute remote code. Instead, use only local files (packaged together with your application) to execute Node.js code in your main thread and/or preload script.
-:::
-
-## Checklist: Security Recommendations
+## Keep the renderer isolated
 
 Follow Electron's complete [security checklist](https://www.electronjs.org/docs/latest/tutorial/security). In particular:
 
@@ -26,71 +22,110 @@ Follow Electron's complete [security checklist](https://www.electronjs.org/docs/
 9. Prefer a custom protocol over `file://` for packaged content when your application requires a stronger origin model.
 10. Review Electron fuses before distribution to disable capabilities your application does not use.
 
-## Tips and Tricks
+Quasar's generated `BrowserWindow` keeps `contextIsolation` enabled. Current Electron versions also sandbox renderers by default and disable Node.js integration by default. Preserve those defaults:
 
-#### Using CSP (Content Security Policy)
-
-Your `/index.html` file should contain a CSP meta tag in your `<head>`. Example:
-
-```html /index.html
-<head>
-  <meta
-    http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';<% if (ctx.dev) { %> connect-src 'self' ws://localhost:*; worker-src 'self' blob:;<% } %>"
-  />
-</head>
+```js /src-electron/electron-main
+const mainWindow = new BrowserWindow({
+  webPreferences: {
+    contextIsolation: true,
+    sandbox: true,
+    nodeIntegration: false,
+    preload: path.join(import.meta.dirname, 'electron-preload.cjs')
+  }
+})
 ```
 
-#### Communication Protocols
+Do not disable `webSecurity` or enable `allowRunningInsecureContent`, experimental Blink features, or Node.js integration to work around an application problem.
 
-You should know this by now, but if you are not using **https** / **sftp** / **wss** then the app's communications with the outside world can be very easily tampered with. Whatever you are building, please use a secure protocol everywhere.
+## Expose narrow preload APIs
 
-#### Filesystem Access
+Using `contextBridge` does not make an API safe by itself. Do not expose `ipcRenderer`, Node.js modules, or generic send/invoke methods to the renderer:
 
-Having read & write permissions to the filesystem is the holy grail for penetration testers, and if your app enables this type of interaction, consider using IPC and multiple windows (with varying permissions) in order to minimize the attack surface.
+```js /src-electron/electron-preload
+// Bad: renderer code can invoke arbitrary channels
+contextBridge.exposeInMainWorld('electronAPI', {
+  invoke: ipcRenderer.invoke
+})
 
-#### Encryption
+// Good: one operation with a fixed channel
+contextBridge.exposeInMainWorld('preferencesAPI', {
+  load: () => ipcRenderer.invoke('preferences:load')
+})
+```
 
-If the user of your application has secrets like wallet addresses, personal information or some other kind of trade secrets, keep that information encrypted when at rest, un-encrypt it in-memory only when it is needed and make sure to overwrite / destroy the object in memory when you are done with it. But no matter how you approach this, follow these four rules:
+Validate arguments in the main process and validate the sender of every IPC request before returning data or performing privileged work. Do not send Electron event objects back across the bridge.
 
-1. use strong crypto (i.e. collision resistant and not md5)
-2. do not invent a novel type of encryption
-3. follow the implementation instructions explicitly
-4. think about the user-experience
+## Control navigation and new windows
 
-#### Publish checksums
+An Electron window should not navigate to arbitrary content. Limit navigation and new-window creation to an explicit allowlist, and validate a URL before passing it to `shell.openExternal`:
+
+```js /src-electron/electron-main
+mainWindow.webContents.on('will-navigate', event => {
+  event.preventDefault()
+})
+
+mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+  const parsed = new URL(url)
+
+  if (parsed.protocol === 'https:' && parsed.hostname === 'example.com') {
+    void shell.openExternal(parsed.href)
+  }
+
+  return { action: 'deny' }
+})
+```
+
+If your application must display remote content, use HTTPS, keep Node.js integration disabled, keep context isolation and sandboxing enabled, restrict permissions with `session.setPermissionRequestHandler()`, and isolate that content from privileged local windows.
+
+## Define a Content Security Policy
+
+Use a restrictive Content Security Policy in `/index.html`. Add only the origins and directives the application actually requires:
+
+```html /index.html
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'"
+/>
+```
+
+Development may require additional `connect-src` entries for the Quasar development server and WebSocket connection. Do not carry broad development exceptions into production.
+
+## Store files in appropriate locations
+
+Treat application resources as read-only after packaging. Store mutable application data under a path returned by Electron's `app.getPath()`, commonly `userData`, and perform filesystem operations in the main process. Validate paths and input received over IPC to prevent a renderer from reading or overwriting arbitrary files.
+
+Use the operating system's credential storage or a well-reviewed secure-storage solution for secrets. Checksums detect accidental corruption but do not establish who published an artifact; use code signing for authenticity.
+
+## Ship and maintain trusted builds
+
+- Keep Electron and production dependencies on supported, patched versions.
+- Lock and review dependency changes, and run the package manager's audit tooling in CI.
+- Sign distributed Windows and macOS builds; notarize macOS releases where required.
+- Deliver updates through HTTPS and verify signed update artifacts.
+- Consider disabling unused [Electron fuses](https://www.electronjs.org/docs/latest/tutorial/fuses) during packaging.
+
+See Electron's [code-signing guide](https://www.electronjs.org/docs/latest/tutorial/code-signing) and the selected packager's signing configuration for platform-specific requirements.
+
+::: warning
+Hiding DevTools is not a security boundary. Assume users can inspect and modify renderer code and keep all privileged authorization and validation in the main process.
+:::
+
+### Publish checksums
 
 When you publish application binaries, publish their cryptographic checksums through a trusted channel so users can verify downloaded files.
 
-```
-$ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
-40ed03e0fb3c422e554c7e75d41ba71405a4a49d560b1bf92a00ea6f5cbd8daa myApp-v1.0.0_darwin-x64.dmg
-```
-
-#### Sign the builds
-
-Although not a hard requirement for sharing your app, signing code is a best practice - and it is required by both the MacOS and Windows stores. Read more about it at this [official Electron tutorial](https://electronjs.org/docs/tutorial/code-signing).
-
-#### Audit dependencies
+### Audit dependencies
 
 Use your package manager's audit tooling and an automated dependency scanner. Review reported vulnerabilities in the context of your application, update affected packages, and keep the lockfile under version control.
 
-#### Harden the build environment
-
-Use a dedicated physical desktop machine for each platform target. If you have to keep this device online, make sure the OS is always updated, permits zero inbound connections from the internet / bluetooth (especially for shell / ssh) and run constant virus and rootkit checks.
-
-Permit only GPG-signed commits to be merged and require at least two team members (who did not make the PR) to review and approve the commit.
+### Harden the build
 
 Protect release credentials, pin dependencies through the lockfile, review dependency changes, and produce releases from a controlled build environment.
 
-#### Pay to get hacked
+### Pay to get hacked
 
 Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.
 
-#### Get help
+### Get help
 
 You may feel overwhelmed, because the awesomeness of Electron brings with it a great many headaches that you never wanted to think about. If this is the case, consider [reaching out](mailto:razvan.stoenescu@gmail.com) and getting expert support for the review, audit and hardening of your app by the team of seasoned devs that brought you the Quasar Framework.
-
-<q-separator class="q-mt-xl" />
-
-See the official [Electron Security Guide](https://www.electronjs.org/docs/latest/tutorial/security) for the complete checklist and implementation examples.
