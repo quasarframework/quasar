@@ -141,7 +141,7 @@ export default defineConfig(ctx => {
           // you need to set `runtimeOnly: false`
           // runtimeOnly: false,
 
-          ssr: ['ssr', 'ssg'].includes(ctx.modeName),
+          ssr: ctx.mode.ssr || ctx.mode.ssg,
 
           // you need to set i18n resource including paths !
           include: [ctx.appPaths.resolve.src('i18n')]

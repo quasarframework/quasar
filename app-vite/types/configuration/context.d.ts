@@ -28,7 +28,7 @@ interface BaseQuasarContext {
   /** True if we are in production mode */
   readonly prod: boolean;
   /** App mode */
-  readonly mode: { [index in QuasarMode]?: true };
+  readonly mode: { [index in QuasarMode]: boolean };
   readonly modeName: QuasarMode;
   /** True if debugging is enabled */
   readonly debug: boolean;
@@ -47,7 +47,16 @@ interface BaseQuasarContext {
 }
 
 interface CapacitorQuasarContext extends BaseQuasarContext {
-  readonly mode: { capacitor: true };
+  readonly mode: {
+    spa: false;
+    ssr: false;
+    ssg: false;
+    pwa: false;
+    capacitor: true;
+    cordova: false;
+    electron: false;
+    bex: false;
+  };
   readonly modeName: "capacitor";
   /**
    * App target.
@@ -62,7 +71,16 @@ interface CapacitorQuasarContext extends BaseQuasarContext {
 }
 
 interface CordovaQuasarContext extends BaseQuasarContext {
-  readonly mode: { cordova: true };
+  readonly mode: {
+    spa: false;
+    ssr: false;
+    ssg: false;
+    pwa: false;
+    capacitor: false;
+    cordova: true;
+    electron: false;
+    bex: false;
+  };
   readonly modeName: "cordova";
   /**
    * App target.
@@ -77,7 +95,16 @@ interface CordovaQuasarContext extends BaseQuasarContext {
 }
 
 interface BaseElectronQuasarContext extends BaseQuasarContext {
-  readonly mode: { electron: true };
+  readonly mode: {
+    spa: false;
+    ssr: false;
+    ssg: false;
+    pwa: false;
+    capacitor: false;
+    cordova: false;
+    electron: true;
+    bex: false;
+  };
   readonly modeName: "electron";
   readonly bundler: { [index in QuasarElectronBundlers]?: true };
   readonly bundlerName: QuasarElectronBundlers;
@@ -138,28 +165,73 @@ type ElectronQuasarContext =
   | ElectronPackagerQuasarContext;
 
 interface SpaQuasarContext extends BaseQuasarContext {
-  readonly mode: { spa: true };
+  readonly mode: {
+    spa: true;
+    ssr: false;
+    ssg: false;
+    pwa: false;
+    capacitor: false;
+    cordova: false;
+    electron: false;
+    bex: false;
+  };
   readonly modeName: "spa";
 }
 
 interface PwaQuasarContext extends BaseQuasarContext {
-  readonly mode: { pwa: true };
+  readonly mode: {
+    spa: false;
+    ssr: false;
+    ssg: false;
+    pwa: true;
+    capacitor: false;
+    cordova: false;
+    electron: false;
+    bex: false;
+  };
   readonly modeName: "pwa";
 }
 
 interface SsrQuasarContext extends BaseQuasarContext {
-  readonly mode: { ssr: true; pwa?: true };
+  readonly mode: {
+    spa: false;
+    ssr: true;
+    ssg: false;
+    pwa: boolean;
+    capacitor: false;
+    cordova: false;
+    electron: false;
+    bex: false;
+  };
   readonly modeName: "ssr";
 }
 
 interface SsgQuasarContext extends BaseQuasarContext {
-  readonly mode: { ssg: true; pwa?: true };
+  readonly mode: {
+    spa: false;
+    ssr: false;
+    ssg: true;
+    pwa: boolean;
+    capacitor: false;
+    cordova: false;
+    electron: false;
+    bex: false;
+  };
   readonly modeName: "ssg";
 }
 
 type QuasarBexTargets = "chrome" | "firefox";
 interface BexQuasarContext extends BaseQuasarContext {
-  readonly mode: { bex: true };
+  readonly mode: {
+    spa: false;
+    ssr: false;
+    ssg: false;
+    pwa: boolean;
+    capacitor: false;
+    cordova: false;
+    electron: false;
+    bex: true;
+  };
   readonly modeName: "bex";
   /**
    * App target.
