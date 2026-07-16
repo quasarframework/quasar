@@ -115,7 +115,7 @@ icongenie generate -m cordova -i /path/to/source/icon.png [-b /path/to/backgroun
 
 ## Manual instructions
 
-Unless you are using Icon Genie CLI, replace the generated resources and keep their `config.xml` declarations aligned with the requirements of each installed Cordova platform. Current Cordova platforms provide splash-screen handling; install `cordova-plugin-splashscreen` only when an older platform version explicitly requires it.
+Unless you are using Icon Genie CLI, replace the generated resources and keep their `config.xml` declarations aligned with the requirements of each installed Cordova platform. Current Cordova platforms provide splash-screen handling; install `cordova-plugin-splashscreen` (in `/src-cordova`) only when an older platform version explicitly requires it.
 
 <DocTree :def="scope.tree" />
 
