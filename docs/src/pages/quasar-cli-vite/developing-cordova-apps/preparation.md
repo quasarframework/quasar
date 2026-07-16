@@ -9,9 +9,13 @@ Quasar invokes the `cordova` executable directly, so install Cordova CLI globall
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add --global cordova
+pnpm add -g cordova
+<<| bash Yarn |>>
+yarn global add cordova
 <<| bash NPM |>>
-npm install --global cordova
+npm i -g cordova
+<<| bash Bun |>>
+bun install -g cordova
 ```
 
 Verify the installation:
