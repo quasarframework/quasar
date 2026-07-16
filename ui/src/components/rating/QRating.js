@@ -249,7 +249,22 @@ export default createComponent({
           set(i)
           return stopAndPrevent(e)
         }
-        case 37: // LEFT ARROW
+        case 37: {
+          // LEFT ARROW
+          const index = i + ($q.lang.rtl ? 1 : -1)
+          if (iconRefs[`rt${index}`]) {
+            iconRefs[`rt${index}`].focus()
+          }
+          return stopAndPrevent(e)
+        }
+        case 39: {
+          // RIGHT ARROW
+          const index = i + ($q.lang.rtl ? -1 : 1)
+          if (iconRefs[`rt${index}`]) {
+            iconRefs[`rt${index}`].focus()
+          }
+          return stopAndPrevent(e)
+        }
         case 40: {
           // DOWN ARROW
           if (iconRefs[`rt${i - 1}`]) {
@@ -257,7 +272,6 @@ export default createComponent({
           }
           return stopAndPrevent(e)
         }
-        case 39: // RIGHT ARROW
         case 38: {
           // UP ARROW
           if (iconRefs[`rt${i + 1}`]) {
