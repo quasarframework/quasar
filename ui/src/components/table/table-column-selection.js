@@ -48,6 +48,14 @@ export function useTableColumnSelection(
         ...col,
         align,
         __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
+        __ariaSort:
+          col.sortable === true
+            ? col.name === sortBy
+              ? descending
+                ? 'descending'
+                : 'ascending'
+              : 'none'
+            : void 0,
         __thClass:
           alignClass +
           (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
@@ -74,7 +82,7 @@ export function useTableColumnSelection(
   })
 
   const computedColsMap = computed(() => {
-    const names = {}
+    const names = Object.create(null)
     computedCols.value.forEach(col => {
       names[col.name] = col
     })
