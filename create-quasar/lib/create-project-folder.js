@@ -129,7 +129,7 @@ export async function createProjectFolder(scope) {
 
   utils.prompts.note(
     'Documentation → https://quasar.dev' +
-      '\nGithub → https://github.quasar.dev' +
+      '\nGitHub → https://github.quasar.dev' +
       '\nDiscussions → https://forum.quasar.dev' +
       '\nDiscord → https://chat.quasar.dev' +
       '\nDonations → https://donate.quasar.dev',

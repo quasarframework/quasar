@@ -74,7 +74,7 @@ export default {
 
     {
       t: 'Vue - The Complete Guide (incl. Router & Composition API)',
-      d: 'Join this bestselling Vue course to learn how to use the latest version of Vue.js to build amazing, modern web apps!No matter at which metric you look at (Google Trends, Github Stars, Tweets...) - Vue.js is the shooting star in the world of JavaScript frameworks - it simply is amazing!This bestselling...',
+      d: 'Join this bestselling Vue course to learn how to use the latest version of Vue.js to build amazing, modern web apps!No matter at which metric you look at (Google Trends, GitHub Stars, Tweets...) - Vue.js is the shooting star in the world of JavaScript frameworks - it simply is amazing!This bestselling...',
       u: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=1597309.39197538950655834924301&type=2&murl=https%3a%2f%2fwww.udemy.com%2fcourse%2fvuejs-2-the-complete-guide%2f',
       i: 'https://img-c.udemycdn.com/course/480x270/995016_ebf4_3.jpg'
     },
