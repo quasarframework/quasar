@@ -201,4 +201,6 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 
+The browser converts the model to a String. When using `multiple` or `range`, use your own hidden inputs if the server requires individual dates or structured range data.
+
 <DocExample title="Native form" file="NativeForm" />

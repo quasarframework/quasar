@@ -179,6 +179,13 @@ export default createComponent({
     watch(
       () => props.modelValue,
       v => {
+        if (emitTimer !== null) {
+          cancelPendingValueEmission()
+          typedNumber = false
+          stopValueWatcher = false
+          delete temp.value
+        }
+
         if (hasMask.value) {
           if (stopValueWatcher) {
             stopValueWatcher = false
@@ -332,6 +339,22 @@ export default createComponent({
       }
     }
 
+    function cancelPendingValueEmission() {
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
+      emitValueFn = void 0
+    }
+
+    function onClear() {
+      cancelPendingValueEmission()
+      typedNumber = false
+      stopValueWatcher = false
+      delete temp.value
+    }
+
     // textarea only
     function adjustHeight() {
       requestAnimationFrame(() => {
@@ -445,6 +468,7 @@ export default createComponent({
       inputRef,
 
       emitValue,
+      onClear,
 
       hasValue,
 
