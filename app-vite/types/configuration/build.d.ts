@@ -138,11 +138,6 @@ interface QuasarStaticBuildConfiguration {
   vueRouterBase?: string;
 
   /**
-   * Automatically open remote Vue Devtools when running in development mode.
-   */
-  vueDevtools?: boolean;
-
-  /**
    * Should the Vue Options API be available? If all your components only use Composition API
    * it would make sense performance-wise to disable Vue Options API for a compile speedup.
    *
@@ -401,7 +396,7 @@ interface QuasarStaticBuildConfiguration {
     file?: string | string[];
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
@@ -410,7 +405,7 @@ interface QuasarStaticBuildConfiguration {
     ) => Record<string, string>;
 
     /**
-     * Ignore auto-infering and declaring type for these variables;
+     * Ignore automatically inferring and declaring types for these variables.
      * Variables can come from process.env (terminal variables) or
      * dotenv files or quasar.config > build > define/defineEnv.
      *

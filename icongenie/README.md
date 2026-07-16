@@ -24,14 +24,15 @@ This means you need your logo in about 100+ different sizes with representative 
 
 Node.js >=22.22.0 is required.
 
-```
-$ yarn global add @quasar/icongenie
-# or
-$ npm install -g @quasar/icongenie
-# or
-$ pnpm add -g @quasar/icongenie
-# or
-$ bun add -g @quasar/icongenie
+```tabs
+<<| bash PNPM |>>
+pnpm add -g @quasar/icongenie
+<<| bash Yarn |>>
+yarn global add @quasar/icongenie
+<<| bash NPM |>>
+npm i -g @quasar/icongenie
+<<| bash Bun |>>
+bun install -g @quasar/icongenie
 ```
 
 ## Usage

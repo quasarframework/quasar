@@ -1,15 +1,15 @@
 ---
 title: Electron Preload Script
-desc: (@quasar/app-vite) How to handle Electron Node Integration with an Electron Preload script with Quasar CLI.
+desc: (@quasar/app-vite) How to expose a controlled Electron API to a Quasar renderer.
 ---
 
-For security reasons, the renderer thread (your UI code from `/src`) does not have access to the Node.js stuff. However, you can run Node.js code and bridge it to the renderer thread through an Electron Preload script located at `/src-electron/electron-preload.js`. Use `contextBridge` (from the `electron` package) to expose the stuff that you need for your UI.
+The renderer process (your UI code from `/src`) does not have direct access to Node.js or Electron APIs in Quasar's default secure configuration. Use the preload script at `/src-electron/electron-preload.js` (or `.ts`) and Electron's `contextBridge` to expose only the operations the UI needs.
 
-Since the preload script runs from Node.js, be careful what you do with it and what you expose to the renderer thread!
+The default renderer sandbox gives the preload script a limited API. Perform filesystem access and other privileged work in the main process, then expose purpose-built operations through IPC.
 
 ## How to use it
 
-In `/src-electron/` folder, there is a file named `electron-preload.js`. Fill it with your preload code.
+The generated `/src-electron/electron-preload.js` already exposes Quasar's runtime path helpers. Add your own bridge methods alongside it.
 
 Make sure that your `/src-electron/electron-main.js` has the following (near the "webPreferences" section):
 
@@ -45,7 +45,7 @@ Example of `/src-electron/electron-preload` content:
  * Instead, use IPC to communicate with the main process and access packages and Node.js
  * functionality there.
  *
- * Example on injecting window.myAPI.doAThing() into renderer thread:
+ * Example of exposing window.myAPI.doAThing() to the renderer process:
  *
  *   import { contextBridge } from 'electron'
  *
@@ -61,13 +61,6 @@ import { quasarRuntime } from '#q-app/electron/preload'
 
 contextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime)
 ```
-
-::: warning
-
-1. Be aware that this file runs in a Node.js context.
-2. If you import anything from node_modules, then make sure that the package is specified in /src-electonr/package.json > "dependencies" and NOT in "devDependencies".
-
-:::
 
 ## Security considerations
 
@@ -89,13 +82,13 @@ contextBridge.exposeInMainWorld('myAPI', {
 })
 ```
 
-Now, `loadPreferences` is available globally in your javascript code (ie: `window.myAPI.loadPreferences`).
+Now, `loadPreferences` is available to renderer code as `window.myAPI.loadPreferences()`.
 
 ::: warning
-Make sure to pick names which do not colide with existing `Window` keys.
+Choose a name that does not collide with an existing `Window` property.
 :::
 
-Using the above code with an `invoke` to `load-prefs` in the main thread would have code like this:
+Handle the corresponding `load-prefs` invocation in the main process:
 
 ```js
 ipcMain.handle('myAPI:load-prefs', () => {
@@ -107,11 +100,13 @@ ipcMain.handle('myAPI:load-prefs', () => {
 
 ## Custom path to the preload script
 
-Should you wish to change the location of the preload script (and/or even the main thread file) then edit the `/quasar.config` file:
+Change the main-process source with `sourceFiles.electronMain`. Configure one or more preload sources with `electron.preloadScripts`; entries are relative to `/src-electron` and omit the extension:
 
 ```js /quasar.config file
-// should you wish to change default files
 sourceFiles: {
-  electronMain: 'src-electron/electron-main.js'
+  electronMain: 'src-electron/electron-main'
+},
+electron: {
+  preloadScripts: [ 'electron-preload', 'secondary-preload' ]
 }
 ```

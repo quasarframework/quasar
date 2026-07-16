@@ -3,7 +3,7 @@ title: Installing Electron-specific dependencies
 desc: (@quasar/app-vite) How to handle Electron-specific dependencies.
 ---
 
-Notice the `/src-electron/package.json` file in your generated `/src-electron` folder. The purpose of it is for you to be able to install packages used by the Electron mode directly under this folder (and not pollute the common `/src`).
+Use `/src-electron/package.json` for dependencies that belong to the Electron main process or its packaging workflow. Keeping them in this workspace prevents Electron-only packages from becoming renderer dependencies.
 
 ```json /src-electron/package.json
 {
@@ -13,37 +13,40 @@ Notice the `/src-electron/package.json` file in your generated `/src-electron` f
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@electron/packager": "^20.0.0",
-    "electron": "^41.3.0"
+    "electron": "^<installed-version>"
   }
 }
 ```
 
-Installing [Electron specific packages](https://zeke.github.io/electron.atom.io/userland/most_downloaded_packages):
+Quasar installs the selected packaging tool (`@electron/packager` or `electron-builder`) here on the first production build that needs it.
+
+From `/src-electron`, install packages used at runtime by the main process under `dependencies`. Install Electron, packaging tools, type packages, and other build-time tools under `devDependencies`:
 
 ```tabs
 <<| bash PNPM |>>
-# run in /src-electron for runtime deps (will be embedded to /dist):
+# Runtime dependency installed into the packaged app:
 pnpm add <deps>
 
-# run in /src-electron for deps used by the build system (eg. "electron")
+# Build-time dependency:
 pnpm add -D <dev-deps>
 <<| bash Yarn |>>
-# run in /src-electron for runtime deps (will be embedded to /dist):
+# Runtime dependency installed into the packaged app:
 yarn add <deps>
 
-# run in /src-electron for deps used by the build system (eg. "electron")
+# Build-time dependency:
 yarn add -D <dev-deps>
 <<| bash NPM |>>
-# run in /src-electron for runtime deps (will be embedded to /dist):
+# Runtime dependency installed into the packaged app:
 npm install <deps>
 
-# run in /src-electron for deps used by the build system (eg. "electron")
+# Build-time dependency:
 npm install -D <dev-deps>
 <<| bash Bun |>>
-# run in /src-electron for runtime deps (will be embedded to /dist):
+# Runtime dependency installed into the packaged app:
 bun add <deps>
 
-# run in /src-electron for deps used by the build system (eg. "electron")
+# Build-time dependency:
 bun add -D <dev-deps>
 ```
+
+Renderer dependencies imported by code under `/src` belong in the root `package.json` and are bundled by Vite.

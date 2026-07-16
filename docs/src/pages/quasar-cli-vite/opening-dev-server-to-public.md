@@ -8,7 +8,9 @@ At some point you may want to show someone else the project you've been working 
 ::: warning
 Opening your dev server to the public poses security risks. Be absolutely cautious when using tools like this.
 
-When you've finished with your demonstration or testing, make sure to stop localhost.run or ngrok. This will prevent any unwanted access of your computer through them.
+The Quasar development server is not a hardened production server and does not add authentication. A tunnel can expose development-only routes, source maps, error details, and anything reachable through `devServer.proxy`. Never place secrets in client-exposed environment variables, and do not tunnel a project connected to sensitive development or production data.
+
+Prefer a tunnel with access controls, share its URL only with intended recipients, and stop both the tunnel and development server as soon as testing is finished.
 :::
 
 ## Using Tunnelmole

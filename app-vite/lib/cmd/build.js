@@ -29,12 +29,6 @@ if (argv.help) {
     $ quasar build -m ssr
     $ quasar build -m capacitor -T ios
 
-    # passing extra parameters and/or options to
-    # underlying "cordova" executable:
-    $ quasar build -m cordova -T ios -- some params --and options --here
-    # when on Windows and using PowerShell:
-    $ quasar build -m cordova -T ios '--' some params --and options --here
-
   Options
     --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target

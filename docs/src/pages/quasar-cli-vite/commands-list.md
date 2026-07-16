@@ -116,7 +116,8 @@ Based on what you want to develop, you can start the development server by using
 $ quasar dev -h
 
   Description
-    Starts the app in development mode (HMR, error reporting, etc)
+    Starts the app in development mode (hot-code reloading, error
+    reporting, etc)
 
   Usage
     $ quasar dev
@@ -133,22 +134,26 @@ $ quasar dev -h
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
-    # when on Windows and using PowerShell:
+    $ quasar dev -m electron -- --force-device-scale-factor=1
+    # when on Windows and using Powershell:
     $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron '--' --force-device-scale-factor=1
 
   Options
     --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
-    --target, -T     App target
-                       - Capacitor & Cordova: [android|ios]
-                       - Bex: [chrome|firefox]
     --devtools, -d   Open remote Vue Devtools
     --no-color       Disable colored output
     --help, -h       Displays this message
 
+    Only for Capacitor & Cordova modes:
+    --target, -T     (required) App target [android|ios]
+    --ide, -i        (prod only) Open IDE to build the app instead of using CLI tools
+
+    Only for BEX mode:
+    --target, -T     Browser family target [chrome|firefox]
+                       (default: chrome)
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
@@ -615,8 +620,12 @@ $ quasar serve -h
       app.get('/proxy/:path', (c) => {
         return proxy('http://some.api.com/' + c.req.param('path'))
       })
-    }
+}
 ```
+
+::: warning
+`quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.
+:::
 
 ### Custom Node.js server
 

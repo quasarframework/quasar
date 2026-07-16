@@ -30,7 +30,7 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 
 You can freely edit these files. Notice a few things:
 
-1. `register-sw.js` is automatically imported into your app (like any other /src file). It registers the service worker (created by Workbox or your custom one, depending on workbox plugin mode -- quasar.config file > pwa > workboxPluginMode) and you can listen for Service Worker's events.
+1. `register-sw.js` is automatically imported into your app (like any other `/src` file). It registers the service worker created by Workbox and lets you respond to its lifecycle events. The generated worker depends on `quasar.config > pwa > workboxMode`.
 2. `sw/custom-sw.js` will be your service worker file ONLY if workbox plugin mode is set to "InjectManifest" (quasar.config file > pwa > workboxMode: 'InjectManifest'). Otherwise, Quasar and Workbox will create a service-worker file for you. The `/src-pwa/sw/` folder is the WebWorker context. Anything inside it runs in the service worker, not the main thread.
 3. It makes sense to run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) tests on production builds only.
 
@@ -368,6 +368,8 @@ Note that you don't need to edit your index.html file (generated from `/index.ht
 ::: tip
 If your PWA is behind basic auth or requires an Authorization header, set quasar.config file > pwa > useCredentialsForManifestTag to `true` to include `crossorigin="use-credentials"` on the manifest.json meta tag.
 ::::
+
+This option affects only the manifest request. If you add runtime caching for authenticated API responses, do not use a broad cache rule that can return one user's private response to another session. Limit matching to intended URLs and methods, avoid caching sensitive responses unless the cache is safely partitioned and cleared on sign-out, and respect the server's cache policy.
 
 ## PWA Checklist
 

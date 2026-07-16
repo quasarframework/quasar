@@ -551,13 +551,13 @@ build: {
 
 ## More on dotenv files
 
-A `.env` file (pronounced "dotenv") is a simple text file used to store environment variables for a software project. Instead of hardcoding sensitive information or configuration settings directly into the source code, you can place them in this file.
+A `.env` file (pronounced "dotenv") is a simple text file used to supply environment-specific configuration to a project. It is not a secret store: the file is plain text, and variables exposed to client code are embedded in the generated application where users can read them.
 
 The variables defined get transformed to `import.meta.env.<VAR_NAME>` and replaced at build time.
 
 ### Why Use a .env File?
 
-- Security: It keeps sensitive data, like database passwords, API keys, and secret tokens—safe. Because .env files are kept out of version control (like GitHub), your secrets aren't exposed to the public or everyone on your team.
+- Separation: It keeps environment-specific values out of source modules. Sensitive backend values still require appropriate access controls in development, CI, deployment, logs, and build artifacts.
 - Portability: It allows your application to behave differently depending on the environment (development, testing, or production) without changing the code. You just swap out the .env file for each environment.
 - Simplicity: It centralizes configuration into one easy-to-read file.
 
@@ -591,6 +591,10 @@ NODE_ENV=development
 ```
 
 ### Exposing to client code
+
+::: danger
+Never put a secret in a variable exposed to client code. Prefix filtering controls which variables are embedded; it does not encrypt or hide them. API keys used by client applications must be designed as public identifiers and restricted by the provider where possible.
+:::
 
 For security purposes and exposing variables with clear intent only, Quasar CLI filters out variables names not starting with the `QCLI_` prefix for the code exposed to the client-side, while leaving all of them for backend code (example: SSR/SSG server-side code that the clients cannot view it directly). This prefix can be changed through the /quasar.config file.
 

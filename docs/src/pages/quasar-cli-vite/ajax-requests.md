@@ -72,14 +72,17 @@ import { api } from '@/boot/axios'
 
 export const useAuthStore = defineStore('auth', {
   actions: {
-    register (form) {
-      return api.post('/auth/register', form)
-        .then(response => {
-          api.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
-          // do something with { token: response.data.token, user: response.data.user }
-        })
+    register(form) {
+      return api.post('/auth/register', form).then(response => {
+        api.defaults.headers.common['Authorization'] =
+          'Bearer ' + response.data.token
+        // do something with { token: response.data.token, user: response.data.user }
+      })
+    }
   }
 })
 ```
+
+This example keeps the token only in memory. Clear the default `Authorization` header when the user signs out. If authentication must survive a reload, choose a storage strategy based on your backend's threat model; do not assume that browser storage protects tokens from JavaScript running in the page. Where appropriate, a server-managed `HttpOnly`, `Secure`, and `SameSite` cookie prevents client-side JavaScript from reading the session token.
 
 Also look at [Axios docs](https://github.com/axios/axios) for more information.

@@ -14,15 +14,15 @@ One open-source option is [`@capgo/electron-updater`](https://www.npmjs.com/pack
 The updater is used by the Electron main and preload scripts, so install it from your Electron folder:
 
 ```tabs
+<<| bash PNPM |>>
+cd src-electron
+pnpm add @capgo/electron-updater
 <<| bash Yarn |>>
 cd src-electron
 yarn add @capgo/electron-updater
 <<| bash NPM |>>
 cd src-electron
 npm install @capgo/electron-updater
-<<| bash PNPM |>>
-cd src-electron
-pnpm add @capgo/electron-updater
 <<| bash Bun |>>
 cd src-electron
 bun add @capgo/electron-updater
@@ -41,6 +41,7 @@ import {
   setupEventForwarding,
   setupIPCHandlers
 } from '@capgo/electron-updater' // [!code highlight]
+import { registerQuasarRuntime } from '#q-app/electron/main' // [!code highlight]
 
 const updater = new ElectronUpdater({ // [!code highlight]
   // [!code highlight]
@@ -74,6 +75,7 @@ async function createWindow() {
 }
 
 void app.whenReady().then(() => {
+  registerQuasarRuntime() // [!code highlight]
   createWindow()
 })
 ```
@@ -154,7 +156,7 @@ Build the Electron app without packaging it into an installer:
 quasar build -m electron --skip-pkg
 ```
 
-The renderer files are created in `/dist/electron/UnPackaged`. Stage the files that belong to the web bundle, such as `index.html`, `assets/` and any files copied from `/public`, then create a zip with the CLI:
+The renderer files are created in `/dist/electron/UnPackaged`. Copy the files that belong to the web bundle, such as `index.html`, `assets/`, and files originating from `/public`, into a separate staging directory. Do not include `electron-main.js`, preload scripts, `package.json`, `node_modules`, or `electron-assets` in a live-update archive. Then create a zip with the CLI:
 
 ```bash
 npx @capgo/cli@latest bundle zip --path dist/electron/live-update
@@ -163,7 +165,9 @@ npx @capgo/cli@latest bundle zip --path dist/electron/live-update
 The folder passed to `bundle zip` must contain `index.html` at its root. Upload the generated zip to your own HTTPS storage and update your metadata endpoint to point at it.
 
 ::: warning
-Serve update metadata and bundles over HTTPS, keep checksums enabled and only publish renderer changes through live updates. Any change that affects Electron main/preload code or the packaged app should go through your signed desktop release process.
+Treat a live-update bundle as executable code. Serve metadata and bundles over HTTPS, restrict the updater to an allowlisted origin, and verify cryptographic authenticity before activating a bundle. A checksum obtained from the same endpoint detects corruption but does not protect against a compromised update server; use signed metadata or another verification key embedded in the signed desktop application when your updater supports it.
+
+Only publish renderer changes through live updates. Any change that affects Electron main/preload code, native dependencies, or the packaged application must go through the signed desktop release process. Protect update publishing credentials and test rollback behavior before enabling the flow for users.
 :::
 
 ## Hosted option
