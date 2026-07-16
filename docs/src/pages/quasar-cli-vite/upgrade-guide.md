@@ -851,8 +851,8 @@ app.on('activate', () => { // [!code --]
     void createWindow(); // [!code --]
   } // [!code --]
 }); // [!code --]
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime();
+void app.whenReady().then(() => {
+  registerQuasarRuntime();
   void createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -910,9 +910,8 @@ async function createWindow () {
   }
 }
 
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime()
-
+void app.whenReady().then(() => {
+  registerQuasarRuntime()
   createWindow()
 
   app.on('activate', () => {
@@ -972,9 +971,8 @@ async function createWindow() {
   }
 }
 
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime();
-
+void app.whenReady().then(() => {
+  registerQuasarRuntime();
   void createWindow();
 
   app.on("activate", () => {

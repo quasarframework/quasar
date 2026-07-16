@@ -74,9 +74,9 @@ async function createWindow() {
   }
 }
 
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime() // [!code highlight]
-  await createWindow()
+void app.whenReady().then(() => {
+  registerQuasarRuntime() // [!code highlight]
+  createWindow()
 })
 ```
 
