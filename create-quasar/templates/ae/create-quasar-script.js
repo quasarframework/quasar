@@ -1,10 +1,13 @@
 function parsePackageName(name) {
   const scopedPackageRegex = /^(@[^/]+)\/([^/]+)$/
-  const match = name
-    .replace(/quasar-app-extension-/, '')
-    .match(scopedPackageRegex)
+  const normalizedName = name
+    .replace(/^quasar-app-extension-/, '')
+    .replace(/^(@[^/]+\/)quasar-app-extension-/, '$1')
 
-  return match ? { org: match[1] + '/', name: match[2] } : { org: '', name }
+  const match = normalizedName.match(scopedPackageRegex)
+  return match
+    ? { org: match[1] + '/', name: match[2] }
+    : { org: '', name: normalizedName }
 }
 
 export async function createQuasarScript({ scope, utils }) {
@@ -28,7 +31,7 @@ export async function createQuasarScript({ scope, utils }) {
         options: {
           Tooling: [
             {
-              label: 'Typescript support',
+              label: 'TypeScript support',
               value: 'typescript'
             },
             {

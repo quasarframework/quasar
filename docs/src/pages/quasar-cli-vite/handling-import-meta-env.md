@@ -551,13 +551,13 @@ build: {
 
 ## More on dotenv files
 
-A `.env` file (pronounced "dotenv") is a simple text file used to store environment variables for a software project. Instead of hardcoding sensitive information or configuration settings directly into the source code, you can place them in this file.
+A `.env` file (pronounced "dotenv") is a simple text file used to supply environment-specific configuration to a project. It is not a secret store: the file is plain text, and variables exposed to client code are embedded in the generated application where users can read them.
 
 The variables defined get transformed to `import.meta.env.<VAR_NAME>` and replaced at build time.
 
 ### Why Use a .env File?
 
-- Security: It keeps sensitive data, like database passwords, API keys, and secret tokens—safe. Because .env files are kept out of version control (like GitHub), your secrets aren't exposed to the public or everyone on your team.
+- Separation: It keeps environment-specific values out of source modules. Sensitive backend values still require appropriate access controls in development, CI, deployment, logs, and build artifacts.
 - Portability: It allows your application to behave differently depending on the environment (development, testing, or production) without changing the code. You just swap out the .env file for each environment.
 - Simplicity: It centralizes configuration into one easy-to-read file.
 
@@ -594,7 +594,11 @@ NODE_ENV=development
 
 ### Exposing to client code
 
-For security and to make client exposure explicit, Quasar CLI excludes variables that do not start with the `QCLI_` prefix from client-side code. Backend code, such as the SSR/SSG server, receives all variables by default. You can change both prefixes through the /quasar.config file.
+::: danger
+Never put a secret in a variable exposed to client code. Prefix filtering controls which variables are embedded; it does not encrypt or hide them. API keys used by client applications must be designed as public identifiers and restricted by the provider where possible.
+:::
+
+For security and to make client exposure explicit, Quasar CLI excludes variables that do not start with the `QCLI_` prefix from client-side code. Backend code, such as the SSR server or SSG renderer script, receives all variables by default. You can change both prefixes through the /quasar.config file.
 
 ```bash
 # NOT exposed to client code, but exposed to backend;

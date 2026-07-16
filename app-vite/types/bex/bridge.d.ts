@@ -13,7 +13,10 @@ import type { LiteralUnion } from "quasar";
  *   }
  * }
  *
- * await bridge.send('without-payload-and-response');
+ * await bridge.send({
+ *   event: 'without-payload-and-response',
+ *   to: 'background'
+ * });
  *
  * bridge.on('with-payload-without-response', ({ payload }) => {
  *   payload // type: { test: number[] }
@@ -25,7 +28,11 @@ import type { LiteralUnion } from "quasar";
  *   const result = foo[0].charCodeAt() + foo[1].charCodeAt(); // 97 + 98
  *   return result;
  * });
- * const response = await bridge.send('with-payload-and-response', { foo: ['a', 'b'] });
+ * const response = await bridge.send({
+ *   event: 'with-payload-and-response',
+ *   to: 'background',
+ *   payload: { foo: ['a', 'b'] }
+ * });
  * console.log(response); // 195
  */
 export interface BexEventMap {}

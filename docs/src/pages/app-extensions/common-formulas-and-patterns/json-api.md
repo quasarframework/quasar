@@ -9,13 +9,13 @@ related:
 This page describes the JSON API Schema used for component App Extensions. Read this page if your App Extension contains a UI component.
 
 ::: tip
-You might want to read about the Index script's [api.registerDescribeApi](/app-extensions/development-guide/index-api#api-registerdescribeapi) method. It's sole purpose is to provide a hook into the `quasar describe` CLI command so that users will have an extra way to know how to use your component.
+You might want to read about the Index script's [api.registerDescribeApi](/app-extensions/development-guide/index-api#api-registerdescribeapi) method. Its sole purpose is to provide a hook into the `quasar describe` CLI command so that users have another way to learn how to use your component.
 :::
 
 ## Benefits of using JSON API
 
 1. Describes your existing data format(s)
-2. Provides clear human -and machine- readable documentation
+2. Provides clear human and machine-readable documentation
 3. Validates data which is useful for:
    - Automated testing
    - Ensuring quality of submitted data
@@ -52,6 +52,7 @@ The unfilled schema typically looks like this:
 
 ```json
 {
+  "type": "component",
   "props": {},
   "events": {},
   "slots": {},

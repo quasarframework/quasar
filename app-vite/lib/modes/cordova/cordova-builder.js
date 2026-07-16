@@ -80,7 +80,9 @@ export class QuasarModeBuilder extends AppBuilder {
     const outputTargetList =
       ensureArray(
         this.quasarConf.cordova.getCordovaBuildOutputFolder?.(cordovaContext)
-      ) || cordovaOutputFolders[target]
+      ) ||
+      cordovaOutputFolders[target] ||
+      []
 
     // Remove old build output
     outputTargetList.forEach(outputFile => {

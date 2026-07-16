@@ -13,7 +13,7 @@ We will only need to touch the Index script for this, because we can use the [In
 ```js /ae/src/index.js (or .ts)
 import { defineIndexScript } from '#q-app'
 
-export default defineIndexScript((api) => {
+export default defineIndexScript(api => {
   // ...
 
   // Here we extend /quasar.config file, so we can add
@@ -25,5 +25,5 @@ export default defineIndexScript((api) => {
       conf.framework.plugins.push('AppVisibility')
     }
   })
-}
+})
 ```

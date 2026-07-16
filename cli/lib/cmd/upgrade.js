@@ -109,7 +109,7 @@ const getVersionTask = async (
   if (latestVersion === null) {
     skippedVersions = true
     return (
-      `${green(packageName)}: ${currentVersionLabel} → ${red('Skipping!')}` +
+      `❌ ${green(packageName)}: ${currentVersionLabel} → ${red('Skipping!')}` +
       ` - NPM registry returned an error`
     )
   } else if (currentVersion !== latestVersion) {
@@ -118,15 +118,15 @@ const getVersionTask = async (
       latestVersion
     })
 
+    if (packageName === 'quasar') {
+      quasarVersion = latestVersion
+    }
+
     updateAvailable = true
-    return `${green(packageName)}: ${currentVersionLabel} → ${green(latestVersion)}`
+    return `⚠️  ${green(packageName)}: ${currentVersionLabel} → ${green(latestVersion)}`
   }
 
-  if (packageName === 'quasar') {
-    quasarVersion = latestVersion
-  }
-
-  return `${green(packageName)}: ${currentVersionLabel} ✅ `
+  return `✅ ${green(packageName)}: ${currentVersionLabel}`
 }
 
 for (const type of Object.keys(deps)) {
@@ -179,7 +179,7 @@ if (!updateAvailable) {
 function getQuasarVersionPrefix(version) {
   if (!version) return ''
 
-  const matches = version.match(/^(\d)/)
+  const matches = version.match(/^(\d+)/)
   if (!matches || !matches[1]) return ''
 
   const major = Number.parseInt(matches[1], 10)
@@ -228,8 +228,8 @@ if (!argv.install) {
 
       if (packageList.length !== initialValues.length) {
         Object.keys(deps).forEach(type => {
-          deps[type] = deps[type].filter(
-            dep => !packageList.includes(dep.packageName)
+          deps[type] = deps[type].filter(dep =>
+            packageList.includes(dep.packageName)
           )
         })
       }

@@ -11,10 +11,13 @@ import { BaseAPI } from './BaseAPI.js'
 export class IndexAPI extends BaseAPI {
   prompts
 
+  #packageDir
+
   constructor(opts, appExtJson) {
     super(opts)
 
     this.prompts = opts.prompts
+    this.#packageDir = opts.packageDir
     this.#appExtJson = appExtJson
   }
 
@@ -155,6 +158,10 @@ export class IndexAPI extends BaseAPI {
     this.#addHook('extendBexScriptsConf', fn)
   }
 
+  extendBexManifestJson(fn) {
+    this.#addHook('extendBexManifestJson', fn)
+  }
+
   /**
    * Extend Electron Main thread Rolldown config
    *
@@ -175,6 +182,10 @@ export class IndexAPI extends BaseAPI {
     this.#addHook('extendElectronPreloadConf', fn)
   }
 
+  extendElectronPackageJson(fn) {
+    this.#addHook('extendElectronPackageJson', fn)
+  }
+
   /**
    * Extend PWA custom service worker Rolldown config
    * (when using Workbox InjectManifest mode)
@@ -184,6 +195,18 @@ export class IndexAPI extends BaseAPI {
    */
   extendPWACustomSWConf(fn) {
     this.#addHook('extendPWACustomSWConf', fn)
+  }
+
+  extendPWAManifestJson(fn) {
+    this.#addHook('extendPWAManifestJson', fn)
+  }
+
+  extendPWAGenerateSWOptions(fn) {
+    this.#addHook('extendPWAGenerateSWOptions', fn)
+  }
+
+  extendPWAInjectManifestOptions(fn) {
+    this.#addHook('extendPWAInjectManifestOptions', fn)
   }
 
   /**
@@ -196,9 +219,41 @@ export class IndexAPI extends BaseAPI {
     this.#addHook('extendSSRWebserverConf', fn)
   }
 
+  extendSSRPackageJson(fn) {
+    this.#addHook('extendSSRPackageJson', fn)
+  }
+
+  extendSSRManifestJson(fn) {
+    this.#addHook('extendSSRManifestJson', fn)
+  }
+
+  extendSSRGenerateSWOptions(fn) {
+    this.#addHook('extendSSRGenerateSWOptions', fn)
+  }
+
+  extendSSRInjectManifestOptions(fn) {
+    this.#addHook('extendSSRInjectManifestOptions', fn)
+  }
+
+  extendSSGRendererConf(fn) {
+    this.#addHook('extendSSGRendererConf', fn)
+  }
+
+  extendSSGManifestJson(fn) {
+    this.#addHook('extendSSGManifestJson', fn)
+  }
+
+  extendSSGGenerateSWOptions(fn) {
+    this.#addHook('extendSSGGenerateSWOptions', fn)
+  }
+
+  extendSSGInjectManifestOptions(fn) {
+    this.#addHook('extendSSGInjectManifestOptions', fn)
+  }
+
   /**
    * Register a command that will become available as
-   * `quasar run <ext-id> <cmd> [args]` and `quasar <ext-id> <cmd> [args]`
+   * `quasar run <ext-id> <cmd> [args]`
    *
    * @param {string} commandName
    * @param {function} fn
@@ -294,10 +349,23 @@ export class IndexAPI extends BaseAPI {
 
     extendViteConf: [],
     extendSSRWebserverConf: [],
+    extendSSRPackageJson: [],
+    extendSSRManifestJson: [],
+    extendSSRGenerateSWOptions: [],
+    extendSSRInjectManifestOptions: [],
+    extendSSGRendererConf: [],
+    extendSSGManifestJson: [],
+    extendSSGGenerateSWOptions: [],
+    extendSSGInjectManifestOptions: [],
     extendElectronMainConf: [],
     extendElectronPreloadConf: [],
+    extendElectronPackageJson: [],
     extendPWACustomSWConf: [],
+    extendPWAManifestJson: [],
+    extendPWAGenerateSWOptions: [],
+    extendPWAInjectManifestOptions: [],
     extendBexScriptsConf: [],
+    extendBexManifestJson: [],
 
     beforeDev: [],
     afterDev: [],
@@ -316,6 +384,6 @@ export class IndexAPI extends BaseAPI {
   }
 
   #addHook(name, fn) {
-    this.#hooks[name].push({ fn, api: this })
+    this.#hooks[name].push({ fn, api: this, packageDir: this.#packageDir })
   }
 }

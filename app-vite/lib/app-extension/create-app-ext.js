@@ -34,6 +34,10 @@ function getAppExtJson({ file, json, onListUpdate }) {
       return json[extId] !== void 0
     },
 
+    get(extId) {
+      return json[extId] === void 0 ? void 0 : structuredClone(json[extId])
+    },
+
     set(extId, opts) {
       getExtensionLogger(extId).log('Updating /quasar.extensions.json')
       const hasAppExt = json[extId] !== void 0

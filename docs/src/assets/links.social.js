@@ -11,7 +11,7 @@ export const socialLinks = {
   mq: 1310,
   children: [
     {
-      name: 'Github',
+      name: 'GitHub',
       icon: fabGithub,
       path: 'https://github.quasar.dev',
       external: true

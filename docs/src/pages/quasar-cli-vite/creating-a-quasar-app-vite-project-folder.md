@@ -33,7 +33,7 @@ npm i -g @quasar/cli
 npm init quasar@latest
 <<| bash Bun |>>
 # optional, if you don't have it already:
-bun install -g @quasar/cli
+bun add -g @quasar/cli
 
 # now create the project folder:
 bun create quasar@latest

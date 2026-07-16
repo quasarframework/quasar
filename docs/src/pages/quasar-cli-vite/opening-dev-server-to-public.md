@@ -8,7 +8,9 @@ At some point you may want to show someone else the project you've been working 
 ::: warning
 Opening your dev server to the public poses security risks. Be absolutely cautious when using tools like this.
 
-When you've finished with your demonstration or testing, make sure to stop localhost.run or ngrok. This will prevent any unwanted access of your computer through them.
+The Quasar development server is not a hardened production server and does not add authentication. A tunnel can expose development-only routes, source maps, error details, and anything reachable through `devServer.proxy`. Never place secrets in client-exposed environment variables, and do not tunnel a project connected to sensitive development or production data.
+
+Prefer a tunnel with access controls, share its URL only with intended recipients, and stop both the tunnel and development server as soon as testing is finished.
 :::
 
 ## Using Tunnelmole
@@ -50,7 +52,7 @@ If you are self hosting your own Tunnelmole service or you have a set an API key
 tmole 80 as mysubdomain.tunnelmole.com
 ```
 
-Its also possible to launch tunnelmole from code if you add it as a dependency to your project (`yarn add -D tunnelmole` or `npm i -D tunnelmole` or pnpm/bun equivalents)
+It is also possible to launch Tunnelmole from code after adding it as a development dependency with your project's package manager.
 
 First import tunnelmole. Both ES and CommonJS modules are supported.
 

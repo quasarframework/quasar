@@ -20,9 +20,9 @@ scope:
         e: helps install SSR only deps directly under /src-ssr
 ---
 
-We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, SSR, SSG, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
+Quasar CLI selects the SSR build target through the mode argument passed to `quasar dev` and `quasar build`.
 
-In order to develop or build a SSR website, we first need to add the SSR mode to our Quasar project:
+To develop or build an SSR website, first add SSR mode to the Quasar project:
 
 ```bash
 quasar mode add ssr
@@ -36,6 +36,6 @@ quasar dev -m ssr
 
 This will add SSR mode automatically, if it is missing.
 
-After answering the question of what webserver you want to use (Hono/Express/Fastify/etc), a new folder will appear in your project folder (which is explained in detail on the [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr) page):
+After you choose Hono, Express, Fastify, or Koa as the webserver, a new folder appears in your project (explained in detail on the [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr) page):
 
 <DocTree :def="scope.nodeJsTree" />

@@ -14,7 +14,12 @@ function updateHeadTags(quasarConf, pwaManifest) {
 
   headTags = `<link rel="manifest" href="${publicPath}${manifestFilename}"${useCredentialsForManifestTag ? ' crossorigin="use-credentials"' : ''}>`
 
-  if (injectPWAMetaTags) {
+  if (typeof injectPWAMetaTags === 'function') {
+    headTags += injectPWAMetaTags({
+      publicPath,
+      pwaManifest
+    })
+  } else if (injectPWAMetaTags) {
     headTags +=
       (pwaManifest.theme_color !== void 0
         ? `<meta name="theme-color" content="${pwaManifest.theme_color}">` +
@@ -31,11 +36,6 @@ function updateHeadTags(quasarConf, pwaManifest) {
       `<link rel="apple-touch-icon" sizes="152x152" href="${publicPath}icons/apple-icon-152x152.png">` +
       `<link rel="apple-touch-icon" sizes="167x167" href="${publicPath}icons/apple-icon-167x167.png">` +
       `<link rel="apple-touch-icon" sizes="180x180" href="${publicPath}icons/apple-icon-180x180.png">`
-  } else if (typeof injectPWAMetaTags === 'function') {
-    headTags += injectPWAMetaTags({
-      publicPath,
-      pwaManifest
-    })
   }
 }
 

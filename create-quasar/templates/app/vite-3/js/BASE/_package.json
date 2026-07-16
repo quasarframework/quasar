@@ -2,9 +2,9 @@
   "name": "<%= scope.name %>",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "<%= scope.product %>",
+  "productName": <%= JSON.stringify(scope.product) %>,
   <% if (scope.author) { %>
-  "author": "<%= scope.author %>",
+  "author": <%= JSON.stringify(scope.author) %>,
   <% } %>
   "type": "module",
   "private": true,
@@ -24,7 +24,7 @@
     <% if (scope.preset.i18n) { %>"vue-i18n": "^11.3.0",<% } %>
     <% if (scope.preset.pinia) { %>"pinia": "^3.0.1",<% } %>
     "@quasar/extras": "^2.0.0",
-    "quasar": "^2.21.3",
+    "quasar": "^2.21.4",
     "vue": "^3.5.22",
     "vue-router": "^5.0.6"
   },

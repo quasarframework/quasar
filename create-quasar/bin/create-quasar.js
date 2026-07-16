@@ -147,7 +147,7 @@ async function getArgv() {
 
   const { default: utils } = await import('../lib/utils.js')
   if (scope.defaults) {
-    if (scope.overwrite === void 0) scope.overwrite = true
+    if (scope.overwrite === void 0) scope.overwrite = false
     if (!scope.template) {
       scope.template = utils.definitions.template.default
     }

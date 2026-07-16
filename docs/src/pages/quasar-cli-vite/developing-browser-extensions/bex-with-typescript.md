@@ -3,7 +3,7 @@ title: BEX with TypeScript
 desc: (@quasar/app-vite) How to use TypeScript with Quasar BEX
 ---
 
-In order to support BEX with TypeScript, you will need to rename the extension for your files in /src-bex from `.js` to `.ts` and make the necessary TS code changes.
+When BEX mode is added to a TypeScript project, Quasar scaffolds TypeScript files in `/src-bex`. If the project was converted to TypeScript after BEX mode was added, rename the `.js` files in `/src-bex` to `.ts`, update their manifest entries, and apply the required type annotations.
 
 ```js /src-bex/background.ts
 /**

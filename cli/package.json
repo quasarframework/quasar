@@ -38,6 +38,7 @@
     "lib"
   ],
   "type": "module",
+  "main": "bin/quasar.js",
   "publishConfig": {
     "access": "public"
   },

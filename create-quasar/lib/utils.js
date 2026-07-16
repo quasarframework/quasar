@@ -371,7 +371,10 @@ const definitions = {
         .replaceAll(/[^a-z0-9-~]+/g, '-'),
 
     isValid: name =>
-      /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
+      name &&
+      name.length <= 214 &&
+      name !== 'node_modules' &&
+      /^(?:@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(name)
   },
 
   product: {

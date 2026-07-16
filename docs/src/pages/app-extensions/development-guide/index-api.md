@@ -83,7 +83,7 @@ Contains the `ext-id` (String) of this App Extension.
 
 ### api.prompts
 
-Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
+An object containing the answers returned by the prompts script when this App Extension was installed. For more information, see the [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ### api.resolve
 
@@ -164,9 +164,9 @@ await api.hasTypescript()
 
 ```js
 /**
- * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ * @return {'pinia'|undefined}
  */
-await api.getStorePackageName()
+api.getStorePackageName()
 ```
 
 ### api.getNodePackagerName
@@ -182,7 +182,7 @@ await api.getNodePackagerName()
 
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
-If the semver condition is not met, then @quasar/app errors out and halts execution.
+If the semver condition is not met, then `@quasar/app-vite` reports an error and halts execution.
 
 Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 
@@ -431,7 +431,7 @@ api.beforeDev((api, { quasarConf }) => {
 
 ### api.afterDev
 
-Run hook after Quasar dev server is started (`quasar build`). At this point, the dev server has been started and is available should you wish to do something with it.
+Run hook after the Quasar dev server is started (`quasar dev`). At this point, the dev server is available should you wish to do something with it.
 
 Can use async/await or directly return a Promise.
 
@@ -505,11 +505,11 @@ api.onPublish((api, opts) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendViteConf: (
+type Callback = (
   config: ViteUserConfig,
-  invokeParams: { isClient: boolean, isServer: boolean },
-  api
-) => ViteUserConfig | void | Promise<ViteUserConfig | void>;
+  invokeParams: { isClient: boolean; isServer: boolean },
+  api: IndexAPI
+) => ViteUserConfig | void | Promise<ViteUserConfig | void>
 
 // Example:
 api.extendViteConf((viteConf, { isClient, isServer }, api) => {
@@ -528,10 +528,10 @@ api.extendViteConf((viteConf, { isClient, isServer }, api) => {
  * Can be async. Can directly modify the "rolldownConf" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendSSRWebserverConf: (
+type Callback = (
   config: RolldownOptions,
-  api
-) => void | RolldownOptions | Promise<void | RolldownOptions>;
+  api: IndexAPI
+) => void | RolldownOptions | Promise<void | RolldownOptions>
 
 // Example:
 api.extendSSRWebserverConf((rolldownConf, api) => {
@@ -549,13 +549,11 @@ api.extendSSRWebserverConf((rolldownConf, api) => {
  * Can be async. Can directly modify the "pkgJson" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendSSRPackageJson: (
+type Callback = (
   pkgJson: { [index in string]: any },
   api: IndexAPI
 ) =>
-  | void
-  | { [index in string]: any }
-  | Promise<void | { [index in string]: any }>;
+  void | { [index in string]: any } | Promise<void | { [index in string]: any }>
 
 // Example:
 api.extendSSRPackageJson((pkgJson, api) => {
@@ -574,9 +572,10 @@ api.extendSSRPackageJson((pkgJson, api) => {
  * Can be async. Can directly modify the "ssrManifest" parameter or
  * return a new one that will be merged with the default one.
  */
-extendSSRManifestJson?: (
-  ssrManifest: QuasarSsrManifest
-) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
+type Callback = (
+  ssrManifest: QuasarSsrManifest,
+  api: IndexAPI
+) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>
 
 // Example:
 api.extendSSRManifestJson((ssrManifest, api) => {
@@ -598,10 +597,10 @@ api.extendSSRManifestJson((ssrManifest, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendSSRGenerateSWOptions: (
+type Callback = (
   config: GenerateSWOptions,
   api: IndexAPI
-) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>
 
 // Example:
 api.extendSSRGenerateSWOptions((config, api) => {
@@ -623,10 +622,10 @@ api.extendSSRGenerateSWOptions((config, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendSSRInjectManifestOptions: (
+type Callback = (
   config: InjectManifestOptions,
   api: IndexAPI
-) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>
 
 // Example:
 api.extendSSRInjectManifestOptions((config, api) => {
@@ -645,9 +644,10 @@ api.extendSSRInjectManifestOptions((config, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-extendSSGRendererConf?: (
-  config: RolldownOptions
-) => void | RolldownOptions | Promise<void | RolldownOptions>;
+type Callback = (
+  config: RolldownOptions,
+  api: IndexAPI
+) => void | RolldownOptions | Promise<void | RolldownOptions>
 
 // Example:
 api.extendSSGRendererConf((rolldownConf, api) => {
@@ -666,9 +666,10 @@ api.extendSSGRendererConf((rolldownConf, api) => {
  * Can be async. Can directly modify the "ssrManifest" parameter or
  * return a new one that will be merged with the default one.
  */
-extendSSGManifestJson?: (
-  ssrManifest: QuasarSsrManifest
-) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
+type Callback = (
+  ssrManifest: QuasarSsrManifest,
+  api: IndexAPI
+) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>
 
 // Example:
 api.extendSSGManifestJson((ssrManifest, api) => {
@@ -690,10 +691,10 @@ api.extendSSGManifestJson((ssrManifest, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendSSGGenerateSWOptions: (
+type Callback = (
   config: GenerateSWOptions,
   api: IndexAPI
-) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>
 
 // Example:
 api.extendSSGGenerateSWOptions((config, api) => {
@@ -715,10 +716,10 @@ api.extendSSGGenerateSWOptions((config, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendSSGInjectManifestOptions: (
+type Callback = (
   config: InjectManifestOptions,
   api: IndexAPI
-) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>
 
 // Example:
 api.extendSSGInjectManifestOptions((config, api) => {
@@ -736,10 +737,10 @@ api.extendSSGInjectManifestOptions((config, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendElectronMainConf: (
+type Callback = (
   config: RolldownOptions,
-  api
-) => void | RolldownOptions | Promise<void | RolldownOptions>;
+  api: IndexAPI
+) => void | RolldownOptions | Promise<void | RolldownOptions>
 
 // Example:
 api.extendElectronMainConf((rolldownConf, api) => {
@@ -757,10 +758,10 @@ api.extendElectronMainConf((rolldownConf, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendElectronPreloadConf: (
+type Callback = (
   config: RolldownOptions,
-  api
-) => void | RolldownOptions | Promise<void | RolldownOptions>;
+  api: IndexAPI
+) => void | RolldownOptions | Promise<void | RolldownOptions>
 
 // Example:
 api.extendElectronPreloadConf((rolldownConf, api) => {
@@ -778,13 +779,11 @@ api.extendElectronPreloadConf((rolldownConf, api) => {
  * Can be async. Can directly modify the "pkgJson" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendElectronPackageJson: (
+type Callback = (
   pkgJson: { [index in string]: any },
   api: IndexAPI
 ) =>
-  | void
-  | { [index in string]: any }
-  | Promise<void | { [index in string]: any }>;
+  void | { [index in string]: any } | Promise<void | { [index in string]: any }>
 
 // Example:
 api.extendElectronPackageJson((pkgJson, api) => {
@@ -803,10 +802,10 @@ api.extendElectronPackageJson((pkgJson, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendPWACustomSWConf: (
+type Callback = (
   config: RolldownOptions,
-  api
-) => void | RolldownOptions | Promise<void | RolldownOptions>;
+  api: IndexAPI
+) => void | RolldownOptions | Promise<void | RolldownOptions>
 
 // Example:
 api.extendPWACustomSWConf((rolldownConf, api) => {
@@ -825,10 +824,10 @@ api.extendPWACustomSWConf((rolldownConf, api) => {
  * Can be async. Can directly modify the "json" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendPWAManifestJson: (
+type Callback = (
   json: PwaManifestOptions,
   api: IndexAPI
-) => void | PwaManifestOptions | Promise<void | PwaManifestOptions>;
+) => void | PwaManifestOptions | Promise<void | PwaManifestOptions>
 
 // Example:
 api.extendPWAManifestJson((json, api) => {
@@ -846,10 +845,10 @@ api.extendPWAManifestJson((json, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendPWAGenerateSWOptions: (
+type Callback = (
   config: GenerateSWOptions,
   api: IndexAPI
-) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>
 
 // Example:
 api.extendPWAGenerateSWOptions((config, api) => {
@@ -867,10 +866,10 @@ api.extendPWAGenerateSWOptions((config, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendPWAInjectManifestOptions: (
+type Callback = (
   config: InjectManifestOptions,
   api: IndexAPI
-) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>
 
 // Example:
 api.extendPWAInjectManifestOptions((config, api) => {
@@ -889,10 +888,10 @@ api.extendPWAInjectManifestOptions((config, api) => {
  * Can be async. Can directly modify the "config" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendBexScriptsConf: (
+type Callback = (
   config: RolldownOptions,
-  api
-) => void | RolldownOptions | Promise<void | RolldownOptions>;
+  api: IndexAPI
+) => void | RolldownOptions | Promise<void | RolldownOptions>
 
 // Example:
 api.extendBexScriptsConf((rolldownConf, api) => {
@@ -911,10 +910,10 @@ api.extendBexScriptsConf((rolldownConf, api) => {
  * Can be async. Can directly modify the "json" parameter or
  * return a new one that will be merged with the default one.
  */
-api.extendBexManifestJson: (
+type Callback = (
   json: object,
   api: IndexAPI
-) => void | object | Promise<void | object>;
+) => void | object | Promise<void | object>
 
 // Example:
 api.extendBexManifestJson((json, api) => {

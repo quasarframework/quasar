@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) How to use the Cordova plugins in a Quasar app.
 
 You can hook into the native device APIs by using [Cordova Plugins](https://cordova.apache.org/docs/en/latest/#plugin-apis).
 
-## Cordova Plugins
+## Cordova plugins
 
 A few examples of such plugins:
 
@@ -22,9 +22,9 @@ A few examples of such plugins:
 - Vibration
 - Statusbar
 
-## Deviceready Event
+## `deviceready` event
 
-You'll notice that some Cordova plugins are usable only after the `deviceready` event has been triggered. We don't need to worry about it too much. Quasar listens to this event and takes care of our root Vue component to be mounted **after** this event has been triggered. But if you need some plugin's own variable and that is initialized after `deviceready` you can follow the example of using the plugin device below
+Some Cordova plugins are usable only after `deviceready`. In Cordova mode, Quasar waits for this event before mounting the root Vue application, so component setup and lifecycle hooks can use initialized plugin APIs.
 
 ### Caveat
 
@@ -51,7 +51,7 @@ Let's take a vue file for example:
 </script>
 ```
 
-The reason is simple. Quasar listens for the event then mounts the root Vue component. But before this, the Vue files are imported into the `/src/router/routes.js` file, so the code outside of the default export gets executed.
+Module-level code can still execute while Vue files are imported, before the application mounts. Avoid accessing Cordova plugin globals at module scope. If module-level initialization is unavoidable, listen for `deviceready` explicitly as shown above.
 
 ## Using a Cordova Plugin
 
@@ -71,9 +71,6 @@ cordova plugin add cordova-plugin-battery-status
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
 ```html // some Vue file
-// remember this is simply an example // only look at how we use the API
-described in the plugin's page // the rest of things here are of no importance
-
 <template>
   <div> Battery status is: <strong>{{ batteryStatus }}</strong> </div>
 </template>
@@ -114,10 +111,6 @@ cordova plugin add cordova-plugin-camera
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
 ```html
-// some Vue file // remember this is simply an example; // only look at how we
-use the API described in the plugin's page; // the rest of things here are of no
-importance
-
 <template>
   <div>
     <q-btn color="primary" label="Get Picture" @click="captureImage" />
@@ -167,25 +160,17 @@ cordova plugin add cordova-plugin-device
 Now let's put this plugin to some good use. If you need the information of your device when starting the application, you will have to capture the created event. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
 ```html
-// some Vue file // remember this is simply an example; // only look at how we
-use the API described in the plugin's page; // the rest of things here are of no
-importance
-
 <template>
   <div>
-    <q-page class="flex flex-center">
-      <div>IMEI: {{ imei }}</div>
-    </q-page>
+    <div>Model: {{ model }}</div>
+    <div>Manufacturer: {{ manufacturer }}</div>
   </div>
 </template>
 
 <script setup>
   import { ref } from 'vue'
 
-  const imei = ref(
-    window.device === void 0
-      ? 'Run this on a mobile/tablet device'
-      : window.device
-  )
+  const model = ref(window.device?.model ?? 'Unavailable')
+  const manufacturer = ref(window.device?.manufacturer ?? 'Unavailable')
 </script>
 ```

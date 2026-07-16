@@ -11,6 +11,7 @@ import { error, fatal, log, tip, warn } from './utils/logger.js'
 import { appFilesValidations } from './utils/app-files-validations.js'
 import { getPackageMajorVersion } from './utils/get-package-major-version.js'
 import { resolveExtension } from './utils/resolve-extension.js'
+import { getPackagePath } from './utils/get-package-path.js'
 import { ensureElectronArgv } from './utils/ensure-argv.js'
 import { quasarRolldownVueShimPlugin } from './plugins/rolldown.vue-shim.js'
 import {
@@ -120,6 +121,66 @@ function parseAssetProperty(prefix) {
             : `${prefix}/${asset.path}`
           : asset.path
     }
+  }
+}
+
+const appExtensionAssetPaths = [['css'], ['boot'], ['ssr', 'middlewares']]
+
+function getAssetList(cfg, path) {
+  return path.reduce((value, key) => value?.[key], cfg)
+}
+
+function getTildeAssetPath(asset) {
+  const path = typeof asset === 'string' ? asset : asset?.path
+  return typeof path === 'string' && path[0] === '~' ? path : void 0
+}
+
+function getTildeAssetCounts(cfg) {
+  const assetCounts = new Map()
+
+  for (const path of appExtensionAssetPaths) {
+    const list = getAssetList(cfg, path)
+    if (!Array.isArray(list)) continue
+
+    const counts = new Map()
+    assetCounts.set(path, counts)
+
+    for (const asset of list) {
+      const assetPath = getTildeAssetPath(asset)
+      if (assetPath !== void 0) {
+        counts.set(assetPath, (counts.get(assetPath) || 0) + 1)
+      }
+    }
+  }
+
+  return assetCounts
+}
+
+function resolveAppExtensionAssets(cfg, previousAssetCounts, packageDir) {
+  for (const path of appExtensionAssetPaths) {
+    const list = getAssetList(cfg, path)
+    if (!Array.isArray(list)) continue
+
+    const previousCounts = previousAssetCounts.get(path) || new Map()
+
+    list.forEach((asset, index) => {
+      const assetPath = getTildeAssetPath(asset)
+      if (assetPath === void 0) return
+
+      const previousCount = previousCounts.get(assetPath) || 0
+      if (previousCount !== 0) {
+        previousCounts.set(assetPath, previousCount - 1)
+        return
+      }
+
+      const resolvedPath = getPackagePath(assetPath.slice(1), packageDir)
+      if (resolvedPath === void 0) return
+
+      list[index] =
+        typeof asset === 'string'
+          ? `~${resolvedPath}`
+          : { ...asset, path: `~${resolvedPath}` }
+    })
   }
 }
 
@@ -786,10 +847,16 @@ export class QuasarConfigFile {
         'extendQuasarConf',
         async hook => {
           hook.api.logger.log('Extending quasar.config file configuration...')
+          const tildeAssetCounts = getTildeAssetCounts(rawQuasarConf)
           const overrides = await hook.fn(rawQuasarConf, hook.api)
           if (Object(overrides) === overrides) {
             rawQuasarConf = merge(rawQuasarConf, overrides)
           }
+          resolveAppExtensionAssets(
+            rawQuasarConf,
+            tildeAssetCounts,
+            hook.packageDir
+          )
         }
       )
     } catch (err) {
@@ -1205,8 +1272,8 @@ export class QuasarConfigFile {
     cfg.preFetch ||= false
 
     if (
-      this.#ctx.mode.capacitor &
-      (cfg.capacitor.capacitorCliPreparationParams.length === 0)
+      this.#ctx.mode.capacitor &&
+      cfg.capacitor.capacitorCliPreparationParams.length === 0
     ) {
       cfg.capacitor.capacitorCliPreparationParams = [
         'sync',

@@ -3,7 +3,7 @@ title: Electron with TypeScript
 desc: (@quasar/app-vite) How to use TypeScript with Electron in Quasar
 ---
 
-In order to support Electron with TypeScript, you will need to rename the extension for your files in /src-electron from `.js` to `.ts` and make the necessary TS code changes.
+When Electron mode is added to a TypeScript Quasar project, Quasar creates TypeScript main and preload sources automatically. To convert an existing JavaScript Electron workspace, rename the files under `/src-electron` from `.js` to `.ts` and address any TypeScript errors. The default source configuration omits extensions, so it resolves either form.
 
 ::: tip
 `@electron/packager` and `electron-builder` export their configuration types from their own packages.
@@ -58,9 +58,8 @@ async function createWindow() {
   }
 }
 
-void app.whenReady().then(async () => {
-  await registerQuasarRuntime()
-
+void app.whenReady().then(() => {
+  registerQuasarRuntime()
   void createWindow()
 
   app.on('activate', () => {
@@ -90,7 +89,7 @@ app.on('window-all-closed', () => {
  * Instead, use IPC to communicate with the main process and access packages and Node.js
  * functionality there.
  *
- * Example on injecting window.myAPI.doAThing() into renderer thread:
+ * Example of exposing window.myAPI.doAThing() to the renderer process:
  *
  *   import { contextBridge } from 'electron'
  *

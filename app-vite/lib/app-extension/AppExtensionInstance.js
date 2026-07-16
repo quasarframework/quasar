@@ -1,5 +1,5 @@
-import { relative, resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { dirname, relative, resolve } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { closeSync, openSync, readSync } from 'node:fs'
 import fse from 'fs-extra'
 
@@ -57,9 +57,8 @@ async function renderFile(
     if (action === 'skip') return
   }
 
-  fse.ensureFileSync(targetPath)
-
   if (rawCopy || isBinaryFile(sourcePath)) {
+    fse.ensureFileSync(targetPath)
     fse.copyFileSync(sourcePath, targetPath)
   } else {
     const rawContent = fse.readFileSync(sourcePath, 'utf8')
@@ -70,6 +69,7 @@ async function renderFile(
         `Failed to render template "${sourcePath}". This may break the App Extension...`
       )
     } else {
+      fse.ensureFileSync(targetPath)
       fse.writeFileSync(targetPath, content, 'utf8')
     }
   }
@@ -229,11 +229,23 @@ export class AppExtensionInstance {
     }
 
     const prompts = await this.#getScriptPrompts()
+    const previousConfig = this.#appExtJson.get(this.extId)
 
     this.#appExtJson.set(this.extId, prompts)
 
-    // run extension install
-    const hooks = await this.#runInstallScript(prompts)
+    let hooks
+    try {
+      // run extension install
+      hooks = await this.#runInstallScript(prompts)
+    } catch (err) {
+      if (previousConfig === void 0) {
+        this.#appExtJson.remove(this.extId)
+      } else {
+        this.#appExtJson.set(this.extId, previousConfig)
+      }
+
+      throw err
+    }
 
     this.logger.log(`Installed App Extension`)
 
@@ -290,7 +302,8 @@ export class AppExtensionInstance {
       {
         ctx: this.#ctx,
         extId: this.extId,
-        prompts: this.getPrompts()
+        prompts: this.getPrompts(),
+        packageDir: dirname(fileURLToPath(this.#packageParentUrl))
       },
       this.#appExtJson
     )
@@ -329,7 +342,17 @@ export class AppExtensionInstance {
     const prompts = await getPromptsObject(api)
     log()
 
-    return prompts || {}
+    if (prompts === void 0) return {}
+
+    if (
+      Object(prompts) !== prompts ||
+      (Object.getPrototypeOf(prompts) !== Object.prototype &&
+        Object.getPrototypeOf(prompts) !== null)
+    ) {
+      this.logger.fatal('Prompts script must return an object or undefined.')
+    }
+
+    return prompts
   }
 
   async #installPackage() {
@@ -405,21 +428,13 @@ export class AppExtensionInstance {
     } catch (err) {
       console.error(err)
 
-      if (fatalError) {
-        this.logger.fatal(
-          `${scriptName} script has thrown the error from above.`
-        )
-      }
+      this.logger.fatal(`${scriptName} script has thrown the error from above.`)
     }
 
     if (typeof fn !== 'function') {
-      if (fatalError) {
-        this.logger.fatal(
-          `${scriptName} script does not have a default export as a function...`
-        )
-      }
-
-      return
+      this.logger.fatal(
+        `${scriptName} script does not have a default export as a function...`
+      )
     }
 
     return fn
