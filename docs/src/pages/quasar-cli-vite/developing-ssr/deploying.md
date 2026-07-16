@@ -42,7 +42,7 @@ You can use [Cleavr](https://cleavr.io) to deploy Quasar SSR apps to several pop
 Add a new **Node.JS SSR** site to Cleavr and then configure the web app settings with the following:
 
 - **Entry point:** index.js
-- **Build command:** pnpm exec quasar build --mode ssr
+- **Build command:** npx quasar build --mode ssr
 - **Artifact path:** dist/ssr
 
 ## Serverless
