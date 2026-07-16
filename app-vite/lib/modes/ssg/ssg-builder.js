@@ -340,13 +340,35 @@ export class QuasarModeBuilder extends AppBuilder {
         })
       } catch (err) {
         console.log()
-        console.error(err)
-        console.error('\nOffending SSG page definition:')
+        console.error('Offending SSG page definition:')
         console.error(page)
 
+        const pageIdentifier =
+          `route "${page.route}"` + `${page.label ? ` [${page.label}]` : ''}`
+
+        if (err?.routeNotFound) {
+          fatal(
+            `Failed to render SSG page for ${pageIdentifier}:` +
+              ' Vue Router did not match the route.',
+            'FAIL'
+          )
+        }
+
+        if (err?.redirectUrl) {
+          fatal(
+            `Failed to render SSG page for ${pageIdentifier}:` +
+              ` the route redirects to "${err.redirectUrl}".` +
+              ' Generate the destination route instead.',
+            'FAIL'
+          )
+        }
+
+        console.error('\nRender error:')
+        console.error(err)
+
         fatal(
-          `Failed to render SSG page for route "${page.route}"` +
-            `${page.label ? ` [${page.label}]` : ''}. Check details above.`,
+          `Failed to render SSG page for ${pageIdentifier}.` +
+            ' Check details above.',
           'FAIL'
         )
       }
