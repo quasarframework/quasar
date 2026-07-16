@@ -28,7 +28,7 @@ export async function createQuasarScript({ scope, utils }) {
         options: {
           Tooling: [
             {
-              label: 'Typescript support',
+              label: 'TypeScript support',
               value: 'typescript'
             },
             {
