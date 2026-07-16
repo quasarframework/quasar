@@ -138,7 +138,7 @@
   "devDependencies": {
     "@capacitor/cli": "^8.4.1",
     "@quasar/extras": "workspace:*",
-    "pinia": "^3.0.4",
+    "pinia": "^4.0.2",
     "quasar": "workspace:^",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0"
@@ -148,7 +148,7 @@
     "@electron/packager": ">= 19",
     "builder-util": ">= 26",
     "electron-builder": ">= 22",
-    "pinia": "^2.0.0 || ^3.0.0",
+    "pinia": "^2.0.0 || ^3.0.0 || ^4.0.0",
     "quasar": "^2.21.3",
     "typescript": ">= 5",
     "vue": "^3.2.29",
