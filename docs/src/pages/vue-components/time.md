@@ -51,6 +51,8 @@ The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils
 
 ::: warning Note on SSR/SSG
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+
+If the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.
 :::
 
 ::: danger Note on persian calendar

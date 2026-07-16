@@ -21,6 +21,8 @@ import useFullscreen, {
 } from '../../composables/private.use-fullscreen/use-fullscreen.js'
 import useSplitAttrs from '../../composables/use-split-attrs/use-split-attrs.js'
 
+import { isRuntimeSsrPreHydration } from '../../plugins/platform/Platform.js'
+
 import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import extend from '../../utils/extend/extend.js'
@@ -115,6 +117,8 @@ export default createComponent({
 
     let defaultFont, offsetBottom
     let lastEmit = props.modelValue
+    const renderInitialContent =
+      __QUASAR_SSR_SERVER__ || isRuntimeSsrPreHydration.value
 
     if (!__QUASAR_SSR_SERVER__) {
       document.execCommand(
@@ -745,7 +749,7 @@ export default createComponent({
             class: innerClass.value,
             contenteditable: editable.value,
             placeholder: props.placeholder,
-            ...(__QUASAR_SSR_SERVER__ ? { innerHTML: props.modelValue } : {}),
+            ...(renderInitialContent ? { innerHTML: props.modelValue } : {}),
             ...splitAttrs.listeners.value,
             onInput,
             onKeydown,
