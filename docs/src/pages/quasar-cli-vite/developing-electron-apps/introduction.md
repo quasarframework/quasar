@@ -3,18 +3,18 @@ title: What is Electron
 desc: (@quasar/app-vite) Introduction about the technology behind Quasar desktop apps.
 ---
 
-[Electron](https://electronjs.org/) (formerly known as Atom Shell) is an open-source framework created by Cheng Zhao, and now developed by GitHub. **It allows for the development of desktop GUI applications** using front and back end components originally developed for web applications: Node.js runtime for the backend and Chromium for the frontend. Electron is the main GUI framework behind several notable open-source projects including GitHub's Atom and Microsoft's Visual Studio Code source code editors, the Tidal music streaming service desktop application and the Light Table IDE, in addition to the freeware desktop client for the Discord chat service.
+[Electron](https://www.electronjs.org/) is an open-source framework for building cross-platform desktop applications with JavaScript, HTML, and CSS. It embeds Chromium and Node.js, allowing a Quasar application to combine a web-based interface with native desktop capabilities.
 
-Each Electron app has two threads: one is the main thread (dealing with the App window and bootup), and one is the renderer thread (which is basically your UI web code). There is also a preload script to bridge the two "worlds".
+An Electron application normally uses multiple operating-system processes. The main process manages the application lifecycle and native windows. Each window loads the Quasar UI in a renderer process. A preload script can expose a narrow, controlled API from Electron to the renderer.
 
-## Renderer Thread
+## Renderer Process
 
-Electron uses Chromium for displaying web pages in a separate process called the render process. This thread deals with your UI code in `/src` folder. You won't be able to use the Node.js power here, but the preload script will allow you to bridge the UI with Node.js.
+Electron uses Chromium to display the UI code from `/src` in a renderer process. Quasar's default Electron template keeps Node.js integration disabled and context isolation enabled. Use a preload bridge and IPC when the UI needs a native capability.
 
-## Main Thread
+## Main Process
 
-In Electron, the process that runs package.json’s main script is called the main process. This is the script that runs in the main process and can display a GUI by initializing the renderer thread. This thread deals with your code in `/src-electron/electron-main.js`.
+The main process runs the package's `main` entry, manages the application lifecycle, and creates browser windows. In a Quasar project, its source is `/src-electron/electron-main.js` (or `.ts`).
 
 ## Preload Script
 
-The [preload script](/quasar-cli-vite/developing-electron-apps/electron-preload-script) (`/src-electron/electron-preload.js`) is a way for you to inject Node.js stuff into the renderer thread by using a bridge between it and the UI. You can expose APIs that you can then call from your UI.
+The [preload script](/quasar-cli-vite/developing-electron-apps/electron-preload-script) (`/src-electron/electron-preload.js` or `.ts`) runs before the renderer content. Use Electron's `contextBridge` to expose small, purpose-built APIs to the UI instead of exposing Node.js or Electron APIs directly.

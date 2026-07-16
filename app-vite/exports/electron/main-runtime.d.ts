@@ -29,4 +29,4 @@ export declare const publicDir: string;
  * This allows the preload script and renderer process to request
  * resolved asset and public paths synchronously via `ipcRenderer.sendSync`.
  */
-export declare function registerQuasarRuntime(): Promise<void>;
+export declare function registerQuasarRuntime(): void;

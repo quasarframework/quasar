@@ -17,13 +17,13 @@ scope:
 
 ## The problem
 
-Since the main thread (with preload scripts) is bundled using Rolldown, the use of `import.meta.env.dirname` and `import.meta.env.filename` (...and so on) will not provide an expected value in dev and in production, especially in regards to the absolute paths.
+The main process and preload scripts are bundled with Rolldown, and their output locations differ between development and production. Paths derived from a source-file location therefore do not reliably identify `/public` or `/src-electron/electron-assets` in both environments.
 
 <DocTree :def="scope.distTree" />
 
 ## The solution
 
-Quasar CLI provides an out of the box solution for referencing files, regardless of the dev or production environment, by leveraging the IPC communication.
+Quasar CLI provides runtime helpers for referencing these directories in both environments.
 
 Notice the following sections:
 
@@ -55,9 +55,9 @@ import { quasarRuntime } from '#q-app/electron/preload'
 contextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime)
 ```
 
-Notice that we are exposing a `quasarRuntime` variable to the redenderer thread, so we can reference `window.quasarRuntime` from there.
+This exposes `quasarRuntime` to the renderer as `window.quasarRuntime`.
 
-Should you wish, you can expose whatever variable name you want. And also, whatever subset of this runtime you desire. Just import from `#q-app/electron/preload` and call contextBridge.exposeInMainWorld().
+You can choose another property name or expose only the helpers your renderer needs.
 
 ### API for electron-main
 
@@ -105,7 +105,7 @@ export declare const publicDir: string;
  * This allows the preload script and renderer process to request
  * resolved asset and public paths synchronously via `ipcRenderer.sendSync`.
  */
-export declare function registerQuasarRuntime(): Promise<void>;
+export declare function registerQuasarRuntime(): void;
 ```
 
 ### API for electron-preload
@@ -160,16 +160,49 @@ export declare const quasarRuntime: {
 };
 ```
 
-### Usage in renderer thread (/src)
+### Usage in the renderer process (`/src`)
 
 ```js
 window.quasarRuntime.resolvePublicPath('my-file')
 ```
 
-## Read & Write Local Files
+## Read and write local files
 
-One great benefit of using Electron is the ability to access the user's file system. This enables you to read and write files on the local system. To help avoid Chromium restrictions and writing to your application's internal files, make sure to make use of electron's APIs, specifically the `app.getPath(name)` function. This helper method can get you file paths to system directories such as the user's desktop, system temporary files, etc.
+Treat packaged application files as read-only. Use Electron's `app.getPath(name)` for writable locations such as the application-specific `userData` directory, and perform filesystem operations in the main process.
 
-We can use the userData directory, which is reserved specifically for our application, so we can have confidence other programs or other user interactions should not tamper with this file space.
+Expose a narrow IPC operation rather than a path or unrestricted filesystem API. For example:
 
-Note that if you care about security, you will need to use the IPC communication to handle this in your preload or renderer thread, just as the Quasar CLI does with its `quasarRuntime`.
+```js /src-electron/electron-main
+import { app, ipcMain } from 'electron'
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
+
+export function registerPreferencesHandler(mainWindow) {
+  ipcMain.handle('preferences:load', async event => {
+    if (event.senderFrame !== mainWindow.webContents.mainFrame) {
+      throw new Error('Untrusted IPC sender')
+    }
+
+    const filename = path.join(app.getPath('userData'), 'preferences.json')
+
+    try {
+      return JSON.parse(await readFile(filename, 'utf8'))
+    } catch (error) {
+      if (error.code === 'ENOENT') return {}
+      throw error
+    }
+  })
+}
+```
+
+Call `registerPreferencesHandler(mainWindow)` after creating the trusted window. Remove the handler with `ipcMain.removeHandler('preferences:load')` if that window and its handlers are recreated during the same application session.
+
+```js /src-electron/electron-preload
+import { contextBridge, ipcRenderer } from 'electron'
+
+contextBridge.exposeInMainWorld('preferencesAPI', {
+  load: () => ipcRenderer.invoke('preferences:load')
+})
+```
+
+For applications with multiple or remote windows, keep a separate allowlist for each operation or validate `event.senderFrame.url` with the URL parser. Merely checking that a window exists is not sufficient.
