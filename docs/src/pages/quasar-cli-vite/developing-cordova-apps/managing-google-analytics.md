@@ -8,8 +8,10 @@ The former Analytics.js integration is no longer appropriate for new application
 Choose a maintained Cordova plugin or analytics provider that supports your target platform versions. Follow that provider's native Android and iOS setup, install the plugin from `/src-cordova`, and keep its platform configuration files out of `/src-cordova/www`.
 
 ::: warning
+
 - Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.
 - A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
+
 :::
 
 ## Prerequisites

@@ -28,8 +28,10 @@ keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg R
 You’ll first be prompted to create a password for the keystore. Then, answer the rest of the nice tool’s questions and when it’s all done, you should have a file called my-release-key.keystore created in the current directory.
 
 ::: danger
+
 - Keep the keystore and its passwords out of version control and build logs. Store encrypted backups separately from the source repository and restrict access to the people or release system that signs the app. Losing the signing key can prevent you from publishing updates; leaking it can let someone sign malicious releases as your app.
 - Store policies, target SDK requirements, signing workflows, and developer-program details change regularly. Treat the platform documentation linked below as authoritative.
+
 :::
 
 Before creating a release:
