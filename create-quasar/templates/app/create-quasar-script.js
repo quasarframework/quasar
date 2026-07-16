@@ -10,7 +10,7 @@ export async function createQuasarScript({ scope, utils }) {
         placeholder: defaultName,
         defaultValue: defaultName,
         validate: val => {
-          if (!utils.definitions.name.isValid(val)) {
+          if (!utils.definitions.name.isValid(val ?? defaultName)) {
             return 'Invalid package.json name'
           }
         }
