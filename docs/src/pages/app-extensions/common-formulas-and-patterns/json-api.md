@@ -15,7 +15,7 @@ You might want to read about the Index script's [api.registerDescribeApi](/app-e
 ## Benefits of using JSON API
 
 1. Describes your existing data format(s)
-2. Provides clear human- and machine-readable documentation
+2. Provides clear human and machine-readable documentation
 3. Validates data which is useful for:
    - Automated testing
    - Ensuring quality of submitted data
