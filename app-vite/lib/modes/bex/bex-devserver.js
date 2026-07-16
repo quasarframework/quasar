@@ -242,7 +242,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
   // firefox only
   #getPublicDirWatcher(quasarConf) {
-    const publicDir = this.ctx.appPaths.publicDir
+    const { publicDir } = this.ctx.appPaths
     const watcher = chokidarWatch(publicDir, {
       ignoreInitial: true
     })
