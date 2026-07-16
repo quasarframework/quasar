@@ -138,6 +138,7 @@ export default createComponent({
       hideOnRouteChange,
       handleShow,
       handleHide,
+      handleRouteChange,
       processOnMount: true
     })
 
@@ -253,13 +254,15 @@ export default createComponent({
       hidePortal()
 
       if (refocusTarget !== null) {
-        ;(
+        const target =
           (evt?.type.indexOf('key') === 0
             ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
             : void 0) || refocusTarget
-        ).focus()
 
         refocusTarget = null
+        addFocusFn(() => {
+          if (target.isConnected) target.focus()
+        })
       }
 
       // should removeTimeout() if this gets removed
@@ -268,6 +271,10 @@ export default createComponent({
         animating.value = false
         emit('hide', evt)
       }, props.transitionDuration)
+    }
+
+    function handleRouteChange() {
+      refocusTarget = null
     }
 
     function focus(selector) {

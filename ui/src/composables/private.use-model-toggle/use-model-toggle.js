@@ -21,6 +21,7 @@ export default function useModelToggle({
   hideOnRouteChange, // optional
   handleShow, // optional
   handleHide, // optional
+  handleRouteChange, // optional
   processOnMount // optional
 }) {
   const vm = getCurrentInstance()
@@ -127,6 +128,7 @@ export default function useModelToggle({
       () => proxy.$route.fullPath,
       () => {
         if (hideOnRouteChange.value && showing.value) {
+          handleRouteChange?.()
           hide()
         }
       }
