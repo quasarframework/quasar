@@ -25,6 +25,8 @@ Notice that the model is a String only.
 
 <DocExample title="Basic" file="Basic" overflow />
 
+The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.
+
 <DocExample title="Landscape" file="Landscape" overflow />
 
 ::: tip

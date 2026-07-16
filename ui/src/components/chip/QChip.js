@@ -15,6 +15,10 @@ import { createComponent } from '../../utils/private.create/create.js'
 import { stopAndPrevent } from '../../utils/event/event.js'
 import { hDir, hMergeSlotSafely } from '../../utils/private.render/render.js'
 
+function preventSpace(e) {
+  if (e.keyCode === 32) stopAndPrevent(e)
+}
+
 export const defaultSizes = {
   xs: 8,
   sm: 10,
@@ -116,7 +120,11 @@ export default createComponent({
     const attributes = computed(() => {
       const chip = props.disable
         ? { tabindex: -1, 'aria-disabled': 'true' }
-        : { tabindex: props.tabindex || 0 }
+        : {
+            tabindex: props.tabindex || 0,
+            role: 'button',
+            'aria-pressed': props.selected ? 'true' : 'false'
+          }
 
       const remove = {
         ...chip,
@@ -129,7 +137,10 @@ export default createComponent({
     })
 
     function onKeyup(e) {
-      if (e.keyCode === 13 /* ENTER */) onClick(e)
+      if ([13, 32].includes(e.keyCode)) {
+        onClick(e)
+        stopAndPrevent(e)
+      }
     }
 
     function onClick(e) {
@@ -140,7 +151,7 @@ export default createComponent({
     }
 
     function onRemove(e) {
-      if (e.keyCode === void 0 || e.keyCode === 13) {
+      if (e.keyCode === void 0 || [13, 32].includes(e.keyCode)) {
         stopAndPrevent(e)
         if (!props.disable) {
           emit('update:modelValue', false)
@@ -196,6 +207,7 @@ export default createComponent({
             name: removeIcon.value,
             ...attributes.value.remove,
             onClick: onRemove,
+            onKeydown: preventSpace,
             onKeyup: onRemove
           })
         )
@@ -213,7 +225,11 @@ export default createComponent({
       }
 
       if (isClickable.value) {
-        Object.assign(data, attributes.value.chip, { onClick, onKeyup })
+        Object.assign(data, attributes.value.chip, {
+          onClick,
+          onKeydown: preventSpace,
+          onKeyup
+        })
       }
 
       return hDir(

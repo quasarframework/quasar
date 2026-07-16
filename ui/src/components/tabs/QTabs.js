@@ -386,13 +386,11 @@ export default createComponent({
       const dir = dirPrev ? -1 : dirNext ? 1 : void 0
 
       if (dir !== void 0) {
-        const rtlDir = isRTL.value ? -1 : 1
-        const index = tabs.indexOf(fromEl) + dir * rtlDir
+        const rtlDir = props.vertical !== true && isRTL.value ? -1 : 1
+        const index = (tabs.indexOf(fromEl) + dir * rtlDir + len) % len
 
-        if (index >= 0 && index < len) {
-          scrollToTabEl(tabs[index])
-          tabs[index].focus({ preventScroll: true })
-        }
+        scrollToTabEl(tabs[index])
+        tabs[index].focus({ preventScroll: true })
 
         return true
       }
@@ -700,6 +698,7 @@ export default createComponent({
           ref: rootRef,
           class: classes.value,
           role: 'tablist',
+          'aria-orientation': props.vertical ? 'vertical' : 'horizontal',
           onFocusin,
           onFocusout
         },

@@ -15,6 +15,16 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <DocExample title="Basic" file="Basic" />
 
+### Keyboard navigation
+
+When a tree node has focus:
+
+- `Arrow Up` and `Arrow Down` move focus through the visible nodes.
+- `Arrow Right` expands a collapsed parent or moves focus to its first visible child.
+- `Arrow Left` collapses an expanded parent or moves focus to its parent.
+- `Home` and `End` move focus to the first and last visible nodes.
+- `Enter` performs the node's default action; `Space` toggles its expansion.
+
 ### No connector lines
 
 <DocExample title="No connectors" file="NoConnectors" />
@@ -52,9 +62,9 @@ Notice (in the example below) the custom header and body slots.
 <DocExample title="Customizing nodes" file="SlotsCustomized" />
 
 ::: warning
-Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
+Clicking or pressing `ENTER` on the custom header selects the tree item (and the custom header is blurred). Pressing `SPACE` toggles its expansion.
 
-If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keypress.stop>` (or add the listeners to the respective component/element that is emitting them).
+If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keydown.stop>` (or add the listeners to the respective component/element that is emitting them).
 :::
 
 ### Accordion, filtering and selectable
