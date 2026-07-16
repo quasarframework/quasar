@@ -1,5 +1,5 @@
-import { relative, resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { dirname, relative, resolve } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { closeSync, openSync, readSync } from 'node:fs'
 import fse from 'fs-extra'
 
@@ -302,7 +302,8 @@ export class AppExtensionInstance {
       {
         ctx: this.#ctx,
         extId: this.extId,
-        prompts: this.getPrompts()
+        prompts: this.getPrompts(),
+        packageDir: dirname(fileURLToPath(this.#packageParentUrl))
       },
       this.#appExtJson
     )
