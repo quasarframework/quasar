@@ -47,7 +47,7 @@ export default {
         : (rows === 0 ? 'Ingen' : rows) + ' rader valgt.',
     recordsPerPage: 'Rader pr side:',
     allRows: 'Alle',
-    pagination: (start, end, total) => start + ' - ' + end + ' av ' + total,
+    pagination: (start, end, total) => start + '-' + end + ' av ' + total,
     columns: 'Kolonner'
   },
   pagination: {
