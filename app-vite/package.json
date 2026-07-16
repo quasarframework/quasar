@@ -109,7 +109,7 @@
     "@quasar/vite-plugin": "workspace:^",
     "@types/chrome": "^0.2.2",
     "@types/cordova": "^11.0.3",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "^6.0.8",
     "chokidar": "^5.0.0",
     "ci-info": "^4.4.0",
     "confbox": "^0.2.4",
@@ -125,7 +125,7 @@
     "mlly": "^1.8.2",
     "open": "^11.0.0",
     "picomatch": "^4.0.5",
-    "rolldown": "^1.1.5",
+    "rolldown": "^1.2.0",
     "sass-embedded": "^1.100.0",
     "semver": "^7.8.5",
     "serialize-javascript": "^7.0.7",
@@ -136,12 +136,12 @@
     "webpack-merge": "^6.0.1"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.4.1",
+    "@capacitor/cli": "^8.4.2",
     "@quasar/extras": "workspace:*",
     "pinia": "^4.0.2",
     "quasar": "workspace:^",
     "vue": "^3.5.39",
-    "vue-router": "^5.1.0"
+    "vue-router": "^5.2.0"
   },
   "peerDependencies": {
     "@capacitor/cli": ">= 5",

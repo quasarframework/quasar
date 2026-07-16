@@ -15,11 +15,11 @@
     "@quasar/extras": "workspace:*",
     "quasar": "workspace:*",
     "vue": "^3.5.39",
-    "vue-router": "^5.1.0"
+    "vue-router": "^5.2.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "workspace:*",
-    "postcss": "^8.5.16"
+    "postcss": "^8.5.19"
   },
   "engines": {
     "node": "^24 || ^22 || ^20",

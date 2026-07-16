@@ -21,7 +21,7 @@
     "quasar": "^2.21.4",
     "shiki": "^4.3.1",
     "vue": "^3.5.39",
-    "vue-router": "^5.1.0"
+    "vue-router": "^5.2.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "^3.0.1",
@@ -32,7 +32,7 @@
     "markdown-it": "^14.3.0",
     "markdown-it-container": "^4.0.0",
     "tinyglobby": "^0.2.17",
-    "toml": "^4.1.2",
+    "toml": "^5.0.0",
     "workbox-build": "^7.4.1"
   },
   "productName": "quasar-docs"

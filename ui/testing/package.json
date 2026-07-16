@@ -14,7 +14,7 @@
   "devDependencies": {
     "@quasar/extras": "workspace:*",
     "@quasar/vite-plugin": "workspace:*",
-    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/ui": "^4.1.10",
     "@vue/test-utils": "^2.4.10",
     "acorn": "^8.17.0",
@@ -25,6 +25,6 @@
     "vite": "^8.1.4",
     "vitest": "^4.1.10",
     "vue": "^3.5.39",
-    "vue-router": "^5.1.0"
+    "vue-router": "^5.2.0"
   }
 }
