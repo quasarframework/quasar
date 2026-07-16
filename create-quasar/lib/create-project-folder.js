@@ -105,18 +105,22 @@ export async function createProjectFolder(scope) {
       })
   })
 
+  const pkgManager = scope.install || scope.packageManagerList[0]
+
   if (scope.install !== false) {
     const hasInstalled = await utils.installDeps(scope)
     if (hasInstalled) {
       scope.meta.hasInstalledDeps = true
 
       if (scope.preset.linting) {
-        await utils.lintFolder(scope)
+        const hadLintError = await utils.lintFolder(scope)
+        if (hadLintError) {
+          scope.meta.lintCmd = `${pkgManager} run lint`
+        }
       }
     }
   }
 
-  const pkgManager = scope.install || scope.packageManagerList[0]
   if (!scope.meta.hasInstalledDeps) {
     scope.meta.installDepsCmd = `${pkgManager} install`
 
