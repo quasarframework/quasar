@@ -3,7 +3,7 @@ console.log(`
 
    npm init quasar@latest
      (or)
-   yarn create quasar@latest
+   yarn create quasar
      (or)
    pnpm create quasar@latest
      (or)
