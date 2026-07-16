@@ -2,7 +2,7 @@
 
 # Quasar Framework App CLI with Vite (Local)
 
-> Build high-performance VueJS user interfaces in record time: responsive Single Page Apps, SSR Apps, PWAs, Browser extensions, Hybrid Mobile Apps and Electron Apps. If you want, all using the same codebase!
+> Build high-performance Vue.js user interfaces in record time: responsive Single Page Apps, SSR Apps, SSG Apps, PWAs, browser extensions, hybrid mobile apps and Electron apps. If you want, all using the same codebase!
 
 <img src="https://img.shields.io/npm/v/%40quasar/app-vite?label=@quasar/app-vite">
 
