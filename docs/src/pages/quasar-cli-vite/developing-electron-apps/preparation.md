@@ -52,6 +52,11 @@ Run:
 ```bash
 quasar dev -m electron
 
+# passing extra parameters and/or options to
+# underlying "electron" executable:
+quasar dev -m electron -- --force-device-scale-factor=1
+# when on Windows and using Powershell:
+quasar dev -m electron '--' --force-device-scale-factor=1
 ```
 
 This also adds Electron mode automatically when it is missing. It opens the application window and, with the default template, the renderer DevTools.

@@ -33,10 +33,11 @@ quasar dev -m electron
 # ..or the longer form:
 quasar dev --mode electron
 
-# Pass arguments to the Electron executable:
-quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
-# PowerShell:
-quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+# passing extra parameters and/or options to
+# underlying "electron" executable:
+quasar dev -m electron -- --force-device-scale-factor=1
+# when on Windows and using Powershell:
+quasar dev -m electron '--' --force-device-scale-factor=1
 ```
 
 It opens an Electron window. The default template also opens renderer DevTools. The renderer supports HMR; changing a main or preload source rebuilds it and restarts Electron.

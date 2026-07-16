@@ -5,8 +5,31 @@ desc: (@quasar/app-vite) How to publish a Quasar Cordova app to Google Play and 
 
 Quasar builds the web application and prepares the Cordova project. Android Studio, Xcode, Cordova's platform tooling, and the store portals handle signing and submission.
 
-::: warning
-Store policies, target SDK requirements, signing workflows, and developer-program details change regularly. Treat the platform documentation linked below as authoritative.
+## Android Publishing
+
+To generate a release build for Android, we can use the following Quasar CLI command:
+
+```bash
+quasar build -m cordova -T android
+# or the short form:
+quasar build -m android
+```
+
+This will generate a release build based on the settings in your `/src-cordova/config.xml`.
+
+Next, we can find our unsigned APK file in "/src-cordova/platforms/android/app/build/outputs/apk/release" or equivalent path (written in the output of terminal). Filename usually ends with "-release-unsigned.apk". Now, we need to sign the unsigned APK and run an alignment utility on it to optimize it and prepare it for the app store. If you already have a signing key, skip these steps and use that one instead.
+
+Let’s generate our private key using the keytool command that comes with the JDK. If this tool isn’t found, refer to the installation guide:
+
+```bash
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 20000
+```
+
+You’ll first be prompted to create a password for the keystore. Then, answer the rest of the nice tool’s questions and when it’s all done, you should have a file called my-release-key.keystore created in the current directory.
+
+::: danger
+- Keep the keystore and its passwords out of version control and build logs. Store encrypted backups separately from the source repository and restrict access to the people or release system that signs the app. Losing the signing key can prevent you from publishing updates; leaking it can let someone sign malicious releases as your app.
+- Store policies, target SDK requirements, signing workflows, and developer-program details change regularly. Treat the platform documentation linked below as authoritative.
 :::
 
 Before creating a release:

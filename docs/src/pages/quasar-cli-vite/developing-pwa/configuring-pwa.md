@@ -369,6 +369,8 @@ Note that you don't need to edit your index.html file (generated from `/index.ht
 If your PWA is behind basic auth or requires an Authorization header, set quasar.config file > pwa > useCredentialsForManifestTag to `true` to include `crossorigin="use-credentials"` on the manifest.json meta tag.
 ::::
 
+This option affects only the manifest request. If you add runtime caching for authenticated API responses, do not use a broad cache rule that can return one user's private response to another session. Limit matching to intended URLs and methods, avoid caching sensitive responses unless the cache is safely partitioned and cleared on sign-out, and respect the server's cache policy.
+
 ## PWA Checklist
 
 More info: [PWA Checklist](https://web.dev/pwa-checklist/)

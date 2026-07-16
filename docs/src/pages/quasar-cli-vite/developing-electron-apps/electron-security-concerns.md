@@ -9,6 +9,19 @@ Start with Electron's current [security checklist](https://www.electronjs.org/do
 
 ## Keep the renderer isolated
 
+Follow Electron's complete [security checklist](https://www.electronjs.org/docs/latest/tutorial/security). In particular:
+
+1. Keep Electron current so your application receives Chromium, Node.js, and Electron security fixes.
+2. Load packaged local content whenever possible. If remote content is unavoidable, use secure transport and never enable Node.js integration for it.
+3. Keep `contextIsolation` and renderer sandboxing enabled. Use a [preload script](/quasar-cli-vite/developing-electron-apps/electron-preload-script) to expose narrow, task-specific functions rather than raw Electron or Node.js APIs.
+4. Define a restrictive Content Security Policy. Do not disable `webSecurity`, enable `allowRunningInsecureContent`, or enable unnecessary experimental/Blink features.
+5. Handle permission requests explicitly and deny permissions your application does not require.
+6. Restrict navigation and new-window creation. Validate URLs before passing them to `shell.openExternal`.
+7. Validate the sender of every IPC message before performing privileged work. Never expose unrestricted `ipcRenderer.send`, `ipcRenderer.invoke`, filesystem, shell, or process APIs to renderer code.
+8. Avoid `<webview>` where possible. If it is required, verify its options and do not enable popups.
+9. Prefer a custom protocol over `file://` for packaged content when your application requires a stronger origin model.
+10. Review Electron fuses before distribution to disable capabilities your application does not use.
+
 Quasar's generated `BrowserWindow` keeps `contextIsolation` enabled. Current Electron versions also sandbox renderers by default and disable Node.js integration by default. Preserve those defaults:
 
 ```js /src-electron/electron-main
@@ -96,3 +109,23 @@ See Electron's [code-signing guide](https://www.electronjs.org/docs/latest/tutor
 ::: warning
 Hiding DevTools is not a security boundary. Assume users can inspect and modify renderer code and keep all privileged authorization and validation in the main process.
 :::
+
+### Publish checksums
+
+When you publish application binaries, publish their cryptographic checksums through a trusted channel so users can verify downloaded files.
+
+### Audit dependencies
+
+Use your package manager's audit tooling and an automated dependency scanner. Review reported vulnerabilities in the context of your application, update affected packages, and keep the lockfile under version control.
+
+### Harden the build
+
+Protect release credentials, pin dependencies through the lockfile, review dependency changes, and produce releases from a controlled build environment.
+
+### Pay to get hacked
+
+Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.
+
+### Get help
+
+You may feel overwhelmed, because the awesomeness of Electron brings with it a great many headaches that you never wanted to think about. If this is the case, consider [reaching out](mailto:razvan.stoenescu@gmail.com) and getting expert support for the review, audit and hardening of your app by the team of seasoned devs that brought you the Quasar Framework.

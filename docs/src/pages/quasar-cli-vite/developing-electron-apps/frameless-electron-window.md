@@ -32,11 +32,11 @@ function createWindow() {
 // Add this function:
 function registerWindowControls() {
   ipcMain.on('window:minimize', event => {
-    getSenderWindow(event)?.minimize()
+    BrowserWindow.fromWebContents(event.sender)?.minimize()
   })
 
   ipcMain.on('window:toggle-maximize', event => {
-    const win = getSenderWindow(event)
+    const win = BrowserWindow.fromWebContents(event.sender)
     if (!win) return
 
     if (win.isMaximized()) {
@@ -47,7 +47,7 @@ function registerWindowControls() {
   })
 
   ipcMain.on('window:close', event => {
-    getSenderWindow(event)?.close()
+    BrowserWindow.fromWebContents(event.sender)?.close()
   })
 }
 
@@ -63,6 +63,8 @@ app.whenReady().then(async () => {
   // ...
 })
 ```
+
+Resolving the window from `event.sender` ensures that each renderer controls only its own window. If your app loads remote content or accepts navigation away from its packaged UI, also [validate the sender of every IPC message](/quasar-cli-vite/developing-electron-apps/electron-security-concerns#checklist-security-recommendations) before performing privileged actions.
 
 ### The preload script
 
@@ -150,16 +152,18 @@ export default {
 We can also hide the header window bar for non-Electron Quasar modes:
 
 ```html
-<q-bar v-if="isElectron" class="q-electron-drag">
-  <q-icon name="laptop_chromebook" />
-  <div>Google Chrome</div>
+<template>
+  <q-bar v-if="isElectron" class="q-electron-drag">
+    <q-icon name="laptop_chromebook" />
+    <div>Google Chrome</div>
 
-  <q-space />
+    <q-space />
 
-  <q-btn dense flat icon="minimize" @click="minimize" />
-  <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
-  <q-btn dense flat icon="close" @click="closeApp" />
-</q-bar>
+    <q-btn dense flat icon="minimize" @click="minimize" />
+    <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
+    <q-btn dense flat icon="close" @click="closeApp" />
+  </q-bar>
+</template>
 
 <script setup>
   const isElectron = import.meta.env.QUASAR_ELECTRON_MODE

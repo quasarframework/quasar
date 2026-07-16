@@ -36,10 +36,10 @@ if (argv.help) {
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron -- --force-device-scale-factor=1
     # when on Windows and using Powershell:
     $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron '--' --force-device-scale-factor=1
 
   Options
     --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)

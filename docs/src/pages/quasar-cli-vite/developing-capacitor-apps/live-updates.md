@@ -6,6 +6,8 @@ desc: (@quasar/app-vite) How to enable live updates for a Quasar hybrid mobile a
 Live Updates, also known as Over-the-Air (OTA) or hot code updates, are a way to push updates to your app without going through the app store review process. This is particularly useful for bug fixes or minor updates that don't require a full app release.
 
 ::: warning
+A live-update bundle is executable application code. Use only an update service and plugin configuration that verifies the authenticity and integrity of downloaded bundles, protect publishing credentials, and test rollback behavior. Restrict updates to web assets; native code, plugins, permissions, and other binary changes require a signed store release. Confirm that your update policy complies with the requirements of every store where the app is distributed.
+
 OTA updates must comply with the rules of every target store and must not replace native code, native dependencies, permissions, or behavior that requires store review. Review the current Apple, Google Play, and plugin-provider requirements before enabling live updates in production.
 :::
 

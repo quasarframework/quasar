@@ -6,8 +6,18 @@ desc: (@quasar/app-vite) How to use analytics in a Quasar hybrid mobile app with
 Google Analytics does not provide an official Capacitor plugin. Choose an analytics integration that supports the platforms and consent requirements of your app. For native Google Analytics, a common approach is to use Firebase Analytics through a community Capacitor plugin.
 
 ::: warning
-Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.
+- Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.
+- A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.
 :::
+
+## Prerequisites
+
+- Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Page Routing with Vue Router](/quasar-cli-vite/page-routing-with-vue-router) for more info on routing.
+- Have Basic knowledge of Google Analytics
+
+## Preparation
+
+Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.
 
 ## Install an analytics plugin
 

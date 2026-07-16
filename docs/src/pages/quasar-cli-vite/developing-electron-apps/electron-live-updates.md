@@ -165,7 +165,9 @@ npx @capgo/cli@latest bundle zip --path dist/electron/live-update
 The folder passed to `bundle zip` must contain `index.html` at its root. Upload the generated zip to your own HTTPS storage and update your metadata endpoint to point at it.
 
 ::: warning
-Serve update metadata and bundles over HTTPS, keep checksums enabled and only publish renderer changes through live updates. Any change that affects Electron main/preload code or the packaged app should go through your signed desktop release process.
+Treat a live-update bundle as executable code. Serve metadata and bundles over HTTPS, restrict the updater to an allowlisted origin, and verify cryptographic authenticity before activating a bundle. A checksum obtained from the same endpoint detects corruption but does not protect against a compromised update server; use signed metadata or another verification key embedded in the signed desktop application when your updater supports it.
+
+Only publish renderer changes through live updates. Any change that affects Electron main/preload code, native dependencies, or the packaged application must go through the signed desktop release process. Protect update publishing credentials and test rollback behavior before enabling the flow for users.
 :::
 
 ## Hosted option
