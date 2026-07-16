@@ -82,11 +82,11 @@ Do not edit `/src-cordova/www` directly; Quasar overwrites it. Fix application c
 Quasar components such as QHeader, QFooter, and Notify account for common safe-area cases. Test multiple devices and orientations. Custom layout elements can use the standard CSS environment variables:
 
 ```css
-body.cordova .app-header {
+body.cordova .top-element {
   padding-top: env(safe-area-inset-top, 0px);
 }
 
-body.cordova .app-footer {
+body.cordova .bottom-element {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 ```
