@@ -109,7 +109,7 @@ const getVersionTask = async (
   if (latestVersion === null) {
     skippedVersions = true
     return (
-      `${green(packageName)}: ${currentVersionLabel} → ${red('Skipping!')}` +
+      `❌ ${green(packageName)}: ${currentVersionLabel} → ${red('Skipping!')}` +
       ` - NPM registry returned an error`
     )
   } else if (currentVersion !== latestVersion) {
@@ -123,10 +123,10 @@ const getVersionTask = async (
     }
 
     updateAvailable = true
-    return `${green(packageName)}: ${currentVersionLabel} → ${green(latestVersion)}`
+    return `⚠️  ${green(packageName)}: ${currentVersionLabel} → ${green(latestVersion)}`
   }
 
-  return `${green(packageName)}: ${currentVersionLabel} ✅ `
+  return `✅ ${green(packageName)}: ${currentVersionLabel}`
 }
 
 for (const type of Object.keys(deps)) {
