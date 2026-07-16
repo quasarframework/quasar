@@ -115,7 +115,7 @@ function extractBexScripts(quasarConf, bexManifest) {
     if (!fse.existsSync(inputFile)) {
       warn()
       warn(
-        `The file defined in bex manifest > background > service_worker > "${rawName}" does NOT exists. Skipping.`
+        `The file defined in bex manifest > background > service_worker > "${rawName}" does NOT exist. Skipping.`
       )
       warn()
     } else {
@@ -136,7 +136,7 @@ function extractBexScripts(quasarConf, bexManifest) {
     if (!fse.existsSync(inputFile)) {
       warn()
       warn(
-        `The file defined in bex manifest > background > scripts > "${rawName}" does NOT exists. Skipping.`
+        `The file defined in bex manifest > background > scripts > "${rawName}" does NOT exist. Skipping.`
       )
       warn()
       return
@@ -159,7 +159,7 @@ function extractBexScripts(quasarConf, bexManifest) {
       if (!fse.existsSync(inputFile)) {
         warn()
         warn(
-          `The file defined in bex manifest > content_scripts > js > "${rawName}" does NOT exists. Skipping.`
+          `The file defined in bex manifest > content_scripts > js > "${rawName}" does NOT exist. Skipping.`
         )
         warn()
         return
@@ -179,7 +179,7 @@ function extractBexScripts(quasarConf, bexManifest) {
     if (!fse.existsSync(inputFile)) {
       warn()
       warn(
-        `The file defined in quasar.config > bex > extraScripts > "${rawName}" does NOT exists. Skipping.`
+        `The file defined in quasar.config > bex > extraScripts > "${rawName}" does NOT exist. Skipping.`
       )
       warn()
       return
@@ -196,7 +196,7 @@ function extractBexScripts(quasarConf, bexManifest) {
   return scriptList
 }
 
-export function copyBexAssets(quasarConf) {
+export function copyBexAssets(quasarConf, clean = false) {
   const { appPaths, cacheProxy } = quasarConf.ctx
 
   const { assetsFolder, iconsFolder, localesFolder } = cacheProxy.getRuntime(
@@ -208,14 +208,21 @@ export function copyBexAssets(quasarConf) {
     })
   )
 
-  const folders = [assetsFolder, iconsFolder]
+  const folders = [assetsFolder, iconsFolder, localesFolder]
+  const targets = [
+    [assetsFolder, join(quasarConf.build.distDir, 'assets')],
+    [iconsFolder, join(quasarConf.build.distDir, 'icons')],
+    [localesFolder, join(quasarConf.build.distDir, '_locales')]
+  ]
 
-  fse.copySync(assetsFolder, join(quasarConf.build.distDir, 'assets'))
-  fse.copySync(iconsFolder, join(quasarConf.build.distDir, 'icons'))
+  for (const [source, target] of targets) {
+    if (clean === true) {
+      fse.removeSync(target)
+    }
 
-  if (fse.existsSync(localesFolder)) {
-    folders.push(localesFolder)
-    fse.copySync(localesFolder, join(quasarConf.build.distDir, '_locales'))
+    if (fse.existsSync(source)) {
+      fse.copySync(source, target)
+    }
   }
 
   return folders

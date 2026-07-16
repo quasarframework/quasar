@@ -25,8 +25,15 @@ sourceFiles: {
 ```ts /quasar.config file > bex
 bex: {
   /**
+   * Minify the browser extension build.
+   *
+   * @default false
+   */
+  minify?: boolean;
+
+  /**
    * The list of extra scripts (js/ts) not in your bex manifest that you want to
-   * compile and use in your browser extension. Maybe dynamic use them?
+   * compile and use dynamically in your browser extension.
    *
    * Each entry in the list should be a relative filename to /src-bex/
    *
@@ -172,7 +179,7 @@ Replace `example.com` with the narrowest origins your extension needs. Keep `<al
 
 ## Background And Content Scripts
 
-Behind every BEX is a [content script](https://developer.chrome.com/extensions/content_scripts) and a background script (manifest v2) / service-worker (manifest v3+). It's a good idea to understand what each of these are before writing your first BEX.
+A BEX can use [content scripts](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts) and a background page or service worker. Which background mechanism is available depends on the browser and manifest version.
 
 In summary:
 
@@ -212,9 +219,11 @@ Should you need other scripts to be dynamically loaded or compiled for your BEX,
 
 ```js /quasar.config file
 bex: {
+  minify: true,
+
   /**
    * The list of extra scripts (js/ts) not in your bex manifest that you want to
-   * compile and use in your browser extension. Maybe dynamic use them?
+   * compile and use dynamically in your browser extension.
    *
    * Each entry in the list should be a relative filename to /src-bex/
    *

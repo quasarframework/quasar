@@ -50,7 +50,13 @@ import { createBridge } from '#q-app/bex/background'
 const bridge = createBridge({ debug: false })
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  bridge.send('bex.tab.opened', { url: tab.url })
+  if (bridge.portList.includes('app')) {
+    bridge.send({
+      event: 'bex.tab.updated',
+      to: 'app',
+      payload: { url: tab.url }
+    })
+  }
 })
 ```
 
@@ -65,16 +71,16 @@ export default {
     const $q = useQuasar()
 
     // Our function which receives the URL sent by the background script.
-    function doOnTabOpened(url) {
-      console.log('New Browser Tab Openend: ', url)
+    function doOnTabOpened({ payload }) {
+      console.log('Browser tab updated:', payload.url)
     }
 
     // Add our listener
-    $q.bex.on('bex.tab.opened', doOnTabOpened)
+    $q.bex.on('bex.tab.updated', doOnTabOpened)
 
     // Don't forget to clean it up
     onBeforeUnmount(() => {
-      $q.bex.off('bex.tab.opened', doOnTabOpened)
+      $q.bex.off('bex.tab.updated', doOnTabOpened)
     })
 
     return {}
@@ -82,4 +88,4 @@ export default {
 }
 ```
 
-There are wide variety of events available to the browser extension background script - Google is your friend if you're trying to do something in this area.
+Browser extension APIs expose many other events. Refer to the documentation for the browser and manifest version you target.
