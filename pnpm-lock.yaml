@@ -276,7 +276,7 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1
       quasar:
-        specifier: ^2.21.2
+        specifier: ^2.21.4
         version: link:../ui
       shiki:
         specifier: ^4.3.1
@@ -5230,7 +5230,7 @@ packages:
     hasBin: true
 
   themify-icons@https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d:
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d}
+    resolution: {gitHosted: true, integrity: sha512-hnhpYfrzFj6VJG7LLIgbOJbfcNM4QR8VdVj/lKoqH7lEmPBWWnyBmwL/l5BRvwYo34bOfnCQON8k21zt9jEuDw==, tarball: https://codeload.github.com/lykmapipo/themify-icons/tar.gz/9600186b24a7242f0e1e0a186983e6253301bb5d}
     version: 0.0.0
 
   thenify-all@1.6.0:
@@ -7706,7 +7706,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@22.19.20)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@22.19.20)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.1.0)(@vitest/ui@4.1.10)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.4(@types/node@22.19.20)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))
 
   '@vitest/utils@4.1.10':
     dependencies:
