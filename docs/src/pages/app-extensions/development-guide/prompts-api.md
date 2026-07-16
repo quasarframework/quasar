@@ -15,7 +15,7 @@ import { definePromptsScript } from '#q-app'
 export default definePromptsScript(async (/* api */) => {
   /**
    * Use @clack/prompts, inquirer or whatever you want
-   * (and make sure to PNPM install the package in /ae)
+   * (run `pnpm add @clack/prompts` from /ae first)
    * to prompt the user, then return the answers object
    */
 
@@ -147,9 +147,9 @@ await api.hasTypescript()
 
 ```js
 /**
- * @return {Promise<string|undefined>} 'pinia' | 'vuex' | undefined
+ * @return {'pinia'|undefined}
  */
-await api.getStorePackageName()
+api.getStorePackageName()
 ```
 
 ### api.getNodePackagerName

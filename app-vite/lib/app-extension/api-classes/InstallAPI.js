@@ -214,8 +214,9 @@ export class InstallAPI extends BaseAPI {
           : {}
         const data = merge({}, existingData, newData)
 
+        fs.ensureDirSync(path.dirname(filePath))
         fs.writeFileSync(
-          this.resolve.app(file),
+          filePath,
           // if file exists, preserve indentation, otherwise use 2 spaces
           stringifyJSON(data, {
             indent: Object.keys(existingData).length !== 0 ? void 0 : 2
