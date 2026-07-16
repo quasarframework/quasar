@@ -113,7 +113,9 @@ export default createComponent({
 
     const editable = computed(() => !props.readonly && !props.disable)
 
-    let defaultFont, offsetBottom
+    let defaultFont,
+      offsetBottom,
+      refreshToolbarTimer = null
     let lastEmit = props.modelValue
 
     if (!__QUASAR_SSR_SERVER__) {
@@ -648,7 +650,12 @@ export default createComponent({
     }
 
     function refreshToolbar() {
-      setTimeout(() => {
+      if (refreshToolbarTimer !== null) {
+        clearTimeout(refreshToolbarTimer)
+      }
+
+      refreshToolbarTimer = setTimeout(() => {
+        refreshToolbarTimer = null
         editLinkUrl.value = null
         proxy.$forceUpdate()
       }, 1)
@@ -673,6 +680,10 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
+      if (refreshToolbarTimer !== null) {
+        clearTimeout(refreshToolbarTimer)
+      }
+
       document.removeEventListener('selectionchange', onSelectionchange)
     })
 
