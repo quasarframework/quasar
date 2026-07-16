@@ -17,6 +17,10 @@ You can use our BEX bridge to directly communicate between the background script
 
 The use of the BEX bridge is optional for each part of the BEX, however if you want to be able to directly communicate between any bex part, then you need to create it in your background script. Under the hood, the background script acts as the main point of communication. All messages go through the bridge in the background script (and get redirected to the right recipient).
 
+::: warning
+Treat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.
+:::
+
 ## The Bridge
 
 The bridge is a Promise-based event system shared by the BEX contexts. It lets each context listen for events, send messages to a specific connected port, and return synchronous or asynchronous responses.

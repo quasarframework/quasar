@@ -1205,8 +1205,8 @@ export class QuasarConfigFile {
     cfg.preFetch ||= false
 
     if (
-      this.#ctx.mode.capacitor &
-      (cfg.capacitor.capacitorCliPreparationParams.length === 0)
+      this.#ctx.mode.capacitor &&
+      cfg.capacitor.capacitorCliPreparationParams.length === 0
     ) {
       cfg.capacitor.capacitorCliPreparationParams = [
         'sync',

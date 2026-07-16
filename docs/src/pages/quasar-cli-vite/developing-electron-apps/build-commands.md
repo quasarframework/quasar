@@ -35,14 +35,16 @@ quasar dev --mode electron
 
 # passing extra parameters and/or options to
 # underlying "electron" executable:
-quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+quasar dev -m electron -- --force-device-scale-factor=1
 # when on Windows and using Powershell:
-quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+quasar dev -m electron '--' --force-device-scale-factor=1
 ```
 
-It opens up an Electron window with dev-tools included. You have HMR for the renderer process and changes to main process are also picked up (but the latter restarts the Electron window on each change).
+It opens an Electron window. The default template also opens renderer DevTools. The renderer supports HMR; changing a main or preload source rebuilds it and restarts Electron.
 
-Check how you can tweak Rolldown config Object for the Main Process and the Preload script on the [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron) page.
+Arguments after `--` are forwarded to Electron. The sandbox-disabling arguments above illustrate forwarding syntax, but should only be used when a constrained environment requires them and after considering the security impact.
+
+See [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron) to extend the Rolldown configurations for the main process and preload scripts.
 
 ### Chrome DevTools
 
@@ -52,9 +54,9 @@ While in dev mode, hit the following combination (while your app window has focu
 - Linux: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 - Windows: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 
-### Vuejs Devtools
+### Vue DevTools
 
-Should you want to also access Vue Devtools for the renderer thread:
+To load Vue DevTools for the renderer process:
 
 ```bash
 quasar dev -m electron --devtools
@@ -69,7 +71,7 @@ quasar build -m electron
 quasar build --mode electron
 ```
 
-It builds your app for production and then uses @electron/packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron) page.
+It builds the application and packages it with the configured bundler. The default is `@electron/packager`; select `electron-builder` when you need its installer, signing, or publishing features. See [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron).
 
 If you want a production build with debugging enabled for the UI code:
 
@@ -84,9 +86,9 @@ Here is the folder structure of the outcome:
 
 <DocTree :def="scope.distTree" />
 
-### A note for non-Windows users
+### Cross-platform packaging
 
-If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).
+Packaging, signing, and native dependencies impose host-platform restrictions. For example, signing a macOS application requires macOS, and packaging Windows resources from another platform may require Wine. Check the selected bundler's platform requirements and build each target on a matching host or CI runner when signing or native modules are involved.
 
 ## Publishing (electron-builder only)
 
@@ -97,11 +99,9 @@ quasar build -m electron -P always
 quasar build --mode electron --publish always
 ```
 
-You can specify using `electron-builder` to build your app either directly on the command line (`--bundler builder`) or by setting it explicitly within the `quasar.config` file at `electron.bundler`. This flag has no effect when using `@electron/packager`.
+Select `electron-builder` on the command line (`--bundler builder`) or in `quasar.config` at `electron.bundler`. The publish option only applies to `electron-builder`.
 
-Currently (June 2019) supported publishing destinations include GitHub, Bintray, S3, Digital Ocean Spaces, or a generic HTTPS server. More information, including how to create valid publishing instructions, can be found [here](https://www.electron.build/configuration/publish).
-
-Valid options for `-P` are "onTag", "onTagOrDraft", "always" and "never" which are explained at the above link. In addition, you must have valid `publish` configuration instructions in your `quasar.config` file at `electron.builder`.
+Valid values for `-P` are `onTag`, `onTagOrDraft`, `always`, and `never`. Configure a supported provider in `quasar.config > electron > builder > publish`; see the current [electron-builder publishing documentation](https://www.electron.build/docs/publish/).
 
 A very basic configuration to publish a Windows EXE setup file to Amazon S3 might look like this:
 
@@ -114,8 +114,9 @@ electron: {
       target: 'nsis'
     },
     publish: {
-      'provider': 's3',
-      'bucket': 'myS3bucket'
+      provider: 's3',
+      bucket: 'myS3bucket'
     }
   }
+}
 ```

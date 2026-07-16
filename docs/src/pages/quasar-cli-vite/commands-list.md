@@ -39,9 +39,6 @@ $ quasar -h
     info, i       Display info about your machine and your App
     help, h       Displays this message
 
-  If the specified command is not found, then "quasar run"
-  will be executed with the provided arguments.
-
   Commands supplied by @quasar/cli global installation:
 
     upgrade       Check (and optionally) upgrade Quasar packages
@@ -103,11 +100,17 @@ If you're using a code editor terminal instead of the real one, you run `quasar 
 
 ## Info
 
-The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Vite, Vue, etc) which gets updated frequently after heavy testing.
+The Quasar CLI uses a tested combination of build packages such as Vite and Vue, which are updated regularly.
 
 In order for you to see what versions of Node, Quasar CLI, Quasar, Vue (and many others) you are using, issue this command in a Quasar project folder: `quasar info`.
 
 ## Dev
+
+The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
+
+> Hot Reload is much more than just refreshing your browser when code changes. It skips the refresh and updates your code on the fly, while maintaining your App's state (like your Vue's model data). Please note that there are cases when this is impossible, so the dev webserver will simply refresh your browser. (Always ensure you are running only one instance of Quasar CLI at a time, otherwise Hot-Reload and other stuff will break!)
+
+Based on what you want to develop, you can start the development server by using "quasar dev" command as follows:
 
 ```
 $ quasar dev -h
@@ -131,10 +134,10 @@ $ quasar dev -h
     # passing extra parameters and/or options to
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron -- --force-device-scale-factor=1
     # when on Windows and using Powershell:
     $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
+    $ quasar dev -m electron '--' --force-device-scale-factor=1
 
   Options
     --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
@@ -153,53 +156,6 @@ $ quasar dev -h
                        (default: chrome)
 ```
 
-The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
-
-> Hot Reload is much more than just refreshing your browser when code changes. It skips the refresh and updates your code on the fly, while maintaining your App's state (like your Vue's model data). Please note that there are cases when this is impossible, so the dev webserver will simply refresh your browser. (Always ensure you are running only one instance of Quasar CLI at a time, otherwise Hot-Reload and other stuff will break!)
-
-Based on what you want to develop, you can start the development server by using "quasar dev" command as follows:
-
-```
-$ quasar dev -h
-
-  Description
-    Starts the app in development mode (HMR, error reporting, etc)
-
-  Usage
-    $ quasar dev
-    $ quasar dev -p <port number>
-
-    $ quasar dev -m ssr
-
-    # alias for "quasar dev -m capacitor -T ios"
-    $ quasar dev -m ios
-
-    # alias for "quasar dev -m capacitor -T android"
-    $ quasar dev -m android
-
-    # passing extra parameters and/or options to
-    # underlying "cordova" or "electron" executables:
-    $ quasar dev -m cordova -T ios -- some params --and options --here
-    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
-    # when on Windows and using Powershell:
-    $ quasar dev -m cordova -T ios '--' some params --and options --here
-    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
-
-  Options
-    --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
-    --port, -p       A port number on which to start the application
-    --hostname, -H   A hostname to use for serving the application
-    --target, -T     App target
-                       - Capacitor & Cordova: [android|ios]
-                       - Bex: [chrome|firefox]
-    --devtools, -d   Open remote Vue Devtools
-    --no-color       Disable colored output
-    --help, -h       Displays this message
-
-    Only for Capacitor & Cordova modes:
-    --ide, -i        (prod only) Open IDE to build the app instead of using CLI tools
-```
-
 If you wish to change the hostname or port serving your App you have 3 options:
 
 - Edit the '/quasar.config' file:
@@ -215,11 +171,6 @@ If you wish to change the hostname or port serving your App you have 3 options:
   PORT=3000 quasar dev
   HOSTNAME=1.1.1.14 quasar dev
   ```
-
-If there appears to be an issue with hot reload, you can try two fixes:
-
-- Change the permissions for the project folder with: `sudo chown -R username: .`
-- or run the dev server with root privileges: `sudo quasar dev`
 
 ## Build
 
@@ -237,9 +188,9 @@ $ quasar build -h
 
     # passing extra parameters and/or options to
     # underlying "cordova" executable:
-    $ quasar build -m electron -- some params --and options --here
-    # when on Windows and using Powershell:
-    $ quasar build -m electron '--' some params --and options --here
+    $ quasar build -m cordova -T ios -- some params --and options --here
+    # when on Windows and using PowerShell:
+    $ quasar build -m cordova -T ios '--' some params --and options --here
 
   Options
     --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)
@@ -261,8 +212,8 @@ $ quasar build -h
     --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables or BEX zip file)
                       - Cordova (it only fills in /src-cordova/www folder with the UI code)
                       - Capacitor (it only fills in /src-capacitor/www folder with the UI code)
-                      - Electron (it only creates the /dist/electron/UnPackaged folder)
-                      - BEX (it only creates the /dist/bex-* folder)
+                      - Electron (it only creates the unpackaged app folder)
+                      - BEX (it only creates the unpackaged extension folder)
     --no-summary    Don't output build summary at the end of the process
     --no-color      Disable colored output
     --help, -h      Displays this message
@@ -313,7 +264,7 @@ quasar build -m electron
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 quasar build -m cordova -T ios -- some params --and options --here
-# when on Windows and using Powershell:
+# when on Windows and using PowerShell:
 quasar build -m cordova -T ios '--' some params --and options --here
 
 # Create a production build with ability to debug it
@@ -554,7 +505,8 @@ $ quasar inspect -h
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:
-                          -p module.rules
+                          -p build.outDir
+                          -p server.port
                           -p plugins
     --thread, -t     Display only one specific app mode config thread
     --no-color       Disable colored output
@@ -668,8 +620,12 @@ $ quasar serve -h
       app.get('/proxy/:path', (c) => {
         return proxy('http://some.api.com/' + c.req.param('path'))
       })
-    }
+}
 ```
+
+::: warning
+`quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.
+:::
 
 ### Custom Node.js server
 

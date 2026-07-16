@@ -21,7 +21,7 @@ Avoid using the following browser-dependent values to choose initial markup **be
 
 - $q.screen ([Screen Plugin](/options/screen-plugin)). Use Quasar [Window-Width related CSS classes](/style/visibility#window-width-related) instead.
 - $q.platform ([Platform Plugin](/options/platform-detection)). Unless you use the [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) to generate a SSG page for each $q.platform prop combination that you use (and fill ssrContext with a specific req.headers['User-Agent']).
-- $q.cookies ([Cookies Plugin](/quasar-plugins/cookies)). Unless you generate a page variant with a specific `ssrContext.req.headers.cookie` value.
+- $q.cookies ([Cookies Plugin](/quasar-plugins/cookies)). A renderer may use a deliberately synthetic, non-secret cookie value to generate a public variant, but never put a real user's cookie or personalized content into a static build artifact.
 - $q.dark ([Dark Plugin](/quasar-plugins/dark)). Unless you generate separate variants and configure the host to serve the matching file.
 - $q.localStorage ([LocalStorage Plugin](/quasar-plugins/web-storage#localstorage-api))
 - $q.sessionStorage ([SessionStorage Plugin](/quasar-plugins/web-storage#sessionstorage-api))

@@ -5,7 +5,7 @@ related:
   - /quasar-cli-vite/quasar-config-file
 ---
 
-We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, SSR, SSG, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
+Quasar CLI selects the Cordova build target through the mode and target arguments passed to `quasar dev` and `quasar build`. Cordova CLI manages the native project under `/src-cordova`.
 
 There are two configuration files of great importance to your mobile apps. We'll go over each one.
 
@@ -17,12 +17,12 @@ Some properties from this file will get overwritten as we'll see in next section
 
 ## quasar.config file
 
-Quasar CLI helps you in setting some properties of the mobile Apps automatically (from config.xml): the Cordova "id", app version, description and android-versionCode. This is for convenience so you'll be able to have a single point where, for example, you change the version of your app, not multiple files that you need to simultaneously touch which is error prone.
+Quasar CLI updates the app version, description, and optional Android version code in `config.xml` before Cordova runs. The widget `id` is set when the Cordova project is created and is not rewritten from the Quasar config.
 
 For determining the values for each of the properties mentioned above, Quasar CLI:
 
 1. Looks in the `/quasar.config` file for a "cordova" Object. Does it have "version", "description" and/or "androidVersionCode"? If yes, it will use them.
-2. If not, then it looks into your `/package.json` for "cordovaId", "version" and "description" fields.
+2. If not, it falls back to `/package.json > version` and `/package.json > description`.
 
 ```ts /quasar.config file > cordova
 cordova: {
@@ -37,13 +37,13 @@ cordova: {
    * will be executed after the UI has compiled.
    *
    * @param context.debug - True if in debug mode
-   * @param context.target - The target platform (ios/android)
+   * @param context.target - The target platform
    * @returns Array of strings (command parameters)
    *
    * @default: [ 'build', '--debug'/'--release', '--device', 'ios'/'android' ]
-   * @example: ({ isDebug, target }) => [ 'build', `--${isDebug ? 'debug' : 'release'}`, '--device', 'target' ]
+   * @example: ({ debug, target }) => [ 'build', `--${debug ? 'debug' : 'release'}`, '--device', target ]
    */
-  getCordovaBuildParams?: (context: { debug: boolean; target: 'ios' | 'android' }) => string[];
+  getCordovaBuildParams?: (context: { debug: boolean; target: string }) => string[];
 
   /**
    * Function to return the Cordova output folder after the "cordova build"
@@ -52,31 +52,31 @@ cordova: {
    * to the /dist folder.
    *
    * @param context.debug - True if in debug mode
-   * @param context.target - The target platform (ios/android)
+   * @param context.target - The target platform
    * @returns string | string[] | undefined - (relative path(s) from /src-cordova)
    *
    * @default ios: platforms/ios/build/... and android: platforms/android/app/build/outputs
    * @example:
-   *    ({ isDebug, target }) => {
+   *    ({ debug, target }) => {
    *       return target === 'ios'
-   *          ? `platforms/ios/build/${isDebug ? 'Debug' : 'Release'}-iphoneos
+   *          ? `platforms/ios/build/${debug ? 'Debug' : 'Release'}-iphoneos`
    *          : 'platforms/android/app/build/outputs'
    *    }
    * @example: (when interested in only one platform, leaving the other to the default value)
-   *    ({ isDebug, target }) => {
+   *    ({ debug, target }) => {
    *       if (target === 'ios') {
-   *          return `platforms/ios/build/${isDebug ? 'Debug' : 'Release'}-iphoneos`
+   *          return `platforms/ios/build/${debug ? 'Debug' : 'Release'}-iphoneos`
    *       }
    *    }
    * @example: ()
-   *    ({ isDebug, target }) => {
+   *    ({ debug, target }) => {
    *       if (target === 'ios') {
    *          // try these two folders
    *          return [ 'platforms/ios/build/device', 'platforms/ios/build/emulator' ]
    *       }
    *    }
    */
-  getCordovaBuildOutputFolder?: (context: { debug: boolean; target: 'ios' | 'android' }) => string | string[] | undefined;
+  getCordovaBuildOutputFolder?: (context: { debug: boolean; target: string }) => string | string[] | undefined;
 }
 ```
 

@@ -1,7 +1,7 @@
 import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue";
 import { CompilerOptions, TypeAcquisition } from "typescript";
-import { QuasarHookParams } from "./conf";
+import { QuasarHookParams, QuasarPublishParams } from "./conf";
 import type { Options as VueRouterVitePluginOptions } from "vue-router/dist/unplugin/options.d.mts";
 
 interface HtmlMinifierOptions {
@@ -136,11 +136,6 @@ interface QuasarStaticBuildConfiguration {
    * Should not need to configure this, unless absolutely needed.
    */
   vueRouterBase?: string;
-
-  /**
-   * Automatically open remote Vue Devtools when running in development mode.
-   */
-  vueDevtools?: boolean;
 
   /**
    * Should the Vue Options API be available? If all your components only use Composition API
@@ -401,7 +396,7 @@ interface QuasarStaticBuildConfiguration {
     file?: string | string[];
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
@@ -410,7 +405,7 @@ interface QuasarStaticBuildConfiguration {
     ) => Record<string, string>;
 
     /**
-     * Ignore auto-infering and declaring type for these variables;
+     * Ignore automatically inferring and declaring types for these variables.
      * Variables can come from process.env (terminal variables) or
      * dotenv files or quasar.config > build > define/defineEnv.
      *
@@ -458,7 +453,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * @param params {@link QuasarHookParams}
    */
-  beforeDev?: (params: QuasarHookParams) => void;
+  beforeDev?: (params: QuasarHookParams) => void | Promise<void>;
   /**
    * Run hook after Quasar dev server is started (`quasar dev`).
    * At this point, the dev server has been started and is available should you wish to do something with it.
@@ -466,7 +461,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * @param params {@link QuasarHookParams}
    */
-  afterDev?: (params: QuasarHookParams) => void;
+  afterDev?: (params: QuasarHookParams) => void | Promise<void>;
   /**
    * Run hook before Quasar builds app for production (`quasar build`).
    * At this point, the distributables folder hasn’t been created yet.
@@ -474,7 +469,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * @param params {@link QuasarHookParams}
    */
-  beforeBuild?: (params: QuasarHookParams) => void;
+  beforeBuild?: (params: QuasarHookParams) => void | Promise<void>;
   /**
    * Run hook after Quasar built app for production (`quasar build`).
    * At this point, the distributables folder has been created and is available
@@ -483,15 +478,15 @@ interface QuasarStaticBuildConfiguration {
    *
    * @param params {@link QuasarHookParams}
    */
-  afterBuild?: (params: QuasarHookParams) => void;
+  afterBuild?: (params: QuasarHookParams) => void | Promise<void>;
   /**
    * Run hook if publishing was requested (`quasar build -P`),
    *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
    * Can use async/await or directly return a Promise.
-   * `opts` is Object of form `{arg, distDir}`,
-   * where “arg” is the argument supplied (if any) to -P parameter.
+   *
+   * @param params {@link QuasarPublishParams}
    */
-  onPublish?: (ops: { arg: string; distDir: string }) => void;
+  onPublish?: (params: QuasarPublishParams) => void | Promise<void>;
 }
 
 /**

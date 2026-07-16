@@ -1,13 +1,11 @@
 ---
 title: Troubleshooting and Tips
-desc: (@quasar/app-vite) Tips and tricks for a Quasar desktop app with Electron.
+desc: (@quasar/app-vite) Troubleshooting a Quasar desktop app with Electron.
 ---
 
 ## Browser Devtools
 
-You probably want your app to only give access to the browser devtools on dev mode only. On the production version (without debugging enabled) you'll want to disable this behavior.
-
-While we're at it, why not also open devtools by default when we're on dev mode.
+The generated main-process file opens renderer DevTools when `import.meta.env.QUASAR_DEBUG` is true. This includes development and production builds created with `quasar build --debug`.
 
 ```js /src-electron/electron-main
 function createWindow () {
@@ -18,7 +16,7 @@ function createWindow () {
     mainWindow.webContents.openDevTools()
   }
   else {
-    // we're on production; no access to devtools pls
+    // Production build without --debug
     mainWindow.webContents.on('devtools-opened', () => {
       mainWindow.webContents.closeDevTools()
     })
@@ -26,13 +24,31 @@ function createWindow () {
 }
 ```
 
-## Debugging Main Process
+Do not treat hiding DevTools as a security control. Secure the renderer even when a user can inspect or modify its local state.
 
-When running your application in development you may have noticed a message from the main process mentioning a remote debugger. Ever since the release of electron@^1.7.2, remote debugging over the Inspect API was introduced and can be easily accessed by opening the provided link with Google Chrome or through another debugger that can remotely attach to the process using the default port of 5858, such as Visual Studio Code.
+## Debugging the main process
+
+In development, Quasar starts Electron's main process with Node's `--inspect` option. Attach a Node-compatible debugger, such as the Chrome DevTools page at `chrome://inspect` or a JavaScript debugger in your editor.
 
 ```bash
 Debugger listening on ws://127.0.0.1:5858/b285586a-6091-4c41-b6ea-0d389e6f9c93
 For help, see: https://nodejs.org/en/docs/inspector
 ```
 
-The port can vary, based on the quasar.config > electron > inspectPort setting. If the specified port is already occupied, the next closest available port will be used.
+Set the preferred port with `quasar.config > electron > inspectPort`. Quasar uses the closest available port when that port is occupied.
+
+## Native dependency fails to load
+
+An error mentioning `NODE_MODULE_VERSION`, `Module did not self-register`, or a missing `.node` file usually means a native dependency was built for a different Node.js ABI, operating system, or architecture. Install it under `/src-electron`, rebuild it for the Electron version used by the project, and verify that the target architecture is supported. See Electron's [native Node modules guide](https://www.electronjs.org/docs/latest/tutorial/using-native-node-modules/).
+
+After upgrading Electron, rebuild native dependencies before diagnosing application code.
+
+## Production build differs from development
+
+Build without packaging to inspect the application that is passed to Packager or Builder:
+
+```bash
+quasar build -m electron --skip-pkg
+```
+
+The result is `/dist/electron/UnPackaged`. Check its generated `package.json`, main and preload output, installed production dependencies, and renderer console. Do not edit this directory directly; fix the source or configuration and rebuild.

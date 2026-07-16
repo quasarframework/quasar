@@ -29,9 +29,25 @@ Instead of directly creating a Router and Pinia instance, you'll be exposing a f
 
 ```js src/router/index.js
 import { defineRouter } from '#q-app'
+import {
+  createMemoryHistory,
+  createRouter,
+  createWebHashHistory,
+  createWebHistory
+} from 'vue-router'
+import routes from './routes'
+
 export default defineRouter((/* { store, ssrContext } */) => {
-  const Router = new VueRouter({...})
-  return Router
+  const createHistory = import.meta.env.QUASAR_SERVER
+    ? createMemoryHistory
+    : import.meta.env.QUASAR_VUE_ROUTER_MODE === 'history'
+      ? createWebHistory
+      : createWebHashHistory
+
+  return createRouter({
+    history: createHistory(import.meta.env.QUASAR_VUE_ROUTER_BASE),
+    routes
+  })
 })
 ```
 
@@ -77,7 +93,7 @@ return {
   // ...
   boot: [
     'some-boot-file', // runs on both server & client
-    { path: 'some-other', server: false } // this boot file gets embedded only on client-side
+    { path: 'some-other', server: false }, // this boot file gets embedded only on client-side
     { path: 'third', client: false } // this boot file gets embedded only on server-side
   ]
 }

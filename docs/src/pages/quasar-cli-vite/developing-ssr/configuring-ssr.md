@@ -243,7 +243,7 @@ export default defineConfig(ctx => {
 
 ### Manually triggering store hydration
 
-By default, Quasar CLI takes care of hydrating the Pinia stores (if you use it) on client-side.
+By default, Quasar CLI hydrates Pinia stores on the client.
 
 However, should you wish to manually hydrate it yourself, you need to set quasar.config file > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-vite/boot-files):
 
@@ -301,7 +301,7 @@ You can freely edit these files. All folders are detailed in their own doc pages
 
 Notice a few things:
 
-1. If you import anything from node_modules in /src-ssr, then make sure that the package is specified in /src-ssr/package.json > "dependencies" (runtime deps) and NOT in "devDependencies" (build system deps). The "dependencies" will be embedded into your dist/.
+1. If `/src-ssr` imports a package needed at runtime, list it in `/src-ssr/package.json > dependencies`, not `devDependencies`. Quasar copies it into the generated production `package.json` so it can be installed during deployment.
 
 2. These files are built through a separate Rolldown config. You can extend the Rolldown configuration of these files through the `/quasar.config` file:
 
@@ -323,15 +323,15 @@ return {
 }
 ```
 
-4. The `/src-ssr/server.js` file is detailed in [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver) page. Read it especially if you need to support serverless functions.
+3. The `/src-ssr/server.js` file is detailed on the [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver) page. Read it especially if you need to support serverless functions.
 
 ## Helping SEO
 
-One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.
+SSR allows crawlers to receive rendered content for each route. Use the [Quasar Meta Plugin](/quasar-plugins/meta) to add the page titles, descriptions, canonical URLs, and structured data needed by search engines.
 
 ## Boot Files
 
-When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node.js context and in the browser. This applies to your [Boot Files](/quasar-cli-vite/boot-files) too.
+In SSR mode, shared application code must run in both Node.js and browser contexts. This also applies to [Boot Files](/quasar-cli-vite/boot-files).
 
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 

@@ -353,7 +353,7 @@ animations?: QuasarAnimationsConfiguration | 'all';
 
 ### devServer
 
-More info: [Vite server options](https://vitejs.dev/config/#server-options)
+More info: [Vite server options](https://vite.dev/config/server-options)
 
 ```ts
 import { ServerOptions as ViteServerOptions } from "vite";
@@ -361,21 +361,22 @@ import { Options as OpenOptions } from "open";
 type DevServerOptions = Omit<ViteServerOptions, "open" | "https"> & {
   open?: Omit<OpenOptions, "wait"> | boolean;
   https?: ViteServerOptions["https"] | boolean;
+  vueDevtools?: boolean;
 };
 
 /**
- * Vite "server" options.
+ * Vite server options.
  * Some properties are overwritten based on the Quasar mode you're using in order
  * to ensure a correct config.
- * Note: if you're proxying the development server (i.e. using a cloud IDE),
- * set the `public` setting to your public application URL.
+ * If a reverse proxy or cloud IDE changes the public origin, configure
+ * `origin` and the HMR WebSocket options for the externally visible URL.
  */
 devServer?: DevServerOptions;
 ```
 
 Apart from these options, Quasar CLI tampers with some and you will experience them differently than on a Vite app:
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
+Use the `open` property to select a browser instead of using the operating system default (see the [`open` options](https://github.com/sindresorhus/open#options)). Configure those options under `quasar.config > devServer > open`. For example:
 
 ```js /quasar.config file
 // opens Google Chrome
@@ -408,7 +409,7 @@ devServer: {
 }
 ```
 
-You can also configure automatically opening remote Vue Devtools:
+You can also open remote Vue DevTools automatically:
 
 ```js /quasar.config file
 devServer: {
@@ -422,7 +423,7 @@ devServer: {
 import { Plugin, UserConfig as ViteUserConfig } from 'vite'
 import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import { CompilerOptions, TypeAcquisition } from 'typescript'
-import { QuasarHookParams } from './conf'
+import { QuasarHookParams, QuasarPublishParams } from './conf'
 import type { Options as VueRouterVitePluginOptions } from 'vue-router/dist/unplugin/options.d.mts'
 
 interface HtmlMinifierOptions {
@@ -547,11 +548,6 @@ interface QuasarStaticBuildConfiguration {
    * Should not need to configure this, unless absolutely needed.
    */
   vueRouterBase?: string
-
-  /**
-   * Automatically open remote Vue Devtools when running in development mode.
-   */
-  vueDevtools?: boolean
 
   /**
    * Should the Vue Options API be available? If all your components only use Composition API
@@ -804,7 +800,7 @@ interface QuasarStaticBuildConfiguration {
     file?: string | string[]
     /**
      * Filter the env files variables & Node.js process.env variables
-     * that are exposed to the app code. This does not affects props
+     * that are exposed to the app code. This does not affect properties
      * assigned directly to the quasar.config > build > define prop.
      */
     filter?: (
@@ -845,34 +841,34 @@ interface QuasarStaticBuildConfiguration {
    * like starting some backend or any other service that the app relies on.
    * Can use async/await or directly return a Promise.
    */
-  beforeDev?: (params: QuasarHookParams) => void
+  beforeDev?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook after Quasar dev server is started (`quasar dev`).
    * At this point, the dev server has been started and is available should you wish to do something with it.
    * Can use async/await or directly return a Promise.
    */
-  afterDev?: (params: QuasarHookParams) => void
+  afterDev?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook before Quasar builds app for production (`quasar build`).
    * At this point, the distributables folder hasn’t been created yet.
    * Can use async/await or directly return a Promise.
    */
-  beforeBuild?: (params: QuasarHookParams) => void
+  beforeBuild?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook after Quasar built app for production (`quasar build`).
    * At this point, the distributables folder has been created and is available
    *  should you wish to do something with it.
    * Can use async/await or directly return a Promise.
    */
-  afterBuild?: (params: QuasarHookParams) => void
+  afterBuild?: (params: QuasarHookParams) => void | Promise<void>
   /**
    * Run hook if publishing was requested (`quasar build -P`),
    *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
    * Can use async/await or directly return a Promise.
-   * `opts` is Object of form `{arg, distDir}`,
-   * where “arg” is the argument supplied (if any) to -P parameter.
+   *
+   * @param params {@link QuasarPublishParams}
    */
-  onPublish?: (ops: { arg: string; distDir: string }) => void
+  onPublish?: (params: QuasarPublishParams) => void | Promise<void>
 }
 
 /**
@@ -917,7 +913,7 @@ interface QuasarDynamicBuildConfiguration {
 
 See these references for more info:
 
-- [Vite server options](https://vitejs.dev/config/#server-options)
+- [Vite server options](https://vite.dev/config/server-options)
 - [Vite Vue Plugin options](/quasar-cli-vite/handling-vite#vite-vue-plugin-options)
 - [Adding Vite plugins](/quasar-cli-vite/handling-vite#adding-vite-plugins)
 - [Folder Aliases](/quasar-cli-vite/handling-vite#folder-aliases)

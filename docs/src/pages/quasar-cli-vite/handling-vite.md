@@ -58,15 +58,17 @@ $ quasar inspect -h
     --depth, -d      Number of levels deep (default: 2)
     --path, -p       Path of config in dot notation
                         Examples:
-                          -p module.rules
+                          -p build.outDir
+                          -p server.port
                           -p plugins
     --thread, -t     Display only one specific app mode config thread
+    --no-color       Disable colored output
     --help, -h       Displays this message
 ```
 
 ## Adding Vite plugins
 
-Make sure to pnpm/yarn/npm/bun install the vite plugin package that you want to use, then edit the `/quasar.config` file:
+Install the Vite plugin with your project's package manager, then edit the `/quasar.config` file:
 
 ```js /quasar.config file
 build: {

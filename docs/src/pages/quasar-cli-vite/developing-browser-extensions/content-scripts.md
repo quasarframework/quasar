@@ -23,6 +23,8 @@ Your `/src-bex/manifest.json` is the central point that defines your BEX. This i
 ]
 ```
 
+The generated BEX template uses `<all_urls>` because its example content script is designed to run on arbitrary pages. Keep broad access only when that is a real requirement of your extension. It increases the extension's authority and the permission warning shown to users.
+
 ::: warning For TS devs
 Your background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: "background.ts", "my-content-script.ts". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.
 :::
@@ -77,7 +79,15 @@ import { createBridge } from '#q-app/bex/content'
 const bridge = createBridge({ debug: false })
 
 bridge.on('highlight.content', ({ payload }) => {
-  const el = document.querySelector(payload.selector)
+  if (typeof payload?.selector !== 'string') return
+
+  let el
+  try {
+    el = document.querySelector(payload.selector)
+  } catch {
+    return
+  }
+
   if (el !== null) {
     el.classList.add('bex-highlight')
   }
