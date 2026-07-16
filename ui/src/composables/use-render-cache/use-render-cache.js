@@ -1,17 +1,22 @@
 export default function useRenderCache() {
+  if (__QUASAR_SSR_SERVER__) {
+    return {
+      getCache: (_, defaultValue) =>
+        typeof defaultValue === 'function' ? defaultValue() : defaultValue,
+      setCache() {},
+      hasCache: () => false,
+      clearCache() {}
+    }
+  }
+
   let cache = Object.create(null)
 
   return {
-    getCache: __QUASAR_SSR_SERVER__
-      ? (_, defaultValue) =>
-          typeof defaultValue === 'function' ? defaultValue() : defaultValue
-      : (key, defaultValue) =>
-          cache[key] === void 0
-            ? (cache[key] =
-                typeof defaultValue === 'function'
-                  ? defaultValue()
-                  : defaultValue)
-            : cache[key],
+    getCache: (key, defaultValue) =>
+      Object.hasOwn(cache, key)
+        ? cache[key]
+        : (cache[key] =
+            typeof defaultValue === 'function' ? defaultValue() : defaultValue),
 
     setCache(key, obj) {
       cache[key] = obj

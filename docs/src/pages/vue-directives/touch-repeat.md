@@ -50,7 +50,7 @@ When you want to handle key events too, use [keycodes](https://keycode.info/) as
 <div v-touch-repeat.65.70="myHandler">...</div>
 ```
 
-There are some special modifiers that you do not require to write the equivalent keycode: `space`, `tab`, `enter`.
+For common keys, you can use the named modifiers `esc`, `tab`, `enter`, `space`, `up`, `left`, `right`, `down`, and `delete` instead of writing their keycodes. The `delete` modifier handles both Backspace and Delete.
 
 ### Inhibiting TouchRepeat
 

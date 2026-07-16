@@ -5,7 +5,7 @@ import { QVueGlobals } from "./globals";
 
 interface useDialogPluginComponent {
   <T = any>(): {
-    dialogRef: Ref<QDialog | undefined>;
+    dialogRef: Ref<QDialog | null>;
     onDialogHide: () => void;
     onDialogOK: (payload?: T) => void;
     onDialogCancel: () => void;
@@ -32,7 +32,7 @@ export function useHydration(): {
 };
 
 export function useInterval(): {
-  registerInterval: (fn: () => void, interval: string | number) => void;
+  registerInterval: (fn: () => void, interval?: string | number) => void;
   removeInterval: () => void;
 };
 
@@ -46,15 +46,20 @@ export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 export function useQuasar(): QVueGlobals;
 
 export function useRenderCache(): {
-  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T;
+  getCache: {
+    <T>(key: string, defaultValue: T | (() => T)): T;
+    <T = any>(key: string): T | undefined;
+  };
   setCache: <T = any>(key: string, value: T) => void;
   hasCache: (key: string) => boolean;
   clearCache: (key?: string) => void;
 };
 
 export function useSplitAttrs(): {
-  attributes: Ref<Record<string, string | null | undefined>>;
-  listeners: Ref<Record<string, (...args: any[]) => any>>;
+  attributes: Ref<Record<string, unknown>>;
+  listeners: Ref<
+    Record<string, ((...args: any[]) => any) | ((...args: any[]) => any)[]>
+  >;
 };
 
 export function useTick(): {

@@ -33,7 +33,10 @@ setup () {
 
 ```ts
 function useRenderCache(): {
-  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T
+  getCache: {
+    <T>(key: string, defaultValue: T | (() => T)): T
+    <T = any>(key: string): T | undefined
+  }
   setCache: <T = any>(key: string, value: T) => void
   hasCache: (key: string) => boolean
   clearCache: (key?: string) => void
@@ -68,9 +71,7 @@ export default {
       return acc
     }
 
-    return () => {
-      h('div', getContent)
-    }
+    return () => h('div', getContent())
   }
 }
 ```

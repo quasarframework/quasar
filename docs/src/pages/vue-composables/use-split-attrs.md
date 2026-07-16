@@ -26,8 +26,13 @@ setup () {
 import { Ref } from 'vue'
 
 function useSplitAttrs(): {
-  attributes: Ref<Record<string, string | null | undefined>>;
-  listeners: Ref<Record<string, (...args: any[]) => any>>;
+  attributes: Ref<Record<string, unknown>>;
+  listeners: Ref<
+    Record<
+      string,
+      ((...args: any[]) => any) | ((...args: any[]) => any)[]
+    >
+  >;
 };
 ```
 
