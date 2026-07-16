@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A Quasar App Extension",
   <% if (scope.author) { %>
-  "author": "<%= scope.author %>",
+  "author": <%= JSON.stringify(scope.author) %>,
   <% } %>
   "license": "MIT",
   "type": "module",

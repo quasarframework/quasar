@@ -2,9 +2,9 @@
   "name": "<%= scope.name %>",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "<%= scope.product %>",
+  "productName": <%= JSON.stringify(scope.product) %>,
   <% if (scope.author) { %>
-  "author": "<%= scope.author %>",
+  "author": <%= JSON.stringify(scope.author) %>,
   <% } %>
   "type": "module",
   "private": true,

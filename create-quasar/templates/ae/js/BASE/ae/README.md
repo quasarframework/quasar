@@ -21,7 +21,6 @@ quasar ext add <%= scope.aeShortName %>
 
 ```bash
 quasar ext remove <%= scope.aeShortName %>
-
 ```
 
 ## Info
