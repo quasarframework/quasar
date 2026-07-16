@@ -64,6 +64,12 @@ export async function createProjectFolder(scope) {
     existsSync(scope.projectFolder) &&
     readdirSync(scope.projectFolder).length !== 0
   ) {
+    if (scope.defaults) {
+      utils.cancelScaffolding(
+        `Target directory "${scope.projectFolderName}" is not empty. Use --overwrite to remove existing files and continue.`
+      )
+    }
+
     const val = await utils.prompts.confirm({
       message:
         (scope.projectFolderName === '.'
