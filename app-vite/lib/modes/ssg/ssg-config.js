@@ -8,7 +8,8 @@ import {
   extendViteConfig
 } from '../../config-tools.js'
 
-import { cliPkg } from '../../utils/cli-runtime.js'
+import { cliDir, cliPkg } from '../../utils/cli-runtime.js'
+import { getPackagePath } from '../../utils/get-package-path.js'
 
 import { quasarPwaConfig } from '../pwa/pwa-config.js'
 import { quasarVitePluginPwaResources } from '../pwa/pwa-utils.js'
@@ -145,6 +146,16 @@ export const quasarSsgConfig = {
       './quasar.manifest.json',
       './server-entry.js'
     )
+
+    if (
+      quasarConf.metaConf.hasStore &&
+      quasarConf.ssg.manualStoreSerialization !== true
+    ) {
+      cfg.resolve.alias['#q-serialize-javascript'] = getPackagePath(
+        'serialize-javascript',
+        cliDir
+      )
+    }
 
     cfg.resolve.modules = ['node_modules', appPaths.resolve.ssg('node_modules')]
 

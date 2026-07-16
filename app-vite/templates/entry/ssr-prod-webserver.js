@@ -8,7 +8,7 @@ import { join, basename, isAbsolute } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { renderToString } from 'vue/server-renderer'
 <% if (quasarConf.metaConf.hasStore && quasarConf.ssr.manualStoreSerialization !== true) { %>
-import serialize from 'serialize-javascript'
+import serialize from '#q-serialize-javascript'
 <% } %>
 
 import renderTemplate from './render-template.js'

@@ -7,7 +7,7 @@
 import { join, basename } from 'node:path'
 import { renderToString } from 'vue/server-renderer'
 <% if (quasarConf.metaConf.hasStore && quasarConf.ssg.manualStoreSerialization !== true) { %>
-import serialize from 'serialize-javascript'
+import serialize from '#q-serialize-javascript'
 <% } %>
 
 import renderTemplate from './render-template.js'

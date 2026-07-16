@@ -152,6 +152,16 @@ export const quasarSsrConfig = {
       if (quasarConf.ssr.clientSideRenderingRoutes.length !== 0) {
         cfg.resolve.alias['#q-picomatch'] = getPackagePath('picomatch', cliDir)
       }
+
+      if (
+        quasarConf.metaConf.hasStore &&
+        quasarConf.ssr.manualStoreSerialization !== true
+      ) {
+        cfg.resolve.alias['#q-serialize-javascript'] = getPackagePath(
+          'serialize-javascript',
+          cliDir
+        )
+      }
     }
 
     cfg.resolve.modules = ['node_modules', appPaths.resolve.ssr('node_modules')]

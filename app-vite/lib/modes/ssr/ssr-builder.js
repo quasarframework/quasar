@@ -5,7 +5,6 @@ import { merge } from 'webpack-merge'
 import { AppBuilder } from '../../app-builder.js'
 import { quasarSsrConfig } from './ssr-config.js'
 import { getFixedDeps } from '../../utils/get-fixed-deps.js'
-import { getPackageJson } from '../../utils/get-package-json.js'
 import {
   getProdSsrRenderTemplateFileContent,
   transformProdHtmlShell
@@ -217,14 +216,6 @@ export class QuasarModeBuilder extends AppBuilder {
       },
       dependencies: { ...rootAppDeps, ...ssrAppDeps },
       engines: appPkg.engines
-    }
-
-    if (this.quasarConf.ssr.manualStoreSerialization !== true) {
-      const { version } = getPackageJson(
-        'serialize-javascript',
-        appPaths.cliDir
-      )
-      pkg.dependencies['serialize-javascript'] = version
     }
 
     if (typeof this.quasarConf.ssr.extendSSRPackageJson === 'function') {
