@@ -46,6 +46,12 @@ export const buildTargets = [
     path: '/quasar-cli-vite/developing-ssr/introduction'
   },
   {
+    label: 'SSG',
+    name: 'Static Site Generation',
+    icon: mdiFileDownload,
+    path: '/quasar-cli-vite/developing-ssg/introduction'
+  },
+  {
     label: 'PWA',
     name: 'Progressive Web App',
     icon: 'web',
@@ -109,12 +115,7 @@ export const ecosystemParts = [
       {
         label: 'Apollo GraphQL',
         icon: mdiGraphql,
-        path: 'https://github.com/quasarframework/app-extension-apollo/tree/v2'
-      },
-      {
-        label: 'SSG Mode',
-        icon: mdiFileDownload,
-        path: 'https://github.com/freddy38510/quasar-app-extension-ssg'
+        path: 'https://github.com/quasarframework/app-extension-apollo'
       },
       {
         label: 'All AEs',
