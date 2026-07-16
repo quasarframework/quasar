@@ -7,9 +7,13 @@ Before we dive in, make sure you got the Cordova CLI installed.
 
 ```tabs
 <<| bash PNPM |>>
-pnpm add --global cordova
+pnpm add -g cordova
+<<| bash Yarn |>>
+yarn global add cordova
 <<| bash NPM |>>
-npm install --global cordova
+npm i -g cordova
+<<| bash Bun |>>
+bun install -g cordova
 ```
 
 ## Developing
