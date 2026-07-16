@@ -118,12 +118,12 @@ const getVersionTask = async (
       latestVersion
     })
 
+    if (packageName === 'quasar') {
+      quasarVersion = latestVersion
+    }
+
     updateAvailable = true
     return `${green(packageName)}: ${currentVersionLabel} → ${green(latestVersion)}`
-  }
-
-  if (packageName === 'quasar') {
-    quasarVersion = latestVersion
   }
 
   return `${green(packageName)}: ${currentVersionLabel} ✅ `
@@ -179,7 +179,7 @@ if (!updateAvailable) {
 function getQuasarVersionPrefix(version) {
   if (!version) return ''
 
-  const matches = version.match(/^(\d)/)
+  const matches = version.match(/^(\d+)/)
   if (!matches || !matches[1]) return ''
 
   const major = Number.parseInt(matches[1], 10)
@@ -228,8 +228,8 @@ if (!argv.install) {
 
       if (packageList.length !== initialValues.length) {
         Object.keys(deps).forEach(type => {
-          deps[type] = deps[type].filter(
-            dep => !packageList.includes(dep.packageName)
+          deps[type] = deps[type].filter(dep =>
+            packageList.includes(dep.packageName)
           )
         })
       }
