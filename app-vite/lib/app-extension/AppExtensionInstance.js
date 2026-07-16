@@ -341,7 +341,7 @@ export class AppExtensionInstance {
     const prompts = await getPromptsObject(api)
     log()
 
-    if (!prompts) return {}
+    if (prompts === void 0) return {}
 
     if (
       Object(prompts) !== prompts ||
