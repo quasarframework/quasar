@@ -194,18 +194,57 @@ type SsgParseVueRouterParams = {
   parentPath?: string;
 
   /**
+   * Optional list of routes to ignore during the parsing process.
+   * You can use picomatch patterns to match the routes you want to ignore.
+   * https://www.npmjs.com/package/picomatch
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default []
+   */
+  crawlIgnoreRoutes?: string[];
+
+  /**
    * Optional flag to enable verbose logging.
    * If true, it will log the ignored routes with dynamic parameters.
+   *
    * @default false
    */
   verbose?: boolean;
 };
 
 type SsgParseVueRouterResult = {
+  /**
+   * Generated SSG pages based on the parsed Vue Router routes.
+   */
   ssgPages: SsgPage[];
+
+  /**
+   * Indicates whether there are any ignored routes during the parsing process.
+   */
   hasIgnoredRoutes: boolean;
+
+  /**
+   * List of Vue Router routes that were ignored due to matching
+   * the crawlIgnoreRoutes patterns.
+   */
+  crawlIgnoredRoutes: RouteRecordRaw[];
+
+  /**
+   * List of Vue Router routes that were ignored due to
+   * being redirects.
+   */
   ignoredRedirectingRoutes: RouteRecordRaw[];
+
+  /**
+   * List of Vue Router routes that were ignored due to
+   * having dynamic parameters.
+   */
   ignoredDynamicRoutes: RouteRecordRaw[];
+
+  /**
+   * List of Vue Router routes that were ignored due to being
+   * marked as client-side rendered (CSR).
+   */
   ignoredCsrRoutes: RouteRecordRaw[];
 };
 <<| ts SsgPage Signature |>>

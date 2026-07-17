@@ -29,13 +29,32 @@ function getParseVueRouterRoutesFn(quasarConf) {
       ? picomatch(clientSideRenderingRoutes)
       : () => false
 
-  const parseVueRouterRoutes = ({ routes, parentPath, acc, verbose }) => {
+  const parseVueRouterRoutes = ({
+    routes,
+    parentPath,
+    acc,
+    isCrawlIgnoreMatch,
+    verbose
+  }) => {
     for (const route of routes) {
       const routePath = route.path
       const fullPath = `${parentPath}/${routePath}`.replaceAll(
         multiSlashRE,
         '/'
       )
+
+      if (isCrawlIgnoreMatch(fullPath)) {
+        acc.crawlIgnoredRoutes.push(route)
+
+        if (verbose) {
+          warn(
+            `Ignored route (crawl-ignored): ${fullPath}`,
+            'parseVueRouterRoutes()'
+          )
+        }
+
+        continue
+      }
 
       if (isCSRMatch(fullPath)) {
         acc.ignoredCsrRoutes.push(route)
@@ -82,18 +101,36 @@ function getParseVueRouterRoutesFn(quasarConf) {
     }
   }
 
-  return ({ routes, parentPath = '/', verbose = false }) => {
+  return ({
+    routes,
+    parentPath = '/',
+    crawlIgnoreRoutes = [],
+    verbose = false
+  }) => {
     const acc = {
       ssgPages: [],
       hasIgnoredRoutes: false,
+      crawlIgnoredRoutes: [],
       ignoredRedirectingRoutes: [],
       ignoredDynamicRoutes: [],
       ignoredCsrRoutes: []
     }
 
-    parseVueRouterRoutes({ routes, parentPath, acc, verbose })
+    const isCrawlIgnoreMatch =
+      crawlIgnoreRoutes.length !== 0
+        ? picomatch(crawlIgnoreRoutes)
+        : () => false
+
+    parseVueRouterRoutes({
+      routes,
+      parentPath,
+      acc,
+      isCrawlIgnoreMatch,
+      verbose
+    })
 
     acc.hasIgnoredRoutes =
+      acc.crawlIgnoredRoutes.length !== 0 ||
       acc.ignoredRedirectingRoutes.length !== 0 ||
       acc.ignoredDynamicRoutes.length !== 0 ||
       acc.ignoredCsrRoutes.length !== 0
