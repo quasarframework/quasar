@@ -1,8 +1,8 @@
 import { join } from 'node:path'
 import { merge } from 'webpack-merge'
-import picomatch from 'picomatch'
 
 import { AppBuilder } from '../../app-builder.js'
+import { getRouteMatcher } from '../../utils/get-route-matcher.js'
 import { quasarSsgConfig } from './ssg-config.js'
 import {
   getProdSsrRenderTemplateFileContent,
@@ -26,7 +26,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
-      ? picomatch(clientSideRenderingRoutes)
+      ? getRouteMatcher(clientSideRenderingRoutes)
       : () => false
 
   const parseVueRouterRoutes = ({ routes, parentPath, opts }) => {
@@ -141,7 +141,9 @@ function getParseVueRouterRoutesFn(quasarConf) {
         acc,
         verbose,
         isCrawlIgnoreMatch:
-          crawlIgnoreRoutes.length !== 0 ? picomatch(crawlIgnoreRoutes) : null
+          crawlIgnoreRoutes.length !== 0
+            ? getRouteMatcher(crawlIgnoreRoutes)
+            : null
       }
     })
 

@@ -40,6 +40,15 @@ const csrHtml = readFileSync(
   'utf8'
 )
 const isCsrRoute = picomatch(<%= JSON.stringify(quasarConf.ssr.clientSideRenderingRoutes) %>)
+const trailingSlashRE = /\/+$/
+
+function isCsrRouteMatch(route) {
+  return isCsrRoute(route) || (
+    route.length > 1
+    && route.endsWith('/')
+    && isCsrRoute(route.replace(trailingSlashRE, ''))
+  )
+}
 
 function fastExtractPath(url) {
   let endIdx = url.length
@@ -112,7 +121,7 @@ function renderStoreState (ssrContext) {
 async function render (ssrContext) {
   <% if (quasarConf.ssr.clientSideRenderingRoutes.length !== 0) { %>
   if (
-    isCsrRoute(
+    isCsrRouteMatch(
       fastExtractPath(ssrContext.url || ssrContext.req.url)<% if (quasarConf.build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     )
   ) return csrHtml
