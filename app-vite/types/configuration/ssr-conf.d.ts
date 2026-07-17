@@ -22,7 +22,7 @@ export interface QuasarSsrConfiguration {
    *
    * Do NOT use index.html as name as it will mess SSR up!
    *
-   * @default 'offline.html'
+   * @default ssg.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
    */
   pwaOfflineHtmlFilename?: string;
 
@@ -73,20 +73,20 @@ export interface QuasarSsrConfiguration {
    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
    *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssg.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 
   /**
    * Manually serialize the store state and provide it yourself
    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-   * @default false
+   * @default ssg.manualStoreSerialization (when configured), otherwise false
    */
   manualStoreSerialization?: boolean;
 
   /**
    * Manually inject the store state into ssrContext.state
-   * @default false
+   * @default ssg.manualStoreSsrContextInjection (when configured), otherwise false
    */
   manualStoreSsrContextInjection?: boolean;
 
@@ -95,14 +95,14 @@ export interface QuasarSsrConfiguration {
    *
    * For Pinia: store.state.value = window.__INITIAL_STATE__
    *
-   * @default false
+   * @default ssg.manualStoreHydration (when configured), otherwise false
    */
   manualStoreHydration?: boolean;
 
   /**
    * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
    * This announces that client-side code should takeover.
-   * @default false
+   * @default ssg.manualPostHydrationTrigger (when configured), otherwise false
    */
   manualPostHydrationTrigger?: boolean;
 
