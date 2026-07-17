@@ -16,6 +16,12 @@ const multiSlashRE = /\/{2,}/g
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 
+function getSsgPageIdentifier(ssgPage) {
+  return (
+    `route "${ssgPage.route}"` + `${ssgPage.label ? ` [${ssgPage.label}]` : ''}`
+  )
+}
+
 function getParseVueRouterRoutesFn(quasarConf) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
@@ -353,13 +359,17 @@ export class QuasarModeBuilder extends AppBuilder {
             url
           }
         })
+
+        if (typeof page.rewriteHtml === 'function') {
+          const result = await page.rewriteHtml(html)
+          if (result) html = result
+        }
       } catch (err) {
         console.log()
-        console.error('Offending SSG page definition:')
+        console.error('Offending SSG page:')
         console.error(page)
 
-        const pageIdentifier =
-          `route "${page.route}"` + `${page.label ? ` [${page.label}]` : ''}`
+        const pageIdentifier = getSsgPageIdentifier(page)
 
         if (err?.routeNotFound) {
           fatal(
@@ -396,16 +406,17 @@ export class QuasarModeBuilder extends AppBuilder {
         ),
         html,
         () => {
+          const pageIdentifier = getSsgPageIdentifier(page)
+
           console.log()
           error(
-            `Rendered SSG page for route "${page.route}"` +
-              `${page.label ? ` [${page.label}]` : ''}, but` +
+            `Rendered SSG page for ${pageIdentifier}, but` +
               ' the target file already exists.' +
               ' Check your SSG configuration for duplicate routes or filenames or' +
               ' quasar.config html filenames settings.'
           )
           console.log()
-          console.error('Offending SSG page definition:')
+          console.error('Offending SSG page:')
           console.error(page)
           console.log()
           process.exit(1)
