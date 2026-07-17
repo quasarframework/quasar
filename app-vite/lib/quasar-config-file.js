@@ -41,6 +41,39 @@ const quasarModesList = [
   'ssg'
 ]
 
+const sharedSsrSsgConfigProps = [
+  'pwa',
+  'pwaOfflineHtmlFilename',
+  'clientSideRenderingRoutes',
+  'manualStoreSerialization',
+  'manualStoreSsrContextInjection',
+  'manualStoreHydration',
+  'manualPostHydrationTrigger'
+]
+
+function inheritSsrSsgConfig({ ctx, userCfg, rawQuasarConf }) {
+  const targetMode = ctx.mode.ssr === true ? 'ssr' : 'ssg'
+  const sourceMode = targetMode === 'ssr' ? 'ssg' : 'ssr'
+  const targetConfig = userCfg[targetMode]
+  const sourceConfig = userCfg[sourceMode]
+
+  if (sourceConfig === void 0) {
+    return
+  }
+
+  sharedSsrSsgConfigProps.forEach(prop => {
+    if (targetConfig?.[prop] === void 0 && sourceConfig[prop] !== void 0) {
+      const value = sourceConfig[prop]
+
+      // Use the raw user config so mode defaults never become inherited values.
+      // Clone arrays so App Extensions can independently modify either mode.
+      rawQuasarConf[targetMode][prop] = Array.isArray(value)
+        ? [...value]
+        : value
+    }
+  })
+}
+
 const urlRegex = /^http(s)?:\/\//i
 const defaultPortMapping = {
   spa: 9000,
@@ -827,6 +860,14 @@ export class QuasarConfigFile {
       },
       userCfg
     )
+
+    if (this.#ctx.mode.ssr || this.#ctx.mode.ssg) {
+      inheritSsrSsgConfig({
+        ctx: this.#ctx,
+        userCfg,
+        rawQuasarConf
+      })
+    }
 
     const metaConf = {
       debugging: Boolean(this.#ctx.dev || this.#ctx.debug),

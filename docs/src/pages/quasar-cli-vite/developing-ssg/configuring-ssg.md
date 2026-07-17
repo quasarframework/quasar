@@ -21,6 +21,23 @@ The Quasar SSG Mode is currently in the "beta" stage. Based on the community fee
 
 The `ssg` section controls generated fallback files, client-rendered routes, PWA takeover, store hydration, and advanced build hooks. Page generation itself belongs in `/src-ssg/ssg-renderer`.
 
+Options shared by the `ssg` and `ssr` sections can be configured once. When a shared option is omitted from `ssg`, Quasar uses an explicitly configured value from `ssr`. A value specified in `ssg`, including `false` or an empty array, always takes precedence.
+
+```js /quasar.config file
+export default defineConfig(() => ({
+  ssr: {
+    // Also used by SSG because SSG does not override it
+    clientSideRenderingRoutes: ['/admin/**']
+  },
+
+  ssg: {
+    error404HtmlFilename: '404.html'
+  }
+}))
+```
+
+This applies to `pwa`, `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. Mode-specific options and extension hooks are not shared.
+
 A typical configuration needs only a few options:
 
 ```js /quasar.config file

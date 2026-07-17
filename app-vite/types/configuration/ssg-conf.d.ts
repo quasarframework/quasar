@@ -5,6 +5,10 @@ interface QuasarSsrManifest {
   [key: string]: string[];
 }
 
+/**
+ * Properties also available in the SSR configuration inherit their explicitly
+ * configured SSR value when omitted here. An SSG value always takes precedence.
+ */
 export interface QuasarSsgConfiguration {
   /**
    * If a PWA should take over or just a SPA.

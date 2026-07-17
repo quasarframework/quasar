@@ -22,6 +22,23 @@ scope:
 
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
+Options shared by the `ssr` and `ssg` sections can be configured once. When a shared option is omitted from `ssr`, Quasar uses an explicitly configured value from `ssg`. A value specified in `ssr`, including `false` or an empty array, always takes precedence.
+
+```js /quasar.config file
+export default defineConfig(() => ({
+  ssr: {
+    prodPort: 3000
+  },
+
+  ssg: {
+    // Also used by SSR because SSR does not override it
+    clientSideRenderingRoutes: ['/admin/**']
+  }
+}))
+```
+
+This applies to `pwa`, `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. Mode-specific options and extension hooks are not shared.
+
 ```ts /quasar.config file
 return {
   // ...
