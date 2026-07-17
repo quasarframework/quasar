@@ -85,7 +85,7 @@ export default defineConfig(() => {
        * Note on picomatch patterns:
        *   "/admin" matches the exact route only
        *   "/admin/**" matches the exact route and all sub-routes of /admin
-       *   "/admin/*" matches all sub-routes of /admin, but not /admin itself
+       *   "/admin/*" matches only direct sub-routes of /admin
        *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
        */
       clientSideRenderingRoutes: ['/dashboard{,/**}', '/admin']
