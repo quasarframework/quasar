@@ -30,16 +30,21 @@ export interface SsgPage {
    * If not provided, the route will be used to determine the directory.
    */
   dir?: string;
+
   /**
    * Optional filename to use for the generated HTML file.
    * @default 'index.html'
    */
   filename?: string;
+
   /**
-   * Optional SSR context to use when rendering the page.
-   * If not provided, the default SSR context will be used.
+   * Optional SSR context to use when rendering the specific page.
+   * If omitted, the default SSR context is used. One important prop
+   * for it is `req`, which has the IncomingMessage native node:http
+   * type. Gets merged into the ssrContext so you don't have to
+   * define all its props.
    *
-   * @type ssrContext {@link QSsrContext}
+   * @type QSsrContext {@link QSsrContext}
    */
   ssrContext?: QSsrContext;
 }
@@ -89,15 +94,23 @@ export type SsgGetFilenameBasedRoutes = () => Promise<RouteRecordRaw[]>;
 
 export interface SsgGetPagesParams {
   /**
-   * The Quasar context object.
-   * @type ctx {@link QuasarContext}
+   * The Quasar build context.
+   * Same as the one from your /quasar.config file. You can use this to
+   * access ctx.appPaths (among other things) to resolve paths to your
+   * pages, which is especially useful if you are using tools like
+   * tinyglobby to manually read your file system.
+   *
+   * @type QuasarContext {@link QuasarContext}
    */
   ctx: QuasarContext;
 
   /**
-   * Helper to parse Vue Router routes into SSG pages.
+   * A built-in helper function that parses your Vue Router routes
+   * and automatically builds a list of routes to generate.
+   * It will ignore redirects, routes with params, and CSR defined routes.
+   * You will need to define and add those SSG pages manually, should you want.
    *
-   * @param {Object} options - The configuration object. {@link SsgParseVueRouterParams}
+   * @param {SsgParseVueRouterParams} options - The configuration object. {@link SsgParseVueRouterParams}
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse. {@link RouteRecordRaw}
    * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
