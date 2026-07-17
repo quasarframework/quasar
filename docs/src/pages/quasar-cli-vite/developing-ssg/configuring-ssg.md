@@ -32,8 +32,14 @@ export default defineConfig(() => ({
     // Generate dist/ssg/404.html
     error404HtmlFilename: '404.html',
 
-    // Exclude these routes from pre-rendering and generate csr.html
-    clientSideRenderingRoutes: ['/account', '/account/**']
+    /**
+     * Exclude these routes from pre-rendering and generate csr.html
+     * Note on picomatch patterns:
+     *   "/admin" matches the exact route only
+     *   "/admin/**" matches all sub-routes of /admin, but not /admin itself
+     *   "/admin{,/**}" matches /admin and all its sub-routes
+     */
+    clientSideRenderingRoutes: ['/account{,/**}', '/admin']
   }
 }))
 ```
@@ -115,6 +121,11 @@ return {
      *
      * You can use picomatch patterns to match the routes you want to be rendered
      * on the client-side. https://www.npmjs.com/package/picomatch
+     *
+     * Note on picomatch patterns:
+     *   "/admin" matches the exact route only
+     *   "/admin/**" matches all sub-routes of /admin, but not /admin itself
+     *   "/admin{,/**}" matches /admin and all its sub-routes
      *
      * @example ['/dashboard', '/admin/**']
      * @default []

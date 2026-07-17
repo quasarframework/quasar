@@ -62,6 +62,11 @@ export interface QuasarSsrConfiguration {
    * You can use picomatch patterns to match the routes you want to be rendered
    * on the client-side. https://www.npmjs.com/package/picomatch
    *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches all sub-routes of /admin, but not /admin itself
+   *   "/admin{,/**}" matches /admin and all its sub-routes
+   *
    * @example ['/dashboard', '/admin/**']
    * @default []
    */

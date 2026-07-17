@@ -29,13 +29,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       ? picomatch(clientSideRenderingRoutes)
       : () => false
 
-  const parseVueRouterRoutes = ({
-    routes,
-    parentPath,
-    acc,
-    isCrawlIgnoreMatch,
-    verbose
-  }) => {
+  const parseVueRouterRoutes = ({ routes, parentPath, opts }) => {
     for (const route of routes) {
       const routePath = route.path
       const fullPath = `${parentPath}/${routePath}`.replaceAll(
@@ -43,33 +37,49 @@ function getParseVueRouterRoutesFn(quasarConf) {
         '/'
       )
 
-      if (isCrawlIgnoreMatch(fullPath)) {
-        acc.crawlIgnoredRoutes.push(route)
+      if (opts.isCrawlIgnoreMatch(fullPath)) {
+        opts.acc.crawlIgnoredRoutes.push(route)
 
-        if (verbose) {
+        if (opts.verbose) {
           warn(
             `Ignored route (crawl-ignored): ${fullPath}`,
             'parseVueRouterRoutes()'
           )
         }
 
+        if (route.children) {
+          parseVueRouterRoutes({
+            routes: route.children,
+            parentPath: fullPath,
+            opts
+          })
+        }
+
         continue
       }
 
       if (isCSRMatch(fullPath)) {
-        acc.ignoredCsrRoutes.push(route)
+        opts.acc.ignoredCsrRoutes.push(route)
 
-        if (verbose) {
+        if (opts.verbose) {
           warn(`Ignored route (CSR): ${fullPath}`, 'parseVueRouterRoutes()')
+        }
+
+        if (route.children) {
+          parseVueRouterRoutes({
+            routes: route.children,
+            parentPath: fullPath,
+            opts
+          })
         }
 
         continue
       }
 
       if (routePath.includes(':')) {
-        acc.ignoredDynamicRoutes.push(route)
+        opts.acc.ignoredDynamicRoutes.push(route)
 
-        if (verbose) {
+        if (opts.verbose) {
           warn(
             `Ignored route (dynamic param): ${fullPath}`,
             'parseVueRouterRoutes()'
@@ -83,21 +93,26 @@ function getParseVueRouterRoutesFn(quasarConf) {
         parseVueRouterRoutes({
           routes: route.children,
           parentPath: fullPath,
-          acc,
-          verbose
+          opts
         })
-      } else if (route.redirect) {
-        acc.ignoredRedirectingRoutes.push(route)
 
-        if (verbose) {
+        continue
+      }
+
+      if (route.redirect) {
+        opts.acc.ignoredRedirectingRoutes.push(route)
+
+        if (opts.verbose) {
           warn(
             `Ignored route (redirects): ${fullPath}`,
             'parseVueRouterRoutes()'
           )
         }
-      } else {
-        acc.ssgPages.push({ route: fullPath, vueRouterRoute: route })
+
+        continue
       }
+
+      opts.acc.ssgPages.push({ route: fullPath, vueRouterRoute: route })
     }
   }
 
@@ -116,17 +131,21 @@ function getParseVueRouterRoutesFn(quasarConf) {
       ignoredCsrRoutes: []
     }
 
-    const isCrawlIgnoreMatch =
-      crawlIgnoreRoutes.length !== 0
-        ? picomatch(crawlIgnoreRoutes)
-        : () => false
-
     parseVueRouterRoutes({
       routes,
       parentPath,
-      acc,
-      isCrawlIgnoreMatch,
-      verbose
+      /**
+       * Static options for the recursive fn.
+       * Avoids redeclaring them so it's less error prone.
+       */
+      opts: {
+        acc,
+        verbose,
+        isCrawlIgnoreMatch:
+          crawlIgnoreRoutes.length !== 0
+            ? picomatch(crawlIgnoreRoutes)
+            : () => false
+      }
     })
 
     acc.hasIgnoredRoutes =
