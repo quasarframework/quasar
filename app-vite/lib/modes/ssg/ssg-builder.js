@@ -32,10 +32,10 @@ function getParseVueRouterRoutesFn(quasarConf) {
   const parseVueRouterRoutes = ({ routes, parentPath, opts }) => {
     for (const route of routes) {
       const routePath = route.path
-      const fullPath = `${parentPath}/${routePath}`.replaceAll(
-        multiSlashRE,
-        '/'
-      )
+      const fullPath =
+        routePath === ''
+          ? parentPath
+          : `${parentPath}/${routePath}`.replaceAll(multiSlashRE, '/')
 
       if (opts.isCrawlIgnoreMatch?.(fullPath)) {
         opts.acc.crawlIgnoredRoutes.push(route)
