@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from "vue-router";
 
 import type { QSsrContext, RenderVueParams } from "../ssr/ssrcontext.d.ts";
 import type { QuasarContext } from "../configuration/context.d.ts";
+import type { QuasarSsgConfiguration } from "../configuration/ssg-conf.js";
 
 export type HasSsgParam = HasSsg<{ ssrContext?: QSsrContext | null }>;
 
@@ -102,7 +103,13 @@ export interface SsgGetPagesParams {
    *
    * @type QuasarContext {@link QuasarContext}
    */
-  ctx: QuasarContext;
+  readonly ctx: QuasarContext;
+
+  /**
+   * The Quasar SSG configuration (quasar.config file > ssg)
+   * @type QuasarSsgConfiguration {@link QuasarSsgConfiguration}
+   */
+  readonly quasarConfSsg: QuasarSsgConfiguration;
 
   /**
    * A built-in helper function that parses your Vue Router routes

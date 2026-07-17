@@ -146,7 +146,13 @@ interface SsgGetPagesParams {
    *
    * @type QuasarContext
    */
-  ctx: QuasarContext;
+  readonly ctx: QuasarContext;
+
+  /**
+   * The Quasar SSG configuration (quasar.config file > ssg)
+   * @type QuasarSsgConfiguration
+   */
+  readonly quasarConfSsg: QuasarSsgConfiguration;
 
   /**
    * A built-in helper function that parses your Vue Router routes

@@ -36,7 +36,7 @@ import routes from '@/router/routes'
  */
 <% if (scope.filenameBasedRouting) { %>
 export const getSsgPages = defineSsgGetPages(
-  async ({ getFilenameBasedRoutes, parseVueRouterRoutes /*, ctx */ }) => {
+  async ({ getFilenameBasedRoutes, parseVueRouterRoutes }) => {
     const routes = await getFilenameBasedRoutes()
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
@@ -46,7 +46,7 @@ export const getSsgPages = defineSsgGetPages(
   }
 )
 <% } else { %>
-export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes /*, ctx */ }) => {
+export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes }) => {
   // The use of parseVueRouterRoutes is optional as it's just a helper function.
   const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true });
 

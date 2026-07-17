@@ -305,6 +305,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     const ssgPages = await getSsgPages({
       ctx: this.quasarConf.ctx,
+      quasarConfSsg: this.quasarConf.ssg,
       parseVueRouterRoutes: getParseVueRouterRoutesFn(this.quasarConf),
       getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
