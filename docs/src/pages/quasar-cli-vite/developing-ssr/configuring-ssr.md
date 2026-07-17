@@ -37,7 +37,7 @@ export default defineConfig(() => ({
 }))
 ```
 
-This applies to `pwa`, `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. Mode-specific options and extension hooks are not shared.
+This applies to `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. The `pwa` option remains mode-specific so that enabling PWA takeover for one mode does not implicitly enable it for the other. Other mode-specific options and extension hooks are not shared.
 
 ```ts /quasar.config file
 return {

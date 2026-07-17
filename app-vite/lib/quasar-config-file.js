@@ -42,7 +42,6 @@ const quasarModesList = [
 ]
 
 const sharedSsrSsgConfigProps = [
-  'pwa',
   'pwaOfflineHtmlFilename',
   'clientSideRenderingRoutes',
   'manualStoreSerialization',
