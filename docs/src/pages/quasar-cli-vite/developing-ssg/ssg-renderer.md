@@ -24,7 +24,8 @@ import routes from '@/router/routes'
 
 export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes /*, ctx */ }) => {
   // The use of parseVueRouterRoutes is optional as it's just a helper function.
-  return parseVueRouterRoutes({ routes, verbose: true })
+  const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true })
+  return ssgPages
 })
 
 const jsRE = /\.js$/
@@ -76,7 +77,9 @@ export const getSsgPages = defineSsgGetPages(
     const routes = await getFilenameBasedRoutes()
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
-    return parseVueRouterRoutes({ routes, verbose: true })
+    const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true })
+
+    return ssgPages
   }
 )
 
@@ -131,23 +134,23 @@ The `getSsgPages` export uses the `defineSsgGetPages` wrapper. It returns an arr
 
 The callback receives a single argument containing useful helpers:
 
-| Name                     | Description                                                                                                                                                                                                                                                                  |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ctx`                    | The Quasar build context. Same as the one from your /quasar.config file. You can use this to access `ctx.appPaths` (among other things) to resolve paths to your pages, which is especially useful if you are using tools like tinyglobby to manually read your file system. |
-| `parseVueRouterRoutes`   | A built-in helper function that parses your Vue Router routes and automatically builds a list of routes to generate. It will ignore redirects and routes with params. You will need to define and add those SSG pages manually, should you want.                             |
-| `getFilenameBasedRoutes` | A built-in helper function when you are using [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing), that returns the auto-generated routes by Vue Router.                                                                          |
+| Property (Type)                                      | Description                                                                                                                                                                                                                                                                  |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ctx` (QuasarContext)                                | The Quasar build context. Same as the one from your /quasar.config file. You can use this to access `ctx.appPaths` (among other things) to resolve paths to your pages, which is especially useful if you are using tools like tinyglobby to manually read your file system. |
+| `parseVueRouterRoutes` (SsgParseVueRouterRoutes)     | A built-in helper function that parses your Vue Router routes and automatically builds a list of routes to generate. It will ignore redirects and routes with params. You will need to define and add those SSG pages manually, should you want.                             |
+| `getFilenameBasedRoutes` (SsgGetFilenameBasedRoutes) | A built-in helper function when you are using [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing), that returns the auto-generated routes by Vue Router.                                                                          |
 
 ### The Page Object
 
 Each object in the returned array represents a single HTML page to be generated. It can contain the following properties:
 
-| Property   | Type        | Description                                                                                                                                                                                            |
-| ---------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| route      | string      | **Required.** The Vue Router route to render. It must start with `/` and resolve through your router.                                                                                                  |
-| label      | string      | An optional label to identify the SSG page in your build logs.                                                                                                                                         |
-| dir        | string      | The directory to place the generated HTML file in. Must be a relative path to the dist folder. If omitted, the route path determines the directory.                                                    |
-| filename   | string      | The name of the generated HTML file. Defaults to "index.html".                                                                                                                                         |
-| ssrContext | QSsrContext | An optional SSR context to use when rendering the specific page. If omitted, the default SSR context is used. One important prop for it is `req`, which has the IncomingMessage native node:http type. |
+| Property (Type)            | Description                                                                                                                                                                                                                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `route` (string)           | **Required.** The Vue Router route to render. It must start with `/` and resolve through your router.                                                                                                                                                                               |
+| `label` (string)           | Optional. A label to identify the SSG page in your build logs.                                                                                                                                                                                                                      |
+| `dir` (string)             | Optional. The directory to place the generated HTML file in. Must be a relative path to the dist folder. If omitted, the route path determines the directory.                                                                                                                       |
+| `filename` (string)        | Optional. The name of the generated HTML file. Defaults to "index.html".                                                                                                                                                                                                            |
+| `ssrContext` (QSsrContext) | Optional. The SSR context to use when rendering the specific page. If omitted, the default SSR context is used. One important prop for it is `req`, which has the IncomingMessage native node:http type. Gets merged into the ssrContext so you don't have to define all its props. |
 
 ::: warning
 When defining the `route` prop of a SSG page, do not include the quasar.config > build.publicPath to it. Use it as a Vue Router route exclusively.
@@ -185,7 +188,9 @@ export const getSsgPages = defineSsgGetPages(
     const routes = await getFilenameBasedRoutes()
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
-    return parseVueRouterRoutes({ routes, verbose: true })
+    const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true })
+
+    return ssgPages
   }
 )
 ```

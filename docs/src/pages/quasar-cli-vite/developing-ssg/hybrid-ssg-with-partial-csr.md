@@ -76,7 +76,7 @@ Do not use a filename that can also be produced by an SSG page. Setting `clientS
 ## How It Works
 
 - In development, matching routes bypass server rendering and use the client application shell.
-- During a production build, `parseVueRouterRoutes()` excludes matching routes from the generated-page list.
+- During a production build, `parseVueRouterRoutes()` excludes matching routes from the generated-page list (but adds them to `ignoredCsrRoutes` from the returned Object).
 - The production build writes one CSR shell file. Your static host must rewrite each matching request to that file without changing the browser URL.
 
 With the configuration above, requests for `/account/profile` and `/account/security` must both serve `/app-shell.html`. Do not rewrite every missing URL to the CSR shell, because that would turn real not-found requests into client-rendered pages.

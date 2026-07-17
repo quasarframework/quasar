@@ -23,13 +23,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       ? picomatch(clientSideRenderingRoutes)
       : () => false
 
-  const parseVueRouterRoutes = ({
-    routes,
-    parentPath = '/',
-    verbose = false
-  }) => {
-    const acc = []
-
+  const parseVueRouterRoutes = ({ routes, parentPath, acc, verbose }) => {
     for (const route of routes) {
       const routePath = route.path
       const fullPath = `${parentPath}/${routePath}`.replaceAll(
@@ -38,6 +32,8 @@ function getParseVueRouterRoutesFn(quasarConf) {
       )
 
       if (isCSRMatch(fullPath)) {
+        acc.ignoredCsrRoutes.push(route)
+
         if (verbose) {
           warn(`Ignored route (CSR): ${fullPath}`, 'parseVueRouterRoutes()')
         }
@@ -46,6 +42,8 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (routePath.includes(':')) {
+        acc.ignoredDynamicRoutes.push(route)
+
         if (verbose) {
           warn(
             `Ignored route (dynamic param): ${fullPath}`,
@@ -57,14 +55,15 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (route.children) {
-        acc.push(
-          ...parseVueRouterRoutes({
-            routes: route.children,
-            parentPath: fullPath,
-            verbose
-          })
-        )
+        parseVueRouterRoutes({
+          routes: route.children,
+          parentPath: fullPath,
+          acc,
+          verbose
+        })
       } else if (route.redirect) {
+        acc.ignoredRedirectingRoutes.push(route)
+
         if (verbose) {
           warn(
             `Ignored route (redirects): ${fullPath}`,
@@ -72,14 +71,29 @@ function getParseVueRouterRoutesFn(quasarConf) {
           )
         }
       } else {
-        acc.push({ route: fullPath })
+        acc.ssgPages.push({ route: fullPath, vueRouterRoute: route })
       }
     }
+  }
+
+  return ({ routes, parentPath = '/', verbose = false }) => {
+    const acc = {
+      ssgPages: [],
+      hasIgnoredRoutes: false,
+      ignoredRedirectingRoutes: [],
+      ignoredDynamicRoutes: [],
+      ignoredCsrRoutes: []
+    }
+
+    parseVueRouterRoutes({ routes, parentPath, acc, verbose })
+
+    acc.hasIgnoredRoutes =
+      acc.ignoredRedirectingRoutes.length !== 0 ||
+      acc.ignoredDynamicRoutes.length !== 0 ||
+      acc.ignoredCsrRoutes.length !== 0
 
     return acc
   }
-
-  return parseVueRouterRoutes
 }
 
 async function loadFilenameBasedRoutes(viteServerConfig, createServer) {

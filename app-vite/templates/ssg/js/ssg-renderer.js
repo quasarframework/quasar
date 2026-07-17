@@ -40,13 +40,17 @@ export const getSsgPages = defineSsgGetPages(
     const routes = await getFilenameBasedRoutes()
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
-    return parseVueRouterRoutes({ routes, verbose: true })
+    const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true });
+
+    return ssgPages;
   }
 )
 <% } else { %>
 export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes /*, ctx */ }) => {
   // The use of parseVueRouterRoutes is optional as it's just a helper function.
-  return parseVueRouterRoutes({ routes, verbose: true })
+  const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true });
+
+  return ssgPages;
 })
 <% } %>
 
