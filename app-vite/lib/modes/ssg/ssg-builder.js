@@ -37,7 +37,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
         '/'
       )
 
-      if (opts.isCrawlIgnoreMatch(fullPath)) {
+      if (opts.isCrawlIgnoreMatch?.(fullPath)) {
         opts.acc.crawlIgnoredRoutes.push(route)
 
         if (opts.verbose) {
@@ -142,9 +142,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
         acc,
         verbose,
         isCrawlIgnoreMatch:
-          crawlIgnoreRoutes.length !== 0
-            ? picomatch(crawlIgnoreRoutes)
-            : () => false
+          crawlIgnoreRoutes.length !== 0 ? picomatch(crawlIgnoreRoutes) : null
       }
     })
 
