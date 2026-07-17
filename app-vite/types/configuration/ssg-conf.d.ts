@@ -5,6 +5,10 @@ interface QuasarSsrManifest {
   [key: string]: string[];
 }
 
+/**
+ * Properties also available in the SSR configuration inherit their explicitly
+ * configured SSR value when omitted here. An SSG value always takes precedence.
+ */
 export interface QuasarSsgConfiguration {
   /**
    * If a PWA should take over or just a SPA.
@@ -20,7 +24,7 @@ export interface QuasarSsgConfiguration {
    * don't conflict with it! Also, it shouldn't clash with the
    * "clientSideRenderingHtmlFilename" option if you are using that.
    *
-   * @default 'offline.html'
+   * @default ssr.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
    */
   pwaOfflineHtmlFilename?: string;
 
@@ -85,7 +89,7 @@ export interface QuasarSsgConfiguration {
    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
    *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssr.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 
@@ -124,13 +128,13 @@ export interface QuasarSsgConfiguration {
   /**
    * Manually serialize the store state and provide it yourself
    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-   * @default false
+   * @default ssr.manualStoreSerialization (when configured), otherwise false
    */
   manualStoreSerialization?: boolean;
 
   /**
    * Manually inject the store state into ssrContext.state
-   * @default false
+   * @default ssr.manualStoreSsrContextInjection (when configured), otherwise false
    */
   manualStoreSsrContextInjection?: boolean;
 
@@ -139,14 +143,14 @@ export interface QuasarSsgConfiguration {
    *
    * For Pinia: store.state.value = window.__INITIAL_STATE__
    *
-   * @default false
+   * @default ssr.manualStoreHydration (when configured), otherwise false
    */
   manualStoreHydration?: boolean;
 
   /**
    * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
    * This announces that client-side code should takeover.
-   * @default false
+   * @default ssr.manualPostHydrationTrigger (when configured), otherwise false
    */
   manualPostHydrationTrigger?: boolean;
 

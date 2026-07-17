@@ -22,6 +22,23 @@ scope:
 
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
+Options shared by the `ssr` and `ssg` sections can be configured once. When a shared option is omitted from `ssr`, Quasar uses an explicitly configured value from `ssg`. A value specified in `ssr`, including `false` or an empty array, always takes precedence.
+
+```js /quasar.config file
+export default defineConfig(() => ({
+  ssr: {
+    prodPort: 3000
+  },
+
+  ssg: {
+    // Also used by SSR because SSR does not override it
+    clientSideRenderingRoutes: ['/admin/**']
+  }
+}))
+```
+
+This applies to `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. The `pwa` option remains mode-specific so that enabling PWA takeover for one mode does not implicitly enable it for the other. Other mode-specific options and extension hooks are not shared.
+
 ```ts /quasar.config file
 return {
   // ...
@@ -39,7 +56,7 @@ return {
      *
      * Do NOT use index.html as name as it will mess SSR up!
      *
-     * @default 'offline.html'
+     * @default ssg.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
      */
     pwaOfflineHtmlFilename?: string;
 
@@ -88,20 +105,20 @@ return {
      *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
      *
      * @example ['/dashboard', '/admin/**']
-     * @default []
+     * @default ssg.clientSideRenderingRoutes (when configured), otherwise []
      */
     clientSideRenderingRoutes?: string[];
 
     /**
      * Manually serialize the store state and provide it yourself
      * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-     * @default false
+     * @default ssg.manualStoreSerialization (when configured), otherwise false
      */
     manualStoreSerialization?: boolean;
 
     /**
      * Manually inject the store state into ssrContext.state
-     * @default false
+     * @default ssg.manualStoreSsrContextInjection (when configured), otherwise false
      */
     manualStoreSsrContextInjection?: boolean;
 
@@ -110,14 +127,14 @@ return {
      *
      * For Pinia: store.state.value = window.__INITIAL_STATE__
      *
-     * @default false
+     * @default ssg.manualStoreHydration (when configured), otherwise false
      */
     manualStoreHydration?: boolean;
 
     /**
      * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
      * This announces that client-side code should takeover.
-     * @default false
+     * @default ssg.manualPostHydrationTrigger (when configured), otherwise false
      */
     manualPostHydrationTrigger?: boolean;
 
