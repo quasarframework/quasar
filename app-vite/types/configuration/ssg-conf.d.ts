@@ -73,7 +73,7 @@ export interface OnSsgRendererErrorFunctionParams {
   /**
    * The error object that was thrown during the SSG rendering process.
    */
-  err: Error;
+  err: Error | { routeNotFound: true } | { redirectUrl: string };
 
   /**
    * The extra reason for the error, if available.
