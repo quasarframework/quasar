@@ -934,6 +934,7 @@ export class QuasarConfigFile {
       cfg.ssg = merge(
         {
           onSsgRendererError: 'abort',
+          ssgRendererConcurrency: 1,
           ssgRendererRetryCount: 0,
           ssgRendererRetryDelay: 1000,
           pwa: false,
@@ -948,16 +949,6 @@ export class QuasarConfigFile {
       if (cfg.ssg.clientSideRenderingHtmlFilename === void 0) {
         cfg.ssg.clientSideRenderingHtmlFilename =
           cfg.ssg.clientSideRenderingRoutes.length !== 0 ? 'csr.html' : false
-      }
-
-      if (cfg.ssg.ssgRendererConcurrency === void 0) {
-        const { availableParallelism } = await import('node:os')
-        cfg.ssg.ssgRendererConcurrency = Math.max(1, availableParallelism() - 1)
-      } else {
-        cfg.ssg.ssgRendererConcurrency = Math.max(
-          1,
-          cfg.ssg.ssgRendererConcurrency
-        )
       }
     }
 

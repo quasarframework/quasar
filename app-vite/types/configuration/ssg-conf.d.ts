@@ -135,7 +135,7 @@ export interface QuasarSsgConfiguration {
    * This can speed up rendering that includes asynchronous work, such as data fetching.
    * The render jobs run concurrently in the same Node.js thread.
    *
-   * @default Math.max(1, os.availableParallelism() - 1)
+   * @default 1
    */
   ssgRendererConcurrency?: number;
 
