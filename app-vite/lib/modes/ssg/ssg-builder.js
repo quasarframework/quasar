@@ -484,7 +484,7 @@ export class QuasarModeBuilder extends AppBuilder {
     const handleError = getSsgRendererErrorHandler(onSsgRendererError)
     let errorsEncountered = 0
 
-    const renderPage = async (ssgPage, retryCount = 0) => {
+    const renderPage = async ssgPage => {
       const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
@@ -494,71 +494,77 @@ export class QuasarModeBuilder extends AppBuilder {
         )
 
       let html
-      try {
-        html = await renderSsgPage(
-          {
-            ...ssrContext,
-            url,
-            req: {
-              headers: {},
-              ...ssrContext.req,
-              url
-            }
-          },
-          !isNoPreloadMatcher?.(ssgPage.route)
-        )
+      let retryCount = 0
 
-        if (typeof ssgPage.transformHtml === 'function') {
-          const result = await ssgPage.transformHtml(html)
-          if (result) html = result
-        }
-      } catch (err) {
-        if (
-          err?.routeNotFound !== true &&
-          err?.redirectUrl === void 0 &&
-          retryCount < ssgRendererRetryCount
-        ) {
-          retryCount++
+      while (true) {
+        try {
+          html = await renderSsgPage(
+            {
+              ...ssrContext,
+              url,
+              req: {
+                headers: {},
+                ...ssrContext.req,
+                url
+              }
+            },
+            !isNoPreloadMatcher?.(ssgPage.route)
+          )
 
-          if (onSsgRendererError !== 'ignore') {
-            warn(
-              `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
-                ` Retrying in ${ssgRendererRetryDelay}ms...` +
-                ` (${retryCount}/${ssgRendererRetryCount})`
-            )
+          if (typeof ssgPage.transformHtml === 'function') {
+            const result = await ssgPage.transformHtml(html)
+            if (result) html = result
           }
 
-          await new Promise(resolve => {
-            setTimeout(resolve, ssgRendererRetryDelay)
-          })
+          break
+        } catch (err) {
+          if (
+            err?.routeNotFound !== true &&
+            err?.redirectUrl === void 0 &&
+            retryCount < ssgRendererRetryCount
+          ) {
+            retryCount++
 
-          return renderPage(ssgPage, retryCount)
+            if (onSsgRendererError !== 'ignore') {
+              warn(
+                `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+                  ` Retrying in ${ssgRendererRetryDelay}ms...` +
+                  ` (${retryCount}/${ssgRendererRetryCount})`
+              )
+            }
+
+            await new Promise(resolve => {
+              setTimeout(resolve, ssgRendererRetryDelay)
+            })
+
+            continue
+          }
+
+          if (err?.routeNotFound) {
+            await handleError({
+              err,
+              reason:
+                ssgPage.route === synthetic404Route
+                  ? 'Vue Router did not match the synthetic 404 route. Add a catch-all route or set quasar.config.ssg.error404HtmlFilename to false'
+                  : 'Vue Router did not match the route',
+              ssgPage
+            })
+          } else if (err?.redirectUrl) {
+            await handleError({
+              err,
+              reason: `The route redirects to "${err.redirectUrl}". Generate the destination route instead.`,
+              ssgPage
+            })
+          } else {
+            await handleError({
+              err,
+              ssgPage
+            })
+          }
+
+          errorsEncountered++
+          return
         }
-
-        if (err?.routeNotFound) {
-          await handleError({
-            err,
-            reason:
-              ssgPage.route === synthetic404Route
-                ? 'Vue Router did not match the synthetic 404 route. Add a catch-all route or set quasar.config.ssg.error404HtmlFilename to false'
-                : 'Vue Router did not match the route',
-            ssgPage
-          })
-        } else if (err?.redirectUrl) {
-          await handleError({
-            err,
-            reason: `The route redirects to "${err.redirectUrl}". Generate the destination route instead.`,
-            ssgPage
-          })
-        } else {
-          await handleError({
-            err,
-            ssgPage
-          })
-        }
-
-        errorsEncountered++
-        return
       }
 
       const filename = join(
