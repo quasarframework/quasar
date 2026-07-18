@@ -191,6 +191,7 @@ export interface QuasarSsrConfiguration {
   /**
    * When using SSR+PWA, this is the name of the
    * PWA index html file that the client-side fallbacks to.
+   * For production only.
    *
    * Do NOT use index.html as name as it will mess SSR up!
    *

@@ -29,8 +29,8 @@ ssg: {
    *
    * If you are building a SSG+PWA app, you might want to directly use the
    * `pwaOfflineHtmlFilename` as the empty shell html file instead,
-   * as it will have the same content. Otherwise, make sure to use a different
-   * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
+   * as it will have the same content. If you do not reuse that filename,
+   * choose a different one to avoid a generated-file conflict.
    *
    * If not explicitly configured and `clientSideRenderingRoutes`
    * is not its default value (an empty array), then this option will
@@ -62,7 +62,7 @@ ssg: {
    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
    *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssr.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 }
@@ -82,7 +82,7 @@ ssg: {
    *   "/admin/*" matches only direct sub-routes of /admin
    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
    */
-  clientSideRenderingRoutes: ['/account{,/**}', '/admin']
+  clientSideRenderingRoutes: ['/account/**', '/admin']
 }
 ```
 

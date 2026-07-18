@@ -163,6 +163,7 @@ interface SsgGetPagesParams {
    * @param {SsgParseVueRouterParams} options - The configuration object.
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse.
    * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
+   * @param {string[]} [options.crawlIgnoreRoutes=[]] - Optional picomatch patterns for routes to omit while still traversing their children.
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
    * @returns {SsgParseVueRouterResult}
    */
@@ -196,6 +197,8 @@ type SsgParseVueRouterParams = {
   /**
    * Optional list of routes to ignore during the parsing process.
    * You can use picomatch patterns to match the routes you want to ignore.
+   * A matched route is omitted, but its children are still traversed and
+   * evaluated against the patterns.
    * https://www.npmjs.com/package/picomatch
    *
    * Note on picomatch patterns:
@@ -254,6 +257,13 @@ type SsgParseVueRouterResult = {
   ignoredCsrRoutes: RouteRecordRaw[];
 };
 <<| ts SsgPage Signature |>>
+type SsgPageSsrContext = Partial<
+  Omit<QSsrContext, "req" | "res">
+> & {
+  req?: Partial<QSsrContext["req"]>;
+  res?: Partial<QSsrContext["res"]>;
+};
+
 interface SsgPage {
   /**
    * The vue-router route to render.
@@ -292,9 +302,9 @@ interface SsgPage {
    * type. Gets merged into the ssrContext so you don't have to
    * define all its props.
    *
-   * @type QSsrContext
+   * @type SsgPageSsrContext
    */
-  ssrContext?: QSsrContext;
+  ssrContext?: SsgPageSsrContext;
 
   /**
    * Callback function that is called after rendering the SSG page.

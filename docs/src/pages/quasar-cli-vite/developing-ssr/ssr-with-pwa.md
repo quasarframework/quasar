@@ -22,7 +22,7 @@ return {
      *
      * Do NOT use index.html as name as it will mess SSR up!
      *
-     * @default 'offline.html'
+     * @default ssg.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
      */
     pwaOfflineHtmlFilename?: string;
 
@@ -57,6 +57,6 @@ return {
 }
 ```
 
-The first request of a **new** client will be served from the webserver (so SSR supplies the initial page content). The PWA gets installed then it takes over on client side. All further requests will be served from cache (unless you have some custom configuration to change that).
+The first request from a **new** client is served by the webserver, so SSR supplies the initial page content. Once installed, the service worker can handle later navigations. Whether a request is served from cache, the network, or the offline shell depends on the selected Workbox mode and configuration.
 
 > For more information on PWA, head on to [PWA Introduction](/quasar-cli-vite/developing-pwa/introduction) and read the whole PWA Guide section.

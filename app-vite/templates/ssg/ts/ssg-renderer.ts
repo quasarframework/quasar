@@ -28,7 +28,7 @@ import routes from '@/router/routes';
  *
  *  Optional SSR context to use when rendering the page.
  *  If not provided, the default SSR context will be used.
- *  ssrContext?: QSsrContext;
+ *  ssrContext?: SsgPageSsrContext;
  *
  * You can use the `ctx` parameter to access appPaths, among
  * other things, to help you resolve paths to your pages then

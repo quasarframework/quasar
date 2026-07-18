@@ -43,7 +43,7 @@ A typical configuration needs only a few options:
 ```js /quasar.config file
 export default defineConfig(() => ({
   ssg: {
-    // Generate a PWA service worker and offline shell
+    // Keep PWA takeover disabled
     pwa: false,
 
     // Generate dist/ssg/404.html
@@ -57,7 +57,7 @@ export default defineConfig(() => ({
      *   "/admin/*" matches only direct sub-routes of /admin
      *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
      */
-    clientSideRenderingRoutes: ['/account{,/**}', '/admin']
+    clientSideRenderingRoutes: ['/account/**', '/admin']
   }
 }))
 ```
@@ -162,8 +162,8 @@ ssg: {
     *
     * If you are building a SSG+PWA app, you might want to directly use the
     * `pwaOfflineHtmlFilename` as the empty shell html file instead,
-    * as it will have the same content. Otherwise, make sure to use a different
-    * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
+    * as it will have the same content. If you do not reuse that filename,
+    * choose a different one to avoid a generated-file conflict.
     *
     * If not explicitly configured and `clientSideRenderingRoutes`
     * is not its default value (an empty array), then this option will
@@ -248,10 +248,11 @@ ssg: {
   /**
     * When using SSG+PWA, this is the name of the
     * PWA index html file that the client-side fallbacks to.
+    * For production only.
     *
     * Make sure to name it so that the SSG generated html files
-    * don't conflict with it! Also, it shouldn't clash with the
-    * "clientSideRenderingHtmlFilename" option if you are using that.
+    * don't conflict with it. It may intentionally match
+    * `clientSideRenderingHtmlFilename` to reuse the same application shell.
     *
     * @default ssr.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
     */

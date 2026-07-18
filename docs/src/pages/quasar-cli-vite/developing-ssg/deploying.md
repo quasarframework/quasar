@@ -88,7 +88,7 @@ export default defineConfig(() => {
        *   "/admin/*" matches only direct sub-routes of /admin
        *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
        */
-      clientSideRenderingRoutes: ['/dashboard{,/**}', '/admin']
+      clientSideRenderingRoutes: ['/dashboard/**', '/admin']
     }
   }
 })

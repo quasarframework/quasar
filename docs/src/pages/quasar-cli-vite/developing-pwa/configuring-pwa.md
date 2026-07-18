@@ -44,6 +44,10 @@ This is the place where you can configure Workbox behavior and also tweak your m
 
 ```ts
 pwa: {
+  /**
+   * Workbox operating mode.
+   * @default 'GenerateSW'
+   */
   workboxMode?: "GenerateSW" | "InjectManifest";
 
   /**
@@ -62,7 +66,9 @@ pwa: {
    * Should you need some dynamic changes to the /src-pwa/manifest.json,
    * use this method to do it.
    */
-  extendPWAManifestJson?: (json: PwaManifestOptions) => void;
+  extendPWAManifestJson?: (
+    json: PwaManifestOptions
+  ) => void | PwaManifestOptions | Promise<void | PwaManifestOptions>;
 
   /**
    * Does the PWA manifest tag requires crossorigin auth?
@@ -111,7 +117,7 @@ pwa: {
   /**
    * Extend the generated `.quasar/tsconfig.pwa-sw.json` file.
    *
-   * NOT async! Can directly modify the "config" parameter or
+   * NOT async! Can directly modify the "tsConfig" parameter or
    * return a new one that will be merged with the default one.
    */
   extendPWASwTsConfig (tsConfig) {

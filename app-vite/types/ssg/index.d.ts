@@ -34,6 +34,8 @@ export type SsgParseVueRouterParams = {
   /**
    * Optional list of routes to ignore during the parsing process.
    * You can use picomatch patterns to match the routes you want to ignore.
+   * A matched route is omitted, but its children are still traversed and
+   * evaluated against the patterns.
    * https://www.npmjs.com/package/picomatch
    *
    * Note on picomatch patterns:
@@ -125,6 +127,7 @@ export interface SsgGetPagesParams {
    * @param {SsgParseVueRouterParams} options - The configuration object. {@link SsgParseVueRouterParams}
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse. {@link RouteRecordRaw}
    * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
+   * @param {string[]} [options.crawlIgnoreRoutes=[]] - Optional picomatch patterns for routes to omit while still traversing their children.
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
    * @returns {SsgParseVueRouterResult} {@link SsgParseVueRouterResult}
    */
