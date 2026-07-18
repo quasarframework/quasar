@@ -462,14 +462,16 @@ export class QuasarModeBuilder extends AppBuilder {
         ? getRouteMatcher(noPreloadTagRoutes)
         : null
 
-    const threadsBanner =
-      ssgRendererConcurrency > 1 ? ` (${ssgRendererConcurrency} threads)` : ''
+    const concurrencyBanner =
+      ssgRendererConcurrency > 1
+        ? ` (concurrency: ${ssgRendererConcurrency})`
+        : ''
 
     const done = progress({
       tool: 'SSG',
       waitAction: 'Rendering',
       doneAction: 'Rendered',
-      target: `${ssgPageList.length} SSG page${ssgPageList.length > 1 ? 's' : ''}${threadsBanner}`
+      target: `${ssgPageList.length} SSG page${ssgPageList.length > 1 ? 's' : ''}${concurrencyBanner}`
     })
 
     const { onSsgRendererError } = this.quasarConf.ssg
@@ -570,7 +572,7 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     if (errorsEncountered) {
-      if (['abort', 'error'].includes(onSsgRendererError)) {
+      if (!['warn', 'ignore'].includes(onSsgRendererError)) {
         fatal(
           `Failed to render ${errorsEncountered} SSG page${errorsEncountered > 1 ? 's' : ''}. Check details above.`,
           'FAIL'
@@ -592,7 +594,7 @@ export class QuasarModeBuilder extends AppBuilder {
       done({
         target:
           ` ${renderedCount}/${ssgPageList.length} SSG page` +
-          `${renderedCount > 1 ? 's' : ''}${threadsBanner}`
+          `${renderedCount > 1 ? 's' : ''}${concurrencyBanner}`
       })
     } else {
       done()

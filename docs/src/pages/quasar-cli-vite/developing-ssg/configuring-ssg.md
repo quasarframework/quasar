@@ -36,7 +36,7 @@ export default defineConfig(() => ({
 }))
 ```
 
-This applies to `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. The `pwa` option remains mode-specific so that enabling PWA takeover for one mode does not implicitly enable it for the other. Other mode-specific options and extension hooks are not shared.
+This applies to `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, `noPreloadTagRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. The `pwa` option remains mode-specific so that enabling PWA takeover for one mode does not implicitly enable it for the other. Other mode-specific options and extension hooks are not shared.
 
 A typical configuration needs only a few options:
 
@@ -88,7 +88,7 @@ ssg: {
     *     process.exit(1)
     *   }
     *
-    * @type OnSsgBuildError
+    * @type OnSsgRendererError
     * @default 'abort'
     */
   onSsgRendererError?:
@@ -107,8 +107,9 @@ ssg: {
       }) => void | Promise<void>);
 
   /**
-   * The number of threads to use for the SSG rendering process.
-   * This can help speed up the rendering of multiple pages by utilizing multiple CPU cores.
+   * The maximum number of SSG pages to render concurrently.
+   * This can speed up rendering that includes asynchronous work, such as data fetching.
+   * The render jobs run concurrently in the same Node.js thread.
    *
    * @default Math.max(1, os.availableParallelism() - 1)
    */

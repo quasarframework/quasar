@@ -131,8 +131,9 @@ export interface QuasarSsgConfiguration {
   onSsgRendererError?: OnSsgRendererError;
 
   /**
-   * The number of threads to use for the SSG rendering process.
-   * This can help speed up the rendering of multiple pages by utilizing multiple CPU cores.
+   * The maximum number of SSG pages to render concurrently.
+   * This can speed up rendering that includes asynchronous work, such as data fetching.
+   * The render jobs run concurrently in the same Node.js thread.
    *
    * @default Math.max(1, os.availableParallelism() - 1)
    */
