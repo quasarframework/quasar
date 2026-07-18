@@ -69,7 +69,7 @@ export interface SsgPage {
   ) => string | Promise<string> | void | Promise<void>;
 }
 
-export interface OnSsgBuildErrorFunctionParams {
+export interface OnSsgRendererErrorFunctionParams {
   /**
    * The error object that was thrown during the SSG rendering process.
    */
@@ -87,16 +87,16 @@ export interface OnSsgBuildErrorFunctionParams {
    */
   ssgPage: SsgPage;
 }
-export type OnSsgBuildErrorFunction = (
-  params: OnSsgBuildErrorFunctionParams
+export type OnSsgRendererErrorFunction = (
+  params: OnSsgRendererErrorFunctionParams
 ) => void | Promise<void>;
 
-export type OnSsgBuildError =
+export type OnSsgRendererError =
   | "abort"
   | "error"
   | "warn"
   | "ignore"
-  | OnSsgBuildErrorFunction;
+  | OnSsgRendererErrorFunction;
 
 /**
  * Properties also available in the SSR configuration inherit their explicitly
@@ -114,21 +114,29 @@ export interface QuasarSsgConfiguration {
    *              with how many pages failed to render.
    *  - A custom function to implement your own error handling logic.
    *
-   * Function example:
-   *   onSsgBuildError: ({ err, reason, ssgPage }) => {
-   *     const pageId = `${ssgPage.route} ${ssgPage.label ? ` (${ssgPage.label})` : ''}`
-   *     console.error(
-   *       `Error rendering SSG page with route ${pageId}${reason ? `: ${reason}` : ''}`
-   *     )
-   *     // Optional: exit the build process with an error code
-   *     // If not exiting, the build will continue and accumulate errors then fail at the end.
-   *     process.exit(1)
-   *   }
+   * @example
+   * onSsgRendererError: ({ err, reason, ssgPage }) => {
+   *   const pageId = `${ssgPage.route} ${ssgPage.label ? ` (${ssgPage.label})` : ''}`
+   *   console.error(
+   *     `Error rendering SSG page with route ${pageId}${reason ? `: ${reason}` : ''}`
+   *   )
+   *   // Optional: exit the build process with an error code
+   *   // If not exiting, the build will continue and accumulate errors then fail at the end.
+   *   process.exit(1)
+   * }
    *
-   * @type OnSsgBuildError {@link OnSsgBuildError} {@link OnSsgBuildErrorFunction}
+   * @type OnSsgRendererError {@link OnSsgRendererError} {@link OnSsgRendererErrorFunction}
    * @default 'abort'
    */
-  onSsgBuildError?: OnSsgBuildError;
+  onSsgRendererError?: OnSsgRendererError;
+
+  /**
+   * The number of threads to use for the SSG rendering process.
+   * This can help speed up the rendering of multiple pages by utilizing multiple CPU cores.
+   *
+   * @default Math.max(1, os.availableParallelism() - 1)
+   */
+  ssgRendererConcurrency?: number;
 
   /**
    * If a PWA should take over or just a SPA.

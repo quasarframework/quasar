@@ -11,19 +11,10 @@ import { getFixedDeps } from '../../utils/get-fixed-deps.js'
 export class QuasarModeBuilder extends AppBuilder {
   async build() {
     this.cleanArtifacts()
-    await this.#buildFiles()
 
-    this.#copyElectronFiles()
-    this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
-
-    if (this.argv['skip-pkg'] !== true) {
-      await this.#packageFiles()
-    }
-  }
-
-  async #buildFiles() {
     await Promise.all([
       this.#writePackageJson(),
+      this.#copyElectronFiles(),
 
       quasarElectronConfig
         .vite(this.quasarConf)
@@ -48,6 +39,12 @@ export class QuasarModeBuilder extends AppBuilder {
           )
         )
     ])
+
+    this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
+
+    if (this.argv['skip-pkg'] !== true) {
+      await this.#packageFiles()
+    }
   }
 
   async #writePackageJson() {
@@ -92,7 +89,7 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     )
 
-    this.writeFile(
+    await this.writeFile(
       'UnPackaged/package.json',
       this.quasarConf.metaConf.debugging
         ? JSON.stringify(pkg, null, 2)
@@ -100,7 +97,7 @@ export class QuasarModeBuilder extends AppBuilder {
     )
   }
 
-  #copyElectronFiles() {
+  async #copyElectronFiles() {
     const patterns = [
       '.npmrc',
       '.yarnrc',
@@ -116,7 +113,7 @@ export class QuasarModeBuilder extends AppBuilder {
       to: './UnPackaged'
     }))
 
-    this.copyFiles(patterns)
+    await this.copyFiles(patterns)
 
     const pnpmWorkspaceFile = join(
       this.quasarConf.build.distDir,

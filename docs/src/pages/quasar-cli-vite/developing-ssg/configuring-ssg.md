@@ -78,7 +78,7 @@ ssg: {
     *  - A custom function to implement your own error handling logic.
     *
     * Function example:
-    *   onSsgBuildError: ({ err, reason, ssgPage }) => {
+    *   onSsgRendererError: ({ err, reason, ssgPage }) => {
     *     const pageId = `${ssgPage.route} ${ssgPage.label ? ` (${ssgPage.label})` : ''}`
     *     console.error(
     *       `Error rendering SSG page with route ${pageId}${reason ? `: ${reason}` : ''}`
@@ -91,7 +91,7 @@ ssg: {
     * @type OnSsgBuildError
     * @default 'abort'
     */
-  onSsgBuildError?:
+  onSsgRendererError?:
     | "abort"
     | "error"
     | "warn"
@@ -105,6 +105,14 @@ ssg: {
         reason?: string;
         ssgPage: SsgPage;
       }) => void | Promise<void>);
+
+  /**
+   * The number of threads to use for the SSG rendering process.
+   * This can help speed up the rendering of multiple pages by utilizing multiple CPU cores.
+   *
+   * @default Math.max(1, os.availableParallelism() - 1)
+   */
+  ssgRendererConcurrency?: number;
 
   /**
     * The name of the html file that will be used for the 404 page.

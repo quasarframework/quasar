@@ -930,7 +930,7 @@ export class QuasarConfigFile {
     } else if (this.#ctx.mode.ssg) {
       cfg.ssg = merge(
         {
-          onSsgBuildError: 'abort',
+          onSsgRendererError: 'abort',
           pwa: false,
           error404HtmlFilename: '404.html',
           pwaOfflineHtmlFilename: 'offline.html',
@@ -943,6 +943,16 @@ export class QuasarConfigFile {
       if (cfg.ssg.clientSideRenderingHtmlFilename === void 0) {
         cfg.ssg.clientSideRenderingHtmlFilename =
           cfg.ssg.clientSideRenderingRoutes.length !== 0 ? 'csr.html' : false
+      }
+
+      if (cfg.ssg.ssgRendererConcurrency === void 0) {
+        const { availableParallelism } = await import('node:os')
+        cfg.ssg.ssgRendererConcurrency = Math.max(1, availableParallelism() - 1)
+      } else {
+        cfg.ssg.ssgRendererConcurrency = Math.max(
+          1,
+          cfg.ssg.ssgRendererConcurrency
+        )
       }
     }
 

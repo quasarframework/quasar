@@ -18,8 +18,8 @@ const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 export class QuasarModeBuilder extends AppBuilder {
   async build() {
     this.cleanArtifacts()
-    this.#copyWebserverFiles()
 
+    await this.#copyWebserverFiles()
     await this.#writePackageJson()
 
     if (this.quasarConf.ssr.pwa) {
@@ -65,28 +65,26 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeRenderTemplate() {
-    const html = this.readFile('client/index.html')
-    this.removeFile('client/index.html')
+    const html = await this.readFile('client/index.html')
+    await this.removeFile('client/index.html')
 
     await Promise.all([
-      getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(
-        content => {
-          this.writeFile('render-template.js', content)
-        }
+      getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(content =>
+        this.writeFile('render-template.js', content)
       ),
 
       this.quasarConf.ssr.pwa ||
       this.quasarConf.ssr.clientSideRenderingRoutes.length !== 0
-        ? transformProdHtmlShell(html, this.quasarConf).then(content => {
+        ? transformProdHtmlShell(html, this.quasarConf).then(async content => {
             if (this.quasarConf.ssr.pwa) {
-              this.writeFile(
+              await this.writeFile(
                 `client/${this.quasarConf.ssr.pwaOfflineHtmlFilename}`,
                 content
               )
             } else if (
               this.quasarConf.ssr.clientSideRenderingRoutes.length !== 0
             ) {
-              this.writeFile(`server/csr.html`, content)
+              await this.writeFile(`server/csr.html`, content)
             }
           })
         : null
@@ -95,10 +93,10 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #writeSsrManifest() {
     const viteManifest = JSON.parse(
-      this.readFile('client/.vite/ssr-manifest.json')
+      await this.readFile('client/.vite/ssr-manifest.json')
     )
 
-    this.removeFile('client/.vite')
+    await this.removeFile('client/.vite')
 
     /**
      * See https://github.com/quasarframework/quasar/issues/17864
@@ -149,7 +147,7 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     )
 
-    this.writeFile(
+    await this.writeFile(
       'quasar.manifest.json',
       JSON.stringify(
         ssrManifest,
@@ -180,7 +178,7 @@ export class QuasarModeBuilder extends AppBuilder {
     await buildPwaServiceWorker(this.quasarConf, workboxConfig)
   }
 
-  #copyWebserverFiles() {
+  async #copyWebserverFiles() {
     const patterns = [
       '.npmrc',
       '.yarnrc',
@@ -191,7 +189,7 @@ export class QuasarModeBuilder extends AppBuilder {
       to: '.'
     }))
 
-    this.copyFiles(patterns)
+    await this.copyFiles(patterns)
   }
 
   async #writePackageJson() {
@@ -236,6 +234,6 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     )
 
-    this.writeFile('package.json', stringifyJSON(pkg, { indent: 2 }))
+    await this.writeFile('package.json', stringifyJSON(pkg, { indent: 2 }))
   }
 }

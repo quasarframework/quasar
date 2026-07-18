@@ -22,12 +22,12 @@ function getSsgPageIdentifier(ssgPage) {
   )
 }
 
-function getSsgBuildErrorHandler(onSsgBuildError) {
-  if (typeof onSsgBuildError === 'function') {
-    return onSsgBuildError
+function getSsgRendererErrorHandler(onSsgRendererError) {
+  if (typeof onSsgRendererError === 'function') {
+    return onSsgRendererError
   }
 
-  if (onSsgBuildError === 'abort') {
+  if (onSsgRendererError === 'abort') {
     return ({ err, reason, ssgPage }) => {
       console.log()
       error('SSG build failed to render SSG page:')
@@ -43,7 +43,7 @@ function getSsgBuildErrorHandler(onSsgBuildError) {
     }
   }
 
-  if (onSsgBuildError === 'error') {
+  if (onSsgRendererError === 'error') {
     return ({ err, reason, ssgPage }) => {
       console.log()
       error('SSG build failed to render SSG page:')
@@ -58,7 +58,7 @@ function getSsgBuildErrorHandler(onSsgBuildError) {
     }
   }
 
-  if (onSsgBuildError === 'warn') {
+  if (onSsgRendererError === 'warn') {
     return ({ err, reason, ssgPage }) => {
       console.log()
       warn('SSG build failed to render SSG page:')
@@ -73,13 +73,14 @@ function getSsgBuildErrorHandler(onSsgBuildError) {
     }
   }
 
-  if (onSsgBuildError === 'ignore') {
+  if (onSsgRendererError === 'ignore') {
     return () => {}
   }
 
   fatal(
-    `Invalid value for quasar.config.ssg.onSsgBuildError: ${onSsgBuildError}` +
-      ' Must be one of: "abort", "error", "warn", "ignore" or a function.',
+    'Invalid value for quasar.config.ssg.onSsgRendererError:' +
+      `"${onSsgRendererError}". Must be one of: "abort", "error",` +
+      ' "warn", "ignore" or a function.',
     'FAIL'
   )
 }
@@ -284,21 +285,19 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeRenderTemplate() {
-    const html = this.readFile('index.html')
-    this.removeFile('index.html')
+    const html = await this.readFile('index.html')
+    await this.removeFile('index.html')
 
     await Promise.all([
-      getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(
-        content => {
-          this.writeFile('__ssg__/render-template.js', content)
-        }
+      getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(content =>
+        this.writeFile('__ssg__/render-template.js', content)
       ),
 
       this.quasarConf.ssg.pwa ||
       this.quasarConf.ssg.clientSideRenderingHtmlFilename
-        ? transformProdHtmlShell(html, this.quasarConf).then(content => {
+        ? transformProdHtmlShell(html, this.quasarConf).then(async content => {
             if (this.quasarConf.ssg.pwa) {
-              const hasFile = this.writeFile(
+              const hasFile = await this.writeFile(
                 `${this.quasarConf.ssg.pwaOfflineHtmlFilename}`,
                 content,
                 true /* noOverwrite */
@@ -318,7 +317,7 @@ export class QuasarModeBuilder extends AppBuilder {
             }
 
             if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
-              const hasFile = this.writeFile(
+              const hasFile = await this.writeFile(
                 `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
                 content,
                 true /* noOverwrite */
@@ -342,8 +341,11 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeSsrManifest() {
-    const viteManifest = JSON.parse(this.readFile('.vite/ssr-manifest.json'))
-    this.removeFile('.vite')
+    const viteManifest = JSON.parse(
+      await this.readFile('.vite/ssr-manifest.json')
+    )
+
+    await this.removeFile('.vite')
 
     /**
      * See https://github.com/quasarframework/quasar/issues/17864
@@ -394,7 +396,7 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     )
 
-    this.writeFile(
+    await this.writeFile(
       '__ssg__/quasar.manifest.json',
       JSON.stringify(
         ssrManifest,
@@ -453,18 +455,22 @@ export class QuasarModeBuilder extends AppBuilder {
       })
     }
 
+    const { ssgRendererConcurrency } = this.quasarConf.ssg
+    const threadsBanner =
+      ssgRendererConcurrency > 1 ? ` (${ssgRendererConcurrency} threads)` : ''
+
     const done = progress({
       tool: 'SSG',
       waitAction: 'Rendering',
       doneAction: 'Rendered',
-      target: `${ssgPageList.length} SSG page${ssgPageList.length > 1 ? 's' : ''}`
+      target: `${ssgPageList.length} SSG page${ssgPageList.length > 1 ? 's' : ''}${threadsBanner}`
     })
 
-    const { onSsgBuildError } = this.quasarConf.ssg
-    const handleError = getSsgBuildErrorHandler(onSsgBuildError)
+    const { onSsgRendererError } = this.quasarConf.ssg
+    const handleError = getSsgRendererErrorHandler(onSsgRendererError)
     let errorsEncountered = 0
 
-    for (const ssgPage of ssgPageList) {
+    const renderPage = async ssgPage => {
       const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
@@ -510,7 +516,7 @@ export class QuasarModeBuilder extends AppBuilder {
         }
 
         errorsEncountered++
-        continue
+        return
       }
 
       const filename = join(
@@ -519,7 +525,11 @@ export class QuasarModeBuilder extends AppBuilder {
         ssgPage.filename ?? 'index.html'
       )
 
-      const hasFile = this.writeFile(filename, html, true /* noOverwrite */)
+      const hasFile = await this.writeFile(
+        filename,
+        html,
+        true /* noOverwrite */
+      )
 
       if (hasFile) {
         errorsEncountered++
@@ -534,8 +544,24 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     }
 
+    if (ssgRendererConcurrency > 1) {
+      const { runSequentialPromises } =
+        await import('../../utils/run-sequential-promises.js')
+
+      await runSequentialPromises(
+        ssgPageList.map(ssgPage => () => renderPage(ssgPage)),
+        {
+          threadsNumber: ssgRendererConcurrency
+        }
+      )
+    } else {
+      for (const ssgPage of ssgPageList) {
+        await renderPage(ssgPage)
+      }
+    }
+
     if (errorsEncountered) {
-      if (['abort', 'error'].includes(onSsgBuildError)) {
+      if (['abort', 'error'].includes(onSsgRendererError)) {
         fatal(
           `Failed to render ${errorsEncountered} SSG page${errorsEncountered > 1 ? 's' : ''}. Check details above.`,
           'FAIL'
@@ -550,12 +576,14 @@ export class QuasarModeBuilder extends AppBuilder {
       console.log()
     }
 
-    this.removeFile('__ssg__')
+    await this.removeFile('__ssg__')
 
     if (errorsEncountered) {
       const renderedCount = ssgPageList.length - errorsEncountered
       done({
-        target: ` ${renderedCount}/${ssgPageList.length} SSG page${renderedCount > 1 ? 's' : ''}`
+        target:
+          ` ${renderedCount}/${ssgPageList.length} SSG page` +
+          `${renderedCount > 1 ? 's' : ''}${threadsBanner}`
       })
     } else {
       done()
