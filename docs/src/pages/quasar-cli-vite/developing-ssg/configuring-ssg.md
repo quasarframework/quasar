@@ -101,7 +101,7 @@ ssg: {
         reason,
         ssgPage
       }: {
-        err: Error;
+        err: unknown;
         reason?: string;
         ssgPage: SsgPage;
       }) => void | Promise<void>);
@@ -110,6 +110,8 @@ ssg: {
    * The maximum number of SSG pages to render concurrently.
    * This can speed up rendering that includes asynchronous work, such as data fetching.
    * The render jobs run concurrently in the same Node.js thread.
+   * Asynchronous work from different pages can be interleaved, and any module-level
+   * state is shared between all pages being rendered.
    *
    * @default 1
    */

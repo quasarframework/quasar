@@ -71,9 +71,9 @@ export interface SsgPage {
 
 export interface OnSsgRendererErrorFunctionParams {
   /**
-   * The error object that was thrown during the SSG rendering process.
+   * The value that was thrown during the SSG rendering process.
    */
-  err: Error;
+  err: unknown;
 
   /**
    * The extra reason for the error, if available.
@@ -134,6 +134,8 @@ export interface QuasarSsgConfiguration {
    * The maximum number of SSG pages to render concurrently.
    * This can speed up rendering that includes asynchronous work, such as data fetching.
    * The render jobs run concurrently in the same Node.js thread.
+   * Asynchronous work from different pages can be interleaved, and any module-level
+   * state is shared between all pages being rendered.
    *
    * @default 1
    */
