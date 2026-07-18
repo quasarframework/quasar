@@ -26,12 +26,23 @@ export class AppBuilder extends AppTool {
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
-    if (noOverwrite && fse.existsSync(target)) {
-      return true
-    }
-
     fse.ensureDirSync(dirname(target))
-    await fse.writeFile(target, content, 'utf8')
+
+    try {
+      await fse.writeFile(
+        target,
+        content,
+        noOverwrite === true
+          ? { encoding: 'utf8', flag: 'wx' }
+          : { encoding: 'utf8' }
+      )
+    } catch (err) {
+      if (noOverwrite === true && err.code === 'EEXIST') {
+        return true
+      }
+
+      throw err
+    }
   }
 
   async copyFiles(patterns, targetFolder = this.quasarConf.build.distDir) {
