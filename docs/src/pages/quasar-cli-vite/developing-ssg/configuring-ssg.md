@@ -101,7 +101,7 @@ ssg: {
         reason,
         ssgPage
       }: {
-        err: unknown;
+        err: Error | { routeNotFound: true } | { redirectUrl: string };
         reason?: string;
         ssgPage: SsgPage;
       }) => void | Promise<void>);
