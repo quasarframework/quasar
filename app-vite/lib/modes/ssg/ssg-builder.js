@@ -317,7 +317,12 @@ export class QuasarModeBuilder extends AppBuilder {
               }
             }
 
-            if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
+            if (
+              this.quasarConf.ssg.clientSideRenderingHtmlFilename &&
+              (this.quasarConf.ssg.pwa !== true ||
+                this.quasarConf.ssg.clientSideRenderingHtmlFilename !==
+                  this.quasarConf.ssg.pwaOfflineHtmlFilename)
+            ) {
               const hasFile = await this.writeFile(
                 `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
                 content,
@@ -513,7 +518,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
           if (typeof ssgPage.transformHtml === 'function') {
             const result = await ssgPage.transformHtml(html)
-            if (result) html = result
+            if (typeof result === 'string') html = result
           }
 
           break

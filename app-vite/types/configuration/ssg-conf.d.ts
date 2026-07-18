@@ -8,6 +8,11 @@ interface QuasarSsrManifest {
   [key: string]: string[];
 }
 
+export type SsgPageSsrContext = Partial<Omit<QSsrContext, "req" | "res">> & {
+  req?: Partial<QSsrContext["req"]>;
+  res?: Partial<QSsrContext["res"]>;
+};
+
 export interface SsgPage {
   /**
    * The vue-router route to render.
@@ -46,9 +51,9 @@ export interface SsgPage {
    * type. Gets merged into the ssrContext so you don't have to
    * define all its props.
    *
-   * @type QSsrContext {@link QSsrContext}
+   * @type SsgPageSsrContext {@link SsgPageSsrContext}
    */
-  ssrContext?: QSsrContext;
+  ssrContext?: SsgPageSsrContext;
 
   /**
    * Callback function that is called after rendering the SSG page.
@@ -186,8 +191,8 @@ export interface QuasarSsgConfiguration {
    *
    * If you are building a SSG+PWA app, you might want to directly use the
    * `pwaOfflineHtmlFilename` as the empty shell html file instead,
-   * as it will have the same content. Otherwise, make sure to use a different
-   * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
+   * as it will have the same content. If you do not reuse that filename,
+   * choose a different one to avoid a generated-file conflict.
    *
    * If not explicitly configured and `clientSideRenderingRoutes`
    * is not its default value (an empty array), then this option will
@@ -276,10 +281,11 @@ export interface QuasarSsgConfiguration {
   /**
    * When using SSG+PWA, this is the name of the
    * PWA index html file that the client-side fallbacks to.
+   * For production only.
    *
    * Make sure to name it so that the SSG generated html files
-   * don't conflict with it! Also, it shouldn't clash with the
-   * "clientSideRenderingHtmlFilename" option if you are using that.
+   * don't conflict with it. It may intentionally match
+   * `clientSideRenderingHtmlFilename` to reuse the same application shell.
    *
    * @default ssr.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
    */

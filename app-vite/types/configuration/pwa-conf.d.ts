@@ -52,6 +52,7 @@ export interface PwaManifestOptions {
   description?: string;
   dir?: PwaManifestDirection;
   display?: PwaManifestDisplay;
+  display_override?: PwaManifestDisplay[];
   iarc_rating_id?: string;
   icons?: PwaManifestIcon | PwaManifestIcon[];
   inject?: boolean;
@@ -79,6 +80,10 @@ interface InjectPWAMetaTagsParams {
  * behavior and also tweak your `manifest.json`.
  */
 export interface QuasarPwaConfiguration {
+  /**
+   * Workbox operating mode.
+   * @default 'GenerateSW'
+   */
   workboxMode?: "GenerateSW" | "InjectManifest";
 
   /**

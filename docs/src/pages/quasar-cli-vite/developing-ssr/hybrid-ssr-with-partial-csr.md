@@ -28,7 +28,7 @@ ssr: {
    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
    *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssg.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 }
