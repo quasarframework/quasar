@@ -180,6 +180,24 @@ ssg: {
   clientSideRenderingRoutes?: string[];
 
   /**
+   * Configure the Vue Router routes for which you don't want to inject
+   * preload tags in the generated HTML by the SSG renderer process.
+   *
+   * You can use picomatch patterns to match the routes you want
+   * no preload tags for. https://www.npmjs.com/package/picomatch
+   *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches the exact route and all sub-routes of /admin
+   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default ssr.noPreloadTagRoutes (when configured), otherwise []
+   */
+  noPreloadTagRoutes?: string[];
+
+  /**
     * Extend the Rolldown config that is used for the SSG renderer,
     * which is your /src-ssg/ssg-renderer file.
     *

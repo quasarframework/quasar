@@ -61,7 +61,7 @@ function renderStoreState (ssrContext) {
 }
 <% } %>
 
-export async function renderSsgPage (ssrContext) {
+export async function renderSsgPage (ssrContext, usePreloadTags) {
   const onRenderedList = []
 
   Object.assign(ssrContext, {
@@ -97,10 +97,12 @@ export async function renderSsgPage (ssrContext) {
   }
   <% } %>
 
-  // @vitejs/plugin-vue injects code into a component's setup() that registers
-  // itself on ctx.modules. After the render, ctx.modules would contain all the
-  // components that have been instantiated during this render call.
-  ssrContext._meta.endingHeadTags += renderModulesPreload(ssrContext.modules, { ssrContext })
+  if (usePreloadTags) {
+    // @vitejs/plugin-vue injects code into a component's setup() that registers
+    // itself on ctx.modules. After the render, ctx.modules would contain all the
+    // components that have been instantiated during this render call.
+    ssrContext._meta.endingHeadTags += renderModulesPreload(ssrContext.modules, { ssrContext })
+  }
 
   return renderTemplate(ssrContext)
 }

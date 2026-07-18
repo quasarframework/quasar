@@ -37,9 +37,9 @@ export type SsgParseVueRouterParams = {
    * https://www.npmjs.com/package/picomatch
    *
    * Note on picomatch patterns:
-   *   "/admin" matches the exact route only
-   *   "/admin/**" matches the exact route and all sub-routes of /admin
-   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin" matches the exact route only,
+   *   "/admin/**" matches the exact route and all sub-routes of /admin,
+   *   "/admin/*" matches only direct sub-routes of /admin,
    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
    *
    * @example ['/dashboard', '/admin/**']

@@ -42,8 +42,9 @@ const quasarModesList = [
 ]
 
 const sharedSsrSsgConfigProps = [
-  'pwaOfflineHtmlFilename',
   'clientSideRenderingRoutes',
+  'noPreloadTagRoutes',
+  'pwaOfflineHtmlFilename',
   'manualStoreSerialization',
   'manualStoreSsrContextInjection',
   'manualStoreHydration',
@@ -835,10 +836,12 @@ export class QuasarConfigFile {
 
         ssr: {
           middlewares: [],
-          clientSideRenderingRoutes: []
+          clientSideRenderingRoutes: [],
+          noPreloadTagRoutes: []
         },
         ssg: {
-          clientSideRenderingRoutes: []
+          clientSideRenderingRoutes: [],
+          noPreloadTagRoutes: []
         },
         pwa: {},
         electron: {

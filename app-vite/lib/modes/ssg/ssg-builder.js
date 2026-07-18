@@ -90,7 +90,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
       ? getRouteMatcher(clientSideRenderingRoutes)
-      : () => false
+      : null
 
   const parseVueRouterRoutes = ({ routes, parentPath, opts }) => {
     for (const route of routes) {
@@ -120,7 +120,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
         continue
       }
 
-      if (isCSRMatch(fullPath)) {
+      if (isCSRMatch?.(fullPath)) {
         opts.acc.ignoredCsrRoutes.push(route)
 
         if (opts.verbose) {
@@ -455,7 +455,13 @@ export class QuasarModeBuilder extends AppBuilder {
       })
     }
 
-    const { ssgRendererConcurrency } = this.quasarConf.ssg
+    const { ssgRendererConcurrency, noPreloadTagRoutes } = this.quasarConf.ssg
+
+    const isNoPreloadMatcher =
+      noPreloadTagRoutes.length !== 0
+        ? getRouteMatcher(noPreloadTagRoutes)
+        : null
+
     const threadsBanner =
       ssgRendererConcurrency > 1 ? ` (${ssgRendererConcurrency} threads)` : ''
 
@@ -481,15 +487,18 @@ export class QuasarModeBuilder extends AppBuilder {
 
       let html
       try {
-        html = await renderSsgPage({
-          ...ssrContext,
-          url,
-          req: {
-            headers: {},
-            ...ssrContext.req,
-            url
-          }
-        })
+        html = await renderSsgPage(
+          {
+            ...ssrContext,
+            url,
+            req: {
+              headers: {},
+              ...ssrContext.req,
+              url
+            }
+          },
+          !isNoPreloadMatcher?.(ssgPage.route)
+        )
 
         if (typeof ssgPage.transformHtml === 'function') {
           const result = await ssgPage.transformHtml(html)
