@@ -142,15 +142,16 @@ export interface QuasarSsgConfiguration {
   ssgRendererConcurrency?: number;
 
   /**
-   * The number of times for the SSG rendering process to retry
+   * The non-negative number of times for the SSG rendering process to retry
    * rendering a page if an error occurs during the SSG rendering process.
+   * Redirects and unmatched routes are not retried.
    *
    * @default 0
    */
   ssgRendererRetryCount?: number;
 
   /**
-   * The delay in milliseconds between retries for the SSG rendering process.
+   * The non-negative delay in milliseconds between retries for the SSG rendering process.
    * This can help avoid overwhelming the system or external resources when retrying.
    *
    * @default 1000

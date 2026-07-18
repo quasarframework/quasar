@@ -513,7 +513,11 @@ export class QuasarModeBuilder extends AppBuilder {
           if (result) html = result
         }
       } catch (err) {
-        if (retryCount < ssgRendererRetryCount) {
+        if (
+          err?.routeNotFound !== true &&
+          err?.redirectUrl === void 0 &&
+          retryCount < ssgRendererRetryCount
+        ) {
           retryCount++
 
           if (onSsgRendererError !== 'ignore') {
@@ -524,12 +528,11 @@ export class QuasarModeBuilder extends AppBuilder {
             )
           }
 
-          const { promise, resolve } = Promise.withResolvers()
-          setTimeout(() => {
-            renderPage(ssgPage, retryCount).then(resolve)
-          }, ssgRendererRetryDelay)
+          await new Promise(resolve => {
+            setTimeout(resolve, ssgRendererRetryDelay)
+          })
 
-          return promise
+          return renderPage(ssgPage, retryCount)
         }
 
         if (err?.routeNotFound) {
