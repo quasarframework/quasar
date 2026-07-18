@@ -69,6 +69,46 @@ return {
   // ...
   ssg: {
     /**
+     * Defines how to handle errors encountered during the SSG rendering process.
+     *
+     * Possible values:
+     *  - "abort": Immediately halts the build process on the first error.
+     *  - "error": Accumulates all errors and fails the build at the end.
+     *  - "warn": Logs the errors to the console, but the build finishes successfully.
+     *  - "ignore": Silently ignores errors with a single warning at the end
+     *              with how many pages failed to render.
+     *  - A custom function to implement your own error handling logic.
+     *
+     * Function example:
+     *   onSsgBuildError: ({ err, reason, ssgPage }) => {
+     *     const pageId = `${ssgPage.route} ${ssgPage.label ? ` (${ssgPage.label})` : ''}`
+     *     console.error(
+     *       `Error rendering SSG page with route ${pageId}${reason ? `: ${reason}` : ''}`
+     *     )
+     *     // Optional: exit the build process with an error code
+     *     // If not exiting, the build will continue and accumulate errors then fail at the end.
+     *     process.exit(1)
+     *   }
+     *
+     * @type OnSsgBuildError
+     * @default 'abort'
+     */
+    onSsgBuildError?:
+      | "abort"
+      | "error"
+      | "warn"
+      | "ignore"
+      | (({
+          err,
+          reason,
+          ssgPage
+        }: {
+          err: Error;
+          reason?: string;
+          ssgPage: SsgPage;
+        }) => void | Promise<void>);
+
+    /**
      * If a PWA should take over or just a SPA.
      * @default false
      */

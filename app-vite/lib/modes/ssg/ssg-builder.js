@@ -22,6 +22,68 @@ function getSsgPageIdentifier(ssgPage) {
   )
 }
 
+function getSsgBuildErrorHandler(onSsgBuildError) {
+  if (typeof onSsgBuildError === 'function') {
+    return onSsgBuildError
+  }
+
+  if (onSsgBuildError === 'abort') {
+    return ({ err, reason, ssgPage }) => {
+      console.log()
+      error('SSG build failed to render SSG page:')
+      console.error(ssgPage)
+      error('Render error for the above SSG page:')
+      console.error(err)
+      fatal(
+        `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+          (reason ? ` ${reason}.` : '') +
+          ' Check details above.',
+        'FAIL'
+      )
+    }
+  }
+
+  if (onSsgBuildError === 'error') {
+    return ({ err, reason, ssgPage }) => {
+      console.log()
+      error('SSG build failed to render SSG page:')
+      console.error(ssgPage)
+      error('Render error for the above SSG page:')
+      console.error(err)
+      error(
+        `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+          (reason ? ` ${reason}.` : '') +
+          ' Check details above.'
+      )
+    }
+  }
+
+  if (onSsgBuildError === 'warn') {
+    return ({ err, reason, ssgPage }) => {
+      console.log()
+      warn('SSG build failed to render SSG page:')
+      console.warn(ssgPage)
+      warn('Render error for the above SSG page:')
+      console.warn(err)
+      warn(
+        `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+          (reason ? ` ${reason}.` : '') +
+          ' Check details above.'
+      )
+    }
+  }
+
+  if (onSsgBuildError === 'ignore') {
+    return () => {}
+  }
+
+  fatal(
+    `Invalid value for quasar.config.ssg.onSsgBuildError: ${onSsgBuildError}` +
+      ' Must be one of: "abort", "error", "warn", "ignore" or a function.',
+    'FAIL'
+  )
+}
+
 function getParseVueRouterRoutesFn(quasarConf) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
@@ -236,39 +298,43 @@ export class QuasarModeBuilder extends AppBuilder {
       this.quasarConf.ssg.clientSideRenderingHtmlFilename
         ? transformProdHtmlShell(html, this.quasarConf).then(content => {
             if (this.quasarConf.ssg.pwa) {
-              this.writeFile(
+              const hasFile = this.writeFile(
                 `${this.quasarConf.ssg.pwaOfflineHtmlFilename}`,
                 content,
-                () => {
-                  console.log()
-                  fatal(
-                    `Tried to write the ssg.pwaOfflineHtmlFilename file` +
-                      ` (${this.quasarConf.ssg.pwaOfflineHtmlFilename})` +
-                      ' but the file already exists.' +
-                      ' Check your SSG configuration for duplicate routes' +
-                      ' or filenames or quasar.config html filenames settings.',
-                    'ERROR'
-                  )
-                }
+                true /* noOverwrite */
               )
+
+              if (hasFile) {
+                console.log()
+                fatal(
+                  `Tried to write the ssg.pwaOfflineHtmlFilename file` +
+                    ` (${this.quasarConf.ssg.pwaOfflineHtmlFilename})` +
+                    ' but the file already exists.' +
+                    ' Check your SSG configuration for duplicate routes' +
+                    ' or filenames or quasar.config html filenames settings.',
+                  'FAIL'
+                )
+              }
             }
 
             if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
-              this.writeFile(
+              const hasFile = this.writeFile(
                 `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
                 content,
-                () => {
-                  console.log()
-                  fatal(
-                    `Tried to write the ssg.clientSideRenderingHtmlFilename file` +
-                      ` (${this.quasarConf.ssg.clientSideRenderingHtmlFilename})` +
-                      ' but the file already exists.' +
-                      ' Check your SSG configuration for duplicate routes' +
-                      ' or filenames or quasar.config html filenames settings.',
-                    'ERROR'
-                  )
-                }
+                true /* noOverwrite */
               )
+
+              if (hasFile) {
+                console.log()
+                fatal(
+                  `Tried to write the ssg.clientSideRenderingHtmlFilename file` +
+                    ` (${this.quasarConf.ssg.clientSideRenderingHtmlFilename})` +
+                    ' but the file already exists.' +
+                    ' Check your SSG configuration for duplicate routes' +
+                    ' or filenames or quasar.config html filenames settings.',
+                  'FAIL'
+                )
+              }
             }
           })
         : null
@@ -364,14 +430,14 @@ export class QuasarModeBuilder extends AppBuilder {
       join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
     )
 
-    const ssgPages = await getSsgPages({
+    const ssgPageList = await getSsgPages({
       ctx: this.quasarConf.ctx,
       quasarConfSsg: this.quasarConf.ssg,
       parseVueRouterRoutes: getParseVueRouterRoutesFn(this.quasarConf),
       getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
 
-    if (ssgPages.length === 0) {
+    if (ssgPageList.length === 0) {
       fatal(
         'No SSG pages returned by getSsgPages() (see /src-ssg/ssg-renderer). Nothing to render.',
         'FAIL'
@@ -379,7 +445,7 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     if (this.quasarConf.ssg.error404HtmlFilename) {
-      ssgPages.push({
+      ssgPageList.push({
         route: '/______get-a-quasar-404-page______',
         label: '404 page',
         dir: '',
@@ -391,14 +457,18 @@ export class QuasarModeBuilder extends AppBuilder {
       tool: 'SSG',
       waitAction: 'Rendering',
       doneAction: 'Rendered',
-      target: `${ssgPages.length} SSG page${ssgPages.length > 1 ? 's' : ''}`
+      target: `${ssgPageList.length} SSG page${ssgPageList.length > 1 ? 's' : ''}`
     })
 
-    for (const page of ssgPages) {
-      const ssrContext = page.ssrContext ?? {}
+    const { onSsgBuildError } = this.quasarConf.ssg
+    const handleError = getSsgBuildErrorHandler(onSsgBuildError)
+    let errorsEncountered = 0
+
+    for (const ssgPage of ssgPageList) {
+      const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
-        (this.quasarConf.build.publicPath + page.route).replace(
+        (this.quasarConf.build.publicPath + ssgPage.route).replace(
           multiSlashRE,
           '/'
         )
@@ -415,72 +485,81 @@ export class QuasarModeBuilder extends AppBuilder {
           }
         })
 
-        if (typeof page.rewriteHtml === 'function') {
-          const result = await page.rewriteHtml(html)
+        if (typeof ssgPage.transformHtml === 'function') {
+          const result = await ssgPage.transformHtml(html)
           if (result) html = result
         }
       } catch (err) {
-        console.log()
-        console.error('Offending SSG page:')
-        console.error(page)
-
-        const pageIdentifier = getSsgPageIdentifier(page)
-
         if (err?.routeNotFound) {
-          fatal(
-            `Failed to render SSG page for ${pageIdentifier}:` +
-              ' Vue Router did not match the route.',
-            'FAIL'
-          )
+          await handleError({
+            err,
+            reason: 'Vue Router did not match the route',
+            ssgPage
+          })
+        } else if (err?.redirectUrl) {
+          await handleError({
+            err,
+            reason: `The route redirects to "${err.redirectUrl}". Generate the destination route instead.`,
+            ssgPage
+          })
+        } else {
+          await handleError({
+            err,
+            ssgPage
+          })
         }
 
-        if (err?.redirectUrl) {
-          fatal(
-            `Failed to render SSG page for ${pageIdentifier}:` +
-              ` the route redirects to "${err.redirectUrl}".` +
-              ' Generate the destination route instead.',
-            'FAIL'
-          )
-        }
+        errorsEncountered++
+        continue
+      }
 
-        console.error('\nRender error:')
-        console.error(err)
+      const filename = join(
+        this.quasarConf.build.distDir,
+        ssgPage.dir ?? ssgPage.route.slice(1),
+        ssgPage.filename ?? 'index.html'
+      )
 
+      const hasFile = this.writeFile(filename, html, true /* noOverwrite */)
+
+      if (hasFile) {
+        errorsEncountered++
+        const msg = `Tried to write SSG file but the target file already exists: ${filename}`
+        await handleError({
+          err: new Error(msg),
+          reason:
+            `${msg}. Check your SSG configuration for duplicate routes or filenames or` +
+            ' quasar.config html filenames settings.',
+          ssgPage
+        })
+      }
+    }
+
+    if (errorsEncountered) {
+      if (['abort', 'error'].includes(onSsgBuildError)) {
         fatal(
-          `Failed to render SSG page for ${pageIdentifier}.` +
-            ' Check details above.',
+          `Failed to render ${errorsEncountered} SSG page${errorsEncountered > 1 ? 's' : ''}. Check details above.`,
           'FAIL'
         )
       }
 
-      this.writeFile(
-        join(
-          this.quasarConf.build.distDir,
-          page.dir ?? page.route.slice(1),
-          page.filename ?? 'index.html'
-        ),
-        html,
-        () => {
-          const pageIdentifier = getSsgPageIdentifier(page)
-
-          console.log()
-          error(
-            `Rendered SSG page for ${pageIdentifier}, but` +
-              ' the target file already exists.' +
-              ' Check your SSG configuration for duplicate routes or filenames or' +
-              ' quasar.config html filenames settings.'
-          )
-          console.log()
-          console.error('Offending SSG page:')
-          console.error(page)
-          console.log()
-          process.exit(1)
-        }
+      console.log()
+      warn(
+        `Failed to render ${errorsEncountered} SSG page${errorsEncountered > 1 ? 's' : ''}.`,
+        'WARNING!'
       )
+      console.log()
     }
 
     this.removeFile('__ssg__')
-    done()
+
+    if (errorsEncountered) {
+      const renderedCount = ssgPageList.length - errorsEncountered
+      done({
+        target: ` ${renderedCount}/${ssgPageList.length} SSG page${renderedCount > 1 ? 's' : ''}`
+      })
+    } else {
+      done()
+    }
   }
 
   async #getFilenameBasedRoutes() {

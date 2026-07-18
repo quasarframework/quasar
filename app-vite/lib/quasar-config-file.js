@@ -56,9 +56,7 @@ function inheritSsrSsgConfig({ ctx, userCfg, rawQuasarConf }) {
   const targetConfig = userCfg[targetMode]
   const sourceConfig = userCfg[sourceMode]
 
-  if (sourceConfig === void 0) {
-    return
-  }
+  if (sourceConfig === void 0) return
 
   sharedSsrSsgConfigProps.forEach(prop => {
     if (targetConfig?.[prop] === void 0 && sourceConfig[prop] !== void 0) {
@@ -932,6 +930,7 @@ export class QuasarConfigFile {
     } else if (this.#ctx.mode.ssg) {
       cfg.ssg = merge(
         {
+          onSsgBuildError: 'abort',
           pwa: false,
           error404HtmlFilename: '404.html',
           pwaOfflineHtmlFilename: 'offline.html',
