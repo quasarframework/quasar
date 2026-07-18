@@ -934,6 +934,8 @@ export class QuasarConfigFile {
       cfg.ssg = merge(
         {
           onSsgRendererError: 'abort',
+          ssgRendererRetryCount: 0,
+          ssgRendererRetryDelay: 1000,
           pwa: false,
           error404HtmlFilename: '404.html',
           pwaOfflineHtmlFilename: 'offline.html',

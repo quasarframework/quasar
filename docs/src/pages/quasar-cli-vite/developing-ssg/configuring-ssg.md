@@ -116,6 +116,22 @@ ssg: {
   ssgRendererConcurrency?: number;
 
   /**
+   * The number of times for the SSG rendering process to retry
+   * rendering a page if an error occurs during the SSG rendering process.
+   *
+   * @default 0
+   */
+  ssgRendererRetryCount?: number;
+
+  /**
+   * The delay in milliseconds between retries for the SSG rendering process.
+   * This can help avoid overwhelming the system or external resources when retrying.
+   *
+   * @default 1000
+   */
+  ssgRendererRetryDelay?: number;
+
+  /**
     * The name of the html file that will be used for the 404 page.
     * If set to false, no 404 page will be generated.
     *

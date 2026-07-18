@@ -455,7 +455,12 @@ export class QuasarModeBuilder extends AppBuilder {
       })
     }
 
-    const { ssgRendererConcurrency, noPreloadTagRoutes } = this.quasarConf.ssg
+    const {
+      ssgRendererConcurrency,
+      noPreloadTagRoutes,
+      ssgRendererRetryCount,
+      ssgRendererRetryDelay
+    } = this.quasarConf.ssg
 
     const isNoPreloadMatcher =
       noPreloadTagRoutes.length !== 0
@@ -478,7 +483,7 @@ export class QuasarModeBuilder extends AppBuilder {
     const handleError = getSsgRendererErrorHandler(onSsgRendererError)
     let errorsEncountered = 0
 
-    const renderPage = async ssgPage => {
+    const renderPage = async (ssgPage, retryCount = 0) => {
       const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
@@ -507,6 +512,25 @@ export class QuasarModeBuilder extends AppBuilder {
           if (result) html = result
         }
       } catch (err) {
+        if (retryCount < ssgRendererRetryCount) {
+          retryCount++
+
+          if (onSsgRendererError !== 'ignore') {
+            warn(
+              `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+                ` Retrying in ${ssgRendererRetryDelay}ms...` +
+                ` (${retryCount}/${ssgRendererRetryCount})`
+            )
+          }
+
+          const { promise, resolve } = Promise.withResolvers()
+          setTimeout(() => {
+            renderPage(ssgPage, retryCount).then(resolve)
+          }, ssgRendererRetryDelay)
+
+          return promise
+        }
+
         if (err?.routeNotFound) {
           await handleError({
             err,
