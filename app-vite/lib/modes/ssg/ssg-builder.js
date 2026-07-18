@@ -15,6 +15,7 @@ import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 const multiSlashRE = /\/{2,}/g
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
+const synthetic404Route = '/______get-a-quasar-404-page______'
 
 function getSsgPageIdentifier(ssgPage) {
   return (
@@ -448,7 +449,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     if (this.quasarConf.ssg.error404HtmlFilename) {
       ssgPageList.push({
-        route: '/______get-a-quasar-404-page______',
+        route: synthetic404Route,
         label: '404 page',
         dir: '',
         filename: this.quasarConf.ssg.error404HtmlFilename
@@ -512,7 +513,11 @@ export class QuasarModeBuilder extends AppBuilder {
           if (result) html = result
         }
       } catch (err) {
-        if (retryCount < ssgRendererRetryCount) {
+        if (
+          err?.routeNotFound !== true &&
+          err?.redirectUrl === void 0 &&
+          retryCount < ssgRendererRetryCount
+        ) {
           retryCount++
 
           if (onSsgRendererError !== 'ignore') {
@@ -523,18 +528,20 @@ export class QuasarModeBuilder extends AppBuilder {
             )
           }
 
-          const { promise, resolve } = Promise.withResolvers()
-          setTimeout(() => {
-            renderPage(ssgPage, retryCount).then(resolve)
-          }, ssgRendererRetryDelay)
+          await new Promise(resolve => {
+            setTimeout(resolve, ssgRendererRetryDelay)
+          })
 
-          return promise
+          return renderPage(ssgPage, retryCount)
         }
 
         if (err?.routeNotFound) {
           await handleError({
             err,
-            reason: 'Vue Router did not match the route',
+            reason:
+              ssgPage.route === synthetic404Route
+                ? 'Vue Router did not match the synthetic 404 route. Add a catch-all route or set quasar.config.ssg.error404HtmlFilename to false'
+                : 'Vue Router did not match the route',
             ssgPage
           })
         } else if (err?.redirectUrl) {

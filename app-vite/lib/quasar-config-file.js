@@ -950,6 +950,21 @@ export class QuasarConfigFile {
         cfg.ssg.clientSideRenderingHtmlFilename =
           cfg.ssg.clientSideRenderingRoutes.length !== 0 ? 'csr.html' : false
       }
+
+      const ssgRendererConcurrency = Number(cfg.ssg.ssgRendererConcurrency)
+      cfg.ssg.ssgRendererConcurrency = Number.isFinite(ssgRendererConcurrency)
+        ? Math.max(1, Math.floor(ssgRendererConcurrency))
+        : 1
+
+      const ssgRendererRetryCount = Number(cfg.ssg.ssgRendererRetryCount)
+      cfg.ssg.ssgRendererRetryCount = Number.isFinite(ssgRendererRetryCount)
+        ? Math.max(0, Math.floor(ssgRendererRetryCount))
+        : 0
+
+      const ssgRendererRetryDelay = Number(cfg.ssg.ssgRendererRetryDelay)
+      cfg.ssg.ssgRendererRetryDelay = Number.isFinite(ssgRendererRetryDelay)
+        ? Math.max(0, ssgRendererRetryDelay)
+        : 1000
     }
 
     if (this.#ctx.dev) {

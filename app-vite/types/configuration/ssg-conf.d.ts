@@ -71,7 +71,7 @@ export interface SsgPage {
 
 export interface OnSsgRendererErrorFunctionParams {
   /**
-   * The error object that was thrown during the SSG rendering process.
+   * The value that was thrown during the SSG rendering process.
    */
   err: Error | { routeNotFound: true } | { redirectUrl: string };
 
@@ -134,21 +134,24 @@ export interface QuasarSsgConfiguration {
    * The maximum number of SSG pages to render concurrently.
    * This can speed up rendering that includes asynchronous work, such as data fetching.
    * The render jobs run concurrently in the same Node.js thread.
+   * Asynchronous work from different pages can be interleaved, and any module-level
+   * state is shared between all pages being rendered.
    *
    * @default 1
    */
   ssgRendererConcurrency?: number;
 
   /**
-   * The number of times for the SSG rendering process to retry
+   * The non-negative number of times for the SSG rendering process to retry
    * rendering a page if an error occurs during the SSG rendering process.
+   * Redirects and unmatched routes are not retried.
    *
    * @default 0
    */
   ssgRendererRetryCount?: number;
 
   /**
-   * The delay in milliseconds between retries for the SSG rendering process.
+   * The non-negative delay in milliseconds between retries for the SSG rendering process.
    * This can help avoid overwhelming the system or external resources when retrying.
    *
    * @default 1000
