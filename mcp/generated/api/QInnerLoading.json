@@ -1,0 +1,120 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/inner-loading"
+  },
+  "props": {
+    "transition-show": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [
+        "'fade'",
+        "'slide-down'"
+      ],
+      "category": "transition",
+      "default": "'fade'",
+      "required": false
+    },
+    "transition-hide": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [
+        "'fade'",
+        "'slide-down'"
+      ],
+      "category": "transition",
+      "default": "'fade'",
+      "required": false
+    },
+    "transition-duration": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Transition duration (in milliseconds, without unit)",
+      "default": "300",
+      "category": "transition",
+      "required": false
+    },
+    "size": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Size in CSS units, including unit name, or standard size name (xs|sm|md|lg|xl), for the inner Spinner (unless using the default slot)",
+      "examples": [
+        "'16px'",
+        "'2rem'",
+        "'xs'",
+        "'md'"
+      ],
+      "category": "style",
+      "default": "'42px'",
+      "required": false
+    },
+    "showing": {
+      "type": "Boolean",
+      "desc": "State - loading or not",
+      "category": "state"
+    },
+    "color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette for the inner Spinner (unless using the default slot)",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "label": {
+      "type": "String",
+      "desc": "Add a label; Gets overriden when using the default slot",
+      "examples": [
+        "'Please wait...'"
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+    "label-class": {
+      "type": "String",
+      "desc": "Add CSS class(es) to the label; Works along the 'label' prop only",
+      "examples": [
+        "'text-red q-mt-xl'"
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+    "label-style": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueStyleProp",
+      "desc": "Apply custom style to the label; Works along the 'label' prop only",
+      "examples": [
+        "'font-size: 28px'",
+        "{ color: '#ff0000' }"
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+    "dark": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "Notify the component that the background is a dark color",
+      "category": "style",
+      "required": false
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot is used for replacing default Spinner; Suggestions: a spinner or text"
+    }
+  }
+}

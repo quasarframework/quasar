@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/time",
+  "title": "QTime",
+  "description": "The QTime component provides a method to input time.",
+  "canonicalUrl": "https://quasar.dev/vue-components/time",
+  "source": "docs/src/pages/vue-components/time.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QTime"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QTime/Basic.vue"
+    },
+    {
+      "title": "Landscape",
+      "file": "Landscape.vue",
+      "source": "docs/src/examples/QTime/Landscape.vue"
+    },
+    {
+      "title": "24h format",
+      "file": "Format24h.vue",
+      "source": "docs/src/examples/QTime/Format24h.vue"
+    },
+    {
+      "title": "Now button",
+      "file": "NowBtn.vue",
+      "source": "docs/src/examples/QTime/NowBtn.vue"
+    },
+    {
+      "title": "Disable and readonly",
+      "file": "DisableReadonly.vue",
+      "source": "docs/src/examples/QTime/DisableReadonly.vue"
+    },
+    {
+      "title": "Simple mask",
+      "file": "MaskSimple.vue",
+      "source": "docs/src/examples/QTime/MaskSimple.vue"
+    },
+    {
+      "title": "Mask with escaped characters",
+      "file": "MaskEscape.vue",
+      "source": "docs/src/examples/QTime/MaskEscape.vue"
+    },
+    {
+      "title": "QDate and QTime on same model",
+      "file": "MaskDateTime.vue",
+      "source": "docs/src/examples/QTime/MaskDateTime.vue"
+    },
+    {
+      "title": "Custom ad-hoc locale",
+      "file": "CustomLocale.vue",
+      "source": "docs/src/examples/QTime/CustomLocale.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Color.vue",
+      "source": "docs/src/examples/QTime/Color.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QTime/Dark.vue"
+    },
+    {
+      "title": "Options",
+      "file": "Options.vue",
+      "source": "docs/src/examples/QTime/Options.vue"
+    },
+    {
+      "title": "Input",
+      "file": "Input.vue",
+      "source": "docs/src/examples/QTime/Input.vue"
+    },
+    {
+      "title": "QDate and QTime with QInput",
+      "file": "InputFull.vue",
+      "source": "docs/src/examples/QTime/InputFull.vue"
+    },
+    {
+      "title": "With additional buttons",
+      "file": "AdditionalButtons.vue",
+      "source": "docs/src/examples/QTime/AdditionalButtons.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QTime/NativeForm.vue"
+    }
+  ]
+}

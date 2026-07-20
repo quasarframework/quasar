@@ -1,0 +1,238 @@
+[
+  {
+    "id": "quasar-plugins/dialog#overview",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Dialog Plugin",
+    "breadcrumb": [
+      "Dialog Plugin"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog",
+    "content": "Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).\n\nFrom a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions.\n\n::: tip\nDialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.\n:::\n\nThe advantage of using Dialogs as Quasar Plugins as opposed to QDialog component is that the plugin can also be called from outside of Vue space and doesn't require you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.\n\nHowever, **you can also supply a component for the Dialog Plugin to render** (see the \"Invoking custom component\" section) which is a great way to avoid cluttering your Vue templates with inline dialogs (and it will also help you better organize your project files and also reuse dialogs).\n\nWith the QDialog plugin, you can programmatically build three types of dialogs with the following form content:\n\n1.  A prompt dialog - asking the user to fill in some sort of data in an input field.\n2.  A set of options for the user to select from using either radio buttons or toggles (singular selection only) or check boxes (for multiple selections).\n3.  A simple confirmation dialog, where the user can cancel or give their \"ok\" for a particular action or input.\n\nIn order to create #1, the prompting input form, you have the `prompt` property within the `opts` object.\n\nIn order to create #2, the options selection form, you have the `options` property within the `opts` object.\n\nAPI reference: Dialog\n\n<DocInstall plugins=\"Dialog\" />",
+    "apiReferences": [
+      "Dialog"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#built-in-component",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Built-in component",
+    "breadcrumb": [
+      "Built-in component",
+      "Built-in component"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#built-in-component",
+    "content": "```js Outside of a Vue file\nimport { Dialog } from 'quasar'\n(Object) Dialog.create({ ... })\n\n// inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  $q.dialog({ ... }) // returns Object\n}\n```\n\nPlease check the API card to see what the returned Object is.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#usage",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Built-in component",
+      "Usage",
+      "Usage"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#usage",
+    "content": "::: tip\nFor all the examples below, also see the browser console while you check them out.\n:::\n\n::: warning\nThis is not an exhaustive list of what you can do with Dialogs as Quasar Plugins. For further exploration check out the API section.\n:::\n\nExample: Basic (Basic.vue)\n\nExample: Force dark mode (Dark.vue)\n\nExample: Radios, Checkboxes, Toggles (Pickers.vue)\n\nExample: Other options (OtherOptions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      },
+      {
+        "title": "Radios, Checkboxes, Toggles",
+        "file": "Pickers.vue"
+      },
+      {
+        "title": "Other options",
+        "file": "OtherOptions.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/dialog#native-attributes",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Native attributes",
+    "breadcrumb": [
+      "Built-in component",
+      "Native attributes",
+      "Native attributes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#native-attributes",
+    "content": "You can also supply native HTML attributes to the inner QInput or QOptionGroup components, like in the example below.\n\nExample: Using native attributes (NativeAttributes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Using native attributes",
+        "file": "NativeAttributes.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/dialog#user-input-validation",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "User input validation",
+    "breadcrumb": [
+      "Built-in component",
+      "User input validation",
+      "User input validation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#user-input-validation",
+    "content": "There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on \"OK\" or press <kbd>ENTER</kbd>) until the expected values are filled in.\n\nExample: Prompt with validation (ValidationPrompt.vue)\n\nExample: Options with validation (ValidationOptions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Prompt with validation",
+        "file": "ValidationPrompt.vue"
+      },
+      {
+        "title": "Options with validation",
+        "file": "ValidationOptions.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/dialog#progress",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Progress",
+    "breadcrumb": [
+      "Built-in component",
+      "Progress",
+      "Progress"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#progress",
+    "content": "Example: Showing progress (Progress.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Showing progress",
+        "file": "Progress.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/dialog#using-html",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Using HTML",
+    "breadcrumb": [
+      "Built-in component",
+      "Using HTML",
+      "Using HTML"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#using-html",
+    "content": "You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.\n\nExample: Unsafe HTML message (UnsafeHtml.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Unsafe HTML message",
+        "file": "UnsafeHtml.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/dialog#invoking-custom-component",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Invoking custom component",
+    "breadcrumb": [
+      "Invoking custom component",
+      "Invoking custom component"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#invoking-custom-component",
+    "content": "You can also invoke your own custom component rather than relying on the default one that the Dialog plugin comes with out of the box. But in this case you will be responsible for handling everything (including your own component props).\n\nThis feature is actually the \"bread and butter\" of the Dialog plugin. It helps you keep your other vue components html templates clean by separating and reusing your dialog's functionality with ease.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#triggering-the-custom-component",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Triggering the custom component",
+    "breadcrumb": [
+      "Invoking custom component",
+      "Triggering the custom component",
+      "Triggering the custom component"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#triggering-the-custom-component",
+    "content": "```tabs\n<<| js By importing Dialog |>>\n/**\n * This way of using it can reside outside\n * of a Vue component as well\n */\n\nimport { Dialog } from 'quasar'\nimport CustomComponent from '..path.to.component..'\n\nDialog.create({\n  component: CustomComponent,\n\n  // props forwarded to your custom component\n  componentProps: {\n    text: 'something',\n    persistent: true,\n    // ...more..props...\n  }\n}).onOk(() => {\n  console.log('OK')\n}).onCancel(() => {\n  console.log('Cancel')\n}).onDismiss(() => {\n  console.log('Called on OK or Cancel')\n})\n<<| js With useQuasar() |>>\n/**\n * This way of using it can reside ONLY\n * inside of a Vue component\n */\n\nimport { useQuasar } from 'quasar'\nimport CustomComponent from '..path.to.component..'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.dialog({\n    component: CustomComponent,\n\n    // props forwarded to your custom component\n    componentProps: {\n      text: 'something',\n      persistent: true,\n      // ...more..props...\n    }\n  }).onOk(() => {\n    console.log('OK')\n  }).onCancel(() => {\n    console.log('Cancel')\n  }).onDismiss(() => {\n    console.log('Called on OK or Cancel')\n  })\n}\n```\n\nThe equivalent of the above with Options API is by directly using `this.$q.dialog({ ... })`.\n\n::: warning\nYour custom component however must follow the interface described below in order to perfectly hook into the Dialog plugin. **Notice the \"REQUIRED\" comments** and take it as is -- just a bare-bone example, nothing more.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#sfc-with-script-setup-and-composition-api-variant",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "SFC with \"script setup\" and Composition API variant",
+    "breadcrumb": [
+      "Invoking custom component",
+      "Writing the custom component",
+      "SFC with \"script setup\" and Composition API variant",
+      "SFC with \"script setup\" and Composition API variant"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#sfc-with-script-setup-and-composition-api-variant",
+    "content": "We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.\n\n```html\n<template>\n  <q-dialog ref=\"dialogRef\" @hide=\"onDialogHide\">\n    <q-card class=\"q-dialog-plugin\">\n      <!--\n        ...content\n        ... use q-card-section for it?\n      -->\n\n      <!-- buttons example -->\n      <q-card-actions align=\"right\">\n        <q-btn color=\"primary\" label=\"OK\" @click=\"onOKClick\" />\n        <q-btn color=\"primary\" label=\"Cancel\" @click=\"onDialogCancel\" />\n      </q-card-actions>\n    </q-card>\n  </q-dialog>\n</template>\n\n<script setup>\n  import { useDialogPluginComponent } from 'quasar'\n\n  const props = defineProps({\n    // ...your custom props\n  })\n\n  defineEmits([\n    // REQUIRED; need to specify some events that your\n    // component will emit through useDialogPluginComponent()\n    ...useDialogPluginComponent.emits\n  ])\n\n  const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =\n    useDialogPluginComponent()\n  // dialogRef      - Vue ref to be applied to QDialog\n  // onDialogHide   - Function to be used as handler for @hide on QDialog\n  // onDialogOK     - Function to call to settle dialog with \"ok\" outcome\n  //                    example: onDialogOK() - no payload\n  //                    example: onDialogOK({ /*...*/ }) - with payload\n  // onDialogCancel - Function to call to settle dialog with \"cancel\" outcome\n\n  // this is part of our example (so not required)\n  function onOKClick() {\n    // on OK, it is REQUIRED to\n    // call onDialogOK (with optional payload)\n    onDialogOK()\n    // or with payload: onDialogOK({ ... })\n    // ...and it will also hide the dialog automatically\n  }\n</script>\n```\n\nIf you want to define `emits` in Object form, then (requires Quasar v2.2.5+):\n\n```\ndefineEmits({\n  // REQUIRED; need to specify some events that your\n  // component will emit through useDialogPluginComponent()\n  ...useDialogPluginComponent.emitsObject,\n\n  // ...your own definitions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#sfc-with-script-and-composition-api-variant",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "SFC with \"script\" and Composition API variant",
+    "breadcrumb": [
+      "Invoking custom component",
+      "Writing the custom component",
+      "SFC with \"script\" and Composition API variant",
+      "SFC with \"script\" and Composition API variant"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#sfc-with-script-and-composition-api-variant",
+    "content": "We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.\n\n```html\n<template>\n  <!-- notice dialogRef here -->\n  <q-dialog ref=\"dialogRef\" @hide=\"onDialogHide\">\n    <q-card class=\"q-dialog-plugin\">\n      <!--\n        ...content\n        ... use q-card-section for it?\n      -->\n\n      <!-- buttons example -->\n      <q-card-actions align=\"right\">\n        <q-btn color=\"primary\" label=\"OK\" @click=\"onOKClick\" />\n        <q-btn color=\"primary\" label=\"Cancel\" @click=\"onCancelClick\" />\n      </q-card-actions>\n    </q-card>\n  </q-dialog>\n</template>\n\n<script>\n  import { useDialogPluginComponent } from 'quasar'\n\n  export default {\n    props: {\n      // ...your custom props\n    },\n\n    emits: [\n      // REQUIRED; need to specify some events that your\n      // component will emit through useDialogPluginComponent()\n      ...useDialogPluginComponent.emits\n    ],\n\n    setup() {\n      // REQUIRED; must be called inside of setup()\n      const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =\n        useDialogPluginComponent()\n      // dialogRef      - Vue ref to be applied to QDialog\n      // onDialogHide   - Function to be used as handler for @hide on QDialog\n      // onDialogOK     - Function to call to settle dialog with \"ok\" outcome\n      //                    example: onDialogOK() - no payload\n      //                    example: onDialogOK({ /*.../* }) - with payload\n      // onDialogCancel - Function to call to settle dialog with \"cancel\" outcome\n\n      return {\n        // This is REQUIRED;\n        // Need to inject these (from useDialogPluginComponent() call)\n        // into the vue scope for the vue html template\n        dialogRef,\n        onDialogHide,\n\n        // other methods that we used in our vue html template;\n        // these are part of our example (so not required)\n        onOKClick() {\n          // on OK, it is REQUIRED to\n          // call onDialogOK (with optional payload)\n          onDialogOK()\n          // or with payload: onDialogOK({ ... })\n          // ...and it will also hide the dialog automatically\n        },\n\n        // we can passthrough onDialogCancel directly\n        onCancelClick: onDialogCancel\n      }\n    }\n  }\n</script>\n```\n\nIf you want to define `emits` in Object form, then (requires Quasar v2.2.5+):\n\n```\nemits: {\n  // REQUIRED; need to specify some events that your\n  // component will emit through useDialogPluginComponent()\n  ...useDialogPluginComponent.emitsObject,\n\n  // ...your own definitions\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#sfc-with-script-and-options-api-variant",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "SFC with \"script\" and Options API variant",
+    "breadcrumb": [
+      "Invoking custom component",
+      "Writing the custom component",
+      "SFC with \"script\" and Options API variant",
+      "SFC with \"script\" and Options API variant"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#sfc-with-script-and-options-api-variant",
+    "content": "```html\n<template>\n  <q-dialog ref=\"dialog\" @hide=\"onDialogHide\">\n    <q-card class=\"q-dialog-plugin\">\n      <!--\n        ...content\n        ... use q-card-section for it?\n      -->\n\n      <!-- buttons example -->\n      <q-card-actions align=\"right\">\n        <q-btn color=\"primary\" label=\"OK\" @click=\"onOKClick\" />\n        <q-btn color=\"primary\" label=\"Cancel\" @click=\"onCancelClick\" />\n      </q-card-actions>\n    </q-card>\n  </q-dialog>\n</template>\n\n<script>\n  export default {\n    props: {\n      // ...your custom props\n    },\n\n    emits: [\n      // REQUIRED\n      'ok',\n      'hide'\n    ],\n\n    methods: {\n      // following method is REQUIRED\n      // (don't change its name --> \"show\")\n      show() {\n        this.$refs.dialog.show()\n      },\n\n      // following method is REQUIRED\n      // (don't change its name --> \"hide\")\n      hide() {\n        this.$refs.dialog.hide()\n      },\n\n      onDialogHide() {\n        // required to be emitted\n        // when QDialog emits \"hide\" event\n        this.$emit('hide')\n      },\n\n      onOKClick() {\n        // on OK, it is REQUIRED to\n        // emit \"ok\" event (with optional payload)\n        // before hiding the QDialog\n        this.$emit('ok')\n        // or with payload: this.$emit('ok', { ... })\n\n        // then hiding dialog\n        this.hide()\n      },\n\n      onCancelClick() {\n        // we just need to hide the dialog\n        this.hide()\n      }\n    }\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dialog#cordova-capacitor-back-button",
+    "documentId": "quasar-plugins/dialog",
+    "heading": "Cordova/Capacitor back button",
+    "breadcrumb": [
+      "Cordova/Capacitor back button",
+      "Cordova/Capacitor back button"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog#cordova-capacitor-back-button",
+    "content": "Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).\n\nHowever, should you wish to disable this behavior, edit your `/quasar.config` file:\n\n```tabs\n<<| js For Capacitor |>>\n// quasar.config file\nreturn {\n  framework: {\n    config: {\n      capacitor: {\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true/false\n      }\n    }\n  }\n}\n<<| js For Cordova |>>\n// quasar.config file\nreturn {\n  framework: {\n    config: {\n      cordova: {\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true/false\n      }\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

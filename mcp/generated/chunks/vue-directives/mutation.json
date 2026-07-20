@@ -1,0 +1,91 @@
+[
+  {
+    "id": "vue-directives/mutation#overview",
+    "documentId": "vue-directives/mutation",
+    "heading": "Mutation Directive",
+    "breadcrumb": [
+      "Mutation Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/mutation",
+    "content": "\"Mutation\" is a Quasar directive that provides the ability to watch for changes being made to the DOM tree and call a method when these are triggered.\n\nUnder the hood, it uses the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).\n\nAPI reference: Mutation",
+    "apiReferences": [
+      "Mutation"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/mutation#usage",
+    "documentId": "vue-directives/mutation",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/mutation#usage",
+    "content": "Reading the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) first will be best in your understanding of how this directive works.\n\nThe handler Function takes one parameter, which is an Array of [MutationRecord](https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/mutation#catch-everything",
+    "documentId": "vue-directives/mutation",
+    "heading": "Catch everything",
+    "breadcrumb": [
+      "Usage",
+      "Catch everything",
+      "Catch everything"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/mutation#catch-everything",
+    "content": "By not specifying any modifiers (except for \"once\"), the Mutation directive will enable all of them.\n\nExample: Catch everything (CatchAll.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Catch everything",
+        "file": "CatchAll.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/mutation#drag-and-drop-example",
+    "documentId": "vue-directives/mutation",
+    "heading": "Drag and drop example",
+    "breadcrumb": [
+      "Usage",
+      "Drag and drop example",
+      "Drag and drop example"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/mutation#drag-and-drop-example",
+    "content": "The example below will only work for desktops because of the Drag and drop browser API support. Drag the colored squares to the other location to see the Mutation Observers results.\n\nExample: Drag and Drop (desktop only) (DragDrop.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Drag and Drop (desktop only)",
+        "file": "DragDrop.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/mutation#undo-redo-example",
+    "documentId": "vue-directives/mutation",
+    "heading": "Undo-redo example",
+    "breadcrumb": [
+      "Usage",
+      "Undo-redo example",
+      "Undo-redo example"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/mutation#undo-redo-example",
+    "content": "One use-case for the Mutation Observer is implementing an Undo/Redo stack in your application. You can observe additions and removals of data, depending on your filtering requirements. You can capture the mutations in a stack and use the stack to implement an undo. Any mutation data during an undo, can go into a redo stack. Don't forget to clear the redo stack when normalized data is being put into the undo stack.\n\nExample: Undo/Redo (UndoRedo.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Undo/Redo",
+        "file": "UndoRedo.vue"
+      }
+    ]
+  }
+]

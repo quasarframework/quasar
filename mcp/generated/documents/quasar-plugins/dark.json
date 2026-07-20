@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/dark",
+  "title": "Dark Plugin",
+  "description": "A Quasar plugin to toggle or configure the Dark Mode state of your app.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/dark",
+  "source": "docs/src/pages/quasar-plugins/dark.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Dark"
+  ],
+  "examples": []
+}

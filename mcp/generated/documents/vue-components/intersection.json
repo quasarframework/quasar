@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/intersection",
+  "title": "Intersection",
+  "description": "The QIntersection vue component, a wrapper over Quasar's Intersection directive.",
+  "canonicalUrl": "https://quasar.dev/vue-components/intersection",
+  "source": "docs/src/pages/vue-components/intersection.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QIntersection"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QIntersection/Basic.vue"
+    },
+    {
+      "title": "With transition",
+      "file": "Transition.vue",
+      "source": "docs/src/examples/QIntersection/Transition.vue"
+    },
+    {
+      "title": "A list with transition",
+      "file": "List.vue",
+      "source": "docs/src/examples/QIntersection/List.vue"
+    },
+    {
+      "title": "Triggering only once",
+      "file": "Once.vue",
+      "source": "docs/src/examples/QIntersection/Once.vue"
+    },
+    {
+      "title": "Root viewport",
+      "file": "Root.vue",
+      "source": "docs/src/examples/QIntersection/Root.vue"
+    }
+  ]
+}

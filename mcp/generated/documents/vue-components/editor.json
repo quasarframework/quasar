@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/editor",
+  "title": "Editor (WYSIWYG)",
+  "description": "The QEditor Vue component is a WYSIWYG editor that enables writing and pasting HTML.",
+  "canonicalUrl": "https://quasar.dev/vue-components/editor",
+  "source": "docs/src/pages/vue-components/editor.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QEditor"
+  ],
+  "examples": [
+    {
+      "title": "Default editor",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QEditor/Basic.vue"
+    },
+    {
+      "title": "Redefine bold command",
+      "file": "NewBold.vue",
+      "source": "docs/src/examples/QEditor/NewBold.vue"
+    },
+    {
+      "title": "Add new commands",
+      "file": "NewCommands.vue",
+      "source": "docs/src/examples/QEditor/NewCommands.vue"
+    },
+    {
+      "title": "Kitchen sink",
+      "file": "KitchenSink.vue",
+      "source": "docs/src/examples/QEditor/KitchenSink.vue"
+    },
+    {
+      "title": "Custom style",
+      "file": "Custom.vue",
+      "source": "docs/src/examples/QEditor/Custom.vue"
+    },
+    {
+      "title": "Using toolbar slots",
+      "file": "ToolbarSlot.vue",
+      "source": "docs/src/examples/QEditor/ToolbarSlot.vue"
+    },
+    {
+      "title": "Paste Event Override",
+      "file": "Pasting.vue",
+      "source": "docs/src/examples/QEditor/Pasting.vue"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "vue-components/breadcrumbs#overview",
+    "documentId": "vue-components/breadcrumbs",
+    "heading": "Breadcrumbs",
+    "breadcrumb": [
+      "Breadcrumbs"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/breadcrumbs",
+    "content": "The QBreadcrumbs component is used as a navigational aid in UI. It allows users to keep track of their location within programs, documents, or websites. Most common use is in a [QToolbar](/vue-components/toolbar), but it's not limited to it.\n\nAPI reference: QBreadcrumbs\n\nAPI reference: QBreadcrumbsEl",
+    "apiReferences": [
+      "QBreadcrumbs",
+      "QBreadcrumbsEl"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/breadcrumbs#basic",
+    "documentId": "vue-components/breadcrumbs",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/breadcrumbs#basic",
+    "content": "Example: Basic (Basic.vue)\n\nExample: In a QToolbar (Toolbar.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "In a QToolbar",
+        "file": "Toolbar.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/breadcrumbs#design",
+    "documentId": "vue-components/breadcrumbs",
+    "heading": "Design",
+    "breadcrumb": [
+      "Usage",
+      "Design",
+      "Design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/breadcrumbs#design",
+    "content": "Example: Custom separators (Separator.vue)\n\nExample: Gutters (Gutters.vue)\n\nExample: Align (Align.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom separators",
+        "file": "Separator.vue"
+      },
+      {
+        "title": "Gutters",
+        "file": "Gutters.vue"
+      },
+      {
+        "title": "Align",
+        "file": "Align.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/breadcrumbs#connecting-to-vue-router",
+    "documentId": "vue-components/breadcrumbs",
+    "heading": "Connecting to Vue Router",
+    "breadcrumb": [
+      "Usage",
+      "Connecting to Vue Router",
+      "Connecting to Vue Router"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/breadcrumbs#connecting-to-vue-router",
+    "content": "The examples below won't work with UMD version (so in Codepen/jsFiddle too) because they depend on Vue Router.\n\nExample: Router links (RouterLinks.vue)\n\nYou can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBreadcrumbsEl API card at the top of the page.\n\n<DocExample title=\"Links with delayed, cancelled or redirected navigation (v2.9+)\" file=\"LinksWithGo\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Router links",
+        "file": "RouterLinks.vue"
+      },
+      {
+        "title": "Links with delayed, cancelled or redirected navigation (v2.9+)",
+        "file": "LinksWithGo.vue"
+      }
+    ]
+  }
+]

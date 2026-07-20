@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/inner-loading",
+  "title": "Inner Loading",
+  "description": "The QInnerLoading Vue component allows you to add a loading indicator within a component in the form of a local overlay.",
+  "canonicalUrl": "https://quasar.dev/vue-components/inner-loading",
+  "source": "docs/src/pages/vue-components/inner-loading.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QInnerLoading"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QInnerLoading/Basic.vue"
+    },
+    {
+      "title": "Label props",
+      "file": "LabelProp.vue",
+      "source": "docs/src/examples/QInnerLoading/LabelProp.vue"
+    }
+  ]
+}

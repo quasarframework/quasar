@@ -1,0 +1,36 @@
+[
+  {
+    "id": "vue-directives/scroll-fire#overview",
+    "documentId": "vue-directives/scroll-fire",
+    "heading": "Scroll Fire Directive",
+    "breadcrumb": [
+      "Scroll Fire Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/scroll-fire",
+    "content": "\"Scroll Fire\" is a directive that enables a method to be called (once and only once) when the user scrolls current page and the DOM element (or component) that it is applied to comes into the viewport.\n\n::: tip\nThere is also a [Scroll](/vue-directives/scroll) directive which fires whenever user scrolls the page.\n:::\n\nAPI reference: ScrollFire",
+    "apiReferences": [
+      "ScrollFire"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/scroll-fire#usage",
+    "documentId": "vue-directives/scroll-fire",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/scroll-fire#usage",
+    "content": "::: tip Scrolling container\nPlease read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.\n:::\n\n<DocExample title=\"Basic\" file=\"Basic\" scrollable />\n\n::: warning IMPORTANT\nFor performance purposes, the scroll listener function injected is by default debounced by 50ms.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  }
+]

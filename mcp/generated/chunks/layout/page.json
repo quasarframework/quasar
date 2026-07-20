@@ -1,0 +1,81 @@
+[
+  {
+    "id": "layout/page#overview",
+    "documentId": "layout/page",
+    "heading": "Layout Page",
+    "breadcrumb": [
+      "Layout Page"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/page",
+    "content": "We will be talking about encapsulating pages within a QLayout. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.\n\nAPI reference: QPageContainer\n\nAPI reference: QPage",
+    "apiReferences": [
+      "QPageContainer",
+      "QPage"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page#layout-builder",
+    "documentId": "layout/page",
+    "heading": "Layout Builder",
+    "breadcrumb": [
+      "Layout Builder",
+      "Layout Builder"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/page#layout-builder",
+    "content": "Scaffold your layout(s) by clicking on the button below.\n\n<q-btn icon-right=\"launch\" label=\"Layout Builder\" href=\"/layout-builder\" target=\"_blank\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page#usage",
+    "documentId": "layout/page",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/page#usage",
+    "content": "A QPage must be encapsulated by QPageContainer, which in turn must be a child of QLayout.\n\n```html\n<q-layout>\n  ...\n  <q-page-container>\n    <q-page>\n      <!-- page content -->\n    </q-page>\n  </q-page-container>\n  ...\n</q-layout>\n```\n\nUsually, the QPageContainer is part of the Layout template (where it contains a `<router-view />` child only), and its content goes into separate vue files under `/src/pages`. If you haven't already, please read [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages).\n\n```html\n<!-- vue file for Layout: -->\n<q-layout>\n  ...\n  <q-page-container>\n    <router-view />\n  </q-page-container>\n  ...\n</q-layout>\n\n<!-- vue file for a Page: -->\n<q-page padding>\n  <!-- page content -->\n</q-page>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page#example",
+    "documentId": "layout/page",
+    "heading": "Example",
+    "breadcrumb": [
+      "Usage",
+      "Example",
+      "Example"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page#example",
+    "content": "::: tip\nSince QPageContainer and QPage need a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageContainer and QPage.\n:::\n\nExample: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/page#style-fn",
+    "documentId": "layout/page",
+    "heading": "Style-fn",
+    "breadcrumb": [
+      "Usage",
+      "Style-fn",
+      "Style-fn"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page#style-fn",
+    "content": "A QPage needs a QLayout because QLayout controls all the offsets of a page, keeping account of the space that header/footer/drawer use, according to its `view` property configuration. By default, your QPage component will have a `min-height` CSS property set on it to ensure that the content fills the screen at all times, even when the content is just a few lines.\n\nIf you wish to tweak, or even remove this property, you can do so by using the `style-fn` property:\n\n```html\n<template>\n  <q-page :style-fn=\"myTweak\">...</q-page>\n</template>\n\n<script setup>\n  function myTweak(offset) {\n    // \"offset\" is a Number (pixels) that refers to the total\n    // height of header + footer that occupies on screen,\n    // based on the QLayout \"view\" prop configuration\n\n    // this is actually what the default style-fn does in Quasar\n    return { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

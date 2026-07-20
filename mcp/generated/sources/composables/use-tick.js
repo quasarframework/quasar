@@ -1,0 +1,43 @@
+import {
+  getCurrentInstance,
+  nextTick,
+  onBeforeUnmount,
+  onDeactivated
+} from 'vue'
+
+import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
+
+/*
+ * Usage:
+ *    registerTick(fn)
+ *    removeTick()
+ */
+
+export default function useTick() {
+  let tickFn
+  const vm = getCurrentInstance()
+
+  function removeTick() {
+    tickFn = void 0
+  }
+
+  onDeactivated(removeTick)
+  onBeforeUnmount(removeTick)
+
+  return {
+    removeTick,
+
+    registerTick(fn) {
+      tickFn = fn
+
+      nextTick(() => {
+        if (tickFn === fn) {
+          // we also check if VM is destroyed, since if it
+          // got to trigger one nextTick() we cannot stop it
+          if (!vmIsDestroyed(vm)) tickFn()
+          tickFn = void 0
+        }
+      })
+    }
+  }
+}

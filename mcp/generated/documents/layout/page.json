@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/page",
+  "title": "Layout Page",
+  "description": "How to use QPageContainer and QPage components. They define the contents of your Quasar app pages.",
+  "canonicalUrl": "https://quasar.dev/layout/page",
+  "source": "docs/src/pages/layout/page.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QPage",
+    "QPageContainer"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QPage/Basic.vue"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "style/color-palette",
+  "title": "Color Palette",
+  "description": "How to use and customize the Quasar Color Palette.",
+  "canonicalUrl": "https://quasar.dev/style/color-palette",
+  "source": "docs/src/pages/style/color-palette/color-palette.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Brand"
+  ],
+  "examples": []
+}

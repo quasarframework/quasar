@@ -1,0 +1,300 @@
+# QFab API
+
+Type: component
+
+Canonical documentation: https://quasar.dev/vue-components/floating-action-button
+
+## Props
+
+### `type`
+
+Type: `String`
+
+Default: `'a'`
+
+Define the button HTML DOM type
+
+Accepted values: `'a'`, `'submit'`, `'button'`, `'reset'`
+
+### `outline`
+
+Type: `Boolean`
+
+Use 'outline' design for Fab button
+
+### `push`
+
+Type: `Boolean`
+
+Use 'push' design for Fab button
+
+### `flat`
+
+Type: `Boolean`
+
+Use 'flat' design for Fab button
+
+### `unelevated`
+
+Type: `Boolean`
+
+Remove shadow
+
+### `padding`
+
+Type: `String`
+
+Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set
+
+Examples:
+
+- `'16px'`
+- `'10px 5px'`
+- `'2rem'`
+- `'xs'`
+- `'md lg'`
+
+### `color`
+
+Type: `String`
+
+Color name for component from the Quasar Color Palette
+
+Examples:
+
+- `'primary'`
+- `'teal'`
+- `'teal-10'`
+
+### `text-color`
+
+Type: `String`
+
+Overrides text color (if needed); Color name from the Quasar Color Palette
+
+Examples:
+
+- `'primary'`
+- `'teal'`
+- `'teal-10'`
+
+### `glossy`
+
+Type: `Boolean`
+
+Apply the glossy effect over the button
+
+### `external-label`
+
+Type: `Boolean`
+
+Display label besides the FABs, as external content
+
+### `label`
+
+Type: `String | Number`
+
+Default: `''`
+
+The label that will be shown when Fab is extended
+
+Examples:
+
+- `'Button Label'`
+
+### `label-position`
+
+Type: `String`
+
+Default: `'right'`
+
+Position of the label around the icon
+
+Accepted values: `'top'`, `'right'`, `'bottom'`, `'left'`
+
+### `hide-label`
+
+Type: `Boolean | null`
+
+Default: `null`
+
+Hide the label; Useful for animation purposes where you toggle the visibility of the label
+
+### `label-class`
+
+Type: `String | Array | Object`
+
+Class definitions to be attributed to the label container
+
+Examples:
+
+- `'my-special-class'`
+- `{ 'my-special-class': true }`
+
+### `label-style`
+
+Type: `String | Array | Object`
+
+Style definitions to be attributed to the label container
+
+Examples:
+
+- `'background-color: #ff0000'`
+- `{ backgroundColor: '#ff0000' }`
+
+### `square`
+
+Type: `Boolean`
+
+Apply a rectangle aspect to the FAB
+
+### `disable`
+
+Type: `Boolean`
+
+Put component in disabled mode
+
+### `tabindex`
+
+Type: `Number | String`
+
+Tabindex HTML attribute value
+
+Examples:
+
+- `100`
+- `'0'`
+
+### `model-value`
+
+Type: `Boolean | null`
+
+Default: `null`
+
+Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'update:modelValue' event
+
+Examples:
+
+- `# v-model="state"`
+
+### `icon`
+
+Type: `String`
+
+Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)
+
+Examples:
+
+- `'map'`
+- `'ion-add'`
+- `'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'`
+- `'img:path/to/some_image.png'`
+
+### `active-icon`
+
+Type: `String`
+
+Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)
+
+Examples:
+
+- `'map'`
+- `'ion-add'`
+- `'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'`
+- `'img:path/to/some_image.png'`
+
+### `hide-icon`
+
+Type: `Boolean`
+
+Hide the icon (don't use any)
+
+### `direction`
+
+Type: `String`
+
+Default: `'right'`
+
+Direction to expand Fab Actions to
+
+Accepted values: `'up'`, `'right'`, `'down'`, `'left'`
+
+### `vertical-actions-align`
+
+Type: `String`
+
+Default: `'center'`
+
+The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')
+
+Accepted values: `'left'`, `'center'`, `'right'`
+
+### `persistent`
+
+Type: `Boolean`
+
+By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior
+
+## Slots
+
+### `default`
+
+This is where QFabActions may go into
+
+### `tooltip`
+
+Slot specifically designed for a QTooltip
+
+### `icon`
+
+Added in: v2.4
+
+Slot for icon shown when FAB is closed; Suggestion: QIcon
+
+### `active-icon`
+
+Added in: v2.4
+
+Slot for icon shown when FAB is opened; Suggestion: QIcon
+
+### `label`
+
+Added in: v2.4
+
+Slot for label
+
+## Events
+
+### `update:model-value`
+
+Emitted when fab actions are shown/hidden; Captured by v-model directive
+
+### `show`
+
+Emitted after component has triggered show()
+
+### `before-show`
+
+Emitted when component triggers show() but before it finishes doing it
+
+### `hide`
+
+Emitted after component has triggered hide()
+
+### `before-hide`
+
+Emitted when component triggers hide() but before it finishes doing it
+
+## Methods
+
+### `show`
+
+Expands fab actions list
+
+### `hide`
+
+Collapses fab actions list
+
+### `toggle`
+
+Triggers component to toggle between show/hide

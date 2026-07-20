@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/material-ripples",
+  "title": "Material Ripples",
+  "description": "Vue directive for easily adding material ripples to your components and DOM elements.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples",
+  "source": "docs/src/pages/vue-directives/material-ripples.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Ripple"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/Ripple/Basic.vue"
+    },
+    {
+      "title": "Colored",
+      "file": "Colored.vue",
+      "source": "docs/src/examples/Ripple/Colored.vue"
+    },
+    {
+      "title": "Positioning",
+      "file": "Positioning.vue",
+      "source": "docs/src/examples/Ripple/Positioning.vue"
+    },
+    {
+      "title": "Triggering immediately",
+      "file": "Early.vue",
+      "source": "docs/src/examples/Ripple/Early.vue"
+    },
+    {
+      "title": "Disable",
+      "file": "Disable.vue",
+      "source": "docs/src/examples/Ripple/Disable.vue"
+    }
+  ]
+}

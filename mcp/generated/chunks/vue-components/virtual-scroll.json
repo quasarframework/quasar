@@ -1,0 +1,219 @@
+[
+  {
+    "id": "vue-components/virtual-scroll#overview",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Virtual Scroll",
+    "breadcrumb": [
+      "Virtual Scroll"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll",
+    "content": "The QVirtualScroll component allows you to display only a part of a long list of items and update the visible items as the user scrolls in the container. This has several advantages: only visible items are rendered, so the smallest number of nodes are in the DOM tree at any given point in time and the memory consumption is kept at its lowest.\n\nThere are currently two types of QVirtualScroll: \"list\" (using QItems) and \"table\" (using a tabular style to display rows of data).\n\nAPI reference: QVirtualScroll",
+    "apiReferences": [
+      "QVirtualScroll"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/virtual-scroll#usage",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#usage",
+    "content": "::: tip\n\n- (Composition API) To get the best performance while using large lists, do not wrap the array that you are passing in the `items` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list \"responsive\" to changes.\n- (Options API) To get the best performance while using large lists, freeze the array that you are passing in the `items` prop using `Object.freeze(items)`. This allows Vue to skip making the list \"responsive\" to changes.\n- The number of items that will be rendered will be calculated based on the `virtual-scroll-item-size` prop and the size of the scrollable area, but you can fit it to your needs using the `virtual-scroll-slice-size` prop.\n- Use the `virtual-scroll-item-size` to specify the size of elements (pixels of height, or width if horizontal). After an element is rendered on screen its size is updated automatically, but if you specify an element size close to the real size you'll get a better initial indication of the scroll position. Regardless if you will be using this property or not, QVirtualScroll will still work, but without it you may experience the scrollbar not following the mouse grab position while continuously scrolling (on desktop) or the actual scroll of the container getting slightly off by one or two elements when on mobile and continuously scrolling.\n\n:::\n\n::: warning\nThere is a maximum height of the scrolling container, imposed by each browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it's much more, but still limited.\n:::\n\nScroll the examples below to see QVirtualScroll in action.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/virtual-scroll#basic",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#horizontal",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Horizontal",
+    "breadcrumb": [
+      "Usage",
+      "Horizontal",
+      "Horizontal"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#horizontal",
+    "content": "Example: Horizontal (BasicHorizontal.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Horizontal",
+        "file": "BasicHorizontal.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#different-templates",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Different templates",
+    "breadcrumb": [
+      "Usage",
+      "Different templates",
+      "Different templates"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#different-templates",
+    "content": "Example: Different templates for items (VariousContent.vue)\n\nExample: Different templates for horizontal items (VariousContentHorizontal.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Different templates for items",
+        "file": "VariousContent.vue"
+      },
+      {
+        "title": "Different templates for horizontal items",
+        "file": "VariousContentHorizontal.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#table-type",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Table type",
+    "breadcrumb": [
+      "Usage",
+      "Table type",
+      "Table type"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#table-type",
+    "content": "Notice the `type=\"table\"` property.\n\nExample: Basic table (TableBasic.vue)\n\nWith header that scrolls along with content (doesn't stay in place).\n\nExample: Table with scrolling header/footer (TableBasicHeader.vue)\n\nNotice (in the example below) the CSS required to make the table header and footer \"sticky\". Also note the additional scoped slots which define the header and footer content.\n\nExample: Sticky headers table (TableSticky.vue)\n\nA more involved example below, playing with sticky headers and footers.\n\nExample: Playing with sticky headers (TableSticky2.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic table",
+        "file": "TableBasic.vue"
+      },
+      {
+        "title": "Table with scrolling header/footer",
+        "file": "TableBasicHeader.vue"
+      },
+      {
+        "title": "Sticky headers table",
+        "file": "TableSticky.vue"
+      },
+      {
+        "title": "Playing with sticky headers",
+        "file": "TableSticky2.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#scroll-target",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Scroll target",
+    "breadcrumb": [
+      "Usage",
+      "Scroll target",
+      "Scroll target"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#scroll-target",
+    "content": "If you need to specify the scroll target (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element to the `scroll-target` prop.\n\nIf you need to use the virtual list with the whole page as the scrolling element then please set `scroll-target=\"body\"`.\n\n::: warning\n\n- If you pass a custom scroll target container with `scroll-target` prop you must make sure that the element exists and that it can be overflowed (it must have a maximum height and an overflow that allows scrolling).\n- If the scroll target container cannot be overflowed you'll get the whole list rendered.\n\n:::\n\n::: danger\nIf you want to use a Vue reference for `scroll-target`, please take care to set it after mounting the component, like in the example below.\n:::\n\nExample: Custom scroll target by id (ScrollTargetId.vue)\n\nExample: Custom scroll target by ref (ScrollTargetRef.vue)\n\nExample: Using QScrollArea (ScrollArea.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom scroll target by id",
+        "file": "ScrollTargetId.vue"
+      },
+      {
+        "title": "Custom scroll target by ref",
+        "file": "ScrollTargetRef.vue"
+      },
+      {
+        "title": "Using QScrollArea",
+        "file": "ScrollArea.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#scroll-to-position",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Scroll to position",
+    "breadcrumb": [
+      "Usage",
+      "Scroll to position",
+      "Scroll to position"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#scroll-to-position",
+    "content": "Example: Scroll to position (ScrollTo.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Scroll to position",
+        "file": "ScrollTo.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#sync-and-async",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Sync and async",
+    "breadcrumb": [
+      "Usage",
+      "Sync and async",
+      "Sync and async"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#sync-and-async",
+    "content": "You can also generate the items to be displayed on the list by using the `items-fn` prop.\n\n::: warning\nMake sure to use a synchronous function that returns the list of items to be displayed.\n:::\n\nIf you need async data use a component that retrieves and renders the data.\n\nExample: Generate items on the fly (GenerateItems.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Generate items on the fly",
+        "file": "GenerateItems.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/virtual-scroll#utility-classes",
+    "documentId": "vue-components/virtual-scroll",
+    "heading": "Utility classes",
+    "breadcrumb": [
+      "Usage",
+      "Utility classes",
+      "Utility classes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll#utility-classes",
+    "content": "There are two CSS classes that you can use (should you need to) to control VirtualScroll size calculation:\n\n- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).\n- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate the element size should be ignored in size calculations.\n\nExample: Virtual scroll with multiple rows for a data row (VirtscrollMultipleRows.vue)\n\nExample: Virtual scroll with expansion model (VirtscrollExpandedRow.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Virtual scroll with multiple rows for a data row",
+        "file": "VirtscrollMultipleRows.vue"
+      },
+      {
+        "title": "Virtual scroll with expansion model",
+        "file": "VirtscrollExpandedRow.vue"
+      }
+    ]
+  }
+]

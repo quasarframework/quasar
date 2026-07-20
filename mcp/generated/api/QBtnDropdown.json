@@ -1,0 +1,579 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
+  },
+  "props": {
+    "transition-show": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [
+        "'fade'",
+        "'slide-down'"
+      ],
+      "category": "transition",
+      "default": "'fade'",
+      "required": false
+    },
+    "transition-hide": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [
+        "'fade'",
+        "'slide-down'"
+      ],
+      "category": "transition",
+      "default": "'fade'",
+      "required": false
+    },
+    "transition-duration": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Transition duration (in milliseconds, without unit)",
+      "default": "300",
+      "category": "transition",
+      "required": false
+    },
+    "model-value": {
+      "type": "Boolean",
+      "desc": "Model of the component defining shown/hidden state; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
+      "category": "model",
+      "examples": [
+        "# v-model=\"state\""
+      ]
+    },
+    "size": {
+      "type": "String",
+      "desc": "Size in CSS units, including unit name or standard size name (xs|sm|md|lg|xl)",
+      "examples": [
+        "'16px'",
+        "'2rem'",
+        "'xs'",
+        "'md'"
+      ],
+      "category": "style"
+    },
+    "type": {
+      "type": "String",
+      "desc": "1) Define the button native type attribute (submit, reset, button) or 2) render component with <a> tag so you can access events even if disable or 3) Use 'href' prop and specify 'type' as a media tag",
+      "default": "'button'",
+      "examples": [
+        "'a'",
+        "'submit'",
+        "'button'",
+        "'reset'",
+        "'image/png'",
+        "# href=\"https://quasar.dev\" target=\"_blank\""
+      ],
+      "category": "general",
+      "required": false
+    },
+    "to": {
+      "type": [
+        "String",
+        "Object"
+      ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
+      "examples": [
+        "'/home/dashboard'",
+        "{ name: 'my-route-name' }"
+      ],
+      "category": "navigation"
+    },
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseded by 'href' prop if used",
+      "category": "navigation"
+    },
+    "href": {
+      "type": "String",
+      "desc": "Native <a> link href attribute; Has priority over the 'to' and 'replace' props",
+      "examples": [
+        "'https://quasar.dev'",
+        "# href=\"https://quasar.dev\" target=\"_blank\""
+      ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+    "target": {
+      "type": "String",
+      "desc": "Native <a> link target attribute; Use it only with 'to' or 'href' props",
+      "examples": [
+        "'_blank'",
+        "'_self'",
+        "'_parent'",
+        "'_top'"
+      ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+    "label": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "The text that will be shown on the button",
+      "examples": [
+        "'Button Label'"
+      ],
+      "category": "content"
+    },
+    "icon": {
+      "type": "String",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
+      "examples": [
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
+      ],
+      "category": "content"
+    },
+    "icon-right": {
+      "type": "String",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
+      "examples": [
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
+      ],
+      "category": "content"
+    },
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design",
+      "category": "style"
+    },
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design",
+      "category": "style"
+    },
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow",
+      "category": "style"
+    },
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a more prominent border-radius for a squared shape button",
+      "category": "style"
+    },
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design",
+      "category": "style"
+    },
+    "square": {
+      "type": "Boolean",
+      "desc": "Removes border-radius so borders are squared",
+      "category": "style",
+      "addedIn": "v2.7.6"
+    },
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Applies a glossy effect",
+      "category": "style"
+    },
+    "fab": {
+      "type": "Boolean",
+      "desc": "Makes button size and shape to fit a Floating Action Button",
+      "category": "style"
+    },
+    "fab-mini": {
+      "type": "Boolean",
+      "desc": "Makes button size and shape to fit a small Floating Action Button",
+      "category": "style"
+    },
+    "padding": {
+      "type": "String",
+      "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
+      "examples": [
+        "'16px'",
+        "'10px 5px'",
+        "'2rem'",
+        "'xs'",
+        "'md lg'",
+        "'2px 2px 5px 7px'"
+      ],
+      "category": "style"
+    },
+    "color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "text-color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Avoid turning label text into caps (which happens by default)",
+      "category": "content"
+    },
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Avoid label text wrapping",
+      "category": "content"
+    },
+    "dense": {
+      "type": "Boolean",
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
+    },
+    "ripple": {
+      "type": [
+        "Boolean",
+        "Object"
+      ],
+      "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
+      "default": "true",
+      "examples": [
+        "false",
+        "{ early: true, center: true, color: 'teal', keyCodes: [] }"
+      ],
+      "category": "style",
+      "required": false
+    },
+    "tabindex": {
+      "type": [
+        "Number",
+        "String"
+      ],
+      "desc": "Tabindex HTML attribute value",
+      "examples": [
+        "100",
+        "'0'"
+      ],
+      "category": "general"
+    },
+    "align": {
+      "type": "String",
+      "desc": "Label or content alignment",
+      "default": "'center'",
+      "values": [
+        "'left'",
+        "'right'",
+        "'center'",
+        "'around'",
+        "'between'",
+        "'evenly'"
+      ],
+      "category": "content",
+      "required": false
+    },
+    "stack": {
+      "type": "Boolean",
+      "desc": "Stack icon and label vertically instead of on same line (like it is by default)",
+      "category": "content"
+    },
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, button will stretch to parent's height",
+      "category": "content"
+    },
+    "loading": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "Put button into loading state (displays a QSpinner -- can be overridden by using a 'loading' slot)",
+      "category": "behavior|state",
+      "required": false
+    },
+    "disable": {
+      "type": "Boolean",
+      "desc": "Put component in disabled mode",
+      "category": "state"
+    },
+    "split": {
+      "type": "Boolean",
+      "desc": "Split dropdown icon into its own button",
+      "category": "content|behavior"
+    },
+    "dropdown-icon": {
+      "type": "String",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
+      "examples": [
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
+      ],
+      "category": "content"
+    },
+    "disable-main-btn": {
+      "type": "Boolean",
+      "desc": "Disable main button (useful along with 'split' prop)",
+      "category": "behavior"
+    },
+    "disable-dropdown": {
+      "type": "Boolean",
+      "desc": "Disables dropdown (dropdown button if using along 'split' prop)",
+      "category": "behavior"
+    },
+    "no-icon-animation": {
+      "type": "Boolean",
+      "desc": "Disables the rotation of the dropdown icon when state is toggled",
+      "category": "style"
+    },
+    "content-style": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueStyleProp",
+      "desc": "Style definitions to be attributed to the menu",
+      "examples": [
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
+      ],
+      "category": "style"
+    },
+    "content-class": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the menu",
+      "examples": [
+        "'my-special-class'",
+        "{ 'my-special-class': true }"
+      ],
+      "category": "style"
+    },
+    "cover": {
+      "type": "Boolean",
+      "desc": "Allows the menu to cover the button. When used, the 'menu-self' prop is no longer effective",
+      "category": "position"
+    },
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key; Also, an app route change won't dismiss it",
+      "category": "behavior"
+    },
+    "no-esc-dismiss": {
+      "type": "Boolean",
+      "desc": "User cannot dismiss the popup by hitting ESC key; No need to set it if 'persistent' prop is also set",
+      "category": "behavior",
+      "addedIn": "v2.18"
+    },
+    "no-route-dismiss": {
+      "type": "Boolean",
+      "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
+      "category": "behavior"
+    },
+    "auto-close": {
+      "type": "Boolean",
+      "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
+      "category": "behavior"
+    },
+    "no-refocus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When the dropdown gets hidden, do not refocus on the DOM element that previously had focus",
+      "category": "behavior",
+      "addedIn": "v2.18"
+    },
+    "no-focus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When the dropdown gets shown, do not switch focus on it",
+      "category": "behavior",
+      "addedIn": "v2.18"
+    },
+    "menu-anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
+      "values": [
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
+      ],
+      "default": "'bottom end'",
+      "category": "position",
+      "required": false
+    },
+    "menu-self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
+      "values": [
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
+      ],
+      "default": "'top end'",
+      "category": "position",
+      "required": false
+    },
+    "menu-offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
+      "examples": [
+        "[8, 8]",
+        "[5, 10]"
+      ],
+      "category": "position"
+    },
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the dropdown toggle element",
+      "examples": [
+        "'Open menu'"
+      ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    },
+    "label": {
+      "desc": "Customize main button's content through this slot, unless you're using the 'icon' and 'label' props"
+    },
+    "loading": {
+      "desc": "Override the default QSpinner when in 'loading' state",
+      "addedIn": "v2.8"
+    }
+  },
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New state (showing/hidden)"
+        }
+      }
+    },
+    "show": {
+      "desc": "Emitted after component has triggered show()",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "before-show": {
+      "desc": "Emitted when component triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "hide": {
+      "desc": "Emitted after component has triggered hide()",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "before-hide": {
+      "desc": "Emitted when component triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "click": {
+      "desc": "Emitted when user clicks/taps on the main button (not the icon one, if using 'split')",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    }
+  },
+  "methods": {
+    "show": {
+      "desc": "Triggers component to show",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "hide": {
+      "desc": "Triggers component to hide",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "toggle": {
+      "desc": "Triggers component to toggle between show/hide",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    }
+  }
+}

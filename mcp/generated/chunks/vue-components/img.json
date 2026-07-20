@@ -1,0 +1,205 @@
+[
+  {
+    "id": "vue-components/img#overview",
+    "documentId": "vue-components/img",
+    "heading": "QImg",
+    "breadcrumb": [
+      "QImg"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/img",
+    "content": "The QImg component makes working with images (any picture format) easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).\n\nAPI reference: QImg",
+    "apiReferences": [
+      "QImg"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/img#basic",
+    "documentId": "vue-components/img",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#aspect-ratio",
+    "documentId": "vue-components/img",
+    "heading": "Aspect ratio",
+    "breadcrumb": [
+      "Usage",
+      "Aspect ratio",
+      "Aspect ratio"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#aspect-ratio",
+    "content": "Example: Custom aspect ratio (Ratio.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom aspect ratio",
+        "file": "Ratio.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#captions",
+    "documentId": "vue-components/img",
+    "heading": "Captions",
+    "breadcrumb": [
+      "Usage",
+      "Captions",
+      "Captions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#captions",
+    "content": "Example: Captions (Caption.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Captions",
+        "file": "Caption.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#image-style",
+    "documentId": "vue-components/img",
+    "heading": "Image style",
+    "breadcrumb": [
+      "Usage",
+      "Image style",
+      "Image style"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#image-style",
+    "content": "In the example below, we add a blur and sepia effect. Furthermore, we make use of the `rounded-borders` CSS helper class.\n\nExample: Custom image style (CustomImageStyle.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom image style",
+        "file": "CustomImageStyle.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#fit-mode",
+    "documentId": "vue-components/img",
+    "heading": "Fit mode",
+    "breadcrumb": [
+      "Usage",
+      "Fit mode",
+      "Fit mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#fit-mode",
+    "content": "There are multiple ways in which the image can be displayed through the `fit` property: 'cover', 'fill' (default), 'contain', 'none', 'scale-down'. It is basically the same thing as the CSS prop called [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).\n\nSome modes lead to empty space (horizontally or vertically) besides the image.\n\nYou can also configure the position through `position` property, which is equivalent to the CSS [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) one. Its default value is \"50% 50%\".\n\nExample: Fit modes (FitModes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Fit modes",
+        "file": "FitModes.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#loading-states",
+    "documentId": "vue-components/img",
+    "heading": "Loading states",
+    "breadcrumb": [
+      "Usage",
+      "Loading states",
+      "Loading states"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#loading-states",
+    "content": "Example: Loading state (LoadingState.vue)\n\nWhen you have big-sized images, you can use a placeholder image (recommended to be specified in base64 encoding) like in the example below. The placeholder will be displayed until the target image gets loaded. We're toggling the QImg tag so you can see the placeholder image in action.\n\nExample: Placeholder source (PlaceholderSrc.vue)\n\nExample: Error state (ErrorState.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Loading state",
+        "file": "LoadingState.vue"
+      },
+      {
+        "title": "Placeholder source",
+        "file": "PlaceholderSrc.vue"
+      },
+      {
+        "title": "Error state",
+        "file": "ErrorState.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#responsive",
+    "documentId": "vue-components/img",
+    "heading": "Responsive",
+    "breadcrumb": [
+      "Usage",
+      "Responsive",
+      "Responsive"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#responsive",
+    "content": "::: warning\nTo grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Why_responsive_images) because **QImg relies on that entirely**.\n:::\n\nExample: Responsive (Responsive.vue)\n\n::: tip\nFor `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes).\n:::\n\n::: tip\nFor `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Responsive",
+        "file": "Responsive.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#render-on-demand",
+    "documentId": "vue-components/img",
+    "heading": "Render on demand",
+    "breadcrumb": [
+      "Usage",
+      "Render on demand",
+      "Render on demand"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#render-on-demand",
+    "content": "For browsers that natively support the [loading=\"lazy\" DOM attribute](https://caniuse.com/loading-lazy-attr) you can take advantage of it. Quasar will use it and tell the browser to request the image and render it only if the image is currently being displayed on screen (or when it is scrolled into the screen).\n\nOne alternative is to use the [QIntersection](/vue-components/intersection) component as a wrapper or [Intersection](/vue-directives/intersection) directive.\n\nExample: Native lazy loading (LoadingLazy.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native lazy loading",
+        "file": "LoadingLazy.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/img#no-native-context-menu",
+    "documentId": "vue-components/img",
+    "heading": "No native context menu",
+    "breadcrumb": [
+      "Usage",
+      "No native context menu",
+      "No native context menu"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/img#no-native-context-menu",
+    "content": "In the example below we disable the native context menu on the images.\n\n::: warning\nWhen you are using this option always take care to have the content of the `default` or `error` slots wrapped in a `div` element, or add a `all-pointer-events` class on the element.\n:::\n\nExample: Native context menu (ContextMenu.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native context menu",
+        "file": "ContextMenu.vue"
+      }
+    ]
+  }
+]

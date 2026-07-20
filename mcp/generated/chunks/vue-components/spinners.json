@@ -1,0 +1,53 @@
+[
+  {
+    "id": "vue-components/spinners#overview",
+    "documentId": "vue-components/spinners",
+    "heading": "Spinners",
+    "breadcrumb": [
+      "Spinners"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/spinners",
+    "content": "A Spinner is used to show the user a timely process is currently taking place. It is an important UX feature, which gives the user the feeling the system is continuing to work for longer term activities, like grabbing data from the server or some heavy calculations.\n\nAPI reference: QSpinner\n\n::: tip\nThe API below applies to all spinners, except for QSpinner. Making an example with QSpinnerCube.\n:::\n\n<DocApi file=\"QSpinnerCube\" title=\"Other Spinners API\" />",
+    "apiReferences": [
+      "QSpinner",
+      "QSpinnerCube"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/spinners#usage",
+    "documentId": "vue-components/spinners",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/spinners#usage",
+    "content": "Example: QSpinner (Default.vue)\n\nIn the example below, hover over the spinners to see their names.\n\nExample: Other spinners (Others.vue)\n\nExample: Coloring (Color.vue)\n\nPlease note that by default, QSpinner and all other spinners inherit the font-size of the parent and applies it as its size.\n\nExample: Size (Size.vue)\n\nExample: Standard sizes (StandardSizes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "QSpinner",
+        "file": "Default.vue"
+      },
+      {
+        "title": "Other spinners",
+        "file": "Others.vue"
+      },
+      {
+        "title": "Coloring",
+        "file": "Color.vue"
+      },
+      {
+        "title": "Size",
+        "file": "Size.vue"
+      },
+      {
+        "title": "Standard sizes",
+        "file": "StandardSizes.vue"
+      }
+    ]
+  }
+]

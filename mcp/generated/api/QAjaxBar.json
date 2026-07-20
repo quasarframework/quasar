@@ -1,0 +1,118 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/ajax-bar"
+  },
+  "props": {
+    "position": {
+      "type": "String",
+      "desc": "Position within window of where QAjaxBar should be displayed",
+      "default": "'top'",
+      "values": [
+        "'top'",
+        "'right'",
+        "'bottom'",
+        "'left'"
+      ],
+      "category": "style",
+      "required": false
+    },
+    "size": {
+      "type": "String",
+      "desc": "Size in CSS units, including unit name",
+      "examples": [
+        "'16px'",
+        "'2rem'"
+      ],
+      "category": "style",
+      "default": "'2px'",
+      "required": false
+    },
+    "color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
+    },
+    "skip-hijack": {
+      "type": "Boolean",
+      "desc": "Skip Ajax hijacking (not a reactive prop)",
+      "category": "behavior"
+    },
+    "hijack-filter": {
+      "type": "Function",
+      "desc": "Filter which URL should trigger start() + stop()",
+      "params": {
+        "url": {
+          "type": "String",
+          "desc": "The URL being triggered",
+          "examples": [
+            "'https://some.url/path'"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Should the URL received as param trigger start() + stop()?"
+      },
+      "category": "behavior",
+      "addedIn": "v2.4.5"
+    }
+  },
+  "events": {
+    "start": {
+      "desc": "Emitted when bar is triggered to appear"
+    },
+    "stop": {
+      "desc": "Emitted when bar has finished its job"
+    }
+  },
+  "methods": {
+    "start": {
+      "desc": "Notify bar you are waiting for a new process to finish",
+      "params": {
+        "speed": {
+          "type": "Number",
+          "default": "300",
+          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing",
+          "required": false
+        }
+      },
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions"
+      }
+    },
+    "increment": {
+      "desc": "Manually trigger a bar progress increment",
+      "params": {
+        "amount": {
+          "type": "Number",
+          "desc": "Amount (0 < x <= 100) to increment with"
+        }
+      },
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions"
+      }
+    },
+    "stop": {
+      "desc": "Notify bar that one process you were waiting has finished",
+      "params": null,
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions"
+      }
+    }
+  }
+}

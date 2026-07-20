@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/popup-edit",
+  "title": "Popup Edit",
+  "description": "The QPopupEdit Vue component can be used to edit a value 'in place', like for example on a cell in QTable.",
+  "canonicalUrl": "https://quasar.dev/vue-components/popup-edit",
+  "source": "docs/src/pages/vue-components/popup-edit.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QPopupEdit"
+  ],
+  "examples": [
+    {
+      "title": "Click on text",
+      "file": "Standalone.vue",
+      "source": "docs/src/examples/QPopupEdit/Standalone.vue"
+    },
+    {
+      "title": "Edit first columns",
+      "file": "WithTable.vue",
+      "source": "docs/src/examples/QPopupEdit/WithTable.vue"
+    },
+    {
+      "title": "Customizing QPopupEdit",
+      "file": "Customizing.vue",
+      "source": "docs/src/examples/QPopupEdit/Customizing.vue"
+    },
+    {
+      "title": "Persistent edit, and with buttons",
+      "file": "WithButtons.vue",
+      "source": "docs/src/examples/QPopupEdit/WithButtons.vue"
+    },
+    {
+      "title": "Default slot parameters",
+      "file": "DefaultSlotParameters.vue",
+      "source": "docs/src/examples/QPopupEdit/DefaultSlotParameters.vue"
+    },
+    {
+      "title": "QInput textarea",
+      "file": "TextArea.vue",
+      "source": "docs/src/examples/QPopupEdit/TextArea.vue"
+    },
+    {
+      "title": "QEditor",
+      "file": "PopupWithEditor.vue",
+      "source": "docs/src/examples/QPopupEdit/PopupWithEditor.vue"
+    },
+    {
+      "title": "Edit with validation",
+      "file": "WithValidation.vue",
+      "source": "docs/src/examples/QPopupEdit/WithValidation.vue"
+    }
+  ]
+}

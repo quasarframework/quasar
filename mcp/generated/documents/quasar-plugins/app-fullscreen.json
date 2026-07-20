@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/app-fullscreen",
+  "title": "Fullscreen Plugin",
+  "description": "A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/app-fullscreen",
+  "source": "docs/src/pages/quasar-plugins/app-fullscreen.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "AppFullscreen"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/AppFullscreen/Basic.vue"
+    },
+    {
+      "title": "On custom element",
+      "file": "Targeted.vue",
+      "source": "docs/src/examples/AppFullscreen/Targeted.vue"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/pull-to-refresh",
+  "title": "Pull to refresh",
+  "description": "The QPullToRefresh Vue component allows the user to pull down in order to refresh or retrieve the newest content on a page.",
+  "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh",
+  "source": "docs/src/pages/vue-components/pull-to-refresh.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QPullToRefresh"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QPullToRefresh/Basic.vue"
+    },
+    {
+      "title": "Custom icon",
+      "file": "Icon.vue",
+      "source": "docs/src/examples/QPullToRefresh/Icon.vue"
+    },
+    {
+      "title": "Custom coloring",
+      "file": "CustomColoring.vue",
+      "source": "docs/src/examples/QPullToRefresh/CustomColoring.vue"
+    }
+  ]
+}

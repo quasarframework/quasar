@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/dialog",
+  "title": "Dialog",
+  "description": "The QDialog component provides a UI for modals with functionalities like positioning, styling, maximizing and more.",
+  "canonicalUrl": "https://quasar.dev/vue-components/dialog",
+  "source": "docs/src/pages/vue-components/dialog.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QDialog"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QDialog/Basic.vue"
+    },
+    {
+      "title": "Styling",
+      "file": "Style.vue",
+      "source": "docs/src/examples/QDialog/Style.vue"
+    },
+    {
+      "title": "Backdrop filter (v2.14.8+)",
+      "file": "BackdropFilter.vue",
+      "source": "docs/src/examples/QDialog/BackdropFilter.vue"
+    },
+    {
+      "title": "Positions",
+      "file": "Positioning.vue",
+      "source": "docs/src/examples/QDialog/Positioning.vue"
+    },
+    {
+      "title": "Maximized",
+      "file": "Maximized.vue",
+      "source": "docs/src/examples/QDialog/Maximized.vue"
+    },
+    {
+      "title": "Various content",
+      "file": "VariousContent.vue",
+      "source": "docs/src/examples/QDialog/VariousContent.vue"
+    },
+    {
+      "title": "With containerized QLayout",
+      "file": "Layout.vue",
+      "source": "docs/src/examples/QDialog/Layout.vue"
+    },
+    {
+      "title": "Scrollable dialogs",
+      "file": "Scrollable.vue",
+      "source": "docs/src/examples/QDialog/Scrollable.vue"
+    },
+    {
+      "title": "Persistent",
+      "file": "Persistent.vue",
+      "source": "docs/src/examples/QDialog/Persistent.vue"
+    },
+    {
+      "title": "Seamless",
+      "file": "Seamless.vue",
+      "source": "docs/src/examples/QDialog/Seamless.vue"
+    },
+    {
+      "title": "Inception",
+      "file": "Inception.vue",
+      "source": "docs/src/examples/QDialog/Inception.vue"
+    },
+    {
+      "title": "Sizing examples",
+      "file": "Sizing.vue",
+      "source": "docs/src/examples/QDialog/Sizing.vue"
+    }
+  ]
+}

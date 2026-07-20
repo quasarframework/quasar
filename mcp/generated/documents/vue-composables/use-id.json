@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-composables/use-id",
+  "title": "useId composable",
+  "description": "What is useId() composable and how you can use it",
+  "canonicalUrl": "https://quasar.dev/vue-composables/use-id",
+  "source": "docs/src/pages/vue-composables/use-id.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "composable"
+  ],
+  "apiReferences": [],
+  "examples": []
+}

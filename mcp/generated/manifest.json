@@ -1,0 +1,2859 @@
+{
+  "schemaVersion": 1,
+  "artifact": "@quasar/docs-data-prototype",
+  "source": {
+    "repository": "https://github.com/quasarframework/quasar",
+    "commit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+    "committedAt": "2026-07-03T06:06:31-06:00"
+  },
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "coverage": {
+    "documents": 117,
+    "components": 123,
+    "directives": 11,
+    "plugins": 18,
+    "composables": 11,
+    "APIs": 152,
+    "examples": 867,
+    "chunks": 901,
+    "searchRecords": 3936
+  },
+  "documents": [
+    {
+      "id": "layout/drawer",
+      "title": "Layout Drawer",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/layout/drawer.json",
+      "markdown": "documents/layout/drawer.md",
+      "chunks": "chunks/layout/drawer.json",
+      "api": [
+        "api/QDrawer.json",
+        "api/QDrawer.md"
+      ],
+      "examples": [
+        "examples/QDrawer/Basic.vue",
+        "examples/QDrawer/Menu.vue",
+        "examples/QDrawer/MenuSeamless.vue",
+        "examples/QDrawer/HeaderPicture.vue",
+        "examples/QDrawer/MiniMouseEvents.vue",
+        "examples/QDrawer/MiniToOverlay.vue",
+        "examples/QDrawer/MiniClickEvent.vue",
+        "examples/QDrawer/MiniSlot.vue",
+        "examples/QDrawer/OverlayMode.vue"
+      ]
+    },
+    {
+      "id": "layout/header-and-footer",
+      "title": "Layout Header and Footer",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/layout/header-and-footer.json",
+      "markdown": "documents/layout/header-and-footer.md",
+      "chunks": "chunks/layout/header-and-footer.json",
+      "api": [
+        "api/QFooter.json",
+        "api/QFooter.md",
+        "api/QHeader.json",
+        "api/QHeader.md"
+      ],
+      "examples": [
+        "examples/QHeader/Basic.vue",
+        "examples/QHeader/Glossy.vue",
+        "examples/QHeader/Extended.vue",
+        "examples/QHeader/Breadcrumbs.vue",
+        "examples/QHeader/Tabs.vue",
+        "examples/QHeader/Reveal.vue",
+        "examples/QHeader/LookingIOS.vue",
+        "examples/QHeader/AppLike.vue"
+      ]
+    },
+    {
+      "id": "layout/layout",
+      "title": "Layout",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/layout/layout.json",
+      "markdown": "documents/layout/layout.md",
+      "chunks": "chunks/layout/layout.json",
+      "api": [
+        "api/QLayout.json",
+        "api/QLayout.md"
+      ],
+      "examples": [
+        "examples/QLayout/Container.vue",
+        "examples/QLayout/ContainerDialog.vue"
+      ]
+    },
+    {
+      "id": "layout/page",
+      "title": "Layout Page",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/layout/page.json",
+      "markdown": "documents/layout/page.md",
+      "chunks": "chunks/layout/page.json",
+      "api": [
+        "api/QPage.json",
+        "api/QPage.md",
+        "api/QPageContainer.json",
+        "api/QPageContainer.md"
+      ],
+      "examples": [
+        "examples/QPage/Basic.vue"
+      ]
+    },
+    {
+      "id": "layout/page-scroller",
+      "title": "Layout QPageScroller",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/layout/page-scroller.json",
+      "markdown": "documents/layout/page-scroller.md",
+      "chunks": "chunks/layout/page-scroller.json",
+      "api": [
+        "api/QPageScroller.json",
+        "api/QPageScroller.md"
+      ],
+      "examples": [
+        "examples/QPageScroller/Basic.vue",
+        "examples/QPageScroller/Expanded.vue",
+        "examples/QPageScroller/Reverse.vue"
+      ]
+    },
+    {
+      "id": "layout/page-sticky",
+      "title": "Layout QPageSticky",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/layout/page-sticky.json",
+      "markdown": "documents/layout/page-sticky.md",
+      "chunks": "chunks/layout/page-sticky.json",
+      "api": [
+        "api/QPageSticky.json",
+        "api/QPageSticky.md"
+      ],
+      "examples": [
+        "examples/QPageSticky/Basic.vue",
+        "examples/QPageSticky/Expanded.vue"
+      ]
+    },
+    {
+      "id": "options/platform-detection",
+      "title": "Platform Detection",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/options/platform-detection.json",
+      "markdown": "documents/options/platform-detection.md",
+      "chunks": "chunks/options/platform-detection.json",
+      "api": [
+        "api/Platform.json",
+        "api/Platform.md"
+      ],
+      "examples": [
+        "examples/Platform/Basic.vue"
+      ]
+    },
+    {
+      "id": "options/quasar-icon-sets",
+      "title": "Quasar Icon Sets",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/options/quasar-icon-sets.json",
+      "markdown": "documents/options/quasar-icon-sets.md",
+      "chunks": "chunks/options/quasar-icon-sets.json",
+      "api": [
+        "api/IconSet.json",
+        "api/IconSet.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "options/quasar-language-packs",
+      "title": "Quasar Language Packs",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/options/quasar-language-packs.json",
+      "markdown": "documents/options/quasar-language-packs.md",
+      "chunks": "chunks/options/quasar-language-packs.json",
+      "api": [
+        "api/Lang.json",
+        "api/Lang.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "options/screen-plugin",
+      "title": "Screen Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/options/screen-plugin.json",
+      "markdown": "documents/options/screen-plugin.md",
+      "chunks": "chunks/options/screen-plugin.json",
+      "api": [
+        "api/Screen.json",
+        "api/Screen.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "quasar-plugins/addressbar-color",
+      "title": "AddressbarColor Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/addressbar-color.json",
+      "markdown": "documents/quasar-plugins/addressbar-color.md",
+      "chunks": "chunks/quasar-plugins/addressbar-color.json",
+      "api": [
+        "api/AddressbarColor.json",
+        "api/AddressbarColor.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "quasar-plugins/app-fullscreen",
+      "title": "Fullscreen Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/app-fullscreen.json",
+      "markdown": "documents/quasar-plugins/app-fullscreen.md",
+      "chunks": "chunks/quasar-plugins/app-fullscreen.json",
+      "api": [
+        "api/AppFullscreen.json",
+        "api/AppFullscreen.md"
+      ],
+      "examples": [
+        "examples/AppFullscreen/Basic.vue",
+        "examples/AppFullscreen/Targeted.vue"
+      ]
+    },
+    {
+      "id": "quasar-plugins/app-visibility",
+      "title": "App Visibility",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/app-visibility.json",
+      "markdown": "documents/quasar-plugins/app-visibility.md",
+      "chunks": "chunks/quasar-plugins/app-visibility.json",
+      "api": [
+        "api/AppVisibility.json",
+        "api/AppVisibility.md"
+      ],
+      "examples": [
+        "examples/AppVisibility/Basic.vue"
+      ]
+    },
+    {
+      "id": "quasar-plugins/bottom-sheet",
+      "title": "Bottom Sheet Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/bottom-sheet.json",
+      "markdown": "documents/quasar-plugins/bottom-sheet.md",
+      "chunks": "chunks/quasar-plugins/bottom-sheet.json",
+      "api": [
+        "api/BottomSheet.json",
+        "api/BottomSheet.md"
+      ],
+      "examples": [
+        "examples/BottomSheet/Basic.vue",
+        "examples/BottomSheet/Dark.vue"
+      ]
+    },
+    {
+      "id": "quasar-plugins/cookies",
+      "title": "Cookies",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/cookies.json",
+      "markdown": "documents/quasar-plugins/cookies.md",
+      "chunks": "chunks/quasar-plugins/cookies.json",
+      "api": [
+        "api/Cookies.json",
+        "api/Cookies.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "quasar-plugins/dark",
+      "title": "Dark Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/dark.json",
+      "markdown": "documents/quasar-plugins/dark.md",
+      "chunks": "chunks/quasar-plugins/dark.json",
+      "api": [
+        "api/Dark.json",
+        "api/Dark.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "quasar-plugins/dialog",
+      "title": "Dialog Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/dialog.json",
+      "markdown": "documents/quasar-plugins/dialog.md",
+      "chunks": "chunks/quasar-plugins/dialog.json",
+      "api": [
+        "api/Dialog.json",
+        "api/Dialog.md"
+      ],
+      "examples": [
+        "examples/Dialog/Basic.vue",
+        "examples/Dialog/Dark.vue",
+        "examples/Dialog/Pickers.vue",
+        "examples/Dialog/OtherOptions.vue",
+        "examples/Dialog/NativeAttributes.vue",
+        "examples/Dialog/ValidationPrompt.vue",
+        "examples/Dialog/ValidationOptions.vue",
+        "examples/Dialog/Progress.vue",
+        "examples/Dialog/UnsafeHtml.vue"
+      ]
+    },
+    {
+      "id": "quasar-plugins/loading",
+      "title": "Loading Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/loading.json",
+      "markdown": "documents/quasar-plugins/loading.md",
+      "chunks": "chunks/quasar-plugins/loading.json",
+      "api": [
+        "api/Loading.json",
+        "api/Loading.md"
+      ],
+      "examples": [
+        "examples/Loading/Default.vue",
+        "examples/Loading/WithMessage.vue",
+        "examples/Loading/WithBox.vue",
+        "examples/Loading/Customized.vue",
+        "examples/Loading/ShowAndChange.vue",
+        "examples/Loading/WithMessageSanitized.vue",
+        "examples/Loading/MultipleGroups.vue"
+      ]
+    },
+    {
+      "id": "quasar-plugins/loading-bar",
+      "title": "LoadingBar",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/loading-bar.json",
+      "markdown": "documents/quasar-plugins/loading-bar.md",
+      "chunks": "chunks/quasar-plugins/loading-bar.json",
+      "api": [
+        "api/LoadingBar.json",
+        "api/LoadingBar.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "quasar-plugins/meta",
+      "title": "Quasar Meta Plugin",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/meta.json",
+      "markdown": "documents/quasar-plugins/meta.md",
+      "chunks": "chunks/quasar-plugins/meta.json",
+      "api": [
+        "api/Meta.json",
+        "api/Meta.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "quasar-plugins/notify",
+      "title": "Notify",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/notify.json",
+      "markdown": "documents/quasar-plugins/notify.md",
+      "chunks": "chunks/quasar-plugins/notify.json",
+      "api": [
+        "api/Notify.json",
+        "api/Notify.md"
+      ],
+      "examples": [
+        "examples/Notify/Basic.vue",
+        "examples/Notify/Caption.vue",
+        "examples/Notify/Icon.vue",
+        "examples/Notify/Avatar.vue",
+        "examples/Notify/Spinner.vue",
+        "examples/Notify/Actions.vue",
+        "examples/Notify/Multiline.vue",
+        "examples/Notify/Positioning.vue",
+        "examples/Notify/Grouping.vue",
+        "examples/Notify/GroupingCustomBadge.vue",
+        "examples/Notify/TimeoutProgress.vue",
+        "examples/Notify/Updatable.vue",
+        "examples/Notify/PredefinedTypesDefault.vue",
+        "examples/Notify/PredefinedTypesCustom.vue",
+        "examples/Notify/UnsafeHtml.vue"
+      ]
+    },
+    {
+      "id": "quasar-plugins/web-storage",
+      "title": "Local/Session Storage Plugins",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/quasar-plugins/web-storage.json",
+      "markdown": "documents/quasar-plugins/web-storage.md",
+      "chunks": "chunks/quasar-plugins/web-storage.json",
+      "api": [
+        "api/LocalStorage.json",
+        "api/LocalStorage.md",
+        "api/SessionStorage.json",
+        "api/SessionStorage.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "style/color-palette",
+      "title": "Color Palette",
+      "kinds": [
+        "plugin"
+      ],
+      "path": "documents/style/color-palette.json",
+      "markdown": "documents/style/color-palette.md",
+      "chunks": "chunks/style/color-palette.json",
+      "api": [
+        "api/Brand.json",
+        "api/Brand.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "vue-components/ajax-bar",
+      "title": "Ajax Bar",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/ajax-bar.json",
+      "markdown": "documents/vue-components/ajax-bar.md",
+      "chunks": "chunks/vue-components/ajax-bar.json",
+      "api": [
+        "api/QAjaxBar.json",
+        "api/QAjaxBar.md"
+      ],
+      "examples": [
+        "examples/QAjaxBar/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-components/avatar",
+      "title": "Avatar",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/avatar.json",
+      "markdown": "documents/vue-components/avatar.md",
+      "chunks": "chunks/vue-components/avatar.json",
+      "api": [
+        "api/QAvatar.json",
+        "api/QAvatar.md"
+      ],
+      "examples": [
+        "examples/QAvatar/Basic.vue",
+        "examples/QAvatar/StandardSizes.vue",
+        "examples/QAvatar/Square.vue",
+        "examples/QAvatar/Rounded.vue",
+        "examples/QAvatar/Integrated.vue",
+        "examples/QAvatar/Overlapping.vue"
+      ]
+    },
+    {
+      "id": "vue-components/badge",
+      "title": "Badge",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/badge.json",
+      "markdown": "documents/vue-components/badge.md",
+      "chunks": "chunks/vue-components/badge.json",
+      "api": [
+        "api/QBadge.json",
+        "api/QBadge.md"
+      ],
+      "examples": [
+        "examples/QBadge/Basic.vue",
+        "examples/QBadge/Align.vue",
+        "examples/QBadge/Floating.vue",
+        "examples/QBadge/Transparent.vue",
+        "examples/QBadge/Outline.vue",
+        "examples/QBadge/Rounded.vue",
+        "examples/QBadge/Indicators.vue"
+      ]
+    },
+    {
+      "id": "vue-components/banner",
+      "title": "Banner",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/banner.json",
+      "markdown": "documents/vue-components/banner.md",
+      "chunks": "chunks/vue-components/banner.json",
+      "api": [
+        "api/QBanner.json",
+        "api/QBanner.md"
+      ],
+      "examples": [
+        "examples/QBanner/Basic.vue",
+        "examples/QBanner/Rounded.vue",
+        "examples/QBanner/Image.vue",
+        "examples/QBanner/Inline.vue",
+        "examples/QBanner/Dense.vue"
+      ]
+    },
+    {
+      "id": "vue-components/bar",
+      "title": "Bar",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/bar.json",
+      "markdown": "documents/vue-components/bar.md",
+      "chunks": "chunks/vue-components/bar.json",
+      "api": [
+        "api/QBar.json",
+        "api/QBar.md"
+      ],
+      "examples": [
+        "examples/QBar/MacOS.vue",
+        "examples/QBar/Windows.vue",
+        "examples/QBar/iOS.vue",
+        "examples/QBar/Android.vue",
+        "examples/QBar/Menu.vue",
+        "examples/QBar/Dialog.vue",
+        "examples/QBar/Header.vue"
+      ]
+    },
+    {
+      "id": "vue-components/breadcrumbs",
+      "title": "Breadcrumbs",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/breadcrumbs.json",
+      "markdown": "documents/vue-components/breadcrumbs.md",
+      "chunks": "chunks/vue-components/breadcrumbs.json",
+      "api": [
+        "api/QBreadcrumbs.json",
+        "api/QBreadcrumbs.md",
+        "api/QBreadcrumbsEl.json",
+        "api/QBreadcrumbsEl.md"
+      ],
+      "examples": [
+        "examples/QBreadcrumbs/Basic.vue",
+        "examples/QBreadcrumbs/Toolbar.vue",
+        "examples/QBreadcrumbs/Separator.vue",
+        "examples/QBreadcrumbs/Gutters.vue",
+        "examples/QBreadcrumbs/Align.vue",
+        "examples/QBreadcrumbs/RouterLinks.vue",
+        "examples/QBreadcrumbs/LinksWithGo.vue"
+      ]
+    },
+    {
+      "id": "vue-components/button",
+      "title": "Button",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/button.json",
+      "markdown": "documents/vue-components/button.md",
+      "chunks": "chunks/vue-components/button.json",
+      "api": [
+        "api/QBtn.json",
+        "api/QBtn.md"
+      ],
+      "examples": [
+        "examples/QBtn/Standard.vue",
+        "examples/QBtn/CustomColor.vue",
+        "examples/QBtn/WithIcons.vue",
+        "examples/QBtn/Round.vue",
+        "examples/QBtn/Square.vue",
+        "examples/QBtn/CustomContent.vue",
+        "examples/QBtn/TruncateLabel.vue",
+        "examples/QBtn/ButtonDesign.vue",
+        "examples/QBtn/ButtonAlignment.vue",
+        "examples/QBtn/ButtonSize.vue",
+        "examples/QBtn/ButtonPadding.vue",
+        "examples/QBtn/IndeterminateProgress.vue",
+        "examples/QBtn/DeterministicProgress.vue",
+        "examples/QBtn/CustomRipple.vue",
+        "examples/QBtn/Links.vue",
+        "examples/QBtn/LinksWithGo.vue",
+        "examples/QBtn/RouterLinkExample.vue",
+        "examples/QBtn/OtherOptions.vue",
+        "examples/QBtn/Disabled.vue",
+        "examples/QBtn/FormSubmission.vue"
+      ]
+    },
+    {
+      "id": "vue-components/button-dropdown",
+      "title": "Dropdown Button",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/button-dropdown.json",
+      "markdown": "documents/vue-components/button-dropdown.md",
+      "chunks": "chunks/vue-components/button-dropdown.json",
+      "api": [
+        "api/QBtnDropdown.json",
+        "api/QBtnDropdown.md"
+      ],
+      "examples": [
+        "examples/QBtnDropdown/Basic.vue",
+        "examples/QBtnDropdown/VariousContent.vue",
+        "examples/QBtnDropdown/Split.vue",
+        "examples/QBtnDropdown/CustomButton.vue",
+        "examples/QBtnDropdown/CustomDropdownIcon.vue",
+        "examples/QBtnDropdown/LabelSlot.vue",
+        "examples/QBtnDropdown/Model.vue",
+        "examples/QBtnDropdown/Disable.vue",
+        "examples/QBtnDropdown/Link.vue"
+      ]
+    },
+    {
+      "id": "vue-components/button-group",
+      "title": "Button Group",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/button-group.json",
+      "markdown": "documents/vue-components/button-group.md",
+      "chunks": "chunks/vue-components/button-group.json",
+      "api": [
+        "api/QBtnGroup.json",
+        "api/QBtnGroup.md"
+      ],
+      "examples": [
+        "examples/QBtnGroup/Group.vue",
+        "examples/QBtnGroup/GroupSpread.vue",
+        "examples/QBtnGroup/WithDropdown.vue"
+      ]
+    },
+    {
+      "id": "vue-components/button-toggle",
+      "title": "Button Toggle",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/button-toggle.json",
+      "markdown": "documents/vue-components/button-toggle.md",
+      "chunks": "chunks/vue-components/button-toggle.json",
+      "api": [
+        "api/QBtnToggle.json",
+        "api/QBtnToggle.md"
+      ],
+      "examples": [
+        "examples/QBtnToggle/Basic.vue",
+        "examples/QBtnToggle/Design.vue",
+        "examples/QBtnToggle/Spread.vue",
+        "examples/QBtnToggle/CustomContent.vue",
+        "examples/QBtnToggle/DisableReadonly.vue",
+        "examples/QBtnToggle/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/card",
+      "title": "Card",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/card.json",
+      "markdown": "documents/vue-components/card.md",
+      "chunks": "chunks/vue-components/card.json",
+      "api": [
+        "api/QCard.json",
+        "api/QCard.md",
+        "api/QCardActions.json",
+        "api/QCardActions.md",
+        "api/QCardSection.json",
+        "api/QCardSection.md"
+      ],
+      "examples": [
+        "examples/QCard/Basic.vue",
+        "examples/QCard/Actions.vue",
+        "examples/QCard/ActionsAlignment.vue",
+        "examples/QCard/Media.vue",
+        "examples/QCard/Video.vue",
+        "examples/QCard/Parallax.vue",
+        "examples/QCard/HorizontalBasic.vue",
+        "examples/QCard/HorizontalMoreInvolved.vue",
+        "examples/QCard/VariousContent.vue",
+        "examples/QCard/Table.vue",
+        "examples/QCard/Tabs.vue",
+        "examples/QCard/Expandable.vue"
+      ]
+    },
+    {
+      "id": "vue-components/carousel",
+      "title": "Carousel",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/carousel.json",
+      "markdown": "documents/vue-components/carousel.md",
+      "chunks": "chunks/vue-components/carousel.json",
+      "api": [
+        "api/QCarousel.json",
+        "api/QCarousel.md",
+        "api/QCarouselControl.json",
+        "api/QCarouselControl.md",
+        "api/QCarouselSlide.json",
+        "api/QCarouselSlide.md"
+      ],
+      "examples": [
+        "examples/QCarousel/Basic.vue",
+        "examples/QCarousel/Transitions.vue",
+        "examples/QCarousel/Vertical.vue",
+        "examples/QCarousel/ControlType.vue",
+        "examples/QCarousel/NavigationPosition.vue",
+        "examples/QCarousel/CustomNavigation.vue",
+        "examples/QCarousel/AutoPadding.vue",
+        "examples/QCarousel/ImageSlides.vue",
+        "examples/QCarousel/MultiImageSlides.vue",
+        "examples/QCarousel/Captions.vue",
+        "examples/QCarousel/VideoSlides.vue",
+        "examples/QCarousel/Thumbnails.vue",
+        "examples/QCarousel/InfiniteAutoplay.vue",
+        "examples/QCarousel/Controls.vue",
+        "examples/QCarousel/WithScrollareaPadding.vue",
+        "examples/QCarousel/WithScrollareaFull.vue",
+        "examples/QCarousel/Fullscreen.vue"
+      ]
+    },
+    {
+      "id": "vue-components/chat",
+      "title": "Chat Message",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/chat.json",
+      "markdown": "documents/vue-components/chat.md",
+      "chunks": "chunks/vue-components/chat.json",
+      "api": [
+        "api/QChatMessage.json",
+        "api/QChatMessage.md"
+      ],
+      "examples": [
+        "examples/QChatMessage/Basic.vue",
+        "examples/QChatMessage/Name.vue",
+        "examples/QChatMessage/Avatar.vue",
+        "examples/QChatMessage/Stamp.vue",
+        "examples/QChatMessage/Label.vue",
+        "examples/QChatMessage/Color.vue",
+        "examples/QChatMessage/Size.vue",
+        "examples/QChatMessage/SlotDefault.vue",
+        "examples/QChatMessage/SlotAvatarStampName.vue",
+        "examples/QChatMessage/Sanitize.vue"
+      ]
+    },
+    {
+      "id": "vue-components/checkbox",
+      "title": "Checkbox",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/checkbox.json",
+      "markdown": "documents/vue-components/checkbox.md",
+      "chunks": "chunks/vue-components/checkbox.json",
+      "api": [
+        "api/QCheckbox.json",
+        "api/QCheckbox.md"
+      ],
+      "examples": [
+        "examples/QCheckbox/Standard.vue",
+        "examples/QCheckbox/WithIcons.vue",
+        "examples/QCheckbox/Label.vue",
+        "examples/QCheckbox/Coloring.vue",
+        "examples/QCheckbox/Dense.vue",
+        "examples/QCheckbox/OnDarkBackground.vue",
+        "examples/QCheckbox/StandardSizes.vue",
+        "examples/QCheckbox/IndeterminateState.vue",
+        "examples/QCheckbox/ToggleOrder.vue",
+        "examples/QCheckbox/ArrayAsModel.vue",
+        "examples/QCheckbox/CustomModel.vue",
+        "examples/QCheckbox/OptionGroup.vue",
+        "examples/QCheckbox/InaList.vue",
+        "examples/QCheckbox/Disable.vue",
+        "examples/QCheckbox/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/chip",
+      "title": "Chip",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/chip.json",
+      "markdown": "documents/vue-components/chip.md",
+      "chunks": "chunks/vue-components/chip.json",
+      "api": [
+        "api/QChip.json",
+        "api/QChip.md"
+      ],
+      "examples": [
+        "examples/QChip/Basic.vue",
+        "examples/QChip/Dense.vue",
+        "examples/QChip/Sizes.vue",
+        "examples/QChip/Square.vue",
+        "examples/QChip/Outline.vue",
+        "examples/QChip/Clickable.vue",
+        "examples/QChip/Selected.vue",
+        "examples/QChip/Removable.vue",
+        "examples/QChip/LongLabel.vue"
+      ]
+    },
+    {
+      "id": "vue-components/circular-progress",
+      "title": "Circular Progress",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/circular-progress.json",
+      "markdown": "documents/vue-components/circular-progress.md",
+      "chunks": "chunks/vue-components/circular-progress.json",
+      "api": [
+        "api/QCircularProgress.json",
+        "api/QCircularProgress.md"
+      ],
+      "examples": [
+        "examples/QCircularProgress/Determined.vue",
+        "examples/QCircularProgress/Reverse.vue",
+        "examples/QCircularProgress/Angle.vue",
+        "examples/QCircularProgress/CustomMinMax.vue",
+        "examples/QCircularProgress/ShowValue.vue",
+        "examples/QCircularProgress/Indeterminate.vue",
+        "examples/QCircularProgress/RoundedStyle.vue",
+        "examples/QCircularProgress/StandardSizes.vue"
+      ]
+    },
+    {
+      "id": "vue-components/color-picker",
+      "title": "Color Picker",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/color-picker.json",
+      "markdown": "documents/vue-components/color-picker.md",
+      "chunks": "chunks/vue-components/color-picker.json",
+      "api": [
+        "api/QColor.json",
+        "api/QColor.md"
+      ],
+      "examples": [
+        "examples/QColor/Basic.vue",
+        "examples/QColor/Input.vue",
+        "examples/QColor/NoHeaderFooter.vue",
+        "examples/QColor/CustomDefaultView.vue",
+        "examples/QColor/CustomPalette.vue",
+        "examples/QColor/Dark.vue",
+        "examples/QColor/DefaultValue.vue",
+        "examples/QColor/LazyModel.vue",
+        "examples/QColor/DisableReadonly.vue",
+        "examples/QColor/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/date",
+      "title": "QDate",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/date.json",
+      "markdown": "documents/vue-components/date.md",
+      "chunks": "chunks/vue-components/date.json",
+      "api": [
+        "api/QDate.json",
+        "api/QDate.md"
+      ],
+      "examples": [
+        "examples/QDate/Basic.vue",
+        "examples/QDate/Landscape.vue",
+        "examples/QDate/SelectionMultiple.vue",
+        "examples/QDate/SelectionRange.vue",
+        "examples/QDate/SelectionRangeMultiple.vue",
+        "examples/QDate/CustomTitleSubtitle.vue",
+        "examples/QDate/DefaultYearMonth.vue",
+        "examples/QDate/DefaultView.vue",
+        "examples/QDate/FirstDayOfWeek.vue",
+        "examples/QDate/TodayBtn.vue",
+        "examples/QDate/DisableReadonly.vue",
+        "examples/QDate/MaskSimple.vue",
+        "examples/QDate/MaskEscape.vue",
+        "examples/QDate/MaskDateTime.vue",
+        "examples/QDate/CustomLocale.vue",
+        "examples/QDate/Color.vue",
+        "examples/QDate/Dark.vue",
+        "examples/QDate/Events.vue",
+        "examples/QDate/EventColor.vue",
+        "examples/QDate/Options.vue",
+        "examples/QDate/NavigationBoundaries.vue",
+        "examples/QDate/AdditionalButtons.vue",
+        "examples/QDate/Splitter.vue",
+        "examples/QDate/Input.vue",
+        "examples/QDate/InputFull.vue",
+        "examples/QDate/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/dialog",
+      "title": "Dialog",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/dialog.json",
+      "markdown": "documents/vue-components/dialog.md",
+      "chunks": "chunks/vue-components/dialog.json",
+      "api": [
+        "api/QDialog.json",
+        "api/QDialog.md"
+      ],
+      "examples": [
+        "examples/QDialog/Basic.vue",
+        "examples/QDialog/Style.vue",
+        "examples/QDialog/BackdropFilter.vue",
+        "examples/QDialog/Positioning.vue",
+        "examples/QDialog/Maximized.vue",
+        "examples/QDialog/VariousContent.vue",
+        "examples/QDialog/Layout.vue",
+        "examples/QDialog/Scrollable.vue",
+        "examples/QDialog/Persistent.vue",
+        "examples/QDialog/Seamless.vue",
+        "examples/QDialog/Inception.vue",
+        "examples/QDialog/Sizing.vue"
+      ]
+    },
+    {
+      "id": "vue-components/editor",
+      "title": "Editor (WYSIWYG)",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/editor.json",
+      "markdown": "documents/vue-components/editor.md",
+      "chunks": "chunks/vue-components/editor.json",
+      "api": [
+        "api/QEditor.json",
+        "api/QEditor.md"
+      ],
+      "examples": [
+        "examples/QEditor/Basic.vue",
+        "examples/QEditor/NewBold.vue",
+        "examples/QEditor/NewCommands.vue",
+        "examples/QEditor/KitchenSink.vue",
+        "examples/QEditor/Custom.vue",
+        "examples/QEditor/ToolbarSlot.vue",
+        "examples/QEditor/Pasting.vue"
+      ]
+    },
+    {
+      "id": "vue-components/expansion-item",
+      "title": "Expansion Item",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/expansion-item.json",
+      "markdown": "documents/vue-components/expansion-item.md",
+      "chunks": "chunks/vue-components/expansion-item.json",
+      "api": [
+        "api/QExpansionItem.json",
+        "api/QExpansionItem.md"
+      ],
+      "examples": [
+        "examples/QExpansionItem/Basic.vue",
+        "examples/QExpansionItem/ControlExpansionState.vue",
+        "examples/QExpansionItem/Dense.vue",
+        "examples/QExpansionItem/Dark.vue",
+        "examples/QExpansionItem/SwitchToggleSide.vue",
+        "examples/QExpansionItem/HeaderSlot.vue",
+        "examples/QExpansionItem/HandlingEvents.vue",
+        "examples/QExpansionItem/InsetLevels.vue",
+        "examples/QExpansionItem/IconToggle.vue",
+        "examples/QExpansionItem/Accordion.vue",
+        "examples/QExpansionItem/Popup.vue"
+      ]
+    },
+    {
+      "id": "vue-components/field",
+      "title": "Field",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/field.json",
+      "markdown": "documents/vue-components/field.md",
+      "chunks": "chunks/vue-components/field.json",
+      "api": [
+        "api/QField.json",
+        "api/QField.md"
+      ],
+      "examples": [
+        "examples/QField/DesignOverview.vue",
+        "examples/QField/Coloring.vue",
+        "examples/QField/DesignStandard.vue",
+        "examples/QField/DesignFilled.vue",
+        "examples/QField/DesignOutlined.vue",
+        "examples/QField/DesignStandout.vue",
+        "examples/QField/StandoutToolbar.vue",
+        "examples/QField/Borderless.vue",
+        "examples/QField/Rounded.vue",
+        "examples/QField/SquareBorders.vue",
+        "examples/QField/Dark.vue",
+        "examples/QField/Clearable.vue",
+        "examples/QField/ControlTypes.vue",
+        "examples/QField/PrefixSuffix.vue",
+        "examples/QField/CustomLabel.vue",
+        "examples/QField/LoadingState.vue",
+        "examples/QField/ValidationRequired.vue",
+        "examples/QField/ValidationMaxValue.vue",
+        "examples/QField/ValidationLazy.vue",
+        "examples/QField/ValidationAsync.vue",
+        "examples/QField/ValidationExternal.vue",
+        "examples/QField/ValidationSlots.vue"
+      ]
+    },
+    {
+      "id": "vue-components/file",
+      "title": "File Picker",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/file.json",
+      "markdown": "documents/vue-components/file.md",
+      "chunks": "chunks/vue-components/file.json",
+      "api": [
+        "api/QFile.json",
+        "api/QFile.md"
+      ],
+      "examples": [
+        "examples/QFile/DesignOverview.vue",
+        "examples/QFile/Decorators.vue",
+        "examples/QFile/Coloring.vue",
+        "examples/QFile/Clearable.vue",
+        "examples/QFile/DisableReadonly.vue",
+        "examples/QFile/BasicSingle.vue",
+        "examples/QFile/BasicMultiple.vue",
+        "examples/QFile/AppendingFiles.vue",
+        "examples/QFile/CounterBasic.vue",
+        "examples/QFile/CounterLabel.vue",
+        "examples/QFile/WithChips.vue",
+        "examples/QFile/WithProgress.vue",
+        "examples/QFile/RestrictionBasic.vue",
+        "examples/QFile/RestrictionFilter.vue",
+        "examples/QFile/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/floating-action-button",
+      "title": "Floating Action Button",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/floating-action-button.json",
+      "markdown": "documents/vue-components/floating-action-button.md",
+      "chunks": "chunks/vue-components/floating-action-button.json",
+      "api": [
+        "api/QFab.json",
+        "api/QFab.md",
+        "api/QFabAction.json",
+        "api/QFabAction.md"
+      ],
+      "examples": [
+        "examples/QFab/NonExpandable.vue",
+        "examples/QFab/Expandable.vue",
+        "examples/QFab/InternalLabel.vue",
+        "examples/QFab/InternalLabelToggling.vue",
+        "examples/QFab/VerticalActionsAlignment.vue",
+        "examples/QFab/ExternalLabel.vue",
+        "examples/QFab/ExternalLabelStyled.vue",
+        "examples/QFab/ExternalLabelToggling.vue",
+        "examples/QFab/HideIcon.vue",
+        "examples/QFab/Padding.vue",
+        "examples/QFab/SquareStyle.vue",
+        "examples/QFab/FabSlots.vue",
+        "examples/QFab/PageSticky.vue",
+        "examples/QFab/Draggable.vue"
+      ]
+    },
+    {
+      "id": "vue-components/form",
+      "title": "Form",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/form.json",
+      "markdown": "documents/vue-components/form.md",
+      "chunks": "chunks/vue-components/form.json",
+      "api": [
+        "api/QForm.json",
+        "api/QForm.md",
+        "api/QFormChildMixin.json",
+        "api/QFormChildMixin.md"
+      ],
+      "examples": [
+        "examples/QForm/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-components/icon",
+      "title": "Icon",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/icon.json",
+      "markdown": "documents/vue-components/icon.md",
+      "chunks": "chunks/vue-components/icon.json",
+      "api": [
+        "api/QIcon.json",
+        "api/QIcon.md"
+      ],
+      "examples": [
+        "examples/QIcon/Basic.vue",
+        "examples/QIcon/StandardSizes.vue",
+        "examples/QIcon/DynamicSvg.vue"
+      ]
+    },
+    {
+      "id": "vue-components/img",
+      "title": "QImg",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/img.json",
+      "markdown": "documents/vue-components/img.md",
+      "chunks": "chunks/vue-components/img.json",
+      "api": [
+        "api/QImg.json",
+        "api/QImg.md"
+      ],
+      "examples": [
+        "examples/QImg/Basic.vue",
+        "examples/QImg/Ratio.vue",
+        "examples/QImg/Caption.vue",
+        "examples/QImg/CustomImageStyle.vue",
+        "examples/QImg/FitModes.vue",
+        "examples/QImg/LoadingState.vue",
+        "examples/QImg/PlaceholderSrc.vue",
+        "examples/QImg/ErrorState.vue",
+        "examples/QImg/Responsive.vue",
+        "examples/QImg/LoadingLazy.vue",
+        "examples/QImg/ContextMenu.vue"
+      ]
+    },
+    {
+      "id": "vue-components/infinite-scroll",
+      "title": "Infinite Scroll",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/infinite-scroll.json",
+      "markdown": "documents/vue-components/infinite-scroll.md",
+      "chunks": "chunks/vue-components/infinite-scroll.json",
+      "api": [
+        "api/QInfiniteScroll.json",
+        "api/QInfiniteScroll.md"
+      ],
+      "examples": [
+        "examples/QInfiniteScroll/Basic.vue",
+        "examples/QInfiniteScroll/Container.vue",
+        "examples/QInfiniteScroll/Reverse.vue",
+        "examples/QInfiniteScroll/Menu.vue"
+      ]
+    },
+    {
+      "id": "vue-components/inner-loading",
+      "title": "Inner Loading",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/inner-loading.json",
+      "markdown": "documents/vue-components/inner-loading.md",
+      "chunks": "chunks/vue-components/inner-loading.json",
+      "api": [
+        "api/QInnerLoading.json",
+        "api/QInnerLoading.md"
+      ],
+      "examples": [
+        "examples/QInnerLoading/Basic.vue",
+        "examples/QInnerLoading/LabelProp.vue"
+      ]
+    },
+    {
+      "id": "vue-components/input",
+      "title": "Input",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/input.json",
+      "markdown": "documents/vue-components/input.md",
+      "chunks": "chunks/vue-components/input.json",
+      "api": [
+        "api/QInput.json",
+        "api/QInput.md"
+      ],
+      "examples": [
+        "examples/QInput/DesignOverview.vue",
+        "examples/QInput/Coloring.vue",
+        "examples/QInput/DesignStandard.vue",
+        "examples/QInput/DesignFilled.vue",
+        "examples/QInput/DesignOutlined.vue",
+        "examples/QInput/DesignStandout.vue",
+        "examples/QInput/StandoutToolbar.vue",
+        "examples/QInput/Borderless.vue",
+        "examples/QInput/Rounded.vue",
+        "examples/QInput/SquareBorders.vue",
+        "examples/QInput/Dark.vue",
+        "examples/QInput/Clearable.vue",
+        "examples/QInput/InputTypes.vue",
+        "examples/QInput/InputTypeNumber.vue",
+        "examples/QInput/InputTypeFile.vue",
+        "examples/QInput/Textarea.vue",
+        "examples/QInput/Autogrow.vue",
+        "examples/QInput/PrefixSuffix.vue",
+        "examples/QInput/CustomLabel.vue",
+        "examples/QInput/ShadowText.vue",
+        "examples/QInput/Debouncing.vue",
+        "examples/QInput/LoadingState.vue",
+        "examples/QInput/MaskBasic.vue",
+        "examples/QInput/MaskFill.vue",
+        "examples/QInput/MaskUnmaskedModel.vue",
+        "examples/QInput/MaskFillReverse.vue",
+        "examples/QInput/MaskCustomTokens.vue",
+        "examples/QInput/ValidationRequired.vue",
+        "examples/QInput/ValidationMaxLength.vue",
+        "examples/QInput/ValidationLazy.vue",
+        "examples/QInput/ValidationForm.vue",
+        "examples/QInput/ValidationAsync.vue",
+        "examples/QInput/ValidationExternal.vue",
+        "examples/QInput/ValidationSlots.vue",
+        "examples/QInput/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/intersection",
+      "title": "Intersection",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/intersection.json",
+      "markdown": "documents/vue-components/intersection.md",
+      "chunks": "chunks/vue-components/intersection.json",
+      "api": [
+        "api/QIntersection.json",
+        "api/QIntersection.md"
+      ],
+      "examples": [
+        "examples/QIntersection/Basic.vue",
+        "examples/QIntersection/Transition.vue",
+        "examples/QIntersection/List.vue",
+        "examples/QIntersection/Once.vue",
+        "examples/QIntersection/Root.vue"
+      ]
+    },
+    {
+      "id": "vue-components/knob",
+      "title": "Knob",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/knob.json",
+      "markdown": "documents/vue-components/knob.md",
+      "chunks": "chunks/vue-components/knob.json",
+      "api": [
+        "api/QKnob.json",
+        "api/QKnob.md"
+      ],
+      "examples": [
+        "examples/QKnob/Basic.vue",
+        "examples/QKnob/ShowValue.vue",
+        "examples/QKnob/MinMax.vue",
+        "examples/QKnob/InnerMinMax.vue",
+        "examples/QKnob/Step.vue",
+        "examples/QKnob/Angle.vue",
+        "examples/QKnob/DisableReadonly.vue",
+        "examples/QKnob/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/linear-progress",
+      "title": "Linear Progress",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/linear-progress.json",
+      "markdown": "documents/vue-components/linear-progress.md",
+      "chunks": "chunks/vue-components/linear-progress.json",
+      "api": [
+        "api/QLinearProgress.json",
+        "api/QLinearProgress.md"
+      ],
+      "examples": [
+        "examples/QLinearProgress/Determinate.vue",
+        "examples/QLinearProgress/Indeterminate.vue",
+        "examples/QLinearProgress/Query.vue",
+        "examples/QLinearProgress/Reverse.vue",
+        "examples/QLinearProgress/CustomHeight.vue",
+        "examples/QLinearProgress/StandardSizes.vue",
+        "examples/QLinearProgress/Stripe.vue",
+        "examples/QLinearProgress/OnDarkBackground.vue",
+        "examples/QLinearProgress/Buffering.vue",
+        "examples/QLinearProgress/Label.vue"
+      ]
+    },
+    {
+      "id": "vue-components/list-and-list-items",
+      "title": "List and List Items",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/list-and-list-items.json",
+      "markdown": "documents/vue-components/list-and-list-items.md",
+      "chunks": "chunks/vue-components/list-and-list-items.json",
+      "api": [
+        "api/QItem.json",
+        "api/QItem.md",
+        "api/QItemLabel.json",
+        "api/QItemLabel.md",
+        "api/QItemSection.json",
+        "api/QItemSection.md",
+        "api/QList.json",
+        "api/QList.md"
+      ],
+      "examples": [
+        "examples/QItem/Basic.vue",
+        "examples/QItem/Dark.vue",
+        "examples/QItem/Dense.vue",
+        "examples/QItem/AvatarLeft.vue",
+        "examples/QItem/AvatarRight.vue",
+        "examples/QItem/SideSection.vue",
+        "examples/QItem/ActiveState.vue",
+        "examples/QItem/ItemLabel.vue",
+        "examples/QItem/ExampleContacts.vue",
+        "examples/QItem/ExampleSettings.vue",
+        "examples/QItem/ExampleEmails.vue",
+        "examples/QItem/ExampleFolders.vue",
+        "examples/QItem/ExampleMenu.vue",
+        "examples/QItem/LinksWithGo.vue"
+      ]
+    },
+    {
+      "id": "vue-components/markup-table",
+      "title": "Markup Table",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/markup-table.json",
+      "markdown": "documents/vue-components/markup-table.md",
+      "chunks": "chunks/vue-components/markup-table.json",
+      "api": [
+        "api/QMarkupTable.json",
+        "api/QMarkupTable.md"
+      ],
+      "examples": [
+        "examples/QMarkupTable/Basic.vue",
+        "examples/QMarkupTable/Separators.vue",
+        "examples/QMarkupTable/Dark.vue",
+        "examples/QMarkupTable/Customization.vue"
+      ]
+    },
+    {
+      "id": "vue-components/menu",
+      "title": "QMenu",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/menu.json",
+      "markdown": "documents/vue-components/menu.md",
+      "chunks": "chunks/vue-components/menu.json",
+      "api": [
+        "api/QMenu.json",
+        "api/QMenu.md"
+      ],
+      "examples": [
+        "examples/QMenu/Basic.vue",
+        "examples/QMenu/VariousContent.vue",
+        "examples/QMenu/VModel.vue",
+        "examples/QMenu/MenuInMenu.vue",
+        "examples/QMenu/Sizing.vue",
+        "examples/QMenu/Style.vue",
+        "examples/QMenu/ContextMenu.vue",
+        "examples/QMenu/Persistent.vue",
+        "examples/QMenu/Transitions.vue",
+        "examples/QMenu/Target.vue",
+        "examples/QMenu/Positions.vue"
+      ]
+    },
+    {
+      "id": "vue-components/no-ssr",
+      "title": "No SSR",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/no-ssr.json",
+      "markdown": "documents/vue-components/no-ssr.md",
+      "chunks": "chunks/vue-components/no-ssr.json",
+      "api": [
+        "api/QNoSsr.json",
+        "api/QNoSsr.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "vue-components/option-group",
+      "title": "Option Group",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/option-group.json",
+      "markdown": "documents/vue-components/option-group.md",
+      "chunks": "chunks/vue-components/option-group.json",
+      "api": [
+        "api/QOptionGroup.json",
+        "api/QOptionGroup.md"
+      ],
+      "examples": [
+        "examples/QOptionGroup/Standard.vue",
+        "examples/QOptionGroup/Checkbox.vue",
+        "examples/QOptionGroup/Toggle.vue",
+        "examples/QOptionGroup/LabelSlots.vue",
+        "examples/QOptionGroup/Label.vue",
+        "examples/QOptionGroup/Inline.vue",
+        "examples/QOptionGroup/DenseInline.vue",
+        "examples/QOptionGroup/Disable.vue",
+        "examples/QOptionGroup/DisableCertainOptions.vue",
+        "examples/QOptionGroup/CustomOptionProps.vue",
+        "examples/QOptionGroup/Dark.vue",
+        "examples/QOptionGroup/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/pagination",
+      "title": "Pagination",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/pagination.json",
+      "markdown": "documents/vue-components/pagination.md",
+      "chunks": "chunks/vue-components/pagination.json",
+      "api": [
+        "api/QPagination.json",
+        "api/QPagination.md"
+      ],
+      "examples": [
+        "examples/QPagination/Standard.vue",
+        "examples/QPagination/BtnDesign.vue",
+        "examples/QPagination/BtnGutter.vue",
+        "examples/QPagination/Icons.vue",
+        "examples/QPagination/Input.vue",
+        "examples/QPagination/InputColor.vue",
+        "examples/QPagination/MaxPages.vue",
+        "examples/QPagination/Ellipses.vue",
+        "examples/QPagination/BoundaryNumbers.vue",
+        "examples/QPagination/BoundaryLinks.vue",
+        "examples/QPagination/DirectionLinks.vue"
+      ]
+    },
+    {
+      "id": "vue-components/parallax",
+      "title": "Parallax",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/parallax.json",
+      "markdown": "documents/vue-components/parallax.md",
+      "chunks": "chunks/vue-components/parallax.json",
+      "api": [
+        "api/QParallax.json",
+        "api/QParallax.md"
+      ],
+      "examples": [
+        "examples/QParallax/Image.vue",
+        "examples/QParallax/Video.vue",
+        "examples/QParallax/Speed.vue",
+        "examples/QParallax/ScopedSlot.vue"
+      ]
+    },
+    {
+      "id": "vue-components/popup-edit",
+      "title": "Popup Edit",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/popup-edit.json",
+      "markdown": "documents/vue-components/popup-edit.md",
+      "chunks": "chunks/vue-components/popup-edit.json",
+      "api": [
+        "api/QPopupEdit.json",
+        "api/QPopupEdit.md"
+      ],
+      "examples": [
+        "examples/QPopupEdit/Standalone.vue",
+        "examples/QPopupEdit/WithTable.vue",
+        "examples/QPopupEdit/Customizing.vue",
+        "examples/QPopupEdit/WithButtons.vue",
+        "examples/QPopupEdit/DefaultSlotParameters.vue",
+        "examples/QPopupEdit/TextArea.vue",
+        "examples/QPopupEdit/PopupWithEditor.vue",
+        "examples/QPopupEdit/WithValidation.vue"
+      ]
+    },
+    {
+      "id": "vue-components/popup-proxy",
+      "title": "Popup Proxy",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/popup-proxy.json",
+      "markdown": "documents/vue-components/popup-proxy.md",
+      "chunks": "chunks/vue-components/popup-proxy.json",
+      "api": [
+        "api/QPopupProxy.json",
+        "api/QPopupProxy.md"
+      ],
+      "examples": [
+        "examples/QPopupProxy/Standard.vue",
+        "examples/QPopupProxy/ContextMenu.vue",
+        "examples/QPopupProxy/Breakpoint.vue",
+        "examples/QPopupProxy/Passthrough.vue"
+      ]
+    },
+    {
+      "id": "vue-components/pull-to-refresh",
+      "title": "Pull to refresh",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/pull-to-refresh.json",
+      "markdown": "documents/vue-components/pull-to-refresh.md",
+      "chunks": "chunks/vue-components/pull-to-refresh.json",
+      "api": [
+        "api/QPullToRefresh.json",
+        "api/QPullToRefresh.md"
+      ],
+      "examples": [
+        "examples/QPullToRefresh/Basic.vue",
+        "examples/QPullToRefresh/Icon.vue",
+        "examples/QPullToRefresh/CustomColoring.vue"
+      ]
+    },
+    {
+      "id": "vue-components/radio",
+      "title": "Radio",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/radio.json",
+      "markdown": "documents/vue-components/radio.md",
+      "chunks": "chunks/vue-components/radio.json",
+      "api": [
+        "api/QRadio.json",
+        "api/QRadio.md"
+      ],
+      "examples": [
+        "examples/QRadio/Standard.vue",
+        "examples/QRadio/WithIcons.vue",
+        "examples/QRadio/Dense.vue",
+        "examples/QRadio/Coloring.vue",
+        "examples/QRadio/OnDarkBackground.vue",
+        "examples/QRadio/Disable.vue",
+        "examples/QRadio/LabelPosition.vue",
+        "examples/QRadio/StandardSizes.vue",
+        "examples/QRadio/OptionGroup.vue",
+        "examples/QRadio/InaList.vue",
+        "examples/QRadio/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/range",
+      "title": "Range",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/range.json",
+      "markdown": "documents/vue-components/range.md",
+      "chunks": "chunks/vue-components/range.json",
+      "api": [
+        "api/QRange.json",
+        "api/QRange.md"
+      ],
+      "examples": [
+        "examples/QRange/Standard.vue",
+        "examples/QRange/Vertical.vue",
+        "examples/QRange/InnerMinMax.vue",
+        "examples/QRange/Step.vue",
+        "examples/QRange/FloatingPoint.vue",
+        "examples/QRange/Snap.vue",
+        "examples/QRange/Label.vue",
+        "examples/QRange/LabelAlways.vue",
+        "examples/QRange/LabelValue.vue",
+        "examples/QRange/LabelLong.vue",
+        "examples/QRange/Markers.vue",
+        "examples/QRange/MarkerLabels.vue",
+        "examples/QRange/MarkerLabelSlots.vue",
+        "examples/QRange/RangeColoring.vue",
+        "examples/QRange/NoSelection.vue",
+        "examples/QRange/TrackImages.vue",
+        "examples/QRange/RangeSizes.vue",
+        "examples/QRange/Drag.vue",
+        "examples/QRange/DragSnap.vue",
+        "examples/QRange/DragOnly.vue",
+        "examples/QRange/Lazy.vue",
+        "examples/QRange/Null.vue",
+        "examples/QRange/Reverse.vue",
+        "examples/QRange/Dark.vue",
+        "examples/QRange/Readonly.vue",
+        "examples/QRange/Disable.vue",
+        "examples/QRange/List.vue",
+        "examples/QRange/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/rating",
+      "title": "Rating",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/rating.json",
+      "markdown": "documents/vue-components/rating.md",
+      "chunks": "chunks/vue-components/rating.json",
+      "api": [
+        "api/QRating.json",
+        "api/QRating.md"
+      ],
+      "examples": [
+        "examples/QRating/Basic.vue",
+        "examples/QRating/Max.vue",
+        "examples/QRating/Images.vue",
+        "examples/QRating/SelectedIcon.vue",
+        "examples/QRating/ArrayIcon.vue",
+        "examples/QRating/Colors.vue",
+        "examples/QRating/HalfSelected.vue",
+        "examples/QRating/NoDimming.vue",
+        "examples/QRating/SlotTip.vue",
+        "examples/QRating/StandardSizes.vue",
+        "examples/QRating/ReadonlyDisable.vue",
+        "examples/QRating/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/resize-observer",
+      "title": "Resize Observer (for Element)",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/resize-observer.json",
+      "markdown": "documents/vue-components/resize-observer.md",
+      "chunks": "chunks/vue-components/resize-observer.json",
+      "api": [
+        "api/QResizeObserver.json",
+        "api/QResizeObserver.md"
+      ],
+      "examples": [
+        "examples/QResizeObserver/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-components/responsive",
+      "title": "Responsive",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/responsive.json",
+      "markdown": "documents/vue-components/responsive.md",
+      "chunks": "chunks/vue-components/responsive.json",
+      "api": [
+        "api/QResponsive.json",
+        "api/QResponsive.md"
+      ],
+      "examples": [
+        "examples/QResponsive/Basic.vue",
+        "examples/QResponsive/FlexRow.vue",
+        "examples/QResponsive/Card.vue",
+        "examples/QResponsive/CardSection.vue",
+        "examples/QResponsive/Table.vue",
+        "examples/QResponsive/Carousel.vue",
+        "examples/QResponsive/MaxHeight.vue"
+      ]
+    },
+    {
+      "id": "vue-components/scroll-area",
+      "title": "Scroll Area",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/scroll-area.json",
+      "markdown": "documents/vue-components/scroll-area.md",
+      "chunks": "chunks/vue-components/scroll-area.json",
+      "api": [
+        "api/QScrollArea.json",
+        "api/QScrollArea.md"
+      ],
+      "examples": [
+        "examples/QScrollArea/Vertical.vue",
+        "examples/QScrollArea/Horizontal.vue",
+        "examples/QScrollArea/VertHoriz.vue",
+        "examples/QScrollArea/StyledBar.vue",
+        "examples/QScrollArea/Styled.vue",
+        "examples/QScrollArea/Dark.vue",
+        "examples/QScrollArea/ScrollbarVisibility.vue",
+        "examples/QScrollArea/Delay.vue",
+        "examples/QScrollArea/ScrollPosition.vue",
+        "examples/QScrollArea/Synchronized.vue"
+      ]
+    },
+    {
+      "id": "vue-components/scroll-observer",
+      "title": "Scroll Observer",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/scroll-observer.json",
+      "markdown": "documents/vue-components/scroll-observer.md",
+      "chunks": "chunks/vue-components/scroll-observer.json",
+      "api": [
+        "api/QScrollObserver.json",
+        "api/QScrollObserver.md"
+      ],
+      "examples": [
+        "examples/QScrollObserver/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-components/select",
+      "title": "Select",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/select.json",
+      "markdown": "documents/vue-components/select.md",
+      "chunks": "chunks/vue-components/select.json",
+      "api": [
+        "api/QSelect.json",
+        "api/QSelect.md"
+      ],
+      "examples": [
+        "examples/QSelect/DesignOverview.vue",
+        "examples/QSelect/Decorators.vue",
+        "examples/QSelect/Coloring.vue",
+        "examples/QSelect/Clearable.vue",
+        "examples/QSelect/DisableReadonly.vue",
+        "examples/QSelect/MenuTransitions.vue",
+        "examples/QSelect/BehaviorMenu.vue",
+        "examples/QSelect/BehaviorDialog.vue",
+        "examples/QSelect/ModelSingleMultiple.vue",
+        "examples/QSelect/ModelMultipleCounter.vue",
+        "examples/QSelect/OptionString.vue",
+        "examples/QSelect/OptionObject.vue",
+        "examples/QSelect/OptionEmitValue.vue",
+        "examples/QSelect/OptionMapOptions.vue",
+        "examples/QSelect/OptionCustomProps.vue",
+        "examples/QSelect/OptionSlot.vue",
+        "examples/QSelect/OptionQToggle.vue",
+        "examples/QSelect/OptionNoneSlot.vue",
+        "examples/QSelect/OptionLazyLoad.vue",
+        "examples/QSelect/OptionsDynamic.vue",
+        "examples/QSelect/OptionCover.vue",
+        "examples/QSelect/DisableTabSelection.vue",
+        "examples/QSelect/DisplayCustomValue.vue",
+        "examples/QSelect/DisplayChips.vue",
+        "examples/QSelect/DisplaySelectedItemSlot.vue",
+        "examples/QSelect/InputFilterOptions.vue",
+        "examples/QSelect/BasicFiltering.vue",
+        "examples/QSelect/InputFilterMin.vue",
+        "examples/QSelect/TextAutocomplete.vue",
+        "examples/QSelect/InputFilterLazy.vue",
+        "examples/QSelect/InputFilterAfter.vue",
+        "examples/QSelect/CreateNewValueMode.vue",
+        "examples/QSelect/CreateListener.vue",
+        "examples/QSelect/CreateListenerUnique.vue",
+        "examples/QSelect/FilteringAddsToMenu.vue",
+        "examples/QSelect/FilteringNoAddToMenu.vue",
+        "examples/QSelect/FilteringAddMultiple.vue",
+        "examples/QSelect/HtmlOptions.vue",
+        "examples/QSelect/HtmlDisplayValue.vue",
+        "examples/QSelect/RenderPerf.vue",
+        "examples/QSelect/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/separator",
+      "title": "Separator",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/separator.json",
+      "markdown": "documents/vue-components/separator.md",
+      "chunks": "chunks/vue-components/separator.json",
+      "api": [
+        "api/QSeparator.json",
+        "api/QSeparator.md"
+      ],
+      "examples": [
+        "examples/QSeparator/Horizontal.vue",
+        "examples/QSeparator/HorizontalWithInset.vue",
+        "examples/QSeparator/Vertical.vue",
+        "examples/QSeparator/Colored.vue"
+      ]
+    },
+    {
+      "id": "vue-components/skeleton",
+      "title": "Skeleton",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/skeleton.json",
+      "markdown": "documents/vue-components/skeleton.md",
+      "chunks": "chunks/vue-components/skeleton.json",
+      "api": [
+        "api/QSkeleton.json",
+        "api/QSkeleton.md"
+      ],
+      "examples": [
+        "examples/QSkeleton/Card.vue",
+        "examples/QSkeleton/Types.vue",
+        "examples/QSkeleton/Animations.vue",
+        "examples/QSkeleton/Sizing.vue",
+        "examples/QSkeleton/StylingBordered.vue",
+        "examples/QSkeleton/StylingSquare.vue",
+        "examples/QSkeleton/StylingColor.vue",
+        "examples/QSkeleton/StylingCustomBorder.vue",
+        "examples/QSkeleton/RecipeYoutube.vue",
+        "examples/QSkeleton/RecipeFacebook.vue",
+        "examples/QSkeleton/RecipeTwitter.vue",
+        "examples/QSkeleton/RecipeTwitch.vue",
+        "examples/QSkeleton/RecipeTable.vue",
+        "examples/QSkeleton/RecipeList.vue"
+      ]
+    },
+    {
+      "id": "vue-components/slide-item",
+      "title": "Slide Item",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/slide-item.json",
+      "markdown": "documents/vue-components/slide-item.md",
+      "chunks": "chunks/vue-components/slide-item.json",
+      "api": [
+        "api/QSlideItem.json",
+        "api/QSlideItem.md"
+      ],
+      "examples": [
+        "examples/QSlideItem/Basic.vue",
+        "examples/QSlideItem/Vertical.vue",
+        "examples/QSlideItem/CustomColors.vue",
+        "examples/QSlideItem/CustomizeSlide.vue",
+        "examples/QSlideItem/OneSided.vue"
+      ]
+    },
+    {
+      "id": "vue-components/slide-transition",
+      "title": "Slide Transition",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/slide-transition.json",
+      "markdown": "documents/vue-components/slide-transition.md",
+      "chunks": "chunks/vue-components/slide-transition.json",
+      "api": [
+        "api/QSlideTransition.json",
+        "api/QSlideTransition.md"
+      ],
+      "examples": [
+        "examples/QSlideTransition/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-components/slider",
+      "title": "Slider",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/slider.json",
+      "markdown": "documents/vue-components/slider.md",
+      "chunks": "chunks/vue-components/slider.json",
+      "api": [
+        "api/QSlider.json",
+        "api/QSlider.md"
+      ],
+      "examples": [
+        "examples/QSlider/Standard.vue",
+        "examples/QSlider/Vertical.vue",
+        "examples/QSlider/InnerMinMax.vue",
+        "examples/QSlider/Step.vue",
+        "examples/QSlider/FloatingPoint.vue",
+        "examples/QSlider/Snap.vue",
+        "examples/QSlider/Label.vue",
+        "examples/QSlider/LabelAlways.vue",
+        "examples/QSlider/LabelValue.vue",
+        "examples/QSlider/LabelLong.vue",
+        "examples/QSlider/Markers.vue",
+        "examples/QSlider/MarkerLabels.vue",
+        "examples/QSlider/MarkerLabelSlots.vue",
+        "examples/QSlider/SliderColoring.vue",
+        "examples/QSlider/NoSelection.vue",
+        "examples/QSlider/TrackImages.vue",
+        "examples/QSlider/SliderSizes.vue",
+        "examples/QSlider/Lazy.vue",
+        "examples/QSlider/Null.vue",
+        "examples/QSlider/Reverse.vue",
+        "examples/QSlider/Dark.vue",
+        "examples/QSlider/Readonly.vue",
+        "examples/QSlider/Disable.vue",
+        "examples/QSlider/List.vue",
+        "examples/QSlider/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/space",
+      "title": "QSpace",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/space.json",
+      "markdown": "documents/vue-components/space.md",
+      "chunks": "chunks/vue-components/space.json",
+      "api": [
+        "api/QSpace.json",
+        "api/QSpace.md"
+      ],
+      "examples": [
+        "examples/QSpace/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-components/spinners",
+      "title": "Spinners",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/spinners.json",
+      "markdown": "documents/vue-components/spinners.md",
+      "chunks": "chunks/vue-components/spinners.json",
+      "api": [
+        "api/QSpinner.json",
+        "api/QSpinner.md",
+        "api/QSpinnerAudio.json",
+        "api/QSpinnerAudio.md",
+        "api/QSpinnerBall.json",
+        "api/QSpinnerBall.md",
+        "api/QSpinnerBars.json",
+        "api/QSpinnerBars.md",
+        "api/QSpinnerBox.json",
+        "api/QSpinnerBox.md",
+        "api/QSpinnerClock.json",
+        "api/QSpinnerClock.md",
+        "api/QSpinnerComment.json",
+        "api/QSpinnerComment.md",
+        "api/QSpinnerCube.json",
+        "api/QSpinnerCube.md",
+        "api/QSpinnerDots.json",
+        "api/QSpinnerDots.md",
+        "api/QSpinnerFacebook.json",
+        "api/QSpinnerFacebook.md",
+        "api/QSpinnerGears.json",
+        "api/QSpinnerGears.md",
+        "api/QSpinnerGrid.json",
+        "api/QSpinnerGrid.md",
+        "api/QSpinnerHearts.json",
+        "api/QSpinnerHearts.md",
+        "api/QSpinnerHourglass.json",
+        "api/QSpinnerHourglass.md",
+        "api/QSpinnerInfinity.json",
+        "api/QSpinnerInfinity.md",
+        "api/QSpinnerIos.json",
+        "api/QSpinnerIos.md",
+        "api/QSpinnerOrbit.json",
+        "api/QSpinnerOrbit.md",
+        "api/QSpinnerOval.json",
+        "api/QSpinnerOval.md",
+        "api/QSpinnerPie.json",
+        "api/QSpinnerPie.md",
+        "api/QSpinnerPuff.json",
+        "api/QSpinnerPuff.md",
+        "api/QSpinnerRadio.json",
+        "api/QSpinnerRadio.md",
+        "api/QSpinnerRings.json",
+        "api/QSpinnerRings.md",
+        "api/QSpinnerTail.json",
+        "api/QSpinnerTail.md"
+      ],
+      "examples": [
+        "examples/QSpinner/Default.vue",
+        "examples/QSpinner/Others.vue",
+        "examples/QSpinner/Color.vue",
+        "examples/QSpinner/Size.vue",
+        "examples/QSpinner/StandardSizes.vue"
+      ]
+    },
+    {
+      "id": "vue-components/splitter",
+      "title": "QSplitter",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/splitter.json",
+      "markdown": "documents/vue-components/splitter.md",
+      "chunks": "chunks/vue-components/splitter.json",
+      "api": [
+        "api/QSplitter.json",
+        "api/QSplitter.md"
+      ],
+      "examples": [
+        "examples/QSplitter/Basic.vue",
+        "examples/QSplitter/Horizontal.vue",
+        "examples/QSplitter/Limits.vue",
+        "examples/QSplitter/PixelModel.vue",
+        "examples/QSplitter/ReverseModel.vue",
+        "examples/QSplitter/SeparatorSlot.vue",
+        "examples/QSplitter/CustomizedSeparator.vue",
+        "examples/QSplitter/Embedded.vue",
+        "examples/QSplitter/ImageFun.vue",
+        "examples/QSplitter/ReactiveImages.vue"
+      ]
+    },
+    {
+      "id": "vue-components/stepper",
+      "title": "Stepper",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/stepper.json",
+      "markdown": "documents/vue-components/stepper.md",
+      "chunks": "chunks/vue-components/stepper.json",
+      "api": [
+        "api/QStep.json",
+        "api/QStep.md",
+        "api/QStepper.json",
+        "api/QStepper.md",
+        "api/QStepperNavigation.json",
+        "api/QStepperNavigation.md"
+      ],
+      "examples": [
+        "examples/QStepper/TypeHorizontal.vue",
+        "examples/QStepper/TypeVertical.vue",
+        "examples/QStepper/NonLinearNavigation.vue",
+        "examples/QStepper/LinearNavigation.vue",
+        "examples/QStepper/StepError.vue",
+        "examples/QStepper/AlternativeLabels.vue",
+        "examples/QStepper/Contracted.vue",
+        "examples/QStepper/Coloring.vue",
+        "examples/QStepper/Prefix.vue",
+        "examples/QStepper/Dark.vue",
+        "examples/QStepper/HeaderClass.vue",
+        "examples/QStepper/MessageSlot.vue"
+      ]
+    },
+    {
+      "id": "vue-components/tab-panels",
+      "title": "Tab Panels",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/tab-panels.json",
+      "markdown": "documents/vue-components/tab-panels.md",
+      "chunks": "chunks/vue-components/tab-panels.json",
+      "api": [
+        "api/QTabPanel.json",
+        "api/QTabPanel.md",
+        "api/QTabPanels.json",
+        "api/QTabPanels.md"
+      ],
+      "examples": [
+        "examples/QTabPanels/Basic.vue",
+        "examples/QTabPanels/WithQTabs.vue",
+        "examples/QTabPanels/WithNestedQTabs.vue",
+        "examples/QTabPanels/Coloring.vue",
+        "examples/QTabPanels/TabsAndSplitter.vue",
+        "examples/QTabPanels/Transition.vue",
+        "examples/QTabPanels/Swipeable.vue",
+        "examples/QTabPanels/VerticalSwipeable.vue"
+      ]
+    },
+    {
+      "id": "vue-components/table",
+      "title": "Table",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/table.json",
+      "markdown": "documents/vue-components/table.md",
+      "chunks": "chunks/vue-components/table.json",
+      "api": [
+        "api/QTable.json",
+        "api/QTable.md",
+        "api/QTd.json",
+        "api/QTd.md",
+        "api/QTh.json",
+        "api/QTh.md",
+        "api/QTr.json",
+        "api/QTr.md"
+      ],
+      "examples": [
+        "examples/QTable/Basic.vue",
+        "examples/QTable/Dark.vue",
+        "examples/QTable/Dense.vue",
+        "examples/QTable/InferColumns.vue",
+        "examples/QTable/StickyHeader.vue",
+        "examples/QTable/StickyColumn.vue",
+        "examples/QTable/StickyLastColumn.vue",
+        "examples/QTable/StickyHeaderAndColumn.vue",
+        "examples/QTable/StickyHeaderAndLastColumn.vue",
+        "examples/QTable/Separators.vue",
+        "examples/QTable/CustomColumn.vue",
+        "examples/QTable/CustomColor.vue",
+        "examples/QTable/NoHeaderFooter.vue",
+        "examples/QTable/VirtscrollBasic.vue",
+        "examples/QTable/VirtscrollDynamic.vue",
+        "examples/QTable/VirtscrollPagination.vue",
+        "examples/QTable/VirtscrollSticky.vue",
+        "examples/QTable/VirtscrollMultipleRows.vue",
+        "examples/QTable/SingleSelection.vue",
+        "examples/QTable/MultipleSelection.vue",
+        "examples/QTable/SelectionSlots.vue",
+        "examples/QTable/SelectionSlotsRange.vue",
+        "examples/QTable/CustomSelection.vue",
+        "examples/QTable/VisibleColumns.vue",
+        "examples/QTable/VisibleColumns2.vue",
+        "examples/QTable/PopupEditing.vue",
+        "examples/QTable/InputEditing.vue",
+        "examples/QTable/GridStyle.vue",
+        "examples/QTable/GridHeader.vue",
+        "examples/QTable/GridStyleColored.vue",
+        "examples/QTable/GridMasonry.vue",
+        "examples/QTable/GridStyleSlot.vue",
+        "examples/QTable/ExpandedRowInternal.vue",
+        "examples/QTable/ExpandedRowExternal.vue",
+        "examples/QTable/VirtscrollExpandedRow.vue",
+        "examples/QTable/BeforeAfterHeaderFooter.vue",
+        "examples/QTable/PaginationInitial.vue",
+        "examples/QTable/PaginationSync.vue",
+        "examples/QTable/PaginationSlot.vue",
+        "examples/QTable/Loading.vue",
+        "examples/QTable/CustomLoading.vue",
+        "examples/QTable/CustomTop.vue",
+        "examples/QTable/SlotBody.vue",
+        "examples/QTable/SlotBodyCell.vue",
+        "examples/QTable/SlotBodyCellName.vue",
+        "examples/QTable/SlotHeader.vue",
+        "examples/QTable/SlotHeaderCell.vue",
+        "examples/QTable/SlotHeaderCellName.vue",
+        "examples/QTable/NoData.vue",
+        "examples/QTable/NoDataSlot.vue",
+        "examples/QTable/HideBottom.vue",
+        "examples/QTable/CustomSorting.vue",
+        "examples/QTable/ResponsiveDense.vue",
+        "examples/QTable/ResponsiveGrid.vue",
+        "examples/QTable/Synchronizing.vue",
+        "examples/QTable/ExportCsv.vue",
+        "examples/QTable/KeyboardNavigation.vue"
+      ]
+    },
+    {
+      "id": "vue-components/tabs",
+      "title": "Tabs",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/tabs.json",
+      "markdown": "documents/vue-components/tabs.md",
+      "chunks": "chunks/vue-components/tabs.json",
+      "api": [
+        "api/QRouteTab.json",
+        "api/QRouteTab.md",
+        "api/QTab.json",
+        "api/QTab.md",
+        "api/QTabs.json",
+        "api/QTabs.md"
+      ],
+      "examples": [
+        "examples/QTabs/Basic.vue",
+        "examples/QTabs/ArrowsModifiers.vue",
+        "examples/QTabs/Vertical.vue",
+        "examples/QTabs/Dense.vue",
+        "examples/QTabs/IndividualColor.vue",
+        "examples/QTabs/Ripples.vue",
+        "examples/QTabs/CustomIndicator.vue",
+        "examples/QTabs/Notifying.vue",
+        "examples/QTabs/Alignment.vue",
+        "examples/QTabs/Dropdown.vue",
+        "examples/QTabs/TabsInToolbar.vue",
+        "examples/QTabs/DynamicTabs.vue",
+        "examples/QTabs/TabsWithTabpanels.vue"
+      ]
+    },
+    {
+      "id": "vue-components/time",
+      "title": "QTime",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/time.json",
+      "markdown": "documents/vue-components/time.md",
+      "chunks": "chunks/vue-components/time.json",
+      "api": [
+        "api/QTime.json",
+        "api/QTime.md"
+      ],
+      "examples": [
+        "examples/QTime/Basic.vue",
+        "examples/QTime/Landscape.vue",
+        "examples/QTime/Format24h.vue",
+        "examples/QTime/NowBtn.vue",
+        "examples/QTime/DisableReadonly.vue",
+        "examples/QTime/MaskSimple.vue",
+        "examples/QTime/MaskEscape.vue",
+        "examples/QTime/MaskDateTime.vue",
+        "examples/QTime/CustomLocale.vue",
+        "examples/QTime/Color.vue",
+        "examples/QTime/Dark.vue",
+        "examples/QTime/Options.vue",
+        "examples/QTime/Input.vue",
+        "examples/QTime/InputFull.vue",
+        "examples/QTime/AdditionalButtons.vue",
+        "examples/QTime/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/timeline",
+      "title": "Timeline",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/timeline.json",
+      "markdown": "documents/vue-components/timeline.md",
+      "chunks": "chunks/vue-components/timeline.json",
+      "api": [
+        "api/QTimeline.json",
+        "api/QTimeline.md",
+        "api/QTimelineEntry.json",
+        "api/QTimelineEntry.md"
+      ],
+      "examples": [
+        "examples/QTimeline/Basic.vue",
+        "examples/QTimeline/PropsOnly.vue",
+        "examples/QTimeline/SlotsOnly.vue",
+        "examples/QTimeline/Dark.vue",
+        "examples/QTimeline/Layouts.vue",
+        "examples/QTimeline/Responsive.vue"
+      ]
+    },
+    {
+      "id": "vue-components/toggle",
+      "title": "Toggle",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/toggle.json",
+      "markdown": "documents/vue-components/toggle.md",
+      "chunks": "chunks/vue-components/toggle.json",
+      "api": [
+        "api/QToggle.json",
+        "api/QToggle.md"
+      ],
+      "examples": [
+        "examples/QToggle/Standard.vue",
+        "examples/QToggle/Labels.vue",
+        "examples/QToggle/KeepColor.vue",
+        "examples/QToggle/Icons.vue",
+        "examples/QToggle/CustomValues.vue",
+        "examples/QToggle/IndeterminateState.vue",
+        "examples/QToggle/ToggleOrder.vue",
+        "examples/QToggle/ArrayValue.vue",
+        "examples/QToggle/DarkBackground.vue",
+        "examples/QToggle/Disabled.vue",
+        "examples/QToggle/StandardSizes.vue",
+        "examples/QToggle/OptionGroup.vue",
+        "examples/QToggle/List.vue",
+        "examples/QToggle/NativeForm.vue"
+      ]
+    },
+    {
+      "id": "vue-components/toolbar",
+      "title": "Toolbar",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/toolbar.json",
+      "markdown": "documents/vue-components/toolbar.md",
+      "chunks": "chunks/vue-components/toolbar.json",
+      "api": [
+        "api/QToolbar.json",
+        "api/QToolbar.md",
+        "api/QToolbarTitle.json",
+        "api/QToolbarTitle.md"
+      ],
+      "examples": [
+        "examples/QToolbar/Basic.vue",
+        "examples/QToolbar/Avatar.vue",
+        "examples/QToolbar/Glossy.vue",
+        "examples/QToolbar/GroupedVertically.vue",
+        "examples/QToolbar/GroupedHorizontally.vue",
+        "examples/QToolbar/WithTabs.vue",
+        "examples/QToolbar/WithDropdown.vue",
+        "examples/QToolbar/WithBtnToggle.vue"
+      ]
+    },
+    {
+      "id": "vue-components/tooltip",
+      "title": "Tooltip",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/tooltip.json",
+      "markdown": "documents/vue-components/tooltip.md",
+      "chunks": "chunks/vue-components/tooltip.json",
+      "api": [
+        "api/QTooltip.json",
+        "api/QTooltip.md"
+      ],
+      "examples": [
+        "examples/QTooltip/Basic.vue",
+        "examples/QTooltip/VModel.vue",
+        "examples/QTooltip/Coloring.vue",
+        "examples/QTooltip/OneSecond.vue",
+        "examples/QTooltip/Offset.vue",
+        "examples/QTooltip/CustomTransition.vue",
+        "examples/QTooltip/Target.vue"
+      ]
+    },
+    {
+      "id": "vue-components/tree",
+      "title": "Tree",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/tree.json",
+      "markdown": "documents/vue-components/tree.md",
+      "chunks": "chunks/vue-components/tree.json",
+      "api": [
+        "api/QTree.json",
+        "api/QTree.md"
+      ],
+      "examples": [
+        "examples/QTree/Basic.vue",
+        "examples/QTree/NoConnectors.vue",
+        "examples/QTree/DenseTree.vue",
+        "examples/QTree/Dark.vue",
+        "examples/QTree/Splitter.vue",
+        "examples/QTree/SlotsDefault.vue",
+        "examples/QTree/SlotsCustomized.vue",
+        "examples/QTree/Accordion.vue",
+        "examples/QTree/FilterDefault.vue",
+        "examples/QTree/Selectable.vue",
+        "examples/QTree/LazyLoad.vue",
+        "examples/QTree/Sync.vue",
+        "examples/QTree/TickStrategy.vue",
+        "examples/QTree/FilterCustom.vue"
+      ]
+    },
+    {
+      "id": "vue-components/uploader",
+      "title": "Uploader",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/uploader.json",
+      "markdown": "documents/vue-components/uploader.md",
+      "chunks": "chunks/vue-components/uploader.json",
+      "api": [
+        "api/QUploader.json",
+        "api/QUploader.md",
+        "api/QUploaderAddTrigger.json",
+        "api/QUploaderAddTrigger.md"
+      ],
+      "examples": [
+        "examples/QUploader/Basic.vue",
+        "examples/QUploader/Dark.vue",
+        "examples/QUploader/Multiple.vue",
+        "examples/QUploader/RestrictionBasic.vue",
+        "examples/QUploader/RestrictionFilter.vue",
+        "examples/QUploader/Headers.vue",
+        "examples/QUploader/UploadAuto.vue",
+        "examples/QUploader/UploadURL.vue",
+        "examples/QUploader/FactoryPromise.vue",
+        "examples/QUploader/FactoryImmediate.vue",
+        "examples/QUploader/SlotHeader.vue",
+        "examples/QUploader/SlotList.vue"
+      ]
+    },
+    {
+      "id": "vue-components/video",
+      "title": "Video",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/video.json",
+      "markdown": "documents/vue-components/video.md",
+      "chunks": "chunks/vue-components/video.json",
+      "api": [
+        "api/QVideo.json",
+        "api/QVideo.md"
+      ],
+      "examples": [
+        "examples/QVideo/Basic.vue",
+        "examples/QVideo/Ratio.vue",
+        "examples/QVideo/HtmlMarkup.vue"
+      ]
+    },
+    {
+      "id": "vue-components/virtual-scroll",
+      "title": "Virtual Scroll",
+      "kinds": [
+        "component"
+      ],
+      "path": "documents/vue-components/virtual-scroll.json",
+      "markdown": "documents/vue-components/virtual-scroll.md",
+      "chunks": "chunks/vue-components/virtual-scroll.json",
+      "api": [
+        "api/QVirtualScroll.json",
+        "api/QVirtualScroll.md"
+      ],
+      "examples": [
+        "examples/QVirtualScroll/Basic.vue",
+        "examples/QVirtualScroll/BasicHorizontal.vue",
+        "examples/QVirtualScroll/VariousContent.vue",
+        "examples/QVirtualScroll/VariousContentHorizontal.vue",
+        "examples/QVirtualScroll/TableBasic.vue",
+        "examples/QVirtualScroll/TableBasicHeader.vue",
+        "examples/QVirtualScroll/TableSticky.vue",
+        "examples/QVirtualScroll/TableSticky2.vue",
+        "examples/QVirtualScroll/ScrollTargetId.vue",
+        "examples/QVirtualScroll/ScrollTargetRef.vue",
+        "examples/QVirtualScroll/ScrollArea.vue",
+        "examples/QVirtualScroll/ScrollTo.vue",
+        "examples/QVirtualScroll/GenerateItems.vue",
+        "examples/QVirtualScroll/VirtscrollMultipleRows.vue",
+        "examples/QVirtualScroll/VirtscrollExpandedRow.vue"
+      ]
+    },
+    {
+      "id": "vue-composables/use-dialog-plugin-component",
+      "title": "useDialogPluginComponent composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-dialog-plugin-component.json",
+      "markdown": "documents/vue-composables/use-dialog-plugin-component.md",
+      "chunks": "chunks/vue-composables/use-dialog-plugin-component.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-form-child",
+      "title": "useFormChild composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-form-child.json",
+      "markdown": "documents/vue-composables/use-form-child.md",
+      "chunks": "chunks/vue-composables/use-form-child.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-hydration",
+      "title": "useHydration composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-hydration.json",
+      "markdown": "documents/vue-composables/use-hydration.md",
+      "chunks": "chunks/vue-composables/use-hydration.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-id",
+      "title": "useId composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-id.json",
+      "markdown": "documents/vue-composables/use-id.md",
+      "chunks": "chunks/vue-composables/use-id.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-interval",
+      "title": "useInterval composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-interval.json",
+      "markdown": "documents/vue-composables/use-interval.md",
+      "chunks": "chunks/vue-composables/use-interval.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-meta",
+      "title": "useMeta composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-meta.json",
+      "markdown": "documents/vue-composables/use-meta.md",
+      "chunks": "chunks/vue-composables/use-meta.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-quasar",
+      "title": "useQuasar composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-quasar.json",
+      "markdown": "documents/vue-composables/use-quasar.md",
+      "chunks": "chunks/vue-composables/use-quasar.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-render-cache",
+      "title": "useRenderCache composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-render-cache.json",
+      "markdown": "documents/vue-composables/use-render-cache.md",
+      "chunks": "chunks/vue-composables/use-render-cache.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-split-attrs",
+      "title": "useSplitAttrs composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-split-attrs.json",
+      "markdown": "documents/vue-composables/use-split-attrs.md",
+      "chunks": "chunks/vue-composables/use-split-attrs.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-tick",
+      "title": "useTick composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-tick.json",
+      "markdown": "documents/vue-composables/use-tick.md",
+      "chunks": "chunks/vue-composables/use-tick.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-composables/use-timeout",
+      "title": "useTimeout composable",
+      "kinds": [
+        "composable"
+      ],
+      "path": "documents/vue-composables/use-timeout.json",
+      "markdown": "documents/vue-composables/use-timeout.md",
+      "chunks": "chunks/vue-composables/use-timeout.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "vue-directives/close-popup",
+      "title": "Close Popup Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/close-popup.json",
+      "markdown": "documents/vue-directives/close-popup.md",
+      "chunks": "chunks/vue-directives/close-popup.json",
+      "api": [
+        "api/ClosePopup.json",
+        "api/ClosePopup.md"
+      ],
+      "examples": [
+        "examples/ClosePopup/Menu.vue",
+        "examples/ClosePopup/Dialog.vue",
+        "examples/ClosePopup/MenuTree.vue",
+        "examples/ClosePopup/DialogMenu.vue",
+        "examples/ClosePopup/DialogInDialog.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/intersection",
+      "title": "Intersection Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/intersection.json",
+      "markdown": "documents/vue-directives/intersection.md",
+      "chunks": "chunks/vue-directives/intersection.json",
+      "api": [
+        "api/Intersection.json",
+        "api/Intersection.md"
+      ],
+      "examples": [
+        "examples/Intersection/Basic.vue",
+        "examples/Intersection/Once.vue",
+        "examples/Intersection/ObjectForm.vue",
+        "examples/Intersection/Advanced.vue",
+        "examples/Intersection/ScrollingCards.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/material-ripples",
+      "title": "Material Ripples",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/material-ripples.json",
+      "markdown": "documents/vue-directives/material-ripples.md",
+      "chunks": "chunks/vue-directives/material-ripples.json",
+      "api": [
+        "api/Ripple.json",
+        "api/Ripple.md"
+      ],
+      "examples": [
+        "examples/Ripple/Basic.vue",
+        "examples/Ripple/Colored.vue",
+        "examples/Ripple/Positioning.vue",
+        "examples/Ripple/Early.vue",
+        "examples/Ripple/Disable.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/morph",
+      "title": "Morph Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/morph.json",
+      "markdown": "documents/vue-directives/morph.md",
+      "chunks": "chunks/vue-directives/morph.json",
+      "api": [
+        "api/Morph.json",
+        "api/Morph.md"
+      ],
+      "examples": [
+        "examples/Morph/BasicGroup.vue",
+        "examples/Morph/Card.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/mutation",
+      "title": "Mutation Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/mutation.json",
+      "markdown": "documents/vue-directives/mutation.md",
+      "chunks": "chunks/vue-directives/mutation.json",
+      "api": [
+        "api/Mutation.json",
+        "api/Mutation.md"
+      ],
+      "examples": [
+        "examples/Mutation/CatchAll.vue",
+        "examples/Mutation/DragDrop.vue",
+        "examples/Mutation/UndoRedo.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/scroll",
+      "title": "Directive v-scroll",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/scroll.json",
+      "markdown": "documents/vue-directives/scroll.md",
+      "chunks": "chunks/vue-directives/scroll.json",
+      "api": [
+        "api/Scroll.json",
+        "api/Scroll.md"
+      ],
+      "examples": []
+    },
+    {
+      "id": "vue-directives/scroll-fire",
+      "title": "Scroll Fire Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/scroll-fire.json",
+      "markdown": "documents/vue-directives/scroll-fire.md",
+      "chunks": "chunks/vue-directives/scroll-fire.json",
+      "api": [
+        "api/ScrollFire.json",
+        "api/ScrollFire.md"
+      ],
+      "examples": [
+        "examples/ScrollFire/Basic.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/touch-hold",
+      "title": "Touch Hold Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/touch-hold.json",
+      "markdown": "documents/vue-directives/touch-hold.md",
+      "chunks": "chunks/vue-directives/touch-hold.json",
+      "api": [
+        "api/TouchHold.json",
+        "api/TouchHold.md"
+      ],
+      "examples": [
+        "examples/TouchHold/Basic.vue",
+        "examples/TouchHold/CustomTimer.vue",
+        "examples/TouchHold/CustomSensitivity.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/touch-pan",
+      "title": "Touch Pan Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/touch-pan.json",
+      "markdown": "documents/vue-directives/touch-pan.md",
+      "chunks": "chunks/vue-directives/touch-pan.json",
+      "api": [
+        "api/TouchPan.json",
+        "api/TouchPan.md"
+      ],
+      "examples": [
+        "examples/TouchPan/Basic.vue",
+        "examples/TouchPan/Horizontal.vue",
+        "examples/TouchPan/Vertical.vue",
+        "examples/TouchPan/Custom.vue",
+        "examples/TouchPan/Draggable.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/touch-repeat",
+      "title": "Touch Repeat Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/touch-repeat.json",
+      "markdown": "documents/vue-directives/touch-repeat.md",
+      "chunks": "chunks/vue-directives/touch-repeat.json",
+      "api": [
+        "api/TouchRepeat.json",
+        "api/TouchRepeat.md"
+      ],
+      "examples": [
+        "examples/TouchRepeat/Basic.vue",
+        "examples/TouchRepeat/Keys.vue",
+        "examples/TouchRepeat/Buttons.vue"
+      ]
+    },
+    {
+      "id": "vue-directives/touch-swipe",
+      "title": "Touch Swipe Directive",
+      "kinds": [
+        "directive"
+      ],
+      "path": "documents/vue-directives/touch-swipe.json",
+      "markdown": "documents/vue-directives/touch-swipe.md",
+      "chunks": "chunks/vue-directives/touch-swipe.json",
+      "api": [
+        "api/TouchSwipe.json",
+        "api/TouchSwipe.md"
+      ],
+      "examples": [
+        "examples/TouchSwipe/Basic.vue",
+        "examples/TouchSwipe/Right.vue",
+        "examples/TouchSwipe/UpOrLeft.vue"
+      ]
+    }
+  ],
+  "composables": [
+    {
+      "name": "useDialogPluginComponent",
+      "documentId": "vue-composables/use-dialog-plugin-component",
+      "source": "sources/composables/use-dialog-plugin-component.js"
+    },
+    {
+      "name": "useFormChild",
+      "documentId": "vue-composables/use-form-child",
+      "source": "sources/composables/use-form-child.js"
+    },
+    {
+      "name": "useHydration",
+      "documentId": "vue-composables/use-hydration",
+      "source": "sources/composables/use-hydration.js"
+    },
+    {
+      "name": "useId",
+      "documentId": "vue-composables/use-id",
+      "source": "sources/composables/use-id.js"
+    },
+    {
+      "name": "useInterval",
+      "documentId": "vue-composables/use-interval",
+      "source": "sources/composables/use-interval.js"
+    },
+    {
+      "name": "useMeta",
+      "documentId": "vue-composables/use-meta",
+      "source": "sources/composables/use-meta.js"
+    },
+    {
+      "name": "useQuasar",
+      "documentId": "vue-composables/use-quasar",
+      "source": "sources/composables/use-quasar.js"
+    },
+    {
+      "name": "useRenderCache",
+      "documentId": "vue-composables/use-render-cache",
+      "source": "sources/composables/use-render-cache.js"
+    },
+    {
+      "name": "useSplitAttrs",
+      "documentId": "vue-composables/use-split-attrs",
+      "source": "sources/composables/use-split-attrs.js"
+    },
+    {
+      "name": "useTick",
+      "documentId": "vue-composables/use-tick",
+      "source": "sources/composables/use-tick.js"
+    },
+    {
+      "name": "useTimeout",
+      "documentId": "vue-composables/use-timeout",
+      "source": "sources/composables/use-timeout.js"
+    }
+  ],
+  "searchIndex": "search-index.jsonl",
+  "llmsIndex": "llms.txt"
+}

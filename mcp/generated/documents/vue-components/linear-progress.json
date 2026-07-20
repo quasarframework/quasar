@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/linear-progress",
+  "title": "Linear Progress",
+  "description": "The QLinearProgress Vue component displays a colored loading bar. The bar can either have a determinate progress or an indeterminate animation.",
+  "canonicalUrl": "https://quasar.dev/vue-components/linear-progress",
+  "source": "docs/src/pages/vue-components/linear-progress.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QLinearProgress"
+  ],
+  "examples": [
+    {
+      "title": "Determined state",
+      "file": "Determinate.vue",
+      "source": "docs/src/examples/QLinearProgress/Determinate.vue"
+    },
+    {
+      "title": "Indeterminate state",
+      "file": "Indeterminate.vue",
+      "source": "docs/src/examples/QLinearProgress/Indeterminate.vue"
+    },
+    {
+      "title": "Query state",
+      "file": "Query.vue",
+      "source": "docs/src/examples/QLinearProgress/Query.vue"
+    },
+    {
+      "title": "Reverse progress direction",
+      "file": "Reverse.vue",
+      "source": "docs/src/examples/QLinearProgress/Reverse.vue"
+    },
+    {
+      "title": "Custom height",
+      "file": "CustomHeight.vue",
+      "source": "docs/src/examples/QLinearProgress/CustomHeight.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QLinearProgress/StandardSizes.vue"
+    },
+    {
+      "title": "Stripe",
+      "file": "Stripe.vue",
+      "source": "docs/src/examples/QLinearProgress/Stripe.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "OnDarkBackground.vue",
+      "source": "docs/src/examples/QLinearProgress/OnDarkBackground.vue"
+    },
+    {
+      "title": "Buffer",
+      "file": "Buffering.vue",
+      "source": "docs/src/examples/QLinearProgress/Buffering.vue"
+    },
+    {
+      "title": "With a label",
+      "file": "Label.vue",
+      "source": "docs/src/examples/QLinearProgress/Label.vue"
+    }
+  ]
+}

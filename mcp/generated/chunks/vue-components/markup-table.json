@@ -1,0 +1,48 @@
+[
+  {
+    "id": "vue-components/markup-table#overview",
+    "documentId": "vue-components/markup-table",
+    "heading": "Markup Table",
+    "breadcrumb": [
+      "Markup Table"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/markup-table",
+    "content": "The QMarkupTable is a way for you to simply wrap a native `<table>` in order to make it look like a Material Design table.\n\n::: tip\nFor advanced functionality like pagination, sorting, filtering, and many more, you may want to check out [QTable](/vue-components/table) component instead.\n:::\n\nAPI reference: QMarkupTable",
+    "apiReferences": [
+      "QMarkupTable"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/markup-table#usage",
+    "documentId": "vue-components/markup-table",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/markup-table#usage",
+    "content": "::: warning\nNotice that the content of `QMarkupTable` reflects an accurate markup representation of a native HTML `<table>`, having a `<thead>` and `<tbody>` to wrap header and table body. This is required.\n:::\n\n::: warning UMD developers\nThis component will _NOT_ work as-is within the UMD version of Quasar. Browsers parse the template HTML before Vue kicks in and renders it, so the markup needs to be correct. `<q-markup-table> <thead>` or `<q-markup-table> <tbody>` is not. The solution is to wrap the content in a `<template>` like the following:\n\n<br>\n\n```html\n<q-markup-table>\n  <template>\n    <!-- your content -->\n  </template>\n</q-markup-table>\n```\n\n:::\n\n<DocExample title=\"Basic\" file=\"Basic\" no-edit />\n\n<DocExample title=\"Separators\" file=\"Separators\" no-edit />\n\n<DocExample title=\"Force dark mode\" file=\"Dark\" no-edit />\n\n<DocExample title=\"Customization\" file=\"Customization\" no-edit />\n\n::: tip\nIf you want to remove the hover effect on some rows or some cells add a `q-tr--no-hover` or `q-td--no-hover` class to them.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Separators",
+        "file": "Separators.vue"
+      },
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      },
+      {
+        "title": "Customization",
+        "file": "Customization.vue"
+      }
+    ]
+  }
+]

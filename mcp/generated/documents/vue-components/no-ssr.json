@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/no-ssr",
+  "title": "No SSR",
+  "description": "The QNoSsr Vue component makes it easy to differentiate content between server-side and client-side.",
+  "canonicalUrl": "https://quasar.dev/vue-components/no-ssr",
+  "source": "docs/src/pages/vue-components/no-ssr.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QNoSsr"
+  ],
+  "examples": []
+}

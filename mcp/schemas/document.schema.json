@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quasar.dev/schemas/docs-data/document.schema.json",
+  "title": "Quasar documentation record",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "title",
+    "description",
+    "canonicalUrl",
+    "source",
+    "sourceCommit",
+    "products",
+    "kinds",
+    "apiReferences",
+    "examples"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "canonicalUrl": { "type": "string", "format": "uri" },
+    "source": { "type": "string", "minLength": 1 },
+    "sourceCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "products": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(component|directive|plugin|composable)$"
+      }
+    },
+    "apiReferences": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "file", "source"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "file": { "type": "string", "pattern": "\\.vue$" },
+          "source": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,126 @@
+[
+  {
+    "id": "vue-directives/touch-pan#overview",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Touch Pan Directive",
+    "breadcrumb": [
+      "Touch Pan Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan",
+    "content": "Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.\n\n> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.\n\nWe will be describing `v-touch-pan` on the lines below.\n\nAPI reference: TouchPan",
+    "apiReferences": [
+      "TouchPan"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-pan#usage",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan#usage",
+    "content": "Click then pan in a direction with your mouse on the area below to see it in action.\nPage scrolling is prevented, but you can opt out if you wish.\n\n::: tip\nIf your content also has images, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n:::\n\nExample: All directions (Basic.vue)\n\nPanning works both with a mouse or a native touch action.\nYou can also capture pan to certain directions (any) only as you'll see below.\n\nExample on capturing only horizontal panning.\nNotice that on touch capable devices the scrolling is automatically not blocked, since we are only capturing horizontally.\n\nExample: Horizontally (Horizontal.vue)\n\nExample on capturing only vertically panning. Page scrolling is prevented, but you can opt out if you wish.\n\nExample: Vertically (Vertical.vue)\n\nExample on capturing panning on custom directions. For this, use modifiers: `up`, `down`, `left`, `right`. Page scrolling is prevented, but you can opt out if you wish.\n\nExample: Custom directions (Custom.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "All directions",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Horizontally",
+        "file": "Horizontal.vue"
+      },
+      {
+        "title": "Vertically",
+        "file": "Vertical.vue"
+      },
+      {
+        "title": "Custom directions",
+        "file": "Custom.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/touch-pan#handling-mouse-events",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Handling Mouse Events",
+    "breadcrumb": [
+      "Usage",
+      "Handling Mouse Events",
+      "Handling Mouse Events"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan#handling-mouse-events",
+    "content": "When you want to handle mouse events too, use the `mouse` modifier:\n\n```html\n<!--\n  directive will also be triggered by mouse actions\n-->\n<div v-touch-pan.mouse=\"userHasPanned\">...</div>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-pan#preventing-scroll-on-touch-capable-devices",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Preventing Scroll (on touch capable devices)",
+    "breadcrumb": [
+      "Usage",
+      "Preventing Scroll (on touch capable devices)",
+      "Preventing Scroll (on touch capable devices)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan#preventing-scroll-on-touch-capable-devices",
+    "content": "By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.\n\n```html\n<div v-touch-pan.prevent=\"userHasPanned\">...</div>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-pan#inhibiting-touchpan",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Inhibiting TouchPan",
+    "breadcrumb": [
+      "Usage",
+      "Inhibiting TouchPan",
+      "Inhibiting TouchPan"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan#inhibiting-touchpan",
+    "content": "When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:\n\n```html\n<div v-touch-pan.mouse=\"userHasHold\">\n  <!-- ...content -->\n  <div @touchstart.stop @mousedown.stop>\n    <!--\n      TouchPan will not apply here because\n      we are calling stopPropagation() on touchstart\n      and mousedown events\n    -->\n  </div>\n  <!-- ...content -->\n</div>\n```\n\nHowever, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchPan directive then the inner content, so TouchPan will still trigger.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-pan#example-with-fab",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Example with FAB",
+    "breadcrumb": [
+      "Example with FAB",
+      "Example with FAB"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan#example-with-fab",
+    "content": "Below is a nice example on using TouchPan on a QFab. You can drag it across the screen.\n\nExample: Draggable (Draggable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Draggable",
+        "file": "Draggable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/touch-pan#note-on-hmr",
+    "documentId": "vue-directives/touch-pan",
+    "heading": "Note on HMR",
+    "breadcrumb": [
+      "Note on HMR",
+      "Note on HMR"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan#note-on-hmr",
+    "content": "Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

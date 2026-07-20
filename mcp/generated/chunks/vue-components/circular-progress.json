@@ -1,0 +1,64 @@
+[
+  {
+    "id": "vue-components/circular-progress#overview",
+    "documentId": "vue-components/circular-progress",
+    "heading": "Circular Progress",
+    "breadcrumb": [
+      "Circular Progress"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/circular-progress",
+    "content": "The QCircularProgress component displays a colored circular progress. The bar can either have a determinate progress, or an indeterminate animation. It should be used to inform the user that an action is occurring in the background.\n\nAPI reference: QCircularProgress",
+    "apiReferences": [
+      "QCircularProgress"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/circular-progress#usage",
+    "documentId": "vue-components/circular-progress",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/circular-progress#usage",
+    "content": "By default, QCircularProgress inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.\n\nExample: Determined state (Determined.vue)\n\nExample: Determinate and reverse (Reverse.vue)\n\nExample: Offset angle (Angle.vue)\n\nExample: Custom min/max (same model) (CustomMinMax.vue)\n\nIn the example below, `show-value` property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The `font-size` prop refers to the inner label font size.\n\nExample: Show value (ShowValue.vue)\n\nExample: Indeterminate state (Indeterminate.vue)\n\nExample: Rounded arc of progress (v2.8.4+) (RoundedStyle.vue)\n\nExample: Standard sizes (StandardSizes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Determined state",
+        "file": "Determined.vue"
+      },
+      {
+        "title": "Determinate and reverse",
+        "file": "Reverse.vue"
+      },
+      {
+        "title": "Offset angle",
+        "file": "Angle.vue"
+      },
+      {
+        "title": "Custom min/max (same model)",
+        "file": "CustomMinMax.vue"
+      },
+      {
+        "title": "Show value",
+        "file": "ShowValue.vue"
+      },
+      {
+        "title": "Indeterminate state",
+        "file": "Indeterminate.vue"
+      },
+      {
+        "title": "Rounded arc of progress (v2.8.4+)",
+        "file": "RoundedStyle.vue"
+      },
+      {
+        "title": "Standard sizes",
+        "file": "StandardSizes.vue"
+      }
+    ]
+  }
+]

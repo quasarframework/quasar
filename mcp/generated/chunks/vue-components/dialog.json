@@ -1,0 +1,221 @@
+[
+  {
+    "id": "vue-components/dialog#overview",
+    "documentId": "vue-components/dialog",
+    "heading": "Dialog",
+    "breadcrumb": [
+      "Dialog"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog",
+    "content": "The QDialog component is a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).\n\nFrom a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions, like verifying a password, getting a short App notification or selecting an option or options quickly.\n\n::: tip\nDialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behaviour, go to [Dialog Plugin](/quasar-plugins/dialog) page.\n:::\n\n::: warning Masterclass TIP\nRather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.\n:::\n\nAPI reference: QDialog",
+    "apiReferences": [
+      "QDialog"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/dialog#usage",
+    "documentId": "vue-components/dialog",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#usage",
+    "content": "::: warning Note\nIt's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/dialog#basic",
+    "documentId": "vue-components/dialog",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#styling",
+    "documentId": "vue-components/dialog",
+    "heading": "Styling",
+    "breadcrumb": [
+      "Usage",
+      "Styling",
+      "Styling"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#styling",
+    "content": "Example: Styling (Style.vue)\n\nExample: Backdrop filter (v2.14.8+) (BackdropFilter.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Styling",
+        "file": "Style.vue"
+      },
+      {
+        "title": "Backdrop filter (v2.14.8+)",
+        "file": "BackdropFilter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#positioning",
+    "documentId": "vue-components/dialog",
+    "heading": "Positioning",
+    "breadcrumb": [
+      "Usage",
+      "Positioning",
+      "Positioning"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#positioning",
+    "content": "Example: Positions (Positioning.vue)\n\n::: tip\nDo not mistake \"position\" prop with the show/hide animation. If you want a custom animation, you should use `transition-show` and `transition-hide` which can be applied regardless of \"position\" or \"maximized\".\n:::\n\nExample: Maximized (Maximized.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Positions",
+        "file": "Positioning.vue"
+      },
+      {
+        "title": "Maximized",
+        "file": "Maximized.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#various-content",
+    "documentId": "vue-components/dialog",
+    "heading": "Various content",
+    "breadcrumb": [
+      "Usage",
+      "Various content",
+      "Various content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#various-content",
+    "content": "Dialogs can contain any content. Some examples:\n\nExample: Various content (VariousContent.vue)\n\nExample: With containerized QLayout (Layout.vue)\n\n::: tip\nIf you are going to use the containerized QLayout, you'll need to put a width on your QDialog, if using left/right position, or a height, if using top/bottom position. You can use vw and vh units.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Various content",
+        "file": "VariousContent.vue"
+      },
+      {
+        "title": "With containerized QLayout",
+        "file": "Layout.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#handling-scroll",
+    "documentId": "vue-components/dialog",
+    "heading": "Handling scroll",
+    "breadcrumb": [
+      "Usage",
+      "Handling scroll",
+      "Handling scroll"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#handling-scroll",
+    "content": "Example: Scrollable dialogs (Scrollable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Scrollable dialogs",
+        "file": "Scrollable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#different-modes",
+    "documentId": "vue-components/dialog",
+    "heading": "Different modes",
+    "breadcrumb": [
+      "Usage",
+      "Different modes",
+      "Different modes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#different-modes",
+    "content": "User cannot dismiss the Dialog by pressing ESCAPE key or by clicking/tapping on its backdrop.\n\nExample: Persistent (Persistent.vue)\n\nDialogs can also be a part of the page, without requiring immediate focus. It's where \"seamless\" mode comes into play:\n\nExample: Seamless (Seamless.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Persistent",
+        "file": "Persistent.vue"
+      },
+      {
+        "title": "Seamless",
+        "file": "Seamless.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#dialog-in-dialog",
+    "documentId": "vue-components/dialog",
+    "heading": "Dialog in dialog",
+    "breadcrumb": [
+      "Usage",
+      "Dialog in dialog",
+      "Dialog in dialog"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#dialog-in-dialog",
+    "content": "You are able to open dialogs on top of other dialogs, with infinite number of depth levels.\n\nExample: Inception (Inception.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Inception",
+        "file": "Inception.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#sizing",
+    "documentId": "vue-components/dialog",
+    "heading": "Sizing",
+    "breadcrumb": [
+      "Usage",
+      "Sizing",
+      "Sizing"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#sizing",
+    "content": "You are able to customize the size of the Dialogs. Notice we either tamper with the content's style or we use `full-width` or `full-height` props:\n\nExample: Sizing examples (Sizing.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Sizing examples",
+        "file": "Sizing.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/dialog#cordova-capacitor-back-button",
+    "documentId": "vue-components/dialog",
+    "heading": "Cordova/Capacitor back button",
+    "breadcrumb": [
+      "Cordova/Capacitor back button",
+      "Cordova/Capacitor back button"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/dialog#cordova-capacitor-back-button",
+    "content": "Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).\n\nHowever, should you wish to disable this behavior, edit your `/quasar.config` file:\n\n```tabs\n<<| js For Capacitor |>>\n// quasar.config file\nreturn {\n  framework: {\n    config: {\n      capacitor: {\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true/false\n      }\n    }\n  }\n}\n<<| js For Cordova |>>\n// quasar.config file\nreturn {\n  framework: {\n    config: {\n      cordova: {\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true/false\n      }\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

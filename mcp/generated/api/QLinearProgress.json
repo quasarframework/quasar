@@ -1,0 +1,113 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/linear-progress"
+  },
+  "props": {
+    "size": {
+      "type": "String",
+      "desc": "Size in CSS units, including unit name or standard size name (xs|sm|md|lg|xl)",
+      "examples": [
+        "'16px'",
+        "'2rem'",
+        "'xs'",
+        "'md'"
+      ],
+      "category": "style"
+    },
+    "value": {
+      "type": "Number",
+      "desc": "Progress value (0.0 < x < 1.0)",
+      "default": "0",
+      "category": "model",
+      "required": false
+    },
+    "buffer": {
+      "type": "Number",
+      "desc": "Optional buffer value (0.0 < x < 1.0)",
+      "category": "behavior"
+    },
+    "color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "track-color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component's track from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "dark": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "Notify the component that the background is a dark color",
+      "category": "style",
+      "required": false
+    },
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
+    },
+    "stripe": {
+      "type": "Boolean",
+      "desc": "Draw stripes; For determinate state only (for performance reasons)",
+      "category": "content"
+    },
+    "indeterminate": {
+      "type": "Boolean",
+      "desc": "Put component into indeterminate mode",
+      "category": "behavior"
+    },
+    "query": {
+      "type": "Boolean",
+      "desc": "Put component into query mode",
+      "category": "behavior"
+    },
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a small standard border-radius for a squared shape of the component",
+      "category": "style"
+    },
+    "instant-feedback": {
+      "type": "Boolean",
+      "desc": "No transition when model changes",
+      "category": "behavior"
+    },
+    "animation-speed": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Animation speed (in milliseconds, without unit)",
+      "examples": [
+        "500",
+        "'1200'"
+      ],
+      "category": "style",
+      "default": "2100",
+      "addedIn": "v2.3",
+      "required": false
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QTooltip"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "id": "vue-components/inner-loading#overview",
+    "documentId": "vue-components/inner-loading",
+    "heading": "Inner Loading",
+    "breadcrumb": [
+      "Inner Loading"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/inner-loading",
+    "content": "The QInnerLoading component allows you to add a progress animation within a component. Much like the [Loading Plugin](/quasar-plugins/loading), its purpose is to offer visual confirmation to the user that some process is happening in the background, which takes an excessive amount of time. QInnerLoading will add an opaque overlay over the delayed element along with a [Spinner](/vue-components/spinners).\n\nAPI reference: QInnerLoading",
+    "apiReferences": [
+      "QInnerLoading"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/inner-loading#usage",
+    "documentId": "vue-components/inner-loading",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/inner-loading#usage",
+    "content": "::: warning\nIn order for the spinner to be properly placed in the center of the element you want the loading display to show over, that element must have CSS position set to `relative` (or the `relative-position` CSS class declared).\n:::\n\n::: warning\nQInnerLoading must be the last element inside its parent so it can appear on top of the other content.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/inner-loading#basic",
+    "documentId": "vue-components/inner-loading",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/inner-loading#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/inner-loading#label",
+    "documentId": "vue-components/inner-loading",
+    "heading": "Label <q-badge label=\"v2.2+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Label <q-badge label=\"v2.2+\" />",
+      "Label <q-badge label=\"v2.2+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/inner-loading#label",
+    "content": "You can add a label when using the default slot, but you can also use the \"label\" props instead:\n\nExample: Label props (LabelProp.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Label props",
+        "file": "LabelProp.vue"
+      }
+    ]
+  }
+]

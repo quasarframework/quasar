@@ -1,0 +1,80 @@
+[
+  {
+    "id": "vue-components/ajax-bar#overview",
+    "documentId": "vue-components/ajax-bar",
+    "heading": "Ajax Bar",
+    "breadcrumb": [
+      "Ajax Bar"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/ajax-bar",
+    "content": "In most mobile apps and even some desktop apps, you will most likely have some API communication to a server via an [Ajax call](<https://en.wikipedia.org/wiki/Ajax_(programming)>). Since these calls can take more than a second or two, it is good UX to offer the user feedback, when such an API call is being made. Which is where QAjaxBar comes into helping you out.\n\nQAjaxBar is a component which displays a loading bar (like Youtube) whenever an Ajax call (regardless of Ajax library used) is in progress. It can be manually triggered as well.\n\n::: tip\nIf you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.\n:::\n\nAPI reference: QAjaxBar",
+    "apiReferences": [
+      "QAjaxBar"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/ajax-bar#usage",
+    "documentId": "vue-components/ajax-bar",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/ajax-bar#usage",
+    "content": "The QAjaxBar component captures Ajax calls automatically (unless told not to).\n\nThe example below triggers events manually for demonstrating purposes only. This one is set to appear at bottom (multiple positions available!) of the page, with a 10px size (default is different) and uses a custom color.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/ajax-bar#basic",
+    "documentId": "vue-components/ajax-bar",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/ajax-bar#basic",
+    "content": "Example: Basic (Basic.vue)\n\nPlease check out the API section for all properties that you can use.",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/ajax-bar#ajax-filter",
+    "documentId": "vue-components/ajax-bar",
+    "heading": "Ajax filter <q-badge label=\"v2.4.5+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Ajax filter <q-badge label=\"v2.4.5+\" />",
+      "Ajax filter <q-badge label=\"v2.4.5+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/ajax-bar#ajax-filter",
+    "content": "Should you want QAjaxBar to trigger only for some URLs (and not for all, like in the default behavior), then you can use the `hijackFilter` property:\n\n```html\n<template>\n  <q-ajax-bar :hijack-filter=\"myFilterFn\" />\n</template>\n\n<script setup>\n  function myFilterFn(url) {\n    // example (only https://my-service.com/* should trigger)\n    return /^https:\\/\\/my-service\\.com/.test(url)\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/ajax-bar#tips",
+    "documentId": "vue-components/ajax-bar",
+    "heading": "Tips",
+    "breadcrumb": [
+      "Tips",
+      "Tips"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/ajax-bar#tips",
+    "content": "- If multiple events are captured by Ajax Bar simultaneously, `@start` and `@stop` will still be triggered only once: when bar starts showing up and when it becomes hidden.\n- Each Ajax call makes a `start()` call when it is triggered. When it ends, it calls `stop()`. So yes, if you also manually trigger QAjaxBar you must call `start()` each time a new event is starting and `stop()` each time an event finished. QAjaxBar knows to handle multiple events simultaneously.\n- The automatic capture is designed to function exclusively with libraries utilizing [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest). Consequently, if you opt for the native browser [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), it won't initiate the loading bar automatically.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

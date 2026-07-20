@@ -1,0 +1,141 @@
+[
+  {
+    "id": "vue-components/pagination#overview",
+    "documentId": "vue-components/pagination",
+    "heading": "Pagination",
+    "breadcrumb": [
+      "Pagination"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/pagination",
+    "content": "The QPagination component is available for whenever a pagination system is required. It offers the user a simple UI for moving between items or pages.\n\nThere are two modes in which QPagination operates: with buttons only or with an inputbox. The latter allows the user to go to a specific page by clicking/tapping on the inputbox, typing the page number then hitting Enter key. If the new page number is within valid limits, the model will be changed accordingly.\n\nAPI reference: QPagination",
+    "apiReferences": [
+      "QPagination"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/pagination#design",
+    "documentId": "vue-components/pagination",
+    "heading": "Design",
+    "breadcrumb": [
+      "Usage",
+      "Design",
+      "Design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pagination#design",
+    "content": "Example: Standard (Standard.vue)\n\nThe following are a few examples, but not an exhaustive list:\n\nExample: Button design (v2.10+) (BtnDesign.vue)\n\nExample: Gutter (v2.10+) (BtnGutter.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "Standard.vue"
+      },
+      {
+        "title": "Button design (v2.10+)",
+        "file": "BtnDesign.vue"
+      },
+      {
+        "title": "Gutter (v2.10+)",
+        "file": "BtnGutter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pagination#custom-icons",
+    "documentId": "vue-components/pagination",
+    "heading": "Custom icons",
+    "breadcrumb": [
+      "Usage",
+      "Custom icons",
+      "Custom icons"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pagination#custom-icons",
+    "content": "Example: With icon replacement (Icons.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With icon replacement",
+        "file": "Icons.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pagination#with-input",
+    "documentId": "vue-components/pagination",
+    "heading": "With input",
+    "breadcrumb": [
+      "Usage",
+      "With input",
+      "With input"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pagination#with-input",
+    "content": "Example: With input (Input.vue)\n\nExample: With input color (InputColor.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With input",
+        "file": "Input.vue"
+      },
+      {
+        "title": "With input color",
+        "file": "InputColor.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pagination#max-pages-shown",
+    "documentId": "vue-components/pagination",
+    "heading": "Max pages shown",
+    "breadcrumb": [
+      "Usage",
+      "Max pages shown",
+      "Max pages shown"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pagination#max-pages-shown",
+    "content": "Example: Maximum pages shown (MaxPages.vue)\n\nExample: Removing ellipses (Ellipses.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Maximum pages shown",
+        "file": "MaxPages.vue"
+      },
+      {
+        "title": "Removing ellipses",
+        "file": "Ellipses.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pagination#handling-boundary",
+    "documentId": "vue-components/pagination",
+    "heading": "Handling boundary",
+    "breadcrumb": [
+      "Usage",
+      "Handling boundary",
+      "Handling boundary"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pagination#handling-boundary",
+    "content": "Example: With boundary numbers (BoundaryNumbers.vue)\n\nExample: With boundary links (BoundaryLinks.vue)\n\nExample: With direction links (DirectionLinks.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With boundary numbers",
+        "file": "BoundaryNumbers.vue"
+      },
+      {
+        "title": "With boundary links",
+        "file": "BoundaryLinks.vue"
+      },
+      {
+        "title": "With direction links",
+        "file": "DirectionLinks.vue"
+      }
+    ]
+  }
+]

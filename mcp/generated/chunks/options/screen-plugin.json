@@ -1,0 +1,74 @@
+[
+  {
+    "id": "options/screen-plugin#overview",
+    "documentId": "options/screen-plugin",
+    "heading": "Screen Plugin",
+    "breadcrumb": [
+      "Screen Plugin"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/options/screen-plugin",
+    "content": "The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#window-width-related) instead, for performance reasons.\n\nAPI reference: Screen",
+    "apiReferences": [
+      "Screen"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/screen-plugin#usage",
+    "documentId": "options/screen-plugin",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/screen-plugin#usage",
+    "content": "Notice `$q.screen` below. This is just a simple usage example.\n\n```html\n<q-list :dense=\"$q.screen.lt.md\">\n  <q-item>\n    <q-item-section>John Doe</q-item-section>\n  </q-item>\n\n  <q-item>\n    <q-item-section>Jane Doe</q-item-section>\n  </q-item>\n</q-list>\n```\n\n```js\n// script part of a Vue component\nimport { useQuasar } from 'quasar'\nimport { computed } from 'vue'\n\nexport default {\n  setup() {\n    const $q = useQuasar()\n    const buttonColor = computed(() => {\n      return $q.screen.lt.md ? 'primary' : 'secondary'\n    })\n\n    return { buttonColor }\n  }\n}\n```\n\nWe can also use the Screen plugin outside of a Vue component:\n\n```js\nimport { Screen } from 'quasar'\n\n// Screen.gt.md\n// Screen.md\n// Screen.name ('xs', 'sm', ...)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/screen-plugin#body-classes",
+    "documentId": "options/screen-plugin",
+    "heading": "Body classes",
+    "breadcrumb": [
+      "Body classes",
+      "Body classes"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/screen-plugin#body-classes",
+    "content": "**If you enable it (see how to do it after the examples below)**, you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.\n\n```css\nbody.screen--xs {\n  .my-div {\n    color: #000;\n  }\n}\n\nbody.screen--sm {\n  .my-div {\n    color: #fff;\n  }\n}\n```\n\nOr a sexy variant in Sass:\n\n```sass\n.my-div\n  body.screen--xs &\n    color: #000\n  body.screen--sm &\n    color: #fff\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/screen-plugin#how-to-enable-body-classes",
+    "documentId": "options/screen-plugin",
+    "heading": "How to enable body classes",
+    "breadcrumb": [
+      "Body classes",
+      "How to enable body classes",
+      "How to enable body classes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/screen-plugin#how-to-enable-body-classes",
+    "content": "In order to enable the behavior above, edit your /quasar.config file like below. Please note that this will increase a bit the time for First Meaningful Paint.\n\n```js /quasar.config file\nframework: {\n  config: {\n    screen: {\n      bodyClasses: true // [!code highlight]\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/screen-plugin#configuration",
+    "documentId": "options/screen-plugin",
+    "heading": "Configuration",
+    "breadcrumb": [
+      "Configuration",
+      "Configuration"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/screen-plugin#configuration",
+    "content": "There are a few methods that can be used to tweak how Screen plugin works:\n\n| Method              | Description                                                       | Example                          |\n| ------------------- | ----------------------------------------------------------------- | -------------------------------- |\n| setSizes(Object)    | Change window breakpoints; does NOT also changes CSS breakpoints. | setSizes({ lg: 1024, xl: 2000 }) |\n| setDebounce(Number) | Change the default 100ms debounce to some other value.            | setDebounce(500) // 500ms        |\n\nExamples:\n\n```js Inside a Vue component\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })\n}\n```\n\n```js Outside of a Vue component\nimport { Screen } from 'quasar'\nScreen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

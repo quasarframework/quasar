@@ -1,0 +1,176 @@
+[
+  {
+    "id": "vue-components/tab-panels#overview",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Tab Panels",
+    "breadcrumb": [
+      "Tab Panels"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels",
+    "content": "Tab panels are a way of displaying more information using less window real estate.\n\n::: tip\nWorks great along with [QTabs](/vue-components/tabs) but it is not required to be used with it.\n:::\n\nAPI reference: QTabPanels\n\nAPI reference: QTabPanel",
+    "apiReferences": [
+      "QTabPanels",
+      "QTabPanel"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/tab-panels#usage",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#usage",
+    "content": "::: tip\n\n- Works great along with [QTabs](/vue-components/tabs), a component which offers a nice way to select the active tab panel to display.\n- If the QTabpanel content also has images and you want to use swipe actions to navigate, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n\n:::\n\n::: warning IMPORTANT\nDo not be mistaken by the \"QTabPanels\" component name. Panels do not require QTabs. They can be used as standalone too.\n:::\n\n::: danger Keep Alive\n\n- Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.\n- Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QTabPanel `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/tab-panels#basic",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tab-panels#with-qtabs",
+    "documentId": "vue-components/tab-panels",
+    "heading": "With QTabs",
+    "breadcrumb": [
+      "Usage",
+      "With QTabs",
+      "With QTabs"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#with-qtabs",
+    "content": "::: tip\nQTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near QTabs.\n:::\n\nExample: With QTabs (WithQTabs.vue)\n\nExample: A more complex example (WithNestedQTabs.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QTabs",
+        "file": "WithQTabs.vue"
+      },
+      {
+        "title": "A more complex example",
+        "file": "WithNestedQTabs.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tab-panels#coloring",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Coloring",
+    "breadcrumb": [
+      "Usage",
+      "Coloring",
+      "Coloring"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#coloring",
+    "content": "Example: Coloring (Coloring.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Coloring",
+        "file": "Coloring.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tab-panels#with-vertical-qtabs-and-qsplitter",
+    "documentId": "vue-components/tab-panels",
+    "heading": "With vertical QTabs and QSplitter",
+    "breadcrumb": [
+      "Usage",
+      "With vertical QTabs and QSplitter",
+      "With vertical QTabs and QSplitter"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#with-vertical-qtabs-and-qsplitter",
+    "content": "Example: With vertical QTabs and QSplitter (TabsAndSplitter.vue)\n\nFor a full list of transitions, please check out [Transitions](/options/transitions).",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With vertical QTabs and QSplitter",
+        "file": "TabsAndSplitter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tab-panels#custom-transitions",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Custom transitions",
+    "breadcrumb": [
+      "Usage",
+      "Custom transitions",
+      "Custom transitions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#custom-transitions",
+    "content": "Example: Custom transition examples (Transition.vue)\n\nIn the example below, use your mouse to swipe through the panels or, if on a touch capable device, swipe with your fingers.",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom transition examples",
+        "file": "Transition.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tab-panels#swipeable-and-infinite",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Swipeable and infinite",
+    "breadcrumb": [
+      "Usage",
+      "Swipeable and infinite",
+      "Swipeable and infinite"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#swipeable-and-infinite",
+    "content": "Example: Swipeable and infinite (Swipeable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Swipeable and infinite",
+        "file": "Swipeable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tab-panels#vertical-swipeable-and-infinite",
+    "documentId": "vue-components/tab-panels",
+    "heading": "Vertical swipeable and infinite",
+    "breadcrumb": [
+      "Usage",
+      "Vertical swipeable and infinite",
+      "Vertical swipeable and infinite"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tab-panels#vertical-swipeable-and-infinite",
+    "content": "Example: Vertical swipeable and infinite (VerticalSwipeable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical swipeable and infinite",
+        "file": "VerticalSwipeable.vue"
+      }
+    ]
+  }
+]

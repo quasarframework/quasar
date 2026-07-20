@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "options/platform-detection",
+  "title": "Platform Detection",
+  "description": "How to detect the platform under which a Quasar app is running.",
+  "canonicalUrl": "https://quasar.dev/options/platform-detection",
+  "source": "docs/src/pages/options/platform-detection.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Platform"
+  ],
+  "examples": [
+    {
+      "title": "Your device",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/Platform/Basic.vue"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/web-storage",
+  "title": "Local/Session Storage Plugins",
+  "description": "A Quasar plugin that wraps the Local/Session Storage, retrieving data with its original JS type.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/web-storage",
+  "source": "docs/src/pages/quasar-plugins/web-storage.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "LocalStorage",
+    "SessionStorage"
+  ],
+  "examples": []
+}

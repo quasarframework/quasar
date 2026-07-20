@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/slider",
+  "title": "Slider",
+  "description": "The QSlider Vue component is a great way for the user to specify a number value between a minimum and maximum value, with optional steps between valid values.",
+  "canonicalUrl": "https://quasar.dev/vue-components/slider",
+  "source": "docs/src/pages/vue-components/slider.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSlider"
+  ],
+  "examples": [
+    {
+      "title": "Standard",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QSlider/Standard.vue"
+    },
+    {
+      "title": "Vertical orientation",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/QSlider/Vertical.vue"
+    },
+    {
+      "title": "Inner min/max",
+      "file": "InnerMinMax.vue",
+      "source": "docs/src/examples/QSlider/InnerMinMax.vue"
+    },
+    {
+      "title": "With step",
+      "file": "Step.vue",
+      "source": "docs/src/examples/QSlider/Step.vue"
+    },
+    {
+      "title": "Floating point",
+      "file": "FloatingPoint.vue",
+      "source": "docs/src/examples/QSlider/FloatingPoint.vue"
+    },
+    {
+      "title": "Snap to steps",
+      "file": "Snap.vue",
+      "source": "docs/src/examples/QSlider/Snap.vue"
+    },
+    {
+      "title": "With label",
+      "file": "Label.vue",
+      "source": "docs/src/examples/QSlider/Label.vue"
+    },
+    {
+      "title": "Always display label",
+      "file": "LabelAlways.vue",
+      "source": "docs/src/examples/QSlider/LabelAlways.vue"
+    },
+    {
+      "title": "Custom label value",
+      "file": "LabelValue.vue",
+      "source": "docs/src/examples/QSlider/LabelValue.vue"
+    },
+    {
+      "title": "Long label",
+      "file": "LabelLong.vue",
+      "source": "docs/src/examples/QSlider/LabelLong.vue"
+    },
+    {
+      "title": "Markers",
+      "file": "Markers.vue",
+      "source": "docs/src/examples/QSlider/Markers.vue"
+    },
+    {
+      "title": "Marker labels",
+      "file": "MarkerLabels.vue",
+      "source": "docs/src/examples/QSlider/MarkerLabels.vue"
+    },
+    {
+      "title": "Marker label slots",
+      "file": "MarkerLabelSlots.vue",
+      "source": "docs/src/examples/QSlider/MarkerLabelSlots.vue"
+    },
+    {
+      "title": "Color customizations",
+      "file": "SliderColoring.vue",
+      "source": "docs/src/examples/QSlider/SliderColoring.vue"
+    },
+    {
+      "title": "Hide selection bar",
+      "file": "NoSelection.vue",
+      "source": "docs/src/examples/QSlider/NoSelection.vue"
+    },
+    {
+      "title": "Custom track images",
+      "file": "TrackImages.vue",
+      "source": "docs/src/examples/QSlider/TrackImages.vue"
+    },
+    {
+      "title": "Track & thumb size",
+      "file": "SliderSizes.vue",
+      "source": "docs/src/examples/QSlider/SliderSizes.vue"
+    },
+    {
+      "title": "Lazy input",
+      "file": "Lazy.vue",
+      "source": "docs/src/examples/QSlider/Lazy.vue"
+    },
+    {
+      "title": "Null value",
+      "file": "Null.vue",
+      "source": "docs/src/examples/QSlider/Null.vue"
+    },
+    {
+      "title": "In reverse",
+      "file": "Reverse.vue",
+      "source": "docs/src/examples/QSlider/Reverse.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QSlider/Dark.vue"
+    },
+    {
+      "title": "Readonly",
+      "file": "Readonly.vue",
+      "source": "docs/src/examples/QSlider/Readonly.vue"
+    },
+    {
+      "title": "Disable",
+      "file": "Disable.vue",
+      "source": "docs/src/examples/QSlider/Disable.vue"
+    },
+    {
+      "title": "With QItem",
+      "file": "List.vue",
+      "source": "docs/src/examples/QSlider/List.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QSlider/NativeForm.vue"
+    }
+  ]
+}

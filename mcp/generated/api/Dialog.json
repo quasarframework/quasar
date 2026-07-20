@@ -1,0 +1,479 @@
+{
+  "type": "plugin",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dialog"
+  },
+  "injection": "$q.dialog",
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Dialog; Same as calling $q.dialog(...)",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "required": true,
+          "definition": {
+            "class": {
+              "type": [
+                "String",
+                "Array",
+                "Object"
+              ],
+              "tsType": "VueClassProp",
+              "desc": "CSS Class name to apply to the Dialog's QCard",
+              "examples": [
+                "'my-class'"
+              ]
+            },
+            "style": {
+              "type": [
+                "String",
+                "Array",
+                "Object"
+              ],
+              "tsType": "VueStyleProp",
+              "desc": "CSS style to apply to the Dialog's QCard",
+              "examples": [
+                "'border: 2px solid black'"
+              ]
+            },
+            "title": {
+              "type": "String",
+              "desc": "A text for the heading title of the dialog",
+              "examples": [
+                "'Continue?'"
+              ]
+            },
+            "message": {
+              "type": "String",
+              "desc": "A text with more information about what needs to be input, selected or confirmed.",
+              "examples": [
+                "'Are you certain you want to continue?'"
+              ]
+            },
+            "html": {
+              "type": "Boolean",
+              "desc": "Render title and message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
+            },
+            "position": {
+              "type": "String",
+              "desc": "Position of the Dialog on screen. Standard is centered.",
+              "values": [
+                "'top'",
+                "'right'",
+                "'bottom'",
+                "'left'",
+                "'standard'"
+              ],
+              "default": "'standard'",
+              "required": false
+            },
+            "prompt": {
+              "type": "Object",
+              "tsType": "QDialogInputPrompt",
+              "desc": "An object definition of the input field for the prompting question.",
+              "examples": [
+                "{ model: 'initial-value', type: 'number' }"
+              ],
+              "definition": {
+                "model": {
+                  "type": "String",
+                  "required": true,
+                  "desc": "The initial value of the input"
+                },
+                "type": {
+                  "type": "String",
+                  "desc": "Optional property to determine the input field type",
+                  "default": "'text'",
+                  "examples": [
+                    "'text'",
+                    "'number'",
+                    "'textarea'"
+                  ],
+                  "required": false
+                },
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is typed content valid?",
+                  "params": {
+                    "val": {
+                      "type": "String",
+                      "required": true,
+                      "desc": "The value of the input"
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The text passed validation or not"
+                  }
+                },
+                "...QInputProps": {
+                  "type": "Any",
+                  "desc": "Any QInput props, like color, label, stackLabel, filled, outlined, rounded, prefix etc",
+                  "examples": [
+                    "label: 'My Label'",
+                    "standout: true",
+                    "counter: true",
+                    "maxlength: 12"
+                  ]
+                },
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the prompt control",
+                  "examples": [
+                    "# autocomplete: 'off'"
+                  ]
+                }
+              }
+            },
+            "options": {
+              "type": "Object",
+              "tsType": "QDialogSelectionPrompt",
+              "desc": "An object definition for creating the selection form content",
+              "examples": [
+                "{ model: null, type: 'radio', items: [ /* ...listOfItems */ ] }"
+              ],
+              "definition": {
+                "model": {
+                  "type": [
+                    "String",
+                    "Array"
+                  ],
+                  "required": true,
+                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
+                  "examples": [
+                    "[]"
+                  ]
+                },
+                "type": {
+                  "type": "String",
+                  "desc": "The type of selection",
+                  "default": "'radio'",
+                  "values": [
+                    "'radio'",
+                    "'checkbox'",
+                    "'toggle'"
+                  ],
+                  "required": false
+                },
+                "items": {
+                  "type": "Array",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionGroup component",
+                  "examples": [
+                    "[{ label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' }]"
+                  ]
+                },
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is the model valid?",
+                  "params": {
+                    "model": {
+                      "type": [
+                        "String",
+                        "Array"
+                      ],
+                      "required": true,
+                      "desc": "The current model (String if it's of type radio or Array otherwise)",
+                      "examples": [
+                        "'opt2'",
+                        "['opt1']",
+                        "[]",
+                        "['opt1', 'opt3']"
+                      ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The selection passed validation or not"
+                  }
+                },
+                "...QOptionGroupProps": {
+                  "type": "Any",
+                  "desc": "Any QOptionGroup props",
+                  "examples": [
+                    "color: 'deep-purple-4'",
+                    "inline: true",
+                    "dense: true",
+                    "leftLabel: true"
+                  ]
+                },
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the inner QOptionGroup"
+                }
+              }
+            },
+            "progress": {
+              "type": [
+                "Boolean",
+                "Object"
+              ],
+              "desc": "Display a Quasar spinner (if value is true, then the defaults are used); Useful for conveying the idea that something is happening behind the covers; Tip: use along with persistent, ok: false and update() method",
+              "definition": {
+                "spinner": {
+                  "type": "Component",
+                  "desc": "One of the QSpinners"
+                },
+                "color": {
+                  "type": "String",
+                  "tsType": "NamedColor",
+                  "desc": "Color name for component from the Quasar Color Palette",
+                  "examples": [
+                    "'primary'",
+                    "'teal'",
+                    "'teal-10'"
+                  ],
+                  "category": "style"
+                }
+              }
+            },
+            "ok": {
+              "type": [
+                "String",
+                "Object",
+                "Boolean"
+              ],
+              "desc": "Props for an 'OK' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props"
+                }
+              }
+            },
+            "cancel": {
+              "type": [
+                "String",
+                "Object",
+                "Boolean"
+              ],
+              "desc": "Props for a 'CANCEL' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props"
+                }
+              }
+            },
+            "focus": {
+              "type": "String",
+              "desc": "What button to focus, unless you also have 'prompt' or 'options'",
+              "values": [
+                "'ok'",
+                "'cancel'",
+                "'none'"
+              ],
+              "default": "'ok'",
+              "required": false
+            },
+            "stackButtons": {
+              "type": "Boolean",
+              "desc": "Makes buttons be stacked instead of vertically aligned"
+            },
+            "color": {
+              "type": "String",
+              "tsType": "NamedColor",
+              "desc": "Color name for component from the Quasar Color Palette",
+              "examples": [
+                "'primary'",
+                "'teal'",
+                "'teal-10'"
+              ],
+              "category": "style"
+            },
+            "dark": {
+              "type": [
+                "Boolean",
+                "null"
+              ],
+              "default": "null",
+              "desc": "Apply dark mode",
+              "category": "style",
+              "required": false
+            },
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
+            },
+            "noEscDismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by hitting ESC key; No need to set it if 'persistent' prop is also set"
+            },
+            "noBackdropDismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by clicking outside of it; No need to set it if 'persistent' prop is also set"
+            },
+            "noRouteDismiss": {
+              "type": "Boolean",
+              "desc": "Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set"
+            },
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
+            },
+            "maximized": {
+              "type": "Boolean",
+              "desc": "Put Dialog into maximized mode"
+            },
+            "fullWidth": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same width as the window"
+            },
+            "fullHeight": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same height as the window"
+            },
+            "transitionShow": {
+              "type": "String",
+              "desc": "One of Quasar's embedded transitions",
+              "examples": [
+                "'fade'",
+                "'slide-down'"
+              ],
+              "category": "transition",
+              "default": "'scale'",
+              "required": false
+            },
+            "transitionHide": {
+              "type": "String",
+              "desc": "One of Quasar's embedded transitions",
+              "examples": [
+                "'fade'",
+                "'slide-down'"
+              ],
+              "category": "transition",
+              "default": "'scale'",
+              "required": false
+            },
+            "component": {
+              "type": [
+                "Component",
+                "String"
+              ],
+              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible",
+              "examples": [
+                "CustomComponent",
+                "'custom-component'"
+              ]
+            },
+            "componentProps": {
+              "type": "Object",
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used; May also include any built-in QDialog option such as 'persistent' or 'seamless'"
+            }
+          },
+          "desc": "Dialog options",
+          "tsType": "QDialogOptions",
+          "autoDefineTsType": true
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Chainable Object",
+        "tsType": "DialogChainObject",
+        "autoDefineTsType": true,
+        "definition": {
+          "onOk": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": {
+                  "payload": {
+                    "type": "Any",
+                    "desc": "The payload if called onDialogOK with the parameter or emitted one with the 'ok' event",
+                    "required": false,
+                    "examples": [
+                      "'Quasar Framework'",
+                      "[1, 2, 6, 3]",
+                      "{ book: { id: 1, name: 'Lorem Ipsum' }, user: { name: 'Lorem J. Ipsum', role: 'admin' } }"
+                    ]
+                  }
+                },
+                "returns": null,
+                "examples": [
+                  "() => console.log('OK!')",
+                  "payload => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })"
+                ]
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "onCancel": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "onDismiss": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function param to tell what to do when the dialog is closed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "hide": {
+            "type": "Function",
+            "required": true,
+            "desc": "Hides the dialog when called",
+            "params": null,
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "update": {
+            "type": "Function",
+            "required": true,
+            "desc": "Updates the initial properties (given as create() param) except for 'component'",
+            "params": {
+              "opts": {
+                "type": "Object",
+                "required": true,
+                "desc": "If using with 'component' prop then the props to update the current 'componentProps' (will be shallowly merged on top of the previous 'componentProps'); Otherwise the props to be shallowly merged with the previous create() param Object"
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          }
+        }
+      },
+      "tsInjectionPoint": true
+    }
+  }
+}

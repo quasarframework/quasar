@@ -1,0 +1,68 @@
+[
+  {
+    "id": "vue-components/chip#overview",
+    "documentId": "vue-components/chip",
+    "heading": "Chip",
+    "breadcrumb": [
+      "Chip"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/chip",
+    "content": "The QChip component is basically a simple UI block entity, representing for example more advanced underlying data, such as a contact, in a compact way.\n\nChips can contain entities such as an avatar, text or an icon, optionally having a pointer too. They can also be closed or removed if configured so.\n\n::: tip\nAlso check out [QBadge](/vue-components/badge).\n:::\n\nAPI reference: QChip",
+    "apiReferences": [
+      "QChip"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/chip#usage",
+    "documentId": "vue-components/chip",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/chip#usage",
+    "content": "Example: Basic (Basic.vue)\n\nExample: Dense (Dense.vue)\n\nExample: Custom size (Sizes.vue)\n\nExample: Square (Square.vue)\n\nExample: Outline (Outline.vue)\n\nExample: Clickable (Clickable.vue)\n\nExample: Selected (Selected.vue)\n\nExample: Removable (Removable.vue)\n\nExample: Long label truncation (LongLabel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Dense",
+        "file": "Dense.vue"
+      },
+      {
+        "title": "Custom size",
+        "file": "Sizes.vue"
+      },
+      {
+        "title": "Square",
+        "file": "Square.vue"
+      },
+      {
+        "title": "Outline",
+        "file": "Outline.vue"
+      },
+      {
+        "title": "Clickable",
+        "file": "Clickable.vue"
+      },
+      {
+        "title": "Selected",
+        "file": "Selected.vue"
+      },
+      {
+        "title": "Removable",
+        "file": "Removable.vue"
+      },
+      {
+        "title": "Long label truncation",
+        "file": "LongLabel.vue"
+      }
+    ]
+  }
+]

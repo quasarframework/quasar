@@ -1,0 +1,60 @@
+[
+  {
+    "id": "vue-components/badge#overview",
+    "documentId": "vue-components/badge",
+    "heading": "Badge",
+    "breadcrumb": [
+      "Badge"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/badge",
+    "content": "The QBadge component allows you to create a small badge for adding information like contextual data that needs to stand out and get noticed. It is also often useful in combination with other elements like a user avatar to show a number of new messages.\n\nAPI reference: QBadge",
+    "apiReferences": [
+      "QBadge"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/badge#usage",
+    "documentId": "vue-components/badge",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/badge#usage",
+    "content": "Example: Basic (Basic.vue)\n\nExample: Aligned (Align.vue)\n\nExample: Floating (Floating.vue)\n\nExample: Transparent (Transparent.vue)\n\nExample: Outline design (Outline.vue)\n\nExample: Rounded (Rounded.vue)\n\nExample: Indicators (Indicators.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Aligned",
+        "file": "Align.vue"
+      },
+      {
+        "title": "Floating",
+        "file": "Floating.vue"
+      },
+      {
+        "title": "Transparent",
+        "file": "Transparent.vue"
+      },
+      {
+        "title": "Outline design",
+        "file": "Outline.vue"
+      },
+      {
+        "title": "Rounded",
+        "file": "Rounded.vue"
+      },
+      {
+        "title": "Indicators",
+        "file": "Indicators.vue"
+      }
+    ]
+  }
+]

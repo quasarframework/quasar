@@ -1,0 +1,31 @@
+<template>
+  <div class="q-ma-md">
+    <q-scroll-area
+      :horizontal-offset="[0, 2]"
+      :thumb-style="thumbStyle"
+      :bar-style="barStyle"
+      style="height: 200px; max-width: 300px"
+    >
+      <div v-for="n in 100" :key="n" class="q-pa-xs">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </div>
+    </q-scroll-area>
+  </div>
+</template>
+
+<script setup>
+const thumbStyle = {
+  borderRadius: '5px',
+  backgroundColor: '#027be3',
+  width: '5px',
+  opacity: 0.75
+}
+
+const barStyle = {
+  borderRadius: '9px',
+  backgroundColor: '#027be3',
+  width: '9px',
+  opacity: 0.2
+}
+</script>

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/scroll-area",
+  "title": "Scroll Area",
+  "description": "The QScrollArea Vue component offers a way of customizing the scrollbars for all desktop browsers.",
+  "canonicalUrl": "https://quasar.dev/vue-components/scroll-area",
+  "source": "docs/src/pages/vue-components/scroll-area.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QScrollArea"
+  ],
+  "examples": [
+    {
+      "title": "Vertical content",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/QScrollArea/Vertical.vue"
+    },
+    {
+      "title": "Horizontal content",
+      "file": "Horizontal.vue",
+      "source": "docs/src/examples/QScrollArea/Horizontal.vue"
+    },
+    {
+      "title": "Vertical and horizontal content",
+      "file": "VertHoriz.vue",
+      "source": "docs/src/examples/QScrollArea/VertHoriz.vue"
+    },
+    {
+      "title": "Styled thumb and bar",
+      "file": "StyledBar.vue",
+      "source": "docs/src/examples/QScrollArea/StyledBar.vue"
+    },
+    {
+      "title": "Styled",
+      "file": "Styled.vue",
+      "source": "docs/src/examples/QScrollArea/Styled.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QScrollArea/Dark.vue"
+    },
+    {
+      "title": "Controlling scrollbar visibility",
+      "file": "ScrollbarVisibility.vue",
+      "source": "docs/src/examples/QScrollArea/ScrollbarVisibility.vue"
+    },
+    {
+      "title": "Delay",
+      "file": "Delay.vue",
+      "source": "docs/src/examples/QScrollArea/Delay.vue"
+    },
+    {
+      "title": "Scroll Position",
+      "file": "ScrollPosition.vue",
+      "source": "docs/src/examples/QScrollArea/ScrollPosition.vue"
+    },
+    {
+      "title": "Synchronized",
+      "file": "Synchronized.vue",
+      "source": "docs/src/examples/QScrollArea/Synchronized.vue"
+    }
+  ]
+}

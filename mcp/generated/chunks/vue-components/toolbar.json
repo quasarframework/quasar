@@ -1,0 +1,65 @@
+[
+  {
+    "id": "vue-components/toolbar#overview",
+    "documentId": "vue-components/toolbar",
+    "heading": "Toolbar",
+    "breadcrumb": [
+      "Toolbar"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/toolbar",
+    "content": "QToolbar is a component usually part of Layout Header and Footer, but it can be used anywhere on the page.\n\nAPI reference: QToolbar\n\nAPI reference: QToolbarTitle",
+    "apiReferences": [
+      "QToolbar",
+      "QToolbarTitle"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/toolbar#usage",
+    "documentId": "vue-components/toolbar",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/toolbar#usage",
+    "content": "Example: Basic (Basic.vue)\n\nExample: With Avatar (Avatar.vue)\n\nYou can use the `glossy` class to make the toolbar glossy.\n\nExample: Glossy (Glossy.vue)\n\nExample: Grouped vertically (GroupedVertically.vue)\n\nExample: Grouped horizontally (GroupedHorizontally.vue)\n\nExample: With Tabs (WithTabs.vue)\n\nExample: With Button Dropdown (WithDropdown.vue)\n\nExample: With Button Toggle (WithBtnToggle.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "With Avatar",
+        "file": "Avatar.vue"
+      },
+      {
+        "title": "Glossy",
+        "file": "Glossy.vue"
+      },
+      {
+        "title": "Grouped vertically",
+        "file": "GroupedVertically.vue"
+      },
+      {
+        "title": "Grouped horizontally",
+        "file": "GroupedHorizontally.vue"
+      },
+      {
+        "title": "With Tabs",
+        "file": "WithTabs.vue"
+      },
+      {
+        "title": "With Button Dropdown",
+        "file": "WithDropdown.vue"
+      },
+      {
+        "title": "With Button Toggle",
+        "file": "WithBtnToggle.vue"
+      }
+    ]
+  }
+]

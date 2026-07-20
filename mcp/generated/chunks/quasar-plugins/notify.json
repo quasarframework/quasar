@@ -1,0 +1,298 @@
+[
+  {
+    "id": "quasar-plugins/notify#overview",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Notify",
+    "breadcrumb": [
+      "Notify"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify",
+    "content": "Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.\n\nAPI reference: Notify\n\n<DocInstall plugins=\"Notify\" config=\"notify\" />",
+    "apiReferences": [
+      "Notify"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/notify#basic",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#basic",
+    "content": "```js Outside of a Vue file\nimport { Notify } from 'quasar'\n\nNotify.create('Danger, Will Robinson! Danger!')\n// or with a config object:\nNotify.create({\n  message: 'Danger, Will Robinson! Danger!'\n})\n```\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify('Message')\n  // or with a config object:\n  $q.notify({...})\n}\n```\n\nExample: Basic (Basic.vue)\n\n::: tip\nIf you define any actions, the notification will automatically be dismissed when the user picks it.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#with-caption",
+    "documentId": "quasar-plugins/notify",
+    "heading": "With caption",
+    "breadcrumb": [
+      "Usage",
+      "With caption",
+      "With caption"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#with-caption",
+    "content": "Example: Caption (Caption.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Caption",
+        "file": "Caption.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#with-icon-avatar-or-spinner",
+    "documentId": "quasar-plugins/notify",
+    "heading": "With icon, avatar or spinner",
+    "breadcrumb": [
+      "Usage",
+      "With icon, avatar or spinner",
+      "With icon, avatar or spinner"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#with-icon-avatar-or-spinner",
+    "content": "Example: With icon (Icon.vue)\n\nExample: With avatar (Avatar.vue)\n\nExample: With spinner (Spinner.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With icon",
+        "file": "Icon.vue"
+      },
+      {
+        "title": "With avatar",
+        "file": "Avatar.vue"
+      },
+      {
+        "title": "With spinner",
+        "file": "Spinner.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#with-actions",
+    "documentId": "quasar-plugins/notify",
+    "heading": "With actions",
+    "breadcrumb": [
+      "Usage",
+      "With actions",
+      "With actions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#with-actions",
+    "content": "Example: With actions (Actions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With actions",
+        "file": "Actions.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#multiline",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Multiline",
+    "breadcrumb": [
+      "Usage",
+      "Multiline",
+      "Multiline"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#multiline",
+    "content": "Example: Multiline (Multiline.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Multiline",
+        "file": "Multiline.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#positioning",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Positioning",
+    "breadcrumb": [
+      "Usage",
+      "Positioning",
+      "Positioning"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#positioning",
+    "content": "Example: Positioning & different options (Positioning.vue)\n\n::: tip\nFor a full list of options, check the API section.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Positioning & different options",
+        "file": "Positioning.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#grouping",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Grouping",
+    "breadcrumb": [
+      "Usage",
+      "Grouping",
+      "Grouping"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#grouping",
+    "content": "Each notification has an underlying unique group which is computed out of the message + caption + multiLine + actions labels + position. When multiple notifications get triggered with the same group, instead of showing all of them and flooding the view, only the first one remains on screen along with a badge. The badge content represents the number of times that the same notification has been triggered (and with same position) since the first one appeared on screen.\n\nHowever, if you wish to disable this behavior, specify `group: false`. In the example below, the first button triggers the same notification twice each time is clicked. The second button has grouping disabled. The third button, however, has a custom group name so each subsequent notification replaces the old one and increments the badge number.\n\nExample: Grouping (Grouping.vue)\n\nExample: Custom badge (GroupingCustomBadge.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Grouping",
+        "file": "Grouping.vue"
+      },
+      {
+        "title": "Custom badge",
+        "file": "GroupingCustomBadge.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#timeout-progress",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Timeout progress",
+    "breadcrumb": [
+      "Usage",
+      "Timeout progress",
+      "Timeout progress"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#timeout-progress",
+    "content": "Should you wish, there is a way to tell the user when the notification will disappear from the screen. That's for the cases when timeout is not set to 0.\n\nExample: Timeout progress (TimeoutProgress.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Timeout progress",
+        "file": "TimeoutProgress.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#updatable-notifications",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Updatable notifications",
+    "breadcrumb": [
+      "Usage",
+      "Updatable notifications",
+      "Updatable notifications"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#updatable-notifications",
+    "content": "Should you have an ongoing process and you want to inform the user of its progress without blocking what he is currently doing, then you can generate an updatable notification. It's useful to also show a spinner while at it.\n\nPlease note in the example below that we are explicitly setting \"group: false\" (because only non-grouped notifications can be updated) and \"timeout: 0\" (because we want to be in full control when the notification will be dismissed).\n\nExample: Updatable (Updatable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Updatable",
+        "file": "Updatable.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#predefined-types",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Predefined types",
+    "breadcrumb": [
+      "Usage",
+      "Predefined types",
+      "Predefined types"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#predefined-types",
+    "content": "There are four predefined types out of the box that you can use: \"positive\", \"negative\", \"warning\" and \"info\":\n\nExample: Out of the box types (PredefinedTypesDefault.vue)\n\nFurthermore, you can register your own types or even override the predefined ones. The best place to do this would be in a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files).\n\nExample: Custom type (PredefinedTypesCustom.vue)\n\n```js How to register in a boot file:\nimport { Notify } from 'quasar'\n\nNotify.registerType('my-notif', {\n  icon: 'announcement',\n  progress: true,\n  color: 'brown',\n  textColor: 'white',\n  classes: 'glossy'\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Out of the box types",
+        "file": "PredefinedTypesDefault.vue"
+      },
+      {
+        "title": "Custom type",
+        "file": "PredefinedTypesCustom.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#using-html",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Using HTML",
+    "breadcrumb": [
+      "Usage",
+      "Using HTML",
+      "Using HTML"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#using-html",
+    "content": "You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.\n\nExample: Unsafe HTML message (UnsafeHtml.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Unsafe HTML message",
+        "file": "UnsafeHtml.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/notify#setting-attributes",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Setting attributes",
+    "breadcrumb": [
+      "Usage",
+      "Setting attributes",
+      "Setting attributes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#setting-attributes",
+    "content": "You can set custom HTML attributes on the notification itself by setting the `attrs` Object property. For individual notification actions, you can directly pass them just like any other prop.\n\n```js\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify({\n    // ...\n\n    attrs: {\n      // for the notification itself:\n      role: 'alertdialog'\n    },\n\n    actions: [\n      {\n        icon: 'close',\n        // for individual action (button):\n        'aria-label': 'Dismiss'\n      }\n    ]\n  })\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/notify#programmatically-closing",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Programmatically closing",
+    "breadcrumb": [
+      "Usage",
+      "Programmatically closing",
+      "Programmatically closing"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#programmatically-closing",
+    "content": "Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).\n\n```js\nconst dismiss = $q.notify({...})\n...\ndismiss()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/notify#setting-defaults",
+    "documentId": "quasar-plugins/notify",
+    "heading": "Setting defaults",
+    "breadcrumb": [
+      "Usage",
+      "Setting defaults",
+      "Setting defaults"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/notify#setting-defaults",
+    "content": "There are two ways of setting default configuration that will apply to all Notifications: through quasar.config file > framework > config > notify Object (see Installation section) or programmatically (see below).\n\nWe'll describe setting the defaults through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) (works the same anywhere in your code, but a boot file ensures this is run before your app starts):\n\nFirst we create the boot file. Let's name it \"notify-defaults.js\".\n\n```bash\nquasar new boot notify-defaults [--format ts]\n```\n\nAdd the created notify-defaults.js file to the boot array in the `/quasar.config` file:\n\n```js\nimport { defineBoot } from '#q-app'\n\nexport default defineBoot(ctx => {\n  return {\n    // ...\n    boot: ['notify-defaults']\n    // ...\n  }\n})\n```\n\nWe then edit the newly created `/src/boot/notify-defaults.js`:\n\n```ts\nimport { Notify } from 'quasar'\n\nNotify.setDefaults({\n  timeout: 2500,\n  textColor: 'white',\n  actions: [{ icon: 'close', color: 'white' }],\n  position: 'top-right'\n})\n```\n\n::: warning\nYou can only set default `actions` through this method. Specifying `actions` with handlers in the `/quasar.config` file cannot and will NOT work.\n:::\n\nWe could also set the defaults in some Vue file:\n\n```js Inside of a Vue component\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.notify.setDefaults({\n    position: 'top-right',\n    timeout: 2500,\n    textColor: 'white',\n    actions: [{ icon: 'close', color: 'white' }]\n  })\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

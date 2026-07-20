@@ -1,0 +1,115 @@
+[
+  {
+    "id": "vue-directives/intersection#overview",
+    "documentId": "vue-directives/intersection",
+    "heading": "Intersection Directive",
+    "breadcrumb": [
+      "Intersection Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/intersection",
+    "content": "\"Intersection\" is a Quasar directive that enables a method to be called when the user scrolls and the DOM element (or component) that it is applied to comes into or out of the viewport.\n\nUnder the hood, it uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).\n\n::: warning\nNot all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).\n:::\n\nAPI reference: Intersection",
+    "apiReferences": [
+      "Intersection"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/intersection#usage",
+    "documentId": "vue-directives/intersection",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/intersection#usage",
+    "content": "Reading the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) first will be best in your understanding of how this directive works.\n\nIntersection directive takes either a handler function as an argument or an Object. The Object form looks like this:\n\n```js\n{\n  handler: /* Function */,\n  cfg: {\n    // any options from \"Intersection observer options\"\n    // on https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API\n    root: null, // DOM Element\n    rootMargin: '0px',\n    threshold: 0\n  }\n}\n```\n\nWhen using the Object form, only the `handler` key is mandatory.\n\nThe handler Function takes one parameter, which is an [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry).\n\n::: tip\nScroll within the examples below until the observed element is in view. Then scroll it out of view.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/intersection#basic",
+    "documentId": "vue-directives/intersection",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/intersection#basic",
+    "content": "<DocExample title=\"Basic\" file=\"Basic\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/intersection#trigger-once",
+    "documentId": "vue-directives/intersection",
+    "heading": "Trigger once",
+    "breadcrumb": [
+      "Usage",
+      "Trigger once",
+      "Trigger once"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/intersection#trigger-once",
+    "content": "The directive can be used with the `once` modifier (ex: `v-intersection.once`). Once the observed element comes into view, the handler Function will be called and the observing will stop. This allows you to control the processing overhead if all you need is to be notified when the observed element starts to be visible on screen.\n\n<DocExample title=\"Once\" file=\"Once\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Once",
+        "file": "Once.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/intersection#using-an-object",
+    "documentId": "vue-directives/intersection",
+    "heading": "Using an Object",
+    "breadcrumb": [
+      "Usage",
+      "Using an Object",
+      "Using an Object"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/intersection#using-an-object",
+    "content": "By passing in an Object as the directive's value (instead of a Function), you can control all the options (like threshold) of the Intersection Observer.\n\n<DocExample title=\"Supplying configuration Object\" file=\"ObjectForm\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Supplying configuration Object",
+        "file": "ObjectForm.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/intersection#advanced",
+    "documentId": "vue-directives/intersection",
+    "heading": "Advanced",
+    "breadcrumb": [
+      "Usage",
+      "Advanced",
+      "Advanced"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/intersection#advanced",
+    "content": "Below is a more advanced example of what you can do. The code takes advantage of the HTML `data` attribute. Basically, by setting `data-id` with the index of the element in a loop, this can be retrieved via the passed in `entry` to the handler as `entry.target.dataset.id`. If you are unfamiliar with the `data` attribute you can read more [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) about using it.\n\n<DocExample title=\"Advanced\" file=\"Advanced\" no-edit />\n\nIn the example below, we show multiple cards, but only the visible ones get rendered. The secret is in the wrapper which has `v-intersection` attached to it and a fixed height and width (which acts as a necessary filler when the inner content is not rendered -- so that scrolling won't erratically jump).\n\n> The example below can also be written by using [QIntersection](/vue-components/intersection) component which makes everything even easier.\n\n<DocExample title=\"Scrolling Cards\" file=\"ScrollingCards\" scrollable no-edit />\n\n::: tip\nIn the example above we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Advanced",
+        "file": "Advanced.vue"
+      },
+      {
+        "title": "Scrolling Cards",
+        "file": "ScrollingCards.vue"
+      }
+    ]
+  }
+]

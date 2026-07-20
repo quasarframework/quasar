@@ -1,0 +1,123 @@
+[
+  {
+    "id": "vue-components/responsive#overview",
+    "documentId": "vue-components/responsive",
+    "heading": "Responsive",
+    "breadcrumb": [
+      "Responsive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/responsive",
+    "content": "QResponsive is a component which forces the content to maintain an aspect ratio based on its width.\n\nAPI reference: QResponsive",
+    "apiReferences": [
+      "QResponsive"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/responsive#usage",
+    "documentId": "vue-components/responsive",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/responsive#usage",
+    "content": "::: tip TIPS\n\n- The component can be used with any content, as long you specify **only one direct child**. If you need multiple elements inside of it, wrap them in a `<div>`.\n- It is your responsibility to make sure that your content won't overflow the container.\n\n:::\n\n::: warning\nDo not use it on Quasar components that already have a `ratio` property, like QImg or QVideo, or on components that have a forced height.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/responsive#basic",
+    "documentId": "vue-components/responsive",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/responsive#basic",
+    "content": "Example: Basic usage (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic usage",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/responsive#flex-row",
+    "documentId": "vue-components/responsive",
+    "heading": "Flex row",
+    "breadcrumb": [
+      "Usage",
+      "Flex row",
+      "Flex row"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/responsive#flex-row",
+    "content": "Note below that we are using a vertical alignment (`items-start`) other than the default (`stretch`), so that flexbox won't force the height on each QResponsive component.\n\nExample: Basic usage (FlexRow.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic usage",
+        "file": "FlexRow.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/responsive#on-some-components",
+    "documentId": "vue-components/responsive",
+    "heading": "On some components",
+    "breadcrumb": [
+      "Usage",
+      "On some components",
+      "On some components"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/responsive#on-some-components",
+    "content": "Below are just a few examples. QResponsive is not restricted to only QCard and QCarousel.\n\nExample: On QCard (Card.vue)\n\nExample: On QCardSection (CardSection.vue)\n\nExample: On QTable (Table.vue)\n\nNotice that we will not supply a `height` prop to QCarousel when we use QResponsive on it, since it's QResponsive who will take care of that.\n\nExample: On QCarousel (Carousel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "On QCard",
+        "file": "Card.vue"
+      },
+      {
+        "title": "On QCardSection",
+        "file": "CardSection.vue"
+      },
+      {
+        "title": "On QTable",
+        "file": "Table.vue"
+      },
+      {
+        "title": "On QCarousel",
+        "file": "Carousel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/responsive#maximum-height",
+    "documentId": "vue-components/responsive",
+    "heading": "Maximum height",
+    "breadcrumb": [
+      "Usage",
+      "Maximum height",
+      "Maximum height"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/responsive#maximum-height",
+    "content": "Apply the max height (or max width, etc etc) directly on the QResponsive component through a CSS class or inline. Remember that it is still your responsibility to ensure that the content won't overflow the container.\n\nExample: On QCard (MaxHeight.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "On QCard",
+        "file": "MaxHeight.vue"
+      }
+    ]
+  }
+]

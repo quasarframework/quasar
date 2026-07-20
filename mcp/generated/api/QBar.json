@@ -1,0 +1,28 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/bar"
+  },
+  "props": {
+    "dense": {
+      "type": "Boolean",
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
+    },
+    "dark": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "The component background color lights up the parent's background (as opposed to default behavior which is to darken it); Works unless you specify a CSS background color for it",
+      "category": "style",
+      "required": false
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    }
+  }
+}

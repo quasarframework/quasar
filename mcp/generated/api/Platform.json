@@ -1,0 +1,228 @@
+{
+  "type": "plugin",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/options/platform-detection"
+  },
+  "injection": "$q.platform",
+  "props": {
+    "userAgent": {
+      "type": "String",
+      "desc": "Client browser User Agent",
+      "examples": [
+        "'mozilla/5.0 (macintosh; intel mac os x 10_14_5) applewebkit/537.36 (khtml, like gecko) chrome/75.0.3770.100 safari/537.36'"
+      ]
+    },
+    "is": {
+      "type": "Object",
+      "desc": "Client browser details (property names depend on browser)",
+      "definition": {
+        "name": {
+          "type": "String",
+          "desc": "Browser name",
+          "examples": [
+            "'chrome'"
+          ]
+        },
+        "platform": {
+          "type": "String",
+          "desc": "Platform name",
+          "examples": [
+            "'mac'"
+          ]
+        },
+        "version": {
+          "type": "String",
+          "required": false,
+          "desc": "Detailed browser version",
+          "examples": [
+            "'71.0.3578.98'"
+          ]
+        },
+        "versionNumber": {
+          "type": "Number",
+          "required": false,
+          "desc": "Major browser version as a number"
+        },
+        "mobile": {
+          "type": "Boolean",
+          "desc": "Whether the platform is mobile"
+        },
+        "desktop": {
+          "type": "Boolean",
+          "desc": "Whether the platform is desktop"
+        },
+        "cordova": {
+          "type": "Boolean",
+          "desc": "Whether the platform is Cordova"
+        },
+        "capacitor": {
+          "type": "Boolean",
+          "desc": "Whether the platform is Capacitor"
+        },
+        "nativeMobile": {
+          "type": "Boolean",
+          "desc": "Whether the platform is a native mobile wrapper"
+        },
+        "nativeMobileWrapper": {
+          "type": "String",
+          "required": false,
+          "values": [
+            "'cordova'",
+            "'capacitor'"
+          ],
+          "desc": "Type of the native mobile wrapper"
+        },
+        "electron": {
+          "type": "Boolean",
+          "desc": "Whether the platform is Electron"
+        },
+        "bex": {
+          "type": "Boolean",
+          "desc": "Whether the platform is BEX(Browser Extension)"
+        },
+        "linux": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Linux"
+        },
+        "mac": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Mac OS"
+        },
+        "win": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Windows"
+        },
+        "cros": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Chrome OS"
+        },
+        "chrome": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Google Chrome"
+        },
+        "firefox": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Firefox"
+        },
+        "opera": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Opera"
+        },
+        "safari": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Safari"
+        },
+        "vivaldi": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Vivaldi"
+        },
+        "edge": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Microsoft Edge Legacy"
+        },
+        "edgeChromium": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Microsoft Edge (Chromium)"
+        },
+        "ie": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Internet Explorer"
+        },
+        "webkit": {
+          "type": "Boolean",
+          "desc": "Whether the browser is a Webkit or Webkit-based one"
+        },
+        "android": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Android"
+        },
+        "ios": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is iOS"
+        },
+        "ipad": {
+          "type": "Boolean",
+          "desc": "Whether the device is an iPad"
+        },
+        "iphone": {
+          "type": "Boolean",
+          "desc": "Whether the device is an iPhone"
+        },
+        "ipod": {
+          "type": "Boolean",
+          "desc": "Whether the device is an iPod"
+        },
+        "kindle": {
+          "type": "Boolean",
+          "desc": "Whether the device is a Kindle"
+        },
+        "winphone": {
+          "type": "Boolean",
+          "desc": "Whether the operating system is Windows Phone"
+        },
+        "blackberry": {
+          "type": "Boolean",
+          "desc": "Whether the device is a Blackberry"
+        },
+        "playbook": {
+          "type": "Boolean",
+          "desc": "Whether the device is a Blackberry Playbook"
+        },
+        "silk": {
+          "type": "Boolean",
+          "desc": "Whether the browser is Amazon Silk"
+        }
+      },
+      "examples": [
+        "{ chrome: true, version: '71.0.3578.98', versionNumber: 71, mac: true, desktop: true, webkit: true, name: 'chrome', platform: 'mac' }"
+      ]
+    },
+    "has": {
+      "type": "Object",
+      "desc": "Client browser detectable properties",
+      "definition": {
+        "touch": {
+          "type": "Boolean",
+          "desc": "Client browser runs on device with touch support"
+        },
+        "webStorage": {
+          "type": "Boolean",
+          "desc": "Client browser has Web Storage support"
+        }
+      },
+      "examples": [
+        "{ touch: false, webStorage: true }"
+      ]
+    },
+    "within": {
+      "type": "Object",
+      "desc": "Client browser environment",
+      "definition": {
+        "iframe": {
+          "type": "Boolean",
+          "desc": "Does the app run under an iframe?"
+        }
+      },
+      "examples": [
+        "{ iframe: false }"
+      ]
+    }
+  },
+  "methods": {
+    "parseSSR": {
+      "desc": "For SSR usage only, and only on the global import (not on $q.platform)",
+      "params": {
+        "ssrContext": {
+          "type": "Object",
+          "desc": "SSR Context Object",
+          "required": true
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "tsType": "Platform",
+        "desc": "Platform object (like $q.platform) for SSR usage purposes"
+      }
+    }
+  }
+}

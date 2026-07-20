@@ -1,0 +1,106 @@
+[
+  {
+    "id": "vue-components/bar#overview",
+    "documentId": "vue-components/bar",
+    "heading": "Bar",
+    "breadcrumb": [
+      "Bar"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/bar",
+    "content": "The QBar is a small component for creating the top bar on different types of mobile or desktop websites/apps. For instance, in desktop apps QBar will have things like the close, minimize or maximize buttons and other menu controls for your application.\n\nQBar is especially useful for frame-less Electron apps where you integrate it in the QHeader.\n\nAPI reference: QBar",
+    "apiReferences": [
+      "QBar"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/bar#usage",
+    "documentId": "vue-components/bar",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/bar#usage",
+    "content": "::: tip\nFor responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Quasar CSS Classes. For finer tuning you can go write your own CSS media breakpoints or even go with [QResizeObserver](/vue-components/resize-observer).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/bar#styling",
+    "documentId": "vue-components/bar",
+    "heading": "Styling",
+    "breadcrumb": [
+      "Usage",
+      "Styling",
+      "Styling"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/bar#styling",
+    "content": "<DocExample title=\"MacOS style\" file=\"MacOS\" no-edit />\n\nExample: Windows style (Windows.vue)\n\n<DocExample title=\"iOS style\" file=\"iOS\" no-edit />\n\nExample: Android style (Android.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "MacOS style",
+        "file": "MacOS.vue"
+      },
+      {
+        "title": "Windows style",
+        "file": "Windows.vue"
+      },
+      {
+        "title": "iOS style",
+        "file": "iOS.vue"
+      },
+      {
+        "title": "Android style",
+        "file": "Android.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/bar#with-other-components",
+    "documentId": "vue-components/bar",
+    "heading": "With other components",
+    "breadcrumb": [
+      "Usage",
+      "With other components",
+      "With other components"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/bar#with-other-components",
+    "content": "Example: QMenu (Menu.vue)\n\nExample: QDialog (Dialog.vue)\n\nExample: QHeader with QToolbar (Header.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "QMenu",
+        "file": "Menu.vue"
+      },
+      {
+        "title": "QDialog",
+        "file": "Dialog.vue"
+      },
+      {
+        "title": "QHeader with QToolbar",
+        "file": "Header.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/bar#frameless-electron-window",
+    "documentId": "vue-components/bar",
+    "heading": "Frameless Electron Window",
+    "breadcrumb": [
+      "Usage",
+      "Frameless Electron Window",
+      "Frameless Electron Window"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/bar#frameless-electron-window",
+    "content": "QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.\n\nRead more on [Frameless Electron Window](/quasar-cli-vite/developing-electron-apps/frameless-electron-window) page.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

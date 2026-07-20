@@ -1,0 +1,371 @@
+[
+  {
+    "id": "vue-components/slider#overview",
+    "documentId": "vue-components/slider",
+    "heading": "Slider",
+    "breadcrumb": [
+      "Slider"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider",
+    "content": "The QSlider is a great way for the user to specify a number value between a minimum and maximum value, with optional steps between valid values. The slider also has a focus indicator (highlighted slider button), which allows for keyboard adjustments of the slider.\n\nAlso check its “sibling”, the [QRange](/vue-components/range) component.\n\nAPI reference: QSlider",
+    "apiReferences": [
+      "QSlider"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/slider#usage",
+    "documentId": "vue-components/slider",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#usage",
+    "content": "::: warning\nYou are responsible for accommodating the space around QSlider so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/slider#standard",
+    "documentId": "vue-components/slider",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#standard",
+    "content": "Example: Standard (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#vertical",
+    "documentId": "vue-components/slider",
+    "heading": "Vertical",
+    "breadcrumb": [
+      "Usage",
+      "Vertical",
+      "Vertical"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#vertical",
+    "content": "Example: Vertical orientation (Vertical.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical orientation",
+        "file": "Vertical.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#with-inner-min-max",
+    "documentId": "vue-components/slider",
+    "heading": "With inner min/max <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "With inner min/max <q-badge label=\"v2.4+\" />",
+      "With inner min/max <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#with-inner-min-max",
+    "content": "Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.\n\nExample: Inner min/max (InnerMinMax.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Inner min/max",
+        "file": "InnerMinMax.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#with-step",
+    "documentId": "vue-components/slider",
+    "heading": "With step",
+    "breadcrumb": [
+      "Usage",
+      "With step",
+      "With step"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#with-step",
+    "content": "Example: With step (Step.vue)\n\nThe `step` property can also be floating point number (or numeric `0` if you need infinite precision).\n\nExample: Floating point (FloatingPoint.vue)\n\nExample: Snap to steps (Snap.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With step",
+        "file": "Step.vue"
+      },
+      {
+        "title": "Floating point",
+        "file": "FloatingPoint.vue"
+      },
+      {
+        "title": "Snap to steps",
+        "file": "Snap.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#with-label",
+    "documentId": "vue-components/slider",
+    "heading": "With label",
+    "breadcrumb": [
+      "Usage",
+      "With label",
+      "With label"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#with-label",
+    "content": "In the example below, move the slider to see the label.\n\nExample: With label (Label.vue)\n\nExample: Always display label (LabelAlways.vue)\n\nExample: Custom label value (LabelValue.vue)\n\nThe example below is better highlighting how QSlider handles label positioning so that it always stays inside the QSlider's box horizontally.\n\nExample: Long label (LabelLong.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With label",
+        "file": "Label.vue"
+      },
+      {
+        "title": "Always display label",
+        "file": "LabelAlways.vue"
+      },
+      {
+        "title": "Custom label value",
+        "file": "LabelValue.vue"
+      },
+      {
+        "title": "Long label",
+        "file": "LabelLong.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#markers",
+    "documentId": "vue-components/slider",
+    "heading": "Markers",
+    "breadcrumb": [
+      "Usage",
+      "Markers",
+      "Markers"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#markers",
+    "content": "Example: Markers (Markers.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Markers",
+        "file": "Markers.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#marker-labels",
+    "documentId": "vue-components/slider",
+    "heading": "Marker labels <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Marker labels <q-badge label=\"v2.4+\" />",
+      "Marker labels <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#marker-labels",
+    "content": "Example: Marker labels (MarkerLabels.vue)\n\n::: tip TIP on slots\nIn order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.\n:::\n\nExample: Marker label slots (MarkerLabelSlots.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Marker labels",
+        "file": "MarkerLabels.vue"
+      },
+      {
+        "title": "Marker label slots",
+        "file": "MarkerLabelSlots.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#other-customizations",
+    "documentId": "vue-components/slider",
+    "heading": "Other customizations <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Other customizations <q-badge label=\"v2.4+\" />",
+      "Other customizations <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#other-customizations",
+    "content": "Example: Color customizations (SliderColoring.vue)\n\nExample: Hide selection bar (NoSelection.vue)\n\nExample: Custom track images (TrackImages.vue)\n\nExample: Track & thumb size (SliderSizes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Color customizations",
+        "file": "SliderColoring.vue"
+      },
+      {
+        "title": "Hide selection bar",
+        "file": "NoSelection.vue"
+      },
+      {
+        "title": "Custom track images",
+        "file": "TrackImages.vue"
+      },
+      {
+        "title": "Track & thumb size",
+        "file": "SliderSizes.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#lazy-input",
+    "documentId": "vue-components/slider",
+    "heading": "Lazy input",
+    "breadcrumb": [
+      "Usage",
+      "Lazy input",
+      "Lazy input"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#lazy-input",
+    "content": "Example: Lazy input (Lazy.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Lazy input",
+        "file": "Lazy.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#null-value",
+    "documentId": "vue-components/slider",
+    "heading": "Null value",
+    "breadcrumb": [
+      "Usage",
+      "Null value",
+      "Null value"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#null-value",
+    "content": "Example: Null value (Null.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Null value",
+        "file": "Null.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#reverse",
+    "documentId": "vue-components/slider",
+    "heading": "Reverse",
+    "breadcrumb": [
+      "Usage",
+      "Reverse",
+      "Reverse"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#reverse",
+    "content": "Example: In reverse (Reverse.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "In reverse",
+        "file": "Reverse.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#force-dark-mode",
+    "documentId": "vue-components/slider",
+    "heading": "Force dark mode",
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#force-dark-mode",
+    "content": "Example: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#readonly-and-disable",
+    "documentId": "vue-components/slider",
+    "heading": "Readonly and disable",
+    "breadcrumb": [
+      "Usage",
+      "Readonly and disable",
+      "Readonly and disable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#readonly-and-disable",
+    "content": "Example: Readonly (Readonly.vue)\n\nExample: Disable (Disable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Readonly",
+        "file": "Readonly.vue"
+      },
+      {
+        "title": "Disable",
+        "file": "Disable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#with-qitem",
+    "documentId": "vue-components/slider",
+    "heading": "With QItem",
+    "breadcrumb": [
+      "Usage",
+      "With QItem",
+      "With QItem"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#with-qitem",
+    "content": "Example: With QItem (List.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QItem",
+        "file": "List.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/slider#native-form-submit",
+    "documentId": "vue-components/slider",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/slider#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSlider, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

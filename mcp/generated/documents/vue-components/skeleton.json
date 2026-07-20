@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/skeleton",
+  "title": "Skeleton",
+  "description": "The QSkeleton Vue component is used to display a placeholder preview of your content before you load the actual page data.",
+  "canonicalUrl": "https://quasar.dev/vue-components/skeleton",
+  "source": "docs/src/pages/vue-components/skeleton.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSkeleton"
+  ],
+  "examples": [
+    {
+      "title": "On a QCard",
+      "file": "Card.vue",
+      "source": "docs/src/examples/QSkeleton/Card.vue"
+    },
+    {
+      "title": "QSkeleton types",
+      "file": "Types.vue",
+      "source": "docs/src/examples/QSkeleton/Types.vue"
+    },
+    {
+      "title": "Animations",
+      "file": "Animations.vue",
+      "source": "docs/src/examples/QSkeleton/Animations.vue"
+    },
+    {
+      "title": "Sizing",
+      "file": "Sizing.vue",
+      "source": "docs/src/examples/QSkeleton/Sizing.vue"
+    },
+    {
+      "title": "Bordered",
+      "file": "StylingBordered.vue",
+      "source": "docs/src/examples/QSkeleton/StylingBordered.vue"
+    },
+    {
+      "title": "Square borders",
+      "file": "StylingSquare.vue",
+      "source": "docs/src/examples/QSkeleton/StylingSquare.vue"
+    },
+    {
+      "title": "Custom color",
+      "file": "StylingColor.vue",
+      "source": "docs/src/examples/QSkeleton/StylingColor.vue"
+    },
+    {
+      "title": "Custom border",
+      "file": "StylingCustomBorder.vue",
+      "source": "docs/src/examples/QSkeleton/StylingCustomBorder.vue"
+    },
+    {
+      "title": "Youtube",
+      "file": "RecipeYoutube.vue",
+      "source": "docs/src/examples/QSkeleton/RecipeYoutube.vue"
+    },
+    {
+      "title": "Facebook",
+      "file": "RecipeFacebook.vue",
+      "source": "docs/src/examples/QSkeleton/RecipeFacebook.vue"
+    },
+    {
+      "title": "Twitter",
+      "file": "RecipeTwitter.vue",
+      "source": "docs/src/examples/QSkeleton/RecipeTwitter.vue"
+    },
+    {
+      "title": "Twitch",
+      "file": "RecipeTwitch.vue",
+      "source": "docs/src/examples/QSkeleton/RecipeTwitch.vue"
+    },
+    {
+      "title": "Table",
+      "file": "RecipeTable.vue",
+      "source": "docs/src/examples/QSkeleton/RecipeTable.vue"
+    },
+    {
+      "title": "List",
+      "file": "RecipeList.vue",
+      "source": "docs/src/examples/QSkeleton/RecipeList.vue"
+    }
+  ]
+}

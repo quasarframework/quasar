@@ -1,0 +1,43 @@
+[
+  {
+    "id": "vue-composables/use-meta#overview",
+    "documentId": "vue-composables/use-meta",
+    "heading": "useMeta composable",
+    "breadcrumb": [
+      "useMeta composable"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-meta",
+    "content": "The useMeta composable is part of [Quasar Meta Plugin](/quasar-plugins/meta). If you haven't dug into it by now, please have a first read there.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-meta#syntax",
+    "documentId": "vue-composables/use-meta",
+    "heading": "Syntax",
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-meta#syntax",
+    "content": "For static meta configuration (non-reactive):\n\n```js\nimport { useMeta } from 'quasar'\n\nsetup () {\n  useMeta({ /* meta config */ })\n}\n```\n\nFor dynamic meta configuration (reactive):\n\n```js\nimport { useMeta } from 'quasar'\n\nsetup () {\n  // essentially acting as a computed property\n  useMeta(() => {\n    // compute or reference other stuff\n    // in your component\n    // then return:\n    return { /* meta config */ }\n  })\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-meta#example",
+    "documentId": "vue-composables/use-meta",
+    "heading": "Example",
+    "breadcrumb": [
+      "Example",
+      "Example"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-meta#example",
+    "content": "```html\n<script setup>\n  import { useMeta } from 'quasar'\n\n  const title = ref('Some title') // we define the \"title\" prop\n\n  // NOTICE the parameter here is a function\n  // Under the hood, it is converted to a Vue computed prop for reactivity\n  useMeta(() => {\n    return {\n      // whenever \"title\" from above changes, your meta will automatically update\n      title: title.value\n    }\n  })\n\n  function setAnotherTitle() {\n    title.value = 'Another title' // will automatically trigger a Meta update due to the binding\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/tooltip",
+  "title": "Tooltip",
+  "description": "The QTooltip Vue component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or briefly touching and holding on mobile platforms), the tooltip will appear.",
+  "canonicalUrl": "https://quasar.dev/vue-components/tooltip",
+  "source": "docs/src/pages/vue-components/tooltip/tooltip.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QTooltip"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QTooltip/Basic.vue"
+    },
+    {
+      "title": "Toggle through v-model",
+      "file": "VModel.vue",
+      "source": "docs/src/examples/QTooltip/VModel.vue"
+    },
+    {
+      "title": "Customize",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QTooltip/Coloring.vue"
+    },
+    {
+      "title": "Custom delay (1 second)",
+      "file": "OneSecond.vue",
+      "source": "docs/src/examples/QTooltip/OneSecond.vue"
+    },
+    {
+      "title": "With offset",
+      "file": "Offset.vue",
+      "source": "docs/src/examples/QTooltip/Offset.vue"
+    },
+    {
+      "title": "Custom transition",
+      "file": "CustomTransition.vue",
+      "source": "docs/src/examples/QTooltip/CustomTransition.vue"
+    },
+    {
+      "title": "Using target",
+      "file": "Target.vue",
+      "source": "docs/src/examples/QTooltip/Target.vue"
+    }
+  ]
+}

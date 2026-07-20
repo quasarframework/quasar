@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/resize-observer",
+  "title": "Resize Observer (for Element)",
+  "description": "The QResizeObserver Vue component emits a 'resize' event whenever the wrapping DOM element changes its width or height.",
+  "canonicalUrl": "https://quasar.dev/vue-components/resize-observer",
+  "source": "docs/src/pages/vue-components/resize-observer.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QResizeObserver"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QResizeObserver/Basic.vue"
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+[
+  {
+    "id": "layout/header-and-footer#overview",
+    "documentId": "layout/header-and-footer",
+    "heading": "Layout Header and Footer",
+    "breadcrumb": [
+      "Layout Header and Footer"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer",
+    "content": "QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer (mostly used for navbar, but can be anything). If you haven’t already, please read [QLayout](/layout/layout) documentation page first.\n\nAPI reference: QHeader\n\nAPI reference: QFooter",
+    "apiReferences": [
+      "QHeader",
+      "QFooter"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/header-and-footer#layout-builder",
+    "documentId": "layout/header-and-footer",
+    "heading": "Layout Builder",
+    "breadcrumb": [
+      "Layout Builder",
+      "Layout Builder"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer#layout-builder",
+    "content": "Scaffold your layout(s) by clicking on the button below.\n\n<q-btn icon-right=\"launch\" label=\"Layout Builder\" href=\"/layout-builder\" target=\"_blank\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/header-and-footer#usage",
+    "documentId": "layout/header-and-footer",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer#usage",
+    "content": "::: tip\nSince the header and footer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QHeader or QFooter.\n:::\n\nExample: Basic (Basic.vue)\n\nYou can use `glossy` class on toolbars in header and footer.\n\nExample: Glossy (Glossy.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Glossy",
+        "file": "Glossy.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/header-and-footer#various-content",
+    "documentId": "layout/header-and-footer",
+    "heading": "Various content",
+    "breadcrumb": [
+      "Usage",
+      "Various content",
+      "Various content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer#various-content",
+    "content": "Example: Playing with QToolbar (Extended.vue)\n\nExample: Playing with QBreadcrumb (Breadcrumbs.vue)\n\nExample: Playing with QTabs (Tabs.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Playing with QToolbar",
+        "file": "Extended.vue"
+      },
+      {
+        "title": "Playing with QBreadcrumb",
+        "file": "Breadcrumbs.vue"
+      },
+      {
+        "title": "Playing with QTabs",
+        "file": "Tabs.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/header-and-footer#reveal-property",
+    "documentId": "layout/header-and-footer",
+    "heading": "Reveal property",
+    "breadcrumb": [
+      "Usage",
+      "Reveal property",
+      "Reveal property"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer#reveal-property",
+    "content": "In the example below, scroll the page to see the QHeader and QFooter behavior.\n\nExample: Reveal (Reveal.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Reveal",
+        "file": "Reveal.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/header-and-footer#ios-look-and-feel",
+    "documentId": "layout/header-and-footer",
+    "heading": "iOS look and feel",
+    "breadcrumb": [
+      "Usage",
+      "iOS look and feel",
+      "iOS look and feel"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer#ios-look-and-feel",
+    "content": "In the example below, you could use Ionicons icons (v4) with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.\n\nExample: iOS-like (LookingIOS.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "iOS-like",
+        "file": "LookingIOS.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/header-and-footer#desktop-app-look-and-feel",
+    "documentId": "layout/header-and-footer",
+    "heading": "Desktop app look and feel",
+    "breadcrumb": [
+      "Usage",
+      "Desktop app look and feel",
+      "Desktop app look and feel"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/header-and-footer#desktop-app-look-and-feel",
+    "content": "The example below is especially useful if you build an Electron app and you hide the default app frame.\n\nExample: Desktop app-like (AppLike.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Desktop app-like",
+        "file": "AppLike.vue"
+      }
+    ]
+  }
+]

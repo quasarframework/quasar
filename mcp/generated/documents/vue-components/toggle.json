@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/toggle",
+  "title": "Toggle",
+  "description": "The QToggle component is a basic element for user input. You can use it for turning settings, features or true/false inputs on and off.",
+  "canonicalUrl": "https://quasar.dev/vue-components/toggle",
+  "source": "docs/src/pages/vue-components/toggle.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QToggle"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QToggle/Standard.vue"
+    },
+    {
+      "title": "With labels",
+      "file": "Labels.vue",
+      "source": "docs/src/examples/QToggle/Labels.vue"
+    },
+    {
+      "title": "Keep color",
+      "file": "KeepColor.vue",
+      "source": "docs/src/examples/QToggle/KeepColor.vue"
+    },
+    {
+      "title": "Icons",
+      "file": "Icons.vue",
+      "source": "docs/src/examples/QToggle/Icons.vue"
+    },
+    {
+      "title": "Custom model values",
+      "file": "CustomValues.vue",
+      "source": "docs/src/examples/QToggle/CustomValues.vue"
+    },
+    {
+      "title": "Indeterminate state",
+      "file": "IndeterminateState.vue",
+      "source": "docs/src/examples/QToggle/IndeterminateState.vue"
+    },
+    {
+      "title": "Toggle order",
+      "file": "ToggleOrder.vue",
+      "source": "docs/src/examples/QToggle/ToggleOrder.vue"
+    },
+    {
+      "title": "Array model",
+      "file": "ArrayValue.vue",
+      "source": "docs/src/examples/QToggle/ArrayValue.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "DarkBackground.vue",
+      "source": "docs/src/examples/QToggle/DarkBackground.vue"
+    },
+    {
+      "title": "Disabled state",
+      "file": "Disabled.vue",
+      "source": "docs/src/examples/QToggle/Disabled.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QToggle/StandardSizes.vue"
+    },
+    {
+      "title": "Usage with QOptionGroup",
+      "file": "OptionGroup.vue",
+      "source": "docs/src/examples/QToggle/OptionGroup.vue"
+    },
+    {
+      "title": "With QItem",
+      "file": "List.vue",
+      "source": "docs/src/examples/QToggle/List.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QToggle/NativeForm.vue"
+    }
+  ]
+}

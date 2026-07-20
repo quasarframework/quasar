@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/intersection",
+  "title": "Intersection Directive",
+  "description": "Vue directive that uses Intersection Observer API to call a method when user scrolls and brings a component into or out of view.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/intersection",
+  "source": "docs/src/pages/vue-directives/intersection.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Intersection"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/Intersection/Basic.vue"
+    },
+    {
+      "title": "Once",
+      "file": "Once.vue",
+      "source": "docs/src/examples/Intersection/Once.vue"
+    },
+    {
+      "title": "Supplying configuration Object",
+      "file": "ObjectForm.vue",
+      "source": "docs/src/examples/Intersection/ObjectForm.vue"
+    },
+    {
+      "title": "Advanced",
+      "file": "Advanced.vue",
+      "source": "docs/src/examples/Intersection/Advanced.vue"
+    },
+    {
+      "title": "Scrolling Cards",
+      "file": "ScrollingCards.vue",
+      "source": "docs/src/examples/Intersection/ScrollingCards.vue"
+    }
+  ]
+}

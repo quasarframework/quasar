@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/loading",
+  "title": "Loading Plugin",
+  "description": "A Quasar plugin which can display a loading state for your app through an overlay with a spinner and a message.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/loading",
+  "source": "docs/src/pages/quasar-plugins/loading.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Loading"
+  ],
+  "examples": [
+    {
+      "title": "Default options",
+      "file": "Default.vue",
+      "source": "docs/src/examples/Loading/Default.vue"
+    },
+    {
+      "title": "With message",
+      "file": "WithMessage.vue",
+      "source": "docs/src/examples/Loading/WithMessage.vue"
+    },
+    {
+      "title": "With customized box",
+      "file": "WithBox.vue",
+      "source": "docs/src/examples/Loading/WithBox.vue"
+    },
+    {
+      "title": "Customized",
+      "file": "Customized.vue",
+      "source": "docs/src/examples/Loading/Customized.vue"
+    },
+    {
+      "title": "Show and Change",
+      "file": "ShowAndChange.vue",
+      "source": "docs/src/examples/Loading/ShowAndChange.vue"
+    },
+    {
+      "title": "With unsafe message, but sanitized",
+      "file": "WithMessageSanitized.vue",
+      "source": "docs/src/examples/Loading/WithMessageSanitized.vue"
+    },
+    {
+      "title": "Multiple groups",
+      "file": "MultipleGroups.vue",
+      "source": "docs/src/examples/Loading/MultipleGroups.vue"
+    }
+  ]
+}

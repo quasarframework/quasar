@@ -1,0 +1,56 @@
+[
+  {
+    "id": "vue-components/avatar#overview",
+    "documentId": "vue-components/avatar",
+    "heading": "Avatar",
+    "breadcrumb": [
+      "Avatar"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/avatar",
+    "content": "The QAvatar component creates a scalable, color-able element that can have text, icon or image within its shape. By default it is circular, but it can also be square or have a border-radius applied to give rounded corners to the square shape.\n\nIt is often used with other components in their slots.\n\nAPI reference: QAvatar",
+    "apiReferences": [
+      "QAvatar"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/avatar#usage",
+    "documentId": "vue-components/avatar",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/avatar#usage",
+    "content": "::: tip\nThe `size` property will determine the height and the width of the Avatar. The `font-size` property will set the size of the font used within the Avatar, which will have an effect on the size of letters and icons.\n:::\n\nExample: Basic (Basic.vue)\n\nExample: Standard sizes (StandardSizes.vue)\n\nExample: Square (Square.vue)\n\nExample: Rounded (Rounded.vue)\n\nExample: With other components (Integrated.vue)\n\nExample: Overlapping avatars (Overlapping.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Standard sizes",
+        "file": "StandardSizes.vue"
+      },
+      {
+        "title": "Square",
+        "file": "Square.vue"
+      },
+      {
+        "title": "Rounded",
+        "file": "Rounded.vue"
+      },
+      {
+        "title": "With other components",
+        "file": "Integrated.vue"
+      },
+      {
+        "title": "Overlapping avatars",
+        "file": "Overlapping.vue"
+      }
+    ]
+  }
+]

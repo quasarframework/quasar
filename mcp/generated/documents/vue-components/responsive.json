@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/responsive",
+  "title": "Responsive",
+  "description": "The QResponsive Vue component forces the content to maintain an aspect ratio based on its width.",
+  "canonicalUrl": "https://quasar.dev/vue-components/responsive",
+  "source": "docs/src/pages/vue-components/responsive.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QResponsive"
+  ],
+  "examples": [
+    {
+      "title": "Basic usage",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QResponsive/Basic.vue"
+    },
+    {
+      "title": "Basic usage",
+      "file": "FlexRow.vue",
+      "source": "docs/src/examples/QResponsive/FlexRow.vue"
+    },
+    {
+      "title": "On QCard",
+      "file": "Card.vue",
+      "source": "docs/src/examples/QResponsive/Card.vue"
+    },
+    {
+      "title": "On QCardSection",
+      "file": "CardSection.vue",
+      "source": "docs/src/examples/QResponsive/CardSection.vue"
+    },
+    {
+      "title": "On QTable",
+      "file": "Table.vue",
+      "source": "docs/src/examples/QResponsive/Table.vue"
+    },
+    {
+      "title": "On QCarousel",
+      "file": "Carousel.vue",
+      "source": "docs/src/examples/QResponsive/Carousel.vue"
+    },
+    {
+      "title": "On QCard",
+      "file": "MaxHeight.vue",
+      "source": "docs/src/examples/QResponsive/MaxHeight.vue"
+    }
+  ]
+}

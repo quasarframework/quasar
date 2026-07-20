@@ -1,0 +1,177 @@
+[
+  {
+    "id": "vue-components/stepper#overview",
+    "documentId": "vue-components/stepper",
+    "heading": "Stepper",
+    "breadcrumb": [
+      "Stepper"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper",
+    "content": "Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation.\nThey're usually useful when the user has to follow steps to complete a process, like in a [wizard](<https://en.wikipedia.org/wiki/Wizard_(software)>).\n\nAPI reference: QStepper\n\nAPI reference: QStep\n\nAPI reference: QStepperNavigation\n\nThe `QStepperNavigation` component allows you to place buttons within `QStepper` or `QStep` to\nnavigate through the steps. It is up to you to add whatever buttons you require.\n\n::: tip\nTo use global navigation, you must add it to the `QStepper` \"navigation\" slot.\n:::",
+    "apiReferences": [
+      "QStepper",
+      "QStep",
+      "QStepperNavigation"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/stepper#usage",
+    "documentId": "vue-components/stepper",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#usage",
+    "content": "::: tip\nIf the QStep content also has images and you want to use swipe actions to navigate, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n:::\n\n::: danger Keep Alive\n\n- Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.\n- Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QStep `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/stepper#horizontal",
+    "documentId": "vue-components/stepper",
+    "heading": "Horizontal",
+    "breadcrumb": [
+      "Usage",
+      "Horizontal",
+      "Horizontal"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#horizontal",
+    "content": "Example: Horizontal (TypeHorizontal.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Horizontal",
+        "file": "TypeHorizontal.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/stepper#vertical",
+    "documentId": "vue-components/stepper",
+    "heading": "Vertical",
+    "breadcrumb": [
+      "Usage",
+      "Vertical",
+      "Vertical"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#vertical",
+    "content": "Example: Vertical (TypeVertical.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical",
+        "file": "TypeVertical.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/stepper#header-navigation",
+    "documentId": "vue-components/stepper",
+    "heading": "Header navigation",
+    "breadcrumb": [
+      "Usage",
+      "Header navigation",
+      "Header navigation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#header-navigation",
+    "content": "Example: Non-linear header navigation (NonLinearNavigation.vue)\n\nExample: Linear header navigation (LinearNavigation.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Non-linear header navigation",
+        "file": "NonLinearNavigation.vue"
+      },
+      {
+        "title": "Linear header navigation",
+        "file": "LinearNavigation.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/stepper#header-options",
+    "documentId": "vue-components/stepper",
+    "heading": "Header options",
+    "breadcrumb": [
+      "Usage",
+      "Header options",
+      "Header options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#header-options",
+    "content": "Example: Signaling step error (StepError.vue)\n\nExample: Alternative labels (AlternativeLabels.vue)\n\n::: tip\nYou can also connect `contracted` prop to `$q.screen` to create a responsive behavior, like `:contracted=\"$q.screen.lt.md\"`.\nMore info: [Quasar Screen Plugin](/options/screen-plugin).\n:::\n\nExample: Contracted (Contracted.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Signaling step error",
+        "file": "StepError.vue"
+      },
+      {
+        "title": "Alternative labels",
+        "file": "AlternativeLabels.vue"
+      },
+      {
+        "title": "Contracted",
+        "file": "Contracted.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/stepper#style",
+    "documentId": "vue-components/stepper",
+    "heading": "Style",
+    "breadcrumb": [
+      "Usage",
+      "Style",
+      "Style"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#style",
+    "content": "Play with coloring using the `*-icon` and `*-color` props (on QStepper or override on specific QStep).\n\nExample: Coloring (Coloring.vue)\n\nYou can also use `prefix` prop (max 2 characters) instead of an icon for each step's header. This will be displayed if the step is not currently being edited and it isn't marked with error or as \"done\".\n\nExample: Step prefix (Prefix.vue)\n\nExample: Force dark mode (Dark.vue)\n\nYou can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:\n\nExample: Header Class (HeaderClass.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Coloring",
+        "file": "Coloring.vue"
+      },
+      {
+        "title": "Step prefix",
+        "file": "Prefix.vue"
+      },
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      },
+      {
+        "title": "Header Class",
+        "file": "HeaderClass.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/stepper#message-slot",
+    "documentId": "vue-components/stepper",
+    "heading": "Message slot",
+    "breadcrumb": [
+      "Usage",
+      "Message slot",
+      "Message slot"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/stepper#message-slot",
+    "content": "Example: Message slot with fixed height steps (MessageSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Message slot with fixed height steps",
+        "file": "MessageSlot.vue"
+      }
+    ]
+  }
+]

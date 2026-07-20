@@ -1,0 +1,423 @@
+[
+  {
+    "id": "vue-components/field#overview",
+    "documentId": "vue-components/field",
+    "heading": "Field",
+    "breadcrumb": [
+      "Field"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/field",
+    "content": "The QField component is used to provide common functionality and aspect to form components. It uses `:model-value` (or `v-model` if you want to use `clearable` property) to have knowledge of the model of the component inside. It has support for labels, hints, errors, validation, and comes in a variety of styles and colors.\n\nQField allows you to display any form control (or almost anything as a matter of fact) inside it. Just place your desired content inside the `control` slot.\n\n::: danger\nDo NOT wrap QInput, QFile or QSelect with QField as these components already inherit QField.\n:::\n\nAPI reference: QField",
+    "apiReferences": [
+      "QField"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/field#design",
+    "documentId": "vue-components/field",
+    "heading": "Design",
+    "breadcrumb": [
+      "Design",
+      "Design"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#design",
+    "content": "::: tip\nThe examples below use dumb content (text) just to show you the design that QField can use. For checking out examples that wrap real components, see the \"Basic Features\" section.\n:::\n\n::: danger\nQField does not (and should not) manage your `control` slot, so if you use `label` prop, it might be a good idea to also specify `stack-label`, otherwise it might overlap your control when QField is not focused.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/field#overview",
+    "documentId": "vue-components/field",
+    "heading": "Overview",
+    "breadcrumb": [
+      "Design",
+      "Overview",
+      "Overview"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#overview",
+    "content": "For your QField you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.\n\nExample: Design Overview (DesignOverview.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Design Overview",
+        "file": "DesignOverview.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#coloring",
+    "documentId": "vue-components/field",
+    "heading": "Coloring",
+    "breadcrumb": [
+      "Design",
+      "Coloring",
+      "Coloring"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#coloring",
+    "content": "Example: Coloring (Coloring.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Coloring",
+        "file": "Coloring.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#standard",
+    "documentId": "vue-components/field",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Design",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#standard",
+    "content": "Example: Standard (DesignStandard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "DesignStandard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#filled",
+    "documentId": "vue-components/field",
+    "heading": "Filled",
+    "breadcrumb": [
+      "Design",
+      "Filled",
+      "Filled"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#filled",
+    "content": "Example: Filled (DesignFilled.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Filled",
+        "file": "DesignFilled.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#outlined",
+    "documentId": "vue-components/field",
+    "heading": "Outlined",
+    "breadcrumb": [
+      "Design",
+      "Outlined",
+      "Outlined"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#outlined",
+    "content": "Example: Outlined (DesignOutlined.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Outlined",
+        "file": "DesignOutlined.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#standout",
+    "documentId": "vue-components/field",
+    "heading": "Standout",
+    "breadcrumb": [
+      "Design",
+      "Standout",
+      "Standout"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#standout",
+    "content": "Example: Standout (DesignStandout.vue)\n\nOne of the most appropriate use cases for Standout design is in a QToolbar:\n\nExample: Standout in QToolbar (StandoutToolbar.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standout",
+        "file": "DesignStandout.vue"
+      },
+      {
+        "title": "Standout in QToolbar",
+        "file": "StandoutToolbar.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#borderless",
+    "documentId": "vue-components/field",
+    "heading": "Borderless",
+    "breadcrumb": [
+      "Design",
+      "Borderless",
+      "Borderless"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#borderless",
+    "content": "The `borderless` design allows you to seamlessly integrate your QField into other components without QField drawing a border around itself or changing its background color:\n\nExample: Borderless (Borderless.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Borderless",
+        "file": "Borderless.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#rounded-design",
+    "documentId": "vue-components/field",
+    "heading": "Rounded design",
+    "breadcrumb": [
+      "Design",
+      "Rounded design",
+      "Rounded design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#rounded-design",
+    "content": "The `rounded` prop only works along with Filled, Outlined and Standout designs, as showcased in the example below:\n\nExample: Rounded (Rounded.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Rounded",
+        "file": "Rounded.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#square-borders",
+    "documentId": "vue-components/field",
+    "heading": "Square borders",
+    "breadcrumb": [
+      "Design",
+      "Square borders",
+      "Square borders"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#square-borders",
+    "content": "The `square` prop only makes sense along with Filled, Outlined and Standout designs, as showcased in the example below:\n\nExample: Square borders (SquareBorders.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Square borders",
+        "file": "SquareBorders.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#force-dark-mode",
+    "documentId": "vue-components/field",
+    "heading": "Force dark mode",
+    "breadcrumb": [
+      "Design",
+      "Force dark mode",
+      "Force dark mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#force-dark-mode",
+    "content": "Example: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#clearable",
+    "documentId": "vue-components/field",
+    "heading": "Clearable",
+    "breadcrumb": [
+      "Basic features",
+      "Clearable",
+      "Clearable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#clearable",
+    "content": "As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.\n\n::: warning\nIf using `clearable` you must use `v-model` or listen on `@update:model-value` and update the value.\n:::\n\nExample: Clearable (Clearable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Clearable",
+        "file": "Clearable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#control-types",
+    "documentId": "vue-components/field",
+    "heading": "Control types",
+    "breadcrumb": [
+      "Basic features",
+      "Control types",
+      "Control types"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#control-types",
+    "content": "Anything you place inside the `control` slot will be used as content of the field. We provide a few examples of controls below.\n\nExample: Control types (ControlTypes.vue)\n\n::: tip\nMost of the form controls always render something visible, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap the enclosed control.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Control types",
+        "file": "ControlTypes.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#prefix-and-suffix",
+    "documentId": "vue-components/field",
+    "heading": "Prefix and suffix",
+    "breadcrumb": [
+      "Basic features",
+      "Prefix and suffix",
+      "Prefix and suffix"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#prefix-and-suffix",
+    "content": "Example: Prefix and suffix (PrefixSuffix.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Prefix and suffix",
+        "file": "PrefixSuffix.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#custom-label",
+    "documentId": "vue-components/field",
+    "heading": "Custom Label",
+    "breadcrumb": [
+      "Basic features",
+      "Custom Label",
+      "Custom Label"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#custom-label",
+    "content": "Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.\n\n::: tip\nDo not forget to set the `label-slot` property.\n\nIf you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.\n:::\n\nExample: Custom label (CustomLabel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom label",
+        "file": "CustomLabel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#slots-with-qbtn-type-submit",
+    "documentId": "vue-components/field",
+    "heading": "Slots with QBtn type \"submit\"",
+    "breadcrumb": [
+      "Basic features",
+      "Slots with QBtn type \"submit\"",
+      "Slots with QBtn type \"submit\""
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#slots-with-qbtn-type-submit",
+    "content": "::: warning\nWhen placing a QBtn with type \"submit\" in one of the \"before\", \"after\", \"prepend\", or \"append\" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All \"click\" events in such slots are not propagated to their parent elements.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/field#loading-state",
+    "documentId": "vue-components/field",
+    "heading": "Loading state",
+    "breadcrumb": [
+      "Basic features",
+      "Loading state",
+      "Loading state"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#loading-state",
+    "content": "Example: Loading state (LoadingState.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Loading state",
+        "file": "LoadingState.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#internal-validation",
+    "documentId": "vue-components/field",
+    "heading": "Internal validation",
+    "breadcrumb": [
+      "Validation",
+      "Internal validation",
+      "Internal validation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#internal-validation",
+    "content": "You can validate QField components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.\n\n::: tip\nBy default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).\n:::\n\nThis is so you can write convenient rules of shape like:\n\n```js\nvalue => condition || errorMessage\n```\n\nFor example:\n\n```js\nvalue => value < 10 || 'Value should be lower'\n```\n\nYou can reset the validation by calling `resetValidation()` method on the QField.\n\nExample: Basic (ValidationRequired.vue)\n\nExample: Maximum value (ValidationMaxValue.vue)\n\nIf you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.\n\nExample: Lazy rules (ValidationLazy.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "ValidationRequired.vue"
+      },
+      {
+        "title": "Maximum value",
+        "file": "ValidationMaxValue.vue"
+      },
+      {
+        "title": "Lazy rules",
+        "file": "ValidationLazy.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#async-rules",
+    "documentId": "vue-components/field",
+    "heading": "Async rules",
+    "breadcrumb": [
+      "Validation",
+      "Internal validation",
+      "Async rules",
+      "Async rules"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#async-rules",
+    "content": "Rules can be async too, by using async/await or by directly returning a Promise.\n\n::: tip\nConsider coupling async rules with `debounce` prop to avoid calling the async rules immediately on each keystroke, which might be detrimental to performance.\n:::\n\nExample: Async rules (ValidationAsync.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Async rules",
+        "file": "ValidationAsync.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/field#external-validation",
+    "documentId": "vue-components/field",
+    "heading": "External validation",
+    "breadcrumb": [
+      "Validation",
+      "External validation",
+      "External validation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/field#external-validation",
+    "content": "You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).\n\n::: tip\nDepending on your needs, you might connect [Regle](https://reglejs.dev/) (our recommended approach) or some other validation library to QField.\n:::\n\nExample: External (ValidationExternal.vue)\n\nYou can also customize the slot for error message:\n\nExample: Slot for error message (ValidationSlots.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "External",
+        "file": "ValidationExternal.vue"
+      },
+      {
+        "title": "Slot for error message",
+        "file": "ValidationSlots.vue"
+      }
+    ]
+  }
+]

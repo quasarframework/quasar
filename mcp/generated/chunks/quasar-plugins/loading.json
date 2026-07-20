@@ -1,0 +1,138 @@
+[
+  {
+    "id": "quasar-plugins/loading#overview",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Loading Plugin",
+    "breadcrumb": [
+      "Loading Plugin"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading",
+    "content": "Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.\n\nAPI reference: Loading\n\n<DocInstall plugins=\"Loading\" config=\"loading\" />",
+    "apiReferences": [
+      "Loading"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/loading#usage",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#usage",
+    "content": "Loading uses a delay (500ms) to display itself so that quick operations won't make the screen flicker. This happens by showing and then quickly hiding the progress spinner without the user having a chance to see what happens. The delay before showing it eliminates confusion.\n\nInside a Vue component:\n\n```js\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.loading.show({\n    delay: 400 // ms\n  })\n\n  $q.loading.hide()\n}\n```\n\nOutside of a Vue component:\n\n```js\nimport {\n  Loading,\n\n  // optional!, for example below\n  // with custom spinner\n  QSpinnerGears\n} from 'quasar'\n\n// default options\nLoading.show()\n\n// fully customizable\nLoading.show({\n  spinner: QSpinnerGears\n  // other props\n})\n\nLoading.hide()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/loading#default-options",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Default options",
+    "breadcrumb": [
+      "Usage",
+      "Default options",
+      "Default options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#default-options",
+    "content": "Example: Default options (Default.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Default options",
+        "file": "Default.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/loading#customization",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Customization",
+    "breadcrumb": [
+      "Usage",
+      "Customization",
+      "Customization"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#customization",
+    "content": "Example: With message (WithMessage.vue)\n\nExample: With customized box (WithBox.vue)\n\nExample: Customized (Customized.vue)\n\nExample: Show and Change (ShowAndChange.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With message",
+        "file": "WithMessage.vue"
+      },
+      {
+        "title": "With customized box",
+        "file": "WithBox.vue"
+      },
+      {
+        "title": "Customized",
+        "file": "Customized.vue"
+      },
+      {
+        "title": "Show and Change",
+        "file": "ShowAndChange.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/loading#content-sanitization",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Content sanitization",
+    "breadcrumb": [
+      "Usage",
+      "Content sanitization",
+      "Content sanitization"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#content-sanitization",
+    "content": "Example: With unsafe message, but sanitized (WithMessageSanitized.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With unsafe message, but sanitized",
+        "file": "WithMessageSanitized.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/loading#multiple-groups-in-parallel",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Multiple groups in parallel <q-badge label=\"v2.8+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Multiple groups in parallel <q-badge label=\"v2.8+\" />",
+      "Multiple groups in parallel <q-badge label=\"v2.8+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#multiple-groups-in-parallel",
+    "content": "::: tip\nWhen you have multiple processes that occur in parallel then you can group Loading instances so that you can manage the Loading state per group (individually).\n:::\n\nSpecify the `group` property when spawning each of your Loading instances and you can update or hide them by using the returned function.\n\nObviously, we can only display one group at a time, so the order in which they are spawned determines the priority in which they are shown (the last one has priority over the previous ones; LIFO).\n\nExample: Multiple groups (MultipleGroups.vue)\n\nYou can play with the returning function to show/update/hide the group or just call `Loading.show({ group: '..group_name..', ... })` or `Loading.hide('..group_name..')`.\n\nThe following two ways are perfectly equivalent (and you can even mix the calls between them):\n\n```js\n/**\n * First way\n */\n\n// we spawn the group\nconst myLoadingGroup = Loading.show({\n  group: 'my-group',\n  message: 'Some message'\n})\n\n// with params, so we update this group\nmyLoadingGroup({ message: 'Second message' })\n\n// no params, so we instruct Quasar to hide the group\nmyLoadingGroup()\n\n/**\n * Second, equivalent way\n */\n\n// we spawn the group\nLoading.show({\n  group: 'my-group',\n  message: 'Some message'\n})\n\n// we update the group (in this case we need to specify the group name)\nLoading.show({\n  group: 'my-group'\n  message: 'Second message'\n})\n\n// we hide this specific group\nLoading.hide('my-group')\n```\n\n::: warning\nPlease remember that calling `Loading.hide()` with no parameters will hide all the groups. So if you use groups, you may want to always call the hide() method with a group name.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Multiple groups",
+        "file": "MultipleGroups.vue"
+      }
+    ]
+  },
+  {
+    "id": "quasar-plugins/loading#setting-up-defaults",
+    "documentId": "quasar-plugins/loading",
+    "heading": "Setting Up Defaults",
+    "breadcrumb": [
+      "Usage",
+      "Setting Up Defaults",
+      "Setting Up Defaults"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#setting-up-defaults",
+    "content": "Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config file > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/carousel",
+  "title": "Carousel",
+  "description": "The QCarousel Vue component allows you to display a series of slides, useful for wizards or an image gallery.",
+  "canonicalUrl": "https://quasar.dev/vue-components/carousel",
+  "source": "docs/src/pages/vue-components/carousel.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QCarousel",
+    "QCarouselControl",
+    "QCarouselSlide"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QCarousel/Basic.vue"
+    },
+    {
+      "title": "Transitions, bottom navigation, arrows and auto padding",
+      "file": "Transitions.vue",
+      "source": "docs/src/examples/QCarousel/Transitions.vue"
+    },
+    {
+      "title": "Vertical mode",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/QCarousel/Vertical.vue"
+    },
+    {
+      "title": "Control Type",
+      "file": "ControlType.vue",
+      "source": "docs/src/examples/QCarousel/ControlType.vue"
+    },
+    {
+      "title": "Navigation position",
+      "file": "NavigationPosition.vue",
+      "source": "docs/src/examples/QCarousel/NavigationPosition.vue"
+    },
+    {
+      "title": "Custom navigation",
+      "file": "CustomNavigation.vue",
+      "source": "docs/src/examples/QCarousel/CustomNavigation.vue"
+    },
+    {
+      "title": "Padding",
+      "file": "AutoPadding.vue",
+      "source": "docs/src/examples/QCarousel/AutoPadding.vue"
+    },
+    {
+      "title": "Image slides",
+      "file": "ImageSlides.vue",
+      "source": "docs/src/examples/QCarousel/ImageSlides.vue"
+    },
+    {
+      "title": "Multi-image slides",
+      "file": "MultiImageSlides.vue",
+      "source": "docs/src/examples/QCarousel/MultiImageSlides.vue"
+    },
+    {
+      "title": "Captions",
+      "file": "Captions.vue",
+      "source": "docs/src/examples/QCarousel/Captions.vue"
+    },
+    {
+      "title": "Video slides",
+      "file": "VideoSlides.vue",
+      "source": "docs/src/examples/QCarousel/VideoSlides.vue"
+    },
+    {
+      "title": "Thumbnails",
+      "file": "Thumbnails.vue",
+      "source": "docs/src/examples/QCarousel/Thumbnails.vue"
+    },
+    {
+      "title": "Autoplay",
+      "file": "InfiniteAutoplay.vue",
+      "source": "docs/src/examples/QCarousel/InfiniteAutoplay.vue"
+    },
+    {
+      "title": "Controls",
+      "file": "Controls.vue",
+      "source": "docs/src/examples/QCarousel/Controls.vue"
+    },
+    {
+      "title": "With QScrollArea and padding",
+      "file": "WithScrollareaPadding.vue",
+      "source": "docs/src/examples/QCarousel/WithScrollareaPadding.vue"
+    },
+    {
+      "title": "With QScrollArea on whole slide",
+      "file": "WithScrollareaFull.vue",
+      "source": "docs/src/examples/QCarousel/WithScrollareaFull.vue"
+    },
+    {
+      "title": "Fullscreen",
+      "file": "Fullscreen.vue",
+      "source": "docs/src/examples/QCarousel/Fullscreen.vue"
+    }
+  ]
+}

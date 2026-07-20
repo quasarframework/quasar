@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/chat",
+  "title": "Chat Message",
+  "description": "The QChatMessage Vue component displays a chat entry containing one or more user messages.",
+  "canonicalUrl": "https://quasar.dev/vue-components/chat",
+  "source": "docs/src/pages/vue-components/chat.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QChatMessage"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QChatMessage/Basic.vue"
+    },
+    {
+      "title": "Name",
+      "file": "Name.vue",
+      "source": "docs/src/examples/QChatMessage/Name.vue"
+    },
+    {
+      "title": "Avatar",
+      "file": "Avatar.vue",
+      "source": "docs/src/examples/QChatMessage/Avatar.vue"
+    },
+    {
+      "title": "Stamp",
+      "file": "Stamp.vue",
+      "source": "docs/src/examples/QChatMessage/Stamp.vue"
+    },
+    {
+      "title": "Label",
+      "file": "Label.vue",
+      "source": "docs/src/examples/QChatMessage/Label.vue"
+    },
+    {
+      "title": "Text and background color",
+      "file": "Color.vue",
+      "source": "docs/src/examples/QChatMessage/Color.vue"
+    },
+    {
+      "title": "Size",
+      "file": "Size.vue",
+      "source": "docs/src/examples/QChatMessage/Size.vue"
+    },
+    {
+      "title": "Default slot",
+      "file": "SlotDefault.vue",
+      "source": "docs/src/examples/QChatMessage/SlotDefault.vue"
+    },
+    {
+      "title": "Avatar/Stamp/Name slots",
+      "file": "SlotAvatarStampName.vue",
+      "source": "docs/src/examples/QChatMessage/SlotAvatarStampName.vue"
+    },
+    {
+      "title": "Sanitized content",
+      "file": "Sanitize.vue",
+      "source": "docs/src/examples/QChatMessage/Sanitize.vue"
+    }
+  ]
+}

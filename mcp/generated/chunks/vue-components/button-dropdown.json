@@ -1,0 +1,68 @@
+[
+  {
+    "id": "vue-components/button-dropdown#overview",
+    "documentId": "vue-components/button-dropdown",
+    "heading": "Dropdown Button",
+    "breadcrumb": [
+      "Dropdown Button"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-dropdown",
+    "content": "QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.\n\nIn case you are looking for a dropdown \"input\" instead of \"button\" use [Select](/vue-components/select) instead.\n\nAPI reference: QBtnDropdown",
+    "apiReferences": [
+      "QBtnDropdown"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/button-dropdown#usage",
+    "documentId": "vue-components/button-dropdown",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-dropdown#usage",
+    "content": "Example: Basic (Basic.vue)\n\nExample: Various content (VariousContent.vue)\n\nExample: Split (Split.vue)\n\nExample: Custom button (CustomButton.vue)\n\nExample: Custom dropdown icon (CustomDropdownIcon.vue)\n\nExample: Label slot (LabelSlot.vue)\n\nExample: Using v-model (Model.vue)\n\nExample: Disable (Disable.vue)\n\nThe following example won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.\n\n<DocExample title=\"Split and router link on main\" file=\"Link\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Various content",
+        "file": "VariousContent.vue"
+      },
+      {
+        "title": "Split",
+        "file": "Split.vue"
+      },
+      {
+        "title": "Custom button",
+        "file": "CustomButton.vue"
+      },
+      {
+        "title": "Custom dropdown icon",
+        "file": "CustomDropdownIcon.vue"
+      },
+      {
+        "title": "Label slot",
+        "file": "LabelSlot.vue"
+      },
+      {
+        "title": "Using v-model",
+        "file": "Model.vue"
+      },
+      {
+        "title": "Disable",
+        "file": "Disable.vue"
+      },
+      {
+        "title": "Split and router link on main",
+        "file": "Link.vue"
+      }
+    ]
+  }
+]

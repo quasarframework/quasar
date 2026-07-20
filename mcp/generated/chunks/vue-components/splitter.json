@@ -1,0 +1,215 @@
+[
+  {
+    "id": "vue-components/splitter#overview",
+    "documentId": "vue-components/splitter",
+    "heading": "QSplitter",
+    "breadcrumb": [
+      "QSplitter"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter",
+    "content": "The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.\n\nAPI reference: QSplitter",
+    "apiReferences": [
+      "QSplitter"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/splitter#usage",
+    "documentId": "vue-components/splitter",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#usage",
+    "content": "::: warning\nThe use of the `before` and `after` slots is required.\n:::\n\nClick and drag on the splitter separator bar to see results.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/splitter#basic",
+    "documentId": "vue-components/splitter",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#horizontal",
+    "documentId": "vue-components/splitter",
+    "heading": "Horizontal",
+    "breadcrumb": [
+      "Usage",
+      "Horizontal",
+      "Horizontal"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#horizontal",
+    "content": "Example: Horizontal (Horizontal.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Horizontal",
+        "file": "Horizontal.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#custom-dragging-limits",
+    "documentId": "vue-components/splitter",
+    "heading": "Custom dragging limits",
+    "breadcrumb": [
+      "Usage",
+      "Custom dragging limits",
+      "Custom dragging limits"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#custom-dragging-limits",
+    "content": "Example: Custom dragging limits (50-100) (Limits.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom dragging limits (50-100)",
+        "file": "Limits.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#model-units",
+    "documentId": "vue-components/splitter",
+    "heading": "Model units",
+    "breadcrumb": [
+      "Usage",
+      "Model units",
+      "Model units"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#model-units",
+    "content": "By default, the CSS `unit` used is '%' (percentage). But you can also use 'px' (pixels), as in the example below.\n\nExample: Model in pixels (PixelModel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Model in pixels",
+        "file": "PixelModel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#reverse-model",
+    "documentId": "vue-components/splitter",
+    "heading": "Reverse model",
+    "breadcrumb": [
+      "Usage",
+      "Reverse model",
+      "Reverse model"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#reverse-model",
+    "content": "By default, the model is connected to the `before` slot size. But you can reverse that and make it connect to the `after` slot, as in the example below. This feature turns out especially useful if your `unit` is set to pixels and you want to control the `after` slot.\n\nExample: Reverse model (ReverseModel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Reverse model",
+        "file": "ReverseModel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#adding-content-to-separator",
+    "documentId": "vue-components/splitter",
+    "heading": "Adding content to separator",
+    "breadcrumb": [
+      "Usage",
+      "Adding content to separator",
+      "Adding content to separator"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#adding-content-to-separator",
+    "content": "::: tip\nIf you use images as content for the separator slot, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n:::\n\nExample: Adding to separator (SeparatorSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Adding to separator",
+        "file": "SeparatorSlot.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#dark-design",
+    "documentId": "vue-components/splitter",
+    "heading": "Dark design",
+    "breadcrumb": [
+      "Usage",
+      "Dark design",
+      "Dark design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#dark-design",
+    "content": "Example: On a dark background with customized separator (CustomizedSeparator.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "On a dark background with customized separator",
+        "file": "CustomizedSeparator.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#embedded",
+    "documentId": "vue-components/splitter",
+    "heading": "Embedded",
+    "breadcrumb": [
+      "Usage",
+      "Embedded",
+      "Embedded"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#embedded",
+    "content": "A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots, like shown in example below.\n\nExample: Embedded (Embedded.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Embedded",
+        "file": "Embedded.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/splitter#fun-examples",
+    "documentId": "vue-components/splitter",
+    "heading": "Fun examples",
+    "breadcrumb": [
+      "Usage",
+      "Fun examples",
+      "Fun examples"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/splitter#fun-examples",
+    "content": "Example: Image Fun (ImageFun.vue)\n\nExample: Reactive Images (ReactiveImages.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Image Fun",
+        "file": "ImageFun.vue"
+      },
+      {
+        "title": "Reactive Images",
+        "file": "ReactiveImages.vue"
+      }
+    ]
+  }
+]

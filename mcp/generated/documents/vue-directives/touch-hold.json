@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/touch-hold",
+  "title": "Touch Hold Directive",
+  "description": "Vue directive which triggers an event when the user touches and holds on a component or element for a specified amount of time.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/touch-hold",
+  "source": "docs/src/pages/vue-directives/touch-hold.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "TouchHold"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/TouchHold/Basic.vue"
+    },
+    {
+      "title": "Custom wait time",
+      "file": "CustomTimer.vue",
+      "source": "docs/src/examples/TouchHold/CustomTimer.vue"
+    },
+    {
+      "title": "Custom sensitivity",
+      "file": "CustomSensitivity.vue",
+      "source": "docs/src/examples/TouchHold/CustomSensitivity.vue"
+    }
+  ]
+}

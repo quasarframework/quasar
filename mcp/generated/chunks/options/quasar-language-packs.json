@@ -1,0 +1,134 @@
+[
+  {
+    "id": "options/quasar-language-packs#overview",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Quasar Language Packs",
+    "breadcrumb": [
+      "Quasar Language Packs"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs",
+    "content": "A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.\n\nAPI reference: Lang\n\n<DocInstall title=\"Configuration\" config=\"lang\" />\n\n::: warning\nIt should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.\n:::\n\nAs mentioned above, some Quasar components have their own labels. When it comes to internationalization, one option is to configure labels through the label properties on each instance of Quasar components (like QTable). This is how you can customize the text to match the selected language. This however, takes time and adds unnecessary complexity to your website/app. **Instead**, you can use the Quasar Language Packs which have a number of standard label definitions translated for you, like \"Cancel\", \"Clear\", \"Select\", \"Update\", etc. No need to translate these again! And it comes out of the box.\n\n::: tip\nFor a complete list of available Quasar Languages, check [Quasar Languages on GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang).\n<br><br>**If your desired language is not on that list**, then feel free to submit a PR to add it. It takes from 5 to 10 minutes at most. We kindly welcome any language!\n:::",
+    "apiReferences": [
+      "Lang"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#configuring-the-default-language-pack",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Configuring the default Language Pack",
+    "breadcrumb": [
+      "Configuring the default Language Pack",
+      "Configuring the default Language Pack"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#configuring-the-default-language-pack",
+    "content": "Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack by default.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#hardcoded",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Hardcoded",
+    "breadcrumb": [
+      "Configuring the default Language Pack",
+      "Hardcoded",
+      "Hardcoded"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#hardcoded",
+    "content": "If the default Quasar Language Pack is not dynamically determined (does not depend on cookies for example), then you can:\n\n```tabs\n<<| js Quasar CLI |>>\n// quasar.config file\n\nframework: {\n  lang: 'de'\n}\n<<| js Vite Plugin |>>\n// main.js file\n\n// ...\nimport { Quasar } from 'quasar'\n// ...\nimport langDe from 'quasar/lang/de'\n// ...\napp.use(Quasar, {\n  // ...,\n  lang: langDe\n})\n<<| html Quasar UMD |>>\n<!-- include this after Quasar JS tag -->\n<script src=\"https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/de.umd.prod.js\"></script>\n<script>\n  Quasar.Lang.set(Quasar.Lang.de)\n</script>\n```\n\n::: tip\nFor **Quasar UMD**, check what tags you may still need to include in your HTML files on [UMD / Standalone](/start/umd) page.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#dynamical-non-ssr",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Dynamical (non-SSR)",
+    "breadcrumb": [
+      "Configuring the default Language Pack",
+      "Dynamical (non-SSR)",
+      "Dynamical (non-SSR)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#dynamical-non-ssr",
+    "content": "Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `quasar new boot quasar-lang-pack [--format ts]`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:\n\n```js With @quasar/app-vite\nimport { defineBoot } from '#q-app'\nimport { Lang } from 'quasar'\n\n// relative path to your node_modules/quasar/..\n// change to YOUR path\nconst langList = import.meta.glob('../../node_modules/quasar/lang/*.js')\n// or just a select few (example below with only DE and FR):\n// import.meta.glob('../../node_modules/quasar/lang/{de,fr}.js')\n\nexport default defineBoot(async () => {\n  const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)\n\n  try {\n    langList[`../../node_modules/quasar/lang/${langIso}.js`]().then(lang => {\n      Lang.set(lang.default)\n    })\n  } catch (err) {\n    console.error(err)\n    // Requested Quasar Language Pack does not exist,\n    // let's not break the app, so catching error\n  }\n})\n```\n\nThen register this boot file into the `/quasar.config` file:\n\n```js\nboot: ['quasar-lang-pack']\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#dynamical-ssr",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Dynamical (SSR)",
+    "breadcrumb": [
+      "Configuring the default Language Pack",
+      "Dynamical (SSR)",
+      "Dynamical (SSR)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#dynamical-ssr",
+    "content": "When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:\n\n```js With @quasar/app-vite\nimport { defineBoot } from '#q-app'\nimport { Lang } from 'quasar'\n\n// relative path to your node_modules/quasar/..\n// change to YOUR path\nconst langList = import.meta.glob('../../node_modules/quasar/lang/*.js')\n// or just a select few (example below with only DE and FR):\n// import.meta.glob('../../node_modules/quasar/lang/{de,fr}.js')\n\n// ! NOTICE ssrContext param:\nexport default defineBoot(async ({ ssrContext }) => {\n  const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)\n\n  try {\n    langList[`../../node_modules/quasar/lang/${langIso}.js`]().then(lang => {\n      Lang.set(lang.default, ssrContext)\n    })\n  } catch (err) {\n    console.error(err)\n    // Requested Quasar Language Pack does not exist,\n    // let's not break the app, so catching error\n  }\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#changing-language-pack",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Changing Language Pack",
+    "breadcrumb": [
+      "Change Quasar Language Pack at Runtime",
+      "Changing Language Pack",
+      "Changing Language Pack"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#changing-language-pack",
+    "content": "Example with a QSelect to dynamically change the Quasar components language:\n\n```html With @quasar/app-vite\n<template>\n  <q-select\n    v-model=\"lang\"\n    :options=\"langOptions\"\n    label=\"Quasar Language\"\n    dense\n    borderless\n    emit-value\n    map-options\n    options-dense\n    style=\"min-width: 150px\"\n  />\n  <div>{{ $q.lang.label.close }}</div>\n</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n  import languages from 'quasar/lang/index.json'\n  import { ref, watch } from 'vue'\n\n  const modules = import.meta.glob('../../node_modules/quasar/lang/{de,en-US,es}.js')\n\n  const appLanguages = languages.filter(lang =>\n    ['de', 'en-US', 'es'].includes(lang.isoName)\n  )\n\n  const langOptions = appLanguages.map(lang => ({\n    label: lang.nativeName, value: lang.isoName\n  }))\n\n  const $q = useQuasar()\n  const lang = ref($q.lang.isoName)\n\n  watch(lang, val => {\n    modules[`../../node_modules/quasar/lang/${val}.js`]().then(lang => {\n      $q.lang.set(lang.default)\n    })\n  })\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#changing-a-specific-label-at-runtime",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Changing a Specific Label at Runtime",
+    "breadcrumb": [
+      "Change Quasar Language Pack at Runtime",
+      "Changing a Specific Label at Runtime",
+      "Changing a Specific Label at Runtime"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#changing-a-specific-label-at-runtime",
+    "content": "If you want to change a specific label to another, you can. Here is an example:\n\n```tabs\n<<| js Composition API |>>\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  function changeLabel () {\n    $q.lang.table.noData = 'Hey... there is no data...'\n  }\n\n  return { changeLabel }\n}\n<<| js Options API |>>\nmethods: {\n  changeLabel () {\n    this.$q.lang.table.noData = 'Hey... there is no data...'\n  }\n}\n```\n\nIf you want to do this outside of a .vue file (and you are NOT on SSR mode) then you can\n\n```js /src/boot/some-boot-file.js\nimport { defineBoot } from '#q-app'\nimport { Lang } from 'quasar'\n\nexport default defineBoot(() {\n  Lang.props.table.noData = 'Hey... there is no data...'\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#using-quasar-language-pack-in-app-space",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Using Quasar Language Pack in App Space",
+    "breadcrumb": [
+      "Using Quasar Language Pack in App Space",
+      "Using Quasar Language Pack in App Space"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#using-quasar-language-pack-in-app-space",
+    "content": "Although the Quasar Language Packs **are designed only for Quasar components internal usage**, you can still use their labels for your own website/app components too.\n\n```\n\"Close\" label in current Quasar Language Pack is:\n{{ $q.lang.label.close }}\n```\n\nCheck a Quasar Language Pack on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang) to see the structure of `$q.lang`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/quasar-language-packs#detecting-locale",
+    "documentId": "options/quasar-language-packs",
+    "heading": "Detecting Locale",
+    "breadcrumb": [
+      "Detecting Locale",
+      "Detecting Locale"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#detecting-locale",
+    "content": "There's also a method to determine user locale which is supplied by Quasar out of the box:\n\n```js\n// outside of a Vue file\nimport { Lang } from 'quasar'\nLang.getLocale() // returns a string\n\n// inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  $q.lang.getLocale() // returns a string\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

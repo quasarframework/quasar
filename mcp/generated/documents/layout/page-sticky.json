@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/page-sticky",
+  "title": "Layout QPageSticky",
+  "description": "How to use the QPageSticky component. Statically place components on the layout without overlapping with header/footer/sidebars.",
+  "canonicalUrl": "https://quasar.dev/layout/page-sticky",
+  "source": "docs/src/pages/layout/page-sticky.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QPageSticky"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QPageSticky/Basic.vue"
+    },
+    {
+      "title": "Expanded",
+      "file": "Expanded.vue",
+      "source": "docs/src/examples/QPageSticky/Expanded.vue"
+    }
+  ]
+}

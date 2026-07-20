@@ -1,0 +1,46 @@
+[
+  {
+    "id": "vue-directives/scroll#overview",
+    "documentId": "vue-directives/scroll",
+    "heading": "Directive v-scroll",
+    "breadcrumb": [
+      "Directive v-scroll"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/scroll",
+    "content": "This is a Vue directive which takes one parameter (a Function) and fires when user scrolls the page containing that DOM node.\n\n::: tip TIPS\n\n- One alternative to using this directive is to place a [QScrollObserver](/vue-components/scroll-observer) component on your page.\n- There is one more scrolling-related directive available called [Scroll Fire](/vue-directives/scroll-fire).\n\n:::\n\nAPI reference: Scroll",
+    "apiReferences": [
+      "Scroll"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/scroll#usage",
+    "documentId": "vue-directives/scroll",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/scroll#usage",
+    "content": "```html\n<template>\n  ...\n  <div v-scroll=\"onScroll\">...</div>\n  ...\n</template>\n\n<script setup>\n  function onScroll(position) {\n    // when this method is invoked then it means user\n    // has scrolled the page to `position`\n    //\n    // `position` is an Integer designating the current\n    // scroll position in pixels.\n  }\n</script>\n```\n\n```html\n<template>\n  ...\n  <div v-scroll=\"onScroll\">...</div>\n  ...\n</template>\n\n<script setup>\n  import { debounce } from 'quasar'\n\n  const onScroll = debounce(position => {\n    // when this method is invoked then it means user\n    // has scrolled the page to `position`\n    //\n    // `position` is an Integer designating the current\n    // scroll position in pixels.\n  }, 200) // debounce for 200ms\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/scroll#determining-scrolling-container",
+    "documentId": "vue-directives/scroll",
+    "heading": "Determining Scrolling Container",
+    "breadcrumb": [
+      "Usage",
+      "Determining Scrolling Container",
+      "Determining Scrolling Container"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/scroll#determining-scrolling-container",
+    "content": "Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,69 @@
+[
+  {
+    "id": "vue-directives/close-popup#overview",
+    "documentId": "vue-directives/close-popup",
+    "heading": "Close Popup Directive",
+    "breadcrumb": [
+      "Close Popup Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/close-popup",
+    "content": "This directive is a helper when dealing with [QDialog](/vue-components/dialog) and [QMenu](/vue-components/menu) components. When attached to a DOM element or component then that component will close the QDialog or QMenu (whichever is first parent) when clicked/tapped.\n\nAPI reference: ClosePopup",
+    "apiReferences": [
+      "ClosePopup"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/close-popup#basic",
+    "documentId": "vue-directives/close-popup",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/close-popup#basic",
+    "content": "Example: With a QMenu (Menu.vue)\n\nExample: With a QDialog (Dialog.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With a QMenu",
+        "file": "Menu.vue"
+      },
+      {
+        "title": "With a QDialog",
+        "file": "Dialog.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/close-popup#closing-multiple-levels",
+    "documentId": "vue-directives/close-popup",
+    "heading": "Closing multiple levels",
+    "breadcrumb": [
+      "Usage",
+      "Closing multiple levels",
+      "Closing multiple levels"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/close-popup#closing-multiple-levels",
+    "content": "You can also close multiple levels of popups by supplying a level number to the directive:\n\n```html\n<... v-close-popup=\"3\">\n```\n\n- If value is 0 or boolean `false` then directive is disabled\n- If value is < 0 then it closes all popups in the chain\n- If value is 1 or boolean `true` or undefined then it closes only the parent popup\n- If value is > 1 it closes the specified number of parent popups in the chain (note that chained QMenus are considered 1 popup only & QPopupProxy separates chained menus)\n\nNotice below that chained QMenus (one directly put under the other) do not require you to specify multiple levels. When `v-close-popup` is used in a chained QMenu, it considers all directly chained QMenus as one level only.\n\nExample: Menu tree (MenuTree.vue)\n\nIn the example below, the menu uses 2 levels, which means it will also close the dialog, since the dialog is its parent:\n\nExample: Dialog with menu (DialogMenu.vue)\n\nNotice below that the inner dialog is a child of the main dialog. This is the only way for which `v-close-popup` will be able to close both dialogs while using multiple levels. Otherwise, if dialogs are siblings (or any other similar scenario where one dialog is not child of the other), you will have to use v-models on dialogs and handle closing of both dialogs yourself.\n\nExample: Dialog in Dialog (DialogInDialog.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Menu tree",
+        "file": "MenuTree.vue"
+      },
+      {
+        "title": "Dialog with menu",
+        "file": "DialogMenu.vue"
+      },
+      {
+        "title": "Dialog in Dialog",
+        "file": "DialogInDialog.vue"
+      }
+    ]
+  }
+]

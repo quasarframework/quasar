@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/range",
+  "title": "Range",
+  "description": "The QRange Vue component offers a way for the user to select from a sub-range of values between a maximum and maximum value, with optional steps.",
+  "canonicalUrl": "https://quasar.dev/vue-components/range",
+  "source": "docs/src/pages/vue-components/range.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QRange"
+  ],
+  "examples": [
+    {
+      "title": "Standard",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QRange/Standard.vue"
+    },
+    {
+      "title": "Vertical orientation",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/QRange/Vertical.vue"
+    },
+    {
+      "title": "Inner min/max",
+      "file": "InnerMinMax.vue",
+      "source": "docs/src/examples/QRange/InnerMinMax.vue"
+    },
+    {
+      "title": "With Step",
+      "file": "Step.vue",
+      "source": "docs/src/examples/QRange/Step.vue"
+    },
+    {
+      "title": "Floating point",
+      "file": "FloatingPoint.vue",
+      "source": "docs/src/examples/QRange/FloatingPoint.vue"
+    },
+    {
+      "title": "Snaps to steps",
+      "file": "Snap.vue",
+      "source": "docs/src/examples/QRange/Snap.vue"
+    },
+    {
+      "title": "With label",
+      "file": "Label.vue",
+      "source": "docs/src/examples/QRange/Label.vue"
+    },
+    {
+      "title": "Always display label",
+      "file": "LabelAlways.vue",
+      "source": "docs/src/examples/QRange/LabelAlways.vue"
+    },
+    {
+      "title": "Custom label values",
+      "file": "LabelValue.vue",
+      "source": "docs/src/examples/QRange/LabelValue.vue"
+    },
+    {
+      "title": "Long label",
+      "file": "LabelLong.vue",
+      "source": "docs/src/examples/QRange/LabelLong.vue"
+    },
+    {
+      "title": "Markers",
+      "file": "Markers.vue",
+      "source": "docs/src/examples/QRange/Markers.vue"
+    },
+    {
+      "title": "Marker labels",
+      "file": "MarkerLabels.vue",
+      "source": "docs/src/examples/QRange/MarkerLabels.vue"
+    },
+    {
+      "title": "Marker label slots",
+      "file": "MarkerLabelSlots.vue",
+      "source": "docs/src/examples/QRange/MarkerLabelSlots.vue"
+    },
+    {
+      "title": "Color customizations",
+      "file": "RangeColoring.vue",
+      "source": "docs/src/examples/QRange/RangeColoring.vue"
+    },
+    {
+      "title": "Hide selection bar",
+      "file": "NoSelection.vue",
+      "source": "docs/src/examples/QRange/NoSelection.vue"
+    },
+    {
+      "title": "Custom track images",
+      "file": "TrackImages.vue",
+      "source": "docs/src/examples/QRange/TrackImages.vue"
+    },
+    {
+      "title": "Track & thumb size",
+      "file": "RangeSizes.vue",
+      "source": "docs/src/examples/QRange/RangeSizes.vue"
+    },
+    {
+      "title": "Drag range",
+      "file": "Drag.vue",
+      "source": "docs/src/examples/QRange/Drag.vue"
+    },
+    {
+      "title": "Drag range + snap to step",
+      "file": "DragSnap.vue",
+      "source": "docs/src/examples/QRange/DragSnap.vue"
+    },
+    {
+      "title": "Drag only range (fixed interval)",
+      "file": "DragOnly.vue",
+      "source": "docs/src/examples/QRange/DragOnly.vue"
+    },
+    {
+      "title": "Lazy input",
+      "file": "Lazy.vue",
+      "source": "docs/src/examples/QRange/Lazy.vue"
+    },
+    {
+      "title": "Null values",
+      "file": "Null.vue",
+      "source": "docs/src/examples/QRange/Null.vue"
+    },
+    {
+      "title": "In reverse",
+      "file": "Reverse.vue",
+      "source": "docs/src/examples/QRange/Reverse.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QRange/Dark.vue"
+    },
+    {
+      "title": "Readonly",
+      "file": "Readonly.vue",
+      "source": "docs/src/examples/QRange/Readonly.vue"
+    },
+    {
+      "title": "Disable",
+      "file": "Disable.vue",
+      "source": "docs/src/examples/QRange/Disable.vue"
+    },
+    {
+      "title": "With QItem",
+      "file": "List.vue",
+      "source": "docs/src/examples/QRange/List.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QRange/NativeForm.vue"
+    }
+  ]
+}

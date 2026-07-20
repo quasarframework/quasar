@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/color-picker",
+  "title": "Color Picker",
+  "description": "The QColorPicker Vue component provides a way for the user to input colors.",
+  "canonicalUrl": "https://quasar.dev/vue-components/color-picker",
+  "source": "docs/src/pages/vue-components/color-picker.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QColor"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QColor/Basic.vue"
+    },
+    {
+      "title": "Input",
+      "file": "Input.vue",
+      "source": "docs/src/examples/QColor/Input.vue"
+    },
+    {
+      "title": "No header/footer",
+      "file": "NoHeaderFooter.vue",
+      "source": "docs/src/examples/QColor/NoHeaderFooter.vue"
+    },
+    {
+      "title": "Custom default view",
+      "file": "CustomDefaultView.vue",
+      "source": "docs/src/examples/QColor/CustomDefaultView.vue"
+    },
+    {
+      "title": "Custom palette",
+      "file": "CustomPalette.vue",
+      "source": "docs/src/examples/QColor/CustomPalette.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QColor/Dark.vue"
+    },
+    {
+      "title": "Default value",
+      "file": "DefaultValue.vue",
+      "source": "docs/src/examples/QColor/DefaultValue.vue"
+    },
+    {
+      "title": "Lazy model",
+      "file": "LazyModel.vue",
+      "source": "docs/src/examples/QColor/LazyModel.vue"
+    },
+    {
+      "title": "Disable and readonly",
+      "file": "DisableReadonly.vue",
+      "source": "docs/src/examples/QColor/DisableReadonly.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QColor/NativeForm.vue"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/rating",
+  "title": "Rating",
+  "description": "The QRating Vue component allows the user to rate items. It's usually known as 'star rating'.",
+  "canonicalUrl": "https://quasar.dev/vue-components/rating",
+  "source": "docs/src/pages/vue-components/rating.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QRating"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QRating/Basic.vue"
+    },
+    {
+      "title": "Custom number of choices",
+      "file": "Max.vue",
+      "source": "docs/src/examples/QRating/Max.vue"
+    },
+    {
+      "title": "Image icons",
+      "file": "Images.vue",
+      "source": "docs/src/examples/QRating/Images.vue"
+    },
+    {
+      "title": "Different icon when selected",
+      "file": "SelectedIcon.vue",
+      "source": "docs/src/examples/QRating/SelectedIcon.vue"
+    },
+    {
+      "title": "Different icon for each rating",
+      "file": "ArrayIcon.vue",
+      "source": "docs/src/examples/QRating/ArrayIcon.vue"
+    },
+    {
+      "title": "Different color for each rating",
+      "file": "Colors.vue",
+      "source": "docs/src/examples/QRating/Colors.vue"
+    },
+    {
+      "title": "Different icon and color when half selected",
+      "file": "HalfSelected.vue",
+      "source": "docs/src/examples/QRating/HalfSelected.vue"
+    },
+    {
+      "title": "No dimming",
+      "file": "NoDimming.vue",
+      "source": "docs/src/examples/QRating/NoDimming.vue"
+    },
+    {
+      "title": "With QTooltip",
+      "file": "SlotTip.vue",
+      "source": "docs/src/examples/QRating/SlotTip.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QRating/StandardSizes.vue"
+    },
+    {
+      "title": "Readonly and disable",
+      "file": "ReadonlyDisable.vue",
+      "source": "docs/src/examples/QRating/ReadonlyDisable.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QRating/NativeForm.vue"
+    }
+  ]
+}

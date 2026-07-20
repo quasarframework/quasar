@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/touch-pan",
+  "title": "Touch Pan Directive",
+  "description": "Vue directive which triggers an event when the user drags the finger or mouse on a component or element.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/touch-pan",
+  "source": "docs/src/pages/vue-directives/touch-pan.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "TouchPan"
+  ],
+  "examples": [
+    {
+      "title": "All directions",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/TouchPan/Basic.vue"
+    },
+    {
+      "title": "Horizontally",
+      "file": "Horizontal.vue",
+      "source": "docs/src/examples/TouchPan/Horizontal.vue"
+    },
+    {
+      "title": "Vertically",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/TouchPan/Vertical.vue"
+    },
+    {
+      "title": "Custom directions",
+      "file": "Custom.vue",
+      "source": "docs/src/examples/TouchPan/Custom.vue"
+    },
+    {
+      "title": "Draggable",
+      "file": "Draggable.vue",
+      "source": "docs/src/examples/TouchPan/Draggable.vue"
+    }
+  ]
+}

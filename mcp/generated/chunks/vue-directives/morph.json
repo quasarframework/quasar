@@ -1,0 +1,40 @@
+[
+  {
+    "id": "vue-directives/morph#overview",
+    "documentId": "vue-directives/morph",
+    "heading": "Morph Directive",
+    "breadcrumb": [
+      "Morph Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/morph",
+    "content": "\"Morph\" is a Quasar directive that provides the ability to morph DOM elements between two states.\n\nUnder the hood, it uses the Quasar [Morph function util](/quasar-utils/morph-utils).\n\nAPI reference: Morph",
+    "apiReferences": [
+      "Morph"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/morph#usage",
+    "documentId": "vue-directives/morph",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/morph#usage",
+    "content": "Reading the [Morph function util](/quasar-utils/morph-utils) first will be best in your understanding of how this directive works.\n\nThis directive morphs one element in a group into another. The morphing is activated by changing the value (model) of the directive to match the name of the morphing element.\n\n::: warning\n\n- The \"name\" and \"group\" (as directive arg or through the value of the directive) are mandatory.\n- If the value of the directive is in Object form, then \"model\" is also mandatory.\n\n:::\n\nExample: Morph between multiple elements in a group (BasicGroup.vue)\n\nExample: Morph a button into a card (Card.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Morph between multiple elements in a group",
+        "file": "BasicGroup.vue"
+      },
+      {
+        "title": "Morph a button into a card",
+        "file": "Card.vue"
+      }
+    ]
+  }
+]

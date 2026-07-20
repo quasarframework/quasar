@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/morph",
+  "title": "Morph Directive",
+  "description": "Vue directive that morphs between DOM elements or even between the two states of the same DOM element.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/morph",
+  "source": "docs/src/pages/vue-directives/morph.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Morph"
+  ],
+  "examples": [
+    {
+      "title": "Morph between multiple elements in a group",
+      "file": "BasicGroup.vue",
+      "source": "docs/src/examples/Morph/BasicGroup.vue"
+    },
+    {
+      "title": "Morph a button into a card",
+      "file": "Card.vue",
+      "source": "docs/src/examples/Morph/Card.vue"
+    }
+  ]
+}

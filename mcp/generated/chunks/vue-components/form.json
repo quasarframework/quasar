@@ -1,0 +1,78 @@
+[
+  {
+    "id": "vue-components/form#overview",
+    "documentId": "vue-components/form",
+    "heading": "Form",
+    "breadcrumb": [
+      "Form"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/form",
+    "content": "The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#Internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **internal validation** (NOT the external one) through `rules` associated with them.\n\nAPI reference: QForm",
+    "apiReferences": [
+      "QForm"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/form#usage",
+    "documentId": "vue-components/form",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/form#usage",
+    "content": "::: warning\nPlease be aware of the following:\n\n- QForm hooks into QInput, QSelect or QField wrapped components\n- QInput, QSelect or QField wrapped components must use the internal validation (NOT the external one).\n- If you want to take advantage of the `reset` functionality, then be sure to also capture the `@reset` event on QForm and make its handler reset all of the wrapped components models.\n\n:::\n\nExample: Basic (Basic.vue)\n\nIn order for the user to be able to activate the `@submit` or `@reset` events on the form, create a QBtn with `type` set to `submit` or `reset`:\n\n```html\n<div>\n  <q-btn label=\"Submit\" type=\"submit\" color=\"primary\" />\n  <q-btn label=\"Reset\" type=\"reset\" color=\"primary\" flat class=\"q-ml-sm\" />\n</div>\n```\n\nAlternatively, you can give the QForm a Vue ref name and call the `validate` and `resetValidation` functions directly:\n\n```tabs\n<<| js Composition API |>>\n// <q-form ref=\"myFormRef\">\n\nsetup () {\n  const myFormRef = useTemplateRef('myFormRef')\n\n  function validate () {\n    myFormRef.value.validate().then(success => {\n      if (success) {\n        // yay, models are correct\n      }\n      else {\n        // oh no, user has filled in\n        // at least one invalid value\n      }\n    })\n  }\n\n  // to reset validations:\n  function reset () {\n    myFormRef.value.resetValidation()\n  }\n\n  return {\n    // ...\n  }\n}\n<<| js Options API |>>\n// <q-form ref=\"myForm\">\n\nthis.$refs.myForm.validate().then(success => {\n  if (success) {\n    // yay, models are correct\n  }\n  else {\n    // oh no, user has filled in\n    // at least one invalid value\n  }\n})\n\n// to reset validations:\nthis.$refs.myForm.resetValidation()\n```",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/form#turning-off-autocompletion",
+    "documentId": "vue-components/form",
+    "heading": "Turning off Autocompletion",
+    "breadcrumb": [
+      "Turning off Autocompletion",
+      "Turning off Autocompletion"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/form#turning-off-autocompletion",
+    "content": "If you want to turn off the way that some browsers use autocorrection or spellchecking of all of the input elements of your form, you can also add these pure HTML attributes to the QForm component:\n\n```html\nautocorrect=\"off\" autocapitalize=\"off\" autocomplete=\"off\" spellcheck=\"false\"\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/form#submitting-to-a-url-native-form-submit",
+    "documentId": "vue-components/form",
+    "heading": "Submitting to a URL (native form submit)",
+    "breadcrumb": [
+      "Submitting to a URL (native form submit)",
+      "Submitting to a URL (native form submit)"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/form#submitting-to-a-url-native-form-submit",
+    "content": "If you are using the native `action` and `method` attributes on a QForm, please remember to use the `name` prop on each Quasar form component, so that the sent formData to actually contain what the user has filled in.\n\n```html\n<q-form action=\"https://some-url.com\" method=\"post\">\n  <q-input name=\"firstname\" ...>\n  <!-- ... -->\n</q-form>\n```\n\n- Control the way the form is submitted by setting `action`, `method`, `enctype` and `target` attributes of QForm\n- If a listener on `@submit` IS NOT present on the QForm then the form will be submitted if the validation is successful\n- If a listener on `@submit` IS present on the QForm then the listener will be called if the validation is successful. In order to do a native submit in this case:\n\n```html\n<q-form action=\"https://some-url.com\" method=\"post\" @submit.prevent=\"onSubmit\">\n  <q-input name=\"firstname\" ...>\n  <!-- ... -->\n</q-form>\n```\n\n```js\nmethods: {\n  onSubmit (evt) {\n    console.log('@submit - do something here', evt)\n    evt.target.submit()\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/form#child-communication",
+    "documentId": "vue-components/form",
+    "heading": "Child communication",
+    "breadcrumb": [
+      "Child communication",
+      "Child communication"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/form#child-communication",
+    "content": "By default, all the Quasar form components communicate with the parent QForm instance. If, for some reason, you are creating your own form component (**that doesn't wrap a Quasar form component**), then you can make QForm aware of it by using:\n\n```tabs\n<<| js Composition API |>>\nimport { useFormChild } from 'quasar'\n\nsetup () {\n  // function validate () { ... }\n\n  useFormChild({\n    validate, // Function; Can be async;\n              // Should return a Boolean (or a Promise resolving to a Boolean)\n    resetValidation,    // Optional function which resets validation\n    requiresQForm: true // should it error out if no parent QForm is found?\n  })\n}\n<<| js Options API |>>\nimport { QFormChildMixin } from 'quasar'\n\n// some component\nexport default {\n  mixins: [ QFormChildMixin ],\n\n  methods: {\n    // required! should return a Boolean\n    // or a Promise resolving to a Boolean\n    validate () {\n      console.log('called my-comp.validate()')\n      return true\n    },\n\n    // optional function\n    resetValidation () {\n      // ...\n    }\n  },\n\n  // ...\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

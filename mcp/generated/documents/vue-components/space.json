@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/space",
+  "title": "QSpace",
+  "description": "The QSpace Vue component fills all the available space inside of a flexbox DOM element.",
+  "canonicalUrl": "https://quasar.dev/vue-components/space",
+  "source": "docs/src/pages/vue-components/space.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSpace"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QSpace/Basic.vue"
+    }
+  ]
+}

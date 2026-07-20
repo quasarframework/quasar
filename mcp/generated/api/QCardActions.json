@@ -1,0 +1,34 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/card"
+  },
+  "props": {
+    "align": {
+      "type": "String",
+      "desc": "Specify how to align the actions; For horizontal mode, the default is 'left', while for vertical mode, the default is 'stretch'",
+      "default": "# 'left'/'stretch'",
+      "values": [
+        "'left'",
+        "'center'",
+        "'right'",
+        "'between'",
+        "'around'",
+        "'evenly'",
+        "'stretch'"
+      ],
+      "category": "content",
+      "required": false
+    },
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Display actions one below the other",
+      "category": "content"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Suggestions: QBtn"
+    }
+  }
+}

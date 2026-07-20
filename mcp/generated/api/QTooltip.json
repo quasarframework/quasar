@@ -1,0 +1,298 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/tooltip"
+  },
+  "props": {
+    "transition-show": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [
+        "'fade'",
+        "'slide-down'"
+      ],
+      "category": "transition",
+      "default": "'jump-down'",
+      "required": false
+    },
+    "transition-hide": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [
+        "'fade'",
+        "'slide-down'"
+      ],
+      "category": "transition",
+      "default": "'jump-up'",
+      "required": false
+    },
+    "transition-duration": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Transition duration (in milliseconds, without unit)",
+      "default": "300",
+      "category": "transition",
+      "required": false
+    },
+    "target": {
+      "type": [
+        "Boolean",
+        "String",
+        "Element"
+      ],
+      "desc": "Configure a target element to trigger component toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) or a DOM element it attaches the events to the specified DOM element (if it exists)",
+      "default": "true",
+      "examples": [
+        "false",
+        ".my-parent",
+        "#target-id",
+        "$refs.target"
+      ],
+      "category": "behavior",
+      "required": false
+    },
+    "no-parent-event": {
+      "type": "Boolean",
+      "desc": "Skips attaching events to the target DOM element (that trigger the element to get shown)",
+      "category": "behavior"
+    },
+    "model-value": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "desc": "Model of the component defining shown/hidden state; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
+      "default": "null",
+      "category": "model",
+      "examples": [
+        "# v-model=\"state\""
+      ],
+      "required": false
+    },
+    "max-height": {
+      "type": [
+        "String",
+        "null"
+      ],
+      "desc": "The maximum height of the Tooltip; Size in CSS units, including unit name",
+      "examples": [
+        "'16px'",
+        "'2rem'"
+      ],
+      "category": "content",
+      "default": "null",
+      "required": false
+    },
+    "max-width": {
+      "type": [
+        "String",
+        "null"
+      ],
+      "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",
+      "examples": [
+        "'16px'",
+        "'2rem'"
+      ],
+      "category": "content",
+      "default": "null",
+      "required": false
+    },
+    "anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
+      "values": [
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
+      ],
+      "default": "'bottom middle'",
+      "category": "position",
+      "required": false
+    },
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the Tooltip's own position relative to its target",
+      "values": [
+        "'top left'",
+        "'top middle'",
+        "'top right'",
+        "'top start'",
+        "'top end'",
+        "'center left'",
+        "'center middle'",
+        "'center right'",
+        "'center start'",
+        "'center end'",
+        "'bottom left'",
+        "'bottom middle'",
+        "'bottom right'",
+        "'bottom start'",
+        "'bottom end'"
+      ],
+      "default": "'top middle'",
+      "category": "position",
+      "required": false
+    },
+    "offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
+      "default": "[14, 14]",
+      "examples": [
+        "[8, 8]",
+        "[5, 10]"
+      ],
+      "category": "position",
+      "required": false
+    },
+    "scroll-target": {
+      "type": [
+        "Element",
+        "String"
+      ],
+      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
+      "examples": [
+        ".scroll-target-class",
+        "#scroll-target-id",
+        "$refs.scrollTarget",
+        "document.body"
+      ],
+      "category": "behavior"
+    },
+    "delay": {
+      "type": "Number",
+      "desc": "Configure Tooltip to appear with delay",
+      "default": "0",
+      "category": "behavior",
+      "required": false
+    },
+    "hide-delay": {
+      "type": "Number",
+      "desc": "Configure Tooltip to disappear with delay",
+      "default": "0",
+      "category": "behavior",
+      "required": false
+    },
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Prevents Tooltip from auto-closing when app's route changes",
+      "category": "behavior"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    }
+  },
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New state (showing/hidden)"
+        }
+      }
+    },
+    "show": {
+      "desc": "Emitted after component has triggered show()",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "before-show": {
+      "desc": "Emitted when component triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "hide": {
+      "desc": "Emitted after component has triggered hide()",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "before-hide": {
+      "desc": "Emitted when component triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    }
+  },
+  "methods": {
+    "show": {
+      "desc": "Triggers component to show",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "hide": {
+      "desc": "Triggers component to hide",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "toggle": {
+      "desc": "Triggers component to toggle between show/hide",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "updatePosition": {
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+      "params": null,
+      "returns": null
+    }
+  },
+  "computedProps": {
+    "contentEl": {
+      "type": "Element",
+      "desc": "The DOM Element of the rendered content",
+      "addedIn": "v2.10.1"
+    }
+  }
+}

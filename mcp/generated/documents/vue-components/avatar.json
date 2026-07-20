@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/avatar",
+  "title": "Avatar",
+  "description": "The QAvatar Vue component creates an element that can embed a letter, an icon or an image within its shape.",
+  "canonicalUrl": "https://quasar.dev/vue-components/avatar",
+  "source": "docs/src/pages/vue-components/avatar.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QAvatar"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QAvatar/Basic.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QAvatar/StandardSizes.vue"
+    },
+    {
+      "title": "Square",
+      "file": "Square.vue",
+      "source": "docs/src/examples/QAvatar/Square.vue"
+    },
+    {
+      "title": "Rounded",
+      "file": "Rounded.vue",
+      "source": "docs/src/examples/QAvatar/Rounded.vue"
+    },
+    {
+      "title": "With other components",
+      "file": "Integrated.vue",
+      "source": "docs/src/examples/QAvatar/Integrated.vue"
+    },
+    {
+      "title": "Overlapping avatars",
+      "file": "Overlapping.vue",
+      "source": "docs/src/examples/QAvatar/Overlapping.vue"
+    }
+  ]
+}

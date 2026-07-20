@@ -1,0 +1,177 @@
+[
+  {
+    "id": "vue-components/card#overview",
+    "documentId": "vue-components/card",
+    "heading": "Card",
+    "breadcrumb": [
+      "Card"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/card",
+    "content": "The QCard component is a great way to display important pieces of grouped content. This pattern is quickly emerging as a core design pattern for Apps, website previews and email content. It assists the viewer by containing and organizing information, while also setting up predictable expectations.\n\nWith so much content to display at once, and often so little screen real-estate, Cards have fast become the design pattern of choice for many companies, including the likes of Google and Twitter.\n\nThe QCard component is intentionally lightweight and essentially a containing element that is capable of \"hosting\" any other component that is appropriate.\n\nAPI reference: QCard\n\nAPI reference: QCardSection\n\nAPI reference: QCardActions",
+    "apiReferences": [
+      "QCard",
+      "QCardSection",
+      "QCardActions"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/card#usage",
+    "documentId": "vue-components/card",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#usage",
+    "content": "::: tip\nYou can play with the typography within your cards to create beautiful cards.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/card#basic",
+    "documentId": "vue-components/card",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#basic",
+    "content": "Example: Basic cards (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic cards",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/card#with-actions",
+    "documentId": "vue-components/card",
+    "heading": "With actions",
+    "breadcrumb": [
+      "Usage",
+      "With actions",
+      "With actions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#with-actions",
+    "content": "Example: Cards with actions (Actions.vue)\n\nBelow are some of the custom alignments that you can use for the actions through the `align` property:\n\nExample: Aligning actions (ActionsAlignment.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Cards with actions",
+        "file": "Actions.vue"
+      },
+      {
+        "title": "Aligning actions",
+        "file": "ActionsAlignment.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/card#media-content",
+    "documentId": "vue-components/card",
+    "heading": "Media content",
+    "breadcrumb": [
+      "Usage",
+      "Media content",
+      "Media content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#media-content",
+    "content": "Example: Cards with media content (Media.vue)\n\nExample: Card with video (Video.vue)\n\nExample: Card with parallax (Parallax.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Cards with media content",
+        "file": "Media.vue"
+      },
+      {
+        "title": "Card with video",
+        "file": "Video.vue"
+      },
+      {
+        "title": "Card with parallax",
+        "file": "Parallax.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/card#horizontal",
+    "documentId": "vue-components/card",
+    "heading": "Horizontal",
+    "breadcrumb": [
+      "Usage",
+      "Horizontal",
+      "Horizontal"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#horizontal",
+    "content": "On the examples below, notice the QCardSection with `horizontal` prop on it that wraps other QCardSections. Also note that you can directly use `col-*` classes on children of horizontal QCardSection in order to control the size.\n\nIt's recommended that you use QImg component instead of native `<img>` when dealing with horizontal QCardSections.\n\nExample: Basic horizontal (HorizontalBasic.vue)\n\nExample: More involved examples (HorizontalMoreInvolved.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic horizontal",
+        "file": "HorizontalBasic.vue"
+      },
+      {
+        "title": "More involved examples",
+        "file": "HorizontalMoreInvolved.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/card#various-content",
+    "documentId": "vue-components/card",
+    "heading": "Various content",
+    "breadcrumb": [
+      "Usage",
+      "Various content",
+      "Various content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#various-content",
+    "content": "Example: Various content (VariousContent.vue)\n\nExample: Table (Table.vue)\n\nExample: Tabs (Tabs.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Various content",
+        "file": "VariousContent.vue"
+      },
+      {
+        "title": "Table",
+        "file": "Table.vue"
+      },
+      {
+        "title": "Tabs",
+        "file": "Tabs.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/card#expandable",
+    "documentId": "vue-components/card",
+    "heading": "Expandable",
+    "breadcrumb": [
+      "Usage",
+      "Expandable",
+      "Expandable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/card#expandable",
+    "content": "On the example below, click on the round button on the bottom right to see the expansion in action.\n\nExample: Expandable (Expandable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Expandable",
+        "file": "Expandable.vue"
+      }
+    ]
+  }
+]

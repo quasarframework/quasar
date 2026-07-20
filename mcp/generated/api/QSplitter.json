@@ -1,0 +1,151 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/splitter"
+  },
+  "props": {
+    "model-value": {
+      "desc": "Model of the component defining the size of first panel (or second if using reverse) in the unit specified (for '%' it's the split ratio percent - 0.0 < x < 100.0; for 'px' it's the size in px); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": true,
+      "syncable": true,
+      "category": "model",
+      "type": "Number",
+      "examples": [
+        "# v-model=\"ratio\""
+      ]
+    },
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Apply the model size to the second panel (by default it applies to the first)",
+      "category": "model"
+    },
+    "unit": {
+      "type": "String",
+      "desc": "CSS unit for the model",
+      "default": "'%'",
+      "values": [
+        "'%'",
+        "'px'"
+      ],
+      "category": "model",
+      "required": false
+    },
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "Emit model while user is panning on the separator",
+      "category": "model"
+    },
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Allows the splitter to split its two panels horizontally, instead of vertically",
+      "category": "content"
+    },
+    "limits": {
+      "type": "Array",
+      "desc": "An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side; Default value: for '%' unit it is [10, 90], while for 'px' unit it is [50, Infinity]",
+      "default": "# [10, 90]/[50, Infinity]",
+      "examples": [
+        "[30, 70]",
+        "[0, Infinity]"
+      ],
+      "category": "content|model",
+      "required": false
+    },
+    "disable": {
+      "type": "Boolean",
+      "desc": "Put component in disabled mode",
+      "category": "state"
+    },
+    "before-class": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the 'before' panel",
+      "examples": [
+        "'bg-deep-orange'",
+        "{ 'my-special-class': true }"
+      ],
+      "category": "style"
+    },
+    "after-class": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the 'after' panel",
+      "examples": [
+        "'bg-deep-orange'",
+        "{ 'my-special-class': true }"
+      ],
+      "category": "style"
+    },
+    "separator-class": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the splitter separator",
+      "examples": [
+        "'bg-deep-orange'",
+        "{ 'my-special-class': true }"
+      ],
+      "category": "style"
+    },
+    "separator-style": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueStyleProp",
+      "desc": "Style definitions to be attributed to the splitter separator",
+      "examples": [
+        "'background-color: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
+      ],
+      "category": "style"
+    },
+    "dark": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "Applies a default lighter color on the separator; To be used when background is darker; Avoid using when you are overriding through separator-class or separator-style props",
+      "category": "style",
+      "required": false
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component; Suggestion: QTooltip, QMenu"
+    },
+    "before": {
+      "desc": "Content of the panel on left/top"
+    },
+    "after": {
+      "desc": "Content of the panel on right/bottom"
+    },
+    "separator": {
+      "desc": "Content to be placed inside the separator; By default it is centered"
+    }
+  },
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when component's model value changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Number",
+          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panels"
+        }
+      }
+    }
+  }
+}

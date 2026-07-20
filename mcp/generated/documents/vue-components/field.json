@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/field",
+  "title": "Field",
+  "description": "The QField Vue component is used to provide common functionality and aspect to form components.",
+  "canonicalUrl": "https://quasar.dev/vue-components/field",
+  "source": "docs/src/pages/vue-components/field.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QField"
+  ],
+  "examples": [
+    {
+      "title": "Design Overview",
+      "file": "DesignOverview.vue",
+      "source": "docs/src/examples/QField/DesignOverview.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QField/Coloring.vue"
+    },
+    {
+      "title": "Standard",
+      "file": "DesignStandard.vue",
+      "source": "docs/src/examples/QField/DesignStandard.vue"
+    },
+    {
+      "title": "Filled",
+      "file": "DesignFilled.vue",
+      "source": "docs/src/examples/QField/DesignFilled.vue"
+    },
+    {
+      "title": "Outlined",
+      "file": "DesignOutlined.vue",
+      "source": "docs/src/examples/QField/DesignOutlined.vue"
+    },
+    {
+      "title": "Standout",
+      "file": "DesignStandout.vue",
+      "source": "docs/src/examples/QField/DesignStandout.vue"
+    },
+    {
+      "title": "Standout in QToolbar",
+      "file": "StandoutToolbar.vue",
+      "source": "docs/src/examples/QField/StandoutToolbar.vue"
+    },
+    {
+      "title": "Borderless",
+      "file": "Borderless.vue",
+      "source": "docs/src/examples/QField/Borderless.vue"
+    },
+    {
+      "title": "Rounded",
+      "file": "Rounded.vue",
+      "source": "docs/src/examples/QField/Rounded.vue"
+    },
+    {
+      "title": "Square borders",
+      "file": "SquareBorders.vue",
+      "source": "docs/src/examples/QField/SquareBorders.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QField/Dark.vue"
+    },
+    {
+      "title": "Clearable",
+      "file": "Clearable.vue",
+      "source": "docs/src/examples/QField/Clearable.vue"
+    },
+    {
+      "title": "Control types",
+      "file": "ControlTypes.vue",
+      "source": "docs/src/examples/QField/ControlTypes.vue"
+    },
+    {
+      "title": "Prefix and suffix",
+      "file": "PrefixSuffix.vue",
+      "source": "docs/src/examples/QField/PrefixSuffix.vue"
+    },
+    {
+      "title": "Custom label",
+      "file": "CustomLabel.vue",
+      "source": "docs/src/examples/QField/CustomLabel.vue"
+    },
+    {
+      "title": "Loading state",
+      "file": "LoadingState.vue",
+      "source": "docs/src/examples/QField/LoadingState.vue"
+    },
+    {
+      "title": "Basic",
+      "file": "ValidationRequired.vue",
+      "source": "docs/src/examples/QField/ValidationRequired.vue"
+    },
+    {
+      "title": "Maximum value",
+      "file": "ValidationMaxValue.vue",
+      "source": "docs/src/examples/QField/ValidationMaxValue.vue"
+    },
+    {
+      "title": "Lazy rules",
+      "file": "ValidationLazy.vue",
+      "source": "docs/src/examples/QField/ValidationLazy.vue"
+    },
+    {
+      "title": "Async rules",
+      "file": "ValidationAsync.vue",
+      "source": "docs/src/examples/QField/ValidationAsync.vue"
+    },
+    {
+      "title": "External",
+      "file": "ValidationExternal.vue",
+      "source": "docs/src/examples/QField/ValidationExternal.vue"
+    },
+    {
+      "title": "Slot for error message",
+      "file": "ValidationSlots.vue",
+      "source": "docs/src/examples/QField/ValidationSlots.vue"
+    }
+  ]
+}

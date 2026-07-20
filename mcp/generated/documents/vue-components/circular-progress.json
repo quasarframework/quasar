@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/circular-progress",
+  "title": "Circular Progress",
+  "description": "The QCircularProgress Vue component displays a colored circular loading indicator. The bar can either have a determinate progress, or an indeterminate animation.",
+  "canonicalUrl": "https://quasar.dev/vue-components/circular-progress",
+  "source": "docs/src/pages/vue-components/circular-progress.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QCircularProgress"
+  ],
+  "examples": [
+    {
+      "title": "Determined state",
+      "file": "Determined.vue",
+      "source": "docs/src/examples/QCircularProgress/Determined.vue"
+    },
+    {
+      "title": "Determinate and reverse",
+      "file": "Reverse.vue",
+      "source": "docs/src/examples/QCircularProgress/Reverse.vue"
+    },
+    {
+      "title": "Offset angle",
+      "file": "Angle.vue",
+      "source": "docs/src/examples/QCircularProgress/Angle.vue"
+    },
+    {
+      "title": "Custom min/max (same model)",
+      "file": "CustomMinMax.vue",
+      "source": "docs/src/examples/QCircularProgress/CustomMinMax.vue"
+    },
+    {
+      "title": "Show value",
+      "file": "ShowValue.vue",
+      "source": "docs/src/examples/QCircularProgress/ShowValue.vue"
+    },
+    {
+      "title": "Indeterminate state",
+      "file": "Indeterminate.vue",
+      "source": "docs/src/examples/QCircularProgress/Indeterminate.vue"
+    },
+    {
+      "title": "Rounded arc of progress (v2.8.4+)",
+      "file": "RoundedStyle.vue",
+      "source": "docs/src/examples/QCircularProgress/RoundedStyle.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QCircularProgress/StandardSizes.vue"
+    }
+  ]
+}

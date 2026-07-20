@@ -1,0 +1,293 @@
+[
+  {
+    "id": "vue-components/carousel#overview",
+    "documentId": "vue-components/carousel",
+    "heading": "Carousel",
+    "breadcrumb": [
+      "Carousel"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel",
+    "content": "The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.\n\nAPI reference: QCarousel\n\nAPI reference: QCarouselControl\n\nAPI reference: QCarouselSlide",
+    "apiReferences": [
+      "QCarousel",
+      "QCarouselControl",
+      "QCarouselSlide"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/carousel#usage",
+    "documentId": "vue-components/carousel",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#usage",
+    "content": "::: tip\nIf the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n:::\n\n::: danger Keep Alive\n\n- Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.\n- Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/carousel#basic",
+    "documentId": "vue-components/carousel",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#basic",
+    "content": "Below is an almost stripped down basic Carousel (it is just animated and only has custom transitions specified) with no navigation embedded. For this reason, we are controlling the current slide through the model.\n\nExample: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#transitions",
+    "documentId": "vue-components/carousel",
+    "heading": "Transitions",
+    "breadcrumb": [
+      "Usage",
+      "Transitions",
+      "Transitions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#transitions",
+    "content": "In the example below:\n\n- There are just a few transitions demoed. For a complete list of transitions, head to the [Transitions](/options/transitions) page.\n- You can also swipe with your finger (or swiping with the mouse -- clicking and quickly dragging to left/right then releasing).\n\nExample: Transitions, bottom navigation, arrows and auto padding (Transitions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Transitions, bottom navigation, arrows and auto padding",
+        "file": "Transitions.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#vertical",
+    "documentId": "vue-components/carousel",
+    "heading": "Vertical",
+    "breadcrumb": [
+      "Usage",
+      "Vertical",
+      "Vertical"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#vertical",
+    "content": "Example: Vertical mode (Vertical.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical mode",
+        "file": "Vertical.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#control-type",
+    "documentId": "vue-components/carousel",
+    "heading": "Control type",
+    "breadcrumb": [
+      "Usage",
+      "Control type",
+      "Control type"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#control-type",
+    "content": "The notion of \"control\" here refers to the arrows and navigation buttons. Since they are buttons, you can also pick their type to better match your design. You also benefit from the `control-color` and `control-text-color` props.\n\nExample: Control Type (ControlType.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Control Type",
+        "file": "ControlType.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#navigation-position",
+    "documentId": "vue-components/carousel",
+    "heading": "Navigation position",
+    "breadcrumb": [
+      "Usage",
+      "Navigation position",
+      "Navigation position"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#navigation-position",
+    "content": "Example: Navigation position (NavigationPosition.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Navigation position",
+        "file": "NavigationPosition.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#custom-navigation",
+    "documentId": "vue-components/carousel",
+    "heading": "Custom navigation",
+    "breadcrumb": [
+      "Usage",
+      "Custom navigation",
+      "Custom navigation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#custom-navigation",
+    "content": "For a full list of properties of the `navigation-icon` slot, please consult the API card.\n\nExample: Custom navigation (CustomNavigation.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom navigation",
+        "file": "CustomNavigation.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#auto-padding",
+    "documentId": "vue-components/carousel",
+    "heading": "Auto padding",
+    "breadcrumb": [
+      "Usage",
+      "Auto padding",
+      "Auto padding"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#auto-padding",
+    "content": "Below is an example with which you can play with different QCarousel settings so you can see the padding (or lack of) in action:\n\nExample: Padding (AutoPadding.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Padding",
+        "file": "AutoPadding.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#media-content",
+    "documentId": "vue-components/carousel",
+    "heading": "Media content",
+    "breadcrumb": [
+      "Usage",
+      "Media content",
+      "Media content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#media-content",
+    "content": "Example: Image slides (ImageSlides.vue)\n\nExample: Multi-image slides (MultiImageSlides.vue)\n\nExample: Captions (Captions.vue)\n\nExample: Video slides (VideoSlides.vue)\n\nIn the example below there are thumbnails being generated automatically. Thumbnails only applies to image slides.\n\nExample: Thumbnails (Thumbnails.vue)\n\n::: tip\nDon't use the property `navigation` along with `thumbnails` as the first supercedes the latter so the thumbnails will not be displayed.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Image slides",
+        "file": "ImageSlides.vue"
+      },
+      {
+        "title": "Multi-image slides",
+        "file": "MultiImageSlides.vue"
+      },
+      {
+        "title": "Captions",
+        "file": "Captions.vue"
+      },
+      {
+        "title": "Video slides",
+        "file": "VideoSlides.vue"
+      },
+      {
+        "title": "Thumbnails",
+        "file": "Thumbnails.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#infinite-and-autoplay",
+    "documentId": "vue-components/carousel",
+    "heading": "Infinite and autoplay",
+    "breadcrumb": [
+      "Usage",
+      "Infinite and autoplay",
+      "Infinite and autoplay"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#infinite-and-autoplay",
+    "content": "You can pause autoplay when the pointer is over the carousel or over a region of interest.\n\nExample: Autoplay (InfiniteAutoplay.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Autoplay",
+        "file": "InfiniteAutoplay.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#controls",
+    "documentId": "vue-components/carousel",
+    "heading": "Controls",
+    "breadcrumb": [
+      "Usage",
+      "Controls",
+      "Controls"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#controls",
+    "content": "Example: Controls (Controls.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Controls",
+        "file": "Controls.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#with-qscrollarea",
+    "documentId": "vue-components/carousel",
+    "heading": "With QScrollArea",
+    "breadcrumb": [
+      "Usage",
+      "With QScrollArea",
+      "With QScrollArea"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#with-qscrollarea",
+    "content": "Please note how [QScrollArea](/vue-components/scroll-area) is used in the two examples below. Also note the `q-carousel--padding` CSS helper class in the second example.\n\nExample: With QScrollArea and padding (WithScrollareaPadding.vue)\n\nExample: With QScrollArea on whole slide (WithScrollareaFull.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QScrollArea and padding",
+        "file": "WithScrollareaPadding.vue"
+      },
+      {
+        "title": "With QScrollArea on whole slide",
+        "file": "WithScrollareaFull.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/carousel#fullscreen",
+    "documentId": "vue-components/carousel",
+    "heading": "Fullscreen",
+    "breadcrumb": [
+      "Usage",
+      "Fullscreen",
+      "Fullscreen"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/carousel#fullscreen",
+    "content": "Example: Fullscreen (Fullscreen.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Fullscreen",
+        "file": "Fullscreen.vue"
+      }
+    ]
+  }
+]

@@ -1,0 +1,241 @@
+[
+  {
+    "id": "vue-components/option-group#overview",
+    "documentId": "vue-components/option-group",
+    "heading": "Option Group",
+    "breadcrumb": [
+      "Option Group"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group",
+    "content": "The QOptionGroup component is a helper component that allows you better control for grouping binary (on or off, true or false, 1 or 0) form input components like checkboxes, radios or toggles. A good use for this component is for offering a set of options or settings to turn on and off.\n\nAPI reference: QOptionGroup",
+    "apiReferences": [
+      "QOptionGroup"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/option-group#standard",
+    "documentId": "vue-components/option-group",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#standard",
+    "content": "Example: Standard (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#with-qcheckbox-or-qtoggle",
+    "documentId": "vue-components/option-group",
+    "heading": "With QCheckbox or QToggle",
+    "breadcrumb": [
+      "Usage",
+      "With QCheckbox or QToggle",
+      "With QCheckbox or QToggle"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#with-qcheckbox-or-qtoggle",
+    "content": "Example: With checkboxes (Checkbox.vue)\n\n::: warning\nThe model for checkboxes/toggles must be an array.\n:::\n\nExample: With toggles (Toggle.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With checkboxes",
+        "file": "Checkbox.vue"
+      },
+      {
+        "title": "With toggles",
+        "file": "Toggle.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#using-label-slots",
+    "documentId": "vue-components/option-group",
+    "heading": "Using label slots <q-badge label=\"v2.2+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Using label slots <q-badge label=\"v2.2+\" />",
+      "Using label slots <q-badge label=\"v2.2+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#using-label-slots",
+    "content": "There are two types of slots. A generic one (`label`) which applies to all options, unless a more specific index-based one is used (`label-N` where N is the 0-based index of the option). Both types of slots receive the respective option as parameter.\n\nNotice how we use the specific label slot for first option (option at index 0) and we also add a QTooltip.\n\nExample: Label slots (LabelSlots.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Label slots",
+        "file": "LabelSlots.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#with-labels-on-left-side",
+    "documentId": "vue-components/option-group",
+    "heading": "With labels on left side",
+    "breadcrumb": [
+      "Usage",
+      "With labels on left side",
+      "With labels on left side"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#with-labels-on-left-side",
+    "content": "Example: With option labels on the left side (Label.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With option labels on the left side",
+        "file": "Label.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#inline",
+    "documentId": "vue-components/option-group",
+    "heading": "Inline",
+    "breadcrumb": [
+      "Usage",
+      "Inline",
+      "Inline"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#inline",
+    "content": "Example: Inline (Inline.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Inline",
+        "file": "Inline.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#dense",
+    "documentId": "vue-components/option-group",
+    "heading": "Dense",
+    "breadcrumb": [
+      "Usage",
+      "Dense",
+      "Dense"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#dense",
+    "content": "Example: Dense and inline (DenseInline.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Dense and inline",
+        "file": "DenseInline.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#disable",
+    "documentId": "vue-components/option-group",
+    "heading": "Disable",
+    "breadcrumb": [
+      "Usage",
+      "Disable",
+      "Disable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#disable",
+    "content": "Example: Disabled (Disable.vue)\n\n::: tip\nThe objects within the `options` array can hold any of the props found in QToggle, QCheckbox or QRadio for instance `disable` or `leftLabel`. See below for an example.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disabled",
+        "file": "Disable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#disable-certain-options",
+    "documentId": "vue-components/option-group",
+    "heading": "Disable Certain Options",
+    "breadcrumb": [
+      "Usage",
+      "Disable Certain Options",
+      "Disable Certain Options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#disable-certain-options",
+    "content": "Example: Disable Certain Options (DisableCertainOptions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable Certain Options",
+        "file": "DisableCertainOptions.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#custom-label-value-and-disable-props",
+    "documentId": "vue-components/option-group",
+    "heading": "Custom Label, Value and Disable props <q-badge label=\"v2.17+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Custom Label, Value and Disable props <q-badge label=\"v2.17+\" />",
+      "Custom Label, Value and Disable props <q-badge label=\"v2.17+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#custom-label-value-and-disable-props",
+    "content": "By default, QOptionGroup looks at `label`, `value`, `disable` props of each option from the options array Objects. But you can override those:\n\nExample: Custom Label, Value and Disable props (CustomOptionProps.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom Label, Value and Disable props",
+        "file": "CustomOptionProps.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#force-dark-mode",
+    "documentId": "vue-components/option-group",
+    "heading": "Force dark mode",
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#force-dark-mode",
+    "content": "Example: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/option-group#native-form-submit",
+    "documentId": "vue-components/option-group",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/option-group#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

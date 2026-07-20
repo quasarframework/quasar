@@ -1,0 +1,587 @@
+[
+  {
+    "id": "vue-components/select#overview",
+    "documentId": "vue-components/select",
+    "heading": "Select",
+    "breadcrumb": [
+      "Select"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/select",
+    "content": "The QSelect component has two types of selection: single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.\n\nIn case you are looking for a dropdown \"button\" instead of \"input\" use [Button Dropdown](/vue-components/button-dropdown) instead.\n\nAPI reference: QSelect",
+    "apiReferences": [
+      "QSelect"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/select#overview",
+    "documentId": "vue-components/select",
+    "heading": "Overview",
+    "breadcrumb": [
+      "Design",
+      "Overview",
+      "Overview"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#overview",
+    "content": "::: warning\nFor your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.\n:::\n\nExample: Design Overview (DesignOverview.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Design Overview",
+        "file": "DesignOverview.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#decorators",
+    "documentId": "vue-components/select",
+    "heading": "Decorators",
+    "breadcrumb": [
+      "Design",
+      "Decorators",
+      "Decorators"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#decorators",
+    "content": "Example: Decorators (Decorators.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Decorators",
+        "file": "Decorators.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#coloring",
+    "documentId": "vue-components/select",
+    "heading": "Coloring",
+    "breadcrumb": [
+      "Design",
+      "Coloring",
+      "Coloring"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#coloring",
+    "content": "Example: Coloring (Coloring.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Coloring",
+        "file": "Coloring.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#clearable",
+    "documentId": "vue-components/select",
+    "heading": "Clearable",
+    "breadcrumb": [
+      "Design",
+      "Clearable",
+      "Clearable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#clearable",
+    "content": "As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QSelect in the example below is the equivalent of using `clearable`.\n\nExample: Clearable (Clearable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Clearable",
+        "file": "Clearable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#disable-and-readonly",
+    "documentId": "vue-components/select",
+    "heading": "Disable and readonly",
+    "breadcrumb": [
+      "Design",
+      "Disable and readonly",
+      "Disable and readonly"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#disable-and-readonly",
+    "content": "Example: Disable and readonly (DisableReadonly.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable and readonly",
+        "file": "DisableReadonly.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#slots-with-qbtn-type-submit",
+    "documentId": "vue-components/select",
+    "heading": "Slots with QBtn type \"submit\"",
+    "breadcrumb": [
+      "Design",
+      "Slots with QBtn type \"submit\"",
+      "Slots with QBtn type \"submit\""
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#slots-with-qbtn-type-submit",
+    "content": "::: warning\nWhen placing a QBtn with type \"submit\" in one of the \"before\", \"after\", \"prepend\", or \"append\" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All \"click\" events in such slots are not propagated to their parent elements.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/select#menu-transitions",
+    "documentId": "vue-components/select",
+    "heading": "Menu transitions",
+    "breadcrumb": [
+      "Design",
+      "Menu transitions",
+      "Menu transitions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#menu-transitions",
+    "content": "::: warning\nPlease note that transitions do not work when using `options-cover` prop.\n:::\n\nIn the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).\n\nExample: Menu transitions (MenuTransitions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Menu transitions",
+        "file": "MenuTransitions.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#options-list-display-mode",
+    "documentId": "vue-components/select",
+    "heading": "Options list display mode",
+    "breadcrumb": [
+      "Design",
+      "Options list display mode",
+      "Options list display mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#options-list-display-mode",
+    "content": "By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.\n\n::: warning\nPlease note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior=\"$q.platform.is.ios ? 'dialog' : 'menu'\"` to use dialog mode only on iOS.\n:::\n\nExample: Show options in menu (BehaviorMenu.vue)\n\nExample: Show options in dialog (BehaviorDialog.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Show options in menu",
+        "file": "BehaviorMenu.vue"
+      },
+      {
+        "title": "Show options in dialog",
+        "file": "BehaviorDialog.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#the-model",
+    "documentId": "vue-components/select",
+    "heading": "The model",
+    "breadcrumb": [
+      "The model",
+      "The model"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#the-model",
+    "content": "::: danger\nThe model for single selection can be anything (String, Object, ...) while the model for multiple selection must be an Array.\n:::\n\nExample: Single vs multiple selection (ModelSingleMultiple.vue)\n\nExample: Multiple selection, counter and max-values (ModelMultipleCounter.vue)\n\nThe model content can be influenced by `emit-value` prop as you'll learn in \"The options\" section below.",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Single vs multiple selection",
+        "file": "ModelSingleMultiple.vue"
+      },
+      {
+        "title": "Multiple selection, counter and max-values",
+        "file": "ModelMultipleCounter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#options-type",
+    "documentId": "vue-components/select",
+    "heading": "Options type",
+    "breadcrumb": [
+      "The options",
+      "Options type",
+      "Options type"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#options-type",
+    "content": "Example: String options (OptionString.vue)\n\nExample: Object options (OptionObject.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "String options",
+        "file": "OptionString.vue"
+      },
+      {
+        "title": "Object options",
+        "file": "OptionObject.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#affecting-model",
+    "documentId": "vue-components/select",
+    "heading": "Affecting model",
+    "breadcrumb": [
+      "The options",
+      "Affecting model",
+      "Affecting model"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#affecting-model",
+    "content": "When `emit-value` is used, the model becomes the determined `value` from the specified selected option. Default is to emit the whole option. It makes sense to use it only when the options are of Object form.\n\nExample: Emit-value (OptionEmitValue.vue)\n\nWhen `map-options` is used, the model can contain only the `value`, and it will be mapped against the options to determine its label. There is a performance penalty involved, so use it only if absolutely necessary. It's not needed, for example, if the model contains the whole Object (so contains the label prop).\n\nExample: Map options (OptionMapOptions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Emit-value",
+        "file": "OptionEmitValue.vue"
+      },
+      {
+        "title": "Map options",
+        "file": "OptionMapOptions.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#custom-prop-names",
+    "documentId": "vue-components/select",
+    "heading": "Custom prop names",
+    "breadcrumb": [
+      "The options",
+      "Custom prop names",
+      "Custom prop names"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#custom-prop-names",
+    "content": "By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:\n\n::: warning\nIf you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.\n:::\n\nExample: Custom label, value and disable props (OptionCustomProps.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom label, value and disable props",
+        "file": "OptionCustomProps.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#customizing-menu-options",
+    "documentId": "vue-components/select",
+    "heading": "Customizing menu options",
+    "breadcrumb": [
+      "The options",
+      "Customizing menu options",
+      "Customizing menu options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#customizing-menu-options",
+    "content": "::: warning\nThe list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.\n:::\n\nExample: Options slot (OptionSlot.vue)\n\nHere is another example where we add a QToggle to each option. The possibilities are endless.\n\nExample: Object options (OptionQToggle.vue)\n\nBy default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display.\n\nExample: No options slot (OptionNoneSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Options slot",
+        "file": "OptionSlot.vue"
+      },
+      {
+        "title": "Object options",
+        "file": "OptionQToggle.vue"
+      },
+      {
+        "title": "No options slot",
+        "file": "OptionNoneSlot.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#lazy-loading",
+    "documentId": "vue-components/select",
+    "heading": "Lazy loading",
+    "breadcrumb": [
+      "The options",
+      "Lazy loading",
+      "Lazy loading"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#lazy-loading",
+    "content": "The following example shows a glimpse of how you can play with lazy loading the options. This means, along with many other things, that `options` prop is not required on first render.\n\nExample: Lazy load options (OptionLazyLoad.vue)\n\nYou can dynamically load new options when scroll reaches the end:\n\nExample: Dynamic loading options (OptionsDynamic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Lazy load options",
+        "file": "OptionLazyLoad.vue"
+      },
+      {
+        "title": "Dynamic loading options",
+        "file": "OptionsDynamic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#cover-mode",
+    "documentId": "vue-components/select",
+    "heading": "Cover mode",
+    "breadcrumb": [
+      "The options",
+      "Cover mode",
+      "Cover mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#cover-mode",
+    "content": "Example: Menu covering component (OptionCover.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Menu covering component",
+        "file": "OptionCover.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#disable-tab-selection",
+    "documentId": "vue-components/select",
+    "heading": "Disable TAB selection",
+    "breadcrumb": [
+      "The options",
+      "Disable TAB selection",
+      "Disable TAB selection"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#disable-tab-selection",
+    "content": "Example: Disable Tab Selection (DisableTabSelection.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable Tab Selection",
+        "file": "DisableTabSelection.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#the-display-value",
+    "documentId": "vue-components/select",
+    "heading": "The display value",
+    "breadcrumb": [
+      "The display value",
+      "The display value"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#the-display-value",
+    "content": "Example: Custom display value (DisplayCustomValue.vue)\n\nExample: Chips as display value (DisplayChips.vue)\n\nExample: Selected-item slot (DisplaySelectedItemSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom display value",
+        "file": "DisplayCustomValue.vue"
+      },
+      {
+        "title": "Chips as display value",
+        "file": "DisplayChips.vue"
+      },
+      {
+        "title": "Selected-item slot",
+        "file": "DisplaySelectedItemSlot.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#native-attributes-with-use-input",
+    "documentId": "vue-components/select",
+    "heading": "Native attributes with \"use-input\"",
+    "breadcrumb": [
+      "Filtering and autocomplete",
+      "Native attributes with \"use-input\"",
+      "Native attributes with \"use-input\""
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#native-attributes-with-use-input",
+    "content": "All the attributes set on QSelect that are not in the list of props in the API will be passed to the native input field used (please check `use-input` prop description first to understand what it does) for filtering / autocomplete / adding new value. Some examples: autocomplete, placeholder.\n\nMore information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).\n\nExample: Filtering options (InputFilterOptions.vue)\n\nExample: Basic filtering (BasicFiltering.vue)\n\nExample: Filtering on more than 2 chars (InputFilterMin.vue)\n\nExample: Text autocomplete (TextAutocomplete.vue)\n\nExample: Lazy filtering (InputFilterLazy.vue)\n\nExample: Selecting option after filtering (InputFilterAfter.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Filtering options",
+        "file": "InputFilterOptions.vue"
+      },
+      {
+        "title": "Basic filtering",
+        "file": "BasicFiltering.vue"
+      },
+      {
+        "title": "Filtering on more than 2 chars",
+        "file": "InputFilterMin.vue"
+      },
+      {
+        "title": "Text autocomplete",
+        "file": "TextAutocomplete.vue"
+      },
+      {
+        "title": "Lazy filtering",
+        "file": "InputFilterLazy.vue"
+      },
+      {
+        "title": "Selecting option after filtering",
+        "file": "InputFilterAfter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#create-new-values",
+    "documentId": "vue-components/select",
+    "heading": "Create new values",
+    "breadcrumb": [
+      "Create new values",
+      "Create new values"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#create-new-values",
+    "content": "::: tip\nThe following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.\n\nIt makes sense to use this feature along with `use-input` prop.\n:::\n\nIn order to enable the creation of new values, you need to **either specify** the `new-value-mode` prop **and/or** listen for `@new-value` event. If you use both, then the purpose of listening to `@new-value` would be only to override the `new-value-mode` in your custom scenarios.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/select#the-new-value-mode-prop",
+    "documentId": "vue-components/select",
+    "heading": "The new-value-mode prop",
+    "breadcrumb": [
+      "Create new values",
+      "The new-value-mode prop",
+      "The new-value-mode prop"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#the-new-value-mode-prop",
+    "content": "The `new-value-mode` prop value specifies how the value should be added: `add` (adds a value, even if duplicate), `add-unique` (add only if NOT duplicate) or `toggle` (adds value if it's not already in model, otherwise it removes it).\n\nBy using this prop you don't need to also listen for `@new-value` event, unless you have some specific scenarios for which you want to override the behavior.\n\nExample: New value mode (CreateNewValueMode.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "New value mode",
+        "file": "CreateNewValueMode.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#the-new-value-event",
+    "documentId": "vue-components/select",
+    "heading": "The @new-value event",
+    "breadcrumb": [
+      "Create new values",
+      "The @new-value event",
+      "The @new-value event"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#the-new-value-event",
+    "content": "The `@new-value` event is emitted with the value to be added and a `done` callback. The `done` callback has two **optional** parameters:\n\n- the value to be added\n- the behavior (same values of `new-value-mode` prop, and when it is specified it overrides that prop -- if it is used) -- default behavior (if not using `new-value-mode`) is to add the value even if it would be a duplicate\n\nCalling `done()` with no parameters simply empties the input box value, without tampering with the model in any way.\n\nExample: Listening on @new-value (CreateListener.vue)\n\nExample: Adding only unique values (CreateListenerUnique.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Listening on @new-value",
+        "file": "CreateListener.vue"
+      },
+      {
+        "title": "Adding only unique values",
+        "file": "CreateListenerUnique.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#using-menu-and-filtering",
+    "documentId": "vue-components/select",
+    "heading": "Using menu and filtering",
+    "breadcrumb": [
+      "Create new values",
+      "Using menu and filtering",
+      "Using menu and filtering"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#using-menu-and-filtering",
+    "content": "Filtering and adding the new values to menu:\n\nExample: Filtering and adding to menu (FilteringAddsToMenu.vue)\n\nFilters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:\n\nExample: Filtering without adding to menu (FilteringNoAddToMenu.vue)\n\nGenerating multiple values from input:\n\nExample: Generating multiple values (FilteringAddMultiple.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Filtering and adding to menu",
+        "file": "FilteringAddsToMenu.vue"
+      },
+      {
+        "title": "Filtering without adding to menu",
+        "file": "FilteringNoAddToMenu.vue"
+      },
+      {
+        "title": "Generating multiple values",
+        "file": "FilteringAddMultiple.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#sanitization",
+    "documentId": "vue-components/select",
+    "heading": "Sanitization",
+    "breadcrumb": [
+      "Sanitization",
+      "Sanitization"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#sanitization",
+    "content": "**By default, all options (included selected ones) are sanitized**. This means that displaying them in HTML format is disabled. However, if you require HTML on your options and you trust their content, then there are a few ways to do this.\n\nYou can force the HTML form of the menu options by:\n\n- setting `html` key of the trusted option to `true` (for specific trusted options)\n- or by setting `options-html` prop of QSelect (for all options)\n\nThe displayed value of QSelect is displayed as HTML if:\n\n- the `display-value-html` prop of QSelect is set\n- or you are not using `display-value` and\n  - the `options-html` prop of QSelect is set\n  - any selected option has `html` key set to `true`\n\n::: warning\nIf you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.\n:::\n\nExample: Options in HTML form (HtmlOptions.vue)\n\nExample: Display value in HTML form (HtmlDisplayValue.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Options in HTML form",
+        "file": "HtmlOptions.vue"
+      },
+      {
+        "title": "Display value in HTML form",
+        "file": "HtmlDisplayValue.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#render-performance",
+    "documentId": "vue-components/select",
+    "heading": "Render performance",
+    "breadcrumb": [
+      "Render performance",
+      "Render performance"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#render-performance",
+    "content": "The render performance is NOT affected much by the number of options, unless `map-options` is used on a large set.\nNotice the infinite scroll in place which renders additional options as the user scrolls through the list.\n\n::: tip\n\n- (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list \"responsive\" to changes.\n- (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list \"responsive\" to changes.\n\n:::\n\nExample: 100k options (RenderPerf.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "100k options",
+        "file": "RenderPerf.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/select#keyboard-navigation",
+    "documentId": "vue-components/select",
+    "heading": "Keyboard navigation",
+    "breadcrumb": [
+      "Keyboard navigation",
+      "Keyboard navigation"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#keyboard-navigation",
+    "content": "When QSelect is focused:\n\n- pressing <kbd>ENTER</kbd>, <kbd>ARROW DOWN</kbd> (or <kbd>SPACE</kbd> if `use-input` is not set) will open the list of options\n- if `use-chips` is set:\n  - pressing <kbd>SHIFT</kbd> + <kbd>TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>TAB</kbd> will navigate forward through the QChips)\n  - pressing <kbd>ENTER</kbd> when a QChip is selected will remove that option from the selection\n  - pressing <kbd>BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)\n- pressing <kbd>BACKSPACE</kbd> when `clearable` is set then:\n  - it clears the model (with `null` value) for single selection\n  - it removes the last added value for multiple selection\n- pressing <kbd>TAB</kbd> (or <kbd>SHIFT</kbd> + <kbd>TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page\n- typing text (<kbd>0</kbd> - <kbd>9</kbd> or <kbd>A</kbd> - <kbd>Z</kbd>) if `use-input` is not set will:\n  - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels\n  - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times\n  - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)\n\nWhen the list of options is opened:\n\n- pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options\n- pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options\n- pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)\n- when navigating using arrow keys, navigation will wrap when reaching the start or end of the list\n- pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:\n  - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set\n  - toggle the option if `multiple` is set",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/select#native-form-submit",
+    "documentId": "vue-components/select",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/select#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

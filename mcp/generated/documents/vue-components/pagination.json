@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/pagination",
+  "title": "Pagination",
+  "description": "The QPagination Vue component allows you to easily display a pagination control on a page.",
+  "canonicalUrl": "https://quasar.dev/vue-components/pagination",
+  "source": "docs/src/pages/vue-components/pagination.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QPagination"
+  ],
+  "examples": [
+    {
+      "title": "Standard",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QPagination/Standard.vue"
+    },
+    {
+      "title": "Button design (v2.10+)",
+      "file": "BtnDesign.vue",
+      "source": "docs/src/examples/QPagination/BtnDesign.vue"
+    },
+    {
+      "title": "Gutter (v2.10+)",
+      "file": "BtnGutter.vue",
+      "source": "docs/src/examples/QPagination/BtnGutter.vue"
+    },
+    {
+      "title": "With icon replacement",
+      "file": "Icons.vue",
+      "source": "docs/src/examples/QPagination/Icons.vue"
+    },
+    {
+      "title": "With input",
+      "file": "Input.vue",
+      "source": "docs/src/examples/QPagination/Input.vue"
+    },
+    {
+      "title": "With input color",
+      "file": "InputColor.vue",
+      "source": "docs/src/examples/QPagination/InputColor.vue"
+    },
+    {
+      "title": "Maximum pages shown",
+      "file": "MaxPages.vue",
+      "source": "docs/src/examples/QPagination/MaxPages.vue"
+    },
+    {
+      "title": "Removing ellipses",
+      "file": "Ellipses.vue",
+      "source": "docs/src/examples/QPagination/Ellipses.vue"
+    },
+    {
+      "title": "With boundary numbers",
+      "file": "BoundaryNumbers.vue",
+      "source": "docs/src/examples/QPagination/BoundaryNumbers.vue"
+    },
+    {
+      "title": "With boundary links",
+      "file": "BoundaryLinks.vue",
+      "source": "docs/src/examples/QPagination/BoundaryLinks.vue"
+    },
+    {
+      "title": "With direction links",
+      "file": "DirectionLinks.vue",
+      "source": "docs/src/examples/QPagination/DirectionLinks.vue"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "quasar-plugins/addressbar-color#overview",
+    "documentId": "quasar-plugins/addressbar-color",
+    "heading": "AddressbarColor Plugin",
+    "breadcrumb": [
+      "AddressbarColor Plugin"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/addressbar-color",
+    "content": "Newer mobile browsers have the ability to specify a color for the addressbar, like in the image below.\n\n::: warning\n\n- There isn't yet a Web standard for this so it won't work for all mobile browsers.\n- This applies when building a website only. For coloring top bar on a mobile app (built with Cordova mode), please refer to [cordova-plugin-statusbar](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-statusbar/).\n\n:::\n\n![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg 'Mobile Addressbar Coloring')\n\nAPI reference: AddressbarColor\n\n<DocInstall plugins=\"AddressbarColor\" />",
+    "apiReferences": [
+      "AddressbarColor"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/addressbar-color#usage",
+    "documentId": "quasar-plugins/addressbar-color",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/addressbar-color#usage",
+    "content": "We create boot file to initialize its usage: `quasar new boot addressbar-color [--format ts]`. A file is created (`/src/boot/addressbar-color.js`). We edit it:\n\n```js /src/boot/addressbar-color.js\nimport { defineBoot } from '#q-app'\nimport { AddressbarColor } from 'quasar'\n\nexport default defineBoot(() => {\n  AddressbarColor.set('#a2e3fa')\n})\n```\n\nWe then have to tell quasar to use this boot file we just created. To do this we edit the boot section of the quasar config:\n\n```js /quasar.config file\nreturn {\n  boot: ['addressbar-color']\n}\n```\n\nWhat this does is that it injects some `<meta>` tags into your `index.html` at runtime.\n\nBecause the meta tag doesn't get injected until run time you can dynamically change this color multiple times, based on the page the user is on (by calling the `set` method in the `created()` lifecycle hook on the respective pages):\n\n```js A .vue file representing a page\nimport { useQuasar } from 'quasar'\n\nexport default {\n  setup() {\n    // equivalent to calling this on creating the component\n    const $q = useQuasar()\n    $q.addressbarColor.set('#a2e3fa')\n  }\n}\n```\n\n::: tip\nCalling `set()` with no parameters will use the primary color.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

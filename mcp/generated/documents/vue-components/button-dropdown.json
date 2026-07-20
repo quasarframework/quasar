@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/button-dropdown",
+  "title": "Dropdown Button",
+  "description": "The QBtnDropdown Vue component is used to display dropdown content on a button.",
+  "canonicalUrl": "https://quasar.dev/vue-components/button-dropdown",
+  "source": "docs/src/pages/vue-components/button-dropdown.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBtnDropdown"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QBtnDropdown/Basic.vue"
+    },
+    {
+      "title": "Various content",
+      "file": "VariousContent.vue",
+      "source": "docs/src/examples/QBtnDropdown/VariousContent.vue"
+    },
+    {
+      "title": "Split",
+      "file": "Split.vue",
+      "source": "docs/src/examples/QBtnDropdown/Split.vue"
+    },
+    {
+      "title": "Custom button",
+      "file": "CustomButton.vue",
+      "source": "docs/src/examples/QBtnDropdown/CustomButton.vue"
+    },
+    {
+      "title": "Custom dropdown icon",
+      "file": "CustomDropdownIcon.vue",
+      "source": "docs/src/examples/QBtnDropdown/CustomDropdownIcon.vue"
+    },
+    {
+      "title": "Label slot",
+      "file": "LabelSlot.vue",
+      "source": "docs/src/examples/QBtnDropdown/LabelSlot.vue"
+    },
+    {
+      "title": "Using v-model",
+      "file": "Model.vue",
+      "source": "docs/src/examples/QBtnDropdown/Model.vue"
+    },
+    {
+      "title": "Disable",
+      "file": "Disable.vue",
+      "source": "docs/src/examples/QBtnDropdown/Disable.vue"
+    },
+    {
+      "title": "Split and router link on main",
+      "file": "Link.vue",
+      "source": "docs/src/examples/QBtnDropdown/Link.vue"
+    }
+  ]
+}

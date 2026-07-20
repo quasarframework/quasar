@@ -1,0 +1,237 @@
+[
+  {
+    "id": "vue-components/radio#overview",
+    "documentId": "vue-components/radio",
+    "heading": "Radio",
+    "breadcrumb": [
+      "Radio"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio",
+    "content": "The QRadio component is another basic element for user input. You can use this to supply a way for the user to pick an option from multiple choices.\n\n::: tip\nPlease also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Radios.\n:::\n\nAPI reference: QRadio",
+    "apiReferences": [
+      "QRadio"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/radio#standard",
+    "documentId": "vue-components/radio",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#standard",
+    "content": "Example: Standard (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#with-custom-icons",
+    "documentId": "vue-components/radio",
+    "heading": "With custom icons <q-badge label=\"v2.5+\" />",
+    "breadcrumb": [
+      "Usage",
+      "With custom icons <q-badge label=\"v2.5+\" />",
+      "With custom icons <q-badge label=\"v2.5+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#with-custom-icons",
+    "content": "Example: With icons (WithIcons.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With icons",
+        "file": "WithIcons.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#dense",
+    "documentId": "vue-components/radio",
+    "heading": "Dense",
+    "breadcrumb": [
+      "Usage",
+      "Dense",
+      "Dense"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#dense",
+    "content": "Example: Dense (Dense.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Dense",
+        "file": "Dense.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#coloring",
+    "documentId": "vue-components/radio",
+    "heading": "Coloring",
+    "breadcrumb": [
+      "Usage",
+      "Coloring",
+      "Coloring"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#coloring",
+    "content": "In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the radio button is not in a toggled state.\n\nExample: Coloring (Coloring.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Coloring",
+        "file": "Coloring.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#force-dark-mode",
+    "documentId": "vue-components/radio",
+    "heading": "Force dark mode",
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#force-dark-mode",
+    "content": "Example: Force dark mode (OnDarkBackground.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "OnDarkBackground.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#disable",
+    "documentId": "vue-components/radio",
+    "heading": "Disable",
+    "breadcrumb": [
+      "Usage",
+      "Disable",
+      "Disable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#disable",
+    "content": "Example: Disable (Disable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable",
+        "file": "Disable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#label-on-left-side",
+    "documentId": "vue-components/radio",
+    "heading": "Label on left-side",
+    "breadcrumb": [
+      "Usage",
+      "Label on left-side",
+      "Label on left-side"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#label-on-left-side",
+    "content": "Example: Label on left side (LabelPosition.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Label on left side",
+        "file": "LabelPosition.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#sizes",
+    "documentId": "vue-components/radio",
+    "heading": "Sizes",
+    "breadcrumb": [
+      "Usage",
+      "Sizes",
+      "Sizes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#sizes",
+    "content": "Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).\n\nExample: Standard sizes (StandardSizes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard sizes",
+        "file": "StandardSizes.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#with-qoptiongroup",
+    "documentId": "vue-components/radio",
+    "heading": "With QOptionGroup",
+    "breadcrumb": [
+      "Usage",
+      "With QOptionGroup",
+      "With QOptionGroup"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#with-qoptiongroup",
+    "content": "::: tip\nYou can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of radios, like in example below.\n:::\n\nExample: Usage with QOptionGroup (OptionGroup.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Usage with QOptionGroup",
+        "file": "OptionGroup.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#with-qitem",
+    "documentId": "vue-components/radio",
+    "heading": "With QItem",
+    "breadcrumb": [
+      "Usage",
+      "With QItem",
+      "With QItem"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#with-qitem",
+    "content": "In the example below, we are rendering a `<label>` tag (notice `tag=\"label\"`) so the QRadio will respond to clicks on QItems to change toggle state.\n\nExample: With QItem (InaList.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QItem",
+        "file": "InaList.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/radio#native-form-submit",
+    "documentId": "vue-components/radio",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/radio#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRadio, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

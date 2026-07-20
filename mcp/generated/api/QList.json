@@ -1,0 +1,56 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
+  },
+  "props": {
+    "bordered": {
+      "type": "Boolean",
+      "desc": "Applies a default border to the component",
+      "category": "style"
+    },
+    "dense": {
+      "type": "Boolean",
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
+    },
+    "separator": {
+      "type": "Boolean",
+      "desc": "Applies a separator between contained items",
+      "category": "content"
+    },
+    "dark": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "Notify the component that the background is a dark color",
+      "category": "style",
+      "required": false
+    },
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a material design-like padding on top and bottom",
+      "category": "content"
+    },
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to use",
+      "category": "content",
+      "default": "'div'",
+      "examples": [
+        "'div'",
+        "'ul'",
+        "'ol'"
+      ],
+      "addedIn": "v2.10.1",
+      "required": false
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "This is where the content goes; Suggestion: QItem, QExpansionItem, ..."
+    }
+  }
+}

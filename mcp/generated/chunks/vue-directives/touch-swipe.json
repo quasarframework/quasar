@@ -1,0 +1,88 @@
+[
+  {
+    "id": "vue-directives/touch-swipe#overview",
+    "documentId": "vue-directives/touch-swipe",
+    "heading": "Touch Swipe Directive",
+    "breadcrumb": [
+      "Touch Swipe Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-swipe",
+    "content": "Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.\n\n> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.\n\nWe will be describing `v-touch-swipe` on the lines below.\n\nAPI reference: TouchSwipe",
+    "apiReferences": [
+      "TouchSwipe"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-swipe#usage",
+    "documentId": "vue-directives/touch-swipe",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-swipe#usage",
+    "content": "Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.\n\n::: tip\nIf your content also has images, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n:::\n\nExample: All directions (Basic.vue)\n\nExample: One direction only (Right.vue)\n\nExample: Several directions (UpOrLeft.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "All directions",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "One direction only",
+        "file": "Right.vue"
+      },
+      {
+        "title": "Several directions",
+        "file": "UpOrLeft.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/touch-swipe#handling-mouse-events",
+    "documentId": "vue-directives/touch-swipe",
+    "heading": "Handling Mouse Events",
+    "breadcrumb": [
+      "Usage",
+      "Handling Mouse Events",
+      "Handling Mouse Events"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-swipe#handling-mouse-events",
+    "content": "When you want to handle mouse events too, use the `mouse` modifier:\n\n```html\n<div v-touch-swipe.mouse=\"userHasSwiped\">...</div>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-swipe#inhibiting-touchswipe",
+    "documentId": "vue-directives/touch-swipe",
+    "heading": "Inhibiting TouchSwipe",
+    "breadcrumb": [
+      "Usage",
+      "Inhibiting TouchSwipe",
+      "Inhibiting TouchSwipe"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-swipe#inhibiting-touchswipe",
+    "content": "When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:\n\n```html\n<div v-touch-swipe.mouse=\"userSwiped\">\n  <!-- ...content -->\n  <div @touchstart.stop @mousedown.stop>\n    <!--\n      TouchSwipe will not apply here because\n      we are calling stopPropagation() on touchstart\n      and mousedown events\n    -->\n  </div>\n  <!-- ...content -->\n</div>\n```\n\nHowever, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchSwipe will still trigger.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-swipe#note-on-hmr",
+    "documentId": "vue-directives/touch-swipe",
+    "heading": "Note on HMR",
+    "breadcrumb": [
+      "Note on HMR",
+      "Note on HMR"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-swipe#note-on-hmr",
+    "content": "Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

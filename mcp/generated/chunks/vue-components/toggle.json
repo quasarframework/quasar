@@ -1,0 +1,297 @@
+[
+  {
+    "id": "vue-components/toggle#overview",
+    "documentId": "vue-components/toggle",
+    "heading": "Toggle",
+    "breadcrumb": [
+      "Toggle"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle",
+    "content": "The QToggle component is another basic element for user input. You can use this for turning settings, features or true/false inputs on and off.\n\n::: tip\nPlease also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.\n:::\n\nAPI reference: QToggle",
+    "apiReferences": [
+      "QToggle"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/toggle#basic",
+    "documentId": "vue-components/toggle",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#basic",
+    "content": "Use the `color` prop to control the toggle’s color.\n\nExample: Basic (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#with-labels",
+    "documentId": "vue-components/toggle",
+    "heading": "With labels",
+    "breadcrumb": [
+      "Usage",
+      "With labels",
+      "With labels"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#with-labels",
+    "content": "Example: With labels (Labels.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With labels",
+        "file": "Labels.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#keeping-color",
+    "documentId": "vue-components/toggle",
+    "heading": "Keeping color",
+    "breadcrumb": [
+      "Usage",
+      "Keeping color",
+      "Keeping color"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#keeping-color",
+    "content": "Example: Keep color (KeepColor.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Keep color",
+        "file": "KeepColor.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#with-icons",
+    "documentId": "vue-components/toggle",
+    "heading": "With icons",
+    "breadcrumb": [
+      "Usage",
+      "With icons",
+      "With icons"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#with-icons",
+    "content": "Example: Icons (Icons.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Icons",
+        "file": "Icons.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#custom-model-values",
+    "documentId": "vue-components/toggle",
+    "heading": "Custom model values",
+    "breadcrumb": [
+      "Usage",
+      "Custom model values",
+      "Custom model values"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#custom-model-values",
+    "content": "Instead of the default `true` / `false` values, you can use custom ones.\n\nExample: Custom model values (CustomValues.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom model values",
+        "file": "CustomValues.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#indeterminate-state",
+    "documentId": "vue-components/toggle",
+    "heading": "Indeterminate state",
+    "breadcrumb": [
+      "Usage",
+      "Indeterminate state",
+      "Indeterminate state"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#indeterminate-state",
+    "content": "In the example below, as soon as you click on the first QToggle it starts toggling between true/false. The second QToggle, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.\n\nExample: Indeterminate state (IndeterminateState.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Indeterminate state",
+        "file": "IndeterminateState.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#toggle-order",
+    "documentId": "vue-components/toggle",
+    "heading": "Toggle order",
+    "breadcrumb": [
+      "Usage",
+      "Toggle order",
+      "Toggle order"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#toggle-order",
+    "content": "By default, QToggle follows this chain when toggling: indeterminate -> checked -> unchecked. However, you can change this behavior through the `toggle-order` prop. This property determines the order of the states and can be `tf` (default) or `ft` (`t` stands for state of true/checked while `f` for state of false/unchecked).\n\nToggling order is:\n\n- if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)\n- otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...\n\nExample: Toggle order (ToggleOrder.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Toggle order",
+        "file": "ToggleOrder.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#array-model",
+    "documentId": "vue-components/toggle",
+    "heading": "Array model",
+    "breadcrumb": [
+      "Usage",
+      "Array model",
+      "Array model"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#array-model",
+    "content": "If you have a number of toggles for a selection, use can use an Array as the model for all of them and specify `val` prop on each toggle. If the toggle is ticked, its `val` will be inserted into the array and vice versa.\n\nExample: Array model (ArrayValue.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Array model",
+        "file": "ArrayValue.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#dark-design",
+    "documentId": "vue-components/toggle",
+    "heading": "Dark design",
+    "breadcrumb": [
+      "Usage",
+      "Dark design",
+      "Dark design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#dark-design",
+    "content": "Example: Force dark mode (DarkBackground.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "DarkBackground.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#disable",
+    "documentId": "vue-components/toggle",
+    "heading": "Disable",
+    "breadcrumb": [
+      "Usage",
+      "Disable",
+      "Disable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#disable",
+    "content": "Example: Disabled state (Disabled.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disabled state",
+        "file": "Disabled.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#sizes",
+    "documentId": "vue-components/toggle",
+    "heading": "Sizes",
+    "breadcrumb": [
+      "Usage",
+      "Sizes",
+      "Sizes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#sizes",
+    "content": "Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).\n\nExample: Standard sizes (StandardSizes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard sizes",
+        "file": "StandardSizes.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#with-qoptiongroup",
+    "documentId": "vue-components/toggle",
+    "heading": "With QOptionGroup",
+    "breadcrumb": [
+      "Usage",
+      "With QOptionGroup",
+      "With QOptionGroup"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#with-qoptiongroup",
+    "content": "::: tip\nYou can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of toggles, like in example below.\n:::\n\nExample: Usage with QOptionGroup (OptionGroup.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Usage with QOptionGroup",
+        "file": "OptionGroup.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#with-qitem",
+    "documentId": "vue-components/toggle",
+    "heading": "With QItem",
+    "breadcrumb": [
+      "Usage",
+      "With QItem",
+      "With QItem"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#with-qitem",
+    "content": "Example: With QItem (List.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QItem",
+        "file": "List.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/toggle#native-form-submit",
+    "documentId": "vue-components/toggle",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/toggle#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

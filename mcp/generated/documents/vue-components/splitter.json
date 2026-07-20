@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/splitter",
+  "title": "QSplitter",
+  "description": "The QSplitter Vue component allow containers to be split vertically and/or horizontally through a draggable separator bar.",
+  "canonicalUrl": "https://quasar.dev/vue-components/splitter",
+  "source": "docs/src/pages/vue-components/splitter.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSplitter"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QSplitter/Basic.vue"
+    },
+    {
+      "title": "Horizontal",
+      "file": "Horizontal.vue",
+      "source": "docs/src/examples/QSplitter/Horizontal.vue"
+    },
+    {
+      "title": "Custom dragging limits (50-100)",
+      "file": "Limits.vue",
+      "source": "docs/src/examples/QSplitter/Limits.vue"
+    },
+    {
+      "title": "Model in pixels",
+      "file": "PixelModel.vue",
+      "source": "docs/src/examples/QSplitter/PixelModel.vue"
+    },
+    {
+      "title": "Reverse model",
+      "file": "ReverseModel.vue",
+      "source": "docs/src/examples/QSplitter/ReverseModel.vue"
+    },
+    {
+      "title": "Adding to separator",
+      "file": "SeparatorSlot.vue",
+      "source": "docs/src/examples/QSplitter/SeparatorSlot.vue"
+    },
+    {
+      "title": "On a dark background with customized separator",
+      "file": "CustomizedSeparator.vue",
+      "source": "docs/src/examples/QSplitter/CustomizedSeparator.vue"
+    },
+    {
+      "title": "Embedded",
+      "file": "Embedded.vue",
+      "source": "docs/src/examples/QSplitter/Embedded.vue"
+    },
+    {
+      "title": "Image Fun",
+      "file": "ImageFun.vue",
+      "source": "docs/src/examples/QSplitter/ImageFun.vue"
+    },
+    {
+      "title": "Reactive Images",
+      "file": "ReactiveImages.vue",
+      "source": "docs/src/examples/QSplitter/ReactiveImages.vue"
+    }
+  ]
+}

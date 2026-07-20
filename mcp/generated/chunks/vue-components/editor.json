@@ -1,0 +1,166 @@
+[
+  {
+    "id": "vue-components/editor#overview",
+    "documentId": "vue-components/editor",
+    "heading": "Editor (WYSIWYG)",
+    "breadcrumb": [
+      "Editor (WYSIWYG)"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor",
+    "content": "The QEditor component is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:\n\n- [Making content editable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content)\n- [Design Mode](https://developer.mozilla.org/en-US/docs/Web/API/Document/designMode)\n- [execCommand() reference](https://developer.mozilla.org/en-US/docs/Web/API/document/execCommand)\n- [contentEditable spec](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)\n\nAPI reference: QEditor",
+    "apiReferences": [
+      "QEditor"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/editor#examples",
+    "documentId": "vue-components/editor",
+    "heading": "Examples",
+    "breadcrumb": [
+      "Examples",
+      "Examples"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#examples",
+    "content": "Example: Default editor (Basic.vue)\n\n::: warning\nIn this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html=\"editor\"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).\n:::\n\nBy default, QEditor offers most if not all the commands you’d need in a WYSIWYG editor: bold, italic, strike, underline, unordered (list), ordered (list), subscript, superscript, link, fullscreen, quote, left (align), center (align), right (align), justify (align), print, outdent, indent, removeFormat, hr, undo, redo, h1 to h6, p (paragraph), code (code paragraph), size-1 to size-7.\n\nEach of these commands is pre-configured with icons and their own internationalized tooltips. However, if you want to override some of their settings you can do so with the help of definitions Object property.\n\n```html\n:definitions=\"{ bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'} }\"\n```\n\nExample: Redefine bold command (NewBold.vue)\n\nThe following is an example that adds custom definitions. In such cases, make sure you don’t overlap the default commands:\n\nExample: Add new commands (NewCommands.vue)\n\nExample: Kitchen sink (KitchenSink.vue)\n\nExample: Custom style (Custom.vue)\n\nExample: Using toolbar slots (ToolbarSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Default editor",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Redefine bold command",
+        "file": "NewBold.vue"
+      },
+      {
+        "title": "Add new commands",
+        "file": "NewCommands.vue"
+      },
+      {
+        "title": "Kitchen sink",
+        "file": "KitchenSink.vue"
+      },
+      {
+        "title": "Custom style",
+        "file": "Custom.vue"
+      },
+      {
+        "title": "Using toolbar slots",
+        "file": "ToolbarSlot.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/editor#types-of-dropdowns",
+    "documentId": "vue-components/editor",
+    "heading": "Types of dropdowns",
+    "breadcrumb": [
+      "Dropdowns",
+      "Types of dropdowns",
+      "Types of dropdowns"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#types-of-dropdowns",
+    "content": "```html\n<q-editor\n  v-model=\"model\"\n  :toolbar=\"[\n    [\n      {\n        label: 'Icons & Label',\n        icon: 'filter_1',\n        fixedLabel: true,\n        fixedIcon: true,\n        options: ['bold', 'italic', 'strike', 'underline']\n      }\n    ],\n    [\n      {\n        label: 'Only label',\n        icon: 'filter_2',\n        fixedLabel: true,\n        fixedIcon: true,\n        list: 'no-icons',\n        options: ['bold', 'italic', 'strike', 'underline']\n      }\n    ],\n    [\n      {\n        label: 'Only icons',\n        icon: 'filter_3',\n        fixedLabel: true,\n        fixedIcon: true,\n        list: 'only-icons',\n        options: ['bold', 'italic', 'strike', 'underline']\n      }\n    ]\n  ]\"\n/>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/editor#dropdowns-with-exclusive-options",
+    "documentId": "vue-components/editor",
+    "heading": "Dropdowns with exclusive options",
+    "breadcrumb": [
+      "Dropdowns",
+      "Dropdowns with exclusive options",
+      "Dropdowns with exclusive options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#dropdowns-with-exclusive-options",
+    "content": "User can pick only one option from each dropdown.\n\n- First has icon and label changing based on current selection\n- Second has fixed label but dynamic icon\n- Third has fixed icon but dynamic label\n\n```html\n<q-editor\n  v-model=\"model\"\n  :toolbar=\"[\n    [\n      {\n        label: 'Dynamic label',\n        icon: 'help_outline',\n        options: ['left', 'center', 'right', 'justify']\n      }\n    ],\n    [\n      {\n        label: 'Static label',\n        fixedLabel: true,\n        options: ['left', 'center', 'right', 'justify']\n      }\n    ],\n    [\n      {\n        label: 'Some label',\n        icon: 'account_balance',\n        fixedIcon: true,\n        options: ['left', 'center', 'right', 'justify']\n      }\n    ]\n  ]\"\n/>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/editor#autocorrect-spellcheck",
+    "documentId": "vue-components/editor",
+    "heading": "Autocorrect & spellcheck",
+    "breadcrumb": [
+      "Caveats",
+      "Autocorrect & spellcheck",
+      "Autocorrect & spellcheck"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#autocorrect-spellcheck",
+    "content": "There may be occasions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction \"features\" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:\n\n```html\n<form\n  autocorrect=\"off\"\n  autocapitalize=\"off\"\n  autocomplete=\"off\"\n  spellcheck=\"false\"\n>\n  <q-editor v-model=\"editor\" />\n</form>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/editor#images",
+    "documentId": "vue-components/editor",
+    "heading": "Images",
+    "breadcrumb": [
+      "Caveats",
+      "Images",
+      "Images"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#images",
+    "content": "Pasting from the buffer and drag & dropping images into the editor is unfortunately different across browsers - and also highly dependent upon how the image got into the buffer in the first place. In fact, up until very recently, you could even resize images within the ContentEditable when using Firefox. If you want to allow image pasting / dropping, we highly recommend writing your own methods.\n\n```html\n<q-editor\n  v-model=\"editor\"\n  @paste=\"evt => pasteCapture(evt)\"\n  @drop=\"evt => dropCapture(evt)\"\n/>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/editor#plaintext-pasting",
+    "documentId": "vue-components/editor",
+    "heading": "Plaintext pasting",
+    "breadcrumb": [
+      "Caveats",
+      "Plaintext pasting",
+      "Plaintext pasting"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#plaintext-pasting",
+    "content": "If the paste event content type is text and depending on the source of text, there may already be a great deal of markup that the contentEditable automatically parses. If you want to paste only \"clean, markup-free\" text, then you can use the approach in this example (which also turns off spelling correction as mentioned above):\n\nExample: Paste Event Override (Pasting.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Paste Event Override",
+        "file": "Pasting.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/editor#printing",
+    "documentId": "vue-components/editor",
+    "heading": "Printing",
+    "breadcrumb": [
+      "Caveats",
+      "Printing",
+      "Printing"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#printing",
+    "content": "If you don't set a font (or the user doesn't choose one), the print dialogue will default to the system font, which can vary depending on browser and underlying operating system. Make sure to take this into consideration.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/editor#internationalization",
+    "documentId": "vue-components/editor",
+    "heading": "Internationalization",
+    "breadcrumb": [
+      "Caveats",
+      "Internationalization",
+      "Internationalization"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/editor#internationalization",
+    "content": "The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

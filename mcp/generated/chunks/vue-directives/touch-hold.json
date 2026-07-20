@@ -1,0 +1,88 @@
+[
+  {
+    "id": "vue-directives/touch-hold#overview",
+    "documentId": "vue-directives/touch-hold",
+    "heading": "Touch Hold Directive",
+    "breadcrumb": [
+      "Touch Hold Directive"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-hold",
+    "content": "Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.\n\n> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.\n\nWe will be describing `v-touch-hold` directive on the lines below.\n\nAPI reference: TouchHold",
+    "apiReferences": [
+      "TouchHold"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-hold#usage",
+    "documentId": "vue-directives/touch-hold",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-hold#usage",
+    "content": "Example: Basic (Basic.vue)\n\nThe default wait time is 600ms, but you can change it:\n\nExample: Custom wait time (CustomTimer.vue)\n\n::: tip\nTouchHold also has a default sensitivity of 5px for touch events and 7px for mouse events, which means that it allows a slight movement of the finger or mouse without aborting, improving the user experience.\n:::\n\nHowever, you can change this sensitivity too (notice the directive argument below - `600:12:15` - 600ms wait time, 12px sensitivity for touch events, 15px sensitivity for mouse events):\n\nExample: Custom sensitivity (CustomSensitivity.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Custom wait time",
+        "file": "CustomTimer.vue"
+      },
+      {
+        "title": "Custom sensitivity",
+        "file": "CustomSensitivity.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-directives/touch-hold#handling-mouse-events",
+    "documentId": "vue-directives/touch-hold",
+    "heading": "Handling Mouse Events",
+    "breadcrumb": [
+      "Usage",
+      "Handling Mouse Events",
+      "Handling Mouse Events"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-hold#handling-mouse-events",
+    "content": "When you want to also handle mouse events too, use the `mouse` modifier:\n\n```html\n<div v-touch-hold.mouse=\"userHasHold\">...</div>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-hold#inhibiting-touchhold",
+    "documentId": "vue-directives/touch-hold",
+    "heading": "Inhibiting TouchHold",
+    "breadcrumb": [
+      "Usage",
+      "Inhibiting TouchHold",
+      "Inhibiting TouchHold"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-hold#inhibiting-touchhold",
+    "content": "When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:\n\n```html\n<div v-touch-hold.mouse=\"userHasHold\">\n  <!-- ...content -->\n  <div @touchstart.stop @mousedown.stop>\n    <!--\n      TouchHold will not apply here because\n      we are calling stopPropagation() on touchstart\n      and mousedown events\n    -->\n  </div>\n  <!-- ...content -->\n</div>\n```\n\nHowever, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchHold will still trigger.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-directives/touch-hold#note-on-hmr",
+    "documentId": "vue-directives/touch-hold",
+    "heading": "Note on HMR",
+    "breadcrumb": [
+      "Note on HMR",
+      "Note on HMR"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-directives/touch-hold#note-on-hmr",
+    "content": "Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

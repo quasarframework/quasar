@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/notify",
+  "title": "Notify",
+  "description": "A Quasar plugin to display animated messages to users like notifications, toasts and snackbars.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/notify",
+  "source": "docs/src/pages/quasar-plugins/notify.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Notify"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/Notify/Basic.vue"
+    },
+    {
+      "title": "Caption",
+      "file": "Caption.vue",
+      "source": "docs/src/examples/Notify/Caption.vue"
+    },
+    {
+      "title": "With icon",
+      "file": "Icon.vue",
+      "source": "docs/src/examples/Notify/Icon.vue"
+    },
+    {
+      "title": "With avatar",
+      "file": "Avatar.vue",
+      "source": "docs/src/examples/Notify/Avatar.vue"
+    },
+    {
+      "title": "With spinner",
+      "file": "Spinner.vue",
+      "source": "docs/src/examples/Notify/Spinner.vue"
+    },
+    {
+      "title": "With actions",
+      "file": "Actions.vue",
+      "source": "docs/src/examples/Notify/Actions.vue"
+    },
+    {
+      "title": "Multiline",
+      "file": "Multiline.vue",
+      "source": "docs/src/examples/Notify/Multiline.vue"
+    },
+    {
+      "title": "Positioning & different options",
+      "file": "Positioning.vue",
+      "source": "docs/src/examples/Notify/Positioning.vue"
+    },
+    {
+      "title": "Grouping",
+      "file": "Grouping.vue",
+      "source": "docs/src/examples/Notify/Grouping.vue"
+    },
+    {
+      "title": "Custom badge",
+      "file": "GroupingCustomBadge.vue",
+      "source": "docs/src/examples/Notify/GroupingCustomBadge.vue"
+    },
+    {
+      "title": "Timeout progress",
+      "file": "TimeoutProgress.vue",
+      "source": "docs/src/examples/Notify/TimeoutProgress.vue"
+    },
+    {
+      "title": "Updatable",
+      "file": "Updatable.vue",
+      "source": "docs/src/examples/Notify/Updatable.vue"
+    },
+    {
+      "title": "Out of the box types",
+      "file": "PredefinedTypesDefault.vue",
+      "source": "docs/src/examples/Notify/PredefinedTypesDefault.vue"
+    },
+    {
+      "title": "Custom type",
+      "file": "PredefinedTypesCustom.vue",
+      "source": "docs/src/examples/Notify/PredefinedTypesCustom.vue"
+    },
+    {
+      "title": "Unsafe HTML message",
+      "file": "UnsafeHtml.vue",
+      "source": "docs/src/examples/Notify/UnsafeHtml.vue"
+    }
+  ]
+}

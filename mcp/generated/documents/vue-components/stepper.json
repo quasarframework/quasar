@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/stepper",
+  "title": "Stepper",
+  "description": "The QStepper Vue component conveys progress through a sequence of numbered steps. It may also be used for navigation. It's usually useful when the user has to follow steps to complete a process, like in a wizard.",
+  "canonicalUrl": "https://quasar.dev/vue-components/stepper",
+  "source": "docs/src/pages/vue-components/stepper.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QStep",
+    "QStepper",
+    "QStepperNavigation"
+  ],
+  "examples": [
+    {
+      "title": "Horizontal",
+      "file": "TypeHorizontal.vue",
+      "source": "docs/src/examples/QStepper/TypeHorizontal.vue"
+    },
+    {
+      "title": "Vertical",
+      "file": "TypeVertical.vue",
+      "source": "docs/src/examples/QStepper/TypeVertical.vue"
+    },
+    {
+      "title": "Non-linear header navigation",
+      "file": "NonLinearNavigation.vue",
+      "source": "docs/src/examples/QStepper/NonLinearNavigation.vue"
+    },
+    {
+      "title": "Linear header navigation",
+      "file": "LinearNavigation.vue",
+      "source": "docs/src/examples/QStepper/LinearNavigation.vue"
+    },
+    {
+      "title": "Signaling step error",
+      "file": "StepError.vue",
+      "source": "docs/src/examples/QStepper/StepError.vue"
+    },
+    {
+      "title": "Alternative labels",
+      "file": "AlternativeLabels.vue",
+      "source": "docs/src/examples/QStepper/AlternativeLabels.vue"
+    },
+    {
+      "title": "Contracted",
+      "file": "Contracted.vue",
+      "source": "docs/src/examples/QStepper/Contracted.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QStepper/Coloring.vue"
+    },
+    {
+      "title": "Step prefix",
+      "file": "Prefix.vue",
+      "source": "docs/src/examples/QStepper/Prefix.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QStepper/Dark.vue"
+    },
+    {
+      "title": "Header Class",
+      "file": "HeaderClass.vue",
+      "source": "docs/src/examples/QStepper/HeaderClass.vue"
+    },
+    {
+      "title": "Message slot with fixed height steps",
+      "file": "MessageSlot.vue",
+      "source": "docs/src/examples/QStepper/MessageSlot.vue"
+    }
+  ]
+}

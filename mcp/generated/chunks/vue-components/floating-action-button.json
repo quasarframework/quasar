@@ -1,0 +1,248 @@
+[
+  {
+    "id": "vue-components/floating-action-button#overview",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Floating Action Button",
+    "breadcrumb": [
+      "Floating Action Button"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button",
+    "content": "A Floating Action Button (FAB) represents the primary action in a Page. But, it's not limited to only a single action. It can contain any number of sub-actions too. And more importantly, it can also be used inline in your Pages or Layouts.\n\nNote that you don’t need a QLayout to use FABs.\n\nAPI reference: QFab\n\nAPI reference: QFabAction",
+    "apiReferences": [
+      "QFab",
+      "QFabAction"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/floating-action-button#usage",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#usage",
+    "content": "There are two types of FABs: expandable (has sub-actions) and non-expandable.\n\n::: tip\nFor an exhausting list of options, please read the API cards (at the top of this page).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/floating-action-button#non-expandable",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Non-Expandable",
+    "breadcrumb": [
+      "Usage",
+      "Non-Expandable",
+      "Non-Expandable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#non-expandable",
+    "content": "If you want a non-expandable FAB, all you need is a round button – wrapped in QPageSticky if used on a QLayout.\n\nExample: Non expandable (NonExpandable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Non expandable",
+        "file": "NonExpandable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#expandable",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Expandable",
+    "breadcrumb": [
+      "Usage",
+      "Expandable",
+      "Expandable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#expandable",
+    "content": "Example: Expandable (Expandable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Expandable",
+        "file": "Expandable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#internal-labels",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Internal labels",
+    "breadcrumb": [
+      "Usage",
+      "Internal labels",
+      "Internal labels"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#internal-labels",
+    "content": "Example: Internal label (InternalLabel.vue)\n\nExample: Toggling internal label (InternalLabelToggling.vue)\n\nWhen the labels are internal and your QFab opens up vertically (up or down) then you also have the ability to choose how to vertically align the sub-actions:\n\nExample: Vertical actions alignment (VerticalActionsAlignment.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Internal label",
+        "file": "InternalLabel.vue"
+      },
+      {
+        "title": "Toggling internal label",
+        "file": "InternalLabelToggling.vue"
+      },
+      {
+        "title": "Vertical actions alignment",
+        "file": "VerticalActionsAlignment.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#external-labels",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "External labels",
+    "breadcrumb": [
+      "Usage",
+      "External labels",
+      "External labels"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#external-labels",
+    "content": "By default, when the label is external on the main QFab (not the sub-actions), it gets shown only when QFab is opened. However, you can override that by setting a Boolean value for `hide-label` prop.\n\nExample: External label (ExternalLabel.vue)\n\nExample: Custom styled external label (ExternalLabelStyled.vue)\n\nExample: Toggling external label (ExternalLabelToggling.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "External label",
+        "file": "ExternalLabel.vue"
+      },
+      {
+        "title": "Custom styled external label",
+        "file": "ExternalLabelStyled.vue"
+      },
+      {
+        "title": "Toggling external label",
+        "file": "ExternalLabelToggling.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#hide-icons",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Hide icons",
+    "breadcrumb": [
+      "Usage",
+      "Hide icons",
+      "Hide icons"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#hide-icons",
+    "content": "If we hide the icon (through specific prop), we should at least use an internal label:\n\nExample: Hide icon (HideIcon.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Hide icon",
+        "file": "HideIcon.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#padding",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Padding",
+    "breadcrumb": [
+      "Usage",
+      "Padding",
+      "Padding"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#padding",
+    "content": "The default padding for QFab is \"md\" and for QFabAction is \"sm\". However, you can use `padding` prop to customize it (accepts CSS units too):\n\nExample: Playing with padding (Padding.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Playing with padding",
+        "file": "Padding.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#square-style",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Square style",
+    "breadcrumb": [
+      "Usage",
+      "Square style",
+      "Square style"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#square-style",
+    "content": "Example: Square style (SquareStyle.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Square style",
+        "file": "SquareStyle.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#slots",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Slots <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Slots <q-badge label=\"v2.4+\" />",
+      "Slots <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#slots",
+    "content": "Notice the slots for QFab and the slots for QFabAction below:\n\nExample: Slots: icon, active-icon and label (FabSlots.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Slots: icon, active-icon and label",
+        "file": "FabSlots.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#with-qpagesticky",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "With QPageSticky",
+    "breadcrumb": [
+      "Usage",
+      "With QPageSticky",
+      "With QPageSticky"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#with-qpagesticky",
+    "content": "Example: With QPageSticky (PageSticky.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QPageSticky",
+        "file": "PageSticky.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/floating-action-button#draggable",
+    "documentId": "vue-components/floating-action-button",
+    "heading": "Draggable",
+    "breadcrumb": [
+      "Usage",
+      "Draggable",
+      "Draggable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button#draggable",
+    "content": "Below is a nice example of using [TouchPan](/vue-directives/touch-pan) for making the QFab draggable across the screen.\n\nExample: Draggable (Draggable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Draggable",
+        "file": "Draggable.vue"
+      }
+    ]
+  }
+]

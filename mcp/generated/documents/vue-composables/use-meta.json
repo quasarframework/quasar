@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-composables/use-meta",
+  "title": "useMeta composable",
+  "description": "What is Quasar's useMeta() composable and how you can use it",
+  "canonicalUrl": "https://quasar.dev/vue-composables/use-meta",
+  "source": "docs/src/pages/vue-composables/use-meta.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "composable"
+  ],
+  "apiReferences": [],
+  "examples": []
+}

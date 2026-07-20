@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/tabs",
+  "title": "Tabs",
+  "description": "The QTabs, QTab and QRouteTab Vue components are a way of helping the user navigate between pages or tab panels.",
+  "canonicalUrl": "https://quasar.dev/vue-components/tabs",
+  "source": "docs/src/pages/vue-components/tabs.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QRouteTab",
+    "QTab",
+    "QTabs"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QTabs/Basic.vue"
+    },
+    {
+      "title": "Outside, inside and visible on mobile arrows",
+      "file": "ArrowsModifiers.vue",
+      "source": "docs/src/examples/QTabs/ArrowsModifiers.vue"
+    },
+    {
+      "title": "Vertical (example with QSplitter)",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/QTabs/Vertical.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QTabs/Dense.vue"
+    },
+    {
+      "title": "Individual colors",
+      "file": "IndividualColor.vue",
+      "source": "docs/src/examples/QTabs/IndividualColor.vue"
+    },
+    {
+      "title": "No ripple and custom ripple color",
+      "file": "Ripples.vue",
+      "source": "docs/src/examples/QTabs/Ripples.vue"
+    },
+    {
+      "title": "Custom indicator",
+      "file": "CustomIndicator.vue",
+      "source": "docs/src/examples/QTabs/CustomIndicator.vue"
+    },
+    {
+      "title": "Tab notifications",
+      "file": "Notifying.vue",
+      "source": "docs/src/examples/QTabs/Notifying.vue"
+    },
+    {
+      "title": "Alignment",
+      "file": "Alignment.vue",
+      "source": "docs/src/examples/QTabs/Alignment.vue"
+    },
+    {
+      "title": "With a dropdown",
+      "file": "Dropdown.vue",
+      "source": "docs/src/examples/QTabs/Dropdown.vue"
+    },
+    {
+      "title": "Tabs in a QToolbar",
+      "file": "TabsInToolbar.vue",
+      "source": "docs/src/examples/QTabs/TabsInToolbar.vue"
+    },
+    {
+      "title": "Dynamic tabs",
+      "file": "DynamicTabs.vue",
+      "source": "docs/src/examples/QTabs/DynamicTabs.vue"
+    },
+    {
+      "title": "Tabs with tab panels",
+      "file": "TabsWithTabpanels.vue",
+      "source": "docs/src/examples/QTabs/TabsWithTabpanels.vue"
+    }
+  ]
+}

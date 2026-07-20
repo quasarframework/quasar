@@ -1,0 +1,168 @@
+[
+  {
+    "id": "vue-components/skeleton#overview",
+    "documentId": "vue-components/skeleton",
+    "heading": "Skeleton",
+    "breadcrumb": [
+      "Skeleton"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton",
+    "content": "The QSkeleton is a component for displaying a placeholder preview of your content before you load the actual page data. It's a nice way of informing the user of what to expect from the page before it is fully loaded and increases the perceived performance. It can be used to incrementally display information on screen as data is being fetched.\n\nAPI reference: QSkeleton",
+    "apiReferences": [
+      "QSkeleton"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/skeleton#usage",
+    "documentId": "vue-components/skeleton",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton#usage",
+    "content": "Example: On a QCard (Card.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "On a QCard",
+        "file": "Card.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/skeleton#predefined-types",
+    "documentId": "vue-components/skeleton",
+    "heading": "Predefined types",
+    "breadcrumb": [
+      "Usage",
+      "Predefined types",
+      "Predefined types"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton#predefined-types",
+    "content": "Below you can see the predefined types. There are some basic types (text, rect, circle) and also some special convenience types that accurately respect Quasar components size and border radius.\n\nExample: QSkeleton types (Types.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "QSkeleton types",
+        "file": "Types.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/skeleton#animations",
+    "documentId": "vue-components/skeleton",
+    "heading": "Animations",
+    "breadcrumb": [
+      "Usage",
+      "Animations",
+      "Animations"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton#animations",
+    "content": "Example: Animations (Animations.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Animations",
+        "file": "Animations.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/skeleton#sizing",
+    "documentId": "vue-components/skeleton",
+    "heading": "Sizing",
+    "breadcrumb": [
+      "Usage",
+      "Sizing",
+      "Sizing"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton#sizing",
+    "content": "Example: Sizing (Sizing.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Sizing",
+        "file": "Sizing.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/skeleton#styling",
+    "documentId": "vue-components/skeleton",
+    "heading": "Styling",
+    "breadcrumb": [
+      "Usage",
+      "Styling",
+      "Styling"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton#styling",
+    "content": "Example: Bordered (StylingBordered.vue)\n\nExample: Square borders (StylingSquare.vue)\n\nExample: Custom color (StylingColor.vue)\n\nExample: Custom border (StylingCustomBorder.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Bordered",
+        "file": "StylingBordered.vue"
+      },
+      {
+        "title": "Square borders",
+        "file": "StylingSquare.vue"
+      },
+      {
+        "title": "Custom color",
+        "file": "StylingColor.vue"
+      },
+      {
+        "title": "Custom border",
+        "file": "StylingCustomBorder.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/skeleton#recipes",
+    "documentId": "vue-components/skeleton",
+    "heading": "Recipes",
+    "breadcrumb": [
+      "Usage",
+      "Recipes",
+      "Recipes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/skeleton#recipes",
+    "content": "Enjoy some pre-made recipes. Your imagination is the only limit.\n\nExample: Youtube (RecipeYoutube.vue)\n\nExample: Facebook (RecipeFacebook.vue)\n\nExample: Twitter (RecipeTwitter.vue)\n\nExample: Twitch (RecipeTwitch.vue)\n\nExample: Table (RecipeTable.vue)\n\nExample: List (RecipeList.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Youtube",
+        "file": "RecipeYoutube.vue"
+      },
+      {
+        "title": "Facebook",
+        "file": "RecipeFacebook.vue"
+      },
+      {
+        "title": "Twitter",
+        "file": "RecipeTwitter.vue"
+      },
+      {
+        "title": "Twitch",
+        "file": "RecipeTwitch.vue"
+      },
+      {
+        "title": "Table",
+        "file": "RecipeTable.vue"
+      },
+      {
+        "title": "List",
+        "file": "RecipeList.vue"
+      }
+    ]
+  }
+]

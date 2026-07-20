@@ -1,0 +1,111 @@
+[
+  {
+    "id": "vue-components/popup-proxy#overview",
+    "documentId": "vue-components/popup-proxy",
+    "heading": "Popup Proxy",
+    "breadcrumb": [
+      "Popup Proxy"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy",
+    "content": "QPopupProxy should be used when you need either a [QMenu](/vue-components/menu) (on bigger screens) or a [QDialog](/vue-components/dialog) (on smaller screens) to be displayed. It acts as a proxy which picks either of the two components to use. QPopupProxy also handles context-menus.\n\nAPI reference: QPopupProxy",
+    "apiReferences": [
+      "QPopupProxy"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/popup-proxy#usage",
+    "documentId": "vue-components/popup-proxy",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy#usage",
+    "content": "::: tip\nUse your browsers development tools to toggle the device between mobile or desktop (with browser refresh after each change) or, physically resize your browser's window to watch the QPopupProxy component switch between either a QMenu or a QDialog before clicking/tapping on its container. The default breakpoint is set at 450px.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/popup-proxy#standard",
+    "documentId": "vue-components/popup-proxy",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy#standard",
+    "content": "Example: Standard (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-proxy#context-menu",
+    "documentId": "vue-components/popup-proxy",
+    "heading": "Context menu",
+    "breadcrumb": [
+      "Usage",
+      "Context menu",
+      "Context menu"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy#context-menu",
+    "content": "Example: Context menu (right click / long tap) (ContextMenu.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Context menu (right click / long tap)",
+        "file": "ContextMenu.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-proxy#breakpoint",
+    "documentId": "vue-components/popup-proxy",
+    "heading": "Breakpoint",
+    "breadcrumb": [
+      "Usage",
+      "Breakpoint",
+      "Breakpoint"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy#breakpoint",
+    "content": "On the example below, click on the icon in the input.\n\nExample: Breakpoint @600px (Breakpoint.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Breakpoint @600px",
+        "file": "Breakpoint.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-proxy#pass-through-props",
+    "documentId": "vue-components/popup-proxy",
+    "heading": "Pass-through props",
+    "breadcrumb": [
+      "Usage",
+      "Pass-through props",
+      "Pass-through props"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy#pass-through-props",
+    "content": "Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog](/vue-components/dialog) are passed through via this component. So props like `offset` or `transition-show` (as a mere example) can be used in conjunction with QPopupProxy.\n\nExample: Props from QMenu or QDialog (Passthrough.vue)\n\n::: warning\nQPopupProxy treats some components ([QDate](/vue-components/date), [QTime](/vue-components/time), [QCarousel](/vue-components/carousel) and [QColor](/vue-components/color-picker)) as special ones and forces `cover: true` and `maxHeight: '99vh'` on them. If you don't want this behavior just place a `div` as the first level child of QPopupProxy.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Props from QMenu or QDialog",
+        "file": "Passthrough.vue"
+      }
+    ]
+  }
+]

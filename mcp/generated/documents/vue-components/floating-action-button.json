@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/floating-action-button",
+  "title": "Floating Action Button",
+  "description": "How to use the QFab component. Floating Action Buttons for your Quasar app.",
+  "canonicalUrl": "https://quasar.dev/vue-components/floating-action-button",
+  "source": "docs/src/pages/vue-components/floating-action-button.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QFab",
+    "QFabAction"
+  ],
+  "examples": [
+    {
+      "title": "Non expandable",
+      "file": "NonExpandable.vue",
+      "source": "docs/src/examples/QFab/NonExpandable.vue"
+    },
+    {
+      "title": "Expandable",
+      "file": "Expandable.vue",
+      "source": "docs/src/examples/QFab/Expandable.vue"
+    },
+    {
+      "title": "Internal label",
+      "file": "InternalLabel.vue",
+      "source": "docs/src/examples/QFab/InternalLabel.vue"
+    },
+    {
+      "title": "Toggling internal label",
+      "file": "InternalLabelToggling.vue",
+      "source": "docs/src/examples/QFab/InternalLabelToggling.vue"
+    },
+    {
+      "title": "Vertical actions alignment",
+      "file": "VerticalActionsAlignment.vue",
+      "source": "docs/src/examples/QFab/VerticalActionsAlignment.vue"
+    },
+    {
+      "title": "External label",
+      "file": "ExternalLabel.vue",
+      "source": "docs/src/examples/QFab/ExternalLabel.vue"
+    },
+    {
+      "title": "Custom styled external label",
+      "file": "ExternalLabelStyled.vue",
+      "source": "docs/src/examples/QFab/ExternalLabelStyled.vue"
+    },
+    {
+      "title": "Toggling external label",
+      "file": "ExternalLabelToggling.vue",
+      "source": "docs/src/examples/QFab/ExternalLabelToggling.vue"
+    },
+    {
+      "title": "Hide icon",
+      "file": "HideIcon.vue",
+      "source": "docs/src/examples/QFab/HideIcon.vue"
+    },
+    {
+      "title": "Playing with padding",
+      "file": "Padding.vue",
+      "source": "docs/src/examples/QFab/Padding.vue"
+    },
+    {
+      "title": "Square style",
+      "file": "SquareStyle.vue",
+      "source": "docs/src/examples/QFab/SquareStyle.vue"
+    },
+    {
+      "title": "Slots: icon, active-icon and label",
+      "file": "FabSlots.vue",
+      "source": "docs/src/examples/QFab/FabSlots.vue"
+    },
+    {
+      "title": "With QPageSticky",
+      "file": "PageSticky.vue",
+      "source": "docs/src/examples/QFab/PageSticky.vue"
+    },
+    {
+      "title": "Draggable",
+      "file": "Draggable.vue",
+      "source": "docs/src/examples/QFab/Draggable.vue"
+    }
+  ]
+}

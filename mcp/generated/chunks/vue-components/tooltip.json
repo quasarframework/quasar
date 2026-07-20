@@ -1,0 +1,123 @@
+[
+  {
+    "id": "vue-components/tooltip#overview",
+    "documentId": "vue-components/tooltip",
+    "heading": "Tooltip",
+    "breadcrumb": [
+      "Tooltip"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/tooltip",
+    "content": "The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or briefly touching and holding on mobile platforms), the tooltip will appear.\n\nAPI reference: QTooltip",
+    "apiReferences": [
+      "QTooltip"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/tooltip#usage",
+    "documentId": "vue-components/tooltip",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/tooltip#usage",
+    "content": "The idea with QTooltip is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QTooltip content inheriting CSS from the container as the QTooltip will be injected as a direct child of `<body>` through a Quasar Portal.\n\nExample: Basic (Basic.vue)\n\nExample: Toggle through v-model (VModel.vue)\n\n::: warning\nIf you want to conditionally activate or de-activate a QTooltip, please use `v-if` on it instead of `v-show`.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Toggle through v-model",
+        "file": "VModel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tooltip#customize",
+    "documentId": "vue-components/tooltip",
+    "heading": "Customize",
+    "breadcrumb": [
+      "Usage",
+      "Customize",
+      "Customize"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tooltip#customize",
+    "content": "Example: Customize (Coloring.vue)\n\nExample: Custom delay (1 second) (OneSecond.vue)\n\nExample: With offset (Offset.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Customize",
+        "file": "Coloring.vue"
+      },
+      {
+        "title": "Custom delay (1 second)",
+        "file": "OneSecond.vue"
+      },
+      {
+        "title": "With offset",
+        "file": "Offset.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tooltip#transitions",
+    "documentId": "vue-components/tooltip",
+    "heading": "Transitions",
+    "breadcrumb": [
+      "Usage",
+      "Transitions",
+      "Transitions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tooltip#transitions",
+    "content": "In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).\n\nExample: Custom transition (CustomTransition.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom transition",
+        "file": "CustomTransition.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tooltip#reusable",
+    "documentId": "vue-components/tooltip",
+    "heading": "Reusable",
+    "breadcrumb": [
+      "Usage",
+      "Reusable",
+      "Reusable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tooltip#reusable",
+    "content": "The example below shows how to create a re-usable menu that can be shared with different targets.\n\nExample: Using target (Target.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Using target",
+        "file": "Target.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/tooltip#positioning",
+    "documentId": "vue-components/tooltip",
+    "heading": "Positioning",
+    "breadcrumb": [
+      "Usage",
+      "Positioning",
+      "Positioning"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tooltip#positioning",
+    "content": "The position of QTooltip can be customized. It keeps account of the `anchor` and `self` optional props.\nThe final position of QTooltip popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.\n\nFor horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean \"left\" for non-RTL and \"right\" for RTL.\n\n::: tip\nThe `offset` prop is applied to the **anchor element's bounding box**, and only then is the final position clamped to the available screen real estate. As a result, a large offset — or anchoring QTooltip to a full-width / screen-edge element — can push the popup against a viewport edge, where it gets clamped and the offset appears to have no effect (the clamped position then becomes independent of the offset value). If an `offset` seems to be ignored on one axis, make sure the chosen `anchor`/`self` lets the popup expand into free space on that axis — for example, attach QTooltip to an inline / `inline-block` trigger rather than to a full-width block element.\n:::\n\n<script doc>\nimport TooltipPositioning from './TooltipPositioning.vue'\n</script>\n\n<TooltipPositioning />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

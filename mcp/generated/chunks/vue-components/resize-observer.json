@@ -1,0 +1,36 @@
+[
+  {
+    "id": "vue-components/resize-observer#overview",
+    "documentId": "vue-components/resize-observer",
+    "heading": "Resize Observer (for Element)",
+    "breadcrumb": [
+      "Resize Observer (for Element)"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/resize-observer",
+    "content": "QResizeObserver is a Quasar component that emits a `resize` event whenever the wrapping DOM element / component (defined as direct parent of QResizeObserver) changes its size (width and/or height). Note that no polling is involved, but overusing it is costly too.\n\nAPI reference: QResizeObserver",
+    "apiReferences": [
+      "QResizeObserver"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/resize-observer#usage",
+    "documentId": "vue-components/resize-observer",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/resize-observer#usage",
+    "content": "Example: Basic (Basic.vue)\n\nPlease note that QResizeObserver will issue an event as soon as it gets rendered and attached to DOM, so you can have the initial size of the container.",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  }
+]

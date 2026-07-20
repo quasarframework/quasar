@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/menu",
+  "title": "QMenu",
+  "description": "The QMenu Vue component is a convenient way to show menus.",
+  "canonicalUrl": "https://quasar.dev/vue-components/menu",
+  "source": "docs/src/pages/vue-components/menu/menu.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QMenu"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QMenu/Basic.vue"
+    },
+    {
+      "title": "Idea for content",
+      "file": "VariousContent.vue",
+      "source": "docs/src/examples/QMenu/VariousContent.vue"
+    },
+    {
+      "title": "Toggle through v-model",
+      "file": "VModel.vue",
+      "source": "docs/src/examples/QMenu/VModel.vue"
+    },
+    {
+      "title": "Menus in menus",
+      "file": "MenuInMenu.vue",
+      "source": "docs/src/examples/QMenu/MenuInMenu.vue"
+    },
+    {
+      "title": "Sizing",
+      "file": "Sizing.vue",
+      "source": "docs/src/examples/QMenu/Sizing.vue"
+    },
+    {
+      "title": "Style",
+      "file": "Style.vue",
+      "source": "docs/src/examples/QMenu/Style.vue"
+    },
+    {
+      "title": "Context Menu",
+      "file": "ContextMenu.vue",
+      "source": "docs/src/examples/QMenu/ContextMenu.vue"
+    },
+    {
+      "title": "Persistent",
+      "file": "Persistent.vue",
+      "source": "docs/src/examples/QMenu/Persistent.vue"
+    },
+    {
+      "title": "Transition examples",
+      "file": "Transitions.vue",
+      "source": "docs/src/examples/QMenu/Transitions.vue"
+    },
+    {
+      "title": "Using target",
+      "file": "Target.vue",
+      "source": "docs/src/examples/QMenu/Target.vue"
+    },
+    {
+      "title": "Position examples",
+      "file": "Positions.vue",
+      "source": "docs/src/examples/QMenu/Positions.vue"
+    }
+  ]
+}

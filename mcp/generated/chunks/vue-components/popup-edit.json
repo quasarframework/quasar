@@ -1,0 +1,175 @@
+[
+  {
+    "id": "vue-components/popup-edit#overview",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Popup Edit",
+    "breadcrumb": [
+      "Popup Edit"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit",
+    "content": "The QPopupEdit component can be used to edit a value “in place”, like for example a cell in QTable. By default, a cell is displayed as a String, then if you are using QPopupEdit and a user clicks/taps on the table cell, a popup will open where the user will be able to edit the value using a textfield.\n\nThis component injects a [QMenu](/vue-components/menu) into its parent DOM element and enables the behavior described above, so **it can be used anywhere**, not only in QTable.\n\nAPI reference: QPopupEdit",
+    "apiReferences": [
+      "QPopupEdit"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/popup-edit#usage",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#usage",
+    "content": "::: warning\nIf used on a QTable, QPopupEdit won't work with cell scoped slots.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/popup-edit#standalone",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Standalone",
+    "breadcrumb": [
+      "Usage",
+      "Standalone",
+      "Standalone"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#standalone",
+    "content": "Example: Click on text (Standalone.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Click on text",
+        "file": "Standalone.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-edit#with-qtable",
+    "documentId": "vue-components/popup-edit",
+    "heading": "With QTable",
+    "breadcrumb": [
+      "Usage",
+      "With QTable",
+      "With QTable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#with-qtable",
+    "content": "Click on the cells to see the popup editor. The column \"Name\" demonstrates the `title` prop. The column \"Calories\" displays a numeric value usage. The column \"Fat\" also demonstrates the `disable` prop. If you look at the source code, you'll see the cell for \"fat\" is using QPopupEdit, yet when clicking on the cell, the popup doesn't show.\n\nExample: Edit first columns (WithTable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Edit first columns",
+        "file": "WithTable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-edit#customizing",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Customizing",
+    "breadcrumb": [
+      "Usage",
+      "Customizing",
+      "Customizing"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#customizing",
+    "content": "Example: Customizing QPopupEdit (Customizing.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Customizing QPopupEdit",
+        "file": "Customizing.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-edit#persistent-and-with-buttons",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Persistent and with buttons",
+    "breadcrumb": [
+      "Usage",
+      "Persistent and with buttons",
+      "Persistent and with buttons"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#persistent-and-with-buttons",
+    "content": "You can also add two buttons with the `buttons` prop, \"Cancel\" and \"Set\" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the \"Protein\" column. Notice \"Save\" is replacing \"Set\" and \"Close\" is replacing \"Cancel\".\n\n> The `persistent` prop is demonstrated in the \"carbs\" column.\n\nExample: Persistent edit, and with buttons (WithButtons.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Persistent edit, and with buttons",
+        "file": "WithButtons.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-edit#the-default-slot",
+    "documentId": "vue-components/popup-edit",
+    "heading": "The default slot",
+    "breadcrumb": [
+      "Usage",
+      "The default slot",
+      "The default slot"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#the-default-slot",
+    "content": "The default slot's parameters are:\n\n<!-- prettier-ignore -->\n```js\n{\n  initialValue, value, validate, set, cancel, updatePosition\n}\n```\n\n::: warning\nDo not destructure the slot's parameters as it will generate linting errors when using the `value` prop directly with `v-model`.\n:::\n\nExample: Default slot parameters (DefaultSlotParameters.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Default slot parameters",
+        "file": "DefaultSlotParameters.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-edit#textarea-qeditor",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Textarea / QEditor",
+    "breadcrumb": [
+      "Usage",
+      "Textarea / QEditor",
+      "Textarea / QEditor"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#textarea-qeditor",
+    "content": "Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the \"Comments\" column.\n\n::: tip\nWhen using a multi-line control (textarea, QEditor) for input, you'll need to also use `@keyup.enter.stop` on the component in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.\n:::\n\nExample: QInput textarea (TextArea.vue)\n\nExample: QEditor (PopupWithEditor.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "QInput textarea",
+        "file": "TextArea.vue"
+      },
+      {
+        "title": "QEditor",
+        "file": "PopupWithEditor.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/popup-edit#validation",
+    "documentId": "vue-components/popup-edit",
+    "heading": "Validation",
+    "breadcrumb": [
+      "Usage",
+      "Validation",
+      "Validation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/popup-edit#validation",
+    "content": "QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the \"Calories\" column** below.\n\n::: tip Tip 1\nNotice we are using the `hide` event to also revalidate the input. If we don't, QInput's error prop will 'hang' in an invalid state.\n:::\n\n::: tip Tip 2\nWith this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using [Regle](https://reglejs.dev/) external validation library too. In other words, the value given to QPopupEdit's validate function can come from anywhere.\n:::\n\nExample: Edit with validation (WithValidation.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Edit with validation",
+        "file": "WithValidation.vue"
+      }
+    ]
+  }
+]

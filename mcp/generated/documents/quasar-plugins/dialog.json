@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/dialog",
+  "title": "Dialog Plugin",
+  "description": "A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog",
+  "source": "docs/src/pages/quasar-plugins/dialog.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Dialog"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/Dialog/Basic.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/Dialog/Dark.vue"
+    },
+    {
+      "title": "Radios, Checkboxes, Toggles",
+      "file": "Pickers.vue",
+      "source": "docs/src/examples/Dialog/Pickers.vue"
+    },
+    {
+      "title": "Other options",
+      "file": "OtherOptions.vue",
+      "source": "docs/src/examples/Dialog/OtherOptions.vue"
+    },
+    {
+      "title": "Using native attributes",
+      "file": "NativeAttributes.vue",
+      "source": "docs/src/examples/Dialog/NativeAttributes.vue"
+    },
+    {
+      "title": "Prompt with validation",
+      "file": "ValidationPrompt.vue",
+      "source": "docs/src/examples/Dialog/ValidationPrompt.vue"
+    },
+    {
+      "title": "Options with validation",
+      "file": "ValidationOptions.vue",
+      "source": "docs/src/examples/Dialog/ValidationOptions.vue"
+    },
+    {
+      "title": "Showing progress",
+      "file": "Progress.vue",
+      "source": "docs/src/examples/Dialog/Progress.vue"
+    },
+    {
+      "title": "Unsafe HTML message",
+      "file": "UnsafeHtml.vue",
+      "source": "docs/src/examples/Dialog/UnsafeHtml.vue"
+    }
+  ]
+}

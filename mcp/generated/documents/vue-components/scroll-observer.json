@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/scroll-observer",
+  "title": "Scroll Observer",
+  "description": "The QScrollObserver Vue component emits an event whenever the user scrolls the page or the parent scrollable container.",
+  "canonicalUrl": "https://quasar.dev/vue-components/scroll-observer",
+  "source": "docs/src/pages/vue-components/scroll-observer.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QScrollObserver"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QScrollObserver/Basic.vue"
+    }
+  ]
+}

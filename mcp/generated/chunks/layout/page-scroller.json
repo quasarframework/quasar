@@ -1,0 +1,91 @@
+[
+  {
+    "id": "layout/page-scroller#overview",
+    "documentId": "layout/page-scroller",
+    "heading": "Layout QPageScroller",
+    "breadcrumb": [
+      "Layout QPageScroller"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/page-scroller",
+    "content": "The QPageScroller component helps in placing DOM elements / components wrapped by it into a static position within the content area of your QPage, no matter where the user scrolls.\n\nThe great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offset so that the overlap won't occur.\nTry it out with a non-fixed footer for example. When user reaches bottom of screen and footer comes into view, the component will shift up so it won't overlap with the footer.\n\nEssentially QPageScroller is very similar to QPageSticky. Whereas a QPageSticky component is always visible, a QPageScroller component only appears after a `scroll-offset` (property) is reached. Once visible, the user can click on it to quickly get back to the top of the page via `duration` property.\n\nAPI reference: QPageScroller",
+    "apiReferences": [
+      "QPageScroller"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page-scroller#usage",
+    "documentId": "layout/page-scroller",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/page-scroller#usage",
+    "content": "::: tip\nSince QPageScroller needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageScroller.\n:::\n\n::: warning\n\n- In order for QPageScroller to work, it must be placed within a QLayout component.\n- QPageScroller must be the last child element within its parent, so it can display on top of other content\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page-scroller#basic",
+    "documentId": "layout/page-scroller",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page-scroller#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/page-scroller#expanded",
+    "documentId": "layout/page-scroller",
+    "heading": "Expanded",
+    "breadcrumb": [
+      "Usage",
+      "Expanded",
+      "Expanded"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page-scroller#expanded",
+    "content": "Example: Expanded (Expanded.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Expanded",
+        "file": "Expanded.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/page-scroller#reverse",
+    "documentId": "layout/page-scroller",
+    "heading": "Reverse",
+    "breadcrumb": [
+      "Usage",
+      "Reverse",
+      "Reverse"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page-scroller#reverse",
+    "content": "Example: Reverse (Reverse.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Reverse",
+        "file": "Reverse.vue"
+      }
+    ]
+  }
+]

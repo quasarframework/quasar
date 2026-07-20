@@ -1,0 +1,53 @@
+<template>
+  <div class="q-pa-md">
+    <div class="q-gutter-md row items-start">
+      <q-file
+        style="max-width: 300px"
+        v-model="filesMaxSize"
+        filled
+        label="Filtered (for <2k size)"
+        multiple
+        :filter="checkFileSize"
+        @rejected="onRejected"
+      />
+
+      <q-file
+        style="max-width: 300px"
+        v-model="filesPng"
+        rounded
+        outlined
+        label="Filtered (png only)"
+        multiple
+        :filter="checkFileType"
+        @rejected="onRejected"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
+const $q = useQuasar()
+
+const filesMaxSize = ref(null)
+const filesPng = ref(null)
+
+function checkFileSize(files) {
+  return files.filter(file => file.size < 2048)
+}
+
+function checkFileType(files) {
+  return files.filter(file => file.type === 'image/png')
+}
+
+function onRejected(rejectedEntries) {
+  // Notify plugin needs to be installed
+  // https://v2.quasar.dev/quasar-plugins/notify#Installation
+  $q.notify({
+    type: 'negative',
+    message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+  })
+}
+</script>

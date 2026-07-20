@@ -1,0 +1,64 @@
+[
+  {
+    "id": "vue-components/infinite-scroll#overview",
+    "documentId": "vue-components/infinite-scroll",
+    "heading": "Infinite Scroll",
+    "breadcrumb": [
+      "Infinite Scroll"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/infinite-scroll",
+    "content": "The QInfiniteScroll component allows you to load new content as the user scrolls the page.\n\nAPI reference: QInfiniteScroll",
+    "apiReferences": [
+      "QInfiniteScroll"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/infinite-scroll#usage",
+    "documentId": "vue-components/infinite-scroll",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/infinite-scroll#usage",
+    "content": "::: tip\nInfinite Scroll loads items in advance when less than `offset` (default = 500) pixels is left to be seen. If the content you fetch has height less than the scroll target container’s height on screen then Infinite Scroll will continue loading more content. So make sure you load enough content.\n:::\n\n::: tip\nIn your `@load` function, don't forget to call the passed in `done()` function when you have finished loading more data.\n:::\n\nScroll to the bottom to see QInfiniteScroll in action.\n\n<DocExample title=\"Basic\" file=\"Basic\" scrollable />\n\nExample: Custom Scroll Target Container (Container.vue)\n\n<DocExample title=\"Reverse (Messenger style)\" file=\"Reverse\" scrollable />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Custom Scroll Target Container",
+        "file": "Container.vue"
+      },
+      {
+        "title": "Reverse (Messenger style)",
+        "file": "Reverse.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/infinite-scroll#tips",
+    "documentId": "vue-components/infinite-scroll",
+    "heading": "Tips",
+    "breadcrumb": [
+      "Usage",
+      "Tips",
+      "Tips"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/infinite-scroll#tips",
+    "content": "::: tip Scrolling container\nPlease read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.\n:::\n\n- Works best when placed as direct child of the Vue component rendering your Page\n- If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QInfiniteScroll Vue reference.\n- If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element in the `scroll-target` prop\n\n::: warning\nIf you pass a custom scroll target container with `scroll-target` prop you must make sure that the element exists and that it can be overflowed (it must have a maximum height and an overflow that allows scrolling).\n\nIf the scroll target container cannot be overflowed you'll get a forever loading situation.\n:::\n\nExample: Usage in QMenu (Menu.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Usage in QMenu",
+        "file": "Menu.vue"
+      }
+    ]
+  }
+]

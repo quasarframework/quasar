@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/button-toggle",
+  "title": "Button Toggle",
+  "description": "The QBtnToggle Vue component is a basic element for user input, similar to QRadio but with buttons.",
+  "canonicalUrl": "https://quasar.dev/vue-components/button-toggle",
+  "source": "docs/src/pages/vue-components/button-toggle.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBtnToggle"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QBtnToggle/Basic.vue"
+    },
+    {
+      "title": "Some design examples",
+      "file": "Design.vue",
+      "source": "docs/src/examples/QBtnToggle/Design.vue"
+    },
+    {
+      "title": "Spread horizontally",
+      "file": "Spread.vue",
+      "source": "docs/src/examples/QBtnToggle/Spread.vue"
+    },
+    {
+      "title": "Custom buttons content",
+      "file": "CustomContent.vue",
+      "source": "docs/src/examples/QBtnToggle/CustomContent.vue"
+    },
+    {
+      "title": "Disable and readonly",
+      "file": "DisableReadonly.vue",
+      "source": "docs/src/examples/QBtnToggle/DisableReadonly.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QBtnToggle/NativeForm.vue"
+    }
+  ]
+}

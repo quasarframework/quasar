@@ -1,0 +1,52 @@
+import {
+  computed,
+  onActivated,
+  onDeactivated,
+  onUnmounted,
+  useSSRContext,
+  watch
+} from 'vue'
+
+import { clientList, planClientUpdate } from '../../plugins/meta/Meta.js'
+
+export default function useMeta(metaOptions) {
+  if (__QUASAR_SSR_SERVER__) {
+    const ssrContext = useSSRContext()
+
+    ssrContext.__qMetaList.push(
+      typeof metaOptions === 'function' ? metaOptions() : metaOptions
+    )
+  } else {
+    const meta = { active: true }
+
+    if (typeof metaOptions === 'function') {
+      const content = computed(metaOptions)
+      meta.val = content.value
+
+      watch(content, val => {
+        meta.val = val
+        if (meta.active) planClientUpdate()
+      })
+    } else {
+      meta.val = metaOptions
+    }
+
+    clientList.push(meta)
+    planClientUpdate()
+
+    onActivated(() => {
+      meta.active = true
+      planClientUpdate()
+    })
+
+    onDeactivated(() => {
+      meta.active = false
+      planClientUpdate()
+    })
+
+    onUnmounted(() => {
+      clientList.splice(clientList.indexOf(meta), 1)
+      planClientUpdate()
+    })
+  }
+}

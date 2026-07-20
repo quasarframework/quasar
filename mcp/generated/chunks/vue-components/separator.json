@@ -1,0 +1,62 @@
+[
+  {
+    "id": "vue-components/separator#overview",
+    "documentId": "vue-components/separator",
+    "heading": "Separator",
+    "breadcrumb": [
+      "Separator"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/separator",
+    "content": "The QSeparator component is used to separate sections of text, other components, etc... It creates a colored line across the width of the parent. It can be horizontal or vertical.\n\nAPI reference: QSeparator",
+    "apiReferences": [
+      "QSeparator"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/separator#usage",
+    "documentId": "vue-components/separator",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/separator#usage",
+    "content": "Take the following just as examples. Doesn't mean you can use QSeparator only on QCard, QList or QToolbar.\n\nExample: Horizontal (Horizontal.vue)\n\nExample: Horizontal with inset (HorizontalWithInset.vue)\n\nExample: Vertical (Vertical.vue)\n\nExample: Custom colored (Colored.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Horizontal",
+        "file": "Horizontal.vue"
+      },
+      {
+        "title": "Horizontal with inset",
+        "file": "HorizontalWithInset.vue"
+      },
+      {
+        "title": "Vertical",
+        "file": "Vertical.vue"
+      },
+      {
+        "title": "Custom colored",
+        "file": "Colored.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/separator#color-css-classes",
+    "documentId": "vue-components/separator",
+    "heading": "Color CSS classes",
+    "breadcrumb": [
+      "Color CSS classes",
+      "Color CSS classes"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/separator#color-css-classes",
+    "content": "Should you need, there are four special Quasar CSS classes which apply the color of QSeparator: `text-separator`, `bg-separator`, `text-dark-separator`, `bg-dark-separator`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

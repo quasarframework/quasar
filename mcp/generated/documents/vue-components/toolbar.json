@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/toolbar",
+  "title": "Toolbar",
+  "description": "The QToolbar and QToolbarTitle Vue components are usually part of QHeader or QFooter, but it can be used anywhere on the page.",
+  "canonicalUrl": "https://quasar.dev/vue-components/toolbar",
+  "source": "docs/src/pages/vue-components/toolbar.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QToolbar",
+    "QToolbarTitle"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QToolbar/Basic.vue"
+    },
+    {
+      "title": "With Avatar",
+      "file": "Avatar.vue",
+      "source": "docs/src/examples/QToolbar/Avatar.vue"
+    },
+    {
+      "title": "Glossy",
+      "file": "Glossy.vue",
+      "source": "docs/src/examples/QToolbar/Glossy.vue"
+    },
+    {
+      "title": "Grouped vertically",
+      "file": "GroupedVertically.vue",
+      "source": "docs/src/examples/QToolbar/GroupedVertically.vue"
+    },
+    {
+      "title": "Grouped horizontally",
+      "file": "GroupedHorizontally.vue",
+      "source": "docs/src/examples/QToolbar/GroupedHorizontally.vue"
+    },
+    {
+      "title": "With Tabs",
+      "file": "WithTabs.vue",
+      "source": "docs/src/examples/QToolbar/WithTabs.vue"
+    },
+    {
+      "title": "With Button Dropdown",
+      "file": "WithDropdown.vue",
+      "source": "docs/src/examples/QToolbar/WithDropdown.vue"
+    },
+    {
+      "title": "With Button Toggle",
+      "file": "WithBtnToggle.vue",
+      "source": "docs/src/examples/QToolbar/WithBtnToggle.vue"
+    }
+  ]
+}

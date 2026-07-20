@@ -1,0 +1,217 @@
+[
+  {
+    "id": "vue-components/color-picker#overview",
+    "documentId": "vue-components/color-picker",
+    "heading": "Color Picker",
+    "breadcrumb": [
+      "Color Picker"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker",
+    "content": "The QColor component provides a method to input colors.\n\n::: tip\nFor handling colors, also check out [Quasar Color Utils](/quasar-utils/color-utils).\n:::\n\nAPI reference: QColor",
+    "apiReferences": [
+      "QColor"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/color-picker#basic",
+    "documentId": "vue-components/color-picker",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#with-qinput",
+    "documentId": "vue-components/color-picker",
+    "heading": "With QInput",
+    "breadcrumb": [
+      "Usage",
+      "With QInput",
+      "With QInput"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#with-qinput",
+    "content": "Example: Input (Input.vue)\n\nThere are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js). You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#internal-validation).\n\nExamples: \"hexColor\", \"rgbOrRgbaColor\", \"anyColor\".\n\nMore info: [QInput](/vue-components/input).",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Input",
+        "file": "Input.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#no-header-or-footer",
+    "documentId": "vue-components/color-picker",
+    "heading": "No header or footer",
+    "breadcrumb": [
+      "Usage",
+      "No header or footer",
+      "No header or footer"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#no-header-or-footer",
+    "content": "You can choose if you don't want to render the header and/or footer, like in example below:\n\nExample: No header/footer (NoHeaderFooter.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "No header/footer",
+        "file": "NoHeaderFooter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#custom-default-view",
+    "documentId": "vue-components/color-picker",
+    "heading": "Custom default view",
+    "breadcrumb": [
+      "Usage",
+      "Custom default view",
+      "Custom default view"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#custom-default-view",
+    "content": "You can also pick the default view, like in example below, where we also specify we don't want to render the header and footer. The end result generates a nice color palette that the user can pick from:\n\nExample: Custom default view (CustomDefaultView.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom default view",
+        "file": "CustomDefaultView.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#custom-palette",
+    "documentId": "vue-components/color-picker",
+    "heading": "Custom palette",
+    "breadcrumb": [
+      "Usage",
+      "Custom palette",
+      "Custom palette"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#custom-palette",
+    "content": "Example: Custom palette (CustomPalette.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom palette",
+        "file": "CustomPalette.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#force-dark-mode",
+    "documentId": "vue-components/color-picker",
+    "heading": "Force dark mode",
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#force-dark-mode",
+    "content": "Example: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#default-value",
+    "documentId": "vue-components/color-picker",
+    "heading": "Default value",
+    "breadcrumb": [
+      "Usage",
+      "Default value",
+      "Default value"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#default-value",
+    "content": "Example: Default value (DefaultValue.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Default value",
+        "file": "DefaultValue.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#lazy-update",
+    "documentId": "vue-components/color-picker",
+    "heading": "Lazy update",
+    "breadcrumb": [
+      "Usage",
+      "Lazy update",
+      "Lazy update"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#lazy-update",
+    "content": "Example: Lazy model (LazyModel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Lazy model",
+        "file": "LazyModel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#disable-and-readonly",
+    "documentId": "vue-components/color-picker",
+    "heading": "Disable and readonly",
+    "breadcrumb": [
+      "Usage",
+      "Disable and readonly",
+      "Disable and readonly"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#disable-and-readonly",
+    "content": "Example: Disable and readonly (DisableReadonly.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable and readonly",
+        "file": "DisableReadonly.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/color-picker#native-form-submit",
+    "documentId": "vue-components/color-picker",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/color-picker#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QColor, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

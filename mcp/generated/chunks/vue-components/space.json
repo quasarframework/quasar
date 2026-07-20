@@ -1,0 +1,34 @@
+[
+  {
+    "id": "vue-components/space#overview",
+    "documentId": "vue-components/space",
+    "heading": "QSpace",
+    "breadcrumb": [
+      "QSpace"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/space",
+    "content": "The purpose of QSpace (has no props) is to simply fill all available space inside of a flexbox DOM element.\n\nAs a sidenote, all Quasar components use flexbox. So what this means, for example (there are numerous examples, just mentioning one), is that you can use QSpace in a QToolbar.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/space#usage",
+    "documentId": "vue-components/space",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/space#usage",
+    "content": "These are only two examples so you can get a glimpse on how to use it.\n\nExample: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  }
+]

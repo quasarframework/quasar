@@ -1,0 +1,11 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/layout/page"
+  },
+  "slots": {
+    "default": {
+      "desc": "Encapsulates a QPage (either directly or through <router-view>)"
+    }
+  }
+}

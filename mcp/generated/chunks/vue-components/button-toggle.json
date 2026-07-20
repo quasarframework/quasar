@@ -1,0 +1,121 @@
+[
+  {
+    "id": "vue-components/button-toggle#overview",
+    "documentId": "vue-components/button-toggle",
+    "heading": "Button Toggle",
+    "breadcrumb": [
+      "Button Toggle"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-toggle",
+    "content": "The QBtnToggle component is another basic element for user input, similar to QRadio but with buttons. You can use this to supply a way for the user to pick an option from multiple choices.\n\nAPI reference: QBtnToggle",
+    "apiReferences": [
+      "QBtnToggle"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/button-toggle#basic",
+    "documentId": "vue-components/button-toggle",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-toggle#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button-toggle#design",
+    "documentId": "vue-components/button-toggle",
+    "heading": "Design",
+    "breadcrumb": [
+      "Usage",
+      "Design",
+      "Design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-toggle#design",
+    "content": "::: tip\nSince QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.\n:::\n\nExample: Some design examples (Design.vue)\n\nExample: Spread horizontally (Spread.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Some design examples",
+        "file": "Design.vue"
+      },
+      {
+        "title": "Spread horizontally",
+        "file": "Spread.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button-toggle#custom-content",
+    "documentId": "vue-components/button-toggle",
+    "heading": "Custom content",
+    "breadcrumb": [
+      "Usage",
+      "Custom content",
+      "Custom content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-toggle#custom-content",
+    "content": "First QBtnToggle below has tooltips on each button. Second QBtnToggle has customized the content. Notice the `slot` prop in the `options` Object definition. When you use this `slot` prop, you don't necessary need the `label` / `icon` props in `options`.\n\nExample: Custom buttons content (CustomContent.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom buttons content",
+        "file": "CustomContent.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button-toggle#disable-and-readonly",
+    "documentId": "vue-components/button-toggle",
+    "heading": "Disable and readonly",
+    "breadcrumb": [
+      "Usage",
+      "Disable and readonly",
+      "Disable and readonly"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-toggle#disable-and-readonly",
+    "content": "You can either disable a QBtnToggle by providing a `disable` attribute, or disable an individual button by providing the property `disable: true` to its entry, in the options.\n\nExample: Disable and readonly (DisableReadonly.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable and readonly",
+        "file": "DisableReadonly.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button-toggle#native-form-submit",
+    "documentId": "vue-components/button-toggle",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-toggle#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QBtnToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

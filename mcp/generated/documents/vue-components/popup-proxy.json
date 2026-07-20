@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/popup-proxy",
+  "title": "Popup Proxy",
+  "description": "The QPopupProxy is a Vue component that should be used when you need either a QMenu or a QDialog (on smaller screens) to be displayed.",
+  "canonicalUrl": "https://quasar.dev/vue-components/popup-proxy",
+  "source": "docs/src/pages/vue-components/popup-proxy.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QPopupProxy"
+  ],
+  "examples": [
+    {
+      "title": "Standard",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QPopupProxy/Standard.vue"
+    },
+    {
+      "title": "Context menu (right click / long tap)",
+      "file": "ContextMenu.vue",
+      "source": "docs/src/examples/QPopupProxy/ContextMenu.vue"
+    },
+    {
+      "title": "Breakpoint @600px",
+      "file": "Breakpoint.vue",
+      "source": "docs/src/examples/QPopupProxy/Breakpoint.vue"
+    },
+    {
+      "title": "Props from QMenu or QDialog",
+      "file": "Passthrough.vue",
+      "source": "docs/src/examples/QPopupProxy/Passthrough.vue"
+    }
+  ]
+}

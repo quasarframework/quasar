@@ -1,0 +1,43 @@
+[
+  {
+    "id": "vue-composables/use-quasar#overview",
+    "documentId": "vue-composables/use-quasar",
+    "heading": "useQuasar composable",
+    "breadcrumb": [
+      "useQuasar composable"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-quasar",
+    "content": "The useQuasar composable is used in order to get access to the [$q Object](/options/the-q-object).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-quasar#syntax",
+    "documentId": "vue-composables/use-quasar",
+    "heading": "Syntax",
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-quasar#syntax",
+    "content": "```js\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-quasar#example",
+    "documentId": "vue-composables/use-quasar",
+    "heading": "Example",
+    "breadcrumb": [
+      "Example",
+      "Example"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-quasar#example",
+    "content": "```html\n<template>\n  <div>\n    <div v-if=\"$q.platform.is.ios\"> Gets rendered only on iOS platform. </div>\n  </div>\n</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n\n  const $q = useQuasar()\n\n  console.log($q.platform.is.ios)\n\n  // showing an example on a method, but\n  // can be any part of Vue script\n  function show() {\n    // prints out Quasar version\n    console.log($q.version)\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

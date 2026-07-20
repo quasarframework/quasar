@@ -1,0 +1,153 @@
+[
+  {
+    "id": "vue-components/linear-progress#overview",
+    "documentId": "vue-components/linear-progress",
+    "heading": "Linear Progress",
+    "breadcrumb": [
+      "Linear Progress"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress",
+    "content": "The QLinearProgress component displays a colored loading bar. The bar can either have a determinate progress or an indeterminate animation. It should be used to inform the user that an action is occurring in the background.\n\nAPI reference: QLinearProgress",
+    "apiReferences": [
+      "QLinearProgress"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/linear-progress#determined-state",
+    "documentId": "vue-components/linear-progress",
+    "heading": "Determined state",
+    "breadcrumb": [
+      "Usage",
+      "Determined state",
+      "Determined state"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress#determined-state",
+    "content": "Example: Determined state (Determinate.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Determined state",
+        "file": "Determinate.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/linear-progress#indeterminate-state",
+    "documentId": "vue-components/linear-progress",
+    "heading": "Indeterminate state",
+    "breadcrumb": [
+      "Usage",
+      "Indeterminate state",
+      "Indeterminate state"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress#indeterminate-state",
+    "content": "Example: Indeterminate state (Indeterminate.vue)\n\n::: tip\nFor indeterminate state (above) or query state (below) you don't need to specify the `value` property.\n:::\n\nExample: Query state (Query.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Indeterminate state",
+        "file": "Indeterminate.vue"
+      },
+      {
+        "title": "Query state",
+        "file": "Query.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/linear-progress#reversed",
+    "documentId": "vue-components/linear-progress",
+    "heading": "Reversed",
+    "breadcrumb": [
+      "Usage",
+      "Reversed",
+      "Reversed"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress#reversed",
+    "content": "Example: Reverse progress direction (Reverse.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Reverse progress direction",
+        "file": "Reverse.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/linear-progress#style",
+    "documentId": "vue-components/linear-progress",
+    "heading": "Style",
+    "breadcrumb": [
+      "Usage",
+      "Style",
+      "Style"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress#style",
+    "content": "Example: Custom height (CustomHeight.vue)\n\nExample: Standard sizes (StandardSizes.vue)\n\nExample: Stripe (Stripe.vue)\n\nExample: Force dark mode (OnDarkBackground.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom height",
+        "file": "CustomHeight.vue"
+      },
+      {
+        "title": "Standard sizes",
+        "file": "StandardSizes.vue"
+      },
+      {
+        "title": "Stripe",
+        "file": "Stripe.vue"
+      },
+      {
+        "title": "Force dark mode",
+        "file": "OnDarkBackground.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/linear-progress#buffer",
+    "documentId": "vue-components/linear-progress",
+    "heading": "Buffer",
+    "breadcrumb": [
+      "Usage",
+      "Buffer",
+      "Buffer"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress#buffer",
+    "content": "Example: Buffer (Buffering.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Buffer",
+        "file": "Buffering.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/linear-progress#with-a-label",
+    "documentId": "vue-components/linear-progress",
+    "heading": "With a label",
+    "breadcrumb": [
+      "Usage",
+      "With a label",
+      "With a label"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/linear-progress#with-a-label",
+    "content": "To add a label to the progress bar you can use the default slot. Take care to:\n\n- use a `size` big enough to allow showing the label\n- set a text color for the label so that it is visible both on the filled and unfilled areas, or use text-shadow CSS, or use a QBadge as in the example below\n\nExample: With a label (Label.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With a label",
+        "file": "Label.vue"
+      }
+    ]
+  }
+]

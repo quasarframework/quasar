@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/scroll-fire",
+  "title": "Scroll Fire Directive",
+  "description": "Vue directive that triggers an event when user scrolls and brings a component into view.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/scroll-fire",
+  "source": "docs/src/pages/vue-directives/scroll-fire.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "ScrollFire"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/ScrollFire/Basic.vue"
+    }
+  ]
+}

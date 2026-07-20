@@ -1,0 +1,445 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/expansion-item"
+  },
+  "props": {
+    "to": {
+      "type": [
+        "String",
+        "Object"
+      ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
+      "examples": [
+        "'/home/dashboard'",
+        "{ name: 'my-route-name' }"
+      ],
+      "category": "navigation"
+    },
+    "exact": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'exact' property; Superseded by 'href' prop if used",
+      "category": "navigation"
+    },
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseded by 'href' prop if used",
+      "category": "navigation"
+    },
+    "active-class": {
+      "type": "String",
+      "desc": "Equivalent to Vue Router <router-link> 'active-class' property; Superseded by 'href' prop if used",
+      "default": "'q-router-link--active'",
+      "examples": [
+        "'my-active-class'"
+      ],
+      "category": "navigation",
+      "required": false
+    },
+    "exact-active-class": {
+      "type": "String",
+      "desc": "Equivalent to Vue Router <router-link> 'active-class' property; Superseded by 'href' prop if used",
+      "default": "'q-router-link--exact-active'",
+      "examples": [
+        "'my-exact-active-class'"
+      ],
+      "category": "navigation",
+      "required": false
+    },
+    "href": {
+      "type": "String",
+      "desc": "Native <a> link href attribute; Has priority over the 'to'/'exact'/'replace'/'active-class'/'exact-active-class' props",
+      "examples": [
+        "'https://quasar.dev'"
+      ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+    "target": {
+      "type": "String",
+      "desc": "Native <a> link target attribute; Use it only along with 'href' prop; Has priority over the 'to'/'exact'/'replace'/'active-class'/'exact-active-class' props",
+      "examples": [
+        "'_blank'",
+        "'_self'",
+        "'_parent'",
+        "'_top'"
+      ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+    "disable": {
+      "type": "Boolean",
+      "desc": "Put component in disabled mode",
+      "category": "state"
+    },
+    "model-value": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "desc": "Model of the component defining shown/hidden state; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
+      "default": "null",
+      "category": "model",
+      "examples": [
+        "# v-model=\"state\""
+      ],
+      "required": false
+    },
+    "icon": {
+      "type": "String",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
+      "examples": [
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
+      ],
+      "category": "content"
+    },
+    "expand-icon": {
+      "type": "String",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
+      "examples": [
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
+      ],
+      "category": "content"
+    },
+    "expanded-icon": {
+      "type": "String",
+      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "examples": [
+        "'map'",
+        "'ion-add'",
+        "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+        "'img:path/to/some_image.png'"
+      ],
+      "category": "content"
+    },
+    "expand-icon-class": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueClassProp",
+      "desc": "Apply custom class(es) to the expand icon item section",
+      "examples": [
+        "'text-purple'"
+      ],
+      "category": "style"
+    },
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the expansion toggle element",
+      "examples": [
+        "'Open details'"
+      ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
+    },
+    "label": {
+      "type": "String",
+      "desc": "Header label (unless using 'header' slot)",
+      "examples": [
+        "'My expansion item'"
+      ],
+      "category": "content"
+    },
+    "label-lines": {
+      "type": [
+        "Number",
+        "String"
+      ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "examples": [
+        "1",
+        "'3'"
+      ],
+      "category": "content"
+    },
+    "caption": {
+      "type": "String",
+      "desc": "Header sub-label (unless using 'header' slot)",
+      "examples": [
+        "'Unread message: 5'"
+      ],
+      "category": "content"
+    },
+    "caption-lines": {
+      "type": [
+        "Number",
+        "String"
+      ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "examples": [
+        "1",
+        "'3'"
+      ],
+      "category": "content"
+    },
+    "dark": {
+      "type": [
+        "Boolean",
+        "null"
+      ],
+      "default": "null",
+      "desc": "Notify the component that the background is a dark color",
+      "category": "style",
+      "required": false
+    },
+    "dense": {
+      "type": "Boolean",
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
+    },
+    "duration": {
+      "type": "Number",
+      "desc": "Animation duration (in milliseconds)",
+      "default": "300",
+      "category": "behavior",
+      "required": false
+    },
+    "header-inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset to header (unless using 'header' slot); Useful when header avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
+      "examples": [
+        "1"
+      ],
+      "category": "content"
+    },
+    "content-inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset to content (changes content padding)",
+      "examples": [
+        "1"
+      ],
+      "category": "content"
+    },
+    "expand-separator": {
+      "type": "Boolean",
+      "desc": "Apply a top and bottom separator when expansion item is opened",
+      "category": "content"
+    },
+    "default-opened": {
+      "type": "Boolean",
+      "desc": "Puts expansion item into open state on initial render; Overridden by v-model if used",
+      "category": "behavior"
+    },
+    "hide-expand-icon": {
+      "type": "Boolean",
+      "desc": "Do not show the expand icon",
+      "category": "content",
+      "addedIn": "v2.8.4"
+    },
+    "expand-icon-toggle": {
+      "type": "Boolean",
+      "desc": "Applies the expansion events to the expand icon only and not to the whole header",
+      "category": "behavior"
+    },
+    "switch-toggle-side": {
+      "type": "Boolean",
+      "desc": "Switch expand icon side (from default 'right' to 'left')",
+      "category": "content"
+    },
+    "dense-toggle": {
+      "type": "Boolean",
+      "desc": "Use dense mode for expand icon",
+      "category": "style"
+    },
+    "group": {
+      "type": "String",
+      "desc": "Register expansion item into a group (unique name that must be applied to all expansion items in that group) for coordinated open/close state within the group a.k.a. 'accordion mode'",
+      "examples": [
+        "'my-emails'"
+      ],
+      "category": "content|behavior"
+    },
+    "popup": {
+      "type": "Boolean",
+      "desc": "Put expansion list into 'popup' mode",
+      "category": "behavior"
+    },
+    "header-style": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueStyleProp",
+      "desc": "Apply custom style to the header",
+      "examples": [
+        "'background: #ff0000'",
+        "{ backgroundColor: '#ff0000' }"
+      ],
+      "category": "style"
+    },
+    "header-class": {
+      "type": [
+        "String",
+        "Array",
+        "Object"
+      ],
+      "tsType": "VueClassProp",
+      "desc": "Apply custom class(es) to the header",
+      "examples": [
+        "'my-custom-class'",
+        "{ 'my-custom-class': true }"
+      ],
+      "category": "style"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Slot used for expansion item's content"
+    },
+    "header": {
+      "desc": "Slot used for overriding default header",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "QExpansionItem expanded status",
+          "addedIn": "v2.7.6"
+        },
+        "detailsId": {
+          "type": "String",
+          "desc": "QExpansionItem details panel id (for use in aria-controls)",
+          "addedIn": "v2.8.4"
+        },
+        "show": {
+          "type": "Function",
+          "desc": "Triggers component to show",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        },
+        "hide": {
+          "type": "Function",
+          "desc": "Triggers component to hide",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        },
+        "toggle": {
+          "type": "Function",
+          "desc": "Triggers component to toggle between show/hide",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        }
+      }
+    }
+  },
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New state (showing/hidden)"
+        }
+      }
+    },
+    "show": {
+      "desc": "Emitted after component has triggered show()",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "before-show": {
+      "desc": "Emitted when component triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "hide": {
+      "desc": "Emitted after component has triggered hide()",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "before-hide": {
+      "desc": "Emitted when component triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": true
+        }
+      }
+    },
+    "after-show": {
+      "desc": "Emitted when component show animation is finished"
+    },
+    "after-hide": {
+      "desc": "Emitted when component hide animation is finished"
+    }
+  },
+  "methods": {
+    "show": {
+      "desc": "Triggers component to show",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "hide": {
+      "desc": "Triggers component to hide",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    },
+    "toggle": {
+      "desc": "Triggers component to toggle between show/hide",
+      "params": {
+        "evt": {
+          "type": "Event",
+          "desc": "JS event object",
+          "required": false
+        }
+      },
+      "returns": null
+    }
+  }
+}

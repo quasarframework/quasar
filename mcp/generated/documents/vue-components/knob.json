@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/knob",
+  "title": "Knob",
+  "description": "The QKnob Vue component is used to take a number input through mouse or touch panning.",
+  "canonicalUrl": "https://quasar.dev/vue-components/knob",
+  "source": "docs/src/pages/vue-components/knob.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QKnob"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QKnob/Basic.vue"
+    },
+    {
+      "title": "Show value",
+      "file": "ShowValue.vue",
+      "source": "docs/src/examples/QKnob/ShowValue.vue"
+    },
+    {
+      "title": "Custom min/max",
+      "file": "MinMax.vue",
+      "source": "docs/src/examples/QKnob/MinMax.vue"
+    },
+    {
+      "title": "Inner min/max",
+      "file": "InnerMinMax.vue",
+      "source": "docs/src/examples/QKnob/InnerMinMax.vue"
+    },
+    {
+      "title": "Custom step",
+      "file": "Step.vue",
+      "source": "docs/src/examples/QKnob/Step.vue"
+    },
+    {
+      "title": "Offset angle",
+      "file": "Angle.vue",
+      "source": "docs/src/examples/QKnob/Angle.vue"
+    },
+    {
+      "title": "Disable and readonly",
+      "file": "DisableReadonly.vue",
+      "source": "docs/src/examples/QKnob/DisableReadonly.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QKnob/NativeForm.vue"
+    }
+  ]
+}

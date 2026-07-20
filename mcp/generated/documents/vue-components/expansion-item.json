@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/expansion-item",
+  "title": "Expansion Item",
+  "description": "The QExpansionItem Vue component allows visibility toggling like an accordion.",
+  "canonicalUrl": "https://quasar.dev/vue-components/expansion-item",
+  "source": "docs/src/pages/vue-components/expansion-item.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QExpansionItem"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QExpansionItem/Basic.vue"
+    },
+    {
+      "title": "Controlling expansion state",
+      "file": "ControlExpansionState.vue",
+      "source": "docs/src/examples/QExpansionItem/ControlExpansionState.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QExpansionItem/Dense.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QExpansionItem/Dark.vue"
+    },
+    {
+      "title": "Switch toggle side",
+      "file": "SwitchToggleSide.vue",
+      "source": "docs/src/examples/QExpansionItem/SwitchToggleSide.vue"
+    },
+    {
+      "title": "Header slot",
+      "file": "HeaderSlot.vue",
+      "source": "docs/src/examples/QExpansionItem/HeaderSlot.vue"
+    },
+    {
+      "title": "Handling events",
+      "file": "HandlingEvents.vue",
+      "source": "docs/src/examples/QExpansionItem/HandlingEvents.vue"
+    },
+    {
+      "title": "Playing with inset levels",
+      "file": "InsetLevels.vue",
+      "source": "docs/src/examples/QExpansionItem/InsetLevels.vue"
+    },
+    {
+      "title": "Toggle by expand icon only",
+      "file": "IconToggle.vue",
+      "source": "docs/src/examples/QExpansionItem/IconToggle.vue"
+    },
+    {
+      "title": "Accordion mode",
+      "file": "Accordion.vue",
+      "source": "docs/src/examples/QExpansionItem/Accordion.vue"
+    },
+    {
+      "title": "Popup mode",
+      "file": "Popup.vue",
+      "source": "docs/src/examples/QExpansionItem/Popup.vue"
+    }
+  ]
+}

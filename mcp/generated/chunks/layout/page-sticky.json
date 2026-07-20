@@ -1,0 +1,71 @@
+[
+  {
+    "id": "layout/page-sticky#overview",
+    "documentId": "layout/page-sticky",
+    "heading": "Layout QPageSticky",
+    "breadcrumb": [
+      "Layout QPageSticky"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/page-sticky",
+    "content": "The QPageSticky component helps in placing DOM elements / components wrapped by it into a static position within the content area of your QPage, no matter where the user scrolls.\n\nThe great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offset so that the overlap won't occur.\nTry it out with a non-fixed footer for example. When user reaches bottom of screen and footer comes into view, the component will shift up so it won't overlap with the footer.\n\nAPI reference: QPageSticky",
+    "apiReferences": [
+      "QPageSticky"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page-sticky#usage",
+    "documentId": "layout/page-sticky",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/page-sticky#usage",
+    "content": "::: tip\nSince QPageSticky needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageSticky.\n:::\n\n::: warning\n\n- In order for QPageSticky to work, it must be placed within a QLayout component.\n- QPageSticky must be the last child element within its parent, so it can display on top of other content\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/page-sticky#basic",
+    "documentId": "layout/page-sticky",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page-sticky#basic",
+    "content": "In the example below, click on the menu buttons to show/hide Drawers, scroll the inner page, and resize the browser window so that the enclosing QLayout hits the Drawer's 700px and 500px breakpoints.\n\nExample: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/page-sticky#expanded",
+    "documentId": "layout/page-sticky",
+    "heading": "Expanded",
+    "breadcrumb": [
+      "Usage",
+      "Expanded",
+      "Expanded"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/page-sticky#expanded",
+    "content": "In the example below, click on the menu buttons to show/hide Drawers, scroll the inner page, and resize the browser window so that the enclosing QLayout hits the Drawer's 700px and 500px breakpoints.\n\nBy using expanded QPageSticky you can, for example, have a page-specific QToolbar as below.\n\nExample: Expanded (Expanded.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Expanded",
+        "file": "Expanded.vue"
+      }
+    ]
+  }
+]

@@ -1,0 +1,196 @@
+---
+title: Platform Detection
+description: How to detect the platform under which a Quasar app is running.
+canonical: https://quasar.dev/options/platform-detection
+kinds: plugin
+generated: true
+---
+
+> This file is generated from the official Quasar documentation, resolved API data, and source examples.
+
+## Structured API references
+
+- [Platform](../../api/Platform.md)
+
+Helpers are built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
+
+::: tip
+Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
+:::
+
+**API reference:** [Platform](../../api/Platform.md)
+
+## Usage
+
+Usage inside a Vue component JS:
+
+```js
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.platform.is.mobile
+}
+```
+
+Usage inside a Vue component template:
+
+```js
+$q.platform.is.cordova
+```
+
+You must import it when you use it outside of a Vue component :
+
+```js
+import { Platform } from 'quasar'
+```
+
+`Platform.is` by itself returns an object containing details about the current platform. For example when running Chrome on a MacOS desktop machine, `Platform.is` would return something similar to:
+
+```js
+{
+  chrome: true,
+  desktop: true,
+  mac: true,
+  name: "chrome",
+  platform: "mac",
+  version: "70.0.3538.110",
+  versionNumber: 70,
+  webkit: true
+}
+```
+
+Now, let's say we want to render different components or DOM elements, based on the platform that the code is running under. We want to show something on desktop and something else on mobile. We would proceed like this:
+
+```html
+<div v-if="$q.platform.is.desktop"> I'm only rendered on desktop! </div>
+
+<div v-if="$q.platform.is.mobile"> I'm only rendered on mobile! </div>
+
+<div v-if="$q.platform.is.electron"> I'm only rendered on Electron! </div>
+```
+
+**Example: Your device**
+
+Source: [Basic.vue](../../examples/Platform/Basic.vue)
+
+````vue
+<template>
+  <div class="q-pa-md">
+    <div class="q-mb-md">
+      Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong
+      >"
+    </div>
+
+    <q-markup-table flat bordered dense>
+      <thead>
+        <tr>
+          <th class="text-left">Property</th>
+          <th class="text-left">Value</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          v-for="(value, prop) in $q.platform.is"
+          :key="prop"
+          :class="
+            value ? 'text-weight-bold platform-detection--row-highlight' : ''
+          "
+        >
+          <td>{{ prop }}</td>
+          <td>{{ value }}</td>
+        </tr>
+      </tbody>
+    </q-markup-table>
+
+    <div class="q-mt-md">
+      The device which you are using to view this website
+      <strong>{{ touch }}</strong> touch capability.
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+
+const $q = useQuasar()
+const touch = computed(() => ($q.platform.has.touch ? 'has' : 'does not have'))
+</script>
+
+<style lang="sass">
+body
+  &.body--light
+    .platform-detection--row-highlight
+      background-color: rgba(0,0,0,.05)
+  &.body--dark
+    .platform-detection--row-highlight
+      background-color: rgba(255,255,255,.05)
+</style>
+````
+
+## Properties
+
+The following properties are available to the Platform object. It's not an exhaustive list though. See the API section below for more details.
+
+| Property                          | Type    | Meaning                                                                         |
+| --------------------------------- | ------- | ------------------------------------------------------------------------------- |
+| `Platform.is.mobile`              | Boolean | Is the code running on a mobile device?                                         |
+| `Platform.is.cordova`             | Boolean | Is the code running within Cordova?                                             |
+| `Platform.is.capacitor`           | Boolean | Is the code running within Capacitor?                                           |
+| `Platform.is.nativeMobile`        | Boolean | Is the code running within a native mobile wrapper(_Cordova/Capacitor_)?        |
+| `Platform.is.nativeMobileWrapper` | String  | Name of the native mobile wrapper(_`'cordova'`, `'capacitor'`, or `undefined`_) |
+| `Platform.is.electron`            | Boolean | Is the code running within Electron?                                            |
+| `Platform.is.desktop`             | Boolean | Is the code running on a desktop browser?                                       |
+| `Platform.is.bex`                 | Boolean | Is the code running in a browser extension?                                     |
+| `Platform.is.android`             | Boolean | Is the app running on an Android device?                                        |
+| `Platform.is.blackberry`          | Boolean | Is the app running on a Blackberry device?                                      |
+| `Platform.is.cros`                | Boolean | Is the app running on device with the Chrome OS operating system?               |
+| `Platform.is.ios`                 | Boolean | Is the app running on an iOS device?                                            |
+| `Platform.is.ipad`                | Boolean | Is the app running on an iPad?                                                  |
+| `Platform.is.iphone`              | Boolean | Is the app running on an iPhone?                                                |
+| `Platform.is.ipod`                | Boolean | Is the app running on an iPod?                                                  |
+| `Platform.is.kindle`              | Boolean | Is the app running on a Kindle device?                                          |
+| `Platform.is.linux`               | Boolean | Is the code running on a device with the Linux operating system?                |
+| `Platform.is.mac`                 | Boolean | Is the code running on a device with the MacOS operating system?                |
+| `Platform.is.win`                 | Boolean | Is the code running on a device with the Windows operating system?              |
+| `Platform.is.winphone`            | Boolean | Is the code running on a Windows Phone device?                                  |
+| `Platform.is.playbook`            | Boolean | Is the code running on a Blackberry Playbook device?                            |
+| `Platform.is.silk`                | Boolean | Is the code running the Kindle Silk browser?                                    |
+| `Platform.is.chrome`              | Boolean | Is the code running inside the Google Chrome browser?                           |
+| `Platform.is.firefox`             | Boolean | Is the code running inside the Firefox browser?                                 |
+| `Platform.is.opera`               | Boolean | Is the code running inside the Opera browser?                                   |
+| `Platform.is.safari`              | Boolean | Is the code running inside the Apple Safari browser?                            |
+| `Platform.is.vivaldi`             | Boolean | Is the code running inside the Vivaldi browser?                                 |
+| `Platform.is.edge`                | Boolean | Is the code running inside the Microsoft Edge browser?                          |
+| `Platform.is.ie`                  | Boolean | Is the code running inside the Microsoft Internet Explorer browser?             |
+| `Platform.is.webkit`              | Boolean | Is the code running on Webkit or webkit-based?                                  |
+| `Platform.has.touch`              | Boolean | Is the code running on a touch capable screen?                                  |
+| `Platform.within.iframe`          | Boolean | Is the app running within an IFRAME?                                            |
+
+::: tip
+Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
+:::
+
+## Note about SSR
+
+When building for SSR, use only the `$q.platform` form. Alternatively, when on server-side, this is one more example of how you can use it:
+
+```js
+import { Platform } from 'quasar'
+
+// you need access to `ssrContext`
+function (ssrContext) {
+  const platform = import.meta.env.QUASAR_SERVER
+    ? Platform.parseSSR(ssrContext)
+    : Platform // otherwise we're on client
+
+  // platform is equivalent to the global import as in non-SSR builds
+}
+```
+
+The `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). And also in the [@quasar/app-vite preFetch](/quasar-cli-vite/prefetch-feature) feature, where it is supplied as a parameter.
+
+The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.

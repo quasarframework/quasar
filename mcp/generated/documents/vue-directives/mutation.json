@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/mutation",
+  "title": "Mutation Directive",
+  "description": "Vue directive that uses Mutation Observer API to watch for changes being made to the DOM tree.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/mutation",
+  "source": "docs/src/pages/vue-directives/mutation.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Mutation"
+  ],
+  "examples": [
+    {
+      "title": "Catch everything",
+      "file": "CatchAll.vue",
+      "source": "docs/src/examples/Mutation/CatchAll.vue"
+    },
+    {
+      "title": "Drag and Drop (desktop only)",
+      "file": "DragDrop.vue",
+      "source": "docs/src/examples/Mutation/DragDrop.vue"
+    },
+    {
+      "title": "Undo/Redo",
+      "file": "UndoRedo.vue",
+      "source": "docs/src/examples/Mutation/UndoRedo.vue"
+    }
+  ]
+}

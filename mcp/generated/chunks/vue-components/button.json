@@ -1,0 +1,353 @@
+[
+  {
+    "id": "vue-components/button#overview",
+    "documentId": "vue-components/button",
+    "heading": "Button",
+    "breadcrumb": [
+      "Button"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/button",
+    "content": "Quasar has a component called QBtn which is a button with a few extra useful features. For instance, it comes in two shapes: rectangle (default) and round. It also has the material ripple effect baked in (which can be disabled).\n\nThe button component also comes with a spinner or loading effect. You would use this for times when app execution may cause a delay and you want to give the user some feedback about that delay. When used, the button will display a spinning animation as soon as the user clicks the button.\n\nWhen not disabled or spinning, QBtn emits a `@click` event, as soon as it is clicked or tapped.\n\nAPI reference: QBtn",
+    "apiReferences": [
+      "QBtn"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/button#standard",
+    "documentId": "vue-components/button",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#standard",
+    "content": "Example: Standard buttons (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard buttons",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#custom-colors",
+    "documentId": "vue-components/button",
+    "heading": "Custom colors",
+    "breadcrumb": [
+      "Usage",
+      "Custom colors",
+      "Custom colors"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#custom-colors",
+    "content": "Example: Custom colors (CustomColor.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom colors",
+        "file": "CustomColor.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#with-icon",
+    "documentId": "vue-components/button",
+    "heading": "With icon",
+    "breadcrumb": [
+      "Usage",
+      "With icon",
+      "With icon"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#with-icon",
+    "content": "Example: With icon (WithIcons.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With icon",
+        "file": "WithIcons.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#round",
+    "documentId": "vue-components/button",
+    "heading": "Round",
+    "breadcrumb": [
+      "Usage",
+      "Round",
+      "Round"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#round",
+    "content": "Example: Round buttons (Round.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Round buttons",
+        "file": "Round.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#square",
+    "documentId": "vue-components/button",
+    "heading": "Square",
+    "breadcrumb": [
+      "Usage",
+      "Square",
+      "Square"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#square",
+    "content": "Example: Square buttons (Square.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Square buttons",
+        "file": "Square.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#custom-content",
+    "documentId": "vue-components/button",
+    "heading": "Custom content",
+    "breadcrumb": [
+      "Usage",
+      "Custom content",
+      "Custom content"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#custom-content",
+    "content": "Example: Custom content (CustomContent.vue)\n\nExample: Truncate label (TruncateLabel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom content",
+        "file": "CustomContent.vue"
+      },
+      {
+        "title": "Truncate label",
+        "file": "TruncateLabel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#design",
+    "documentId": "vue-components/button",
+    "heading": "Design",
+    "breadcrumb": [
+      "Usage",
+      "Design",
+      "Design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#design",
+    "content": "Example: Button design (ButtonDesign.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Button design",
+        "file": "ButtonDesign.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#alignment",
+    "documentId": "vue-components/button",
+    "heading": "Alignment",
+    "breadcrumb": [
+      "Usage",
+      "Alignment",
+      "Alignment"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#alignment",
+    "content": "Example: Button alignment (ButtonAlignment.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Button alignment",
+        "file": "ButtonAlignment.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#size",
+    "documentId": "vue-components/button",
+    "heading": "Size",
+    "breadcrumb": [
+      "Usage",
+      "Size",
+      "Size"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#size",
+    "content": "Example: Button size (ButtonSize.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Button size",
+        "file": "ButtonSize.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#padding",
+    "documentId": "vue-components/button",
+    "heading": "Padding",
+    "breadcrumb": [
+      "Usage",
+      "Padding",
+      "Padding"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#padding",
+    "content": "The default padding is \"xs md\". However, you can use `padding` prop to customize it:\n\nExample: Button padding (ButtonPadding.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Button padding",
+        "file": "ButtonPadding.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#progress-related",
+    "documentId": "vue-components/button",
+    "heading": "Progress related",
+    "breadcrumb": [
+      "Usage",
+      "Progress related",
+      "Progress related"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#progress-related",
+    "content": "Some button actions involve contacting a server, so an asynchronous response. It’s best that you inform the user about a background process taking place until the asynchronous response is ready. QBtn offers this possibility through the `loading` prop. This property will display a QSpinner (by default) instead of the icon and/or label of the button. Custom loading content can also be used (not only text or spinners).\n\nExample: Indeterminate progress (IndeterminateProgress.vue)\n\nShould you wish, you can also display a deterministic progress within the button by using the additional `percentage` property along with what you’ve already learned about buttons with progress:\n\nExample: Deterministic progress (DeterministicProgress.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Indeterminate progress",
+        "file": "IndeterminateProgress.vue"
+      },
+      {
+        "title": "Deterministic progress",
+        "file": "DeterministicProgress.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#custom-ripple",
+    "documentId": "vue-components/button",
+    "heading": "Custom ripple",
+    "breadcrumb": [
+      "Usage",
+      "Custom ripple",
+      "Custom ripple"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#custom-ripple",
+    "content": "Example: Custom ripple (CustomRipple.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom ripple",
+        "file": "CustomRipple.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#connecting-to-vue-router",
+    "documentId": "vue-components/button",
+    "heading": "Connecting to Vue Router <q-badge label=\"updated on v2.9+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Connecting to Vue Router <q-badge label=\"updated on v2.9+\" />",
+      "Connecting to Vue Router <q-badge label=\"updated on v2.9+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#connecting-to-vue-router",
+    "content": "::: warning UMD usage\n\n- If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project (Quasar CLI projects have this out of the box). Otherwise use the alternative `href` prop.\n- Due to the above, some of the QBtn below won't work in Codepen/jsFiddle too.\n\n:::\n\n::: tip\nPrefer the Vue Router props over `href` when you can, because with `href` you will trigger a window navigation instead of an in-page Vue Router navigation.\n:::\n\n<DocExample title=\"Links\" file=\"Links\" no-edit />\n\nYou can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBtn API card at the top of the page.\n\n<DocExample title=\"Links with delayed, cancelled or redirected navigation (v2.9+)\" file=\"LinksWithGo\" no-edit />\n\nFor more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:\n\n<DocExample title=\"Scoped slot of RouterLink\" file=\"RouterLinkExample\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Links",
+        "file": "Links.vue"
+      },
+      {
+        "title": "Links with delayed, cancelled or redirected navigation (v2.9+)",
+        "file": "LinksWithGo.vue"
+      },
+      {
+        "title": "Scoped slot of RouterLink",
+        "file": "RouterLinkExample.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#other-options",
+    "documentId": "vue-components/button",
+    "heading": "Other options",
+    "breadcrumb": [
+      "Usage",
+      "Other options",
+      "Other options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#other-options",
+    "content": "Example: Other options (OtherOptions.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Other options",
+        "file": "OtherOptions.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#disable",
+    "documentId": "vue-components/button",
+    "heading": "Disable",
+    "breadcrumb": [
+      "Usage",
+      "Disable",
+      "Disable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#disable",
+    "content": "Example: Disable (Disabled.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable",
+        "file": "Disabled.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/button#controlling-the-button-for-form-submission",
+    "documentId": "vue-components/button",
+    "heading": "Controlling the button for form submission",
+    "breadcrumb": [
+      "Usage",
+      "Controlling the button for form submission",
+      "Controlling the button for form submission"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/button#controlling-the-button-for-form-submission",
+    "content": "When you have a button to submit a form's input to the server, like a \"Save\" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.\n\n::: warning\nWhen placing a QBtn with type \"submit\" in one of the \"before\", \"after\", \"prepend\", or \"append\" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All \"click\" events in such slots are not propagated to their parent elements.\n:::\n\nExample: Form Submission (FormSubmission.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Form Submission",
+        "file": "FormSubmission.vue"
+      }
+    ]
+  }
+]

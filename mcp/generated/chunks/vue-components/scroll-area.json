@@ -1,0 +1,183 @@
+[
+  {
+    "id": "vue-components/scroll-area#overview",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Scroll Area",
+    "breadcrumb": [
+      "Scroll Area"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area",
+    "content": "The QScrollArea component offers a neat way of customizing the scrollbars by encapsulating your content. Think of it as a DOM element which has `overflow: auto`, but with your own custom styled scrollbar instead of browser's default one and a few nice features on top.\n\nAPI reference: QScrollArea",
+    "apiReferences": [
+      "QScrollArea"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/scroll-area#usage",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#usage",
+    "content": "The following examples are best seen on desktop as they make too little sense on a mobile device.\n\n::: tip\nYou can also take a look at [Layout Drawer](/layout/drawer) to see some more examples of it in action.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/scroll-area#basic",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#basic",
+    "content": "Example: Vertical content (Vertical.vue)\n\nExample: Horizontal content (Horizontal.vue)\n\nExample: Vertical and horizontal content (VertHoriz.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical content",
+        "file": "Vertical.vue"
+      },
+      {
+        "title": "Horizontal content",
+        "file": "Horizontal.vue"
+      },
+      {
+        "title": "Vertical and horizontal content",
+        "file": "VertHoriz.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-area#styled",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Styled",
+    "breadcrumb": [
+      "Usage",
+      "Styled",
+      "Styled"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#styled",
+    "content": "Example: Styled thumb and bar (StyledBar.vue)\n\nExample: Styled (Styled.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Styled thumb and bar",
+        "file": "StyledBar.vue"
+      },
+      {
+        "title": "Styled",
+        "file": "Styled.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-area#dark-design",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Dark design",
+    "breadcrumb": [
+      "Usage",
+      "Dark design",
+      "Dark design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#dark-design",
+    "content": "Example: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-area#controlling-scrollbar-visibility",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Controlling scrollbar visibility",
+    "breadcrumb": [
+      "Usage",
+      "Controlling scrollbar visibility",
+      "Controlling scrollbar visibility"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#controlling-scrollbar-visibility",
+    "content": "When using the `visible` Boolean prop, the default mouse over/leave behavior is disabled, leaving you in full control of the scrollbar visibility.\n\nExample: Controlling scrollbar visibility (ScrollbarVisibility.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Controlling scrollbar visibility",
+        "file": "ScrollbarVisibility.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-area#delay",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Delay",
+    "breadcrumb": [
+      "Usage",
+      "Delay",
+      "Delay"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#delay",
+    "content": "When content changes, the scrollbar appears then disappears again. You can set a certain delay (amount of time in milliseconds) before scrollbar disappears again (if component is not hovered):\n\nExample: Delay (Delay.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Delay",
+        "file": "Delay.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-area#scroll-position",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Scroll position",
+    "breadcrumb": [
+      "Usage",
+      "Scroll position",
+      "Scroll position"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#scroll-position",
+    "content": "Example: Scroll Position (ScrollPosition.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Scroll Position",
+        "file": "ScrollPosition.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-area#scroll-event",
+    "documentId": "vue-components/scroll-area",
+    "heading": "Scroll event",
+    "breadcrumb": [
+      "Usage",
+      "Scroll event",
+      "Scroll event"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-area#scroll-event",
+    "content": "Below is an example of using the `@scroll` event to synchronize the scrolling between two containers.\n\nExample: Synchronized (Synchronized.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Synchronized",
+        "file": "Synchronized.vue"
+      }
+    ]
+  }
+]

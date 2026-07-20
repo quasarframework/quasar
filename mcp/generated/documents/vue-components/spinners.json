@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/spinners",
+  "title": "Spinners",
+  "description": "The QSpinner and its derived Vue components are used to show the user a timely process is currently taking place. It gives the user the feeling the system is continuing to work for longer term activities.",
+  "canonicalUrl": "https://quasar.dev/vue-components/spinners",
+  "source": "docs/src/pages/vue-components/spinners.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSpinner",
+    "QSpinnerAudio",
+    "QSpinnerBall",
+    "QSpinnerBars",
+    "QSpinnerBox",
+    "QSpinnerClock",
+    "QSpinnerComment",
+    "QSpinnerCube",
+    "QSpinnerDots",
+    "QSpinnerFacebook",
+    "QSpinnerGears",
+    "QSpinnerGrid",
+    "QSpinnerHearts",
+    "QSpinnerHourglass",
+    "QSpinnerInfinity",
+    "QSpinnerIos",
+    "QSpinnerOrbit",
+    "QSpinnerOval",
+    "QSpinnerPie",
+    "QSpinnerPuff",
+    "QSpinnerRadio",
+    "QSpinnerRings",
+    "QSpinnerTail"
+  ],
+  "examples": [
+    {
+      "title": "QSpinner",
+      "file": "Default.vue",
+      "source": "docs/src/examples/QSpinner/Default.vue"
+    },
+    {
+      "title": "Other spinners",
+      "file": "Others.vue",
+      "source": "docs/src/examples/QSpinner/Others.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Color.vue",
+      "source": "docs/src/examples/QSpinner/Color.vue"
+    },
+    {
+      "title": "Size",
+      "file": "Size.vue",
+      "source": "docs/src/examples/QSpinner/Size.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QSpinner/StandardSizes.vue"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-composables/use-hydration",
+  "title": "useHydration composable",
+  "description": "What is useHydration() composable and how you can use it",
+  "canonicalUrl": "https://quasar.dev/vue-composables/use-hydration",
+  "source": "docs/src/pages/vue-composables/use-hydration.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "composable"
+  ],
+  "apiReferences": [],
+  "examples": []
+}

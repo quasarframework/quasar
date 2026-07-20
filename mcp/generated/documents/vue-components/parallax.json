@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/parallax",
+  "title": "Parallax",
+  "description": "The QParallax Vue component makes it easy to embed a parallax scrolling effect into a page.",
+  "canonicalUrl": "https://quasar.dev/vue-components/parallax",
+  "source": "docs/src/pages/vue-components/parallax.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QParallax"
+  ],
+  "examples": [
+    {
+      "title": "Image background",
+      "file": "Image.vue",
+      "source": "docs/src/examples/QParallax/Image.vue"
+    },
+    {
+      "title": "Custom height with video background",
+      "file": "Video.vue",
+      "source": "docs/src/examples/QParallax/Video.vue"
+    },
+    {
+      "title": "Custom speed",
+      "file": "Speed.vue",
+      "source": "docs/src/examples/QParallax/Speed.vue"
+    },
+    {
+      "title": "Using the slot",
+      "file": "ScopedSlot.vue",
+      "source": "docs/src/examples/QParallax/ScopedSlot.vue"
+    }
+  ]
+}

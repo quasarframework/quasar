@@ -1,0 +1,91 @@
+[
+  {
+    "id": "vue-components/pull-to-refresh#overview",
+    "documentId": "vue-components/pull-to-refresh",
+    "heading": "Pull to refresh",
+    "breadcrumb": [
+      "Pull to refresh"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh",
+    "content": "The QPullToRefresh is a component that allows the user to pull down in order to refresh page content (or retrieve the newest content).\n\nAPI reference: QPullToRefresh",
+    "apiReferences": [
+      "QPullToRefresh"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/pull-to-refresh#basic",
+    "documentId": "vue-components/pull-to-refresh",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh#basic",
+    "content": "::: warning\nIn your `@refresh` function, don't forget to call the passed in `done()` function when you have finished loading more data.\n:::\n\nTo refresh, pull down (with mouse or through finger touch) on the content below when the inner scroll position is the top.\n\nExample: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pull-to-refresh#custom-icon",
+    "documentId": "vue-components/pull-to-refresh",
+    "heading": "Custom icon",
+    "breadcrumb": [
+      "Usage",
+      "Custom icon",
+      "Custom icon"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh#custom-icon",
+    "content": "Example: Custom icon (Icon.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom icon",
+        "file": "Icon.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pull-to-refresh#custom-coloring",
+    "documentId": "vue-components/pull-to-refresh",
+    "heading": "Custom coloring",
+    "breadcrumb": [
+      "Usage",
+      "Custom coloring",
+      "Custom coloring"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh#custom-coloring",
+    "content": "Example: Custom coloring (CustomColoring.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom coloring",
+        "file": "CustomColoring.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/pull-to-refresh#tips",
+    "documentId": "vue-components/pull-to-refresh",
+    "heading": "Tips",
+    "breadcrumb": [
+      "Tips",
+      "Tips"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh#tips",
+    "content": "::: tip Scrolling container\nPlease read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.\n:::\n\n- If using a QLayout, then it's recommended that you put QPullToRefresh as direct child of QPage and wrap your page content with it.\n- If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QPullToRefresh Vue reference.\n- QPullToRefresh also allows text selection, so if your content also has images, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

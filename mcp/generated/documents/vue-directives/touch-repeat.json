@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/touch-repeat",
+  "title": "Touch Repeat Directive",
+  "description": "Vue directive which triggers an event at specified intervals of time while the user touches and holds on a component or element.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat",
+  "source": "docs/src/pages/vue-directives/touch-repeat.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "TouchRepeat"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/TouchRepeat/Basic.vue"
+    },
+    {
+      "title": "Custom keys",
+      "file": "Keys.vue",
+      "source": "docs/src/examples/TouchRepeat/Keys.vue"
+    },
+    {
+      "title": "Applied to QBtn",
+      "file": "Buttons.vue",
+      "source": "docs/src/examples/TouchRepeat/Buttons.vue"
+    }
+  ]
+}

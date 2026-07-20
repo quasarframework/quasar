@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/option-group",
+  "title": "Option Group",
+  "description": "The QOptionGroup Vue component allows you better control for grouping binary form input components like checkboxes, radios or toggles.",
+  "canonicalUrl": "https://quasar.dev/vue-components/option-group",
+  "source": "docs/src/pages/vue-components/option-group.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QOptionGroup"
+  ],
+  "examples": [
+    {
+      "title": "Standard",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QOptionGroup/Standard.vue"
+    },
+    {
+      "title": "With checkboxes",
+      "file": "Checkbox.vue",
+      "source": "docs/src/examples/QOptionGroup/Checkbox.vue"
+    },
+    {
+      "title": "With toggles",
+      "file": "Toggle.vue",
+      "source": "docs/src/examples/QOptionGroup/Toggle.vue"
+    },
+    {
+      "title": "Label slots",
+      "file": "LabelSlots.vue",
+      "source": "docs/src/examples/QOptionGroup/LabelSlots.vue"
+    },
+    {
+      "title": "With option labels on the left side",
+      "file": "Label.vue",
+      "source": "docs/src/examples/QOptionGroup/Label.vue"
+    },
+    {
+      "title": "Inline",
+      "file": "Inline.vue",
+      "source": "docs/src/examples/QOptionGroup/Inline.vue"
+    },
+    {
+      "title": "Dense and inline",
+      "file": "DenseInline.vue",
+      "source": "docs/src/examples/QOptionGroup/DenseInline.vue"
+    },
+    {
+      "title": "Disabled",
+      "file": "Disable.vue",
+      "source": "docs/src/examples/QOptionGroup/Disable.vue"
+    },
+    {
+      "title": "Disable Certain Options",
+      "file": "DisableCertainOptions.vue",
+      "source": "docs/src/examples/QOptionGroup/DisableCertainOptions.vue"
+    },
+    {
+      "title": "Custom Label, Value and Disable props",
+      "file": "CustomOptionProps.vue",
+      "source": "docs/src/examples/QOptionGroup/CustomOptionProps.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QOptionGroup/Dark.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QOptionGroup/NativeForm.vue"
+    }
+  ]
+}

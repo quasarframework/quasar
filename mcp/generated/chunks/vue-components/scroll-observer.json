@@ -1,0 +1,78 @@
+[
+  {
+    "id": "vue-components/scroll-observer#overview",
+    "documentId": "vue-components/scroll-observer",
+    "heading": "Scroll Observer",
+    "breadcrumb": [
+      "Scroll Observer"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-observer",
+    "content": "QScrollObserver is a Quasar component that emits a `scroll` event whenever the user scrolls the page or overflowed container with `.scroll` CSS class applied to it.\n\nAPI reference: QScrollObserver",
+    "apiReferences": [
+      "QScrollObserver"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/scroll-observer#usage",
+    "documentId": "vue-components/scroll-observer",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-observer#usage",
+    "content": "Scroll this page to see the example below in action.\n\nExample: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/scroll-observer#determining-scrolling-container",
+    "documentId": "vue-components/scroll-observer",
+    "heading": "Determining Scrolling Container",
+    "breadcrumb": [
+      "Determining Scrolling Container",
+      "Determining Scrolling Container"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-observer#determining-scrolling-container",
+    "content": "All components or directives in Quasar have a simple algorithm to determine the container that supports the scroll:\n\n- if a `scroll-target` property is available on the component then it tries to use it as scroll container\n- then it searches for a parent DOM element which has the `scroll`, `scroll-y` or `overflow-auto` Quasar CSS helper classes attached to it,\n- if none is found, then it considers that the scrolling takes place on the document itself.\n\nComponents like [QScrollArea](/vue-components/scroll-area), for example, respect this design and have the `scroll` class embedded into it, so that QScrollObservable (or any other scrolling component or directive) can successfully detect it and attach the necessary event handlers to it.\n\nPlease note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example, with: CSS `overflow: hidden` and a height smaller than its inner content height).\n\nExample of good container:\n\n```html\n<!--\n  Quasar CSS helper 'overflow-hidden' is\n  equivalent to style=\"overflow: hidden\"\n-->\n<div class=\"scroll overflow-hidden\" style=\"height: 100px\">\n  ...content expanding over the 100px height from container...\n  <q-scroll-observer @scroll=\"scrollHandler\" />\n\n  <!-- example with `v-scroll` directive -->\n  <div v-scroll=\"scrollHandler\">...</div>\n</div>\n```\n\nOne more example with QScrollArea:\n\n```html\n<q-scroll-area style=\"width: 400px; height: 500px;\" class=\"bg-yellow\">\n  ...content expanding over the 500px height from container...\n  <q-scroll-observer @scroll=\"scrollHandler\" />\n</q-scroll-area>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/scroll-observer#horizontal",
+    "documentId": "vue-components/scroll-observer",
+    "heading": "Horizontal",
+    "breadcrumb": [
+      "Horizontal",
+      "Horizontal"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-observer#horizontal",
+    "content": "For capturing horizontal scrolling, use the `axis=\"horizontal\"` prop :\n\n```html\n<q-scroll-observer axis=\"horizontal\" @scroll=\"scrollHandler\" />\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/scroll-observer#layout-scrolling",
+    "documentId": "vue-components/scroll-observer",
+    "heading": "Layout Scrolling",
+    "breadcrumb": [
+      "Layout Scrolling",
+      "Layout Scrolling"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/scroll-observer#layout-scrolling",
+    "content": "When scrolling on a Layout with a Page, rather than injecting a QScrollObservable (and by so doing registering additional scroll events) you can take advantage of [QLayout](/layout/layout)´s `@scroll` event directly on your component defining the Layout.\n\n```html\n<q-layout @scroll=\"scrollHandler\">...</q-layout>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

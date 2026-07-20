@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/video",
+  "title": "Video",
+  "description": "The QVideo Vue components makes embedding a video like Youtube easy. It also resizes to fit the container by default.",
+  "canonicalUrl": "https://quasar.dev/vue-components/video",
+  "source": "docs/src/pages/vue-components/video.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QVideo"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QVideo/Basic.vue"
+    },
+    {
+      "title": "With aspect ratio",
+      "file": "Ratio.vue",
+      "source": "docs/src/examples/QVideo/Ratio.vue"
+    },
+    {
+      "title": "HTML markup",
+      "file": "HtmlMarkup.vue",
+      "source": "docs/src/examples/QVideo/HtmlMarkup.vue"
+    }
+  ]
+}

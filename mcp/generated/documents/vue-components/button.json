@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/button",
+  "title": "Button",
+  "description": "The QBtn Vue component is a button with features like shaping, loading state, ripple and more.",
+  "canonicalUrl": "https://quasar.dev/vue-components/button",
+  "source": "docs/src/pages/vue-components/button.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBtn"
+  ],
+  "examples": [
+    {
+      "title": "Standard buttons",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QBtn/Standard.vue"
+    },
+    {
+      "title": "Custom colors",
+      "file": "CustomColor.vue",
+      "source": "docs/src/examples/QBtn/CustomColor.vue"
+    },
+    {
+      "title": "With icon",
+      "file": "WithIcons.vue",
+      "source": "docs/src/examples/QBtn/WithIcons.vue"
+    },
+    {
+      "title": "Round buttons",
+      "file": "Round.vue",
+      "source": "docs/src/examples/QBtn/Round.vue"
+    },
+    {
+      "title": "Square buttons",
+      "file": "Square.vue",
+      "source": "docs/src/examples/QBtn/Square.vue"
+    },
+    {
+      "title": "Custom content",
+      "file": "CustomContent.vue",
+      "source": "docs/src/examples/QBtn/CustomContent.vue"
+    },
+    {
+      "title": "Truncate label",
+      "file": "TruncateLabel.vue",
+      "source": "docs/src/examples/QBtn/TruncateLabel.vue"
+    },
+    {
+      "title": "Button design",
+      "file": "ButtonDesign.vue",
+      "source": "docs/src/examples/QBtn/ButtonDesign.vue"
+    },
+    {
+      "title": "Button alignment",
+      "file": "ButtonAlignment.vue",
+      "source": "docs/src/examples/QBtn/ButtonAlignment.vue"
+    },
+    {
+      "title": "Button size",
+      "file": "ButtonSize.vue",
+      "source": "docs/src/examples/QBtn/ButtonSize.vue"
+    },
+    {
+      "title": "Button padding",
+      "file": "ButtonPadding.vue",
+      "source": "docs/src/examples/QBtn/ButtonPadding.vue"
+    },
+    {
+      "title": "Indeterminate progress",
+      "file": "IndeterminateProgress.vue",
+      "source": "docs/src/examples/QBtn/IndeterminateProgress.vue"
+    },
+    {
+      "title": "Deterministic progress",
+      "file": "DeterministicProgress.vue",
+      "source": "docs/src/examples/QBtn/DeterministicProgress.vue"
+    },
+    {
+      "title": "Custom ripple",
+      "file": "CustomRipple.vue",
+      "source": "docs/src/examples/QBtn/CustomRipple.vue"
+    },
+    {
+      "title": "Links",
+      "file": "Links.vue",
+      "source": "docs/src/examples/QBtn/Links.vue"
+    },
+    {
+      "title": "Links with delayed, cancelled or redirected navigation (v2.9+)",
+      "file": "LinksWithGo.vue",
+      "source": "docs/src/examples/QBtn/LinksWithGo.vue"
+    },
+    {
+      "title": "Scoped slot of RouterLink",
+      "file": "RouterLinkExample.vue",
+      "source": "docs/src/examples/QBtn/RouterLinkExample.vue"
+    },
+    {
+      "title": "Other options",
+      "file": "OtherOptions.vue",
+      "source": "docs/src/examples/QBtn/OtherOptions.vue"
+    },
+    {
+      "title": "Disable",
+      "file": "Disabled.vue",
+      "source": "docs/src/examples/QBtn/Disabled.vue"
+    },
+    {
+      "title": "Form Submission",
+      "file": "FormSubmission.vue",
+      "source": "docs/src/examples/QBtn/FormSubmission.vue"
+    }
+  ]
+}

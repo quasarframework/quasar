@@ -1,0 +1,121 @@
+[
+  {
+    "id": "vue-components/chat#overview",
+    "documentId": "vue-components/chat",
+    "heading": "Chat Message",
+    "breadcrumb": [
+      "Chat Message"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/chat",
+    "content": "Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.\n\n::: tip\nTo mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.\n:::\n\nAPI reference: QChatMessage",
+    "apiReferences": [
+      "QChatMessage"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/chat#the-basics",
+    "documentId": "vue-components/chat",
+    "heading": "The basics",
+    "breadcrumb": [
+      "Usage",
+      "The basics",
+      "The basics"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/chat#the-basics",
+    "content": "::: tip\nUsing the property `sent` is intended for the sender of the chat message. The other side is for received messages.\n:::\n\nExample: Basic (Basic.vue)\n\nExample: Name (Name.vue)\n\nExample: Avatar (Avatar.vue)\n\nExample: Stamp (Stamp.vue)\n\nExample: Label (Label.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Name",
+        "file": "Name.vue"
+      },
+      {
+        "title": "Avatar",
+        "file": "Avatar.vue"
+      },
+      {
+        "title": "Stamp",
+        "file": "Stamp.vue"
+      },
+      {
+        "title": "Label",
+        "file": "Label.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/chat#customization",
+    "documentId": "vue-components/chat",
+    "heading": "Customization",
+    "breadcrumb": [
+      "Usage",
+      "Customization",
+      "Customization"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/chat#customization",
+    "content": "Example: Text and background color (Color.vue)\n\nExample: Size (Size.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Text and background color",
+        "file": "Color.vue"
+      },
+      {
+        "title": "Size",
+        "file": "Size.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/chat#slots",
+    "documentId": "vue-components/chat",
+    "heading": "Slots",
+    "breadcrumb": [
+      "Usage",
+      "Slots",
+      "Slots"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/chat#slots",
+    "content": "Example: Default slot (SlotDefault.vue)\n\nExample: Avatar/Stamp/Name slots (SlotAvatarStampName.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Default slot",
+        "file": "SlotDefault.vue"
+      },
+      {
+        "title": "Avatar/Stamp/Name slots",
+        "file": "SlotAvatarStampName.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/chat#sanitization",
+    "documentId": "vue-components/chat",
+    "heading": "Sanitization",
+    "breadcrumb": [
+      "Usage",
+      "Sanitization",
+      "Sanitization"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/chat#sanitization",
+    "content": "::: warning\nAlways sanitize values if you do not trust the origin (if the value comes from user input).\n:::\n\nExample: Sanitized content (Sanitize.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Sanitized content",
+        "file": "Sanitize.vue"
+      }
+    ]
+  }
+]

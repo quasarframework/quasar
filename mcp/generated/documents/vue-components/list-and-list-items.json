@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/list-and-list-items",
+  "title": "List and List Items",
+  "description": "How to use the QList, QItem, QItemSection and QItemLabel Vue components.",
+  "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items",
+  "source": "docs/src/pages/vue-components/list-and-list-items.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QItem",
+    "QItemLabel",
+    "QItemSection",
+    "QList"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QItem/Basic.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QItem/Dark.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QItem/Dense.vue"
+    },
+    {
+      "title": "Left avatar/thumbnail QItemSection",
+      "file": "AvatarLeft.vue",
+      "source": "docs/src/examples/QItem/AvatarLeft.vue"
+    },
+    {
+      "title": "Right avatar/thumbnail QItemSection",
+      "file": "AvatarRight.vue",
+      "source": "docs/src/examples/QItem/AvatarRight.vue"
+    },
+    {
+      "title": "Side QItemSection",
+      "file": "SideSection.vue",
+      "source": "docs/src/examples/QItem/SideSection.vue"
+    },
+    {
+      "title": "Active prop",
+      "file": "ActiveState.vue",
+      "source": "docs/src/examples/QItem/ActiveState.vue"
+    },
+    {
+      "title": "ItemLabel",
+      "file": "ItemLabel.vue",
+      "source": "docs/src/examples/QItem/ItemLabel.vue"
+    },
+    {
+      "title": "Contact list",
+      "file": "ExampleContacts.vue",
+      "source": "docs/src/examples/QItem/ExampleContacts.vue"
+    },
+    {
+      "title": "Settings",
+      "file": "ExampleSettings.vue",
+      "source": "docs/src/examples/QItem/ExampleSettings.vue"
+    },
+    {
+      "title": "Emails",
+      "file": "ExampleEmails.vue",
+      "source": "docs/src/examples/QItem/ExampleEmails.vue"
+    },
+    {
+      "title": "Folder listing",
+      "file": "ExampleFolders.vue",
+      "source": "docs/src/examples/QItem/ExampleFolders.vue"
+    },
+    {
+      "title": "Menu",
+      "file": "ExampleMenu.vue",
+      "source": "docs/src/examples/QItem/ExampleMenu.vue"
+    },
+    {
+      "title": "Links with delayed, cancelled or redirected navigation (v2.9+)",
+      "file": "LinksWithGo.vue",
+      "source": "docs/src/examples/QItem/LinksWithGo.vue"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/layout",
+  "title": "Layout",
+  "description": "How to use the QLayout component. Manages the whole window of your Quasar app.",
+  "canonicalUrl": "https://quasar.dev/layout/layout",
+  "source": "docs/src/pages/layout/layout/layout.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QLayout"
+  ],
+  "examples": [
+    {
+      "title": "Containerized QLayout",
+      "file": "Container.vue",
+      "source": "docs/src/examples/QLayout/Container.vue"
+    },
+    {
+      "title": "In a QDialog",
+      "file": "ContainerDialog.vue",
+      "source": "docs/src/examples/QLayout/ContainerDialog.vue"
+    }
+  ]
+}

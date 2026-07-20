@@ -1,0 +1,29 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/tab-panels"
+  },
+  "props": {
+    "name": {
+      "type": "Any",
+      "desc": "Panel name",
+      "required": true,
+      "examples": [
+        "'accounts'",
+        "'firstPanel'",
+        "1"
+      ],
+      "category": "general"
+    },
+    "disable": {
+      "type": "Boolean",
+      "desc": "Put component in disabled mode",
+      "category": "state"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    }
+  }
+}

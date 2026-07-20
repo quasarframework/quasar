@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/img",
+  "title": "QImg",
+  "description": "The QImg Vue component makes working with responsive images easy and also adds a nice loading effect to them along with many other features like custom aspect ratio and captions.",
+  "canonicalUrl": "https://quasar.dev/vue-components/img",
+  "source": "docs/src/pages/vue-components/img.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QImg"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QImg/Basic.vue"
+    },
+    {
+      "title": "Custom aspect ratio",
+      "file": "Ratio.vue",
+      "source": "docs/src/examples/QImg/Ratio.vue"
+    },
+    {
+      "title": "Captions",
+      "file": "Caption.vue",
+      "source": "docs/src/examples/QImg/Caption.vue"
+    },
+    {
+      "title": "Custom image style",
+      "file": "CustomImageStyle.vue",
+      "source": "docs/src/examples/QImg/CustomImageStyle.vue"
+    },
+    {
+      "title": "Fit modes",
+      "file": "FitModes.vue",
+      "source": "docs/src/examples/QImg/FitModes.vue"
+    },
+    {
+      "title": "Loading state",
+      "file": "LoadingState.vue",
+      "source": "docs/src/examples/QImg/LoadingState.vue"
+    },
+    {
+      "title": "Placeholder source",
+      "file": "PlaceholderSrc.vue",
+      "source": "docs/src/examples/QImg/PlaceholderSrc.vue"
+    },
+    {
+      "title": "Error state",
+      "file": "ErrorState.vue",
+      "source": "docs/src/examples/QImg/ErrorState.vue"
+    },
+    {
+      "title": "Responsive",
+      "file": "Responsive.vue",
+      "source": "docs/src/examples/QImg/Responsive.vue"
+    },
+    {
+      "title": "Native lazy loading",
+      "file": "LoadingLazy.vue",
+      "source": "docs/src/examples/QImg/LoadingLazy.vue"
+    },
+    {
+      "title": "Native context menu",
+      "file": "ContextMenu.vue",
+      "source": "docs/src/examples/QImg/ContextMenu.vue"
+    }
+  ]
+}

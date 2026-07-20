@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/touch-swipe",
+  "title": "Touch Swipe Directive",
+  "description": "Vue directive which triggers an event when the user swipes with the finger or mouse on a component or element.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/touch-swipe",
+  "source": "docs/src/pages/vue-directives/touch-swipe.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "TouchSwipe"
+  ],
+  "examples": [
+    {
+      "title": "All directions",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/TouchSwipe/Basic.vue"
+    },
+    {
+      "title": "One direction only",
+      "file": "Right.vue",
+      "source": "docs/src/examples/TouchSwipe/Right.vue"
+    },
+    {
+      "title": "Several directions",
+      "file": "UpOrLeft.vue",
+      "source": "docs/src/examples/TouchSwipe/UpOrLeft.vue"
+    }
+  ]
+}

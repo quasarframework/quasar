@@ -1,0 +1,57 @@
+<template>
+  <div class="q-pa-md row justify-center">
+    <div
+      v-ripple
+      class="relative-position container flex flex-center text-white"
+      :class="classes"
+    >
+      Click/tap me
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+
+const colors = [
+  // #region
+  'primary',
+  'amber',
+  'secondary',
+  'orange',
+  'accent',
+  'lime',
+  'cyan',
+  'purple',
+  'brown',
+  'blue'
+  // #endregion
+]
+
+const color = ref(colors[0])
+const classes = computed(() => `bg-${color.value}`)
+const index = ref(0)
+
+let timer
+
+onMounted(() => {
+  timer = setInterval(() => {
+    index.value = (index.value + 1) % colors.length
+    color.value = colors[index.value]
+  }, 3000)
+})
+
+onBeforeUnmount(() => {
+  clearTimeout(timer)
+})
+</script>
+
+<style lang="sass" scoped>
+.container
+  border-radius: 3px
+  cursor: pointer
+  transition: background 1.5s
+  height: 150px
+  width: 80%
+  max-width: 500px
+</style>

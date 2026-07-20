@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/slide-item",
+  "title": "Slide Item",
+  "description": "The QSlideItem Vue component is essentially a QItem with two additional slots (left and right) which allows the user to drag it to one of the sides in order to apply a specific action.",
+  "canonicalUrl": "https://quasar.dev/vue-components/slide-item",
+  "source": "docs/src/pages/vue-components/slide-item.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSlideItem"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QSlideItem/Basic.vue"
+    },
+    {
+      "title": "Vertical",
+      "file": "Vertical.vue",
+      "source": "docs/src/examples/QSlideItem/Vertical.vue"
+    },
+    {
+      "title": "Custom colors",
+      "file": "CustomColors.vue",
+      "source": "docs/src/examples/QSlideItem/CustomColors.vue"
+    },
+    {
+      "title": "Customize while sliding",
+      "file": "CustomizeSlide.vue",
+      "source": "docs/src/examples/QSlideItem/CustomizeSlide.vue"
+    },
+    {
+      "title": "One sided or no sides",
+      "file": "OneSided.vue",
+      "source": "docs/src/examples/QSlideItem/OneSided.vue"
+    }
+  ]
+}

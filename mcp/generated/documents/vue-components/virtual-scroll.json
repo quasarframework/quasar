@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/virtual-scroll",
+  "title": "Virtual Scroll",
+  "description": "The QVirtualScroll component renders a big list of items as the user scrolls in the container, keeping DOM tree clean and eating the lowest amount of memory possible.",
+  "canonicalUrl": "https://quasar.dev/vue-components/virtual-scroll",
+  "source": "docs/src/pages/vue-components/virtual-scroll.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QVirtualScroll"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QVirtualScroll/Basic.vue"
+    },
+    {
+      "title": "Horizontal",
+      "file": "BasicHorizontal.vue",
+      "source": "docs/src/examples/QVirtualScroll/BasicHorizontal.vue"
+    },
+    {
+      "title": "Different templates for items",
+      "file": "VariousContent.vue",
+      "source": "docs/src/examples/QVirtualScroll/VariousContent.vue"
+    },
+    {
+      "title": "Different templates for horizontal items",
+      "file": "VariousContentHorizontal.vue",
+      "source": "docs/src/examples/QVirtualScroll/VariousContentHorizontal.vue"
+    },
+    {
+      "title": "Basic table",
+      "file": "TableBasic.vue",
+      "source": "docs/src/examples/QVirtualScroll/TableBasic.vue"
+    },
+    {
+      "title": "Table with scrolling header/footer",
+      "file": "TableBasicHeader.vue",
+      "source": "docs/src/examples/QVirtualScroll/TableBasicHeader.vue"
+    },
+    {
+      "title": "Sticky headers table",
+      "file": "TableSticky.vue",
+      "source": "docs/src/examples/QVirtualScroll/TableSticky.vue"
+    },
+    {
+      "title": "Playing with sticky headers",
+      "file": "TableSticky2.vue",
+      "source": "docs/src/examples/QVirtualScroll/TableSticky2.vue"
+    },
+    {
+      "title": "Custom scroll target by id",
+      "file": "ScrollTargetId.vue",
+      "source": "docs/src/examples/QVirtualScroll/ScrollTargetId.vue"
+    },
+    {
+      "title": "Custom scroll target by ref",
+      "file": "ScrollTargetRef.vue",
+      "source": "docs/src/examples/QVirtualScroll/ScrollTargetRef.vue"
+    },
+    {
+      "title": "Using QScrollArea",
+      "file": "ScrollArea.vue",
+      "source": "docs/src/examples/QVirtualScroll/ScrollArea.vue"
+    },
+    {
+      "title": "Scroll to position",
+      "file": "ScrollTo.vue",
+      "source": "docs/src/examples/QVirtualScroll/ScrollTo.vue"
+    },
+    {
+      "title": "Generate items on the fly",
+      "file": "GenerateItems.vue",
+      "source": "docs/src/examples/QVirtualScroll/GenerateItems.vue"
+    },
+    {
+      "title": "Virtual scroll with multiple rows for a data row",
+      "file": "VirtscrollMultipleRows.vue",
+      "source": "docs/src/examples/QVirtualScroll/VirtscrollMultipleRows.vue"
+    },
+    {
+      "title": "Virtual scroll with expansion model",
+      "file": "VirtscrollExpandedRow.vue",
+      "source": "docs/src/examples/QVirtualScroll/VirtscrollExpandedRow.vue"
+    }
+  ]
+}

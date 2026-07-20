@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/badge",
+  "title": "Badge",
+  "description": "The QBadge Vue component allows you to display information like contextual data that needs to stand out and get noticed.",
+  "canonicalUrl": "https://quasar.dev/vue-components/badge",
+  "source": "docs/src/pages/vue-components/badge.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBadge"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QBadge/Basic.vue"
+    },
+    {
+      "title": "Aligned",
+      "file": "Align.vue",
+      "source": "docs/src/examples/QBadge/Align.vue"
+    },
+    {
+      "title": "Floating",
+      "file": "Floating.vue",
+      "source": "docs/src/examples/QBadge/Floating.vue"
+    },
+    {
+      "title": "Transparent",
+      "file": "Transparent.vue",
+      "source": "docs/src/examples/QBadge/Transparent.vue"
+    },
+    {
+      "title": "Outline design",
+      "file": "Outline.vue",
+      "source": "docs/src/examples/QBadge/Outline.vue"
+    },
+    {
+      "title": "Rounded",
+      "file": "Rounded.vue",
+      "source": "docs/src/examples/QBadge/Rounded.vue"
+    },
+    {
+      "title": "Indicators",
+      "file": "Indicators.vue",
+      "source": "docs/src/examples/QBadge/Indicators.vue"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/responsive"
+  },
+  "props": {
+    "ratio": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Aspect ratio for the content; If value is a String, then avoid using a computational statement (like '16/9') and instead specify the String value of the result directly (eg. '1.7777')",
+      "examples": [
+        "1",
+        "'1.7778'",
+        "# :ratio=\"4/3\"",
+        "# :ratio=\"16/9\""
+      ],
+      "category": "style"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    }
+  }
+}

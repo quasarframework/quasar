@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/card",
+  "title": "Card",
+  "description": "The QCard Vue component is a great way to display important pieces of grouped content. It assists the viewer by containing and organizing information, while also setting up predictable expectations.",
+  "canonicalUrl": "https://quasar.dev/vue-components/card",
+  "source": "docs/src/pages/vue-components/card.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QCard",
+    "QCardActions",
+    "QCardSection"
+  ],
+  "examples": [
+    {
+      "title": "Basic cards",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QCard/Basic.vue"
+    },
+    {
+      "title": "Cards with actions",
+      "file": "Actions.vue",
+      "source": "docs/src/examples/QCard/Actions.vue"
+    },
+    {
+      "title": "Aligning actions",
+      "file": "ActionsAlignment.vue",
+      "source": "docs/src/examples/QCard/ActionsAlignment.vue"
+    },
+    {
+      "title": "Cards with media content",
+      "file": "Media.vue",
+      "source": "docs/src/examples/QCard/Media.vue"
+    },
+    {
+      "title": "Card with video",
+      "file": "Video.vue",
+      "source": "docs/src/examples/QCard/Video.vue"
+    },
+    {
+      "title": "Card with parallax",
+      "file": "Parallax.vue",
+      "source": "docs/src/examples/QCard/Parallax.vue"
+    },
+    {
+      "title": "Basic horizontal",
+      "file": "HorizontalBasic.vue",
+      "source": "docs/src/examples/QCard/HorizontalBasic.vue"
+    },
+    {
+      "title": "More involved examples",
+      "file": "HorizontalMoreInvolved.vue",
+      "source": "docs/src/examples/QCard/HorizontalMoreInvolved.vue"
+    },
+    {
+      "title": "Various content",
+      "file": "VariousContent.vue",
+      "source": "docs/src/examples/QCard/VariousContent.vue"
+    },
+    {
+      "title": "Table",
+      "file": "Table.vue",
+      "source": "docs/src/examples/QCard/Table.vue"
+    },
+    {
+      "title": "Tabs",
+      "file": "Tabs.vue",
+      "source": "docs/src/examples/QCard/Tabs.vue"
+    },
+    {
+      "title": "Expandable",
+      "file": "Expandable.vue",
+      "source": "docs/src/examples/QCard/Expandable.vue"
+    }
+  ]
+}

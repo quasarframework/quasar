@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/header-and-footer",
+  "title": "Layout Header and Footer",
+  "description": "How to use the QHeader and QFooter components. The top and bottom bars of your Quasar app.",
+  "canonicalUrl": "https://quasar.dev/layout/header-and-footer",
+  "source": "docs/src/pages/layout/header-and-footer.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QFooter",
+    "QHeader"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QHeader/Basic.vue"
+    },
+    {
+      "title": "Glossy",
+      "file": "Glossy.vue",
+      "source": "docs/src/examples/QHeader/Glossy.vue"
+    },
+    {
+      "title": "Playing with QToolbar",
+      "file": "Extended.vue",
+      "source": "docs/src/examples/QHeader/Extended.vue"
+    },
+    {
+      "title": "Playing with QBreadcrumb",
+      "file": "Breadcrumbs.vue",
+      "source": "docs/src/examples/QHeader/Breadcrumbs.vue"
+    },
+    {
+      "title": "Playing with QTabs",
+      "file": "Tabs.vue",
+      "source": "docs/src/examples/QHeader/Tabs.vue"
+    },
+    {
+      "title": "Reveal",
+      "file": "Reveal.vue",
+      "source": "docs/src/examples/QHeader/Reveal.vue"
+    },
+    {
+      "title": "iOS-like",
+      "file": "LookingIOS.vue",
+      "source": "docs/src/examples/QHeader/LookingIOS.vue"
+    },
+    {
+      "title": "Desktop app-like",
+      "file": "AppLike.vue",
+      "source": "docs/src/examples/QHeader/AppLike.vue"
+    }
+  ]
+}

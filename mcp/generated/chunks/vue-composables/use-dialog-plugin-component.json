@@ -1,0 +1,43 @@
+[
+  {
+    "id": "vue-composables/use-dialog-plugin-component#overview",
+    "documentId": "vue-composables/use-dialog-plugin-component",
+    "heading": "useDialogPluginComponent composable",
+    "breadcrumb": [
+      "useDialogPluginComponent composable"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-dialog-plugin-component",
+    "content": "::: tip\nThe useDialogPluginComponent composable is part of [Quasar Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) (Invoking custom component). If you haven't dug into it by now, please have a first read there.\n:::\n\nThis composable is to be used on the custom components which a Dialog plugin is invoked with. It will bootstrap all the necessary communication of the component with the plugin.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-dialog-plugin-component#syntax",
+    "documentId": "vue-composables/use-dialog-plugin-component",
+    "heading": "Syntax",
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-dialog-plugin-component#syntax",
+    "content": "```html\n<script setup>\n  import { useDialogPluginComponent } from 'quasar'\n\n  const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =\n    useDialogPluginComponent()\n\n  // dialogRef      - Vue ref to be applied to QDialog\n  // onDialogHide   - Function to be used as handler for @hide on QDialog\n  // onDialogOK     - Function to call to settle dialog with \"ok\" outcome\n  //                    example: onDialogOK() - no payload\n  //                    example: onDialogOK({ /*.../* }) - with payload\n  // onDialogCancel - Function to call to settle dialog with \"cancel\" outcome\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-dialog-plugin-component#full-example",
+    "documentId": "vue-composables/use-dialog-plugin-component",
+    "heading": "Full example",
+    "breadcrumb": [
+      "Full example",
+      "Full example"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-dialog-plugin-component#full-example",
+    "content": "```html\n<template>\n  <!-- notice dialogRef here -->\n  <q-dialog ref=\"dialogRef\" @hide=\"onDialogHide\">\n    <q-card class=\"q-dialog-plugin\">\n      <!--\n        ...content\n        ... use q-card-section for it?\n      -->\n\n      <!-- buttons example -->\n      <q-card-actions align=\"right\">\n        <q-btn color=\"primary\" label=\"OK\" @click=\"onOKClick\" />\n        <q-btn color=\"primary\" label=\"Cancel\" @click=\"onCancelClick\" />\n      </q-card-actions>\n    </q-card>\n  </q-dialog>\n</template>\n\n<script setup>\n  import { useDialogPluginComponent } from 'quasar'\n\n  const props = defineProps({\n    // ...your custom props\n  })\n\n  defineEmits([\n    // REQUIRED; need to specify some events that your\n    // component will emit through useDialogPluginComponent()\n    ...useDialogPluginComponent.emits\n  ])\n\n  // REQUIRED; must be called inside of setup()\n  const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =\n    useDialogPluginComponent()\n  // dialogRef      - Vue ref to be applied to QDialog\n  // onDialogHide   - Function to be used as handler for @hide on QDialog\n  // onDialogOK     - Function to call to settle dialog with \"ok\" outcome\n  //                    example: onDialogOK() - no payload\n  //                    example: onDialogOK({ /*.../* }) - with payload\n  // onDialogCancel - Function to call to settle dialog with \"cancel\" outcome\n\n  // other methods that we used in our vue html template;\n  // these are part of our example (so not required)\n  function onOKClick() {\n    // on OK, it is REQUIRED to\n    // call onDialogOK (with optional payload)\n    onDialogOK()\n    // or with payload: onDialogOK({ ... })\n    // ...and it will also hide the dialog automatically\n  }\n\n  // we can passthrough onDialogCancel directly\n  function onCancelClick() {\n    onDialogCancel()\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

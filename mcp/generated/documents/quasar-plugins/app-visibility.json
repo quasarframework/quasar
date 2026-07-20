@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/app-visibility",
+  "title": "App Visibility",
+  "description": "A Quasar plugin that wraps the Page Visibility API, letting you know when your app is visible or in focus.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/app-visibility",
+  "source": "docs/src/pages/quasar-plugins/app-visibility.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "AppVisibility"
+  ],
+  "examples": [
+    {
+      "title": "AppVisibility",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/AppVisibility/Basic.vue"
+    }
+  ]
+}

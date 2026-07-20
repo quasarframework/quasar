@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/table",
+  "title": "Table",
+  "description": "The QTable Vue component allows you to display data in a tabular manner and it's packed with a lot of related features. It's generally called a datatable.",
+  "canonicalUrl": "https://quasar.dev/vue-components/table",
+  "source": "docs/src/pages/vue-components/table.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QTable",
+    "QTd",
+    "QTh",
+    "QTr"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QTable/Basic.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QTable/Dark.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QTable/Dense.vue"
+    },
+    {
+      "title": "Infering columns from data",
+      "file": "InferColumns.vue",
+      "source": "docs/src/examples/QTable/InferColumns.vue"
+    },
+    {
+      "title": "Sticky header",
+      "file": "StickyHeader.vue",
+      "source": "docs/src/examples/QTable/StickyHeader.vue"
+    },
+    {
+      "title": "Sticky first column",
+      "file": "StickyColumn.vue",
+      "source": "docs/src/examples/QTable/StickyColumn.vue"
+    },
+    {
+      "title": "Sticky last column",
+      "file": "StickyLastColumn.vue",
+      "source": "docs/src/examples/QTable/StickyLastColumn.vue"
+    },
+    {
+      "title": "Sticky header and column",
+      "file": "StickyHeaderAndColumn.vue",
+      "source": "docs/src/examples/QTable/StickyHeaderAndColumn.vue"
+    },
+    {
+      "title": "Sticky header and last column",
+      "file": "StickyHeaderAndLastColumn.vue",
+      "source": "docs/src/examples/QTable/StickyHeaderAndLastColumn.vue"
+    },
+    {
+      "title": "Separators",
+      "file": "Separators.vue",
+      "source": "docs/src/examples/QTable/Separators.vue"
+    },
+    {
+      "title": "Custom column",
+      "file": "CustomColumn.vue",
+      "source": "docs/src/examples/QTable/CustomColumn.vue"
+    },
+    {
+      "title": "Custom coloring",
+      "file": "CustomColor.vue",
+      "source": "docs/src/examples/QTable/CustomColor.vue"
+    },
+    {
+      "title": "No header/footer",
+      "file": "NoHeaderFooter.vue",
+      "source": "docs/src/examples/QTable/NoHeaderFooter.vue"
+    },
+    {
+      "title": "Basic virtual scroll",
+      "file": "VirtscrollBasic.vue",
+      "source": "docs/src/examples/QTable/VirtscrollBasic.vue"
+    },
+    {
+      "title": "Dynamic loading virtual scroll",
+      "file": "VirtscrollDynamic.vue",
+      "source": "docs/src/examples/QTable/VirtscrollDynamic.vue"
+    },
+    {
+      "title": "Virtual scroll and pagination",
+      "file": "VirtscrollPagination.vue",
+      "source": "docs/src/examples/QTable/VirtscrollPagination.vue"
+    },
+    {
+      "title": "Virtual scroll with sticky header",
+      "file": "VirtscrollSticky.vue",
+      "source": "docs/src/examples/QTable/VirtscrollSticky.vue"
+    },
+    {
+      "title": "Virtual scroll with multiple rows for a data row",
+      "file": "VirtscrollMultipleRows.vue",
+      "source": "docs/src/examples/QTable/VirtscrollMultipleRows.vue"
+    },
+    {
+      "title": "Single selection",
+      "file": "SingleSelection.vue",
+      "source": "docs/src/examples/QTable/SingleSelection.vue"
+    },
+    {
+      "title": "Multiple selection",
+      "file": "MultipleSelection.vue",
+      "source": "docs/src/examples/QTable/MultipleSelection.vue"
+    },
+    {
+      "title": "Selection cell slots",
+      "file": "SelectionSlots.vue",
+      "source": "docs/src/examples/QTable/SelectionSlots.vue"
+    },
+    {
+      "title": "Selection cell slots with range selection",
+      "file": "SelectionSlotsRange.vue",
+      "source": "docs/src/examples/QTable/SelectionSlotsRange.vue"
+    },
+    {
+      "title": "Custom multiple selection",
+      "file": "CustomSelection.vue",
+      "source": "docs/src/examples/QTable/CustomSelection.vue"
+    },
+    {
+      "title": "Visible columns, custom top and fullscreen",
+      "file": "VisibleColumns.vue",
+      "source": "docs/src/examples/QTable/VisibleColumns.vue"
+    },
+    {
+      "title": "Visible columns",
+      "file": "VisibleColumns2.vue",
+      "source": "docs/src/examples/QTable/VisibleColumns2.vue"
+    },
+    {
+      "title": "Popup editing",
+      "file": "PopupEditing.vue",
+      "source": "docs/src/examples/QTable/PopupEditing.vue"
+    },
+    {
+      "title": "Input editing",
+      "file": "InputEditing.vue",
+      "source": "docs/src/examples/QTable/InputEditing.vue"
+    },
+    {
+      "title": "Grid style",
+      "file": "GridStyle.vue",
+      "source": "docs/src/examples/QTable/GridStyle.vue"
+    },
+    {
+      "title": "Grid with header",
+      "file": "GridHeader.vue",
+      "source": "docs/src/examples/QTable/GridHeader.vue"
+    },
+    {
+      "title": "Colored grid style",
+      "file": "GridStyleColored.vue",
+      "source": "docs/src/examples/QTable/GridStyleColored.vue"
+    },
+    {
+      "title": "Masonry like grid",
+      "file": "GridMasonry.vue",
+      "source": "docs/src/examples/QTable/GridMasonry.vue"
+    },
+    {
+      "title": "Grid style with slot",
+      "file": "GridStyleSlot.vue",
+      "source": "docs/src/examples/QTable/GridStyleSlot.vue"
+    },
+    {
+      "title": "Internal expansion model",
+      "file": "ExpandedRowInternal.vue",
+      "source": "docs/src/examples/QTable/ExpandedRowInternal.vue"
+    },
+    {
+      "title": "External expansion model",
+      "file": "ExpandedRowExternal.vue",
+      "source": "docs/src/examples/QTable/ExpandedRowExternal.vue"
+    },
+    {
+      "title": "Virtual scroll with expansion model",
+      "file": "VirtscrollExpandedRow.vue",
+      "source": "docs/src/examples/QTable/VirtscrollExpandedRow.vue"
+    },
+    {
+      "title": "Before/After slots (header/footer)",
+      "file": "BeforeAfterHeaderFooter.vue",
+      "source": "docs/src/examples/QTable/BeforeAfterHeaderFooter.vue"
+    },
+    {
+      "title": "Initial pagination",
+      "file": "PaginationInitial.vue",
+      "source": "docs/src/examples/QTable/PaginationInitial.vue"
+    },
+    {
+      "title": "Synchronized pagination",
+      "file": "PaginationSync.vue",
+      "source": "docs/src/examples/QTable/PaginationSync.vue"
+    },
+    {
+      "title": "Pagination slot",
+      "file": "PaginationSlot.vue",
+      "source": "docs/src/examples/QTable/PaginationSlot.vue"
+    },
+    {
+      "title": "Default loading",
+      "file": "Loading.vue",
+      "source": "docs/src/examples/QTable/Loading.vue"
+    },
+    {
+      "title": "Custom loading state",
+      "file": "CustomLoading.vue",
+      "source": "docs/src/examples/QTable/CustomLoading.vue"
+    },
+    {
+      "title": "Custom top with add/remove row",
+      "file": "CustomTop.vue",
+      "source": "docs/src/examples/QTable/CustomTop.vue"
+    },
+    {
+      "title": "Body slot",
+      "file": "SlotBody.vue",
+      "source": "docs/src/examples/QTable/SlotBody.vue"
+    },
+    {
+      "title": "Body-cell slot",
+      "file": "SlotBodyCell.vue",
+      "source": "docs/src/examples/QTable/SlotBodyCell.vue"
+    },
+    {
+      "title": "Body-cell-[name] slot",
+      "file": "SlotBodyCellName.vue",
+      "source": "docs/src/examples/QTable/SlotBodyCellName.vue"
+    },
+    {
+      "title": "Header slot",
+      "file": "SlotHeader.vue",
+      "source": "docs/src/examples/QTable/SlotHeader.vue"
+    },
+    {
+      "title": "Header-cell slot",
+      "file": "SlotHeaderCell.vue",
+      "source": "docs/src/examples/QTable/SlotHeaderCell.vue"
+    },
+    {
+      "title": "Header-cell-[name] slot",
+      "file": "SlotHeaderCellName.vue",
+      "source": "docs/src/examples/QTable/SlotHeaderCellName.vue"
+    },
+    {
+      "title": "No Data Label",
+      "file": "NoData.vue",
+      "source": "docs/src/examples/QTable/NoData.vue"
+    },
+    {
+      "title": "No Data Slot",
+      "file": "NoDataSlot.vue",
+      "source": "docs/src/examples/QTable/NoDataSlot.vue"
+    },
+    {
+      "title": "Hiding bottom layer",
+      "file": "HideBottom.vue",
+      "source": "docs/src/examples/QTable/HideBottom.vue"
+    },
+    {
+      "title": "Custom sorting",
+      "file": "CustomSorting.vue",
+      "source": "docs/src/examples/QTable/CustomSorting.vue"
+    },
+    {
+      "title": "Using dense prop",
+      "file": "ResponsiveDense.vue",
+      "source": "docs/src/examples/QTable/ResponsiveDense.vue"
+    },
+    {
+      "title": "Using grid prop",
+      "file": "ResponsiveGrid.vue",
+      "source": "docs/src/examples/QTable/ResponsiveGrid.vue"
+    },
+    {
+      "title": "Synchronizing with server",
+      "file": "Synchronizing.vue",
+      "source": "docs/src/examples/QTable/Synchronizing.vue"
+    },
+    {
+      "title": "Export to csv",
+      "file": "ExportCsv.vue",
+      "source": "docs/src/examples/QTable/ExportCsv.vue"
+    },
+    {
+      "title": "Keyboard navigation",
+      "file": "KeyboardNavigation.vue",
+      "source": "docs/src/examples/QTable/KeyboardNavigation.vue"
+    }
+  ]
+}

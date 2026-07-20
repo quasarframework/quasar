@@ -1,0 +1,44 @@
+[
+  {
+    "id": "vue-components/button-group#overview",
+    "documentId": "vue-components/button-group",
+    "heading": "Button Group",
+    "breadcrumb": [
+      "Button Group"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-group",
+    "content": "You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vue-components/button-dropdown) using QBtnGroup. Be sure to check those component's respective pages to see their props and methods.\n\nAPI reference: QBtnGroup",
+    "apiReferences": [
+      "QBtnGroup"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/button-group#usage",
+    "documentId": "vue-components/button-group",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/button-group#usage",
+    "content": "Example: Examples (Group.vue)\n\n::: warning\nYou must use same design props (flat, outline, push, ...) on both the parent QBtnGroup and the children QBtn/QBtnDropdown.\n:::\n\nExample: Spread horizontally (GroupSpread.vue)\n\nExample: With QBtnDropdown (WithDropdown.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Examples",
+        "file": "Group.vue"
+      },
+      {
+        "title": "Spread horizontally",
+        "file": "GroupSpread.vue"
+      },
+      {
+        "title": "With QBtnDropdown",
+        "file": "WithDropdown.vue"
+      }
+    ]
+  }
+]

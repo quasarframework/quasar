@@ -1,0 +1,42 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/spinners"
+  },
+  "props": {
+    "size": {
+      "type": [
+        "String",
+        "Number"
+      ],
+      "desc": "Size in CSS units, including unit name or standard size name (xs|sm|md|lg|xl)",
+      "examples": [
+        "'16px'",
+        "'2rem'",
+        "'xs'",
+        "'md'"
+      ],
+      "category": "style",
+      "default": "'1em'",
+      "required": false
+    },
+    "color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "thickness": {
+      "type": "Number",
+      "desc": "Override value to use for stroke-width",
+      "default": "5",
+      "category": "style",
+      "required": false
+    }
+  }
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "vue-components/video#overview",
+    "documentId": "vue-components/video",
+    "heading": "Video",
+    "breadcrumb": [
+      "Video"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/video",
+    "content": "Using the QVideo component makes embedding a video like Youtube easy. It also resizes to fit the container by default.\n\n::: tip\nYou may also want to check our own HTML 5 video player component: [QMediaPlayer](https://github.com/quasarframework/app-extension-qmediaplayer), which is far more advanced than QVideo (which essentially is an iframe pointing to embedded Youtube videos).\n:::\n\nAPI reference: QVideo",
+    "apiReferences": [
+      "QVideo"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/video#basic",
+    "documentId": "vue-components/video",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/video#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/video#with-aspect-ratio",
+    "documentId": "vue-components/video",
+    "heading": "With aspect ratio",
+    "breadcrumb": [
+      "Usage",
+      "With aspect ratio",
+      "With aspect ratio"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/video#with-aspect-ratio",
+    "content": "Example: With aspect ratio (Ratio.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With aspect ratio",
+        "file": "Ratio.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/video#markup-equivalent",
+    "documentId": "vue-components/video",
+    "heading": "Markup equivalent",
+    "breadcrumb": [
+      "Usage",
+      "Markup equivalent",
+      "Markup equivalent"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/video#markup-equivalent",
+    "content": "Example: HTML markup (HtmlMarkup.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "HTML markup",
+        "file": "HtmlMarkup.vue"
+      }
+    ]
+  }
+]

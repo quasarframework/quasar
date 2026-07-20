@@ -1,0 +1,11 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/stepper"
+  },
+  "slots": {
+    "default": {
+      "desc": "The content of the custom navigation, child of a QStep or of a QStepper (globally, through 'navigation' slot)"
+    }
+  }
+}

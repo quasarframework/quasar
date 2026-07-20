@@ -1,0 +1,191 @@
+[
+  {
+    "id": "vue-components/knob#overview",
+    "documentId": "vue-components/knob",
+    "heading": "Knob",
+    "breadcrumb": [
+      "Knob"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob",
+    "content": "The QKnob component is used to take a number input from the user through mouse/touch panning. It is based on [QCircularProgress](/vue-components/circular-progress) and inherits all its properties and behavior.\n\nAPI reference: QKnob",
+    "apiReferences": [
+      "QKnob"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/knob#usage",
+    "documentId": "vue-components/knob",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#usage",
+    "content": "By default, QKnob inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/knob#basic",
+    "documentId": "vue-components/knob",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#basic",
+    "content": "Example: Basic (Basic.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#show-value",
+    "documentId": "vue-components/knob",
+    "heading": "Show value",
+    "breadcrumb": [
+      "Usage",
+      "Show value",
+      "Show value"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#show-value",
+    "content": "In the example below, `show-value` property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The `font-size` prop refers to the inner label font size.\n\nIf the default slot contains an image, you have to style it with class `no-pointer-events` or set the `draggable` prop to false. Otherwise browser's default image dragging behaviour overrides QKnob's one\n\nExample: Show value (ShowValue.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Show value",
+        "file": "ShowValue.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#min-and-max",
+    "documentId": "vue-components/knob",
+    "heading": "Min and max",
+    "breadcrumb": [
+      "Usage",
+      "Min and max",
+      "Min and max"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#min-and-max",
+    "content": "Example: Custom min/max (MinMax.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom min/max",
+        "file": "MinMax.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#inner-min-max",
+    "documentId": "vue-components/knob",
+    "heading": "Inner min/max <q-badge label=\"v2.5.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Inner min/max <q-badge label=\"v2.5.4+\" />",
+      "Inner min/max <q-badge label=\"v2.5.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#inner-min-max",
+    "content": "Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.\n\nExample: Inner min/max (InnerMinMax.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Inner min/max",
+        "file": "InnerMinMax.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#custom-step",
+    "documentId": "vue-components/knob",
+    "heading": "Custom step",
+    "breadcrumb": [
+      "Usage",
+      "Custom step",
+      "Custom step"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#custom-step",
+    "content": "Example: Custom step (Step.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom step",
+        "file": "Step.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#offset-angle",
+    "documentId": "vue-components/knob",
+    "heading": "Offset angle",
+    "breadcrumb": [
+      "Usage",
+      "Offset angle",
+      "Offset angle"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#offset-angle",
+    "content": "Example: Offset angle (Angle.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Offset angle",
+        "file": "Angle.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#disable-and-readonly",
+    "documentId": "vue-components/knob",
+    "heading": "Disable and readonly",
+    "breadcrumb": [
+      "Usage",
+      "Disable and readonly",
+      "Disable and readonly"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#disable-and-readonly",
+    "content": "Example: Disable and readonly (DisableReadonly.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Disable and readonly",
+        "file": "DisableReadonly.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/knob#native-form-submit",
+    "documentId": "vue-components/knob",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/knob#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QKnob, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

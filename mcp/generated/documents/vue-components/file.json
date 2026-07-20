@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/file",
+  "title": "File Picker",
+  "description": "The QFile Vue component is used as a file picker.",
+  "canonicalUrl": "https://quasar.dev/vue-components/file",
+  "source": "docs/src/pages/vue-components/file.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QFile"
+  ],
+  "examples": [
+    {
+      "title": "Design Overview",
+      "file": "DesignOverview.vue",
+      "source": "docs/src/examples/QFile/DesignOverview.vue"
+    },
+    {
+      "title": "Decorators",
+      "file": "Decorators.vue",
+      "source": "docs/src/examples/QFile/Decorators.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QFile/Coloring.vue"
+    },
+    {
+      "title": "Clearable",
+      "file": "Clearable.vue",
+      "source": "docs/src/examples/QFile/Clearable.vue"
+    },
+    {
+      "title": "Disable and readonly",
+      "file": "DisableReadonly.vue",
+      "source": "docs/src/examples/QFile/DisableReadonly.vue"
+    },
+    {
+      "title": "Single file",
+      "file": "BasicSingle.vue",
+      "source": "docs/src/examples/QFile/BasicSingle.vue"
+    },
+    {
+      "title": "Multiple files",
+      "file": "BasicMultiple.vue",
+      "source": "docs/src/examples/QFile/BasicMultiple.vue"
+    },
+    {
+      "title": "Appending files",
+      "file": "AppendingFiles.vue",
+      "source": "docs/src/examples/QFile/AppendingFiles.vue"
+    },
+    {
+      "title": "Basic counter",
+      "file": "CounterBasic.vue",
+      "source": "docs/src/examples/QFile/CounterBasic.vue"
+    },
+    {
+      "title": "Counter label",
+      "file": "CounterLabel.vue",
+      "source": "docs/src/examples/QFile/CounterLabel.vue"
+    },
+    {
+      "title": "With chips",
+      "file": "WithChips.vue",
+      "source": "docs/src/examples/QFile/WithChips.vue"
+    },
+    {
+      "title": "With progress indicator",
+      "file": "WithProgress.vue",
+      "source": "docs/src/examples/QFile/WithProgress.vue"
+    },
+    {
+      "title": "Basic restrictions",
+      "file": "RestrictionBasic.vue",
+      "source": "docs/src/examples/QFile/RestrictionBasic.vue"
+    },
+    {
+      "title": "Filter",
+      "file": "RestrictionFilter.vue",
+      "source": "docs/src/examples/QFile/RestrictionFilter.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QFile/NativeForm.vue"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "vue-composables/use-form-child#overview",
+    "documentId": "vue-composables/use-form-child",
+    "heading": "useFormChild composable",
+    "breadcrumb": [
+      "useFormChild composable"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-form-child",
+    "content": "This composable refers to [QForm](/vue-components/form) wrapping your own custom component which you want to communicate with.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-form-child#syntax",
+    "documentId": "vue-composables/use-form-child",
+    "heading": "Syntax",
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-form-child#syntax",
+    "content": "```js\nimport { useFormChild } from 'quasar'\n\nsetup () {\n  // function validate () { ... }\n  // function resetValidation () { ... }\n\n  useFormChild({\n    validate, // Function; Can be async;\n              // Should return a Boolean (or a Promise resolving to a Boolean)\n    resetValidation,    // Optional function which resets validation\n    requiresQForm: true // should it error out if no parent QForm is found?\n  })\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

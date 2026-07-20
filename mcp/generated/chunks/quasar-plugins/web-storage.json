@@ -1,0 +1,46 @@
+[
+  {
+    "id": "quasar-plugins/web-storage#overview",
+    "documentId": "quasar-plugins/web-storage",
+    "heading": "Local/Session Storage Plugins",
+    "breadcrumb": [
+      "Local/Session Storage Plugins"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/web-storage",
+    "content": "Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API).\n\n::: tip\nWeb Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.\n:::\n\n::: danger Note about SSR\nWhen running the code server-side on SSR builds, this feature can't work. Web Storage is a browser API only. You can however make use of it on the client-side with SSR.\n:::\n\nAPI reference: LocalStorage\n\nAPI reference: SessionStorage\n\n<DocInstall :plugins=\"['LocalStorage', 'SessionStorage']\" />",
+    "apiReferences": [
+      "LocalStorage",
+      "SessionStorage"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/web-storage#usage",
+    "documentId": "quasar-plugins/web-storage",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/web-storage#usage",
+    "content": "```js Outside of a Vue file\nimport { LocalStorage, SessionStorage } from 'quasar'\n\nLocalStorage.set(key, value)\nlet value = LocalStorage.getItem(key)\n\nSessionStorage.set(key, value)\nlet value = SessionStorage.getItem(key)\n```\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.localStorage.set(key, value)\n  const value = $q.localStorage.getItem(key)\n\n  $q.sessionStorage.set(key, value)\n  const otherValue = $q.sessionStorage.getItem(key)\n}\n```\n\nFor a bulletproof approach when setting a value, it's best to also catch any potential errors raised by the underlying Local/Session Storage Web API, like when exceeding quota:\n\n```js\ntry {\n  $q.localStorage.set(key, value)\n} catch (e) {\n  // data wasn't successfully saved due to\n  // a Web Storage API error\n}\n```\n\n::: tip\nFor an exhaustive list of methods, please check the API section.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/web-storage#data-types",
+    "documentId": "quasar-plugins/web-storage",
+    "heading": "Data Types",
+    "breadcrumb": [
+      "Data Types",
+      "Data Types"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/web-storage#data-types",
+    "content": "Quasar Storage supports (but not limited to) the following data types out of the box. If you store one of these types, the retrieved data will have the same data type.\n\n- Dates\n- Regular Expressions\n- Numbers\n- Booleans\n- Strings\n- Plain Javascript Objects\n\nIf you store any _other_ data type, the returned value will be a String.\n\nSo you can even store functions, but be careful that you need to eval() the returned value (which is a String representation of the function).",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

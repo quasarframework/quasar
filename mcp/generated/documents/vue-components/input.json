@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/input",
+  "title": "Input",
+  "description": "The QInput Vue component is used to capture text input from the user.",
+  "canonicalUrl": "https://quasar.dev/vue-components/input",
+  "source": "docs/src/pages/vue-components/input.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QInput"
+  ],
+  "examples": [
+    {
+      "title": "Design Overview",
+      "file": "DesignOverview.vue",
+      "source": "docs/src/examples/QInput/DesignOverview.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QInput/Coloring.vue"
+    },
+    {
+      "title": "Standard",
+      "file": "DesignStandard.vue",
+      "source": "docs/src/examples/QInput/DesignStandard.vue"
+    },
+    {
+      "title": "Filled",
+      "file": "DesignFilled.vue",
+      "source": "docs/src/examples/QInput/DesignFilled.vue"
+    },
+    {
+      "title": "Outlined",
+      "file": "DesignOutlined.vue",
+      "source": "docs/src/examples/QInput/DesignOutlined.vue"
+    },
+    {
+      "title": "Standout",
+      "file": "DesignStandout.vue",
+      "source": "docs/src/examples/QInput/DesignStandout.vue"
+    },
+    {
+      "title": "Standout in QToolbar",
+      "file": "StandoutToolbar.vue",
+      "source": "docs/src/examples/QInput/StandoutToolbar.vue"
+    },
+    {
+      "title": "Borderless",
+      "file": "Borderless.vue",
+      "source": "docs/src/examples/QInput/Borderless.vue"
+    },
+    {
+      "title": "Rounded",
+      "file": "Rounded.vue",
+      "source": "docs/src/examples/QInput/Rounded.vue"
+    },
+    {
+      "title": "Square borders",
+      "file": "SquareBorders.vue",
+      "source": "docs/src/examples/QInput/SquareBorders.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QInput/Dark.vue"
+    },
+    {
+      "title": "Clearable",
+      "file": "Clearable.vue",
+      "source": "docs/src/examples/QInput/Clearable.vue"
+    },
+    {
+      "title": "Input types",
+      "file": "InputTypes.vue",
+      "source": "docs/src/examples/QInput/InputTypes.vue"
+    },
+    {
+      "title": "Input of number type",
+      "file": "InputTypeNumber.vue",
+      "source": "docs/src/examples/QInput/InputTypeNumber.vue"
+    },
+    {
+      "title": "Input of file type",
+      "file": "InputTypeFile.vue",
+      "source": "docs/src/examples/QInput/InputTypeFile.vue"
+    },
+    {
+      "title": "Textarea",
+      "file": "Textarea.vue",
+      "source": "docs/src/examples/QInput/Textarea.vue"
+    },
+    {
+      "title": "Autogrow",
+      "file": "Autogrow.vue",
+      "source": "docs/src/examples/QInput/Autogrow.vue"
+    },
+    {
+      "title": "Prefix and suffix",
+      "file": "PrefixSuffix.vue",
+      "source": "docs/src/examples/QInput/PrefixSuffix.vue"
+    },
+    {
+      "title": "Custom label",
+      "file": "CustomLabel.vue",
+      "source": "docs/src/examples/QInput/CustomLabel.vue"
+    },
+    {
+      "title": "Shadow text",
+      "file": "ShadowText.vue",
+      "source": "docs/src/examples/QInput/ShadowText.vue"
+    },
+    {
+      "title": "Debounce model",
+      "file": "Debouncing.vue",
+      "source": "docs/src/examples/QInput/Debouncing.vue"
+    },
+    {
+      "title": "Loading state",
+      "file": "LoadingState.vue",
+      "source": "docs/src/examples/QInput/LoadingState.vue"
+    },
+    {
+      "title": "Basic",
+      "file": "MaskBasic.vue",
+      "source": "docs/src/examples/QInput/MaskBasic.vue"
+    },
+    {
+      "title": "Filling the mask",
+      "file": "MaskFill.vue",
+      "source": "docs/src/examples/QInput/MaskFill.vue"
+    },
+    {
+      "title": "Unmasked model",
+      "file": "MaskUnmaskedModel.vue",
+      "source": "docs/src/examples/QInput/MaskUnmaskedModel.vue"
+    },
+    {
+      "title": "Filling the mask in reverse",
+      "file": "MaskFillReverse.vue",
+      "source": "docs/src/examples/QInput/MaskFillReverse.vue"
+    },
+    {
+      "title": "Custom tokens",
+      "file": "MaskCustomTokens.vue",
+      "source": "docs/src/examples/QInput/MaskCustomTokens.vue"
+    },
+    {
+      "title": "Basic",
+      "file": "ValidationRequired.vue",
+      "source": "docs/src/examples/QInput/ValidationRequired.vue"
+    },
+    {
+      "title": "Maximum length",
+      "file": "ValidationMaxLength.vue",
+      "source": "docs/src/examples/QInput/ValidationMaxLength.vue"
+    },
+    {
+      "title": "Lazy rules",
+      "file": "ValidationLazy.vue",
+      "source": "docs/src/examples/QInput/ValidationLazy.vue"
+    },
+    {
+      "title": "Form validation",
+      "file": "ValidationForm.vue",
+      "source": "docs/src/examples/QInput/ValidationForm.vue"
+    },
+    {
+      "title": "Async rules",
+      "file": "ValidationAsync.vue",
+      "source": "docs/src/examples/QInput/ValidationAsync.vue"
+    },
+    {
+      "title": "External",
+      "file": "ValidationExternal.vue",
+      "source": "docs/src/examples/QInput/ValidationExternal.vue"
+    },
+    {
+      "title": "Slot for error message",
+      "file": "ValidationSlots.vue",
+      "source": "docs/src/examples/QInput/ValidationSlots.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QInput/NativeForm.vue"
+    }
+  ]
+}

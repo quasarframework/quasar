@@ -1,0 +1,196 @@
+[
+  {
+    "id": "layout/drawer#overview",
+    "documentId": "layout/drawer",
+    "heading": "Layout Drawer",
+    "breadcrumb": [
+      "Layout Drawer"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/drawer",
+    "content": "QLayout allows you to configure your views as a 3x3 matrix, containing optional left-side and/or right-side Drawers. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.\n\nQDrawer is the sidebar part of your QLayout.\n\nAPI reference: QDrawer",
+    "apiReferences": [
+      "QDrawer"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/drawer#layout-builder",
+    "documentId": "layout/drawer",
+    "heading": "Layout Builder",
+    "breadcrumb": [
+      "Layout Builder",
+      "Layout Builder"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#layout-builder",
+    "content": "Scaffold your layout(s) by clicking on the button below.\n\n<q-btn icon-right=\"launch\" label=\"Layout Builder\" href=\"/layout-builder\" target=\"_blank\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/drawer#usage",
+    "documentId": "layout/drawer",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#usage",
+    "content": "::: tip\n\n- Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.\n- If the QDrawer content also has images and you want to use touch actions to close it, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n\n:::\n\n::: danger\nBy default, QDrawer has touch actions attached to it. If this interferes with your drawer content components, disable it by specifying the Boolean `no-swipe-close` property.\n:::\n\n::: warning\nWhen QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's \"view\" prop is configured with \"l/r\" or \"L/R\". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/drawer#basic",
+    "documentId": "layout/drawer",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#basic",
+    "content": "Example: Basic (Basic.vue)\n\nConsider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.\n\nExample: With navigation menu (Menu.vue)\n\nExample: Seamless menu (MenuSeamless.vue)\n\nExample: Header Picture (HeaderPicture.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "With navigation menu",
+        "file": "Menu.vue"
+      },
+      {
+        "title": "Seamless menu",
+        "file": "MenuSeamless.vue"
+      },
+      {
+        "title": "Header Picture",
+        "file": "HeaderPicture.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/drawer#mini-mode",
+    "documentId": "layout/drawer",
+    "heading": "Mini-mode",
+    "breadcrumb": [
+      "Usage",
+      "Mini-mode",
+      "Mini-mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#mini-mode",
+    "content": "Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer.\n\n::: warning\nPlease note that **`mini` mode** does not apply when in **mobile** behavior.\n:::\n\nThere are some CSS classes that will help you customize the drawer when dealing with \"mini\" mode. These are very useful especially when using the \"click\" trigger:\n\n| CSS Class            | Description                                             |\n| -------------------- | ------------------------------------------------------- |\n| `q-mini-drawer-hide` | Hide when drawer is in \"mini\" mode or in \"mobile\" mode. |\n| `q-mini-drawer-only` | Show only when drawer is in \"mini\" mode.                |\n\nYou can also write your own CSS classes based on the fact that QLayoutDrawer has `q-drawer--standard` CSS class when in \"normal\" mode and `q-drawer--mini` when in \"mini\" mode. Also, when drawer is in \"mobile\" behavior, it gets `q-drawer--mobile` CSS class.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/drawer#mouseover-mouseout-trigger",
+    "documentId": "layout/drawer",
+    "heading": "Mouseover/mouseout trigger",
+    "breadcrumb": [
+      "Usage",
+      "Mini-mode",
+      "Mouseover/mouseout trigger",
+      "Mouseover/mouseout trigger"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#mouseover-mouseout-trigger",
+    "content": "Consider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.\n\nExample: Mini-mode with mouseover/mouseout trigger (MiniMouseEvents.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Mini-mode with mouseover/mouseout trigger",
+        "file": "MiniMouseEvents.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/drawer#mini-to-overlay",
+    "documentId": "layout/drawer",
+    "heading": "Mini to overlay",
+    "breadcrumb": [
+      "Usage",
+      "Mini-mode",
+      "Mini to overlay",
+      "Mini to overlay"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#mini-to-overlay",
+    "content": "The `mini-to-overlay` Boolean property will always set your drawer with fixed position, regardless of your configuration from the `view` prop, but will occupy space on the layout only as wide as when in mini-mode.\n\nExample: Mini to overlay (MiniToOverlay.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Mini to overlay",
+        "file": "MiniToOverlay.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/drawer#click-trigger",
+    "documentId": "layout/drawer",
+    "heading": "Click trigger",
+    "breadcrumb": [
+      "Usage",
+      "Mini-mode",
+      "Click trigger",
+      "Click trigger"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#click-trigger",
+    "content": "In the example below, when in \"mini\" mode, if the user clicks on Drawer then we switch to normal mode.\n\nConsider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.\n\nExample: Mini-mode with click trigger (MiniClickEvent.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Mini-mode with click trigger",
+        "file": "MiniClickEvent.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/drawer#slots",
+    "documentId": "layout/drawer",
+    "heading": "Slots",
+    "breadcrumb": [
+      "Usage",
+      "Mini-mode",
+      "Slots",
+      "Slots"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#slots",
+    "content": "By default, when in \"mini\" mode, Quasar CSS hides a few DOM elements to provide a neat narrow drawer. But there may certainly be use-cases where you need a deep tweak. You can use the \"mini\" Vue slot of QLayoutDrawer just for that. The content of this slot will replace your drawer's default content when in \"mini\" mode.\n\nExample: Mini-mode with slot (MiniSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Mini-mode with slot",
+        "file": "MiniSlot.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/drawer#overlay-mode",
+    "documentId": "layout/drawer",
+    "heading": "Overlay mode",
+    "breadcrumb": [
+      "Usage",
+      "Overlay mode",
+      "Overlay mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/drawer#overlay-mode",
+    "content": "The overlay mode prevents the drawer from occupying space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.\n\nOn the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).\n\nExample: Overlay mode (OverlayMode.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Overlay mode",
+        "file": "OverlayMode.vue"
+      }
+    ]
+  }
+]

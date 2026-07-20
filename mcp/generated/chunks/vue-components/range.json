@@ -1,0 +1,399 @@
+[
+  {
+    "id": "vue-components/range#overview",
+    "documentId": "vue-components/range",
+    "heading": "Range",
+    "breadcrumb": [
+      "Range"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/range",
+    "content": "The QRange component is a great way to offer the user the selection of a sub-range of values between a minimum and maximum value, with optional steps to select those values. An example use case for the Range component would be to offer a price range selection.\n\nAlso check out its “sibling”, the [QSlider](/vue-components/slider) component.\n\nAPI reference: QRange",
+    "apiReferences": [
+      "QRange"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/range#usage",
+    "documentId": "vue-components/range",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#usage",
+    "content": "Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/range#standard",
+    "documentId": "vue-components/range",
+    "heading": "Standard",
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#standard",
+    "content": "::: warning\nYou are responsible for accommodating the space around QRange so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.\n:::\n\nExample: Standard (Standard.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard",
+        "file": "Standard.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#vertical",
+    "documentId": "vue-components/range",
+    "heading": "Vertical",
+    "breadcrumb": [
+      "Usage",
+      "Vertical",
+      "Vertical"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#vertical",
+    "content": "Example: Vertical orientation (Vertical.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical orientation",
+        "file": "Vertical.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#with-inner-min-max",
+    "documentId": "vue-components/range",
+    "heading": "With inner min/max <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "With inner min/max <q-badge label=\"v2.4+\" />",
+      "With inner min/max <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#with-inner-min-max",
+    "content": "Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.\n\nExample: Inner min/max (InnerMinMax.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Inner min/max",
+        "file": "InnerMinMax.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#with-step",
+    "documentId": "vue-components/range",
+    "heading": "With step",
+    "breadcrumb": [
+      "Usage",
+      "With step",
+      "With step"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#with-step",
+    "content": "Example: With Step (Step.vue)\n\nThe `step` property can also be a floating point number (or numeric `0` if you need infinite precision).\n\nExample: Floating point (FloatingPoint.vue)\n\nExample: Snaps to steps (Snap.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With Step",
+        "file": "Step.vue"
+      },
+      {
+        "title": "Floating point",
+        "file": "FloatingPoint.vue"
+      },
+      {
+        "title": "Snaps to steps",
+        "file": "Snap.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#with-label",
+    "documentId": "vue-components/range",
+    "heading": "With label",
+    "breadcrumb": [
+      "Usage",
+      "With label",
+      "With label"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#with-label",
+    "content": "In the example below, move the slider to see the label.\n\nExample: With label (Label.vue)\n\nExample: Always display label (LabelAlways.vue)\n\nExample: Custom label values (LabelValue.vue)\n\nThe example below is better highlighting how QRange handles label positioning so that it always stays inside the QRange's box horizontally.\n\nExample: Long label (LabelLong.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With label",
+        "file": "Label.vue"
+      },
+      {
+        "title": "Always display label",
+        "file": "LabelAlways.vue"
+      },
+      {
+        "title": "Custom label values",
+        "file": "LabelValue.vue"
+      },
+      {
+        "title": "Long label",
+        "file": "LabelLong.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#markers",
+    "documentId": "vue-components/range",
+    "heading": "Markers",
+    "breadcrumb": [
+      "Usage",
+      "Markers",
+      "Markers"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#markers",
+    "content": "Example: Markers (Markers.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Markers",
+        "file": "Markers.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#marker-labels",
+    "documentId": "vue-components/range",
+    "heading": "Marker labels <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Marker labels <q-badge label=\"v2.4+\" />",
+      "Marker labels <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#marker-labels",
+    "content": "Example: Marker labels (MarkerLabels.vue)\n\n::: tip TIP on slots\nIn order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.\n:::\n\nExample: Marker label slots (MarkerLabelSlots.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Marker labels",
+        "file": "MarkerLabels.vue"
+      },
+      {
+        "title": "Marker label slots",
+        "file": "MarkerLabelSlots.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#other-customizations",
+    "documentId": "vue-components/range",
+    "heading": "Other customizations <q-badge label=\"v2.4+\" />",
+    "breadcrumb": [
+      "Usage",
+      "Other customizations <q-badge label=\"v2.4+\" />",
+      "Other customizations <q-badge label=\"v2.4+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#other-customizations",
+    "content": "Example: Color customizations (RangeColoring.vue)\n\nExample: Hide selection bar (NoSelection.vue)\n\nExample: Custom track images (TrackImages.vue)\n\nExample: Track & thumb size (RangeSizes.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Color customizations",
+        "file": "RangeColoring.vue"
+      },
+      {
+        "title": "Hide selection bar",
+        "file": "NoSelection.vue"
+      },
+      {
+        "title": "Custom track images",
+        "file": "TrackImages.vue"
+      },
+      {
+        "title": "Track & thumb size",
+        "file": "RangeSizes.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#dragging-range",
+    "documentId": "vue-components/range",
+    "heading": "Dragging range",
+    "breadcrumb": [
+      "Usage",
+      "Dragging range",
+      "Dragging range"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#dragging-range",
+    "content": "Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.\n\nExample: Drag range (Drag.vue)\n\nExample: Drag range + snap to step (DragSnap.vue)\n\nExample: Drag only range (fixed interval) (DragOnly.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Drag range",
+        "file": "Drag.vue"
+      },
+      {
+        "title": "Drag range + snap to step",
+        "file": "DragSnap.vue"
+      },
+      {
+        "title": "Drag only range (fixed interval)",
+        "file": "DragOnly.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#lazy-input",
+    "documentId": "vue-components/range",
+    "heading": "Lazy input",
+    "breadcrumb": [
+      "Usage",
+      "Lazy input",
+      "Lazy input"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#lazy-input",
+    "content": "Example: Lazy input (Lazy.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Lazy input",
+        "file": "Lazy.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#null-values",
+    "documentId": "vue-components/range",
+    "heading": "Null values",
+    "breadcrumb": [
+      "Usage",
+      "Null values",
+      "Null values"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#null-values",
+    "content": "Example: Null values (Null.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Null values",
+        "file": "Null.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#reverse",
+    "documentId": "vue-components/range",
+    "heading": "Reverse",
+    "breadcrumb": [
+      "Usage",
+      "Reverse",
+      "Reverse"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#reverse",
+    "content": "Example: In reverse (Reverse.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "In reverse",
+        "file": "Reverse.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#force-dark-mode",
+    "documentId": "vue-components/range",
+    "heading": "Force dark mode",
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#force-dark-mode",
+    "content": "Example: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#readonly-and-disable",
+    "documentId": "vue-components/range",
+    "heading": "Readonly and disable",
+    "breadcrumb": [
+      "Usage",
+      "Readonly and disable",
+      "Readonly and disable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#readonly-and-disable",
+    "content": "Example: Readonly (Readonly.vue)\n\nExample: Disable (Disable.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Readonly",
+        "file": "Readonly.vue"
+      },
+      {
+        "title": "Disable",
+        "file": "Disable.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#with-qitem",
+    "documentId": "vue-components/range",
+    "heading": "With QItem",
+    "breadcrumb": [
+      "Usage",
+      "With QItem",
+      "With QItem"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#with-qitem",
+    "content": "Example: With QItem (List.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With QItem",
+        "file": "List.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/range#native-form-submit",
+    "documentId": "vue-components/range",
+    "heading": "Native form submit",
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/range#native-form-submit",
+    "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Native form",
+        "file": "NativeForm.vue"
+      }
+    ]
+  }
+]

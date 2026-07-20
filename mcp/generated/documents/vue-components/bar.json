@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/bar",
+  "title": "Bar",
+  "description": "The QBar Vue component is used to create the top bar on different platforms.",
+  "canonicalUrl": "https://quasar.dev/vue-components/bar",
+  "source": "docs/src/pages/vue-components/bar.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBar"
+  ],
+  "examples": [
+    {
+      "title": "MacOS style",
+      "file": "MacOS.vue",
+      "source": "docs/src/examples/QBar/MacOS.vue"
+    },
+    {
+      "title": "Windows style",
+      "file": "Windows.vue",
+      "source": "docs/src/examples/QBar/Windows.vue"
+    },
+    {
+      "title": "iOS style",
+      "file": "iOS.vue",
+      "source": "docs/src/examples/QBar/iOS.vue"
+    },
+    {
+      "title": "Android style",
+      "file": "Android.vue",
+      "source": "docs/src/examples/QBar/Android.vue"
+    },
+    {
+      "title": "QMenu",
+      "file": "Menu.vue",
+      "source": "docs/src/examples/QBar/Menu.vue"
+    },
+    {
+      "title": "QDialog",
+      "file": "Dialog.vue",
+      "source": "docs/src/examples/QBar/Dialog.vue"
+    },
+    {
+      "title": "QHeader with QToolbar",
+      "file": "Header.vue",
+      "source": "docs/src/examples/QBar/Header.vue"
+    }
+  ]
+}

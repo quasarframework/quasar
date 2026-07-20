@@ -1,0 +1,263 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-toggle"
+  },
+  "props": {
+    "name": {
+      "type": "String",
+      "desc": "Used to specify the name of the control; Useful if dealing with forms submitted directly to a URL",
+      "examples": [
+        "'car_id'"
+      ],
+      "category": "behavior"
+    },
+    "model-value": {
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": true,
+      "syncable": true,
+      "category": "model",
+      "type": "Any",
+      "examples": [
+        "# v-model=\"selected\""
+      ]
+    },
+    "options": {
+      "type": "Array",
+      "desc": "Array of Objects defining each option",
+      "required": true,
+      "definition": {
+        "attrs": {
+          "type": "Object",
+          "desc": "Key-value for attributes to be set on the button",
+          "examples": [
+            "{ 'aria-label': 'Button label' }"
+          ]
+        },
+        "label": {
+          "type": "String",
+          "desc": "Label of option button; Use this prop and/or 'icon', but at least one is required",
+          "examples": [
+            "'Option 1'"
+          ]
+        },
+        "icon": {
+          "type": "String",
+          "desc": "Icon of option button; Use this prop and/or 'label', but at least one is required",
+          "examples": [
+            "'map'",
+            "'ion-add'",
+            "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+            "'img:path/to/some_image.png'"
+          ],
+          "category": "content"
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Value of the option that will be used by component model",
+          "required": true
+        },
+        "slot": {
+          "type": "String",
+          "desc": "Slot name to use for this button content; Useful for customizing content or even add tooltips",
+          "examples": [
+            "'mySlot'"
+          ]
+        },
+        "...props": {
+          "type": "Any",
+          "desc": "Any other QBtn props (including class and style)"
+        }
+      },
+      "examples": [
+        "[{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }]"
+      ],
+      "category": "model"
+    },
+    "color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "text-color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "toggle-color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style",
+      "default": "'primary'",
+      "required": false
+    },
+    "toggle-text-color": {
+      "type": "String",
+      "tsType": "NamedColor",
+      "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
+      "examples": [
+        "'primary'",
+        "'teal'",
+        "'teal-10'"
+      ],
+      "category": "style"
+    },
+    "spread": {
+      "type": "Boolean",
+      "desc": "Spread horizontally to all available space",
+      "category": "content"
+    },
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design",
+      "category": "style"
+    },
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design",
+      "category": "style"
+    },
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow",
+      "category": "style"
+    },
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a more prominent border-radius for a squared shape button",
+      "category": "style"
+    },
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design",
+      "category": "style"
+    },
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Applies a glossy effect",
+      "category": "style"
+    },
+    "size": {
+      "type": "String",
+      "desc": "Button size name or a CSS unit including unit name",
+      "examples": [
+        "'xs'",
+        "'sm'",
+        "'md'",
+        "'lg'",
+        "'xl'",
+        "'25px'",
+        "'2rem'"
+      ],
+      "category": "style"
+    },
+    "padding": {
+      "type": "String",
+      "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
+      "examples": [
+        "'16px'",
+        "'10px 5px'",
+        "'2rem'",
+        "'xs'",
+        "'md lg'",
+        "'2px 2px 5px 7px'"
+      ],
+      "category": "style"
+    },
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Avoid turning label text into caps (which happens by default)",
+      "category": "content"
+    },
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Avoid label text wrapping",
+      "category": "content"
+    },
+    "ripple": {
+      "type": [
+        "Boolean",
+        "Object"
+      ],
+      "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
+      "default": "true",
+      "examples": [
+        "false",
+        "{ early: true, center: true, color: 'teal', keyCodes: [] }"
+      ],
+      "category": "style",
+      "required": false
+    },
+    "dense": {
+      "type": "Boolean",
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
+    },
+    "readonly": {
+      "type": "Boolean",
+      "desc": "Put component in readonly mode",
+      "category": "state"
+    },
+    "disable": {
+      "type": "Boolean",
+      "desc": "Put component in disabled mode",
+      "category": "state"
+    },
+    "stack": {
+      "type": "Boolean",
+      "desc": "Stack icon and label vertically instead of on same line (like it is by default)",
+      "category": "content"
+    },
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, button will stretch to parent's height",
+      "category": "content"
+    },
+    "clearable": {
+      "type": "Boolean",
+      "desc": "Clears model on click of the already selected button",
+      "category": "model"
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Suggestions: QTooltip, QBadge"
+    },
+    "...": {
+      "desc": "Any other dynamic slots to be used with 'slot' property of the 'options' prop"
+    }
+  },
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when the component needs to change the model; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "New model value",
+          "required": true
+        }
+      }
+    },
+    "clear": {
+      "desc": "When using the 'clearable' property, this event is emitted when the already selected button is clicked"
+    }
+  }
+}

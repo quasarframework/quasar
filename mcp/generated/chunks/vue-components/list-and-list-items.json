@@ -1,0 +1,172 @@
+[
+  {
+    "id": "vue-components/list-and-list-items#overview",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "List and List Items",
+    "breadcrumb": [
+      "List and List Items"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items",
+    "content": "The QList and QItem are a group of components which can work together to present multiple line items vertically as a single continuous element. They are best suited for displaying similar data types as rows of information, such as a contact list, a playlist or menu. Each row is called an Item. QItem can also be used outside of a QList too.\n\nLists can encapsulate Items or Item-like components, for example [QExpansionItem](/vue-components/expansion-item) or [QSlideItem](/vue-components/slide-item). Also [QSeparator](/vue-components/separator) can be used to split up sections, where needed.\n\nList Items have the following pre-built child components:\n\n- **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).\n- **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.\n\nAPI reference: QList\n\nAPI reference: QItem\n\nAPI reference: QItemSection\n\nAPI reference: QItemLabel",
+    "apiReferences": [
+      "QList",
+      "QItem",
+      "QItemSection",
+      "QItemLabel"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/list-and-list-items#basic",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items#basic",
+    "content": "Example: Basic (Basic.vue)\n\nExample: Force dark mode (Dark.vue)\n\nExample: Dense (Dense.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      },
+      {
+        "title": "Dense",
+        "file": "Dense.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/list-and-list-items#qitemsection",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "QItemSection",
+    "breadcrumb": [
+      "Usage",
+      "QItemSection",
+      "QItemSection"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items#qitemsection",
+    "content": "Example: Left avatar/thumbnail QItemSection (AvatarLeft.vue)\n\nExample: Right avatar/thumbnail QItemSection (AvatarRight.vue)\n\n::: tip\nWhen you have multi-line items, you could use `top` property on QItemSection side/avatar to align the sections to top, overriding default middle alignment.\n:::\n\nExample: Side QItemSection (SideSection.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Left avatar/thumbnail QItemSection",
+        "file": "AvatarLeft.vue"
+      },
+      {
+        "title": "Right avatar/thumbnail QItemSection",
+        "file": "AvatarRight.vue"
+      },
+      {
+        "title": "Side QItemSection",
+        "file": "SideSection.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/list-and-list-items#active-state",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "Active state",
+    "breadcrumb": [
+      "Usage",
+      "Active state",
+      "Active state"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items#active-state",
+    "content": "Example: Active prop (ActiveState.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Active prop",
+        "file": "ActiveState.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/list-and-list-items#qitemlabel",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "QItemLabel",
+    "breadcrumb": [
+      "Usage",
+      "QItemLabel",
+      "QItemLabel"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items#qitemlabel",
+    "content": "::: warning\nNotice you can handle label overflow with `lines` prop, telling it how many lines it can span. However, this feature uses Webkit specific CSS so won't work in IE/Edge.\n:::\n\nExample: ItemLabel (ItemLabel.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "ItemLabel",
+        "file": "ItemLabel.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/list-and-list-items#more-involved-examples",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "More involved examples",
+    "breadcrumb": [
+      "Usage",
+      "More involved examples",
+      "More involved examples"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items#more-involved-examples",
+    "content": "Example: Contact list (ExampleContacts.vue)\n\nExample: Settings (ExampleSettings.vue)\n\nExample: Emails (ExampleEmails.vue)\n\nExample: Folder listing (ExampleFolders.vue)\n\nFor demoing purposes in the example below, we're using the `active` prop instead of QItem's router props (`to`, `exact`). UMD doesn't have Vue Router so you wouldn't be able to play with it in Codepen/jsFiddle.\n\nExample: Menu (ExampleMenu.vue)\n\n::: tip\nFor more complex menus, consider also using [QExpansionItem](/vue-components/expansion-item).\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Contact list",
+        "file": "ExampleContacts.vue"
+      },
+      {
+        "title": "Settings",
+        "file": "ExampleSettings.vue"
+      },
+      {
+        "title": "Emails",
+        "file": "ExampleEmails.vue"
+      },
+      {
+        "title": "Folder listing",
+        "file": "ExampleFolders.vue"
+      },
+      {
+        "title": "Menu",
+        "file": "ExampleMenu.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/list-and-list-items#connecting-to-vue-router",
+    "documentId": "vue-components/list-and-list-items",
+    "heading": "Connecting to Vue Router",
+    "breadcrumb": [
+      "Usage",
+      "Connecting to Vue Router",
+      "Connecting to Vue Router"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/list-and-list-items#connecting-to-vue-router",
+    "content": "You can use QItems together with Vue Router through `<router-link>` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.\n\n```html\n<q-item to=\"/inbox\" exact>\n  <q-item-section avatar>\n    <q-icon name=\"inbox\" />\n  </q-item-section>\n\n  <q-item-section> Inbox </q-item-section>\n</q-item>\n```\n\nYou can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QItem API card at the top of the page.\n\n<DocExample title=\"Links with delayed, cancelled or redirected navigation (v2.9+)\" file=\"LinksWithGo\" no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Links with delayed, cancelled or redirected navigation (v2.9+)",
+        "file": "LinksWithGo.vue"
+      }
+    ]
+  }
+]

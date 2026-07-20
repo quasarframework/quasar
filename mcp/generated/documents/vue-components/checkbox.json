@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/checkbox",
+  "title": "Checkbox",
+  "description": "The QCheckbox Vue component is a checkbox with features like coloring, ripple and indeterminate state.",
+  "canonicalUrl": "https://quasar.dev/vue-components/checkbox",
+  "source": "docs/src/pages/vue-components/checkbox.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QCheckbox"
+  ],
+  "examples": [
+    {
+      "title": "Standard",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/QCheckbox/Standard.vue"
+    },
+    {
+      "title": "With icons",
+      "file": "WithIcons.vue",
+      "source": "docs/src/examples/QCheckbox/WithIcons.vue"
+    },
+    {
+      "title": "Label",
+      "file": "Label.vue",
+      "source": "docs/src/examples/QCheckbox/Label.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QCheckbox/Coloring.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QCheckbox/Dense.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "OnDarkBackground.vue",
+      "source": "docs/src/examples/QCheckbox/OnDarkBackground.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QCheckbox/StandardSizes.vue"
+    },
+    {
+      "title": "Indeterminate state",
+      "file": "IndeterminateState.vue",
+      "source": "docs/src/examples/QCheckbox/IndeterminateState.vue"
+    },
+    {
+      "title": "Toggle order",
+      "file": "ToggleOrder.vue",
+      "source": "docs/src/examples/QCheckbox/ToggleOrder.vue"
+    },
+    {
+      "title": "Array as model",
+      "file": "ArrayAsModel.vue",
+      "source": "docs/src/examples/QCheckbox/ArrayAsModel.vue"
+    },
+    {
+      "title": "Custom model values",
+      "file": "CustomModel.vue",
+      "source": "docs/src/examples/QCheckbox/CustomModel.vue"
+    },
+    {
+      "title": "Usage with QOptionGroup",
+      "file": "OptionGroup.vue",
+      "source": "docs/src/examples/QCheckbox/OptionGroup.vue"
+    },
+    {
+      "title": "With QItem",
+      "file": "InaList.vue",
+      "source": "docs/src/examples/QCheckbox/InaList.vue"
+    },
+    {
+      "title": "Disable",
+      "file": "Disable.vue",
+      "source": "docs/src/examples/QCheckbox/Disable.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QCheckbox/NativeForm.vue"
+    }
+  ]
+}

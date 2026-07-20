@@ -1,0 +1,43 @@
+[
+  {
+    "id": "vue-composables/use-tick#overview",
+    "documentId": "vue-composables/use-tick",
+    "heading": "useTick composable",
+    "breadcrumb": [
+      "useTick composable"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-tick",
+    "content": "The `useTick()` composable is similar in scope with the `nextTick()` from Vue, with some key differences. Once you trigger a nextTick() it will get executed in the next \"tick\" no matter what. The useTick() on the other hand, can be \"cancelled\". You can also override it.\n\nIn other words, if you want to schedule a function on the next Vue \"tick\" but you might want to override it or even cancel it, this is the composable for you.\n\nThe useTick composable also automatically cancels the next registered \"tick\" (if any was registered and still pending) when your component gets destroyed.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-tick#syntax",
+    "documentId": "vue-composables/use-tick",
+    "heading": "Syntax",
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-tick#syntax",
+    "content": "```js\nimport { useTick } from 'quasar'\n\nsetup () {\n  const {\n    registerTick,\n    removeTick\n  } = useTick()\n\n  // ...\n}\n```\n\n```js\nfunction useTick(): {\n  registerTick(fn: () => void): void;\n  removeTick(): void;\n};\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-composables/use-tick#example",
+    "documentId": "vue-composables/use-tick",
+    "heading": "Example",
+    "breadcrumb": [
+      "Example",
+      "Example"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-composables/use-tick#example",
+    "content": "```js\nimport { useTick } from 'quasar'\n\nsetup () {\n  const { registerTick } = useTick()\n\n  function onSomeEvent (param) {\n    registerTick(() => {\n      console.log('param is', param)\n    })\n  }\n\n  // ...\n\n  // You can call onSomeEvent() multiple\n  // times in a row and only the last\n  // registered \"tick\" will run when it\n  // is time for it\n}\n```\n\nShould you need more than one useTick() per component, simply rename the functions of the returned object:\n\n```js\nconst { registerTick: registerFirstTick, removeTick: removeFirstTick } =\n  useTick()\n\nconst { registerTick: registerSecondTick, removeTick: removeSecondTick } =\n  useTick()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "vue-components/slide-item#overview",
+    "documentId": "vue-components/slide-item",
+    "heading": "Slide Item",
+    "breadcrumb": [
+      "Slide Item"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/slide-item",
+    "content": "The QSlideItem component is essentially a [QItem](/vue-components/list-and-list-items) with two additional slots (`left` and `right`) which allows user to drag the item (through mouse or with the finger on a touch device) to one of the sides in order to apply a specific action.\n\nAPI reference: QSlideItem",
+    "apiReferences": [
+      "QSlideItem"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/slide-item#usage",
+    "documentId": "vue-components/slide-item",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/slide-item#usage",
+    "content": "Drag with the mouse or use your finger to pan to left or right side to see QSlideItem in action.\n\n::: tip\nIf your content also has images, you might want to add `draggable=\"false\"` to them, otherwise the native browser behavior might interfere in a negative way.\n:::\n\nExample: Basic (Basic.vue)\n\nExample: Vertical (Vertical.vue)\n\nExample: Custom colors (CustomColors.vue)\n\nExample: Customize while sliding (CustomizeSlide.vue)\n\nExample: One sided or no sides (OneSided.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Vertical",
+        "file": "Vertical.vue"
+      },
+      {
+        "title": "Custom colors",
+        "file": "CustomColors.vue"
+      },
+      {
+        "title": "Customize while sliding",
+        "file": "CustomizeSlide.vue"
+      },
+      {
+        "title": "One sided or no sides",
+        "file": "OneSided.vue"
+      }
+    ]
+  }
+]

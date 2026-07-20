@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/uploader",
+  "title": "Uploader",
+  "description": "The QUploader Vue component is a way for the user to upload files to a backend server.",
+  "canonicalUrl": "https://quasar.dev/vue-components/uploader",
+  "source": "docs/src/pages/vue-components/uploader.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QUploader",
+    "QUploaderAddTrigger"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QUploader/Basic.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QUploader/Dark.vue"
+    },
+    {
+      "title": "Multiple",
+      "file": "Multiple.vue",
+      "source": "docs/src/examples/QUploader/Multiple.vue"
+    },
+    {
+      "title": "Basic restrictions",
+      "file": "RestrictionBasic.vue",
+      "source": "docs/src/examples/QUploader/RestrictionBasic.vue"
+    },
+    {
+      "title": "Filter",
+      "file": "RestrictionFilter.vue",
+      "source": "docs/src/examples/QUploader/RestrictionFilter.vue"
+    },
+    {
+      "title": "Headers",
+      "file": "Headers.vue",
+      "source": "docs/src/examples/QUploader/Headers.vue"
+    },
+    {
+      "title": "Auto upload on file selection",
+      "file": "UploadAuto.vue",
+      "source": "docs/src/examples/QUploader/UploadAuto.vue"
+    },
+    {
+      "title": "Custom upload URL",
+      "file": "UploadURL.vue",
+      "source": "docs/src/examples/QUploader/UploadURL.vue"
+    },
+    {
+      "title": "Promise-based factory function",
+      "file": "FactoryPromise.vue",
+      "source": "docs/src/examples/QUploader/FactoryPromise.vue"
+    },
+    {
+      "title": "Immediate return factory function",
+      "file": "FactoryImmediate.vue",
+      "source": "docs/src/examples/QUploader/FactoryImmediate.vue"
+    },
+    {
+      "title": "Custom header",
+      "file": "SlotHeader.vue",
+      "source": "docs/src/examples/QUploader/SlotHeader.vue"
+    },
+    {
+      "title": "Custom files list",
+      "file": "SlotList.vue",
+      "source": "docs/src/examples/QUploader/SlotList.vue"
+    }
+  ]
+}

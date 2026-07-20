@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/chip",
+  "title": "Chip",
+  "description": "The QChip Vue component is a simple UI block entity, representing for example more advanced underlying data, such as a contact, but in a compact way.",
+  "canonicalUrl": "https://quasar.dev/vue-components/chip",
+  "source": "docs/src/pages/vue-components/chip.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QChip"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QChip/Basic.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QChip/Dense.vue"
+    },
+    {
+      "title": "Custom size",
+      "file": "Sizes.vue",
+      "source": "docs/src/examples/QChip/Sizes.vue"
+    },
+    {
+      "title": "Square",
+      "file": "Square.vue",
+      "source": "docs/src/examples/QChip/Square.vue"
+    },
+    {
+      "title": "Outline",
+      "file": "Outline.vue",
+      "source": "docs/src/examples/QChip/Outline.vue"
+    },
+    {
+      "title": "Clickable",
+      "file": "Clickable.vue",
+      "source": "docs/src/examples/QChip/Clickable.vue"
+    },
+    {
+      "title": "Selected",
+      "file": "Selected.vue",
+      "source": "docs/src/examples/QChip/Selected.vue"
+    },
+    {
+      "title": "Removable",
+      "file": "Removable.vue",
+      "source": "docs/src/examples/QChip/Removable.vue"
+    },
+    {
+      "title": "Long label truncation",
+      "file": "LongLabel.vue",
+      "source": "docs/src/examples/QChip/LongLabel.vue"
+    }
+  ]
+}

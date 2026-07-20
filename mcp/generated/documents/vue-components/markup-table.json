@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/markup-table",
+  "title": "Markup Table",
+  "description": "The QMarkupTable Vue component is a helper wrapper which styles a native table.",
+  "canonicalUrl": "https://quasar.dev/vue-components/markup-table",
+  "source": "docs/src/pages/vue-components/markup-table.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QMarkupTable"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QMarkupTable/Basic.vue"
+    },
+    {
+      "title": "Separators",
+      "file": "Separators.vue",
+      "source": "docs/src/examples/QMarkupTable/Separators.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QMarkupTable/Dark.vue"
+    },
+    {
+      "title": "Customization",
+      "file": "Customization.vue",
+      "source": "docs/src/examples/QMarkupTable/Customization.vue"
+    }
+  ]
+}

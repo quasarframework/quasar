@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/tree",
+  "title": "Tree",
+  "description": "The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.",
+  "canonicalUrl": "https://quasar.dev/vue-components/tree",
+  "source": "docs/src/pages/vue-components/tree.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QTree"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QTree/Basic.vue"
+    },
+    {
+      "title": "No connectors",
+      "file": "NoConnectors.vue",
+      "source": "docs/src/examples/QTree/NoConnectors.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "DenseTree.vue",
+      "source": "docs/src/examples/QTree/DenseTree.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/QTree/Dark.vue"
+    },
+    {
+      "title": "With QSplitter and QTabPanels",
+      "file": "Splitter.vue",
+      "source": "docs/src/examples/QTree/Splitter.vue"
+    },
+    {
+      "title": "Default header and body slots",
+      "file": "SlotsDefault.vue",
+      "source": "docs/src/examples/QTree/SlotsDefault.vue"
+    },
+    {
+      "title": "Customizing nodes",
+      "file": "SlotsCustomized.vue",
+      "source": "docs/src/examples/QTree/SlotsCustomized.vue"
+    },
+    {
+      "title": "Accordion mode",
+      "file": "Accordion.vue",
+      "source": "docs/src/examples/QTree/Accordion.vue"
+    },
+    {
+      "title": "Filtering nodes",
+      "file": "FilterDefault.vue",
+      "source": "docs/src/examples/QTree/FilterDefault.vue"
+    },
+    {
+      "title": "Selectable nodes",
+      "file": "Selectable.vue",
+      "source": "docs/src/examples/QTree/Selectable.vue"
+    },
+    {
+      "title": "Lazy loading nodes",
+      "file": "LazyLoad.vue",
+      "source": "docs/src/examples/QTree/LazyLoad.vue"
+    },
+    {
+      "title": "Syncing node properties",
+      "file": "Sync.vue",
+      "source": "docs/src/examples/QTree/Sync.vue"
+    },
+    {
+      "title": "Tick strategy",
+      "file": "TickStrategy.vue",
+      "source": "docs/src/examples/QTree/TickStrategy.vue"
+    },
+    {
+      "title": "Custom filter",
+      "file": "FilterCustom.vue",
+      "source": "docs/src/examples/QTree/FilterCustom.vue"
+    }
+  ]
+}

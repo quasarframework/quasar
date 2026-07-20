@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/button-group",
+  "title": "Button Group",
+  "description": "The QBtnGroup Vue component groups QBtn and QBtnDropdown into a single unit.",
+  "canonicalUrl": "https://quasar.dev/vue-components/button-group",
+  "source": "docs/src/pages/vue-components/button-group.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBtnGroup"
+  ],
+  "examples": [
+    {
+      "title": "Examples",
+      "file": "Group.vue",
+      "source": "docs/src/examples/QBtnGroup/Group.vue"
+    },
+    {
+      "title": "Spread horizontally",
+      "file": "GroupSpread.vue",
+      "source": "docs/src/examples/QBtnGroup/GroupSpread.vue"
+    },
+    {
+      "title": "With QBtnDropdown",
+      "file": "WithDropdown.vue",
+      "source": "docs/src/examples/QBtnGroup/WithDropdown.vue"
+    }
+  ]
+}

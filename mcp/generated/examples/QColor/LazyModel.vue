@@ -1,0 +1,23 @@
+<template>
+  <div class="q-pa-md">
+    <q-badge color="grey-3" text-color="black" class="q-mb-sm">
+      {{ hex }}
+    </q-badge>
+
+    <q-color
+      :model-value="hex"
+      @change="
+        val => {
+          hex = val
+        }
+      "
+      style="max-width: 250px"
+    />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const hex = ref('#112e1b')
+</script>

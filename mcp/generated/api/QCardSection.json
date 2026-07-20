@@ -1,0 +1,29 @@
+{
+  "type": "component",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/card"
+  },
+  "props": {
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Display a horizontal section (will have no padding and can contain other QCardSection)",
+      "category": "content"
+    },
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to use",
+      "category": "content",
+      "default": "'div'",
+      "examples": [
+        "'div'",
+        "'form'"
+      ],
+      "required": false
+    }
+  },
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    }
+  }
+}

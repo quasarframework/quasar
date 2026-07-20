@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/tab-panels",
+  "title": "Tab Panels",
+  "description": "The QTabPanel Vue component is a way of displaying more information using less window real estate.",
+  "canonicalUrl": "https://quasar.dev/vue-components/tab-panels",
+  "source": "docs/src/pages/vue-components/tab-panels.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QTabPanel",
+    "QTabPanels"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QTabPanels/Basic.vue"
+    },
+    {
+      "title": "With QTabs",
+      "file": "WithQTabs.vue",
+      "source": "docs/src/examples/QTabPanels/WithQTabs.vue"
+    },
+    {
+      "title": "A more complex example",
+      "file": "WithNestedQTabs.vue",
+      "source": "docs/src/examples/QTabPanels/WithNestedQTabs.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QTabPanels/Coloring.vue"
+    },
+    {
+      "title": "With vertical QTabs and QSplitter",
+      "file": "TabsAndSplitter.vue",
+      "source": "docs/src/examples/QTabPanels/TabsAndSplitter.vue"
+    },
+    {
+      "title": "Custom transition examples",
+      "file": "Transition.vue",
+      "source": "docs/src/examples/QTabPanels/Transition.vue"
+    },
+    {
+      "title": "Swipeable and infinite",
+      "file": "Swipeable.vue",
+      "source": "docs/src/examples/QTabPanels/Swipeable.vue"
+    },
+    {
+      "title": "Vertical swipeable and infinite",
+      "file": "VerticalSwipeable.vue",
+      "source": "docs/src/examples/QTabPanels/VerticalSwipeable.vue"
+    }
+  ]
+}

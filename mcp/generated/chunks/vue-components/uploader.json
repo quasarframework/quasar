@@ -1,0 +1,309 @@
+[
+  {
+    "id": "vue-components/uploader#overview",
+    "documentId": "vue-components/uploader",
+    "heading": "Uploader",
+    "breadcrumb": [
+      "Uploader"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader",
+    "content": "Quasar supplies a way for you to upload files through the QUploader component.\n\n::: tip\nIf all you want is an input file, you might want to consider using [QFile](/vue-components/file) picker component instead.\n:::\n\nAPI reference: QUploader",
+    "apiReferences": [
+      "QUploader"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#usage",
+    "documentId": "vue-components/uploader",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#usage",
+    "content": "::: warning\nQUploader requires a back-end server to receive the files. The examples below will not actually upload.\n:::\n\n::: tip\nQUploader is `drag and drop` compliant.\n:::\n\n::: warning\nWhen using vee-validate, you have to rename the \"fieldBagName\" configuration of vee-validate for the q-uploader to work.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#design",
+    "documentId": "vue-components/uploader",
+    "heading": "Design",
+    "breadcrumb": [
+      "Usage",
+      "Design",
+      "Design"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#design",
+    "content": "Example: Basic (Basic.vue)\n\nExample: Force dark mode (Dark.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      },
+      {
+        "title": "Force dark mode",
+        "file": "Dark.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#uploading-multiple-files",
+    "documentId": "vue-components/uploader",
+    "heading": "Uploading multiple files",
+    "breadcrumb": [
+      "Usage",
+      "Uploading multiple files",
+      "Uploading multiple files"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#uploading-multiple-files",
+    "content": "By default, multiple files will be uploaded individually (one thread per file). Should you want all files to be uploaded in a single thread, use the `batch` property (second QUploader in the example below).\n\nExample: Multiple (Multiple.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Multiple",
+        "file": "Multiple.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#restricting-upload",
+    "documentId": "vue-components/uploader",
+    "heading": "Restricting upload",
+    "breadcrumb": [
+      "Usage",
+      "Restricting upload",
+      "Restricting upload"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#restricting-upload",
+    "content": "Example: Basic restrictions (RestrictionBasic.vue)\n\n::: tip\nIn the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).\n:::\n\n::: warning\nRecommended format for the `accept` property is `<mediatype>/<extension>`. Examples: \"image/jpeg\", \"image/png\". QUploader uses an `<input type=\"file\">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.\n:::\n\nYou can also apply custom filters (which are executed after user picks files):\n\nExample: Filter (RestrictionFilter.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic restrictions",
+        "file": "RestrictionBasic.vue"
+      },
+      {
+        "title": "Filter",
+        "file": "RestrictionFilter.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#adding-headers",
+    "documentId": "vue-components/uploader",
+    "heading": "Adding headers",
+    "breadcrumb": [
+      "Usage",
+      "Adding headers",
+      "Adding headers"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#adding-headers",
+    "content": "Use `headers` for setting additional XHR headers to be sent along the upload request. Also check `form-fields` prop in the API, if you need additional fields to be embedded.\n\nExample: Headers (Headers.vue)\n\n::: tip\nThese two props (`headers` and `form-fields`) can be used as a function too (`(files) => Array`), allowing you to dynamically set them based on the files that are to be uploaded.\n:::\n\nThere is also the `with-credentials` property, which sets `withCredentials` to `true` on the XHR used by the upload process.",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Headers",
+        "file": "Headers.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#handling-upload",
+    "documentId": "vue-components/uploader",
+    "heading": "Handling upload",
+    "breadcrumb": [
+      "Usage",
+      "Handling upload",
+      "Handling upload"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#handling-upload",
+    "content": "Example: Auto upload on file selection (UploadAuto.vue)\n\nExample: Custom upload URL (UploadURL.vue)\n\n::: tip\nYou can also customize the HTTP headers and HTTP method through `headers` and `method` props. Check QUploader API section.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Auto upload on file selection",
+        "file": "UploadAuto.vue"
+      },
+      {
+        "title": "Custom upload URL",
+        "file": "UploadURL.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#factory-function",
+    "documentId": "vue-components/uploader",
+    "heading": "Factory function",
+    "breadcrumb": [
+      "Usage",
+      "Factory function",
+      "Factory function"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#factory-function",
+    "content": "There is a `factory` prop you can use which must be a Function. This function can return either an Object or a Promise resolving with an Object (and in case the Promise fails, `@factory-failed` event is emitted).\n\nThe Object described above can override the following QUploader props: `url`, `method`, `headers`, `formFields`, `fieldName`, `withCredentials`, `sendRaw`). The props of this Object can be Functions as well (of form `(file[s]) => value`):\n\nExample: Promise-based factory function (FactoryPromise.vue)\n\nYou can also use the `factory` Function prop and return immediately the same Object. This is useful if you want to set multiple props (described above) simultaneously:\n\nExample: Immediate return factory function (FactoryImmediate.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Promise-based factory function",
+        "file": "FactoryPromise.vue"
+      },
+      {
+        "title": "Immediate return factory function",
+        "file": "FactoryImmediate.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#slots",
+    "documentId": "vue-components/uploader",
+    "heading": "Slots",
+    "breadcrumb": [
+      "Usage",
+      "Slots",
+      "Slots"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#slots",
+    "content": "In the example below we're showing the equivalent of the default header. Also notice some Boolean scope properties that you can use: `scope.canAddFiles`, `scope.canUpload`, `scope.isUploading`.\n\n::: warning\nNotice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click=\"scope.pickFiles\"`). If the trigger is not working, check if you have an element rendered above it and change the zIndex of QUploaderAddTrigger accordingly.\n:::\n\nExample: Custom header (SlotHeader.vue)\n\nExample: Custom files list (SlotList.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom header",
+        "file": "SlotHeader.vue"
+      },
+      {
+        "title": "Custom files list",
+        "file": "SlotList.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/uploader#server-endpoint-examples",
+    "documentId": "vue-components/uploader",
+    "heading": "Server endpoint examples",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "Server endpoint examples"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#server-endpoint-examples",
+    "content": "QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).\n\n::: tip\nIt is by no means required to use a Node.js server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#node-js",
+    "documentId": "vue-components/uploader",
+    "heading": "Node.js",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "Node.js",
+      "Node.js"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#node-js",
+    "content": "Below is a basic server example written in Node.js. It does nothing other than receiving the files, so consider it as a starting point.\n\n```js\nimport fs from 'node:fs'\nimport path from 'node:path'\nimport express from 'express'\nimport formidable from 'formidable'\nimport throttle from 'express-throttle-bandwidth'\n\nconst app = express()\n\nconst port = process.env.PORT || 4444\nconst folder = path.join(import.meta.dirname, 'files')\n\nif (!fs.existsSync(folder)) {\n  fs.mkdirSync(folder)\n}\n\napp.set('port', port)\napp.use(throttle(1024 * 128)) // throttling bandwidth\n\napp.use((req, res, next) => {\n  res.header('Access-Control-Allow-Origin', '*')\n  res.header(\n    'Access-Control-Allow-Headers',\n    'Origin, X-Requested-With, Content-Type, Accept'\n  )\n  next()\n})\n\napp.post('/upload', (req, res) => {\n  const form = new formidable.IncomingForm()\n\n  form.uploadDir = folder\n  form.parse(req, (_, fields, files) => {\n    console.log('\\n-----------')\n    console.log('Fields', fields)\n    console.log('Received:', Object.keys(files))\n    console.log()\n    res.send('Thank you')\n  })\n})\n\napp.listen(port, () => {\n  console.log('\\nUpload server running on http://localhost:' + port)\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#asp-net-mvc-core",
+    "documentId": "vue-components/uploader",
+    "heading": "ASP.NET MVC/Core",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "ASP.NET MVC/Core",
+      "ASP.NET MVC/Core"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#asp-net-mvc-core",
+    "content": "QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.\nIn your Vue file, configure the QUploader component with the desired Web API endpoint:\n\n```html\n<q-uploader\n  url=\"http://localhost:4444/fileuploader/upload\"\n  label=\"Upload\"\n  style=\"max-width: 300px\"\n/>\n```\n\nIf your server requires authentication such as a JWT token, use QUploader's factory function to specify the xhr header that will be used by QUploader. For example:\n\n```html\n<template>\n  <q-uploader label=\"Upload\" :factory=\"factoryFn\" style=\"max-width: 300px\" />\n</template>\n\n<script setup>\n  function factoryFn(file) {\n    return new Promise((resolve, reject) => {\n      // Retrieve JWT token from your store.\n      const token = 'myToken'\n      resolve({\n        url: 'http://localhost:4444/fileuploader/upload',\n        method: 'POST',\n        headers: [{ name: 'Authorization', value: `Bearer ${token}` }]\n      })\n    })\n  }\n</script>\n```\n\nThe file(s) payload of QUploader will be a properly formed `IFormFileCollection` object that you can read via your ASP.NET Web API controller's `.Request` property.\nASP.NET Core 2.2 Controller:\n\n```\n[Route(\"api/[controller]\")]\n[ApiController]\npublic class FileUploaderController : ControllerBase\n{\n    [HttpPost]\n    public async Task upload()\n    {\n        // Request's .Form.Files property will\n        // contain QUploader's files.\n        var files = this.Request.Form.Files;\n        foreach (var file in files)\n        {\n            if (file == null || file.Length == 0)\n                continue;\n\n            // Do something with the file.\n            var fileName = file.FileName;\n            var fileSize = file.Length;\n            // save to server...\n            // ...\n        }\n    }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#spring",
+    "documentId": "vue-components/uploader",
+    "heading": "Spring",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "Spring",
+      "Spring"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#spring",
+    "content": "Below is a [Spring](https://spring.io/guides/gs/uploading-files/) example. Attribute `fieldName=\"file\"` is mapping with `@RequestPart(value = \"file\")`.\n\n```\n// java\n@RestController\npublic class UploadRest {\n\t@PostMapping(\"/upload\")\n\tpublic void handleFileUpload(@RequestPart(value = \"file\") final MultipartFile uploadfile) throws IOException {\n\t\tsaveUploadedFiles(uploadfile);\n\t}\n\n\tprivate String saveUploadedFiles(final MultipartFile file) throws IOException {\n\t\tfinal byte[] bytes = file.getBytes();\n\t\tfinal Path path = Paths.get(\"YOUR_ABSOLUTE_PATH\" + file.getOriginalFilename());\n\t\tFiles.write(path, bytes);\n\t}\n}\n\n// html\n<q-uploader field-name=\"file\" url=\"YOUR_URL_BACK/upload\" with-credentials />\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#python-flask",
+    "documentId": "vue-components/uploader",
+    "heading": "Python/Flask",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "Python/Flask",
+      "Python/Flask"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#python-flask",
+    "content": "```\n// python\nfrom flask import Flask, request\nfrom werkzeug import secure_filename\nfrom flask_cors import CORS\nimport os\n\napp = Flask(__name__)\n\n# This is necessary because QUploader uses an AJAX request\n# to send the file\ncors = CORS()\ncors.init_app(app, resource={r\"/api/*\": {\"origins\": \"*\"}})\n\n@app.route('/upload', methods=['POST'])\ndef upload():\n    for fname in request.files:\n        f = request.files.get(fname)\n        print(f)\n        f.save('./uploads/%s' % secure_filename(fname))\n\n    return 'Okay!'\n\nif __name__ == '__main__':\n    if not os.path.exists('./uploads'):\n        os.mkdir('./uploads')\n    app.run(debug=True)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#julia-genie",
+    "documentId": "vue-components/uploader",
+    "heading": "Julia/Genie",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "Julia/Genie",
+      "Julia/Genie"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#julia-genie",
+    "content": "```\n# Julia Genie\n\nusing Genie, Genie.Requests, Genie.Renderer\n\nGenie.config.cors_headers[\"Access-Control-Allow-Origin\"]  =  \"*\"\nGenie.config.cors_headers[\"Access-Control-Allow-Headers\"] = \"Content-Type\"\nGenie.config.cors_headers[\"Access-Control-Allow-Methods\"] = \"GET,POST,PUT,DELETE,OPTIONS\"\nGenie.config.cors_allowed_origins = [\"*\"]\n\n#== server ==#\n\nroute(\"/\") do\n  \"File Upload\"\nend\n\nroute(\"/upload\", method = POST) do\n  if infilespayload(:img)                 # :img is file-name\n    @info filename(filespayload(:img))    # file-name=\"img\"\n    @info filespayload(:img).data\n\n    open(\"upload/file.jpg\", \"w\") do io\n      write(io, filespayload(:img).data)\n    end\n  else\n    @info \"No image uploaded\"\n  end\n\n  Genie.Renderer.redirect(:get)\nend\n\nisrunning(:webserver) || up()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#perl-mojolicious",
+    "documentId": "vue-components/uploader",
+    "heading": "Perl/Mojolicious",
+    "breadcrumb": [
+      "Server endpoint examples",
+      "Perl/Mojolicious",
+      "Perl/Mojolicious"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#perl-mojolicious",
+    "content": "```\n# Perl\n\nuse Mojolicious::Lite -signatures;\n\n# CORS\napp->hook(after_dispatch => sub {\n    my $c = shift;\n    $c->res->headers->header('Access-Control-Allow-Origin' => '*');\n});\noptions '*' => sub ($c) {\n   $c->res->headers->header('Access-Control-Allow-Methods' => 'GET, OPTIONS, POST, DELETE, PUT');\n   $c->res->headers->header('Access-Control-Allow-Headers' => 'Content-Type');\n   $c->render(text => '');\n};\n\npost '/upload' => sub ($c) {\n   my $uploads = $c->req->uploads('files');\n\n   foreach my $f (@{$uploads}) {\n      $f->move_to('/tmp/' . $f->filename);\n   }\n\n   $c->render(text => 'Saved!');\n};\n\napp->start;\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/uploader#supporting-other-services",
+    "documentId": "vue-components/uploader",
+    "heading": "Supporting other services",
+    "breadcrumb": [
+      "Supporting other services",
+      "Supporting other services"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/uploader#supporting-other-services",
+    "content": "QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.\n\n::: warning Help appreciated\nWe'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Edit this page in browser` link at bottom of this page or the pencil icon at the top of the page.\n:::\n\nBelow is an example with the API that you need to supply to the `createUploaderComponent()` Quasar util. This will create a Vue component that you can import in your app.\n\n```js MyUploader.js\nimport { createUploaderComponent } from 'quasar'\nimport { computed } from 'vue'\n\n// export a Vue component\nexport default createUploaderComponent({\n  // defining the QUploader plugin here\n\n  name: 'MyUploader', // your component's name\n\n  props: {\n    // ...your custom props\n  },\n\n  emits: [\n    // ...your custom events name list\n  ],\n\n  injectPlugin({ props, emit, helpers }) {\n    // can call any other composables here\n    // as this function will run in the component's setup()\n\n    // [ REQUIRED! ]\n    // We're working on uploading files\n    const isUploading = computed(() => {\n      // return <Boolean>\n    })\n\n    // [ optional ]\n    // Shows overlay on top of the\n    // uploader signaling it's waiting\n    // on something (blocks all controls)\n    const isBusy = computed(() => {\n      // return <Boolean>\n    })\n\n    // [ REQUIRED! ]\n    // Abort and clean up any process\n    // that is in progress\n    function abort() {\n      // ...\n    }\n\n    // [ REQUIRED! ]\n    // Start the uploading process\n    function upload() {\n      // ...\n    }\n\n    return {\n      isUploading,\n      isBusy,\n\n      abort,\n      upload\n    }\n  }\n})\n```\n\n::: tip TIPS\n\n- For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).\n- For the UMD version use `Quasar.createUploaderComponent({ ... })`.\n\n:::\n\nThen you register this component globally with Vue or you import it and add it to the \"components: {}\" in your Vue components.\n\n```js\n// globally registering your component in a boot file\nimport { defineBoot } from '#q-app'\nimport MyUploader from '../../path/to/MyUploader' // the file from above\n\nexport default defineBoot(({ app }) {\n  app.component('MyUploader', MyUploader)\n})\n\n// or declaring it in a .vue file\nimport MyUploader from '../../path/to/MyUploader' // the file from above\nexport default {\n  // ...\n  components: {\n    // ...\n    MyUploader\n  }\n}\n```\n\nIf you're using TypeScript, you'd need to register the new component types to allow Volar to autocomplete props and slots for you.\n\n```js\nimport {\n  GlobalComponentConstructor,\n  QUploaderProps,\n  QUploaderSlots,\n} from 'quasar';\n\ninterface MyUploaderProps extends QUploaderProps {\n  // .. add custom props\n  freeze: boolean;\n  // .. add custom events\n  onFreeze: boolean;\n}\n\ndeclare module 'vue' {\n  interface GlobalComponents {\n    MyUploader: GlobalComponentConstructor<MyUploaderProps, QUploaderSlots>;\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

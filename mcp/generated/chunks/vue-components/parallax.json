@@ -1,0 +1,111 @@
+[
+  {
+    "id": "vue-components/parallax#overview",
+    "documentId": "vue-components/parallax",
+    "heading": "Parallax",
+    "breadcrumb": [
+      "Parallax"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/parallax",
+    "content": "Parallax scrolling is a technique in computer graphics and web design, where background images move by the camera slower than foreground images, creating an illusion of depth in a 2D scene and adding to the immersion.\n\nQParallax takes care of a lot of quirks, including image/video size which can actually be smaller than the window width/height.\n\nAPI reference: QParallax",
+    "apiReferences": [
+      "QParallax"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/parallax#usage",
+    "documentId": "vue-components/parallax",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/parallax#usage",
+    "content": "::: tip Scrolling container\nPlease read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/parallax#image-background",
+    "documentId": "vue-components/parallax",
+    "heading": "Image background",
+    "breadcrumb": [
+      "Usage",
+      "Image background",
+      "Image background"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/parallax#image-background",
+    "content": "Example: Image background (Image.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Image background",
+        "file": "Image.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/parallax#video-background",
+    "documentId": "vue-components/parallax",
+    "heading": "Video background",
+    "breadcrumb": [
+      "Usage",
+      "Video background",
+      "Video background"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/parallax#video-background",
+    "content": "::: warning\nOn some iOS platforms there may be problems regarding the autoplay feature of the native `<video>` tag. [Reference](https://webkit.org/blog/6784/new-video-policies-for-ios/). QParallax and Quasar are not interfering in any way with the client browser's ability/restrictions on the `<video>` tag.\n:::\n\n::: warning\nWhen using the `video` tag inside QParallax, you **must** provide the `width` and `height` attributes in order for QParallax to work properly because of the intrinsic resizing capabilities of this type of media. Also, be aware that the actual video width and height are not available until the video's metadata has been loaded.\n:::\n\nExample: Custom height with video background (Video.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom height with video background",
+        "file": "Video.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/parallax#custom-speed",
+    "documentId": "vue-components/parallax",
+    "heading": "Custom speed",
+    "breadcrumb": [
+      "Usage",
+      "Custom speed",
+      "Custom speed"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/parallax#custom-speed",
+    "content": "Example: Custom speed (Speed.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Custom speed",
+        "file": "Speed.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/parallax#using-slot",
+    "documentId": "vue-components/parallax",
+    "heading": "Using slot",
+    "breadcrumb": [
+      "Usage",
+      "Using slot",
+      "Using slot"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/parallax#using-slot",
+    "content": "Example: Using the slot (ScopedSlot.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Using the slot",
+        "file": "ScopedSlot.vue"
+      }
+    ]
+  }
+]

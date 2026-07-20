@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-plugins/bottom-sheet",
+  "title": "Bottom Sheet Plugin",
+  "description": "A Quasar plugin for displaying a list of user actions that slides up from the bottom edge of the app window.",
+  "canonicalUrl": "https://quasar.dev/quasar-plugins/bottom-sheet",
+  "source": "docs/src/pages/quasar-plugins/bottom-sheet.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "BottomSheet"
+  ],
+  "examples": [
+    {
+      "title": "List and Grid",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/BottomSheet/Basic.vue"
+    },
+    {
+      "title": "Force dark mode",
+      "file": "Dark.vue",
+      "source": "docs/src/examples/BottomSheet/Dark.vue"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-directives/close-popup",
+  "title": "Close Popup Directive",
+  "description": "Helper Vue directive when working with QDialog or QMenu.",
+  "canonicalUrl": "https://quasar.dev/vue-directives/close-popup",
+  "source": "docs/src/pages/vue-directives/close-popup.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "ClosePopup"
+  ],
+  "examples": [
+    {
+      "title": "With a QMenu",
+      "file": "Menu.vue",
+      "source": "docs/src/examples/ClosePopup/Menu.vue"
+    },
+    {
+      "title": "With a QDialog",
+      "file": "Dialog.vue",
+      "source": "docs/src/examples/ClosePopup/Dialog.vue"
+    },
+    {
+      "title": "Menu tree",
+      "file": "MenuTree.vue",
+      "source": "docs/src/examples/ClosePopup/MenuTree.vue"
+    },
+    {
+      "title": "Dialog with menu",
+      "file": "DialogMenu.vue",
+      "source": "docs/src/examples/ClosePopup/DialogMenu.vue"
+    },
+    {
+      "title": "Dialog in Dialog",
+      "file": "DialogInDialog.vue",
+      "source": "docs/src/examples/ClosePopup/DialogInDialog.vue"
+    }
+  ]
+}

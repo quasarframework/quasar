@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/select",
+  "title": "Select",
+  "description": "The QSelect Vue component has two types of selection - single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.",
+  "canonicalUrl": "https://quasar.dev/vue-components/select",
+  "source": "docs/src/pages/vue-components/select.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QSelect"
+  ],
+  "examples": [
+    {
+      "title": "Design Overview",
+      "file": "DesignOverview.vue",
+      "source": "docs/src/examples/QSelect/DesignOverview.vue"
+    },
+    {
+      "title": "Decorators",
+      "file": "Decorators.vue",
+      "source": "docs/src/examples/QSelect/Decorators.vue"
+    },
+    {
+      "title": "Coloring",
+      "file": "Coloring.vue",
+      "source": "docs/src/examples/QSelect/Coloring.vue"
+    },
+    {
+      "title": "Clearable",
+      "file": "Clearable.vue",
+      "source": "docs/src/examples/QSelect/Clearable.vue"
+    },
+    {
+      "title": "Disable and readonly",
+      "file": "DisableReadonly.vue",
+      "source": "docs/src/examples/QSelect/DisableReadonly.vue"
+    },
+    {
+      "title": "Menu transitions",
+      "file": "MenuTransitions.vue",
+      "source": "docs/src/examples/QSelect/MenuTransitions.vue"
+    },
+    {
+      "title": "Show options in menu",
+      "file": "BehaviorMenu.vue",
+      "source": "docs/src/examples/QSelect/BehaviorMenu.vue"
+    },
+    {
+      "title": "Show options in dialog",
+      "file": "BehaviorDialog.vue",
+      "source": "docs/src/examples/QSelect/BehaviorDialog.vue"
+    },
+    {
+      "title": "Single vs multiple selection",
+      "file": "ModelSingleMultiple.vue",
+      "source": "docs/src/examples/QSelect/ModelSingleMultiple.vue"
+    },
+    {
+      "title": "Multiple selection, counter and max-values",
+      "file": "ModelMultipleCounter.vue",
+      "source": "docs/src/examples/QSelect/ModelMultipleCounter.vue"
+    },
+    {
+      "title": "String options",
+      "file": "OptionString.vue",
+      "source": "docs/src/examples/QSelect/OptionString.vue"
+    },
+    {
+      "title": "Object options",
+      "file": "OptionObject.vue",
+      "source": "docs/src/examples/QSelect/OptionObject.vue"
+    },
+    {
+      "title": "Emit-value",
+      "file": "OptionEmitValue.vue",
+      "source": "docs/src/examples/QSelect/OptionEmitValue.vue"
+    },
+    {
+      "title": "Map options",
+      "file": "OptionMapOptions.vue",
+      "source": "docs/src/examples/QSelect/OptionMapOptions.vue"
+    },
+    {
+      "title": "Custom label, value and disable props",
+      "file": "OptionCustomProps.vue",
+      "source": "docs/src/examples/QSelect/OptionCustomProps.vue"
+    },
+    {
+      "title": "Options slot",
+      "file": "OptionSlot.vue",
+      "source": "docs/src/examples/QSelect/OptionSlot.vue"
+    },
+    {
+      "title": "Object options",
+      "file": "OptionQToggle.vue",
+      "source": "docs/src/examples/QSelect/OptionQToggle.vue"
+    },
+    {
+      "title": "No options slot",
+      "file": "OptionNoneSlot.vue",
+      "source": "docs/src/examples/QSelect/OptionNoneSlot.vue"
+    },
+    {
+      "title": "Lazy load options",
+      "file": "OptionLazyLoad.vue",
+      "source": "docs/src/examples/QSelect/OptionLazyLoad.vue"
+    },
+    {
+      "title": "Dynamic loading options",
+      "file": "OptionsDynamic.vue",
+      "source": "docs/src/examples/QSelect/OptionsDynamic.vue"
+    },
+    {
+      "title": "Menu covering component",
+      "file": "OptionCover.vue",
+      "source": "docs/src/examples/QSelect/OptionCover.vue"
+    },
+    {
+      "title": "Disable Tab Selection",
+      "file": "DisableTabSelection.vue",
+      "source": "docs/src/examples/QSelect/DisableTabSelection.vue"
+    },
+    {
+      "title": "Custom display value",
+      "file": "DisplayCustomValue.vue",
+      "source": "docs/src/examples/QSelect/DisplayCustomValue.vue"
+    },
+    {
+      "title": "Chips as display value",
+      "file": "DisplayChips.vue",
+      "source": "docs/src/examples/QSelect/DisplayChips.vue"
+    },
+    {
+      "title": "Selected-item slot",
+      "file": "DisplaySelectedItemSlot.vue",
+      "source": "docs/src/examples/QSelect/DisplaySelectedItemSlot.vue"
+    },
+    {
+      "title": "Filtering options",
+      "file": "InputFilterOptions.vue",
+      "source": "docs/src/examples/QSelect/InputFilterOptions.vue"
+    },
+    {
+      "title": "Basic filtering",
+      "file": "BasicFiltering.vue",
+      "source": "docs/src/examples/QSelect/BasicFiltering.vue"
+    },
+    {
+      "title": "Filtering on more than 2 chars",
+      "file": "InputFilterMin.vue",
+      "source": "docs/src/examples/QSelect/InputFilterMin.vue"
+    },
+    {
+      "title": "Text autocomplete",
+      "file": "TextAutocomplete.vue",
+      "source": "docs/src/examples/QSelect/TextAutocomplete.vue"
+    },
+    {
+      "title": "Lazy filtering",
+      "file": "InputFilterLazy.vue",
+      "source": "docs/src/examples/QSelect/InputFilterLazy.vue"
+    },
+    {
+      "title": "Selecting option after filtering",
+      "file": "InputFilterAfter.vue",
+      "source": "docs/src/examples/QSelect/InputFilterAfter.vue"
+    },
+    {
+      "title": "New value mode",
+      "file": "CreateNewValueMode.vue",
+      "source": "docs/src/examples/QSelect/CreateNewValueMode.vue"
+    },
+    {
+      "title": "Listening on @new-value",
+      "file": "CreateListener.vue",
+      "source": "docs/src/examples/QSelect/CreateListener.vue"
+    },
+    {
+      "title": "Adding only unique values",
+      "file": "CreateListenerUnique.vue",
+      "source": "docs/src/examples/QSelect/CreateListenerUnique.vue"
+    },
+    {
+      "title": "Filtering and adding to menu",
+      "file": "FilteringAddsToMenu.vue",
+      "source": "docs/src/examples/QSelect/FilteringAddsToMenu.vue"
+    },
+    {
+      "title": "Filtering without adding to menu",
+      "file": "FilteringNoAddToMenu.vue",
+      "source": "docs/src/examples/QSelect/FilteringNoAddToMenu.vue"
+    },
+    {
+      "title": "Generating multiple values",
+      "file": "FilteringAddMultiple.vue",
+      "source": "docs/src/examples/QSelect/FilteringAddMultiple.vue"
+    },
+    {
+      "title": "Options in HTML form",
+      "file": "HtmlOptions.vue",
+      "source": "docs/src/examples/QSelect/HtmlOptions.vue"
+    },
+    {
+      "title": "Display value in HTML form",
+      "file": "HtmlDisplayValue.vue",
+      "source": "docs/src/examples/QSelect/HtmlDisplayValue.vue"
+    },
+    {
+      "title": "100k options",
+      "file": "RenderPerf.vue",
+      "source": "docs/src/examples/QSelect/RenderPerf.vue"
+    },
+    {
+      "title": "Native form",
+      "file": "NativeForm.vue",
+      "source": "docs/src/examples/QSelect/NativeForm.vue"
+    }
+  ]
+}

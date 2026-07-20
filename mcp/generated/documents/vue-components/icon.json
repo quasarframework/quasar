@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/icon",
+  "title": "Icon",
+  "description": "The QIcon Vue component allows you to insert icons within other components or any other area of your pages.",
+  "canonicalUrl": "https://quasar.dev/vue-components/icon",
+  "source": "docs/src/pages/vue-components/icon.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QIcon"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QIcon/Basic.vue"
+    },
+    {
+      "title": "Standard sizes",
+      "file": "StandardSizes.vue",
+      "source": "docs/src/examples/QIcon/StandardSizes.vue"
+    },
+    {
+      "title": "Dynamic SVG",
+      "file": "DynamicSvg.vue",
+      "source": "docs/src/examples/QIcon/DynamicSvg.vue"
+    }
+  ]
+}

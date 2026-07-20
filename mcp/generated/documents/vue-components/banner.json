@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/banner",
+  "title": "Banner",
+  "description": "The QBanner Vue component displays a prominent message and related optional actions.",
+  "canonicalUrl": "https://quasar.dev/vue-components/banner",
+  "source": "docs/src/pages/vue-components/banner.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBanner"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QBanner/Basic.vue"
+    },
+    {
+      "title": "Rounded border",
+      "file": "Rounded.vue",
+      "source": "docs/src/examples/QBanner/Rounded.vue"
+    },
+    {
+      "title": "With an image",
+      "file": "Image.vue",
+      "source": "docs/src/examples/QBanner/Image.vue"
+    },
+    {
+      "title": "Inline actions",
+      "file": "Inline.vue",
+      "source": "docs/src/examples/QBanner/Inline.vue"
+    },
+    {
+      "title": "Dense",
+      "file": "Dense.vue",
+      "source": "docs/src/examples/QBanner/Dense.vue"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "options/quasar-icon-sets",
+  "title": "Quasar Icon Sets",
+  "description": "How to configure icon sets for Quasar components.",
+  "canonicalUrl": "https://quasar.dev/options/quasar-icon-sets",
+  "source": "docs/src/pages/options/quasar-icon-sets.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "IconSet"
+  ],
+  "examples": []
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/infinite-scroll",
+  "title": "Infinite Scroll",
+  "description": "The QInfiniteScroll Vue component allows you to load new content as the user scrolls the page.",
+  "canonicalUrl": "https://quasar.dev/vue-components/infinite-scroll",
+  "source": "docs/src/pages/vue-components/infinite-scroll.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QInfiniteScroll"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QInfiniteScroll/Basic.vue"
+    },
+    {
+      "title": "Custom Scroll Target Container",
+      "file": "Container.vue",
+      "source": "docs/src/examples/QInfiniteScroll/Container.vue"
+    },
+    {
+      "title": "Reverse (Messenger style)",
+      "file": "Reverse.vue",
+      "source": "docs/src/examples/QInfiniteScroll/Reverse.vue"
+    },
+    {
+      "title": "Usage in QMenu",
+      "file": "Menu.vue",
+      "source": "docs/src/examples/QInfiniteScroll/Menu.vue"
+    }
+  ]
+}

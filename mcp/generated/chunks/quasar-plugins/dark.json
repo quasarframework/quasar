@@ -1,0 +1,89 @@
+[
+  {
+    "id": "quasar-plugins/dark#overview",
+    "documentId": "quasar-plugins/dark",
+    "heading": "Dark Plugin",
+    "breadcrumb": [
+      "Dark Plugin"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dark",
+    "content": "::: tip\nFor a better understanding of this Quasar plugin, please head to the Style & Identity [Dark Mode](/style/dark-mode) page.\n:::\n\nAPI reference: Dark\n\n<DocInstall title=\"Configuration\" config=\"dark\" />",
+    "apiReferences": [
+      "Dark"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dark#usage",
+    "documentId": "quasar-plugins/dark",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dark#usage",
+    "content": "::: warning\nDo not manually assign a value to `isActive` or `mode` from below. Instead, use the `set(val)` method.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dark#inside-of-a-vue-file",
+    "documentId": "quasar-plugins/dark",
+    "heading": "Inside of a Vue file",
+    "breadcrumb": [
+      "Usage",
+      "Inside of a Vue file",
+      "Inside of a Vue file"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dark#inside-of-a-vue-file",
+    "content": "```js\nimport { useQuasar } from 'quasar'\nsetup () {\n  const $q = useQuasar()\n\n  // get status\n  console.log($q.dark.isActive) // true, false\n\n  // get configured status\n  console.log($q.dark.mode) // \"auto\", true, false\n\n  // set status\n  $q.dark.set(true) // or false or \"auto\"\n\n  // toggle\n  $q.dark.toggle()\n}\n```\n\nOn a **SSR build**, you may want to set this from your `/src/App.vue`:\n\n```js\nimport { useQuasar } from 'quasar'\n\nexport default {\n  setup() {\n    const $q = useQuasar()\n\n    // calling here; equivalent to when component is created\n    $q.dark.set(true)\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dark#outside-of-a-vue-file",
+    "documentId": "quasar-plugins/dark",
+    "heading": "Outside of a Vue file",
+    "breadcrumb": [
+      "Usage",
+      "Outside of a Vue file",
+      "Outside of a Vue file"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dark#outside-of-a-vue-file",
+    "content": "```js\n// Warning! This method will not\n// work on SSR builds.\n\nimport { Dark } from 'quasar'\n\n// get status\nconsole.log(Dark.isActive)\n\n// get configured status\nconsole.log(Dark.mode) // \"auto\", true, false\n\n// set status\nDark.set(true) // or false or \"auto\"\n\n// toggle\nDark.toggle()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dark#note-about-ssr",
+    "documentId": "quasar-plugins/dark",
+    "heading": "Note about SSR",
+    "breadcrumb": [
+      "Note about SSR",
+      "Note about SSR"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dark#note-about-ssr",
+    "content": "When on a SSR build:\n\n- Import `Dark` from 'quasar' method of using Dark mode will not error out but it will not work (won't do anything). But, you can use the [Inside of a Vue file](/quasar-plugins/dark#inside-of-a-vue-file) approach or the [Configuration](/quasar-plugins/dark#configuration) (recommended) approach.\n- It's preferred to avoid setting Dark mode to 'auto' for SSR builds. It's because the client dark mode preference cannot be inferred, so SSR will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-plugins/dark#watching-for-status-change",
+    "documentId": "quasar-plugins/dark",
+    "heading": "Watching for status change",
+    "breadcrumb": [
+      "Watching for status change",
+      "Watching for status change"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/dark#watching-for-status-change",
+    "content": "```html\n<template>...</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n  import { watch } from 'vue'\n\n  const $q = useQuasar()\n\n  watch(\n    () => $q.dark.isActive,\n    val => {\n      console.log(val ? 'On dark mode' : 'On light mode')\n    }\n  )\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

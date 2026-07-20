@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "vue-components/breadcrumbs",
+  "title": "Breadcrumbs",
+  "description": "The QBreadcrumbs Vue component is a navigational aid for your UI. It allows users to keep track of their location within programs, documents, or websites.",
+  "canonicalUrl": "https://quasar.dev/vue-components/breadcrumbs",
+  "source": "docs/src/pages/vue-components/breadcrumbs.md",
+  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "products": {
+    "quasar": "2.21.0"
+  },
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QBreadcrumbs",
+    "QBreadcrumbsEl"
+  ],
+  "examples": [
+    {
+      "title": "Basic",
+      "file": "Basic.vue",
+      "source": "docs/src/examples/QBreadcrumbs/Basic.vue"
+    },
+    {
+      "title": "In a QToolbar",
+      "file": "Toolbar.vue",
+      "source": "docs/src/examples/QBreadcrumbs/Toolbar.vue"
+    },
+    {
+      "title": "Custom separators",
+      "file": "Separator.vue",
+      "source": "docs/src/examples/QBreadcrumbs/Separator.vue"
+    },
+    {
+      "title": "Gutters",
+      "file": "Gutters.vue",
+      "source": "docs/src/examples/QBreadcrumbs/Gutters.vue"
+    },
+    {
+      "title": "Align",
+      "file": "Align.vue",
+      "source": "docs/src/examples/QBreadcrumbs/Align.vue"
+    },
+    {
+      "title": "Router links",
+      "file": "RouterLinks.vue",
+      "source": "docs/src/examples/QBreadcrumbs/RouterLinks.vue"
+    },
+    {
+      "title": "Links with delayed, cancelled or redirected navigation (v2.9+)",
+      "file": "LinksWithGo.vue",
+      "source": "docs/src/examples/QBreadcrumbs/LinksWithGo.vue"
+    }
+  ]
+}

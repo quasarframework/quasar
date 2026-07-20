@@ -1,0 +1,99 @@
+[
+  {
+    "id": "vue-components/intersection#overview",
+    "documentId": "vue-components/intersection",
+    "heading": "Intersection",
+    "breadcrumb": [
+      "Intersection"
+    ],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/vue-components/intersection",
+    "content": "The QIntersection component is essentially a wrapper over the [Intersection directive](/vue-directives/intersection) with the added benefit that it handles the state by itself (does not require you to add it and handle it manually) and can optionally have a show/hide transition as well.\n\nThe main benefit of using QIntersection is, however, that the DOM tree is freed up of hidden nodes thus using the minimum possible RAM memory and making the page feel very snappy. As well, you can specify the `tag` property for the wrapper element to match your own needs, thus eliminating yet another DOM node.\n\nUnder the hood, it uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).\n\n::: warning\nNot all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).\n:::\n\nAPI reference: QIntersection",
+    "apiReferences": [
+      "QIntersection"
+    ],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/intersection#usage",
+    "documentId": "vue-components/intersection",
+    "heading": "Usage",
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/vue-components/intersection#usage",
+    "content": "::: warning\nIn most cases, it is required that you apply CSS to the QIntersection element so that it acts as a necessary filler when the inner content is not rendered. This will allow for a smooth scrolling experience, because otherwise the scroll will jump erratically.\n\nAn example of such needed CSS would be, for example, a fixed height or at least a min-height (and possibly even a fixed width, as in the examples below, where multiple QIntersections can be displayed on same row).\n:::\n\n::: danger\nIf using the `transition` prop, it is required that the content be wrapped in one and only one element.\n:::\n\n::: tip\nThere are edge cases where the default viewport won't work. For instance, when your code is hosted in an iframe (like Codepen). This is where you need to use the `root` property. It allows you to define an alternative to the viewport as your root (through its DOM element). It is important to keep in mind that root needs to be an ancestor of the observed element.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "vue-components/intersection#basic",
+    "documentId": "vue-components/intersection",
+    "heading": "Basic",
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/intersection#basic",
+    "content": "<DocExample title=\"Basic\" file=\"Basic\" scrollable no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Basic",
+        "file": "Basic.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/intersection#with-transition",
+    "documentId": "vue-components/intersection",
+    "heading": "With transition",
+    "breadcrumb": [
+      "Usage",
+      "With transition",
+      "With transition"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/intersection#with-transition",
+    "content": "In the example below we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.\n\n<DocExample title=\"With transition\" file=\"Transition\" scrollable no-edit />\n\n<DocExample title=\"A list with transition\" file=\"List\" scrollable no-edit />",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "With transition",
+        "file": "Transition.vue"
+      },
+      {
+        "title": "A list with transition",
+        "file": "List.vue"
+      }
+    ]
+  },
+  {
+    "id": "vue-components/intersection#only-once",
+    "documentId": "vue-components/intersection",
+    "heading": "Only once",
+    "breadcrumb": [
+      "Usage",
+      "Only once",
+      "Only once"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/intersection#only-once",
+    "content": "Triggering only once means, however, that you lose the benefit of freeing up the DOM tree. The content will remain in DOM regardless of visibility.\n\n<DocExample title=\"Triggering only once\" file=\"Once\" scrollable no-edit />\n\nThe example below uses the `root` property and therefore can be seen in a Codepen (which hosts in an iframe).\n\nExample: Root viewport (Root.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Triggering only once",
+        "file": "Once.vue"
+      },
+      {
+        "title": "Root viewport",
+        "file": "Root.vue"
+      }
+    ]
+  }
+]

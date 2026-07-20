@@ -1,0 +1,36 @@
+<template>
+  <div class="q-pa-md">
+    <q-badge color="secondary">
+      Model: {{ standard.min }} to {{ standard.max }} (0 to 50)
+    </q-badge>
+
+    <div class="row justify-around">
+      <q-range
+        v-model="standard"
+        :min="0"
+        :max="50"
+        vertical
+        label
+        switch-label-side
+      />
+
+      <q-range
+        v-model="standard"
+        :min="0"
+        :max="50"
+        color="green"
+        vertical
+        label-always
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const standard = ref({
+  min: 10,
+  max: 35
+})
+</script>

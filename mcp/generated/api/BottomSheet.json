@@ -1,0 +1,264 @@
+{
+  "type": "plugin",
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/bottom-sheet"
+  },
+  "injection": "$q.bottomSheet",
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Bottom Sheet; Same as calling $q.bottomSheet(...)",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "required": true,
+          "definition": {
+            "class": {
+              "type": [
+                "String",
+                "Array",
+                "Object"
+              ],
+              "tsType": "VueClassProp",
+              "desc": "CSS Class name to apply to the Dialog's QCard",
+              "examples": [
+                "'my-class'"
+              ]
+            },
+            "style": {
+              "type": [
+                "String",
+                "Array",
+                "Object"
+              ],
+              "tsType": "VueStyleProp",
+              "desc": "CSS style to apply to the Dialog's QCard",
+              "examples": [
+                "'border: 2px solid black'"
+              ]
+            },
+            "title": {
+              "type": "String",
+              "desc": "Title",
+              "examples": [
+                "'Share'"
+              ]
+            },
+            "message": {
+              "type": "String",
+              "desc": "Message",
+              "examples": [
+                "'Please select how to share'"
+              ]
+            },
+            "actions": {
+              "type": "Array",
+              "desc": "Array of Objects, each Object defining an action",
+              "definition": {
+                "classes": {
+                  "type": [
+                    "String",
+                    "Array",
+                    "Object"
+                  ],
+                  "tsType": "VueClassProp",
+                  "desc": "CSS classes for this action",
+                  "examples": [
+                    "'my-class'"
+                  ]
+                },
+                "style": {
+                  "type": [
+                    "String",
+                    "Array",
+                    "Object"
+                  ],
+                  "tsType": "VueStyleProp",
+                  "desc": "Style definitions to be attributed to this action element",
+                  "examples": [
+                    "{ padding: '2px' }"
+                  ],
+                  "addedIn": "v2.11.7"
+                },
+                "icon": {
+                  "type": "String",
+                  "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
+                  "examples": [
+                    "'map'",
+                    "'ion-add'",
+                    "'img:https://cdn.quasar.dev/logo-v2/svg/logo.svg'",
+                    "'img:path/to/some_image.png'"
+                  ],
+                  "category": "content"
+                },
+                "img": {
+                  "type": "String",
+                  "desc": "Path to an image for this action",
+                  "examples": [
+                    "# (public folder) 'img/something.png'",
+                    "# (relative path format) :src=\"require('./my_img.jpg')\"",
+                    "# (URL) https://some-site.net/some-img.gif"
+                  ]
+                },
+                "avatar": {
+                  "type": "String",
+                  "desc": "Path to an avatar image for this action",
+                  "examples": [
+                    "# (public folder) 'img/avatar.png'",
+                    "# (relative path format) :src=\"require('./my_img.jpg')\"",
+                    "# (URL) https://some-site.net/some-img.gif"
+                  ]
+                },
+                "label": {
+                  "type": [
+                    "String",
+                    "Number"
+                  ],
+                  "desc": "Action label",
+                  "examples": [
+                    "'Facebook'"
+                  ]
+                },
+                "...": {
+                  "type": "Any",
+                  "desc": "Any other custom props"
+                }
+              }
+            },
+            "grid": {
+              "type": "Boolean",
+              "desc": "Display actions as a grid instead of as a list"
+            },
+            "dark": {
+              "type": [
+                "Boolean",
+                "null"
+              ],
+              "default": "null",
+              "desc": "Apply dark mode",
+              "category": "style",
+              "required": false
+            },
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Bottom Sheet into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
+            },
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
+            }
+          },
+          "desc": "Bottom Sheet options"
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Chainable Object",
+        "tsType": "DialogChainObject",
+        "autoDefineTsType": true,
+        "definition": {
+          "onOk": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": {
+                  "payload": {
+                    "type": "Any",
+                    "desc": "The payload if called onDialogOK with the parameter or emitted one with the 'ok' event",
+                    "required": false,
+                    "examples": [
+                      "'Quasar Framework'",
+                      "[1, 2, 6, 3]",
+                      "{ book: { id: 1, name: 'Lorem Ipsum' }, user: { name: 'Lorem J. Ipsum', role: 'admin' } }"
+                    ]
+                  }
+                },
+                "returns": null,
+                "examples": [
+                  "() => console.log('OK!')",
+                  "payload => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })"
+                ]
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "onCancel": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "onDismiss": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function param to tell what to do when the dialog is closed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "hide": {
+            "type": "Function",
+            "required": true,
+            "desc": "Hides the dialog when called",
+            "params": null,
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+          "update": {
+            "type": "Function",
+            "required": true,
+            "desc": "Updates the initial properties (given as create() param) except for 'component'",
+            "params": {
+              "opts": {
+                "type": "Object",
+                "required": true,
+                "desc": "If using with 'component' prop then the props to update the current 'componentProps' (will be shallowly merged on top of the previous 'componentProps'); Otherwise the props to be shallowly merged with the previous create() param Object"
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          }
+        }
+      },
+      "tsInjectionPoint": true
+    }
+  }
+}
