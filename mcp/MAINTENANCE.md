@@ -27,7 +27,13 @@ The job should:
 6. Upload the tarball and generated artifact as workflow artifacts.
 7. Either open an automated artifact-refresh pull request or attach the result to the release workflow for maintainer review.
 
-Publishing `@quasar/mcp` should remain a separate, explicitly approved job. The workflow above prepares and verifies the package but does not publish it.
+Publishing `@quasar/mcp` should remain a separate, explicitly approved job. The workflow above prepares and verifies the package but does not publish it. Once approved and authenticated through npm trusted publishing, the release job can run:
+
+```bash
+pnpm ci:publish:latest
+```
+
+This publishes the verified package publicly under the `latest` dist-tag without relying on mutable local Git state.
 
 ## Review gates
 

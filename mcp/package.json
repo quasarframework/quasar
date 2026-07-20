@@ -39,6 +39,7 @@
     "test:immutability": "node scripts/verify-immutability.js",
     "test:server": "node --test tests/server.test.js",
     "prepack": "pnpm validate && pnpm evaluate && pnpm test",
+    "ci:publish:latest": "pnpm publish --access public --tag latest --no-git-checks",
     "start": "node bin/quasar-mcp.js"
   },
   "dependencies": {
