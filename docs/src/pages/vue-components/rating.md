@@ -17,7 +17,13 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 <DocExample title="Custom number of choices" file="Max" />
 
-QRating uses radio-group keyboard behavior. `Arrow Right` and `Arrow Down` select the next value, while `Arrow Left` and `Arrow Up` select the previous value. Navigation wraps at either end. `Space` or `Enter` selects the focused value.
+### Keyboard navigation
+
+QRating uses radio-group keyboard behavior:
+
+- `Arrow Right` and `Arrow Down` select the next value.
+- `Arrow Left` and `Arrow Up` select the previous value. Navigation wraps at either end.
+- `Space` or `Enter` selects the focused value.
 
 ### Icons
 

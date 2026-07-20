@@ -25,13 +25,15 @@ Notice that the model is a String only.
 
 <DocExample title="Basic" file="Basic" overflow />
 
-The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.
-
 <DocExample title="Landscape" file="Landscape" overflow />
 
 ::: tip
 For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
+
+### Keyboard navigation
+
+The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.
 
 ### Functionality
 
