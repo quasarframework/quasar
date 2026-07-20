@@ -12,7 +12,7 @@ let registered = 0,
   vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
-  href,
+  routePath,
   closeTimer = null
 
 function onAppleScroll(e) {
@@ -59,7 +59,7 @@ function apply(action) {
     bodyLeft = body.style.left
     bodyTop = body.style.top
 
-    href = window.location.href
+    routePath = window.location.pathname
 
     body.style.left = `-${scrollPositionX}px`
     body.style.top = `-${scrollPositionY}px`
@@ -137,8 +137,8 @@ function apply(action) {
     body.style.left = bodyLeft
     body.style.top = bodyTop
 
-    // scroll back only if route has not changed
-    if (window.location.href === href) {
+    // scroll back only if route path has not changed
+    if (window.location.pathname === routePath) {
       window.scrollTo(scrollPositionX, scrollPositionY)
     }
 
