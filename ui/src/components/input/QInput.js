@@ -42,6 +42,7 @@ export default createComponent({
     modelValue: __QUASAR_SSR_SERVER__
       ? {} // SSR does not know about FileList
       : [String, Number, FileList],
+    modelModifiers: Object,
 
     shadowText: String,
 
@@ -203,6 +204,14 @@ export default createComponent({
               delete temp.value
             }
           }
+
+          if (
+            props.modelModifiers?.trim === true &&
+            Object.hasOwn(temp, 'value') &&
+            (typeof temp.value !== 'string' || temp.value.trim() !== v)
+          ) {
+            delete temp.value
+          }
         }
 
         // textarea only
@@ -275,6 +284,10 @@ export default createComponent({
       if (hasMask.value) {
         updateMaskValue(val, false, e.inputType)
       } else {
+        if (props.modelModifiers?.trim === true) {
+          temp.value = val
+        }
+
         emitValue(val)
 
         if (isTypeText.value && e.target === document.activeElement) {
@@ -307,7 +320,11 @@ export default createComponent({
       emitValueFn = () => {
         emitTimer = null
 
-        if (props.type !== 'number' && Object.hasOwn(temp, 'value')) {
+        if (
+          props.type !== 'number' &&
+          (props.modelModifiers?.trim !== true || hasMask.value) &&
+          Object.hasOwn(temp, 'value')
+        ) {
           delete temp.value
         }
 
