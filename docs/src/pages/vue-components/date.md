@@ -73,6 +73,8 @@ When clicking on title then the QDate's view is changed to the calendar and when
 
 When model is unfilled (like `null`, `void 0` / `undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
 
+When server-side rendering an unfilled QDate in SSR or SSG modes, set `default-year-month` explicitly. Otherwise, a server and browser in different time zones can select different initial months during hydration.
+
 <DocExample title="Default year month" file="DefaultYearMonth" overflow />
 
 The default view can be changed.
