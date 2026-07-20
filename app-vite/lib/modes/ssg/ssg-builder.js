@@ -13,6 +13,7 @@ import { error, fatal, progress, warn } from '../../utils/logger.js'
 import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 
 const multiSlashRE = /\/{2,}/g
+const trailingSlashRE = /\/+$/
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
 const synthetic404Route = '/______get-a-quasar-404-page______'
@@ -465,7 +466,8 @@ export class QuasarModeBuilder extends AppBuilder {
       ssgRendererConcurrency,
       noPreloadTagRoutes,
       ssgRendererRetryCount,
-      ssgRendererRetryDelay
+      ssgRendererRetryDelay,
+      autoSubfolderIndex
     } = this.quasarConf.ssg
 
     const isNoPreloadMatcher =
@@ -488,6 +490,26 @@ export class QuasarModeBuilder extends AppBuilder {
     const { onSsgRendererError } = this.quasarConf.ssg
     const handleError = getSsgRendererErrorHandler(onSsgRendererError)
     let errorsEncountered = 0
+
+    const getSsgPageFilename = ssgPage => {
+      if (
+        autoSubfolderIndex === false &&
+        ssgPage.dir === void 0 &&
+        ssgPage.filename === void 0
+      ) {
+        const routePath = ssgPage.route.slice(1).replace(trailingSlashRE, '')
+        return join(
+          this.quasarConf.build.distDir,
+          routePath === '' ? 'index.html' : `${routePath}.html`
+        )
+      }
+
+      return join(
+        this.quasarConf.build.distDir,
+        ssgPage.dir ?? ssgPage.route.slice(1),
+        ssgPage.filename ?? 'index.html'
+      )
+    }
 
     const renderPage = async ssgPage => {
       const ssrContext = ssgPage.ssrContext ?? {}
@@ -572,11 +594,7 @@ export class QuasarModeBuilder extends AppBuilder {
         }
       }
 
-      const filename = join(
-        this.quasarConf.build.distDir,
-        ssgPage.dir ?? ssgPage.route.slice(1),
-        ssgPage.filename ?? 'index.html'
-      )
+      const filename = getSsgPageFilename(ssgPage)
 
       const hasFile = await this.writeFile(
         filename,

@@ -135,6 +135,21 @@ ssg: {
   ssgRendererRetryDelay?: number;
 
   /**
+   * Controls the generated filename for a page that does not specify
+   * `dir` or `filename` in its SSG page definition.
+   *
+   * When true, the route "/about" generates "about/index.html", which
+   * most static webservers resolve for both "/about" and "/about/".
+   * When false, it generates "about.html" instead.
+   * The root route always generates "index.html".
+   *
+   * Pages that specify `dir` or `filename` are not affected.
+   *
+   * @default true
+   */
+  autoSubfolderIndex?: boolean;
+
+  /**
     * The name of the html file that will be used for the 404 page.
     * If set to false, no 404 page will be generated.
     *
