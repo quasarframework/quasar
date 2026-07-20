@@ -254,20 +254,34 @@ export default createComponent({
           set(i)
           return stopAndPrevent(e)
         }
-        case 37: // LEFT ARROW
-        case 38: {
-          // UP ARROW
-          const next = i === 1 ? Number(props.max) : i - 1
-          iconRefs[`rt${next}`]?.focus()
-          set(next)
+        case 37: {
+          // LEFT ARROW
+          const index = i + ($q.lang.rtl ? 1 : -1)
+          if (iconRefs[`rt${index}`]) {
+            iconRefs[`rt${index}`].focus()
+          }
           return stopAndPrevent(e)
         }
-        case 39: // RIGHT ARROW
+        case 39: {
+          // RIGHT ARROW
+          const index = i + ($q.lang.rtl ? -1 : 1)
+          if (iconRefs[`rt${index}`]) {
+            iconRefs[`rt${index}`].focus()
+          }
+          return stopAndPrevent(e)
+        }
         case 40: {
           // DOWN ARROW
-          const next = i === Number(props.max) ? 1 : i + 1
-          iconRefs[`rt${next}`]?.focus()
-          set(next)
+          if (iconRefs[`rt${i - 1}`]) {
+            iconRefs[`rt${i - 1}`].focus()
+          }
+          return stopAndPrevent(e)
+        }
+        case 38: {
+          // UP ARROW
+          if (iconRefs[`rt${i + 1}`]) {
+            iconRefs[`rt${i + 1}`].focus()
+          }
           return stopAndPrevent(e)
         }
       }
