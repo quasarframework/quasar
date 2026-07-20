@@ -82,6 +82,35 @@ describe('[extend API]', () => {
 
         expect(result.a()).toBe(6)
       })
+
+      test.each([true, false])('does not merge __proto__ (deep: %s)', deep => {
+        const target = {}
+        const source = JSON.parse(
+          '{"__proto__":{"polluted":"prototype pollution"}}'
+        )
+
+        extend(deep, target, source)
+
+        expect(Object.getPrototypeOf(target)).toBe(Object.prototype)
+        expect(Object.hasOwn(target, '__proto__')).toBe(false)
+        expect(Object.prototype.polluted).toBeUndefined()
+      })
+
+      test('preserves constructor and prototype data properties', () => {
+        const result = extend(
+          true,
+          {},
+          {
+            constructor: { name: 'custom' },
+            prototype: { type: 'custom' }
+          }
+        )
+
+        expect(Object.hasOwn(result, 'constructor')).toBe(true)
+        expect(Object.hasOwn(result, 'prototype')).toBe(true)
+        expect(result.constructor).toStrictEqual({ name: 'custom' })
+        expect(result.prototype).toStrictEqual({ type: 'custom' })
+      })
     })
   })
 })

@@ -58,6 +58,10 @@ export default function extend(...args) {
   for (; i < length; i++) {
     if ((options = args[i]) !== null) {
       for (name in options) {
+        if (name === '__proto__') {
+          continue
+        }
+
         src = target[name]
         copy = options[name]
 
