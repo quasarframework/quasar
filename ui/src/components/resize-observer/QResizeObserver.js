@@ -73,10 +73,13 @@ export default createComponent({
     proxy.trigger = trigger
 
     if (hasObserver) {
-      let observer
+      let observer,
+        isDestroyed = false
 
       // initialize as soon as possible
       const init = stop => {
+        if (isDestroyed) return
+
         targetEl = proxy.$el.parentNode
 
         if (targetEl) {
@@ -95,6 +98,8 @@ export default createComponent({
       })
 
       onBeforeUnmount(() => {
+        isDestroyed = true
+
         if (timer !== null) clearTimeout(timer)
 
         if (observer !== void 0) {
@@ -113,7 +118,8 @@ export default createComponent({
     // no observer, so fallback to old iframe method
     const { isHydrated } = useHydration()
 
-    let curDocView
+    let curDocView,
+      isDestroyed = false
 
     const cleanup = () => {
       if (timer !== null) {
@@ -142,12 +148,17 @@ export default createComponent({
 
     onMounted(() => {
       nextTick(() => {
+        if (isDestroyed) return
+
         targetEl = proxy.$el
         if (targetEl) onObjLoad()
       })
     })
 
-    onBeforeUnmount(cleanup)
+    onBeforeUnmount(() => {
+      isDestroyed = true
+      cleanup()
+    })
 
     return () => {
       if (isHydrated.value) {

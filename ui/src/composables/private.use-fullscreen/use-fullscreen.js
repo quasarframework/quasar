@@ -23,7 +23,9 @@ export default function useFullscreen() {
   const vm = getCurrentInstance()
   const { props, emit, proxy } = vm
 
-  let historyEntry, fullscreenFillerNode
+  let historyEntry,
+    fullscreenFillerNode,
+    isUnmounting = false
   const inFullscreen = ref(false)
 
   if (vmHasRouter(vm)) {
@@ -89,7 +91,7 @@ export default function useFullscreen() {
     if (counter === 0) {
       document.body.classList.remove('q-body--fullscreen-mixin')
 
-      if (proxy.$el.scrollIntoView !== void 0) {
+      if (!isUnmounting && proxy.$el.scrollIntoView !== void 0) {
         setTimeout(() => {
           proxy.$el.scrollIntoView()
         }, 0)
@@ -105,7 +107,10 @@ export default function useFullscreen() {
     if (props.fullscreen) setFullscreen()
   })
 
-  onBeforeUnmount(exitFullscreen)
+  onBeforeUnmount(() => {
+    isUnmounting = true
+    exitFullscreen()
+  })
 
   // expose public methods
   Object.assign(proxy, {
