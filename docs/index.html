@@ -209,6 +209,7 @@
       href="https://cdn.quasar.dev/logo-v2/favicon/apple-launch-1536x2048.png"
     />
 
+    <% if (ctx.prod) { %>
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-WRH1VBGG35"
@@ -221,6 +222,7 @@
       gtag('js', new Date())
       gtag('config', 'G-WRH1VBGG35')
     </script>
+    <% } %>
   </head>
   <body>
     <!-- quasar:entry-point -->
