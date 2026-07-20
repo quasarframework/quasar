@@ -596,10 +596,14 @@ export default function useSlider({
             ]
           )
         )
+      }
 
-        if (props.name !== void 0 && !props.disable) {
-          injectFormInput(thumbContent, 'push')
-        }
+      if (
+        thumb.injectFormInput !== false &&
+        props.name !== void 0 &&
+        !props.disable
+      ) {
+        injectFormInput(thumbContent, 'push')
       }
 
       return h(

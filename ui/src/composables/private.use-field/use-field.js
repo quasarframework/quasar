@@ -388,6 +388,8 @@ export default function useField(state) {
       state.inputRef.value.value = null
     }
 
+    state.onClear?.()
+
     emit('update:modelValue', null)
     if (state.changeEvent) emit('change', null)
     emit('clear', props.modelValue)

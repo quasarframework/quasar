@@ -124,4 +124,6 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
 
+The submitted value contains the minimum and maximum values separated by a pipe (`min|max`).
+
 <DocExample title="Native form" file="NativeForm" />

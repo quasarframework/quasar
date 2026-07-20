@@ -191,6 +191,7 @@ export default createComponent({
 
     const maxEvents = computed(() => getEvents('max'))
     const getMaxThumb = methods.getThumbRenderFn({
+      injectFormInput: false,
       focusValue: 'max',
       getNodeData: () => ({
         ...maxEvents.value,
@@ -349,7 +350,7 @@ export default createComponent({
       // If either of the values to be emitted are null, set them to the defaults the user has entered.
       model.value =
         model.value.min === null || model.value.max === null
-          ? { min: pos.min || props.min, max: pos.max || props.max }
+          ? { min: pos.min ?? props.min, max: pos.max ?? props.max }
           : { min: pos.min, max: pos.max }
 
       if (!props.snap || props.step === 0) {
