@@ -1,12 +1,12 @@
 import { readFileSync } from 'node:fs'
 import { createServer, createServerModuleRunner } from 'vite'
 import { watch as chokidarWatch } from 'chokidar'
-import picomatch from 'picomatch'
 import serialize from 'serialize-javascript'
 import { green } from 'kolorist'
 
 import { AppDevserver } from '../../app-devserver.js'
 import { getPackage } from '../../utils/get-package.js'
+import { getRouteMatcher } from '../../utils/get-route-matcher.js'
 import { openBrowser } from '../../utils/open-browser.js'
 import { dot, info, log, warn } from '../../utils/logger.js'
 import { debounce } from '../../utils/rate-limit.js'
@@ -126,7 +126,7 @@ export class QuasarModeDevserver extends AppDevserver {
       return
     }
 
-    const isMatch = picomatch(clientSideRenderingRoutes)
+    const isMatch = getRouteMatcher(clientSideRenderingRoutes)
     const { publicPath } = quasarConf.build
 
     this.#isCsrRoute =

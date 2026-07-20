@@ -5,7 +5,12 @@ export interface QuasarLoggerProgressOpts {
   target?: string;
 }
 
-export type QuasarLoggerProgressEnd = () => void;
+export type QuasarLoggerProgressEnd = (opts?: {
+  /** Overwrite the initial target */
+  target?: string;
+  /** Overwrite the initial doneAction */
+  doneAction?: string;
+}) => void;
 
 /**
  * Logging helpers matching the Quasar CLI output style.
@@ -57,6 +62,9 @@ export interface QuasarLogger {
   /**
    * Starts a "WAIT" progress line. Returns a finish callback that, when called,
    * prints a matching "DONE" line including the elapsed time.
+   *
+   * @param opts - Options {@link QuasarLoggerProgressOpts}
+   * @returns A finish callback {@link QuasarLoggerProgressEnd}
    */
   progress: (opts: QuasarLoggerProgressOpts) => QuasarLoggerProgressEnd;
 }

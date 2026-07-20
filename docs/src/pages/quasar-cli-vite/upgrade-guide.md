@@ -576,6 +576,8 @@ ssr: {
   // @quasar/app-vite v3.1+
   clientSideRenderingRoutes: [],
   // @quasar/app-vite v3.1+
+  noPreloadTagRoutes: [],
+  // @quasar/app-vite v3.1+
   extendSSRManifestJson (ssrManifestJson) {},
 
   extendSSRWebserverConf (esbuildConf) {}, // [!code --]
@@ -635,22 +637,7 @@ bex: {
 
 // new Quasar Mode (SSG) in @quasar/app-vite v3.1+!
 ssg: {
-  pwa,
-  extendSSGManifestJson (json) {},
-  extendSSGRendererConf (rolldownConf) {},
-
-  manualStoreSerialization,
-  manualStoreSsrContextInjection,
-  manualStoreHydration,
-  manualPostHydrationTrigger,
-
-  error404HtmlFilename,
-  pwaOfflineHtmlFilename,
-  clientSideRenderingHtmlFilename,
-  clientSideRenderingRoutes,
-
-  extendSSGGenerateSWOptions (cfg) {},
-  extendSSGInjectManifestOptions (cfg) {},
+  // check the "Configuring SSG" docs page
 },
 ```
 

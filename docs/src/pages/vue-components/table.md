@@ -335,7 +335,7 @@ Below, we use a slot which gets applied to each body cell:
 
 <DocExample title="Body-cell slot" file="SlotBodyCell" />
 
-We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+You can also customize a particular column. The syntax for this slot is `body-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.
 
 <DocExample title="Body-cell-[name] slot" file="SlotBodyCellName" />
 
@@ -349,7 +349,7 @@ Below, we use a slot which gets applied to each header cell:
 
 <DocExample title="Header-cell slot" file="SlotHeaderCell" />
 
-We can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+You can also customize a particular header cell. The syntax for this slot is `header-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.
 
 <DocExample title="Header-cell-[name] slot" file="SlotHeaderCellName" />
 

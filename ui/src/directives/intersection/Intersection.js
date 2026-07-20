@@ -27,7 +27,7 @@ function update(el, ctx, value) {
 
   if (changed) {
     ctx.cfg = cfg
-    ctx.observer?.unobserve(el)
+    ctx.observer?.disconnect()
 
     ctx.observer = new IntersectionObserver(([entry]) => {
       if (typeof ctx.handler === 'function') {
@@ -55,7 +55,7 @@ function destroy(el) {
   const ctx = el.__qvisible
 
   if (ctx !== void 0) {
-    ctx.observer?.unobserve(el)
+    ctx.observer?.disconnect()
     delete el.__qvisible
   }
 }

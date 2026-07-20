@@ -41,6 +41,37 @@ const quasarModesList = [
   'ssg'
 ]
 
+const sharedSsrSsgConfigProps = [
+  'clientSideRenderingRoutes',
+  'noPreloadTagRoutes',
+  'pwaOfflineHtmlFilename',
+  'manualStoreSerialization',
+  'manualStoreSsrContextInjection',
+  'manualStoreHydration',
+  'manualPostHydrationTrigger'
+]
+
+function inheritSsrSsgConfig({ ctx, userCfg, rawQuasarConf }) {
+  const targetMode = ctx.mode.ssr === true ? 'ssr' : 'ssg'
+  const sourceMode = targetMode === 'ssr' ? 'ssg' : 'ssr'
+  const targetConfig = userCfg[targetMode]
+  const sourceConfig = userCfg[sourceMode]
+
+  if (sourceConfig === void 0) return
+
+  sharedSsrSsgConfigProps.forEach(prop => {
+    if (targetConfig?.[prop] === void 0 && sourceConfig[prop] !== void 0) {
+      const value = sourceConfig[prop]
+
+      // Use the raw user config so mode defaults never become inherited values.
+      // Clone arrays so App Extensions can independently modify either mode.
+      rawQuasarConf[targetMode][prop] = Array.isArray(value)
+        ? [...value]
+        : value
+    }
+  })
+}
+
 const urlRegex = /^http(s)?:\/\//i
 const defaultPortMapping = {
   spa: 9000,
@@ -805,10 +836,12 @@ export class QuasarConfigFile {
 
         ssr: {
           middlewares: [],
-          clientSideRenderingRoutes: []
+          clientSideRenderingRoutes: [],
+          noPreloadTagRoutes: []
         },
         ssg: {
-          clientSideRenderingRoutes: []
+          clientSideRenderingRoutes: [],
+          noPreloadTagRoutes: []
         },
         pwa: {},
         electron: {
@@ -827,6 +860,14 @@ export class QuasarConfigFile {
       },
       userCfg
     )
+
+    if (this.#ctx.mode.ssr || this.#ctx.mode.ssg) {
+      inheritSsrSsgConfig({
+        ctx: this.#ctx,
+        userCfg,
+        rawQuasarConf
+      })
+    }
 
     const metaConf = {
       debugging: Boolean(this.#ctx.dev || this.#ctx.debug),
@@ -892,6 +933,10 @@ export class QuasarConfigFile {
     } else if (this.#ctx.mode.ssg) {
       cfg.ssg = merge(
         {
+          onSsgRendererError: 'abort',
+          ssgRendererConcurrency: 1,
+          ssgRendererRetryCount: 0,
+          ssgRendererRetryDelay: 1000,
           pwa: false,
           error404HtmlFilename: '404.html',
           pwaOfflineHtmlFilename: 'offline.html',
@@ -905,6 +950,21 @@ export class QuasarConfigFile {
         cfg.ssg.clientSideRenderingHtmlFilename =
           cfg.ssg.clientSideRenderingRoutes.length !== 0 ? 'csr.html' : false
       }
+
+      const ssgRendererConcurrency = Number(cfg.ssg.ssgRendererConcurrency)
+      cfg.ssg.ssgRendererConcurrency = Number.isFinite(ssgRendererConcurrency)
+        ? Math.max(1, Math.floor(ssgRendererConcurrency))
+        : 1
+
+      const ssgRendererRetryCount = Number(cfg.ssg.ssgRendererRetryCount)
+      cfg.ssg.ssgRendererRetryCount = Number.isFinite(ssgRendererRetryCount)
+        ? Math.max(0, Math.floor(ssgRendererRetryCount))
+        : 0
+
+      const ssgRendererRetryDelay = Number(cfg.ssg.ssgRendererRetryDelay)
+      cfg.ssg.ssgRendererRetryDelay = Number.isFinite(ssgRendererRetryDelay)
+        ? Math.max(0, ssgRendererRetryDelay)
+        : 1000
     }
 
     if (this.#ctx.dev) {

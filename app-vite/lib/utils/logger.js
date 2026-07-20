@@ -128,10 +128,10 @@ export function progress({ tool, waitAction, doneAction, target }) {
   info(`${tool} ${dot} ${waitAction}${targetBanner}...`, 'WAIT')
 
   const startTime = Date.now()
-  return () => {
+  return opts => {
     const diffTime = Date.now() - startTime
     success(
-      `${tool} ${dot} ${doneAction}${targetBanner} ${dot} ${diffTime}ms`,
+      `${tool} ${dot} ${opts?.doneAction ?? doneAction}${opts?.target ?? targetBanner} ${dot} ${diffTime}ms`,
       'DONE'
     )
   }

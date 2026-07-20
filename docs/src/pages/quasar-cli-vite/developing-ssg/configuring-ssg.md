@@ -21,19 +21,43 @@ The Quasar SSG Mode is currently in the "beta" stage. Based on the community fee
 
 The `ssg` section controls generated fallback files, client-rendered routes, PWA takeover, store hydration, and advanced build hooks. Page generation itself belongs in `/src-ssg/ssg-renderer`.
 
+Options shared by the `ssg` and `ssr` sections can be configured once. When a shared option is omitted from `ssg`, Quasar uses an explicitly configured value from `ssr`. A value specified in `ssg`, including `false` or an empty array, always takes precedence.
+
+```js /quasar.config file
+export default defineConfig(() => ({
+  ssr: {
+    // Also used by SSG because SSG does not override it
+    clientSideRenderingRoutes: ['/admin/**']
+  },
+
+  ssg: {
+    error404HtmlFilename: '404.html'
+  }
+}))
+```
+
+This applies to `pwaOfflineHtmlFilename`, `clientSideRenderingRoutes`, `noPreloadTagRoutes`, and the `manualStore*` and `manualPostHydrationTrigger` options. The `pwa` option remains mode-specific so that enabling PWA takeover for one mode does not implicitly enable it for the other. Other mode-specific options and extension hooks are not shared.
+
 A typical configuration needs only a few options:
 
 ```js /quasar.config file
 export default defineConfig(() => ({
   ssg: {
-    // Generate a PWA service worker and offline shell
+    // Keep PWA takeover disabled
     pwa: false,
 
     // Generate dist/ssg/404.html
     error404HtmlFilename: '404.html',
 
-    // Exclude these routes from pre-rendering and generate csr.html
-    clientSideRenderingRoutes: ['/account', '/account/**']
+    /**
+     * Exclude these routes from pre-rendering and generate csr.html
+     * Note on picomatch patterns:
+     *   "/admin" matches the exact route only
+     *   "/admin/**" matches the exact route and all sub-routes of /admin
+     *   "/admin/*" matches only direct sub-routes of /admin
+     *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+     */
+    clientSideRenderingRoutes: ['/account/**', '/admin']
   }
 }))
 ```
@@ -41,165 +65,255 @@ export default defineConfig(() => ({
 The complete option reference follows. Most applications should leave the manual hydration and build-extension options at their defaults.
 
 ```ts /quasar.config file
-return {
-  // ...
-  ssg: {
-    /**
-     * If a PWA should take over or just a SPA.
-     * @default false
-     */
-    pwa?: boolean;
+ssg: {
+  /**
+    * Defines how to handle errors encountered during the SSG rendering process.
+    *
+    * Possible values:
+    *  - "abort": Immediately halts the build process on the first error.
+    *  - "error": Accumulates all errors and fails the build at the end.
+    *  - "warn": Logs the errors to the console, but the build finishes successfully.
+    *  - "ignore": Silently ignores errors with a single warning at the end
+    *              with how many pages failed to render.
+    *  - A custom function to implement your own error handling logic.
+    *
+    * Function example:
+    *   onSsgRendererError: ({ err, reason, ssgPage }) => {
+    *     const pageId = `${ssgPage.route} ${ssgPage.label ? ` (${ssgPage.label})` : ''}`
+    *     console.error(
+    *       `Error rendering SSG page with route ${pageId}${reason ? `: ${reason}` : ''}`
+    *     )
+    *     // Optional: exit the build process with an error code
+    *     // If not exiting, the build will continue and accumulate errors then fail at the end.
+    *     process.exit(1)
+    *   }
+    *
+    * @type OnSsgRendererError
+    * @default 'abort'
+    */
+  onSsgRendererError?:
+    | "abort"
+    | "error"
+    | "warn"
+    | "ignore"
+    | (({
+        err,
+        reason,
+        ssgPage
+      }: {
+        err: unknown;
+        reason?: string;
+        ssgPage: SsgPage;
+      }) => void | Promise<void>);
 
-    /**
-     * When using SSG+PWA, this is the name of the
-     * PWA index html file that the client-side fallbacks to.
-     *
-     * Make sure to name it so that the SSG generated html files
-     * don't conflict with it! Also, it shouldn't clash with the
-     * "clientSideRenderingHtmlFilename" option if you are using that.
-     *
-     * @default 'offline.html'
-     */
-    pwaOfflineHtmlFilename?: string;
+  /**
+   * The maximum number of SSG pages to render concurrently.
+   * This can speed up rendering that includes asynchronous work, such as data fetching.
+   * The render jobs run concurrently in the same Node.js thread.
+   * Asynchronous work from different pages can be interleaved, and any module-level
+   * state is shared between all pages being rendered.
+   *
+   * @default 1
+   */
+  ssgRendererConcurrency?: number;
 
-    /**
-     * The name of the html file that will be used for the 404 page.
-     * If set to false, no 404 page will be generated.
-     *
-     * You will need to properly configure the webserver to serve this
-     * file for 404 errors.
-     *
-     * Make sure to name it so that the SSG generated html files
-     * don't conflict with it!
-     *
-     * @default '404.html'
-     */
-    error404HtmlFilename?: string | false;
+  /**
+   * The non-negative number of times for the SSG rendering process to retry
+   * rendering a page if an error occurs during the SSG rendering process.
+   * Redirects and unmatched routes are not retried.
+   *
+   * @default 0
+   */
+  ssgRendererRetryCount?: number;
 
-    /**
-     * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
-     * build, where you want the client to use an empty shell html for some
-     * of the pages (as if those pages are part of a SPA) and let the client-side
-     * code take over and render the page.
-     *
-     * For production only. You will need to properly configure the webserver
-     * to fallback to this html file for the pages that are not pre-rendered by SSG.
-     *
-     * Make sure to name it so that the SSG generated html files
-     * don't conflict with it!
-     *
-     * If you are building a SSG+PWA app, you might want to directly use the
-     * `pwaOfflineHtmlFilename` as the empty shell html file instead,
-     * as it will have the same content. Otherwise, make sure to use a different
-     * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
-     *
-     * If not explicitly configured and `clientSideRenderingRoutes`
-     * is not its default value (an empty array), then this option will
-     * default to 'csr.html'.
-     *
-     * @default false | 'csr.html'
-     */
-    clientSideRenderingHtmlFilename?: string | false;
+  /**
+   * The non-negative delay in milliseconds between retries for the SSG rendering process.
+   * This can help avoid overwhelming the system or external resources when retrying.
+   *
+   * @default 1000
+   */
+  ssgRendererRetryDelay?: number;
 
-    /**
-     * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
-     * approach, where you have some Vue Router routes that you want to be
-     * rendered on the client-side exclusively.
-     *
-     * When not also specifying `clientSideRenderingHtmlFilename`, the default
-     * value for it becomes 'csr.html'.
-     *
-     * For production, you will need to properly configure the webserver
-     * to fallback to the `clientSideRenderingHtmlFilename` for the pages that
-     * are not pre-rendered by SSG.
-     *
-     * You can use picomatch patterns to match the routes you want to be rendered
-     * on the client-side. https://www.npmjs.com/package/picomatch
-     *
-     * @example ['/dashboard', '/admin/**']
-     * @default []
-     */
-    clientSideRenderingRoutes?: string[];
+  /**
+    * The name of the html file that will be used for the 404 page.
+    * If set to false, no 404 page will be generated.
+    *
+    * You will need to properly configure the webserver to serve this
+    * file for 404 errors.
+    *
+    * Make sure to name it so that the SSG generated html files
+    * don't conflict with it!
+    *
+    * @default '404.html'
+    */
+  error404HtmlFilename?: string | false;
 
-    /**
-     * Extend/configure the Workbox GenerateSW options
-     * Specify Workbox options which will be applied on top of
-     *  `pwa > extendPWAGenerateSWOptions()`.
-     *
-     * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
-     *
-     * Can be async. Can directly modify the "config" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSGGenerateSWOptions?: (
-      config: GenerateSWOptions
-    ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+  /**
+    * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
+    * build, where you want the client to use an empty shell html for some
+    * of the pages (as if those pages are part of a SPA) and let the client-side
+    * code take over and render the page.
+    *
+    * For production only. You will need to properly configure the webserver
+    * to fallback to this html file for the pages that are not pre-rendered by SSG.
+    *
+    * Make sure to name it so that the SSG generated html files
+    * don't conflict with it!
+    *
+    * If you are building a SSG+PWA app, you might want to directly use the
+    * `pwaOfflineHtmlFilename` as the empty shell html file instead,
+    * as it will have the same content. If you do not reuse that filename,
+    * choose a different one to avoid a generated-file conflict.
+    *
+    * If not explicitly configured and `clientSideRenderingRoutes`
+    * is not its default value (an empty array), then this option will
+    * default to 'csr.html'.
+    *
+    * @default false | 'csr.html'
+    */
+  clientSideRenderingHtmlFilename?: string | false;
 
-    /**
-     * Extend/configure the Workbox InjectManifest options
-     * Specify Workbox options which will be applied on top of
-     *  `pwa > extendPWAInjectManifestOptions()`.
-     *
-     * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
-     *
-     * Can be async. Can directly modify the "config" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSGInjectManifestOptions?: (
-      config: InjectManifestOptions
-    ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+  /**
+    * Configure this for a hybrid SSG + partial CSR (Client-Side Rendering)
+    * approach, where you have some Vue Router routes that you want to be
+    * rendered on the client-side exclusively.
+    *
+    * When not also specifying `clientSideRenderingHtmlFilename`, the default
+    * value for it becomes 'csr.html'.
+    *
+    * For production, you will need to properly configure the webserver
+    * to fallback to the `clientSideRenderingHtmlFilename` for the pages that
+    * are not pre-rendered by SSG.
+    *
+    * You can use picomatch patterns to match the routes you want to be rendered
+    * on the client-side. https://www.npmjs.com/package/picomatch
+    *
+    * Note on picomatch patterns:
+    *   "/admin" matches the exact route only
+    *   "/admin/**" matches the exact route and all sub-routes of /admin
+    *   "/admin/*" matches only direct sub-routes of /admin
+    *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+    *
+    * @example ['/dashboard', '/admin/**']
+    * @default ssr.clientSideRenderingRoutes (when configured), otherwise []
+    */
+  clientSideRenderingRoutes?: string[];
 
-    /**
-     * Manually serialize the store state and provide it yourself
-     * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-     * @default false
-     */
-    manualStoreSerialization?: boolean;
+  /**
+   * Configure the Vue Router routes for which you don't want to inject
+   * preload tags in the generated HTML by the SSG renderer process.
+   *
+   * You can use picomatch patterns to match the routes you want
+   * no preload tags for. https://www.npmjs.com/package/picomatch
+   *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches the exact route and all sub-routes of /admin
+   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default ssr.noPreloadTagRoutes (when configured), otherwise []
+   */
+  noPreloadTagRoutes?: string[];
 
-    /**
-     * Manually inject the store state into ssrContext.state
-     * @default false
-     */
-    manualStoreSsrContextInjection?: boolean;
+  /**
+    * Extend the Rolldown config that is used for the SSG renderer,
+    * which is your /src-ssg/ssg-renderer file.
+    *
+    * Can be async. Can directly modify the "config" parameter or
+    * return a new one that will be merged with the default one.
+    */
+  extendSSGRendererConf?: (
+    config: RolldownOptions
+  ) => void | RolldownOptions | Promise<void | RolldownOptions>;
 
-    /**
-     * Manually handle the store hydration instead of letting Quasar CLI do it.
-     *
-     * For Pinia: store.state.value = window.__INITIAL_STATE__
-     *
-     * @default false
-     */
-    manualStoreHydration?: boolean;
+  /**
+    * Extend the underlying SSR manifest file generated by Vite,
+    * which is used by the server-side renderer to know which files to preload.
+    *
+    * Can be async. Can directly modify the "ssrManifest" parameter or
+    * return a new one that will be merged with the default one.
+    */
+  extendSSGManifestJson?: (
+    ssrManifest: QuasarSsrManifest
+  ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
 
-    /**
-     * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
-     * This announces that client-side code should takeover.
-     * @default false
-     */
-    manualPostHydrationTrigger?: boolean;
+  /**
+    * If a PWA should take over or just a SPA.
+    * @default false
+    */
+  pwa?: boolean;
 
-    /**
-     * Extend the Rolldown config that is used for the SSG renderer,
-     * which is your /src-ssg/ssg-renderer file.
-     *
-     * Can be async. Can directly modify the "config" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSGRendererConf?: (
-      config: RolldownOptions
-    ) => void | RolldownOptions | Promise<void | RolldownOptions>;
+  /**
+    * When using SSG+PWA, this is the name of the
+    * PWA index html file that the client-side fallbacks to.
+    * For production only.
+    *
+    * Make sure to name it so that the SSG generated html files
+    * don't conflict with it. It may intentionally match
+    * `clientSideRenderingHtmlFilename` to reuse the same application shell.
+    *
+    * @default ssr.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
+    */
+  pwaOfflineHtmlFilename?: string;
 
-    /**
-     * Extend the underlying SSR manifest file generated by Vite,
-     * which is used by the server-side renderer to know which files to preload.
-     *
-     * Can be async. Can directly modify the "ssrManifest" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSGManifestJson?: (
-      ssrManifest: QuasarSsrManifest
-    ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
-  }
+  /**
+    * Extend/configure the Workbox GenerateSW options
+    * Specify Workbox options which will be applied on top of
+    *  `pwa > extendPWAGenerateSWOptions()`.
+    *
+    * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+    *
+    * Can be async. Can directly modify the "config" parameter or
+    * return a new one that will be merged with the default one.
+    */
+  extendSSGGenerateSWOptions?: (
+    config: GenerateSWOptions
+  ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+
+  /**
+    * Extend/configure the Workbox InjectManifest options
+    * Specify Workbox options which will be applied on top of
+    *  `pwa > extendPWAInjectManifestOptions()`.
+    *
+    * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+    *
+    * Can be async. Can directly modify the "config" parameter or
+    * return a new one that will be merged with the default one.
+    */
+  extendSSGInjectManifestOptions?: (
+    config: InjectManifestOptions
+  ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
+
+  /**
+    * Manually serialize the store state and provide it yourself
+    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
+    * @default ssr.manualStoreSerialization (when configured), otherwise false
+    */
+  manualStoreSerialization?: boolean;
+
+  /**
+    * Manually inject the store state into ssrContext.state
+    * @default ssr.manualStoreSsrContextInjection (when configured), otherwise false
+    */
+  manualStoreSsrContextInjection?: boolean;
+
+  /**
+    * Manually handle the store hydration instead of letting Quasar CLI do it.
+    *
+    * For Pinia: store.state.value = window.__INITIAL_STATE__
+    *
+    * @default ssr.manualStoreHydration (when configured), otherwise false
+    */
+  manualStoreHydration?: boolean;
+
+  /**
+    * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
+    * This announces that client-side code should takeover.
+    * @default ssr.manualPostHydrationTrigger (when configured), otherwise false
+    */
+  manualPostHydrationTrigger?: boolean;
 }
 ```
 
@@ -287,20 +401,17 @@ Important details:
 2. The renderer is built with a separate Rolldown configuration. Extend it through `/quasar.config` only when the renderer needs custom build behavior:
 
 ```ts /quasar.config file
-return {
-  // ...
-  ssg: {
-    /**
-     * Extend the Rolldown config that is used for the SSG renderer,
-     * which is your /src-ssg/ssg-renderer file.
-     *
-     * Can be async. Can directly modify the "config" parameter or
-     * return a new one that will be merged with the default one.
-     */
-    extendSSGRendererConf?: (
-      config: RolldownOptions
-    ) => void | RolldownOptions | Promise<void | RolldownOptions>;
-  }
+ssg: {
+  /**
+    * Extend the Rolldown config that is used for the SSG renderer,
+    * which is your /src-ssg/ssg-renderer file.
+    *
+    * Can be async. Can directly modify the "config" parameter or
+    * return a new one that will be merged with the default one.
+    */
+  extendSSGRendererConf?: (
+    config: RolldownOptions
+  ) => void | RolldownOptions | Promise<void | RolldownOptions>;
 }
 ```
 

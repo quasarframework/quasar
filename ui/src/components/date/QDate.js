@@ -14,6 +14,7 @@ import useDark, {
   useDarkProps
 } from '../../composables/private.use-dark/use-dark.js'
 import useRenderCache from '../../composables/use-render-cache/use-render-cache.js'
+import useHydration from '../../composables/use-hydration/use-hydration.js'
 import {
   useFormAttrs,
   useFormInject,
@@ -124,6 +125,7 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
     const { getCache } = useRenderCache()
+    const { isHydrated } = useHydration()
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(
       props,
       $q
@@ -736,6 +738,7 @@ export default createComponent({
       }
 
       if (
+        isHydrated.value &&
         viewModel.value.year === today.value.year &&
         viewModel.value.month === today.value.month
       ) {
@@ -1478,7 +1481,8 @@ export default createComponent({
       ],
 
       Months() {
-        const currentYear = viewModel.value.year === today.value.year
+        const currentYear =
+          isHydrated.value && viewModel.value.year === today.value.year
         const isDisabled = month =>
           (minNav.value !== null &&
             viewModel.value.year === minNav.value.year &&
@@ -1565,7 +1569,10 @@ export default createComponent({
               [
                 h(QBtn, {
                   key: 'yr' + i,
-                  class: today.value.year === i ? 'q-date__today' : null,
+                  class:
+                    isHydrated.value && today.value.year === i
+                      ? 'q-date__today'
+                      : null,
                   flat: !active,
                   label: i,
                   dense: true,

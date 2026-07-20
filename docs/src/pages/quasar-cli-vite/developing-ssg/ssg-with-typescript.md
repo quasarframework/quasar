@@ -16,7 +16,8 @@ import { defineSsgGetPages } from '#q-app'
 import routes from '@/router/routes'
 
 export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes }) => {
-  return parseVueRouterRoutes({ routes, verbose: true })
+  const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true })
+  return ssgPages
 })
 ```
 

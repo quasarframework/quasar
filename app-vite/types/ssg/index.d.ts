@@ -3,39 +3,12 @@ import type { RouteRecordRaw } from "vue-router";
 
 import type { QSsrContext, RenderVueParams } from "../ssr/ssrcontext.d.ts";
 import type { QuasarContext } from "../configuration/context.d.ts";
+import type {
+  QuasarSsgConfiguration,
+  SsgPage
+} from "../configuration/ssg-conf.d.ts";
 
 export type HasSsgParam = HasSsg<{ ssrContext?: QSsrContext | null }>;
-
-export interface SsgPage {
-  /**
-   * The vue-router route to render.
-   * It must be a valid route in your Vue Router configuration.
-   */
-  route: string;
-  /**
-   * Optional label to identify the SSG page in logs.
-   */
-  label?: string;
-  /**
-   * Optional directory to place the generated HTML file in.
-   * Must use relative path to the dist folder.
-   * It will be joined with the quasar.config > build > distDir.
-   * If not provided, the route will be used to determine the directory.
-   */
-  dir?: string;
-  /**
-   * Optional filename to use for the generated HTML file.
-   * @default 'index.html'
-   */
-  filename?: string;
-  /**
-   * Optional SSR context to use when rendering the page.
-   * If not provided, the default SSR context will be used.
-   *
-   * @type ssrContext {@link QSsrContext}
-   */
-  ssrContext?: QSsrContext;
-}
 
 interface SsgRenderPreloadTagCallbackOptions {
   ssrContext: RenderVueParams;
@@ -46,43 +19,119 @@ export type SsgRenderPreloadTagCallback = (
   options: SsgRenderPreloadTagCallbackOptions
 ) => string;
 
-export interface SsgGetPagesParams {
+export type SsgParseVueRouterParams = {
   /**
-   * The Quasar context object.
-   * @type ctx {@link QuasarContext}
+   * Vue Router routes definition to parse.
    */
-  ctx: QuasarContext;
+  routes: RouteRecordRaw[];
 
   /**
-   * Helper to parse Vue Router routes into SSG pages.
+   * Optional parent path to use for these routes.
+   * @default '/'
+   */
+  parentPath?: string;
+
+  /**
+   * Optional list of routes to ignore during the parsing process.
+   * You can use picomatch patterns to match the routes you want to ignore.
+   * A matched route is omitted, but its children are still traversed and
+   * evaluated against the patterns.
+   * https://www.npmjs.com/package/picomatch
    *
-   * @param {Object} options - The configuration object.
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only,
+   *   "/admin/**" matches the exact route and all sub-routes of /admin,
+   *   "/admin/*" matches only direct sub-routes of /admin,
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default []
+   */
+  crawlIgnoreRoutes?: string[];
+
+  /**
+   * Optional flag to enable verbose logging.
+   * If true, it will log the ignored routes with dynamic parameters.
+   *
+   * @default false
+   */
+  verbose?: boolean;
+};
+
+export type SsgParseVueRouterResult = {
+  /**
+   * Generated SSG pages based on the parsed Vue Router routes.
+   */
+  ssgPages: SsgPage[];
+
+  /**
+   * Indicates whether there are any ignored routes during the parsing process.
+   */
+  hasIgnoredRoutes: boolean;
+
+  /**
+   * List of Vue Router routes that were ignored due to matching
+   * the crawlIgnoreRoutes patterns.
+   */
+  crawlIgnoredRoutes: RouteRecordRaw[];
+
+  /**
+   * List of Vue Router routes that were ignored due to
+   * being redirects.
+   */
+  ignoredRedirectingRoutes: RouteRecordRaw[];
+
+  /**
+   * List of Vue Router routes that were ignored due to
+   * having dynamic parameters.
+   */
+  ignoredDynamicRoutes: RouteRecordRaw[];
+
+  /**
+   * List of Vue Router routes that were ignored due to being
+   * marked as client-side rendered (CSR).
+   */
+  ignoredCsrRoutes: RouteRecordRaw[];
+};
+
+export type SsgParseVueRouterRoutes = (
+  params: SsgParseVueRouterParams
+) => SsgParseVueRouterResult;
+
+export type SsgGetFilenameBasedRoutes = () => Promise<RouteRecordRaw[]>;
+
+export interface SsgGetPagesParams {
+  /**
+   * The Quasar build context.
+   * Same as the one from your /quasar.config file. You can use this to
+   * access ctx.appPaths (among other things) to resolve paths to your
+   * pages, which is especially useful if you are using tools like
+   * tinyglobby to manually read your file system.
+   *
+   * @type QuasarContext {@link QuasarContext}
+   */
+  readonly ctx: QuasarContext;
+
+  /**
+   * The Quasar SSG configuration (quasar.config file > ssg)
+   * @type QuasarSsgConfiguration {@link QuasarSsgConfiguration}
+   */
+  readonly quasarConfSsg: QuasarSsgConfiguration;
+
+  /**
+   * A built-in helper function that parses your Vue Router routes
+   * and automatically builds a list of routes to generate.
+   * It will ignore redirects, routes with params, and CSR defined routes.
+   * You will need to define and add those SSG pages manually, should you want.
+   *
+   * @param {SsgParseVueRouterParams} options - The configuration object. {@link SsgParseVueRouterParams}
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse. {@link RouteRecordRaw}
    * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
+   * @param {string[]} [options.crawlIgnoreRoutes=[]] - Optional picomatch patterns for routes to omit while still traversing their children.
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
-   * @returns {SsgPage[]} Array of SSG pages. {@link SsgPage}
+   * @returns {SsgParseVueRouterResult} {@link SsgParseVueRouterResult}
    */
-  parseVueRouterRoutes: ({
-    routes,
-    parentPath,
-    verbose
-  }: {
-    /**
-     * Vue Router routes definition to parse.
-     */
-    routes: RouteRecordRaw[];
-    /**
-     * Optional parent path to use for these routes.
-     * @default '/'
-     */
-    parentPath?: string;
-    /**
-     * Optional flag to enable verbose logging.
-     * If true, it will log the ignored routes with dynamic parameters.
-     * @default false
-     */
-    verbose?: boolean;
-  }) => SsgPage[];
+  parseVueRouterRoutes: SsgParseVueRouterRoutes;
 
   /**
    * Helper to get the filename-based routes auto-generated by Vue Router.
@@ -90,7 +139,7 @@ export interface SsgGetPagesParams {
    *
    * @returns {Promise<RouteRecordRaw[]>} Array of Vue Router routes. {@link RouteRecordRaw}
    */
-  getFilenameBasedRoutes: () => Promise<RouteRecordRaw[]>;
+  getFilenameBasedRoutes: SsgGetFilenameBasedRoutes;
 }
 
 export type SsgGetPagesCallback = (

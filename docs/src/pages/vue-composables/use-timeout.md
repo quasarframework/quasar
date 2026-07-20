@@ -11,6 +11,10 @@ In other words, if you want to schedule a function after a delay but you might w
 
 The useTimeout composable also automatically cancels (if it was registered and still pending) when your component gets destroyed.
 
+::: tip
+On the server-side of SSR or SSG modes, registering a timeout is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
+:::
+
 ## Syntax
 
 ```js

@@ -153,15 +153,17 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
         'render' // keep this as last one
       ],
 
-      // extendSSRPackageJson (pkgJson) {},
-      // extendSSRManifestJson (json) {},
-      // extendSSRWebserverConf (rolldownConf) {},
-
+      // clientSideRenderingRoutes: [],
+      // noPreloadTagRoutes: [],
       // manualStoreSerialization: true,
       // manualStoreSsrContextInjection: true,
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
-      // clientSideRenderingRoutes: [],
+      // prodScriptNamedExport: false,
+
+      // extendSSRPackageJson (pkgJson) {},
+      // extendSSRManifestJson (json) {},
+      // extendSSRWebserverConf (rolldownConf) {},
 
       // pwa: true,
       // pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
@@ -171,20 +173,25 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
 
     // https://v2.quasar.dev/quasar-cli-vite/developing-ssg/configuring-ssg
     ssg: {
-      // pwa: true
-      // extendSSGManifestJson (json) {},
+      // onSsgRendererError: 'abort',
+      // ssgRendererConcurrency: 1,
+      // ssgRendererRetryCount: 0,
+      // ssgRendererRetryDelay: 0,
+      // error404HtmlFilename: '404.html',
+      // clientSideRenderingHtmlFilename: 'csr.html',
+      // clientSideRenderingRoutes: [],
+      // noPreloadTagRoutes: []
+
       // extendSSGRendererConf (rolldownConf) {},
+      // extendSSGManifestJson (json) {},
 
       // manualStoreSerialization: true,
       // manualStoreSsrContextInjection: true,
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      // error404HtmlFilename: '404.html'
+      // pwa: true,
       // pwaOfflineHtmlFilename: 'offline.html',
-      // clientSideRenderingHtmlFilename: 'csr.html',
-      // clientSideRenderingRoutes: [],
-
       // extendSSGGenerateSWOptions (cfg) {},
       // extendSSGInjectManifestOptions (cfg) {},
     },

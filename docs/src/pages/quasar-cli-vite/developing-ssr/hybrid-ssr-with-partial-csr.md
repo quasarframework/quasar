@@ -21,8 +21,14 @@ ssr: {
    * You can use picomatch patterns to match the routes you want to be rendered
    * on the client-side. https://www.npmjs.com/package/picomatch
    *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches the exact route and all sub-routes of /admin
+   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssg.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 }

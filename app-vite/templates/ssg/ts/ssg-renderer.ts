@@ -28,7 +28,7 @@ import routes from '@/router/routes';
  *
  *  Optional SSR context to use when rendering the page.
  *  If not provided, the default SSR context will be used.
- *  ssrContext?: QSsrContext;
+ *  ssrContext?: SsgPageSsrContext;
  *
  * You can use the `ctx` parameter to access appPaths, among
  * other things, to help you resolve paths to your pages then
@@ -36,17 +36,21 @@ import routes from '@/router/routes';
  */
 <% if (scope.filenameBasedRouting) { %>
 export const getSsgPages = defineSsgGetPages(
-  async ({ getFilenameBasedRoutes, parseVueRouterRoutes /*, ctx */ }) => {
+  async ({ getFilenameBasedRoutes, parseVueRouterRoutes }) => {
     const routes = await getFilenameBasedRoutes();
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
-    return parseVueRouterRoutes({ routes, verbose: true });
+    const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true });
+
+    return ssgPages;
   }
 );
 <% } else { %>
-export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes /*, ctx */ }) => {
+export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes }) => {
   // The use of parseVueRouterRoutes is optional as it's just a helper function.
-  return parseVueRouterRoutes({ routes, verbose: true });
+  const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true });
+
+  return ssgPages;
 });
 <% } %>
 

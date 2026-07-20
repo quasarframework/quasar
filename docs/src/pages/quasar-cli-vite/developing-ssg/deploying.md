@@ -78,13 +78,17 @@ If you configure `ssg.clientSideRenderingRoutes`, Quasar can generate a separate
 export default defineConfig(() => {
   return {
     ssg: {
-      clientSideRenderingRoutes: [
-        '/dashboard',
-        '/dashboard/**',
-        '/admin',
-        '/admin/**'
-      ],
-      clientSideRenderingHtmlFilename: 'csr.html'
+      clientSideRenderingHtmlFilename: 'csr.html',
+
+      /**
+       * Exclude these routes from pre-rendering and generate csr.html
+       * Note on picomatch patterns:
+       *   "/admin" matches the exact route only
+       *   "/admin/**" matches the exact route and all sub-routes of /admin
+       *   "/admin/*" matches only direct sub-routes of /admin
+       *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+       */
+      clientSideRenderingRoutes: ['/dashboard/**', '/admin']
     }
   }
 })

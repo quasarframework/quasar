@@ -201,15 +201,17 @@ export default createComponent({
     )
 
     watch(
-      () =>
-        props.tableStyle +
-        props.tableClass +
-        props.tableHeaderStyle +
-        props.tableHeaderClass +
-        containerClass.value,
+      [
+        () => props.tableStyle,
+        () => props.tableClass,
+        () => props.tableHeaderStyle,
+        () => props.tableHeaderClass,
+        containerClass
+      ],
       () => {
         if (hasVirtScroll.value) virtScrollRef.value?.reset()
-      }
+      },
+      { deep: true }
     )
 
     const {
@@ -1095,13 +1097,13 @@ export default createComponent({
 
                 if (props.onRowClick !== void 0) {
                   data.onClick = evt => {
-                    emit('RowClick', evt, scope.row, scope.pageIndex)
+                    emit('rowClick', evt, scope.row, scope.pageIndex)
                   }
                 }
 
                 if (props.onRowDblclick !== void 0) {
                   data.onDblclick = evt => {
-                    emit('RowDblclick', evt, scope.row, scope.pageIndex)
+                    emit('rowDblclick', evt, scope.row, scope.pageIndex)
                   }
                 }
 

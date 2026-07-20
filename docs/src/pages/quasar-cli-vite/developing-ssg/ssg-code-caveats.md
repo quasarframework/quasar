@@ -104,7 +104,11 @@ import routes from '@/router/routes'
 export const getSsgPages = defineSsgGetPages(
   ({ parseVueRouterRoutes /*, ctx */ }) => {
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
-    const initialPages = parseVueRouterRoutes({ routes, verbose: true })
+    const { ssgPages: initialPages } = parseVueRouterRoutes({
+      routes,
+      verbose: true
+    })
+
     const ssgPages = []
 
     // We generate 2 SSG pages, one for each theme

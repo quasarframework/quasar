@@ -29,8 +29,8 @@ ssg: {
    *
    * If you are building a SSG+PWA app, you might want to directly use the
    * `pwaOfflineHtmlFilename` as the empty shell html file instead,
-   * as it will have the same content. Otherwise, make sure to use a different
-   * name otherwise it will clash with the `pwaOfflineHtmlFilename` one!
+   * as it will have the same content. If you do not reuse that filename,
+   * choose a different one to avoid a generated-file conflict.
    *
    * If not explicitly configured and `clientSideRenderingRoutes`
    * is not its default value (an empty array), then this option will
@@ -55,8 +55,14 @@ ssg: {
    * You can use picomatch patterns to match the routes you want to be rendered
    * on the client-side. https://www.npmjs.com/package/picomatch
    *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches the exact route and all sub-routes of /admin
+   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssr.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 }
@@ -66,8 +72,17 @@ For example, this configuration renders account routes on the client and writes 
 
 ```js /quasar.config file
 ssg: {
-  clientSideRenderingRoutes: ['/account', '/account/**'],
-  clientSideRenderingHtmlFilename: 'app-shell.html'
+  clientSideRenderingHtmlFilename: 'app-shell.html',
+
+  /**
+   * Exclude these routes from pre-rendering and generate csr.html
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches the exact route and all sub-routes of /admin
+   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   */
+  clientSideRenderingRoutes: ['/account/**', '/admin']
 }
 ```
 
@@ -76,7 +91,7 @@ Do not use a filename that can also be produced by an SSG page. Setting `clientS
 ## How It Works
 
 - In development, matching routes bypass server rendering and use the client application shell.
-- During a production build, `parseVueRouterRoutes()` excludes matching routes from the generated-page list.
+- During a production build, `parseVueRouterRoutes()` excludes matching routes from the generated-page list (but adds them to `ignoredCsrRoutes` from the returned Object).
 - The production build writes one CSR shell file. Your static host must rewrite each matching request to that file without changing the browser URL.
 
 With the configuration above, requests for `/account/profile` and `/account/security` must both serve `/app-shell.html`. Do not rewrite every missing URL to the CSR shell, because that would turn real not-found requests into client-rendered pages.

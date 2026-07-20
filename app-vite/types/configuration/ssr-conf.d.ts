@@ -5,55 +5,11 @@ export interface QuasarSsrManifest {
   [key: string]: string[];
 }
 
+/**
+ * Properties also available in the SSG configuration inherit their explicitly
+ * configured SSG value when omitted here. An SSR value always takes precedence.
+ */
 export interface QuasarSsrConfiguration {
-  /**
-   * If a PWA should take over or just a SPA.
-   * @default false
-   */
-  pwa?: boolean;
-
-  /**
-   * When using SSR+PWA, this is the name of the
-   * PWA index html file that the client-side fallbacks to.
-   *
-   * Do NOT use index.html as name as it will mess SSR up!
-   *
-   * @default 'offline.html'
-   */
-  pwaOfflineHtmlFilename?: string;
-
-  /**
-   * Extend/configure the Workbox GenerateSW options
-   * Specify Workbox options which will be applied on top of
-   *  `pwa > extendPWAGenerateSWOptions()`.
-   *
-   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
-   *
-   * Can be async. Can directly modify the "config" parameter or
-   * return a new one that will be merged with the default one.
-   *
-   * @type config {@link GenerateSWOptions}
-   */
-  extendSSRGenerateSWOptions?: (
-    config: GenerateSWOptions
-  ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
-
-  /**
-   * Extend/configure the Workbox InjectManifest options
-   * Specify Workbox options which will be applied on top of
-   *  `pwa > extendPWAInjectManifestOptions()`.
-   *
-   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
-   *
-   * Can be async. Can directly modify the "config" parameter or
-   * return a new one that will be merged with the default one.
-   *
-   * @type config {@link InjectManifestOptions}
-   */
-  extendSSRInjectManifestOptions?: (
-    config: InjectManifestOptions
-  ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
-
   /**
    * Configure this for a hybrid SSR + partial CSR (Client-Side Rendering)
    * approach, where you have some Vue Router routes that you want to be
@@ -62,21 +18,45 @@ export interface QuasarSsrConfiguration {
    * You can use picomatch patterns to match the routes you want to be rendered
    * on the client-side. https://www.npmjs.com/package/picomatch
    *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only
+   *   "/admin/**" matches the exact route and all sub-routes of /admin
+   *   "/admin/*" matches only direct sub-routes of /admin
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
    * @example ['/dashboard', '/admin/**']
-   * @default []
+   * @default ssg.clientSideRenderingRoutes (when configured), otherwise []
    */
   clientSideRenderingRoutes?: string[];
 
   /**
+   * Configure the Vue Router routes for which you don't want to inject
+   * preload tags (on production only!).
+   *
+   * You can use picomatch patterns to match the routes you want
+   * no preload tags for. https://www.npmjs.com/package/picomatch
+   *
+   * Note on picomatch patterns:
+   *   "/admin" matches the exact route only,
+   *   "/admin/**" matches the exact route and all sub-routes of /admin,
+   *   "/admin/*" matches only direct sub-routes of /admin,
+   *   "/admin/{users,settings}" matches both exact routes /admin/users and /admin/settings
+   *
+   * @example ['/dashboard', '/admin/**']
+   * @default ssg.noPreloadTagRoutes (when configured), otherwise []
+   */
+  noPreloadTagRoutes?: string[];
+
+  /**
    * Manually serialize the store state and provide it yourself
    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-   * @default false
+   * @default ssg.manualStoreSerialization (when configured), otherwise false
    */
   manualStoreSerialization?: boolean;
 
   /**
    * Manually inject the store state into ssrContext.state
-   * @default false
+   * @default ssg.manualStoreSsrContextInjection (when configured), otherwise false
    */
   manualStoreSsrContextInjection?: boolean;
 
@@ -85,14 +65,14 @@ export interface QuasarSsrConfiguration {
    *
    * For Pinia: store.state.value = window.__INITIAL_STATE__
    *
-   * @default false
+   * @default ssg.manualStoreHydration (when configured), otherwise false
    */
   manualStoreHydration?: boolean;
 
   /**
    * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
    * This announces that client-side code should takeover.
-   * @default false
+   * @default ssg.manualPostHydrationTrigger (when configured), otherwise false
    */
   manualPostHydrationTrigger?: boolean;
 
@@ -201,4 +181,53 @@ export interface QuasarSsrConfiguration {
   extendSSRManifestJson?: (
     ssrManifest: QuasarSsrManifest
   ) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>;
+
+  /**
+   * If a PWA should take over or just a SPA.
+   * @default false
+   */
+  pwa?: boolean;
+
+  /**
+   * When using SSR+PWA, this is the name of the
+   * PWA index html file that the client-side fallbacks to.
+   * For production only.
+   *
+   * Do NOT use index.html as name as it will mess SSR up!
+   *
+   * @default ssg.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'
+   */
+  pwaOfflineHtmlFilename?: string;
+
+  /**
+   * Extend/configure the Workbox GenerateSW options
+   * Specify Workbox options which will be applied on top of
+   *  `pwa > extendPWAGenerateSWOptions()`.
+   *
+   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+   *
+   * Can be async. Can directly modify the "config" parameter or
+   * return a new one that will be merged with the default one.
+   *
+   * @type config {@link GenerateSWOptions}
+   */
+  extendSSRGenerateSWOptions?: (
+    config: GenerateSWOptions
+  ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;
+
+  /**
+   * Extend/configure the Workbox InjectManifest options
+   * Specify Workbox options which will be applied on top of
+   *  `pwa > extendPWAInjectManifestOptions()`.
+   *
+   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+   *
+   * Can be async. Can directly modify the "config" parameter or
+   * return a new one that will be merged with the default one.
+   *
+   * @type config {@link InjectManifestOptions}
+   */
+  extendSSRInjectManifestOptions?: (
+    config: InjectManifestOptions
+  ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;
 }

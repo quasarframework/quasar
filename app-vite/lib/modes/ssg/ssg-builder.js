@@ -1,8 +1,8 @@
 import { join } from 'node:path'
 import { merge } from 'webpack-merge'
-import picomatch from 'picomatch'
 
 import { AppBuilder } from '../../app-builder.js'
+import { getRouteMatcher } from '../../utils/get-route-matcher.js'
 import { quasarSsgConfig } from './ssg-config.js'
 import {
   getProdSsrRenderTemplateFileContent,
@@ -15,38 +15,134 @@ import { buildPwaServiceWorker, injectPwaManifest } from '../pwa/pwa-utils.js'
 const multiSlashRE = /\/{2,}/g
 const ssrManifestIdQueryRE = /vue\?vue/
 const ssrManifestIdQueryReplaceRE = /vue\?vue.*$/
+const synthetic404Route = '/______get-a-quasar-404-page______'
+
+function getSsgPageIdentifier(ssgPage) {
+  return (
+    `route "${ssgPage.route}"` + `${ssgPage.label ? ` [${ssgPage.label}]` : ''}`
+  )
+}
+
+function getSsgRendererErrorHandler(onSsgRendererError) {
+  if (typeof onSsgRendererError === 'function') {
+    return onSsgRendererError
+  }
+
+  if (onSsgRendererError === 'abort') {
+    return ({ err, reason, ssgPage }) => {
+      console.log()
+      error('SSG build failed to render SSG page:')
+      console.error(ssgPage)
+      error('Render error for the above SSG page:')
+      console.error(err)
+      fatal(
+        `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+          (reason ? ` ${reason}.` : '') +
+          ' Check details above.',
+        'FAIL'
+      )
+    }
+  }
+
+  if (onSsgRendererError === 'error') {
+    return ({ err, reason, ssgPage }) => {
+      console.log()
+      error('SSG build failed to render SSG page:')
+      console.error(ssgPage)
+      error('Render error for the above SSG page:')
+      console.error(err)
+      error(
+        `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+          (reason ? ` ${reason}.` : '') +
+          ' Check details above.'
+      )
+    }
+  }
+
+  if (onSsgRendererError === 'warn') {
+    return ({ err, reason, ssgPage }) => {
+      console.log()
+      warn('SSG build failed to render SSG page:')
+      console.warn(ssgPage)
+      warn('Render error for the above SSG page:')
+      console.warn(err)
+      warn(
+        `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+          (reason ? ` ${reason}.` : '') +
+          ' Check details above.'
+      )
+    }
+  }
+
+  if (onSsgRendererError === 'ignore') {
+    return () => {}
+  }
+
+  fatal(
+    'Invalid value for quasar.config.ssg.onSsgRendererError:' +
+      `"${onSsgRendererError}". Must be one of: "abort", "error",` +
+      ' "warn", "ignore" or a function.',
+    'FAIL'
+  )
+}
 
 function getParseVueRouterRoutesFn(quasarConf) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
-      ? picomatch(clientSideRenderingRoutes)
-      : () => false
+      ? getRouteMatcher(clientSideRenderingRoutes)
+      : null
 
-  const parseVueRouterRoutes = ({
-    routes,
-    parentPath = '/',
-    verbose = false
-  }) => {
-    const acc = []
-
+  const parseVueRouterRoutes = ({ routes, parentPath, opts }) => {
     for (const route of routes) {
       const routePath = route.path
-      const fullPath = `${parentPath}/${routePath}`.replaceAll(
-        multiSlashRE,
-        '/'
-      )
+      const fullPath = (
+        routePath === '' ? parentPath : `${parentPath}/${routePath}`
+      ).replaceAll(multiSlashRE, '/')
 
-      if (isCSRMatch(fullPath)) {
-        if (verbose) {
+      if (opts.isCrawlIgnoreMatch?.(fullPath)) {
+        opts.acc.crawlIgnoredRoutes.push(route)
+
+        if (opts.verbose) {
+          warn(
+            `Ignored route (crawl-ignored): ${fullPath}`,
+            'parseVueRouterRoutes()'
+          )
+        }
+
+        if (route.children) {
+          parseVueRouterRoutes({
+            routes: route.children,
+            parentPath: fullPath,
+            opts
+          })
+        }
+
+        continue
+      }
+
+      if (isCSRMatch?.(fullPath)) {
+        opts.acc.ignoredCsrRoutes.push(route)
+
+        if (opts.verbose) {
           warn(`Ignored route (CSR): ${fullPath}`, 'parseVueRouterRoutes()')
+        }
+
+        if (route.children) {
+          parseVueRouterRoutes({
+            routes: route.children,
+            parentPath: fullPath,
+            opts
+          })
         }
 
         continue
       }
 
       if (routePath.includes(':')) {
-        if (verbose) {
+        opts.acc.ignoredDynamicRoutes.push(route)
+
+        if (opts.verbose) {
           warn(
             `Ignored route (dynamic param): ${fullPath}`,
             'parseVueRouterRoutes()'
@@ -57,29 +153,72 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (route.children) {
-        acc.push(
-          ...parseVueRouterRoutes({
-            routes: route.children,
-            parentPath: fullPath,
-            verbose
-          })
-        )
-      } else if (route.redirect) {
-        if (verbose) {
+        parseVueRouterRoutes({
+          routes: route.children,
+          parentPath: fullPath,
+          opts
+        })
+
+        continue
+      }
+
+      if (route.redirect) {
+        opts.acc.ignoredRedirectingRoutes.push(route)
+
+        if (opts.verbose) {
           warn(
             `Ignored route (redirects): ${fullPath}`,
             'parseVueRouterRoutes()'
           )
         }
-      } else {
-        acc.push({ route: fullPath })
+
+        continue
       }
+
+      opts.acc.ssgPages.push({ route: fullPath, vueRouterRoute: route })
     }
+  }
+
+  return ({
+    routes,
+    parentPath = '/',
+    crawlIgnoreRoutes = [],
+    verbose = false
+  }) => {
+    const acc = {
+      ssgPages: [],
+      hasIgnoredRoutes: false,
+      crawlIgnoredRoutes: [],
+      ignoredRedirectingRoutes: [],
+      ignoredDynamicRoutes: [],
+      ignoredCsrRoutes: []
+    }
+
+    parseVueRouterRoutes({
+      routes,
+      parentPath,
+      /**
+       * Static options for the recursive fn.
+       * Avoids redeclaring them so it's less error prone.
+       */
+      opts: {
+        acc,
+        verbose,
+        isCrawlIgnoreMatch:
+          crawlIgnoreRoutes.length !== 0
+            ? getRouteMatcher(crawlIgnoreRoutes)
+            : null
+      }
+    })
+
+    acc.hasIgnoredRoutes =
+      acc.crawlIgnoredRoutes.length !== 0 ||
+      acc.ignoredRedirectingRoutes.length !== 0 ||
+      acc.ignoredDynamicRoutes.length !== 0 ||
+      acc.ignoredCsrRoutes.length !== 0
 
     return acc
   }
-
-  return parseVueRouterRoutes
 }
 
 async function loadFilenameBasedRoutes(viteServerConfig, createServer) {
@@ -147,53 +286,60 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeRenderTemplate() {
-    const html = this.readFile('index.html')
-    this.removeFile('index.html')
+    const html = await this.readFile('index.html')
+    await this.removeFile('index.html')
 
     await Promise.all([
-      getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(
-        content => {
-          this.writeFile('__ssg__/render-template.js', content)
-        }
+      getProdSsrRenderTemplateFileContent(html, this.quasarConf).then(content =>
+        this.writeFile('__ssg__/render-template.js', content)
       ),
 
       this.quasarConf.ssg.pwa ||
       this.quasarConf.ssg.clientSideRenderingHtmlFilename
-        ? transformProdHtmlShell(html, this.quasarConf).then(content => {
+        ? transformProdHtmlShell(html, this.quasarConf).then(async content => {
             if (this.quasarConf.ssg.pwa) {
-              this.writeFile(
+              const hasFile = await this.writeFile(
                 `${this.quasarConf.ssg.pwaOfflineHtmlFilename}`,
                 content,
-                () => {
-                  console.log()
-                  fatal(
-                    `Tried to write the ssg.pwaOfflineHtmlFilename file` +
-                      ` (${this.quasarConf.ssg.pwaOfflineHtmlFilename})` +
-                      ' but the file already exists.' +
-                      ' Check your SSG configuration for duplicate routes' +
-                      ' or filenames or quasar.config html filenames settings.',
-                    'ERROR'
-                  )
-                }
+                true /* noOverwrite */
               )
+
+              if (hasFile) {
+                console.log()
+                fatal(
+                  `Tried to write the ssg.pwaOfflineHtmlFilename file` +
+                    ` (${this.quasarConf.ssg.pwaOfflineHtmlFilename})` +
+                    ' but the file already exists.' +
+                    ' Check your SSG configuration for duplicate routes' +
+                    ' or filenames or quasar.config html filenames settings.',
+                  'FAIL'
+                )
+              }
             }
 
-            if (this.quasarConf.ssg.clientSideRenderingHtmlFilename) {
-              this.writeFile(
+            if (
+              this.quasarConf.ssg.clientSideRenderingHtmlFilename &&
+              (this.quasarConf.ssg.pwa !== true ||
+                this.quasarConf.ssg.clientSideRenderingHtmlFilename !==
+                  this.quasarConf.ssg.pwaOfflineHtmlFilename)
+            ) {
+              const hasFile = await this.writeFile(
                 `${this.quasarConf.ssg.clientSideRenderingHtmlFilename}`,
                 content,
-                () => {
-                  console.log()
-                  fatal(
-                    `Tried to write the ssg.clientSideRenderingHtmlFilename file` +
-                      ` (${this.quasarConf.ssg.clientSideRenderingHtmlFilename})` +
-                      ' but the file already exists.' +
-                      ' Check your SSG configuration for duplicate routes' +
-                      ' or filenames or quasar.config html filenames settings.',
-                    'ERROR'
-                  )
-                }
+                true /* noOverwrite */
               )
+
+              if (hasFile) {
+                console.log()
+                fatal(
+                  `Tried to write the ssg.clientSideRenderingHtmlFilename file` +
+                    ` (${this.quasarConf.ssg.clientSideRenderingHtmlFilename})` +
+                    ' but the file already exists.' +
+                    ' Check your SSG configuration for duplicate routes' +
+                    ' or filenames or quasar.config html filenames settings.',
+                  'FAIL'
+                )
+              }
             }
           })
         : null
@@ -201,8 +347,11 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writeSsrManifest() {
-    const viteManifest = JSON.parse(this.readFile('.vite/ssr-manifest.json'))
-    this.removeFile('.vite')
+    const viteManifest = JSON.parse(
+      await this.readFile('.vite/ssr-manifest.json')
+    )
+
+    await this.removeFile('.vite')
 
     /**
      * See https://github.com/quasarframework/quasar/issues/17864
@@ -253,7 +402,7 @@ export class QuasarModeBuilder extends AppBuilder {
       }
     )
 
-    this.writeFile(
+    await this.writeFile(
       '__ssg__/quasar.manifest.json',
       JSON.stringify(
         ssrManifest,
@@ -289,13 +438,14 @@ export class QuasarModeBuilder extends AppBuilder {
       join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
     )
 
-    const ssgPages = await getSsgPages({
+    const ssgPageList = await getSsgPages({
       ctx: this.quasarConf.ctx,
+      quasarConfSsg: this.quasarConf.ssg,
       parseVueRouterRoutes: getParseVueRouterRoutesFn(this.quasarConf),
       getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
 
-    if (ssgPages.length === 0) {
+    if (ssgPageList.length === 0) {
       fatal(
         'No SSG pages returned by getSsgPages() (see /src-ssg/ssg-renderer). Nothing to render.',
         'FAIL'
@@ -303,81 +453,194 @@ export class QuasarModeBuilder extends AppBuilder {
     }
 
     if (this.quasarConf.ssg.error404HtmlFilename) {
-      ssgPages.push({
-        route: '/______get-a-quasar-404-page______',
+      ssgPageList.push({
+        route: synthetic404Route,
         label: '404 page',
         dir: '',
         filename: this.quasarConf.ssg.error404HtmlFilename
       })
     }
 
+    const {
+      ssgRendererConcurrency,
+      noPreloadTagRoutes,
+      ssgRendererRetryCount,
+      ssgRendererRetryDelay
+    } = this.quasarConf.ssg
+
+    const isNoPreloadMatcher =
+      noPreloadTagRoutes.length !== 0
+        ? getRouteMatcher(noPreloadTagRoutes)
+        : null
+
+    const concurrencyBanner =
+      ssgRendererConcurrency > 1
+        ? ` (concurrency: ${ssgRendererConcurrency})`
+        : ''
+
     const done = progress({
       tool: 'SSG',
       waitAction: 'Rendering',
       doneAction: 'Rendered',
-      target: `${ssgPages.length} SSG page${ssgPages.length > 1 ? 's' : ''}`
+      target: `${ssgPageList.length} SSG page${ssgPageList.length > 1 ? 's' : ''}${concurrencyBanner}`
     })
 
-    for (const page of ssgPages) {
-      const ssrContext = page.ssrContext ?? {}
+    const { onSsgRendererError } = this.quasarConf.ssg
+    const handleError = getSsgRendererErrorHandler(onSsgRendererError)
+    let errorsEncountered = 0
+
+    const renderPage = async ssgPage => {
+      const ssrContext = ssgPage.ssrContext ?? {}
       const url =
         'http://localhost' +
-        (this.quasarConf.build.publicPath + page.route).replace(
+        (this.quasarConf.build.publicPath + ssgPage.route).replace(
           multiSlashRE,
           '/'
         )
 
       let html
-      try {
-        html = await renderSsgPage({
-          ...ssrContext,
-          url,
-          req: {
-            headers: {},
-            ...ssrContext.req,
-            url
-          }
-        })
-      } catch (err) {
-        console.log()
-        console.error(err)
-        console.error('\nOffending SSG page definition:')
-        console.error(page)
+      let retryCount = 0
 
+      while (true) {
+        try {
+          html = await renderSsgPage(
+            {
+              ...ssrContext,
+              url,
+              req: {
+                headers: {},
+                ...ssrContext.req,
+                url
+              }
+            },
+            !isNoPreloadMatcher?.(ssgPage.route)
+          )
+
+          if (typeof ssgPage.transformHtml === 'function') {
+            const result = await ssgPage.transformHtml(html)
+            if (typeof result === 'string') html = result
+          }
+
+          break
+        } catch (err) {
+          if (
+            err?.routeNotFound !== true &&
+            err?.redirectUrl === void 0 &&
+            retryCount < ssgRendererRetryCount
+          ) {
+            retryCount++
+
+            if (onSsgRendererError !== 'ignore') {
+              warn(
+                `Failed to render SSG page for ${getSsgPageIdentifier(ssgPage)}.` +
+                  ` Retrying in ${ssgRendererRetryDelay}ms...` +
+                  ` (${retryCount}/${ssgRendererRetryCount})`
+              )
+            }
+
+            await new Promise(resolve => {
+              setTimeout(resolve, ssgRendererRetryDelay)
+            })
+
+            continue
+          }
+
+          if (err?.routeNotFound) {
+            await handleError({
+              err,
+              reason:
+                ssgPage.route === synthetic404Route
+                  ? 'Vue Router did not match the synthetic 404 route. Add a catch-all route or set quasar.config.ssg.error404HtmlFilename to false'
+                  : 'Vue Router did not match the route',
+              ssgPage
+            })
+          } else if (err?.redirectUrl) {
+            await handleError({
+              err,
+              reason: `The route redirects to "${err.redirectUrl}". Generate the destination route instead.`,
+              ssgPage
+            })
+          } else {
+            await handleError({
+              err,
+              ssgPage
+            })
+          }
+
+          errorsEncountered++
+          return
+        }
+      }
+
+      const filename = join(
+        this.quasarConf.build.distDir,
+        ssgPage.dir ?? ssgPage.route.slice(1),
+        ssgPage.filename ?? 'index.html'
+      )
+
+      const hasFile = await this.writeFile(
+        filename,
+        html,
+        true /* noOverwrite */
+      )
+
+      if (hasFile) {
+        errorsEncountered++
+        const msg = `Tried to write SSG file but the target file already exists: ${filename}`
+        await handleError({
+          err: new Error(msg),
+          reason:
+            `${msg}. Check your SSG configuration for duplicate routes or filenames or` +
+            ' quasar.config html filenames settings.',
+          ssgPage
+        })
+      }
+    }
+
+    if (ssgRendererConcurrency > 1) {
+      const { runSequentialPromises } =
+        await import('../../utils/run-sequential-promises.js')
+
+      await runSequentialPromises(
+        ssgPageList.map(ssgPage => () => renderPage(ssgPage)),
+        {
+          threadsNumber: ssgRendererConcurrency
+        }
+      )
+    } else {
+      for (const ssgPage of ssgPageList) {
+        await renderPage(ssgPage)
+      }
+    }
+
+    if (errorsEncountered) {
+      if (!['warn', 'ignore'].includes(onSsgRendererError)) {
         fatal(
-          `Failed to render SSG page for route "${page.route}"` +
-            `${page.label ? ` [${page.label}]` : ''}. Check details above.`,
+          `Failed to render ${errorsEncountered} SSG page${errorsEncountered > 1 ? 's' : ''}. Check details above.`,
           'FAIL'
         )
       }
 
-      this.writeFile(
-        join(
-          this.quasarConf.build.distDir,
-          page.dir ?? page.route.slice(1),
-          page.filename ?? 'index.html'
-        ),
-        html,
-        () => {
-          console.log()
-          error(
-            `Rendered SSG page for route "${page.route}"` +
-              `${page.label ? ` [${page.label}]` : ''}, but` +
-              ' the target file already exists.' +
-              ' Check your SSG configuration for duplicate routes or filenames or' +
-              ' quasar.config html filenames settings.'
-          )
-          console.log()
-          console.error('Offending SSG page definition:')
-          console.error(page)
-          console.log()
-          process.exit(1)
-        }
+      console.log()
+      warn(
+        `Failed to render ${errorsEncountered} SSG page${errorsEncountered > 1 ? 's' : ''}.`,
+        'WARNING!'
       )
+      console.log()
     }
 
-    this.removeFile('__ssg__')
-    done()
+    await this.removeFile('__ssg__')
+
+    if (errorsEncountered) {
+      const renderedCount = ssgPageList.length - errorsEncountered
+      done({
+        target:
+          ` ${renderedCount}/${ssgPageList.length} SSG page` +
+          `${renderedCount > 1 ? 's' : ''}${concurrencyBanner}`
+      })
+    } else {
+      done()
+    }
   }
 
   async #getFilenameBasedRoutes() {

@@ -22,6 +22,7 @@ import useTransition, {
 } from '../../composables/private.use-transition/use-transition.js'
 import useTick from '../../composables/use-tick/use-tick.js'
 import useTimeout from '../../composables/use-timeout/use-timeout.js'
+import useId from '../../composables/use-id/use-id.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
@@ -38,6 +39,8 @@ import {
   validateOffset,
   validatePosition
 } from '../../utils/private.position-engine/position-engine.js'
+
+let nonSelectableCount = 0
 
 export default createComponent({
   name: 'QTooltip',
@@ -101,7 +104,11 @@ export default createComponent({
   emits: [...useModelToggleEmits],
 
   setup(props, { slots, emit, attrs }) {
-    let unwatchPosition, observer
+    let unwatchPosition,
+      observer,
+      removeNonSelectableTimer,
+      hasNonSelectable = false,
+      describedBy
 
     const vm = getCurrentInstance()
     const {
@@ -110,6 +117,8 @@ export default createComponent({
 
     const innerRef = ref(null)
     const showing = ref(false)
+    const targetUid = useId()
+    const tooltipId = computed(() => attrs.id || targetUid.value)
 
     const anchorOrigin = computed(() =>
       parsePosition(props.anchor, $q.lang.rtl)
@@ -186,6 +195,7 @@ export default createComponent({
 
     function handleShow(evt) {
       showPortal()
+      addAriaDescription()
 
       // should removeTick() if this gets removed
       registerTick(() => {
@@ -255,6 +265,8 @@ export default createComponent({
 
       unconfigureScrollTarget()
       cleanEvt(anchorEvents, 'tooltipTemp')
+      removeAriaDescription()
+      setNonSelectable(false)
     }
 
     function updatePosition() {
@@ -271,8 +283,13 @@ export default createComponent({
 
     function delayShow(evt) {
       if ($q.platform.is.mobile) {
+        if (removeNonSelectableTimer !== void 0) {
+          clearTimeout(removeNonSelectableTimer)
+          removeNonSelectableTimer = void 0
+        }
+
         clearSelection()
-        document.body.classList.add('non-selectable')
+        setNonSelectable(true)
 
         const target = anchorEl.value
         const evts = ['touchmove', 'touchcancel', 'touchend', 'click'].map(
@@ -292,8 +309,9 @@ export default createComponent({
         cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
         // delay needed otherwise selection still occurs
-        setTimeout(() => {
-          document.body.classList.remove('non-selectable')
+        removeNonSelectableTimer = setTimeout(() => {
+          removeNonSelectableTimer = void 0
+          setNonSelectable(false)
         }, 10)
       }
 
@@ -316,6 +334,51 @@ export default createComponent({
       addEvt(anchorEvents, 'anchor', evts)
     }
 
+    function setNonSelectable(state) {
+      if (hasNonSelectable === state) return
+
+      hasNonSelectable = state
+      nonSelectableCount += state ? 1 : -1
+      document.body.classList.toggle('non-selectable', nonSelectableCount > 0)
+
+      if (!state && removeNonSelectableTimer !== void 0) {
+        clearTimeout(removeNonSelectableTimer)
+        removeNonSelectableTimer = void 0
+      }
+    }
+
+    function addAriaDescription() {
+      const el = anchorEl.value,
+        id = tooltipId.value
+
+      if (el === null || id === void 0) return
+
+      const ids = (el.getAttribute('aria-describedby') || '')
+        .split(/\s+/)
+        .filter(Boolean)
+
+      describedBy = { el, id, added: !ids.includes(id) }
+
+      if (describedBy.added) {
+        ids.push(id)
+        el.setAttribute('aria-describedby', ids.join(' '))
+      }
+    }
+
+    function removeAriaDescription() {
+      if (describedBy?.added === true) {
+        const { el, id } = describedBy,
+          value = (el.getAttribute('aria-describedby') || '')
+            .split(/\s+/)
+            .filter(entry => entry !== '' && entry !== id)
+
+        if (value.length === 0) el.removeAttribute('aria-describedby')
+        else el.setAttribute('aria-describedby', value.join(' '))
+      }
+
+      describedBy = void 0
+    }
+
     function configureScrollTarget() {
       if (anchorEl.value !== null || props.scrollTarget !== void 0) {
         localScrollTarget.value = getScrollTarget(
@@ -334,6 +397,7 @@ export default createComponent({
             'div',
             {
               ...attrs,
+              id: tooltipId.value,
               ref: innerRef,
               class: [
                 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
