@@ -64,8 +64,7 @@ export class QuasarModeDevserver extends AppDevserver {
     this.#pathMap = {
       rootFolder: appPaths.appDir,
       templatePath: appPaths.resolve.app('index.html'),
-      serverEntryFile: appPaths.resolve.entry('server-entry.js'),
-      ssgCompiledFile: appPaths.resolve.entry('ssg.js')
+      serverEntryFile: appPaths.resolve.entry('server-entry.js')
     }
 
     this.registerDiff('csrRouteList', quasarConf => [
