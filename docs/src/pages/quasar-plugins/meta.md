@@ -95,6 +95,10 @@ export default {
 }
 ```
 
+::: warning Raw content
+The `innerHTML` property of a script entry and the content of a `noscript` entry are inserted as raw HTML. Never pass untrusted or unsanitized content to these properties. Prefer regular meta properties such as `content` for dynamic user-provided text.
+:::
+
 If you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself. For more information, check the "Reactive" section on this page.
 
 ### Options API
