@@ -15,13 +15,9 @@ export const useTableRowSelectionProps = {
 export const useTableRowSelectionEmits = ['update:selected', 'selection']
 
 export function useTableRowSelection(props, emit, computedRows, getRowKey) {
-  const selectedKeys = computed(() => {
-    const keys = {}
-    props.selected.map(getRowKey.value).forEach(key => {
-      keys[key] = true
-    })
-    return keys
-  })
+  const selectedKeys = computed(
+    () => new Set(props.selected.map(getRowKey.value))
+  )
 
   const hasSelectionMode = computed(() => props.selection !== 'none')
   const singleSelection = computed(() => props.selection === 'single')
@@ -29,19 +25,23 @@ export function useTableRowSelection(props, emit, computedRows, getRowKey) {
   const allRowsSelected = computed(
     () =>
       computedRows.value.length !== 0 &&
-      computedRows.value.every(row => selectedKeys.value[getRowKey.value(row)])
+      computedRows.value.every(row =>
+        selectedKeys.value.has(getRowKey.value(row))
+      )
   )
 
   const someRowsSelected = computed(
     () =>
       !allRowsSelected.value &&
-      computedRows.value.some(row => selectedKeys.value[getRowKey.value(row)])
+      computedRows.value.some(row =>
+        selectedKeys.value.has(getRowKey.value(row))
+      )
   )
 
   const rowsSelectedNumber = computed(() => props.selected.length)
 
   function isRowSelected(key) {
-    return selectedKeys.value[key] === true
+    return selectedKeys.value.has(key)
   }
 
   function clearSelection() {
