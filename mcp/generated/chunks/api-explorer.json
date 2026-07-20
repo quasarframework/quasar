@@ -1,0 +1,13 @@
+[
+  {
+    "id": "api-explorer#overview",
+    "documentId": "api-explorer",
+    "heading": "Quasar API Explorer",
+    "breadcrumb": ["Quasar API Explorer"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/api-explorer",
+    "content": "Here you can explore the API for all the Quasar UI Vue components, Vue directives & Quasar UI plugins.\n\n\n\nUse the structured API resources in this artifact to explore Quasar components, directives, and plugins.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

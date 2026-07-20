@@ -1,0 +1,57 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/preparation#install-cordova-cli",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/preparation",
+    "heading": "Install Cordova CLI",
+    "breadcrumb": ["Install Cordova CLI", "Install Cordova CLI"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation#install-cordova-cli",
+    "content": "Quasar invokes the `cordova` executable directly, so install Cordova CLI globally using your selected Node package manager:\n\n```tabs\n<<| bash PNPM |>>\npnpm add -g cordova\n<<| bash Yarn |>>\nyarn global add cordova\n<<| bash NPM |>>\nnpm i -g cordova\n<<| bash Bun |>>\nbun install -g cordova\n```\n\nVerify the installation:\n\n```bash\ncordova --version\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/preparation#android-setup",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/preparation",
+    "heading": "Android setup",
+    "breadcrumb": ["Android setup", "Android setup"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation#android-setup",
+    "content": "Install [Android Studio](https://developer.android.com/studio) and the Android SDK components required by the version of `cordova-android` in your project. Cordova's [Android platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/) lists the compatible Java, Gradle, Android Gradle Plugin, SDK, and build-tools versions.\n\nSet `ANDROID_HOME` to the Android SDK location and add the current command-line tools and platform tools to `PATH`:\n\n```bash\nexport ANDROID_HOME=\"$HOME/Android/Sdk\"\nexport PATH=\"$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools\"\n```\n\nOn macOS, the SDK is usually under `$HOME/Library/Android/sdk`. On Windows, it is commonly under `%LOCALAPPDATA%\\Android\\Sdk`.\n\n::: tip\n`ANDROID_SDK_ROOT` is deprecated. If an older tool still requires it, set it to the same location as `ANDROID_HOME`.\n:::\n\nAccept the installed SDK licenses and verify the toolchain:\n\n```bash\nsdkmanager --licenses\ncordova requirements android\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/preparation#ios-setup",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/preparation",
+    "heading": "iOS setup",
+    "breadcrumb": ["iOS setup", "iOS setup"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation#ios-setup",
+    "content": "iOS development requires macOS and a compatible [Xcode](https://developer.apple.com/xcode/) installation. Open Xcode once to finish installing components and accept its license. Check the [Cordova iOS platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/) for the requirements of the installed `cordova-ios` version.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/preparation#add-cordova-mode",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/preparation",
+    "heading": "Add Cordova mode",
+    "breadcrumb": ["Add Cordova mode", "Add Cordova mode"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation#add-cordova-mode",
+    "content": "Add the Cordova project under `/src-cordova`:\n\n```bash\nquasar mode add cordova\n```\n\nQuasar installs Android or iOS on demand when you first develop or build that target. To add one manually:\n\n```bash\ncd src-cordova\ncordova platform add [android|ios]\n```\n\nTreat `/src-cordova` as a native Cordova project and commit any intended configuration, plugin, resource, or native changes. The `/src-cordova/www` directory is generated and overwritten by Quasar builds.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/preparation#start-developing",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/preparation",
+    "heading": "Start developing",
+    "breadcrumb": ["Start developing", "Start developing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/preparation#start-developing",
+    "content": "```bash\nquasar dev -m cordova -T [android|ios]\n```\n\nQuasar starts the development server, prepares the native project, and opens Android Studio or Xcode. Select an emulator, simulator, or connected device from the IDE.\n\nDo not accept native toolchain upgrade suggestions automatically. First confirm that the proposed Java, Gradle, Android, or Xcode versions are supported by the installed Cordova platform version.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

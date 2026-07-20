@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "start/quick-start",
+  "title": "Quick Start",
+  "description": "Get up and developing a Quasar app in less than 3 minutes.",
+  "canonicalUrl": "https://quasar.dev/start/quick-start",
+  "source": "docs/src/pages/start/quick-start.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "start",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

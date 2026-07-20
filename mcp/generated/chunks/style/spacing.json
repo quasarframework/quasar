@@ -1,0 +1,68 @@
+[
+  {
+    "id": "style/spacing#overview",
+    "documentId": "style/spacing",
+    "heading": "CSS Spacing Classes",
+    "breadcrumb": ["CSS Spacing Classes"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/style/spacing",
+    "content": "There are CSS classes supplied by Quasar to help you with spacing for DOM elements or components. All options are\nprefixed with `q-` and then broken down into type (T), direction (D), and size (S). See the table below\nfor all possible permutations.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/spacing#syntax",
+    "documentId": "style/spacing",
+    "heading": "Syntax",
+    "breadcrumb": ["Syntax", "Syntax"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/spacing#syntax",
+    "content": "```\nq-[p|m][t|r|b|l|a|x|y]-[none|auto|xs|sm|md|lg|xl]\n    T       D                   S\n\nT - type\n  - values: p (padding), m (margin)\n\nD - direction\n  - values:\n      t (top), r (right), b (bottom), l (left),\n      a (all), x (both left & right), y (both top & bottom)\n\nS - size\n  - values:\n      none,\n      auto (ONLY for specific margins: q-ml-*, q-mr-*, q-mx-*),\n      xs (extra small),\n      sm (small),\n      md (medium),\n      lg (large),\n      xl (extra large)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/spacing#examples",
+    "documentId": "style/spacing",
+    "heading": "Examples",
+    "breadcrumb": ["Examples", "Examples"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/spacing#examples",
+    "content": "```html\n<!-- small padding in all directions -->\n<div class=\"q-pa-sm\">...</div>\n\n<!-- medium margin to top, small margin to right -->\n<q-card class=\"q-mt-md q-mr-sm\">...</q-card>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/spacing#flex-addons",
+    "documentId": "style/spacing",
+    "heading": "Flex Addons",
+    "breadcrumb": ["Flex Addons", "Flex Addons"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/spacing#flex-addons",
+    "content": "When enabled (through `quasar.config file > framework > cssAddon: true`) it provides breakpoint aware versions for all spacing related CSS classes.\n\n> Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.\n\n```\n.q-(p|m)(t|r|b|l|a|x|y)-<bp>-(none|auto|xs|sm|md|lg|xl)\n```\n\nExamples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/spacing#table-of-permutations",
+    "documentId": "style/spacing",
+    "heading": "Table of permutations",
+    "breadcrumb": ["Table of permutations", "Table of permutations"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/spacing#table-of-permutations",
+    "content": "| Prefix | Type          | Direction          | Size               | Example     |\n| ------ | ------------- | ------------------ | ------------------ | ----------- |\n| `q-`   | `p` (padding) | `t` (top)          | `none`             | `q-pt-none` |\n| `q-`   | `p` (padding) | `t` (top)          | `xs` (extra small) | `q-pt-xs`   |\n| `q-`   | `p` (padding) | `t` (top)          | `sm` (small)       | `q-pt-sm`   |\n| `q-`   | `p` (padding) | `t` (top)          | `md` (medium)      | `q-pt-md`   |\n| `q-`   | `p` (padding) | `t` (top)          | `lg` (large)       | `q-pt-lg`   |\n| `q-`   | `p` (padding) | `t` (top)          | `xl` (extra large) | `q-pt-xl`   |\n| `q-`   | `p` (padding) | `r` (right)        | `none`             | `q-pr-none` |\n| `q-`   | `p` (padding) | `r` (right)        | `xs` (extra small) | `q-pr-xs`   |\n| `q-`   | `p` (padding) | `r` (right)        | `sm` (small)       | `q-pr-sm`   |\n| `q-`   | `p` (padding) | `r` (right)        | `md` (medium)      | `q-pr-md`   |\n| `q-`   | `p` (padding) | `r` (right)        | `lg` (large)       | `q-pr-lg`   |\n| `q-`   | `p` (padding) | `r` (right)        | `xl` (extra large) | `q-pr-xl`   |\n| `q-`   | `p` (padding) | `b` (bottom)       | `none`             | `q-pb-none` |\n| `q-`   | `p` (padding) | `b` (bottom)       | `xs` (extra small) | `q-pb-xs`   |\n| `q-`   | `p` (padding) | `b` (bottom)       | `sm` (small)       | `q-pb-sm`   |\n| `q-`   | `p` (padding) | `b` (bottom)       | `md` (medium)      | `q-pb-md`   |\n| `q-`   | `p` (padding) | `b` (bottom)       | `lg` (large)       | `q-pb-lg`   |\n| `q-`   | `p` (padding) | `b` (bottom)       | `xl` (extra large) | `q-pb-xl`   |\n| `q-`   | `p` (padding) | `l` (left)         | `none`             | `q-pl-none` |\n| `q-`   | `p` (padding) | `l` (left)         | `xs` (extra small) | `q-pl-xs`   |\n| `q-`   | `p` (padding) | `l` (left)         | `sm` (small)       | `q-pl-sm`   |\n| `q-`   | `p` (padding) | `l` (left)         | `md` (medium)      | `q-pl-md`   |\n| `q-`   | `p` (padding) | `l` (left)         | `lg` (large)       | `q-pl-lg`   |\n| `q-`   | `p` (padding) | `l` (left)         | `xl` (extra large) | `q-pl-xl`   |\n| `q-`   | `p` (padding) | `a` (all)          | `none`             | `q-pa-none` |\n| `q-`   | `p` (padding) | `a` (all)          | `xs` (extra small) | `q-pa-xs`   |\n| `q-`   | `p` (padding) | `a` (all)          | `sm` (small)       | `q-pa-sm`   |\n| `q-`   | `p` (padding) | `a` (all)          | `md` (medium)      | `q-pa-md`   |\n| `q-`   | `p` (padding) | `a` (all)          | `lg` (large)       | `q-pa-lg`   |\n| `q-`   | `p` (padding) | `a` (all)          | `xl` (extra large) | `q-pa-xl`   |\n| `q-`   | `p` (padding) | `x` (left & right) | `none`             | `q-px-none` |\n| `q-`   | `p` (padding) | `x` (left & right) | `xs` (extra small) | `q-px-xs`   |\n| `q-`   | `p` (padding) | `x` (left & right) | `sm` (small)       | `q-px-sm`   |\n| `q-`   | `p` (padding) | `x` (left & right) | `md` (medium)      | `q-px-md`   |\n| `q-`   | `p` (padding) | `x` (left & right) | `lg` (large)       | `q-px-lg`   |\n| `q-`   | `p` (padding) | `x` (left & right) | `xl` (extra large) | `q-px-xl`   |\n| `q-`   | `p` (padding) | `y` (top & bottom) | `none`             | `q-py-none` |\n| `q-`   | `p` (padding) | `y` (top & bottom) | `xs` (extra small) | `q-py-xs`   |\n| `q-`   | `p` (padding) | `y` (top & bottom) | `sm` (small)       | `q-py-sm`   |\n| `q-`   | `p` (padding) | `y` (top & bottom) | `md` (medium)      | `q-py-md`   |\n| `q-`   | `p` (padding) | `y` (top & bottom) | `lg` (large)       | `q-py-lg`   |\n| `q-`   | `p` (padding) | `y` (top & bottom) | `xl` (extra large) | `q-py-xl`   |\n| `q-`   | `m` (margin)  | `t` (top)          | `none`             | `q-mt-none` |\n| `q-`   | `m` (margin)  | `t` (top)          | `xs` (extra small) | `q-mt-xs`   |\n| `q-`   | `m` (margin)  | `t` (top)          | `sm` (small)       | `q-mt-sm`   |\n| `q-`   | `m` (margin)  | `t` (top)          | `md` (medium)      | `q-mt-md`   |\n| `q-`   | `m` (margin)  | `t` (top)          | `lg` (large)       | `q-mt-lg`   |\n| `q-`   | `m` (margin)  | `t` (top)          | `xl` (extra large) | `q-mt-xl`   |\n| `q-`   | `m` (margin)  | `t` (top)          | `auto`             | `q-mt-auto` |\n| `q-`   | `m` (margin)  | `r` (right)        | `none`             | `q-mr-none` |\n| `q-`   | `m` (margin)  | `r` (right)        | `xs` (extra small) | `q-mr-xs`   |\n| `q-`   | `m` (margin)  | `r` (right)        | `sm` (small)       | `q-mr-sm`   |\n| `q-`   | `m` (margin)  | `r` (right)        | `md` (medium)      | `q-mr-md`   |\n| `q-`   | `m` (margin)  | `r` (right)        | `lg` (large)       | `q-mr-lg`   |\n| `q-`   | `m` (margin)  | `r` (right)        | `xl` (extra large) | `q-mr-xl`   |\n| `q-`   | `m` (margin)  | `r` (right)        | `auto`             | `q-mr-auto` |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `none`             | `q-mb-none` |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `xs` (extra small) | `q-mb-xs`   |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `sm` (small)       | `q-mb-sm`   |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `md` (medium)      | `q-mb-md`   |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `lg` (large)       | `q-mb-lg`   |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `xl` (extra large) | `q-mb-xl`   |\n| `q-`   | `m` (margin)  | `b` (bottom)       | `auto`             | `q-mb-auto` |\n| `q-`   | `m` (margin)  | `l` (left)         | `none`             | `q-ml-none` |\n| `q-`   | `m` (margin)  | `l` (left)         | `xs` (extra small) | `q-ml-xs`   |\n| `q-`   | `m` (margin)  | `l` (left)         | `sm` (small)       | `q-ml-sm`   |\n| `q-`   | `m` (margin)  | `l` (left)         | `md` (medium)      | `q-ml-md`   |\n| `q-`   | `m` (margin)  | `l` (left)         | `lg` (large)       | `q-ml-lg`   |\n| `q-`   | `m` (margin)  | `l` (left)         | `xl` (extra large) | `q-ml-xl`   |\n| `q-`   | `m` (margin)  | `l` (left)         | `auto`             | `q-ml-auto` |\n| `q-`   | `m` (margin)  | `a` (all)          | `none`             | `q-ma-none` |\n| `q-`   | `m` (margin)  | `a` (all)          | `xs` (extra small) | `q-ma-xs`   |\n| `q-`   | `m` (margin)  | `a` (all)          | `sm` (small)       | `q-ma-sm`   |\n| `q-`   | `m` (margin)  | `a` (all)          | `md` (medium)      | `q-ma-md`   |\n| `q-`   | `m` (margin)  | `a` (all)          | `lg` (large)       | `q-ma-lg`   |\n| `q-`   | `m` (margin)  | `a` (all)          | `xl` (extra large) | `q-ma-xl`   |\n| `q-`   | `m` (margin)  | `x` (left & right) | `none`             | `q-mx-none` |\n| `q-`   | `m` (margin)  | `x` (left & right) | `xs` (extra small) | `q-mx-xs`   |\n| `q-`   | `m` (margin)  | `x` (left & right) | `sm` (small)       | `q-mx-sm`   |\n| `q-`   | `m` (margin)  | `x` (left & right) | `md` (medium)      | `q-mx-md`   |\n| `q-`   | `m` (margin)  | `x` (left & right) | `lg` (large)       | `q-mx-lg`   |\n| `q-`   | `m` (margin)  | `x` (left & right) | `xl` (extra large) | `q-mx-xl`   |\n| `q-`   | `m` (margin)  | `x` (left & right) | `auto`             | `q-mx-auto` |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `none`             | `q-my-none` |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `xs` (extra small) | `q-my-xs`   |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `sm` (small)       | `q-my-sm`   |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `md` (medium)      | `q-my-md`   |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `lg` (large)       | `q-my-lg`   |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `xl` (extra large) | `q-my-xl`   |\n| `q-`   | `m` (margin)  | `y` (top & bottom) | `auto`             | `q-my-auto` |\n\n::: tip\nSee more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#flex-addons).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/spacing#other-related",
+    "documentId": "style/spacing",
+    "heading": "Other Related",
+    "breadcrumb": ["Other Related", "Other Related"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/spacing#other-related",
+    "content": "| Class Name   | Description                 |\n| ------------ | --------------------------- |\n| `no-margin`  | Removes any applied margins |\n| `no-padding` | Removes any applied padding |",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

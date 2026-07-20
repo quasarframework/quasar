@@ -20,7 +20,7 @@ Bottom Sheets can be displayed as a list or as a grid, with icons or with avatar
 
 **API reference:** [BottomSheet](../../api/BottomSheet.md)
 
-<DocInstall plugins="BottomSheet" />
+**Configuration:** register BottomSheet through `framework.plugins` in `quasar.config`.
 
 ## Usage
 
@@ -46,7 +46,7 @@ Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action
 
 Source: [Basic.vue](../../examples/BottomSheet/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn
@@ -130,13 +130,13 @@ function show(grid) {
     })
 }
 </script>
-````
+```
 
 **Example: Force dark mode**
 
 Source: [Dark.vue](../../examples/BottomSheet/Dark.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn
@@ -221,7 +221,7 @@ function show(grid) {
     })
 }
 </script>
-````
+```
 
 ::: tip
 For an exhaustive list of options, please check API section.

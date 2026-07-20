@@ -1,0 +1,24 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/seo-for-ssr#overview",
+    "documentId": "quasar-cli-vite/developing-ssr/seo-for-ssr",
+    "heading": "SEO for SSR",
+    "breadcrumb": ["SEO for SSR"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/seo-for-ssr",
+    "content": "Server-rendered content helps crawlers read each route, but effective search optimization still requires accurate per-page metadata. Use the [Quasar Meta Plugin](/quasar-plugins/meta) to provide it during SSR.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/seo-for-ssr#quasar-meta-plugin",
+    "documentId": "quasar-cli-vite/developing-ssr/seo-for-ssr",
+    "heading": "Quasar Meta Plugin",
+    "breadcrumb": ["Quasar Meta Plugin", "Quasar Meta Plugin"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/seo-for-ssr#quasar-meta-plugin",
+    "content": "The [Quasar Meta Plugin](/quasar-plugins/meta) can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.\n\n::: tip\nThe Meta Plugin integrates with Quasar SSR so metadata collected while rendering is included in the server response and then managed on the client after hydration.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

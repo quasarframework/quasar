@@ -1,0 +1,105 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#q-capacitor",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "$q.capacitor",
+    "breadcrumb": ["$q.capacitor", "$q.capacitor"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#q-capacitor",
+    "content": "In Capacitor mode, `$q.capacitor` provides the Capacitor global in Vue components. For application code, you can also import the APIs you need directly from `@capacitor/core` or an installed Capacitor plugin.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#development-app-shows-a-blank-screen",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "Development app shows a blank screen",
+    "breadcrumb": [
+      "Development app shows a blank screen",
+      "Development app shows a blank screen"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#development-app-shows-a-blank-screen",
+    "content": "During `quasar dev -m capacitor`, the native app loads the UI from Quasar's development server. The selected development-server address must be reachable from the emulator or physical device.\n\nCheck that:\n\n- the device and development machine can reach each other over the network\n- the selected host address belongs to the correct network interface\n- the firewall allows the Quasar development-server port\n- a VPN, proxy, guest Wi-Fi, or client-isolation setting is not blocking device-to-device traffic\n- the development URL opens from the device's browser\n\nInspect the native WebView console for the exact connection or certificate error. If HTTPS is enabled, the device must trust the development certificate.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#remote-debugging",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "Remote debugging",
+    "breadcrumb": ["Android", "Remote debugging", "Remote debugging"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#remote-debugging",
+    "content": "Use Chrome's [WebView remote debugging](https://developer.chrome.com/docs/devtools/remote-debugging/webviews) to inspect the app running on an Android device or emulator. Open `chrome://inspect` on the development machine after enabling USB debugging and connecting the device.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#sdk-licenses-and-environment",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "SDK licenses and environment",
+    "breadcrumb": [
+      "Android",
+      "SDK licenses and environment",
+      "SDK licenses and environment"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#sdk-licenses-and-environment",
+    "content": "Accept Android SDK licenses with:\n\n```bash\nsdkmanager --licenses\n```\n\nWith a current command-line tools installation, `sdkmanager` is normally under `$ANDROID_HOME/cmdline-tools/latest/bin`. Set `ANDROID_HOME` to the SDK directory and include both that directory and `$ANDROID_HOME/platform-tools` in `PATH` as described on the [Preparation](/quasar-cli-vite/developing-capacitor-apps/preparation) page.\n\nUse `adb devices` to confirm that a connected device is visible and authorized. On Linux, follow the current [Android hardware-device setup](https://developer.android.com/studio/run/device#setting-up) instructions for USB permissions rather than applying a generic, permissive udev ruleset.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#native-toolchain-upgrades",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "Native toolchain upgrades",
+    "breadcrumb": [
+      "Android",
+      "Native toolchain upgrades",
+      "Native toolchain upgrades"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#native-toolchain-upgrades",
+    "content": "Do not accept Android Studio upgrade suggestions automatically. Gradle, the Android Gradle Plugin, Java, and SDK requirements are tied to the Capacitor major version. Follow Capacitor's upgrade guide and commit the native project before changing them.\n\nIf Android Studio reports stale indexing or synchronization errors, first run the configured Capacitor synchronization command again. You can then try **File > Invalidate Caches** if the generated project is correct but the IDE state remains stale.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#remote-debugging",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "Remote debugging",
+    "breadcrumb": ["iOS", "Remote debugging", "Remote debugging"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#remote-debugging",
+    "content": "Use Safari Web Inspector to inspect an app running on an iOS device or simulator. Enable Web Inspector on the device and the Develop menu in Safari, then select the app's WebView from the connected device or simulator.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#cocoapods-and-native-dependencies",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "CocoaPods and native dependencies",
+    "breadcrumb": [
+      "iOS",
+      "CocoaPods and native dependencies",
+      "CocoaPods and native dependencies"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#cocoapods-and-native-dependencies",
+    "content": "If Capacitor reports that CocoaPods is unavailable or Xcode cannot load a Pods configuration file, install CocoaPods using the method recommended for your environment and run `pnpm exec cap sync ios` from `/src-capacitor`. Open the generated `.xcworkspace` when CocoaPods dependencies are present.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#status-bar-and-safe-areas",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+    "heading": "Status bar and safe areas",
+    "breadcrumb": ["Status bar and safe areas", "Status bar and safe areas"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips#status-bar-and-safe-areas",
+    "content": "Devices can reserve space for status bars, rounded corners, camera cutouts, and home indicators. Quasar components such as QHeader, QFooter, and Notify account for common safe-area cases, but test the app on multiple device shapes and orientations.\n\nFor custom layout elements, use the standard CSS environment variables:\n\n```css\n.top-element {\n  padding-top: env(safe-area-inset-top, 0px);\n}\n\n.bottom-element {\n  padding-bottom: env(safe-area-inset-bottom, 0px);\n}\n```\n\nWhether to use padding or margin depends on the layout and background you want to extend into the safe area.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

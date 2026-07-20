@@ -1,0 +1,35 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/build-commands#overview",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/build-commands",
+    "heading": "Cordova Build Commands",
+    "breadcrumb": ["Cordova Build Commands"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/build-commands",
+    "content": "Before we dive in, make sure you got the Cordova CLI installed.\n\n```tabs\n<<| bash PNPM |>>\npnpm add -g cordova\n<<| bash Yarn |>>\nyarn global add cordova\n<<| bash NPM |>>\nnpm i -g cordova\n<<| bash Bun |>>\nbun install -g cordova\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/build-commands#developing",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/build-commands",
+    "heading": "Developing",
+    "breadcrumb": ["Developing", "Developing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/build-commands#developing",
+    "content": "```bash\nquasar dev -m cordova -T [ios|android]\n\n# ..or the longer form:\nquasar dev --mode cordova --target [ios|android]\n\n# passing extra parameters and/or options to\n# underlying \"cordova\" executable:\nquasar dev -m cordova -T ios -- some params --and options --here\n# when on Windows and using Powershell:\nquasar dev -m cordova -T ios '--' some params --and options --here\n```\n\nIt will open the IDE (Android Studio / Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a real mobile/tablet device.\n\n::: warning\nDo not accept Android Studio upgrade suggestions automatically. Confirm that the proposed Java, Gradle, Android Gradle Plugin, and SDK versions are supported by the installed `cordova-android` version.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-upgrade-notice.png\" alt=\"Gradle upgrade\" class=\"q-my-md rounded-borders\" style=\"max-width: 350px\">\n\nIf you encounter any IDE errors then click on File > Invalidate caches and restart.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-invalidate-cache.png\" alt=\"Gradle upgrade\" class=\"q-mt-md rounded-borders\" style=\"max-width: 350px\">\n\n:::\n\nIn order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:\n\n1. Detects your machine's external IP address. If there are multiple such IPs detected, then it asks you to choose one. If you'll be using a mobile phone to develop then choose the IP address of your machine that's pingable from the phone/tablet.\n2. It starts up a development server on your machine.\n3. It temporarily changes the `<content/>` tag in `/src-cordova/config.xml` to point to the IP previously detected. This allows the app to connect to the development server.\n4. It runs `cordova prepare` for the selected platform.\n5. It opens Android Studio or Xcode, where you select and run an emulator, simulator, or connected device.\n6. When the Cordova development process stops, Quasar reverts its temporary changes to `/src-cordova/config.xml`.\n\n::: danger\nWhen developing on a physical device, the selected address of the development machine must be reachable from that device. Ensure the firewall permits the development-server port and that the network does not isolate connected clients.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/build-commands#building-for-production",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/build-commands",
+    "heading": "Building for production",
+    "breadcrumb": ["Building for production", "Building for production"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/build-commands#building-for-production",
+    "content": "```bash\nquasar build -m cordova -T [android|ios]\n\n# ..or the longer form:\nquasar build --mode cordova --target [ios|android]\n\n# this skips .app or .apk creation and just fills in /src-cordova/www\nquasar build -m cordova -T [ios|android] --skip-pkg\n\n# passing extra parameters and/or options to\n# underlying \"cordova\" executable:\nquasar build -m cordova -T ios -- some params --and options --here\n```\n\n- These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then defer to Cordova CLI to trigger the actual native app creation.\n\n- Built packages will be located in `/dist/cordova` unless configured otherwise.\n\n- If you wish to skip the native Cordova build, generate `/src-cordova/www` and run `cordova prepare` only:\n\n```bash\nquasar build -m cordova -T [ios|android] --skip-pkg\n```\n\n- Should you wish to manually build the final assets using the IDE (Android Studio / Xcode) instead of doing a terminal build, then:\n\n```bash\nquasar build -m cordova -T [ios|android] --ide\n```\n\n::: warning\nDo not accept Android Studio upgrade suggestions automatically. Check the compatibility requirements of the installed Cordova platform before changing the native toolchain.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-upgrade-notice.png\" alt=\"Gradle upgrade\" class=\"q-my-md rounded-borders\" style=\"max-width: 350px\">\n\nIf you encounter any IDE errors then click on File > Invalidate caches and restart.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-invalidate-cache.png\" alt=\"Gradle upgrade\" class=\"q-mt-md rounded-borders\" style=\"max-width: 350px\">\n\n:::\n\nIf you want a production build with debugging enabled for the UI code:\n\n```bash\nquasar build -m cordova -T [ios|android] -d\n\n# ..or the longer form\nquasar build -m cordova -T [ios|android] --debug\n```\n\n::: tip\nAlso check `getCordovaBuildParams()` and `getCordovaBuildOutputFolder()` (quasar.config > cordova options) from [Configuring Cordova](/quasar-cli-vite/developing-cordova-apps/configuring-cordova#quasar-config-file) page.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

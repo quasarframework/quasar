@@ -1,0 +1,275 @@
+[
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#overview",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "The import.meta.env and dotenv files support",
+    "breadcrumb": ["The import.meta.env and dotenv files support"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env",
+    "content": "Using `import.meta.env` can help you in many ways:\n\n- differentiating runtime procedure depending on Quasar Mode (SPA/PWA/Cordova/Electron)\n- differentiating runtime procedure depending if running a dev or production build\n- adding flags to it based on terminal environment variables at build time\n\n::: tip Terminology on client vs backend code\nWe will be using `client code` and `backend code` on this page:\n\n- The backend code refers to the /quasar.config file and the code that your client users don't have access to, like the SSR Webserver or SSR/SSG Server code.\n- The client code refers to code that is being shipped to your client, like /src, /src-pwa, /src-electron, SSR Client etc.\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#values-provided-by-quasar-cli",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Values provided by Quasar CLI",
+    "breadcrumb": [
+      "Values provided by Quasar CLI",
+      "Values provided by Quasar CLI"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#values-provided-by-quasar-cli",
+    "content": "| `import.meta.env.<name>` | Type    | Meaning                                                                                      |\n| ------------------------ | ------- | -------------------------------------------------------------------------------------------- |\n| `QUASAR_DEV`             | Boolean | Code runs in development mode                                                                |\n| `QUASAR_PROD`            | Boolean | Code runs in production mode                                                                 |\n| `QUASAR_DEBUG`           | Boolean | Code runs in development mode or `--debug` flag was set for production mode                  |\n| `QUASAR_CLIENT`          | Boolean | Code runs on client (not on server)                                                          |\n| `QUASAR_SERVER`          | Boolean | Code runs on server (not on client)                                                          |\n| `QUASAR_MODE`            | String  | Quasar CLI mode (`spa`, `pwa`, ...)                                                          |\n| `QUASAR_<MODE>_MODE`     | Boolean | Code runs in `<MODE>` Quasar mode. Example: QUASAR_ELECTRON_MODE                             |\n| `QUASAR_TARGET`          | String  | Can be `ios` or `android` for Cordova/Capacitor modes and `chrome` or `firefox` for BEX mode |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#javascript-typescript",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "JavaScript / TypeScript",
+    "breadcrumb": [
+      "Usage",
+      "JavaScript / TypeScript",
+      "JavaScript / TypeScript"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#javascript-typescript",
+    "content": "```js Basic example\nif (import.meta.env.QUASAR_DEV) {\n  console.log(`I'm on a development build`)\n}\n\n// import.meta.env.MODE is the <mode> in\n// \"quasar dev/build -m <mode>\"\n// (defaults to 'spa' if -m parameter is not specified)\n\nif (import.meta.env.QUASAR_MODE === 'electron') {\n  // ...\n}\n\n// alternatively, use:\nif (import.meta.env.QUASAR_ELECTRON_MODE) {\n  // ...\n}\n```\n\nWhen compiling your website/app, `if ()` branches depending on import.meta.env are evaluated, and if the expression is `false`, they get stripped out of the file. Example:\n\n```js Stripping out code\nif (import.meta.env.QUASAR_DEV) {\n  console.log('dev')\n} else {\n  console.log('build')\n}\n\n// running with \"quasar dev\" will result in:\nconsole.log('dev')\n// while running with \"quasar build\" will result in:\nconsole.log('build')\n```\n\nNotice above that the `if`s are evaluated and also completely stripped out at compile-time, resulting in a smaller bundle.\n\nAlso, you can combine what you learned above with dynamic imports:\n\n```js Dynamic import\nif (import.meta.env.QUASAR_MODE === 'electron') {\n  import('my-fancy-npm-package').then(package => {\n    // notice \"default\" below, which is the prop with which\n    // you can access what your npm imported package exports\n    package.default.doSomething()\n  })\n}\n\n// alternatively:\nif (import.meta.env.QUASAR_ELECTRON_MODE) {\n  // ...\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#the-index-html-file",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "The /index.html file",
+    "breadcrumb": ["Usage", "The /index.html file", "The /index.html file"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#the-index-html-file",
+    "content": "<!-- prettier-ignore -->\n```\n<%= importMetaEnv.MY_ENV_VAR_OR_DEFINE %>\n<!-- or shorthand: -->\n%MY_ENV_VAR_OR_DEFINE%\n\n<% if (importMetaEnv.MY_ENV_VAR_OR_DEFINE) { %>Wow!<% } %>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#with-quasar-config-file",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "With /quasar.config file",
+    "breadcrumb": [
+      "Adding to import.meta.env",
+      "With /quasar.config file",
+      "With /quasar.config file"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#with-quasar-config-file",
+    "content": "You can add your own definitions through the `/quasar.config` file:\n\n```ts /quasar.config file\nbuild: {\n  /**\n   * Define global constant replacements. Entries will be defined as globals\n   * during dev and statically replaced during build.\n   *\n   * This gets supplied to Vite's & Rolldown's own \"define\" option,\n   * which in turn uses Oxc's \"define\" feature to perform replacements.\n   *\n   * All non-string values are automatically JSON.stringified by Quasar CLI.\n   * This ensures consistency between Vite & Rolldown builds and avoids Rolldown to fail.\n   *\n   * @example { __APP_VERSION__: JSON.stringify('v1.0.0') }\n   * @example { 'import.meta.env.APP_VERSION': JSON.stringify('v1.0.0') }\n   * @example { __API_URL__: 'window.__backend_api_url' }\n   */\n  define?: Record<\n    string,\n    string | number | boolean | undefined | null | any[] | Record<string, any>\n  >;\n\n  /**\n   * Sugar for `define` option. Define global constant replacements that will\n   * be automatically transformed into \"define\" entries with the `import.meta.env` prefix\n   * and already JSON-stringified.\n   *\n   * @example { SOME_DEFINE: 'my-string' } will be transformed into { 'import.meta.env.SOME_DEFINE': '\"my-string\"' }\n   * @example { VERSION: 22 } will be transformed into { 'import.meta.env.VERSION': '22' }\n   */\n  defineEnv?: Record<\n    string,\n    string | number | boolean | undefined | null | any[] | Record<string, any>\n  >;\n}\n```\n\n```js /quasar.config example\nexport default defineConfig(ctx => {\n  return {\n    // ...\n\n    build: {\n      // passing down to UI code from the quasar.config file\n      define: {\n        'import.meta.env.API': JSON.stringify(\n          ctx.dev ? 'https://dev.api.com' : 'https://prod.api.com'\n        ),\n        'import.meta.env.VERSION': JSON.stringify(22)\n      },\n\n      // ALTERNATIVE using the sugar syntax of defineEnv:\n      defineEnv: {\n        API: ctx.dev ? 'https://dev.api.com' : 'https://prod.api.com',\n        VERSION: 22\n      }\n    }\n  }\n})\n```\n\nThen, in your website/app, you can access `import.meta.env.API` and it will point to one of those two links above, depending on dev or production build type. The `import.meta.env.VERSION` will also be available.\n\n::: tip\nThere is a fundamental difference between `build.define` and `build.defineEnv`. The build.defineEnv is syntax sugar over build.define:\n\n- It automatically translates to build.define syntax, adding \"import.meta.env.\" to the key prefix and JSON stringifies the value.\n- The build.define can also be used to inject non \"import.meta.env\" definitions. Example:\n\n<br>\n\n```js\nbuild: {\n  define: {\n    __APP_VERSION__: JSON.stringify('v1.0.0')\n  }\n}\n\n// then use as __APP_VERSION__ directly\n```\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#from-command-line",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "From command line",
+    "breadcrumb": [
+      "Adding to import.meta.env",
+      "From command line",
+      "From command line"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#from-command-line",
+    "content": "We can set variables from the terminal.\n\n```bash\nMY_API=api.com QCLI_MY_API=api.com  quasar build\n```\n\n```js\n// client code:\nconsole.log(import.meta.env.QCLI_MY_API) // \"api.com\"\nconsole.log(import.meta.env.MY_API) // undefined\n\n// backend code\nconsole.log(import.meta.env.QCLI_MY_API) // \"api.com\"\nconsole.log(import.meta.env.MY_API) // \"api.com\"\n```\n\nWe can combine it with values coming from the terminal:\n\n```bash\n# we set an env variable in terminal\nMY_API=api.com quasar build\nMY_API=api.com quasar dev\n```\n\n```js /quasar.config file\n// then we pick it up in the /quasar.config file\nbuild: {\n  defineEnv: {\n    API: ctx.dev\n      ? 'https://dev.' + import.meta.env.MY_API\n      : 'https://prod.' + import.meta.env.MY_API\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#from-dotenv-files",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "From dotenv files",
+    "breadcrumb": [
+      "Adding to import.meta.env",
+      "From dotenv files",
+      "From dotenv files"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#from-dotenv-files",
+    "content": "```bash /.env\n# NOT exposed to client code, but exposed to backend;\n# it does NOT start with QCLI_ prefix:\nSOME_VAR=content\n\n# this will be embedded into backend & client code,\n# as it starts with QCLI_ prefix:\nQCLI_SOME_VAR=content\n```\n\n```js Usage example\nimport.meta.env.SOME_VAR // ❌ Not available in client code\nimport.meta.env.QCLI_SOME_VAR // ✅ Available in client code\n```\n\nYour dotenv files can contain references (cross dotenv files, but the order matters):\n\n```bash /.env\nPASSWORD=\"s1mpl3\"\n\n# reference PASSWORD above:\nDB_PASS=$PASSWORD\n\n# reference a variable coming from terminal;\n# let's say we have SOME_VALUE defined in terminal:\nMY_VAR=$SOME_VALUE\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#wrong-usage",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Wrong usage",
+    "breadcrumb": ["Wrong usage", "Wrong usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#wrong-usage",
+    "content": "You might be getting `X is undefined` errors in the browser console if you are accessing the variables in a wrong way or if you have a misconfiguration.\n\n```js\n// in /quasar.config file:\nbuild: {\n  defineEnv: {\n    FOO: 'hello',\n  }\n}\n\n// in your app:\nconsole.log(import.meta.env.FOO) // ✅\nconsole.log(import.meta.env.foo) // ❌ Case sensitive\nconsole.log(import.meta.env.F0O) // ❌ Typo in the variable name (middle o is 0(zero))\nconsole.log(import.meta.env.BAR) // ❌ It's not defined in config\n```\n\nFor code in your `/src-ssr`, `/src-electron`, etc. (Quasar Mode folders) there are additional restrictions:\n\n```js\nconst { FOO } = import.meta.env // ❌ It doesn't allow destructuring or similar\nconsole.log(import.meta.env.FOO) // ✅ It can only replace direct usage like this\n\nfunction getEnv(name) {\n  return import.meta.env[name] // ❌ It can't analyze dynamic usage\n}\n\nconsole.log(import.meta.env) // ❌ It will output {}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#the-order-when-constructing-import-meta-env",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "The order when constructing import.meta.env",
+    "breadcrumb": [
+      "The order when constructing import.meta.env",
+      "The order when constructing import.meta.env"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#the-order-when-constructing-import-meta-env",
+    "content": "As you may have noticed, the `import.meta.env` gets constructed from multiple inputs. You may have cases where you overwrite a definition. To make it clear, this is the order that is taken into account:\n\n1. Dotenv files\n2. Terminal variables\n3. /quasar.config > build > define\n4. /quasar.config > build > defineEnv",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#type-inference",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Type inference",
+    "breadcrumb": ["Type inference", "Type inference"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#type-inference",
+    "content": "Quasar CLI automatically infers and maintains the type for process.env (terminal variables), dotenv files, /quasar.config > define & defineEnv.\n\n| Example value | Inferred type | Replaced with  |\n| ------------- | ------------- | -------------- |\n| true          | boolean       | `true`         |\n| 42            | number        | `42`           |\n| null          | null          | `null`         |\n| hello         | string        | `\"hello\"`      |\n| [1,2,3]       | string        | `\"[1,2,3]\"`    |\n| {some:'obj'}  | string        | `\"{some:obj}\"` |\n\nHere is an example with the input/config and output (your code):\n\n```tabs Input/config\n<<| bash Terminal |>>\n# we declare some process env variables when invoking a quasar cmd:\nFLAG_BOOL=true FLAG_STR=HelloWorld FLAG_NULL=null FLAG_ARR=[1,2,3] FLAG_OBJ={key:'val'} quasar dev\n<<| js /quasar.config file |>>\nbuild: {\n  define: {\n    DEFINE_BOOL: JSON.stringify(true),\n    DEFINE_STR: JSON.stringify(\"hello\"),\n    DEFINE_NUMBER: JSON.stringify(42),\n    DEFINE_NULL: JSON.stringify(null),\n    DEFINE_ARR: JSON.stringify([1,2,3]),\n    DEFINE_OBJ: JSON.stringify({key: \"val\"})\n  },\n\n  defineEnv: {\n    DEFINE_ENV_BOOL: true,\n    DEFINE_ENV_STR: \"hello\",\n    DEFINE_ENV_NUMBER: 42,\n    DEFINE_ENV_NULL: null,\n    DEFINE_ENV_ARR: [1,2,3],\n    DEFINE_ENV_OBJ: {key:\"val\"}\n  }\n}\n<<| bash /.env |>>\n# backend only:\nDOTENV_BOOL=true\nDOTENV_STR=hello\nDOTENV_NUMBER=42\nDOTENV_NULL=null\nDOTENV_ARR=[1,2,3]\nDOTENV_OBJ={\"key\":\"val\"}\n\n# client (with default QCLI_ prefix) & backend:\nQCLI_DOTENV_BOOL=true\nQCLI_DOTENV_STR=hello\nQCLI_DOTENV_NUMBER=42\nQCLI_DOTENV_NULL=null\nQCLI_DOTENV_ARR=[1,2,3]\nQCLI_DOTENV_OBJ={\"key\":\"val\"}\n```\n\n```tabs In your code\n<<| js From terminal |>>\nconsole.log(\n  import.meta.env.FLAG_BOOL, // true\n  typeof import.meta.env.FLAG_BOOL // boolean\n);\nconsole.log(\n  import.meta.env.FLAG_STR, // \"HelloWorld\"\n  typeof import.meta.env.FLAG_STR // string\n);\nconsole.log(\n  import.meta.env.FLAG_NULL, // null\n  import.meta.env.FLAG_NULL === null // is true\n);\nconsole.log(\n  import.meta.env.FLAG_ARR, // \"[1,2,3]\"\n  typeof import.meta.env.FLAG_ARR // string\n);\nconsole.log(\n  import.meta.env.FLAG_OBJ, // \"{key:'val'}\"\n  typeof import.meta.env.FLAG_OBJ // string\n);\n<<| js From build.define |>>\nconsole.log(DEFINE_BOOL, typeof DEFINE_BOOL); // true boolean\nconsole.log(DEFINE_STR, typeof DEFINE_STR); // \"hello\" string\nconsole.log(DEFINE_NUMBER, typeof DEFINE_NUMBER); // 42 number\nconsole.log(DEFINE_NULL, DEFINE_NULL === null); // null true\nconsole.log(DEFINE_ARR, typeof DEFINE_ARR); // \"[1,2,3]\" string\nconsole.log(DEFINE_OBJ, typeof DEFINE_OBJ); // \"{key: \"value\" } string\n<<| js From build.defineEnv |>>\nconsole.log(\n  import.meta.env.DEFINE_ENV_BOOL, // true\n  typeof import.meta.env.DEFINE_ENV_BOOL // boolean\n);\nconsole.log(\n  import.meta.env.DEFINE_ENV_STR, // \"hello\"\n  typeof import.meta.env.DEFINE_ENV_STR // string\n);\nconsole.log(\n  import.meta.env.DEFINE_ENV_NUMBER, // 42\n  typeof import.meta.env.DEFINE_ENV_NUMBER // number\n);\nconsole.log(\n  import.meta.env.DEFINE_ENV_NULL, // null\n  import.meta.env.DEFINE_ENV_NULL === null // true\n);\nconsole.log(\n  import.meta.env.DEFINE_ENV_ARR, // \"[1,2,3]\"\n  typeof import.meta.env.DEFINE_ENV_ARR // string\n);\nconsole.log(\n  import.meta.env.DEFINE_ENV_OBJ, // \"{key:'val'}\"\n  typeof import.meta.env.DEFINE_ENV_OBJ // string\n);\n<<| js From dotenv (client code) |>>\n/**\n * /src, /src-pwa, /src-electron etc\n */\nconsole.log(\n  import.meta.env.QCLI_DOTENV_BOOL, // true\n  typeof import.meta.env.QCLI_DOTENV_BOOL // boolean\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_STR, // \"hello\"\n  typeof import.meta.env.QCLI_DOTENV_STR // string\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_NUMBER, // 42\n  typeof import.meta.env.QCLI_DOTENV_NUMBER // number\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_NULL, // null\n  import.meta.env.QCLI_DOTENV_NULL === null // true\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_ARR, // \"[1,2,3]\"\n  typeof import.meta.env.QCLI_DOTENV_ARR // string\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_OBJ, // \"{key:'val'}\"\n  typeof import.meta.env.QCLI_DOTENV_OBJ // string\n);\n\n// Not exposed to client code due to missing QCLI_ configurable prefix:\nconsole.log(\n  import.meta.env.DOTENV_BOOL, // undefined\n  import.meta.env.DOTENV_STR, // undefined\n  import.meta.env.DOTENV_NUMBER, // undefined\n  import.meta.env.DOTENV_NULL, // undefined\n  import.meta.env.DOTENV_ARR, // undefined\n  import.meta.env.DOTENV_OBJ, // undefined\n);\n<<| js From dotenv (backend code) |>>\n/**\n * /quasar.config file, /src-ssr, /src-ssg\n */\nconsole.log(\n  import.meta.env.QCLI_DOTENV_BOOL, // true\n  typeof import.meta.env.QCLI_DOTENV_BOOL // boolean\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_STR, // \"hello\"\n  typeof import.meta.env.QCLI_DOTENV_STR // string\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_NUMBER, // 42\n  typeof import.meta.env.QCLI_DOTENV_NUMBER // number\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_NULL, // null\n  import.meta.env.QCLI_DOTENV_NULL === null // true\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_ARR, // \"[1,2,3]\"\n  typeof import.meta.env.QCLI_DOTENV_ARR // string\n);\nconsole.log(\n  import.meta.env.QCLI_DOTENV_OBJ, // \"{key:'val'}\"\n  typeof import.meta.env.QCLI_DOTENV_OBJ // string\n);\n\nconsole.log(\n  import.meta.env.DOTENV_BOOL, // true\n  typeof import.meta.env.DOTENV_BOOL // boolean\n);\nconsole.log(\n  import.meta.env.DOTENV_STR, // \"hello\"\n  typeof import.meta.env.DOTENV_STR // string\n);\nconsole.log(\n  import.meta.env.DOTENV_NUMBER, // 42\n  typeof import.meta.env.DOTENV_NUMBER // number\n);\nconsole.log(\n  import.meta.env.DOTENV_NULL, // null\n  import.meta.env.DOTENV_NULL === null // true\n);\nconsole.log(\n  import.meta.env.DOTENV_ARR, // \"[1,2,3]\"\n  typeof import.meta.env.DOTENV_ARR // string\n);\nconsole.log(\n  import.meta.env.DOTENV_OBJ, // \"{key:'val'}\"\n  typeof import.meta.env.DOTENV_OBJ // string\n);\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#intellisense-with-typescript",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "IntelliSense with TypeScript",
+    "breadcrumb": [
+      "IntelliSense with TypeScript",
+      "IntelliSense with TypeScript"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#intellisense-with-typescript",
+    "content": "Quasar CLI takes into account process.env (terminal variables), dotenv files and /quasar.config > build.define & build.defineEnv to automatically inject the types for it. No `env.d.ts` needed in your project folder.\n\n::: tip\nYou can inspect the auto-injected types from the `/.quasar/quasar.d.ts` file. This file is auto-generated, so do not manually change it as it will get overwritten on next quasar command call.\n:::\n\nHowever, there are cases which are not auto-handled by Quasar CLI:\n\n- Definitions coming from dotenv files used ONLY for the /quasar.config file itself, but not for your app also.\n- Dynamic process.env variables. Say you have a /package.json script: \"dev:xyz\": \"XYZ=true quasar dev\"; if you only define XYZ for this specific call, then on the other calls without XYZ=true the Quasar CLI won't be able to know about a possible XYZ definition so it won't inject it.\n\nFor cases like above, you can define it yourself:\n\n```ts Example: /env.d.ts\n/**\n * Add types (that are not auto-magically added by Quasar CLI already)\n * for your custom variables to avoid TypeScript errors, like dynamic\n * process.env variables or definitions in dotenv files configured ONLY\n * for the /quasar.config file itself.\n *\n * @example\n * interface ImportMetaEnv {\n *   readonly MY_VAR: string;\n *   readonly MY_OTHER_VAR: string;\n * }\n */\ninterface ImportMetaEnv {}\n```\n\nFor cases where the auto-type inference and declaration does not work for your specific case, you can instruct Quasar CLI to ignore it through the /quasar.config file and declare it yourself instead in `/env.d.ts`:\n\n```js\nbuild: {\n  env: {\n    /**\n     * Ignore automatically inferring and declaring types for these variables.\n     * Variables can come from process.env (terminal variables) or\n     * dotenv files or quasar.config > build > define/defineEnv.\n     *\n     * Use the full variable name as transformed in the code.\n     * @example 'all' to ignore all variables\n     * @example ['import.meta.env.OTHER_VAR', '__SOME_VAR__'] to ignore specific variables.\n     * @default []\n     */\n    ignoreType: ['import.meta.env.MY_SPECIAL_VAR']\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#more-on-dotenv-files",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "More on dotenv files",
+    "breadcrumb": ["More on dotenv files", "More on dotenv files"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#more-on-dotenv-files",
+    "content": "A `.env` file (pronounced \"dotenv\") is a simple text file used to supply environment-specific configuration to a project. It is not a secret store: the file is plain text, and variables exposed to client code are embedded in the generated application where users can read them.\n\nThe variables defined get transformed to `import.meta.env.<VAR_NAME>` and replaced at build time.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#why-use-a-env-file",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Why Use a .env File?",
+    "breadcrumb": [
+      "More on dotenv files",
+      "Why Use a .env File?",
+      "Why Use a .env File?"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#why-use-a-env-file",
+    "content": "- Separation: It keeps environment-specific values out of source modules. Sensitive backend values still require appropriate access controls in development, CI, deployment, logs, and build artifacts.\n- Portability: It allows your application to behave differently depending on the environment (development, testing, or production) without changing the code. You just swap out the .env file for each environment.\n- Simplicity: It centralizes configuration into one easy-to-read file.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#dotenv-filenames",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Dotenv filenames",
+    "breadcrumb": [
+      "More on dotenv files",
+      "Dotenv filenames",
+      "Dotenv filenames"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#dotenv-filenames",
+    "content": "These files will be automatically detected and used (the order matters):\n\n```\n.env        # loaded in all cases\n.env.local  # loaded outside CI, ignored by git\n```\n\nThis means `.env.local` is used for both development and production builds run on your local machine, but is skipped when Quasar CLI detects a CI environment. The `.env.local` values take precedence over values from `.env`, while terminal variables take precedence over both.\n\nThe \"ignored by git\" comment assumes a project created with a current Quasar template. Otherwise, add `.env.local` to your `/.gitignore` file.\n\nYou can configure Quasar CLI to take into account even more files, as you'll learn in the next sections.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#what-does-it-look-like",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "What Does It Look Like?",
+    "breadcrumb": [
+      "More on dotenv files",
+      "What Does It Look Like?",
+      "What Does It Look Like?"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#what-does-it-look-like",
+    "content": "A `.env` file uses a straightforward `KEY=VALUE` format. There are no spaces around the equals sign, and quotes are usually only needed if the value contains spaces.\n\n```bash /.env\n# Database Configuration\nDB_HOST=localhost\nDB_USER=root\nDB_PASSWORD=super_secret_password\nDB_PORT=5432\n\n# API Keys\nSTRIPE_API_KEY=sk_test_123456789\nNODE_ENV=development\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#exposing-to-client-code",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Exposing to client code",
+    "breadcrumb": [
+      "More on dotenv files",
+      "Exposing to client code",
+      "Exposing to client code"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#exposing-to-client-code",
+    "content": "::: danger\nNever put a secret in a variable exposed to client code. Prefix filtering controls which variables are embedded; it does not encrypt or hide them. API keys used by client applications must be designed as public identifiers and restricted by the provider where possible.\n:::\n\nFor security and to make client exposure explicit, Quasar CLI excludes variables that do not start with the `QCLI_` prefix from client-side code. Backend code, such as the SSR server or SSG renderer script, receives all variables by default. You can change both prefixes through the /quasar.config file.\n\n```bash\n# NOT exposed to client code, but exposed to backend;\n# it does NOT start with QCLI_ prefix:\nSOME_VAR=content\n\n# this will be embedded into backend & client code,\n# as it starts with QCLI_ prefix:\nQCLI_SOME_VAR=content\n```\n\n```js Usage example\nimport.meta.env.SOME_VAR // ❌ Not available in client code\nimport.meta.env.QCLI_SOME_VAR // ✅ Available in client code\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#the-golden-rule-of-dotenv",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "The Golden Rule of Dotenv",
+    "breadcrumb": [
+      "More on dotenv files",
+      "The Golden Rule of Dotenv",
+      "The Golden Rule of Dotenv"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#the-golden-rule-of-dotenv",
+    "content": "Never commit your .env file to version control.\n\nYou must always add .env to your project's .gitignore file immediately. If you accidentally push a .env file containing real API keys to a public repository, bots can scrape those keys in seconds and exploit them.\n\nInstead, you might want to include a `.env.example` or `.env.template` file in the project folder. This file includes the keys but leaves the values blank or fills them with dummy data, showing other developers what variables the project needs to run:\n\n```bash /.env.template\nDB_HOST=\nDB_USER=\nDB_PASSWORD=\nDB_PORT=\nSTRIPE_API_KEY=\nNODE_ENV=\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#configuring-dotenv-files",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Configuring Dotenv Files",
+    "breadcrumb": [
+      "More on dotenv files",
+      "Configuring Dotenv Files",
+      "Configuring Dotenv Files"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#configuring-dotenv-files",
+    "content": "```ts /quasar.config file\nbuild: {\n  env: {\n    /**\n     * For security reasons, only variables with this prefix from the env files\n     * and Node.js process.env will be exposed to the code shipped to the client.\n     * The client app code includes Electron main & preload scripts, as they get\n     * shipped to the client side as well.\n     *\n     * Such variables exposed to the client app code should not contain sensitive\n     * information such as API keys.\n     *\n     * Avoid setting it to 'QUASAR_' so it won't conflict with\n     * Quasar's own environment variables.\n     *\n     * Setting it to an empty string will default to\n     * the default value (QCLI_).\n     *\n     * @default 'QCLI_'\n     */\n    clientPrefix?: string | string[];\n    /**\n     * Setting this prefix will filter out env files variables and Node.js process.env\n     * variables that are exposed to the backend code (like the SSR/SSG server-side).\n     *\n     * Avoid setting it to 'QUASAR_' so it won't conflict with\n     * Quasar's own environment variables.\n     *\n     * @default ''\n     */\n    backendPrefix?: string | string[];\n    /**\n     * Folder where Quasar CLI should look for .env* files.\n     * Can be an absolute path or a relative path to project root directory.\n     *\n     * @default appPaths.appDir\n     */\n    folder?: string | string[];\n    /**\n     * Additional .env* files to be loaded.\n     * Each entry can be an absolute path or a relative path to\n     * quasar.config > build > folder.\n     *\n     * @example ['.env.somefile', '../.env.someotherfile']\n     */\n    file?: string | string[];\n    /**\n     * Filter the env files variables & Node.js process.env variables\n     * that are exposed to the app code. This does not affect properties\n     * assigned directly to the quasar.config > build > define prop.\n     */\n    filter?: (\n      env: Record<string, string>,\n      type: \"client\" | \"backend\"\n    ) => Record<string, string>;\n\n    /**\n     * Ignore automatically inferring and declaring types for these variables.\n     * Variables can come from process.env (terminal variables) or\n     * dotenv files or quasar.config > build > define/defineEnv.\n     *\n     * Use the full variable name as transformed in the code.\n     * @example 'all' to ignore all variables\n     * @example ['import.meta.env.OTHER_VAR', '__SOME_VAR__'] to ignore specific variables.\n     */\n    ignoreType?: \"all\" | string[];\n  }\n}\n```\n\nRemember that you can further filter out unwanted keys, or even change values for keys by using `build > env > filter` function:\n\n```js /quasar.config file\nbuild: {\n  env: {\n    filter (\n      originalEnv,\n      type // \"client\" | \"backend\"\n    ) {\n      const newEnv = {}\n      for (const key in originalEnv) {\n        if (/* ...decide if it goes in or not... */) {\n          newEnv[ key ] = originalEnv[ key ]\n        }\n      }\n\n      // remember to return your processed env\n      return newEnv\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#dotenv-files-for-quasar-config-file-itself",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "Dotenv Files for /quasar.config file itself",
+    "breadcrumb": [
+      "More on dotenv files",
+      "Dotenv Files for /quasar.config file itself",
+      "Dotenv Files for /quasar.config file itself"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#dotenv-files-for-quasar-config-file-itself",
+    "content": "Quasar CLI detects dotenv files and uses them for the /quasar.config file itself. However, should you want to configure the behaviour, you will need to edit your /package.json:\n\n```json /package.json file\n\"quasarCli\": {\n  \"quasarConfEnv\": {\n    /**\n     * Setting this prefix will filter out env files variables and Node.js process.env\n     * variables that are exposed.\n     *\n     * Avoid setting it to 'QUASAR_' so it won't conflict with\n     * Quasar's own environment variables.\n     *\n     * @default ''\n     */\n    \"prefix\": \"\",\n    /**\n     * Folder where Quasar CLI should look for .env* files.\n     * Can be an absolute path or a relative path to project root directory.\n     *\n     * @default root project file dir\n     */\n    \"folder\": \".\"\n    /**\n     * Additional .env* files to be loaded.\n     * Each entry can be an absolute path or a relative path to\n     * quasar.config > build > folder.\n     *\n     * @example ['.env.somefile', '../.env.someotherfile']\n     */\n    \"file\": []\n  }\n}\n```\n\nUsage in the `/quasar.config` file, given that you defined `MY_BOOL=true` in `/.env`:\n\n```js /quasar.config file example\nimport { defineConfig } from '#q-app'\n\nexport default defineConfig(ctx => {\n  return {\n    build: {\n      filenameBasedRouting: import.meta.env.MY_BOOL // inferred as boolean already\n    }\n  }\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/handling-import-meta-env#hmr-hot-module-reload",
+    "documentId": "quasar-cli-vite/handling-import-meta-env",
+    "heading": "HMR (Hot Module Reload)",
+    "breadcrumb": ["HMR (Hot Module Reload)", "HMR (Hot Module Reload)"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-import-meta-env#hmr-hot-module-reload",
+    "content": "Adding/removing/changing dotenv files (both the default and the configured ones) or /quasar.config build.define/defineEnv will immediately take effect, so you won't have to restart the Quasar CLI devserver.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

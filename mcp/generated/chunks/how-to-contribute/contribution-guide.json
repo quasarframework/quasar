@@ -1,0 +1,377 @@
+[
+  {
+    "id": "how-to-contribute/contribution-guide#overview",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Contribution Guide",
+    "breadcrumb": ["Contribution Guide"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide",
+    "content": "This guide covers ways in which you can become a part of the ongoing development of Quasar.\n\nBut, before we begin, a first important note. Everyone interacting in Quasar is expected to follow the [Quasar Code of Conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md).\n\nNow that we've got that covered, let's go!\n\nAfter reading this guide, you will know:\n\n- How to use GitHub to report issues.\n- How to clone the repo and run the test suite.\n- How to help resolve existing issues.\n- How to contribute to the Quasar documentation.\n- How to create a Quasar App Extension.\n- How to contribute to the Quasar source code.\n\nQuasar is not \"someone else's framework\". Many people have contributed to Quasar ranging from a single character to massive architectural changes or significant documentation - all with the goal of making Quasar better for everyone. Even if you don't feel up to writing code or documentation yet, there are a variety of other ways that you can contribute, from reporting issues to testing patches.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#help-with-support",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Help with Support",
+    "breadcrumb": ["Help with Support", "Help with Support"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#help-with-support",
+    "content": "One of the easiest ways to contribute is to answer questions in the different Q&A systems we have. Be a supportive and positive member of the Quasar community by answering questions you know answers to, or even by adding your best guess. Being a part of such discussions can also be a good learning experience. It's a win-win!\n\nHere are our discussion/Q&A venues:\n\n- [GitHub Discussions](https://forum.quasar.dev/): A place to ask questions and get answers about Quasar and its ecosystem. It’s also a great place to share your knowledge and experience with others. You can also use it to share your ideas and feature requests.\n- [Discord Server](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time. You can ask questions, share your knowledge, and help others. It's also possible to post job offers or look for a job there.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#share-and-build-your-experience",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Share (and Build) Your Experience",
+    "breadcrumb": [
+      "Share (and Build) Your Experience",
+      "Share (and Build) Your Experience"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#share-and-build-your-experience",
+    "content": "Apart from answering questions and sharing resources in the forum and chat, there are a few other less obvious ways to share and expand what you know:\n\n- **Develop learning materials**. It’s often said that the best way to learn is to teach. If there’s something interesting you’re doing with Quasar, strengthen your expertise by writing a blog post, developing a workshop, or even publishing a gist that you share on social media.\n- **Share your tech stack**. Show others which technologies are well tested and can be integrated with Quasar. Promote your project and [fill out your favorite Quasar-based stack](https://stackshare.io/tool/quasar-framework/decisions). Make sure to mention @Quasarframework and all other relevant technologies.\n- **Watch a repo you care about**. This will send you notifications whenever there’s activity in that repository, giving you insider knowledge about ongoing discussions and upcoming features. It’s a fantastic way to build expertise so that you’re eventually able to help address issues and pull requests.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#reporting-an-issue",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Reporting an Issue",
+    "breadcrumb": ["Reporting an Issue", "Reporting an Issue"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#reporting-an-issue",
+    "content": "- [GitHub](https://github.com/quasarframework/quasar/issues): If you want to create a bug report or a docs report, that’s what the GitHub issues are for. Make sure that you select the correct template and follow the given instructions while creating an issue.\n\n::: danger Reporting a vulnerability\nPlease do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.\n:::\n\nIf you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).\n\n- The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and docs reports. Non-conforming issues will be closed immediately.\n  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).\n\n  - For more complicated questions, you can use [the Discussions section](https://forum.quasar.dev). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!\n\n  - For feature requests, you can [start a new feature discussion](https://github.com/quasarframework/quasar/discussions/new?category=ideas-proposals).\n\n- Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).\n\n- Check if the issue is reproducible with the latest stable version of Quasar. Please always indicate the specific version you are using.\n\n- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Although we would love to help our users as much as possible, diagnosing issues without clear reproduction steps is extremely time-consuming and simply not sustainable.\n\n- Use only the minimum amount of code necessary to reproduce the unexpected behavior. A good bug report should isolate specific methods that exhibit unexpected behavior and precisely define how expectations were violated. What did you expect the method or methods to do, and how did the observed behavior differ? The more precisely you isolate the issue, the faster we can investigate.\n\n- Issues with no clear reproduction steps will not be triaged. If an issue labeled \"bug/0-needs-info\" receives no further input from the issue author for a significant period of time, it will be closed.\n\n- If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.\n\n- Most importantly, we beg your patience: the team must balance your request against many other responsibilities — fixing other bugs, answering other questions, new features, new documentation, etc. The issue list is not paid support and we cannot make guarantees about how fast your issue can be resolved, although we do our very best.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#helping-to-resolve-existing-issues",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Helping to Resolve Existing Issues",
+    "breadcrumb": [
+      "Helping to Resolve Existing Issues",
+      "Helping to Resolve Existing Issues"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#helping-to-resolve-existing-issues",
+    "content": "As a next step beyond reporting issues, you can help the Quasar Team resolve existing ones by providing feedback about them. If you are new to Quasar development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.\n\nIf you check the issues list in [GitHub Issues](https://github.com/quasarframework/quasar/issues), you'll find lots of issues already requiring attention. What can you do for these? Quite a bit, actually:",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#verifying-bug-reports",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Verifying Bug Reports",
+    "breadcrumb": [
+      "Helping to Resolve Existing Issues",
+      null,
+      "Verifying Bug Reports",
+      "Verifying Bug Reports"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#verifying-bug-reports",
+    "content": "For starters, it helps just to verify bug reports. Can you reproduce the reported issue on your own computer? If so, you can add a comment to the issue saying that you're seeing the same thing.\n\nIf an issue is very vague, can you help narrow it down to something more specific? Maybe you can provide additional information to help reproduce a bug, or help by eliminating needless steps that aren't required to demonstrate the problem.\n\nAnything you can do to make bug reports more succinct or easier to reproduce helps folks trying to write code to fix those bugs - whether you end up writing the code yourself or not.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#testing-patches",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Testing Patches",
+    "breadcrumb": [
+      "Helping to Resolve Existing Issues",
+      null,
+      "Testing Patches",
+      "Testing Patches"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#testing-patches",
+    "content": "You can also help out by examining pull requests that have been submitted to Quasar via GitHub. In order to apply someone's changes, you need to first create a dedicated branch:\n\n```bash\ngit checkout -b testing_branch\n```\n\nThen, you can use their remote branch to update your codebase. For example, let's say the GitHub user JohnSmith has forked and pushed to a topic branch \"orange\" located at https://github.com/JohnSmith/quasar.\n\n```bash\ngit remote add JohnSmith https://github.com/JohnSmith/quasar.git\ngit pull JohnSmith orange\n```\n\nAfter applying their branch, test it out! Here are some things to think about:\n\n- Does the change actually work?\n- Does it have the proper documentation coverage? Should documentation elsewhere be updated?\n- Do you like the implementation? Can you think of a nicer or faster way to implement a part of their change?\n\nOnce you're happy that the pull request contains a good change, comment on the GitHub issue indicating your approval. Your comment should indicate that you like the change and what you like about it. Something like:\n\n::: tip Example pull request comment\nI like the way you've restructured the code in card.vue - much nicer. Documentation is updated too.\n:::\n\nIf your comment simply reads \"+1\", then odds are that other reviewers aren't going to take it too seriously. Show that you took the time to review the pull request.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#contributing-to-the-quasar-documentation",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Contributing to the Quasar Documentation",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Contributing to the Quasar Documentation"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#contributing-to-the-quasar-documentation",
+    "content": "You can help improve the Quasar documentation by making it more coherent, consistent, or readable, adding missing information, correcting factual errors, fixing typos, or bringing them up to date with the latest edge Quasar.\n\n::: tip Typos or small changes can be fixed directly from the documentation\nUse a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.\n:::\n\nFor larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#documentation-best-practices",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Documentation Best Practices",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Documentation Best Practices"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#documentation-best-practices",
+    "content": "Over time we consolidated a set of rules which we follow and following them will speed up the merge process:\n\n- Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).\n- Use the present tense.\n- Be concise, avoid text / code duplication.\n- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/api/) rather than compiled tutorials which tend to be outdated soon.\n- Do the proofreading before opening a PR\n- Do not repeat texts from other sources, but keep only things which are relevant and shows in a context Quasar specific features\n- Use official names. For example use `Firebase` instead of `firebase`\n- Exclude from PR all drafts and unfinished pages",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#fork",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Fork",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Fork",
+      "Fork"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#fork",
+    "content": "Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press \"Fork\" in the upper right-hand corner.\n\n::: warning Select dev branch\nMake sure you have `dev` branch selected and this is where all the work is done.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#clone-the-forked-repository",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Clone the forked repository",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Clone the forked repository",
+      "Clone the forked repository"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#clone-the-forked-repository",
+    "content": "To be able to change the documentation, you need to clone forked repository:\n\n```bash\ngit clone https://github.com/your-user-name/quasar.git\ncd quasar\ngit checkout dev\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#install-dependencies",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Install dependencies",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Install dependencies",
+      "Install dependencies"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#install-dependencies",
+    "content": "Install the required dependencies.\n\n```bash\npnpm i\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#running-documentation-against-your-local-repository",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Running documentation against your local repository",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Running documentation against your local repository",
+      "Running documentation against your local repository"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#running-documentation-against-your-local-repository",
+    "content": "```bash\ncd docs\npnpm dev\n```\n\nThe documentation runs against your local cloned repository.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#commit-your-changes",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Commit your changes",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Commit your changes",
+      "Commit your changes"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#commit-your-changes",
+    "content": "When you're happy with the change on your computer, you need to commit the changes to Git:\n\n```bash\ngit commit -a\n```\n\nThis should fire up your editor to write a commit message. When you have finished, save and close to continue.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#update-your-local-repository",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Update your local repository",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Update your local repository",
+      "Update your local repository"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#update-your-local-repository",
+    "content": "It's pretty likely that other changes to master have happened while you were working. Go get them.\n\n1. Add a remote Quasar repository as an upstream\n\n```bash\ngit remote add upstream https://github.com/quasarframework/quasar.git\n```\n\n2. Fetch all remote branches\n\n```bash\ngit fetch upstream\n```\n\n3. Check out your fork's local `dev` branch.\n\n```bash\ngit checkout dev\n# > Switched to branch 'dev'\n```\n\n4. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.\n\n```bash\ngit merge upstream/dev\n```\n\nNo conflicts? Tests still pass? Change still seems reasonable to you? Then move on and open a pull request to apply your changes to the dev branch in main Quasar repository.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#issue-a-pull-request",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Issue a pull request",
+    "breadcrumb": [
+      "Contributing to the Quasar Documentation",
+      "Documentation Best Practices",
+      "Issue a pull request",
+      "Issue a pull request"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#issue-a-pull-request",
+    "content": "Navigate to your repository you just pushed to (e.g. https://github.com/your-user-name/quasar) and click on \"New Pull Request\" seen in the left top panel.\n\nEnsure the change sets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press Click on \"Create pull request\". The Quasar core team will be notified about your submission.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#write-your-story",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Write your Story",
+    "breadcrumb": ["Write your Story", "Write your Story"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#write-your-story",
+    "content": "We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium publication channel and we'll also make sure your article gets the attention it deserves with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#create-new-quasar-app-extension",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Create new Quasar App Extension",
+    "breadcrumb": [
+      "Create new Quasar App Extension",
+      "Create new Quasar App Extension"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#create-new-quasar-app-extension",
+    "content": "An easy way to start to contribute to Quasar is to generalize the code you have created on your project and publish it as a Quasar App Extension. Follow this guide on how to [create a new extension](/app-extensions/development-guide/introduction).\n\nWhen done, submit a PR on [Quasar Awesome](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions), share your achievement via [Quasar Forum](https://forum.quasar-framework.org/category/15/v1-app-extensions).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#contributing-to-the-quasar-ui-source-code",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Contributing to the Quasar UI Source Code",
+    "breadcrumb": [
+      "Contributing to the Quasar UI Source Code",
+      "Contributing to the Quasar UI Source Code"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#contributing-to-the-quasar-ui-source-code",
+    "content": "As with any project, there are rules to contributing. Ours are written here, please read them carefully. After that, read the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md) and you’ll be ready to contribute to Quasar’s core repositories.\n\n<!-- TODO: Update the article(published in 2018): it has Vue 2, Stylus, etc. stuff, outdated social/repo links -->\n\nAn article [Look at the source code](https://medium.com/quasar-framework/wip-look-at-the-source-code-please-1b905ea4906) will help you to get familiar with a Quasar code base.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#pull-request-guidelines",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Pull Request Guidelines",
+    "breadcrumb": [
+      "Contributing to the Quasar UI Source Code",
+      null,
+      "Pull Request Guidelines",
+      "Pull Request Guidelines"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#pull-request-guidelines",
+    "content": "- Checkout a topic branch from the relevant branch, e.g. `dev` (Qv2) or `v1` (Qv1), and merge back against that branch.\n\n- **DO NOT** check in `dist` in the commits.\n\n- It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.\n\n- If adding new feature:\n  - Provide convincing reason to add this feature.\n  - Ideally you should open a suggestion issue first and have it green-lighted before working on it. Otherwise, you risk spending a lot of time on something which might not get accepted at all or not in the form you expect.\n\n- If fixing a bug:\n  - If you are resolving a specific issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.\n  - Provide detailed description of the bug in the PR. A live demo is preferred.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#development-setup",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Development Setup",
+    "breadcrumb": [
+      "Contributing to the Quasar UI Source Code",
+      null,
+      "Development Setup",
+      "Development Setup"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#development-setup",
+    "content": "You will need [Node.js](http://nodejs.org) version **v22+** along [pnpm v11+](https://pnpm.io/). Read `package.json` and take notice of the scripts you can use.\n\nAfter cloning the repo, run:\n\n```bash\npnpm i\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#commonly-used-npm-scripts",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Commonly used NPM scripts",
+    "breadcrumb": [
+      "Contributing to the Quasar UI Source Code",
+      null,
+      "Commonly used NPM scripts",
+      "Commonly used NPM scripts"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#commonly-used-npm-scripts",
+    "content": "```bash\n# Start dev server with a demo app. This app has Quasar source code linked directly so any change will trigger HMR (Hot Module Reload) on the dev server.\n# There's a section for each feature where tests are made.\npnpm dev\n\n# build all dist files, including npm packages\npnpm build\n# build only js dist files\npnpm build js\n# build only type related files\npnpm build js types\n# build only css dist files\npnpm build css\n\n# format & lint sources\n# !! call this from the root of the repo\npnpm lint\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#project-structure-ui",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Project Structure (/ui)",
+    "breadcrumb": [
+      "Contributing to the Quasar UI Source Code",
+      null,
+      "Project Structure (/ui)",
+      "Project Structure (/ui)"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#project-structure-ui",
+    "content": "<!-- TODO: Use DocTree -->\n\n- `build` - contains build-related configuration files. In most cases you don't need to touch them.\n\n- `src` - contains the source code. The codebase is written in ES2015.\n  - `components` - JS, Sass and JSON (API) files for Quasar Vue components\n\n  - `composables` - Quasar's composables for Vue 3 Composition API\n\n  - `directives` - Vue directives supplied by Quasar\n\n  - `plugins` - Quasar plugins\n\n  - `css` - Sass definitions and core code for Quasar styles\n\n  - `utils` - utilities used by the framework and exported to the public API\n\n- `lang` - Quasar language packs\n\n- `icon-set` - Quasar icon sets\n\n- `dist` - contains built files for distribution (only after a build).\n\n- `dev` - app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the \"homepage\" list (based on the file name).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#dev-server-for-quasar-ui",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Dev Server for Quasar (/ui)",
+    "breadcrumb": [
+      "Contributing to the Quasar UI Source Code",
+      null,
+      "Dev Server for Quasar (/ui)",
+      "Dev Server for Quasar (/ui)"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#dev-server-for-quasar-ui",
+    "content": "Running `pnpm dev` starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#financial-contribution",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Financial Contribution",
+    "breadcrumb": ["Financial Contribution", "Financial Contribution"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#financial-contribution",
+    "content": "Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/quasarframework/quasar/blob/dev/backers.md).\n\n**Please read our manifest on [Why donations are important](/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "how-to-contribute/contribution-guide#quasar-contributors",
+    "documentId": "how-to-contribute/contribution-guide",
+    "heading": "Quasar Contributors",
+    "breadcrumb": ["Quasar Contributors", "Quasar Contributors"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#quasar-contributors",
+    "content": "Thank you to all the people who already [contributed to Quasar](https://github.com/quasarframework/quasar/graphs/contributors)!",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "id": "start/quasar-cli#overview",
+    "documentId": "start/quasar-cli",
+    "heading": "Quasar CLI",
+    "breadcrumb": ["Quasar CLI"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli",
+    "content": "Quasar CLI is the pride of Quasar Framework. You can seamlessly build:\n\n- a SPA (Single Page Application/Website),\n- a SSR (Server-side Rendered App/Website),\n- a SSG (Static Site Generator App/Website),\n- a PWA (Progressive Web App),\n- a BEX (Browser Extensions),\n- a Mobile App (through Cordova or Capacitor),\n- an Electron App\n\n...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/quasar-cli#trying-quasar-cli-online",
+    "documentId": "start/quasar-cli",
+    "heading": "Trying Quasar CLI Online",
+    "breadcrumb": ["Trying Quasar CLI Online", "Trying Quasar CLI Online"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli#trying-quasar-cli-online",
+    "content": "You can try Quasar CLI online directly in the browser, without installing anything!\nYou will also be able to use the command line, so it will be almost identical to creating a project locally.\n\n<q-btn no-wrap href=\"https://stackblitz.quasar.dev\" target=\"_blank\" label=\"Open in Stackblitz\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/quasar-cli#tl-dr",
+    "documentId": "start/quasar-cli",
+    "heading": "TL;DR",
+    "breadcrumb": ["TL;DR", "TL;DR"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli#tl-dr",
+    "content": "::: tip Requirements:\n\n- Node.js v22+\n- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun\n\n:::\n\n```tabs\n<<| bash PNPM |>>\npnpm add -g @quasar/cli\npnpm create quasar@latest\n<<| bash Yarn |>>\nyarn global add @quasar/cli\nyarn create quasar\n<<| bash NPM |>>\nnpm i -g @quasar/cli\nnpm init quasar@latest\n<<| bash Bun |>>\nbun install -g @quasar/cli\nbun create quasar@latest\n```\n\nPick `App with Quasar CLI`.\n\n<q-btn icon-right=\"launch\" no-wrap label=\"View Components\" to=\"/components\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/quasar-cli#installation-project-scaffolding",
+    "documentId": "start/quasar-cli",
+    "heading": "Installation / Project Scaffolding",
+    "breadcrumb": [
+      "Installation / Project Scaffolding",
+      "Installation / Project Scaffolding"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli#installation-project-scaffolding",
+    "content": "::: tip Requirements:\n\n- Node.js v22+ for Quasar CLI.\n- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun.\n\n:::\n\n1. Let's create a Quasar app:\n\n   ```tabs\n   <<| bash PNPM |>>\n   pnpm create quasar@latest\n   <<| bash Yarn |>>\n   yarn create quasar\n   <<| bash NPM |>>\n   npm init quasar@latest\n   <<| bash Bun |>>\n   bun create quasar@latest\n   ```\n\n   ::: tip\n   You may be presented with a confirmation to install the `create-quasar` package, press the enter key to confirm.\n   :::\n\n2. Pick the `App with Quasar CLI` option.\n\n3. Answer the rest of the questions and you're almost done.\n\n4. Now, do you want to be able to run Quasar CLI commands directly (eg. `quasar dev/build`) or through your package manager (`pnpm quasar dev/build` or `npx quasar dev/build`, etc)?\n\n   We strongly recommend to pick the first choice and be able to run commands directly. Actually, you'll be able to do even more than just this (eg. \"quasar upgrade\" or \"quasar serve\" commands). For this, you'll need to globally install the `@quasar/cli` package:\n\n   ```tabs\n   <<| bash PNPM |>>\n   pnpm add -g @quasar/cli\n   <<| bash Yarn |>>\n   yarn global add @quasar/cli\n   <<| bash NPM |>>\n   npm i -g @quasar/cli\n   <<| bash Bun |>>\n   bun install -g @quasar/cli\n   ```\n\n   ::: tip\n   If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:\n   <br><br>\n\n   ```bash\n   # in ~/.bashrc or equivalent\n   export PATH=\"$(yarn global bin):$PATH\"\n\n   # for fish-shell:\n   set -U fish_user_paths (yarn global bin) $fish_user_paths\n   ```\n\n   <br>\n   Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\\yarn\\bin`, otherwise if you're using npm then add `%APPDATA%\\npm`.\n   <br>\n   Or to do this easily, enter the following code in the terminal:\n\n   ```bash\n   # If you're using Yarn:\n   setx path \"%path%;%LocalAppData%\\yarn\\bin\"\n\n   # Or if you're using NPM:\n   setx path \"%path%;%AppData%\\npm\"\n   ```\n\n   :::\n\n   ::: tip WSL2\n   Microsoft's recommended [Node.js development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).\n\n   When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file system to maximize performance. Projects will build around 3X slower and HMR (Hot Module Reload) will not work without a hack if the project files are on the Windows mount instead of the local linux file system. This is also true in Docker for Windows based development environments.\n   :::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/quasar-cli#how-quasar-cli-works",
+    "documentId": "start/quasar-cli",
+    "heading": "How Quasar CLI works",
+    "breadcrumb": ["How Quasar CLI works", "How Quasar CLI works"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli#how-quasar-cli-works",
+    "content": "Quasar CLI (`@quasar/cli`) works in tandem with `@quasar/app-vite`. The first one is optional (but **strongly recommended**) and allows you to run Quasar CLI commands directly and some other useful commands like `quasar upgrade` (upgrade Quasar packages seamlessly) or `quasar serve` (serve your distributable with an ad-hoc webserver). The second package is the heart of it (runs the important commands - dev, build, inspect, info, describe etc) and it gets installed locally into every Quasar project folder.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/quasar-cli#running-without-the-global-quasar-cli",
+    "documentId": "start/quasar-cli",
+    "heading": "Running without the global @quasar/cli",
+    "breadcrumb": [
+      "How Quasar CLI works",
+      null,
+      "Running without the global @quasar/cli",
+      "Running without the global @quasar/cli"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli#running-without-the-global-quasar-cli",
+    "content": "However, should you want independence of the globally installed `@quasar/cli` package, you have the possibility to directly run the Quasar CLI commands. It is `@quasar/app-vite` (which is specific to each project folder) that will run all the CLI commands.\n\nHere are the options:\n\n1. You can write package.json scripts to run Quasar commands.\n\n   Example of adding a few package.json scripts:\n\n   ```js /package.json\n   \"scripts\": {\n     \"dev\": \"quasar dev\",\n     \"build\": \"quasar build\",\n     \"build:pwa\": \"quasar build -m pwa\"\n   }\n   ```\n\n   <br>\n\n   The above will allow you to run the scripts without the need of a globally installed `@quasar/cli`, should you wish to do so:\n\n   ```tabs Running scripts\n   <<| bash PNPM |>>\n   pnpm run dev\n   pnpm run build\n   # ..etc\n   <<| bash Yarn |>>\n   yarn run dev\n   yarn run build\n   # ..etc\n   <<| bash NPM |>>\n   npm run dev\n   npm run build\n   # ..etc\n   <<| bash Bun |>>\n   bun run dev\n   bun run build\n   # ..etc\n   ```\n\n   <br>\n\n2. Alternatively, you can directly run the Quasar CLI commands through your package manager:\n\n   ```tabs\n   <<| bash PNPM |>>\n   pnpm quasar dev\n   pnpm quasar inspect\n   # ..etc\n   <<| bash Yarn |>>\n   yarn quasar dev\n   yarn quasar inspect\n   # ..etc\n   <<| bash NPM |>>\n   npx quasar dev\n   npx quasar inspect\n   # ..etc\n   <<| bash Bun |>>\n   bun quasar dev\n   bun quasar inspect\n   # ..etc\n   ```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/quasar-cli#what-next",
+    "documentId": "start/quasar-cli",
+    "heading": "What next?",
+    "breadcrumb": ["What next?", "What next?"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/quasar-cli#what-next",
+    "content": "<q-btn icon-right=\"launch\" no-wrap label=\"View Components\" to=\"/components\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-utils/dom-utils",
+  "title": "DOM Utils",
+  "description": "A set of Quasar methods for DOM elements which helps you in retrieving the offset on screen viewport, getting and setting styles, waiting for the DOM to be ready and morphing DOM elements.",
+  "canonicalUrl": "https://quasar.dev/quasar-utils/dom-utils",
+  "source": "docs/src/pages/quasar-utils/dom-utils.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-utils",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

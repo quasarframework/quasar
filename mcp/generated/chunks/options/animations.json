@@ -1,0 +1,76 @@
+[
+  {
+    "id": "options/animations#overview",
+    "documentId": "options/animations",
+    "heading": "Animations",
+    "breadcrumb": ["Animations"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/options/animations",
+    "content": "CSS Transitions can be handled by the [Vue Transition Component](https://vuejs.org/api/built-in-components.html). The transitions are used for entering (appearing) or leaving (disappearing) animations.\n\nHowever, Quasar can supply a big list of ready to use CSS animations. The animation effects are borrowed from [Animate.css](https://animate.style/). So there are 80+ animation types available for you to use out of the box. Check the list either on Animate.css website or on the demo available for this page.\n\n> Please refer to [Vue](https://vuejs.org/api/built-in-components.html#transition) documentation for learning on how to use the Vue supplied `<transition>` component.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/animations#installation",
+    "documentId": "options/animations",
+    "heading": "Installation",
+    "breadcrumb": ["Installation", "Installation"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/animations#installation",
+    "content": "Edit the `/quasar.config` file:\n\n```js /quasar.config file\n// embedding all animations\nanimations: 'all'\n\n// or embedding only specific animations\nanimations: ['bounceInLeft', 'bounceOutRight']\n```\n\nIf you are building a website, you can also skip configuring the quasar.config file and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within the quasar.config file.\n\n```html /index.html\n<head>\n  ...\n\n  <!-- CDN example for Animate.css -->\n  <link\n    rel=\"stylesheet\"\n    href=\"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css\"\n  />\n</head>\n```\n\n::: warning\nIt should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import the [compat version](https://animate.style/#migration).\n<br><br>\nHowever, if you're using the **Quasar CLI**, no additional changes are needed.\n:::\n\n::: warning\n**Windows Developers**\nIf you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame.\nTry changing **Visual Effects** to **Adjust for Best Appearance**.\n\n1. Right click `My Computer` and select `Properties`\n2. Click `Advanced System Settings`\n3. Click the `Settings` button under `Performance`\n4. Under the `Visual Effects` tab, change the radio option to: `Adjust for Best Appearance`\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/animations#usage",
+    "documentId": "options/animations",
+    "heading": "Usage",
+    "breadcrumb": ["Usage", "Usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/animations#usage",
+    "content": "::: warning\nNotice the string `animated` in front of the actual animation class name.\n:::\n\n```html Example with wrapping only one DOM element / component\n<transition\n  appear\n  enter-active-class=\"animated fadeIn\"\n  leave-active-class=\"animated fadeOut\"\n>\n  <!-- Wrapping only one DOM element, defined by QBtn -->\n  <q-btn color=\"secondary\" icon=\"mail\" label=\"Email\" />\n</transition>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/animations#built-in-animation-classes",
+    "documentId": "options/animations",
+    "heading": "Built-in animation classes",
+    "breadcrumb": [
+      "Usage",
+      "Built-in animation classes",
+      "Built-in animation classes"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/animations#built-in-animation-classes",
+    "content": "Quasar also provides some built-in classes to animate the active state between both enter and leave transitions. The animations provided are separated into three groups (click on them to expand):\n\n::: details General classes\n\n```\nbounce\nflash\nflip\nheadShake\nheartBeat\nhinge\njello\npulse\nrubberBand\nshake\nshakeX\nshakeY\nswing\ntada\nwobble\n```\n\n:::\n\n::: details \"In\" classes\n\n```\nbackInDown\nbackInLeft\nbackInRight\nbackInUp\nbounceIn\nbounceInDown\nbounceInLeft\nbounceInRight\nbounceInUp\nfadeIn\nfadeInBottomLeft\nfadeInBottomRight\nfadeInDown\nfadeInDownBig\nfadeInLeft\nfadeInLeftBig\nfadeInRight\nfadeInRightBig\nfadeInTopLeft\nfadeInTopRight\nfadeInUp\nfadeInUpBig\nflipInX\nflipInY\njackInTheBox\nlightSpeedInLeft\nlightSpeedInRight\nrollIn\nrotateIn\nrotateInDownLeft\nrotateInDownRight\nrotateInUpLeft\nrotateInUpRight\nslideInDown\nslideInLeft\nslideInRight\nslideInUp\nzoomIn\nzoomInDown\nzoomInLeft\nzoomInRight\nzoomInUp\n```\n\n:::\n\n::: details \"Out\" classes\n\n```\nbackOutDown\nbackOutLeft\nbackOutRight\nbackOutUp\nbounceOut\nbounceOutDown\nbounceOutLeft\nbounceOutRight\nbounceOutUp\nfadeOut\nfadeOutBottomLeft\nfadeOutBottomRight\nfadeOutDown\nfadeOutDownBig\nfadeOutLeft\nfadeOutLeftBig\nfadeOutRight\nfadeOutRightBig\nfadeOutTopLeft\nfadeOutTopRight\nfadeOutUp\nfadeOutUpBig\nflipOutX\nflipOutY\nlightSpeedOutLeft\nlightSpeedOutRight\nrollOut\nrotateOut\nrotateOutDownLeft\nrotateOutDownRight\nrotateOutUpLeft\nrotateOutUpRight\nslideOutDown\nslideOutLeft\nslideOutRight\nslideOutUp\nzoomOut\nzoomOutDown\nzoomOutLeft\nzoomOutRight\nzoomOutUp\n```\n\n:::\n\nYou can also go to the [official Vue documention](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for more information about the use of these classes.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/animations#modifier-classes",
+    "documentId": "options/animations",
+    "heading": "Modifier classes",
+    "breadcrumb": ["Usage", "Modifier classes", "Modifier classes"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/animations#modifier-classes",
+    "content": "There are additional classes which delay or repeat or change the speed of the animations (click to expand):\n\n::: details Modifier classes\n\n```js\nrepeat\nrepeat-1\nrepeat-2\ndelay-1s\ndelay-5s\nslower\nslow\nfast\nfaster\n```\n\n:::\n\nExample:\n\n```html\n<transition\n  appear\n  enter-active-class=\"animated fadeIn slower delay-5s repeat-2\"\n  leave-active-class=\"animated fadeOut\"\n>\n  <!-- Wrapping only one DOM element, defined by QBtn -->\n  <q-btn color=\"secondary\" icon=\"mail\" label=\"Email\" />\n</transition>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/animations#wrapping-multiple-elements",
+    "documentId": "options/animations",
+    "heading": "Wrapping Multiple Elements",
+    "breadcrumb": [
+      "Usage",
+      "Wrapping Multiple Elements",
+      "Wrapping Multiple Elements"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/options/animations#wrapping-multiple-elements",
+    "content": "You can also group components or DOM elements in a transition so that the same effects are applied to all of them simultaneously.\n\n```html Example with wrapping multiple DOM elements / components\n<transition-group\n  appear\n  enter-active-class=\"animated fadeIn\"\n  leave-active-class=\"animated fadeOut\"\n>\n  <!-- We wrap a \"p\" tag and a QBtn -->\n  <p key=\"text\"> Lorem Ipsum </p>\n  <q-btn key=\"email-button\" color=\"secondary\" icon=\"mail\" label=\"Email\" />\n</transition-group>\n```\n\nPlease note some things in the above example:\n\n1. Note `<transition-group>` instead of `<transition>`.\n2. The components and DOM elements must be keyed, like `key=\"text\"` or `key=\"email-button\"` in the example above.\n3. Both examples above have the Boolean property `appear` specified, which makes the entering animation kick in right after component(s) have been rendered. This property is optional.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

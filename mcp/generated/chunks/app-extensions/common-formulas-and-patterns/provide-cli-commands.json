@@ -1,0 +1,24 @@
+[
+  {
+    "id": "app-extensions/common-formulas-and-patterns/provide-cli-commands#overview",
+    "documentId": "app-extensions/common-formulas-and-patterns/provide-cli-commands",
+    "heading": "Providing CLI Command(s)",
+    "breadcrumb": ["Providing CLI Command(s)"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/provide-cli-commands",
+    "content": "One powerful feature of Quasar CLI App Extensions is to provide commands that can be run by your users just as the Quasar CLI commands.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/common-formulas-and-patterns/provide-cli-commands#usage",
+    "documentId": "app-extensions/common-formulas-and-patterns/provide-cli-commands",
+    "heading": "Usage",
+    "breadcrumb": ["Usage", "Usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/provide-cli-commands#usage",
+    "content": "Let's see how you can register a command that will become available as `quasar run <ext-id> <cmd> [...args]`. We will be editing our [Index script](/app-extensions/development-guide/index-api):\n\n```js /ae/src/index.js (or .ts)\nimport { defineIndexScript } from '#q-app'\n\nexport default defineIndexScript(api => {\n  /**\n   * @param {string} commandName\n   * @param {function} fn\n   *   (processArgv: string[]) => ?Promise\n   */\n  api.registerCommand('start', processArgv => {\n    // do something here\n    // this registers the \"start\" command\n    // and this handler is executed when running\n    // quasar run <ext-id> start\n  })\n})\n```\n\nExample with defining and parsing arguments:\n\n```js /ae/src/index.js (or .ts)\nimport { defineIndexScript } from '#q-app'\nimport { parseArgs } from 'node:util'\n\nexport default defineIndexScript(api => {\n  /**\n   * User can run in the host app:\n   *   quasar run <ext-id> fun --name Gigi -d\n   */\n  api.registerCommand('fun', () => {\n    try {\n      const { values, positionals } = parseArgs({\n        options: {\n          name: { type: 'string', short: 'n' },\n          debug: { type: 'boolean' }\n        },\n        strict: true,\n        allowPositionals: true\n      })\n\n      console.log(values, positionals)\n    } catch (err) {\n      console.error(err.message)\n    }\n  })\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

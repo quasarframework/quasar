@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "how-to-contribute/running-projects",
+  "title": "Active Project, Goals and Maintainers",
+  "description": "Quasar's active projects, goals and maintainers.",
+  "canonicalUrl": "https://quasar.dev/how-to-contribute/running-projects",
+  "source": "docs/src/pages/how-to-contribute/running-projects.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "how-to-contribute",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

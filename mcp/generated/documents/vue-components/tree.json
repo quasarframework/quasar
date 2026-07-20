@@ -5,16 +5,13 @@
   "description": "The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.",
   "canonicalUrl": "https://quasar.dev/vue-components/tree",
   "source": "docs/src/pages/vue-components/tree.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QTree"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QTree"],
   "examples": [
     {
       "title": "Basic",

@@ -1,8 +1,21 @@
 {
   "name": "@quasar/mcp",
   "version": "0.1.0",
-  "private": true,
-  "description": "Official read-only MCP server for Quasar UI documentation",
+  "description": "Official read-only MCP server for Quasar documentation",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "quasar",
+    "vue"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar.git",
+    "directory": "mcp"
+  },
   "bin": {
     "quasar-mcp": "bin/quasar-mcp.js"
   },
@@ -13,6 +26,9 @@
     "README.md"
   ],
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "generate": "node scripts/generate.js",
     "evaluate": "node scripts/evaluate.js",
@@ -26,6 +42,9 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
     "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "yaml": "2.9.0"
   },
   "engines": {
     "node": ">=22"

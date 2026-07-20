@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { readFile, realpath } from 'node:fs/promises'
 import { isAbsolute, relative, resolve, sep } from 'node:path'
+import { parse as parseYaml } from 'yaml'
 
 export function parseCliArgs(argv) {
   const args = new Map()
@@ -55,17 +56,7 @@ export function parseFrontMatter(source) {
     throw new Error('Unterminated Markdown front matter')
   }
 
-  const attributes = {}
-
-  for (const line of source.slice(4, end).split('\n')) {
-    const separator = line.indexOf(':')
-
-    if (separator !== -1) {
-      attributes[line.slice(0, separator).trim()] = line
-        .slice(separator + 1)
-        .trim()
-    }
-  }
+  const attributes = parseYaml(source.slice(4, end)) ?? {}
 
   return {
     attributes,
@@ -118,7 +109,7 @@ export function createMarkdownChunks(markdown, document) {
   const flush = () => {
     const content = current.lines.join('\n').trim()
 
-    if (content.length === 0 && chunks.length !== 0) return
+    if (content.length === 0) return
 
     const exampleReferences = extractDocExamples(content)
     const apiReferences = extractDocApis(content)

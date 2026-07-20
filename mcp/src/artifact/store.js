@@ -48,17 +48,21 @@ export class ArtifactStore {
   #enrichSearchRecord(record) {
     if (record.type === 'documentation') {
       const document = this.documents.get(record.id.split('#')[0])
-      return { ...record, kind: document?.kinds[0] }
+      return { ...record, kind: document?.kinds[0], area: document?.area }
     }
 
     if (record.type === 'api') {
       const api = this.findApi(record.id.split('.')[0])
-      return { ...record, kind: api?.document.kinds[0] }
+      return {
+        ...record,
+        kind: api?.document.kinds[0],
+        area: api?.document.area
+      }
     }
 
     if (record.type === 'example') {
       const document = this.findDocument(record.id.split('.example.')[0])
-      return { ...record, kind: document?.kinds[0] }
+      return { ...record, kind: document?.kinds[0], area: document?.area }
     }
 
     return record

@@ -1,0 +1,118 @@
+[
+  {
+    "id": "quasar-utils/other-utils#overview",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "Other Utils",
+    "breadcrumb": ["Other Utils"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils",
+    "content": "::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#openurl",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "openURL",
+    "breadcrumb": ["openURL", "openURL"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#openurl",
+    "content": "```js\nimport { openURL } from 'quasar'\n\nopenURL('http://...')\n\n// full syntax:\nopenURL(\n  String url,\n  Function rejectFn, // optional; gets called if window cannot be opened\n  Object windowFeatures // optional requested features for the new window\n)\n```\n\nIt will take care of the quirks involved when running under Cordova, Electron or on a browser, including notifying the user he/she has to acknowledge opening popups.\n\nWhen wrapping with Cordova (or Capacitor), it's best (but not \"a must do\") if [InAppBrowser](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/) Cordova plugin is also installed, so that openURL can hook into that.\n\nIf running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller) is installed, then openURL will first try to hook into it.\n\nThe optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not defers to using `window.open()`.\n\n```js Example of openURL() with windowFeatures:\nopenURL(\n  'http://...',\n  undefined, // in this example we don't care about the rejectFn()\n\n  // this is the windowFeatures Object param:\n  {\n    noopener: true, // this is set by default for security purposes\n    // but it can be disabled if specified with a Boolean false value\n    menubar: true,\n    toolbar: true,\n    noreferrer: true\n    // .....any other window features\n  }\n)\n```\n\n::: tip\nIf you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href=\"tel:123456789\">` tags or `<QBtn href=\"tel:123456789\">`\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#copytoclipboard",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "copyToClipboard",
+    "breadcrumb": ["copyToClipboard", "copyToClipboard"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#copytoclipboard",
+    "content": "The following is a helper to copy some text to Clipboard. The method returns a Promise.\n\n```js\nimport { copyToClipboard } from 'quasar'\n\ncopyToClipboard('some text')\n  .then(() => {\n    // success!\n  })\n  .catch(() => {\n    // fail\n  })\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#exportfile",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "exportFile",
+    "breadcrumb": ["exportFile", "exportFile"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#exportfile",
+    "content": "The following is a helper to trigger the browser to start downloading a file with the specified content.\n\n```js\n/**\n * Forces browser to download file with specified content\n *\n * @param {*} fileName - String\n * @param {*} rawData - String | ArrayBuffer | ArrayBufferView | Blob\n * @param {*} opts - String (mimeType) or Object\n *                   Object form: { mimeType?: String, byteOrderMark?: String | Uint8Array, encoding?: String }\n * @returns Boolean | Error\n */\n```\n\nThe `opts` parameter is optional and can be a String (mimeType) or an Object with the following form:\n\n- **mimeType** (optional)\n\n  Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'\n  [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)\n\n- **byteOrderMark** (optional)\n\n  (BOM) Example: '\\uFEFF'\n  [https://en.wikipedia.org/wiki/Byte_order_mark](https://en.wikipedia.org/wiki/Byte_order_mark)\n\n- **encoding** (optional)\n\n  Performs a TextEncoder.encode() over the rawData;\n  Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)\n  [https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)\n\nExamples:\n\n```js\nimport { exportFile } from 'quasar'\n\nconst status = exportFile('important.txt', 'some content')\n\nif (status) {\n  // browser allowed it\n} else {\n  // browser denied it\n  console.log('Error: ' + status)\n}\n```\n\n```js\nimport { exportFile } from 'quasar'\n\nconst status = exportFile('file.csv', 'éà; ça; 12\\nà@€; çï; 13', {\n  encoding: 'windows-1252',\n  mimeType: 'text/csv;charset=windows-1252;'\n})\n\nif (status) {\n  // browser allowed it\n} else {\n  // browser denied it\n  console.error('Error: ' + status)\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#runsequentialpromises",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "runSequentialPromises <q-badge label=\"v2.8.4+\" />",
+    "breadcrumb": [
+      "runSequentialPromises <q-badge label=\"v2.8.4+\" />",
+      "runSequentialPromises <q-badge label=\"v2.8.4+\" />"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#runsequentialpromises",
+    "content": "The following is a helper to run multiple Promises sequentially. **Optionally, on multiple threads.**\n\n```js\n/**\n * Run a list of Promises sequentially, optionally on multiple threads.\n *\n * @param {*} sequentialPromises - Array of Functions or Object with Functions as values\n *                          Array of Function form: [ (resultAggregator: Array) => Promise<any>, ... ]\n *                          Object form: { [key: string]: (resultAggregator: object) => Promise<any>, ... }\n * @param {*} opts - Optional options Object\n *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }\n *                   Default: { threadsNumber: 1, abortOnFail: true }\n *                   When configuring threadsNumber AND using http requests, be\n *                       aware of the maximum threads that the hosting browser\n *                       supports (usually 5); any number of threads above that\n *                       won't add any real benefits\n * @returns Promise<Array<Object> | Object>\n *    With opts.abortOnFail set to true (which is default):\n *        When sequentialPromises param is Array:\n *          The Promise resolves with an Array of Objects of the following form:\n *             [ { key: number, status: 'fulfilled', value: any }, ... ]\n *          The Promise rejects with an Object of the following form:\n *             { key: number, status: 'rejected', reason: Error, resultAggregator: array }\n *        When sequentialPromises param is Object:\n *          The Promise resolves with an Object of the following form:\n *             { [key: string]: { key: string, status: 'fulfilled', value: any }, ... }\n *          The Promise rejects with an Object of the following form:\n *             { key: string, status: 'rejected', reason: Error, resultAggregator: object }\n *    With opts.abortOnFail set to false:\n *       The Promise is never rejected (no catch() needed)\n *       The Promise resolves with:\n *          An Array of Objects (when sequentialPromises param is also an Array) of the following form:\n *             [ { key: number, status: 'fulfilled', value: any } | { status: 'rejected', reason: Error }, ... ]\n *          An Object (when sequentialPromises param is also an Object) of the following form:\n *             { [key: string]: { key: string, status: 'fulfilled', value: any } | { key: string, status: 'rejected', reason: Error }, ... }\n */\n```\n\nNote that:\n\n- the `sequentialPromises` param is an Array of Functions (each Function returns a Promise)\n- each function in `sequentialPromises` receives one param which is the `resultAggregator`, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultAggregator that hasn't been settled yet is marked as `null`\n- the `opts` parameter is optional.\n\nGeneric example (with `sequentialPromises` param as Array):\n\n```js\nimport { runSequentialPromises } from 'quasar'\n\nrunSequentialPromises([\n  resultAggregator =>\n    new Promise((resolve, reject) => {\n      /* do some work... */\n    }),\n  resultAggregator =>\n    new Promise((resolve, reject) => {\n      /* do some work... */\n    })\n  // ...\n])\n  .then(resultAggregator => {\n    // resultAggregator is ordered in the same way as the promises above\n    console.log('result from first Promise:', resultAggregator[0].value)\n    console.log('result from second Promise:', resultAggregator[1].value)\n    // ...\n  })\n  .catch(errResult => {\n    console.error(`Error encountered on job #${errResult.key}:`)\n    console.error(errResult.reason)\n    console.log('Managed to get these results before this error:')\n    console.log(errResult.resultAggregator)\n  })\n```\n\nGeneric example (with `sequentialPromises` param as Object):\n\n```js\nimport { runSequentialPromises } from 'quasar'\n\nrunSequentialPromises({\n  phones: resultAggregator =>\n    new Promise((resolve, reject) => {\n      /* do some work... */\n    }),\n  laptops: resultAggregator =>\n    new Promise((resolve, reject) => {\n      /* do some work... */\n    })\n  // ...\n})\n  .then(resultAggregator => {\n    console.log('result from first Promise:', resultAggregator.phones.value)\n    console.log('result from second Promise:', resultAggregator.laptops.value)\n    // ...\n  })\n  .catch(errResult => {\n    console.error(`Error encountered on job (${errResult.key}):`)\n    console.error(errResult.reason)\n    console.log('Managed to get these results before this error:')\n    console.log(errResult.resultAggregator)\n  })\n```\n\nExample using previous results:\n\n```js\nimport { runSequentialPromises } from 'quasar'\n\nrunSequentialPromises({\n  phones: () =>\n    new Promise((resolve, reject) => {\n      /* do some work... */\n    }),\n  vendors: resultAggregator => {\n    new Promise((resolve, reject) => {\n      // You can do something with resultAggregator.phones.value here...\n      // Since are using the default abortOnFail option, the result is guaranteed to exist,\n      // so you don't have to guard resultAggregator.phones against \"null\"\n    })\n  }\n  // ...\n})\n```\n\nExample with Axios:\n\n```js\nimport { runSequentialPromises } from 'quasar'\nimport axios from 'axios'\n\nconst keyList = ['users', 'phones', 'laptops']\n\nrunSequentialPromises([\n  () => axios.get('https://some-url.com/users'),\n  () => axios.get('https://some-other-url.com/items/phones'),\n  () => axios.get('https://some-other-url.com/items/laptops')\n])\n  .then(resultAggregator => {\n    // resultAggregator is ordered in the same way as the promises above\n    resultAggregator.forEach(result => {\n      console.log(keyList[result.key], result.value) // example: users {...}\n    })\n  })\n  .catch(errResult => {\n    console.error(`Error encountered while fetching ${keyList[errResult.key]}:`)\n    console.error(errResult.reason)\n    console.log('Managed to get these results before this error:')\n    console.log(errResult.resultAggregator)\n  })\n\n// **equivalent** example with sequentialPromises as Object:\n\nrunSequentialPromises({\n  users: () => axios.get('https://some-url.com/users'),\n  phones: () => axios.get('https://some-other-url.com/items/phones'),\n  laptops: () => axios.get('https://some-other-url.com/items/laptops')\n})\n  .then(resultAggregator => {\n    console.log('users:', resultAggregator.users.value)\n    console.log('phones:', resultAggregator.phones.value)\n    console.log('laptops:', resultAggregator.laptops.value)\n  })\n  .catch(errResult => {\n    console.error(`Error encountered while fetching ${errResult.key}:`)\n    console.error(errResult.reason)\n    console.log('Managed to get these results before this error:')\n    console.log(errResult.resultAggregator)\n  })\n```\n\nExample with abortOnFail set to `false`:\n\n```js\nimport { runSequentialPromises } from 'quasar'\nimport axios from 'axios'\n\n// notice no \"catch()\"; runSequentialPromises() will always resolve\nrunSequentialPromises(\n  {\n    users: () => axios.get('https://some-url.com/users'),\n    phones: () => axios.get('https://some-other-url.com/items/phones'),\n    laptops: () => axios.get('https://some-other-url.com/items/laptops')\n  },\n  { abortOnFail: false }\n).then(resultAggregator => {\n  Object.values(resultAggregator).forEach(result => {\n    if (result.status === 'rejected') {\n      console.log(`Failed to fetch ${result.key}:`, result.reason)\n    } else {\n      console.log(`Succeeded to fetch ${result.key}:`, result.value)\n    }\n  })\n})\n```\n\nWhen configuring threadsNumber (`opts > threadsNumber`) AND using http requests, be aware of the maximum threads that the hosting browser supports (usually 5). Any number of threads above that won't add any real benefits.\n\n```js\nimport { runSequentialPromises } from 'quasar'\n\nrunSequentialPromises([/* ... */], { threadsNumber: 3 })\n  .then(resultAggregator => {\n    resultAggregator.forEach(result => {\n      console.log(result.value)\n    })\n  })\n  .catch(errResult => {\n    console.error(`Error encountered:`)\n    console.error(errResult.reason)\n    console.log('Managed to get these results before this error:')\n    console.log(errResult.resultAggregator)\n  })\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#debounce",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "debounce",
+    "breadcrumb": ["debounce", "debounce"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#debounce",
+    "content": "If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.\n\nDebouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in \"execute this function only if 100 milliseconds have passed without it being called.\"\n\nA quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?\n\n```js\n// Returns a function, that, as long as it continues to be invoked, will not\n// be triggered. The function will be called after it stops being called for\n// N milliseconds. If `immediate` is passed, trigger the function on the\n// leading edge, instead of the trailing.\nimport { debounce } from 'quasar'\n\n(Debounced Function) debounce(Function fn, Number milliseconds_to_wait, Boolean immediate)\n\n// Example:\nwindow.addEventListener(\n  'resize',\n  debounce(function() {\n    // .... things to do ...\n  }, 300 /*ms to wait*/)\n)\n```\n\nOr calling as a method in a .vue file:\n\n```js\nmethods: {\n  myMethod () { .... }\n},\n\ncreated () {\n  this.myMethod = debounce(this.myMethod, 500)\n}\n```\n\n::: warning\nDebouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between _all_ rendered instances of this component, so debouncing is also shared. Moreover, `this.myMethod.cancel()` won't work, because Vue wraps each method with another function to ensure proper `this` binding. This should be avoided by following the code snippet above.\n:::\n\nThere's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).\n\n```js\nimport { frameDebounce } from 'quasar'\n\n(Debounced Function) frameDebounce(Function fn)\n\n// Example:\nwindow.addEventListener(\n  'resize',\n  frameDebounce(function() {\n    .... things to do ...\n  })\n)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#throttle",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "throttle",
+    "breadcrumb": ["throttle", "throttle"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#throttle",
+    "content": "Throttling enforces a maximum number of times a function can be called over time. As in \"execute this function at most once every X milliseconds.\"\n\n```js\nimport { throttle } from 'quasar'\n\n(Throttled Function) throttle(Function fn, Number limit_in_milliseconds)\n\n// Example:\nwindow.addEventListener(\n  'resize',\n  throttle(function() {\n    .... things to do ...\n  }, 300 /* execute at most once every 0.3s */)\n)\n```\n\nOr calling as a method in a .vue file:\n\n```js\nmethods: {\n  myMethod () { .... }\n},\n\ncreated () {\n  this.myMethod = throttle(this.myMethod, 500)\n}\n```\n\n::: warning\nThrottling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between _all_ rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#extend-deep-copy-objects",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "extend - (Deep) Copy Objects",
+    "breadcrumb": [
+      "extend - (Deep) Copy Objects",
+      "extend - (Deep) Copy Objects"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#extend-deep-copy-objects",
+    "content": "A basic respawn of `jQuery.extend()`. Takes same parameters:\n\n```js\nimport { extend } from 'quasar'\n\nlet newObject = extend([Boolean deepCopy], targetObj, obj, ...)\n```\n\nWatch out for methods within objects.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#uid-generate-uid",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "uid - Generate UID",
+    "breadcrumb": ["uid - Generate UID", "uid - Generate UID"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#uid-generate-uid",
+    "content": "Generate unique identifiers:\n\n```js\nimport { uid } from 'quasar'\n\nlet uid = uid()\n// Example: 84402c0e-7a8c-4784-b0b1-2e471e631645\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/other-utils#testpattern",
+    "documentId": "quasar-utils/other-utils",
+    "heading": "testPattern",
+    "breadcrumb": ["testPattern", "testPattern"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#testpattern",
+    "content": "Test against particular patterns.\n\n```js\nimport { patterns } from 'quasar'\n\nconst { testPattern } = patterns\n\ntestPattern.email('foo@bar.com') // true\ntestPattern.email('foo') // false\n\ntestPattern.hexColor('#fff') // true\ntestPattern.hexColor('#ffffff') // true\ntestPattern.hexColor('#FFF') // true\ntestPattern.hexColor('#gggggg') // false\n```\n\nSee the full list of patterns [here](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -52,17 +52,9 @@ This matrix of containers or "QLayout View" can be represented by a string that 
 - a space
 - then 3 defining the footer row
 
-<script doc>
-import ViewProp from './ViewProp.vue'
-</script>
-
 <ViewProp />
 
 The letters shown above are also case sensitive. For example, using at least one "L" (uppercase character instead of lowercase) will make your layout left side (drawer) be in a fixed position. Same applies for "H" (header), "F" (footer) and finally "R" (right side / drawer).
-
-<script doc>
-import ViewPlay from './ViewPlay.vue'
-</script>
 
 <ViewPlay />
 
@@ -93,7 +85,7 @@ In the example below, there is a containerized QLayout with drawers on each side
 
 Source: [Container.vue](../../examples/QLayout/Container.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-layout
@@ -210,13 +202,13 @@ import { ref } from 'vue'
 const drawerLeft = ref(false)
 const drawerRight = ref(true)
 </script>
-````
+```
 
 **Example: In a QDialog**
 
 Source: [ContainerDialog.vue](../../examples/QLayout/ContainerDialog.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="teal" label="Open Dialog" @click="dialog = true" />
@@ -330,4 +322,4 @@ const dialog = ref(false)
 const drawerLeft = ref(false)
 const drawerRight = ref(true)
 </script>
-````
+```

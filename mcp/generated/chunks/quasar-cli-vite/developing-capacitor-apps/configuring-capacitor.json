@@ -1,0 +1,106 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#overview",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "Configuring Capacitor",
+    "breadcrumb": ["Configuring Capacitor"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "content": "A Quasar Capacitor app has two configuration surfaces, each with a distinct job. The native Capacitor project lives under `/src-capacitor` and is configured by `capacitor.config.{ts,js}`. Quasar's own build/dev behavior is configured by the top-level `/quasar.config` file. We'll go over each.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-capacitor-config-file",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "The capacitor.config file",
+    "breadcrumb": ["The capacitor.config file", "The capacitor.config file"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-capacitor-config-file",
+    "content": "`capacitor.config.{ts,js}` is Capacitor's own config file. The `/src-capacitor` folder is a Capacitor project, so for the schema itself and what each field does, see Capacitor's [Configuring your app](https://capacitorjs.com/docs/basics/configuring-your-app) docs.\n\nThe important mental model: this file is loaded by the Capacitor CLI process, not bundled by Vite. When Quasar runs `cap sync` (or similar) on your behalf, the cap CLI is a separate Node process that reads `capacitor.config.*` directly with `require()` (`.js`) or its TypeScript loader (`.ts`). Once that's in your head, the rest of the page is just consequences.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#file-format",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "File format",
+    "breadcrumb": ["The capacitor.config file", "File format", "File format"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#file-format",
+    "content": "Quasar CLI looks for `capacitor.config.ts`, then `.js`. When you run `quasar mode add capacitor`, the scaffolded format depends on whether your project uses TypeScript:\n\n- TS projects get `capacitor.config.ts`.\n- JS projects get `capacitor.config.js` in CommonJS form.\n\nCapacitor's `.js` config loader doesn't yet handle ESM exports correctly, so we have to stick with `module.exports` in JS projects.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-definecapacitorconfig-helper",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "The defineCapacitorConfig helper",
+    "breadcrumb": [
+      "The capacitor.config file",
+      "The defineCapacitorConfig helper",
+      "The defineCapacitorConfig helper"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-definecapacitorconfig-helper",
+    "content": "`@quasar/app-vite/capacitor` exports `defineCapacitorConfig`, a small wrapper for the `.ts` / `.js` forms. It does three things:\n\n1. Defaults `webDir` to `'www'`. Quasar always builds to `src-capacitor/www`, so this avoids a field you'd otherwise have to remember to set. You can override it if you have a very custom use case.\n2. In dev mode, injects `server.url` (and `server.cleartext: true` on Android) so the running native app loads from Quasar's dev server. You can override it if you have a very custom use case.\n3. Types your input against `CapacitorConfig` from `@capacitor/cli`, so autocompletion and type errors come from the real upstream schema.\n\nAll of this happens at config-load time inside the cap CLI process. Your source file isn't mutated.\n\nThe helper accepts a plain object, a sync function, or an async function:\n\n```tabs capacitor.config.ts\n<<| ts Object (most common) |>>\nimport { defineCapacitorConfig } from '@quasar/app-vite/capacitor';\n\nexport default defineCapacitorConfig({\n  appId: 'org.example.app',\n  appName: 'My App',\n  plugins: {\n    MyPlugin: { apiUrl: process.env.MY_API_URL }\n  }\n});\n<<| ts Sync function |>>\nimport { defineCapacitorConfig } from '@quasar/app-vite/capacitor';\n\nexport default defineCapacitorConfig(() => {\n  const isDev = process.env.QUASAR_DEV === 'true';\n\n  return {\n    appId: 'org.example.app',\n    appName: 'My App',\n    plugins: {\n      Analytics: { key: isDev ? process.env.STAGING_KEY : process.env.PROD_KEY }\n    }\n  };\n});\n<<| ts Async function |>>\nimport { defineCapacitorConfig } from '@quasar/app-vite/capacitor';\n\nexport default defineCapacitorConfig(async () => {\n  const response = await fetch('https://config.example.com/cap');\n  if (!response.ok) {\n    throw new Error(`Failed to load config: ${response.status} ${response.statusText}`);\n  }\n  const remoteConfig = await response.json();\n\n  return {\n    appId: 'org.example.app',\n    appName: 'My App',\n    plugins: remoteConfig.plugins\n  };\n});\n```\n\nThe JS form is the same shape, just CommonJS:\n\n```js /src-capacitor/capacitor.config.js\nconst { defineCapacitorConfig } = require('@quasar/app-vite/capacitor')\n\nmodule.exports = defineCapacitorConfig({\n  appId: 'org.example.app',\n  appName: 'My App'\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#reading-env-values",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "Reading env values",
+    "breadcrumb": [
+      "The capacitor.config file",
+      "Reading env values",
+      "Reading env values"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#reading-env-values",
+    "content": "When Quasar invokes the Capacitor CLI (through `quasar dev -m capacitor` or `quasar build -m capacitor`), it sets a handful of `QUASAR_*` environment variables on the spawned process. Your `capacitor.config.ts` / `.js` can read them through `process.env`. The names mirror the `import.meta.env.QUASAR_*` Vite defines available to your UI code:\n\n| Variable            | Value                                                       |\n| ------------------- | ----------------------------------------------------------- |\n| `QUASAR_DEV`        | `'true'` in dev, `'false'` in build                         |\n| `QUASAR_TARGET`     | `'android'` or `'ios'`                                      |\n| `QUASAR_APP_URL`    | Dev server URL (only meaningful in dev)                     |\n| `QUASAR_MODE`       | `'capacitor'`                                               |\n| `QUASAR_*` (others) | Anything else Quasar exposes via `import.meta.env.QUASAR_*` |\n\nYour `.env` files and `quasar.config > build.env` values are forwarded the same way (subject to Quasar's prefix configuration, see [Handling import.meta.env](/quasar-cli-vite/handling-import-meta-env)). So if your `.env` has `SENTRY_DSN=https://...`, the config file reads it directly:\n\n```ts /src-capacitor/capacitor.config.ts\nimport { defineCapacitorConfig } from '@quasar/app-vite/capacitor'\n\nexport default defineCapacitorConfig({\n  appId: 'org.example.app',\n  appName: 'My App',\n  plugins: {\n    Sentry: { dsn: process.env.SENTRY_DSN } // [!code highlight]\n  }\n})\n```\n\nThere is one type quirk to internalize because of the loading model. In UI code, `import.meta.env.QUASAR_DEV` is inlined by Vite as the actual boolean `true` or `false`. In `capacitor.config.ts` / `.js` you're reading `process.env.X`, which is always a string. So the same name carries a different type on each side, and the strings `'true'` and `'false'` are both truthy:\n\n```ts\n// UI code (Vite-bundled)\nif (import.meta.env.QUASAR_DEV) {\n  /* runs in dev */\n} // [!code highlight]\n\n// capacitor.config.ts (loaded by cap CLI as plain Node)\nif (process.env.QUASAR_DEV) {\n  /* always runs by mistake! */\n} // [!code error]\nif (process.env.QUASAR_DEV === 'true') {\n  /* runs in dev */\n} // [!code highlight]\n```\n\nSame goes for `QUASAR_PROD`, `QUASAR_CLIENT`, `QUASAR_SERVER`, and any other boolean-shaped flag. Plain string values like `QUASAR_TARGET` behave the way you'd expect.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#running-cap-directly",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "Running cap directly",
+    "breadcrumb": [
+      "The capacitor.config file",
+      "Running cap directly",
+      "Running cap directly"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#running-cap-directly",
+    "content": "If you run the Capacitor CLI yourself from `/src-capacitor` (`npx cap sync`, `npx cap doctor`, or an IDE-triggered sync), Quasar isn't in the loop to populate the environment. The file still loads, `defineCapacitorConfig` still defaults `webDir`, and static fields still work. But anything that reads `process.env.QUASAR_*` or your own `.env` file values comes back `undefined`, because nothing put them there. Code defensively if a config branch matters in that path.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#appid-and-appname",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "appId and appName",
+    "breadcrumb": [
+      "The capacitor.config file",
+      "appId and appName",
+      "appId and appName"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#appid-and-appname",
+    "content": "`appId` and the app display name are captured once via prompts when you run `quasar mode add capacitor`, and written into the scaffolded `capacitor.config.*`. The Capacitor CLI then bakes them into the native projects at platform-add time (`cap add android` / `cap add ios`). It writes `appName` into `ios/App/App/Info.plist > CFBundleDisplayName` and `android/app/src/main/res/values/strings.xml > app_name`.\n\n`cap sync` and `cap copy` don't re-run that step. So changing `appId` or `appName` in `capacitor.config.*` after the platforms exist doesn't propagate to existing native projects. To rename the installed app, edit Info.plist and strings.xml directly, or remove and re-add the platform. This is how Capacitor works in general, not a Quasar-specific quirk.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#quasar-config-file",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+    "heading": "quasar.config file",
+    "breadcrumb": ["quasar.config file", "quasar.config file"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#quasar-config-file",
+    "content": "Quasar-specific Capacitor options live in the top-level `/quasar.config` file. These are about Quasar's build/dev behavior, not Capacitor's native config (which belongs in `capacitor.config.*`).\n\n```ts /quasar.config file\nreturn {\n  capacitor: {\n    /**\n     * Automatically hide the Capacitor Splashscreen when app is ready,\n     * (is using the Splashscreen Capacitor plugin).\n     *\n     * @default true\n     */\n    hideSplashscreen?: boolean;\n\n    /**\n     * Preparation params with which the Capacitor CLI is called\n     *\n     * @default [ 'sync', ctx.targetName ]\n     */\n    capacitorCliPreparationParams?: string[];\n  }\n}\n```\n\nAnd you can also configure:\n\n```js /quasar.config file\nreturn {\n  framework: {\n    config: {\n      capacitor: {\n        iosStatusBarPadding: true / false // add the dynamic top padding on iOS mobile devices\n      }\n    }\n  }\n}\n```\n\nFinally, you can also disable or configure the back button hook (used for Dialogs):\n\n```js /quasar.config file\nreturn {\n  framework: {\n    config: {\n      capacitor: {\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true / false / '*' / ['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true / false\n      }\n    }\n  }\n}\n```\n\nShould you want to tamper with the Vite config for UI in /src:\n\n```js /quasar.config file\nexport default defineConfig(ctx => {\n  return {\n    build: {\n      extendViteConf(viteConf) {\n        if (ctx.mode.capacitor) {\n          // do something with viteConf\n          // or return an object to deeply merge with current viteConf\n        }\n      }\n    }\n  }\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

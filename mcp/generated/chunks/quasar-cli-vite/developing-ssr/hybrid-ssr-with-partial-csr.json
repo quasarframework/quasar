@@ -1,0 +1,24 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr#overview",
+    "documentId": "quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr",
+    "heading": "Hybrid SSR with partial CSR",
+    "breadcrumb": ["Hybrid SSR with partial CSR"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr",
+    "content": "Quasar CLI allows you to build a hybrid SSR with partial CSR (Client-Side Rendering). This is helpful for cases where you want some of your pages to be rendered exclusively on the client side.\n\n> This feature is available in \"@quasar/app-vite\" v3.1+",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr#configuration",
+    "documentId": "quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr",
+    "heading": "Configuration",
+    "breadcrumb": ["Configuration", "Configuration"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr#configuration",
+    "content": "You can instruct the Quasar CLI what Vue Router routes should be handled exclusively on the client side:\n\n```js /quasar.config file\nssr: {\n  /**\n   * Configure this for a hybrid SSR + partial CSR (Client-Side Rendering)\n   * approach, where you have some Vue Router routes that you want to be\n   * rendered on the client-side exclusively.\n   *\n   * You can use picomatch patterns to match the routes you want to be rendered\n   * on the client-side. https://www.npmjs.com/package/picomatch\n   *\n   * Note on picomatch patterns:\n   *   \"/admin\" matches the exact route only\n   *   \"/admin/**\" matches the exact route and all sub-routes of /admin\n   *   \"/admin/*\" matches only direct sub-routes of /admin\n   *   \"/admin/{users,settings}\" matches both exact routes /admin/users and /admin/settings\n   *\n   * @example ['/dashboard', '/admin/**']\n   * @default ssg.clientSideRenderingRoutes (when configured), otherwise []\n   */\n  clientSideRenderingRoutes?: string[];\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

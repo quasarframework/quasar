@@ -1,0 +1,38 @@
+[
+  {
+    "id": "quasar-cli-vite/state-management-with-pinia#overview",
+    "documentId": "quasar-cli-vite/state-management-with-pinia",
+    "heading": "State management with Pinia",
+    "breadcrumb": ["State management with Pinia"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/state-management-with-pinia",
+    "content": "In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.\n\nThe recommended way to go if you want components sharing state is Pinia. Take a look at its [documentation](https://pinia.vuejs.org/) before diving in. It has a great feature when used along the [Vue dev-tools](https://github.com/vuejs/vue-devtools) browser extension like Time Travel debugging.\n\nWe won't go into details on how to configure or use Pinia since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.\n\n- src\n  - stores — Pinia\n    - index.js — (or .ts) Pinia initialization\n    - <store> — Pinia store...\n    - <store> — Pinia store...\n\nWhen you scaffold a Quasar project folder you can choose to add Pinia. It will create all the necessary configuration for you. Like for example the creation of `/src/stores` which handles all the Pinia related code that you need.\n\nIf you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `/src/stores/index.js` file (it's automatically created when you run `quasar new store <name>`):\n\n```js /src/stores/index.js\nimport { defineStore } from '#q-app'\nimport { createPinia } from 'pinia'\n\n/*\n * If not building with SSR/SSG mode, you can\n * directly export the Store instantiation;\n *\n * The function below can be async too; either use\n * async/await or return a Promise which resolves\n * with the Store instance.\n */\n\nexport default defineStore((/* { ssrContext } */) => {\n  const pinia = createPinia()\n\n  // You can add Pinia plugins here\n  // pinia.use(SomePiniaPlugin)\n\n  return pinia\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/state-management-with-pinia#adding-a-pinia-store",
+    "documentId": "quasar-cli-vite/state-management-with-pinia",
+    "heading": "Adding a Pinia store",
+    "breadcrumb": ["Adding a Pinia store", "Adding a Pinia store"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/state-management-with-pinia#adding-a-pinia-store",
+    "content": "Adding a Pinia store is easy with Quasar CLI through the `quasar new` command.\n\n```bash\nquasar new store <store_name> [--format ts]\n```\n\nIt will create a folder in `/src/stores` named by \"store_name\" from the command above. It will contain all the boilerplate that you need.\n\nLet's say that you want to create a \"counter\" Pinia store. You issue `quasar new store counter`. You then notice the newly created `/src/stores/counter.js` file:\n\n- src\n  - stores\n    - index.js — (or .ts) Pinia initialization\n    - counter.js — (or .ts) Pinia store\n\nExample of Pinia store:\n\n```js\nimport { defineStore } from 'pinia'\n\nexport const useCounterStore = defineStore('counter', {\n  state: () => ({\n    counter: 0\n  }),\n  getters: {\n    doubleCount: state => state.counter * 2\n  },\n  actions: {\n    increment() {\n      this.counter++\n    }\n  }\n})\n```\n\nWe've created the new Pinia store, but we haven't yet used it in our app. In a Vue file:\n\n```html\n<template>\n  <div>\n    <!-- Option 1 -->\n    <div>Direct store</div>\n    <!-- Read the state value directly -->\n    <div>{{ store.counter }}</div>\n    <!-- Use getter directly -->\n    <div>{{ store.doubleCount }}</div>\n\n    <!-- Manipulate state directly -->\n    <q-btn @click=\"store.counter--\">-</q-btn>\n    <!-- Use an action -->\n    <q-btn @click=\"store.increment()\">+</q-btn>\n  </div>\n\n  <div>\n    <!-- Option 2 -->\n    <div>Indirect store</div>\n    <!-- Use the computed state -->\n    <div>{{ count }}</div>\n    <!-- Use the computed getter -->\n    <div>{{ doubleCountValue }}</div>\n\n    <!-- Use the exposed function -->\n    <q-btn @click=\"decrementCount()\">-</q-btn>\n    <!-- Use the exposed function -->\n    <q-btn @click=\"incrementCount()\">+</q-btn>\n  </div>\n\n  <div>\n    <!-- Option 3 -->\n    <div>Destructured store</div>\n    <!-- Use the destructured state -->\n    <div>{{ counter }}</div>\n    <!-- Use the destructured getter -->\n    <div>{{ doubleCount }}</div>\n\n    <!-- Manipulate state directly-->\n    <q-btn @click=\"counter--\">-</q-btn>\n    <!-- Use an action -->\n    <q-btn @click=\"increment()\">+</q-btn>\n  </div>\n</template>\n\n<script setup>\n  import { computed } from 'vue'\n  import { storeToRefs } from 'pinia'\n  import { useCounterStore } from '@/stores/counter'\n\n  const store = useCounterStore()\n\n  // Option 2: use computed and functions to use the store\n  const count = computed(() => store.counter)\n  const doubleCountValue = computed(() => store.doubleCount)\n  const incrementCount = () => store.increment() // use action\n  const decrementCount = () => store.counter-- // manipulate directly\n\n  // Option 3: use destructuring to use the store in the template\n  const { counter, doubleCount } = storeToRefs(store) // state and getters need \"storeToRefs\"\n  const { increment } = store // actions can be destructured directly\n</script>\n```\n\n[More info on defining a Pinia store](https://pinia.vuejs.org/core-concepts/).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/state-management-with-pinia#accessing-the-router-in-pinia-stores",
+    "documentId": "quasar-cli-vite/state-management-with-pinia",
+    "heading": "Accessing the router in Pinia stores",
+    "breadcrumb": [
+      "Accessing the router in Pinia stores",
+      "Accessing the router in Pinia stores"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/state-management-with-pinia#accessing-the-router-in-pinia-stores",
+    "content": "Simply use `this.router` in Pinia stores to get access to the router.\n\nHere is an example:\n\n```js\nimport { defineStore } from 'pinia'\n\nexport const useWhateverStore = defineStore('whatever', {\n  // ...\n  actions: {\n    whateverAction () { // do NOT use arrow function\n      this.router.push('...')\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

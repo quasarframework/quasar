@@ -24,7 +24,7 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 Source: [Basic.vue](../../examples/QRating/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -57,13 +57,13 @@ import { ref } from 'vue'
 
 const ratingModel = ref(3)
 </script>
-````
+```
 
 **Example: Custom number of choices**
 
 Source: [Max.vue](../../examples/QRating/Max.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-rating v-model="ratingModel" size="2em" :max="10" color="primary" />
@@ -75,7 +75,15 @@ import { ref } from 'vue'
 
 const ratingModel = ref(3)
 </script>
-````
+```
+
+### Keyboard navigation
+
+QRating uses radio-group keyboard behavior:
+
+- `Arrow Right` and `Arrow Down` select the next value.
+- `Arrow Left` and `Arrow Up` select the previous value.
+- `Space` or `Enter` selects the focused value.
 
 ### Icons
 
@@ -83,7 +91,7 @@ const ratingModel = ref(3)
 
 Source: [Images.vue](../../examples/QRating/Images.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-rating
@@ -99,7 +107,7 @@ import { ref } from 'vue'
 
 const ratingModel = ref(3)
 </script>
-````
+```
 
 In the example below, when using the `icon-selected` prop, notice we can still use `icon` as well. The latter becomes the icon(s) when they are not selected.
 
@@ -107,7 +115,7 @@ In the example below, when using the `icon-selected` prop, notice we can still u
 
 Source: [SelectedIcon.vue](../../examples/QRating/SelectedIcon.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -127,13 +135,13 @@ import { ref } from 'vue'
 
 const ratingModel = ref(3)
 </script>
-````
+```
 
 **Example: Different icon for each rating**
 
 Source: [ArrayIcon.vue](../../examples/QRating/ArrayIcon.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -159,7 +167,7 @@ const icons = [
   'sentiment_very_satisfied'
 ]
 </script>
-````
+```
 
 ### Colors
 
@@ -169,7 +177,7 @@ When using the `color-selected` prop, notice we can still use `color` as well. T
 
 Source: [Colors.vue](../../examples/QRating/Colors.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -195,7 +203,7 @@ const ratingColors = [
   'green-10'
 ]
 </script>
-````
+```
 
 ### Floating number
 
@@ -203,7 +211,7 @@ const ratingColors = [
 
 Source: [HalfSelected.vue](../../examples/QRating/HalfSelected.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -260,7 +268,7 @@ function resetModels() {
   model3.value = 4.5
 }
 </script>
-````
+```
 
 ### No dimming
 
@@ -268,7 +276,7 @@ function resetModels() {
 
 Source: [NoDimming.vue](../../examples/QRating/NoDimming.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-rating
@@ -289,7 +297,7 @@ import { ref } from 'vue'
 
 const model = ref(2.3)
 </script>
-````
+```
 
 ### Tooltips
 
@@ -299,7 +307,7 @@ Notice how we can add tooltips to each icon in the example below.
 
 Source: [SlotTip.vue](../../examples/QRating/SlotTip.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-rating v-model="ratingModel" size="2em" :max="3" color="primary">
@@ -321,7 +329,7 @@ import { ref } from 'vue'
 
 const ratingModel = ref(2)
 </script>
-````
+```
 
 ### Sizes
 
@@ -331,7 +339,7 @@ Apart from the standard sizes below, you can define your own through the `size` 
 
 Source: [StandardSizes.vue](../../examples/QRating/StandardSizes.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -352,7 +360,7 @@ import { ref } from 'vue'
 
 const ratingModel = ref(3)
 </script>
-````
+```
 
 ### Readonly and disable
 
@@ -360,7 +368,7 @@ const ratingModel = ref(3)
 
 Source: [ReadonlyDisable.vue](../../examples/QRating/ReadonlyDisable.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
@@ -376,7 +384,7 @@ import { ref } from 'vue'
 
 const ratingModel = ref(3)
 </script>
-````
+```
 
 ### Native form submit
 
@@ -386,7 +394,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 Source: [NativeForm.vue](../../examples/QRating/NativeForm.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-form @submit="onSubmit" class="q-gutter-md">
@@ -450,4 +458,4 @@ function onSubmit(evt) {
   submitResult.value = data
 }
 </script>
-````
+```

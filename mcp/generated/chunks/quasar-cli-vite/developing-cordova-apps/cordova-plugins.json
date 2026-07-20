@@ -1,0 +1,102 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#overview",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Cordova Plugins",
+    "breadcrumb": ["Cordova Plugins"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "content": "You can hook into the native device APIs by using [Cordova Plugins](https://cordova.apache.org/docs/en/latest/#plugin-apis).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#cordova-plugins",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Cordova plugins",
+    "breadcrumb": ["Cordova plugins", "Cordova plugins"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#cordova-plugins",
+    "content": "A few examples of such plugins:\n\n- Battery Status\n- Camera\n- Contacts\n- Device\n- Device Motion\n- Geolocation\n- Media\n- Media Capture\n- Network Information\n- Splashscreen\n- Vibration\n- Statusbar",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#deviceready-event",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "`deviceready` event",
+    "breadcrumb": ["`deviceready` event", "`deviceready` event"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#deviceready-event",
+    "content": "Some Cordova plugins are usable only after `deviceready`. In Cordova mode, Quasar waits for this event before mounting the root Vue application, so component setup and lifecycle hooks can use initialized plugin APIs.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#caveat",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Caveat",
+    "breadcrumb": ["`deviceready` event", "Caveat", "Caveat"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#caveat",
+    "content": "Let's take a vue file for example:\n\n```html\n<template> ... we are sure 'deviceready' has been triggered here ... </template>\n\n<script>\n  // outside of the default export,\n  // we need to listen to the event for ourselves:\n  document.addEventListener(\n    'deviceready',\n    () => {\n      // it's only now that we are sure\n      // the event has triggered\n    },\n    false\n  )\n\n  export default {\n    // we are sure 'deviceready' has been triggered here\n  }\n</script>\n```\n\nModule-level code can still execute while Vue files are imported, before the application mounts. Avoid accessing Cordova plugin globals at module scope. If module-level initialization is unavoidable, listen for `deviceready` explicitly as shown above.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#using-a-cordova-plugin",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Using a Cordova Plugin",
+    "breadcrumb": ["Using a Cordova Plugin", "Using a Cordova Plugin"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#using-a-cordova-plugin",
+    "content": "Let's learn by taking some examples, assuming you've added Cordova mode to your Quasar project and installed a platform (android, ios, ...) already.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#example-battery-status",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Example: Battery Status",
+    "breadcrumb": [
+      "Using a Cordova Plugin",
+      "Example: Battery Status",
+      "Example: Battery Status"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#example-battery-status",
+    "content": "First step is to read the documentation of the Cordova plugin that we want to use. We look at [Cordova Plugins list](https://cordova.apache.org/docs/en/latest/#plugin-apis) and click on [Battery Status doc page](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-battery-status/index.html).\n\nWe see instructions on how to install this plugin. It's always a Cordova command. **So we \"cd\" into `/src-cordova`** (which is a Cordova generated folder) **and issue the install command form there**:\n\n```bash\n# from /src-cordova:\ncordova plugin add cordova-plugin-battery-status\n```\n\nNow let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:\n\n```html // some Vue file\n<template>\n  <div> Battery status is: <strong>{{ batteryStatus }}</strong> </div>\n</template>\n\n<script setup>\n  import { ref, onBeforeUnmount } from 'vue'\n\n  const batteryStatus = ref('determining...')\n\n  function updateBatteryStatus(status) {\n    batteryStatus.value = `Level: ${status.level}, plugged: ${status.isPlugged}`\n  }\n\n  // we register the event like on plugin's doc page\n  window.addEventListener('batterystatus', updateBatteryStatus, false)\n\n  onBeforeUnmount(() => {\n    // we do some cleanup;\n    // we need to remove the event listener\n    window.removeEventListener('batterystatus', updateBatteryStatus, false)\n  })\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#example-camera",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Example: Camera",
+    "breadcrumb": [
+      "Using a Cordova Plugin",
+      "Example: Camera",
+      "Example: Camera"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#example-camera",
+    "content": "First step is to read the documentation of the Cordova plugin that we want to use. We look at [Cordova Plugins list](https://cordova.apache.org/docs/en/latest/#plugin-apis) and click on [Camera doc page](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-camera/index.html).\n\nThere's a mention of the `deviceready` event. But we already know how to handle it from the previous sections.\n\nWe read the instructions on how to install this plugin. It's always a Cordova command. **So we \"cd\" into `/src-cordova`** (which is a Cordova generated folder) **and issue the install command form there**:\n\n```bash\n# from /src-cordova:\ncordova plugin add cordova-plugin-camera\n```\n\nNow let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:\n\n```html\n<template>\n  <div>\n    <q-btn color=\"primary\" label=\"Get Picture\" @click=\"captureImage\" />\n\n    <img :src=\"imageSrc\" />\n  </div>\n</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n  import { ref } from 'vue'\n\n  const $q = useQuasar()\n  const imageSrc = ref('')\n\n  function captureImage() {\n    navigator.camera.getPicture(\n      data => {\n        // on success\n        imageSrc.value = `data:image/jpeg;base64,${data}`\n      },\n      () => {\n        // on fail\n        $q.notify('Could not access device camera.')\n      },\n      {\n        // camera options\n      }\n    )\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#example-device",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+    "heading": "Example: Device",
+    "breadcrumb": [
+      "Using a Cordova Plugin",
+      "Example: Device",
+      "Example: Device"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#example-device",
+    "content": "First step is to read the documentation of the Cordova plugin that we want to use. Look at the [Cordova Plugins list](https://cordova.apache.org/docs/en/latest/#plugin-apis) and click on [Device doc page](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-device/index.html).\n\nThis plugin initializes a global variable called `device` which describes the device's hardware and software. So it can be accessed with `window.device`.\n\nRead the instructions on how to install this plugin on its cordova doc page. It's always a Cordova command. **So we \"cd\" into `/src-cordova`** (which is a Cordova generated folder) and **issue the install command from there**:\n\n```bash\n# from /src-cordova:\ncordova plugin add cordova-plugin-device\n```\n\nNow let's put this plugin to some good use. If you need the information of your device when starting the application, you will have to capture the created event. In one of your Quasar project's pages/layouts/components Vue file, we write:\n\n```html\n<template>\n  <div>\n    <div>Model: {{ model }}</div>\n    <div>Manufacturer: {{ manufacturer }}</div>\n  </div>\n</template>\n\n<script setup>\n  import { ref } from 'vue'\n\n  const model = ref(window.device?.model ?? 'Unavailable')\n  const manufacturer = ref(window.device?.manufacturer ?? 'Unavailable')\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

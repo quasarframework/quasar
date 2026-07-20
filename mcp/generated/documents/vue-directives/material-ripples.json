@@ -5,16 +5,13 @@
   "description": "Vue directive for easily adding material ripples to your components and DOM elements.",
   "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples",
   "source": "docs/src/pages/vue-directives/material-ripples.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "directive"
-  ],
-  "apiReferences": [
-    "Ripple"
-  ],
+  "area": "vue-directives",
+  "kinds": ["directive"],
+  "apiReferences": ["Ripple"],
   "examples": [
     {
       "title": "Basic",

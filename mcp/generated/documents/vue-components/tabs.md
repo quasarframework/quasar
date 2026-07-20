@@ -49,7 +49,7 @@ QRouteTab won't and cannot work with the UMD version if you don't also install V
 
 Source: [Basic.vue](../../examples/QTabs/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -94,7 +94,11 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
+
+### Keyboard navigation
+
+Use the arrow keys to move focus between tabs. Horizontal tabs use `Arrow Left` and `Arrow Right`; vertical tabs use `Arrow Up` and `Arrow Down`. Navigation wraps at either end, and `Home` or `End` moves focus to the first or last tab. Press `Space` or `Enter` to activate the focused tab.
 
 ### Outside, inside and visible on mobile arrows
 
@@ -102,7 +106,7 @@ const tab = ref('mails')
 
 Source: [ArrowsModifiers.vue](../../examples/QTabs/ArrowsModifiers.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 300px">
@@ -155,7 +159,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### Vertical
 
@@ -163,7 +167,7 @@ const tab = ref('mails')
 
 Source: [Vertical.vue](../../examples/QTabs/Vertical.vue)
 
-````vue
+```vue
 <template>
   <div>
     <q-splitter v-model="splitterModel" style="height: 250px">
@@ -251,7 +255,7 @@ import { ref } from 'vue'
 const tab = ref('mails')
 const splitterModel = ref(20)
 </script>
-````
+```
 
 ### Dense
 
@@ -259,7 +263,7 @@ const splitterModel = ref(20)
 
 Source: [Dense.vue](../../examples/QTabs/Dense.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -301,7 +305,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### Individual colors
 
@@ -309,7 +313,7 @@ const tab = ref('mails')
 
 Source: [IndividualColor.vue](../../examples/QTabs/IndividualColor.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 400px">
@@ -333,7 +337,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### Ripple
 
@@ -341,7 +345,7 @@ const tab = ref('mails')
 
 Source: [Ripples.vue](../../examples/QTabs/Ripples.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 400px">
@@ -392,7 +396,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### Custom indicator
 
@@ -402,7 +406,7 @@ In the examples below, please notice the last two QTabs: indicator at top and no
 
 Source: [CustomIndicator.vue](../../examples/QTabs/CustomIndicator.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -463,7 +467,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### Tab notifications
 
@@ -473,7 +477,7 @@ There are multiple ways to display tab notifications: with a QBadge, through an 
 
 Source: [Notifying.vue](../../examples/QTabs/Notifying.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -525,7 +529,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### Alignment
 
@@ -535,7 +539,7 @@ QTabs are responsive and the `align` prop (see below) becomes active when the co
 
 Source: [Alignment.vue](../../examples/QTabs/Alignment.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -591,7 +595,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 In the second QTabs from the example below, if window width is below 1024px then the "Movies" and "Photos" tabs will be replaced by a "More..." dropdown.
 
@@ -601,7 +605,7 @@ In the second QTabs from the example below, if window width is below 1024px then
 
 Source: [Dropdown.vue](../../examples/QTabs/Dropdown.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -700,7 +704,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 ### On QToolbar
 
@@ -710,7 +714,7 @@ Notice we need to specify the `shrink` prop. By default, QTabs tries to expand t
 
 Source: [TabsInToolbar.vue](../../examples/QTabs/TabsInToolbar.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-toolbar class="bg-purple text-white shadow-2 rounded-borders">
@@ -735,7 +739,7 @@ import { ref } from 'vue'
 
 const tab = ref('')
 </script>
-````
+```
 
 ### Dynamic update
 
@@ -743,7 +747,7 @@ const tab = ref('')
 
 Source: [DynamicTabs.vue](../../examples/QTabs/DynamicTabs.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -828,7 +832,7 @@ function setTabSelected(tabItem, status) {
   }
 }
 </script>
-````
+```
 
 ### Along with QTabsPanel
 
@@ -840,7 +844,7 @@ QTabPanels can be used as standalone too. They do not depend on the presence of 
 
 Source: [TabsWithTabpanels.vue](../../examples/QTabs/TabsWithTabpanels.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
@@ -920,7 +924,7 @@ import { ref } from 'vue'
 
 const tab = ref('mails')
 </script>
-````
+```
 
 More info: [Tab Panels](/vue-components/tab-panels).
 

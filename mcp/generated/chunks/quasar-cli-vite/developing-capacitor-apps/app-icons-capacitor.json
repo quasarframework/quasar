@@ -1,0 +1,35 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor#overview",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor",
+    "heading": "App Icons for Capacitor",
+    "breadcrumb": ["App Icons for Capacitor"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor",
+    "content": "Capacitor is one of the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in config files for both platforms (Android, iOS).\n\nIf you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).\n\n<img src=\"/img/iconfactory.png\" style=\"float:right;max-width:15%;min-width:240px;padding-top:40px\">",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor#icon-genie-cli",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor",
+    "heading": "Icon Genie CLI",
+    "breadcrumb": ["Icon Genie CLI", "Icon Genie CLI"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor#icon-genie-cli",
+    "content": "::: tip\nWe highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html file.\n:::\n\nQuickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.\n\n```bash\nicongenie generate -m capacitor -i /path/to/source/icon.png [-b /path/to/background.png]\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor#manual-instructions",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor",
+    "heading": "Manual instructions",
+    "breadcrumb": ["Manual instructions", "Manual instructions"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor#manual-instructions",
+    "content": "Unless you are using the Icon Genie app extension, these are the files that you need to replace:\n\n- .\n  - android\n    - app\n      - src\n        - main\n          - res\n            - drawable\n              - splash.png\n            - drawable-land-hdpi\n              - splash.png\n            - drawable-land-mdpi\n              - splash.png\n            - drawable-land-xhdpi\n              - splash.png\n            - drawable-land-xxhdpi\n              - splash.png\n            - drawable-land-xxxhdpi\n              - splash.png\n            - drawable-port-hdpi\n              - splash.png\n            - drawable-port-mdpi\n              - splash.png\n            - drawable-port-xhdpi\n              - splash.png\n            - drawable-port-xxhdpi\n              - splash.png\n            - drawable-port-xxxhdpi\n              - splash.png\n            - mipmap-hdpi\n              - ic_launcher.png\n              - ic_launcher_foreground.png\n              - ic_launcher_round.png\n            - mipmap-mdpi\n              - ic_launcher.png\n              - ic_launcher_foreground.png\n              - ic_launcher_round.png\n            - mipmap-xhdpi\n              - ic_launcher.png\n              - ic_launcher_foreground.png\n              - ic_launcher_round.png\n            - mipmap-xxxhdpi\n              - ic_launcher.png\n              - ic_launcher_foreground.png\n              - ic_launcher_round.png\n            - mipmap-xxhdpi\n              - ic_launcher.png\n              - ic_launcher_foreground.png\n              - ic_launcher_round.png\n  - ios\n    - App\n      - App\n        - Assets.xcassets\n          - AppIcon.appiconset\n            - AppIcon-20x20@1x.png\n            - AppIcon-20x20@2x-1.png\n            - AppIcon-20x20@2x.png\n            - AppIcon-20x20@3x.png\n            - AppIcon-29x29@1x.png\n            - AppIcon-29x29@2x-1.png\n            - AppIcon-29x29@2x.png\n            - AppIcon-29x29@3x.png\n            - AppIcon-40x40@1x.png\n            - AppIcon-40x40@2x-1.png\n            - AppIcon-40x40@2x.png\n            - AppIcon-40x40@3x.png\n            - AppIcon-512@2x.png\n            - AppIcon-60x60@2x.png\n            - AppIcon-60x60@3x.png\n            - AppIcon-76x76@1x.png\n            - AppIcon-76x76@2x.png\n            - AppIcon-83.5x83.5@2x.png\n          - Splash.imageset\n            - splash-2732x2732-1.png\n            - splash-2732x2732-2.png\n            - splash-2732x2732.png",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

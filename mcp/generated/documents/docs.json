@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "docs",
+  "title": "Documentation",
+  "description": "Welcome to Quasar documentation website!",
+  "canonicalUrl": "https://quasar.dev/docs",
+  "source": "docs/src/pages/docs/docs.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "docs",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

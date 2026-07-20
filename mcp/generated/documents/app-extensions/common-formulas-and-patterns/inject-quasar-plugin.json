@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "app-extensions/common-formulas-and-patterns/inject-quasar-plugin",
+  "title": "Injecting Quasar Plugin",
+  "description": "Tips and tricks on how to use a Quasar App Extension to configure the host app to use a Quasar Plugin.",
+  "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/inject-quasar-plugin",
+  "source": "docs/src/pages/app-extensions/common-formulas-and-patterns/inject-quasar-plugin.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "app-extensions",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

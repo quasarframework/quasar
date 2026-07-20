@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/grid/flexbox-patterns",
+  "title": "Flexbox Patterns",
+  "description": "Common recipes for working with flexbox CSS is and how it can be used in a Quasar App.",
+  "canonicalUrl": "https://quasar.dev/layout/grid/flexbox-patterns",
+  "source": "docs/src/pages/layout/grid/flexbox-patterns.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "layout",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": [
+    {
+      "title": "Row break",
+      "file": "BreakRow.vue",
+      "source": "docs/src/examples/grid/BreakRow.vue"
+    },
+    {
+      "title": "Column break",
+      "file": "BreakColumn.vue",
+      "source": "docs/src/examples/grid/BreakColumn.vue"
+    },
+    {
+      "title": "Masonry",
+      "file": "Masonry.vue",
+      "source": "docs/src/examples/grid/Masonry.vue"
+    },
+    {
+      "title": "Masonry like table grid",
+      "file": "MasonryTableGrid.vue",
+      "source": "docs/src/examples/grid/MasonryTableGrid.vue"
+    }
+  ]
+}

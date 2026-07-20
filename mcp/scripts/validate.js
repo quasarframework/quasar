@@ -75,8 +75,10 @@ for (const entry of manifest.documents) {
   }
 
   if (
-    processedMarkdown.includes('<DocApi') ||
-    processedMarkdown.includes('<DocExample')
+    /<DocApi(?:\s|\/|>)/.test(processedMarkdown) ||
+    /<DocExample(?:\s|\/|>)/.test(processedMarkdown) ||
+    processedMarkdown.includes('<DocTree') ||
+    processedMarkdown.includes('<DocInstall')
   ) {
     throw new Error(
       `${document.id} contains unresolved API or example components`

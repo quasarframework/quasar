@@ -3,28 +3,18 @@
     "id": "vue-components/table#overview",
     "documentId": "vue-components/table",
     "heading": "Table",
-    "breadcrumb": [
-      "Table"
-    ],
+    "breadcrumb": ["Table"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/table",
     "content": "QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:\n\n- Filtering\n- Sorting\n- Single / Multiple rows selection with custom selection actions\n- Pagination (including server-side if required)\n- Grid mode (you can use for example QCards to display data in a non-tabular manner)\n- Total customization of rows and cells through scoped slots\n- Ability to add additional row(s) at top or bottom of data rows\n- Column picker (through QTableColumns component described in one of the sections)\n- Custom top and/or bottom Table controls\n- Responsive design\n\n::: tip\nIf you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.\n:::\n\nAPI reference: QTable\n\nAPI reference: QTh\n\nAPI reference: QTr\n\nAPI reference: QTd",
-    "apiReferences": [
-      "QTable",
-      "QTh",
-      "QTr",
-      "QTd"
-    ],
+    "apiReferences": ["QTable", "QTh", "QTr", "QTd"],
     "exampleReferences": []
   },
   {
     "id": "vue-components/table#defining-the-columns",
     "documentId": "vue-components/table",
     "heading": "Defining the columns",
-    "breadcrumb": [
-      "Defining the columns",
-      "Defining the columns"
-    ],
+    "breadcrumb": ["Defining the columns", "Defining the columns"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#defining-the-columns",
     "content": "Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.\n\n```js\ncolumns: [\n  // array of Objects\n  // column Object definition\n  {\n    // unique id\n    // identifies column\n    // (used by pagination.sortBy, \"body-cell-[name]\" slot, ...)\n    name: 'desc',\n\n    // label for header\n    label: 'Dessert (100g serving)',\n\n    // row Object property to determine value for this column\n    field: 'name',\n    // OR field: row => row.some.nested.prop,\n\n    // (optional) if we use visible-columns, this col will always be visible\n    required: true,\n\n    // (optional) alignment\n    align: 'left',\n\n    // (optional) tell QTable you want this column sortable\n    sortable: true,\n\n    // (optional) compare function if you have\n    // some custom data or want a specific way to compare two rows\n    // --> note that rows with null/undefined as value will get auto sorted\n    // without calling this method (if you want to handle those as well, use \"rawSort\" instead)\n    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),\n    // function return value:\n    //   * is less than 0 then sort a to an index lower than b, i.e. a comes first\n    //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements\n    //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first\n\n    // (optional) requires Quasar v2.13+\n    // compare function if you have\n    // some custom data or want a specific way to compare two rows\n    // --> note that there is an alternative \"sort\" method (above) if you don't\n    // want to handle (by yourself) rows with null/undefined as value\n    rawSort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),\n    // has the same return value as the alternative \"sort\" method above\n\n    // (optional) override 'column-sort-order' prop;\n    // sets column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending)\n    sortOrder: 'ad', // or 'da'\n\n    // (optional) you can format the data with a function\n    format: (val, row) => `${val}%`,\n    // one more format example:\n    // format: val => val\n    //   ? /* Unicode checkmark checked */ \"\\u2611\"\n    //   : /* Unicode checkmark unchecked */ \"\\u2610\",\n\n    // body td:\n    style: 'width: 500px',\n    // or as Function --> style: row => ... (return String/Array/Object)\n    classes: 'my-special-class',\n    // or as Function --> classes: row => ... (return String)\n\n    // header th:\n    headerStyle: 'width: 500px',\n    headerClasses: 'my-special-class'\n  },\n  { name: 'calories', label: 'Calories', field: 'calories', sortable: true },\n  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },\n  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },\n  { name: 'protein', label: 'Protein (g)', field: 'protein' },\n  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },\n  {\n    name: 'calcium',\n    label: 'Calcium (%)',\n    field: 'calcium',\n    sortable: true,\n    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)\n  },\n  {\n    name: 'iron',\n    label: 'Iron (%)',\n    field: 'iron',\n    sortable: true,\n    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)\n  }\n]\n```",
@@ -35,10 +25,7 @@
     "id": "vue-components/table#basic-usage",
     "documentId": "vue-components/table",
     "heading": "Basic usage",
-    "breadcrumb": [
-      "Basic usage",
-      "Basic usage"
-    ],
+    "breadcrumb": ["Basic usage", "Basic usage"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#basic-usage",
     "content": "Example: Basic (Basic.vue)\n\nExample: Force dark mode (Dark.vue)\n\nExample: Dense (Dense.vue)\n\n::: tip\nYou can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense=\"$q.screen.lt.md\"`. More info: [Screen Plugin](/options/screen-plugin).\n:::",
@@ -81,10 +68,7 @@
     "id": "vue-components/table#sticky-header-column",
     "documentId": "vue-components/table",
     "heading": "Sticky header/column",
-    "breadcrumb": [
-      "Sticky header/column",
-      "Sticky header/column"
-    ],
+    "breadcrumb": ["Sticky header/column", "Sticky header/column"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#sticky-header-column",
     "content": "::: warning\nSticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.\n:::\n\n::: tip\nPay attention to the code in the \"style\" section in the following examples, especially around `position: sticky`.\n:::\n\nExample: Sticky header (StickyHeader.vue)\n\nExample: Sticky first column (StickyColumn.vue)\n\nExample: Sticky last column (StickyLastColumn.vue)\n\nExample: Sticky header and column (StickyHeaderAndColumn.vue)\n\nExample: Sticky header and last column (StickyHeaderAndLastColumn.vue)",
@@ -116,10 +100,7 @@
     "id": "vue-components/table#separators",
     "documentId": "vue-components/table",
     "heading": "Separators",
-    "breadcrumb": [
-      "Separators",
-      "Separators"
-    ],
+    "breadcrumb": ["Separators", "Separators"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#separators",
     "content": "Example: Separators (Separators.vue)",
@@ -135,10 +116,7 @@
     "id": "vue-components/table#styling",
     "documentId": "vue-components/table",
     "heading": "Styling",
-    "breadcrumb": [
-      "Styling",
-      "Styling"
-    ],
+    "breadcrumb": ["Styling", "Styling"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#styling",
     "content": "Example: Custom column (CustomColumn.vue)\n\n::: tip\nFor all the styling component properties, please check the API card at the top of the page.\n:::\n\nExample: Custom coloring (CustomColor.vue)\n\nExample: No header/footer (NoHeaderFooter.vue)",
@@ -162,10 +140,7 @@
     "id": "vue-components/table#virtual-scrolling",
     "documentId": "vue-components/table",
     "heading": "Virtual scrolling",
-    "breadcrumb": [
-      "Virtual scrolling",
-      "Virtual scrolling"
-    ],
+    "breadcrumb": ["Virtual scrolling", "Virtual scrolling"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#virtual-scrolling",
     "content": "Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).\n\nExample: Basic virtual scroll (VirtscrollBasic.vue)\n\nYou can dynamically load new rows when scroll reaches the end:\n\nExample: Dynamic loading virtual scroll (VirtscrollDynamic.vue)\n\nYou can have both virtual scroll and pagination:\n\nExample: Virtual scroll and pagination (VirtscrollPagination.vue)\n\nThe example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.\n\nExample: Virtual scroll with sticky header (VirtscrollSticky.vue)\n\nThere are 2 utility CSS classes that control VirtualScroll size calculation:\n\n- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).\n- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.\n\nExample: Virtual scroll with multiple rows for a data row (VirtscrollMultipleRows.vue)\n\n::: tip\nWhen rendering more than one `QTr` for the same row of data (through the `body` slot), give each `QTr` a distinct `key` and add the `q-virtual-scroll--with-prev` class to every extra `QTr` after the first one. This tells VirtualScroll to group their sizes together with the previous element, so the total height of the data row is measured correctly. If a row should not be measured at all (for example, a separator), use `q-virtual-scroll--skip` instead. This is especially important when also using a sticky header or row expansion, otherwise you may notice an incorrect scroll height or a jumping scroll position.\n:::",
@@ -197,10 +172,7 @@
     "id": "vue-components/table#selection",
     "documentId": "vue-components/table",
     "heading": "Selection",
-    "breadcrumb": [
-      "Selection",
-      "Selection"
-    ],
+    "breadcrumb": ["Selection", "Selection"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#selection",
     "content": "::: warning\nThe property `row-key` must be set in order for selection to work properly.\n:::\n\nExample: Single selection (SingleSelection.vue)\n\nExample: Multiple selection (MultipleSelection.vue)\n\nExample: Selection cell slots (SelectionSlots.vue)\n\nExample: Selection cell slots with range selection (SelectionSlotsRange.vue)\n\nExample: Custom multiple selection (CustomSelection.vue)",
@@ -255,10 +227,7 @@
     "id": "vue-components/table#popup-editing",
     "documentId": "vue-components/table",
     "heading": "Popup editing",
-    "breadcrumb": [
-      "Popup editing",
-      "Popup editing"
-    ],
+    "breadcrumb": ["Popup editing", "Popup editing"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#popup-editing",
     "content": "::: tip\nBelow is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.\n:::\n\nExample: Popup editing (PopupEditing.vue)",
@@ -274,10 +243,7 @@
     "id": "vue-components/table#editing-with-an-input",
     "documentId": "vue-components/table",
     "heading": "Editing with an input",
-    "breadcrumb": [
-      "Editing with an input",
-      "Editing with an input"
-    ],
+    "breadcrumb": ["Editing with an input", "Editing with an input"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#editing-with-an-input",
     "content": "Example: Input editing (InputEditing.vue)",
@@ -293,10 +259,7 @@
     "id": "vue-components/table#grid-style",
     "documentId": "vue-components/table",
     "heading": "Grid style",
-    "breadcrumb": [
-      "Grid style",
-      "Grid style"
-    ],
+    "breadcrumb": ["Grid style", "Grid style"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#grid-style",
     "content": "::: tip\nYou can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid=\"$q.screen.lt.md\"`. More info: [Screen Plugin](/options/screen-plugin).\n:::\n\nIn the example below, we let QTable deal with displaying the grid mode (not using the specific slot):\n\nExample: Grid style (GridStyle.vue)\n\nExample: Grid with header (GridHeader.vue)\n\nExample: Colored grid style (GridStyleColored.vue)\n\nExample: Masonry like grid (GridMasonry.vue)\n\nHowever, if you want to fully customize the content, check the example below, where:\n\n- We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.\n- We are using multiple selection.\n\nExample: Grid style with slot (GridStyleSlot.vue)",
@@ -328,10 +291,7 @@
     "id": "vue-components/table#expanding-rows",
     "documentId": "vue-components/table",
     "heading": "Expanding rows",
-    "breadcrumb": [
-      "Expanding rows",
-      "Expanding rows"
-    ],
+    "breadcrumb": ["Expanding rows", "Expanding rows"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#expanding-rows",
     "content": "::: warning\nAdd unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.\n:::\n\nExample: Internal expansion model (ExpandedRowInternal.vue)\n\nAn external expansion model can also be used:\n\nExample: External expansion model (ExpandedRowExternal.vue)\n\nIf you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:\n\n- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).\n- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.\n\nExample: Virtual scroll with expansion model (VirtscrollExpandedRow.vue)\n\n::: tip\nAn expanded row is just another `QTr` rendered for the same row of data, so the same rules from \"Virtual scrolling\" apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.\n:::",
@@ -355,10 +315,7 @@
     "id": "vue-components/table#before-after-slots",
     "documentId": "vue-components/table",
     "heading": "Before/after slots",
-    "breadcrumb": [
-      "Before/after slots",
-      "Before/after slots"
-    ],
+    "breadcrumb": ["Before/after slots", "Before/after slots"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#before-after-slots",
     "content": "Example: Before/After slots (header/footer) (BeforeAfterHeaderFooter.vue)",
@@ -374,10 +331,7 @@
     "id": "vue-components/table#pagination",
     "documentId": "vue-components/table",
     "heading": "Pagination",
-    "breadcrumb": [
-      "Pagination",
-      "Pagination"
-    ],
+    "breadcrumb": ["Pagination", "Pagination"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#pagination",
     "content": "::: tip\nWhen `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See _\"Server side pagination, filter and sorting\"_ section.\n:::\n\nBelow are two examples of handling the pagination (and sorting and rows per page).\n\nThe first example highlights how to configure the initial pagination:\n\nExample: Initial pagination (PaginationInitial.vue)\n\nThe second example uses the \"v-model:pagination\" directive because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.\n\nExample: Synchronized pagination (PaginationSync.vue)",
@@ -397,10 +351,7 @@
     "id": "vue-components/table#pagination-slot",
     "documentId": "vue-components/table",
     "heading": "Pagination slot",
-    "breadcrumb": [
-      "Pagination slot",
-      "Pagination slot"
-    ],
+    "breadcrumb": ["Pagination slot", "Pagination slot"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#pagination-slot",
     "content": "For learning purposes, we will customize the pagination controls with the default controls in order to help you get started with your own.\n\nExample: Pagination slot (PaginationSlot.vue)",
@@ -416,10 +367,7 @@
     "id": "vue-components/table#loading-state",
     "documentId": "vue-components/table",
     "heading": "Loading state",
-    "breadcrumb": [
-      "Loading state",
-      "Loading state"
-    ],
+    "breadcrumb": ["Loading state", "Loading state"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#loading-state",
     "content": "Example: Default loading (Loading.vue)\n\nExample: Custom loading state (CustomLoading.vue)",
@@ -439,10 +387,7 @@
     "id": "vue-components/table#custom-top",
     "documentId": "vue-components/table",
     "heading": "Custom top",
-    "breadcrumb": [
-      "Custom top",
-      "Custom top"
-    ],
+    "breadcrumb": ["Custom top", "Custom top"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#custom-top",
     "content": "Example: Custom top with add/remove row (CustomTop.vue)",
@@ -458,13 +403,10 @@
     "id": "vue-components/table#body-slots",
     "documentId": "vue-components/table",
     "heading": "Body slots",
-    "breadcrumb": [
-      "Body slots",
-      "Body slots"
-    ],
+    "breadcrumb": ["Body slots", "Body slots"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#body-slots",
-    "content": "The example below shows how you can use a slot to customize the entire row:\n\nExample: Body slot (SlotBody.vue)\n\nBelow, we use a slot which gets applied to each body cell:\n\nExample: Body-cell slot (SlotBodyCell.vue)\n\nWe can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.\n\nExample: Body-cell-[name] slot (SlotBodyCellName.vue)",
+    "content": "The example below shows how you can use a slot to customize the entire row:\n\nExample: Body slot (SlotBody.vue)\n\nBelow, we use a slot which gets applied to each body cell:\n\nExample: Body-cell slot (SlotBodyCell.vue)\n\nYou can also customize a particular column. The syntax for this slot is `body-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.\n\nExample: Body-cell-[name] slot (SlotBodyCellName.vue)",
     "apiReferences": [],
     "exampleReferences": [
       {
@@ -485,13 +427,10 @@
     "id": "vue-components/table#header-slots",
     "documentId": "vue-components/table",
     "heading": "Header slots",
-    "breadcrumb": [
-      "Header slots",
-      "Header slots"
-    ],
+    "breadcrumb": ["Header slots", "Header slots"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#header-slots",
-    "content": "The example below shows how you can use a slot to customize the entire header row:\n\nExample: Header slot (SlotHeader.vue)\n\nBelow, we use a slot which gets applied to each header cell:\n\nExample: Header-cell slot (SlotHeaderCell.vue)\n\nWe can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.\n\nExample: Header-cell-[name] slot (SlotHeaderCellName.vue)",
+    "content": "The example below shows how you can use a slot to customize the entire header row:\n\nExample: Header slot (SlotHeader.vue)\n\nBelow, we use a slot which gets applied to each header cell:\n\nExample: Header-cell slot (SlotHeaderCell.vue)\n\nYou can also customize a particular header cell. The syntax for this slot is `header-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.\n\nExample: Header-cell-[name] slot (SlotHeaderCellName.vue)",
     "apiReferences": [],
     "exampleReferences": [
       {
@@ -512,10 +451,7 @@
     "id": "vue-components/table#no-data",
     "documentId": "vue-components/table",
     "heading": "No data",
-    "breadcrumb": [
-      "No data",
-      "No data"
-    ],
+    "breadcrumb": ["No data", "No data"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#no-data",
     "content": "Example: No Data Label (NoData.vue)\n\nThere is also a \"no-data\" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the \"Search\" input.\n\nExample: No Data Slot (NoDataSlot.vue)",
@@ -535,10 +471,7 @@
     "id": "vue-components/table#handling-bottom-layer",
     "documentId": "vue-components/table",
     "heading": "Handling bottom layer",
-    "breadcrumb": [
-      "Handling bottom layer",
-      "Handling bottom layer"
-    ],
+    "breadcrumb": ["Handling bottom layer", "Handling bottom layer"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#handling-bottom-layer",
     "content": "There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:\n\nExample: Hiding bottom layer (HideBottom.vue)",
@@ -554,10 +487,7 @@
     "id": "vue-components/table#custom-sorting",
     "documentId": "vue-components/table",
     "heading": "Custom sorting",
-    "breadcrumb": [
-      "Custom sorting",
-      "Custom sorting"
-    ],
+    "breadcrumb": ["Custom sorting", "Custom sorting"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#custom-sorting",
     "content": "Example: Custom sorting (CustomSorting.vue)",
@@ -573,10 +503,7 @@
     "id": "vue-components/table#responsive-tables",
     "documentId": "vue-components/table",
     "heading": "Responsive tables",
-    "breadcrumb": [
-      "Responsive tables",
-      "Responsive tables"
-    ],
+    "breadcrumb": ["Responsive tables", "Responsive tables"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#responsive-tables",
     "content": "In order to create responsive tables, we have two tools at our disposal: `dense` and `grid` properties. We can connect these with `$q.screen`. More info: [Screen Plugin](/options/screen-plugin).\n\nFirst example below uses `$q.screen.lt.md` (for enabling dense mode) and the second examples uses `$q.screen.xs` to enable grid mode, so play with browser width to see them in action.\n\nExample: Using dense prop (ResponsiveDense.vue)\n\nExample: Using grid prop (ResponsiveGrid.vue)",
@@ -615,10 +542,7 @@
     "id": "vue-components/table#exporting-data",
     "documentId": "vue-components/table",
     "heading": "Exporting data",
-    "breadcrumb": [
-      "Exporting data",
-      "Exporting data"
-    ],
+    "breadcrumb": ["Exporting data", "Exporting data"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#exporting-data",
     "content": "Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.\n\n::: tip\nYou could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.\n:::\n\nExample: Export to csv (ExportCsv.vue)",
@@ -634,10 +558,7 @@
     "id": "vue-components/table#keyboard-navigation",
     "documentId": "vue-components/table",
     "heading": "Keyboard navigation",
-    "breadcrumb": [
-      "Keyboard navigation",
-      "Keyboard navigation"
-    ],
+    "breadcrumb": ["Keyboard navigation", "Keyboard navigation"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/table#keyboard-navigation",
     "content": "Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.\n\nExample: Keyboard navigation (KeyboardNavigation.vue)",

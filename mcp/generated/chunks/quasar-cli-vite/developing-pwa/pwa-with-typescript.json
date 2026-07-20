@@ -1,0 +1,66 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-pwa/pwa-with-typescript#overview",
+    "documentId": "quasar-cli-vite/developing-pwa/pwa-with-typescript",
+    "heading": "PWA with TypeScript",
+    "breadcrumb": ["PWA with TypeScript"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/pwa-with-typescript",
+    "content": "When you add PWA mode to a TypeScript project (`quasar mode add pwa`), Quasar scaffolds the service worker inside `/src-pwa/sw/` with its own `tsconfig.json` so the WebWorker context is type-checked independently from the rest of the app.\n\nThe `/src-pwa/sw/tsconfig.json` is a thin pointer to a generated config in `.quasar/`:\n\n```json /src-pwa/sw/tsconfig.json\n{\n  \"extends\": \"../../.quasar/tsconfig.pwa-sw.json\"\n}\n```\n\nThe generated `.quasar/tsconfig.pwa-sw.json` handles the WebWorker lib swap and scopes `include`/`exclude` to the SW folder. To customize it, it's recommended to use the `pwa.extendPWASwTsConfig` hook in `quasar.config.ts` instead of editing `src-pwa/sw/tsconfig.json` directly:\n\n```ts /quasar.config.ts\npwa: {\n  /**\n   * Extend the generated `.quasar/tsconfig.pwa-sw.json` file.\n   *\n   * NOT async! Can directly modify the \"config\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendPWASwTsConfig (tsConfig) {\n    tsConfig.compilerOptions!.lib!.push('WebWorker.AsyncIterable')\n  }\n}\n```\n\n`register-sw.ts` stays at the `/src-pwa/` root because it runs in the main thread and gets bundled into the app along with `/src` (via Vite). Anything inside `/src-pwa/sw/` is built separately by Rolldown for the service worker context. Add more SW-only modules inside `sw/` and import them from `custom-sw.ts`, and add main-thread modules directly under `src-pwa/` or import from `/src` as needed.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/pwa-with-typescript#how-the-type-check-works",
+    "documentId": "quasar-cli-vite/developing-pwa/pwa-with-typescript",
+    "heading": "How the type-check works",
+    "breadcrumb": ["How the type-check works", "How the type-check works"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/pwa-with-typescript#how-the-type-check-works",
+    "content": "TypeScript does NOT pick up nested `tsconfig.json` files when running `tsc`/`vue-tsc` against the project root. It applies the root compiler options to every file in `include`. To prevent type errors on service worker code (e.g. `ServiceWorkerGlobalScope.skipWaiting` not existing under the DOM lib), Quasar CLI adds `/src-pwa/sw/` in `.quasar/tsconfig.json > excludes` when PWA mode is installed.\n\nThe IDE language server still applies `/src-pwa/sw/tsconfig.json` to files inside that folder (TS treats a nested tsconfig as a separate project), so you still get correct autocomplete and inline diagnostics there.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/pwa-with-typescript#type-checking-the-service-worker-in-dev-build",
+    "documentId": "quasar-cli-vite/developing-pwa/pwa-with-typescript",
+    "heading": "Type-checking the service worker in dev/build",
+    "breadcrumb": [
+      "Type-checking the service worker in dev/build",
+      "Type-checking the service worker in dev/build"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/pwa-with-typescript#type-checking-the-service-worker-in-dev-build",
+    "content": "Because the SW is excluded from the root project, the `vite-plugin-checker` instance running `vue-tsc` will not check it. To get inline SW diagnostics on `quasar dev`/`quasar build`, add a `typescript` entry to your `vite-plugin-checker` config in `quasar.config.ts`:\n\n```ts /quasar.config.ts\nbuild: {\n  vitePlugins: [\n    [\n      'vite-plugin-checker',\n      {\n        vueTsc: true,\n        typescript: {\n          tsconfigPath: './src-pwa/sw/tsconfig.json'\n        }\n        // ...\n      },\n      { server: false }\n    ]\n  ]\n}\n```\n\nA convenient `typecheck` script in `package.json` is a common pattern:\n\n```json /package.json\n{\n  \"scripts\": {\n    \"typecheck\": \"vue-tsc --noEmit && tsc -p src-pwa/sw/tsconfig.json --noEmit\"\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/pwa-with-typescript#migrating-an-existing-pwa-folder-to-typescript",
+    "documentId": "quasar-cli-vite/developing-pwa/pwa-with-typescript",
+    "heading": "Migrating an existing PWA folder to TypeScript",
+    "breadcrumb": [
+      "Migrating an existing PWA folder to TypeScript",
+      "Migrating an existing PWA folder to TypeScript"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/pwa-with-typescript#migrating-an-existing-pwa-folder-to-typescript",
+    "content": "If you added PWA mode while the project was still JavaScript and later switched to TypeScript, the `/src-pwa/` folder won't get re-scaffolded. Convert it by hand:\n\n1. Rename `/src-pwa/register-sw.js` -> `/src-pwa/register-sw.ts`.\n2. Create `/src-pwa/sw/` and move `/src-pwa/custom-sw.js` -> `/src-pwa/sw/custom-sw.ts` (also rename the extension).\n3. Create `/src-pwa/sw/tsconfig.json` with the contents shown above.\n4. Add the SW typing declaration at the top of `custom-sw.ts` (see \"Default service worker contents\" below) and apply any other TS-specific code adjustments.\n5. (Optional) Wire the `typescript` entry into `vite-plugin-checker` and/or add a `typecheck` script as shown above.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/pwa-with-typescript#default-service-worker-contents",
+    "documentId": "quasar-cli-vite/developing-pwa/pwa-with-typescript",
+    "heading": "Default service worker contents",
+    "breadcrumb": [
+      "Default service worker contents",
+      "Default service worker contents"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/pwa-with-typescript#default-service-worker-contents",
+    "content": "```ts /src-pwa/sw/custom-sw.ts\n/*\n * This file (which will be your service worker)\n * is picked up by the build system ONLY if\n * quasar.config file > pwa > workboxMode is set to \"InjectManifest\"\n */\n\nimport { clientsClaim } from 'workbox-core'\nimport { NavigationRoute, registerRoute } from 'workbox-routing'\nimport {\n  cleanupOutdatedCaches,\n  createHandlerBoundToURL,\n  precacheAndRoute\n} from 'workbox-precaching'\n\ndeclare const self: ServiceWorkerGlobalScope & typeof globalThis\n\nvoid self.skipWaiting()\nclientsClaim()\n\n// Use with precache injection\nprecacheAndRoute(self.__WB_MANIFEST)\n\ncleanupOutdatedCaches()\n\nif (import.meta.env.QUASAR_PROD) {\n  // Non-SSR/SSG fallbacks to index.html\n  // Production SSR/SSG fallbacks to offline.html (except for dev)\n  registerRoute(\n    new NavigationRoute(\n      createHandlerBoundToURL(import.meta.env.QUASAR_PWA_FALLBACK_HTML),\n      {\n        denylist: [\n          new RegExp(import.meta.env.QUASAR_PWA_SERVICE_WORKER_REGEX),\n          /workbox-(.)*\\.js$/\n        ]\n      }\n    )\n  )\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

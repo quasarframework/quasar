@@ -18,7 +18,7 @@ For a demo, please visit the QAjaxBar documentation page.
 
 **API reference:** [LoadingBar](../../api/LoadingBar.md)
 
-<DocInstall plugins="LoadingBar" config="loadingBar" />
+**Configuration:** register LoadingBar through `framework.plugins` in `quasar.config` and configure `framework.config.loadingBar` in `quasar.config`.
 
 LoadingBar options are same as when configuring a [QAjaxBar](/vue-components/ajax-bar).
 

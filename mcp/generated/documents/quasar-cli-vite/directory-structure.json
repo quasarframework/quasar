@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/directory-structure",
+  "title": "Directory Structure",
+  "description": "(@quasar/app-vite) The structure of a Quasar app with explanations for each folder and file.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/directory-structure",
+  "source": "docs/src/pages/quasar-cli-vite/directory-structure.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

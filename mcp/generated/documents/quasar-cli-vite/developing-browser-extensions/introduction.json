@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-browser-extensions/introduction",
+  "title": "What is a Browser Extension",
+  "description": "(@quasar/app-vite) Introduction on what a Browser Extension (BEX) is.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/introduction",
+  "source": "docs/src/pages/quasar-cli-vite/developing-browser-extensions/introduction.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/browser-extensions",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

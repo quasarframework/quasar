@@ -5,16 +5,13 @@
   "description": "The QMenu Vue component is a convenient way to show menus.",
   "canonicalUrl": "https://quasar.dev/vue-components/menu",
   "source": "docs/src/pages/vue-components/menu/menu.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QMenu"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QMenu"],
   "examples": [
     {
       "title": "Basic",

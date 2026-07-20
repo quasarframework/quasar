@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-webpack/about",
+  "title": "Quasar CLI (with Webpack)",
+  "description": "(@quasar/app-webpack) About Quasar CLI with Webpack.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-webpack/about",
+  "source": "docs/src/pages/quasar-cli-webpack/about.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-webpack",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

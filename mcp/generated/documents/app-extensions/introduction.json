@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "app-extensions/introduction",
+  "title": "App Extensions",
+  "description": "What Quasar App Extensions are and how they can help both you and the community.",
+  "canonicalUrl": "https://quasar.dev/app-extensions/introduction",
+  "source": "docs/src/pages/app-extensions/introduction.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "app-extensions",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

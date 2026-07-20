@@ -1,0 +1,24 @@
+[
+  {
+    "id": "style/positioning#overview",
+    "documentId": "style/positioning",
+    "heading": "CSS Positioning Classes",
+    "breadcrumb": ["CSS Positioning Classes"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/style/positioning",
+    "content": "There are CSS classes supplied by Quasar to help you position a DOM element easily:\n\n| Class Name                                   | Description                                                                                        |\n| -------------------------------------------- | -------------------------------------------------------------------------------------------------- |\n| `fullscreen`                                 | Fix position covering all window real-estate                                                       |\n| `fixed`                                      | Set `position` to `fixed` without specifying `top`, `left`, `right` or `bottom` properties         |\n| `fixed-center`                               | Set position to `fixed` but in the middle of window.                                               |\n| `absolute`                                   | Set `position` to `absolute` without specifying `top`, `left`, `right` or `bottom` properties      |\n| `absolute-center`                            | Set position to `absolute` but in the middle of the container (container needs relative position). |\n| `fixed-top` `absolute-top`                   | Fixed or absolute position to top of screen                                                        |\n| `fixed-right` `absolute-right`               | Fixed or absolute position to the right edge of screen                                             |\n| `fixed-bottom` `absolute-bottom`             | Fixed or absolute position to bottom of screen                                                     |\n| `fixed-left` `absolute-left`                 | Fixed or absolute position to the left edge of screen                                              |\n| `fixed-top-left` `absolute-top-left`         | Fixed or absolute position to top left of screen                                                   |\n| `fixed-top-right` `absolute-top-right`       | Fixed or absolute position to top right of screen                                                  |\n| `fixed-bottom-left` `absolute-bottom-left`   | Fixed or absolute position to bottom left of screen                                                |\n| `fixed-bottom-right` `absolute-bottom-right` | Fixed or absolute position to bottom right of screen                                               |\n| `fixed-full` `absolute-full`                 | Fixed or absolute position to all screen edges                                                     |\n| `relative-position`                          | Set position to `relative`                                                                         |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/positioning#alignment",
+    "documentId": "style/positioning",
+    "heading": "Alignment",
+    "breadcrumb": ["Alignment", "Alignment"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/positioning#alignment",
+    "content": "| Class Name    | Description                                                                           |\n| ------------- | ------------------------------------------------------------------------------------- |\n| `float-left`  | Float to the left                                                                     |\n| `float-right` | Float to the right                                                                    |\n| `on-left`     | Sets a small margin to the right; commonly used for icon elements with other siblings |\n| `on-right`    | Sets a small margin to the left; commonly used for icon elements with other siblings  |\n\n::: tip\nInstead of using `float-left` or `float-right` we recommend that you read on the Quasar Grid System.\n:::\n\nVertical alignment:\n\n| Class Name        | Description                            |\n| ----------------- | -------------------------------------- |\n| `vertical-top`    | Set CSS vertical alignment to `top`    |\n| `vertical-middle` | Set CSS vertical alignment to `middle` |\n| `vertical-bottom` | Set CSS vertical alignment to `bottom` |",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -5,17 +5,13 @@
   "description": "The QTimeline Vue component displays a list of events in chronological order. It is typically a graphic design showing a long bar labelled with dates alongside itself and usually events.",
   "canonicalUrl": "https://quasar.dev/vue-components/timeline",
   "source": "docs/src/pages/vue-components/timeline.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QTimeline",
-    "QTimelineEntry"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QTimeline", "QTimelineEntry"],
   "examples": [
     {
       "title": "Basic",

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/background-script#overview",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/background-script",
+    "heading": "Background Script",
+    "breadcrumb": ["Background Script"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/background-script",
+    "content": "The background script runs in the context of the BEX itself and can listen to all available browser extension events.\n\n::: warning\nIn Chrome with [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/) your background script is actually a Service Worker. This does not currently apply to Firefox with Manifest v3 (yet).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/background-script#registering-a-background-script",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/background-script",
+    "heading": "Registering a background script",
+    "breadcrumb": [
+      "Registering a background script",
+      "Registering a background script"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/background-script#registering-a-background-script",
+    "content": "Your `/src-bex/manifest.json` is the central point that defines your BEX. This is the place where you also define your background script(s):\n\n```json /src-bex/manifest.json\n\"chrome\": {\n  \"background\": {\n    \"service_worker\": \"background.js\"\n  }\n},\n\n\"firefox\": {\n  \"background\": {\n    \"scripts\": [ \"background.js\" ]\n  }\n}\n```\n\n::: warning For TS devs\nYour background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: \"background.ts\", \"my-content-script.ts\". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/background-script#case-study",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/background-script",
+    "heading": "Case study",
+    "breadcrumb": ["Case study", "Case study"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/background-script#case-study",
+    "content": "Let's say we want to listen for a new tab being opened in the web browser and then react to it in our Quasar App. First, we'd need to listen for the new tab being opened and emit a new event to tell the Quasar App this has happened:\n\n```js /src-bex/background.js\n/**\n * Importing the file below initializes the extension background.\n *\n * Warnings:\n * 1. Do NOT remove the import statement below. It is required for the extension to work.\n *    If you don't need createBridge(), leave it as \"import '#q-app/bex/background'\".\n * 2. Do NOT import this file in multiple background scripts. Only in one!\n * 3. Import it in your background service worker (if available for your target browser).\n */\nimport { createBridge } from '#q-app/bex/background'\n\nconst bridge = createBridge({ debug: false })\n\nchrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {\n  if (bridge.portList.includes('app')) {\n    bridge.send({\n      event: 'bex.tab.updated',\n      to: 'app',\n      payload: { url: tab.url }\n    })\n  }\n})\n```\n\nThen in our Quasar App, we'd listen for this in one of our component lifecycle hooks, like so:\n\n```js /Quasar App, /src\nimport { useQuasar } from 'quasar'\nimport { onBeforeUnmount } from 'vue'\n\nexport default {\n  setup() {\n    const $q = useQuasar()\n\n    // Our function which receives the URL sent by the background script.\n    function doOnTabOpened({ payload }) {\n      console.log('Browser tab updated:', payload.url)\n    }\n\n    // Add our listener\n    $q.bex.on('bex.tab.updated', doOnTabOpened)\n\n    // Don't forget to clean it up\n    onBeforeUnmount(() => {\n      $q.bex.off('bex.tab.updated', doOnTabOpened)\n    })\n\n    return {}\n  }\n}\n```\n\nBrowser extension APIs expose many other events. Refer to the documentation for the browser and manifest version you target.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,6 +1,6 @@
 # Quasar MCP server
 
-This directory contains an offline, read-only Model Context Protocol server backed by a generated Quasar UI documentation artifact. It covers every public component, directive, plugin, and composable guide together with resolved API definitions and official examples.
+This directory contains an offline, read-only Model Context Protocol server backed by a generated Quasar documentation artifact. It covers the complete public documentation set, including Quasar UI, Quasar CLI, application modes, App Extensions, Icon Genie, configuration, deployment, upgrade guidance, resolved API definitions, and official examples.
 
 ## MCP setup
 
@@ -56,7 +56,7 @@ Everything outside this directory is an input and must remain unchanged. The gen
 - records a SHA-256 digest for every consumed source file; and
 - validates those digests after generation to detect accidental source changes.
 
-The prototype is deliberately not registered in the root pnpm workspace. Run it independently:
+The package is deliberately not registered in the root pnpm workspace yet. Run it independently:
 
 ```bash
 node mcp/scripts/generate.js
@@ -88,7 +88,10 @@ The generator currently covers:
 - 11 directive APIs;
 - 18 plugin APIs;
 - 11 public composables and their implementation sources; and
-- every documentation page and example associated with those public contracts.
+- 194 additional public guides;
+- all Quasar CLI Vite guides for SPA, SSR, SSG, PWA, Capacitor, Cordova, Electron, and browser extensions;
+- App Extension and Icon Genie documentation; and
+- every official documentation page and referenced example.
 
 The generator produces:
 
@@ -110,4 +113,8 @@ The runtime server only reads `generated/`. Artifact generation remains a separa
 
 ## Retrieval evaluation
 
-`eval/search-cases.json` is a small, reviewable benchmark of natural-language Quasar searches across components, directives, plugins, and composables. Run `pnpm evaluate` from this directory to report pass rate and mean reciprocal rank. The command exits unsuccessfully whenever an expected result falls below its declared maximum rank, making retrieval regressions suitable for CI checks.
+`eval/search-cases.json` is a small, reviewable benchmark of natural-language Quasar searches across UI APIs and the more complex CLI and application-mode guides. Run `pnpm evaluate` from this directory to report pass rate and mean reciprocal rank. The command exits unsuccessfully whenever an expected result falls below its declared maximum rank, making retrieval regressions suitable for CI checks.
+
+## Maintenance and hosting
+
+See [MAINTENANCE.md](./MAINTENANCE.md) for the proposed post-release generation and CI handoff. See [HOSTING.md](./HOSTING.md) for the boundary between the packaged stdio server and a future Streamable HTTP deployment on Quasar's existing DigitalOcean infrastructure.

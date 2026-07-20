@@ -1,0 +1,80 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#overview",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "heading": "Capacitor APIs",
+    "breadcrumb": ["Capacitor APIs"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "content": "You can access native device features through [Capacitor plugins](https://capacitorjs.com/docs/plugins).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#capacitor-apis",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "heading": "Capacitor APIs",
+    "breadcrumb": ["Capacitor APIs", "Capacitor APIs"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#capacitor-apis",
+    "content": "A few examples include:\n\n- Camera\n- Device\n- Filesystem\n- Geolocation\n- Motion\n- Network\n- Push Notifications\n- Share\n- Splash Screen\n- Status Bar",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#using-a-capacitor-api",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "heading": "Using a Capacitor API",
+    "breadcrumb": ["Using a Capacitor API", "Using a Capacitor API"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#using-a-capacitor-api",
+    "content": "Let's learn by taking some examples, assuming you've added Capacitor mode to your Quasar project already.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#example-geolocation",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "heading": "Example: Geolocation",
+    "breadcrumb": [
+      "Using a Capacitor API",
+      "Example: Geolocation",
+      "Example: Geolocation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#example-geolocation",
+    "content": "First install the plugin in `/src-capacitor`, then synchronize the native projects:\n\n```bash\ncd src-capacitor\npnpm add @capacitor/geolocation\npnpm exec cap sync\n```\n\nReview the plugin's [installation and permission requirements](https://capacitorjs.com/docs/apis/geolocation) for each target platform before using it.\n\nNow let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:\n\n```html\n<template>\n  <div> GPS position: <strong>{{ position }}</strong> </div>\n</template>\n\n<script setup>\n  import { ref, onMounted, onBeforeUnmount } from 'vue'\n  import { Geolocation } from '@capacitor/geolocation'\n\n  const position = ref('determining...')\n\n  async function getCurrentPosition() {\n    const newPosition = await Geolocation.getCurrentPosition()\n    console.log('Current', newPosition)\n    position.value = newPosition\n  }\n\n  let geoId\n\n  onMounted(async () => {\n    await getCurrentPosition()\n\n    // we start listening\n    geoId = await Geolocation.watchPosition({}, (newPosition, err) => {\n      if (err) {\n        console.error(err)\n        return\n      }\n\n      console.log('New GPS position')\n      position.value = newPosition\n    })\n  })\n\n  onBeforeUnmount(async () => {\n    // we do cleanup\n    if (geoId !== void 0) {\n      await Geolocation.clearWatch({ id: geoId })\n    }\n  })\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#example-camera",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "heading": "Example: Camera",
+    "breadcrumb": [
+      "Using a Capacitor API",
+      "Example: Camera",
+      "Example: Camera"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#example-camera",
+    "content": "Install `@capacitor/camera` in `/src-capacitor`, run `pnpm exec cap sync`, and follow the [Camera plugin's platform setup](https://capacitorjs.com/docs/apis/camera) before using it.\n\nNow let's put this API to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:\n\n```html\n<template>\n  <div>\n    <q-btn color=\"primary\" label=\"Get Picture\" @click=\"captureImage\" />\n\n    <img :src=\"imageSrc\" />\n  </div>\n</template>\n\n<script setup>\n  import { ref } from 'vue'\n  import { Camera, CameraResultType } from '@capacitor/camera'\n\n  const imageSrc = ref('')\n\n  async function captureImage() {\n    const image = await Camera.getPhoto({\n      quality: 90,\n      allowEditing: true,\n      resultType: CameraResultType.Uri\n    })\n\n    // The result will vary on the value of the resultType option.\n    // CameraResultType.Uri - Get the result from image.webPath\n    // CameraResultType.Base64 - Get the result from image.base64String\n    // CameraResultType.DataUrl - Get the result from image.dataUrl\n    imageSrc.value = image.webPath\n  }\n</script>\n```\n\nSome Capacitor plugins, such as Camera, have a web-based UI available when running in a browser. To enable these controls, add `@ionic/pwa-elements` to the main Quasar project:\n\n```bash\npnpm add @ionic/pwa-elements\n```\n\nThen create a boot file to initialize them, for example `/src/boot/capacitor.js`:\n\n```js\nimport { defineBoot } from '#q-app'\nimport { defineCustomElements } from '@ionic/pwa-elements/loader'\n\nexport default defineBoot(() => {\n  defineCustomElements(window)\n})\n```\n\nDon't forget to call the boot script in the `quasar.config` file:\n\n```js\nboot: ['capacitor']\n```\n\nYou can now use the Camera API in native Android and iOS builds as well as browser-based modes such as SPA and PWA, subject to the plugin's platform support.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#example-device",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+    "heading": "Example: Device",
+    "breadcrumb": [
+      "Using a Capacitor API",
+      "Example: Device",
+      "Example: Device"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#example-device",
+    "content": "Install `@capacitor/device` in `/src-capacitor`, run `pnpm exec cap sync`, and review the [Device plugin documentation](https://capacitorjs.com/docs/apis/device) before using it.\n\nNow let's put this API to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:\n\n```html\n<template>\n  <div>\n    <div>Model: {{ model }}</div>\n    <div>Manufacturer: {{ manufacturer }}</div>\n  </div>\n</template>\n\n<script setup>\n  import { ref, onMounted } from 'vue'\n  import { Device } from '@capacitor/device'\n\n  const model = ref('Please wait...')\n  const manufacturer = ref('Please wait...')\n\n  onMounted(() => {\n    Device.getInfo().then(info => {\n      model.value = info.model\n      manufacturer.value = info.manufacturer\n    })\n  })\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

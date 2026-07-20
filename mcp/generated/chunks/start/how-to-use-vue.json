@@ -1,0 +1,198 @@
+[
+  {
+    "id": "start/how-to-use-vue#overview",
+    "documentId": "start/how-to-use-vue",
+    "heading": "How To Use Vue",
+    "breadcrumb": ["How To Use Vue"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue",
+    "content": "Before you begin with Quasar, it is a good idea to have a fairly good knowledge about how Vue 3 works. For devs experienced with reactive UIs, the [Vue 3 documentation](https://vuejs.org/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.\n\n::: tip\nIf you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at [Vue and Quasar video tutorials](/video-tutorials).\n:::\n\nAfter reading the Vue documentation, let's clear up some of the most frequently asked questions, like _\"How can I use Quasar components, Vue properties, methods and events\"_.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#vue-single-file-components-sfc",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Vue Single File Components (SFC)",
+    "breadcrumb": [
+      "Vue Single File Components (SFC)",
+      "Vue Single File Components (SFC)"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#vue-single-file-components-sfc",
+    "content": "You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/SASS/SCSS/Stylus/Less) all in the same file.\n\nCurrently, it is recommended to use Composition API with `<script setup>`. Check out [Vue.js documentation](https://vuejs.org/api/sfc-script-setup.html) for more information.\n\n```html\n<template>\n  <!-- you define your Vue template here -->\n</template>\n\n<script setup>\n  // This is where your Javascript goes\n  // to define your Vue component, which\n  // can be a Layout, a Page or your own\n  // component used throughout the app.\n</script>\n\n<style>\n  /* This is where your CSS goes */\n</style>\n```\n\nBut you can still use Composition API without `<script setup>` or Options API if you wish. The only difference is within the `<script>` tag.\n\n```html\n<template>\n  <!-- you define your Vue template here -->\n</template>\n\n<script>\n  // This is where your Javascript goes\n  // to define your Vue component, which\n  // can be a Layout, a Page or your own\n  // component used throughout the app.\n\n  export default {\n    //\n  }\n</script>\n\n<style>\n  /* This is where your CSS goes */\n</style>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#css-preprocessors",
+    "documentId": "start/how-to-use-vue",
+    "heading": "CSS preprocessors",
+    "breadcrumb": [
+      "Vue Single File Components (SFC)",
+      "CSS preprocessors",
+      "CSS preprocessors"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#css-preprocessors",
+    "content": "For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) is available out of the box.\n\nYou can specify you want your chosen preprocessor to handle the CSS code that you're writing:\n\n```html\n<!-- notice lang=\"sass\" -->\n<style lang=\"sass\">\n  .some-div\n    font-size: 15px\n</style>\n\n<!-- notice lang=\"scss\" -->\n<style lang=\"scss\">\n  .some-div {\n    font-size: 15px;\n  }\n</style>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#using-quasar-directives",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Using Quasar Directives",
+    "breadcrumb": ["Using Quasar Directives", "Using Quasar Directives"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#using-quasar-directives",
+    "content": "Quasar comes with a few custom [Vue Directives](https://vuejs.org/guide/reusability/custom-directives.html). These directives can be applied on almost any DOM element or Component.\n\nExample of a Quasar directive:\n\n```html\n<div v-ripple>Click Me</div>\n```\n\n> Notice how Ripple is used in the HTML template as `v-ripple`. Vue directives are prefixed with `v-`.\n\n```html\n<div v-touch-pan=\"handler\">...</div>\n<div v-touch-swipe=\"handler\">...</div>\n<div v-ripple>Click me. I got ripples.</div>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#using-quasar-components",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Using Quasar Components",
+    "breadcrumb": ["Using Quasar Components", "Using Quasar Components"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#using-quasar-components",
+    "content": "Quasar components have names beginning with \"Q\" like \"QBtn\" or \"QElementResizeObserver\". In order to use them, you need to add a reference to them in the `/quasar.config` file.\n\nLet's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:\n\n```html\n<div>\n  <q-btn @click=\"doSomething\" label=\"Do something\" />\n  <q-icon name=\"alarm\" />\n</div>\n```\n\n> Notice how QBtn is used in the Vue HTML template as `<q-btn>`. If we'd import QElementResizeObserver, then we'd use it in template as `<q-element-resize-observer>`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#using-quasar-plugins",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Using Quasar Plugins",
+    "breadcrumb": ["Using Quasar Plugins", "Using Quasar Plugins"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#using-quasar-plugins",
+    "content": "Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.\n\n::: warning\n**Before using them in your app**, you need to add a reference to them in the `/quasar.config` file (as shown below).\n:::\n\n```js\nframework: {\n  plugins: ['Notify', 'BottomSheet']\n}\n```\n\nLet's take Notify as an example and see how we can then use it. In a Vue file, you'd write something like this (Composition API):\n\n```html\n<template>\n  <div>\n    <q-btn\n      @click=\"$q.notify('My message')\"\n      color=\"primary\"\n      label=\"Show a notification\"\n    />\n\n    <q-btn\n      @click=\"showNotification\"\n      color=\"primary\"\n      label=\"Show another notification\"\n    />\n  </div>\n</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n\n  const $q = useQuasar()\n\n  function showNotification() {\n    $q.notify('Some other message')\n  }\n</script>\n```\n\n> Notice that in the template area we're using `$q.<plugin-name>`.\n\nAn equivalent script section in Options API:\n\n```js\nexport default {\n  methods: {\n    showNotification() {\n      this.$q.notify('Some other message')\n    }\n  }\n}\n```\n\nNow let's see an example of Notify being used outside of a Vue file:\n\n```js\nimport { Notify } from 'quasar'\n\n// ...\nNotify.create('My message')\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#self-closing-tags",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Self-Closing Tags",
+    "breadcrumb": [
+      "Using Quasar Plugins",
+      "Self-Closing Tags",
+      "Self-Closing Tags"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#self-closing-tags",
+    "content": "::: danger\nDo NOT use self-closing tag form when you are using **Quasar UMD version**. Your browser is interpreting the HTML before Vue parses your DOM elements, so your HTML syntax must be correct. Unknown tags (like Vue components) cannot be self-closing because your browser will interpret those as if you are opening a tag but never closing it.\n:::\n\nSome Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self-closing tags. One example with QIcon below:\n\n```html\n<q-icon name=\"cloud\" />\n```\n\nSelf-closing means the above template is the equivalent to:\n\n```html\n<q-icon name=\"cloud\"></q-icon>\n```\n\nBoth forms are valid and can be used, except for UMD where you must explicitly close the tags. It works the same with regular DOM elements:\n\n```html\n<div class=\"col\" />\n<!-- equivalent to: -->\n<div class=\"col\"></div>\n```\n\nSome eslint-plugin-vue linting rules actually enforce using the self-closing syntax.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#handling-vue-properties",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Handling Vue Properties",
+    "breadcrumb": ["Handling Vue Properties", "Handling Vue Properties"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#handling-vue-properties",
+    "content": "Let's take some examples with a bogus Quasar component (we will call it QBogus) that supports the properties below. We will discuss each of the types of Vue properties in the below sections.\n\n| Vue Property | Type    | Description                                                            |\n| ------------ | ------- | ---------------------------------------------------------------------- |\n| `infinite`   | Boolean | Infinite slides scrolling                                              |\n| `size`       | String  | Thickness of loading bar.                                              |\n| `speed`      | Number  | How fast should loading bar update its value (in milliseconds).        |\n| `columns`    | Object  | Object defining columns (see \"Columns Definition\" below).              |\n| `offset`     | Array   | Array with two numbers. Offset on horizontal and vertical (in pixels). |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#boolean-property",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Boolean Property",
+    "breadcrumb": [
+      "Handling Vue Properties",
+      "Boolean Property",
+      "Boolean Property"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#boolean-property",
+    "content": "A boolean property means it only accepts a strictly Boolean value. The values will not be cast to Boolean, so you must ensure you are using a true Boolean.\n\n::: tip\nIn Quasar, all Boolean properties have `false` as the default value. As a result, you don't have to explictly assign them the `false` value.\n:::\n\nIf you are trying to control that property and change it dynamically at runtime, then bind it to a variable in your scope:\n\n```html\n<template>\n  <q-bogus :infinite=\"myInfiniteVariable\" />\n</template>\n\n<script setup>\n  import { ref } from 'vue'\n  const myInfiniteVariable = ref(false)\n</script>\n```\n\nIf, on the other hand, you know this Boolean value is not going to change, you can use the shorthand version of the variable like a component attribute and just specify it. In other words, if you don't bind the variable to a variable in the component's scope as it will always be `true`:\n\n```html\n<template>\n  <q-bogus infinite />\n\n  <!--\n    the following is perfectly valid,\n    but it's a longer version\n  -->\n  <q-bogus :infinite=\"true\" />\n</template>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#string-property",
+    "documentId": "start/how-to-use-vue",
+    "heading": "String Property",
+    "breadcrumb": [
+      "Handling Vue Properties",
+      "String Property",
+      "String Property"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#string-property",
+    "content": "As you can imagine, Strings are required as a value for this type of property.\n\n```html\n<template>\n  <!--\n    direct assignment, no need for\n    a variable in our scope\n  -->\n  <q-bogus size=\"24px\" />\n\n  <!--\n    we can also bind it to a variable\n    in our scope so we can dynamically\n    change it\n  -->\n  <q-bogus :size=\"mySize\" />\n</template>\n\n<script setup>\n  import { ref } from 'vue'\n\n  // notice String as value\n  const mySize = ref('16px')\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#number-property",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Number Property",
+    "breadcrumb": [
+      "Handling Vue Properties",
+      "Number Property",
+      "Number Property"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#number-property",
+    "content": "```html\n<template>\n  <!--\n    Case 1. Direct assignment.\n    Notice the colon (\":\") before property name.\n  -->\n  <q-bogus :speed=\"50\" />\n\n  <!-- Case 2. Assignment through a scope variable -->\n  <q-bogus :speed=\"myNumber\" />\n</template>\n\n<script setup>\n  import { ref } from 'vue'\n\n  // notice Number as value\n  const myNumber = ref(50)\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#object-property",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Object Property",
+    "breadcrumb": [
+      "Handling Vue Properties",
+      "Object Property",
+      "Object Property"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#object-property",
+    "content": "```html\n<template>\n  <!-- Case 1. Direct assignment. -->\n  <q-bogus :columns=\"{key: 'value', anotherKey: 'another value'}\" />\n\n  <!-- Case 2. Assignment through a scope variable -->\n  <q-bogus :columns=\"myColumns\" />\n</template>\n\n<script setup>\n  import { ref } from 'vue'\n\n  const myColumns = ref({\n    key: 'value',\n    anotherKey: 'another value'\n  })\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#array-property",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Array Property",
+    "breadcrumb": [
+      "Handling Vue Properties",
+      "Array Property",
+      "Array Property"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#array-property",
+    "content": "```html\n<template>\n  <!-- Case 1. Direct assignment. -->\n  <q-bogus :offset=\"[10, 20]\" />\n\n  <!-- Case 2. Assignment through a scope variable -->\n  <q-bogus :offset=\"myOffset\" />\n</template>\n\n<script setup>\n  const myOffset = [10, 20]\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#handling-vue-methods",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Handling Vue Methods",
+    "breadcrumb": ["Handling Vue Methods", "Handling Vue Methods"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#handling-vue-methods",
+    "content": "You will notice throughout the documentation that some Quasar components have methods that can be called. Example:\n\n| Vue Method           | Description              |\n| -------------------- | ------------------------ |\n| `next()`             | Goes to next slide.      |\n| `previous(doneFn)`   | Goes to previous slide.  |\n| `toggleFullscreen()` | Toggles fullscreen mode. |\n\nIn order for you to access these methods, you will need to set a Vue reference on the component first. Here's an example with Composition API:\n\n```html\n<template>\n  <!--\n    Notice ref=\"myRef\". We will use the name\n    assigned to \"ref\" in the script part below\n  -->\n  <q-bogus ref=\"myRef\" />\n</template>\n\n<script setup>\n  import { useTemplateRef, onMounted } from 'vue'\n\n  const myRef = useTemplateRef('myRef')\n\n  // after the component has mounted into DOM:\n  onMounted(() => {\n    // we call \"next()\" method of our component\n    myRef.value.next()\n  })\n  // calling before mount point might result in errors\n  // as Vue hasn't yet prepared the Vue reference\n</script>\n```\n\nAnd here is the same example, but with Options API:\n\n```html\n<template>\n  <!--\n    Notice ref=\"myRef\". We will use the name\n    assigned to \"ref\" in the script part below\n  -->\n  <q-bogus ref=\"myRef\" />\n</template>\n\n<script>\n  export default {\n    // we can now access `this.$refs.myRef`\n    // an example on the mounted() Vue component hook\n    mounted() {\n      // calling \"next()\" method:\n      this.$refs.myRef.next()\n    }\n    // calling before mount point might result in errors\n    // as Vue hasn't yet prepared the Vue reference\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/how-to-use-vue#handling-vue-events",
+    "documentId": "start/how-to-use-vue",
+    "heading": "Handling Vue Events",
+    "breadcrumb": ["Handling Vue Events", "Handling Vue Events"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#handling-vue-events",
+    "content": "You will notice throughout the documentation that some Quasar components have a section called \"Vue Events\".\n\nExample of \"Vue Events\":\n\n| Event Name | Description                                |\n| ---------- | ------------------------------------------ |\n| `@show`    | Triggered right after the Modal is shown.  |\n| `@hide`    | Triggered right after the Modal is hidden. |\n\nIn order for you to catch these events, when they are triggered, you will need to add listeners for them on the component itself in the HTML template. Here's an example:\n\n```html\n<template>\n  <q-bogus @show=\"doSomething\" @hide=\"doSomethingElse\" />\n</template>\n\n<script setup>\n  function doSomething() {\n    // this method has been called (in this case)\n    // because @show event was triggered by QBogus component\n  }\n\n  function doSomethingElse() {\n    // this method has been called (in this case)\n    // because @hide event was triggered by QBogus component\n  }\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

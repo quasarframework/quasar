@@ -1,0 +1,13 @@
+[
+  {
+    "id": "layout/gallery#overview",
+    "documentId": "layout/gallery",
+    "heading": "Layout Gallery",
+    "breadcrumb": ["Layout Gallery"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/gallery",
+    "content": "As a way to help you get started quicker, we've written a few ready Quasar Layouts for you. Please also take time to learn each Quasar component, otherwise you'll be missing a lot of features.\n\n\n\n<LayoutGallery class=\"q-mt-md\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

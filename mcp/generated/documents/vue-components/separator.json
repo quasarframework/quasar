@@ -5,16 +5,13 @@
   "description": "The QSeparator Vue component is used to separate sections of text or other components or elements. It creates a colored line across the width of the parent. It can be horizontal or vertical.",
   "canonicalUrl": "https://quasar.dev/vue-components/separator",
   "source": "docs/src/pages/vue-components/separator.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QSeparator"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QSeparator"],
   "examples": [
     {
       "title": "Horizontal",

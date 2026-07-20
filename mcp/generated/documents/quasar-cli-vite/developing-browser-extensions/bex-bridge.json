@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
+  "title": "BEX Bridge Communication",
+  "description": "(@quasar/app-vite) How to communicate between different parts of your Browser Extension (BEX) in Quasar.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/bex-bridge",
+  "source": "docs/src/pages/quasar-cli-vite/developing-browser-extensions/bex-bridge.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/browser-extensions",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

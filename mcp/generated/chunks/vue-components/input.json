@@ -3,25 +3,18 @@
     "id": "vue-components/input#overview",
     "documentId": "vue-components/input",
     "heading": "Input",
-    "breadcrumb": [
-      "Input"
-    ],
+    "breadcrumb": ["Input"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/input",
     "content": "The QInput component is used to capture text input from the user. It uses `v-model`, similar to a regular input. It has support for errors and validation, and comes in a variety of styles, colors, and types.\n\nAPI reference: QInput",
-    "apiReferences": [
-      "QInput"
-    ],
+    "apiReferences": ["QInput"],
     "exampleReferences": []
   },
   {
     "id": "vue-components/input#design",
     "documentId": "vue-components/input",
     "heading": "Design",
-    "breadcrumb": [
-      "Design",
-      "Design"
-    ],
+    "breadcrumb": ["Design", "Design"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/input#design",
     "content": "::: warning\nFor your QInput you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.\n:::\n\nExample: Design Overview (DesignOverview.vue)",
@@ -37,11 +30,7 @@
     "id": "vue-components/input#coloring",
     "documentId": "vue-components/input",
     "heading": "Coloring",
-    "breadcrumb": [
-      "Design",
-      "Coloring",
-      "Coloring"
-    ],
+    "breadcrumb": ["Design", "Coloring", "Coloring"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#coloring",
     "content": "Example: Coloring (Coloring.vue)",
@@ -57,11 +46,7 @@
     "id": "vue-components/input#standard",
     "documentId": "vue-components/input",
     "heading": "Standard",
-    "breadcrumb": [
-      "Design",
-      "Standard",
-      "Standard"
-    ],
+    "breadcrumb": ["Design", "Standard", "Standard"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#standard",
     "content": "Example: Standard (DesignStandard.vue)",
@@ -77,11 +62,7 @@
     "id": "vue-components/input#filled",
     "documentId": "vue-components/input",
     "heading": "Filled",
-    "breadcrumb": [
-      "Design",
-      "Filled",
-      "Filled"
-    ],
+    "breadcrumb": ["Design", "Filled", "Filled"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#filled",
     "content": "Example: Filled (DesignFilled.vue)",
@@ -97,11 +78,7 @@
     "id": "vue-components/input#outlined",
     "documentId": "vue-components/input",
     "heading": "Outlined",
-    "breadcrumb": [
-      "Design",
-      "Outlined",
-      "Outlined"
-    ],
+    "breadcrumb": ["Design", "Outlined", "Outlined"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#outlined",
     "content": "Example: Outlined (DesignOutlined.vue)",
@@ -117,11 +94,7 @@
     "id": "vue-components/input#standout",
     "documentId": "vue-components/input",
     "heading": "Standout",
-    "breadcrumb": [
-      "Design",
-      "Standout",
-      "Standout"
-    ],
+    "breadcrumb": ["Design", "Standout", "Standout"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#standout",
     "content": "Example: Standout (DesignStandout.vue)\n\nOne of the most appropriate use cases for Standout design is in a QToolbar:\n\nExample: Standout in QToolbar (StandoutToolbar.vue)",
@@ -141,11 +114,7 @@
     "id": "vue-components/input#borderless",
     "documentId": "vue-components/input",
     "heading": "Borderless",
-    "breadcrumb": [
-      "Design",
-      "Borderless",
-      "Borderless"
-    ],
+    "breadcrumb": ["Design", "Borderless", "Borderless"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#borderless",
     "content": "The `borderless` design allows you to seamlessly integrate your QInput into other components without QInput drawing a border around itself or changing its background color:\n\nExample: Borderless (Borderless.vue)",
@@ -161,11 +130,7 @@
     "id": "vue-components/input#rounded-design",
     "documentId": "vue-components/input",
     "heading": "Rounded design",
-    "breadcrumb": [
-      "Design",
-      "Rounded design",
-      "Rounded design"
-    ],
+    "breadcrumb": ["Design", "Rounded design", "Rounded design"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#rounded-design",
     "content": "The `rounded` prop only works along with Filled, Outlined and Standout designs, as showcased in the example below:\n\nExample: Rounded (Rounded.vue)",
@@ -181,11 +146,7 @@
     "id": "vue-components/input#square-borders",
     "documentId": "vue-components/input",
     "heading": "Square borders",
-    "breadcrumb": [
-      "Design",
-      "Square borders",
-      "Square borders"
-    ],
+    "breadcrumb": ["Design", "Square borders", "Square borders"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#square-borders",
     "content": "The `square` prop only makes sense along with Filled, Outlined and Standout designs, as showcased in the example below:\n\nExample: Square borders (SquareBorders.vue)",
@@ -201,11 +162,7 @@
     "id": "vue-components/input#force-dark-mode",
     "documentId": "vue-components/input",
     "heading": "Force dark mode",
-    "breadcrumb": [
-      "Design",
-      "Force dark mode",
-      "Force dark mode"
-    ],
+    "breadcrumb": ["Design", "Force dark mode", "Force dark mode"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#force-dark-mode",
     "content": "Example: Force dark mode (Dark.vue)",
@@ -221,11 +178,7 @@
     "id": "vue-components/input#native-attributes",
     "documentId": "vue-components/input",
     "heading": "Native attributes",
-    "breadcrumb": [
-      "Basic features",
-      "Native attributes",
-      "Native attributes"
-    ],
+    "breadcrumb": ["Basic features", "Native attributes", "Native attributes"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#native-attributes",
     "content": "All the attributes set on `QInput` that are not in the list of `props` in the **API** will be passed to the native field (`input` or `textarea`). Some examples: autocomplete, placeholder.\n\nPlease check these resources for more information about native attributes (for input check also the specific attributes for each type):\n\n- [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)\n- [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)",
@@ -236,14 +189,10 @@
     "id": "vue-components/input#clearable",
     "documentId": "vue-components/input",
     "heading": "Clearable",
-    "breadcrumb": [
-      "Basic features",
-      "Clearable",
-      "Clearable"
-    ],
+    "breadcrumb": ["Basic features", "Clearable", "Clearable"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#clearable",
-    "content": "As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.\n\n::: warning\nWon't work with `v-model` managed input modifiers such as `.trim` because in that case Vue doesn't handle `null` values.\n:::\n\nExample: Clearable (Clearable.vue)",
+    "content": "As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.\n\nExample: Clearable (Clearable.vue)",
     "apiReferences": [],
     "exampleReferences": [
       {
@@ -256,11 +205,7 @@
     "id": "vue-components/input#input-types",
     "documentId": "vue-components/input",
     "heading": "Input types",
-    "breadcrumb": [
-      "Basic features",
-      "Input types",
-      "Input types"
-    ],
+    "breadcrumb": ["Basic features", "Input types", "Input types"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#input-types",
     "content": "The following QInputs make use of the `type` prop in order to render native equivalent `<input type=\"...\">` inside of them.\n\n::: warning\nSupport and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.\n:::\n\nExample: Input types (InputTypes.vue)\n\n::: tip\nSome input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.\n:::",
@@ -318,11 +263,7 @@
     "id": "vue-components/input#textarea",
     "documentId": "vue-components/input",
     "heading": "Textarea",
-    "breadcrumb": [
-      "Basic features",
-      "Textarea",
-      "Textarea"
-    ],
+    "breadcrumb": ["Basic features", "Textarea", "Textarea"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#textarea",
     "content": "Example: Textarea (Textarea.vue)\n\nWhen you need QInput to grow along with its content, then use the `autogrow` prop like in the example below:\n\nExample: Autogrow (Autogrow.vue)",
@@ -342,11 +283,7 @@
     "id": "vue-components/input#prefix-and-suffix",
     "documentId": "vue-components/input",
     "heading": "Prefix and suffix",
-    "breadcrumb": [
-      "Basic features",
-      "Prefix and suffix",
-      "Prefix and suffix"
-    ],
+    "breadcrumb": ["Basic features", "Prefix and suffix", "Prefix and suffix"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#prefix-and-suffix",
     "content": "Example: Prefix and suffix (PrefixSuffix.vue)",
@@ -362,11 +299,7 @@
     "id": "vue-components/input#custom-label",
     "documentId": "vue-components/input",
     "heading": "Custom Label",
-    "breadcrumb": [
-      "Basic features",
-      "Custom Label",
-      "Custom Label"
-    ],
+    "breadcrumb": ["Basic features", "Custom Label", "Custom Label"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#custom-label",
     "content": "Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.\n\n::: tip\nDo not forget to set the `label-slot` property.\n\nIf you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.\n:::\n\nExample: Custom label (CustomLabel.vue)",
@@ -382,11 +315,7 @@
     "id": "vue-components/input#shadow-text",
     "documentId": "vue-components/input",
     "heading": "Shadow text",
-    "breadcrumb": [
-      "Basic features",
-      "Shadow text",
-      "Shadow text"
-    ],
+    "breadcrumb": ["Basic features", "Shadow text", "Shadow text"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#shadow-text",
     "content": "Example: Shadow text (ShadowText.vue)",
@@ -417,11 +346,7 @@
     "id": "vue-components/input#debouncing-model",
     "documentId": "vue-components/input",
     "heading": "Debouncing model",
-    "breadcrumb": [
-      "Basic features",
-      "Debouncing model",
-      "Debouncing model"
-    ],
+    "breadcrumb": ["Basic features", "Debouncing model", "Debouncing model"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#debouncing-model",
     "content": "The role of debouncing is for times when you watch the model and do expensive operations on it. So you want to first let user type out before triggering the model update, rather than updating the model on each keystroke.\n\nExample: Debounce model (Debouncing.vue)",
@@ -437,11 +362,7 @@
     "id": "vue-components/input#loading-state",
     "documentId": "vue-components/input",
     "heading": "Loading state",
-    "breadcrumb": [
-      "Basic features",
-      "Loading state",
-      "Loading state"
-    ],
+    "breadcrumb": ["Basic features", "Loading state", "Loading state"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#loading-state",
     "content": "Example: Loading state (LoadingState.vue)",
@@ -457,10 +378,7 @@
     "id": "vue-components/input#mask",
     "documentId": "vue-components/input",
     "heading": "Mask",
-    "breadcrumb": [
-      "Mask",
-      "Mask"
-    ],
+    "breadcrumb": ["Mask", "Mask"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/input#mask",
     "content": "You can force/help the user to input a specific format with help from `mask` prop.\n\n::: warning\nMask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.\n:::\n\nBelow are the default mask tokens. To add your own, see the next section.\n\n| Token | Description                                        |\n| ----- | -------------------------------------------------- |\n| `#`   | Numeric                                            |\n| `S`   | Letter, a to z, case insensitive                   |\n| `N`   | Alphanumeric, case insensitive for letters         |\n| `A`   | Letter, transformed to uppercase                   |\n| `a`   | Letter, transformed to lowercase                   |\n| `X`   | Alphanumeric, transformed to uppercase for letters |\n| `x`   | Alphanumeric, transformed to lowercase for letters |\n\nThere are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6). You can use these for convenience (examples: \"phone\", \"card\") or write the string specifying your custom needs.\n\nExample: Basic (MaskBasic.vue)\n\nExample: Filling the mask (MaskFill.vue)\n\nThe `unmasked-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:\n\nExample: Unmasked model (MaskUnmaskedModel.vue)\n\nThe `reverse-fill-mask` is useful if you want to force the user to fill the mask from the end and allow non-fixed length of input:\n\nExample: Filling the mask in reverse (MaskFillReverse.vue)",
@@ -523,11 +441,7 @@
     "id": "vue-components/input#internal-validation",
     "documentId": "vue-components/input",
     "heading": "Internal validation",
-    "breadcrumb": [
-      "Validation",
-      "Internal validation",
-      "Internal validation"
-    ],
+    "breadcrumb": ["Validation", "Internal validation", "Internal validation"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#internal-validation",
     "content": "You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.\n\n::: tip\nBy default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).\n:::\n\nThis is so you can write convenient rules of shape like:\n\n```js\nvalue => condition || errorMessage\n```\n\nFor example:\n\n```js\nvalue => value.includes('Hello') || 'Field must contain word Hello'\n```\n\nYou can reset the validation by calling `resetValidation()` method on the QInput.\n\nThere are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js). You can use these for convenience (examples: \"date\", \"time\", \"hexColor\", \"rgbOrRgbaColor\", \"anyColor\") or write the string specifying your custom needs.\n\nExample: Basic (ValidationRequired.vue)\n\nExample: Maximum length (ValidationMaxLength.vue)\n\nIf you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.\n\nExample: Lazy rules (ValidationLazy.vue)\n\nExample: Form validation (ValidationForm.vue)",
@@ -576,11 +490,7 @@
     "id": "vue-components/input#external-validation",
     "documentId": "vue-components/input",
     "heading": "External validation",
-    "breadcrumb": [
-      "Validation",
-      "External validation",
-      "External validation"
-    ],
+    "breadcrumb": ["Validation", "External validation", "External validation"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/input#external-validation",
     "content": "You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).\n\n::: tip\nDepending on your needs, you might connect [Regle](https://reglejs.dev/) (our recommended approach) or some other validation library to QInput.\n:::\n\nExample: External (ValidationExternal.vue)\n\nYou can also customize the slot for error message:\n\nExample: Slot for error message (ValidationSlots.vue)",
@@ -600,10 +510,7 @@
     "id": "vue-components/input#native-form-submit",
     "documentId": "vue-components/input",
     "heading": "Native form submit",
-    "breadcrumb": [
-      "Native form submit",
-      "Native form submit"
-    ],
+    "breadcrumb": ["Native form submit", "Native form submit"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/input#native-form-submit",
     "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files#the-problem",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+    "heading": "The problem",
+    "breadcrumb": ["The problem", "The problem"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-accessing-files#the-problem",
+    "content": "The main process and preload scripts are bundled with Rolldown, and their output locations differ between development and production. Paths derived from a source-file location therefore do not reliably identify `/public` or `/src-electron/electron-assets` in both environments.\n\n- dist-electron/UnPackaged\n  - electron-assets — /src-electron/electron-assets copied as-is\n    - icons/ — Electron app icons\n  - electron-main.js\n  - electron-preload.cjs\n  - ...contents of /public copied as-is",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files#the-solution",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+    "heading": "The solution",
+    "breadcrumb": ["The solution", "The solution"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-accessing-files#the-solution",
+    "content": "Quasar CLI provides runtime helpers for referencing these directories in both environments.\n\nNotice the following sections:\n\n```js /src-electron/electron-main file\nimport {\n  registerQuasarRuntime,\n  resolveElectronAssetsPath\n} from '#q-app/electron/main'\n\nasync function createWindow() {\n  const mainWindow = new BrowserWindow({\n    icon: resolveElectronAssetsPath('icons/icon.png') // linux\n    // ...\n  })\n  // ...\n}\n\napp.whenReady().then(() => {\n  registerQuasarRuntime()\n  // ...\n})\n```\n\n```js /src-electron/electron-preload file\nimport { contextBridge } from 'electron'\nimport { quasarRuntime } from '#q-app/electron/preload'\n\n// you can rename the exposed prop name 'quasarRuntime' to anything\ncontextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime)\n```\n\nThis exposes `quasarRuntime` to the renderer as `window.quasarRuntime`.\n\nYou can choose another property name or expose only the helpers your renderer needs.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files#api-for-electron-main",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+    "heading": "API for electron-main",
+    "breadcrumb": [
+      "The solution",
+      "API for electron-main",
+      "API for electron-main"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-accessing-files#api-for-electron-main",
+    "content": "Usage:\n\n```js\nimport {\n  registerQuasarRuntime,\n  resolveElectronAssetsPath\n  // ...\n} from '#q-app/electron/main'\n```\n\nWhat you can import:\n\n```js\n/**\n * Resolves the path to the electron-assets directory, adapting to\n * development or production environments.\n * @param args Path segments to join to the base electron-assets path\n * @returns The fully resolved path\n */\nexport declare function resolveElectronAssetsPath(...args: string[]): string;\n\n/**\n * The resolved path to the electron-assets directory, determined at runtime\n */\nexport declare const electronAssetsDir: string;\n\n/**\n * Resolves the path to the public directory, adapting to\n * development or production environments.\n * @param args Path segments to join to the base public path\n * @returns The fully resolved path\n */\nexport declare function resolvePublicPath(...args: string[]): string;\n\n/**\n * The resolved path to the public directory, determined at runtime\n */\nexport declare const publicDir: string;\n\n/**\n * Registers IPC handlers for the Quasar Electron runtime.\n * This allows the preload script and renderer process to request\n * resolved asset and public paths synchronously via `ipcRenderer.sendSync`.\n */\nexport declare function registerQuasarRuntime(): void;\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files#api-for-electron-preload",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+    "heading": "API for electron-preload",
+    "breadcrumb": [
+      "The solution",
+      "API for electron-preload",
+      "API for electron-preload"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-accessing-files#api-for-electron-preload",
+    "content": "Usage:\n\n```js\nimport {\n  quasarRuntime\n  // ...\n} from '#q-app/electron/preload'\n```\n\nWhat you can import:\n\n```js\n/**\n * Synchronously requests the main process to resolve the path to the\n * electron-assets directory.\n * @param args Path segments to join to the base electron-assets path\n * @returns The fully resolved path\n */\nexport declare function resolveElectronAssetsPath(...args: string[]): string;\n\n/**\n * The resolved path to the electron-assets directory, determined at runtime\n */\nexport declare const electronAssetsDir: string;\n\n/**\n * Synchronously requests the main process to resolve the path to the\n * public directory.\n * @param args Path segments to join to the base public path\n * @returns The fully resolved path\n */\nexport declare function resolvePublicPath(...args: string[]): string;\n\n/**\n * The resolved path to the public directory, determined at runtime\n */\nexport declare const publicDir: string;\n\n/**\n * An object grouping the synchronous path resolution utilities.\n */\nexport declare const quasarRuntime: {\n  electronAssetsDir: string;\n  resolveElectronAssetsPath: typeof resolveElectronAssetsPath;\n\n  publicDir: string;\n  resolvePublicPath: typeof resolvePublicPath;\n};\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files#usage-in-the-renderer-process-src",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+    "heading": "Usage in the renderer process (`/src`)",
+    "breadcrumb": [
+      "The solution",
+      "Usage in the renderer process (`/src`)",
+      "Usage in the renderer process (`/src`)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-accessing-files#usage-in-the-renderer-process-src",
+    "content": "```js\nwindow.quasarRuntime.resolvePublicPath('my-file')\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files#read-and-write-local-files",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+    "heading": "Read and write local files",
+    "breadcrumb": ["Read and write local files", "Read and write local files"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-accessing-files#read-and-write-local-files",
+    "content": "Treat packaged application files as read-only. Use Electron's `app.getPath(name)` for writable locations such as the application-specific `userData` directory, and perform filesystem operations in the main process.\n\nExpose a narrow IPC operation rather than a path or unrestricted filesystem API. For example:\n\n```js /src-electron/electron-main\nimport { app, ipcMain } from 'electron'\nimport { readFile } from 'node:fs/promises'\nimport path from 'node:path'\n\nexport function registerPreferencesHandler(mainWindow) {\n  ipcMain.handle('preferences:load', async event => {\n    if (event.senderFrame !== mainWindow.webContents.mainFrame) {\n      throw new Error('Untrusted IPC sender')\n    }\n\n    const filename = path.join(app.getPath('userData'), 'preferences.json')\n\n    try {\n      return JSON.parse(await readFile(filename, 'utf8'))\n    } catch (error) {\n      if (error.code === 'ENOENT') return {}\n      throw error\n    }\n  })\n}\n```\n\nCall `registerPreferencesHandler(mainWindow)` after creating the trusted window. Remove the handler with `ipcMain.removeHandler('preferences:load')` if that window and its handlers are recreated during the same application session.\n\n```js /src-electron/electron-preload\nimport { contextBridge, ipcRenderer } from 'electron'\n\ncontextBridge.exposeInMainWorld('preferencesAPI', {\n  load: () => ipcRenderer.invoke('preferences:load')\n})\n```\n\nFor applications with multiple or remote windows, keep a separate allowlist for each operation or validate `event.senderFrame.url` with the URL parser. Merely checking that a window exists is not sufficient.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

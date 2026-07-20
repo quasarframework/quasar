@@ -1,0 +1,24 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/build-commands#developing",
+    "documentId": "quasar-cli-vite/developing-ssr/build-commands",
+    "heading": "Developing",
+    "breadcrumb": ["Developing", "Developing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/build-commands#developing",
+    "content": "```bash\nquasar dev -m ssr\n\n# ..or the longer form:\nquasar dev --mode ssr\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/build-commands#building-for-production",
+    "documentId": "quasar-cli-vite/developing-ssr/build-commands",
+    "heading": "Building for production",
+    "breadcrumb": ["Building for production", "Building for production"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/build-commands#building-for-production",
+    "content": "```bash\nquasar build -m ssr\n\n# ..or the longer form:\nquasar build --mode ssr\n```\n\nIf you want a production build with debugging enabled:\n\n```bash\nquasar build -m ssr -d\n\n# ..or the longer form\nquasar build -m ssr --debug\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

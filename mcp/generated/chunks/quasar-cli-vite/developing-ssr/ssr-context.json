@@ -1,0 +1,35 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/ssr-context#overview",
+    "documentId": "quasar-cli-vite/developing-ssr/ssr-context",
+    "heading": "The ssrContext Object",
+    "breadcrumb": ["The ssrContext Object"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-context",
+    "content": "The `ssrContext` Object is the SSR context with which all the app's Vue components are rendered with.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/ssr-context#usage",
+    "documentId": "quasar-cli-vite/developing-ssr/ssr-context",
+    "heading": "Usage",
+    "breadcrumb": ["Usage", "Usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-context#usage",
+    "content": "::: warning\nThe `ssrContext` Object is available only on SSR builds, on the server-side compilation (when `import.meta.env.QUASAR_SERVER` is boolean `true`).\n:::\n\nAmong other places, it is supplied as parameter to [boot files](/quasar-cli-vite/boot-files), to the [Pinia instance](/quasar-cli-vite/state-management-with-pinia) and [Vue Router](/quasar-cli-vite/page-routing-with-vue-router) initialization functions, and to the [preFetch](/quasar-cli-vite/prefetch-feature) method:\n\n```js\n// a boot file\nexport default defineBoot(({ ..., ssrContext }) => { /* ... */ })\n\n// src/router/index.js\nexport default defineRouter(({ ..., ssrContext }) => { /* ... */ })\n\n// src/store/index.js\nexport default defineStore(({ ..., ssrContext }) => { /* ... */ })\n\n// with preFetch:\npreFetch: definePreFetch(({ ..., ssrContext }) => { /* ... */ })\n```\n\nYou can also access the ssrContext in your Vue components. Below are two examples, one with Composition API and one with Options API:\n\n```tabs\n<<| js Composition API |>>\nimport { useSSRContext } from 'vue'\n\nexport default {\n  // ...\n  setup () {\n    // we need to guard it and call it only on SSR server-side:\n    const ssrContext = import.meta.env.QUASAR_SERVER ? useSSRContext() : null\n    // ...do something with it\n  }\n}\n<<| js Options API |>>\nexport default {\n  // ...\n  created () { // can be any other Vue component lifecycle hook\n    this.ssrContext\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/ssr-context#anatomy-of-ssrcontext",
+    "documentId": "quasar-cli-vite/developing-ssr/ssr-context",
+    "heading": "Anatomy of ssrContext",
+    "breadcrumb": ["Anatomy of ssrContext", "Anatomy of ssrContext"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-context#anatomy-of-ssrcontext",
+    "content": "```json\nssrContext: {\n  req, // Webserver-specific request object\n  res, // Webserver-specific response object\n  $q, // The Quasar's $q Object\n  nonce, // (optional to set it yourself)\n  // The global \"nonce\" attribute to use\n\n  onRendered, // Registers a function to be executed server-side after\n  // app has been rendered with Vue. You might need this\n  // to access ssrContext again after it has been fully processed.\n  // Example: ssrContext.onRendered(() => { /* ... */ })\n\n  rendered // (optional to set it yourself)\n  // Set this to a function which will be executed server-side\n  // after the app has been rendered with Vue.\n  // We recommend using the \"onRendered\" instead.\n  //\n  // Purpose: backward compatibility with Vue ecosystem packages\n  // (like @vue/apollo-ssr)\n  // Example: ssrContext.rendered = () => { /* ... */ }\n}\n```\n\nMore information on the purpose of the \"nonce\" property is available on [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce).\n\nThe exact `req` and `res` types depend on the selected webserver (Hono, Express, Fastify, or Koa). They represent the current request and response; consult that webserver's API before using framework-specific properties.\n\n::: tip\nFeel free to inject your own stuff into ssrContext too, but do NOT tamper with any of the private props (props that start with an underscore, eg. `_someProp`).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

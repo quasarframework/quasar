@@ -1,5 +1,6 @@
 import { searchRecords } from '../artifact/search.js'
 import { toolError, toolResult } from '../responses.js'
+import { serverMetadata } from '../metadata.js'
 
 const memberGroups = ['props', 'slots', 'events', 'methods', 'computedProps']
 
@@ -17,11 +18,13 @@ function findMember(group, member) {
 export function searchQuasarDocs(store, input) {
   const results = searchRecords(store.searchRecords, input.query, {
     kinds: input.kinds,
+    areas: input.areas,
     limit: input.limit
   }).map(({ record, score }) => ({
     id: record.id,
     type: record.type,
     kind: record.kind,
+    area: record.area,
     title: record.title,
     score,
     canonicalUrl: record.canonicalUrl,
@@ -215,7 +218,7 @@ export function getQuasarMcpInfo(store, input) {
   return toolResult(
     store,
     {
-      server: { name: '@quasar/mcp', version: '0.1.0', transport: 'stdio' },
+      server: { ...serverMetadata, transport: 'stdio' },
       coverage: store.manifest.coverage,
       tools: [
         'searchQuasarDocs',

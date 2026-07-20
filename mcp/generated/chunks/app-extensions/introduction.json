@@ -1,0 +1,138 @@
+[
+  {
+    "id": "app-extensions/introduction#overview",
+    "documentId": "app-extensions/introduction",
+    "heading": "App Extensions",
+    "breadcrumb": ["App Extensions"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction",
+    "content": "App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend Vite configuration, the `quasar.config` file, tightly couple external UI components to core, and even register new commands with the Quasar CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).\n\nThe patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.\n\n::: warning\nApp Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them with the Quasar Vite plugin or in UMD environments.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#what-can-an-app-extension-do",
+    "documentId": "app-extensions/introduction",
+    "heading": "What can an App Extension do?",
+    "breadcrumb": [
+      "What can an App Extension do?",
+      "What can an App Extension do?"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#what-can-an-app-extension-do",
+    "content": "1. Enhance CLI behavior with new commands\n2. Make a Quasar UI plug-in\n3. Install an accompanying application\n4. Create and share a custom component\n5. Create and share added features to the framework or other applications\n6. Build, launch and control an API server\n7. Hook, combine and extend Quasar core components\n8. Modify code based on dynamically changing values that sit outside of the Quasar environment\n9. Create and manage abstractions of platform specific interfaces\n10. ... and a whole lot more\n\nApp Extensions **replace the need to create custom starter kits**. Anything you add on top of the official starter kit can come in the form of an App Extension. This also eliminates maintenance overhead of keeping unofficial starter kits up to date with the official one and so we can ensure that every developer will always get the latest and greatest Quasar specs out of the box.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#app-extension-ext-id",
+    "documentId": "app-extensions/introduction",
+    "heading": "App Extension ext-id",
+    "breadcrumb": ["App Extension ext-id", "App Extension ext-id"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#app-extension-ext-id",
+    "content": "All App Extensions must prefix their name with `quasar-app-extension-`. Everything that follows after this prefix is considered to be the short alias of it. We call this the `ext-id` throughout the documentation.\n\nExample:\n\n- ext-id for `quasar-app-extension-awesomeness` is `awesomeness`\n- ext-id for `@some-npm-org/quasar-app-extension-awesomeness` is `@some-npm-org/awesomeness`\n\nOne of the benefits of this naming scheme is that it makes Quasar App Extensions discoverability easy while searching for their npm packages: [App Extension - Discover](/app-extensions/discover).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#anatomy-of-app-extensions",
+    "documentId": "app-extensions/introduction",
+    "heading": "Anatomy of App Extensions",
+    "breadcrumb": ["Anatomy of App Extensions", "Anatomy of App Extensions"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#anatomy-of-app-extensions",
+    "content": "App Extensions can be installed, executed and also uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#installing-an-app-extension",
+    "documentId": "app-extensions/introduction",
+    "heading": "Installing an App Extension",
+    "breadcrumb": [
+      "Anatomy of App Extensions",
+      "Installing an App Extension",
+      "Installing an App Extension"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#installing-an-app-extension",
+    "content": "```bash\nquasar ext add <ext-id>\n```\n\nThis command will find and install the extension's module. After installation is complete, there may be one or more prompts asking you to make choices or add information needed by the extension. When the installation is concluded, you will be returned to the command line.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#list-installed-app-extensions",
+    "documentId": "app-extensions/introduction",
+    "heading": "List Installed App Extensions",
+    "breadcrumb": [
+      "Anatomy of App Extensions",
+      "List Installed App Extensions",
+      "List Installed App Extensions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#list-installed-app-extensions",
+    "content": "There are several ways to \"discover\" what App Extensions have been installed:\n\n```bash\nquasar ext\nquasar info\ncat quasar.extensions.json\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#running-app-extensions",
+    "documentId": "app-extensions/introduction",
+    "heading": "\"Running\" App Extensions",
+    "breadcrumb": [
+      "Anatomy of App Extensions",
+      "\"Running\" App Extensions",
+      "\"Running\" App Extensions"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#running-app-extensions",
+    "content": "There is no one way to run app extensions, because some of them might not even have any code to run (i.e. are merely template files copied to specific folders within your project), whereas others may merely be installation helpers and others might choose to add a new command to the Quasar CLI.\n\nNevertheless, each and every App Extension will be initialized during `quasar dev` and `quasar build`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#updating-an-app-extension",
+    "documentId": "app-extensions/introduction",
+    "heading": "Updating an App Extension",
+    "breadcrumb": [
+      "Anatomy of App Extensions",
+      "Updating an App Extension",
+      "Updating an App Extension"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#updating-an-app-extension",
+    "content": "You may need to update your extension, and this is done with the same command as used for installation:\n\n```bash\nquasar ext add <ext-id>\n```\n\n::: warning\nReinstalling the extension MIGHT overwrite files that you have changed. You will be presented with the option to overwrite the files detected.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#removing-an-app-extension",
+    "documentId": "app-extensions/introduction",
+    "heading": "Removing an App Extension",
+    "breadcrumb": [
+      "Anatomy of App Extensions",
+      "Removing an App Extension",
+      "Removing an App Extension"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#removing-an-app-extension",
+    "content": "You can remove an App Extension from being hooked from the Quasar CLI by running this command. Depending upon the author and the extension itself, you may have to manually clean up files though.\n\n```bash\nquasar ext remove <ext-id>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/introduction#list-of-official-app-extensions",
+    "documentId": "app-extensions/introduction",
+    "heading": "List of official app-extensions",
+    "breadcrumb": [
+      "List of official app-extensions",
+      "List of official app-extensions"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/introduction#list-of-official-app-extensions",
+    "content": "Check out [Discover App Extensions](/app-extensions/discover) page.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/grid/row",
+  "title": "Grid Row",
+  "description": "How to use the Quasar grid for rows.",
+  "canonicalUrl": "https://quasar.dev/layout/grid/row",
+  "source": "docs/src/pages/layout/grid/row.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "layout",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": [
+    {
+      "title": "Equal Width Example",
+      "file": "RowEqualWidth.vue",
+      "source": "docs/src/examples/grid/RowEqualWidth.vue"
+    },
+    {
+      "title": "Setting one column width",
+      "file": "RowColumnWidth.vue",
+      "source": "docs/src/examples/grid/RowColumnWidth.vue"
+    },
+    {
+      "title": "Variable width content",
+      "file": "RowVariableWidth.vue",
+      "source": "docs/src/examples/grid/RowVariableWidth.vue"
+    },
+    {
+      "title": "All breakpoints",
+      "file": "RowAllBreakpoints.vue",
+      "source": "docs/src/examples/grid/RowAllBreakpoints.vue"
+    },
+    {
+      "title": "Stacked to horizontal",
+      "file": "RowStackedToHorizontal.vue",
+      "source": "docs/src/examples/grid/RowStackedToHorizontal.vue"
+    },
+    {
+      "title": "Mix and match",
+      "file": "RowMixAndMatch.vue",
+      "source": "docs/src/examples/grid/RowMixAndMatch.vue"
+    },
+    {
+      "title": "Vertical alignment",
+      "file": "RowVerticalAlignment.vue",
+      "source": "docs/src/examples/grid/RowVerticalAlignment.vue"
+    },
+    {
+      "title": "Horizontal alignment",
+      "file": "RowHorizontalAlignment.vue",
+      "source": "docs/src/examples/grid/RowHorizontalAlignment.vue"
+    },
+    {
+      "title": "Column wrapping",
+      "file": "RowColumnWrapping.vue",
+      "source": "docs/src/examples/grid/RowColumnWrapping.vue"
+    },
+    {
+      "title": "Reverse",
+      "file": "RowReverse.vue",
+      "source": "docs/src/examples/grid/RowReverse.vue"
+    },
+    {
+      "title": "Flex order",
+      "file": "RowFlexOrder.vue",
+      "source": "docs/src/examples/grid/RowFlexOrder.vue"
+    },
+    {
+      "title": "Offsetting columns",
+      "file": "RowOffsettingColumns.vue",
+      "source": "docs/src/examples/grid/RowOffsettingColumns.vue"
+    },
+    {
+      "title": "Nesting",
+      "file": "RowNesting.vue",
+      "source": "docs/src/examples/grid/RowNesting.vue"
+    }
+  ]
+}

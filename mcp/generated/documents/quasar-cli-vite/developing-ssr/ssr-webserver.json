@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-ssr/ssr-webserver",
+  "title": "SSR Webserver",
+  "description": "(@quasar/app-vite) Configuring the Quasar SSR webserver for different platforms, including a serverless architecture.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-webserver",
+  "source": "docs/src/pages/quasar-cli-vite/developing-ssr/ssr-webserver.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/ssr",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

@@ -5,16 +5,13 @@
   "description": "The QTooltip Vue component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or briefly touching and holding on mobile platforms), the tooltip will appear.",
   "canonicalUrl": "https://quasar.dev/vue-components/tooltip",
   "source": "docs/src/pages/vue-components/tooltip/tooltip.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QTooltip"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QTooltip"],
   "examples": [
     {
       "title": "Basic",

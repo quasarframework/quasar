@@ -21,7 +21,7 @@ Please note that the behavior is different depending on the platform the code is
 
 **API reference:** [AppFullscreen](../../api/AppFullscreen.md)
 
-<DocInstall plugins="AppFullscreen" />
+**Configuration:** register AppFullscreen through `framework.plugins` in `quasar.config`.
 
 ## Usage
 
@@ -81,7 +81,7 @@ setup () {
 
 Source: [Basic.vue](../../examples/AppFullscreen/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -92,13 +92,13 @@ Source: [Basic.vue](../../examples/AppFullscreen/Basic.vue)
     />
   </div>
 </template>
-````
+```
 
 **Example: On custom element**
 
 Source: [Targeted.vue](../../examples/AppFullscreen/Targeted.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -130,7 +130,7 @@ function toggle(e) {
     })
 }
 </script>
-````
+```
 
 ::: warning
 On some phones this will have little effect:

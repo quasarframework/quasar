@@ -1,0 +1,124 @@
+[
+  {
+    "id": "layout/grid/gutter#overview",
+    "documentId": "layout/grid/gutter",
+    "heading": "Grid Gutter",
+    "breadcrumb": ["Grid Gutter"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/grid/gutter",
+    "content": "In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Gutters.\n\nGutter Quasar CSS classes offer an easy way to space out elements (especially in a [Grid Row](/layout/grid/row)) one from each other at equal distance.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/grid/gutter#types",
+    "documentId": "layout/grid/gutter",
+    "heading": "Types",
+    "breadcrumb": ["Types", "Types"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/gutter#types",
+    "content": "There are two main types of gutters depending on your use-case: `q-gutter-{size}` and `q-col-gutter-{size}`. The first is to be used when the elements that you want to distance one from each other don't use `col-*` or `offset-*` classes that specify a width, and the latter is to be used when they do have `col-*` or `offset-*` classes specifying a width.\n\n::: tip\nSuffixes (`-none`, `-xs`, `-sm`, `-md`, `-lg`, `-xl`) do not refer to device screen size, but to the size of gutter between elements.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/grid/gutter#classes-q-gutter-size",
+    "documentId": "layout/grid/gutter",
+    "heading": "Classes \"q-gutter-{size}\"",
+    "breadcrumb": [
+      "Classes \"q-gutter-{size}\"",
+      "Classes \"q-gutter-{size}\""
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/gutter#classes-q-gutter-size",
+    "content": "::: warning\nThe `q-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left margins** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.\n:::\n\nThese classes are to be used when the direct children don't have `col-*` or `offset-*` classes specifying a width.\n\nExample: Sizes for q-gutter (GutterSize.vue)\n\nThere's also the `q-gutter-none` class (equivalent to: no gutter applied) which wasn't included in the example above.\n\nExample: Horizontal only q-gutter (GutterHorizontal.vue)\n\nExample: Vertical only q-gutter (GutterVertical.vue)\n\nExample: Mixed horizontal and vertical q-gutter (GutterMixed.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Sizes for q-gutter",
+        "file": "GutterSize.vue"
+      },
+      {
+        "title": "Horizontal only q-gutter",
+        "file": "GutterHorizontal.vue"
+      },
+      {
+        "title": "Vertical only q-gutter",
+        "file": "GutterVertical.vue"
+      },
+      {
+        "title": "Mixed horizontal and vertical q-gutter",
+        "file": "GutterMixed.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/gutter#classes-q-col-gutter-size",
+    "documentId": "layout/grid/gutter",
+    "heading": "Classes \"q-col-gutter-{size}\"",
+    "breadcrumb": [
+      "Classes \"q-col-gutter-{size}\"",
+      "Classes \"q-col-gutter-{size}\""
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/gutter#classes-q-col-gutter-size",
+    "content": "::: warning\nThe `q-col-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left paddings** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.\n:::\n\nThese classes are to be used when the direct children have `col-*` or `offset-*` classes that specify a width.\n\nExample: Sizes for q-col-gutter (ColGutterSize.vue)\n\nExample: Horizontal only q-col-gutter (ColGutterHorizontal.vue)\n\nExample: Vertical only q-col-gutter (ColGutterVertical.vue)\n\nExample: Mixed horizontal and vertical q-col-gutter (ColGutterMixed.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Sizes for q-col-gutter",
+        "file": "ColGutterSize.vue"
+      },
+      {
+        "title": "Horizontal only q-col-gutter",
+        "file": "ColGutterHorizontal.vue"
+      },
+      {
+        "title": "Vertical only q-col-gutter",
+        "file": "ColGutterVertical.vue"
+      },
+      {
+        "title": "Mixed horizontal and vertical q-col-gutter",
+        "file": "ColGutterMixed.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/gutter#pros-cons-and-how-to-workaround-problems-q-gutter-size-vs-q-col-gutter-size",
+    "documentId": "layout/grid/gutter",
+    "heading": "Pros, cons and how to workaround problems - \"q-gutter-{size}\" vs. \"q-col-gutter-{size}\"",
+    "breadcrumb": [
+      "Pros, cons and how to workaround problems - \"q-gutter-{size}\" vs. \"q-col-gutter-{size}\"",
+      "Pros, cons and how to workaround problems - \"q-gutter-{size}\" vs. \"q-col-gutter-{size}\""
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/gutter#pros-cons-and-how-to-workaround-problems-q-gutter-size-vs-q-col-gutter-size",
+    "content": "Both set of classes have pros and cons.\n\n::: warning\nBecause both `q-gutter-*` and `q-col-gutter-*` classes apply a **negative top and left margins** to the parent you should not apply styling targeting background, margin or border related properties on the parent.\n\nInstead you need to wrap them in a container, apply the styling on the container, and add `overflow-auto` or `row` class **on the container**\n:::\n\nExample: Parent styling (ParentStyling.vue)\n\n::: tip\nThe `q-gutter-*` classes **do not change** the internal dimensions of the children, so you can use `background` or `border` directly on children.\n:::\n\n::: warning\nThe `q-col-gutter-*` classes **do change** the external dimensions of the children, so you cannot use `col-*` or `offset-*` classes specifying a width on children anymore.\n:::\n\nExample: Children size compare (ChildrenSizeCompare.vue)\n\n::: warning\nBecause `q-col-gutter-*` classes apply a **negative top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.\n:::\n\nExample: Children styling (ChildrenStyling.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Parent styling",
+        "file": "ParentStyling.vue"
+      },
+      {
+        "title": "Children size compare",
+        "file": "ChildrenSizeCompare.vue"
+      },
+      {
+        "title": "Children styling",
+        "file": "ChildrenStyling.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/gutter#flex-grid-playground",
+    "documentId": "layout/grid/gutter",
+    "heading": "Flex Grid Playground",
+    "breadcrumb": ["Flex Grid Playground", "Flex Grid Playground"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/gutter#flex-grid-playground",
+    "content": "To see the Flex in action, you can use the Flex Playground to interactively learn more.\n\n<q-btn icon-right=\"launch\" label=\"Flex Playground\" to=\"/layout/grid/flex-playground\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

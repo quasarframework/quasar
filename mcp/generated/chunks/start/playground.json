@@ -1,0 +1,51 @@
+[
+  {
+    "id": "start/playground#overview",
+    "documentId": "start/playground",
+    "heading": "Quasar Playground",
+    "breadcrumb": ["Quasar Playground"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/start/playground",
+    "content": "You can fork and use these links for reporting issues on GitHub too. These links (obviously) use the Quasar UMD version.\n\n| Supplier | URL                                                        |\n| -------- | ---------------------------------------------------------- |\n| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |\n| Codepen  | [https://codepen.quasar.dev](https://codepen.quasar.dev)   |\n\nMake sure to read [about it](/start/umd) before diving in. When you use jsFiddle/Codepen you can skip the Installation section.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/playground#quasar-cli",
+    "documentId": "start/playground",
+    "heading": "Quasar CLI",
+    "breadcrumb": [null, "Quasar CLI", "Quasar CLI"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/playground#quasar-cli",
+    "content": "For more intricate Quasar code examples, like when using all the features of Quasar CLI, boot files, Pinia, etc, then:",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/playground#stackblitz",
+    "documentId": "start/playground",
+    "heading": "Stackblitz",
+    "breadcrumb": [null, "Quasar CLI", "Stackblitz", "Stackblitz"],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/start/playground#stackblitz",
+    "content": "Fork: [https://stackblitz.quasar.dev](https://stackblitz.quasar.dev)",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/playground#codesandbox-template",
+    "documentId": "start/playground",
+    "heading": "Codesandbox Template",
+    "breadcrumb": [
+      null,
+      "Quasar CLI",
+      "Codesandbox Template",
+      "Codesandbox Template"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/start/playground#codesandbox-template",
+    "content": "Fork: [https://codesandbox.quasar.dev](https://codesandbox.quasar.dev)",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

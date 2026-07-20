@@ -1,0 +1,121 @@
+[
+  {
+    "id": "quasar-utils/color-utils#overview",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "Color Utils",
+    "breadcrumb": ["Color Utils"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils",
+    "content": "Quasar provides a set of useful functions to manipulate colors easily in most use cases, without the high additional cost of integrating dedicated libraries.\n\n::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#color-conversion",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "Color Conversion",
+    "breadcrumb": ["Color Conversion", "Color Conversion"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#color-conversion",
+    "content": "These functions take a color as string or Object and convert it to another format.\n\n| Function    | Source format | Destination format | Description                                                                                                                                                                                                                                                                             |\n| ----------- | ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `rgbToHex`  | Object        | String             | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to its HEX/A representation as a String (`#RRGGBB<AA>`). If Alpha channel is present in the original object it will be present also in the output.                                               |\n| `rgbToHsv`  | Object        | Object             | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to its HSV/A representation as an Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`). If Alpha channel is present in the original object it will be present also in the output.       |\n| `hexToRgb`  | String        | Object             | Converts a HEX/A color String (`#RRGGBB<AA>`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) . If Alpha channel is present in the original object it will be present also in the output.                                             |\n| `textToRgb` | String        | Object             | Converts a HEX/A color String (`#RRGGBB<AA>`) or a RGB/A color String(`rgb(R, G, B<, A>)`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output. |\n| `hsvToRgb`  | String        | Object             | Converts a HSV/A color Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output.       |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#color-processing",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "Color Processing",
+    "breadcrumb": ["Color Processing", "Color Processing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#color-processing",
+    "content": "These functions perform changes on the color or extract specific information.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#lighten-color-percent",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "lighten (color, percent)",
+    "breadcrumb": [
+      "Color Processing",
+      "lighten (color, percent)",
+      "lighten (color, percent)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#lighten-color-percent",
+    "content": "Lighten the `color` (if `percent` is positive) or darken it (if `percent` is negative).\n\nAccepts a HEX/A String or a RGB/A String as `color` and a `percent` (0 to 100 or -100 to 0) of lighten/darken to be applied to the `color`.\nReturns a HEX String representation of the calculated `color`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#luminosity-color",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "luminosity (color)",
+    "breadcrumb": [
+      "Color Processing",
+      "luminosity (color)",
+      "luminosity (color)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#luminosity-color",
+    "content": "Calculates the [relative luminance](http://www.w3.org/TR/WCAG20/#relativeluminancedef) of the `color`.\n\nAccepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.\nReturns a value between 0 and 1.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#brightness-color",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "brightness (color)",
+    "breadcrumb": [
+      "Color Processing",
+      "brightness (color)",
+      "brightness (color)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#brightness-color",
+    "content": "Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of the `color`.\n\nAccepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.\nReturns a value between 0 and 255. A value of < 128 would be considered a dark color.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#blend-fgcolor-bgcolor",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "blend (fgColor, bgColor)",
+    "breadcrumb": [
+      "Color Processing",
+      "blend (fgColor, bgColor)",
+      "blend (fgColor, bgColor)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#blend-fgcolor-bgcolor",
+    "content": "Calculates the [blend](https://www.w3.org/TR/compositing-1/#simplealphacompositing) of two colors.\n\nAccepts a HEX/A String or a RGB/A Object as `fgColor` / `bgColor`.\nIf the alpha channel of the `fgColor` is completely opaque, then the result will be the `fgColor`.\nIf the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.\nReturns the same type as input for fgColor.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#changealpha-color-offset",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "changeAlpha (color, offset)",
+    "breadcrumb": [
+      "Color Processing",
+      "changeAlpha (color, offset)",
+      "changeAlpha (color, offset)"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#changealpha-color-offset",
+    "content": "Increments or decrements the alpha of a string color.\n\nAccepts a HEX/A String as `color` and a number between -1 and 1 (including edges) as `offset`.\nUse a negative value to decrement and a positive number to increment (ex: `changeAlpha('#ff0000', -0.1)` to decrement alpha by 10%).\nReturns HEX/A String.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/color-utils#helper-getpalettecolor",
+    "documentId": "quasar-utils/color-utils",
+    "heading": "Helper - getPaletteColor",
+    "breadcrumb": ["Helper - getPaletteColor", "Helper - getPaletteColor"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/color-utils#helper-getpalettecolor",
+    "content": "You can query any brand color, palette color or custom color in JS context to get its hex string value. Note that the method below is not cheap to run, so use it with care:\n\n```js\nimport { colors } from 'quasar'\n\nconst { getPaletteColor } = colors\n\nconsole.log(getPaletteColor('primary')) // '#1976d2'\nconsole.log(getPaletteColor('red-2')) // '#ffcdd2'\n```\n\nAssuming you've created [a custom color](/style/color-palette#adding-your-own-colors) and named it \"my-color\", then you can extract its value in JS:\n\n```js\nconsole.log(getPaletteColor('my-color')) // '#...'\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

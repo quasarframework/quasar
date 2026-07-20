@@ -1,0 +1,39 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/preparation#add-quasar-electron-mode",
+    "documentId": "quasar-cli-vite/developing-electron-apps/preparation",
+    "heading": "Add Quasar Electron mode",
+    "breadcrumb": ["Add Quasar Electron mode", "Add Quasar Electron mode"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/preparation#add-quasar-electron-mode",
+    "content": "Add Electron mode to create `/src-electron` and install its workspace dependencies with your project's package manager:\n\n```bash\nquasar mode add electron\n```\n\nThe main process and preload sources live in `/src-electron`; the renderer UI remains in `/src`.\n\nThe new folder has the following structure:\n\n- src-electron\n  - electron-assets — Assets that can be referenced from Electron files\n    - icons — Icons of your app for all platforms\n      - icon.icns — Icon file for macOS\n      - icon.ico — Icon file for Windows\n      - icon.png — PNG icon used by Linux and at runtime\n  - electron-preload.js — (or .ts) Electron preload script (exposes a controlled API to the renderer)\n  - electron-main.js — (or .ts) Main process code\n  - package.json — Electron-specific dependencies",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/preparation#native-dependencies",
+    "documentId": "quasar-cli-vite/developing-electron-apps/preparation",
+    "heading": "Native dependencies",
+    "breadcrumb": [
+      "Add Quasar Electron mode",
+      "Native dependencies",
+      "Native dependencies"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/preparation#native-dependencies",
+    "content": "Most Electron packages use prebuilt binaries and require no local compiler. A dependency containing a native Node.js addon may need to be rebuilt for Electron's ABI.\n\nOn Windows, install Python 3 and Visual Studio's **Desktop development with C++** workload if a native dependency must compile. The Node.js installer can install the **Tools for Native Modules** for you. On macOS, install the Xcode Command Line Tools; on Linux, install Python, `make`, and a supported C/C++ compiler. See Electron's [native modules guide](https://www.electronjs.org/docs/latest/tutorial/using-native-node-modules/) for rebuilding and troubleshooting native dependencies.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/preparation#start-developing",
+    "documentId": "quasar-cli-vite/developing-electron-apps/preparation",
+    "heading": "Start developing",
+    "breadcrumb": ["Start developing", "Start developing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/preparation#start-developing",
+    "content": "Run:\n\n```bash\nquasar dev -m electron\n\n# passing extra parameters and/or options to\n# underlying \"electron\" executable:\nquasar dev -m electron -- --force-device-scale-factor=1\n# when on Windows and using Powershell:\nquasar dev -m electron '--' --force-device-scale-factor=1\n```\n\nThis also adds Electron mode automatically when it is missing. It opens the application window and, with the default template, the renderer DevTools.\n\nArguments after `--` are forwarded to the Electron executable. Avoid disabling Chromium's sandbox as a general workaround; doing so removes an important security boundary.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

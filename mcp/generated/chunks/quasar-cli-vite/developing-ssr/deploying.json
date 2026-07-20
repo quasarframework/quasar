@@ -1,0 +1,57 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/deploying#overview",
+    "documentId": "quasar-cli-vite/developing-ssr/deploying",
+    "heading": "Deploying SSR",
+    "breadcrumb": ["Deploying SSR"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/deploying",
+    "content": "SPA and PWA output can be served by a static webserver. An SSR build also contains a production Node.js webserver and requires a JavaScript runtime.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/deploying#the-distributables-folder",
+    "documentId": "quasar-cli-vite/developing-ssr/deploying",
+    "heading": "The Distributables Folder",
+    "breadcrumb": ["The Distributables Folder", "The Distributables Folder"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/deploying#the-distributables-folder",
+    "content": "After building in SSR mode (`quasar build -m ssr`), the generated folder contains the compiled application, production webserver, and a deployment-specific `package.json`.\n\nThe generated `package.json` defines a `start` script:\n\n```js\n\"scripts\": {\n  \"start\": \"node index.js\"\n}\n```\n\nCopy the distributables folder to the server, install its production dependencies with your package manager, and run the `start` script. This starts the generated webserver.\n\n::: tip\nThe distributables folder does not require the rest of the project or a global `@quasar/cli` installation. It does require the dependencies declared in its generated `package.json`.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/deploying#enhancing-performance",
+    "documentId": "quasar-cli-vite/developing-ssr/deploying",
+    "heading": "Enhancing Performance",
+    "breadcrumb": ["Enhancing Performance", "Enhancing Performance"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/deploying#enhancing-performance",
+    "content": "By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](http://pm2.keymetrics.io/).\n\nAfter installing PM2 on the server, the `start` script can look like this instead:\n\n```js\n\"scripts\": {\n  \"start\": \"pm2 start index.js\"\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/deploying#deploying-with-cleavr",
+    "documentId": "quasar-cli-vite/developing-ssr/deploying",
+    "heading": "Deploying with Cleavr",
+    "breadcrumb": ["Deploying with Cleavr", "Deploying with Cleavr"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/deploying#deploying-with-cleavr",
+    "content": "You can use [Cleavr](https://cleavr.io) to deploy Quasar SSR apps to several popular VPS providers. Cleavr will automatically set up PM2 with cluster mode enabled for your app.\n\nAdd a new **Node.JS SSR** site to Cleavr and then configure the web app settings with the following:\n\n- **Entry point:** index.js\n- **Build command:** npx quasar build --mode ssr\n- **Artifact path:** dist/ssr",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/deploying#serverless",
+    "documentId": "quasar-cli-vite/developing-ssr/deploying",
+    "heading": "Serverless",
+    "breadcrumb": ["Serverless", "Serverless"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/deploying#serverless",
+    "content": "If you are deploying to a Serverless service, then please read about [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver#serverless) on how to prepare for it.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

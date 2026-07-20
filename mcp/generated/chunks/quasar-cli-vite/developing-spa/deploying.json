@@ -1,0 +1,96 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#overview",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Deploying a SPA",
+    "breadcrumb": ["Deploying a SPA"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying",
+    "content": "Many services can deploy a static SPA. This page focuses on the general requirements and gives examples for several common providers.\n\nIf your favorite deployment tool is missing feel free to create a pull request on GitHub to add it to the list.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#general-deployment",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "General deployment",
+    "breadcrumb": ["General deployment", "General deployment"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#general-deployment",
+    "content": "The first step is to build a production bundle:\n\nTo produce such a build use Quasar CLI with the following command:\n\n```bash\nquasar build\n```\n\nBy default, this writes the production-ready files to `/dist/spa`. If you configure `build.distDir`, deploy that directory instead.\n\nServe these files through HTTP or HTTPS. Opening `index.html` directly with the `file://` protocol is not supported.\n\nCommon choices for web servers are [nginx](https://www.nginx.com/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.\n\nHash-mode routing requires only static file hosting. History-mode routing also requires a fallback that serves `index.html` when a requested application route does not match a static file. Do not rewrite requests for existing assets.\n\nAn example config for nginx may look like this:\n\n```nginx\nserver {\n    listen 80;\n    server_name quasar.myapp.com;\n\n    root /home/user/quasar.myapp.com/public;\n\n    add_header X-Frame-Options \"SAMEORIGIN\";\n    add_header X-Content-Type-Options \"nosniff\";\n\n    index index.html;\n\n    charset utf-8;\n\n    location / {\n        try_files $uri $uri/ /index.html;\n    }\n\n    location = /robots.txt  { access_log off; log_not_found off; }\n\n    access_log off;\n    error_log  /var/log/nginx/quasar.myapp.com-error.log error;\n\n    location ~ /\\.(?!well-known).* {\n        deny all;\n    }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#important-hosting-configuration",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Important Hosting Configuration",
+    "breadcrumb": [
+      "Important Hosting Configuration",
+      "Important Hosting Configuration"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#important-hosting-configuration",
+    "content": "Do not cache `index.html` for long periods. Otherwise, returning visitors may continue loading asset URLs from an older deployment. Hashed JavaScript, CSS, and other immutable assets can be cached for much longer.\n\nConfigure a revalidation policy for `index.html`, such as `Cache-Control: no-cache`, through your hosting service.\n\nAs an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:\n\n```json firebase.json\n{\n  \"hosting\": {\n    \"headers\": [\n      {\n        \"source\": \"/index.html\",\n        \"headers\": [\n          {\n            \"key\": \"Cache-Control\",\n            \"value\": \"no-cache\"\n          }\n        ]\n      },\n      {\n        \"source\": \"**/*.@(jpg|jpeg|gif|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)\",\n        \"headers\": [\n          {\n            \"key\": \"Cache-Control\",\n            \"value\": \"public, max-age=31536000, immutable\"\n          }\n        ]\n      }\n    ]\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#deploying-with-cloudflare-pages",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Deploying with Cloudflare Pages",
+    "breadcrumb": [
+      "Deploying with Cloudflare Pages",
+      "Deploying with Cloudflare Pages"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#deploying-with-cloudflare-pages",
+    "content": "Cloudflare Pages can deploy the SPA directly from a Git repository. Configure the Pages project with:\n\n- Build command: `quasar build`\n- Build output directory: `dist/spa`\n\nCloudflare rebuilds the site when you push to the connected production or preview branches. When no top-level `404.html` is deployed, Pages treats the project as a SPA and routes unknown paths to `index.html`.\n\nFor a direct upload instead, install Wrangler and deploy the built directory:\n\n```tabs\n<<| bash PNPM |>>\npnpm add -D wrangler\npnpm quasar build\npnpm wrangler pages deploy dist/spa\n<<| bash Yarn |>>\nyarn add -D wrangler\nyarn quasar build\nyarn wrangler pages deploy dist/spa\n<<| bash NPM |>>\nnpm install -D wrangler\nnpx quasar build\nnpx wrangler pages deploy dist/spa\n<<| bash Bun |>>\nbun add -D wrangler\nbunx quasar build\nbunx wrangler pages deploy dist/spa\n```\n\nIf you change `build.distDir`, pass the configured output directory instead. See the [Cloudflare Pages documentation](https://developers.cloudflare.com/pages/) for Git integration, direct uploads, redirects, and custom domains.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#deploying-with-vercel",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Deploying with Vercel",
+    "breadcrumb": ["Deploying with Vercel", "Deploying with Vercel"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#deploying-with-vercel",
+    "content": "Connect the Git repository to Vercel and configure:\n\n- Build command: `quasar build`\n- Output directory: `dist/spa`\n\nFor CLI deployment, install the [Vercel CLI](https://vercel.com/docs/cli), log in, and run it from the project root:\n\n```bash\nvercel login\nvercel\n```\n\nFor history-mode routing, add `vercel.json` at the project root. The filesystem check lets static assets resolve before the SPA fallback:\n\n```json vercel.json\n{\n  \"rewrites\": [{ \"source\": \"/(.*)\", \"destination\": \"/index.html\" }]\n}\n```\n\nYou can also define project scripts:\n\n```json /package.json\n\"scripts\": {\n  \"build\": \"quasar build\",\n  \"deploy\": \"vercel --prod\"\n}\n```\n\nIf you change `build.distDir`, update Vercel's output directory to match.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#deploying-with-heroku",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Deploying with Heroku",
+    "breadcrumb": ["Deploying with Heroku", "Deploying with Heroku"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#deploying-with-heroku",
+    "content": "Heroku does not serve static sites directly, so the application needs a small HTTP server.\n\nIn this example, we will use [Express](https://expressjs.com/) to create a minimal server which Heroku can use.\n\nFirst, we need to install the required dependencies to our project:\n\n```tabs\n<<| bash PNPM |>>\npnpm add express serve-static connect-history-api-fallback\n<<| bash Yarn |>>\nyarn add express serve-static connect-history-api-fallback\n<<| bash NPM |>>\nnpm install express serve-static connect-history-api-fallback\n<<| bash Bun |>>\nbun add express serve-static connect-history-api-fallback\n```\n\nNow that we have installed the required dependencies, we can add our server. Create a file called `server.js` in the root directory of your project.\n\n```js\nimport path from 'node:path'\nimport express from 'express'\nimport serveStatic from 'serve-static'\nimport history from 'connect-history-api-fallback'\n\nconst port = process.env.PORT || 5000\nconst app = express()\n\napp.use(history())\napp.use(serveStatic(path.join(import.meta.dirname, 'dist/spa')))\napp.listen(port)\n```\n\nHeroku expects a set of package scripts, so add the following under `scripts` in `package.json`:\n\n```js /package.json\n\"scripts\": {\n  \"build\": \"quasar build\",\n  \"start\": \"node server.js\",\n  \"heroku-postbuild\": \"quasar build\"\n}\n```\n\nNow it is time to create an app on Heroku by running:\n\n```bash\nheroku create\n```\n\nand deploy to Heroku using:\n\n```bash\ngit init\nheroku git:remote -a <heroku app name>\n\ngit add .\ngit commit -am \"make it better\"\ngit push heroku main\n```\n\nFor existing Git repositories, simply add the heroku remote:\n\n```bash\nheroku git:remote -a <heroku app name>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#deploying-with-surge",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Deploying with Surge",
+    "breadcrumb": ["Deploying with Surge", "Deploying with Surge"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#deploying-with-surge",
+    "content": "[Surge](https://surge.sh/) is a popular tool to host and deploy static sites.\n\nIf you want to deploy your application with Surge you first need to install the Surge CLI tool:\n\n```tabs\n<<| bash PNPM |>>\npnpm add --global surge\n<<| bash NPM |>>\nnpm install --global surge\n```\n\nNext, we will use Quasar CLI to build our app:\n\n```bash\nquasar build\n```\n\nNow we can deploy our application using Surge by calling:\n\n```bash\nsurge dist/spa\n```\n\nNow your application should be successfully deployed using Surge. You should be able to adapt this guide to any other static site deployment tool.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-spa/deploying#deploying-on-github-pages",
+    "documentId": "quasar-cli-vite/developing-spa/deploying",
+    "heading": "Deploying on GitHub Pages",
+    "breadcrumb": ["Deploying on GitHub Pages", "Deploying on GitHub Pages"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/deploying#deploying-on-github-pages",
+    "content": "GitHub Pages can deploy the production bundle with GitHub Actions. In the repository settings, select **Pages > Build and deployment > GitHub Actions**, then add `.github/workflows/deploy.yml`:\n\n```yaml\nname: Deploy Quasar SPA to GitHub Pages\n\non:\n  push:\n    branches: [main]\n  workflow_dispatch:\n\npermissions:\n  contents: read\n  pages: write\n  id-token: write\n\nconcurrency:\n  group: pages\n  cancel-in-progress: true\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v6\n      - uses: pnpm/action-setup@v4\n      - uses: actions/setup-node@v6\n        with:\n          node-version: 24\n          cache: pnpm\n      - run: pnpm install --frozen-lockfile\n      - run: pnpm quasar build\n      - uses: actions/upload-pages-artifact@v4\n        with:\n          path: dist/spa\n\n  deploy:\n    environment:\n      name: github-pages\n      url: ${{ steps.deployment.outputs.page_url }}\n    runs-on: ubuntu-latest\n    needs: build\n    steps:\n      - name: Deploy\n        id: deployment\n        uses: actions/deploy-pages@v4\n```\n\nFor a project site served from `https://<username>.github.io/<repository>/`, set `build.publicPath` to `/<repository>/`. A user or organization site named `<username>.github.io` is served from `/` and does not need that override.\n\nGitHub Pages does not provide a general history-mode fallback to `index.html`. Use Vue Router's hash mode unless every route has a corresponding static file or another layer handles the rewrites.\n\nTo use a custom domain, configure it in the repository's Pages settings. See the [GitHub Pages documentation](https://docs.github.com/en/pages) for DNS and domain-verification instructions.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

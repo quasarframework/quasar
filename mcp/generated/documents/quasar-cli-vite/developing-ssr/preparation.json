@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-ssr/preparation",
+  "title": "Preparation for SSR",
+  "description": "(@quasar/app-vite) How to add SSR mode with Quasar CLI.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/preparation",
+  "source": "docs/src/pages/quasar-cli-vite/developing-ssr/preparation.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/ssr",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

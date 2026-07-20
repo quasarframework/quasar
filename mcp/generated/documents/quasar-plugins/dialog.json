@@ -5,16 +5,13 @@
   "description": "A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog.",
   "canonicalUrl": "https://quasar.dev/quasar-plugins/dialog",
   "source": "docs/src/pages/quasar-plugins/dialog.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "plugin"
-  ],
-  "apiReferences": [
-    "Dialog"
-  ],
+  "area": "quasar-plugins",
+  "kinds": ["plugin"],
+  "apiReferences": ["Dialog"],
   "examples": [
     {
       "title": "Basic",

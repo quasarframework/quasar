@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-ssr/ssr-with-typescript",
+  "title": "SSR with TypeScript",
+  "description": "(@quasar/app-vite) How to use TypeScript with SSR in Quasar",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-with-typescript",
+  "source": "docs/src/pages/quasar-cli-vite/developing-ssr/ssr-with-typescript.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/ssr",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

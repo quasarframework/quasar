@@ -30,7 +30,7 @@ Notice that the model is a String only.
 
 Source: [Basic.vue](../../examples/QTime/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -47,13 +47,13 @@ import { ref } from 'vue'
 const time = ref('10:56')
 const timeWithSeconds = ref('09:24:10')
 </script>
-````
+```
 
 **Example: Landscape**
 
 Source: [Landscape.vue](../../examples/QTime/Landscape.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -70,11 +70,15 @@ import { ref } from 'vue'
 const time = ref('10:56')
 const timeWithSeconds = ref('09:24:10')
 </script>
-````
+```
 
 ::: tip
 For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
+
+### Keyboard navigation
+
+The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.
 
 ### Functionality
 
@@ -84,7 +88,7 @@ The 24 hour format is applied depending on the [Quasar Language Pack](/options/q
 
 Source: [Format24h.vue](../../examples/QTime/Format24h.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-time v-model="time" format24h />
@@ -96,7 +100,7 @@ import { ref } from 'vue'
 
 const time = ref('19:42')
 </script>
-````
+```
 
 Clicking on the "Now" button sets time to current user time:
 
@@ -104,7 +108,7 @@ Clicking on the "Now" button sets time to current user time:
 
 Source: [NowBtn.vue](../../examples/QTime/NowBtn.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-time v-model="time" now-btn />
@@ -116,13 +120,13 @@ import { ref } from 'vue'
 
 const time = ref('04:56')
 </script>
-````
+```
 
 **Example: Disable and readonly**
 
 Source: [DisableReadonly.vue](../../examples/QTime/DisableReadonly.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -138,7 +142,7 @@ import { ref } from 'vue'
 
 const time = ref('10:56')
 </script>
-````
+```
 
 ### Model mask
 
@@ -146,8 +150,10 @@ The default model mask is `HH:mm` (or `HH:mm:ss` when using `with-seconds` prop)
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
-::: warning Note on SSR
+::: warning Note on SSR/SSG
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+
+If the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.
 :::
 
 ::: danger Note on persian calendar
@@ -158,7 +164,7 @@ When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:
 
 Source: [MaskSimple.vue](../../examples/QTime/MaskSimple.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -189,7 +195,7 @@ import { ref } from 'vue'
 const model1 = ref('01:51 PM')
 const model2 = ref('08*22**10')
 </script>
-````
+```
 
 If you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
 
@@ -197,7 +203,7 @@ If you want to insert strings (including `[` and `]` characters) into your mask,
 
 Source: [MaskEscape.vue](../../examples/QTime/MaskEscape.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -218,7 +224,7 @@ import { ref } from 'vue'
 
 const model = ref('10h and 20 minutes (AM)')
 </script>
-````
+```
 
 Using the mask to connect a [QDate](/vue-components/date) and QTime to the same model:
 
@@ -226,7 +232,7 @@ Using the mask to connect a [QDate](/vue-components/date) and QTime to the same 
 
 Source: [MaskDateTime.vue](../../examples/QTime/MaskDateTime.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -248,7 +254,7 @@ import { ref } from 'vue'
 
 const model = ref('2019-02-22 21:02')
 </script>
-````
+```
 
 ### Custom ad-hoc locale
 
@@ -258,7 +264,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 Source: [CustomLocale.vue](../../examples/QTime/CustomLocale.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-pb-sm">
@@ -287,7 +293,7 @@ const myLocale = {
   pluralDay: 'dias'
 }
 </script>
-````
+```
 
 ### Coloring
 
@@ -295,7 +301,7 @@ const myLocale = {
 
 Source: [Color.vue](../../examples/QTime/Color.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -311,13 +317,13 @@ import { ref } from 'vue'
 
 const time = ref('10:56')
 </script>
-````
+```
 
 **Example: Force dark mode**
 
 Source: [Dark.vue](../../examples/QTime/Dark.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-md">
@@ -333,7 +339,7 @@ import { ref } from 'vue'
 
 const time = ref('10:56')
 </script>
-````
+```
 
 ### Limiting options
 
@@ -344,7 +350,7 @@ const time = ref('10:56')
 
 Source: [Options.vue](../../examples/QTime/Options.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -391,7 +397,7 @@ function optionsFnTime3(hr) {
   return hr % 2 === 0 || hr % 3 === 0
 }
 </script>
-````
+```
 
 ### With QInput
 
@@ -399,7 +405,7 @@ function optionsFnTime3(hr) {
 
 Source: [Input.vue](../../examples/QTime/Input.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm row">
@@ -453,7 +459,7 @@ import { ref } from 'vue'
 const time = ref('10:56')
 const timeWithSeconds = ref('10:56:00')
 </script>
-````
+```
 
 Connecting a QDate and QTime with same model on a QInput:
 
@@ -461,7 +467,7 @@ Connecting a QDate and QTime with same model on a QInput:
 
 Source: [InputFull.vue](../../examples/QTime/InputFull.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input filled v-model="date">
@@ -497,7 +503,7 @@ import { ref } from 'vue'
 
 const date = ref('2019-02-01 12:44')
 </script>
-````
+```
 
 The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).
 
@@ -516,7 +522,7 @@ You can use the default slot for adding buttons:
 
 Source: [AdditionalButtons.vue](../../examples/QTime/AdditionalButtons.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-mb-sm">
@@ -561,7 +567,7 @@ function save() {
   time.value = proxyTime.value
 }
 </script>
-````
+```
 
 ### Native form submit
 
@@ -571,7 +577,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 Source: [NativeForm.vue](../../examples/QTime/NativeForm.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-form @submit="onSubmit" class="q-gutter-md">
@@ -626,4 +632,4 @@ function onSubmit(evt) {
   submitResult.value = data
 }
 </script>
-````
+```

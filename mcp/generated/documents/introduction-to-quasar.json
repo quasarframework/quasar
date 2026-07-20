@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "introduction-to-quasar",
+  "title": "Why Quasar?",
+  "description": "What Quasar is and how it can considerably reduce your development time and costs.",
+  "canonicalUrl": "https://quasar.dev/introduction-to-quasar",
+  "source": "docs/src/pages/introduction-to-quasar/introduction-to-quasar.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "introduction-to-quasar",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

@@ -5,16 +5,13 @@
   "description": "The QSlideTransition Vue component slides the encapsulated element up or down, based on its visibility. Works alongside v-show and v-if.",
   "canonicalUrl": "https://quasar.dev/vue-components/slide-transition",
   "source": "docs/src/pages/vue-components/slide-transition.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QSlideTransition"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QSlideTransition"],
   "examples": [
     {
       "title": "Basic",

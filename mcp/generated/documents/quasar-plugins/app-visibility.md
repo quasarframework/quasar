@@ -16,7 +16,7 @@ Quasar makes use of the Web [Page Visibility API](https://developer.mozilla.org/
 
 **API reference:** [AppVisibility](../../api/AppVisibility.md)
 
-<DocInstall plugins="AppVisibility" scrollable />
+**Configuration:** register AppVisibility through `framework.plugins` in `quasar.config`.
 
 ## Usage
 
@@ -36,7 +36,7 @@ setup () {
 
 Source: [Basic.vue](../../examples/AppVisibility/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div>
@@ -84,7 +84,7 @@ watch(
   }
 )
 </script>
-````
+```
 
 ## Watching for status change
 

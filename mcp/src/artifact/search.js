@@ -1,5 +1,6 @@
 function normalize(value) {
   return String(value)
+    .replaceAll(/([a-z0-9])([A-Z])/g, '$1 $2')
     .normalize('NFKD')
     .replaceAll(/[\u0300-\u036F]/g, '')
     .toLowerCase()
@@ -72,7 +73,8 @@ function distance(left, right) {
 function scoreRecord(record, query, terms) {
   const title = normalize(record.title)
   const id = normalize(record.id)
-  const text = normalize(record.text)
+  const text = normalize([record.text, record.kind, record.area].join(' '))
+  const kind = normalize(record.kind)
   let score = 0
 
   if (id === query || title === query) score += 1000
@@ -83,6 +85,7 @@ function scoreRecord(record, query, terms) {
   const titleWords = title.split(' ')
 
   for (const term of terms) {
+    if (kind === term) score += 150
     if (id.split(' ').includes(term)) score += 90
     if (titleWords.includes(term)) score += 80
     if (titleWords.some(word => word.startsWith(term))) score += 40
@@ -106,11 +109,16 @@ export function searchRecords(records, query, options = {}) {
   const normalizedQuery = normalize(query)
   const terms = queryTerms(normalizedQuery)
   const kinds = new Set(options.kinds)
+  const areas = new Set(options.areas)
 
   if (terms.length === 0) return []
 
   return records
-    .filter(record => kinds.size === 0 || kinds.has(record.kind))
+    .filter(
+      record =>
+        (kinds.size === 0 || kinds.has(record.kind)) &&
+        (areas.size === 0 || areas.has(record.area))
+    )
     .map(record => ({
       record,
       score: scoreRecord(record, normalizedQuery, terms)

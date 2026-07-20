@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/upgrade-guide",
+  "title": "Upgrade Guide for Quasar CLI with Vite",
+  "description": "(@quasar/app-vite) How to upgrade Quasar CLI with Vite from older versions to the latest one.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide",
+  "source": "docs/src/pages/quasar-cli-vite/upgrade-guide.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

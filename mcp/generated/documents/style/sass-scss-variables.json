@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "style/sass-scss-variables",
+  "title": "Sass/SCSS Variables",
+  "description": "How to use the Sass/SCSS variables defined by Quasar.",
+  "canonicalUrl": "https://quasar.dev/style/sass-scss-variables",
+  "source": "docs/src/pages/style/sass-scss-variables/sass-scss-variables.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "style",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

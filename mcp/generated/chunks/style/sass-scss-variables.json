@@ -1,0 +1,68 @@
+[
+  {
+    "id": "style/sass-scss-variables#overview",
+    "documentId": "style/sass-scss-variables",
+    "heading": "Sass/SCSS Variables",
+    "breadcrumb": ["Sass/SCSS Variables"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/style/sass-scss-variables",
+    "content": "There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.\n\n::: warning\nThis applies to Quasar CLI managed apps only.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/sass-scss-variables#usage",
+    "documentId": "style/sass-scss-variables",
+    "heading": "Usage",
+    "breadcrumb": ["Usage", "Usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/sass-scss-variables#usage",
+    "content": "In your app's `*.vue` files or in the .sass/.scss files you can use any Quasar Sass/SCSS variables (examples: `$primary`, `$red-1`), and any other Sass/SCSS variables that you declared in your `/src/css/quasar.variables.sass` or the perfectly equivalent `/src/css/quasar.variables.scss` (depending on your favorite Sass flavour) when using Quasar CLI.\n\n```html\n<!-- Notice lang=\"sass\" -->\n<style lang=\"sass\">\n  div\n    color: $red-1\n    background-color: $grey-5\n</style>\n\n<!-- Notice lang=\"scss\" -->\n<style lang=\"scss\">\n  div {\n    color: $red-1;\n    background-color: $grey-5;\n  }\n</style>\n```\n\n::: tip\nYou don't need to necessarily have the `/src/css/quasar.variables.sass` or `/src/css/quasar.variables.scss` files if you want to access the Quasar Sass/SCSS variables. Create one of them only if you want to customize the variables.\n:::\n\n::: danger\nWhen creating or deleting any of the `/src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/sass-scss-variables#caveat",
+    "documentId": "style/sass-scss-variables",
+    "heading": "Caveat",
+    "breadcrumb": ["Caveat", "Caveat"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/sass-scss-variables#caveat",
+    "content": "Quasar CLI detects if the file contains at least one '$' character, and if so, it automatically imports the Quasar Sass/SCSS variables.\n\nIf, however, you have a nested importing statement and the file from which you are importing does not contain any '$' characters, this won't work. In this case, you need to add a simple comment (`// $`) so Quasar can detect at least one '$' character:\n\n```html\n<style lang=\"sass\">\n  // $\n\n  @import 'some-file.sass'\n  // now some-file.sass can benefit\n  // from Quasar Sass variables too\n  // due to comment above\n</style>\n```\n\nSame is required for .sass/.scss files that are included from quasar.config file > css.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/sass-scss-variables#customizing",
+    "documentId": "style/sass-scss-variables",
+    "heading": "Customizing",
+    "breadcrumb": ["Customizing", "Customizing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/sass-scss-variables#customizing",
+    "content": "If you want to customize the variables (or add your own) and your project does not yet have a `/src/css/quasar.variables.sass` (or `/src/css/quasar.variables.scss`) file, create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**\n\nYou can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.\n\nIf you want more than to override a Quasar Sass variable, but to extend one, you can achieve it in the next way:\n\n```scss\n@use 'quasar/src/css/variables' as q;\n@use 'sass:map';\n\n$space-xxl: (\n  x: 64px,\n  y: 64px\n);\n\n$new-spaces: (\n  xxl: $space-xxl\n);\n\n$spaces: map.merge(q.$spaces, $new-spaces);\n```\n\n::: tip\nQuasar is very easy to customize without the need of tampering with the Sass/SCSS variables, so make sure that you really need to do that. Not having one of the two files will actually speed up your build while the default variables will still be supplied to .sass/.scss/.vue files.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/sass-scss-variables#quasar-s-css",
+    "documentId": "style/sass-scss-variables",
+    "heading": "Quasar's CSS",
+    "breadcrumb": ["Quasar's CSS", "Quasar's CSS"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/sass-scss-variables#quasar-s-css",
+    "content": "Quasar's own CSS is compiled using the variables file (if it exists), but there are multiple forms (sass, scss). So there has to be a priority list for Quasar CLI:\n\n- Does `/src/css/quasar.variables.scss` exists? Use that.\n- If not, then does `/src/css/quasar.variables.sass` exists? Use that.\n- If not, then use pre-compiled Quasar CSS.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/sass-scss-variables#variables-list",
+    "documentId": "style/sass-scss-variables",
+    "heading": "Variables list",
+    "breadcrumb": ["Variables list", "Variables list"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/sass-scss-variables#variables-list",
+    "content": "<SassVariables />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

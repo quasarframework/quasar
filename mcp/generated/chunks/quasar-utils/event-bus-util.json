@@ -1,0 +1,46 @@
+[
+  {
+    "id": "quasar-utils/event-bus-util#overview",
+    "documentId": "quasar-utils/event-bus-util",
+    "heading": "EventBus Util",
+    "breadcrumb": ["EventBus Util"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/event-bus-util",
+    "content": "Quasar supplies a global EventBus, especially useful when upgrading from Quasar v1 where the native Vue 2 interface has been dropped.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/event-bus-util#methods",
+    "documentId": "quasar-utils/event-bus-util",
+    "heading": "Methods",
+    "breadcrumb": [null, "Methods", "Methods"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/event-bus-util#methods",
+    "content": "```ts\nclass EventBus {\n  on(event: string, callback: Function, ctx?: any): this\n  once(event: string, callback: Function, ctx?: any): this\n  emit(event: string, ...args: any[]): this\n  off(event: string, callback?: Function): this\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/event-bus-util#usage",
+    "documentId": "quasar-utils/event-bus-util",
+    "heading": "Usage",
+    "breadcrumb": [null, "Usage", "Usage"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/event-bus-util#usage",
+    "content": "```js\nimport { EventBus } from 'quasar'\n\nconst bus = new EventBus()\n\nbus.on('some-event', (arg1, arg2, arg3) => {\n  // do some work\n})\n\nbus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')\n```\n\nWhen using TypeScript the events can be strongly-typed:\n\n```ts Quasar v2.11.11+\nimport { EventBus } from 'quasar'\n\nconst bus = new EventBus<{\n  'some-event': (arg1: string, arg2: string, arg3: string) => void\n  other: (arg: boolean) => void\n}>()\n\nbus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/event-bus-util#convenience-usage",
+    "documentId": "quasar-utils/event-bus-util",
+    "heading": "Convenience usage",
+    "breadcrumb": [null, "Convenience usage", "Convenience usage"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/event-bus-util#convenience-usage",
+    "content": "Create a file in your app where you instantiate and export the new event bus then import and use it throughout your app.\n\nAlternatively, when on a Quasar CLI project, for your convenience (so NOT required) you can create a boot file and supply an event bus (make sure that you register it in quasar.config file > boot):\n\n```js A Quasar CLI boot file (let's say /src/boot/bus.js)\nimport { EventBus } from 'quasar'\nimport { defineBoot } from '#q-app'\n\nexport default defineBoot(({ app }) => {\n  const bus = new EventBus()\n\n  // for Options API\n  app.config.globalProperties.$bus = bus\n\n  // for Composition API\n  app.provide('bus', bus)\n})\n```\n\nThen, in any of your components, you can use:\n\n```js\n// Options API\nthis.$bus\n\n// Composition API\nimport { inject } from 'vue'\n\nconst bus = inject('bus') // inside setup()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -3,12 +3,10 @@
     "id": "vue-composables/use-timeout#overview",
     "documentId": "vue-composables/use-timeout",
     "heading": "useTimeout composable",
-    "breadcrumb": [
-      "useTimeout composable"
-    ],
+    "breadcrumb": ["useTimeout composable"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-timeout",
-    "content": "The `useTimeout()` composable is similar in scope with the native `setTimeout()`, with some key differences. Once you trigger a setTimeout(fn, delay) it will get executed after the specified delay no matter what. The useTimeout() on the other hand, can be \"cancelled\". You can also override the executing Function before the timeout expires.\n\nIn other words, if you want to schedule a function after a delay but you might want to override it or even cancel it before the delay happens, this is the composable for you.\n\nThe useTimeout composable also automatically cancels (if it was registered and still pending) when your component gets destroyed.",
+    "content": "The `useTimeout()` composable is similar in scope with the native `setTimeout()`, with some key differences. Once you trigger a setTimeout(fn, delay) it will get executed after the specified delay no matter what. The useTimeout() on the other hand, can be \"cancelled\". You can also override the executing Function before the timeout expires.\n\nIn other words, if you want to schedule a function after a delay but you might want to override it or even cancel it before the delay happens, this is the composable for you.\n\nThe useTimeout composable also automatically cancels (if it was registered and still pending) when your component gets destroyed.\n\n::: tip\nOn the server-side of SSR or SSG modes, registering a timeout is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.\n:::",
     "apiReferences": [],
     "exampleReferences": []
   },
@@ -16,10 +14,7 @@
     "id": "vue-composables/use-timeout#syntax",
     "documentId": "vue-composables/use-timeout",
     "heading": "Syntax",
-    "breadcrumb": [
-      "Syntax",
-      "Syntax"
-    ],
+    "breadcrumb": ["Syntax", "Syntax"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-timeout#syntax",
     "content": "```js\nimport { useTimeout } from 'quasar'\n\nsetup () {\n  const {\n    registerTimeout,\n    removeTimeout\n  } = useTimeout()\n\n  // ...\n}\n```\n\n```ts\nfunction useTimeout(): {\n  registerTimeout(fn: () => void, delay?: string | number): void\n  removeTimeout(): void\n}\n```",
@@ -30,10 +25,7 @@
     "id": "vue-composables/use-timeout#example",
     "documentId": "vue-composables/use-timeout",
     "heading": "Example",
-    "breadcrumb": [
-      "Example",
-      "Example"
-    ],
+    "breadcrumb": ["Example", "Example"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-timeout#example",
     "content": "```js\nimport { useTimeout } from 'quasar'\n\nsetup () {\n  const { registerTimeout } = useTimeout()\n\n  function onSomeEvent (param) {\n    registerTimeout(() => {\n      console.log('param is', param)\n    }, 2000) // in 2 seconds\n  }\n\n  // ...\n\n  // You can call onSomeEvent() multiple\n  // times in a row and only the last\n  // registered Function will run when it\n  // is time for it\n\n  // Note that the delay is reset each\n  // time you register/override the timeout\n}\n```\n\nShould you need more than one useTimeout() per component, simply rename the functions of the returned object:\n\n```js\nconst {\n  registerTimeout: registerFirstTimeout,\n  removeTimeout: removeFirstTimeout\n} = useTimeout()\n\nconst {\n  registerTimeout: registerSecondTimeout,\n  removeTimeout: removeSecondTimeout\n} = useTimeout()\n```",

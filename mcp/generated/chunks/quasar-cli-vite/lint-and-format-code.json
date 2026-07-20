@@ -1,0 +1,202 @@
+[
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#oxlint-oxfmt",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Oxlint + Oxfmt",
+    "breadcrumb": ["Oxlint + Oxfmt", "Oxlint + Oxfmt"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#oxlint-oxfmt",
+    "content": "[Oxlint](https://oxc.rs/docs/guide/usage/linter.html) and [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) are next-generation, Rust-based tools from the [Oxc](https://oxc.rs) (JavaScript Oxidation Compiler) ecosystem, designed to replace traditional JavaScript/TypeScript linters and formatters with a heavy emphasis on speed and developer experience.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#installation",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Installation",
+    "breadcrumb": ["Oxlint + Oxfmt", "Installation", "Installation"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#installation",
+    "content": "```tabs Javascript projects\n<<| bash PNPM |>>\npnpm add -D oxlint oxfmt\n<<| bash Yarn |>>\nyarn add -D oxlint oxfmt\n<<| bash NPM |>>\nnpm install -D oxlint oxfmt\n<<| bash Bun |>>\nbun add -D oxlint oxfmt\n```\n\n```tabs TypeScript projects\n<<| bash PNPM |>>\npnpm add -D oxlint oxfmt oxlint-tsgolint typescript vue-tsc\n<<| bash Yarn |>>\nyarn add -D oxlint oxfmt oxlint-tsgolint typescript vue-tsc\n<<| bash NPM |>>\nnpm install -D oxlint oxfmt oxlint-tsgolint typescript vue-tsc\n<<| bash Bun |>>\nbun add -D oxlint oxfmt oxlint-tsgolint typescript vue-tsc\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#package-json-scripts",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Package.json scripts",
+    "breadcrumb": [
+      "Oxlint + Oxfmt",
+      "Package.json scripts",
+      "Package.json scripts"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#package-json-scripts",
+    "content": "```json /package.json\n\"scripts\": {\n  \"lint\": \"oxfmt && oxlint --fix\",\n  \"lint:check\": \"oxfmt --check && oxlint\",\n  \"typecheck\": \"vue-tsc --noEmit\"\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#configuration-files",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Configuration files",
+    "breadcrumb": [
+      "Oxlint + Oxfmt",
+      "Configuration files",
+      "Configuration files"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#configuration-files",
+    "content": "Create the following files:\n\n```tabs oxlint configuration\n<<| json JS projects: /.oxlintrc.json |>>\n{\n  \"$schema\": \"./node_modules/oxlint/configuration_schema.json\",\n\n  \"ignorePatterns\": [\n    \"**/node_modules/\",\n    \"dist/\",\n    \"quasar.config.*.temporary.compiled*\",\n    \".quasar/\",\n    \"src-cordova/\",\n    \"src-capacitor/\"\n  ],\n\n  \"options\": {\n    \"maxWarnings\": 10\n  },\n\n  \"plugins\": [\"vue\", \"import\", \"eslint\", \"promise\", \"unicorn\"],\n\n  \"categories\": {\n    \"correctness\": \"error\"\n    // \"style\": \"error\",\n    // \"pedantic\": \"warn\",\n    // \"suspicious\": \"error\",\n    // \"perf\": \"error\",\n    // \"restriction\": \"error\"\n  },\n\n  \"rules\": {},\n\n  \"env\": {\n    \"builtin\": true\n  }\n}\n<<| ts TypeScript projects: /oxlint.config.ts |>>\nimport { defineConfig } from 'oxlint'\n\nexport default defineConfig({\n  $schema: './node_modules/oxlint/configuration_schema.json',\n\n  ignorePatterns: [\n    '**/node_modules/',\n    'dist/',\n    'quasar.config.*.temporary.compiled*',\n    '.quasar/',\n    'src-cordova/',\n    'src-capacitor/'\n  ],\n\n  options: {\n    typeAware: true,\n    typeCheck: true,\n    maxWarnings: 10\n  },\n\n  plugins: ['typescript', 'vue', 'import', 'eslint', 'promise', 'unicorn'],\n\n  categories: {\n    correctness: 'error'\n    // style: 'error',\n    // pedantic: 'warn',\n    // suspicious: 'error',\n    // perf: 'error',\n    // restriction: 'error'\n  },\n\n  rules: {},\n\n  env: {\n    builtin: true\n  }\n})\n```\n\n```tabs oxfmt configuration\n<<| json JS projects: /.oxfmtrc.json |>>\n{\n  \"$schema\": \"./node_modules/oxfmt/configuration_schema.json\",\n\n  \"ignorePatterns\": [\n    \"**/node_modules/\",\n    \"dist/\",\n    \"quasar.config.*.temporary.compiled*\",\n    \".quasar/\",\n    \"src-cordova/\",\n    \"src-capacitor/\"\n  ],\n\n  \"printWidth\": 80,\n  \"arrowParens\": \"avoid\",\n  \"bracketSpacing\": true,\n  \"bracketSameLine\": false,\n  \"htmlWhitespaceSensitivity\": \"strict\",\n  \"semi\": false,\n  \"singleQuote\": true,\n  \"quoteProps\": \"as-needed\",\n  \"trailingComma\": \"none\",\n  \"useTabs\": false,\n  \"vueIndentScriptAndStyle\": false\n}\n<<| ts TypeScript projects: /oxfmt.config.ts |>>\nimport { defineConfig } from 'oxfmt'\n\nexport default defineConfig({\n  $schema: './node_modules/oxfmt/configuration_schema.json',\n\n  ignorePatterns: [\n    '**/node_modules/',\n    'dist/',\n    'quasar.config.*.temporary.compiled*',\n    '.quasar/',\n    'src-cordova/',\n    'src-capacitor/'\n  ],\n\n  printWidth: 80,\n  arrowParens: 'avoid',\n  bracketSpacing: true,\n  bracketSameLine: false,\n  htmlWhitespaceSensitivity: 'strict',\n  semi: true,\n  singleQuote: false,\n  quoteProps: 'as-needed',\n  trailingComma: 'none',\n  useTabs: false,\n  vueIndentScriptAndStyle: false\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#vscode-configuration",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "VSCode configuration",
+    "breadcrumb": [
+      "Oxlint + Oxfmt",
+      "VSCode configuration",
+      "VSCode configuration"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#vscode-configuration",
+    "content": "```tabs /.vscode/settings.json\n<<| json Javascript |>>\n{\n  \"editor.codeActionsOnSave\": {\n    \"source.fixAll.oxc\": \"always\"\n  },\n  \"oxc.fmt.configPath\": \".oxfmtrc.json\",\n  \"editor.defaultFormatter\": \"oxc.oxc-vscode\",\n  \"editor.formatOnSave\": true\n}\n<<| json TypeScript |>>\n{\n  \"editor.codeActionsOnSave\": {\n    \"source.fixAll.oxc\": \"always\"\n  },\n  \"oxc.fmt.configPath\": \"oxfmt.config.ts\",\n  \"editor.defaultFormatter\": \"oxc.oxc-vscode\",\n  \"editor.formatOnSave\": true\n}\n```\n\nPlay nice with other devs using your project and recommend them to install the appropriate extension. And don't forget to install it yourself too:\n\n```json /.vscode/extensions.json\n{\n  \"recommendations\": [\"oxc.oxc-vscode\"]\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#eslint-prettier",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "ESLint + Prettier",
+    "breadcrumb": ["ESLint + Prettier", "ESLint + Prettier"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#eslint-prettier",
+    "content": "Having a code linter (like [ESLint v9+](https://eslint.org/)) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.\n\nWhen you scaffold a Quasar project folder it will ask you if you want ESLint (also prettier as a code formatter).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#needed-dependencies",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Needed dependencies",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "Javascript projects",
+      "Needed dependencies",
+      "Needed dependencies"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#needed-dependencies",
+    "content": "```tabs\n<<| bash PNPM |>>\npnpm add -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker\n<<| bash Yarn |>>\nyarn add -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker\n<<| bash NPM |>>\nnpm install -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker\n<<| bash Bun |>>\nbun add -D @eslint/js eslint@9 eslint-plugin-vue vue-eslint-parser globals vite-plugin-checker\n```\n\nIf you want `prettier` as a code formatter, then install these too:\n\n```tabs\n<<| bash PNPM |>>\npnpm add -D prettier@3 @vue/eslint-config-prettier\n<<| bash Yarn |>>\nyarn add -D prettier@3 @vue/eslint-config-prettier\n<<| bash NPM |>>\nnpm install -D prettier@3 @vue/eslint-config-prettier\n<<| bash Bun |>>\nbun add -D prettier@3 @vue/eslint-config-prettier\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#the-quasar-config-file-settings",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "The quasar.config file settings",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "Javascript projects",
+      "The quasar.config file settings",
+      "The quasar.config file settings"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#the-quasar-config-file-settings",
+    "content": "```js /quasar.config file\nbuild: {\n  vitePlugins: [\n    [\n      'vite-plugin-checker',\n      {\n        eslint: {\n          lintCommand:\n            'eslint -c ./eslint.config.js \"./src*/**/*.{js,mjs,cjs,vue}\"',\n          useFlatConfig: true\n        }\n      },\n      { server: false }\n    ]\n  ]\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#the-eslint-configuration",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "The ESLint configuration",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "Javascript projects",
+      "The ESLint configuration",
+      "The ESLint configuration"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#the-eslint-configuration",
+    "content": "```js /eslint.config.js\nimport js from '@eslint/js'\nimport globals from 'globals'\nimport pluginVue from 'eslint-plugin-vue'\nimport pluginQuasar from '@quasar/app-vite/eslint'\n\n// the following is optional, if you want prettier too:\nimport prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'\n\nexport default [\n  {\n    /**\n     * Ignore the following files.\n     * Please note that pluginQuasar.configs.recommended() already ignores\n     * the \"node_modules\" folder for you (and all other Quasar project\n     * relevant folders and files).\n     *\n     * ESLint requires \"ignores\" key to be the only one in this object\n     */\n    // ignores: []\n  },\n\n  ...pluginQuasar.configs.recommended(),\n  js.configs.recommended,\n\n  /**\n   * https://eslint.vuejs.org\n   *\n   * pluginVue.configs.base\n   *   -> Settings and rules to enable correct ESLint parsing.\n   * pluginVue.configs[ 'flat/essential']\n   *   -> base, plus rules to prevent errors or unintended behavior.\n   * pluginVue.configs[\"flat/strongly-recommended\"]\n   *   -> Above, plus rules to considerably improve code readability and/or dev experience.\n   * pluginVue.configs[\"flat/recommended\"]\n   *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.\n   */\n  ...pluginVue.configs['flat/essential'],\n\n  {\n    languageOptions: {\n      ecmaVersion: 'latest',\n      sourceType: 'module',\n\n      globals: {\n        ...globals.browser,\n        ...globals.node, // SSR, SSG, Electron, config files\n        ga: 'readonly', // Google Analytics\n        cordova: 'readonly',\n        Capacitor: 'readonly',\n        chrome: 'readonly', // BEX related\n        browser: 'readonly' // BEX related\n      }\n    },\n\n    // add your custom rules here\n    rules: {\n      'prefer-promise-reject-errors': 'off',\n\n      // allow debugger during development only\n      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'\n    }\n  },\n\n  {\n    files: ['src-pwa/sw/**/*.js'],\n    languageOptions: {\n      globals: {\n        ...globals.serviceworker\n      }\n    }\n  },\n\n  prettierSkipFormatting // optional, if you want prettier\n]\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#dependencies",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Dependencies",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "TypeScript projects",
+      "Dependencies",
+      "Dependencies"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#dependencies",
+    "content": "```tabs\n<<| bash PNPM |>>\npnpm add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker\n<<| bash Yarn |>>\nyarn add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker\n<<| bash NPM |>>\nnpm install -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker\n<<| bash Bun |>>\nbun add -D vue-tsc @vue/eslint-config-typescript @eslint/js eslint@9 eslint-plugin-vue globals vite-plugin-checker\n```\n\nIf you want `prettier` as a code formatter, then install these too:\n\n```tabs\n<<| bash PNPM |>>\npnpm add -D prettier@3 @vue/eslint-config-prettier\n<<| bash Yarn |>>\nyarn add -D prettier@3 @vue/eslint-config-prettier\n<<| bash NPM |>>\nnpm install -D prettier@3 @vue/eslint-config-prettier\n<<| bash Bun |>>\nbun add -D prettier@3 @vue/eslint-config-prettier\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#the-quasar-config-settings",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "The quasar.config settings",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "TypeScript projects",
+      "The quasar.config settings",
+      "The quasar.config settings"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#the-quasar-config-settings",
+    "content": "```js /quasar.config file\nbuild: {\n  vitePlugins: [\n    [\n      'vite-plugin-checker',\n      {\n        vueTsc: true,\n        eslint: {\n          lintCommand:\n            'eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,mjs,cjs,vue}\"',\n          useFlatConfig: true\n        }\n      },\n      { server: false }\n    ]\n  ]\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#eslint-configuration-file",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "ESLint configuration file",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "TypeScript projects",
+      "ESLint configuration file",
+      "ESLint configuration file"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#eslint-configuration-file",
+    "content": "```js /eslint.config.js\nimport js from '@eslint/js'\nimport globals from 'globals'\nimport pluginVue from 'eslint-plugin-vue'\nimport pluginQuasar from '@quasar/app-vite/eslint'\nimport {\n  defineConfigWithVueTs,\n  vueTsConfigs\n} from '@vue/eslint-config-typescript'\n\n// the following is optional, if you want prettier too:\nimport prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'\n\nexport default defineConfigWithVueTs(\n  {\n    /**\n     * Ignore the following files.\n     * Please note that pluginQuasar.configs.recommended() already ignores\n     * the \"node_modules\" folder for you (and all other Quasar project\n     * relevant folders and files).\n     *\n     * ESLint requires \"ignores\" key to be the only one in this object\n     */\n    // ignores: []\n  },\n\n  pluginQuasar.configs.recommended(),\n  js.configs.recommended,\n\n  /**\n   * https://eslint.vuejs.org\n   *\n   * pluginVue.configs.base\n   *   -> Settings and rules to enable correct ESLint parsing.\n   * pluginVue.configs[ 'flat/essential']\n   *   -> base, plus rules to prevent errors or unintended behavior.\n   * pluginVue.configs[\"flat/strongly-recommended\"]\n   *   -> Above, plus rules to considerably improve code readability and/or dev experience.\n   * pluginVue.configs[\"flat/recommended\"]\n   *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.\n   */\n  pluginVue.configs['flat/essential'],\n\n  {\n    files: ['**/*.ts', '**/*.vue'],\n    rules: {\n      '@typescript-eslint/consistent-type-imports': [\n        'error',\n        { prefer: 'type-imports' }\n      ]\n    }\n  },\n  vueTsConfigs.recommendedTypeChecked,\n\n  {\n    languageOptions: {\n      ecmaVersion: 'latest',\n      sourceType: 'module',\n\n      globals: {\n        ...globals.browser,\n        ...globals.node, // SSR, SSG, Electron, config files\n        process: 'readonly', // process.env.*\n        ga: 'readonly', // Google Analytics\n        cordova: 'readonly',\n        Capacitor: 'readonly',\n        chrome: 'readonly', // BEX related\n        browser: 'readonly' // BEX related\n      }\n    },\n\n    // add your custom rules here\n    rules: {\n      'prefer-promise-reject-errors': 'off',\n\n      // allow debugger during development only\n      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'\n    }\n  },\n\n  {\n    files: ['src-pwa/sw/**/*.ts'],\n    languageOptions: {\n      globals: {\n        ...globals.serviceworker\n      }\n    }\n  },\n\n  prettierSkipFormatting // optional, if you want prettier\n)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#performance-and-ignoring-files",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Performance and ignoring files",
+    "breadcrumb": [
+      "ESLint + Prettier",
+      "Performance and ignoring files",
+      "Performance and ignoring files"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#performance-and-ignoring-files",
+    "content": "::: warning\nPlease be sure to ignore unused files to increase performance. If you lint unused files/folders the UX will degrade significantly.\n:::\n\nYou can ignore files by editing your `/eslint.config.js` file:\n\n```js /eslint.config.js\nexport default [\n  {\n    /**\n     * Ignore the following files.\n     * Please note that pluginQuasar.configs.recommended() already ignores\n     * the \"node_modules\" folder for you (and all other Quasar project\n     * relevant folders and files).\n     *\n     * ESLint requires \"ignores\" key to be the only one in this object\n     */\n    ignores: [] // <<<---- here!\n  },\n```\n\nNotice that `pluginQuasar.configs.recommended()` from a few sections above will add the following to your ESLint `ignores` setting (no need to add them yourself too!):\n\n```js\n// not an exhaustive list auto-added to \"ignores\"\n;[\n  'dist/*',\n  'src-capacitor/*',\n  'src-cordova/*',\n  '.quasar/*',\n  'quasar.config.*.temporary.compiled*'\n]\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/lint-and-format-code#lint-rules",
+    "documentId": "quasar-cli-vite/lint-and-format-code",
+    "heading": "Lint Rules",
+    "breadcrumb": ["ESLint + Prettier", "Lint Rules", "Lint Rules"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lint-and-format-code#lint-rules",
+    "content": "The linting rules can be removed, changed, or added. Notice some things:\n\n- Some rules are standard ESLint ones. Example: 'brace-style'.\n- Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.\n\nYou can add/remove/change rules by first visiting [https://eslint.org/docs/rules/](https://eslint.org/docs/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "security/dos-and-donts",
+  "title": "Security DO's and DON'Ts",
+  "description": "The list of Quasar security recommendations.",
+  "canonicalUrl": "https://quasar.dev/security/dos-and-donts",
+  "source": "docs/src/pages/security/dos-and-donts.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "security",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

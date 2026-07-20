@@ -1,0 +1,35 @@
+[
+  {
+    "id": "meet-the-team#overview",
+    "documentId": "meet-the-team",
+    "heading": "Meet the Team",
+    "breadcrumb": ["Meet the Team"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/meet-the-team",
+    "content": "Hailing from all around the planet, the Quasar Team is not only international but full of people with a vast range of fields of expertise. From real rocket engineers to Fortune 500 developers, the unifying factor among us is our dedication to quality and the love for our community of contributors and developers.\n\nWith hundreds of contributors to Quasar, **the list of people you can meet below is by no means exhaustive**. Just remember to thank everyone using Quasar and supporting us, because together we all help you push your products light-years ahead of your competition. A great way to do that is to [donate](https://donate.quasar.dev).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "meet-the-team#core-team",
+    "documentId": "meet-the-team",
+    "heading": "Core Team",
+    "breadcrumb": [null, "Core Team", "Core Team"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/meet-the-team#core-team",
+    "content": "<div class=\"row items-stretch q-gutter-sm\">\n  <TeamMember\n    v-for=\"m in coreTeam\"\n    :key=\"m.name\"\n    :name=\"m.name\"\n    :role=\"m.role\"\n    :avatar=\"m.avatar\"\n    :email=\"m.email\"\n    :twitter=\"m.twitter\"\n    :github=\"m.github\"\n    :desc=\"m.desc\"\n  />\n</div>",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "meet-the-team#honorable-mentions",
+    "documentId": "meet-the-team",
+    "heading": "Honorable mentions",
+    "breadcrumb": [null, "Honorable mentions", "Honorable mentions"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/meet-the-team#honorable-mentions",
+    "content": "<div class=\"row items-stretch q-gutter-sm\">\n  <TeamMember\n    v-for=\"m in honorableTeamMentions\"\n    :key=\"m.name\"\n    :name=\"m.name\"\n    :role=\"m.role\"\n    :avatar=\"m.avatar\"\n    :email=\"m.email\"\n    :twitter=\"m.twitter\"\n    :github=\"m.github\"\n    :desc=\"m.desc\"\n  />\n</div>",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

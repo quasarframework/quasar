@@ -12,6 +12,7 @@
     "source",
     "sourceCommit",
     "products",
+    "area",
     "kinds",
     "apiReferences",
     "examples"
@@ -28,11 +29,12 @@
       "type": "object",
       "additionalProperties": { "type": "string", "minLength": 1 }
     },
+    "area": { "type": "string", "minLength": 1 },
     "kinds": {
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^(component|directive|plugin|composable)$"
+        "pattern": "^(component|directive|plugin|composable|guide)$"
       }
     },
     "apiReferences": {

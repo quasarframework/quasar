@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-cordova-apps/build-commands",
+  "title": "Cordova Build Commands",
+  "description": "(@quasar/app-vite) The Quasar CLI list of commands when developing or building a hybrid mobile app with Cordova.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/build-commands",
+  "source": "docs/src/pages/quasar-cli-vite/developing-cordova-apps/build-commands.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/cordova-apps",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

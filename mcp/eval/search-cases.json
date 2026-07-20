@@ -62,5 +62,94 @@
     "expected": "useHydration",
     "maxRank": 3
   },
-  { "query": "image lazy loading", "expected": "QImg", "maxRank": 5 }
+  { "query": "image lazy loading", "expected": "QImg", "maxRank": 5 },
+  {
+    "query": "generate static pages SSG renderer",
+    "expected": "Defining SSG Pages",
+    "areas": ["quasar-cli-vite/ssg"],
+    "maxRank": 3
+  },
+  {
+    "query": "hybrid SSR partial CSR routes",
+    "expected": "Hybrid SSR with partial CSR",
+    "areas": ["quasar-cli-vite/ssr"],
+    "maxRank": 3
+  },
+  {
+    "query": "PWA service worker Workbox",
+    "expected": "Service Worker",
+    "areas": ["quasar-cli-vite/pwa"],
+    "maxRank": 3
+  },
+  {
+    "query": "Capacitor upgrade version",
+    "expected": "Capacitor versions",
+    "areas": ["quasar-cli-vite/capacitor-apps"],
+    "maxRank": 3
+  },
+  {
+    "query": "Cordova troubleshooting build",
+    "expected": "Cordova Build Commands",
+    "areas": ["quasar-cli-vite/cordova-apps"],
+    "maxRank": 3
+  },
+  {
+    "query": "Electron preload process security",
+    "expected": "Electron Preload Script",
+    "areas": ["quasar-cli-vite/electron-apps"],
+    "maxRank": 3
+  },
+  {
+    "query": "browser extension BEX manifest",
+    "expected": "Manifest.json",
+    "areas": ["quasar-cli-vite/browser-extensions"],
+    "maxRank": 3
+  },
+  {
+    "query": "App Extension install API",
+    "expected": "App Extension Install API",
+    "areas": ["app-extensions"],
+    "maxRank": 3
+  },
+  {
+    "query": "Icon Genie generate app icons",
+    "expected": "Icon Genie CLI",
+    "maxRank": 5
+  },
+  {
+    "query": "deploy SSG static hosting",
+    "expected": "Static Host Checklist",
+    "areas": ["quasar-cli-vite/ssg"],
+    "maxRank": 3
+  },
+  {
+    "query": "SSR webserver middleware",
+    "expected": "SSR Middleware",
+    "areas": ["quasar-cli-vite/ssr"],
+    "maxRank": 3
+  },
+  {
+    "query": "filename based routing",
+    "expected": "Filename-Based Routing",
+    "areas": ["quasar-cli-vite"],
+    "maxRank": 3
+  },
+  {
+    "query": "quasar config environment variables",
+    "expected": "Adding to import.meta.env",
+    "areas": ["quasar-cli-vite"],
+    "maxRank": 5
+  },
+  {
+    "query": "SPA history mode deployment",
+    "expected": "General deployment",
+    "areas": ["quasar-cli-vite/spa"],
+    "maxRank": 3
+  },
+  {
+    "query": "PWA takeover SSG",
+    "expected": "SSG with PWA Client Takeover",
+    "areas": ["quasar-cli-vite/ssg"],
+    "maxRank": 3
+  }
 ]

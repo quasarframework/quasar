@@ -1,0 +1,162 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#overview",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Electron Security Concerns",
+    "breadcrumb": ["Electron Security Concerns"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "content": "Electron applications combine web content with native desktop capabilities. A renderer vulnerability such as cross-site scripting can therefore have more serious consequences than the same vulnerability in a normal browser.\n\nStart with Electron's current [security checklist](https://www.electronjs.org/docs/latest/tutorial/security) and reassess it whenever Electron is upgraded or the application begins loading new content.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#keep-the-renderer-isolated",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Keep the renderer isolated",
+    "breadcrumb": ["Keep the renderer isolated", "Keep the renderer isolated"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#keep-the-renderer-isolated",
+    "content": "Follow Electron's complete [security checklist](https://www.electronjs.org/docs/latest/tutorial/security). In particular:\n\n1. Keep Electron current so your application receives Chromium, Node.js, and Electron security fixes.\n2. Load packaged local content whenever possible. If remote content is unavoidable, use secure transport and never enable Node.js integration for it.\n3. Keep `contextIsolation` and renderer sandboxing enabled. Use a [preload script](/quasar-cli-vite/developing-electron-apps/electron-preload-script) to expose narrow, task-specific functions rather than raw Electron or Node.js APIs.\n4. Define a restrictive Content Security Policy. Do not disable `webSecurity`, enable `allowRunningInsecureContent`, or enable unnecessary experimental/Blink features.\n5. Handle permission requests explicitly and deny permissions your application does not require.\n6. Restrict navigation and new-window creation. Validate URLs before passing them to `shell.openExternal`.\n7. Validate the sender of every IPC message before performing privileged work. Never expose unrestricted `ipcRenderer.send`, `ipcRenderer.invoke`, filesystem, shell, or process APIs to renderer code.\n8. Avoid `<webview>` where possible. If it is required, verify its options and do not enable popups.\n9. Prefer a custom protocol over `file://` for packaged content when your application requires a stronger origin model.\n10. Review Electron fuses before distribution to disable capabilities your application does not use.\n\nQuasar's generated `BrowserWindow` keeps `contextIsolation` enabled. Current Electron versions also sandbox renderers by default and disable Node.js integration by default. Preserve those defaults:\n\n```js /src-electron/electron-main\nconst mainWindow = new BrowserWindow({\n  webPreferences: {\n    contextIsolation: true,\n    sandbox: true,\n    nodeIntegration: false,\n    preload: path.join(import.meta.dirname, 'electron-preload.cjs')\n  }\n})\n```\n\nDo not disable `webSecurity` or enable `allowRunningInsecureContent`, experimental Blink features, or Node.js integration to work around an application problem.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#expose-narrow-preload-apis",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Expose narrow preload APIs",
+    "breadcrumb": ["Expose narrow preload APIs", "Expose narrow preload APIs"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#expose-narrow-preload-apis",
+    "content": "Using `contextBridge` does not make an API safe by itself. Do not expose `ipcRenderer`, Node.js modules, or generic send/invoke methods to the renderer:\n\n```js /src-electron/electron-preload\n// Bad: renderer code can invoke arbitrary channels\ncontextBridge.exposeInMainWorld('electronAPI', {\n  invoke: ipcRenderer.invoke\n})\n\n// Good: one operation with a fixed channel\ncontextBridge.exposeInMainWorld('preferencesAPI', {\n  load: () => ipcRenderer.invoke('preferences:load')\n})\n```\n\nValidate arguments in the main process and validate the sender of every IPC request before returning data or performing privileged work. Do not send Electron event objects back across the bridge.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#control-navigation-and-new-windows",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Control navigation and new windows",
+    "breadcrumb": [
+      "Control navigation and new windows",
+      "Control navigation and new windows"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#control-navigation-and-new-windows",
+    "content": "An Electron window should not navigate to arbitrary content. Limit navigation and new-window creation to an explicit allowlist, and validate a URL before passing it to `shell.openExternal`:\n\n```js /src-electron/electron-main\nmainWindow.webContents.on('will-navigate', event => {\n  event.preventDefault()\n})\n\nmainWindow.webContents.setWindowOpenHandler(({ url }) => {\n  const parsed = new URL(url)\n\n  if (parsed.protocol === 'https:' && parsed.hostname === 'example.com') {\n    void shell.openExternal(parsed.href)\n  }\n\n  return { action: 'deny' }\n})\n```\n\nIf your application must display remote content, use HTTPS, keep Node.js integration disabled, keep context isolation and sandboxing enabled, restrict permissions with `session.setPermissionRequestHandler()`, and isolate that content from privileged local windows.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#define-a-content-security-policy",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Define a Content Security Policy",
+    "breadcrumb": [
+      "Define a Content Security Policy",
+      "Define a Content Security Policy"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#define-a-content-security-policy",
+    "content": "Use a restrictive Content Security Policy in `/index.html`. Add only the origins and directives the application actually requires:\n\n```html /index.html\n<meta\n  http-equiv=\"Content-Security-Policy\"\n  content=\"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'\"\n/>\n```\n\nDevelopment may require additional `connect-src` entries for the Quasar development server and WebSocket connection. Do not carry broad development exceptions into production.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#store-files-in-appropriate-locations",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Store files in appropriate locations",
+    "breadcrumb": [
+      "Store files in appropriate locations",
+      "Store files in appropriate locations"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#store-files-in-appropriate-locations",
+    "content": "Treat application resources as read-only after packaging. Store mutable application data under a path returned by Electron's `app.getPath()`, commonly `userData`, and perform filesystem operations in the main process. Validate paths and input received over IPC to prevent a renderer from reading or overwriting arbitrary files.\n\nUse the operating system's credential storage or a well-reviewed secure-storage solution for secrets. Checksums detect accidental corruption but do not establish who published an artifact; use code signing for authenticity.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#ship-and-maintain-trusted-builds",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Ship and maintain trusted builds",
+    "breadcrumb": [
+      "Ship and maintain trusted builds",
+      "Ship and maintain trusted builds"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#ship-and-maintain-trusted-builds",
+    "content": "- Keep Electron and production dependencies on supported, patched versions.\n- Lock and review dependency changes, and run the package manager's audit tooling in CI.\n- Sign distributed Windows and macOS builds; notarize macOS releases where required.\n- Deliver updates through HTTPS and verify signed update artifacts.\n- Consider disabling unused [Electron fuses](https://www.electronjs.org/docs/latest/tutorial/fuses) during packaging.\n\nSee Electron's [code-signing guide](https://www.electronjs.org/docs/latest/tutorial/code-signing) and the selected packager's signing configuration for platform-specific requirements.\n\n::: warning\nHiding DevTools is not a security boundary. Assume users can inspect and modify renderer code and keep all privileged authorization and validation in the main process.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#publish-checksums",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Publish checksums",
+    "breadcrumb": [
+      "Ship and maintain trusted builds",
+      "Publish checksums",
+      "Publish checksums"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#publish-checksums",
+    "content": "When you publish application binaries, publish their cryptographic checksums through a trusted channel so users can verify downloaded files.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#audit-dependencies",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Audit dependencies",
+    "breadcrumb": [
+      "Ship and maintain trusted builds",
+      "Audit dependencies",
+      "Audit dependencies"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#audit-dependencies",
+    "content": "Use your package manager's audit tooling and an automated dependency scanner. Review reported vulnerabilities in the context of your application, update affected packages, and keep the lockfile under version control.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#harden-the-build",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Harden the build",
+    "breadcrumb": [
+      "Ship and maintain trusted builds",
+      "Harden the build",
+      "Harden the build"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#harden-the-build",
+    "content": "Protect release credentials, pin dependencies through the lockfile, review dependency changes, and produce releases from a controlled build environment.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#pay-to-get-hacked",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Pay to get hacked",
+    "breadcrumb": [
+      "Ship and maintain trusted builds",
+      "Pay to get hacked",
+      "Pay to get hacked"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#pay-to-get-hacked",
+    "content": "Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns#get-help",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+    "heading": "Get help",
+    "breadcrumb": ["Ship and maintain trusted builds", "Get help", "Get help"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-security-concerns#get-help",
+    "content": "You may feel overwhelmed, because the awesomeness of Electron brings with it a great many headaches that you never wanted to think about. If this is the case, consider [reaching out](mailto:razvan.stoenescu@gmail.com) and getting expert support for the review, audit and hardening of your app by the team of seasoned devs that brought you the Quasar Framework.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

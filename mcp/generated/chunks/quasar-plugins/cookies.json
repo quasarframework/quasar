@@ -3,28 +3,21 @@
     "id": "quasar-plugins/cookies#overview",
     "documentId": "quasar-plugins/cookies",
     "heading": "Cookies",
-    "breadcrumb": [
-      "Cookies"
-    ],
+    "breadcrumb": ["Cookies"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies",
-    "content": "This is a wrapper over the standardized `document.cookie`.\n\n::: tip NOTE\nIn addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.\n:::\n\nAPI reference: Cookies\n\n::: tip\nWith Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.\n:::\n\n<DocInstall plugins=\"Cookies\" />",
-    "apiReferences": [
-      "Cookies"
-    ],
+    "content": "This is a wrapper over the standardized `document.cookie`.\n\n::: tip NOTE\nIn addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.\n:::\n\nAPI reference: Cookies\n\n::: tip\nWith Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.\n:::\n\n**Configuration:** register Cookies through `framework.plugins` in `quasar.config`.",
+    "apiReferences": ["Cookies"],
     "exampleReferences": []
   },
   {
-    "id": "quasar-plugins/cookies#notes-on-ssr",
+    "id": "quasar-plugins/cookies#notes-on-ssr-ssg",
     "documentId": "quasar-plugins/cookies",
-    "heading": "Notes on SSR",
-    "breadcrumb": [
-      "Notes on SSR",
-      "Notes on SSR"
-    ],
+    "heading": "Notes on SSR/SSG",
+    "breadcrumb": ["Notes on SSR/SSG", "Notes on SSR/SSG"],
     "level": 2,
-    "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#notes-on-ssr",
-    "content": "When building for SSR, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:\n\n```js\nimport { Cookies } from 'quasar'\n\n// you need access to `ssrContext`\nfunction (ssrContext) {\n  const cookies = import.meta.env.QUASAR_SERVER\n    ? Cookies.parseSSR(ssrContext)\n    : Cookies // otherwise we're on client\n\n  // \"cookies\" is equivalent to the global import as in non-SSR builds\n}\n```\n\nThe `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). And also in the [@quasar/app-vite preFetch](/quasar-cli-vite/prefetch-feature) feature, where it is supplied as a parameter.\n\nThe reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.",
+    "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#notes-on-ssr-ssg",
+    "content": "When building for SSR/SSG, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:\n\n```js\nimport { Cookies } from 'quasar'\n\n// you need access to `ssrContext`\nfunction (ssrContext) {\n  const cookies = import.meta.env.QUASAR_SERVER\n    ? Cookies.parseSSR(ssrContext)\n    : Cookies // otherwise we're on client\n\n  // \"cookies\" is equivalent to the global import as in non-SSR/SSG builds\n}\n```\n\nThe `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). And also in the [@quasar/app-vite preFetch](/quasar-cli-vite/prefetch-feature) feature, where it is supplied as a parameter.\n\nThe reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.",
     "apiReferences": [],
     "exampleReferences": []
   },
@@ -32,10 +25,7 @@
     "id": "quasar-plugins/cookies#read-a-cookie",
     "documentId": "quasar-plugins/cookies",
     "heading": "Read a Cookie",
-    "breadcrumb": [
-      "Read a Cookie",
-      "Read a Cookie"
-    ],
+    "breadcrumb": ["Read a Cookie", "Read a Cookie"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#read-a-cookie",
     "content": "```js Outside of a Vue file\nimport { Cookies } from 'quasar'\nconst value = Cookies.get('cookie_name')\n```\n\nWhen cookie is not set, the return value is `null`.\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  const value = $q.cookies.get('cookie_name')\n}\n```",
@@ -46,10 +36,7 @@
     "id": "quasar-plugins/cookies#read-all-cookies",
     "documentId": "quasar-plugins/cookies",
     "heading": "Read All Cookies",
-    "breadcrumb": [
-      "Read All Cookies",
-      "Read All Cookies"
-    ],
+    "breadcrumb": ["Read All Cookies", "Read All Cookies"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#read-all-cookies",
     "content": "```js Outside of a Vue file\nimport { Cookies } from 'quasar'\nconst cookies = Cookies.getAll()\n```\n\n`cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  const allCookies = $q.cookies.getAll()\n}\n```",
@@ -60,10 +47,7 @@
     "id": "quasar-plugins/cookies#verify-if-cookie-is-set",
     "documentId": "quasar-plugins/cookies",
     "heading": "Verify if Cookie is Set",
-    "breadcrumb": [
-      "Verify if Cookie is Set",
-      "Verify if Cookie is Set"
-    ],
+    "breadcrumb": ["Verify if Cookie is Set", "Verify if Cookie is Set"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#verify-if-cookie-is-set",
     "content": "```js Outside of a Vue file\nimport { Cookies } from 'quasar'\nCookies.has('cookie_name') // Boolean\n```\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  const hasIt = $q.cookies.has('cookie_name')\n}\n```",
@@ -74,10 +58,7 @@
     "id": "quasar-plugins/cookies#write-a-cookie",
     "documentId": "quasar-plugins/cookies",
     "heading": "Write a Cookie",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Write a Cookie"
-    ],
+    "breadcrumb": ["Write a Cookie", "Write a Cookie"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#write-a-cookie",
     "content": "```js Outside of a Vue file\nimport { Cookies } from 'quasar'\n\nCookies.set('cookie_name', cookie_value)\n\n// or pass in options also:\nCookies.set('cookie_name', cookie_value, options)\n```\n\n```js Outside of a Vue file\nimport { Cookies } from 'quasar'\n\nCookies.set('quasar', 'framework', {\n  secure: true\n})\n```\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.cookies.set('cookie_name', cookie_value)\n  // or pass in options also:\n  $q.cookies.set('cookie_name', cookie_value, options)\n}\n```\n\nThe (optional) `options` parameter is an Object which is explained below, property by property.",
@@ -88,11 +69,7 @@
     "id": "quasar-plugins/cookies#option-expires",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: expires",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: expires",
-      "Option: expires"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: expires", "Option: expires"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-expires",
     "content": "```js\nexpires: 10 // in 10 days\nexpires: -1 // yesterday\nexpires: 'Mon, 06 Jan 2020 12:52:55 GMT'\nexpires: new Date() // some JS Date Object\nexpires: '1d 3h 5m' // in 1 day, 3 hours, 5 minutes\nexpires: '2d' // in 2 days\nexpires: '15m 10s' // in 15 minutes, 10 seconds\n```\n\nDefine lifetime of the cookie. Value can be a Number which will be interpreted as days from time of creation or a Date object or a raw stringified Date (\"Mon, 06 Jan 2020 12:52:55 GMT\") or a special string format (\"1d\", \"15m\", \"13d\", \"1d 15m\", \"1d 3h 5m 3s\"). If omitted, the cookie becomes a session cookie.",
@@ -103,11 +80,7 @@
     "id": "quasar-plugins/cookies#option-path",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: path",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: path",
-      "Option: path"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: path", "Option: path"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-path",
     "content": "```js\npath: '/'\n```\n\nDefine the path where the cookie is valid. By default the path of the cookie is the path of the page where the cookie was created (standard browser behavior). If you want to make it available for instance across the entire domain use path: '/'. Default: path of page where the cookie was created.",
@@ -118,11 +91,7 @@
     "id": "quasar-plugins/cookies#option-domain",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: domain",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: domain",
-      "Option: domain"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: domain", "Option: domain"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-domain",
     "content": "```js\ndomain: 'quasar.dev'\n```\n\nDefine the domain where the cookie is valid. Default: domain of page where the cookie was created.",
@@ -133,11 +102,7 @@
     "id": "quasar-plugins/cookies#option-samesite",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: sameSite",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: sameSite",
-      "Option: sameSite"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: sameSite", "Option: sameSite"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-samesite",
     "content": "```js\nsameSite: 'Strict'\n// or\nsameSite: 'Lax'\n```\n\nSameSite cookies let servers require that a cookie shouldn't be sent with cross-site (where Site is defined by the registrable domain) requests, which provides some protection against cross-site request forgery attacks (CSRF).\n\n**Strict** - If a same-site cookie has this attribute, the browser will only send cookies if the request originated from the website that set the cookie. If the request originated from a different URL than the URL of the current location, none of the cookies tagged with the Strict attribute will be included.\n\n**Lax** - If the attribute is set to Lax, same-site cookies are withheld on cross-site subrequests, such as calls to load images or frames, but will be sent when a user navigates to the URL from an external site, for example, by following a link.\n\nFor more information on the `same-site` setting, go [here](https://web.dev/samesite-cookies-explained/).",
@@ -148,11 +113,7 @@
     "id": "quasar-plugins/cookies#option-httponly",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: httpOnly",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: httpOnly",
-      "Option: httpOnly"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: httpOnly", "Option: httpOnly"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-httponly",
     "content": "```js\nhttpOnly: true\n```\n\nTo help mitigate cross-site scripting (XSS) attacks, HttpOnly cookies are inaccessible to JavaScript's Document.cookie API; they are only sent to the server. For example, cookies that persist server-side sessions don't need to be available to JavaScript, and the HttpOnly flag should be set.",
@@ -163,11 +124,7 @@
     "id": "quasar-plugins/cookies#option-secure",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: secure",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: secure",
-      "Option: secure"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: secure", "Option: secure"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-secure",
     "content": "```js\nsecure: true\n```\n\nIf true, the cookie transmission requires a secure protocol (HTTPS) and will NOT be sent over HTTP. Default value is `false`.\n\n::: tip\nIf using Quasar CLI and on dev mode, you can enable HTTPS through quasar.config file > devServer > https: true.\n:::",
@@ -178,11 +135,7 @@
     "id": "quasar-plugins/cookies#option-other",
     "documentId": "quasar-plugins/cookies",
     "heading": "Option: other",
-    "breadcrumb": [
-      "Write a Cookie",
-      "Option: other",
-      "Option: other"
-    ],
+    "breadcrumb": ["Write a Cookie", "Option: other", "Option: other"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#option-other",
     "content": "```js\nother: 'SomeNewProp'\n```\n\nRaw string for other cookie options. To be used as a last resort for possible newer props that are currently not yet implemented in Quasar.",
@@ -193,10 +146,7 @@
     "id": "quasar-plugins/cookies#remove-a-cookie",
     "documentId": "quasar-plugins/cookies",
     "heading": "Remove a Cookie",
-    "breadcrumb": [
-      "Remove a Cookie",
-      "Remove a Cookie"
-    ],
+    "breadcrumb": ["Remove a Cookie", "Remove a Cookie"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/cookies#remove-a-cookie",
     "content": "```js Outside of a Vue file\nimport { Cookies } from 'quasar'\n\nCookies.remove('cookie_name')\n\n// if cookie was set with specific options like path and/or domain\n// then you need to also supply them when removing:\nCookies.remove('cookie_name', options)\n```\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.cookies.remove('cookie_name')\n\n  // if cookie was set with specific options like path and/or domain\n  // then you need to also supply them when removing:\n  $q.cookies.remove('cookie_name', options)\n}\n```\n\n::: warning\nWhen a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.\n:::",

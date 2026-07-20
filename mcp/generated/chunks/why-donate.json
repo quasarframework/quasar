@@ -1,0 +1,80 @@
+[
+  {
+    "id": "why-donate#overview",
+    "documentId": "why-donate",
+    "heading": "Why Donate?",
+    "breadcrumb": ["Why Donate?"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/why-donate",
+    "content": "Quasar Framework is an MIT-licensed open-source project maintained by Razvan Stoenescu along with his Team and a community of open source contributors. We work on behalf of the community to create new features, fix bugs, and maintain Quasar so you can get on with your own development projects. We’re working to shape the future of the Vue.js ecosystem to write code once and simultaneously deploy it as a website (SPA/PWA/SSR/SSG), a Mobile App and/or an Electron App.\n\nLike most open source products, Quasar can't do it alone. We rely on _sponsors, backers and supporters_ to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "why-donate#our-manifesto",
+    "documentId": "why-donate",
+    "heading": "Our Manifesto",
+    "breadcrumb": ["Our Manifesto", "Our Manifesto"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/why-donate#our-manifesto",
+    "content": "The dream of open source is a noble cause, where communities grow and code is nurtured. In line with the philosophy of Free Open Source, Quasar has committed itself to the tenets of Good Labs' [![Greater-Good Affirmation](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation).\n\nQuasar is and always will be free and open source, a self-managed place where everyone who abides by the community rules is invited and encouraged to participate.\n\n![What do we sustain](/img/what-do-we-sustain.png)",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "why-donate#participation-is-a-form-of-collaborative-appreciation",
+    "documentId": "why-donate",
+    "heading": "Participation is a Form of Collaborative Appreciation",
+    "breadcrumb": [
+      "Our Manifesto",
+      "Participation is a Form of Collaborative Appreciation",
+      "Participation is a Form of Collaborative Appreciation"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/why-donate#participation-is-a-form-of-collaborative-appreciation",
+    "content": "Many open source projects, like the Quasar Framework and Vue.js, have been developed by people who work on behalf of **their** community on their own time, with no demand for financial compensation. This \"code ownership\" is actually a very important issue because the owners decide how things are to be further developed.\n\nSo who are these people? They are people, like you, in need of a certain feature and have found an open source solution, like Quasar. They are people who use the software and decided to contribute by helping to improve it.\n\nPossibly they are passionate about coding and want a project to occupy their talents. There are many reasons to get involved in a community around an open source project. But the majority have one thing in common:\n\n> They find free time in their busy schedules of jobs, families and commitments in order to participate because it makes them feel good to be part of something bigger than any one individual.\n\nTo give you a bit of perspective, the lead developer and core-maintainer of Quasar, [Razvan Stoenescu](https://github.com/rstoenescu), has spent over 2000 hours during the development phases between 1.0.0-alpha.1 and 1.0.0-rc.1, during which time he logged more than 2000 commits and half of a million lines of code added.\n\nThe rest of the team and all of the staff working the chat support lines and fixing code are still (as of June 2019) unpaid volunteers working uncountable hours. They are slowly becoming more and more responsible for units of the project and are an invaluable resource for the community that we must safeguard.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "why-donate#financial-sponsorship-to-guarantee-maintenance",
+    "documentId": "why-donate",
+    "heading": "Financial Sponsorship to Guarantee Maintenance",
+    "breadcrumb": [
+      "Our Manifesto",
+      "Financial Sponsorship to Guarantee Maintenance",
+      "Financial Sponsorship to Guarantee Maintenance"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/why-donate#financial-sponsorship-to-guarantee-maintenance",
+    "content": "Nothing is certain, other than the fact that `node_modules` is still the heaviest thing in the universe and that at a certain point regular financial support of some kind is needed in order to guarantee the maintenance of large open-source projects. [Reference](https://github.com/sfosc/sfosc/issues/65#issuecomment-491770533).\n\nThat point in time for Quasar is right now and your support will make the difference.\n\n![Sustain with money](/img/sustain-people-code.png)\n\nIf your business relies on open source you can hedge the risk of it disappearing by financially supporting it so that you can rest assured that the software will continue to be available for you.\n\nAs opposed to long-term licensing contracts for proprietary software, this model works because you encourage innovation, help to develop the next generation of developers and are implicitly empowered to participate in the discussion about features you need and issues you have found.\n\nIf open source becomes financially viable for those developing the projects, more people will get involved. If these developers are able to earn enough to support themselves, they are more likely to stay involved.\n\n> Financial sustenance of open-source literally means that those who develop the project have an additional reason to stick around.\n\nMany promising open source projects become \"abandonware\" because the original developers ran out of steam. The maintenance phase is actually where many open-source projects go to die. Money is a great type of community feedback that says \"Stick with it and continue to maintain this project! We need you!!!\"",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "why-donate#what-you-get-out-of-it",
+    "documentId": "why-donate",
+    "heading": "What You Get Out of It",
+    "breadcrumb": [
+      "Our Manifesto",
+      "What You Get Out of It",
+      "What You Get Out of It"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/why-donate#what-you-get-out-of-it",
+    "content": "If you support open source, you become part of the community. It is a large community, but tends to be tightly knit. Your support shows you believe in the community, and that makes you a part of the family. If enough financial support comes together, it can also mean that core developers and maintainers are able to work on the project full-time rather than needing a job elsewhere. This in turn fosters an environment where they are able to process fixes and requests faster than if they were working on a “hobby” basis.\n\nSo maybe you are a business who uses open source software to give themselves a competitive advantage, improve profits, or simply solve a problem other software doesn’t cover. Perhaps you’re an individual who uses an open source solution to the expensive corporate software you just can’t afford. Like [this](https://quasarframework.github.io/quasar-ui-qcalendar/docs).\n\nOr you recognize that the millions of lines of code are lines you don't have to write and are simply appreciative of the effort.\n\nWhatever you use open source software for, think of those people who have spent long hours developing it and keeping it running for you.\n\nEven a small donation could mean a huge difference to them, not least because it means someone out there appreciates them enough to let them know.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "why-donate#donating",
+    "documentId": "why-donate",
+    "heading": "Donating",
+    "breadcrumb": ["Donating", "Donating"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/why-donate#donating",
+    "content": "You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.\n\nDonating through the **GitHub Sponsorship is recommended** because GitHub will also match your donation (making it worth double your amount).\n\n\n\n<DonatingButtons />\n\nAll donations are used for Quasar Development purposes exclusively.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

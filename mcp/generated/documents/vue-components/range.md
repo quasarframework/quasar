@@ -32,7 +32,7 @@ You are responsible for accommodating the space around QRange so that the label 
 
 Source: [Standard.vue](../../examples/QRange/Standard.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary">
@@ -52,7 +52,7 @@ const standard = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### Vertical
 
@@ -60,7 +60,7 @@ const standard = ref({
 
 Source: [Vertical.vue](../../examples/QRange/Vertical.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary">
@@ -97,7 +97,7 @@ const standard = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### With inner min/max <q-badge label="v2.4+" />
 
@@ -107,7 +107,7 @@ Sometimes you need to restrict the model value to an interval inside of the trac
 
 Source: [InnerMinMax.vue](../../examples/QRange/InnerMinMax.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary">
@@ -141,7 +141,7 @@ const model = ref({
   max: 25
 })
 </script>
-````
+```
 
 ### With step
 
@@ -149,7 +149,7 @@ const model = ref({
 
 Source: [Step.vue](../../examples/QRange/Step.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary">
@@ -175,7 +175,7 @@ const step = ref({
   max: 20
 })
 </script>
-````
+```
 
 The `step` property can also be a floating point number (or numeric `0` if you need infinite precision).
 
@@ -183,7 +183,7 @@ The `step` property can also be a floating point number (or numeric `0` if you n
 
 Source: [FloatingPoint.vue](../../examples/QRange/FloatingPoint.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary">
@@ -225,13 +225,13 @@ const zeroPrecision = ref({
   max: 0.7
 })
 </script>
-````
+```
 
 **Example: Snaps to steps**
 
 Source: [Snap.vue](../../examples/QRange/Snap.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -250,7 +250,7 @@ const snap = ref({
   max: 12
 })
 </script>
-````
+```
 
 ### With label
 
@@ -260,7 +260,7 @@ In the example below, move the slider to see the label.
 
 Source: [Label.vue](../../examples/QRange/Label.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -286,13 +286,13 @@ const label = ref({
   max: 8
 })
 </script>
-````
+```
 
 **Example: Always display label**
 
 Source: [LabelAlways.vue](../../examples/QRange/LabelAlways.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -318,13 +318,13 @@ const label = ref({
   max: 8
 })
 </script>
-````
+```
 
 **Example: Custom label values**
 
 Source: [LabelValue.vue](../../examples/QRange/LabelValue.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-pb-lg">
     <q-badge color="secondary" class="q-mb-sm">
@@ -353,7 +353,7 @@ const model = ref({
   max: 8
 })
 </script>
-````
+```
 
 The example below is better highlighting how QRange handles label positioning so that it always stays inside the QRange's box horizontally.
 
@@ -361,7 +361,7 @@ The example below is better highlighting how QRange handles label positioning so
 
 Source: [LabelLong.vue](../../examples/QRange/LabelLong.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-range
@@ -386,7 +386,7 @@ const model = ref({
   max: 16
 })
 </script>
-````
+```
 
 ### Markers
 
@@ -394,7 +394,7 @@ const model = ref({
 
 Source: [Markers.vue](../../examples/QRange/Markers.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -450,7 +450,7 @@ const orangeModel = ref({
   max: 10
 })
 </script>
-````
+```
 
 ### Marker labels <q-badge label="v2.4+" />
 
@@ -458,7 +458,7 @@ const orangeModel = ref({
 
 Source: [MarkerLabels.vue](../../examples/QRange/MarkerLabels.vue)
 
-````vue
+```vue
 <template>
   <div class="q-px-lg q-pt-md q-pb-xl">
     <q-range v-model="model" marker-labels :min="0" :max="6" />
@@ -526,7 +526,7 @@ const arrayMarkerLabel = [
   { value: 6, label: '$6' }
 ]
 </script>
-````
+```
 
 ::: tip TIP on slots
 In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
@@ -536,7 +536,7 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 Source: [MarkerLabelSlots.vue](../../examples/QRange/MarkerLabelSlots.vue)
 
-````vue
+```vue
 <template>
   <div class="q-px-lg q-pt-md q-pb-xl">
     <q-range
@@ -682,7 +682,7 @@ const thirdModel = ref({
   max: 4.5
 })
 </script>
-````
+```
 
 ### Other customizations <q-badge label="v2.4+" />
 
@@ -690,7 +690,7 @@ const thirdModel = ref({
 
 Source: [RangeColoring.vue](../../examples/QRange/RangeColoring.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-lg">
     <q-range
@@ -772,13 +772,13 @@ const secondModel = ref({
   max: 5
 })
 </script>
-````
+```
 
 **Example: Hide selection bar**
 
 Source: [NoSelection.vue](../../examples/QRange/NoSelection.vue)
 
-````vue
+```vue
 <template>
   <div class="q-px-lg q-py-md">
     <q-range
@@ -809,13 +809,13 @@ const model = ref({
   max: 6
 })
 </script>
-````
+```
 
 **Example: Custom track images**
 
 Source: [TrackImages.vue](../../examples/QRange/TrackImages.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-lg">
     <q-range
@@ -876,13 +876,13 @@ const model = ref({
   max: 7
 })
 </script>
-````
+```
 
 **Example: Track & thumb size**
 
 Source: [RangeSizes.vue](../../examples/QRange/RangeSizes.vue)
 
-````vue
+```vue
 <template>
   <div class="q-px-lg q-py-md">
     <q-range
@@ -914,7 +914,7 @@ const model = ref({
   max: 6
 })
 </script>
-````
+```
 
 ### Dragging range
 
@@ -924,7 +924,7 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 Source: [Drag.vue](../../examples/QRange/Drag.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -943,13 +943,13 @@ const range = ref({
   max: 65
 })
 </script>
-````
+```
 
 **Example: Drag range + snap to step**
 
 Source: [DragSnap.vue](../../examples/QRange/DragSnap.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -978,13 +978,13 @@ const rangeSnap = ref({
   max: 60
 })
 </script>
-````
+```
 
 **Example: Drag only range (fixed interval)**
 
 Source: [DragOnly.vue](../../examples/QRange/DragOnly.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -1011,7 +1011,7 @@ const onlyRange = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### Lazy input
 
@@ -1019,7 +1019,7 @@ const onlyRange = ref({
 
 Source: [Lazy.vue](../../examples/QRange/Lazy.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary" class="q-mb-lg">
@@ -1048,7 +1048,7 @@ const lazy = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### Null values
 
@@ -1056,7 +1056,7 @@ const lazy = ref({
 
 Source: [Null.vue](../../examples/QRange/Null.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="primary" class="q-mb-lg">
@@ -1104,7 +1104,7 @@ function getNullLabel(val) {
   return val === null ? 'null' : val
 }
 </script>
-````
+```
 
 ### Reverse
 
@@ -1112,7 +1112,7 @@ function getNullLabel(val) {
 
 Source: [Reverse.vue](../../examples/QRange/Reverse.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-badge color="secondary">
@@ -1132,7 +1132,7 @@ const standard = ref({
   max: 15
 })
 </script>
-````
+```
 
 ### Force dark mode
 
@@ -1140,7 +1140,7 @@ const standard = ref({
 
 Source: [Dark.vue](../../examples/QRange/Dark.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md bg-grey-9 text-white">
     <q-badge color="secondary" class="q-mb-lg">
@@ -1160,7 +1160,7 @@ const model = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### Readonly and disable
 
@@ -1168,7 +1168,7 @@ const model = ref({
 
 Source: [Readonly.vue](../../examples/QRange/Readonly.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-range v-model="standard" color="secondary" :min="0" :max="50" readonly />
@@ -1183,13 +1183,13 @@ const standard = ref({
   max: 35
 })
 </script>
-````
+```
 
 **Example: Disable**
 
 Source: [Disable.vue](../../examples/QRange/Disable.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-range v-model="model" color="secondary" :min="0" :max="50" disable />
@@ -1204,7 +1204,7 @@ const model = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### With QItem
 
@@ -1212,7 +1212,7 @@ const model = ref({
 
 Source: [List.vue](../../examples/QRange/List.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-list dense>
@@ -1245,17 +1245,19 @@ const model = ref({
   max: 35
 })
 </script>
-````
+```
 
 ### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
 
+The submitted value contains the minimum and maximum values separated by a pipe (`min|max`).
+
 **Example: Native form**
 
 Source: [NativeForm.vue](../../examples/QRange/NativeForm.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-form @submit="onSubmit" class="q-gutter-md">
@@ -1315,4 +1317,4 @@ function onSubmit(evt) {
   submitResult.value = data
 }
 </script>
-````
+```

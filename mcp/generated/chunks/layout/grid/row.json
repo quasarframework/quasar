@@ -1,0 +1,227 @@
+[
+  {
+    "id": "layout/grid/row#overview",
+    "documentId": "layout/grid/row",
+    "heading": "Grid Row",
+    "breadcrumb": ["Grid Row"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row",
+    "content": "In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Rows.\n\nUtilize breakpoint-specific column classes for equal-width columns. Add any number of unit-less classes for each breakpoint you need and every column will be the same width.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/grid/row#equal-width",
+    "documentId": "layout/grid/row",
+    "heading": "Equal-width",
+    "breadcrumb": ["Equal-width", "Equal-width"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#equal-width",
+    "content": "For example, here are two grid layouts that apply to every device and viewport, from xs to xl.\n\nExample: Equal Width Example (RowEqualWidth.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Equal Width Example",
+        "file": "RowEqualWidth.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#setting-one-column-width",
+    "documentId": "layout/grid/row",
+    "heading": "Setting one column width",
+    "breadcrumb": ["Setting one column width", "Setting one column width"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#setting-one-column-width",
+    "content": "Auto-layout for flexbox grid columns also means you can set the width of one column and the others will automatically resize around it. You may use predefined grid classes (as shown below) or inline widths. Note that the other columns will resize no matter the width of the center column.\n\nExample: Setting one column width (RowColumnWidth.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Setting one column width",
+        "file": "RowColumnWidth.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#variable-width-content",
+    "documentId": "layout/grid/row",
+    "heading": "Variable width content",
+    "breadcrumb": ["Variable width content", "Variable width content"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#variable-width-content",
+    "content": "Using the `col-{breakpoint}-auto` classes, columns can size itself based on the natural width of its content. This is super handy with single line content like inputs, numbers, etc (see last example on this page). This, in conjunction with horizontal alignment classes, is very useful for centering layouts with uneven column sizes as viewport width changes.\n\nExample: Variable width content (RowVariableWidth.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Variable width content",
+        "file": "RowVariableWidth.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#responsive-classes",
+    "documentId": "layout/grid/row",
+    "heading": "Responsive classes",
+    "breadcrumb": ["Responsive classes", "Responsive classes"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#responsive-classes",
+    "content": "The grid includes five tiers of predefined classes for building complex responsive layouts. Customize the size of your columns on extra small, small, medium, large, or extra large devices however you see fit.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/grid/row#all-breakpoints",
+    "documentId": "layout/grid/row",
+    "heading": "All breakpoints",
+    "breadcrumb": ["Responsive classes", "All breakpoints", "All breakpoints"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#all-breakpoints",
+    "content": "For grids that are the same from the smallest of devices to the largest, use the `.col` and `.col-*` classes. Specify a numbered class when you need a particularly sized column; otherwise, feel free to stick to .col.\n\nExample: All breakpoints (RowAllBreakpoints.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "All breakpoints",
+        "file": "RowAllBreakpoints.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#stacked-to-horizontal",
+    "documentId": "layout/grid/row",
+    "heading": "Stacked to horizontal",
+    "breadcrumb": [
+      "Responsive classes",
+      "Stacked to horizontal",
+      "Stacked to horizontal"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#stacked-to-horizontal",
+    "content": "Using a combination of `.col-12` and `.col-md-*` classes, you can create a basic grid system that starts out stacked on small devices before becoming horizontal on desktop (medium) devices.\n\nExample: Stacked to horizontal (RowStackedToHorizontal.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Stacked to horizontal",
+        "file": "RowStackedToHorizontal.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#mix-and-match",
+    "documentId": "layout/grid/row",
+    "heading": "Mix and match",
+    "breadcrumb": ["Responsive classes", "Mix and match", "Mix and match"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#mix-and-match",
+    "content": "Don’t want your columns to simply stack in some grid tiers? Use a combination of different classes for each tier as needed. See the example below for a better idea of how it all works.\n\nExample: Mix and match (RowMixAndMatch.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Mix and match",
+        "file": "RowMixAndMatch.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#alignment",
+    "documentId": "layout/grid/row",
+    "heading": "Alignment",
+    "breadcrumb": ["Responsive classes", "Alignment", "Alignment"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#alignment",
+    "content": "Use flexbox alignment utilities to vertically and horizontally align columns.\n\nExample: Vertical alignment (RowVerticalAlignment.vue)\n\nExample: Horizontal alignment (RowHorizontalAlignment.vue)\n\n::: tip\nThere is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.\n:::",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Vertical alignment",
+        "file": "RowVerticalAlignment.vue"
+      },
+      {
+        "title": "Horizontal alignment",
+        "file": "RowHorizontalAlignment.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#column-wrapping",
+    "documentId": "layout/grid/row",
+    "heading": "Column wrapping",
+    "breadcrumb": ["Responsive classes", "Column wrapping", "Column wrapping"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#column-wrapping",
+    "content": "If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.\n\nExample: Column wrapping (RowColumnWrapping.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Column wrapping",
+        "file": "RowColumnWrapping.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#reordering",
+    "documentId": "layout/grid/row",
+    "heading": "Reordering",
+    "breadcrumb": ["Responsive classes", "Reordering", "Reordering"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#reordering",
+    "content": "Example: Reverse (RowReverse.vue)\n\nExample: Flex order (RowFlexOrder.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Reverse",
+        "file": "RowReverse.vue"
+      },
+      {
+        "title": "Flex order",
+        "file": "RowFlexOrder.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#offsetting-columns",
+    "documentId": "layout/grid/row",
+    "heading": "Offsetting columns",
+    "breadcrumb": [
+      "Responsive classes",
+      "Offsetting columns",
+      "Offsetting columns"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#offsetting-columns",
+    "content": "Move columns to the right using `.offset-md-*` classes. These classes increase the left margin of a column by \\* columns. For example, `.offset-md-4` moves `.col-md-4` over four columns.\n\nExample: Offsetting columns (RowOffsettingColumns.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Offsetting columns",
+        "file": "RowOffsettingColumns.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#nesting",
+    "documentId": "layout/grid/row",
+    "heading": "Nesting",
+    "breadcrumb": ["Responsive classes", "Nesting", "Nesting"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#nesting",
+    "content": "To nest your content with the default grid, add a new .row and set of `.col-sm-*` columns within an existing `.col-sm-*` column. Nested rows should include a set of columns that add up to 12 or fewer (it is not required that you use all 12 available columns).\n\nExample: Nesting (RowNesting.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Nesting",
+        "file": "RowNesting.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/row#flex-playground",
+    "documentId": "layout/grid/row",
+    "heading": "Flex Playground",
+    "breadcrumb": ["Flex Playground", "Flex Playground"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/row#flex-playground",
+    "content": "To see the Flex in action, you can use the Flex Playground to interactively learn more.\n\n<q-btn icon-right=\"launch\" label=\"Flex Playground\" to=\"/layout/grid/flex-playground\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

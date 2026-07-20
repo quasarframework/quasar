@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-ssg/ssg-404-error-page",
+  "title": "SSG 404 Error Page",
+  "description": "(@quasar/app-vite) How to render a 404 error page for SSG mode with Quasar CLI.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/ssg-404-error-page",
+  "source": "docs/src/pages/quasar-cli-vite/developing-ssg/ssg-404-error-page.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/ssg",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

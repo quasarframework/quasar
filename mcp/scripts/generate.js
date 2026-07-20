@@ -87,9 +87,76 @@ function pageRoute(path) {
   return `/${routeParts.join('/')}`
 }
 
+function documentationArea(route) {
+  const [section, subsection] = route.slice(1).split('/')
+
+  if (
+    (section === 'quasar-cli-vite' || section === 'quasar-cli-webpack') &&
+    subsection?.startsWith('developing-')
+  ) {
+    return `${section}/${subsection.slice('developing-'.length)}`
+  }
+
+  return section
+}
+
 function artifactLink(documentId, target) {
   const documentPath = `documents/${documentId}.md`
   return posix.relative(posix.dirname(documentPath), target)
+}
+
+function renderDocumentationTree(node, depth = 0) {
+  if (node === void 0 || typeof node !== 'object') {
+    return '_Documentation tree data is unavailable._'
+  }
+
+  const label = node.url ? `[${node.l}](${node.url})` : node.l
+  const line = `${'  '.repeat(depth)}- ${label}${node.e ? ` — ${node.e}` : ''}`
+  return [
+    line,
+    ...(node.c ?? []).flatMap(child =>
+      renderDocumentationTree(child, depth + 1)
+    )
+  ].join('\n')
+}
+
+function replaceDocumentationScaffolding(body, attributes) {
+  return body
+    .replaceAll(/<script doc>[\s\S]*?<\/script>/g, '')
+    .replaceAll(/<DocTree\s+:def="scope\.([^"]+)"\s*\/>/g, (_, name) =>
+      renderDocumentationTree(attributes.scope?.[name])
+    )
+    .replaceAll(/<DocInstall\b([^>]*)\/>/g, (_, source) => {
+      const plugins =
+        /plugins="([^"]+)"/.exec(source)?.[1] ??
+        /:plugins="\[([^\]]+)\]"/.exec(source)?.[1]
+      const config = /config="([^"]+)"/.exec(source)?.[1]
+      const instructions = []
+
+      if (plugins) {
+        instructions.push(
+          `register ${plugins.replaceAll(/[']/g, '')} through \`framework.plugins\` in \`quasar.config\``
+        )
+      }
+
+      if (config) {
+        instructions.push(
+          `configure \`framework.config.${config}\` in \`quasar.config\``
+        )
+      }
+
+      return instructions.length === 0
+        ? '**Configuration:** See the associated Quasar configuration guide.'
+        : `**Configuration:** ${instructions.join(' and ')}.`
+    })
+    .replaceAll(
+      /<DocsHomepage\s*\/>/g,
+      'Use the documentation index in this artifact to browse Quasar guides and APIs.'
+    )
+    .replaceAll(
+      /<DocApiExplorer\s*\/>/g,
+      'Use the structured API resources in this artifact to explore Quasar components, directives, and plugins.'
+    )
 }
 
 function replaceDocumentationComponents(body, documentId, examples) {
@@ -159,6 +226,10 @@ function buildProcessedMarkdown(document, body, examples) {
 
 await rm(outputRoot, { recursive: true, force: true })
 await mkdir(outputRoot, { recursive: true })
+await writeOutput(
+  '.oxlintrc.json',
+  `${JSON.stringify({ ignorePatterns: ['**/*'] }, null, 2)}\n`
+)
 
 const allPageFiles = await walk(pagesRoot, '.md')
 const pageFiles = allPageFiles.filter(
@@ -213,13 +284,7 @@ for (const apiPath of apiFiles) {
   )
 }
 
-const composablePagePaths = pageFiles.filter(path =>
-  path.startsWith(`${pagesRoot}/vue-composables/`)
-)
-const targetRoutes = new Set([
-  ...apiNamesByRoute.keys(),
-  ...composablePagePaths.map(pageRoute)
-])
+const targetRoutes = new Set(pageFiles.map(pageRoute))
 const composableSourceFiles = await walk('ui/src/composables', '.js')
 const composableSourcesByName = new Map(
   composableSourceFiles
@@ -239,6 +304,7 @@ for (const route of [...targetRoutes].sort()) {
 
   const pageSource = await readSource(pagePath)
   const { attributes, body } = parseFrontMatter(pageSource)
+  const retrievalBody = replaceDocumentationScaffolding(body, attributes)
   const id = route.slice(1)
   const apiReferences = (apiNamesByRoute.get(route) ?? []).sort()
   const apiKinds = [
@@ -249,7 +315,11 @@ for (const route of [...targetRoutes].sort()) {
     )
   ]
   const isComposable = route.startsWith('/vue-composables/')
-  const kinds = isComposable ? ['composable'] : apiKinds.sort()
+  const kinds = isComposable
+    ? ['composable']
+    : apiKinds.length === 0
+      ? ['guide']
+      : apiKinds.sort()
   const exampleFolder = attributes.examples
   const exampleReferences = extractDocExamples(body)
   const examples = []
@@ -277,11 +347,15 @@ for (const route of [...targetRoutes].sort()) {
     schemaVersion: 1,
     id,
     title: attributes.title,
-    description: attributes.desc,
+    description:
+      attributes.desc ??
+      attributes.dese ??
+      `Official Quasar documentation for ${attributes.title}.`,
     canonicalUrl: `https://quasar.dev${route}`,
     source: pagePath,
     sourceCommit: '',
     products: {},
+    area: documentationArea(route),
     kinds,
     apiReferences,
     examples: examples.map(({ title, file, source }) => ({
@@ -291,8 +365,14 @@ for (const route of [...targetRoutes].sort()) {
     }))
   }
 
-  const chunks = createMarkdownChunks(body, document)
-  documents.push({ document, body, examples, chunks, exampleFolder })
+  const chunks = createMarkdownChunks(retrievalBody, document)
+  documents.push({
+    document,
+    body: retrievalBody,
+    examples,
+    chunks,
+    exampleFolder
+  })
   allChunks.push(...chunks)
 }
 
@@ -402,6 +482,7 @@ const manifestDocuments = documents.map(({ document, exampleFolder }) => ({
   id: document.id,
   title: document.title,
   kinds: document.kinds,
+  area: document.area,
   path: `documents/${document.id}.json`,
   markdown: `documents/${document.id}.md`,
   chunks: `chunks/${document.id}.json`,
@@ -415,7 +496,7 @@ const manifestDocuments = documents.map(({ document, exampleFolder }) => ({
 }))
 const manifest = {
   schemaVersion: 1,
-  artifact: '@quasar/docs-data-prototype',
+  artifact: '@quasar/mcp',
   source: {
     repository: 'https://github.com/quasarframework/quasar',
     commit: sourceCommit,
@@ -428,6 +509,13 @@ const manifest = {
     directives: apiCounts.directive?.length ?? 0,
     plugins: apiCounts.plugin?.length ?? 0,
     composables: composables.length,
+    guides: documents.filter(entry => entry.document.kinds.includes('guide'))
+      .length,
+    areas: Object.fromEntries(
+      Object.entries(
+        Object.groupBy(documents, entry => entry.document.area)
+      ).map(([area, entries]) => [area, entries.length])
+    ),
     APIs: apiEntries.length,
     examples: allExamples.size,
     chunks: allChunks.length,
@@ -443,7 +531,7 @@ await writeOutput('manifest.json', `${JSON.stringify(manifest, null, 2)}\n`)
 await writeOutput(
   'llms.txt',
   [
-    '# Quasar UI documentation artifact',
+    '# Quasar documentation artifact',
     '',
     `Source commit: ${sourceCommit}`,
     `Quasar version: ${uiPackage.version}`,
@@ -454,6 +542,7 @@ await writeOutput(
     `- ${manifest.coverage.directives} directive APIs`,
     `- ${manifest.coverage.plugins} plugin APIs`,
     `- ${manifest.coverage.composables} public composables`,
+    `- ${manifest.coverage.guides} additional public guides`,
     `- ${manifest.coverage.documents} documentation pages`,
     '',
     '## Documentation',

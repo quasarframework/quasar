@@ -1,0 +1,13 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-pwa/installing-pwa-dependencies#overview",
+    "documentId": "quasar-cli-vite/developing-pwa/installing-pwa-dependencies",
+    "heading": "Installing PWA-specific dependencies",
+    "breadcrumb": ["Installing PWA-specific dependencies"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/installing-pwa-dependencies",
+    "content": "Notice the `/src-pwa/package.json` file in your generated `/src-pwa` folder. The purpose of it is for you to be able to install packages used by the PWA mode directly under this folder (and not pollute the common `/src`).\n\n```json /src-pwa/package.json\n{\n  \"name\": \"quasar-pwa-app\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Quasar PWA Folder\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"dependencies\": {\n    \"register-service-worker\": \"^1.7.2\"\n  },\n  \"devDependencies\": {\n    \"workbox-build\": \"^7.0.0\",\n    \"workbox-cacheable-response\": \"^7.0.0\",\n    \"workbox-core\": \"^7.0.0\",\n    \"workbox-expiration\": \"^7.0.0\",\n    \"workbox-precaching\": \"^7.0.0\",\n    \"workbox-routing\": \"^7.0.0\",\n    \"workbox-strategies\": \"^7.0.0\"\n  }\n}\n```\n\nInstalling PWA specific packages:\n\n```tabs\n<<| bash PNPM |>>\n# run in /src-pwa for deps used by /src-pwa/register-sw file:\npnpm add <deps>\n\n# run in /src-pwa for deps used by the build system (eg. workbox-* suite)\npnpm add -D <dev-deps>\n<<| bash Yarn |>>\n# run in /src-pwa for deps used by /src-pwa/register-sw file:\nyarn add <deps>\n\n# run in /src-pwa for deps used by the build system (eg. workbox-* suite)\nyarn add -D <dev-deps>\n<<| bash NPM |>>\n# run in /src-pwa for deps used by /src-pwa/register-sw file:\nnpm install <deps>\n\n# run in /src-pwa for deps used by the build system (eg. workbox-* suite)\nnpm install -D <dev-deps>\n<<| bash Bun |>>\n# run in /src-pwa for deps used by /src-pwa/register-sw file:\nbun add <deps>\n\n# run in /src-pwa for deps used by the build system (eg. workbox-* suite)\nbun add -D <dev-deps>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

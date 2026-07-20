@@ -5,16 +5,13 @@
   "description": "The QChip Vue component is a simple UI block entity, representing for example more advanced underlying data, such as a contact, but in a compact way.",
   "canonicalUrl": "https://quasar.dev/vue-components/chip",
   "source": "docs/src/pages/vue-components/chip.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QChip"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QChip"],
   "examples": [
     {
       "title": "Basic",

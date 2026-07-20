@@ -1,0 +1,46 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-pwa/introduction#overview",
+    "documentId": "quasar-cli-vite/developing-pwa/introduction",
+    "heading": "What is a PWA",
+    "breadcrumb": ["What is a PWA"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/introduction",
+    "content": "A Progressive Web App (PWA) is a web app that uses modern web capabilities to deliver an app-like experience to users. These apps meet certain requirements (see below), are deployed to web servers and accessible through URLs (on HTTPS protocol).\n\nThis can work in conjunction with Cordova to provide a multiple deploy targets for all your users. Quasar CLI allows you to deploy your app as a PWA as well as a Mobile app and take advantage of both channels.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/introduction#what-is-required",
+    "documentId": "quasar-cli-vite/developing-pwa/introduction",
+    "heading": "What is Required",
+    "breadcrumb": ["What is Required", "What is Required"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/introduction#what-is-required",
+    "content": "To be considered a Progressive Web App, your app must be:\n\n- Progressive - Work for every user, regardless of browser choice, because they are built with progressive enhancement as a core tenet.\n- Responsive - Fit any form factor, desktop, mobile, tablet, or whatever is next.\n- Connectivity independent - Enhanced with service workers to work offline or on low quality networks.\n- App-like - Use the app-shell model to provide app-style navigation and interactions.\n- Fresh - Always up-to-date thanks to the service worker update process.\n- Safe - Served via HTTPS to prevent snooping and ensure content has not been tampered with.\n- Discoverable - Are identifiable as “applications” thanks to W3C manifests and service worker registration scope allowing search engines to find them.\n- Re-engageable - Make re-engagement easy through features like push notifications.\n- Installable - Allow users to “keep” apps they find most useful on their home screen without the hassle of an app store.\n- Linkable - Easily share via URL and not require complex installation.\n\nMore information available on Addy Osmani's [article about PWA](https://addyosmani.com/blog/getting-started-with-progressive-web-apps/).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/introduction#manifest-file",
+    "documentId": "quasar-cli-vite/developing-pwa/introduction",
+    "heading": "Manifest File",
+    "breadcrumb": ["Manifest File", "Manifest File"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/introduction#manifest-file",
+    "content": "An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. You will see this as `/src-pwa/manifest.json`.\nMore information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/Manifest).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-pwa/introduction#service-worker",
+    "documentId": "quasar-cli-vite/developing-pwa/introduction",
+    "heading": "Service Worker",
+    "breadcrumb": ["Service Worker", "Service Worker"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/introduction#service-worker",
+    "content": "The Service worker provides a programmatic way to cache app resources (files). The programmatic API allows developers to decide how to handle caching and provides a much more flexible experience than other options.\n\nMore information: [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API).",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

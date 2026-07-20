@@ -3,12 +3,10 @@
     "id": "vue-composables/use-hydration#overview",
     "documentId": "vue-composables/use-hydration",
     "heading": "useHydration composable",
-    "breadcrumb": [
-      "useHydration composable"
-    ],
+    "breadcrumb": ["useHydration composable"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-hydration",
-    "content": "The useHydration composable is useful when you build for SSR (but can be used for non SSR builds as well). It is a lower level util of the [QNoSsr](/vue-components/no-ssr) component.",
+    "content": "The useHydration composable is useful when you build for SSR or SSG (but can be used for non SSR/SSG builds as well). It is a lower level util of the [QNoSsr](/vue-components/no-ssr) component.",
     "apiReferences": [],
     "exampleReferences": []
   },
@@ -16,10 +14,7 @@
     "id": "vue-composables/use-hydration#syntax",
     "documentId": "vue-composables/use-hydration",
     "heading": "Syntax",
-    "breadcrumb": [
-      "Syntax",
-      "Syntax"
-    ],
+    "breadcrumb": ["Syntax", "Syntax"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-hydration#syntax",
     "content": "```js\nimport { useHydration } from 'quasar'\n\nsetup () {\n  const { isHydrated } = useHydration()\n}\n```\n\n```js\nfunction useHydration(): {\n  isHydrated: Ref<boolean>;\n};\n```",
@@ -30,10 +25,7 @@
     "id": "vue-composables/use-hydration#example",
     "documentId": "vue-composables/use-hydration",
     "heading": "Example",
-    "breadcrumb": [
-      "Example",
-      "Example"
-    ],
+    "breadcrumb": ["Example", "Example"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-hydration#example",
     "content": "```html\n<template>\n  <div>\n    <div v-if=\"isHydrated\"> Gets rendered only after hydration. </div>\n  </div>\n</template>\n\n<script setup>\n  import { useHydration } from 'quasar'\n  const { isHydrated } = useHydration()\n</script>\n```",

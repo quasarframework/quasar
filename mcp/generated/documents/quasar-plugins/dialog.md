@@ -36,7 +36,7 @@ In order to create #2, the options selection form, you have the `options` proper
 
 **API reference:** [Dialog](../../api/Dialog.md)
 
-<DocInstall plugins="Dialog" />
+**Configuration:** register Dialog through `framework.plugins` in `quasar.config`.
 
 ## Built-in component
 
@@ -69,7 +69,7 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 Source: [Basic.vue](../../examples/Dialog/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Alert" color="primary" @click="alert" />
@@ -142,13 +142,13 @@ function prompt() {
     })
 }
 </script>
-````
+```
 
 **Example: Force dark mode**
 
 Source: [Dark.vue](../../examples/Dialog/Dark.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Alert" color="primary" @click="alert" />
@@ -224,13 +224,13 @@ function prompt() {
     })
 }
 </script>
-````
+```
 
 **Example: Radios, Checkboxes, Toggles**
 
 Source: [Pickers.vue](../../examples/Dialog/Pickers.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Radio Options" color="primary" @click="radio" />
@@ -328,13 +328,13 @@ function toggle() {
     })
 }
 </script>
-````
+```
 
 **Example: Other options**
 
 Source: [OtherOptions.vue](../../examples/Dialog/OtherOptions.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Custom Buttons" color="primary" @click="customBtn" />
@@ -422,7 +422,7 @@ function autoClose() {
   }, 1000)
 }
 </script>
-````
+```
 
 ### Native attributes
 
@@ -432,7 +432,7 @@ You can also supply native HTML attributes to the inner QInput or QOptionGroup c
 
 Source: [NativeAttributes.vue](../../examples/Dialog/NativeAttributes.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Prompt (1-10, step 2)" color="primary" @click="prompt" />
@@ -471,7 +471,7 @@ function prompt() {
     })
 }
 </script>
-````
+```
 
 ### User input validation
 
@@ -481,7 +481,7 @@ There is a basic validation system that you can use so that the user won't be ab
 
 Source: [ValidationPrompt.vue](../../examples/Dialog/ValidationPrompt.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn label="Prompt" color="primary" @click="prompt" />
@@ -509,13 +509,13 @@ function prompt() {
   })
 }
 </script>
-````
+```
 
 **Example: Options with validation**
 
 Source: [ValidationOptions.vue](../../examples/Dialog/ValidationOptions.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Radio Options" color="primary" @click="radio" />
@@ -595,7 +595,7 @@ function toggle() {
   })
 }
 </script>
-````
+```
 
 ### Progress
 
@@ -603,7 +603,7 @@ function toggle() {
 
 Source: [Progress.vue](../../examples/Dialog/Progress.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Default progress" color="primary" @click="showDefault" />
@@ -681,7 +681,7 @@ function showCustom() {
   }, 500)
 }
 </script>
-````
+```
 
 ### Using HTML
 
@@ -691,7 +691,7 @@ You can use HTML on title and message if you specify the `html: true` prop. **Pl
 
 Source: [UnsafeHtml.vue](../../examples/Dialog/UnsafeHtml.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Show HTML Dialog" color="primary" @click="showDialog" />
@@ -721,7 +721,7 @@ function showDialog() {
     })
 }
 </script>
-````
+```
 
 ## Invoking custom component
 

@@ -1,0 +1,78 @@
+[
+  {
+    "id": "quasar-utils/scrolling-utils#overview",
+    "documentId": "quasar-utils/scrolling-utils",
+    "heading": "Scrolling Utils",
+    "breadcrumb": ["Scrolling Utils"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils",
+    "content": "::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/scrolling-utils#determine-scrolling-container",
+    "documentId": "quasar-utils/scrolling-utils",
+    "heading": "Determine scrolling container",
+    "breadcrumb": [
+      "Determine scrolling container",
+      "Determine scrolling container"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils#determine-scrolling-container",
+    "content": "Might be worthwhile to read how this is done [here](/vue-components/scroll-observer#determining-scrolling-container).\n\n```js\nimport { scroll } from 'quasar'\nconst { getScrollTarget } = scroll\n\n// Get parent DomNode that handles page scrolling\n// Usually this is element with classname \".layout-view\" or \"window\"\ngetScrollTarget(DomElement) // returns a DOM Element (or window Object)\n```\n\nThis method searches for a parent DOM element which has one of the `scroll` or `overflow-auto` Quasar CSS Helper class attached to it. If none is found, then it considers that the scrolling takes place on the document itself.\n\nPlease note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example: a height smaller than its inner content height).\n\nExample of good container:\n\n```html\n<div class=\"scroll\" style=\"height: 100px\">\n  ...content expanding over the 100px height from container...\n</div>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/scrolling-utils#get-set-scroll-position",
+    "documentId": "quasar-utils/scrolling-utils",
+    "heading": "Get/set scroll position",
+    "breadcrumb": ["Get/set scroll position", "Get/set scroll position"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils#get-set-scroll-position",
+    "content": "Vertically:\n\n```js\nimport { scroll } from 'quasar'\nconst { getVerticalScrollPosition, setVerticalScrollPosition } = scroll\n\n// Get scroll position of an element or page.\n// Use it in conjunction with `getScrollTarget()`\ngetVerticalScrollPosition(scrollTargetDomElement) // returns a Number (pixels)\n\n// Setting scroll position of an element or page:\nsetVerticalScrollPosition (scrollTargetElement, offset[, duration])\n// if \"duration\" is specified then it will animate the scrolling\n```\n\nHorizontally:\n\n```js\nimport { scroll } from 'quasar'\nconst { getHorizontalScrollPosition, setHorizontalScrollPosition } = scroll\n\n// Get scroll position of an element or page.\n// Use it in conjunction with `getScrollTarget()`\ngetHorizontalScrollPosition(scrollTargetDomElement) // returns a Number (pixels)\n\n// Setting scroll position of an element or page:\nsetHorizontalScrollPosition (scrollTargetElement, offset[, duration])\n// if \"duration\" is specified then it will animate the scrolling\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/scrolling-utils#scrolling-to-an-element",
+    "documentId": "quasar-utils/scrolling-utils",
+    "heading": "Scrolling to an element",
+    "breadcrumb": [
+      "Get/set scroll position",
+      "Scrolling to an element",
+      "Scrolling to an element"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils#scrolling-to-an-element",
+    "content": "Below is an example using the scroll utils to scroll to an element within its container. It does not take into consideration if the container is on screen or more complex cases.\n\n```js\nimport { scroll } from 'quasar'\nconst { getScrollTarget, setVerticalScrollPosition } = scroll\n\n// takes an element object\nfunction scrollToElement(el) {\n  const target = getScrollTarget(el)\n  const offset = el.offsetTop\n  const duration = 1000\n  setVerticalScrollPosition(target, offset, duration)\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/scrolling-utils#determine-scroll-size",
+    "documentId": "quasar-utils/scrolling-utils",
+    "heading": "Determine scroll size",
+    "breadcrumb": ["Determine scroll size", "Determine scroll size"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils#determine-scroll-size",
+    "content": "Vertically:\n\n```js\nimport { scroll } from 'quasar'\nconst { getScrollHeight } = scroll\n\n// get scrolling container inner height\ngetScrollHeight(scrollTargetDomElement) // returns a Number\n\nconsole.log(getScrollHeight(el))\n// 824 (it's in pixels always)\n```\n\nHorizontally:\n\n```js\nimport { scroll } from 'quasar'\nconst { getScrollWidth } = scroll\n\n// get scrolling container inner height\ngetScrollWidth(scrollTargetDomElement) // returns a Number\n\nconsole.log(getScrollWidth(el))\n// 824 (it's in pixels always)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/scrolling-utils#determining-scrollbar-width",
+    "documentId": "quasar-utils/scrolling-utils",
+    "heading": "Determining scrollbar width",
+    "breadcrumb": [
+      "Determining scrollbar width",
+      "Determining scrollbar width"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils#determining-scrollbar-width",
+    "content": "Computes the width of scrollbar in pixels.\n\n```js\nimport { scroll } from 'quasar'\nconst { getScrollbarWidth } = scroll\n\nconsole.log(getScrollbarWidth()) // 16 (it's in pixels)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

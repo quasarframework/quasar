@@ -3,12 +3,10 @@
     "id": "vue-composables/use-render-cache#overview",
     "documentId": "vue-composables/use-render-cache",
     "heading": "useRenderCache composable",
-    "breadcrumb": [
-      "useRenderCache composable"
-    ],
+    "breadcrumb": ["useRenderCache composable"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-render-cache",
-    "content": "The `useRenderCache()` composable is useful especially when you are dealing with Vue render functions (though not restricted to it). When you are building nodes through an iteration, this composable can help you inline the code while (for performance reasons) also benefitting from a cache.\n\nWhen dealing with SSR, on the server-side you will not want to cache anything because the render will only happen once per client (and you don't want your memory footprint to needlessly grow). Thus the useRenderCache composable will not actually use any cache on server-side, but rather the default values supplied on each call.\n\nYou can directly cache any type of value that you want. Some examples:\n\n- You can cache some listeners so that Vue won't be required to remove and re-attach them on each re-render.\n- You can cache some Vue rendered nodes, although you must be careful in this scenario because their content should not depend on any \"reactive\" content (refs, computed, etc).",
+    "content": "The `useRenderCache()` composable is useful especially when you are dealing with Vue render functions (though not restricted to it). When you are building nodes through an iteration, this composable can help you inline the code while (for performance reasons) also benefitting from a cache.\n\nWhen dealing with SSR/SSG, on the server-side you will not want to cache anything because the render will only happen once per client (and you don't want your memory footprint to needlessly grow). Thus the useRenderCache composable will not actually use any cache on server-side, but rather the default values supplied on each call.\n\nYou can directly cache any type of value that you want. Some examples:\n\n- You can cache some listeners so that Vue won't be required to remove and re-attach them on each re-render.\n- You can cache some Vue rendered nodes, although you must be careful in this scenario because their content should not depend on any \"reactive\" content (refs, computed, etc).",
     "apiReferences": [],
     "exampleReferences": []
   },
@@ -16,13 +14,10 @@
     "id": "vue-composables/use-render-cache#syntax",
     "documentId": "vue-composables/use-render-cache",
     "heading": "Syntax",
-    "breadcrumb": [
-      "Syntax",
-      "Syntax"
-    ],
+    "breadcrumb": ["Syntax", "Syntax"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-render-cache#syntax",
-    "content": "```js\nimport { useRenderCache } from 'quasar'\n\nsetup () {\n  const {\n    getCache,\n    setCache,\n    hasCache,\n    clearCache\n  } = useRenderCache()\n\n  // ...\n}\n```\n\n```ts\nfunction useRenderCache(): {\n  getCache: <T = any>(key: string, defaultValue?: T | (() => T)) => T\n  setCache: <T = any>(key: string, value: T) => void\n  hasCache: (key: string) => boolean\n  clearCache: (key?: string) => void\n}\n```",
+    "content": "```js\nimport { useRenderCache } from 'quasar'\n\nsetup () {\n  const {\n    getCache,\n    setCache,\n    hasCache,\n    clearCache\n  } = useRenderCache()\n\n  // ...\n}\n```\n\n```ts\nfunction useRenderCache(): {\n  getCache: {\n    <T>(key: string, defaultValue: T | (() => T)): T\n    <T = any>(key: string): T | undefined\n  }\n  setCache: <T = any>(key: string, value: T) => void\n  hasCache: (key: string) => boolean\n  clearCache: (key?: string) => void\n}\n```",
     "apiReferences": [],
     "exampleReferences": []
   },
@@ -30,13 +25,10 @@
     "id": "vue-composables/use-render-cache#example",
     "documentId": "vue-composables/use-render-cache",
     "heading": "Example",
-    "breadcrumb": [
-      "Example",
-      "Example"
-    ],
+    "breadcrumb": ["Example", "Example"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-render-cache#example",
-    "content": "The next example caches some listeners in order to avoid Vue removing and re-attaching them on each render cycle:\n\n```js\nimport { h } from 'vue'\nimport { useRenderCache } from 'quasar'\n\nexport default {\n  setup() {\n    const { getCache } = useRenderCache()\n\n    function getNode(i) {\n      return h('div', {\n        onClick: getCache(`click#${i}`, () => {\n          console.log(`clicked on node ${i}`)\n        })\n      })\n    }\n\n    function getContent() {\n      const acc = []\n      for (let i = 0; i < 10; i++) {\n        acc.push(getNode(i))\n      }\n      return acc\n    }\n\n    return () => {\n      h('div', getContent)\n    }\n  }\n}\n```\n\nThe following example caches some values and calls the second parameter (which is a Function) to generate the default value only when the cache has no such key already set. This way, we avoid needlessly running the function even if cache is already set:\n\n```js\nconst { getCache } = useRenderCache()\n\ngetCache('my-key', () => {\n  // some computation which is only run\n  // when the cache does NOT have \"my-key\" set\n  return { some: 'object' }\n})\n```",
+    "content": "The next example caches some listeners in order to avoid Vue removing and re-attaching them on each render cycle:\n\n```js\nimport { h } from 'vue'\nimport { useRenderCache } from 'quasar'\n\nexport default {\n  setup() {\n    const { getCache } = useRenderCache()\n\n    function getNode(i) {\n      return h('div', {\n        onClick: getCache(`click#${i}`, () => {\n          console.log(`clicked on node ${i}`)\n        })\n      })\n    }\n\n    function getContent() {\n      const acc = []\n      for (let i = 0; i < 10; i++) {\n        acc.push(getNode(i))\n      }\n      return acc\n    }\n\n    return () => h('div', getContent())\n  }\n}\n```\n\nThe following example caches some values and calls the second parameter (which is a Function) to generate the default value only when the cache has no such key already set. This way, we avoid needlessly running the function even if cache is already set:\n\n```js\nconst { getCache } = useRenderCache()\n\ngetCache('my-key', () => {\n  // some computation which is only run\n  // when the cache does NOT have \"my-key\" set\n  return { some: 'object' }\n})\n```",
     "apiReferences": [],
     "exampleReferences": []
   },
@@ -44,10 +36,7 @@
     "id": "vue-composables/use-render-cache#pitfall-to-avoid",
     "documentId": "vue-composables/use-render-cache",
     "heading": "Pitfall to avoid",
-    "breadcrumb": [
-      "Pitfall to avoid",
-      "Pitfall to avoid"
-    ],
+    "breadcrumb": ["Pitfall to avoid", "Pitfall to avoid"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-render-cache#pitfall-to-avoid",
     "content": "Don't cache directly on the second parameter of the Vue `h()` function. This will tamper with Vue's DOM diff algorithm.\n\n```js\n// DON'T cache like this:\nh(\n  'div',\n  getCache(`node#${ i }`, () => {\n    return {\n      onClick () => { console.log(`clicked on node ${ i }`) }\n    }\n  })\n)\n\n// ..rather, do it like this:\nh(\n  'div',\n  { // new such object needs to be created on each\n    // render, even if the content is cached\n    ...getCache(`node#${ i }`, () => {\n      return {\n        onClick () => { console.log(`clicked on node ${ i }`) }\n      }\n    })\n  }\n})\n```",

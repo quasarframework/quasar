@@ -1,0 +1,49 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/content-scripts#overview",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/content-scripts",
+    "heading": "Content Scripts",
+    "breadcrumb": ["Content Scripts"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/content-scripts",
+    "content": "The content script(s) run in the context of the web page. There will be a new content script instance per tab running the extension.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/content-scripts#communication-events",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/content-scripts",
+    "heading": "Communication / Events",
+    "breadcrumb": ["Communication / Events", "Communication / Events"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/content-scripts#communication-events",
+    "content": "You communicate between the BEX parts of your app (background, content scripts & devtools/popup/options page) through our [BEX Bridge](/quasar-cli-vite/developing-browser-extensions/bex-bridge).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/content-scripts#registering-a-content-script",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/content-scripts",
+    "heading": "Registering a content script",
+    "breadcrumb": [
+      "Registering a content script",
+      "Registering a content script"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/content-scripts#registering-a-content-script",
+    "content": "Your `/src-bex/manifest.json` is the central point that defines your BEX. This is the place where you also define your content script(s):\n\n```json /src-bex/manifest.json\n\"content_scripts\": [\n  {\n    \"matches\": [ \"<all_urls>\" ],\n    \"css\": [ \"assets/content.css\" ],\n    \"js\": [ \"my-content-script.ts\" ]\n  }\n]\n```\n\nThe generated BEX template uses `<all_urls>` because its example content script is designed to run on arbitrary pages. Keep broad access only when that is a real requirement of your extension. It increases the extension's authority and the permission warning shown to users.\n\n::: warning For TS devs\nYour background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: \"background.ts\", \"my-content-script.ts\". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-browser-extensions/content-scripts#case-study",
+    "documentId": "quasar-cli-vite/developing-browser-extensions/content-scripts",
+    "heading": "Case study",
+    "breadcrumb": ["Case study", "Case study"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/content-scripts#case-study",
+    "content": "Let's say we want to react to a button being pressed on our Quasar App and highlight some text on the underlying web page, this would be done via the content scripts like so:\n\n```js Quasar App, /src\nsetup () {\n  const $q = useQuasar()\n\n  async function myButtonClickHandler () {\n    const contentPort = $q.bex.portList.find(portName =>\n      portName.startsWith('content@my-content-script-')\n    )\n\n    if (contentPort === void 0) {\n      $q.notify({ type: 'negative', message: 'Content script is not connected' })\n      return\n    }\n\n    await $q.bex.send({\n      event: 'highlight.content',\n      to: contentPort,\n      payload: { selector: '.some-class' }\n    })\n    $q.notify('Text has been highlighted')\n  }\n\n  return { myButtonClickHandler }\n}\n```\n\n```css /src-bex/assets/content.css\n.bex-highlight {\n  background-color: red;\n}\n```\n\n```js /src-bex/my-content-script.js:\n/**\n * Importing the file below initializes the content script.\n *\n * Warning:\n *   Do not remove the import statement below. It is required for the extension to work.\n *   If you don't need createBridge(), leave it as \"import '#q-app/bex/content'\".\n */\nimport { createBridge } from '#q-app/bex/content'\n\n// The use of the bridge is optional.\nconst bridge = createBridge({ debug: false })\n\nbridge.on('highlight.content', ({ payload }) => {\n  if (typeof payload?.selector !== 'string') return\n\n  let el\n  try {\n    el = document.querySelector(payload.selector)\n  } catch {\n    return\n  }\n\n  if (el !== null) {\n    el.classList.add('bex-highlight')\n  }\n})\n\nbridge\n  .connectToBackground()\n  .then(() => {\n    console.log('Connected to background')\n  })\n  .catch(err => {\n    console.error('Failed to connect to background:', err)\n  })\n```\n\nContent scripts live in an [isolated world](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts#isolated_world), allowing a content script to change its JavaScript environment without conflicting with the page or other content scripts.\n\nIsolated worlds do not allow for content scripts, the extension, and the web page to access any variables or functions created by the others. This also gives content scripts the ability to enable functionality that should not be accessible to the web page.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

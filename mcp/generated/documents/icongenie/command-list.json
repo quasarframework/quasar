@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "icongenie/command-list",
+  "title": "Icon Genie CLI Command List",
+  "description": "Command list for Icon Genie CLI.",
+  "canonicalUrl": "https://quasar.dev/icongenie/command-list",
+  "source": "docs/src/pages/icongenie/command-list.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "icongenie",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

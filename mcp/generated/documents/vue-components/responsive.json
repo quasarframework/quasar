@@ -5,16 +5,13 @@
   "description": "The QResponsive Vue component forces the content to maintain an aspect ratio based on its width.",
   "canonicalUrl": "https://quasar.dev/vue-components/responsive",
   "source": "docs/src/pages/vue-components/responsive.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QResponsive"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QResponsive"],
   "examples": [
     {
       "title": "Basic usage",

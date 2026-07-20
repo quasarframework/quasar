@@ -1,0 +1,35 @@
+[
+  {
+    "id": "video-tutorials#overview",
+    "documentId": "video-tutorials",
+    "heading": "Video Tutorials",
+    "breadcrumb": ["Video Tutorials"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/video-tutorials",
+    "content": "<IntroductionVideo />\n\n::: tip\nThe video tutorials below have been created by the community.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "video-tutorials#quasar-tutorials",
+    "documentId": "video-tutorials",
+    "heading": "Quasar Tutorials",
+    "breadcrumb": ["Quasar Tutorials", "Quasar Tutorials"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/video-tutorials#quasar-tutorials",
+    "content": "<tutorial-listing which=\"quasar-v2\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "video-tutorials#vue-3-tutorials",
+    "documentId": "video-tutorials",
+    "heading": "Vue 3 Tutorials",
+    "breadcrumb": ["Vue 3 Tutorials", "Vue 3 Tutorials"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/video-tutorials#vue-3-tutorials",
+    "content": "<tutorial-listing which=\"vue-v3\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

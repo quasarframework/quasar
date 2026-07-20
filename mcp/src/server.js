@@ -5,6 +5,7 @@ import { z } from 'zod'
 
 import { ArtifactStore } from './artifact/store.js'
 import { registerResources } from './resources.js'
+import { serverMetadata } from './metadata.js'
 import {
   getQuasarApi,
   getQuasarComposable,
@@ -24,13 +25,10 @@ const readOnlyAnnotations = {
 
 export function createServer(options = {}) {
   const store = options.store ?? new ArtifactStore(options.artifactRoot)
-  const server = new McpServer(
-    { name: '@quasar/mcp', version: '0.1.0' },
-    {
-      instructions:
-        'Search official Quasar material first, then retrieve narrow documentation sections, exact API members, examples, or composables. All content is read-only and includes version provenance.'
-    }
-  )
+  const server = new McpServer(serverMetadata, {
+    instructions:
+      'Search official Quasar material first, then retrieve narrow documentation sections, exact API members, examples, or composables. All content is read-only and includes version provenance.'
+  })
 
   server.registerTool(
     'searchQuasarDocs',
@@ -41,8 +39,11 @@ export function createServer(options = {}) {
       inputSchema: z.object({
         query: z.string().min(1),
         kinds: z
-          .array(z.enum(['component', 'directive', 'plugin', 'composable']))
+          .array(
+            z.enum(['component', 'directive', 'plugin', 'composable', 'guide'])
+          )
           .optional(),
+        areas: z.array(z.string().min(1)).optional(),
         limit: z.number().int().min(1).max(25).default(10),
         maxCharacters
       }),

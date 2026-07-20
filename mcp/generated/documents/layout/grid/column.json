@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/grid/column",
+  "title": "Grid Column",
+  "description": "How to use the Quasar grid for columns.",
+  "canonicalUrl": "https://quasar.dev/layout/grid/column",
+  "source": "docs/src/pages/layout/grid/column.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "layout",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": [
+    {
+      "title": "Equal Height Example",
+      "file": "ColumnEqualWidth.vue",
+      "source": "docs/src/examples/grid/ColumnEqualWidth.vue"
+    },
+    {
+      "title": "Setting one row height",
+      "file": "ColumnRowWidth.vue",
+      "source": "docs/src/examples/grid/ColumnRowWidth.vue"
+    },
+    {
+      "title": "Variable height content",
+      "file": "ColumnVariableWidth.vue",
+      "source": "docs/src/examples/grid/ColumnVariableWidth.vue"
+    },
+    {
+      "title": "All breakpoints",
+      "file": "ColumnAllBreakpoints.vue",
+      "source": "docs/src/examples/grid/ColumnAllBreakpoints.vue"
+    },
+    {
+      "title": "Mix and match",
+      "file": "ColumnMixAndMatch.vue",
+      "source": "docs/src/examples/grid/ColumnMixAndMatch.vue"
+    },
+    {
+      "title": "Horizontal alignment",
+      "file": "ColumnHorizontalAlignment.vue",
+      "source": "docs/src/examples/grid/ColumnHorizontalAlignment.vue"
+    },
+    {
+      "title": "Vertical alignment",
+      "file": "ColumnVerticalAlignment.vue",
+      "source": "docs/src/examples/grid/ColumnVerticalAlignment.vue"
+    },
+    {
+      "title": "Wrapping",
+      "file": "ColumnRowWrapping.vue",
+      "source": "docs/src/examples/grid/ColumnRowWrapping.vue"
+    },
+    {
+      "title": "Reverse",
+      "file": "ColumnReverse.vue",
+      "source": "docs/src/examples/grid/ColumnReverse.vue"
+    },
+    {
+      "title": "Flex order",
+      "file": "ColumnFlexOrder.vue",
+      "source": "docs/src/examples/grid/ColumnFlexOrder.vue"
+    },
+    {
+      "title": "Nesting",
+      "file": "ColumnNesting.vue",
+      "source": "docs/src/examples/grid/ColumnNesting.vue"
+    }
+  ]
+}

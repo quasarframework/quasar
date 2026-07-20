@@ -1,0 +1,46 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/configuring-electron#overview",
+    "documentId": "quasar-cli-vite/developing-electron-apps/configuring-electron",
+    "heading": "Configuring Electron",
+    "breadcrumb": ["Configuring Electron"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron",
+    "content": "Electron mode is selected with the `--mode electron` option for `quasar dev` and `quasar build`. Its main process, preload scripts, packaging, and publishing behavior are configured in `quasar.config`.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/configuring-electron#quasar-config-file",
+    "documentId": "quasar-cli-vite/developing-electron-apps/configuring-electron",
+    "heading": "quasar.config file",
+    "breadcrumb": ["quasar.config file", "quasar.config file"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron#quasar-config-file",
+    "content": "```ts /quasar.config file > sourceFiles\n// should you wish to change default files\n// (notice no extension, so it resolves to both .js and .ts)\nsourceFiles: {\n  electronMain?: 'src-electron/electron-main',\n}\n```\n\n```ts /quasar.config file > electron\nelectron: {\n  /**\n   * The list of preload scripts (js/ts) that you want compiled.\n   * Each entry in the list should be a filename (WITHOUT its extension) from /src-electron/\n   *\n   * @default [ 'electron-preload' ]\n   * @example [ 'my-other-preload-script' ]\n   */\n  preloadScripts?: string[];\n\n  /**\n   * Add/remove/change properties of Electron production generated package.json\n   *\n   * Can be async. Can directly modify the \"pkgJson\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendElectronPackageJson?: (pkgJson: { [index in string]: any }) =>\n    | void\n    | { [index in string]: any }\n    | Promise<void | { [index in string]: any }>;\n\n  /**\n   * Run after production dependencies are installed in UnPackaged and\n   * before the selected Electron bundler runs.\n   */\n  beforePackaging?: (context: {\n    readonly appPaths: QuasarAppPaths;\n    readonly unpackagedDir: string;\n  }) => void | Promise<void>;\n\n  /**\n   * Extend the Rolldown config that is used for the Electron main process.\n   *\n   * Can be async. Can directly modify the \"config\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendElectronMainConf?: (\n    config: RolldownOptions\n  ) => void | RolldownOptions | Promise<void | RolldownOptions>;\n\n  /**\n   * Extend the Rolldown config that is used for Electron preload scripts.\n   *\n   * Can be async. Can directly modify the \"config\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendElectronPreloadConf?: (\n    config: RolldownOptions\n  ) => void | RolldownOptions | Promise<void | RolldownOptions>;\n\n  /**\n   * Choose either packager or builder. Packager creates an application\n   * bundle; builder can also create installers, sign, and publish artifacts.\n   */\n  bundler?: \"packager\" | \"builder\";\n  packager?: Omit<ElectronPackager.Options, \"dir\" | \"out\">;\n  builder?: ElectronBuilder.Configuration;\n\n  /**\n   * Specify additional parameters when installing dependencies in\n   * the UnPackaged folder, right before bundling with either\n   * electron packager or electron builder;\n   * Example: [ 'install', '--production', '--ignore-optional', '--some-other-param' ]\n   */\n  unPackagedInstallParams?: string[];\n\n  /**\n   * Specify the debugging port to use for the Electron app when running in development mode\n   * @default 5858\n   */\n  inspectPort?: number;\n}\n```\n\nThe `packager` property accepts [@electron/packager options](https://electron.github.io/packager/main/), except `dir` and `out`, which Quasar controls.\n\nThe `builder` property accepts [electron-builder options](https://www.electron.build/configuration).\n\nTo extend the renderer process (the UI in `/src`) Vite configuration:\n\n```js /quasar.config file\nexport default defineConfig(ctx => {\n  return {\n    build: {\n      extendViteConf(viteConf) {\n        if (ctx.mode.electron) {\n          // do something with viteConf\n          // or return an object to deeply merge with current viteConf\n        }\n      }\n    }\n  }\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/configuring-electron#packager-vs-builder",
+    "documentId": "quasar-cli-vite/developing-electron-apps/configuring-electron",
+    "heading": "Packager vs Builder",
+    "breadcrumb": ["Packager vs Builder", "Packager vs Builder"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron#packager-vs-builder",
+    "content": "`@electron/packager` creates an application bundle and is the Quasar default. `electron-builder` adds installer targets, code-signing integration, and publishing. Both tools have target-specific host restrictions; code signing and native dependencies often require building on the target operating system.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/configuring-electron#dependencies-optimization",
+    "documentId": "quasar-cli-vite/developing-electron-apps/configuring-electron",
+    "heading": "Dependencies optimization",
+    "breadcrumb": ["Dependencies optimization", "Dependencies optimization"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron#dependencies-optimization",
+    "content": "The production package uses the `dependencies` from `/src-electron/package.json`. They are installed in `/dist/electron/UnPackaged` before packaging.\n\nKeep renderer-only dependencies in the root package and Electron runtime dependencies in `/src-electron/package.json`. Preload imports are bundled, but a sandboxed preload cannot use arbitrary Node.js APIs or native modules; move privileged work to the main process and expose a narrow IPC API.\n\nUse `electron.extendElectronPackageJson(pkgJson)` only when the generated production manifest needs additional adjustment. Removing a dependency required by externalized main-process code will make the packaged application fail at runtime.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -5,16 +5,13 @@
   "description": "The QPullToRefresh Vue component allows the user to pull down in order to refresh or retrieve the newest content on a page.",
   "canonicalUrl": "https://quasar.dev/vue-components/pull-to-refresh",
   "source": "docs/src/pages/vue-components/pull-to-refresh.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QPullToRefresh"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QPullToRefresh"],
   "examples": [
     {
       "title": "Basic",

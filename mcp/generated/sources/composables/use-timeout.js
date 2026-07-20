@@ -1,6 +1,7 @@
 import { getCurrentInstance, onBeforeUnmount, onDeactivated } from 'vue'
 
 import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
+import { noop } from '../../utils/event/event.js'
 
 /*
  * Usage:
@@ -9,6 +10,13 @@ import { vmIsDestroyed } from '../../utils/private.vm/vm.js'
  */
 
 export default function useTimeout() {
+  if (__QUASAR_SSR_SERVER__) {
+    return {
+      removeTimeout: noop,
+      registerTimeout: noop
+    }
+  }
+
   let timer = null
   const vm = getCurrentInstance()
 

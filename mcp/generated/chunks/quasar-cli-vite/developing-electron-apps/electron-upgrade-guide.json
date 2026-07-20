@@ -1,0 +1,13 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/electron-upgrade-guide#upgrading-electron",
+    "documentId": "quasar-cli-vite/developing-electron-apps/electron-upgrade-guide",
+    "heading": "Upgrading Electron",
+    "breadcrumb": ["Upgrading Electron", "Upgrading Electron"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-upgrade-guide#upgrading-electron",
+    "content": "When you add the Electron mode in a Quasar project for the first time you will get the latest version of the Electron package. At some point in time, you will want to upgrade the Electron version.\n\nReview Electron's [breaking changes](https://www.electronjs.org/docs/latest/breaking-changes) and release notes before upgrading. Move through major versions deliberately and rebuild any native dependencies afterward.\n\n```tabs\n<<| bash PNPM |>>\n# from /src-electron:\npnpm add -D electron@latest\n<<| bash Yarn |>>\n# from /src-electron:\nyarn add -D electron@latest\n<<| bash NPM |>>\n# from /src-electron:\nnpm install -D electron@latest\n<<| bash Bun |>>\n# from /src-electron:\nbun add -D electron@latest\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

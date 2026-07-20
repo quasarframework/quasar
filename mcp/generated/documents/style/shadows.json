@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "style/shadows",
+  "title": "CSS Shadows (Elevation)",
+  "description": "The list of CSS classes supplied by Quasar for defining elevation on DOM elements.",
+  "canonicalUrl": "https://quasar.dev/style/shadows",
+  "source": "docs/src/pages/style/shadows.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "style",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": [
+    {
+      "title": "Standard shadows",
+      "file": "Standard.vue",
+      "source": "docs/src/examples/shadows/Standard.vue"
+    },
+    {
+      "title": "Shadows pointing up",
+      "file": "PointingUp.vue",
+      "source": "docs/src/examples/shadows/PointingUp.vue"
+    },
+    {
+      "title": "Inset shadow",
+      "file": "Inset.vue",
+      "source": "docs/src/examples/shadows/Inset.vue"
+    }
+  ]
+}

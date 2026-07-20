@@ -1,0 +1,37 @@
+[
+  {
+    "id": "style/shadows#overview",
+    "documentId": "style/shadows",
+    "heading": "CSS Shadows (Elevation)",
+    "breadcrumb": ["CSS Shadows (Elevation)"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/style/shadows",
+    "content": "Simple yet effective way to add shadows to create a depth/elevation effect.\nThe shadows are in accordance to Material Design specifications (24 levels of depth).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "style/shadows#usage",
+    "documentId": "style/shadows",
+    "heading": "Usage",
+    "breadcrumb": ["Usage", "Usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/style/shadows#usage",
+    "content": "| CSS Class Name      | Description                                           |\n| ------------------- | ----------------------------------------------------- |\n| `no-shadow`         | Remove any shadow                                     |\n| `inset-shadow`      | Set an inset shadow on top                            |\n| `inset-shadow-down` | Set an inset shadow on bottom                         |\n| `shadow-1`          | Set a depth of 1                                      |\n| `shadow-2`          | Set a depth of 2                                      |\n| `shadow-N`          | Where `N` is an integer from 1 to 24.                 |\n| `shadow-transition` | Apply the default CSS transition effect on the shadow |\n\n<DocExample title=\"Standard shadows\" file=\"Standard\" scrollable />\n\nThe shadows above point towards the bottom of the element. If you want them to point towards the top of the element, add `up` before the number:\n\n| CSS Class Name | Description                           |\n| -------------- | ------------------------------------- |\n| `shadow-up-1`  | Set a depth of 1                      |\n| `shadow-up-2`  | Set a depth of 2                      |\n| `shadow-up-N`  | Where `N` is an integer from 1 to 24. |\n\n<DocExample title=\"Shadows pointing up\" file=\"PointingUp\" scrollable />\n\nExample: Inset shadow (Inset.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Standard shadows",
+        "file": "Standard.vue"
+      },
+      {
+        "title": "Shadows pointing up",
+        "file": "PointingUp.vue"
+      },
+      {
+        "title": "Inset shadow",
+        "file": "Inset.vue"
+      }
+    ]
+  }
+]

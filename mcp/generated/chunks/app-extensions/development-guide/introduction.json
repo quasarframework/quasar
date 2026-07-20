@@ -1,0 +1,111 @@
+[
+  {
+    "id": "app-extensions/development-guide/introduction#overview",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "App Extension Development",
+    "breadcrumb": ["App Extension Development"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction",
+    "content": "This section of the docs deals with creating your own App Extensions.\n\nIt is assumed you have already installed one of the official App Extensions. Having this experience at your disposal is going to be very valuable when you start building your own App Extensions. If you run into problems, please visit our Discord server's channel `#app-extensions`.\n\nAn App Extension is essentially just an npm package that Quasar CLI loads to provide the functionality that you supplied.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#creating-the-app-extension",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Creating the App Extension",
+    "breadcrumb": ["Creating the App Extension", "Creating the App Extension"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#creating-the-app-extension",
+    "content": "```bash PNPM v11+ only!\npnpm create quasar@latest\n# then pick the AppExtension option\n```\n\nIt will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.\n\nFor the sake of this documentation page, let's assume we answered with `my-ext` to the App Extension `ext-id` question (regarding the prompts above). Remember that the folder name for the App Extension source folder can be different from the actual `ext-id`. At the end, we will publish our new npm package (`quasar-app-extension-my-ext`) from the `/ae` folder.\n\nBased on your responses, a folder for your App Extension will be created with the following structure:\n\n- . — PNPM workspace with /ae and /playground\n  - ae — The App Extension that you will publish\n    - package.json\n    - src\n      - templates/ — optional folder for spawning files\n      - runtime/ — optional folder with UI stuff\n      - index.js — (or .ts) Described in Index API\n      - install.js — (or .ts) Described in Install API\n      - prompts.js — (or .ts) Described in Prompts API\n      - uninstall.js — (or .ts) Described in Uninstall API\n  - playground/ — A @quasar/app-vite project folder to test/develop with",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#app-extension-scripts-description",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "App Extension Scripts description",
+    "breadcrumb": [
+      "App Extension Scripts description",
+      "App Extension Scripts description"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#app-extension-scripts-description",
+    "content": "Except for `/ae/src/index.js|ts`, all the other files are optional. You can manually add or remove them at any point in time.\n\n| Name                   | Description                                               |\n| ---------------------- | --------------------------------------------------------- |\n| `/ae/src/prompts.js`   | Handles the prompts when installing the App Extension     |\n| `/ae/src/install.js`   | Extends the installation procedure of the App Extension   |\n| `/ae/src/index.js`     | Is executed on `quasar dev` and `quasar build`            |\n| `/ae/src/uninstall.js` | Extends the uninstallation procedure of the App Extension |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#handling-package-dependencies",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Handling package dependencies",
+    "breadcrumb": [
+      "Handling package dependencies",
+      "Handling package dependencies"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#handling-package-dependencies",
+    "content": "If your App Extension needs packages at runtime, install them in the `/ae` folder as regular dependencies. Do not install packages supplied by Quasar CLI, such as `quasar`, `@quasar/extras`, or `@quasar/app-vite`. Use `api.compatibleWith()` in your install and index scripts to declare the versions that your extension supports; see the [Install API](/app-extensions/development-guide/install-api) and [Index API](/app-extensions/development-guide/index-api).\n\nFor example, if you are creating a UI component that depends on a package named `my-table`, run `pnpm add my-table` from the `/ae` folder.\n\n::: warning\nNever install packages that are supplied by Quasar CLI as dependencies of your extension. Use `api.compatibleWith()` to require a compatible version without installing a second copy.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#commands-to-use",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Commands to use",
+    "breadcrumb": ["Developing", "Commands to use", "Commands to use"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#commands-to-use",
+    "content": "Notice `/package.json` scripts that you can use:\n\n```bash Run from root folder\n# Lint & format\n# (if you selected oxlint + oxfmt option)\npnpm run lint\npnpm run lint:check\n\n# Use playground to develop;\n# Helps you test the Index script as well\npnpm run dev\npnpm run dev -m ssr\n# ...etc\n\n# Invokes the AE into /playground when needed\n# (like when changing the scripts themselves);\n# Helps you run the Install & Prompts scripts\npnpm run invoke\n\n# Uninstall & re-install AE;\n# Helps you mainly to run the Uninstall script\npnpm run cycle\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#install-and-prompts-scripts",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Install and Prompts scripts",
+    "breadcrumb": [
+      "Developing",
+      "Install and Prompts scripts",
+      "Install and Prompts scripts"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#install-and-prompts-scripts",
+    "content": "::: tip\nLearn more about what you can do with the [Prompts API](/app-extensions/development-guide/prompts-api) and the [Install API](/app-extensions/development-guide/install-api).\n:::\n\nYou will notice mentions of `invoking` an AE. The invoking procedure, as opposed to the \"adding\" one, assumes that the App Extension's package is already pnpm/yarn/npm/bun installed into the host app (and so, Quasar CLI skips that step).\n\n```bash End-user commands using Index script\nquasar ext add <ext-id>\n# or:\nquasar ext invoke <ext-id>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#uninstall-script",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Uninstall script",
+    "breadcrumb": ["Developing", "Uninstall script", "Uninstall script"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#uninstall-script",
+    "content": "::: tip\nLearn more about what you can do with the [Uninstall API](/app-extensions/development-guide/uninstall-api).\n:::\n\nYou will notice mentions of `uninvoking` an AE. Unlike removing an extension, uninvoking unregisters it from the host app but does not uninstall its package.\n\n```bash End-user commands using Uninstall script\nquasar ext remove <ext-id>\n# or:\nquasar ext uninvoke <ext-id>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#index-script",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Index script",
+    "breadcrumb": ["Developing", "Index script", "Index script"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#index-script",
+    "content": "The Index script is the heart of your App Extension.\n\nThis is where you can tamper with all `quasar.config` file options, extend the Vite configuration, register Quasar CLI commands, start up external services required for developing your app and many more.\n\n```bash End-user commands using Index script\nquasar dev\nquasar build\n```\n\n::: tip\nLearn more about what you can do with the [Index API](/app-extensions/development-guide/index-api).\n:::\n\nA common use-case of what you can do with your Index script is to extend the host app's Vite config as follows:\n\n```js /ae/src/index.js (or .ts)\nimport { defineIndexScript } from '#q-app'\n\nexport default defineIndexScript(api => {\n  api.extendViteConf((viteConf, { isClient, isServer }, api) => {\n    // similar in use to /quasar.config > build > extendViteConf\n  })\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/introduction#publishing",
+    "documentId": "app-extensions/development-guide/introduction",
+    "heading": "Publishing",
+    "breadcrumb": ["Publishing", "Publishing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/introduction#publishing",
+    "content": "When you finalized your App Extension and you're ready to deploy it, all you need to do is to publish it to the npm repository.\n\n- Make sure to edit `/ae/README.md`.\n- Also edit `/ae/package.json` > `peerDependencies` if needed.\n- In order to publish the AE, do it from within the `/ae` folder:\n\n```bash\n# from /ae folder ONLY:\npnpm login\npnpm publish\n```\n\n::: warning\nIt's important to remember to NOT strip out the `quasar-app-extension-` prefix from the `name` property of your extension's `/ae/package.json`, otherwise Quasar CLI will not recognize it.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -16,7 +16,7 @@ Loading is a feature that you can use to display an overlay with a spinner on to
 
 **API reference:** [Loading](../../api/Loading.md)
 
-<DocInstall plugins="Loading" config="loading" />
+**Configuration:** register Loading through `framework.plugins` in `quasar.config` and configure `framework.config.loading` in `quasar.config`.
 
 ## Usage
 
@@ -67,7 +67,7 @@ Loading.hide()
 
 Source: [Default.vue](../../examples/Loading/Default.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showLoading" label="Show Loading" />
@@ -98,7 +98,7 @@ function showLoading() {
   }, 2000)
 }
 </script>
-````
+```
 
 ### Customization
 
@@ -106,7 +106,7 @@ function showLoading() {
 
 Source: [WithMessage.vue](../../examples/Loading/WithMessage.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="teal" @click="showLoading" label="Show Loading" />
@@ -139,13 +139,13 @@ function showLoading() {
   }, 3000)
 }
 </script>
-````
+```
 
 **Example: With customized box**
 
 Source: [WithBox.vue](../../examples/Loading/WithBox.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showLoading" label="Show Loading" />
@@ -180,13 +180,13 @@ function showLoading() {
   }, 3000)
 }
 </script>
-````
+```
 
 **Example: Customized**
 
 Source: [Customized.vue](../../examples/Loading/Customized.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="red" @click="showLoading" label="Show Loading" />
@@ -224,13 +224,13 @@ function showLoading() {
   }, 3000)
 }
 </script>
-````
+```
 
 **Example: Show and Change**
 
 Source: [ShowAndChange.vue](../../examples/Loading/ShowAndChange.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="primary" @click="showLoading" label="Show Loading" />
@@ -272,7 +272,7 @@ function showLoading() {
   }, 2000)
 }
 </script>
-````
+```
 
 ### Content sanitization
 
@@ -280,7 +280,7 @@ function showLoading() {
 
 Source: [WithMessageSanitized.vue](../../examples/Loading/WithMessageSanitized.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn color="teal" @click="showLoading" label="Show Loading (Sanitized)" />
@@ -315,7 +315,7 @@ function showLoading() {
   }, 3000)
 }
 </script>
-````
+```
 
 ### Multiple groups in parallel <q-badge label="v2.8+" />
 
@@ -331,7 +331,7 @@ Obviously, we can only display one group at a time, so the order in which they a
 
 Source: [MultipleGroups.vue](../../examples/Loading/MultipleGroups.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -390,7 +390,7 @@ function showMultipleGroups() {
   }, 1500)
 }
 </script>
-````
+```
 
 You can play with the returning function to show/update/hide the group or just call `Loading.show({ group: '..group_name..', ... })` or `Loading.hide('..group_name..')`.
 

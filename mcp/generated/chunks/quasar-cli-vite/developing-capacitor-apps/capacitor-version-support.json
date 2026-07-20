@@ -1,0 +1,68 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#overview",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "heading": "Capacitor versions",
+    "breadcrumb": ["Capacitor versions"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "content": "The officially supported versions of Capacitor are v5+.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#upgrading-capacitor",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "heading": "Upgrading Capacitor",
+    "breadcrumb": ["Upgrading Capacitor", "Upgrading Capacitor"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#upgrading-capacitor",
+    "content": "If you previously used a lower version of Capacitor and you want to upgrade to a newer version, then:\n\nFollow Capacitor's official [upgrade guide](https://capacitorjs.com/docs/updating/8-0) for the target major version, using the documentation version selector when upgrading to an older supported major. The guides cover dependency updates, native project migrations, and required toolchain changes that cannot be handled safely by changing package versions alone.\n\nBefore upgrading, commit or back up `/src-capacitor`, including any native changes. Run the migration commands from `/src-capacitor`, use the lockfile and package manager already selected by the project, and verify both native targets after the upgrade.\n\nIt would also be wise to check the changelog of Capacitor itself to see what breaking changes it has.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v8",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "heading": "Capacitor v8",
+    "breadcrumb": ["Capacitor v8", "Capacitor v8"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v8",
+    "content": "::: warning Requirements\n\n- Node v22.22+\n- Xcode 16+ (for iOS)\n- Xcode Command Line Tools\n- Homebrew\n- CocoaPods\n- Android Studio 2024.2.1+\n- Android SDK (API 23+)\n\n:::\n\nAssuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:\n\n```json /src-capacitor/package.json\n{\n  \"dependencies\": {\n    \"@capacitor/app\": \"^8.0.0\",\n    \"@capacitor/cli\": \"^8.0.0\",\n    \"@capacitor/core\": \"^8.0.0\",\n    \"@capacitor/splash-screen\": \"^8.0.0\"\n  }\n}\n```\n\nThe `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Quasar can provide additional UI behavior when they are installed.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v7",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "heading": "Capacitor v7",
+    "breadcrumb": ["Capacitor v7", "Capacitor v7"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v7",
+    "content": "::: warning Requirements\n\n- Xcode 16+ (for iOS)\n- Xcode Command Line Tools\n- Homebrew\n- CocoaPods\n- Android Studio 2024.2.1+\n- Android SDK (API 23+)\n\n:::\n\nAssuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:\n\n```json /src-capacitor/package.json\n{\n  \"dependencies\": {\n    \"@capacitor/app\": \"^7.0.0\",\n    \"@capacitor/cli\": \"^7.0.0\",\n    \"@capacitor/core\": \"^7.0.0\",\n    \"@capacitor/splash-screen\": \"^7.0.0\"\n  }\n}\n```\n\nThe `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Quasar can provide additional UI behavior when they are installed.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v6",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "heading": "Capacitor v6",
+    "breadcrumb": ["Capacitor v6", "Capacitor v6"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v6",
+    "content": "::: warning Requirements\n\n- Xcode 15+ (for iOS)\n- Android Studio Jellyfish 2023.3.1.18 or newer (for Android)\n\n:::\n\nAssuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:\n\n```json /src-capacitor/package.json\n{\n  \"dependencies\": {\n    \"@capacitor/app\": \"^6.0.0\",\n    \"@capacitor/cli\": \"^6.0.0\",\n    \"@capacitor/core\": \"^6.0.0\",\n    \"@capacitor/splash-screen\": \"^6.0.0\"\n  }\n}\n```\n\nThe `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Quasar can provide additional UI behavior when they are installed.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v5",
+    "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+    "heading": "Capacitor v5",
+    "breadcrumb": ["Capacitor v5", "Capacitor v5"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support#capacitor-v5",
+    "content": "::: warning Requirements\n\n- Xcode 14.1+ (for iOS)\n- Android Studio Flamingo 2022.2.1 or newer (for Android)\n\n:::\n\nAssuming that you've installed Capacitor mode already, this is how your dependencies in `/src-capacitor/package.json` should look like:\n\n```json /src-capacitor/package.json\n{\n  \"dependencies\": {\n    \"@capacitor/app\": \"^5.0.0\",\n    \"@capacitor/cli\": \"^5.0.0\",\n    \"@capacitor/core\": \"^5.0.0\",\n    \"@capacitor/splash-screen\": \"^5.0.0\"\n  }\n}\n```\n\nThe `@capacitor/app` and `@capacitor/splash-screen` plugins are optional, but Quasar can provide additional UI behavior when they are installed.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

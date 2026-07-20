@@ -46,6 +46,19 @@ test('serves tools and resources through the MCP protocol', async t => {
 
   const manifest = await client.readResource({ uri: 'quasar://manifest' })
   assert.match(manifest.contents[0].text, /"APIs": 152/)
+  assert.match(manifest.contents[0].text, /"documents": 311/)
+  assert.match(manifest.contents[0].text, /"quasar-cli-vite\/ssg": 14/)
+
+  const guideSearch = await client.callTool({
+    name: 'searchQuasarDocs',
+    arguments: {
+      query: 'hybrid partial CSR',
+      kinds: ['guide'],
+      areas: ['quasar-cli-vite/ssr']
+    }
+  })
+  assert.equal(guideSearch.isError, void 0)
+  assert.match(guideSearch.content[0].text, /Hybrid SSR with partial CSR/)
 
   const api = await client.readResource({ uri: 'quasar://api/QInput' })
   assert.match(api.contents[0].text, /"model-value"/)

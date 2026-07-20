@@ -21,7 +21,11 @@ function matches(record, expected) {
 }
 
 for (const entry of cases) {
-  const results = searchRecords(store.searchRecords, entry.query, { limit: 10 })
+  const results = searchRecords(store.searchRecords, entry.query, {
+    limit: 10,
+    kinds: entry.kinds,
+    areas: entry.areas
+  })
   const index = results.findIndex(({ record }) =>
     matches(record, entry.expected)
   )

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions#why-am-i-getting-hydration-errors",
+    "documentId": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions",
+    "heading": "Why am I getting hydration errors?",
+    "breadcrumb": [
+      "Why am I getting hydration errors?",
+      "Why am I getting hydration errors?"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions#why-am-i-getting-hydration-errors",
+    "content": "Take a look at the [Client Side Hydration](/quasar-cli-vite/developing-ssr/client-side-hydration) page. A mismatch means the server-rendered HTML differs from the client's initial render. Development builds provide the useful diagnostics, but the underlying mismatch can also affect production and should be fixed before release. Use [QNoSsr](/vue-components/no-ssr) for content that can only be rendered in the browser.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions#why-doesn-t-importing-platform-and-cookies-work",
+    "documentId": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions",
+    "heading": "Why doesn't importing Platform and Cookies work?",
+    "breadcrumb": [
+      "Why doesn't importing Platform and Cookies work?",
+      "Why doesn't importing Platform and Cookies work?"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions#why-doesn-t-importing-platform-and-cookies-work",
+    "content": "When building for SSR, use only the `$q.platform` / `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:\n\n```js\n// example with Platform; same thing for Cookies\nimport { Platform } from 'quasar'\n\n// you need access to `ssrContext`\nfunction (ssrContext) {\n  const platform = import.meta.env.QUASAR_SERVER\n    ? Platform.parseSSR(ssrContext)\n    : Platform // otherwise we're on client\n\n  // platform is equivalent to the global import as in non-SSR builds\n}\n```\n\nThe `ssrContext` is available in the [Boot Files](/quasar-cli-vite/boot-files) or the [PreFetch Feature](/quasar-cli-vite/prefetch-feature), where it is supplied as a parameter.\n\nThere is a good reason for this. In a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same thing. Each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So [Platform](/options/platform-detection) and [Cookies](/quasar-plugins/cookies) need to be bound to each request separately.\n\nAlso a good idea is to read the [Writing Universal Code](/quasar-cli-vite/developing-ssr/writing-universal-code) documentation page.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions#why-isn-t-localstorage-and-sessionstorage-working",
+    "documentId": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions",
+    "heading": "Why isn't LocalStorage and SessionStorage working?",
+    "breadcrumb": [
+      "Why isn't LocalStorage and SessionStorage working?",
+      "Why isn't LocalStorage and SessionStorage working?"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions#why-isn-t-localstorage-and-sessionstorage-working",
+    "content": "Web Storage is a browser-only API and is unavailable while code runs on the server. Access it only in client-side code, such as after the component mounts.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

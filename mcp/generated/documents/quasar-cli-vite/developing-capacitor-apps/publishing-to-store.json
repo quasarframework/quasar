@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/developing-capacitor-apps/publishing-to-store",
+  "title": "Publishing to Stores",
+  "description": "(@quasar/app-vite) How to publish a Quasar hybrid mobile app to Google Play and the Apple App Store.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/publishing-to-store",
+  "source": "docs/src/pages/quasar-cli-vite/developing-capacitor-apps/publishing-to-store.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite/capacitor-apps",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/publishing-to-store#overview",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+    "heading": "Publishing to Stores",
+    "breadcrumb": ["Publishing to Stores"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+    "content": "Quasar builds the web application and prepares the Cordova project. Android Studio, Xcode, Cordova's platform tooling, and the store portals handle signing and submission.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/publishing-to-store#android-publishing",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+    "heading": "Android Publishing",
+    "breadcrumb": ["Android Publishing", "Android Publishing"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/publishing-to-store#android-publishing",
+    "content": "To generate a release build for Android, we can use the following Quasar CLI command:\n\n```bash\nquasar build -m cordova -T android\n# or the short form:\nquasar build -m android\n```\n\nThis will generate a release build based on the settings in your `/src-cordova/config.xml`.\n\nNext, we can find our unsigned APK file in \"/src-cordova/platforms/android/app/build/outputs/apk/release\" or equivalent path (written in the output of terminal). Filename usually ends with \"-release-unsigned.apk\". Now, we need to sign the unsigned APK and run an alignment utility on it to optimize it and prepare it for the app store. If you already have a signing key, skip these steps and use that one instead.\n\nLet’s generate our private key using the keytool command that comes with the JDK. If this tool isn’t found, refer to the installation guide:\n\n```bash\nkeytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 20000\n```\n\nYou’ll first be prompted to create a password for the keystore. Then, answer the rest of the nice tool’s questions and when it’s all done, you should have a file called my-release-key.keystore created in the current directory.\n\n::: danger\n\n- Keep the keystore and its passwords out of version control and build logs. Store encrypted backups separately from the source repository and restrict access to the people or release system that signs the app. Losing the signing key can prevent you from publishing updates; leaking it can let someone sign malicious releases as your app.\n- Store policies, target SDK requirements, signing workflows, and developer-program details change regularly. Treat the platform documentation linked below as authoritative.\n\n:::\n\nBefore creating a release:\n\n- commit or back up native changes under `/src-cordova`\n- remove development-only endpoints, logging, and permissions\n- set the release version and platform-specific build number\n- verify icons, splash screens, privacy disclosures, plugins, permissions, and production services\n- test a release build on physical devices",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/publishing-to-store#google-play",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+    "heading": "Google Play",
+    "breadcrumb": ["Google Play", "Google Play"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/publishing-to-store#google-play",
+    "content": "Prepare the Cordova project and open Android Studio:\n\n```bash\nquasar build -m cordova -T android --ide\n```\n\nIn Android Studio, use **Build > Generate Signed Bundle / APK**. Google Play normally expects an Android App Bundle (`.aab`). Configure a release signing key and keep both the key and its credentials backed up securely.\n\nSet the shared app version through `/quasar.config > cordova > version` or `/package.json > version`. Set `cordova.androidVersionCode` when you need to control Android's monotonically increasing version code.\n\nCreate or update the app in [Google Play Console](https://play.google.com/console/), complete its policy and store-listing requirements, upload the signed bundle to a testing track, and promote it after testing.\n\nRefer to Android's current guides for [signing an app](https://developer.android.com/studio/publish/app-signing), [preparing a release](https://developer.android.com/studio/publish/preparing), and [publishing on Google Play](https://developer.android.com/studio/publish/upload-bundle). Also check the release documentation for the installed `cordova-android` version.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/publishing-to-store#apple-app-store",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+    "heading": "Apple App Store",
+    "breadcrumb": ["Apple App Store", "Apple App Store"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/publishing-to-store#apple-app-store",
+    "content": "Apple releases require macOS, Xcode, and membership in the Apple Developer Program. Prepare the Cordova project and open Xcode:\n\n```bash\nquasar build -m cordova -T ios --ide\n```\n\nOpen the generated workspace when the project uses CocoaPods. In Xcode:\n\n1. Select the app target and configure **Signing & Capabilities** with the correct team and bundle identifier.\n2. Set the user-visible version and build number. Each uploaded build needs a unique build number.\n3. Select a generic or connected iOS device as the destination.\n4. Choose **Product > Archive**.\n5. In the Organizer, validate and distribute the archive to App Store Connect.\n\nCreate the app record in [App Store Connect](https://appstoreconnect.apple.com/), select the uploaded build, complete the privacy and store metadata, test with TestFlight, and submit the release for review.\n\nRefer to Apple's current documentation for [distributing an app through the App Store](https://developer.apple.com/documentation/xcode/distributing-your-app-for-beta-testing-and-releases), [uploading builds](https://developer.apple.com/help/app-store-connect/manage-builds/upload-builds-overview), and [submitting for review](https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/submit-an-app-for-review). Also check the release documentation for the installed `cordova-ios` version.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/publishing-to-store#command-line-builds",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+    "heading": "Command-line builds",
+    "breadcrumb": ["Command-line builds", "Command-line builds"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/publishing-to-store#command-line-builds",
+    "content": "Without `--ide`, Quasar invokes `cordova build` and copies recognized native output under `/dist/cordova/<target>`. Customize `cordova.getCordovaBuildParams` for signing arguments or nonstandard build commands, and `cordova.getCordovaBuildOutputFolder` when a platform writes artifacts somewhere else.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

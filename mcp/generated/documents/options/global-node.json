@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "options/global-node",
+  "title": "Global node generation",
+  "description": "Some Quasar components and plugins to show floating elements will create global nodes appending them to the body.",
+  "canonicalUrl": "https://quasar.dev/options/global-node",
+  "source": "docs/src/pages/options/global-node.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "options",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

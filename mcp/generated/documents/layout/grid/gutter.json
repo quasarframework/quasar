@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "layout/grid/gutter",
+  "title": "Grid Gutter",
+  "description": "How to use the Quasar grid for gutter spaces.",
+  "canonicalUrl": "https://quasar.dev/layout/grid/gutter",
+  "source": "docs/src/pages/layout/grid/gutter.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "layout",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": [
+    {
+      "title": "Sizes for q-gutter",
+      "file": "GutterSize.vue",
+      "source": "docs/src/examples/grid/GutterSize.vue"
+    },
+    {
+      "title": "Horizontal only q-gutter",
+      "file": "GutterHorizontal.vue",
+      "source": "docs/src/examples/grid/GutterHorizontal.vue"
+    },
+    {
+      "title": "Vertical only q-gutter",
+      "file": "GutterVertical.vue",
+      "source": "docs/src/examples/grid/GutterVertical.vue"
+    },
+    {
+      "title": "Mixed horizontal and vertical q-gutter",
+      "file": "GutterMixed.vue",
+      "source": "docs/src/examples/grid/GutterMixed.vue"
+    },
+    {
+      "title": "Sizes for q-col-gutter",
+      "file": "ColGutterSize.vue",
+      "source": "docs/src/examples/grid/ColGutterSize.vue"
+    },
+    {
+      "title": "Horizontal only q-col-gutter",
+      "file": "ColGutterHorizontal.vue",
+      "source": "docs/src/examples/grid/ColGutterHorizontal.vue"
+    },
+    {
+      "title": "Vertical only q-col-gutter",
+      "file": "ColGutterVertical.vue",
+      "source": "docs/src/examples/grid/ColGutterVertical.vue"
+    },
+    {
+      "title": "Mixed horizontal and vertical q-col-gutter",
+      "file": "ColGutterMixed.vue",
+      "source": "docs/src/examples/grid/ColGutterMixed.vue"
+    },
+    {
+      "title": "Parent styling",
+      "file": "ParentStyling.vue",
+      "source": "docs/src/examples/grid/ParentStyling.vue"
+    },
+    {
+      "title": "Children size compare",
+      "file": "ChildrenSizeCompare.vue",
+      "source": "docs/src/examples/grid/ChildrenSizeCompare.vue"
+    },
+    {
+      "title": "Children styling",
+      "file": "ChildrenStyling.vue",
+      "source": "docs/src/examples/grid/ChildrenStyling.vue"
+    }
+  ]
+}

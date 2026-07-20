@@ -1,0 +1,46 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics#overview",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics",
+    "heading": "Managing Google Analytics",
+    "breadcrumb": ["Managing Google Analytics"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/managing-google-analytics",
+    "content": "The former Analytics.js integration is no longer appropriate for new applications. Google Analytics 4 replaced the Universal Analytics APIs that older Cordova examples used, and Google does not maintain an official Cordova analytics plugin.\n\nChoose a maintained Cordova plugin or analytics provider that supports your target platform versions. Follow that provider's native Android and iOS setup, install the plugin from `/src-cordova`, and keep its platform configuration files out of `/src-cordova/www`.\n\n::: warning\n\n- Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.\n- A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics#prerequisites",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics",
+    "heading": "Prerequisites",
+    "breadcrumb": ["Prerequisites", "Prerequisites"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/managing-google-analytics#prerequisites",
+    "content": "- Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Page Routing with Vue Router](/quasar-cli-vite/page-routing-with-vue-router) for more info on routing.\n- Have Basic knowledge of Google Analytics",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics#preparation",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics",
+    "heading": "Preparation",
+    "breadcrumb": ["Preparation", "Preparation"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/managing-google-analytics#preparation",
+    "content": "Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics#application-integration",
+    "documentId": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics",
+    "heading": "Application integration",
+    "breadcrumb": ["Application integration", "Application integration"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/managing-google-analytics#application-integration",
+    "content": "> For this guide, we'll assume you have a fixed sessionId that you send to Google Analytics. Google Analytics uses a sessionId to distinguish different users from each other. If you want to create an anonymous sessionId, see [Analytics Documentation on user id](https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id).\n\nWrap the selected plugin behind a small application service rather than calling a plugin global throughout the UI. This gives the app one place to:\n\n- wait for Cordova's `deviceready` event\n- disable collection until consent is available\n- normalize screen names and event parameters\n- handle unsupported browser or development environments\n- replace the provider later\n\nTo report route changes, create a Quasar boot file with `defineBoot`, then call the service from `router.afterEach`:\n\n```js /src/boot/analytics.js\nimport { defineBoot } from '#q-app'\nimport analytics from 'src/services/analytics'\n\nexport default defineBoot(({ router }) => {\n  router.afterEach(to => {\n    analytics.setCurrentScreen(String(to.name ?? to.path))\n  })\n})\n```\n\nRegister it only in Cordova mode:\n\n```js /quasar.config file\nexport default defineConfig(ctx => ({\n  boot: [...(ctx.mode.cordova ? ['analytics'] : [])]\n}))\n```\n\nThe exact service implementation depends on the plugin you select. Verify that the plugin is actively maintained, supports GA4 if Google Analytics is required, and documents the necessary consent and native configuration steps.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

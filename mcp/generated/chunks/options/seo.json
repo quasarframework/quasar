@@ -1,0 +1,24 @@
+[
+  {
+    "id": "options/seo#overview",
+    "documentId": "options/seo",
+    "heading": "SEO with Quasar",
+    "breadcrumb": ["SEO with Quasar"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/options/seo",
+    "content": "The term SEO refers to Search Engine Optimization. And Quasar covers this aspect too through the [Quasar Meta Plugin](/quasar-plugins/meta).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/seo#quasar-meta-plugin",
+    "documentId": "options/seo",
+    "heading": "Quasar Meta Plugin",
+    "breadcrumb": ["Quasar Meta Plugin", "Quasar Meta Plugin"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/seo#quasar-meta-plugin",
+    "content": "The [Quasar Meta Plugin](/quasar-plugins/meta) can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.\n\nTake full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. Note that for a SPA (Single Page Applications) the meta tags are added at runtime and not supplied directly by the webserver (as with SSR/SSG builds).\n\n::: tip\nThis Quasar plugin has the most tight integration with Quasar and so it has the best performance against any other similar solution.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

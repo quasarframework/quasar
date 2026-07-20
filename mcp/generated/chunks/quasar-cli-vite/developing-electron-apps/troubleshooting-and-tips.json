@@ -1,0 +1,52 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#browser-devtools",
+    "documentId": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
+    "heading": "Browser Devtools",
+    "breadcrumb": ["Browser Devtools", "Browser Devtools"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#browser-devtools",
+    "content": "The generated main-process file opens renderer DevTools when `import.meta.env.QUASAR_DEBUG` is true. This includes development and production builds created with `quasar build --debug`.\n\n```js /src-electron/electron-main\nfunction createWindow () {\n  const mainWindow = new BrowserWindow({ ... })\n\n  if (import.meta.env.QUASAR_DEBUG) {\n    // if on DEV or Production with debug enabled\n    mainWindow.webContents.openDevTools()\n  }\n  else {\n    // Production build without --debug\n    mainWindow.webContents.on('devtools-opened', () => {\n      mainWindow.webContents.closeDevTools()\n    })\n  }\n}\n```\n\nDo not treat hiding DevTools as a security control. Secure the renderer even when a user can inspect or modify its local state.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#debugging-the-main-process",
+    "documentId": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
+    "heading": "Debugging the main process",
+    "breadcrumb": ["Debugging the main process", "Debugging the main process"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#debugging-the-main-process",
+    "content": "In development, Quasar starts Electron's main process with Node's `--inspect` option. Attach a Node-compatible debugger, such as the Chrome DevTools page at `chrome://inspect` or a JavaScript debugger in your editor.\n\n```bash\nDebugger listening on ws://127.0.0.1:5858/b285586a-6091-4c41-b6ea-0d389e6f9c93\nFor help, see: https://nodejs.org/en/docs/inspector\n```\n\nSet the preferred port with `quasar.config > electron > inspectPort`. Quasar uses the closest available port when that port is occupied.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#native-dependency-fails-to-load",
+    "documentId": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
+    "heading": "Native dependency fails to load",
+    "breadcrumb": [
+      "Native dependency fails to load",
+      "Native dependency fails to load"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#native-dependency-fails-to-load",
+    "content": "An error mentioning `NODE_MODULE_VERSION`, `Module did not self-register`, or a missing `.node` file usually means a native dependency was built for a different Node.js ABI, operating system, or architecture. Install it under `/src-electron`, rebuild it for the Electron version used by the project, and verify that the target architecture is supported. See Electron's [native Node modules guide](https://www.electronjs.org/docs/latest/tutorial/using-native-node-modules/).\n\nAfter upgrading Electron, rebuild native dependencies before diagnosing application code.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#production-build-differs-from-development",
+    "documentId": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
+    "heading": "Production build differs from development",
+    "breadcrumb": [
+      "Production build differs from development",
+      "Production build differs from development"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#production-build-differs-from-development",
+    "content": "Build without packaging to inspect the application that is passed to Packager or Builder:\n\n```bash\nquasar build -m electron --skip-pkg\n```\n\nThe result is `/dist/electron/UnPackaged`. Check its generated `package.json`, main and preload output, installed production dependencies, and renderer console. Do not edit this directory directly; fix the source or configuration and rebuild.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -3,27 +3,18 @@
     "id": "vue-components/tabs#overview",
     "documentId": "vue-components/tabs",
     "heading": "Tabs",
-    "breadcrumb": [
-      "Tabs"
-    ],
+    "breadcrumb": ["Tabs"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs",
     "content": "Tabs are a way of displaying more information using less window real estate. This page describes the tab selection part through QTabs, QTab and QRouteTab.\n\nOne common use case for this component is in Layout’s header/footer. Please refer to [Layouts](/layout/layout) and [Header & Footer](/layout/header-and-footer#example--playing-with-qtabs) for references.\n\n::: tip\nWorks great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.\n:::\n\nAPI reference: QTabs\n\nAPI reference: QTab\n\nAPI reference: QRouteTab",
-    "apiReferences": [
-      "QTabs",
-      "QTab",
-      "QRouteTab"
-    ],
+    "apiReferences": ["QTabs", "QTab", "QRouteTab"],
     "exampleReferences": []
   },
   {
     "id": "vue-components/tabs#usage",
     "documentId": "vue-components/tabs",
     "heading": "Usage",
-    "breadcrumb": [
-      "Usage",
-      "Usage"
-    ],
+    "breadcrumb": ["Usage", "Usage"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#usage",
     "content": "::: tip TIPS\n\n- QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.\n- On a desktop you will see chevrons on either side that can be clicked.\n- On a mobile, you can pan the tabs with your finger.\n- If you want to force arrows to be visible on mobile use `mobile-arrows` prop.\n\n:::\n\n::: warning\nQRouteTab won't and cannot work with the UMD version if you don't also install Vue Router.\n:::",
@@ -34,11 +25,7 @@
     "id": "vue-components/tabs#basic",
     "documentId": "vue-components/tabs",
     "heading": "Basic",
-    "breadcrumb": [
-      "Usage",
-      "Basic",
-      "Basic"
-    ],
+    "breadcrumb": ["Usage", "Basic", "Basic"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#basic",
     "content": "Example: Basic (Basic.vue)",
@@ -49,6 +36,17 @@
         "file": "Basic.vue"
       }
     ]
+  },
+  {
+    "id": "vue-components/tabs#keyboard-navigation",
+    "documentId": "vue-components/tabs",
+    "heading": "Keyboard navigation",
+    "breadcrumb": ["Usage", "Keyboard navigation", "Keyboard navigation"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/vue-components/tabs#keyboard-navigation",
+    "content": "Use the arrow keys to move focus between tabs. Horizontal tabs use `Arrow Left` and `Arrow Right`; vertical tabs use `Arrow Up` and `Arrow Down`. Navigation wraps at either end, and `Home` or `End` moves focus to the first or last tab. Press `Space` or `Enter` to activate the focused tab.",
+    "apiReferences": [],
+    "exampleReferences": []
   },
   {
     "id": "vue-components/tabs#outside-inside-and-visible-on-mobile-arrows",
@@ -74,11 +72,7 @@
     "id": "vue-components/tabs#vertical",
     "documentId": "vue-components/tabs",
     "heading": "Vertical",
-    "breadcrumb": [
-      "Usage",
-      "Vertical",
-      "Vertical"
-    ],
+    "breadcrumb": ["Usage", "Vertical", "Vertical"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#vertical",
     "content": "Example: Vertical (example with QSplitter) (Vertical.vue)",
@@ -94,11 +88,7 @@
     "id": "vue-components/tabs#dense",
     "documentId": "vue-components/tabs",
     "heading": "Dense",
-    "breadcrumb": [
-      "Usage",
-      "Dense",
-      "Dense"
-    ],
+    "breadcrumb": ["Usage", "Dense", "Dense"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#dense",
     "content": "Example: Dense (Dense.vue)",
@@ -114,11 +104,7 @@
     "id": "vue-components/tabs#individual-colors",
     "documentId": "vue-components/tabs",
     "heading": "Individual colors",
-    "breadcrumb": [
-      "Usage",
-      "Individual colors",
-      "Individual colors"
-    ],
+    "breadcrumb": ["Usage", "Individual colors", "Individual colors"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#individual-colors",
     "content": "Example: Individual colors (IndividualColor.vue)",
@@ -134,11 +120,7 @@
     "id": "vue-components/tabs#ripple",
     "documentId": "vue-components/tabs",
     "heading": "Ripple",
-    "breadcrumb": [
-      "Usage",
-      "Ripple",
-      "Ripple"
-    ],
+    "breadcrumb": ["Usage", "Ripple", "Ripple"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#ripple",
     "content": "Example: No ripple and custom ripple color (Ripples.vue)",
@@ -154,11 +136,7 @@
     "id": "vue-components/tabs#custom-indicator",
     "documentId": "vue-components/tabs",
     "heading": "Custom indicator",
-    "breadcrumb": [
-      "Usage",
-      "Custom indicator",
-      "Custom indicator"
-    ],
+    "breadcrumb": ["Usage", "Custom indicator", "Custom indicator"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#custom-indicator",
     "content": "In the examples below, please notice the last two QTabs: indicator at top and no indicator.\n\nExample: Custom indicator (CustomIndicator.vue)",
@@ -174,11 +152,7 @@
     "id": "vue-components/tabs#tab-notifications",
     "documentId": "vue-components/tabs",
     "heading": "Tab notifications",
-    "breadcrumb": [
-      "Usage",
-      "Tab notifications",
-      "Tab notifications"
-    ],
+    "breadcrumb": ["Usage", "Tab notifications", "Tab notifications"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#tab-notifications",
     "content": "There are multiple ways to display tab notifications: with a QBadge, through an alert dot or an alert icon (can be any).\n\nExample: Tab notifications (Notifying.vue)",
@@ -194,11 +168,7 @@
     "id": "vue-components/tabs#alignment",
     "documentId": "vue-components/tabs",
     "heading": "Alignment",
-    "breadcrumb": [
-      "Usage",
-      "Alignment",
-      "Alignment"
-    ],
+    "breadcrumb": ["Usage", "Alignment", "Alignment"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#alignment",
     "content": "QTabs are responsive and the `align` prop (see below) becomes active when the container width (not window width) is bigger than the configured breakpoint. For demoing purposes, the tabs below have breakpoint disabled.\n\nExample: Alignment (Alignment.vue)\n\nIn the second QTabs from the example below, if window width is below 1024px then the \"Movies\" and \"Photos\" tabs will be replaced by a \"More...\" dropdown.",
@@ -214,11 +184,7 @@
     "id": "vue-components/tabs#with-dropdown",
     "documentId": "vue-components/tabs",
     "heading": "With dropdown",
-    "breadcrumb": [
-      "Usage",
-      "With dropdown",
-      "With dropdown"
-    ],
+    "breadcrumb": ["Usage", "With dropdown", "With dropdown"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#with-dropdown",
     "content": "Example: With a dropdown (Dropdown.vue)",
@@ -234,11 +200,7 @@
     "id": "vue-components/tabs#on-qtoolbar",
     "documentId": "vue-components/tabs",
     "heading": "On QToolbar",
-    "breadcrumb": [
-      "Usage",
-      "On QToolbar",
-      "On QToolbar"
-    ],
+    "breadcrumb": ["Usage", "On QToolbar", "On QToolbar"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#on-qtoolbar",
     "content": "Notice we need to specify the `shrink` prop. By default, QTabs tries to expand to all the available horizontal space, but in this case we are using it as a child of QToolbar so we don't want that.\n\nExample: Tabs in a QToolbar (TabsInToolbar.vue)",
@@ -254,11 +216,7 @@
     "id": "vue-components/tabs#dynamic-update",
     "documentId": "vue-components/tabs",
     "heading": "Dynamic update",
-    "breadcrumb": [
-      "Usage",
-      "Dynamic update",
-      "Dynamic update"
-    ],
+    "breadcrumb": ["Usage", "Dynamic update", "Dynamic update"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#dynamic-update",
     "content": "Example: Dynamic tabs (DynamicTabs.vue)",
@@ -274,11 +232,7 @@
     "id": "vue-components/tabs#along-with-qtabspanel",
     "documentId": "vue-components/tabs",
     "heading": "Along with QTabsPanel",
-    "breadcrumb": [
-      "Usage",
-      "Along with QTabsPanel",
-      "Along with QTabsPanel"
-    ],
+    "breadcrumb": ["Usage", "Along with QTabsPanel", "Along with QTabsPanel"],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#along-with-qtabspanel",
     "content": "::: tip\nQTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.\n:::\n\nExample: Tabs with tab panels (TabsWithTabpanels.vue)\n\nMore info: [Tab Panels](/vue-components/tab-panels).",
@@ -294,10 +248,7 @@
     "id": "vue-components/tabs#connecting-to-vue-router",
     "documentId": "vue-components/tabs",
     "heading": "Connecting to Vue Router",
-    "breadcrumb": [
-      "Connecting to Vue Router",
-      "Connecting to Vue Router"
-    ],
+    "breadcrumb": ["Connecting to Vue Router", "Connecting to Vue Router"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/tabs#connecting-to-vue-router",
     "content": "You can use tabs together with Vue Router through `QRouteTab` component.\nThis component inherits everything from QTab, however it also has `router-link` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.\n\n```html\n<q-tabs>\n  <q-route-tab icon=\"mail\" to=\"/mails\" exact />\n  <q-route-tab icon=\"alarm\" to=\"/alarms\" exact />\n</q-tabs>\n```\n\n::: warning\nWhen using QTabs with QRouteTab, it is not recommended to also use a v-model (though you still can), because the source of truth for the current active tab is determined by the current route instead of the v-model. Each QRouteTab becomes \"active\" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.\n:::",

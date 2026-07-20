@@ -16,15 +16,11 @@ Quasar Framework offers a wide selection of colors out of the box. You can use t
 
 **API reference:** [Brand](../../api/Brand.md)
 
-<DocInstall title="Configuration" config="brand" />
+**Configuration:** configure `framework.config.brand` in `quasar.config`.
 
 ## Brand Colors
 
 Most of the colors that Quasar Components use are strongly linked with these eight colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
-
-<script doc>
-import BrandColors from './BrandColors.vue'
-</script>
 
 <BrandColors />
 
@@ -35,10 +31,6 @@ Also check [Theme Builder](/style/theme-builder) for a tool on customizing the b
 ## Color List
 
 Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) in `<style lang="...">` tags.
-
-<script doc>
-import ColorList from './ColorList.vue'
-</script>
 
 <ColorList />
 
@@ -196,7 +188,7 @@ export default defineBoot(() => {
 })
 ```
 
-If using SSR mode, disable this boot file when running on server-side:
+If using SSR/SSG mode, disable this boot file when running on server-side:
 
 ```js /quasar.config file
 boot: [

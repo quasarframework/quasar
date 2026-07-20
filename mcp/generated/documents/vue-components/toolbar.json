@@ -5,17 +5,13 @@
   "description": "The QToolbar and QToolbarTitle Vue components are usually part of QHeader or QFooter, but it can be used anywhere on the page.",
   "canonicalUrl": "https://quasar.dev/vue-components/toolbar",
   "source": "docs/src/pages/vue-components/toolbar.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QToolbar",
-    "QToolbarTitle"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QToolbar", "QToolbarTitle"],
   "examples": [
     {
       "title": "Basic",

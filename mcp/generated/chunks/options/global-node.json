@@ -1,0 +1,35 @@
+[
+  {
+    "id": "options/global-node#overview",
+    "documentId": "options/global-node",
+    "heading": "Global node generation",
+    "breadcrumb": ["Global node generation"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/options/global-node",
+    "content": "You can define custom className for this global node elements.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/global-node#installation",
+    "documentId": "options/global-node",
+    "heading": "Installation",
+    "breadcrumb": ["Installation", "Installation"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/global-node#installation",
+    "content": "You don't need to do anything.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "options/global-node#configuration",
+    "documentId": "options/global-node",
+    "heading": "Configuration",
+    "breadcrumb": ["Configuration", "Configuration"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/options/global-node#configuration",
+    "content": "In order to define custom class for global nodes, edit your /quasar.config file like below.\n\n```js /quasar.config file\nframework: {\n  config: {\n    globalNode: {\n      className: 'my-class'\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "app-extensions/discover#overview",
+    "documentId": "app-extensions/discover",
+    "heading": "Discover App Extensions",
+    "breadcrumb": ["Discover App Extensions"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/app-extensions/discover",
+    "content": "<q-btn icon-right=\"search\" label=\"Look up extensions\" href=\"https://www.npmjs.com/search?q=quasar-app-extension\" target=\"_blank\" rel=\"noopener noreferrer\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/discover#community-app-extensions",
+    "documentId": "app-extensions/discover",
+    "heading": "Community App Extensions",
+    "breadcrumb": ["Community App Extensions", "Community App Extensions"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/discover#community-app-extensions",
+    "content": "Review submitted [Community App Extensions](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions).\n\n> And please don't forget to submit your own! Learn what Quasar [App Extensions](/app-extensions/introduction) are and how to [create one](/app-extensions/development-guide/introduction).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/discover#official-app-extensions",
+    "documentId": "app-extensions/discover",
+    "heading": "Official App Extensions",
+    "breadcrumb": ["Official App Extensions", "Official App Extensions"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/app-extensions/discover#official-app-extensions",
+    "content": "Below is a list of official app-extensions created by members of the Quasar team.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/discover#tooling",
+    "documentId": "app-extensions/discover",
+    "heading": "Tooling",
+    "breadcrumb": ["Official App Extensions", "Tooling", "Tooling"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/discover#tooling",
+    "content": "| Alias                                                                             | Description                                                          |\n| --------------------------------------------------------------------------------- | -------------------------------------------------------------------- |\n| [@quasar/testing AEs](https://github.com/quasarframework/quasar-testing)          | Includes pre-configured sub-extensions for all of your testing needs |\n| [@quasar/apollo](https://github.com/quasarframework/app-extension-apollo/tree/v2) | Includes pre-configured Apollo integration                           |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/discover#components",
+    "documentId": "app-extensions/discover",
+    "heading": "Components",
+    "breadcrumb": ["Official App Extensions", "Components", "Components"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/discover#components",
+    "content": "| Alias                                                                                       | Description                                                                                                               |\n| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |\n| [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer)       | HTML5 video and audio player                                                                                              |\n| [@quasar/qflashcard](https://github.com/quasarframework/app-extension-qflashcard)           | Show some information and reveal more with CSS Transition Mashups                                                         |\n| [@quasar/qoverlay](https://github.com/quasarframework/app-extension-qoverlay)               | Overlays simplified. Add any component on top of the overlay                                                              |\n| [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity)             | Create activity timelines                                                                                                 |\n| [@quasar/qmarkdown](https://github.com/quasarframework/quasar-ui-qmarkdown)                 | Markdown for your pages                                                                                                   |\n| [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer/tree/next) | View PDF documents in your Quasar app                                                                                     |\n| [@quasar/qcalendar](https://github.com/quasarframework/quasar-ui-qcalendar)                 | Calendar for Quasar                                                                                                       |\n| [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller)             | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |\n| [@quasar/qwindow](https://github.com/quasarframework/app-extension-qwindow)                 | Floating, movable, resizable interactive windows for Quasar                                                               |\n| [@quasar/qiconpicker](https://github.com/quasarframework/quasar-ui-qiconpicker)             | Icon Picker for your Quasar apps                                                                                          |",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#overview",
+    "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+    "heading": "Frameless Electron Window",
+    "breadcrumb": ["Frameless Electron Window"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+    "content": "A nice combo is to use frameless Electron window along with [QBar](/vue-components/bar) component. Here's why.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#setting-frameless-window",
+    "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+    "heading": "Setting frameless window",
+    "breadcrumb": [
+      "Main process",
+      "Setting frameless window",
+      "Setting frameless window"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window#setting-frameless-window",
+    "content": "In your `src-electron/electron-main` file, make some edits to these lines:\n\n```js /src-electron/electron-main file\nimport {\n  // ...other imports\n  ipcMain // <-- add this\n} from 'electron'\n\nfunction createWindow() {\n  const mainWindow = new BrowserWindow({\n    // ...other settings\n    frame: false // <-- add this\n  })\n\n  // ...\n}\n\n// Add this function:\nfunction registerWindowControls() {\n  ipcMain.on('window:minimize', event => {\n    BrowserWindow.fromWebContents(event.sender)?.minimize()\n  })\n\n  ipcMain.on('window:toggle-maximize', event => {\n    const win = BrowserWindow.fromWebContents(event.sender)\n    if (!win) return\n\n    if (win.isMaximized()) {\n      win.unmaximize()\n    } else {\n      win.maximize()\n    }\n  })\n\n  ipcMain.on('window:close', event => {\n    BrowserWindow.fromWebContents(event.sender)?.close()\n  })\n}\n\nfunction getSenderWindow(event) {\n  const win = BrowserWindow.fromWebContents(event.sender)\n\n  return event.senderFrame === win?.webContents.mainFrame ? win : undefined\n}\n\napp.whenReady().then(async () => {\n  registerWindowControls() // <-- call this before createWindow()\n  createWindow()\n  // ...\n})\n```\n\nResolving the window from `event.sender` ensures that each renderer controls only its own window. If your app loads remote content or accepts navigation away from its packaged UI, also [validate the sender of every IPC message](/quasar-cli-vite/developing-electron-apps/electron-security-concerns#checklist-security-recommendations) before performing privileged actions.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#the-preload-script",
+    "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+    "heading": "The preload script",
+    "breadcrumb": ["Main process", "The preload script", "The preload script"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window#the-preload-script",
+    "content": "Expose the window API to the renderer process through `/src-electron/electron-preload`:\n\n```js /src-electron/electron-preload\nimport { contextBridge, ipcRenderer } from 'electron'\n\n// notice \"myWindowAPI\" (can be anything as long as we reference\n// the same name that we use in the renderer process)\ncontextBridge.exposeInMainWorld('myWindowAPI', {\n  minimize() {\n    ipcRenderer.send('window:minimize')\n  },\n  toggleMaximize() {\n    ipcRenderer.send('window:toggle-maximize')\n  },\n  close() {\n    ipcRenderer.send('window:close')\n  }\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#handling-window-dragging",
+    "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+    "heading": "Handling window dragging",
+    "breadcrumb": [
+      "Renderer process",
+      "Handling window dragging",
+      "Handling window dragging"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window#handling-window-dragging",
+    "content": "A frameless window needs a draggable region. Use the `q-electron-drag` and `q-electron-drag--exception` Quasar CSS helper classes.\n\n```html\n<q-bar class=\"q-electron-drag\"> ... </q-bar>\n```\n\nThe class allows the user to drag the window from that region.\n\nInteractive children must not trigger dragging. [QBtn](/vue-components/button) is excluded automatically; add `q-electron-drag--exception` to other interactive children.\n\nExample of adding an exception to an icon:\n\n```html\n<q-bar class=\"q-electron-drag\">\n  <q-icon name=\"map\" class=\"q-electron-drag--exception\" />\n\n  <div>My title</div>\n</q-bar>\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#minimize-maximize-and-close-app",
+    "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+    "heading": "Minimize, maximize and close app",
+    "breadcrumb": [
+      "Renderer process",
+      "Minimize, maximize and close app",
+      "Minimize, maximize and close app"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window#minimize-maximize-and-close-app",
+    "content": "Example: Full example (StatusBar.vue)\n\nIn the example above, notice that we add `q-electron-drag` to our QBar and we also add handlers for the minimize, maximize and close app buttons by using the injected `window.myWindowAPI` Object (from the Electron preload script).\n\n```js Some .vue file\n// We guard the Electron API calls, but this\n// is only needed if we build same app with other\n// Quasar Modes as well (SPA/PWA/Cordova/SSR...)\n\nexport default {\n  setup() {\n    // we rely upon\n    function minimize() {\n      if (import.meta.env.QUASAR_ELECTRON_MODE) {\n        window.myWindowAPI.minimize()\n      }\n    }\n\n    function toggleMaximize() {\n      if (import.meta.env.QUASAR_ELECTRON_MODE) {\n        window.myWindowAPI.toggleMaximize()\n      }\n    }\n\n    function closeApp() {\n      if (import.meta.env.QUASAR_ELECTRON_MODE) {\n        window.myWindowAPI.close()\n      }\n    }\n\n    return { minimize, toggleMaximize, closeApp }\n  }\n}\n```\n\nWe can also hide the header window bar for non-Electron Quasar modes:\n\n```html\n<template>\n  <q-bar v-if=\"isElectron\" class=\"q-electron-drag\">\n    <q-icon name=\"laptop_chromebook\" />\n    <div>Google Chrome</div>\n\n    <q-space />\n\n    <q-btn dense flat icon=\"minimize\" @click=\"minimize\" />\n    <q-btn dense flat icon=\"crop_square\" @click=\"toggleMaximize\" />\n    <q-btn dense flat icon=\"close\" @click=\"closeApp\" />\n  </q-bar>\n</template>\n\n<script setup>\n  const isElectron = import.meta.env.QUASAR_ELECTRON_MODE\n  // ...\n</script>\n```",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Full example",
+        "file": "StatusBar.vue"
+      }
+    ]
+  }
+]

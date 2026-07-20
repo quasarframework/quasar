@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "start/vite-plugin",
+  "title": "Vite plugin for Quasar",
+  "description": "How to embed Quasar into a Vite app.",
+  "canonicalUrl": "https://quasar.dev/start/vite-plugin",
+  "source": "docs/src/pages/start/vite-plugin/vite-plugin.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "start",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

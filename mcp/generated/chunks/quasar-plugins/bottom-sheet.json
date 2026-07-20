@@ -3,25 +3,18 @@
     "id": "quasar-plugins/bottom-sheet#overview",
     "documentId": "quasar-plugins/bottom-sheet",
     "heading": "Bottom Sheet Plugin",
-    "breadcrumb": [
-      "Bottom Sheet Plugin"
-    ],
+    "breadcrumb": ["Bottom Sheet Plugin"],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/bottom-sheet",
-    "content": "Bottom Sheets slide up from the bottom edge of the device screen, and display a set of options with the ability to confirm or cancel an action. Bottom Sheets can sometimes be used as an alternative to menus, however, they should not be used for navigation.\n\nThe Bottom Sheet always appears above any other components on the page, and must be dismissed in order to interact with the underlying content. When it is triggered, the rest of the page darkens to give more focus to the Bottom Sheet options.\n\nBottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.\n\nAPI reference: BottomSheet\n\n<DocInstall plugins=\"BottomSheet\" />",
-    "apiReferences": [
-      "BottomSheet"
-    ],
+    "content": "Bottom Sheets slide up from the bottom edge of the device screen, and display a set of options with the ability to confirm or cancel an action. Bottom Sheets can sometimes be used as an alternative to menus, however, they should not be used for navigation.\n\nThe Bottom Sheet always appears above any other components on the page, and must be dismissed in order to interact with the underlying content. When it is triggered, the rest of the page darkens to give more focus to the Bottom Sheet options.\n\nBottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.\n\nAPI reference: BottomSheet\n\n**Configuration:** register BottomSheet through `framework.plugins` in `quasar.config`.",
+    "apiReferences": ["BottomSheet"],
     "exampleReferences": []
   },
   {
     "id": "quasar-plugins/bottom-sheet#usage",
     "documentId": "quasar-plugins/bottom-sheet",
     "heading": "Usage",
-    "breadcrumb": [
-      "Usage",
-      "Usage"
-    ],
+    "breadcrumb": ["Usage", "Usage"],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/bottom-sheet#usage",
     "content": "```js Outside of a Vue file\nimport { BottomSheet } from 'quasar'\nBottomSheet.create({ ... }) // returns Object\n\n// inside of a Vue file\nimport { useQuasar } from 'quasar'\nsetup () {\n  const $q = useQuasar()\n  $q.bottomSheet({ ... }) // returns Object\n}\n```\n\n::: tip\nWhen user hits the phone/tablet back button (only for Cordova apps), the Action Sheet will get closed automatically.\n\nAlso, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.\n:::\n\nExample: List and Grid (Basic.vue)\n\nExample: Force dark mode (Dark.vue)\n\n::: tip\nFor an exhaustive list of options, please check API section.\n:::",

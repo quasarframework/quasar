@@ -137,7 +137,7 @@ columns: [
 
 Source: [Basic.vue](../../examples/QTable/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table title="Treats" :rows="rows" :columns="columns" row-key="name" />
@@ -289,13 +289,13 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 **Example: Force dark mode**
 
 Source: [Dark.vue](../../examples/QTable/Dark.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -456,13 +456,13 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 **Example: Dense**
 
 Source: [Dense.vue](../../examples/QTable/Dense.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -622,7 +622,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 ::: tip
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
@@ -636,7 +636,7 @@ You can omit specifying the `columns`. QTable will infer the columns from the pr
 
 Source: [InferColumns.vue](../../examples/QTable/InferColumns.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table :rows="rows" row-key="name" flat bordered />
@@ -749,7 +749,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 ## Sticky header/column
 
@@ -765,7 +765,7 @@ Pay attention to the code in the "style" section in the following examples, espe
 
 Source: [StickyHeader.vue](../../examples/QTable/StickyHeader.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -953,13 +953,13 @@ const rows = [
     /* height of all previous header rows */
     scroll-margin-top: 48px
 </style>
-````
+```
 
 **Example: Sticky first column**
 
 Source: [StickyColumn.vue](../../examples/QTable/StickyColumn.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -1139,13 +1139,13 @@ const rows = [
     left: 0
     z-index: 1
 </style>
-````
+```
 
 **Example: Sticky last column**
 
 Source: [StickyLastColumn.vue](../../examples/QTable/StickyLastColumn.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -1325,13 +1325,13 @@ const rows = [
     right: 0
     z-index: 1
 </style>
-````
+```
 
 **Example: Sticky header and column**
 
 Source: [StickyHeaderAndColumn.vue](../../examples/QTable/StickyHeaderAndColumn.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -1537,13 +1537,13 @@ const rows = [
     /* height of all previous header rows */
     scroll-margin-top: 48px
 </style>
-````
+```
 
 **Example: Sticky header and last column**
 
 Source: [StickyHeaderAndLastColumn.vue](../../examples/QTable/StickyHeaderAndLastColumn.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -1749,7 +1749,7 @@ const rows = [
     /* height of all previous header rows */
     scroll-margin-top: 48px
 </style>
-````
+```
 
 ## Separators
 
@@ -1757,7 +1757,7 @@ const rows = [
 
 Source: [Separators.vue](../../examples/QTable/Separators.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-option-group
@@ -1933,7 +1933,7 @@ const rows = [
 
 const separator = ref('vertical')
 </script>
-````
+```
 
 ## Styling
 
@@ -1941,7 +1941,7 @@ const separator = ref('vertical')
 
 Source: [CustomColumn.vue](../../examples/QTable/CustomColumn.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table flat bordered :rows="rows" :columns="columns" row-key="name" />
@@ -2093,7 +2093,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 ::: tip
 For all the styling component properties, please check the API card at the top of the page.
@@ -2103,7 +2103,7 @@ For all the styling component properties, please check the API card at the top o
 
 Source: [CustomColor.vue](../../examples/QTable/CustomColor.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -2276,13 +2276,13 @@ function rowStyleFn(row) {
   return row.calories % 2 === 0 ? 'color:#ccc' : 'color:#fff'
 }
 </script>
-````
+```
 
 **Example: No header/footer**
 
 Source: [NoHeaderFooter.vue](../../examples/QTable/NoHeaderFooter.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -2443,7 +2443,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 ## Virtual scrolling
 
@@ -2453,7 +2453,7 @@ Notice that when enabling virtual scroll you will need to specify the `table-sty
 
 Source: [VirtscrollBasic.vue](../../examples/QTable/VirtscrollBasic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -2636,7 +2636,7 @@ const pagination = ref({
   rowsPerPage: 0
 })
 </script>
-````
+```
 
 You can dynamically load new rows when scroll reaches the end:
 
@@ -2644,7 +2644,7 @@ You can dynamically load new rows when scroll reaches the end:
 
 Source: [VirtscrollDynamic.vue](../../examples/QTable/VirtscrollDynamic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -2878,7 +2878,7 @@ function onScroll({ to, ref: compRef }) {
     /* height of all previous header rows */
     scroll-margin-top: 48px
 </style>
-````
+```
 
 You can have both virtual scroll and pagination:
 
@@ -2886,7 +2886,7 @@ You can have both virtual scroll and pagination:
 
 Source: [VirtscrollPagination.vue](../../examples/QTable/VirtscrollPagination.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -3069,7 +3069,7 @@ const pagination = ref({
   rowsPerPage: 1000
 })
 </script>
-````
+```
 
 The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.
 
@@ -3077,7 +3077,7 @@ The example below shows how virtual scroll can be used along with a sticky heade
 
 Source: [VirtscrollSticky.vue](../../examples/QTable/VirtscrollSticky.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -3287,7 +3287,7 @@ const pagination = ref({
     /* height of all previous header rows */
     scroll-margin-top: 48px
 </style>
-````
+```
 
 There are 2 utility CSS classes that control VirtualScroll size calculation:
 
@@ -3298,7 +3298,7 @@ There are 2 utility CSS classes that control VirtualScroll size calculation:
 
 Source: [VirtscrollMultipleRows.vue](../../examples/QTable/VirtscrollMultipleRows.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -3518,7 +3518,7 @@ onMounted(() => {
   tableRef.value.scrollTo(5000)
 })
 </script>
-````
+```
 
 ::: tip
 When rendering more than one `QTr` for the same row of data (through the `body` slot), give each `QTr` a distinct `key` and add the `q-virtual-scroll--with-prev` class to every extra `QTr` after the first one. This tells VirtualScroll to group their sizes together with the previous element, so the total height of the data row is measured correctly. If a row should not be measured at all (for example, a separator), use `q-virtual-scroll--skip` instead. This is especially important when also using a sticky header or row expansion, otherwise you may notice an incorrect scroll height or a jumping scroll position.
@@ -3534,7 +3534,7 @@ The property `row-key` must be set in order for selection to work properly.
 
 Source: [SingleSelection.vue](../../examples/QTable/SingleSelection.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -3701,13 +3701,13 @@ const rows = [
 
 const selected = ref([])
 </script>
-````
+```
 
 **Example: Multiple selection**
 
 Source: [MultipleSelection.vue](../../examples/QTable/MultipleSelection.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -3881,13 +3881,13 @@ function getSelectedString() {
     : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.length}`
 }
 </script>
-````
+```
 
 **Example: Selection cell slots**
 
 Source: [SelectionSlots.vue](../../examples/QTable/SelectionSlots.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -4060,13 +4060,13 @@ const rows = [
 
 const selected = ref([])
 </script>
-````
+```
 
 **Example: Selection cell slots with range selection**
 
 Source: [SelectionSlotsRange.vue](../../examples/QTable/SelectionSlotsRange.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="text-subtitle1 q-pa-sm"
@@ -4298,13 +4298,13 @@ function handleSelection({ rows: rowsList, added, evt }) {
   })
 }
 </script>
-````
+```
 
 **Example: Custom multiple selection**
 
 Source: [CustomSelection.vue](../../examples/QTable/CustomSelection.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -4535,7 +4535,7 @@ function onSelection({ rows: rowsList, added, evt }) {
   }
 }
 </script>
-````
+```
 
 ## Visible columns, custom top, fullscreen
 
@@ -4545,7 +4545,7 @@ Please note that columns marked as `required` (in the column definition) cannot 
 
 Source: [VisibleColumns.vue](../../examples/QTable/VisibleColumns.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -4757,13 +4757,13 @@ const visibleColumns = ref([
   'iron'
 ])
 </script>
-````
+```
 
 **Example: Visible columns**
 
 Source: [VisibleColumns2.vue](../../examples/QTable/VisibleColumns2.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -4960,7 +4960,7 @@ const visibleColumns = ref([
   'iron'
 ])
 </script>
-````
+```
 
 ## Popup editing
 
@@ -4972,7 +4972,7 @@ Below is an example with the user being able to edit “in place” with the hel
 
 Source: [PopupEditing.vue](../../examples/QTable/PopupEditing.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -5201,7 +5201,7 @@ const rows = ref([
   // #endregion
 ])
 </script>
-````
+```
 
 ## Editing with an input
 
@@ -5209,7 +5209,7 @@ const rows = ref([
 
 Source: [InputEditing.vue](../../examples/QTable/InputEditing.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -5297,7 +5297,7 @@ const rows = ref([
   // #endregion
 ])
 </script>
-````
+```
 
 ## Grid style
 
@@ -5311,7 +5311,7 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 
 Source: [GridStyle.vue](../../examples/QTable/GridStyle.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -5433,13 +5433,13 @@ const rows = [
 
 const filter = ref('')
 </script>
-````
+```
 
 **Example: Grid with header**
 
 Source: [GridHeader.vue](../../examples/QTable/GridHeader.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -5561,13 +5561,13 @@ const rows = [
 
 const filter = ref('')
 </script>
-````
+```
 
 **Example: Colored grid style**
 
 Source: [GridStyleColored.vue](../../examples/QTable/GridStyleColored.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -5690,13 +5690,13 @@ const rows = [
 
 const filter = ref('')
 </script>
-````
+```
 
 **Example: Masonry like grid**
 
 Source: [GridMasonry.vue](../../examples/QTable/GridMasonry.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -5855,7 +5855,7 @@ const rowsPerPageOptions = computed(() =>
       width: 0 !important
       order: 2
 </style>
-````
+```
 
 However, if you want to fully customize the content, check the example below, where:
 
@@ -5866,7 +5866,7 @@ However, if you want to fully customize the content, check the example below, wh
 
 Source: [GridStyleSlot.vue](../../examples/QTable/GridStyleSlot.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -6084,7 +6084,7 @@ const selected = ref([])
 .grid-style-transition
   transition: transform .28s, background-color .28s
 </style>
-````
+```
 
 ## Expanding rows
 
@@ -6096,7 +6096,7 @@ Add unique (distinct) `key` on QTr if you generate more than one QTr from a row 
 
 Source: [ExpandedRowInternal.vue](../../examples/QTable/ExpandedRowInternal.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -6289,7 +6289,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 An external expansion model can also be used:
 
@@ -6297,7 +6297,7 @@ An external expansion model can also be used:
 
 Source: [ExpandedRowExternal.vue](../../examples/QTable/ExpandedRowExternal.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -6497,7 +6497,7 @@ const expanded = ref([
   'Ice cream sandwich'
 ])
 </script>
-````
+```
 
 If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
 
@@ -6508,7 +6508,7 @@ If you are using virtual scroll with QTable, you should know that there are 2 ut
 
 Source: [VirtscrollExpandedRow.vue](../../examples/QTable/VirtscrollExpandedRow.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -6740,7 +6740,7 @@ onMounted(() => {
   tableRef.value.scrollTo(5000)
 })
 </script>
-````
+```
 
 ::: tip
 An expanded row is just another `QTr` rendered for the same row of data, so the same rules from "Virtual scrolling" apply: give it its own unique `key` and the `q-virtual-scroll--with-prev` class, so its height is added to the main row when VirtualScroll calculates sizes — even while it's hidden with `v-show`.
@@ -6752,7 +6752,7 @@ An expanded row is just another `QTr` rendered for the same row of data, so the 
 
 Source: [BeforeAfterHeaderFooter.vue](../../examples/QTable/BeforeAfterHeaderFooter.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -6932,7 +6932,7 @@ const rows = [
 
 const selected = ref([])
 </script>
-````
+```
 
 ## Pagination
 
@@ -6948,7 +6948,7 @@ The first example highlights how to configure the initial pagination:
 
 Source: [PaginationInitial.vue](../../examples/QTable/PaginationInitial.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -7116,7 +7116,7 @@ const initialPagination = {
   // rowsNumber: xx if getting data from a server
 }
 </script>
-````
+```
 
 The second example uses the "v-model:pagination" directive because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
 
@@ -7124,7 +7124,7 @@ The second example uses the "v-model:pagination" directive because we want to ac
 
 Source: [PaginationSync.vue](../../examples/QTable/PaginationSync.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -7261,7 +7261,7 @@ const pagesNumber = computed(() =>
   Math.ceil(rows.length / pagination.value.rowsPerPage)
 )
 </script>
-````
+```
 
 ## Pagination slot
 
@@ -7271,7 +7271,7 @@ For learning purposes, we will customize the pagination controls with the defaul
 
 Source: [PaginationSlot.vue](../../examples/QTable/PaginationSlot.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -7489,7 +7489,7 @@ const pagesNumber = computed(() =>
   Math.ceil(rows.length / pagination.value.rowsPerPage)
 )
 </script>
-````
+```
 
 ## Loading state
 
@@ -7497,7 +7497,7 @@ const pagesNumber = computed(() =>
 
 Source: [Loading.vue](../../examples/QTable/Loading.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-toggle v-model="loading" label="Loading state" class="q-mb-md" />
@@ -7663,13 +7663,13 @@ const rows = [
 
 const loading = ref(false)
 </script>
-````
+```
 
 **Example: Custom loading state**
 
 Source: [CustomLoading.vue](../../examples/QTable/CustomLoading.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-toggle v-model="loading" label="Loading state" class="q-mb-md" />
@@ -7839,7 +7839,7 @@ const rows = [
 
 const loading = ref(false)
 </script>
-````
+```
 
 ## Custom top
 
@@ -7847,7 +7847,7 @@ const loading = ref(false)
 
 Source: [CustomTop.vue](../../examples/QTable/CustomTop.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -8075,7 +8075,7 @@ function removeRow() {
   }, 500)
 }
 </script>
-````
+```
 
 ## Body slots
 
@@ -8085,7 +8085,7 @@ The example below shows how you can use a slot to customize the entire row:
 
 Source: [SlotBody.vue](../../examples/QTable/SlotBody.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -8289,7 +8289,7 @@ const rows = [
 
 const onRowClick = row => alert(`${row.name} clicked`)
 </script>
-````
+```
 
 Below, we use a slot which gets applied to each body cell:
 
@@ -8297,7 +8297,7 @@ Below, we use a slot which gets applied to each body cell:
 
 Source: [SlotBodyCell.vue](../../examples/QTable/SlotBodyCell.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -8462,15 +8462,15 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
-We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+You can also customize a particular column. The syntax for this slot is `body-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.
 
 **Example: Body-cell-[name] slot**
 
 Source: [SlotBodyCellName.vue](../../examples/QTable/SlotBodyCellName.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -8651,7 +8651,7 @@ const rows = [
   margin-top: 4px;
 }
 </style>
-````
+```
 
 ## Header slots
 
@@ -8661,7 +8661,7 @@ The example below shows how you can use a slot to customize the entire header ro
 
 Source: [SlotHeader.vue](../../examples/QTable/SlotHeader.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -8833,7 +8833,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 Below, we use a slot which gets applied to each header cell:
 
@@ -8841,7 +8841,7 @@ Below, we use a slot which gets applied to each header cell:
 
 Source: [SlotHeaderCell.vue](../../examples/QTable/SlotHeaderCell.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9007,15 +9007,15 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
-We can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+You can also customize a particular header cell. The syntax for this slot is `header-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition.
 
 **Example: Header-cell-[name] slot**
 
 Source: [SlotHeaderCellName.vue](../../examples/QTable/SlotHeaderCellName.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9181,7 +9181,7 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 ## No data
 
@@ -9189,7 +9189,7 @@ const rows = [
 
 Source: [NoData.vue](../../examples/QTable/NoData.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9245,7 +9245,7 @@ const columns = [
   // #endregion
 ]
 </script>
-````
+```
 
 There is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
 
@@ -9253,7 +9253,7 @@ There is also a "no-data" scoped slot (see below) that you can also to customize
 
 Source: [NoDataSlot.vue](../../examples/QTable/NoDataSlot.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9336,7 +9336,7 @@ const columns = [
   // #endregion
 ]
 </script>
-````
+```
 
 ## Handling bottom layer
 
@@ -9346,7 +9346,7 @@ There are a few properties that you can use to hide the bottom layer or specific
 
 Source: [HideBottom.vue](../../examples/QTable/HideBottom.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="row items-center q-gutter-sm q-mb-md">
@@ -9474,7 +9474,7 @@ const hidePagination = ref(false)
 const selected = ref([rows[1]])
 const records = computed(() => (hasData.value ? rows : []))
 </script>
-````
+```
 
 ## Custom sorting
 
@@ -9482,7 +9482,7 @@ const records = computed(() => (hasData.value ? rows : []))
 
 Source: [CustomSorting.vue](../../examples/QTable/CustomSorting.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9666,7 +9666,7 @@ function customSort(rowsList, sortBy, descending) {
   return data
 }
 </script>
-````
+```
 
 ## Responsive tables
 
@@ -9678,7 +9678,7 @@ First example below uses `$q.screen.lt.md` (for enabling dense mode) and the sec
 
 Source: [ResponsiveDense.vue](../../examples/QTable/ResponsiveDense.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9838,13 +9838,13 @@ const rows = [
   // #endregion
 ]
 </script>
-````
+```
 
 **Example: Using grid prop**
 
 Source: [ResponsiveGrid.vue](../../examples/QTable/ResponsiveGrid.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -9966,7 +9966,7 @@ const rows = [
 
 const filter = ref('')
 </script>
-````
+```
 
 ## Server side pagination, filter and sorting
 
@@ -9986,7 +9986,7 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 Source: [Synchronizing.vue](../../examples/QTable/Synchronizing.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -10604,7 +10604,7 @@ onMounted(() => {
   tableRef.value.requestServerInteraction()
 })
 </script>
-````
+```
 
 ## Exporting data
 
@@ -10618,7 +10618,7 @@ You could also make use of the `filteredSortedRows` internal computed property o
 
 Source: [ExportCsv.vue](../../examples/QTable/ExportCsv.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -10839,7 +10839,7 @@ function exportTable() {
   }
 }
 </script>
-````
+```
 
 ## Keyboard navigation
 
@@ -10849,7 +10849,7 @@ Below is an example of keyboard navigation in the table using selected row. Use 
 
 Source: [KeyboardNavigation.vue](../../examples/QTable/KeyboardNavigation.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -11489,4 +11489,4 @@ function onKey(evt) {
   }
 }
 </script>
-````
+```

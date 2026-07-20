@@ -1,0 +1,35 @@
+[
+  {
+    "id": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder#overview",
+    "documentId": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder",
+    "heading": "Creating a @quasar/app-vite Project",
+    "breadcrumb": ["Creating a @quasar/app-vite Project"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/creating-a-quasar-app-vite-project-folder",
+    "content": "::: tip Requirements:\n\n- Node.js v22+\n- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun\n\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder#spawn-a-project-folder",
+    "documentId": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder",
+    "heading": "Spawn a project folder",
+    "breadcrumb": ["Spawn a project folder", "Spawn a project folder"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/creating-a-quasar-app-vite-project-folder#spawn-a-project-folder",
+    "content": "```tabs\n<<| bash PNPM |>>\n# optional, if you don't have it already:\npnpm add -g @quasar/cli\n\n# now create the project folder:\npnpm create quasar@latest\n<<| bash Yarn |>>\n# optional, if you don't have it already:\nyarn global add @quasar/cli\n\n# now create the project folder:\nyarn create quasar\n<<| bash NPM |>>\n# optional, if you don't have it already:\nnpm i -g @quasar/cli\n\n# now create the project folder:\nnpm init quasar@latest\n<<| bash Bun |>>\n# optional, if you don't have it already:\nbun add -g @quasar/cli\n\n# now create the project folder:\nbun create quasar@latest\n```\n\nPick `App with Quasar CLI`.\n\n::: tip\nUnder the cover, the package managers globally install our `create-quasar` package and run it. It is NOT recommended, however, to manually install this package yourself because you can easily get out of sync with the \"latest\" version. We push updates constantly!\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder#optional-params",
+    "documentId": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder",
+    "heading": "Optional params",
+    "breadcrumb": ["Optional params", "Optional params"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/creating-a-quasar-app-vite-project-folder#optional-params",
+    "content": "```\nUsage\n  [dir] [options]\n\n  # examples:\n  my-app --template app --engine vite-3 --defaults\n  --template ae --preset prompts --preset oxlint --defaults\n\nOptions\n  --template, -t  Type of project to create: app | ae\n  --overwrite, -o Overwrite existing dir if it exists\n  --preset        Preset to apply (can be used multiple times)\n                  - template \"app\" presets:\n                    typescript, sass, oxlint, eslint, i18n, pinia, fbr (filename-based routing)\n                  - template \"ae\" presets:\n                    typescript, oxlint, prompts, install, uninstall\n  --name          Name of the project for package.json (must be a valid npm package name)\n  --author        Author name for package.json\n  --no-git        Do not initialize a git repository\n  --install, -i   When invoked through a package manager it's a boolean (eg. --install)\n                  Otherwise, the package manager to auto-install with:\n                    --install pnpm\n                    --install yarn\n                    --install npm\n                    --install bun\n\n  --engine, -e    (ONLY for template \"app\") Quasar App Local CLI to use\n                    Please note that these do NOT refer to the version of\n                    Vite, but rather to the @quasar/app-vite version to use:\n                      vite-3 or vite-2\n  --product       (ONLY for template \"app\") Product name for the app\n\n  --defaults, -d  Use default values for the remaining non-specified options\n  --no-color      Disable colored output\n  --help, -h      Displays this message\n```\n\nExamples:\n\n```bash\npnpm create quasar@latest my-app --template app --engine vite-3\npnpm create quasar@latest --template ae --preset prompts --preset oxlint\n```\n\nBy using the `--defaults` option, you are telling our script to fill in with the default values for the remaining non-specified options. This can make the process not requiring to be prompted at all.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

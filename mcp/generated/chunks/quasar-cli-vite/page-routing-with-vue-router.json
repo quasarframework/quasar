@@ -1,0 +1,69 @@
+[
+  {
+    "id": "quasar-cli-vite/page-routing-with-vue-router#overview",
+    "documentId": "quasar-cli-vite/page-routing-with-vue-router",
+    "heading": "Page Routing with Vue Router",
+    "breadcrumb": ["Page Routing with Vue Router"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/page-routing-with-vue-router",
+    "content": "You'll notice that your Quasar project contains a `/src/router` folder. This holds the routing configuration of your website/app:\n\n- \"/src/router/index.js\" holds the Vue Router initialization code\n- \"/src/router/routes.js\" holds the routes of your website/app\n\n::: warning\nQuasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/page-routing-with-vue-router#basic-usage",
+    "documentId": "quasar-cli-vite/page-routing-with-vue-router",
+    "heading": "Basic Usage",
+    "breadcrumb": ["Basic Usage", "Basic Usage"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/page-routing-with-vue-router#basic-usage",
+    "content": "The `/src/router/routes.js` needs to import your website/app's Pages and Layouts. Read more on [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages) documentation page.\n\nWhen using Pinia, the store is not directly importable from other scripts, but it is passed to the exported function of `/src/router/index.js`, so it can be accessed from there. For example you can use the `Router.beforeEach` method to check authentication in the router:\n\n```js /src/router.js\nimport { defineRouter } from '#q-app'\n\nexport default defineRouter(({ store /*, ssrContext */ }) => {\n  // ...\n  const userStore = useUserStore(store)\n\n  Router.beforeEach((to, from) => {\n    if (\n      to.matched.some(record => record.meta.requiresAuth) &&\n      !userStore.isSignedIn\n    ) {\n      return { name: 'account-signin', query: { next: to.fullPath } }\n    }\n  })\n  // ...\n})\n```\n\n::: tip\nIf you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/page-routing-with-vue-router#how-to-enable",
+    "documentId": "quasar-cli-vite/page-routing-with-vue-router",
+    "heading": "How to enable",
+    "breadcrumb": [
+      "Filename-Based Routing <q-badge label=\"Vue Router v5+\" />",
+      "How to enable",
+      "How to enable"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/page-routing-with-vue-router#how-to-enable",
+    "content": "Should you want to use Vue Router's filename-based routing, rather than manually handling the `/src/router/routes` file, then kill the devserver (if running), then edit:\n\n```ts /quasar.config file\nbuild: {\n  /**\n   * Should you want to use Vue Router's filename-based routing feature.\n   * Set to `true` or an options object for vue-router/vite plugin (to override\n   * or add to the default options).\n   *\n   * Restart the dev server and your IDE when toggling this option,\n   * or run \"quasar prepare\" command.\n   *\n   * @type boolean | VueRouterVitePluginOptions\n   * @default false\n   */\n  filenameBasedRouting: true\n}\n```\n\nYou also need to edit:\n\n<!-- prettier-ignore -->\n```js /src/router/index file\nimport routes from './routes' // [!code --]\nimport { routes, handleHotUpdate } from 'vue-router/auto-routes' // [!code ++]\n\nexport default defineRouter((/* { store, ssrContext } */) => {\n  const Router = createRouter({\n    routes\n    // the rest....\n  })\n\n  // enable HMR for it // [!code ++]\n  if (import.meta.hot) { // [!code ++]\n    handleHotUpdate(Router) // [!code ++]\n  } // [!code ++]\n\n  return Router\n})\n```\n\nPlease note that you need to restart the dev server after toggling this option, or run \"quasar prepare\" command. You might also need to restart your IDE afterwards, too.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/page-routing-with-vue-router#folder-structure",
+    "documentId": "quasar-cli-vite/page-routing-with-vue-router",
+    "heading": "Folder structure",
+    "breadcrumb": [
+      "Filename-Based Routing <q-badge label=\"Vue Router v5+\" />",
+      "Folder structure",
+      "Folder structure"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/page-routing-with-vue-router#folder-structure",
+    "content": "When this feature is enabled, you will need to:\n\n- Change the `/src/pages` folder structure to match [Vue Router naming convention](https://router.vuejs.org/file-based-routing/file-based-routing.html)\n- Delete `/src/router/routes.js|ts` file\n- Delete `/src/layouts` because it serves no purpose now (or incorporate it into `/src/pages`)\n\nHere is an example of the folder structure:\n\n- /src\n  - router\n    - index.js — (or .ts)\n  - pages\n    - index.vue — layout for route \"/\"\n    - index\n      - (index).vue — page for route \"/\"\n      - second.vue — page for route \"/second\"\n    - admin.vue — layout for route \"/admin\"\n    - admin\n      - (index).vue — page for route \"/admin\"\n      - account.vue — page for route \"/admin/account\"",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/page-routing-with-vue-router#default-options",
+    "documentId": "quasar-cli-vite/page-routing-with-vue-router",
+    "heading": "Default options",
+    "breadcrumb": [
+      "Filename-Based Routing <q-badge label=\"Vue Router v5+\" />",
+      "Default options",
+      "Default options"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/page-routing-with-vue-router#default-options",
+    "content": "When `filenameBasedRouting` is set to `true` or an options object is supplied (overriding or adding to the default config), this is the default options supplied to the `vue-router/vite` plugin:\n\n```js\n{\n  // where are paths relative to:\n  root: <root_project_folder>,\n\n  // where to generate the types (if on TypeScript projects):\n  dts: './src/router/typed-router.d.ts',\n}\n```\n\nFor more info on the object: [Vue Router configuration](https://router.vuejs.org/file-based-routing/configuration.html).",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

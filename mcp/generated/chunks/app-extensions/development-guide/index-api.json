@@ -1,0 +1,610 @@
+[
+  {
+    "id": "app-extensions/development-guide/index-api#overview",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "App Extension Index API",
+    "breadcrumb": ["App Extension Index API"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api",
+    "content": "This page refers to `/ae/src/index.js|ts` file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, modifying the Vite configuration, registering CSS, registering a UI component, registering a Quasar CLI command, etc.\n\nExample of basic structure of the file:\n\n```js /ae/src/index.js (or .ts)\nimport { defineIndexScript } from '#q-app'\n\n// can be async\nexport default defineIndexScript(api => {})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-ctx",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.ctx",
+    "breadcrumb": ["The API param", "api.ctx", "api.ctx"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-ctx",
+    "content": "Same as the `ctx` from the `/quasar.config` file. Helps you make decisions based on the context in which `quasar dev` or `quasar build` runs.\n\nExample: You might want to use one of the api methods if running for electron mode only.\n\n```js\nif (api.ctx.dev && api.ctx.mode.electron) {\n  api.beforeDev(api => {\n    // do something when running quasar dev and\n    // with Electron mode\n  })\n}\n```\n\n```js api.ctx example:\n{\n  dev: true,\n  prod: false,\n  mode: { spa: true },\n  modeName: 'spa',\n  target: {},\n  targetName: undefined,\n  arch: {},\n  archName: undefined,\n  bundler: {},\n  bundlerName: undefined,\n  debug: false,\n  publish: undefined,\n  vueDevtools: false,\n  appPaths: {\n    cliDir: '...absolute path of it',\n    appDir: '...absolute path of it',\n    srcDir: '...absolute path of it',\n    publicDir: '...absolute path of it',\n    pwaDir: '...absolute path of it',\n    ssrDir: '...absolute path of it',\n    ssgDir: '...absolute path of it',\n    cordovaDir: '...absolute path of it',\n    capacitorDir: '...absolute path of it',\n    electronDir: '...absolute path of it',\n    bexDir: '...absolute path of it',\n    quasarConfigFilename: '...absolute path of the quasar.config file',\n    quasarConfigInputFormat: 'js', // or 'ts'\n    resolve: {\n      cli: (...paths) => theAbsolutePathToCliDir,\n      app: (...paths) => theAbsolutePathToAppDir,\n      src: (...paths) => theAbsolutePathToAppSrcDir,\n      public: (...paths) => theAbsolutePathToPublicDir,\n      pwa: (...paths) => theAbsolutePathToAppSrcPwaDir,\n      ssr: (...paths) => theAbsolutePathToAppSrcSsrDir,\n      ssg: (...paths) => theAbsolutePathToAppSrcSsgDir,\n      cordova: (...paths) => theAbsolutePathToAppSrcCordovaDir,\n      capacitor: (...paths) => theAbsolutePathToAppSrcCapacitorDir,\n      electron: (...paths) => theAbsolutePathToAppSrcElectronDir,\n      bex: (...paths) => theAbsolutePathToAppSrcBexDir\n    }\n  }\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extid",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extId",
+    "breadcrumb": ["The API param", "api.extId", "api.extId"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extid",
+    "content": "Contains the `ext-id` (String) of this App Extension.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-prompts",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.prompts",
+    "breadcrumb": ["The API param", "api.prompts", "api.prompts"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-prompts",
+    "content": "An object containing the answers returned by the prompts script when this App Extension was installed. For more information, see the [Prompts API](/app-extensions/development-guide/prompts-api).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-resolve",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.resolve",
+    "breadcrumb": ["The API param", "api.resolve", "api.resolve"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-resolve",
+    "content": "Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.\n\n```js\n// resolves to root of app\napi.resolve.app('src/my-file.js')\n\n// resolves to root/src of app\napi.resolve.src('my-file.js')\n\n// resolves to root/public of app\napi.resolve.public('my-image.png')\n\n// resolves to root/src-pwa of app\napi.resolve.pwa('some-file.js')\n\n// resolves to root/src-ssr of app\napi.resolve.ssr('some-file.js')\n\n// resolves to root/src-ssg of app\napi.resolve.ssg('some-file.js')\n\n// resolves to root/src-cordova of app\napi.resolve.cordova('config.xml')\n\n// resolves to root/src-electron of app\napi.resolve.electron('some-file.js')\n\n// resolves to root/src-electron of app\napi.resolve.electron('some-file.js')\n\n// resolves to root/src-bex of app\napi.resolve.bex('some-file.js')\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-appdir",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.appDir",
+    "breadcrumb": ["The API param", "api.appDir", "api.appDir"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-appdir",
+    "content": "Contains the full path (String) to the root of the app on which this App Extension is running.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-logger",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.logger",
+    "breadcrumb": ["The API param", "api.logger", "api.logger"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-logger",
+    "content": "A logger scoped to this App Extension. Every method tags its output with `AE (<extId>)`, so users can see which extension printed which line.\n\n```js\napi.logger.log('hello') // green-bannered line\napi.logger.warn('careful') // yellow-bannered warning\napi.logger.fatal('boom') // red-bannered error; exits with code 1\napi.logger.tip('try foo') // TIP-pilled tip line\napi.logger.info('synced') // INFO-pilled line\napi.logger.info('synced', 'SYNC') // custom pill text instead of INFO\napi.logger.success('built')\napi.logger.error('oh no')\napi.logger.warning('hmm')\n\nconst finish = api.logger.progress({\n  tool: 'ssg',\n  waitAction: 'building',\n  doneAction: 'built'\n})\n// ...later\nfinish() // prints the DONE line with elapsed time\n\napi.logger.dot // the bullet character the helpers print\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-hastypescript",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.hasTypescript",
+    "breadcrumb": ["The API param", "api.hasTypescript", "api.hasTypescript"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-hastypescript",
+    "content": "```js\n/**\n * @return {Promise<boolean>} host project has TypeScript active or not\n */\nawait api.hasTypescript()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-getstorepackagename",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.getStorePackageName",
+    "breadcrumb": [
+      "The API param",
+      "api.getStorePackageName",
+      "api.getStorePackageName"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-getstorepackagename",
+    "content": "```js\n/**\n * @return {'pinia'|undefined}\n */\napi.getStorePackageName()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-getnodepackagername",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.getNodePackagerName",
+    "breadcrumb": [
+      "The API param",
+      "api.getNodePackagerName",
+      "api.getNodePackagerName"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-getnodepackagername",
+    "content": "```js\n/**\n * @return {Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>}\n */\nawait api.getNodePackagerName()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-compatiblewith",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.compatibleWith",
+    "breadcrumb": ["The API param", "api.compatibleWith", "api.compatibleWith"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-compatiblewith",
+    "content": "Ensure the App Extension is compatible with a package installed in the host app through a semver condition.\n\nIf the semver condition is not met, then `@quasar/app-vite` reports an error and halts execution.\n\nExample of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.\n\n```js\n/**\n * @param {string} packageName\n * @param {string} semverCondition\n */\napi.compatibleWith('@quasar/app-vite', '3.x')\n```\n\n```js A more complex example\napi.compatibleWith('@quasar/app-vite', '^3.0.0')\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-haspackage",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.hasPackage",
+    "breadcrumb": ["The API param", "api.hasPackage", "api.hasPackage"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-haspackage",
+    "content": "Determine if some package is installed in the host app through a semver condition.\n\nExample of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.\n\n```js\n/**\n * @param {string} packageName\n * @param {string} (optional) semverCondition\n * @return {boolean} package is installed and meets optional semver condition\n */\nif (api.hasPackage('vuelidate')) {\n  // hey, this app has it (any version of it)\n}\nif (api.hasPackage('quasar', '^2.0.0')) {\n  // hey, this app has Quasar UI v2 installed\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-hasextension",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.hasExtension",
+    "breadcrumb": ["The API param", "api.hasExtension", "api.hasExtension"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-hasextension",
+    "content": "Check if another app extension is npm installed and Quasar CLI has invoked it.\n\n```js\n/**\n * Check if another app extension is installed\n *\n * @param {string} extId\n * @return {boolean} has the extension installed & invoked\n */\nif (api.hasExtension(extId)) {\n  // hey, we have it\n}\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-getpackageversion",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.getPackageVersion",
+    "breadcrumb": [
+      "The API param",
+      "api.getPackageVersion",
+      "api.getPackageVersion"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-getpackageversion",
+    "content": "Get the version of a host app package.\n\n```js\n/**\n * @param {string} packageName\n * @return {string|undefined} version of app's package\n */\nconsole.log(api.getPackageVersion(packageName))\n// output examples:\n//   1.1.3\n//   undefined (when package not found)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendquasarconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendQuasarConf",
+    "breadcrumb": [
+      "The API param",
+      "api.extendQuasarConf",
+      "api.extendQuasarConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendquasarconf",
+    "content": "Extends quasar.config file\n\n```ts\nextendQuasarConf: Callback<\n  (\n    cfg: QuasarConf,\n    api: IndexAPI\n  ) => QuasarConf | void | Promise<QuasarConf | void>\n>\n\n// Example:\napi.extendQuasarConf((conf, api) => {\n  // Do something with quasar.config file.\n  // Optionally, return a config that will be merged\n  // with the default one\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#registering-boot-and-css-files",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "Registering boot and css files",
+    "breadcrumb": [
+      "The API param",
+      "api.extendQuasarConf",
+      "Registering boot and css files",
+      "Registering boot and css files"
+    ],
+    "level": 4,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#registering-boot-and-css-files",
+    "content": "```js\nimport { defineIndexScript } from '#q-app'\n\nexport default defineIndexScript(api => {\n  api.extendQuasarConf((conf, api) => {\n    return {\n      // make sure my-ext boot file is registered\n      boot: ['~quasar-app-extension-my-ext/src/runtime/boot.register.js'],\n      // make sure my global my-ext css goes through Vite\n      css: ['~quasar-app-extension-my-ext/src/runtime/style.sass']\n    }\n  })\n\n  // Alternatively, directly touch the \"conf\" param\n  api.extendQuasarConf((conf, api) => {\n    // make sure my-ext boot file is registered\n    conf.boot.push('~quasar-app-extension-my-ext/src/runtime/boot.register.js')\n    // make sure my global my-ext css goes through Vite\n    conf.css.push('~quasar-app-extension-my-ext/src/runtime/style.sass')\n  })\n})\n```\n\n::: tip\nNotice the tidle (`~`) in front of the paths. This tells Quasar CLI that the path is a dependency from node_modules instead of a relative path to App Extension index script file.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-registercommand",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.registerCommand",
+    "breadcrumb": [
+      "The API param",
+      "api.registerCommand",
+      "api.registerCommand"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-registercommand",
+    "content": "Register a command that will become available as `quasar run <ext-id> <cmd> [...args]`.\n\n```js\n/**\n * @param {string} commandName\n * @param {function} fn\n *   (processArgv: string[]) => ?Promise\n */\napi.registerCommand('start', processArgv => {\n  // do something here\n  // this registers the \"start\" command\n  // and this handler is executed when running\n  // quasar run <ext-id> start\n})\n```\n\nExample with defining and parsing arguments:\n\n```js\n// import { parseArgs } from 'node:util'\n\napi.registerCommand('fun', () => {\n  try {\n    const { values, positionals } = parseArgs({\n      options: {\n        name: { type: 'string', short: 'n' },\n        debug: { type: 'boolean' }\n      },\n      strict: true,\n      allowPositionals: true\n    })\n\n    console.log(values, positionals)\n  } catch (err) {\n    console.error(err.message)\n  }\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-registerdescribeapi",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.registerDescribeApi",
+    "breadcrumb": [
+      "The API param",
+      "api.registerDescribeApi",
+      "api.registerDescribeApi"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-registerdescribeapi",
+    "content": "Register an API file for `quasar describe` command.\n\n```js\n/**\n * @param {string} name\n * @param {string} relativePath\n *   (relative path starting from the file where you have this call)\n */\napi.registerDescribeApi(\n  'MyComponent',\n  './relative/path/to/my/component/file.json'\n)\n```\n\nThe above will then respond to `quasar describe MyComponent`.\n\nFor syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in your project folder). Be aware that your JSON must contain a `type` property (\"component\", \"directive\", \"plugin\"). For instance:\n\n```json\n{\n  \"type\": \"component\",\n  \"props\": {\n  },\n  ...\n}\n```\n\n::: tip\nYou might also want to take a look at [Quasar JSON API Schema](/app-extensions/common-formulas-and-patterns/json-api) page.\n:::\n\n::: tip\nAlways test with the `quasar describe` command to ensure you got the syntax right and there are no errors.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-getpersistentconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.getPersistentConf",
+    "breadcrumb": [
+      "The API param",
+      "api.getPersistentConf",
+      "api.getPersistentConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-getpersistentconf",
+    "content": "Get the internal persistent config of this extension. Returns empty object if it has none.\n\n```js\n/**\n * @return {object} cfg\n */\napi.getPersistentConf()\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-setpersistentconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.setPersistentConf",
+    "breadcrumb": [
+      "The API param",
+      "api.setPersistentConf",
+      "api.setPersistentConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-setpersistentconf",
+    "content": "Set the internal persistent config of this extension. If it already exists, it is overwritten.\n\n```js\n/**\n * @param {object} cfg\n */\napi.setPersistentConf({\n  // ....\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-mergepersistentconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.mergePersistentConf",
+    "breadcrumb": [
+      "The API param",
+      "api.mergePersistentConf",
+      "api.mergePersistentConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-mergepersistentconf",
+    "content": "Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.\n\n```js\n/**\n * @param {object} cfg\n */\napi.mergePersistentConf({\n  // ....\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-beforedev",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.beforeDev",
+    "breadcrumb": ["The API param", "api.beforeDev", "api.beforeDev"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-beforedev",
+    "content": "Prepare external services before `quasar dev` command runs, like starting some backend or any other service that the app relies on.\n\nCan use async/await or directly return a Promise.\n\n```js\n/**\n * @param {function} fn\n *   (api, { quasarConf }) => ?Promise\n */\napi.beforeDev((api, { quasarConf }) => {\n  // do something\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-afterdev",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.afterDev",
+    "breadcrumb": ["The API param", "api.afterDev", "api.afterDev"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-afterdev",
+    "content": "Run hook after the Quasar dev server is started (`quasar dev`). At this point, the dev server is available should you wish to do something with it.\n\nCan use async/await or directly return a Promise.\n\n```js\n/**\n * @param {function} fn\n *   (api, { quasarConf }) => ?Promise\n */\napi.afterDev((api, { quasarConf }) => {\n  // do something\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-beforebuild",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.beforeBuild",
+    "breadcrumb": ["The API param", "api.beforeBuild", "api.beforeBuild"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-beforebuild",
+    "content": "Run hook before Quasar builds app for production (`quasar build`). At this point, the distributables folder hasn't been created yet.\n\nCan use async/await or directly return a Promise.\n\n```js\n/**\n * @param {function} fn\n *   (api, { quasarConf }) => ?Promise\n */\napi.beforeBuild((api, { quasarConf }) => {\n  // do something\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-afterbuild",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.afterBuild",
+    "breadcrumb": ["The API param", "api.afterBuild", "api.afterBuild"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-afterbuild",
+    "content": "Run hook after Quasar built app for production (`quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.\n\nCan use async/await or directly return a Promise.\n\n```js\n/**\n * @param {function} fn\n *   (api, { quasarConf }) => ?Promise\n */\napi.afterBuild((api, { quasarConf }) => {\n  // do something\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-onpublish",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.onPublish",
+    "breadcrumb": ["The API param", "api.onPublish", "api.onPublish"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-onpublish",
+    "content": "Run hook if publishing was requested (`quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.\n\nCan use async/await or directly return a Promise.\n\n```js\n/**\n * @param {function} fn\n *   () => ?Promise\n * @param {object} opts\n *   * arg - argument supplied to \"--publish\"/\"-P\" parameter\n *   * distDir - folder where distributables were built\n */\napi.onPublish((api, opts) => {\n  // do something\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendviteconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendViteConf",
+    "breadcrumb": ["The API param", "api.extendViteConf", "api.extendViteConf"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendviteconf",
+    "content": "```ts\n/**\n * Extend the Vite config generated by Quasar CLI.\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: ViteUserConfig,\n  invokeParams: { isClient: boolean; isServer: boolean },\n  api: IndexAPI\n) => ViteUserConfig | void | Promise<ViteUserConfig | void>\n\n// Example:\napi.extendViteConf((viteConf, { isClient, isServer }, api) => {\n  // add/remove/change Quasar CLI generated Vite config object;\n  // similar in use to /quasar.config > build > extendViteConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssrwebserverconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSRWebserverConf",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSRWebserverConf",
+      "api.extendSSRWebserverConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssrwebserverconf",
+    "content": "```ts\n/**\n * Extend the Rolldown config that is used for the SSR webserver\n * (which includes the SSR middlewares).\n *\n * Can be async. Can directly modify the \"rolldownConf\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: RolldownOptions,\n  api: IndexAPI\n) => void | RolldownOptions | Promise<void | RolldownOptions>\n\n// Example:\napi.extendSSRWebserverConf((rolldownConf, api) => {\n  // add/remove/change Quasar CLI generated Rolldown config object;\n  // similar in use to /quasar.config > ssr > extendSSRWebserverConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssrpackagejson",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSRPackageJson <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSRPackageJson <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendSSRPackageJson <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssrpackagejson",
+    "content": "```ts\n/**\n * Add/remove/change properties of SSR production generated package.json\n *\n * Can be async. Can directly modify the \"pkgJson\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  pkgJson: { [index in string]: any },\n  api: IndexAPI\n) =>\n  void | { [index in string]: any } | Promise<void | { [index in string]: any }>\n\n// Example:\napi.extendSSRPackageJson((pkgJson, api) => {\n  // add/remove/change pkgJson;\n  // similar in use to /quasar.config > ssr > extendSSRPackageJson\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssrmanifestjson",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSRManifestJson <q-badge label=\"@quasar/app-vite v3.1+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSRManifestJson <q-badge label=\"@quasar/app-vite v3.1+\" />",
+      "api.extendSSRManifestJson <q-badge label=\"@quasar/app-vite v3.1+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssrmanifestjson",
+    "content": "```ts\n/**\n * Extend the underlying SSR manifest file generated by Vite,\n * which is used by the server-side renderer to know which files to preload.\n *\n * Can be async. Can directly modify the \"ssrManifest\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  ssrManifest: QuasarSsrManifest,\n  api: IndexAPI\n) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>\n\n// Example:\napi.extendSSRManifestJson((ssrManifest, api) => {\n  // add/remove/change ssrManifest;\n  // similar in use to /quasar.config > ssr > extendSSRManifestJson\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssrgenerateswoptions",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSRGenerateSWOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSRGenerateSWOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendSSRGenerateSWOptions <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssrgenerateswoptions",
+    "content": "```ts\n/**\n * Extend/configure the Workbox GenerateSW options\n * Specify Workbox options which will be applied on top of\n *  `pwa > extendPWAGenerateSWOptions()`.\n *\n * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: GenerateSWOptions,\n  api: IndexAPI\n) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>\n\n// Example:\napi.extendSSRGenerateSWOptions((config, api) => {\n  // add/remove/change config;\n  // similar in use to /quasar.config > ssr > extendSSRGenerateSWOptions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssrinjectmanifestoptions",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSRInjectManifestOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSRInjectManifestOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendSSRInjectManifestOptions <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssrinjectmanifestoptions",
+    "content": "```ts\n/**\n * Extend/configure the Workbox InjectManifest options\n * Specify Workbox options which will be applied on top of\n *  `pwa > extendPWAInjectManifestOptions()`.\n *\n * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: InjectManifestOptions,\n  api: IndexAPI\n) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>\n\n// Example:\napi.extendSSRInjectManifestOptions((config, api) => {\n  // add/remove/change config;\n  // similar in use to /quasar.config > ssr > extendSSRInjectManifestOptions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssgrendererconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSGRendererConf <q-badge label=\"@quasar/app-vite v3.1+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSGRendererConf <q-badge label=\"@quasar/app-vite v3.1+\" />",
+      "api.extendSSGRendererConf <q-badge label=\"@quasar/app-vite v3.1+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssgrendererconf",
+    "content": "```ts\n/**\n * Extend the Rolldown config that is used for the SSG renderer,\n * which is your /src-ssg/ssg-renderer file.\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: RolldownOptions,\n  api: IndexAPI\n) => void | RolldownOptions | Promise<void | RolldownOptions>\n\n// Example:\napi.extendSSGRendererConf((rolldownConf, api) => {\n  // add/remove/change Quasar CLI generated Rolldown config object;\n  // similar in use to /quasar.config > ssg > extendSSGRendererConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssgmanifestjson",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSGManifestJson <q-badge label=\"@quasar/app-vite v3.1+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSGManifestJson <q-badge label=\"@quasar/app-vite v3.1+\" />",
+      "api.extendSSGManifestJson <q-badge label=\"@quasar/app-vite v3.1+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssgmanifestjson",
+    "content": "```ts\n/**\n * Extend the underlying SSR manifest file generated by Vite,\n * which is used by the server-side renderer to know which files to preload.\n *\n * Can be async. Can directly modify the \"ssrManifest\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  ssrManifest: QuasarSsrManifest,\n  api: IndexAPI\n) => void | QuasarSsrManifest | Promise<void | QuasarSsrManifest>\n\n// Example:\napi.extendSSGManifestJson((ssrManifest, api) => {\n  // add/remove/change ssrManifest;\n  // similar in use to /quasar.config > ssg > extendSSGManifestJson\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssggenerateswoptions",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSGGenerateSWOptions <q-badge label=\"@quasar/app-vite v3.1+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSGGenerateSWOptions <q-badge label=\"@quasar/app-vite v3.1+\" />",
+      "api.extendSSGGenerateSWOptions <q-badge label=\"@quasar/app-vite v3.1+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssggenerateswoptions",
+    "content": "```ts\n/**\n * Extend/configure the Workbox GenerateSW options\n * Specify Workbox options which will be applied on top of\n *  `pwa > extendPWAGenerateSWOptions()`.\n *\n * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: GenerateSWOptions,\n  api: IndexAPI\n) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>\n\n// Example:\napi.extendSSGGenerateSWOptions((config, api) => {\n  // add/remove/change config;\n  // similar in use to /quasar.config > ssg > extendSSGGenerateSWOptions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendssginjectmanifestoptions",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendSSGInjectManifestOptions <q-badge label=\"@quasar/app-vite v3.1+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendSSGInjectManifestOptions <q-badge label=\"@quasar/app-vite v3.1+\" />",
+      "api.extendSSGInjectManifestOptions <q-badge label=\"@quasar/app-vite v3.1+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendssginjectmanifestoptions",
+    "content": "```ts\n/**\n * Extend/configure the Workbox InjectManifest options\n * Specify Workbox options which will be applied on top of\n *  `pwa > extendPWAInjectManifestOptions()`.\n *\n * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: InjectManifestOptions,\n  api: IndexAPI\n) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>\n\n// Example:\napi.extendSSGInjectManifestOptions((config, api) => {\n  // add/remove/change config;\n  // similar in use to /quasar.config > ssg > extendSSGInjectManifestOptions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendelectronmainconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendElectronMainConf",
+    "breadcrumb": [
+      "The API param",
+      "api.extendElectronMainConf",
+      "api.extendElectronMainConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendelectronmainconf",
+    "content": "```ts\n/**\n * Extend the Rolldown config that is used for the electron-main thread.\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: RolldownOptions,\n  api: IndexAPI\n) => void | RolldownOptions | Promise<void | RolldownOptions>\n\n// Example:\napi.extendElectronMainConf((rolldownConf, api) => {\n  // add/remove/change Quasar CLI generated Rolldown config object;\n  // similar in use to /quasar.config > electron > extendElectronMainConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendelectronpreloadconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendElectronPreloadConf",
+    "breadcrumb": [
+      "The API param",
+      "api.extendElectronPreloadConf",
+      "api.extendElectronPreloadConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendelectronpreloadconf",
+    "content": "```ts\n/**\n * Extend the Rolldown config that is used for the electron-preload thread.\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: RolldownOptions,\n  api: IndexAPI\n) => void | RolldownOptions | Promise<void | RolldownOptions>\n\n// Example:\napi.extendElectronPreloadConf((rolldownConf, api) => {\n  // add/remove/change Quasar CLI generated Rolldown config object;\n  // similar in use to /quasar.config > electron > extendElectronPreloadConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendelectronpackagejson",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendElectronPackageJson <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendElectronPackageJson <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendElectronPackageJson <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendelectronpackagejson",
+    "content": "```ts\n/**\n * Add/remove/change properties of Electron production generated package.json\n *\n * Can be async. Can directly modify the \"pkgJson\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  pkgJson: { [index in string]: any },\n  api: IndexAPI\n) =>\n  void | { [index in string]: any } | Promise<void | { [index in string]: any }>\n\n// Example:\napi.extendElectronPackageJson((pkgJson, api) => {\n  // add/remove/change pkgJson;\n  // similar in use to /quasar.config > electron > extendElectronPackageJson\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendpwacustomswconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendPWACustomSWConf",
+    "breadcrumb": [
+      "The API param",
+      "api.extendPWACustomSWConf",
+      "api.extendPWACustomSWConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendpwacustomswconf",
+    "content": "```ts\n/**\n * Extend the Rolldown config that is used for the custom service worker\n * (if using it through workboxMode: 'InjectManifest').\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: RolldownOptions,\n  api: IndexAPI\n) => void | RolldownOptions | Promise<void | RolldownOptions>\n\n// Example:\napi.extendPWACustomSWConf((rolldownConf, api) => {\n  // add/remove/change Quasar CLI generated Rolldown config object;\n  // similar in use to /quasar.config > pwa > extendPWACustomSWConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendpwamanifestjson",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendPWAManifestJson <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendPWAManifestJson <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendPWAManifestJson <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendpwamanifestjson",
+    "content": "```ts\n/**\n * Should you need some dynamic changes to the /src-pwa/manifest.json,\n * use this method to do it.\n *\n * Can be async. Can directly modify the \"json\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  json: PwaManifestOptions,\n  api: IndexAPI\n) => void | PwaManifestOptions | Promise<void | PwaManifestOptions>\n\n// Example:\napi.extendPWAManifestJson((json, api) => {\n  // add/remove/change json;\n  // similar in use to /quasar.config > pwa > extendPWAManifestJson\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendpwagenerateswoptions",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendPWAGenerateSWOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendPWAGenerateSWOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendPWAGenerateSWOptions <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendpwagenerateswoptions",
+    "content": "```ts\n/**\n * Extend/configure the Workbox GenerateSW options.\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: GenerateSWOptions,\n  api: IndexAPI\n) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>\n\n// Example:\napi.extendPWAGenerateSWOptions((config, api) => {\n  // add/remove/change config;\n  // similar in use to /quasar.config > pwa > extendPWAGenerateSWOptions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendpwainjectmanifestoptions",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendPWAInjectManifestOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendPWAInjectManifestOptions <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendPWAInjectManifestOptions <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendpwainjectmanifestoptions",
+    "content": "```ts\n/**\n * Extend/configure the Workbox InjectManifest options.\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: InjectManifestOptions,\n  api: IndexAPI\n) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>\n\n// Example:\napi.extendPWAInjectManifestOptions((config, api) => {\n  // add/remove/change config;\n  // similar in use to /quasar.config > pwa > extendPWAInjectManifestOptions\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendbexscriptsconf",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendBexScriptsConf",
+    "breadcrumb": [
+      "The API param",
+      "api.extendBexScriptsConf",
+      "api.extendBexScriptsConf"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendbexscriptsconf",
+    "content": "```ts\n/**\n * Extend the Rolldown config that is used for the bex scripts\n * (background, content scripts, dom script).\n *\n * Can be async. Can directly modify the \"config\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  config: RolldownOptions,\n  api: IndexAPI\n) => void | RolldownOptions | Promise<void | RolldownOptions>\n\n// Example:\napi.extendBexScriptsConf((rolldownConf, api) => {\n  // add/remove/change Quasar CLI generated Rolldown config object;\n  // similar in use to /quasar.config > bex > extendBexScriptsConf\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "app-extensions/development-guide/index-api#api-extendbexmanifestjson",
+    "documentId": "app-extensions/development-guide/index-api",
+    "heading": "api.extendBexManifestJson <q-badge label=\"@quasar/app-vite v3+\" />",
+    "breadcrumb": [
+      "The API param",
+      "api.extendBexManifestJson <q-badge label=\"@quasar/app-vite v3+\" />",
+      "api.extendBexManifestJson <q-badge label=\"@quasar/app-vite v3+\" />"
+    ],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/index-api#api-extendbexmanifestjson",
+    "content": "```ts\n/**\n * Should you need some dynamic changes to the Browser Extension manifest file\n * (/src-bex/manifest.json) then use this method to do it.\n *\n * Can be async. Can directly modify the \"json\" parameter or\n * return a new one that will be merged with the default one.\n */\ntype Callback = (\n  json: object,\n  api: IndexAPI\n) => void | object | Promise<void | object>\n\n// Example:\napi.extendBexManifestJson((json, api) => {\n  // add/remove/change json;\n  // similar in use to /quasar.config > bex > extendBexManifestJson\n})\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

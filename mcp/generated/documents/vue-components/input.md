@@ -26,7 +26,7 @@ For your QInput you can use only one of the main designs (`filled`, `outlined`, 
 
 Source: [DesignOverview.vue](../../examples/QInput/DesignOverview.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md" style="max-width: 300px">
@@ -66,7 +66,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Coloring
 
@@ -74,7 +74,7 @@ const text = ref('')
 
 Source: [Coloring.vue](../../examples/QInput/Coloring.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -149,7 +149,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Standard
 
@@ -157,7 +157,7 @@ const text = ref('')
 
 Source: [DesignStandard.vue](../../examples/QInput/DesignStandard.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -311,7 +311,7 @@ const text = ref('')
 const ph = ref('')
 const dense = ref(false)
 </script>
-````
+```
 
 ### Filled
 
@@ -319,7 +319,7 @@ const dense = ref(false)
 
 Source: [DesignFilled.vue](../../examples/QInput/DesignFilled.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -495,7 +495,7 @@ const text = ref('')
 const ph = ref('')
 const dense = ref(false)
 </script>
-````
+```
 
 ### Outlined
 
@@ -503,7 +503,7 @@ const dense = ref(false)
 
 Source: [DesignOutlined.vue](../../examples/QInput/DesignOutlined.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -685,7 +685,7 @@ const text = ref('')
 const ph = ref('')
 const dense = ref(false)
 </script>
-````
+```
 
 ### Standout
 
@@ -693,7 +693,7 @@ const dense = ref(false)
 
 Source: [DesignStandout.vue](../../examples/QInput/DesignStandout.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -882,7 +882,7 @@ const text = ref('')
 const ph = ref('')
 const dense = ref(false)
 </script>
-````
+```
 
 One of the most appropriate use cases for Standout design is in a QToolbar:
 
@@ -890,7 +890,7 @@ One of the most appropriate use cases for Standout design is in a QToolbar:
 
 Source: [StandoutToolbar.vue](../../examples/QInput/StandoutToolbar.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="width: 300px; max-width: 100%">
@@ -930,7 +930,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Borderless
 
@@ -940,7 +940,7 @@ The `borderless` design allows you to seamlessly integrate your QInput into othe
 
 Source: [Borderless.vue](../../examples/QInput/Borderless.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="width: 300px; max-width: 100%">
@@ -979,7 +979,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Rounded design
 
@@ -989,7 +989,7 @@ The `rounded` prop only works along with Filled, Outlined and Standout designs, 
 
 Source: [Rounded.vue](../../examples/QInput/Rounded.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1033,7 +1033,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Square borders
 
@@ -1043,7 +1043,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 Source: [SquareBorders.vue](../../examples/QInput/SquareBorders.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1087,7 +1087,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Force dark mode
 
@@ -1095,7 +1095,7 @@ const text = ref('')
 
 Source: [Dark.vue](../../examples/QInput/Dark.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1178,7 +1178,7 @@ const text = ref('')
 const readonly = ref(false)
 const disable = ref(false)
 </script>
-````
+```
 
 ## Basic features
 
@@ -1195,15 +1195,11 @@ Please check these resources for more information about native attributes (for i
 
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.
 
-::: warning
-Won't work with `v-model` managed input modifiers such as `.trim` because in that case Vue doesn't handle `null` values.
-:::
-
 **Example: Clearable**
 
 Source: [Clearable.vue](../../examples/QInput/Clearable.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1244,7 +1240,7 @@ import { ref } from 'vue'
 
 const text = ref('Some text')
 </script>
-````
+```
 
 ### Input types
 
@@ -1258,7 +1254,7 @@ Support and behavior is the subject entirely of the browser rendering the page a
 
 Source: [InputTypes.vue](../../examples/QInput/InputTypes.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -1310,7 +1306,7 @@ const url = ref('')
 const time = ref('')
 const date = ref('')
 </script>
-````
+```
 
 ::: tip
 Some input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.
@@ -1324,7 +1320,7 @@ You'll be using `v-model.number` (notice the `number` modifier) along with `type
 
 Source: [InputTypeNumber.vue](../../examples/QInput/InputTypeNumber.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-input
@@ -1341,7 +1337,7 @@ import { ref } from 'vue'
 
 const model = ref(10)
 </script>
-````
+```
 
 #### Input of file type
 
@@ -1357,7 +1353,7 @@ Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy 
 
 Source: [InputTypeFile.vue](../../examples/QInput/InputTypeFile.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -1399,7 +1395,7 @@ import { ref } from 'vue'
 const file = ref(null)
 const files = ref(null)
 </script>
-````
+```
 
 ### Textarea
 
@@ -1407,7 +1403,7 @@ const files = ref(null)
 
 Source: [Textarea.vue](../../examples/QInput/Textarea.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input v-model="text" filled type="textarea" />
@@ -1419,7 +1415,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 When you need QInput to grow along with its content, then use the `autogrow` prop like in the example below:
 
@@ -1427,7 +1423,7 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 Source: [Autogrow.vue](../../examples/QInput/Autogrow.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input v-model="text" filled autogrow />
@@ -1439,7 +1435,7 @@ import { ref } from 'vue'
 
 const text = ref('')
 </script>
-````
+```
 
 ### Prefix and suffix
 
@@ -1447,7 +1443,7 @@ const text = ref('')
 
 Source: [PrefixSuffix.vue](../../examples/QInput/PrefixSuffix.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1487,7 +1483,7 @@ const email = ref('')
 const number = ref(null)
 const text = ref('')
 </script>
-````
+```
 
 ### Custom Label
 
@@ -1503,7 +1499,7 @@ If you want to interact with the content of the label (QTooltip) add the `all-po
 
 Source: [CustomLabel.vue](../../examples/QInput/CustomLabel.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1562,7 +1558,7 @@ import { ref } from 'vue'
 const email = ref('john.doe')
 const number = ref(123)
 </script>
-````
+```
 
 ### Shadow text
 
@@ -1570,7 +1566,7 @@ const number = ref(123)
 
 Source: [ShadowText.vue](../../examples/QInput/ShadowText.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1705,7 +1701,7 @@ function processTextareaFill(e) {
   }
 }
 </script>
-````
+```
 
 ### Slots with QBtn type "submit"
 
@@ -1721,7 +1717,7 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 Source: [Debouncing.vue](../../examples/QInput/Debouncing.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 350px">
     <div class="q-gutter-md">
@@ -1761,7 +1757,7 @@ import { ref } from 'vue'
 
 const search = ref('')
 </script>
-````
+```
 
 ### Loading state
 
@@ -1769,7 +1765,7 @@ const search = ref('')
 
 Source: [LoadingState.vue](../../examples/QInput/LoadingState.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
@@ -1785,7 +1781,7 @@ import { ref } from 'vue'
 const text = ref('')
 const loadingState = ref(false)
 </script>
-````
+```
 
 ## Mask
 
@@ -1813,7 +1809,7 @@ There are **helpers** for QInput `mask` prop: [full list](https://github.com/qua
 
 Source: [MaskBasic.vue](../../examples/QInput/MaskBasic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
@@ -1851,13 +1847,13 @@ const id = ref(null)
 const phone = ref(null)
 const serialNumber = ref(null)
 </script>
-````
+```
 
 **Example: Filling the mask**
 
 Source: [MaskFill.vue](../../examples/QInput/MaskFill.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
@@ -1898,7 +1894,7 @@ const id = ref(null)
 const phone = ref(null)
 const card = ref(null)
 </script>
-````
+```
 
 The `unmasked-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:
 
@@ -1906,7 +1902,7 @@ The `unmasked-value` is useful if for example you want to force the user type a 
 
 Source: [MaskUnmaskedModel.vue](../../examples/QInput/MaskUnmaskedModel.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
@@ -1951,7 +1947,7 @@ const id = ref(null)
 const phone = ref(null)
 const card = ref(null)
 </script>
-````
+```
 
 The `reverse-fill-mask` is useful if you want to force the user to fill the mask from the end and allow non-fixed length of input:
 
@@ -1959,7 +1955,7 @@ The `reverse-fill-mask` is useful if you want to force the user to fill the mask
 
 Source: [MaskFillReverse.vue](../../examples/QInput/MaskFillReverse.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
@@ -1982,7 +1978,7 @@ import { ref } from 'vue'
 
 const price = ref(null)
 </script>
-````
+```
 
 ### Custom mask tokens <q-badge label="v2.18.4+" />
 
@@ -1994,7 +1990,7 @@ The custom mask tokens must have the same syntax as the [default ones](https://g
 
 Source: [MaskCustomTokens.vue](../../examples/QInput/MaskCustomTokens.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
@@ -2025,7 +2021,7 @@ const customTokens = {
   X: { pattern: '[5-8]', negate: '[^5-8]' }
 }
 </script>
-````
+```
 
 ### Using third party mask processors
 
@@ -2142,7 +2138,7 @@ There are **helpers** for QInput `rules` prop: [full list](https://github.com/qu
 
 Source: [ValidationRequired.vue](../../examples/QInput/ValidationRequired.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
@@ -2172,13 +2168,13 @@ function reset() {
   inputRef.value.resetValidation()
 }
 </script>
-````
+```
 
 **Example: Maximum length**
 
 Source: [ValidationMaxLength.vue](../../examples/QInput/ValidationMaxLength.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
@@ -2208,7 +2204,7 @@ function reset() {
   inputRef.value.resetValidation()
 }
 </script>
-````
+```
 
 If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
@@ -2216,7 +2212,7 @@ If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is 
 
 Source: [ValidationLazy.vue](../../examples/QInput/ValidationLazy.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
@@ -2252,13 +2248,13 @@ function reset() {
   inputRef.value.resetValidation()
 }
 </script>
-````
+```
 
 **Example: Form validation**
 
 Source: [ValidationForm.vue](../../examples/QInput/ValidationForm.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <form
@@ -2349,7 +2345,7 @@ function onReset() {
   ageRef.value.resetValidation()
 }
 </script>
-````
+```
 
 #### Async rules
 
@@ -2363,7 +2359,7 @@ Consider coupling async rules with `debounce` prop to avoid calling the async ru
 
 Source: [ValidationAsync.vue](../../examples/QInput/ValidationAsync.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
@@ -2415,7 +2411,7 @@ function reset() {
   inputRef.value.resetValidation()
 }
 </script>
-````
+```
 
 ### External validation
 
@@ -2429,7 +2425,7 @@ Depending on your needs, you might connect [Regle](https://reglejs.dev/) (our re
 
 Source: [ValidationExternal.vue](../../examples/QInput/ValidationExternal.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
@@ -2450,7 +2446,7 @@ import { computed, ref } from 'vue'
 const model = ref('')
 const isValid = computed(() => model.value.length <= 3)
 </script>
-````
+```
 
 You can also customize the slot for error message:
 
@@ -2458,7 +2454,7 @@ You can also customize the slot for error message:
 
 Source: [ValidationSlots.vue](../../examples/QInput/ValidationSlots.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
@@ -2480,7 +2476,7 @@ import { computed, ref } from 'vue'
 const model = ref('')
 const isValid = computed(() => model.value.length <= 3)
 </script>
-````
+```
 
 ## Native form submit
 
@@ -2490,7 +2486,7 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 Source: [NativeForm.vue](../../examples/QInput/NativeForm.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <q-form @submit="onSubmit" class="q-gutter-md">
@@ -2553,4 +2549,4 @@ function onSubmit(evt) {
   submitResult.value = data
 }
 </script>
-````
+```

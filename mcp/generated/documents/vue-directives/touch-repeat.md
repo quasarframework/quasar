@@ -31,7 +31,7 @@ Notice that on touch capable devices the scrolling is not blocked.
 
 Source: [Basic.vue](../../examples/TouchRepeat/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
@@ -70,7 +70,7 @@ function handleRepeat({ evt, ...newInfo }) {
   width: 190px
   font-size: 12px
 </style>
-````
+```
 
 Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:300:200 (ms) repeat pattern. Hit & hold keys, or click/tap and hold.
 
@@ -78,7 +78,7 @@ Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (*
 
 Source: [Keys.vue](../../examples/TouchRepeat/Keys.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
@@ -122,7 +122,7 @@ function handleRepeat({ evt, ...newInfo }) {
   width: 190px
   font-size: 12px
 </style>
-````
+```
 
 Below is an example of applying TouchRepeat to QBtn. Notice how we play with the directive arguments in order to make the blue buttons increment slower than the red ones.
 
@@ -130,7 +130,7 @@ Below is an example of applying TouchRepeat to QBtn. Notice how we play with the
 
 Source: [Buttons.vue](../../examples/TouchRepeat/Buttons.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md row flex-center">
     <q-btn
@@ -186,7 +186,7 @@ function decrement() {
   number.value--
 }
 </script>
-````
+```
 
 ### Handling Mouse Events
 
@@ -204,7 +204,7 @@ When you want to handle key events too, use [keycodes](https://keycode.info/) as
 <div v-touch-repeat.65.70="myHandler">...</div>
 ```
 
-There are some special modifiers that you do not require to write the equivalent keycode: `space`, `tab`, `enter`.
+For common keys, you can use the named modifiers `esc`, `tab`, `enter`, `space`, `up`, `left`, `right`, `down`, and `delete` instead of writing their keycodes. The `delete` modifier handles both Backspace and Delete.
 
 ### Inhibiting TouchRepeat
 

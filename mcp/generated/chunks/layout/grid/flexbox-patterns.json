@@ -1,0 +1,68 @@
+[
+  {
+    "id": "layout/grid/flexbox-patterns#overview",
+    "documentId": "layout/grid/flexbox-patterns",
+    "heading": "Flexbox Patterns",
+    "breadcrumb": ["Flexbox Patterns"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/layout/grid/flexbox-patterns",
+    "content": "Here are some common patterns for using [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Some more info can be found at [Tobias Ahlin Blog](https://tobiasahlin.com/blog/).",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "layout/grid/flexbox-patterns#flex-row-column-break",
+    "documentId": "layout/grid/flexbox-patterns",
+    "heading": "Flex row / column break",
+    "breadcrumb": ["Flex row / column break", "Flex row / column break"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/flexbox-patterns#flex-row-column-break",
+    "content": "You can define a CSS class that would force the element it is applied on to create a row / column break in a flex layout.\n\n```sass\n.flex-break\n  flex: 1 0 100% !important\n.row\n  .flex-break\n    height: 0 !important\n.column\n  .flex-break\n    width: 0 !important\n```\n\nTake care not to use `no-wrap` when defining the flex container, and insert a `div` with class `flex-break` where you need.\n\n::: tip\nYou can use `q-py-##` on row breaking elements or `q-px-##` on column breaking elements to increase the space.\n:::\n\n```html\n<div class=\"row\">\n  <div>Col 1 / Row 1</div>\n  <div>Col 2 / Row 1</div>\n  <div class=\"flex-break\"></div>\n  <div>Col 1 / Row 2</div>\n  <div class=\"flex-break q-py-md\"></div>\n  <div>Col 1 / Row 3</div>\n  <div>Col 2 / Row 3</div>\n  <div>Col 3 / Row 3</div>\n</div>\n```\n\nExample: Row break (BreakRow.vue)\n\n::: warning\nWhen using `column` type flex you must define a height for the container. The height must be large enough to hold the longest column.\n:::\n\nExample: Column break (BreakColumn.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Row break",
+        "file": "BreakRow.vue"
+      },
+      {
+        "title": "Column break",
+        "file": "BreakColumn.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/flexbox-patterns#masonry-like-layout",
+    "documentId": "layout/grid/flexbox-patterns",
+    "heading": "Masonry-like layout",
+    "breadcrumb": ["Masonry-like layout", "Masonry-like layout"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/flexbox-patterns#masonry-like-layout",
+    "content": "When using a `column` type flex with multiple columns the visual order of the elements will be in vertical columns. Sometimes you want the order to follow the rows in the layout, and in order to achieve this you can use a combination or custom order CSS styles and column break elements.\n\n::: warning\nYou must know how many columns you want use for the layout. Also for best visual aspect the elements in the layout should be close in height one to the others.\n:::\n\nThe general CSS formula for `$x` number of columns is:\n\n```scss\n$x: 3;\n\n@for $i from 1 through ($x - 1) {\n  .item:nth-child(#{$x}n + #{$i}) {\n    order: #{$i};\n  }\n}\n\n.item:nth-child(#{$x}n) {\n  order: #{$x};\n}\n```\n\nExample, supposing you want a 4 column layout:\n\n```sass\n.item:nth-child(4n+1)\n  order: 1\n.item:nth-child(4n+2)\n  order: 2\n.item:nth-child(4n+3)\n  order: 3\n.item:nth-child(4n)\n  order: 4\n```\n\nFor the HTML there are some requirements that should be followed:\n\n- the flex column container must have a height defined\n- the column breaking elements must be placed at the start\n- the column breaking elements must be as many as the columns\n- the first column breaking element must be hidden (class `hidden` or style `display: none`)\n\nExample, supposing you want a 4 column layout:\n\n```html\n<div class=\"column\">\n  <div class=\"flex-break hidden\"></div>\n  <div class=\"flex-break\"></div>\n  <div class=\"flex-break\"></div>\n  <div class=\"flex-break\"></div>\n\n  <div>Cell 1</div>\n  <div>Cell 2</div>\n  ...\n  <div>Cell last</div>\n</div>\n```\n\nExample: Masonry (Masonry.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Masonry",
+        "file": "Masonry.vue"
+      }
+    ]
+  },
+  {
+    "id": "layout/grid/flexbox-patterns#masonry-with-pseudo-selectors-to-break-rows-columns",
+    "documentId": "layout/grid/flexbox-patterns",
+    "heading": "Masonry with pseudo selectors to break rows / columns",
+    "breadcrumb": [
+      "Masonry with pseudo selectors to break rows / columns",
+      "Masonry with pseudo selectors to break rows / columns"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/layout/grid/flexbox-patterns#masonry-with-pseudo-selectors-to-break-rows-columns",
+    "content": "When it's not easy or not possible to insert the elements for row / column break and you need 2 or 3 rows / column you can use pseudo selectors.\n\n```sass\n.container-class\n  &--2-rows\n    :before\n      flex: 1 0 100% !important\n      height: 0 !important\n      order: 1\n  &--2-columns\n    :before\n      flex: 1 0 100% !important\n      width: 0 !important\n      order: 1\n  &--3-rows\n    :before,\n    :after\n      flex: 1 0 100% !important\n      height: 0 !important\n      order: 2\n  &--3-columns\n    :before,\n    :after\n      flex: 1 0 100% !important\n      width: 0 !important\n      order: 2\n```\n\nExample: Masonry like table grid (MasonryTableGrid.vue)",
+    "apiReferences": [],
+    "exampleReferences": [
+      {
+        "title": "Masonry like table grid",
+        "file": "MasonryTableGrid.vue"
+      }
+    ]
+  }
+]

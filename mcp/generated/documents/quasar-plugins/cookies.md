@@ -24,11 +24,11 @@ In addition to the standard way of dealing with cookies, with Cookie Plugin you 
 With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
 :::
 
-<DocInstall plugins="Cookies" />
+**Configuration:** register Cookies through `framework.plugins` in `quasar.config`.
 
-## Notes on SSR
+## Notes on SSR/SSG
 
-When building for SSR, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:
+When building for SSR/SSG, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:
 
 ```js
 import { Cookies } from 'quasar'
@@ -39,7 +39,7 @@ function (ssrContext) {
     ? Cookies.parseSSR(ssrContext)
     : Cookies // otherwise we're on client
 
-  // "cookies" is equivalent to the global import as in non-SSR builds
+  // "cookies" is equivalent to the global import as in non-SSR/SSG builds
 }
 ```
 

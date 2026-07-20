@@ -1,0 +1,35 @@
+[
+  {
+    "id": "start/pick-quasar-flavour#overview",
+    "documentId": "start/pick-quasar-flavour",
+    "heading": "Pick a Quasar Flavour",
+    "breadcrumb": ["Pick a Quasar Flavour"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/start/pick-quasar-flavour",
+    "content": "There are four ways of using Quasar. Pick the one that suits you best:\n\n<div class=\"q-mx-md row items-stretch q-gutter-xs\">\n  <q-btn no-caps color=\"purple\" push stack padding=\"sm lg\" to=\"/start/quasar-cli\">\n    <span class=\"text-bold\">Quasar CLI (with Vite)</span>\n    <span style=\"font-size:0.8em\">Strongly recommended - the premium DX</span>\n  </q-btn>\n  <q-btn label=\"UMD/Standalone\" color=\"teal-6\" no-caps push to=\"/start/umd\" />\n  <q-btn label=\"Vite plugin\" color=\"teal-6\" no-caps push to=\"/start/vite-plugin\" />\n</div>",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/pick-quasar-flavour#comparison",
+    "documentId": "start/pick-quasar-flavour",
+    "heading": "Comparison",
+    "breadcrumb": [null, "Comparison", "Comparison"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/pick-quasar-flavour#comparison",
+    "content": "| Feature                                                                                        | Quasar UMD | Quasar CLI (with Vite) | Quasar Vite Plugin         |\n| ---------------------------------------------------------------------------------------------- | ---------- | ---------------------- | -------------------------- |\n| Ability to embed into an existing project                                                      | **Yes**    | -                      | **Yes, if it is Vite app** |\n| Progressive integration of Quasar                                                              | **Yes**    | -                      | -                          |\n| Include Quasar from public CDN                                                                 | **Yes**    | -                      | -                          |\n| Build SPA, PWA                                                                                 | **Yes**    | **Yes**                | **Yes**                    |\n| Build SSR (+ optional PWA client takeover)                                                     | -          | **Yes**                | -                          |\n| Build SSG (+ optional PWA client takeover; + optional partial CSR)                             | -          | **Yes**                | -                          |\n| Build Mobile Apps via Cordova or Capacitor                                                     | **Yes**    | **Yes**                | Yes(\\*)                    |\n| Develop Mobile Apps with HMR directly on your phone.                                           | -          | **Yes**                | Yes(\\*)                    |\n| Build Desktop Apps via Electron                                                                | -          | **Yes**                | Yes(\\*)                    |\n| Build Browser Extensions                                                                       | -          | **Yes**                | Yes(\\*)                    |\n| Quasar **App Extensions**                                                                      | -          | **Yes**                | -                          |\n| Easy management of App icons & splash screens via [Icon Genie CLI](/icongenie/introduction)    | -          | **Yes**                | -                          |\n| Dynamic RTL support for Quasar components                                                      | **Yes**    | **Yes**                | -                          |\n| Generating your own website/app RTL equivalent CSS rules automatically by Quasar               | -          | **Yes**                | -                          |\n| **Ensure everything \"simply works\" out of the box**, using latest and greatest Quasar specs.   | -          | **Yes**                | -                          |\n| **Tight integration between build modes**, taking full advantage of all Quasar's capabilities. | -          | **Yes**                | -                          |\n| One codebase to create SPA, PWA, SSR, SSG, Mobile Apps, Electron Apps and Browser Extensions   | -          | **Yes**                | -                          |\n| Tree Shaking                                                                                   | -          | **Yes**                | **Yes**                    |\n| SFC (Single File Component - for Vue) support                                                  | -          | **Yes**                | **Yes**                    |\n| Advanced configuration through dynamic quasar.config file                                      | -          | **Yes**                | -                          |\n| Unit & end to end testing support                                                              | -          | **Yes**                | **Yes**                    |\n| TypeScript support                                                                             | -          | **Yes**                | **Yes**                    |\n| **Best and Most Popular Choice!**                                                              |            | **YES!**               |                            |\n|                                                                                                | Quasar UMD | Quasar CLI (with Vite) | Quasar Vite Plugin         |\n\n::: tip Quasar Vite Plugin: Important!\nAlthough you may get a similar multi-platform support via Vite (directly) or some Vue community built plugins, these 3rd party supported build paths aren't tightly integrated with Quasar's components. Thus, as you run into problems with these 3rd party plugins, you will have to depend on the support of each individual plugin developer. With Quasar, you have a one-stop-shop should anything go wrong. Also, the Quasar CLI ensures applications are built to the best possible standards in both performance, project size and best practices. You will find no such guarantees anywhere else!\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "start/pick-quasar-flavour#recommendation",
+    "documentId": "start/pick-quasar-flavour",
+    "heading": "Recommendation",
+    "breadcrumb": [null, "Recommendation", "Recommendation"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/start/pick-quasar-flavour#recommendation",
+    "content": "Let's get you going with **Quasar's CLI**! You'll be up and running with a new project in no time.\n\n<q-btn icon-right=\"launch\" label=\"Start with Quasar CLI\" to=\"/start/quasar-cli\" class=\"q-mt-sm q-mb-lg\" />",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

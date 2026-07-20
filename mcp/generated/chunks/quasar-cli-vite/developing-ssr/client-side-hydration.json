@@ -1,0 +1,35 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssr/client-side-hydration#overview",
+    "documentId": "quasar-cli-vite/developing-ssr/client-side-hydration",
+    "heading": "Client Side Hydration",
+    "breadcrumb": ["Client Side Hydration"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/client-side-hydration",
+    "content": "Hydration refers to the client-side process during which Vue takes over the static HTML sent by the server and turns it into dynamic DOM that can react to client-side data changes.\n\nSince the server has already rendered the markup, we obviously do not want to throw that away and re-create all the DOM elements. Instead, we want to \"hydrate\" the static markup and make it interactive.\n\n::: warning\nVue reports hydration mismatches during development and attempts to recover by adjusting the DOM. Recovery has a performance cost and can produce incorrect behavior, so treat every unexpected mismatch as a bug before deploying.\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/client-side-hydration#hydration-caveats",
+    "documentId": "quasar-cli-vite/developing-ssr/client-side-hydration",
+    "heading": "Hydration caveats",
+    "breadcrumb": ["Hydration caveats", "Hydration caveats"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/client-side-hydration#hydration-caveats",
+    "content": "The server and client must produce the same initial markup. Common causes of mismatches include:\n\n- invalid HTML that the browser repairs before Vue hydrates it\n- browser-only values such as viewport dimensions\n- time, random values, or locale-dependent formatting that differs between environments\n- data that changes between the server render and client hydration\n- client-only third-party libraries that access the DOM during setup\n\nFor example, browsers insert a `<tbody>` into this invalid table structure:\n\n```html\n<table>\n  <tr><td>hi</td></tr>\n</table>\n```\n\nWrite the element explicitly so the browser DOM matches Vue's expected structure:\n\n```html\n<table>\n  <tbody>\n    <tr><td>hi</td></tr>\n  </tbody>\n</table>\n```\n\nUse [QNoSsr](/vue-components/no-ssr) when content can only be rendered in the browser. For an unavoidable, intentional difference, Vue also supports the `data-allow-mismatch` attribute; scope it as narrowly as possible rather than hiding unrelated hydration problems.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-cli-vite/developing-ssr/client-side-hydration#handling-hydration-errors",
+    "documentId": "quasar-cli-vite/developing-ssr/client-side-hydration",
+    "heading": "Handling hydration errors",
+    "breadcrumb": ["Handling hydration errors", "Handling hydration errors"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/client-side-hydration#handling-hydration-errors",
+    "content": "When Vue reports a mismatch:\n\n1. Reproduce it with `quasar dev -m ssr` so development diagnostics are enabled.\n2. Read the console message and inspect the referenced component and DOM node in Vue Devtools or browser DevTools.\n3. Compare the server response in the Network panel with the DOM immediately before hydration.\n4. Check the component and its dependencies for browser globals, nondeterministic values, invalid HTML, and request-specific state.\n5. Reload the route directly as well as navigating to it from another page. A mismatch that appears only on direct loading usually points to different server and client initialization.\n6. Correct the differing initial state or defer the client-only content until after mounting.\n\nDo not rely on production behavior to conceal a mismatch; production builds provide fewer diagnostics.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

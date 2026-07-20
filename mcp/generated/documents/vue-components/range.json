@@ -5,16 +5,13 @@
   "description": "The QRange Vue component offers a way for the user to select from a sub-range of values between a maximum and maximum value, with optional steps.",
   "canonicalUrl": "https://quasar.dev/vue-components/range",
   "source": "docs/src/pages/vue-components/range.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QRange"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QRange"],
   "examples": [
     {
       "title": "Standard",

@@ -10,6 +10,8 @@ generated: true
 
 The `useInterval()` composable is similar in scope with the native `setInterval()`, with some key differences. The composable takes care of "cancelling" the interval if your component gets destroyed and you can also override the executing Function while it's running.
 
+On an SSR server, registering an interval is a no-op. Start server-side work explicitly outside the component rendering lifecycle rather than creating a timer during `setup()`.
+
 ## Syntax
 
 ```js
@@ -27,7 +29,7 @@ setup () {
 
 ```js
 function useInterval(): {
-  registerInterval(fn: () => void, interval: string | number): void;
+  registerInterval(fn: () => void, interval?: string | number): void;
   removeInterval(): void;
 };
 ```

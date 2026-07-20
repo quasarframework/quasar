@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-utils/scrolling-utils",
+  "title": "Scrolling Utils",
+  "description": "A set of Quasar methods related to scrolling, like getting scroll target or changing the scroll position of a page.",
+  "canonicalUrl": "https://quasar.dev/quasar-utils/scrolling-utils",
+  "source": "docs/src/pages/quasar-utils/scrolling-utils.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-utils",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

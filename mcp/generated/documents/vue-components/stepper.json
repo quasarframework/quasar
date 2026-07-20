@@ -5,18 +5,13 @@
   "description": "The QStepper Vue component conveys progress through a sequence of numbered steps. It may also be used for navigation. It's usually useful when the user has to follow steps to complete a process, like in a wizard.",
   "canonicalUrl": "https://quasar.dev/vue-components/stepper",
   "source": "docs/src/pages/vue-components/stepper.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QStep",
-    "QStepper",
-    "QStepperNavigation"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QStep", "QStepper", "QStepperNavigation"],
   "examples": [
     {
       "title": "Horizontal",

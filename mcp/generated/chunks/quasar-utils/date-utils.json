@@ -1,0 +1,167 @@
+[
+  {
+    "id": "quasar-utils/date-utils#overview",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Date Utils",
+    "breadcrumb": ["Date Utils"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils",
+    "content": "Quasar provides a set of useful functions to manipulate JS Date easily in most use cases, without the high additional cost of integrating dedicated libraries like Momentjs.\n\nMost Quasar date functions take as parameter either a Unix timestamp or a String representing a date which needs to be parsable by the native JS [Date constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date). Some examples: `1497159857411`, `Sun Jun 11 2017 08:44:42 GMT+0300`, `2017-06-16`.\n\nReturned values are all JS Dates.\n\nGet familiar with JS native Date class, which is very powerful, and remember that you don't need solutions like Momentjs which add hundreds of minified KB to your bundle.\n\n::: tip\nQuasar date utils includes tree shaking, except for the UMD version.\n:::\n\nYou will notice all examples import `date` Object from Quasar. However, if you need only one method from it, then you can use destructuring to help Tree Shaking embed only that method and not all of `date`.\n\nExample with `addToDate()`:\n\n```js\n// we import all of `date`\nimport { date } from 'quasar'\n// destructuring to keep only what is needed\nconst { addToDate } = date\n\nconst newDate = addToDate(new Date(), { days: 7, months: 1 })\n```\n\n::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#format-for-display",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Format for display",
+    "breadcrumb": ["Format for display", "Format for display"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#format-for-display",
+    "content": "It takes a string of tokens and replaces them with their corresponding date values:\n\n```js\nimport { date } from 'quasar'\n\nconst timeStamp = Date.now()\nconst formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss.SSSZ')\n```\n\nFor i18n, you can use a third parameter:\n\n```js\nconst formattedString = date.formatDate(timeStamp, 'MMMM - dddd', {\n  days: [\n    'Duminica',\n    'Luni' /* and all the rest of days - remember starting with Sunday */\n  ],\n  daysShort: [\n    'Dum',\n    'Lun' /* and all the rest of days - remember starting with Sunday */\n  ],\n  months: ['Ianuarie', 'Februarie' /* and all the rest of months */],\n  monthsShort: ['Ian', 'Feb' /* and all the rest of months */]\n})\n```\n\nAvailable format tokens:\n\n| Unit              | Formats available                                                                                                                                                                                          |\n| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Year              | <ul><li>**YY**: 70 71 ... 29 30</li><li>**YYYY**: 1970 1971 ... 2029 2030</li></ul>                                                                                                                        |\n| Month             | <ul><li>**M**: 1 2 ... 11 12</li><li>**Mo**: 1st 2nd ... 11th 12th</li><li>**MM**: 01 02 ... 11 12</li><li>**MMM**: Jan Feb ... Nov Dec</li><li>**MMMM**: January February ... November December</li></ul> |\n| Quarter           | <ul><li>**Q**: Quarter number 1 2 3 4</li><li>**Qo**: Quarter number 1st 2nd 3rd 4th</li></ul>                                                                                                             |\n| Day of Month      | <ul><li>**D**: 1 2 ... 30 31</li><li>**Do**: 1st 2nd ... 30th 31st</li><li>**DD**: 01 02 ... 30 31</li></ul>                                                                                               |\n| Day of Year       | <ul><li>**DDD**: 1 2 ... 364 365</li><li>**DDDo**: 1st 2nd ... 364th 365th</li><li>**DDDD**: 001 002 ... 364 365</li></ul>                                                                                 |\n| Day of Week       | <ul><li>**d**: 0 1 ... 5 6</li><li>**do**: 0th 1st ... 5th 6th</li><li>**dd**: Su Mo ... Fr Sa</li><li>**ddd**: Sun Mon ... Fri Sat</li><li>**dddd**: Sunday Monday ... Friday Saturday</li></ul>          |\n| Day of Week (ISO) | <ul><li>**E**: 1 2 ... 6 7</li></ul>                                                                                                                                                                       |\n| Week of Year      | <ul><li>**w**: 1 2 ... 52 53</li><li>**wo**: 1st 2nd ... 52nd 53rd</li><li>**ww**: 01 02 ... 52 53</li></ul>                                                                                               |\n| Hour              | <ul><li>**H**: 0 1 ... 22 23</li><li>**HH**: 00 01 ... 22 23</li><li>**h**: 0 ... 11 12</li><li>**hh**: 01 02 ... 11 12</li></ul>                                                                          |\n| Minute            | <ul><li>**m**: 0 1 ... 58 59</li><li>**mm**: 00 01 ... 58 59</li></ul>                                                                                                                                     |\n| Second            | <ul><li>**s**: 0 1 ... 58 59</li><li>**ss**: 00 01 ... 58 59</li></ul>                                                                                                                                     |\n| Fractional Second | <ul><li>**S**: 0 1 ... 8 9</li><li>**SS**: 00 01 ... 98 99</li><li>**SSS**: 000 001 ... 998 999</li></ul>                                                                                                  |\n| Timezone offset   | <ul><li>**Z**: -07:00 -06:00 ... +06:00 +07:00</li><li>**ZZ**: -0700 -0600 ... +0600 +0700</li></ul>                                                                                                       |\n| AM/PM             | <ul><li>**A**: AM, PM</li><li>**a**: am, pm</li><li>**aa**: a.m, p.m</li></ul>                                                                                                                             |\n| Unix Timestamp    | <ul><li>**X**: 1360013296</li><li>**x** (ms): 1360013296123</li></ul>                                                                                                                                      |\n\nIf you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#create",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Create",
+    "breadcrumb": ["Manipulate dates", "Create", "Create"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#create",
+    "content": "**Try to create dates with native JS Date class** like so:\n\n```js\nconst date = new Date()\n```\n\nThe following method is just a wrapper to help you in cases where you just need current time but with a different year, or month, or second etc.\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = date.buildDate({\n  year: 2010,\n  date: 5,\n  hours: 15,\n  milliseconds: 123\n})\n```\n\nYou can pass a second argument (a boolean) for setting UTC time (true) instead of local time.\n\nThe object literal provided can contain the following keys (all are optional):\n\n| Key               | Description                                     |\n| ----------------- | ----------------------------------------------- |\n| `millisecond(s)`  | for the milliseconds component of the date/time |\n| `second(s)`       | for the seconds component of the date/time      |\n| `minute(s)`       | for the minutes component of the date/time      |\n| `hour(s)`         | for the hours component of the date/time        |\n| `day(s)` / `date` | for the day component of the date/time          |\n| `month(s)`        | for the month component of the date/time        |\n| `year(s)`         | for the year component of the date/time         |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#validate",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Validate",
+    "breadcrumb": ["Manipulate dates", "Validate", "Validate"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#validate",
+    "content": "To check if a date string is valid use:\n\n```js\nimport { date } from 'quasar'\n\nconst dateString = 'Wed, 09 Aug 1995 00:00:00 GMT'\n\nif (date.isValid(dateString)) {\n  // Do something with date string\n}\n```\n\n::: warning\n`isValid` only validates the date format, not the logic validity of the date.\n\nThe underlying implementation is based on native `Date.parse(...)` API and its shortcomings will pass through our API.\n\nIt will not check if the date is valid for the month (e.g. 31st of February), or if the date is valid for the year (e.g. 29th of February in a non-leap year), and will return a different value in those cases for Firefox with respect to Chromium-based browsers (Chrome, Edge, etc).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#add-subtract",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Add/Subtract",
+    "breadcrumb": ["Manipulate dates", "Add/Subtract", "Add/Subtract"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#add-subtract",
+    "content": "To add/subtract some duration to/from a date use:\n\n```js\nimport { date } from 'quasar'\n\nlet newDate = new Date(2017, 2, 7)\n\nnewDate = date.addToDate(newDate, { days: 7, months: 1 })\n// `newDate` is now 2017-3-14 00:00:00\n\nnewDate = date.subtractFromDate(newDate, { hours: 24, milliseconds: 10000 })\n// `newDate` is now 2017-3-12 23:59:50\n```\n\nThe object literal provided can contain the following keys (all are optional):\n\n| Key               | Description                    |\n| ----------------- | ------------------------------ |\n| `millisecond(s)`  | for a duration in milliseconds |\n| `second(s)`       | for a duration in seconds      |\n| `minute(s)`       | for a duration in minutes      |\n| `hour(s)`         | for a duration in hours        |\n| `day(s)` / `date` | for a duration in days         |\n| `month(s)`        | for a duration in months       |\n| `year(s)`         | for a duration in years        |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#set-date-time",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Set date/time",
+    "breadcrumb": ["Manipulate dates", "Set date/time", "Set date/time"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#set-date-time",
+    "content": "To set a specified unit(s) of date/time:\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = new Date(2017, 10, 2)\nconst adjustedDate = date.adjustDate(newDate, { year: 2010, month: 2 })\n// `adjustedDate` is 2010-2-2\n```\n\nYou can pass a third argument (a Boolean) for setting UTC time (`true`) instead of local time.\n\nThe object literal provided can contain the following keys (all are optional):\n\n| Key               | Description                                     |\n| ----------------- | ----------------------------------------------- |\n| `millisecond(s)`  | for the milliseconds component of the date/time |\n| `second(s)`       | for the seconds component of the date/time      |\n| `minute(s)`       | for the minutes component of the date/time      |\n| `hour(s)`         | for the hours component of the date/time        |\n| `day(s)` / `date` | for the day component of the date/time          |\n| `month(s)`        | for the month component of the date/time        |\n| `year(s)`         | for the year component of the date/time         |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#minimum-maximum",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Minimum/Maximum",
+    "breadcrumb": ["Query dates", "Minimum/Maximum", "Minimum/Maximum"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#minimum-maximum",
+    "content": "To get the minimum/maximum date of a date set (i.e. array) use:\n\n```js\nimport { date } from 'quasar'\n\nlet min = date.getMinDate(\n  new Date(2017, 6, 24),\n  new Date(2017, 5, 20),\n  new Date(2017, 6, 26)\n)\n// `min` is 2017-5-20\nlet max = date.getMaxDate(\n  new Date(2017, 6, 24),\n  new Date(2017, 5, 20),\n  new Date(2017, 6, 26)\n)\n// `max` is 2017-6-26\n\n// Or use an array:\nconst dates = [\n  new Date(2017, 6, 24),\n  new Date(2017, 5, 20),\n  new Date(2017, 6, 26)\n]\nlet min = date.getMinDate(...dates) // `min` is 2017-5-20\nlet max = date.getMaxDate(...dates) // `max` is 2017-6-26\n```\n\nNote that the returning value is a timestamp.\n\n```js\nconsole.log(max) // 1497906000000\nconsole.log(new Date(max)) // Wed Jul 26 2017 00:00:00 GMT+0300 (Eastern European Summer Time)\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#time-range",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Time range",
+    "breadcrumb": ["Query dates", "Time range", "Time range"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#time-range",
+    "content": "To check if a date is in a given date/time range use:\n\n```js\nimport { date } from 'quasar'\n\nconst dateTarget = new Date()\nconst dateFrom = new Date()\nconst dateTo = new Date()\n\n// **strictly** (i.e. exclusive range)\nif (date.isBetweenDates(dateTarget, dateFrom, dateTo)) {\n  // Do something with dateTarget\n}\n\n// including which margin you want\nif (\n  date.isBetweenDates(dateTarget, dateFrom, dateTo, {\n    inclusiveFrom: true,\n    inclusiveTo: true\n  })\n) {\n  // Do something with dateTarget\n}\n\n// if you only care about comparing dates (year/month/day, regardless of time)\n// then you could tip isBetweenDates() about it so it can perform best:\nif (date.isBetweenDates(dateTarget, dateFrom, dateTo, { onlyDate: true })) {\n  // Do something with dateTarget\n}\n```\n\nTo normalize a date in a given date/time range use:\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = new Date()\nconst dateMin = new Date(2010, 2, 23)\nconst dateMax = new Date(2012, 4, 12)\nconst dateNormalized = date.getDateBetween(newDate, dateMin, dateMax)\n// Returns `newDate` if it's between 2010-2-23 and 2012-4-12; `dateMin` if it's lower; `dateMax` if it's greater\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#equality",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Equality",
+    "breadcrumb": ["Query dates", "Equality", "Equality"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#equality",
+    "content": "To check if two dates' unit are **equal** use:\n\n```js\nimport { date } from 'quasar'\n\nconst date1 = new Date(2017, 2, 5)\nconst date2 = new Date(2017, 3, 8)\nconst unit = 'year'\n\nif (date.isSameDate(date1, date2, /* optional */ unit)) {\n  // true because date1 and date2's year is the same\n}\n```\n\nUnit parameter can be omitted, in which case a full date/time comparison will occur, otherwise it allows to perform partial comparison:\n\n| Unit              | Description              |\n| ----------------- | ------------------------ |\n| `second(s)`       | test if same second only |\n| `minute(s)`       | test if same minute only |\n| `hour(s)`         | test if same hour only   |\n| `day(s)` / `date` | test if same day only    |\n| `month(s)`        | test if same month only  |\n| `year(s)`         | test if same year only   |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#difference",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Difference",
+    "breadcrumb": ["Query dates", "Difference", "Difference"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#difference",
+    "content": "To compute the difference between two dates use:\n\n```js\nimport { date } from 'quasar'\n\nconst date1 = new Date(2017, 4, 12)\nconst date2 = new Date(2017, 3, 8)\nconst unit = 'days'\n\nconst diff = date.getDateDiff(date1, date2, unit)\n// `diff` is 34 (days)\n```\n\nThe unit parameter indicates the unit of measurement, if not specified then it is `days` by default:\n\n| Unit              | Description                                            |\n| ----------------- | ------------------------------------------------------ |\n| `second(s)`       | distance in seconds (disregarding milliseconds)        |\n| `minute(s)`       | distance in minutes (disregarding seconds, ...)        |\n| `hour(s)`         | distance in hours (disregarding minutes, seconds, ...) |\n| `day(s)` / `date` | distance in calendar days                              |\n| `month(s)`        | distance in calendar months                            |\n| `year(s)`         | distance in calendar years                             |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#calendar",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Calendar",
+    "breadcrumb": ["Query dates", "Calendar", "Calendar"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#calendar",
+    "content": "To get the [ISO week number in year](https://en.wikipedia.org/wiki/ISO_week_date) for a given date object use:\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = new Date(2017, 0, 4)\nconst week = date.getWeekOfYear(newDate) // `week` is 1\n```\n\nTo get the day number in year for a given date object use:\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = new Date(2017, 1, 4)\nconst day = date.getDayOfYear(newDate) // `day` is 35\n```\n\nTo get the day number in week for a given date object use:\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = new Date(2017, 1, 9)\nconst day = date.getDayOfWeek(newDate) // `day` is 4\n```\n\nTo get the number of days in the month for the specified date:\n\n```js\nimport { date } from 'quasar'\n\nconst newDate = new Date()\nconst days = date.daysInMonth(newDate) // e.g. 30\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#start-end-of-time",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Start/End of time",
+    "breadcrumb": ["Query dates", "Start/End of time", "Start/End of time"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#start-end-of-time",
+    "content": "To mutate the original date object by setting it to the start of a unit of time use:\n\n```js\nimport { date } from 'quasar'\n\nlet newDate = new Date('2000')\n// set to beginning of year 2000 (January 1st, 2000, 00:00:00.000)\nnewDate = date.startOfDate(newDate, 'year')\n// set to end of year 2000 (December 31st, 2000, 23:59:59.999)\nnewDate = date.endOfDate(newDate, 'year')\n```\n\nThe second parameter indicates a unit to reset to (beginning of it or end of it):\n\n| Unit              | Description   |\n| ----------------- | ------------- |\n| `second(s)`       | reset seconds |\n| `minute(s)`       | reset minutes |\n| `hour(s)`         | reset hours   |\n| `day(s)` / `date` | reset days    |\n| `month(s)`        | reset months  |\n| `year(s)`         | reset years   |",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#get-format",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Get Format",
+    "breadcrumb": ["Other", "Get Format", "Get Format"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#get-format",
+    "content": "```js\nimport { date } from 'quasar'\n\ndate.inferDateFormat(new Date()) // 'date'\ndate.inferDateFormat(35346363) // 'number'\ndate.inferDateFormat('Mon Feb 05 2018 23:05:29') // string\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#cloning-date",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Cloning Date",
+    "breadcrumb": ["Other", "Cloning Date", "Cloning Date"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#cloning-date",
+    "content": "```js\nimport { date } from 'quasar'\n\nconst newDate = new Date()\nconst clonedDate = date.clone(newDate)\n\ndate.addToDate(newDate, { days: 1 })\n\nconsole.log(newDate.getDate() === clonedDate.getDate()) // false\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/date-utils#extract-date",
+    "documentId": "quasar-utils/date-utils",
+    "heading": "Extract Date",
+    "breadcrumb": ["Other", "Extract Date", "Extract Date"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/date-utils#extract-date",
+    "content": "Using locale set by current Quasar language pack, this allows you to parse any string into a date object based on the format passed:\n\n```js\nimport { date } from 'quasar'\n\n// Example 1\nconst date = date.extractDate('2019-10-29 --- 23:12', 'YYYY-MM-DD --- HH:mm')\n// date is a new Date() object\n\n// Example 2\nconst date = date.extractDate('21/03/1985', 'DD/MM/YYYY')\n// date is a new Date() object\n```\n\nWith optional custom locale:\n\n```js\nimport { date } from 'quasar'\n\nconst obj = date.extractDate(\n  'Month: Feb, Day: 11th, Year: 2018',\n  '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',\n  {\n    days: [\n      'Duminica',\n      'Luni' /* and all the rest of days - remember starting with Sunday */\n    ],\n    daysShort: [\n      'Dum',\n      'Lun' /* and all the rest of days - remember starting with Sunday */\n    ],\n    months: ['Ianuarie', 'Februarie' /* and all the rest of months */],\n    monthsShort: ['Ian', 'Feb' /* and all the rest of months */]\n  }\n)\n// obj is a new Date() object\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

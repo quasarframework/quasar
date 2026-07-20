@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "integrations",
+  "title": "Quasar Integrations",
+  "description": "Quasar Integrations",
+  "canonicalUrl": "https://quasar.dev/integrations",
+  "source": "docs/src/pages/integrations/integrations.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "integrations",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

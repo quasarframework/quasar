@@ -27,7 +27,7 @@ export function registerResources(server, store) {
         resources: store.manifest.documents.map(entry => ({
           uri: `quasar://docs/${encodeURIComponent(entry.id)}`,
           name: entry.title,
-          description: `Official Quasar ${entry.kinds.join('/')} documentation`,
+          description: `Official Quasar ${entry.kinds.join('/')} documentation (${entry.area})`,
           mimeType: 'text/markdown'
         }))
       })

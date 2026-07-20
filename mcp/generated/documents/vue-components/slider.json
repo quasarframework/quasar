@@ -5,16 +5,13 @@
   "description": "The QSlider Vue component is a great way for the user to specify a number value between a minimum and maximum value, with optional steps between valid values.",
   "canonicalUrl": "https://quasar.dev/vue-components/slider",
   "source": "docs/src/pages/vue-components/slider.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QSlider"
-  ],
+  "area": "vue-components",
+  "kinds": ["component"],
+  "apiReferences": ["QSlider"],
   "examples": [
     {
       "title": "Standard",

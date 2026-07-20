@@ -1,0 +1,13 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssg/preparation#overview",
+    "documentId": "quasar-cli-vite/developing-ssg/preparation",
+    "heading": "Preparation for SSG",
+    "breadcrumb": ["Preparation for SSG"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/preparation",
+    "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::\n\nQuasar CLI selects the application target through the `--mode` (`-m`) option of the `quasar dev` and `quasar build` commands.\n\nAdd SSG mode to an existing Quasar project with:\n\n```bash\nquasar mode add ssg\n```\n\nYou can also start the SSG development server directly:\n\n```bash\nquasar dev -m ssg\n```\n\nIf SSG mode is missing, Quasar CLI offers to add it before starting the server.\n\nAfter you choose whether to use [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing), Quasar creates the following folder:\n\n- src-ssg\n  - ssg-renderer.js — (or .ts) SSG generator script\n  - package.json — helps install SSG only deps directly under /src-ssg\n\nThe renderer defines which routes become static pages. See [SSG Renderer](/quasar-cli-vite/developing-ssg/ssg-renderer) before creating your first production build.",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

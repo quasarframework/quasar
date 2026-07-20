@@ -1,0 +1,63 @@
+[
+  {
+    "id": "quasar-utils/formatter-utils#helping-tree-shake",
+    "documentId": "quasar-utils/formatter-utils",
+    "heading": "Helping Tree-Shake",
+    "breadcrumb": [null, "Helping Tree-Shake", "Helping Tree-Shake"],
+    "level": 3,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/formatter-utils#helping-tree-shake",
+    "content": "You will notice all examples import `format` Object from Quasar. However, if you need only one formatter method from it, then you can use destructuring to help Tree Shaking embed only that method and not all of `format`.\n\nExample:\n\n```js\n// we import all of `format`\nimport { format } from 'quasar'\n// destructuring to keep only what is needed\nconst { capitalize, humanStorageSize } = format\n\nconsole.log(capitalize('some text'))\n// Some text\nconsole.log(humanStorageSize(13087))\n// 12.8kB\n```\n\nYou can also import all formatters and use whatever you need like this (but note that your bundle will probably contain unused methods too):\n\n```js\nimport { format } from 'quasar'\n\nconsole.log(format.capitalize('some text'))\nconsole.log(format.humanStorageSize(13087))\n```\n\n::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/formatter-utils#capitalize",
+    "documentId": "quasar-utils/formatter-utils",
+    "heading": "Capitalize",
+    "breadcrumb": ["Capitalize", "Capitalize"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/formatter-utils#capitalize",
+    "content": "```js\nimport { format } from 'quasar'\nconst { capitalize } = format\n\nconsole.log(capitalize('some text'))\n// Some text\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/formatter-utils#format-to-human-readable-size",
+    "documentId": "quasar-utils/formatter-utils",
+    "heading": "Format to Human Readable Size",
+    "breadcrumb": [
+      "Format to Human Readable Size",
+      "Format to Human Readable Size"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/formatter-utils#format-to-human-readable-size",
+    "content": "```js\nimport { format } from 'quasar'\nconst { humanStorageSize } = format\n\n// humanStorageSize(value, decimals = 1)\n// \"decimals\" param requires Quasar v2.15.3+\n\nconsole.log(humanStorageSize(13087))\n// 12.8KB\n\nconsole.log(humanStorageSize(1024 * 1024 * 2.25, 3))\n// 2.250MB\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/formatter-utils#normalize-number-to-interval",
+    "documentId": "quasar-utils/formatter-utils",
+    "heading": "Normalize Number to Interval",
+    "breadcrumb": [
+      "Normalize Number to Interval",
+      "Normalize Number to Interval"
+    ],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/formatter-utils#normalize-number-to-interval",
+    "content": "```js\nimport { format } from 'quasar'\nconst { between } = format\n\n// (Number) between(Number, Number min, Number max)\nconsole.log(between(50, 10, 20))\n// 20\n```\n\n```js\nimport { format } from 'quasar'\nconst { normalizeToInterval } = format\n\n// (Number) normalizeToInterval(Number, Number lower_margin, Number upper_margin)\n\nconsole.log(normalizeToInterval(21, 10, 20)) // 10\nconsole.log(normalizeToInterval(33, 10, 20)) // 11\nconsole.log(normalizeToInterval(52, 10, 20)) // 19\nconsole.log(normalizeToInterval(5, 10, 16)) // 12\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  },
+  {
+    "id": "quasar-utils/formatter-utils#pad-string",
+    "documentId": "quasar-utils/formatter-utils",
+    "heading": "Pad String",
+    "breadcrumb": ["Pad String", "Pad String"],
+    "level": 2,
+    "canonicalUrl": "https://quasar.dev/quasar-utils/formatter-utils#pad-string",
+    "content": "```js\nimport { format } from 'quasar'\nconst { pad } = format\n\n// (String) pad(String toPad, Number length, String paddingCharacter)\n// length is default 2\n// paddingCharacter is default '0'\nconsole.log(pad('2', 4))\n// '0002'\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

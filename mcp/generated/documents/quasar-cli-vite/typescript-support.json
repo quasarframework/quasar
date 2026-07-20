@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/typescript-support",
+  "title": "TypeScript Support",
+  "description": "(@quasar/app-vite) How to enable support for TypeScript in a Quasar app.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/typescript-support",
+  "source": "docs/src/pages/quasar-cli-vite/typescript-support.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

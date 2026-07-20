@@ -5,16 +5,13 @@
   "description": "How to use the QDrawer component. The sidebars of your Quasar app.",
   "canonicalUrl": "https://quasar.dev/layout/drawer",
   "source": "docs/src/pages/layout/drawer.md",
-  "sourceCommit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
-  "kinds": [
-    "component"
-  ],
-  "apiReferences": [
-    "QDrawer"
-  ],
+  "area": "layout",
+  "kinds": ["component"],
+  "apiReferences": ["QDrawer"],
   "examples": [
     {
       "title": "Basic",

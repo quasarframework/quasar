@@ -19,15 +19,15 @@ Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/e
 Web Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.
 :::
 
-::: danger Note about SSR
-When running the code server-side on SSR builds, this feature can't work. Web Storage is a browser API only. You can however make use of it on the client-side with SSR.
+::: danger Note about SSR/SSG
+When running the code server-side on SSR/SSG builds, this feature can't work. Web Storage is a browser API only. You can however make use of it on the client-side with SSR/SSG.
 :::
 
 **API reference:** [LocalStorage](../../api/LocalStorage.md)
 
 **API reference:** [SessionStorage](../../api/SessionStorage.md)
 
-<DocInstall :plugins="['LocalStorage', 'SessionStorage']" />
+**Configuration:** register [LocalStorage, SessionStorage] through `framework.plugins` in `quasar.config`.
 
 ## Usage
 

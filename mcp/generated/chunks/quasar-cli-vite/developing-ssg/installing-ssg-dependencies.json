@@ -1,0 +1,13 @@
+[
+  {
+    "id": "quasar-cli-vite/developing-ssg/installing-ssg-dependencies#overview",
+    "documentId": "quasar-cli-vite/developing-ssg/installing-ssg-dependencies",
+    "heading": "Installing SSG-specific dependencies",
+    "breadcrumb": ["Installing SSG-specific dependencies"],
+    "level": 1,
+    "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/installing-ssg-dependencies",
+    "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::\n\nThe generated `/src-ssg/package.json` keeps build-time renderer dependencies separate from your application dependencies. Add a package here when it is imported directly by `/src-ssg/ssg-renderer`.\n\n```json /src-ssg/package.json\n{\n  \"name\": \"quasar-ssg-app\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Quasar SSG folder\",\n  \"type\": \"module\",\n  \"private\": true,\n  \"dependencies\": {}\n}\n```\n\n::: warning\nPackages imported by application code under `/src` still belong in the root `package.json`. Install only renderer-specific packages under `/src-ssg`.\n:::\n\nFor example, to discover Markdown files from the renderer with `tinyglobby`:\n\n```tabs\n<<| bash PNPM |>>\n# run in /src-ssg\npnpm add tinyglobby\n<<| bash Yarn |>>\n# run in /src-ssg\nyarn add tinyglobby\n<<| bash NPM |>>\n# run in /src-ssg\nnpm install tinyglobby\n<<| bash Bun |>>\n# run in /src-ssg\nbun add tinyglobby\n```",
+    "apiReferences": [],
+    "exampleReferences": []
+  }
+]

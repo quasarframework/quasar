@@ -25,7 +25,7 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 
 **API reference:** [AddressbarColor](../../api/AddressbarColor.md)
 
-<DocInstall plugins="AddressbarColor" />
+**Configuration:** register AddressbarColor through `framework.plugins` in `quasar.config`.
 
 ## Usage
 

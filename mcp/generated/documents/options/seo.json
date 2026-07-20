@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "options/seo",
+  "title": "SEO with Quasar",
+  "description": "Managing the search engine optimizations in a Quasar app.",
+  "canonicalUrl": "https://quasar.dev/options/seo",
+  "source": "docs/src/pages/options/seo.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "options",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

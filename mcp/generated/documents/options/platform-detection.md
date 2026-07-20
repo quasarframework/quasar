@@ -75,7 +75,7 @@ Now, let's say we want to render different components or DOM elements, based on 
 
 Source: [Basic.vue](../../examples/Platform/Basic.vue)
 
-````vue
+```vue
 <template>
   <div class="q-pa-md">
     <div class="q-mb-md">
@@ -129,7 +129,7 @@ body
     .platform-detection--row-highlight
       background-color: rgba(255,255,255,.05)
 </style>
-````
+```
 
 ## Properties
 
@@ -174,9 +174,9 @@ The following properties are available to the Platform object. It's not an exhau
 Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
 :::
 
-## Note about SSR
+## Note about SSR/SSG
 
-When building for SSR, use only the `$q.platform` form. Alternatively, when on server-side, this is one more example of how you can use it:
+When building for SSR/SSG, use only the `$q.platform` form. Alternatively, when on server-side, this is one more example of how you can use it:
 
 ```js
 import { Platform } from 'quasar'

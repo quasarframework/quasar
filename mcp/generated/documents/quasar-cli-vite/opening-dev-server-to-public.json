@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "quasar-cli-vite/opening-dev-server-to-public",
+  "title": "Opening Your Dev Server to the Public",
+  "description": "(@quasar/app-vite) How to offer temporary access to your development server to anyone on the Internet.",
+  "canonicalUrl": "https://quasar.dev/quasar-cli-vite/opening-dev-server-to-public",
+  "source": "docs/src/pages/quasar-cli-vite/opening-dev-server-to-public.md",
+  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "products": {
+    "quasar": "2.21.4"
+  },
+  "area": "quasar-cli-vite",
+  "kinds": ["guide"],
+  "apiReferences": [],
+  "examples": []
+}

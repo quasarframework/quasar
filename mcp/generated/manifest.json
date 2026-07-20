@@ -1,39 +1,368 @@
 {
   "schemaVersion": 1,
-  "artifact": "@quasar/docs-data-prototype",
+  "artifact": "@quasar/mcp",
   "source": {
     "repository": "https://github.com/quasarframework/quasar",
-    "commit": "426c439d4cebb4e78c8b33a77390a33b84827ada",
-    "committedAt": "2026-07-03T06:06:31-06:00"
+    "commit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+    "committedAt": "2026-07-20T10:34:44-06:00"
   },
   "products": {
-    "quasar": "2.21.0"
+    "quasar": "2.21.4"
   },
   "coverage": {
-    "documents": 117,
+    "documents": 311,
     "components": 123,
     "directives": 11,
     "plugins": 18,
     "composables": 11,
+    "guides": 194,
+    "areas": {
+      "api-explorer": 1,
+      "app-extensions": 12,
+      "components": 1,
+      "docs": 1,
+      "how-to-contribute": 5,
+      "icongenie": 5,
+      "integrations": 1,
+      "introduction-to-quasar": 1,
+      "layout": 14,
+      "meet-the-team": 1,
+      "options": 13,
+      "quasar-cli-vite": 22,
+      "quasar-cli-vite/browser-extensions": 11,
+      "quasar-cli-vite/capacitor-apps": 11,
+      "quasar-cli-vite/cordova-apps": 9,
+      "quasar-cli-vite/electron-apps": 14,
+      "quasar-cli-vite/mobile-apps": 1,
+      "quasar-cli-vite/pwa": 9,
+      "quasar-cli-vite/spa": 4,
+      "quasar-cli-vite/ssg": 14,
+      "quasar-cli-vite/ssr": 19,
+      "quasar-cli-webpack": 1,
+      "quasar-plugins": 12,
+      "quasar-utils": 9,
+      "security": 2,
+      "sponsors-and-backers": 1,
+      "start": 9,
+      "style": 12,
+      "video-tutorials": 1,
+      "vue-components": 72,
+      "vue-composables": 11,
+      "vue-directives": 11,
+      "why-donate": 1
+    },
     "APIs": 152,
-    "examples": 867,
-    "chunks": 901,
-    "searchRecords": 3936
+    "examples": 915,
+    "chunks": 1977,
+    "searchRecords": 5060
   },
   "documents": [
     {
+      "id": "api-explorer",
+      "title": "Quasar API Explorer",
+      "kinds": ["guide"],
+      "area": "api-explorer",
+      "path": "documents/api-explorer.json",
+      "markdown": "documents/api-explorer.md",
+      "chunks": "chunks/api-explorer.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/common-formulas-and-patterns/inject-quasar-plugin",
+      "title": "Injecting Quasar Plugin",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/common-formulas-and-patterns/inject-quasar-plugin.json",
+      "markdown": "documents/app-extensions/common-formulas-and-patterns/inject-quasar-plugin.md",
+      "chunks": "chunks/app-extensions/common-formulas-and-patterns/inject-quasar-plugin.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/common-formulas-and-patterns/json-api",
+      "title": "Quasar JSON API Schema",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/common-formulas-and-patterns/json-api.json",
+      "markdown": "documents/app-extensions/common-formulas-and-patterns/json-api.md",
+      "chunks": "chunks/app-extensions/common-formulas-and-patterns/json-api.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/common-formulas-and-patterns/provide-cli-commands",
+      "title": "Providing CLI Command(s)",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/common-formulas-and-patterns/provide-cli-commands.json",
+      "markdown": "documents/app-extensions/common-formulas-and-patterns/provide-cli-commands.md",
+      "chunks": "chunks/app-extensions/common-formulas-and-patterns/provide-cli-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/common-formulas-and-patterns/provide-ui-elements",
+      "title": "Provide UI elements",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/common-formulas-and-patterns/provide-ui-elements.json",
+      "markdown": "documents/app-extensions/common-formulas-and-patterns/provide-ui-elements.md",
+      "chunks": "chunks/app-extensions/common-formulas-and-patterns/provide-ui-elements.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
+      "title": "Starter kit equivalent",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/common-formulas-and-patterns/starter-kit-equivalent.json",
+      "markdown": "documents/app-extensions/common-formulas-and-patterns/starter-kit-equivalent.md",
+      "chunks": "chunks/app-extensions/common-formulas-and-patterns/starter-kit-equivalent.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/development-guide/index-api",
+      "title": "App Extension Index API",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/development-guide/index-api.json",
+      "markdown": "documents/app-extensions/development-guide/index-api.md",
+      "chunks": "chunks/app-extensions/development-guide/index-api.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/development-guide/install-api",
+      "title": "App Extension Install API",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/development-guide/install-api.json",
+      "markdown": "documents/app-extensions/development-guide/install-api.md",
+      "chunks": "chunks/app-extensions/development-guide/install-api.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/development-guide/introduction",
+      "title": "App Extension Development",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/development-guide/introduction.json",
+      "markdown": "documents/app-extensions/development-guide/introduction.md",
+      "chunks": "chunks/app-extensions/development-guide/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/development-guide/prompts-api",
+      "title": "App Extension Prompts API",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/development-guide/prompts-api.json",
+      "markdown": "documents/app-extensions/development-guide/prompts-api.md",
+      "chunks": "chunks/app-extensions/development-guide/prompts-api.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/development-guide/uninstall-api",
+      "title": "App Extension Uninstall API",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/development-guide/uninstall-api.json",
+      "markdown": "documents/app-extensions/development-guide/uninstall-api.md",
+      "chunks": "chunks/app-extensions/development-guide/uninstall-api.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/discover",
+      "title": "Discover App Extensions",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/discover.json",
+      "markdown": "documents/app-extensions/discover.md",
+      "chunks": "chunks/app-extensions/discover.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "app-extensions/introduction",
+      "title": "App Extensions",
+      "kinds": ["guide"],
+      "area": "app-extensions",
+      "path": "documents/app-extensions/introduction.json",
+      "markdown": "documents/app-extensions/introduction.md",
+      "chunks": "chunks/app-extensions/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "components",
+      "title": "Quasar Components",
+      "kinds": ["guide"],
+      "area": "components",
+      "path": "documents/components.json",
+      "markdown": "documents/components.md",
+      "chunks": "chunks/components.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "docs",
+      "title": "Documentation",
+      "kinds": ["guide"],
+      "area": "docs",
+      "path": "documents/docs.json",
+      "markdown": "documents/docs.md",
+      "chunks": "chunks/docs.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "how-to-contribute/commit-conventions",
+      "title": "Commit Conventions",
+      "kinds": ["guide"],
+      "area": "how-to-contribute",
+      "path": "documents/how-to-contribute/commit-conventions.json",
+      "markdown": "documents/how-to-contribute/commit-conventions.md",
+      "chunks": "chunks/how-to-contribute/commit-conventions.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "how-to-contribute/contribution-guide",
+      "title": "Contribution Guide",
+      "kinds": ["guide"],
+      "area": "how-to-contribute",
+      "path": "documents/how-to-contribute/contribution-guide.json",
+      "markdown": "documents/how-to-contribute/contribution-guide.md",
+      "chunks": "chunks/how-to-contribute/contribution-guide.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "how-to-contribute/new-project",
+      "title": "How-to Start a New Project",
+      "kinds": ["guide"],
+      "area": "how-to-contribute",
+      "path": "documents/how-to-contribute/new-project.json",
+      "markdown": "documents/how-to-contribute/new-project.md",
+      "chunks": "chunks/how-to-contribute/new-project.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "how-to-contribute/project-maintainer",
+      "title": "The Role of the Project Maintainer",
+      "kinds": ["guide"],
+      "area": "how-to-contribute",
+      "path": "documents/how-to-contribute/project-maintainer.json",
+      "markdown": "documents/how-to-contribute/project-maintainer.md",
+      "chunks": "chunks/how-to-contribute/project-maintainer.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "how-to-contribute/running-projects",
+      "title": "Active Project, Goals and Maintainers",
+      "kinds": ["guide"],
+      "area": "how-to-contribute",
+      "path": "documents/how-to-contribute/running-projects.json",
+      "markdown": "documents/how-to-contribute/running-projects.md",
+      "chunks": "chunks/how-to-contribute/running-projects.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "icongenie/app-icons-list",
+      "title": "App Icons List",
+      "kinds": ["guide"],
+      "area": "icongenie",
+      "path": "documents/icongenie/app-icons-list.json",
+      "markdown": "documents/icongenie/app-icons-list.md",
+      "chunks": "chunks/icongenie/app-icons-list.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "icongenie/command-list",
+      "title": "Icon Genie CLI Command List",
+      "kinds": ["guide"],
+      "area": "icongenie",
+      "path": "documents/icongenie/command-list.json",
+      "markdown": "documents/icongenie/command-list.md",
+      "chunks": "chunks/icongenie/command-list.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "icongenie/installation",
+      "title": "Icon Genie CLI Installation",
+      "kinds": ["guide"],
+      "area": "icongenie",
+      "path": "documents/icongenie/installation.json",
+      "markdown": "documents/icongenie/installation.md",
+      "chunks": "chunks/icongenie/installation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "icongenie/introduction",
+      "title": "Icon Genie CLI",
+      "kinds": ["guide"],
+      "area": "icongenie",
+      "path": "documents/icongenie/introduction.json",
+      "markdown": "documents/icongenie/introduction.md",
+      "chunks": "chunks/icongenie/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "icongenie/profile-files",
+      "title": "Icon Genie Profile Files",
+      "kinds": ["guide"],
+      "area": "icongenie",
+      "path": "documents/icongenie/profile-files.json",
+      "markdown": "documents/icongenie/profile-files.md",
+      "chunks": "chunks/icongenie/profile-files.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "integrations",
+      "title": "Quasar Integrations",
+      "kinds": ["guide"],
+      "area": "integrations",
+      "path": "documents/integrations.json",
+      "markdown": "documents/integrations.md",
+      "chunks": "chunks/integrations.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "introduction-to-quasar",
+      "title": "Why Quasar?",
+      "kinds": ["guide"],
+      "area": "introduction-to-quasar",
+      "path": "documents/introduction-to-quasar.json",
+      "markdown": "documents/introduction-to-quasar.md",
+      "chunks": "chunks/introduction-to-quasar.json",
+      "api": [],
+      "examples": []
+    },
+    {
       "id": "layout/drawer",
       "title": "Layout Drawer",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "layout",
       "path": "documents/layout/drawer.json",
       "markdown": "documents/layout/drawer.md",
       "chunks": "chunks/layout/drawer.json",
-      "api": [
-        "api/QDrawer.json",
-        "api/QDrawer.md"
-      ],
+      "api": ["api/QDrawer.json", "api/QDrawer.md"],
       "examples": [
         "examples/QDrawer/Basic.vue",
         "examples/QDrawer/Menu.vue",
@@ -47,11 +376,130 @@
       ]
     },
     {
+      "id": "layout/gallery",
+      "title": "Layout Gallery",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/gallery.json",
+      "markdown": "documents/layout/gallery.md",
+      "chunks": "chunks/layout/gallery.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "layout/grid/column",
+      "title": "Grid Column",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/grid/column.json",
+      "markdown": "documents/layout/grid/column.md",
+      "chunks": "chunks/layout/grid/column.json",
+      "api": [],
+      "examples": [
+        "examples/grid/ColumnEqualWidth.vue",
+        "examples/grid/ColumnRowWidth.vue",
+        "examples/grid/ColumnVariableWidth.vue",
+        "examples/grid/ColumnAllBreakpoints.vue",
+        "examples/grid/ColumnMixAndMatch.vue",
+        "examples/grid/ColumnHorizontalAlignment.vue",
+        "examples/grid/ColumnVerticalAlignment.vue",
+        "examples/grid/ColumnRowWrapping.vue",
+        "examples/grid/ColumnReverse.vue",
+        "examples/grid/ColumnFlexOrder.vue",
+        "examples/grid/ColumnNesting.vue"
+      ]
+    },
+    {
+      "id": "layout/grid/flex-playground",
+      "title": "Flex Grid Playground",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/grid/flex-playground.json",
+      "markdown": "documents/layout/grid/flex-playground.md",
+      "chunks": "chunks/layout/grid/flex-playground.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "layout/grid/flexbox-patterns",
+      "title": "Flexbox Patterns",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/grid/flexbox-patterns.json",
+      "markdown": "documents/layout/grid/flexbox-patterns.md",
+      "chunks": "chunks/layout/grid/flexbox-patterns.json",
+      "api": [],
+      "examples": [
+        "examples/grid/BreakRow.vue",
+        "examples/grid/BreakColumn.vue",
+        "examples/grid/Masonry.vue",
+        "examples/grid/MasonryTableGrid.vue"
+      ]
+    },
+    {
+      "id": "layout/grid/gutter",
+      "title": "Grid Gutter",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/grid/gutter.json",
+      "markdown": "documents/layout/grid/gutter.md",
+      "chunks": "chunks/layout/grid/gutter.json",
+      "api": [],
+      "examples": [
+        "examples/grid/GutterSize.vue",
+        "examples/grid/GutterHorizontal.vue",
+        "examples/grid/GutterVertical.vue",
+        "examples/grid/GutterMixed.vue",
+        "examples/grid/ColGutterSize.vue",
+        "examples/grid/ColGutterHorizontal.vue",
+        "examples/grid/ColGutterVertical.vue",
+        "examples/grid/ColGutterMixed.vue",
+        "examples/grid/ParentStyling.vue",
+        "examples/grid/ChildrenSizeCompare.vue",
+        "examples/grid/ChildrenStyling.vue"
+      ]
+    },
+    {
+      "id": "layout/grid/introduction-to-flexbox",
+      "title": "Introduction to Flexbox",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/grid/introduction-to-flexbox.json",
+      "markdown": "documents/layout/grid/introduction-to-flexbox.md",
+      "chunks": "chunks/layout/grid/introduction-to-flexbox.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "layout/grid/row",
+      "title": "Grid Row",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/grid/row.json",
+      "markdown": "documents/layout/grid/row.md",
+      "chunks": "chunks/layout/grid/row.json",
+      "api": [],
+      "examples": [
+        "examples/grid/RowEqualWidth.vue",
+        "examples/grid/RowColumnWidth.vue",
+        "examples/grid/RowVariableWidth.vue",
+        "examples/grid/RowAllBreakpoints.vue",
+        "examples/grid/RowStackedToHorizontal.vue",
+        "examples/grid/RowMixAndMatch.vue",
+        "examples/grid/RowVerticalAlignment.vue",
+        "examples/grid/RowHorizontalAlignment.vue",
+        "examples/grid/RowColumnWrapping.vue",
+        "examples/grid/RowReverse.vue",
+        "examples/grid/RowFlexOrder.vue",
+        "examples/grid/RowOffsettingColumns.vue",
+        "examples/grid/RowNesting.vue"
+      ]
+    },
+    {
       "id": "layout/header-and-footer",
       "title": "Layout Header and Footer",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "layout",
       "path": "documents/layout/header-and-footer.json",
       "markdown": "documents/layout/header-and-footer.md",
       "chunks": "chunks/layout/header-and-footer.json",
@@ -75,16 +523,12 @@
     {
       "id": "layout/layout",
       "title": "Layout",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "layout",
       "path": "documents/layout/layout.json",
       "markdown": "documents/layout/layout.md",
       "chunks": "chunks/layout/layout.json",
-      "api": [
-        "api/QLayout.json",
-        "api/QLayout.md"
-      ],
+      "api": ["api/QLayout.json", "api/QLayout.md"],
       "examples": [
         "examples/QLayout/Container.vue",
         "examples/QLayout/ContainerDialog.vue"
@@ -93,9 +537,8 @@
     {
       "id": "layout/page",
       "title": "Layout Page",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "layout",
       "path": "documents/layout/page.json",
       "markdown": "documents/layout/page.md",
       "chunks": "chunks/layout/page.json",
@@ -105,23 +548,17 @@
         "api/QPageContainer.json",
         "api/QPageContainer.md"
       ],
-      "examples": [
-        "examples/QPage/Basic.vue"
-      ]
+      "examples": ["examples/QPage/Basic.vue"]
     },
     {
       "id": "layout/page-scroller",
       "title": "Layout QPageScroller",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "layout",
       "path": "documents/layout/page-scroller.json",
       "markdown": "documents/layout/page-scroller.md",
       "chunks": "chunks/layout/page-scroller.json",
-      "api": [
-        "api/QPageScroller.json",
-        "api/QPageScroller.md"
-      ],
+      "api": ["api/QPageScroller.json", "api/QPageScroller.md"],
       "examples": [
         "examples/QPageScroller/Basic.vue",
         "examples/QPageScroller/Expanded.vue",
@@ -131,111 +568,1467 @@
     {
       "id": "layout/page-sticky",
       "title": "Layout QPageSticky",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "layout",
       "path": "documents/layout/page-sticky.json",
       "markdown": "documents/layout/page-sticky.md",
       "chunks": "chunks/layout/page-sticky.json",
-      "api": [
-        "api/QPageSticky.json",
-        "api/QPageSticky.md"
-      ],
+      "api": ["api/QPageSticky.json", "api/QPageSticky.md"],
       "examples": [
         "examples/QPageSticky/Basic.vue",
         "examples/QPageSticky/Expanded.vue"
       ]
     },
     {
+      "id": "layout/routing-with-layouts-and-pages",
+      "title": "Routing with Layouts and Pages",
+      "kinds": ["guide"],
+      "area": "layout",
+      "path": "documents/layout/routing-with-layouts-and-pages.json",
+      "markdown": "documents/layout/routing-with-layouts-and-pages.md",
+      "chunks": "chunks/layout/routing-with-layouts-and-pages.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "meet-the-team",
+      "title": "Meet the Team",
+      "kinds": ["guide"],
+      "area": "meet-the-team",
+      "path": "documents/meet-the-team.json",
+      "markdown": "documents/meet-the-team.md",
+      "chunks": "chunks/meet-the-team.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/animations",
+      "title": "Animations",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/animations.json",
+      "markdown": "documents/options/animations.md",
+      "chunks": "chunks/options/animations.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/app-icons",
+      "title": "App Icons",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/app-icons.json",
+      "markdown": "documents/options/app-icons.md",
+      "chunks": "chunks/options/app-icons.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/app-internationalization",
+      "title": "App Internationalization (i18n)",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/app-internationalization.json",
+      "markdown": "documents/options/app-internationalization.md",
+      "chunks": "chunks/options/app-internationalization.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/global-node",
+      "title": "Global node generation",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/global-node.json",
+      "markdown": "documents/options/global-node.md",
+      "chunks": "chunks/options/global-node.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/installing-icon-libraries",
+      "title": "Installing Icon Libraries",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/installing-icon-libraries.json",
+      "markdown": "documents/options/installing-icon-libraries.md",
+      "chunks": "chunks/options/installing-icon-libraries.json",
+      "api": [],
+      "examples": []
+    },
+    {
       "id": "options/platform-detection",
       "title": "Platform Detection",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "options",
       "path": "documents/options/platform-detection.json",
       "markdown": "documents/options/platform-detection.md",
       "chunks": "chunks/options/platform-detection.json",
-      "api": [
-        "api/Platform.json",
-        "api/Platform.md"
-      ],
-      "examples": [
-        "examples/Platform/Basic.vue"
-      ]
+      "api": ["api/Platform.json", "api/Platform.md"],
+      "examples": ["examples/Platform/Basic.vue"]
     },
     {
       "id": "options/quasar-icon-sets",
       "title": "Quasar Icon Sets",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "options",
       "path": "documents/options/quasar-icon-sets.json",
       "markdown": "documents/options/quasar-icon-sets.md",
       "chunks": "chunks/options/quasar-icon-sets.json",
-      "api": [
-        "api/IconSet.json",
-        "api/IconSet.md"
-      ],
+      "api": ["api/IconSet.json", "api/IconSet.md"],
       "examples": []
     },
     {
       "id": "options/quasar-language-packs",
       "title": "Quasar Language Packs",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "options",
       "path": "documents/options/quasar-language-packs.json",
       "markdown": "documents/options/quasar-language-packs.md",
       "chunks": "chunks/options/quasar-language-packs.json",
-      "api": [
-        "api/Lang.json",
-        "api/Lang.md"
-      ],
+      "api": ["api/Lang.json", "api/Lang.md"],
+      "examples": []
+    },
+    {
+      "id": "options/rtl-support",
+      "title": "RTL Support",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/rtl-support.json",
+      "markdown": "documents/options/rtl-support.md",
+      "chunks": "chunks/options/rtl-support.json",
+      "api": [],
       "examples": []
     },
     {
       "id": "options/screen-plugin",
       "title": "Screen Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "options",
       "path": "documents/options/screen-plugin.json",
       "markdown": "documents/options/screen-plugin.md",
       "chunks": "chunks/options/screen-plugin.json",
-      "api": [
-        "api/Screen.json",
-        "api/Screen.md"
-      ],
+      "api": ["api/Screen.json", "api/Screen.md"],
+      "examples": []
+    },
+    {
+      "id": "options/seo",
+      "title": "SEO with Quasar",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/seo.json",
+      "markdown": "documents/options/seo.md",
+      "chunks": "chunks/options/seo.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/the-q-object",
+      "title": "The $q object",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/the-q-object.json",
+      "markdown": "documents/options/the-q-object.md",
+      "chunks": "chunks/options/the-q-object.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "options/transitions",
+      "title": "Quasar Components Transitions",
+      "kinds": ["guide"],
+      "area": "options",
+      "path": "documents/options/transitions.json",
+      "markdown": "documents/options/transitions.md",
+      "chunks": "chunks/options/transitions.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/ajax-requests",
+      "title": "Ajax Requests",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/ajax-requests.json",
+      "markdown": "documents/quasar-cli-vite/ajax-requests.md",
+      "chunks": "chunks/quasar-cli-vite/ajax-requests.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/api-proxying",
+      "title": "API Proxying for Dev",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/api-proxying.json",
+      "markdown": "documents/quasar-cli-vite/api-proxying.md",
+      "chunks": "chunks/quasar-cli-vite/api-proxying.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/boot-files",
+      "title": "Boot files",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/boot-files.json",
+      "markdown": "documents/quasar-cli-vite/boot-files.md",
+      "chunks": "chunks/quasar-cli-vite/boot-files.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/browser-compatibility",
+      "title": "Browser compatibility",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/browser-compatibility.json",
+      "markdown": "documents/quasar-cli-vite/browser-compatibility.md",
+      "chunks": "chunks/quasar-cli-vite/browser-compatibility.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/commands-list",
+      "title": "Commands List",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/commands-list.json",
+      "markdown": "documents/quasar-cli-vite/commands-list.md",
+      "chunks": "chunks/quasar-cli-vite/commands-list.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/convert-app-webpack-to-app-vite",
+      "title": "Convert q/app-webpack Project",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/convert-app-webpack-to-app-vite.json",
+      "markdown": "documents/quasar-cli-vite/convert-app-webpack-to-app-vite.md",
+      "chunks": "chunks/quasar-cli-vite/convert-app-webpack-to-app-vite.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/creating-a-quasar-app-vite-project-folder",
+      "title": "Creating a @quasar/app-vite Project",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/creating-a-quasar-app-vite-project-folder.json",
+      "markdown": "documents/quasar-cli-vite/creating-a-quasar-app-vite-project-folder.md",
+      "chunks": "chunks/quasar-cli-vite/creating-a-quasar-app-vite-project-folder.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/css-preprocessors",
+      "title": "CSS Preprocessors",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/css-preprocessors.json",
+      "markdown": "documents/quasar-cli-vite/css-preprocessors.md",
+      "chunks": "chunks/quasar-cli-vite/css-preprocessors.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/app-icons-browser-extension",
+      "title": "App Icons for BEX",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/app-icons-browser-extension.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/app-icons-browser-extension.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/app-icons-browser-extension.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/background-script",
+      "title": "Background Script",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/background-script.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/background-script.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/background-script.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
+      "title": "BEX Bridge Communication",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/bex-bridge.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/bex-bridge.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/bex-bridge.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/bex-with-typescript",
+      "title": "BEX with TypeScript",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/bex-with-typescript.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/bex-with-typescript.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/bex-with-typescript.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/build-commands",
+      "title": "BEX Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
+      "title": "Configuring BEX",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/configuring-bex.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/configuring-bex.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/configuring-bex.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/content-scripts",
+      "title": "Content Scripts",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/content-scripts.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/content-scripts.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/content-scripts.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies",
+      "title": "Installing BEX-specific dependencies",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/introduction",
+      "title": "What is a Browser Extension",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/preparation",
+      "title": "Preparation for BEX",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-browser-extensions/types-of-bex",
+      "title": "Types of BEX",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/browser-extensions",
+      "path": "documents/quasar-cli-vite/developing-browser-extensions/types-of-bex.json",
+      "markdown": "documents/quasar-cli-vite/developing-browser-extensions/types-of-bex.md",
+      "chunks": "chunks/quasar-cli-vite/developing-browser-extensions/types-of-bex.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor",
+      "title": "App Icons for Capacitor",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/build-commands",
+      "title": "Capacitor Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
+      "title": "Capacitor APIs",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/capacitor-api.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/capacitor-api.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/capacitor-api.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-version-support",
+      "title": "Capacitor versions",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/capacitor-version-support.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
+      "title": "Configuring Capacitor",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/introduction",
+      "title": "What is Capacitor",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/live-updates",
+      "title": "Live Updates",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/live-updates.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/live-updates.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/live-updates.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics",
+      "title": "Managing Google Analytics",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/preparation",
+      "title": "Preparation for Capacitor App",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/publishing-to-store",
+      "title": "Publishing to Stores",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/publishing-to-store.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/publishing-to-store.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/publishing-to-store.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips",
+      "title": "Capacitor Troubleshooting and Tips",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/capacitor-apps",
+      "path": "documents/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips.json",
+      "markdown": "documents/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips.md",
+      "chunks": "chunks/quasar-cli-vite/developing-capacitor-apps/troubleshooting-and-tips.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/app-icons-cordova",
+      "title": "App Icons for Cordova",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/app-icons-cordova.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/app-icons-cordova.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/app-icons-cordova.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/build-commands",
+      "title": "Cordova Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/configuring-cordova",
+      "title": "Configuring Cordova",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/configuring-cordova.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/configuring-cordova.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/configuring-cordova.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
+      "title": "Cordova Plugins",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/cordova-plugins.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/cordova-plugins.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/cordova-plugins.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/introduction",
+      "title": "What is Cordova",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/managing-google-analytics",
+      "title": "Managing Google Analytics",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/managing-google-analytics.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/managing-google-analytics.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/managing-google-analytics.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/preparation",
+      "title": "Preparation for Cordova App",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/publishing-to-store",
+      "title": "Publishing to Stores",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/publishing-to-store.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/publishing-to-store.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/publishing-to-store.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips",
+      "title": "Cordova Troubleshooting and Tips",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/cordova-apps",
+      "path": "documents/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips.json",
+      "markdown": "documents/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips.md",
+      "chunks": "chunks/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/app-icons-electron",
+      "title": "App Icons for Electron",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/app-icons-electron.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/app-icons-electron.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/app-icons-electron.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/build-commands",
+      "title": "Electron Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/configuring-electron",
+      "title": "Configuring Electron",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/configuring-electron.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/configuring-electron.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/configuring-electron.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/electron-accessing-files",
+      "title": "Electron Accessing Files",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/electron-accessing-files.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/electron-accessing-files.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/electron-accessing-files.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
+      "title": "Electron Live Updates",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/electron-live-updates.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/electron-live-updates.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/electron-live-updates.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/electron-preload-script",
+      "title": "Electron Preload Script",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/electron-preload-script.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/electron-preload-script.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/electron-preload-script.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/electron-security-concerns",
+      "title": "Electron Security Concerns",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/electron-security-concerns.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/electron-security-concerns.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/electron-security-concerns.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/electron-upgrade-guide",
+      "title": "Upgrade guide on Electron",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/electron-upgrade-guide.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/electron-upgrade-guide.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/electron-upgrade-guide.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/electron-with-typescript",
+      "title": "Electron with TypeScript",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/electron-with-typescript.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/electron-with-typescript.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/electron-with-typescript.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
+      "title": "Frameless Electron Window",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/frameless-electron-window.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/frameless-electron-window.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/frameless-electron-window.json",
+      "api": [],
+      "examples": ["examples/frameless-electron-window/StatusBar.vue"]
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/installing-electron-dependencies",
+      "title": "Installing Electron-specific dependencies",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/installing-electron-dependencies.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/installing-electron-dependencies.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/installing-electron-dependencies.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/introduction",
+      "title": "What is Electron",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/preparation",
+      "title": "Preparation for Electron",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
+      "title": "Troubleshooting and Tips",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/electron-apps",
+      "path": "documents/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips.json",
+      "markdown": "documents/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips.md",
+      "chunks": "chunks/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-mobile-apps",
+      "title": "Developing Mobile Apps",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/mobile-apps",
+      "path": "documents/quasar-cli-vite/developing-mobile-apps.json",
+      "markdown": "documents/quasar-cli-vite/developing-mobile-apps.md",
+      "chunks": "chunks/quasar-cli-vite/developing-mobile-apps.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/app-icons-pwa",
+      "title": "App Icons for PWA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/app-icons-pwa.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/app-icons-pwa.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/app-icons-pwa.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/build-commands",
+      "title": "PWA Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/configuring-pwa",
+      "title": "Configuring PWA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/configuring-pwa.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/configuring-pwa.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/configuring-pwa.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/handling-service-worker",
+      "title": "Handling Service Worker",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/handling-service-worker.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/handling-service-worker.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/handling-service-worker.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/hmr-for-dev",
+      "title": "Hot Module Reload for PWA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/hmr-for-dev.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/hmr-for-dev.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/hmr-for-dev.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/installing-pwa-dependencies",
+      "title": "Installing PWA-specific dependencies",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/installing-pwa-dependencies.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/installing-pwa-dependencies.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/installing-pwa-dependencies.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/introduction",
+      "title": "What is a PWA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/preparation",
+      "title": "Preparation for PWA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-pwa/pwa-with-typescript",
+      "title": "PWA with TypeScript",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/pwa",
+      "path": "documents/quasar-cli-vite/developing-pwa/pwa-with-typescript.json",
+      "markdown": "documents/quasar-cli-vite/developing-pwa/pwa-with-typescript.md",
+      "chunks": "chunks/quasar-cli-vite/developing-pwa/pwa-with-typescript.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-spa/app-icons-spa",
+      "title": "App Icons for SPA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/spa",
+      "path": "documents/quasar-cli-vite/developing-spa/app-icons-spa.json",
+      "markdown": "documents/quasar-cli-vite/developing-spa/app-icons-spa.md",
+      "chunks": "chunks/quasar-cli-vite/developing-spa/app-icons-spa.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-spa/build-commands",
+      "title": "SPA Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/spa",
+      "path": "documents/quasar-cli-vite/developing-spa/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-spa/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-spa/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-spa/deploying",
+      "title": "Deploying a SPA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/spa",
+      "path": "documents/quasar-cli-vite/developing-spa/deploying.json",
+      "markdown": "documents/quasar-cli-vite/developing-spa/deploying.md",
+      "chunks": "chunks/quasar-cli-vite/developing-spa/deploying.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-spa/introduction",
+      "title": "What is SPA",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/spa",
+      "path": "documents/quasar-cli-vite/developing-spa/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-spa/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-spa/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/app-icons-ssg",
+      "title": "App Icons for SSG",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/app-icons-ssg.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/app-icons-ssg.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/app-icons-ssg.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/build-commands",
+      "title": "SSG Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/configuring-ssg",
+      "title": "Configuring SSG",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/configuring-ssg.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/configuring-ssg.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/configuring-ssg.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/deploying",
+      "title": "Deploying SSG",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/deploying.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/deploying.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/deploying.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr",
+      "title": "Hybrid SSG with partial CSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/hybrid-ssg-with-partial-csr.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/installing-ssg-dependencies",
+      "title": "Installing SSG-specific dependencies",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/installing-ssg-dependencies.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/installing-ssg-dependencies.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/installing-ssg-dependencies.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/introduction",
+      "title": "What is SSG",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/preparation",
+      "title": "Preparation for SSG",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/seo-for-ssg",
+      "title": "SEO for SSG",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/seo-for-ssg.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/seo-for-ssg.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/seo-for-ssg.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/ssg-404-error-page",
+      "title": "SSG 404 Error Page",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/ssg-404-error-page.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/ssg-404-error-page.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/ssg-404-error-page.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/ssg-code-caveats",
+      "title": "SSG Code Caveats",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/ssg-code-caveats.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/ssg-code-caveats.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/ssg-code-caveats.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/ssg-renderer",
+      "title": "SSG Renderer",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/ssg-renderer.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/ssg-renderer.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/ssg-renderer.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/ssg-with-pwa",
+      "title": "SSG with PWA Client Takeover",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/ssg-with-pwa.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/ssg-with-pwa.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/ssg-with-pwa.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssg/ssg-with-typescript",
+      "title": "SSG with TypeScript",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssg",
+      "path": "documents/quasar-cli-vite/developing-ssg/ssg-with-typescript.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssg/ssg-with-typescript.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssg/ssg-with-typescript.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/app-icons-ssr",
+      "title": "App Icons for SSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/app-icons-ssr.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/app-icons-ssr.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/app-icons-ssr.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/build-commands",
+      "title": "SSR Build Commands",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/build-commands.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/build-commands.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/build-commands.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/client-side-hydration",
+      "title": "Client Side Hydration",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/client-side-hydration.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/client-side-hydration.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/client-side-hydration.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/configuring-ssr",
+      "title": "Configuring SSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/configuring-ssr.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/configuring-ssr.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/configuring-ssr.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/deploying",
+      "title": "Deploying SSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/deploying.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/deploying.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/deploying.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors",
+      "title": "SSR Handling of 404 and 500 Errors",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/handling-404-and-500-errors.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/handling-404-and-500-errors.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/handling-404-and-500-errors.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr",
+      "title": "Hybrid SSR with partial CSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/installing-ssr-dependencies",
+      "title": "Installing SSR-specific dependencies",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/installing-ssr-dependencies.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/installing-ssr-dependencies.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/installing-ssr-dependencies.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/introduction",
+      "title": "What is SSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/introduction.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/introduction.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/introduction.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/preparation",
+      "title": "Preparation for SSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/preparation.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/preparation.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/preparation.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/seo-for-ssr",
+      "title": "SEO for SSR",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/seo-for-ssr.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/seo-for-ssr.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/seo-for-ssr.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/ssr-context",
+      "title": "The ssrContext Object",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/ssr-context.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/ssr-context.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/ssr-context.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions",
+      "title": "SSR FAQ",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/ssr-frequently-asked-questions.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/ssr-middleware",
+      "title": "SSR Middleware",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/ssr-middleware.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/ssr-middleware.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/ssr-middleware.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/ssr-webserver",
+      "title": "SSR Webserver",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/ssr-webserver.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/ssr-webserver.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/ssr-webserver.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/ssr-with-pwa",
+      "title": "SSR with PWA Client Takeover",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/ssr-with-pwa.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/ssr-with-pwa.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/ssr-with-pwa.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/ssr-with-typescript",
+      "title": "SSR with TypeScript",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/ssr-with-typescript.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/ssr-with-typescript.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/ssr-with-typescript.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/vue-ssr-directives",
+      "title": "Vue SSR/SSG Directives",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/vue-ssr-directives.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/vue-ssr-directives.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/vue-ssr-directives.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/developing-ssr/writing-universal-code",
+      "title": "Writing Universal Code",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite/ssr",
+      "path": "documents/quasar-cli-vite/developing-ssr/writing-universal-code.json",
+      "markdown": "documents/quasar-cli-vite/developing-ssr/writing-universal-code.md",
+      "chunks": "chunks/quasar-cli-vite/developing-ssr/writing-universal-code.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/directory-structure",
+      "title": "Directory Structure",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/directory-structure.json",
+      "markdown": "documents/quasar-cli-vite/directory-structure.md",
+      "chunks": "chunks/quasar-cli-vite/directory-structure.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/handling-assets",
+      "title": "App Handling Assets",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/handling-assets.json",
+      "markdown": "documents/quasar-cli-vite/handling-assets.md",
+      "chunks": "chunks/quasar-cli-vite/handling-assets.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/handling-import-meta-env",
+      "title": "The import.meta.env and dotenv files support",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/handling-import-meta-env.json",
+      "markdown": "documents/quasar-cli-vite/handling-import-meta-env.md",
+      "chunks": "chunks/quasar-cli-vite/handling-import-meta-env.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/handling-vite",
+      "title": "Handling Vite",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/handling-vite.json",
+      "markdown": "documents/quasar-cli-vite/handling-vite.md",
+      "chunks": "chunks/quasar-cli-vite/handling-vite.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/lazy-loading",
+      "title": "Lazy Loading / Code Splitting",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/lazy-loading.json",
+      "markdown": "documents/quasar-cli-vite/lazy-loading.md",
+      "chunks": "chunks/quasar-cli-vite/lazy-loading.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/lint-and-format-code",
+      "title": "Lint and Format Code",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/lint-and-format-code.json",
+      "markdown": "documents/quasar-cli-vite/lint-and-format-code.md",
+      "chunks": "chunks/quasar-cli-vite/lint-and-format-code.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/opening-dev-server-to-public",
+      "title": "Opening Your Dev Server to the Public",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/opening-dev-server-to-public.json",
+      "markdown": "documents/quasar-cli-vite/opening-dev-server-to-public.md",
+      "chunks": "chunks/quasar-cli-vite/opening-dev-server-to-public.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/page-routing-with-vue-router",
+      "title": "Page Routing with Vue Router",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/page-routing-with-vue-router.json",
+      "markdown": "documents/quasar-cli-vite/page-routing-with-vue-router.md",
+      "chunks": "chunks/quasar-cli-vite/page-routing-with-vue-router.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/prefetch-feature",
+      "title": "PreFetch Feature",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/prefetch-feature.json",
+      "markdown": "documents/quasar-cli-vite/prefetch-feature.md",
+      "chunks": "chunks/quasar-cli-vite/prefetch-feature.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/quasar-config-file",
+      "title": "Configuring quasar.config file",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/quasar-config-file.json",
+      "markdown": "documents/quasar-cli-vite/quasar-config-file.md",
+      "chunks": "chunks/quasar-cli-vite/quasar-config-file.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/state-management-with-pinia",
+      "title": "State management with Pinia",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/state-management-with-pinia.json",
+      "markdown": "documents/quasar-cli-vite/state-management-with-pinia.md",
+      "chunks": "chunks/quasar-cli-vite/state-management-with-pinia.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/testing-and-auditing",
+      "title": "Testing & Auditing",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/testing-and-auditing.json",
+      "markdown": "documents/quasar-cli-vite/testing-and-auditing.md",
+      "chunks": "chunks/quasar-cli-vite/testing-and-auditing.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/typescript-support",
+      "title": "TypeScript Support",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/typescript-support.json",
+      "markdown": "documents/quasar-cli-vite/typescript-support.md",
+      "chunks": "chunks/quasar-cli-vite/typescript-support.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-vite/upgrade-guide",
+      "title": "Upgrade Guide for Quasar CLI with Vite",
+      "kinds": ["guide"],
+      "area": "quasar-cli-vite",
+      "path": "documents/quasar-cli-vite/upgrade-guide.json",
+      "markdown": "documents/quasar-cli-vite/upgrade-guide.md",
+      "chunks": "chunks/quasar-cli-vite/upgrade-guide.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-cli-webpack/about",
+      "title": "Quasar CLI (with Webpack)",
+      "kinds": ["guide"],
+      "area": "quasar-cli-webpack",
+      "path": "documents/quasar-cli-webpack/about.json",
+      "markdown": "documents/quasar-cli-webpack/about.md",
+      "chunks": "chunks/quasar-cli-webpack/about.json",
+      "api": [],
       "examples": []
     },
     {
       "id": "quasar-plugins/addressbar-color",
       "title": "AddressbarColor Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/addressbar-color.json",
       "markdown": "documents/quasar-plugins/addressbar-color.md",
       "chunks": "chunks/quasar-plugins/addressbar-color.json",
-      "api": [
-        "api/AddressbarColor.json",
-        "api/AddressbarColor.md"
-      ],
+      "api": ["api/AddressbarColor.json", "api/AddressbarColor.md"],
       "examples": []
     },
     {
       "id": "quasar-plugins/app-fullscreen",
       "title": "Fullscreen Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/app-fullscreen.json",
       "markdown": "documents/quasar-plugins/app-fullscreen.md",
       "chunks": "chunks/quasar-plugins/app-fullscreen.json",
-      "api": [
-        "api/AppFullscreen.json",
-        "api/AppFullscreen.md"
-      ],
+      "api": ["api/AppFullscreen.json", "api/AppFullscreen.md"],
       "examples": [
         "examples/AppFullscreen/Basic.vue",
         "examples/AppFullscreen/Targeted.vue"
@@ -244,33 +2037,23 @@
     {
       "id": "quasar-plugins/app-visibility",
       "title": "App Visibility",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/app-visibility.json",
       "markdown": "documents/quasar-plugins/app-visibility.md",
       "chunks": "chunks/quasar-plugins/app-visibility.json",
-      "api": [
-        "api/AppVisibility.json",
-        "api/AppVisibility.md"
-      ],
-      "examples": [
-        "examples/AppVisibility/Basic.vue"
-      ]
+      "api": ["api/AppVisibility.json", "api/AppVisibility.md"],
+      "examples": ["examples/AppVisibility/Basic.vue"]
     },
     {
       "id": "quasar-plugins/bottom-sheet",
       "title": "Bottom Sheet Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/bottom-sheet.json",
       "markdown": "documents/quasar-plugins/bottom-sheet.md",
       "chunks": "chunks/quasar-plugins/bottom-sheet.json",
-      "api": [
-        "api/BottomSheet.json",
-        "api/BottomSheet.md"
-      ],
+      "api": ["api/BottomSheet.json", "api/BottomSheet.md"],
       "examples": [
         "examples/BottomSheet/Basic.vue",
         "examples/BottomSheet/Dark.vue"
@@ -279,46 +2062,34 @@
     {
       "id": "quasar-plugins/cookies",
       "title": "Cookies",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/cookies.json",
       "markdown": "documents/quasar-plugins/cookies.md",
       "chunks": "chunks/quasar-plugins/cookies.json",
-      "api": [
-        "api/Cookies.json",
-        "api/Cookies.md"
-      ],
+      "api": ["api/Cookies.json", "api/Cookies.md"],
       "examples": []
     },
     {
       "id": "quasar-plugins/dark",
       "title": "Dark Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/dark.json",
       "markdown": "documents/quasar-plugins/dark.md",
       "chunks": "chunks/quasar-plugins/dark.json",
-      "api": [
-        "api/Dark.json",
-        "api/Dark.md"
-      ],
+      "api": ["api/Dark.json", "api/Dark.md"],
       "examples": []
     },
     {
       "id": "quasar-plugins/dialog",
       "title": "Dialog Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/dialog.json",
       "markdown": "documents/quasar-plugins/dialog.md",
       "chunks": "chunks/quasar-plugins/dialog.json",
-      "api": [
-        "api/Dialog.json",
-        "api/Dialog.md"
-      ],
+      "api": ["api/Dialog.json", "api/Dialog.md"],
       "examples": [
         "examples/Dialog/Basic.vue",
         "examples/Dialog/Dark.vue",
@@ -334,16 +2105,12 @@
     {
       "id": "quasar-plugins/loading",
       "title": "Loading Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/loading.json",
       "markdown": "documents/quasar-plugins/loading.md",
       "chunks": "chunks/quasar-plugins/loading.json",
-      "api": [
-        "api/Loading.json",
-        "api/Loading.md"
-      ],
+      "api": ["api/Loading.json", "api/Loading.md"],
       "examples": [
         "examples/Loading/Default.vue",
         "examples/Loading/WithMessage.vue",
@@ -357,46 +2124,34 @@
     {
       "id": "quasar-plugins/loading-bar",
       "title": "LoadingBar",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/loading-bar.json",
       "markdown": "documents/quasar-plugins/loading-bar.md",
       "chunks": "chunks/quasar-plugins/loading-bar.json",
-      "api": [
-        "api/LoadingBar.json",
-        "api/LoadingBar.md"
-      ],
+      "api": ["api/LoadingBar.json", "api/LoadingBar.md"],
       "examples": []
     },
     {
       "id": "quasar-plugins/meta",
       "title": "Quasar Meta Plugin",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/meta.json",
       "markdown": "documents/quasar-plugins/meta.md",
       "chunks": "chunks/quasar-plugins/meta.json",
-      "api": [
-        "api/Meta.json",
-        "api/Meta.md"
-      ],
+      "api": ["api/Meta.json", "api/Meta.md"],
       "examples": []
     },
     {
       "id": "quasar-plugins/notify",
       "title": "Notify",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/notify.json",
       "markdown": "documents/quasar-plugins/notify.md",
       "chunks": "chunks/quasar-plugins/notify.json",
-      "api": [
-        "api/Notify.json",
-        "api/Notify.md"
-      ],
+      "api": ["api/Notify.json", "api/Notify.md"],
       "examples": [
         "examples/Notify/Basic.vue",
         "examples/Notify/Caption.vue",
@@ -418,9 +2173,8 @@
     {
       "id": "quasar-plugins/web-storage",
       "title": "Local/Session Storage Plugins",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "quasar-plugins",
       "path": "documents/quasar-plugins/web-storage.json",
       "markdown": "documents/quasar-plugins/web-storage.md",
       "chunks": "chunks/quasar-plugins/web-storage.json",
@@ -433,50 +2187,409 @@
       "examples": []
     },
     {
+      "id": "quasar-utils/color-utils",
+      "title": "Color Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/color-utils.json",
+      "markdown": "documents/quasar-utils/color-utils.md",
+      "chunks": "chunks/quasar-utils/color-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/date-utils",
+      "title": "Date Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/date-utils.json",
+      "markdown": "documents/quasar-utils/date-utils.md",
+      "chunks": "chunks/quasar-utils/date-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/dom-utils",
+      "title": "DOM Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/dom-utils.json",
+      "markdown": "documents/quasar-utils/dom-utils.md",
+      "chunks": "chunks/quasar-utils/dom-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/event-bus-util",
+      "title": "EventBus Util",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/event-bus-util.json",
+      "markdown": "documents/quasar-utils/event-bus-util.md",
+      "chunks": "chunks/quasar-utils/event-bus-util.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/formatter-utils",
+      "title": "Formatter Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/formatter-utils.json",
+      "markdown": "documents/quasar-utils/formatter-utils.md",
+      "chunks": "chunks/quasar-utils/formatter-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/morph-utils",
+      "title": "Morph Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/morph-utils.json",
+      "markdown": "documents/quasar-utils/morph-utils.md",
+      "chunks": "chunks/quasar-utils/morph-utils.json",
+      "api": [],
+      "examples": [
+        "examples/MorphUtils/SameElement.vue",
+        "examples/MorphUtils/FabCard.vue",
+        "examples/MorphUtils/ImageGallery.vue",
+        "examples/MorphUtils/ImageStripHorizontal.vue",
+        "examples/MorphUtils/ImageStripVertical.vue"
+      ]
+    },
+    {
+      "id": "quasar-utils/other-utils",
+      "title": "Other Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/other-utils.json",
+      "markdown": "documents/quasar-utils/other-utils.md",
+      "chunks": "chunks/quasar-utils/other-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/scrolling-utils",
+      "title": "Scrolling Utils",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/scrolling-utils.json",
+      "markdown": "documents/quasar-utils/scrolling-utils.md",
+      "chunks": "chunks/quasar-utils/scrolling-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "quasar-utils/type-checking-utils",
+      "title": "Type Checking Utils (<is>)",
+      "kinds": ["guide"],
+      "area": "quasar-utils",
+      "path": "documents/quasar-utils/type-checking-utils.json",
+      "markdown": "documents/quasar-utils/type-checking-utils.md",
+      "chunks": "chunks/quasar-utils/type-checking-utils.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "security/dos-and-donts",
+      "title": "Security DO's and DON'Ts",
+      "kinds": ["guide"],
+      "area": "security",
+      "path": "documents/security/dos-and-donts.json",
+      "markdown": "documents/security/dos-and-donts.md",
+      "chunks": "chunks/security/dos-and-donts.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "security/report-a-vulnerability",
+      "title": "Report a vulnerability",
+      "kinds": ["guide"],
+      "area": "security",
+      "path": "documents/security/report-a-vulnerability.json",
+      "markdown": "documents/security/report-a-vulnerability.md",
+      "chunks": "chunks/security/report-a-vulnerability.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "sponsors-and-backers",
+      "title": "Sponsors and Backers",
+      "kinds": ["guide"],
+      "area": "sponsors-and-backers",
+      "path": "documents/sponsors-and-backers.json",
+      "markdown": "documents/sponsors-and-backers.md",
+      "chunks": "chunks/sponsors-and-backers.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/how-to-use-vue",
+      "title": "How To Use Vue",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/how-to-use-vue.json",
+      "markdown": "documents/start/how-to-use-vue.md",
+      "chunks": "chunks/start/how-to-use-vue.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/pick-quasar-flavour",
+      "title": "Pick a Quasar Flavour",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/pick-quasar-flavour.json",
+      "markdown": "documents/start/pick-quasar-flavour.md",
+      "chunks": "chunks/start/pick-quasar-flavour.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/playground",
+      "title": "Quasar Playground",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/playground.json",
+      "markdown": "documents/start/playground.md",
+      "chunks": "chunks/start/playground.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/quasar-cli",
+      "title": "Quasar CLI",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/quasar-cli.json",
+      "markdown": "documents/start/quasar-cli.md",
+      "chunks": "chunks/start/quasar-cli.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/quick-start",
+      "title": "Quick Start",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/quick-start.json",
+      "markdown": "documents/start/quick-start.md",
+      "chunks": "chunks/start/quick-start.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/release-notes",
+      "title": "Release Notes",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/release-notes.json",
+      "markdown": "documents/start/release-notes.md",
+      "chunks": "chunks/start/release-notes.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/umd",
+      "title": "Quasar UMD - CDN install",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/umd.json",
+      "markdown": "documents/start/umd.md",
+      "chunks": "chunks/start/umd.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/vite-plugin",
+      "title": "Vite plugin for Quasar",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/vite-plugin.json",
+      "markdown": "documents/start/vite-plugin.md",
+      "chunks": "chunks/start/vite-plugin.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "start/vs-code-configuration",
+      "title": "Configure VS Code",
+      "kinds": ["guide"],
+      "area": "start",
+      "path": "documents/start/vs-code-configuration.json",
+      "markdown": "documents/start/vs-code-configuration.md",
+      "chunks": "chunks/start/vs-code-configuration.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/body-classes",
+      "title": "Body classes",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/body-classes.json",
+      "markdown": "documents/style/body-classes.md",
+      "chunks": "chunks/style/body-classes.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/breakpoints",
+      "title": "Breakpoints",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/breakpoints.json",
+      "markdown": "documents/style/breakpoints.md",
+      "chunks": "chunks/style/breakpoints.json",
+      "api": [],
+      "examples": []
+    },
+    {
       "id": "style/color-palette",
       "title": "Color Palette",
-      "kinds": [
-        "plugin"
-      ],
+      "kinds": ["plugin"],
+      "area": "style",
       "path": "documents/style/color-palette.json",
       "markdown": "documents/style/color-palette.md",
       "chunks": "chunks/style/color-palette.json",
-      "api": [
-        "api/Brand.json",
-        "api/Brand.md"
-      ],
+      "api": ["api/Brand.json", "api/Brand.md"],
+      "examples": []
+    },
+    {
+      "id": "style/dark-mode",
+      "title": "Dark Mode",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/dark-mode.json",
+      "markdown": "documents/style/dark-mode.md",
+      "chunks": "chunks/style/dark-mode.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/other-helper-classes",
+      "title": "Other CSS Helper Classes",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/other-helper-classes.json",
+      "markdown": "documents/style/other-helper-classes.md",
+      "chunks": "chunks/style/other-helper-classes.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/positioning",
+      "title": "CSS Positioning Classes",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/positioning.json",
+      "markdown": "documents/style/positioning.md",
+      "chunks": "chunks/style/positioning.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/sass-scss-variables",
+      "title": "Sass/SCSS Variables",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/sass-scss-variables.json",
+      "markdown": "documents/style/sass-scss-variables.md",
+      "chunks": "chunks/style/sass-scss-variables.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/shadows",
+      "title": "CSS Shadows (Elevation)",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/shadows.json",
+      "markdown": "documents/style/shadows.md",
+      "chunks": "chunks/style/shadows.json",
+      "api": [],
+      "examples": [
+        "examples/shadows/Standard.vue",
+        "examples/shadows/PointingUp.vue",
+        "examples/shadows/Inset.vue"
+      ]
+    },
+    {
+      "id": "style/spacing",
+      "title": "CSS Spacing Classes",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/spacing.json",
+      "markdown": "documents/style/spacing.md",
+      "chunks": "chunks/style/spacing.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/theme-builder",
+      "title": "Theme Builder",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/theme-builder.json",
+      "markdown": "documents/style/theme-builder.md",
+      "chunks": "chunks/style/theme-builder.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/typography",
+      "title": "Typography",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/typography.json",
+      "markdown": "documents/style/typography.md",
+      "chunks": "chunks/style/typography.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "style/visibility",
+      "title": "CSS Visibility",
+      "kinds": ["guide"],
+      "area": "style",
+      "path": "documents/style/visibility.json",
+      "markdown": "documents/style/visibility.md",
+      "chunks": "chunks/style/visibility.json",
+      "api": [],
+      "examples": []
+    },
+    {
+      "id": "video-tutorials",
+      "title": "Video Tutorials",
+      "kinds": ["guide"],
+      "area": "video-tutorials",
+      "path": "documents/video-tutorials.json",
+      "markdown": "documents/video-tutorials.md",
+      "chunks": "chunks/video-tutorials.json",
+      "api": [],
       "examples": []
     },
     {
       "id": "vue-components/ajax-bar",
       "title": "Ajax Bar",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/ajax-bar.json",
       "markdown": "documents/vue-components/ajax-bar.md",
       "chunks": "chunks/vue-components/ajax-bar.json",
-      "api": [
-        "api/QAjaxBar.json",
-        "api/QAjaxBar.md"
-      ],
-      "examples": [
-        "examples/QAjaxBar/Basic.vue"
-      ]
+      "api": ["api/QAjaxBar.json", "api/QAjaxBar.md"],
+      "examples": ["examples/QAjaxBar/Basic.vue"]
     },
     {
       "id": "vue-components/avatar",
       "title": "Avatar",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/avatar.json",
       "markdown": "documents/vue-components/avatar.md",
       "chunks": "chunks/vue-components/avatar.json",
-      "api": [
-        "api/QAvatar.json",
-        "api/QAvatar.md"
-      ],
+      "api": ["api/QAvatar.json", "api/QAvatar.md"],
       "examples": [
         "examples/QAvatar/Basic.vue",
         "examples/QAvatar/StandardSizes.vue",
@@ -489,16 +2602,12 @@
     {
       "id": "vue-components/badge",
       "title": "Badge",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/badge.json",
       "markdown": "documents/vue-components/badge.md",
       "chunks": "chunks/vue-components/badge.json",
-      "api": [
-        "api/QBadge.json",
-        "api/QBadge.md"
-      ],
+      "api": ["api/QBadge.json", "api/QBadge.md"],
       "examples": [
         "examples/QBadge/Basic.vue",
         "examples/QBadge/Align.vue",
@@ -512,16 +2621,12 @@
     {
       "id": "vue-components/banner",
       "title": "Banner",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/banner.json",
       "markdown": "documents/vue-components/banner.md",
       "chunks": "chunks/vue-components/banner.json",
-      "api": [
-        "api/QBanner.json",
-        "api/QBanner.md"
-      ],
+      "api": ["api/QBanner.json", "api/QBanner.md"],
       "examples": [
         "examples/QBanner/Basic.vue",
         "examples/QBanner/Rounded.vue",
@@ -533,16 +2638,12 @@
     {
       "id": "vue-components/bar",
       "title": "Bar",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/bar.json",
       "markdown": "documents/vue-components/bar.md",
       "chunks": "chunks/vue-components/bar.json",
-      "api": [
-        "api/QBar.json",
-        "api/QBar.md"
-      ],
+      "api": ["api/QBar.json", "api/QBar.md"],
       "examples": [
         "examples/QBar/MacOS.vue",
         "examples/QBar/Windows.vue",
@@ -556,9 +2657,8 @@
     {
       "id": "vue-components/breadcrumbs",
       "title": "Breadcrumbs",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/breadcrumbs.json",
       "markdown": "documents/vue-components/breadcrumbs.md",
       "chunks": "chunks/vue-components/breadcrumbs.json",
@@ -581,16 +2681,12 @@
     {
       "id": "vue-components/button",
       "title": "Button",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/button.json",
       "markdown": "documents/vue-components/button.md",
       "chunks": "chunks/vue-components/button.json",
-      "api": [
-        "api/QBtn.json",
-        "api/QBtn.md"
-      ],
+      "api": ["api/QBtn.json", "api/QBtn.md"],
       "examples": [
         "examples/QBtn/Standard.vue",
         "examples/QBtn/CustomColor.vue",
@@ -617,16 +2713,12 @@
     {
       "id": "vue-components/button-dropdown",
       "title": "Dropdown Button",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/button-dropdown.json",
       "markdown": "documents/vue-components/button-dropdown.md",
       "chunks": "chunks/vue-components/button-dropdown.json",
-      "api": [
-        "api/QBtnDropdown.json",
-        "api/QBtnDropdown.md"
-      ],
+      "api": ["api/QBtnDropdown.json", "api/QBtnDropdown.md"],
       "examples": [
         "examples/QBtnDropdown/Basic.vue",
         "examples/QBtnDropdown/VariousContent.vue",
@@ -642,16 +2734,12 @@
     {
       "id": "vue-components/button-group",
       "title": "Button Group",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/button-group.json",
       "markdown": "documents/vue-components/button-group.md",
       "chunks": "chunks/vue-components/button-group.json",
-      "api": [
-        "api/QBtnGroup.json",
-        "api/QBtnGroup.md"
-      ],
+      "api": ["api/QBtnGroup.json", "api/QBtnGroup.md"],
       "examples": [
         "examples/QBtnGroup/Group.vue",
         "examples/QBtnGroup/GroupSpread.vue",
@@ -661,16 +2749,12 @@
     {
       "id": "vue-components/button-toggle",
       "title": "Button Toggle",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/button-toggle.json",
       "markdown": "documents/vue-components/button-toggle.md",
       "chunks": "chunks/vue-components/button-toggle.json",
-      "api": [
-        "api/QBtnToggle.json",
-        "api/QBtnToggle.md"
-      ],
+      "api": ["api/QBtnToggle.json", "api/QBtnToggle.md"],
       "examples": [
         "examples/QBtnToggle/Basic.vue",
         "examples/QBtnToggle/Design.vue",
@@ -683,9 +2767,8 @@
     {
       "id": "vue-components/card",
       "title": "Card",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/card.json",
       "markdown": "documents/vue-components/card.md",
       "chunks": "chunks/vue-components/card.json",
@@ -715,9 +2798,8 @@
     {
       "id": "vue-components/carousel",
       "title": "Carousel",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/carousel.json",
       "markdown": "documents/vue-components/carousel.md",
       "chunks": "chunks/vue-components/carousel.json",
@@ -752,16 +2834,12 @@
     {
       "id": "vue-components/chat",
       "title": "Chat Message",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/chat.json",
       "markdown": "documents/vue-components/chat.md",
       "chunks": "chunks/vue-components/chat.json",
-      "api": [
-        "api/QChatMessage.json",
-        "api/QChatMessage.md"
-      ],
+      "api": ["api/QChatMessage.json", "api/QChatMessage.md"],
       "examples": [
         "examples/QChatMessage/Basic.vue",
         "examples/QChatMessage/Name.vue",
@@ -778,16 +2856,12 @@
     {
       "id": "vue-components/checkbox",
       "title": "Checkbox",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/checkbox.json",
       "markdown": "documents/vue-components/checkbox.md",
       "chunks": "chunks/vue-components/checkbox.json",
-      "api": [
-        "api/QCheckbox.json",
-        "api/QCheckbox.md"
-      ],
+      "api": ["api/QCheckbox.json", "api/QCheckbox.md"],
       "examples": [
         "examples/QCheckbox/Standard.vue",
         "examples/QCheckbox/WithIcons.vue",
@@ -809,16 +2883,12 @@
     {
       "id": "vue-components/chip",
       "title": "Chip",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/chip.json",
       "markdown": "documents/vue-components/chip.md",
       "chunks": "chunks/vue-components/chip.json",
-      "api": [
-        "api/QChip.json",
-        "api/QChip.md"
-      ],
+      "api": ["api/QChip.json", "api/QChip.md"],
       "examples": [
         "examples/QChip/Basic.vue",
         "examples/QChip/Dense.vue",
@@ -834,16 +2904,12 @@
     {
       "id": "vue-components/circular-progress",
       "title": "Circular Progress",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/circular-progress.json",
       "markdown": "documents/vue-components/circular-progress.md",
       "chunks": "chunks/vue-components/circular-progress.json",
-      "api": [
-        "api/QCircularProgress.json",
-        "api/QCircularProgress.md"
-      ],
+      "api": ["api/QCircularProgress.json", "api/QCircularProgress.md"],
       "examples": [
         "examples/QCircularProgress/Determined.vue",
         "examples/QCircularProgress/Reverse.vue",
@@ -858,16 +2924,12 @@
     {
       "id": "vue-components/color-picker",
       "title": "Color Picker",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/color-picker.json",
       "markdown": "documents/vue-components/color-picker.md",
       "chunks": "chunks/vue-components/color-picker.json",
-      "api": [
-        "api/QColor.json",
-        "api/QColor.md"
-      ],
+      "api": ["api/QColor.json", "api/QColor.md"],
       "examples": [
         "examples/QColor/Basic.vue",
         "examples/QColor/Input.vue",
@@ -884,16 +2946,12 @@
     {
       "id": "vue-components/date",
       "title": "QDate",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/date.json",
       "markdown": "documents/vue-components/date.md",
       "chunks": "chunks/vue-components/date.json",
-      "api": [
-        "api/QDate.json",
-        "api/QDate.md"
-      ],
+      "api": ["api/QDate.json", "api/QDate.md"],
       "examples": [
         "examples/QDate/Basic.vue",
         "examples/QDate/Landscape.vue",
@@ -926,16 +2984,12 @@
     {
       "id": "vue-components/dialog",
       "title": "Dialog",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/dialog.json",
       "markdown": "documents/vue-components/dialog.md",
       "chunks": "chunks/vue-components/dialog.json",
-      "api": [
-        "api/QDialog.json",
-        "api/QDialog.md"
-      ],
+      "api": ["api/QDialog.json", "api/QDialog.md"],
       "examples": [
         "examples/QDialog/Basic.vue",
         "examples/QDialog/Style.vue",
@@ -954,16 +3008,12 @@
     {
       "id": "vue-components/editor",
       "title": "Editor (WYSIWYG)",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/editor.json",
       "markdown": "documents/vue-components/editor.md",
       "chunks": "chunks/vue-components/editor.json",
-      "api": [
-        "api/QEditor.json",
-        "api/QEditor.md"
-      ],
+      "api": ["api/QEditor.json", "api/QEditor.md"],
       "examples": [
         "examples/QEditor/Basic.vue",
         "examples/QEditor/NewBold.vue",
@@ -977,16 +3027,12 @@
     {
       "id": "vue-components/expansion-item",
       "title": "Expansion Item",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/expansion-item.json",
       "markdown": "documents/vue-components/expansion-item.md",
       "chunks": "chunks/vue-components/expansion-item.json",
-      "api": [
-        "api/QExpansionItem.json",
-        "api/QExpansionItem.md"
-      ],
+      "api": ["api/QExpansionItem.json", "api/QExpansionItem.md"],
       "examples": [
         "examples/QExpansionItem/Basic.vue",
         "examples/QExpansionItem/ControlExpansionState.vue",
@@ -1004,16 +3050,12 @@
     {
       "id": "vue-components/field",
       "title": "Field",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/field.json",
       "markdown": "documents/vue-components/field.md",
       "chunks": "chunks/vue-components/field.json",
-      "api": [
-        "api/QField.json",
-        "api/QField.md"
-      ],
+      "api": ["api/QField.json", "api/QField.md"],
       "examples": [
         "examples/QField/DesignOverview.vue",
         "examples/QField/Coloring.vue",
@@ -1042,16 +3084,12 @@
     {
       "id": "vue-components/file",
       "title": "File Picker",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/file.json",
       "markdown": "documents/vue-components/file.md",
       "chunks": "chunks/vue-components/file.json",
-      "api": [
-        "api/QFile.json",
-        "api/QFile.md"
-      ],
+      "api": ["api/QFile.json", "api/QFile.md"],
       "examples": [
         "examples/QFile/DesignOverview.vue",
         "examples/QFile/Decorators.vue",
@@ -1073,9 +3111,8 @@
     {
       "id": "vue-components/floating-action-button",
       "title": "Floating Action Button",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/floating-action-button.json",
       "markdown": "documents/vue-components/floating-action-button.md",
       "chunks": "chunks/vue-components/floating-action-button.json",
@@ -1105,9 +3142,8 @@
     {
       "id": "vue-components/form",
       "title": "Form",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/form.json",
       "markdown": "documents/vue-components/form.md",
       "chunks": "chunks/vue-components/form.json",
@@ -1117,23 +3153,17 @@
         "api/QFormChildMixin.json",
         "api/QFormChildMixin.md"
       ],
-      "examples": [
-        "examples/QForm/Basic.vue"
-      ]
+      "examples": ["examples/QForm/Basic.vue"]
     },
     {
       "id": "vue-components/icon",
       "title": "Icon",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/icon.json",
       "markdown": "documents/vue-components/icon.md",
       "chunks": "chunks/vue-components/icon.json",
-      "api": [
-        "api/QIcon.json",
-        "api/QIcon.md"
-      ],
+      "api": ["api/QIcon.json", "api/QIcon.md"],
       "examples": [
         "examples/QIcon/Basic.vue",
         "examples/QIcon/StandardSizes.vue",
@@ -1143,16 +3173,12 @@
     {
       "id": "vue-components/img",
       "title": "QImg",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/img.json",
       "markdown": "documents/vue-components/img.md",
       "chunks": "chunks/vue-components/img.json",
-      "api": [
-        "api/QImg.json",
-        "api/QImg.md"
-      ],
+      "api": ["api/QImg.json", "api/QImg.md"],
       "examples": [
         "examples/QImg/Basic.vue",
         "examples/QImg/Ratio.vue",
@@ -1170,16 +3196,12 @@
     {
       "id": "vue-components/infinite-scroll",
       "title": "Infinite Scroll",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/infinite-scroll.json",
       "markdown": "documents/vue-components/infinite-scroll.md",
       "chunks": "chunks/vue-components/infinite-scroll.json",
-      "api": [
-        "api/QInfiniteScroll.json",
-        "api/QInfiniteScroll.md"
-      ],
+      "api": ["api/QInfiniteScroll.json", "api/QInfiniteScroll.md"],
       "examples": [
         "examples/QInfiniteScroll/Basic.vue",
         "examples/QInfiniteScroll/Container.vue",
@@ -1190,16 +3212,12 @@
     {
       "id": "vue-components/inner-loading",
       "title": "Inner Loading",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/inner-loading.json",
       "markdown": "documents/vue-components/inner-loading.md",
       "chunks": "chunks/vue-components/inner-loading.json",
-      "api": [
-        "api/QInnerLoading.json",
-        "api/QInnerLoading.md"
-      ],
+      "api": ["api/QInnerLoading.json", "api/QInnerLoading.md"],
       "examples": [
         "examples/QInnerLoading/Basic.vue",
         "examples/QInnerLoading/LabelProp.vue"
@@ -1208,16 +3226,12 @@
     {
       "id": "vue-components/input",
       "title": "Input",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/input.json",
       "markdown": "documents/vue-components/input.md",
       "chunks": "chunks/vue-components/input.json",
-      "api": [
-        "api/QInput.json",
-        "api/QInput.md"
-      ],
+      "api": ["api/QInput.json", "api/QInput.md"],
       "examples": [
         "examples/QInput/DesignOverview.vue",
         "examples/QInput/Coloring.vue",
@@ -1259,16 +3273,12 @@
     {
       "id": "vue-components/intersection",
       "title": "Intersection",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/intersection.json",
       "markdown": "documents/vue-components/intersection.md",
       "chunks": "chunks/vue-components/intersection.json",
-      "api": [
-        "api/QIntersection.json",
-        "api/QIntersection.md"
-      ],
+      "api": ["api/QIntersection.json", "api/QIntersection.md"],
       "examples": [
         "examples/QIntersection/Basic.vue",
         "examples/QIntersection/Transition.vue",
@@ -1280,16 +3290,12 @@
     {
       "id": "vue-components/knob",
       "title": "Knob",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/knob.json",
       "markdown": "documents/vue-components/knob.md",
       "chunks": "chunks/vue-components/knob.json",
-      "api": [
-        "api/QKnob.json",
-        "api/QKnob.md"
-      ],
+      "api": ["api/QKnob.json", "api/QKnob.md"],
       "examples": [
         "examples/QKnob/Basic.vue",
         "examples/QKnob/ShowValue.vue",
@@ -1304,16 +3310,12 @@
     {
       "id": "vue-components/linear-progress",
       "title": "Linear Progress",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/linear-progress.json",
       "markdown": "documents/vue-components/linear-progress.md",
       "chunks": "chunks/vue-components/linear-progress.json",
-      "api": [
-        "api/QLinearProgress.json",
-        "api/QLinearProgress.md"
-      ],
+      "api": ["api/QLinearProgress.json", "api/QLinearProgress.md"],
       "examples": [
         "examples/QLinearProgress/Determinate.vue",
         "examples/QLinearProgress/Indeterminate.vue",
@@ -1330,9 +3332,8 @@
     {
       "id": "vue-components/list-and-list-items",
       "title": "List and List Items",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/list-and-list-items.json",
       "markdown": "documents/vue-components/list-and-list-items.md",
       "chunks": "chunks/vue-components/list-and-list-items.json",
@@ -1366,16 +3367,12 @@
     {
       "id": "vue-components/markup-table",
       "title": "Markup Table",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/markup-table.json",
       "markdown": "documents/vue-components/markup-table.md",
       "chunks": "chunks/vue-components/markup-table.json",
-      "api": [
-        "api/QMarkupTable.json",
-        "api/QMarkupTable.md"
-      ],
+      "api": ["api/QMarkupTable.json", "api/QMarkupTable.md"],
       "examples": [
         "examples/QMarkupTable/Basic.vue",
         "examples/QMarkupTable/Separators.vue",
@@ -1386,16 +3383,12 @@
     {
       "id": "vue-components/menu",
       "title": "QMenu",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/menu.json",
       "markdown": "documents/vue-components/menu.md",
       "chunks": "chunks/vue-components/menu.json",
-      "api": [
-        "api/QMenu.json",
-        "api/QMenu.md"
-      ],
+      "api": ["api/QMenu.json", "api/QMenu.md"],
       "examples": [
         "examples/QMenu/Basic.vue",
         "examples/QMenu/VariousContent.vue",
@@ -1413,31 +3406,23 @@
     {
       "id": "vue-components/no-ssr",
       "title": "No SSR",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/no-ssr.json",
       "markdown": "documents/vue-components/no-ssr.md",
       "chunks": "chunks/vue-components/no-ssr.json",
-      "api": [
-        "api/QNoSsr.json",
-        "api/QNoSsr.md"
-      ],
+      "api": ["api/QNoSsr.json", "api/QNoSsr.md"],
       "examples": []
     },
     {
       "id": "vue-components/option-group",
       "title": "Option Group",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/option-group.json",
       "markdown": "documents/vue-components/option-group.md",
       "chunks": "chunks/vue-components/option-group.json",
-      "api": [
-        "api/QOptionGroup.json",
-        "api/QOptionGroup.md"
-      ],
+      "api": ["api/QOptionGroup.json", "api/QOptionGroup.md"],
       "examples": [
         "examples/QOptionGroup/Standard.vue",
         "examples/QOptionGroup/Checkbox.vue",
@@ -1456,16 +3441,12 @@
     {
       "id": "vue-components/pagination",
       "title": "Pagination",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/pagination.json",
       "markdown": "documents/vue-components/pagination.md",
       "chunks": "chunks/vue-components/pagination.json",
-      "api": [
-        "api/QPagination.json",
-        "api/QPagination.md"
-      ],
+      "api": ["api/QPagination.json", "api/QPagination.md"],
       "examples": [
         "examples/QPagination/Standard.vue",
         "examples/QPagination/BtnDesign.vue",
@@ -1483,16 +3464,12 @@
     {
       "id": "vue-components/parallax",
       "title": "Parallax",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/parallax.json",
       "markdown": "documents/vue-components/parallax.md",
       "chunks": "chunks/vue-components/parallax.json",
-      "api": [
-        "api/QParallax.json",
-        "api/QParallax.md"
-      ],
+      "api": ["api/QParallax.json", "api/QParallax.md"],
       "examples": [
         "examples/QParallax/Image.vue",
         "examples/QParallax/Video.vue",
@@ -1503,16 +3480,12 @@
     {
       "id": "vue-components/popup-edit",
       "title": "Popup Edit",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/popup-edit.json",
       "markdown": "documents/vue-components/popup-edit.md",
       "chunks": "chunks/vue-components/popup-edit.json",
-      "api": [
-        "api/QPopupEdit.json",
-        "api/QPopupEdit.md"
-      ],
+      "api": ["api/QPopupEdit.json", "api/QPopupEdit.md"],
       "examples": [
         "examples/QPopupEdit/Standalone.vue",
         "examples/QPopupEdit/WithTable.vue",
@@ -1527,16 +3500,12 @@
     {
       "id": "vue-components/popup-proxy",
       "title": "Popup Proxy",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/popup-proxy.json",
       "markdown": "documents/vue-components/popup-proxy.md",
       "chunks": "chunks/vue-components/popup-proxy.json",
-      "api": [
-        "api/QPopupProxy.json",
-        "api/QPopupProxy.md"
-      ],
+      "api": ["api/QPopupProxy.json", "api/QPopupProxy.md"],
       "examples": [
         "examples/QPopupProxy/Standard.vue",
         "examples/QPopupProxy/ContextMenu.vue",
@@ -1547,16 +3516,12 @@
     {
       "id": "vue-components/pull-to-refresh",
       "title": "Pull to refresh",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/pull-to-refresh.json",
       "markdown": "documents/vue-components/pull-to-refresh.md",
       "chunks": "chunks/vue-components/pull-to-refresh.json",
-      "api": [
-        "api/QPullToRefresh.json",
-        "api/QPullToRefresh.md"
-      ],
+      "api": ["api/QPullToRefresh.json", "api/QPullToRefresh.md"],
       "examples": [
         "examples/QPullToRefresh/Basic.vue",
         "examples/QPullToRefresh/Icon.vue",
@@ -1566,16 +3531,12 @@
     {
       "id": "vue-components/radio",
       "title": "Radio",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/radio.json",
       "markdown": "documents/vue-components/radio.md",
       "chunks": "chunks/vue-components/radio.json",
-      "api": [
-        "api/QRadio.json",
-        "api/QRadio.md"
-      ],
+      "api": ["api/QRadio.json", "api/QRadio.md"],
       "examples": [
         "examples/QRadio/Standard.vue",
         "examples/QRadio/WithIcons.vue",
@@ -1593,16 +3554,12 @@
     {
       "id": "vue-components/range",
       "title": "Range",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/range.json",
       "markdown": "documents/vue-components/range.md",
       "chunks": "chunks/vue-components/range.json",
-      "api": [
-        "api/QRange.json",
-        "api/QRange.md"
-      ],
+      "api": ["api/QRange.json", "api/QRange.md"],
       "examples": [
         "examples/QRange/Standard.vue",
         "examples/QRange/Vertical.vue",
@@ -1637,16 +3594,12 @@
     {
       "id": "vue-components/rating",
       "title": "Rating",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/rating.json",
       "markdown": "documents/vue-components/rating.md",
       "chunks": "chunks/vue-components/rating.json",
-      "api": [
-        "api/QRating.json",
-        "api/QRating.md"
-      ],
+      "api": ["api/QRating.json", "api/QRating.md"],
       "examples": [
         "examples/QRating/Basic.vue",
         "examples/QRating/Max.vue",
@@ -1665,33 +3618,23 @@
     {
       "id": "vue-components/resize-observer",
       "title": "Resize Observer (for Element)",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/resize-observer.json",
       "markdown": "documents/vue-components/resize-observer.md",
       "chunks": "chunks/vue-components/resize-observer.json",
-      "api": [
-        "api/QResizeObserver.json",
-        "api/QResizeObserver.md"
-      ],
-      "examples": [
-        "examples/QResizeObserver/Basic.vue"
-      ]
+      "api": ["api/QResizeObserver.json", "api/QResizeObserver.md"],
+      "examples": ["examples/QResizeObserver/Basic.vue"]
     },
     {
       "id": "vue-components/responsive",
       "title": "Responsive",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/responsive.json",
       "markdown": "documents/vue-components/responsive.md",
       "chunks": "chunks/vue-components/responsive.json",
-      "api": [
-        "api/QResponsive.json",
-        "api/QResponsive.md"
-      ],
+      "api": ["api/QResponsive.json", "api/QResponsive.md"],
       "examples": [
         "examples/QResponsive/Basic.vue",
         "examples/QResponsive/FlexRow.vue",
@@ -1705,16 +3648,12 @@
     {
       "id": "vue-components/scroll-area",
       "title": "Scroll Area",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/scroll-area.json",
       "markdown": "documents/vue-components/scroll-area.md",
       "chunks": "chunks/vue-components/scroll-area.json",
-      "api": [
-        "api/QScrollArea.json",
-        "api/QScrollArea.md"
-      ],
+      "api": ["api/QScrollArea.json", "api/QScrollArea.md"],
       "examples": [
         "examples/QScrollArea/Vertical.vue",
         "examples/QScrollArea/Horizontal.vue",
@@ -1731,33 +3670,23 @@
     {
       "id": "vue-components/scroll-observer",
       "title": "Scroll Observer",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/scroll-observer.json",
       "markdown": "documents/vue-components/scroll-observer.md",
       "chunks": "chunks/vue-components/scroll-observer.json",
-      "api": [
-        "api/QScrollObserver.json",
-        "api/QScrollObserver.md"
-      ],
-      "examples": [
-        "examples/QScrollObserver/Basic.vue"
-      ]
+      "api": ["api/QScrollObserver.json", "api/QScrollObserver.md"],
+      "examples": ["examples/QScrollObserver/Basic.vue"]
     },
     {
       "id": "vue-components/select",
       "title": "Select",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/select.json",
       "markdown": "documents/vue-components/select.md",
       "chunks": "chunks/vue-components/select.json",
-      "api": [
-        "api/QSelect.json",
-        "api/QSelect.md"
-      ],
+      "api": ["api/QSelect.json", "api/QSelect.md"],
       "examples": [
         "examples/QSelect/DesignOverview.vue",
         "examples/QSelect/Decorators.vue",
@@ -1805,16 +3734,12 @@
     {
       "id": "vue-components/separator",
       "title": "Separator",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/separator.json",
       "markdown": "documents/vue-components/separator.md",
       "chunks": "chunks/vue-components/separator.json",
-      "api": [
-        "api/QSeparator.json",
-        "api/QSeparator.md"
-      ],
+      "api": ["api/QSeparator.json", "api/QSeparator.md"],
       "examples": [
         "examples/QSeparator/Horizontal.vue",
         "examples/QSeparator/HorizontalWithInset.vue",
@@ -1825,16 +3750,12 @@
     {
       "id": "vue-components/skeleton",
       "title": "Skeleton",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/skeleton.json",
       "markdown": "documents/vue-components/skeleton.md",
       "chunks": "chunks/vue-components/skeleton.json",
-      "api": [
-        "api/QSkeleton.json",
-        "api/QSkeleton.md"
-      ],
+      "api": ["api/QSkeleton.json", "api/QSkeleton.md"],
       "examples": [
         "examples/QSkeleton/Card.vue",
         "examples/QSkeleton/Types.vue",
@@ -1855,16 +3776,12 @@
     {
       "id": "vue-components/slide-item",
       "title": "Slide Item",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/slide-item.json",
       "markdown": "documents/vue-components/slide-item.md",
       "chunks": "chunks/vue-components/slide-item.json",
-      "api": [
-        "api/QSlideItem.json",
-        "api/QSlideItem.md"
-      ],
+      "api": ["api/QSlideItem.json", "api/QSlideItem.md"],
       "examples": [
         "examples/QSlideItem/Basic.vue",
         "examples/QSlideItem/Vertical.vue",
@@ -1876,33 +3793,23 @@
     {
       "id": "vue-components/slide-transition",
       "title": "Slide Transition",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/slide-transition.json",
       "markdown": "documents/vue-components/slide-transition.md",
       "chunks": "chunks/vue-components/slide-transition.json",
-      "api": [
-        "api/QSlideTransition.json",
-        "api/QSlideTransition.md"
-      ],
-      "examples": [
-        "examples/QSlideTransition/Basic.vue"
-      ]
+      "api": ["api/QSlideTransition.json", "api/QSlideTransition.md"],
+      "examples": ["examples/QSlideTransition/Basic.vue"]
     },
     {
       "id": "vue-components/slider",
       "title": "Slider",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/slider.json",
       "markdown": "documents/vue-components/slider.md",
       "chunks": "chunks/vue-components/slider.json",
-      "api": [
-        "api/QSlider.json",
-        "api/QSlider.md"
-      ],
+      "api": ["api/QSlider.json", "api/QSlider.md"],
       "examples": [
         "examples/QSlider/Standard.vue",
         "examples/QSlider/Vertical.vue",
@@ -1934,26 +3841,19 @@
     {
       "id": "vue-components/space",
       "title": "QSpace",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/space.json",
       "markdown": "documents/vue-components/space.md",
       "chunks": "chunks/vue-components/space.json",
-      "api": [
-        "api/QSpace.json",
-        "api/QSpace.md"
-      ],
-      "examples": [
-        "examples/QSpace/Basic.vue"
-      ]
+      "api": ["api/QSpace.json", "api/QSpace.md"],
+      "examples": ["examples/QSpace/Basic.vue"]
     },
     {
       "id": "vue-components/spinners",
       "title": "Spinners",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/spinners.json",
       "markdown": "documents/vue-components/spinners.md",
       "chunks": "chunks/vue-components/spinners.json",
@@ -2016,16 +3916,12 @@
     {
       "id": "vue-components/splitter",
       "title": "QSplitter",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/splitter.json",
       "markdown": "documents/vue-components/splitter.md",
       "chunks": "chunks/vue-components/splitter.json",
-      "api": [
-        "api/QSplitter.json",
-        "api/QSplitter.md"
-      ],
+      "api": ["api/QSplitter.json", "api/QSplitter.md"],
       "examples": [
         "examples/QSplitter/Basic.vue",
         "examples/QSplitter/Horizontal.vue",
@@ -2042,9 +3938,8 @@
     {
       "id": "vue-components/stepper",
       "title": "Stepper",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/stepper.json",
       "markdown": "documents/vue-components/stepper.md",
       "chunks": "chunks/vue-components/stepper.json",
@@ -2074,9 +3969,8 @@
     {
       "id": "vue-components/tab-panels",
       "title": "Tab Panels",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/tab-panels.json",
       "markdown": "documents/vue-components/tab-panels.md",
       "chunks": "chunks/vue-components/tab-panels.json",
@@ -2100,9 +3994,8 @@
     {
       "id": "vue-components/table",
       "title": "Table",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/table.json",
       "markdown": "documents/vue-components/table.md",
       "chunks": "chunks/vue-components/table.json",
@@ -2179,9 +4072,8 @@
     {
       "id": "vue-components/tabs",
       "title": "Tabs",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/tabs.json",
       "markdown": "documents/vue-components/tabs.md",
       "chunks": "chunks/vue-components/tabs.json",
@@ -2212,16 +4104,12 @@
     {
       "id": "vue-components/time",
       "title": "QTime",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/time.json",
       "markdown": "documents/vue-components/time.md",
       "chunks": "chunks/vue-components/time.json",
-      "api": [
-        "api/QTime.json",
-        "api/QTime.md"
-      ],
+      "api": ["api/QTime.json", "api/QTime.md"],
       "examples": [
         "examples/QTime/Basic.vue",
         "examples/QTime/Landscape.vue",
@@ -2244,9 +4132,8 @@
     {
       "id": "vue-components/timeline",
       "title": "Timeline",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/timeline.json",
       "markdown": "documents/vue-components/timeline.md",
       "chunks": "chunks/vue-components/timeline.json",
@@ -2268,16 +4155,12 @@
     {
       "id": "vue-components/toggle",
       "title": "Toggle",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/toggle.json",
       "markdown": "documents/vue-components/toggle.md",
       "chunks": "chunks/vue-components/toggle.json",
-      "api": [
-        "api/QToggle.json",
-        "api/QToggle.md"
-      ],
+      "api": ["api/QToggle.json", "api/QToggle.md"],
       "examples": [
         "examples/QToggle/Standard.vue",
         "examples/QToggle/Labels.vue",
@@ -2298,9 +4181,8 @@
     {
       "id": "vue-components/toolbar",
       "title": "Toolbar",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/toolbar.json",
       "markdown": "documents/vue-components/toolbar.md",
       "chunks": "chunks/vue-components/toolbar.json",
@@ -2324,16 +4206,12 @@
     {
       "id": "vue-components/tooltip",
       "title": "Tooltip",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/tooltip.json",
       "markdown": "documents/vue-components/tooltip.md",
       "chunks": "chunks/vue-components/tooltip.json",
-      "api": [
-        "api/QTooltip.json",
-        "api/QTooltip.md"
-      ],
+      "api": ["api/QTooltip.json", "api/QTooltip.md"],
       "examples": [
         "examples/QTooltip/Basic.vue",
         "examples/QTooltip/VModel.vue",
@@ -2347,16 +4225,12 @@
     {
       "id": "vue-components/tree",
       "title": "Tree",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/tree.json",
       "markdown": "documents/vue-components/tree.md",
       "chunks": "chunks/vue-components/tree.json",
-      "api": [
-        "api/QTree.json",
-        "api/QTree.md"
-      ],
+      "api": ["api/QTree.json", "api/QTree.md"],
       "examples": [
         "examples/QTree/Basic.vue",
         "examples/QTree/NoConnectors.vue",
@@ -2377,9 +4251,8 @@
     {
       "id": "vue-components/uploader",
       "title": "Uploader",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/uploader.json",
       "markdown": "documents/vue-components/uploader.md",
       "chunks": "chunks/vue-components/uploader.json",
@@ -2407,16 +4280,12 @@
     {
       "id": "vue-components/video",
       "title": "Video",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/video.json",
       "markdown": "documents/vue-components/video.md",
       "chunks": "chunks/vue-components/video.json",
-      "api": [
-        "api/QVideo.json",
-        "api/QVideo.md"
-      ],
+      "api": ["api/QVideo.json", "api/QVideo.md"],
       "examples": [
         "examples/QVideo/Basic.vue",
         "examples/QVideo/Ratio.vue",
@@ -2426,16 +4295,12 @@
     {
       "id": "vue-components/virtual-scroll",
       "title": "Virtual Scroll",
-      "kinds": [
-        "component"
-      ],
+      "kinds": ["component"],
+      "area": "vue-components",
       "path": "documents/vue-components/virtual-scroll.json",
       "markdown": "documents/vue-components/virtual-scroll.md",
       "chunks": "chunks/vue-components/virtual-scroll.json",
-      "api": [
-        "api/QVirtualScroll.json",
-        "api/QVirtualScroll.md"
-      ],
+      "api": ["api/QVirtualScroll.json", "api/QVirtualScroll.md"],
       "examples": [
         "examples/QVirtualScroll/Basic.vue",
         "examples/QVirtualScroll/BasicHorizontal.vue",
@@ -2457,9 +4322,8 @@
     {
       "id": "vue-composables/use-dialog-plugin-component",
       "title": "useDialogPluginComponent composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-dialog-plugin-component.json",
       "markdown": "documents/vue-composables/use-dialog-plugin-component.md",
       "chunks": "chunks/vue-composables/use-dialog-plugin-component.json",
@@ -2469,9 +4333,8 @@
     {
       "id": "vue-composables/use-form-child",
       "title": "useFormChild composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-form-child.json",
       "markdown": "documents/vue-composables/use-form-child.md",
       "chunks": "chunks/vue-composables/use-form-child.json",
@@ -2481,9 +4344,8 @@
     {
       "id": "vue-composables/use-hydration",
       "title": "useHydration composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-hydration.json",
       "markdown": "documents/vue-composables/use-hydration.md",
       "chunks": "chunks/vue-composables/use-hydration.json",
@@ -2493,9 +4355,8 @@
     {
       "id": "vue-composables/use-id",
       "title": "useId composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-id.json",
       "markdown": "documents/vue-composables/use-id.md",
       "chunks": "chunks/vue-composables/use-id.json",
@@ -2505,9 +4366,8 @@
     {
       "id": "vue-composables/use-interval",
       "title": "useInterval composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-interval.json",
       "markdown": "documents/vue-composables/use-interval.md",
       "chunks": "chunks/vue-composables/use-interval.json",
@@ -2517,9 +4377,8 @@
     {
       "id": "vue-composables/use-meta",
       "title": "useMeta composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-meta.json",
       "markdown": "documents/vue-composables/use-meta.md",
       "chunks": "chunks/vue-composables/use-meta.json",
@@ -2529,9 +4388,8 @@
     {
       "id": "vue-composables/use-quasar",
       "title": "useQuasar composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-quasar.json",
       "markdown": "documents/vue-composables/use-quasar.md",
       "chunks": "chunks/vue-composables/use-quasar.json",
@@ -2541,9 +4399,8 @@
     {
       "id": "vue-composables/use-render-cache",
       "title": "useRenderCache composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-render-cache.json",
       "markdown": "documents/vue-composables/use-render-cache.md",
       "chunks": "chunks/vue-composables/use-render-cache.json",
@@ -2553,9 +4410,8 @@
     {
       "id": "vue-composables/use-split-attrs",
       "title": "useSplitAttrs composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-split-attrs.json",
       "markdown": "documents/vue-composables/use-split-attrs.md",
       "chunks": "chunks/vue-composables/use-split-attrs.json",
@@ -2565,9 +4421,8 @@
     {
       "id": "vue-composables/use-tick",
       "title": "useTick composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-tick.json",
       "markdown": "documents/vue-composables/use-tick.md",
       "chunks": "chunks/vue-composables/use-tick.json",
@@ -2577,9 +4432,8 @@
     {
       "id": "vue-composables/use-timeout",
       "title": "useTimeout composable",
-      "kinds": [
-        "composable"
-      ],
+      "kinds": ["composable"],
+      "area": "vue-composables",
       "path": "documents/vue-composables/use-timeout.json",
       "markdown": "documents/vue-composables/use-timeout.md",
       "chunks": "chunks/vue-composables/use-timeout.json",
@@ -2589,16 +4443,12 @@
     {
       "id": "vue-directives/close-popup",
       "title": "Close Popup Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/close-popup.json",
       "markdown": "documents/vue-directives/close-popup.md",
       "chunks": "chunks/vue-directives/close-popup.json",
-      "api": [
-        "api/ClosePopup.json",
-        "api/ClosePopup.md"
-      ],
+      "api": ["api/ClosePopup.json", "api/ClosePopup.md"],
       "examples": [
         "examples/ClosePopup/Menu.vue",
         "examples/ClosePopup/Dialog.vue",
@@ -2610,16 +4460,12 @@
     {
       "id": "vue-directives/intersection",
       "title": "Intersection Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/intersection.json",
       "markdown": "documents/vue-directives/intersection.md",
       "chunks": "chunks/vue-directives/intersection.json",
-      "api": [
-        "api/Intersection.json",
-        "api/Intersection.md"
-      ],
+      "api": ["api/Intersection.json", "api/Intersection.md"],
       "examples": [
         "examples/Intersection/Basic.vue",
         "examples/Intersection/Once.vue",
@@ -2631,16 +4477,12 @@
     {
       "id": "vue-directives/material-ripples",
       "title": "Material Ripples",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/material-ripples.json",
       "markdown": "documents/vue-directives/material-ripples.md",
       "chunks": "chunks/vue-directives/material-ripples.json",
-      "api": [
-        "api/Ripple.json",
-        "api/Ripple.md"
-      ],
+      "api": ["api/Ripple.json", "api/Ripple.md"],
       "examples": [
         "examples/Ripple/Basic.vue",
         "examples/Ripple/Colored.vue",
@@ -2652,34 +4494,23 @@
     {
       "id": "vue-directives/morph",
       "title": "Morph Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/morph.json",
       "markdown": "documents/vue-directives/morph.md",
       "chunks": "chunks/vue-directives/morph.json",
-      "api": [
-        "api/Morph.json",
-        "api/Morph.md"
-      ],
-      "examples": [
-        "examples/Morph/BasicGroup.vue",
-        "examples/Morph/Card.vue"
-      ]
+      "api": ["api/Morph.json", "api/Morph.md"],
+      "examples": ["examples/Morph/BasicGroup.vue", "examples/Morph/Card.vue"]
     },
     {
       "id": "vue-directives/mutation",
       "title": "Mutation Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/mutation.json",
       "markdown": "documents/vue-directives/mutation.md",
       "chunks": "chunks/vue-directives/mutation.json",
-      "api": [
-        "api/Mutation.json",
-        "api/Mutation.md"
-      ],
+      "api": ["api/Mutation.json", "api/Mutation.md"],
       "examples": [
         "examples/Mutation/CatchAll.vue",
         "examples/Mutation/DragDrop.vue",
@@ -2689,48 +4520,34 @@
     {
       "id": "vue-directives/scroll",
       "title": "Directive v-scroll",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/scroll.json",
       "markdown": "documents/vue-directives/scroll.md",
       "chunks": "chunks/vue-directives/scroll.json",
-      "api": [
-        "api/Scroll.json",
-        "api/Scroll.md"
-      ],
+      "api": ["api/Scroll.json", "api/Scroll.md"],
       "examples": []
     },
     {
       "id": "vue-directives/scroll-fire",
       "title": "Scroll Fire Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/scroll-fire.json",
       "markdown": "documents/vue-directives/scroll-fire.md",
       "chunks": "chunks/vue-directives/scroll-fire.json",
-      "api": [
-        "api/ScrollFire.json",
-        "api/ScrollFire.md"
-      ],
-      "examples": [
-        "examples/ScrollFire/Basic.vue"
-      ]
+      "api": ["api/ScrollFire.json", "api/ScrollFire.md"],
+      "examples": ["examples/ScrollFire/Basic.vue"]
     },
     {
       "id": "vue-directives/touch-hold",
       "title": "Touch Hold Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/touch-hold.json",
       "markdown": "documents/vue-directives/touch-hold.md",
       "chunks": "chunks/vue-directives/touch-hold.json",
-      "api": [
-        "api/TouchHold.json",
-        "api/TouchHold.md"
-      ],
+      "api": ["api/TouchHold.json", "api/TouchHold.md"],
       "examples": [
         "examples/TouchHold/Basic.vue",
         "examples/TouchHold/CustomTimer.vue",
@@ -2740,16 +4557,12 @@
     {
       "id": "vue-directives/touch-pan",
       "title": "Touch Pan Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/touch-pan.json",
       "markdown": "documents/vue-directives/touch-pan.md",
       "chunks": "chunks/vue-directives/touch-pan.json",
-      "api": [
-        "api/TouchPan.json",
-        "api/TouchPan.md"
-      ],
+      "api": ["api/TouchPan.json", "api/TouchPan.md"],
       "examples": [
         "examples/TouchPan/Basic.vue",
         "examples/TouchPan/Horizontal.vue",
@@ -2761,16 +4574,12 @@
     {
       "id": "vue-directives/touch-repeat",
       "title": "Touch Repeat Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/touch-repeat.json",
       "markdown": "documents/vue-directives/touch-repeat.md",
       "chunks": "chunks/vue-directives/touch-repeat.json",
-      "api": [
-        "api/TouchRepeat.json",
-        "api/TouchRepeat.md"
-      ],
+      "api": ["api/TouchRepeat.json", "api/TouchRepeat.md"],
       "examples": [
         "examples/TouchRepeat/Basic.vue",
         "examples/TouchRepeat/Keys.vue",
@@ -2780,21 +4589,28 @@
     {
       "id": "vue-directives/touch-swipe",
       "title": "Touch Swipe Directive",
-      "kinds": [
-        "directive"
-      ],
+      "kinds": ["directive"],
+      "area": "vue-directives",
       "path": "documents/vue-directives/touch-swipe.json",
       "markdown": "documents/vue-directives/touch-swipe.md",
       "chunks": "chunks/vue-directives/touch-swipe.json",
-      "api": [
-        "api/TouchSwipe.json",
-        "api/TouchSwipe.md"
-      ],
+      "api": ["api/TouchSwipe.json", "api/TouchSwipe.md"],
       "examples": [
         "examples/TouchSwipe/Basic.vue",
         "examples/TouchSwipe/Right.vue",
         "examples/TouchSwipe/UpOrLeft.vue"
       ]
+    },
+    {
+      "id": "why-donate",
+      "title": "Why Donate?",
+      "kinds": ["guide"],
+      "area": "why-donate",
+      "path": "documents/why-donate.json",
+      "markdown": "documents/why-donate.md",
+      "chunks": "chunks/why-donate.json",
+      "api": [],
+      "examples": []
     }
   ],
   "composables": [
