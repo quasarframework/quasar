@@ -145,13 +145,61 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (routePath.includes(':')) {
-        opts.acc.ignoredDynamicParamSsgPages.push(ssgPage)
+        const dynamicMap = opts.routesDynamicParamsMap[fullPath]
+        if (dynamicMap === void 0) {
+          opts.acc.ignoredDynamicParamSsgPages.push(ssgPage)
 
-        if (opts.verbose) {
-          warn(
-            `Ignored route (dynamic param): ${fullPath}`,
-            'parseVueRouterRoutes()'
-          )
+          if (opts.verbose) {
+            warn(
+              `Ignored route (dynamic param): ${fullPath}`,
+              'parseVueRouterRoutes()'
+            )
+          }
+        } else {
+          opts.dynamicRoutesMatched.push(fullPath)
+
+          for (const dynamicEntry of dynamicMap) {
+            let dynamicFullPath = fullPath
+            for (const [key, value] of Object.entries(dynamicEntry)) {
+              if (dynamicFullPath.includes(`:${key}`) === false) {
+                fatal(
+                  `Dynamic param ":${key}" not found in route: ${dynamicFullPath}`,
+                  'parseVueRouterRoutes() FAILED'
+                )
+              }
+
+              dynamicFullPath =
+                value === ''
+                  ? dynamicFullPath.replaceAll(`/:${key}?`, '')
+                  : dynamicFullPath
+                      .replaceAll(`:${key}?`, value)
+                      .replaceAll(`:${key}`, value)
+            }
+
+            const dynamicSsgPage = {
+              ...ssgPage,
+              route: dynamicFullPath
+            }
+
+            if (dynamicFullPath.includes(':')) {
+              opts.acc.ignoredDynamicParamSsgPages.push(dynamicSsgPage)
+              const routeBanner =
+                dynamicFullPath !== fullPath ? ` (${fullPath})` : ''
+
+              fatal(
+                `Not all dynamic params defined for route: ${dynamicFullPath}${routeBanner}`,
+                'parseVueRouterRoutes() FAILED'
+              )
+            } else if (route.children) {
+              parseVueRouterRoutes({
+                routes: route.children,
+                parentPath: dynamicFullPath,
+                opts
+              })
+            } else {
+              opts.acc.ssgPages.push(dynamicSsgPage)
+            }
+          }
         }
 
         continue
@@ -188,8 +236,10 @@ function getParseVueRouterRoutesFn(quasarConf) {
     routes,
     parentPath = '/',
     crawlIgnoreRoutes = [],
+    routesDynamicParamsMap = {},
     verbose = false
   }) => {
+    const dynamicRoutesMatched = []
     const acc = {
       ssgPages: [],
       hasIgnoredRoutes: false,
@@ -209,12 +259,23 @@ function getParseVueRouterRoutesFn(quasarConf) {
       opts: {
         acc,
         verbose,
+        routesDynamicParamsMap,
+        dynamicRoutesMatched,
         isCrawlIgnoreMatch:
           crawlIgnoreRoutes.length !== 0
             ? getRouteMatcher(crawlIgnoreRoutes)
             : null
       }
     })
+
+    for (const fullPath in routesDynamicParamsMap) {
+      if (!dynamicRoutesMatched.includes(fullPath)) {
+        fatal(
+          `Dynamic route "${fullPath}" in routesDynamicParamsMap was not matched by any of the routes.`,
+          'parseVueRouterRoutes() FAILED'
+        )
+      }
+    }
 
     acc.hasIgnoredRoutes =
       acc.crawlIgnoredSsgPages.length !== 0 ||

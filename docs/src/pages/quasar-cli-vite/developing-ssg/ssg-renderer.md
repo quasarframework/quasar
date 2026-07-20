@@ -213,6 +213,25 @@ type SsgParseVueRouterParams = {
   crawlIgnoreRoutes?: string[];
 
   /**
+   * Optional list of dynamic parameters for routes with dynamic segments.
+   * Each entry in the array should be an object where the keys are the dynamic
+   * segment names and the values are the corresponding values to use for those segments.
+   *
+   * Note on optional route parameters (eg. /user/:id?):
+   * Use { [name]: "" } (empty string as value) for optional params. Do not omit any
+   * optional params in the object.
+   * Example: { "/user/:id?": [{ id: "" }] } will generate a SSG page for /user route.
+   *
+   * @example { "/user/:id": [{ id: 1 }, { id: 2 }] }
+   * @example { "/product/:category/:id": [{ category: "electronics", id: 123 }, { category: "books", id: 456 }] }
+   * @default {}
+   */
+  routesDynamicParamsMap?: Record<
+    string,
+    Array<Record<string, string | number>>
+  >;
+
+  /**
    * Optional flag to enable verbose logging.
    * If true, it will log the ignored routes with dynamic parameters.
    *
