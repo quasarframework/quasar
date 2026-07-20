@@ -1,4 +1,14 @@
-# Quasar MCP server
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
+
+# Quasar MCP Server
+
+> Official Model Context Protocol access to versioned Quasar documentation, APIs, guides, and examples
+
+<img src="https://img.shields.io/npm/v/%40quasar/mcp.svg?label=@quasar/mcp">
+
+[![Join the chat at https://chat.quasar.dev](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://chat.quasar.dev)
+<a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
+[![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
 This directory contains an offline, read-only Model Context Protocol server backed by a generated Quasar documentation artifact. It covers the complete public documentation set, including Quasar UI, Quasar CLI, application modes, App Extensions, Icon Genie, configuration, deployment, upgrade guidance, resolved API definitions, and official examples.
 
@@ -87,7 +97,7 @@ The generator currently covers:
 - 123 component APIs;
 - 11 directive APIs;
 - 18 plugin APIs;
-- 11 public composables and their implementation sources; and
+- 11 public composables and their implementation sources;
 - 194 additional public guides;
 - all Quasar CLI Vite guides for SPA, SSR, SSG, PWA, Capacitor, Cordova, Electron, and browser extensions;
 - App Extension and Icon Genie documentation; and
@@ -118,3 +128,39 @@ The runtime server only reads `generated/`. Artifact generation remains a separa
 ## Maintenance and hosting
 
 See [MAINTENANCE.md](./MAINTENANCE.md) for the proposed post-release generation and CI handoff. See [HOSTING.md](./HOSTING.md) for the boundary between the packaged stdio server and a future Streamable HTTP deployment on Quasar's existing DigitalOcean infrastructure.
+
+## Supporting Quasar
+
+Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support of its [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
+
+Please read [Why donations are important](https://quasar.dev/why-donate). If you would like to become a donor, visit the [Quasar Framework donation campaign](https://donate.quasar.dev).
+
+## Documentation
+
+Visit the official Quasar Framework website: [https://quasar.dev](https://quasar.dev)
+
+## Stay in Touch
+
+For the latest releases and announcements, follow [@quasarframework](https://twitter.com/quasarframework).
+
+## Chat Support
+
+Ask questions on the official community Discord server: [https://chat.quasar.dev](https://chat.quasar.dev)
+
+## Community Forum
+
+Ask questions on the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
+
+## Contributing
+
+Contributions to Quasar are welcome. Please read the [Contributing Guide](../CONTRIBUTING.md).
+
+## Semver
+
+Quasar follows [Semantic Versioning 2.0](https://semver.org/).
+
+## License
+
+Copyright (c) 2015-present Razvan Stoenescu
+
+[MIT License](https://opensource.org/license/mit)
