@@ -3,7 +3,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#developing",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "Developing",
-    "breadcrumb": ["Developing", "Developing"],
+    "breadcrumb": [
+      "Developing",
+      "Developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#developing",
     "content": "Start developing a Browser Extension with just one command.\n\n```bash\nquasar dev -m bex -T [chrome|firefox]\n\n# ..or the longer form:\nquasar dev --mode bex --target [chrome|firefox]\n```\n\nThe default target is `chrome`, so the `-T` parameter can be omitted.\n\nQuasar adds BEX mode if necessary and generates the development extension. Load that generated extension into the target browser.\n\nWhile you develop your BEX, you will notice that Quasar CLI builds the actual extension in the dist folder (normally in `/dist/bex-chrome--dev/` or `/dist/bex-firefox--dev` based on the dev target in \"quasar dev\" command):\n\n- .\n  - dist/bex-[chrome|firefox]--dev\n    - ...files — Built code from /src-bex\n    - www/ — Built code from /src",
@@ -14,7 +17,11 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#chrome",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "Chrome",
-    "breadcrumb": ["Developing", "Chrome", "Chrome"],
+    "breadcrumb": [
+      "Developing",
+      "Chrome",
+      "Chrome"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#chrome",
     "content": "![Installing a Quasar Browser Extension in Chrome](https://cdn.quasar.dev/img/adding-bex-to-chrome-with-debug.png)\n\nIn line with the screenshot above, the following steps must be taken:\n\n1. In Chrome, navigate to `chrome://extensions`\n2. Toggle \"Developer Mode\".\n3. Click \"Load unpacked\". This will present you with the _folder_ selection dialog. Navigate to and select your `/dist/bex-chrome--dev/` folder.\n4. You should now see your BEX mounted in Chrome.\n\nMore information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).",
@@ -40,7 +47,11 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#firefox",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "Firefox",
-    "breadcrumb": ["Developing", "Firefox", "Firefox"],
+    "breadcrumb": [
+      "Developing",
+      "Firefox",
+      "Firefox"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#firefox",
     "content": "![Installing a Quasar Browser Extension in Firefox](https://cdn.quasar.dev/img/adding-bex-to-firefox.png)\n\nIn line with the screenshot above, the following steps must be taken:\n\n1. In Firefox, navigate to `about:debugging`\n2. Click on \"This Firefox\"\n3. Click \"Load Temporary Add-on...\". This will present you with the _file_ selection dialog. Navigate to and select your `/dist/bex-firefox--dev/manifest.json` file. **Note:** Firefox requires the manifest file, not the `/dist/bex-firefox--dev` folder like Chromium browsers.\n4. You should now see your BEX mounted in Firefox.\n\nMore information about debugging Firefox temporary addons can be found in the [Firefox Extension Workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).",
@@ -66,7 +77,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#debugging",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "Debugging",
-    "breadcrumb": ["Debugging", "Debugging"],
+    "breadcrumb": [
+      "Debugging",
+      "Debugging"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#debugging",
     "content": "Browser extensions run in several isolated contexts, so inspect the context where the failing code executes.",
@@ -77,7 +91,11 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#with-chrome",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "With Chrome",
-    "breadcrumb": ["Debugging", "With Chrome", "With Chrome"],
+    "breadcrumb": [
+      "Debugging",
+      "With Chrome",
+      "With Chrome"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#with-chrome",
     "content": "You can find following places to investigate the errors and outputs from the console in DevTools:\n\n1. Popup - right click on the page or on the extension icon and choose `Inspect popup` for DevTools.\n2. Background scripts (e.g.: background-hooks.js) - open DevTools from `Manage extensions - background page`.\n3. Content scripts - page where your script is injected.\n4. Extension Errors - list of errors related to the extension (e.g. manifest configuration) are available in `Manage extension - Errors`.\n\n![Popup](https://cdn.quasar.dev/img/bex-debug-popup.png)\n\n![Background scripts, Content scripts and Extension Errors](https://cdn.quasar.dev/img/bex-debug-bg.png)\n\nIf changes do not reach the browser, reload the extension from the extensions page. If that does not help, restart the browser and the Quasar development process.\n\nFor more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).",
@@ -88,7 +106,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#building-for-production",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "Building for production",
-    "breadcrumb": ["Building for production", "Building for production"],
+    "breadcrumb": [
+      "Building for production",
+      "Building for production"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#building-for-production",
     "content": "```bash\nquasar build -m bex -T [chrome|firefox]\n\n# ..or the longer form:\nquasar build --mode bex --target [chrome|firefox]\n```\n\nThe default target is `chrome`, so the `-T` parameter can be omitted.\n\nYou will be instructed which is the output folder. Normally, it's `/dist/bex-chrome/` and `/dist/bex-firefox`, based on the target specified for the \"quasar build\" command.\n\n- .\n  - dist/bex-[chrome|firefox]\n    - ...files — Built code from /src-bex\n    - www/ — Built code from /src\n    - Packaged.your-project-name.zip — A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.\n\n::: tip\nIf you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.\n:::",
@@ -99,7 +120,11 @@
     "id": "quasar-cli-vite/developing-browser-extensions/build-commands#minification",
     "documentId": "quasar-cli-vite/developing-browser-extensions/build-commands",
     "heading": "Minification",
-    "breadcrumb": ["Building for production", "Minification", "Minification"],
+    "breadcrumb": [
+      "Building for production",
+      "Minification",
+      "Minification"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/build-commands#minification",
     "content": "Browser stores may require submitted code to be readable during review, so Quasar disables minification for BEX builds by default. If the requirements of your target store allow it, opt in with `bex.minify: true` in the Quasar config file.",

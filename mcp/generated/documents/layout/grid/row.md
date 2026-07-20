@@ -20,7 +20,7 @@ For example, here are two grid layouts that apply to every device and viewport, 
 
 Source: [RowEqualWidth.vue](../../../examples/grid/RowEqualWidth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-equal-width">
     <div class="row">
@@ -45,7 +45,7 @@ Source: [RowEqualWidth.vue](../../../examples/grid/RowEqualWidth.vue)
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ## Setting one column width
 
@@ -55,7 +55,7 @@ Auto-layout for flexbox grid columns also means you can set the width of one col
 
 Source: [RowColumnWidth.vue](../../../examples/grid/RowColumnWidth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-column-width">
     <div class="row">
@@ -81,7 +81,7 @@ Source: [RowColumnWidth.vue](../../../examples/grid/RowColumnWidth.vue)
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ## Variable width content
 
@@ -91,7 +91,7 @@ Using the `col-{breakpoint}-auto` classes, columns can size itself based on the 
 
 Source: [RowVariableWidth.vue](../../../examples/grid/RowVariableWidth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-variable-width">
     <div class="row justify-center">
@@ -123,7 +123,7 @@ Source: [RowVariableWidth.vue](../../../examples/grid/RowVariableWidth.vue)
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ## Responsive classes
 
@@ -137,7 +137,7 @@ For grids that are the same from the smallest of devices to the largest, use the
 
 Source: [RowAllBreakpoints.vue](../../../examples/grid/RowAllBreakpoints.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-all-breakpoints">
     <div class="row">
@@ -163,7 +163,7 @@ Source: [RowAllBreakpoints.vue](../../../examples/grid/RowAllBreakpoints.vue)
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ### Stacked to horizontal
 
@@ -173,7 +173,7 @@ Using a combination of `.col-12` and `.col-md-*` classes, you can create a basic
 
 Source: [RowStackedToHorizontal.vue](../../../examples/grid/RowStackedToHorizontal.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-stacked-to-horizontal">
     <div class="row">
@@ -198,7 +198,7 @@ Source: [RowStackedToHorizontal.vue](../../../examples/grid/RowStackedToHorizont
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ### Mix and match
 
@@ -208,7 +208,7 @@ Don’t want your columns to simply stack in some grid tiers? Use a combination 
 
 Source: [RowMixAndMatch.vue](../../../examples/grid/RowMixAndMatch.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-mix-and-match">
     <!-- Stack the columns on mobile by making one full-width and the other half-width -->
@@ -241,7 +241,7 @@ Source: [RowMixAndMatch.vue](../../../examples/grid/RowMixAndMatch.vue)
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ### Alignment
 
@@ -251,7 +251,7 @@ Use flexbox alignment utilities to vertically and horizontally align columns.
 
 Source: [RowVerticalAlignment.vue](../../../examples/grid/RowVerticalAlignment.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-vertical-alignment">
     <q-badge>items-start</q-badge>
@@ -296,13 +296,13 @@ Source: [RowVerticalAlignment.vue](../../../examples/grid/RowVerticalAlignment.v
   > div + div
     margin-top: 1rem
 </style>
-```
+````
 
 **Example: Horizontal alignment**
 
 Source: [RowHorizontalAlignment.vue](../../../examples/grid/RowHorizontalAlignment.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-horizontal-alignment">
     <q-badge>justify-start</q-badge>
@@ -354,7 +354,7 @@ Source: [RowHorizontalAlignment.vue](../../../examples/grid/RowHorizontalAlignme
   > div + div
     margin-top: 1rem
 </style>
-```
+````
 
 ::: tip
 There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
@@ -368,7 +368,7 @@ If more than 12 columns are placed within a single row, each group of extra colu
 
 Source: [RowColumnWrapping.vue](../../../examples/grid/RowColumnWrapping.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-column-wrapping">
     <div class="row">
@@ -403,7 +403,7 @@ Source: [RowColumnWrapping.vue](../../../examples/grid/RowColumnWrapping.vue)
   .row
     background: rgba(#aa0, .1)
 </style>
-```
+````
 
 ### Reordering
 
@@ -411,7 +411,7 @@ Source: [RowColumnWrapping.vue](../../../examples/grid/RowColumnWrapping.vue)
 
 Source: [RowReverse.vue](../../../examples/grid/RowReverse.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-reverse">
     <div class="row reverse">
@@ -429,13 +429,13 @@ Source: [RowReverse.vue](../../../examples/grid/RowReverse.vue)
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 **Example: Flex order**
 
 Source: [RowFlexOrder.vue](../../../examples/grid/RowFlexOrder.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-flex-order">
     <div class="row">
@@ -455,7 +455,7 @@ Source: [RowFlexOrder.vue](../../../examples/grid/RowFlexOrder.vue)
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 ### Offsetting columns
 
@@ -465,7 +465,7 @@ Move columns to the right using `.offset-md-*` classes. These classes increase t
 
 Source: [RowOffsettingColumns.vue](../../../examples/grid/RowOffsettingColumns.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-offsetting-columns">
     <div class="row">
@@ -495,7 +495,7 @@ Source: [RowOffsettingColumns.vue](../../../examples/grid/RowOffsettingColumns.v
   .row + .row
     margin-top: 1rem
 </style>
-```
+````
 
 ### Nesting
 
@@ -505,7 +505,7 @@ To nest your content with the default grid, add a new .row and set of `.col-sm-*
 
 Source: [RowNesting.vue](../../../examples/grid/RowNesting.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-row-nesting">
     <div class="row">
@@ -529,7 +529,7 @@ Source: [RowNesting.vue](../../../examples/grid/RowNesting.vue)
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 ## Flex Playground
 

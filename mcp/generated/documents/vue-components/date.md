@@ -32,7 +32,7 @@ Notice that the actual date(s) of the model are all in String format.
 
 Source: [Basic.vue](../../examples/QDate/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -48,7 +48,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 ::: tip
 For landscape mode, you can use it along with `$q.screen` to make QDate responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
@@ -58,7 +58,7 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 Source: [Landscape.vue](../../examples/QDate/Landscape.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-date v-model="date" landscape />
@@ -70,7 +70,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 ### Multiple selection
 
@@ -82,7 +82,7 @@ Clicking on an already selected day will deselect it.
 
 Source: [SelectionMultiple.vue](../../examples/QDate/SelectionMultiple.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-pb-sm"> Model: {{ days }} </div>
@@ -96,7 +96,7 @@ import { ref } from 'vue'
 
 const days = ref(['2019/02/01', '2019/02/10'])
 </script>
-```
+````
 
 ### Range selection
 
@@ -118,7 +118,7 @@ The `range` property is only partially compatible with the `options` prop: selec
 
 Source: [SelectionRange.vue](../../examples/QDate/SelectionRange.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-pb-sm"> Model: {{ model }} </div>
@@ -132,13 +132,13 @@ import { ref } from 'vue'
 
 const model = ref({ from: '2020/07/08', to: '2020/07/17' })
 </script>
-```
+````
 
 **Example: Multiple ranges**
 
 Source: [SelectionRangeMultiple.vue](../../examples/QDate/SelectionRangeMultiple.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-pb-sm"> Model: {{ days }} </div>
@@ -155,7 +155,7 @@ const days = ref([
   { from: '2020/07/21', to: '2020/07/25' }
 ])
 </script>
-```
+````
 
 ### Custom title and subtitle
 
@@ -167,7 +167,7 @@ When clicking on title then the QDate's view is changed to the calendar and when
 
 Source: [CustomTitleSubtitle.vue](../../examples/QDate/CustomTitleSubtitle.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -181,7 +181,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 ### Functionality
 
@@ -193,7 +193,7 @@ When server-side rendering an unfilled QDate in SSR or SSG modes, set `default-y
 
 Source: [DefaultYearMonth.vue](../../examples/QDate/DefaultYearMonth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-date v-model="date" default-year-month="1964/08" />
@@ -205,7 +205,7 @@ import { ref } from 'vue'
 
 const date = ref(null)
 </script>
-```
+````
 
 The default view can be changed.
 
@@ -213,7 +213,7 @@ The default view can be changed.
 
 Source: [DefaultView.vue](../../examples/QDate/DefaultView.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-date v-model="date" default-view="Years" />
@@ -225,7 +225,7 @@ import { ref } from 'vue'
 
 const date = ref(null)
 </script>
-```
+````
 
 The first day of the week is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
 
@@ -233,7 +233,7 @@ The first day of the week is applied depending on the [Quasar Language Pack](/op
 
 Source: [FirstDayOfWeek.vue](../../examples/QDate/FirstDayOfWeek.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-date v-model="date" first-day-of-week="1" />
@@ -245,7 +245,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 Clicking on the "Today" button sets date to current user date. Requires the header, so you can't use it along with "minimal" mode:
 
@@ -253,7 +253,7 @@ Clicking on the "Today" button sets date to current user date. Requires the head
 
 Source: [TodayBtn.vue](../../examples/QDate/TodayBtn.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-date v-model="date" today-btn />
@@ -265,13 +265,13 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 **Example: Disable and readonly**
 
 Source: [DisableReadonly.vue](../../examples/QDate/DisableReadonly.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -287,7 +287,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 ### Model mask
 
@@ -307,7 +307,7 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 Source: [MaskSimple.vue](../../examples/QDate/MaskSimple.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -342,7 +342,7 @@ import { ref } from 'vue'
 const model1 = ref('2019-02-15')
 const model2 = ref('03-21-2019')
 </script>
-```
+````
 
 If you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
 
@@ -350,7 +350,7 @@ If you want to insert strings (including `[` and `]` characters) into your mask,
 
 Source: [MaskEscape.vue](../../examples/QDate/MaskEscape.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
@@ -389,7 +389,7 @@ import { ref } from 'vue'
 const model1 = ref('Sunday, Apr 28, 2019')
 const model2 = ref('Month ( March ) 14th, Year ( 2019 )')
 </script>
-```
+````
 
 Using the mask to connect a QDate and [QTime](/vue-components/time) to the same model:
 
@@ -397,7 +397,7 @@ Using the mask to connect a QDate and [QTime](/vue-components/time) to the same 
 
 Source: [MaskDateTime.vue](../../examples/QDate/MaskDateTime.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -419,7 +419,7 @@ import { ref } from 'vue'
 
 const model = ref('2019-02-22 21:02')
 </script>
-```
+````
 
 ::: tip
 If you want to programmatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
@@ -433,7 +433,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 Source: [CustomLocale.vue](../../examples/QDate/CustomLocale.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-pb-sm">
@@ -468,7 +468,7 @@ const firstDayOfWeek = 1 // 0-6, 0 - Sunday, 1 Monday, ...
 const format24h = true
 const pluralDay = 'dias'
 </script>
-```
+````
 
 ### Coloring
 
@@ -476,7 +476,7 @@ const pluralDay = 'dias'
 
 Source: [Color.vue](../../examples/QDate/Color.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -492,13 +492,13 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 **Example: Force dark mode**
 
 Source: [Dark.vue](../../examples/QDate/Dark.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-md">
@@ -514,7 +514,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 ### Highlighting events
 
@@ -524,7 +524,7 @@ The first example is using an array and the second example is using a function.
 
 Source: [Events.vue](../../examples/QDate/Events.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -554,13 +554,13 @@ function eventsFn(d) {
   return parts[2] % 2 === 0
 }
 </script>
-```
+````
 
 **Example: Event color**
 
 Source: [EventColor.vue](../../examples/QDate/EventColor.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -603,7 +603,7 @@ function eventsFn(d) {
   )
 }
 </script>
-```
+````
 
 ### Limiting options
 
@@ -618,7 +618,7 @@ The `options` property is only partially compatible with the `range` prop. Range
 
 Source: [Options.vue](../../examples/QDate/Options.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -655,7 +655,7 @@ function optionsFn2(d) {
   return parts[2] % 2 === 0
 }
 </script>
-```
+````
 
 ### Applying navigation boundaries
 
@@ -665,7 +665,7 @@ In the example below the navigation is restricted between 2020/07 and 2020/09.
 
 Source: [NavigationBoundaries.vue](../../examples/QDate/NavigationBoundaries.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-date
@@ -681,7 +681,7 @@ import { ref } from 'vue'
 
 const date = ref('2020/07/04')
 </script>
-```
+````
 
 ### With additional buttons
 
@@ -691,7 +691,7 @@ You can use the default slot for adding buttons:
 
 Source: [AdditionalButtons.vue](../../examples/QDate/AdditionalButtons.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-mb-sm">
@@ -736,7 +736,7 @@ function save() {
   date.value = proxyDate.value
 }
 </script>
-```
+````
 
 ### With QSplitter and QTabPanels
 
@@ -744,7 +744,7 @@ function save() {
 
 Source: [Splitter.vue](../../examples/QDate/Splitter.vue)
 
-```vue
+````vue
 <template>
   <div>
     <q-splitter v-model="splitterModel" style="height: 450px">
@@ -829,7 +829,7 @@ const splitterModel = ref(50)
 const date = ref('2019/02/01')
 const events = ['2019/02/01', '2019/02/05', '2019/02/06']
 </script>
-```
+````
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
 
@@ -839,7 +839,7 @@ More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/t
 
 Source: [Input.vue](../../examples/QDate/Input.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input filled v-model="date" mask="date" :rules="['date']">
@@ -863,7 +863,7 @@ import { ref } from 'vue'
 
 const date = ref('2019/02/01')
 </script>
-```
+````
 
 Connecting a QDate and QTime with same model on a QInput:
 
@@ -871,7 +871,7 @@ Connecting a QDate and QTime with same model on a QInput:
 
 Source: [InputFull.vue](../../examples/QDate/InputFull.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input filled v-model="date">
@@ -907,7 +907,7 @@ import { ref } from 'vue'
 
 const date = ref('2019-02-01 12:44')
 </script>
-```
+````
 
 The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).
 
@@ -942,7 +942,7 @@ The browser converts the model to a String. When using `multiple` or `range`, us
 
 Source: [NativeForm.vue](../../examples/QDate/NativeForm.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-form @submit="onSubmit" class="q-gutter-md">
@@ -997,4 +997,4 @@ function onSubmit(evt) {
   submitResult.value = data
 }
 </script>
-```
+````

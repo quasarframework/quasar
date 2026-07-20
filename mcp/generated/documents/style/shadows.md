@@ -27,7 +27,7 @@ The shadows are in accordance to Material Design specifications (24 levels of de
 
 Source: [Standard.vue](../../examples/shadows/Standard.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div
@@ -49,7 +49,7 @@ Source: [Standard.vue](../../examples/shadows/Standard.vue)
   border-radius: 50%
   font-size: 12px
 </style>
-```
+````
 
 The shadows above point towards the bottom of the element. If you want them to point towards the top of the element, add `up` before the number:
 
@@ -63,7 +63,7 @@ The shadows above point towards the bottom of the element. If you want them to p
 
 Source: [PointingUp.vue](../../examples/shadows/PointingUp.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div
@@ -85,13 +85,13 @@ Source: [PointingUp.vue](../../examples/shadows/PointingUp.vue)
   border-radius: 50%
   font-size: 12px
 </style>
-```
+````
 
 **Example: Inset shadow**
 
 Source: [Inset.vue](../../examples/shadows/Inset.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-md">
     <div
@@ -121,4 +121,4 @@ Source: [Inset.vue](../../examples/shadows/Inset.vue)
   border: 1px solid #eee
   padding: 4px
 </style>
-```
+````

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-electron-apps/installing-electron-dependencies#overview",
     "documentId": "quasar-cli-vite/developing-electron-apps/installing-electron-dependencies",
     "heading": "Installing Electron-specific dependencies",
-    "breadcrumb": ["Installing Electron-specific dependencies"],
+    "breadcrumb": [
+      "Installing Electron-specific dependencies"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/installing-electron-dependencies",
     "content": "Use `/src-electron/package.json` for dependencies that belong to the Electron main process or its packaging workflow. Keeping them in this workspace prevents Electron-only packages from becoming renderer dependencies.\n\n```json /src-electron/package.json\n{\n  \"name\": \"quasar-electron-app\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Quasar Electron Folder\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"devDependencies\": {\n    \"electron\": \"^<installed-version>\"\n  }\n}\n```\n\nQuasar installs the selected packaging tool (`@electron/packager` or `electron-builder`) here on the first production build that needs it.\n\nFrom `/src-electron`, install packages used at runtime by the main process under `dependencies`. Install Electron, packaging tools, type packages, and other build-time tools under `devDependencies`:\n\n```tabs\n<<| bash PNPM |>>\n# Runtime dependency installed into the packaged app:\npnpm add <deps>\n\n# Build-time dependency:\npnpm add -D <dev-deps>\n<<| bash Yarn |>>\n# Runtime dependency installed into the packaged app:\nyarn add <deps>\n\n# Build-time dependency:\nyarn add -D <dev-deps>\n<<| bash NPM |>>\n# Runtime dependency installed into the packaged app:\nnpm install <deps>\n\n# Build-time dependency:\nnpm install -D <dev-deps>\n<<| bash Bun |>>\n# Runtime dependency installed into the packaged app:\nbun add <deps>\n\n# Build-time dependency:\nbun add -D <dev-deps>\n```\n\nRenderer dependencies imported by code under `/src` belong in the root `package.json` and are bundled by Vite.",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#overview",
     "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
     "heading": "Frameless Electron Window",
-    "breadcrumb": ["Frameless Electron Window"],
+    "breadcrumb": [
+      "Frameless Electron Window"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window",
     "content": "A nice combo is to use frameless Electron window along with [QBar](/vue-components/bar) component. Here's why.",
@@ -29,7 +31,11 @@
     "id": "quasar-cli-vite/developing-electron-apps/frameless-electron-window#the-preload-script",
     "documentId": "quasar-cli-vite/developing-electron-apps/frameless-electron-window",
     "heading": "The preload script",
-    "breadcrumb": ["Main process", "The preload script", "The preload script"],
+    "breadcrumb": [
+      "Main process",
+      "The preload script",
+      "The preload script"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/frameless-electron-window#the-preload-script",
     "content": "Expose the window API to the renderer process through `/src-electron/electron-preload`:\n\n```js /src-electron/electron-preload\nimport { contextBridge, ipcRenderer } from 'electron'\n\n// notice \"myWindowAPI\" (can be anything as long as we reference\n// the same name that we use in the renderer process)\ncontextBridge.exposeInMainWorld('myWindowAPI', {\n  minimize() {\n    ipcRenderer.send('window:minimize')\n  },\n  toggleMaximize() {\n    ipcRenderer.send('window:toggle-maximize')\n  },\n  close() {\n    ipcRenderer.send('window:close')\n  }\n})\n```",

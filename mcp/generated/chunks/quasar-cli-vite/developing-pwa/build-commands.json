@@ -3,7 +3,10 @@
     "id": "quasar-cli-vite/developing-pwa/build-commands#developing",
     "documentId": "quasar-cli-vite/developing-pwa/build-commands",
     "heading": "Developing",
-    "breadcrumb": ["Developing", "Developing"],
+    "breadcrumb": [
+      "Developing",
+      "Developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/build-commands#developing",
     "content": "```bash\nquasar dev -m pwa\n\n# ..or the longer form:\nquasar dev --mode pwa\n```\n\n::: warning\nThe development server uses a bare minimum Service Worker precaching only the public folder. Working offline will not be available.\n:::\n\n::: danger\nDo not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things).\n:::",
@@ -14,7 +17,10 @@
     "id": "quasar-cli-vite/developing-pwa/build-commands#building-for-production",
     "documentId": "quasar-cli-vite/developing-pwa/build-commands",
     "heading": "Building for Production",
-    "breadcrumb": ["Building for Production", "Building for Production"],
+    "breadcrumb": [
+      "Building for Production",
+      "Building for Production"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/build-commands#building-for-production",
     "content": "```bash\nquasar build -m pwa\n\n# ..or the longer form:\nquasar build --mode pwa\n```\n\nIf you want a production build with debugging enabled:\n\n```bash\nquasar build -m pwa -d\n\n# ..or the longer form\nquasar build -m pwa --debug\n```",

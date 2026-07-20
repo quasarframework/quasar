@@ -3,18 +3,26 @@
     "id": "vue-components/rating#overview",
     "documentId": "vue-components/rating",
     "heading": "Rating",
-    "breadcrumb": ["Rating"],
+    "breadcrumb": [
+      "Rating"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/rating",
     "content": "Quasar Rating is a Component which allows users to rate items, usually known as “Star Rating”.\n\nAPI reference: QRating",
-    "apiReferences": ["QRating"],
+    "apiReferences": [
+      "QRating"
+    ],
     "exampleReferences": []
   },
   {
     "id": "vue-components/rating#basic",
     "documentId": "vue-components/rating",
     "heading": "Basic",
-    "breadcrumb": ["Usage", "Basic", "Basic"],
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#basic",
     "content": "Example: Basic (Basic.vue)\n\nExample: Custom number of choices (Max.vue)",
@@ -34,7 +42,11 @@
     "id": "vue-components/rating#keyboard-navigation",
     "documentId": "vue-components/rating",
     "heading": "Keyboard navigation",
-    "breadcrumb": ["Usage", "Keyboard navigation", "Keyboard navigation"],
+    "breadcrumb": [
+      "Usage",
+      "Keyboard navigation",
+      "Keyboard navigation"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#keyboard-navigation",
     "content": "QRating uses radio-group keyboard behavior:\n\n- `Arrow Right` and `Arrow Down` select the next value.\n- `Arrow Left` and `Arrow Up` select the previous value.\n- `Space` or `Enter` selects the focused value.",
@@ -45,7 +57,11 @@
     "id": "vue-components/rating#icons",
     "documentId": "vue-components/rating",
     "heading": "Icons",
-    "breadcrumb": ["Usage", "Icons", "Icons"],
+    "breadcrumb": [
+      "Usage",
+      "Icons",
+      "Icons"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#icons",
     "content": "Example: Image icons (Images.vue)\n\nIn the example below, when using the `icon-selected` prop, notice we can still use `icon` as well. The latter becomes the icon(s) when they are not selected.\n\nExample: Different icon when selected (SelectedIcon.vue)\n\nExample: Different icon for each rating (ArrayIcon.vue)",
@@ -69,7 +85,11 @@
     "id": "vue-components/rating#colors",
     "documentId": "vue-components/rating",
     "heading": "Colors",
-    "breadcrumb": ["Usage", "Colors", "Colors"],
+    "breadcrumb": [
+      "Usage",
+      "Colors",
+      "Colors"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#colors",
     "content": "When using the `color-selected` prop, notice we can still use `color` as well. The latter becomes the color(s) of the icons when they are not selected.\n\nExample: Different color for each rating (Colors.vue)",
@@ -85,7 +105,11 @@
     "id": "vue-components/rating#floating-number",
     "documentId": "vue-components/rating",
     "heading": "Floating number",
-    "breadcrumb": ["Usage", "Floating number", "Floating number"],
+    "breadcrumb": [
+      "Usage",
+      "Floating number",
+      "Floating number"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#floating-number",
     "content": "Example: Different icon and color when half selected (HalfSelected.vue)",
@@ -101,7 +125,11 @@
     "id": "vue-components/rating#no-dimming",
     "documentId": "vue-components/rating",
     "heading": "No dimming",
-    "breadcrumb": ["Usage", "No dimming", "No dimming"],
+    "breadcrumb": [
+      "Usage",
+      "No dimming",
+      "No dimming"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#no-dimming",
     "content": "Example: No dimming (NoDimming.vue)",
@@ -117,7 +145,11 @@
     "id": "vue-components/rating#tooltips",
     "documentId": "vue-components/rating",
     "heading": "Tooltips",
-    "breadcrumb": ["Usage", "Tooltips", "Tooltips"],
+    "breadcrumb": [
+      "Usage",
+      "Tooltips",
+      "Tooltips"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#tooltips",
     "content": "Notice how we can add tooltips to each icon in the example below.\n\nExample: With QTooltip (SlotTip.vue)",
@@ -133,7 +165,11 @@
     "id": "vue-components/rating#sizes",
     "documentId": "vue-components/rating",
     "heading": "Sizes",
-    "breadcrumb": ["Usage", "Sizes", "Sizes"],
+    "breadcrumb": [
+      "Usage",
+      "Sizes",
+      "Sizes"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#sizes",
     "content": "Apart from the standard sizes below, you can define your own through the `size` property.\n\nExample: Standard sizes (StandardSizes.vue)",
@@ -149,7 +185,11 @@
     "id": "vue-components/rating#readonly-and-disable",
     "documentId": "vue-components/rating",
     "heading": "Readonly and disable",
-    "breadcrumb": ["Usage", "Readonly and disable", "Readonly and disable"],
+    "breadcrumb": [
+      "Usage",
+      "Readonly and disable",
+      "Readonly and disable"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#readonly-and-disable",
     "content": "Example: Readonly and disable (ReadonlyDisable.vue)",
@@ -165,7 +205,11 @@
     "id": "vue-components/rating#native-form-submit",
     "documentId": "vue-components/rating",
     "heading": "Native form submit",
-    "breadcrumb": ["Usage", "Native form submit", "Native form submit"],
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/rating#native-form-submit",
     "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRating, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",

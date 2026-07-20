@@ -24,7 +24,7 @@ The idea with QTooltip is to place it inside your DOM element / component that y
 
 Source: [Basic.vue](../../examples/QTooltip/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -45,13 +45,13 @@ Source: [Basic.vue](../../examples/QTooltip/Basic.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: Toggle through v-model**
 
 Source: [VModel.vue](../../examples/QTooltip/VModel.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -74,7 +74,7 @@ import { ref } from 'vue'
 
 const showing = ref(false)
 </script>
-```
+````
 
 ::: warning
 If you want to conditionally activate or de-activate a QTooltip, please use `v-if` on it instead of `v-show`.
@@ -86,7 +86,7 @@ If you want to conditionally activate or de-activate a QTooltip, please use `v-i
 
 Source: [Coloring.vue](../../examples/QTooltip/Coloring.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -116,13 +116,13 @@ Source: [Coloring.vue](../../examples/QTooltip/Coloring.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: Custom delay (1 second)**
 
 Source: [OneSecond.vue](../../examples/QTooltip/OneSecond.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div
@@ -134,13 +134,13 @@ Source: [OneSecond.vue](../../examples/QTooltip/OneSecond.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: With offset**
 
 Source: [Offset.vue](../../examples/QTooltip/Offset.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -182,7 +182,7 @@ Source: [Offset.vue](../../examples/QTooltip/Offset.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ### Transitions
 
@@ -192,7 +192,7 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 Source: [CustomTransition.vue](../../examples/QTooltip/CustomTransition.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row">
@@ -216,7 +216,7 @@ Source: [CustomTransition.vue](../../examples/QTooltip/CustomTransition.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ### Reusable
 
@@ -226,7 +226,7 @@ The example below shows how to create a re-usable menu that can be shared with d
 
 Source: [Target.vue](../../examples/QTooltip/Target.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-md">
     <div class="row justify-center">
@@ -286,7 +286,7 @@ import { ref } from 'vue'
 
 const targetEl = ref('#target-img-1')
 </script>
-```
+````
 
 ### Positioning
 
@@ -298,5 +298,7 @@ For horizontal positioning you can use `start` and `end` when you want to automa
 ::: tip
 The `offset` prop is applied to the **anchor element's bounding box**, and only then is the final position clamped to the available screen real estate. As a result, a large offset — or anchoring QTooltip to a full-width / screen-edge element — can push the popup against a viewport edge, where it gets clamped and the offset appears to have no effect (the clamped position then becomes independent of the offset value). If an `offset` seems to be ignored on one axis, make sure the chosen `anchor`/`self` lets the popup expand into free space on that axis — for example, attach QTooltip to an inline / `inline-block` trigger rather than to a full-width block element.
 :::
+
+
 
 <TooltipPositioning />

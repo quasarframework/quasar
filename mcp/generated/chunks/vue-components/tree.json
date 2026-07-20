@@ -3,18 +3,26 @@
     "id": "vue-components/tree#overview",
     "documentId": "vue-components/tree",
     "heading": "Tree",
-    "breadcrumb": ["Tree"],
+    "breadcrumb": [
+      "Tree"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/tree",
     "content": "Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.\n\nAPI reference: QTree",
-    "apiReferences": ["QTree"],
+    "apiReferences": [
+      "QTree"
+    ],
     "exampleReferences": []
   },
   {
     "id": "vue-components/tree#basic",
     "documentId": "vue-components/tree",
     "heading": "Basic",
-    "breadcrumb": ["Usage", "Basic", "Basic"],
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#basic",
     "content": "Example: Basic (Basic.vue)",
@@ -30,7 +38,11 @@
     "id": "vue-components/tree#keyboard-navigation",
     "documentId": "vue-components/tree",
     "heading": "Keyboard navigation",
-    "breadcrumb": ["Usage", "Keyboard navigation", "Keyboard navigation"],
+    "breadcrumb": [
+      "Usage",
+      "Keyboard navigation",
+      "Keyboard navigation"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#keyboard-navigation",
     "content": "When a tree node has focus:\n\n- `Arrow Up` and `Arrow Down` move focus through the visible nodes.\n- `Arrow Right` expands a collapsed parent or moves focus to its first visible child.\n- `Arrow Left` collapses an expanded parent or moves focus to its parent.\n- `Home` and `End` move focus to the first and last visible nodes.\n- `Enter` performs the node's default action; `Space` toggles its expansion.",
@@ -41,7 +53,11 @@
     "id": "vue-components/tree#no-connector-lines",
     "documentId": "vue-components/tree",
     "heading": "No connector lines",
-    "breadcrumb": ["Usage", "No connector lines", "No connector lines"],
+    "breadcrumb": [
+      "Usage",
+      "No connector lines",
+      "No connector lines"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#no-connector-lines",
     "content": "Example: No connectors (NoConnectors.vue)",
@@ -77,7 +93,11 @@
     "id": "vue-components/tree#force-dark-mode",
     "documentId": "vue-components/tree",
     "heading": "Force dark mode",
-    "breadcrumb": ["Usage", "Force dark mode", "Force dark mode"],
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#force-dark-mode",
     "content": "Example: Force dark mode (Dark.vue)",
@@ -108,7 +128,11 @@
     "id": "vue-components/tree#integrated-example",
     "documentId": "vue-components/tree",
     "heading": "Integrated example",
-    "breadcrumb": ["Usage", "Integrated example", "Integrated example"],
+    "breadcrumb": [
+      "Usage",
+      "Integrated example",
+      "Integrated example"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#integrated-example",
     "content": "Example: With QSplitter and QTabPanels (Splitter.vue)\n\nMore info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).",
@@ -124,7 +148,11 @@
     "id": "vue-components/tree#customize-content",
     "documentId": "vue-components/tree",
     "heading": "Customize content",
-    "breadcrumb": ["Usage", "Customize content", "Customize content"],
+    "breadcrumb": [
+      "Usage",
+      "Customize content",
+      "Customize content"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#customize-content",
     "content": "Notice (in the example below) the default header and body slot customization.\n\nExample: Default header and body slots (SlotsDefault.vue)\n\nNotice (in the example below) the custom header and body slots.\n\nExample: Customizing nodes (SlotsCustomized.vue)\n\n::: warning\nClicking or pressing `ENTER` on the custom header selects the tree item (and the custom header is blurred). Pressing `SPACE` toggles its expansion.\n\nIf you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keydown.stop>` (or add the listeners to the respective component/element that is emitting them).\n:::",
@@ -172,7 +200,11 @@
     "id": "vue-components/tree#lazy-loading",
     "documentId": "vue-components/tree",
     "heading": "Lazy loading",
-    "breadcrumb": ["Usage", "Lazy loading", "Lazy loading"],
+    "breadcrumb": [
+      "Usage",
+      "Lazy loading",
+      "Lazy loading"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#lazy-loading",
     "content": "Example: Lazy loading nodes (LazyLoad.vue)",
@@ -208,7 +240,11 @@
     "id": "vue-components/tree#tick-strategy",
     "documentId": "vue-components/tree",
     "heading": "Tick strategy",
-    "breadcrumb": ["Usage", "Tick strategy", "Tick strategy"],
+    "breadcrumb": [
+      "Usage",
+      "Tick strategy",
+      "Tick strategy"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#tick-strategy",
     "content": "There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an additional (and default) 'none' which disables ticking.\n\n| Strategy      | Description                                                                                                                                                                                           |\n| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| leaf          | Ticked nodes are only the leaves. Ticking a node influences the parent's ticked state too (parent becomes partially ticked or ticked), as well as its children (all tickable children become ticked). |\n| leaf-filtered | Same concept as `leaf`, only that this strategy applies only to filtered nodes (the nodes that remain visible after filtering).                                                                       |\n| strict        | Ticked nodes are independent of parent or children tick state.                                                                                                                                        |\n\nYou can apply a global tick strategy for a QTree and locally change the ticking strategy for a certain node by specifying the `tickStrategy` in the `nodes` model.\n\nExample: Tick strategy (TickStrategy.vue)",
@@ -224,7 +260,11 @@
     "id": "vue-components/tree#custom-filter-method",
     "documentId": "vue-components/tree",
     "heading": "Custom filter method",
-    "breadcrumb": ["Usage", "Custom filter method", "Custom filter method"],
+    "breadcrumb": [
+      "Usage",
+      "Custom filter method",
+      "Custom filter method"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#custom-filter-method",
     "content": "You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(\\*)':\n\nExample: Custom filter (FilterCustom.vue)",
@@ -240,7 +280,11 @@
     "id": "vue-components/tree#nodes-model-structure",
     "documentId": "vue-components/tree",
     "heading": "Nodes model structure",
-    "breadcrumb": ["Usage", "Nodes model structure", "Nodes model structure"],
+    "breadcrumb": [
+      "Usage",
+      "Nodes model structure",
+      "Nodes model structure"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/tree#nodes-model-structure",
     "content": "The following describes a node's properties that are taken into account by QTree's v-model.\n\n| Node Property | Type           | Behavior when not present                       | Description                                                                                                                 |\n| ------------- | -------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |\n| \\<nodeKey\\>   | String, Number | An error is generated                           | Node's key. The key is picked from the key specified in `nodeKey` property.                                                 |\n| label         | String         | The item has no label                           | Node's label. When `labelKey` prop is set the label is picked from that key.                                                |\n| icon          | String         | The default icon is used                        | Node's icon.                                                                                                                |\n| iconColor     | String         | The inherited color is used                     | Node's icon color. One from Quasar Color Palette.                                                                           |\n| img           | String         | No image is displayed                           | Node's image. Use /public folder. Example: 'mountains.png'                                                                  |\n| avatar        | String         | No avatar is displayed                          | Node's avatar. Use /public folder. Example: 'boy-avatar.png'                                                                |\n| children      | Array          | This node has no sub-nodes                      | Array of nodes as children.                                                                                                 |\n| disabled      | Boolean        | The node is enabled                             | Is node disabled?                                                                                                           |\n| expandable    | Boolean        | The node is expandable                          | Is node expandable?                                                                                                         |\n| selectable    | Boolean        | The node is selectable                          | Is node selectable?                                                                                                         |\n| handler       | Function       | No extra function is called                     | Custom function that should be called on click on node. Receives `node` as parameter.                                       |\n| tickable      | Boolean        | The node is tickable according to tick strategy | When using a tick strategy, each node shows a checkbox. Should a node's checkbox be disabled?                               |\n| noTick        | Boolean        | Node displays a checkbox                        | When using a tick strategy, should node display a checkbox?                                                                 |\n| tickStrategy  | String         | Tick strategy 'none' is used                    | Override global tick strategy for this node only. One of 'leaf', 'leaf-filtered', 'strict', 'none'.                         |\n| lazy          | Boolean        | Children are not lazy loaded                    | Should children be lazy loaded? In this case also don't specify 'children' prop.                                            |\n| header        | String         | Slot 'default-header' is used                   | Node header scoped slot name, without the required 'header-' prefix. Example: 'story' refers to 'header-story' scoped slot. |\n| body          | String         | Slot 'default-body' is used                     | Node body scoped slot name, without the required 'body-' prefix. Example: 'story' refers to 'body-story' scoped slot.       |",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#overview",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Electron Live Updates",
-    "breadcrumb": ["Electron Live Updates"],
+    "breadcrumb": [
+      "Electron Live Updates"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "content": "Electron live updates let an installed desktop app download a new renderer bundle and load it on the next app start. This is useful for JavaScript, HTML, CSS and static asset fixes that do not require a new signed installer.\n\nThis does not replace your normal Electron binary update flow. Changes to `/src-electron/electron-main`, preload scripts, native dependencies, Electron itself, package metadata, code signing or installer configuration still require a new desktop release.\n\nOne open-source option is [`@capgo/electron-updater`](https://www.npmjs.com/package/@capgo/electron-updater). It stores downloaded bundles in Electron's user data directory, exposes a limited update API through the preload bridge and can roll back a bundle if your app does not confirm that it started correctly. The manual flow below does not require a hosted account; you provide an HTTPS metadata endpoint and storage for the bundle zips.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#installation",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Installation",
-    "breadcrumb": ["Installation", "Installation"],
+    "breadcrumb": [
+      "Installation",
+      "Installation"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates#installation",
     "content": "The updater is used by the Electron main and preload scripts, so install it from your Electron folder:\n\n```tabs\n<<| bash PNPM |>>\ncd src-electron\npnpm add @capgo/electron-updater\n<<| bash Yarn |>>\ncd src-electron\nyarn add @capgo/electron-updater\n<<| bash NPM |>>\ncd src-electron\nnpm install @capgo/electron-updater\n<<| bash Bun |>>\ncd src-electron\nbun add @capgo/electron-updater\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#main-process",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Main process",
-    "breadcrumb": ["Main process", "Main process"],
+    "breadcrumb": [
+      "Main process",
+      "Main process"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates#main-process",
     "content": "Create one updater instance in `/src-electron/electron-main.js`, initialize it with the BrowserWindow and use it to load the current production bundle. In development, keep loading the Quasar dev server.\n\n<!-- prettier-ignore -->\n```js /src-electron/electron-main file\nimport { app, BrowserWindow } from 'electron'\nimport path from 'node:path'\nimport {\n  ElectronUpdater,\n  setupEventForwarding,\n  setupIPCHandlers\n} from '@capgo/electron-updater' // [!code highlight]\nimport { registerQuasarRuntime } from '#q-app/electron/main' // [!code highlight]\n\nconst updater = new ElectronUpdater({ // [!code highlight]\n  // [!code highlight]\n  appId: 'com.example.desktop', // [!code highlight]\n  autoUpdate: false, // [!code highlight]\n  statsUrl: '' // [!code highlight]\n}) // [!code highlight]\n\nasync function createWindow() {\n  const mainWindow = new BrowserWindow({\n    // ...\n    webPreferences: {\n      contextIsolation: true,\n      preload: path.join(import.meta.dirname, 'electron-preload.cjs')\n    }\n  })\n\n  await updater.initialize( // [!code highlight]\n    mainWindow, // [!code highlight]\n    path.join(import.meta.dirname, 'index.html') // [!code highlight]\n  ) // [!code highlight]\n\n  setupIPCHandlers(updater) // [!code highlight]\n  setupEventForwarding(updater, mainWindow) // [!code highlight]\n\n  if (import.meta.env.QUASAR_DEV) {\n    await mainWindow.loadURL(import.meta.env.QUASAR_APP_URL)\n  } else {\n    await mainWindow.loadFile(updater.getCurrentBundlePath())\n  }\n}\n\nvoid app.whenReady().then(() => {\n  registerQuasarRuntime() // [!code highlight]\n  createWindow()\n})\n```\n\nThe `appId` should be a stable identifier for your desktop app. The example disables automatic checks so your app can decide when to ask your own update endpoint for a new bundle.",
@@ -36,7 +44,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#preload-script",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Preload script",
-    "breadcrumb": ["Preload script", "Preload script"],
+    "breadcrumb": [
+      "Preload script",
+      "Preload script"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates#preload-script",
     "content": "Expose the updater API from `/src-electron/electron-preload.js`. Keep any existing Quasar runtime bridge code.\n\n```js /src-electron/electron-preload file\nimport { contextBridge } from 'electron'\nimport { exposeUpdaterAPI } from '@capgo/electron-updater/preload'\nimport { quasarRuntime } from '#q-app/electron/preload' // [!code highlight]\n\ncontextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime)\nexposeUpdaterAPI() // [!code highlight]\n```",
@@ -47,7 +58,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#renderer-process",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Renderer process",
-    "breadcrumb": ["Renderer process", "Renderer process"],
+    "breadcrumb": [
+      "Renderer process",
+      "Renderer process"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates#renderer-process",
     "content": "Call `notifyAppReady()` after the UI has started. This tells the updater that the current bundle is valid. If this is not called within the configured timeout, the updater treats the bundle as failed and rolls back.\n\n```js\nif (import.meta.env.QUASAR_ELECTRON_MODE) {\n  await window.electronUpdater?.notifyAppReady()\n}\n```\n\nFor a manual self-hosted flow, fetch your own update metadata, download the zip and queue it for the next app start:\n\n```js\nconst syncUpdate = async () => {\n  const updater = window.electronUpdater\n  if (!updater) return\n\n  const response = await fetch(\n    'https://updates.example.com/desktop/latest.json'\n  )\n  if (!response.ok) return\n\n  const update = await response.json()\n  if (!update?.url || !update?.version) {\n    return\n  }\n\n  const bundle = await updater.download({\n    url: update.url,\n    version: update.version,\n    checksum: update.checksum\n  })\n\n  await updater.next({ id: bundle.id })\n}\n```\n\nYour endpoint can be a simple JSON file or API response:\n\n```json\n{\n  \"version\": \"1.0.1\",\n  \"url\": \"https://updates.example.com/desktop/1.0.1.zip\",\n  \"checksum\": \"SHA256_CHECKSUM\"\n}\n```\n\nIf you want to apply an update immediately after your own confirmation UI, use `set(...)` instead of `next(...)`:\n\n```js\nawait updater.set({ id: bundle.id })\n```",
@@ -58,7 +72,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#publishing-updates",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Publishing updates",
-    "breadcrumb": ["Publishing updates", "Publishing updates"],
+    "breadcrumb": [
+      "Publishing updates",
+      "Publishing updates"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates#publishing-updates",
     "content": "Build the Electron app without packaging it into an installer:\n\n```bash\nquasar build -m electron --skip-pkg\n```\n\nThe renderer files are created in `/dist/electron/UnPackaged`. Copy the files that belong to the web bundle, such as `index.html`, `assets/`, and files originating from `/public`, into a separate staging directory. Do not include `electron-main.js`, preload scripts, `package.json`, `node_modules`, or `electron-assets` in a live-update archive. Then create a zip with the CLI:\n\n```bash\nnpx @capgo/cli@latest bundle zip --path dist/electron/live-update\n```\n\nThe folder passed to `bundle zip` must contain `index.html` at its root. Upload the generated zip to your own HTTPS storage and update your metadata endpoint to point at it.\n\n::: warning\nTreat a live-update bundle as executable code. Serve metadata and bundles over HTTPS, restrict the updater to an allowlisted origin, and verify cryptographic authenticity before activating a bundle. A checksum obtained from the same endpoint detects corruption but does not protect against a compromised update server; use signed metadata or another verification key embedded in the signed desktop application when your updater supports it.\n\nOnly publish renderer changes through live updates. Any change that affects Electron main/preload code, native dependencies, or the packaged application must go through the signed desktop release process. Protect update publishing credentials and test rollback behavior before enabling the flow for users.\n:::",
@@ -69,7 +86,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-live-updates#hosted-option",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-live-updates",
     "heading": "Hosted option",
-    "breadcrumb": ["Hosted option", "Hosted option"],
+    "breadcrumb": [
+      "Hosted option",
+      "Hosted option"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-live-updates#hosted-option",
     "content": "If you do not want to run the update API, bundle storage, channels, rollbacks and analytics yourself, [Capgo Cloud](https://capgo.app/) provides a managed hosted option for the same updater package. You can start with the self-hosted flow above and move to the hosted service later if you prefer managed infrastructure.",

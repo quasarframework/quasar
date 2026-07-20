@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/css-preprocessors#overview",
     "documentId": "quasar-cli-vite/css-preprocessors",
     "heading": "CSS Preprocessors",
-    "breadcrumb": ["CSS Preprocessors"],
+    "breadcrumb": [
+      "CSS Preprocessors"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/css-preprocessors",
     "content": "**Sass** or **SCSS** (recommending any of the two flavours) are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/css-preprocessors#configuration",
     "documentId": "quasar-cli-vite/css-preprocessors",
     "heading": "Configuration",
-    "breadcrumb": ["Configuration", "Configuration"],
+    "breadcrumb": [
+      "Configuration",
+      "Configuration"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/css-preprocessors#configuration",
     "content": "You can configure how your CSS is handled through `/postcss.config.js` and through extending the Vite config:\n\n```js /quasar.config file\nbuild: {\n  extendViteConf (viteConf, { isClient, isServer }) {\n    viteConf.css.modules = ...\n    viteConf.css.postcss = ...\n    viteConf.css.preprocessorOptions\n  }\n}\n```\n\nMore info: [css.modules](https://vitejs.dev/config/#css-modules), [css.postcss](https://vitejs.dev/config/#css-postcss), [css.preprocessorOptions](https://vitejs.dev/config/#css-preprocessoroptions).",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/css-preprocessors#usage",
     "documentId": "quasar-cli-vite/css-preprocessors",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/css-preprocessors#usage",
     "content": "Your Vue files can contain Sass/SCSS code through the `<style>` tag.\n\n```html\n<!-- Notice lang=\"sass\" -->\n<style lang=\"sass\">\n  div\n    color: #444\n    background-color: #dadada\n</style>\n```\n\n```html\n<!-- Notice lang=\"scss\" -->\n<style lang=\"scss\">\n  div {\n    color: #444;\n    background-color: #dadada;\n  }\n</style>\n```\n\nAnd, of course, standard CSS is also supported:\n\n```html\n<style>\n  div {\n    color: #444;\n    background-color: #dadada;\n  }\n</style>\n```",
@@ -36,7 +44,10 @@
     "id": "quasar-cli-vite/css-preprocessors#variables",
     "documentId": "quasar-cli-vite/css-preprocessors",
     "heading": "Variables",
-    "breadcrumb": ["Variables", "Variables"],
+    "breadcrumb": [
+      "Variables",
+      "Variables"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/css-preprocessors#variables",
     "content": "Quasar also supplies variables (`$primary`, `$grey-3`, ...and many more) and you can directly use them. Read more about [Sass/SCSS variables](/style/sass-scss-variables).",

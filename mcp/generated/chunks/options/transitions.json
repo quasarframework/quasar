@@ -3,7 +3,9 @@
     "id": "options/transitions#overview",
     "documentId": "options/transitions",
     "heading": "Quasar Components Transitions",
-    "breadcrumb": ["Quasar Components Transitions"],
+    "breadcrumb": [
+      "Quasar Components Transitions"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/options/transitions",
     "content": "There are a few Quasar components that implement transitions through `transition-show` / `transition-hide` or `transition-prev` / `transition-next` or simply `transition` props:\n\n- `transition-show` / `transition-hide`\n  - [QBtnDropdown](/vue-components/button-dropdown)\n  - [QInnerLoading](/vue-components/inner-loading)\n  - [QTooltip](/vue-components/tooltip)\n  - [QMenu](/vue-components/menu)\n  - [QDialog](/vue-components/dialog)\n  - [QSelect](/vue-components/select) (through QMenu and QDialog)\n  - [QPopupProxy](/vue-components/popup-proxy) (through QMenu and QDialog)\n\n- `transition-prev` / `transition-next`\n  - [QCarousel](/vue-components/carousel)\n  - [QTabPanels](/vue-components/tab-panels)\n  - [QStepper](/vue-components/stepper)\n\n- `transition`\n  - [QIntersection](/vue-components/intersection)\n\nWe're going to showcase these transitions here.\n\n\n\n<TransitionList />\n\nUse the names indicated in the captions above for the transition props. Example:\n\n```html\n<q-menu transition-show=\"jump-down\" transition-hide=\"jump-up\" />\n```",

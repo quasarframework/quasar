@@ -3,11 +3,15 @@
     "id": "options/quasar-language-packs#overview",
     "documentId": "options/quasar-language-packs",
     "heading": "Quasar Language Packs",
-    "breadcrumb": ["Quasar Language Packs"],
+    "breadcrumb": [
+      "Quasar Language Packs"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/options/quasar-language-packs",
     "content": "A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.\n\nAPI reference: Lang\n\n**Configuration:** configure `framework.config.lang` in `quasar.config`.\n\n::: warning\nIt should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.\n:::\n\nAs mentioned above, some Quasar components have their own labels. When it comes to internationalization, one option is to configure labels through the label properties on each instance of Quasar components (like QTable). This is how you can customize the text to match the selected language. This however, takes time and adds unnecessary complexity to your website/app. **Instead**, you can use the Quasar Language Packs which have a number of standard label definitions translated for you, like \"Cancel\", \"Clear\", \"Select\", \"Update\", etc. No need to translate these again! And it comes out of the box.\n\n::: tip\nFor a complete list of available Quasar Languages, check [Quasar Languages on GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang).\n<br><br>**If your desired language is not on that list**, then feel free to submit a PR to add it. It takes from 5 to 10 minutes at most. We kindly welcome any language!\n:::",
-    "apiReferences": ["Lang"],
+    "apiReferences": [
+      "Lang"
+    ],
     "exampleReferences": []
   },
   {
@@ -117,7 +121,10 @@
     "id": "options/quasar-language-packs#detecting-locale",
     "documentId": "options/quasar-language-packs",
     "heading": "Detecting Locale",
-    "breadcrumb": ["Detecting Locale", "Detecting Locale"],
+    "breadcrumb": [
+      "Detecting Locale",
+      "Detecting Locale"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/quasar-language-packs#detecting-locale",
     "content": "There's also a method to determine user locale which is supplied by Quasar out of the box:\n\n```js\n// outside of a Vue file\nimport { Lang } from 'quasar'\nLang.getLocale() // returns a string\n\n// inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  $q.lang.getLocale() // returns a string\n}\n```",

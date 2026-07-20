@@ -5,12 +5,16 @@
   "description": "Vue directive which triggers an event when user scrolls.",
   "canonicalUrl": "https://quasar.dev/vue-directives/scroll",
   "source": "docs/src/pages/vue-directives/scroll.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-directives",
-  "kinds": ["directive"],
-  "apiReferences": ["Scroll"],
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Scroll"
+  ],
   "examples": []
 }

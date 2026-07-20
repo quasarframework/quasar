@@ -12,9 +12,13 @@ We'll handle the typography supplied by Quasar in the sections below.
 
 ## Headings
 
+
+
 <TypographyHeadings />
 
 ## Font Weights
+
+
 
 <TypographyWeights />
 

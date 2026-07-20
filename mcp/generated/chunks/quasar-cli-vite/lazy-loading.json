@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/lazy-loading#overview",
     "documentId": "quasar-cli-vite/lazy-loading",
     "heading": "Lazy Loading / Code Splitting",
-    "breadcrumb": ["Lazy Loading / Code Splitting"],
+    "breadcrumb": [
+      "Lazy Loading / Code Splitting"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lazy-loading",
     "content": "::: tip Important!\nThis page refers to a project where [Filename-Based Routing](/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing) is **NOT** enabled.\n\nWhen this feature is enabled, the default config will automatically lazy load all the layouts and pages, so you don't need this guide.\n:::\n\nWhen your website/app is small, you can load all layouts/pages/components into the initial bundle and serve everything at startup. But when your code gets complex and has many layouts/pages/components, it won't be optimal to do this as it will massively impact loading time. Fortunately, there is a way to solve this.\n\nWe'll cover how you can lazy load / code split parts of your app so that they are automatically requested only on demand. This is done through dynamic imports. Let's start with an example and then convert it so that we use lazy loading -- we'll focus this example on loading a page, but the same principle can be applied to load anything (assets, JSONs, ...).",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/lazy-loading#lazy-load-router-pages",
     "documentId": "quasar-cli-vite/lazy-loading",
     "heading": "Lazy-load router pages",
-    "breadcrumb": ["Lazy-load router pages", "Lazy-load router pages"],
+    "breadcrumb": [
+      "Lazy-load router pages",
+      "Lazy-load router pages"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lazy-loading#lazy-load-router-pages",
     "content": "It's normal to use the Vue Router calling static components as below.\n\n::: warning\nQuasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).\n:::\n\n```js\nimport SomePage from '@/pages/SomePage.vue'\n\nconst routes = [\n  {\n    path: '/some-page',\n    component: SomePage\n  }\n]\n```\n\nNow let's change this and make the page be loaded on demand only, using dynamic imports:\n\n```js\nconst routes = [\n  {\n    path: '/some-page',\n    component: () => import('@/pages/SomePage.vue')\n  }\n]\n```\n\nEasy, right? What this does is that it creates a separate chunk for `/src/pages/SomePage.vue` which is then loaded only when it is needed. In this case, when a user visits the '/some-page' route.",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/lazy-loading#lazy-load-components",
     "documentId": "quasar-cli-vite/lazy-loading",
     "heading": "Lazy-load components",
-    "breadcrumb": ["Lazy-load components", "Lazy-load components"],
+    "breadcrumb": [
+      "Lazy-load components",
+      "Lazy-load components"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lazy-loading#lazy-load-components",
     "content": "Normally you would import a component and then register it to the Page, Layout or Component.\n\n```html\n<script>\n  import SomeComponent from '@/components/SomeComponent.vue'\n\n  export default {\n    components: {\n      SomeComponent\n    }\n  }\n</script>\n```\n\nNow let's change this and make the component be loaded on demand only, using dynamic imports:\n\n```html\n<script>\n  import { defineAsyncComponent } from 'vue'\n  export default {\n    components: {\n      SomeComponent: defineAsyncComponent(\n        () => import('@/components/SomeComponent.vue')\n      )\n    }\n  }\n</script>\n```",
@@ -36,7 +44,10 @@
     "id": "quasar-cli-vite/lazy-loading#lazy-load-on-the-fly",
     "documentId": "quasar-cli-vite/lazy-loading",
     "heading": "Lazy-load on the fly",
-    "breadcrumb": ["Lazy-load on the fly", "Lazy-load on the fly"],
+    "breadcrumb": [
+      "Lazy-load on the fly",
+      "Lazy-load on the fly"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/lazy-loading#lazy-load-on-the-fly",
     "content": "As you noticed above, we're using dynamic imports (`import('..resource..')`) instead of regular imports (`import Resource from './path/to/resource'`). Dynamic imports are essentially returning a Promise that you can use:\n\n```js\nimport('./categories.json')\n  .then(categories => {\n    // hey, we have lazy loaded the file\n    // and we have its content in \"categories\"\n  })\n  .catch(() => {\n    // oops, something went wrong...\n    // couldn't load the resource\n  })\n```\n\nOne advantage of using dynamic imports as opposed to regular imports is that the import path can be determined at runtime:\n\n```js\nimport('@/pages/' + pageName + '/' + idWithExtension)\n```",

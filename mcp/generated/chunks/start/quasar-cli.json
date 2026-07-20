@@ -3,7 +3,9 @@
     "id": "start/quasar-cli#overview",
     "documentId": "start/quasar-cli",
     "heading": "Quasar CLI",
-    "breadcrumb": ["Quasar CLI"],
+    "breadcrumb": [
+      "Quasar CLI"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/quasar-cli",
     "content": "Quasar CLI is the pride of Quasar Framework. You can seamlessly build:\n\n- a SPA (Single Page Application/Website),\n- a SSR (Server-side Rendered App/Website),\n- a SSG (Static Site Generator App/Website),\n- a PWA (Progressive Web App),\n- a BEX (Browser Extensions),\n- a Mobile App (through Cordova or Capacitor),\n- an Electron App\n\n...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.",
@@ -14,7 +16,10 @@
     "id": "start/quasar-cli#trying-quasar-cli-online",
     "documentId": "start/quasar-cli",
     "heading": "Trying Quasar CLI Online",
-    "breadcrumb": ["Trying Quasar CLI Online", "Trying Quasar CLI Online"],
+    "breadcrumb": [
+      "Trying Quasar CLI Online",
+      "Trying Quasar CLI Online"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quasar-cli#trying-quasar-cli-online",
     "content": "You can try Quasar CLI online directly in the browser, without installing anything!\nYou will also be able to use the command line, so it will be almost identical to creating a project locally.\n\n<q-btn no-wrap href=\"https://stackblitz.quasar.dev\" target=\"_blank\" label=\"Open in Stackblitz\" />",
@@ -25,7 +30,10 @@
     "id": "start/quasar-cli#tl-dr",
     "documentId": "start/quasar-cli",
     "heading": "TL;DR",
-    "breadcrumb": ["TL;DR", "TL;DR"],
+    "breadcrumb": [
+      "TL;DR",
+      "TL;DR"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quasar-cli#tl-dr",
     "content": "::: tip Requirements:\n\n- Node.js v22+\n- PNPM v11+ (recommended), Yarn v1 classic, NPM or Bun\n\n:::\n\n```tabs\n<<| bash PNPM |>>\npnpm add -g @quasar/cli\npnpm create quasar@latest\n<<| bash Yarn |>>\nyarn global add @quasar/cli\nyarn create quasar\n<<| bash NPM |>>\nnpm i -g @quasar/cli\nnpm init quasar@latest\n<<| bash Bun |>>\nbun install -g @quasar/cli\nbun create quasar@latest\n```\n\nPick `App with Quasar CLI`.\n\n<q-btn icon-right=\"launch\" no-wrap label=\"View Components\" to=\"/components\" />",
@@ -50,7 +58,10 @@
     "id": "start/quasar-cli#how-quasar-cli-works",
     "documentId": "start/quasar-cli",
     "heading": "How Quasar CLI works",
-    "breadcrumb": ["How Quasar CLI works", "How Quasar CLI works"],
+    "breadcrumb": [
+      "How Quasar CLI works",
+      "How Quasar CLI works"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quasar-cli#how-quasar-cli-works",
     "content": "Quasar CLI (`@quasar/cli`) works in tandem with `@quasar/app-vite`. The first one is optional (but **strongly recommended**) and allows you to run Quasar CLI commands directly and some other useful commands like `quasar upgrade` (upgrade Quasar packages seamlessly) or `quasar serve` (serve your distributable with an ad-hoc webserver). The second package is the heart of it (runs the important commands - dev, build, inspect, info, describe etc) and it gets installed locally into every Quasar project folder.",
@@ -77,7 +88,10 @@
     "id": "start/quasar-cli#what-next",
     "documentId": "start/quasar-cli",
     "heading": "What next?",
-    "breadcrumb": ["What next?", "What next?"],
+    "breadcrumb": [
+      "What next?",
+      "What next?"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quasar-cli#what-next",
     "content": "<q-btn icon-right=\"launch\" no-wrap label=\"View Components\" to=\"/components\" />",

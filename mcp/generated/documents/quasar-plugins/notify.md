@@ -48,7 +48,7 @@ setup () {
 
 Source: [Basic.vue](../../examples/Notify/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showNotif" label="Show Notification" />
@@ -67,7 +67,7 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 ::: tip
 If you define any actions, the notification will automatically be dismissed when the user picks it.
@@ -79,7 +79,7 @@ If you define any actions, the notification will automatically be dismissed when
 
 Source: [Caption.vue](../../examples/Notify/Caption.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showNotif" label="Show with caption" />
@@ -99,7 +99,7 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 ### With icon, avatar or spinner
 
@@ -107,7 +107,7 @@ function showNotif() {
 
 Source: [Icon.vue](../../examples/Notify/Icon.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showNotif" label="Show Notification" />
@@ -126,13 +126,13 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 **Example: With avatar**
 
 Source: [Avatar.vue](../../examples/Notify/Avatar.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showNotif" label="Show Notification" />
@@ -152,13 +152,13 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 **Example: With spinner**
 
 Source: [Spinner.vue](../../examples/Notify/Spinner.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
@@ -189,7 +189,7 @@ function showCustom() {
   })
 }
 </script>
-```
+````
 
 ### With actions
 
@@ -197,7 +197,7 @@ function showCustom() {
 
 Source: [Actions.vue](../../examples/Notify/Actions.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showNotif" label="Show Notifications" />
@@ -264,7 +264,7 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 ### Multiline
 
@@ -272,7 +272,7 @@ function showNotif() {
 
 Source: [Multiline.vue](../../examples/Notify/Multiline.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" @click="showNotif" label="Show Notification" />
@@ -303,7 +303,7 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 ### Positioning
 
@@ -311,7 +311,7 @@ function showNotif() {
 
 Source: [Positioning.vue](../../examples/Notify/Positioning.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-y-sm column items-center">
     <div>
@@ -461,7 +461,7 @@ function showNotif(position) {
   })
 }
 </script>
-```
+````
 
 ::: tip
 For a full list of options, check the API section.
@@ -477,7 +477,7 @@ However, if you wish to disable this behavior, specify `group: false`. In the ex
 
 Source: [Grouping.vue](../../examples/Notify/Grouping.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
@@ -546,13 +546,13 @@ function triggerTwiceCustomGroup() {
   })
 }
 </script>
-```
+````
 
 **Example: Custom badge**
 
 Source: [GroupingCustomBadge.vue](../../examples/Notify/GroupingCustomBadge.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -592,7 +592,7 @@ function triggerTwice() {
 .my-badge-class
   border: 1px solid #ccc
 </style>
-```
+````
 
 ### Timeout progress
 
@@ -602,7 +602,7 @@ Should you wish, there is a way to tell the user when the notification will disa
 
 Source: [TimeoutProgress.vue](../../examples/Notify/TimeoutProgress.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -667,7 +667,7 @@ function showNotifs() {
   }, 3200)
 }
 </script>
-```
+````
 
 ### Updatable notifications
 
@@ -679,7 +679,7 @@ Please note in the example below that we are explicitly setting "group: false" (
 
 Source: [Updatable.vue](../../examples/Notify/Updatable.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -728,7 +728,7 @@ function showNotif() {
   }, 500)
 }
 </script>
-```
+````
 
 ### Predefined types
 
@@ -738,7 +738,7 @@ There are four predefined types out of the box that you can use: "positive", "ne
 
 Source: [PredefinedTypesDefault.vue](../../examples/Notify/PredefinedTypesDefault.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
@@ -833,7 +833,7 @@ function triggerOngoing() {
   }, 4000)
 }
 </script>
-```
+````
 
 Furthermore, you can register your own types or even override the predefined ones. The best place to do this would be in a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files).
 
@@ -841,7 +841,7 @@ Furthermore, you can register your own types or even override the predefined one
 
 Source: [PredefinedTypesCustom.vue](../../examples/Notify/PredefinedTypesCustom.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="row q-gutter-sm">
@@ -904,7 +904,7 @@ function triggerCustomRegisteredType2() {
   })
 }
 </script>
-```
+````
 
 ```js How to register in a boot file:
 import { Notify } from 'quasar'
@@ -926,7 +926,7 @@ You can use HTML on message if you specify the `html: true` prop. **Please note 
 
 Source: [UnsafeHtml.vue](../../examples/Notify/UnsafeHtml.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn
@@ -951,7 +951,7 @@ function showNotif() {
   })
 }
 </script>
-```
+````
 
 ### Setting attributes
 

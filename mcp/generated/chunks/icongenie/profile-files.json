@@ -3,7 +3,9 @@
     "id": "icongenie/profile-files#overview",
     "documentId": "icongenie/profile-files",
     "heading": "Icon Genie Profile Files",
-    "breadcrumb": ["Icon Genie Profile Files"],
+    "breadcrumb": [
+      "Icon Genie Profile Files"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/icongenie/profile-files",
     "content": "If you need to automate the creation of all your app's icons and splash screens, Icon Genie offers configuration files which can be run in batch.\n\nThese configuration files are called \"profile files\". The files are in JSON format and tell Icon Genie which images to generate and how to generate them. They also spare you from having to remember the whole set of Icon Genie commands and parameters to generate your assets.",
@@ -14,7 +16,10 @@
     "id": "icongenie/profile-files#file-structure",
     "documentId": "icongenie/profile-files",
     "heading": "File structure",
-    "breadcrumb": ["File structure", "File structure"],
+    "breadcrumb": [
+      "File structure",
+      "File structure"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/icongenie/profile-files#file-structure",
     "content": "The generic form of a JSON profile file is:\n\n```json\n{\n  \"params\": {},\n  \"assets\": []\n}\n```\n\nWe will be discussing each in the next sections.",
@@ -25,7 +30,11 @@
     "id": "icongenie/profile-files#params",
     "documentId": "icongenie/profile-files",
     "heading": "Params",
-    "breadcrumb": ["File structure", "Params", "Params"],
+    "breadcrumb": [
+      "File structure",
+      "Params",
+      "Params"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/icongenie/profile-files#params",
     "content": "The `params` object from a JSON profile file takes the same prop names as the [generate](/icongenie/command-list#generate) command parameters (but camelCased instead of the CLI's kebab-case). There is one key difference: instead of using `mode` (examples: \"spa,pwa\", \"all\") you will be writing `include` (examples: [ \"spa\", \"pwa\" ], [ \"all\" ]).\n\nFull list of props that you can write for the `params` object:\n\n| Prop name             | Type           | Description                                                                                                                                                                               | Examples                         |\n| --------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |\n| include               | Array          | Include Icon Genie hardcoded sets of assets for specific Quasar modes                                                                                                                     | `[ \"spa\", \"pwa\" ]` / `[ \"all\" ]` |\n| icon                  | String         | Path to source file for icon; can be absolute or relative to the root of the Quasar project folder                                                                                        | `my-icon.png`                    |\n| background            | String         | Path to optional background source file (for splash screens); can be absolute or relative to the root of the Quasar project folder                                                        | `my-bg.png`                      |\n| filter                | String         | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all                                                                              | `ico`                            |\n| quality               | Number [1-12]  | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster                                                                | `12`                             |\n| padding               | Array [Number] | (v2.1+) Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0]                                                                    | `[10, 0]` / `[5,5]`              |\n| skipTrim              | Boolean        | (v2.2+) Do not trim the icon source file                                                                                                                                                  |                                  |\n| themeColor            | String [hex]   | Theme color to use for all generators requiring a color; it gets overridden if any generator color is also specified                                                                      | `ccc` / `e2b399`                 |\n| pngColor              | String [hex]   | Background color to use for the png generator, when \"background: true\" in the asset definition (like for the cordova/capacitor iOS icons)                                                 | `ccc` / `e2b399`                 |\n| splashscreenColor     | String [hex]   | Background color to use for the splashscreen generator                                                                                                                                    | `ccc` / `e2b399`                 |\n| svgColor              | String [hex]   | Color to use for the generated monochrome SVGs                                                                                                                                            | `ccc` / `e2b399`                 |\n| splashscreenIconRatio | Number [0-100] | Ratio of icon size in respect to the width or height (whichever is smaller) of the resulting splashscreen; represents percentages; 0 means it won't add the icon of top of the background | `40`                             |",
@@ -36,7 +45,11 @@
     "id": "icongenie/profile-files#assets",
     "documentId": "icongenie/profile-files",
     "heading": "Assets",
-    "breadcrumb": ["File structure", "Assets", "Assets"],
+    "breadcrumb": [
+      "File structure",
+      "Assets",
+      "Assets"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/icongenie/profile-files#assets",
     "content": "The `assets` array can contain custom definitions for **extra assets**, should you need them. This can be used when Icon Genie's default list for each mode is not sufficient for your use case. If you don't specify the `include` prop in `params` you can only generate your custom assets.\n\nIn 99% of the cases you won't need to specify the `assets` array, but Icon Genie is designed to be very flexible, so it includes this feature too.\n\nAsset `folder` and `name` values are resolved relative to the Quasar project folder. They cannot target a location outside the project folder, either directly or through a symbolic link.\n\nSome examples for `assets` from which you can extract the syntax for every type of possible asset that Icon Genie can generate:\n\n```json\n\"assets\": [\n  {\n    \"generator\": \"png\",\n    \"name\": \"icon-{size}x{size}.png\",\n    \"folder\": \"src-bex/icons\",\n    \"sizes\": [ 16, 48, 128 ]\n  },\n\n  {\n    \"generator\": \"svg\",\n    \"name\": \"safari-pinned-tab.svg\",\n    \"folder\": \"public/icons\"\n  },\n\n  {\n    \"generator\": \"splashscreen\",\n    \"name\": \"apple-launch-{size}.png\",\n    \"folder\": \"public/icons\",\n    \"sizes\": [\n      [ 1668, 2388 ]\n    ],\n    \"tag\": \"<link rel=\\\"apple-touch-startup-image\\\" media=\\\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\\\" href=\\\"icons/{name}\\\">\"\n  },\n\n  {\n    \"generator\": \"icns\",\n    \"name\": \"icon.icns\",\n    \"folder\": \"src-electron/electron-assets/icons\"\n  },\n\n  {\n    \"generator\": \"ico\",\n    \"name\": \"icon.ico\",\n    \"folder\": \"src-electron/electron-assets/icons\"\n  },\n\n  {\n    \"generator\": \"splashscreen\",\n    \"name\": \"Default-Landscape-2436h.png\",\n    \"folder\": \"src-cordova/res/screen/ios\",\n    \"sizes\": [\n      [ 2436, 1125 ]\n    ]\n  },\n\n  {\n    \"generator\": \"png\",\n    \"name\": \"icon-29@2x.png\",\n    \"folder\": \"src-cordova/res/ios\",\n    \"sizes\": [ 58 ],\n    \"platform\": \"cordova-ios\",\n    \"background\": true\n  },\n\n  {\n    \"generator\": \"png\",\n    \"name\": \"icon-29@2x.png\",\n    \"folder\": \"src-cordova/res/ios\",\n    \"sizes\": [ 58 ],\n    \"platform\": \"cordova-ios\",\n    \"background\": true\n  },\n\n  {\n    \"generator\": \"png\",\n    \"name\": \"xxxhdpi.png\",\n    \"folder\": \"src-cordova/res/android\",\n    \"sizes\": [ 192 ],\n    \"platform\": \"cordova-android\",\n    \"density\": \"xxxhdpi\"\n  },\n\n  {\n    \"generator\": \"splashscreen\",\n    \"name\": \"Default@2x~ipad~comany.png\",\n    \"folder\": \"src-cordova/res/screen/ios\",\n    \"sizes\": [\n      [ 1278, 2732 ]\n    ],\n    \"platform\": \"cordova-ios\"\n  },\n\n  {\n    \"generator\": \"splashscreen\",\n    \"name\": \"splash-land-xxxhdpi.png\",\n    \"folder\": \"src-cordova/res/screen/android\",\n    \"sizes\": [\n      [ 1920, 1280 ]\n    ],\n    \"platform\": \"cordova-android\",\n    \"density\": \"land-xxxhdpi\"\n  }\n]\n```",
@@ -47,7 +60,10 @@
     "id": "icongenie/profile-files#bootstrap-profiles",
     "documentId": "icongenie/profile-files",
     "heading": "Bootstrap profiles",
-    "breadcrumb": ["Bootstrap profiles", "Bootstrap profiles"],
+    "breadcrumb": [
+      "Bootstrap profiles",
+      "Bootstrap profiles"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/icongenie/profile-files#bootstrap-profiles",
     "content": "Icon Genie also offers the [profile command](/icongenie/command-list#profile) which can bootstrap JSON profile files for you. It can help you create one or more such files that you can then run in batch through the [generate command](/icongenie/command-list#generate) with `--profile` param (or short `-p`).\n\nThe most handy use case is to generate multiple profile files into one specific folder, each with their own parameters, and then run all of them through `icongenie generate -p /path/to/folder`.",

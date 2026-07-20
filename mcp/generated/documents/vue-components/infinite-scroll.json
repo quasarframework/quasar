@@ -5,13 +5,17 @@
   "description": "The QInfiniteScroll Vue component allows you to load new content as the user scrolls the page.",
   "canonicalUrl": "https://quasar.dev/vue-components/infinite-scroll",
   "source": "docs/src/pages/vue-components/infinite-scroll.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-components",
-  "kinds": ["component"],
-  "apiReferences": ["QInfiniteScroll"],
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QInfiniteScroll"
+  ],
   "examples": [
     {
       "title": "Basic",

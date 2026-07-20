@@ -3,18 +3,25 @@
     "id": "quasar-plugins/app-visibility#overview",
     "documentId": "quasar-plugins/app-visibility",
     "heading": "App Visibility",
-    "breadcrumb": ["App Visibility"],
+    "breadcrumb": [
+      "App Visibility"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/app-visibility",
     "content": "Quasar makes use of the Web [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) which lets you know when a website/app is visible or in focus.\n\nAPI reference: AppVisibility\n\n**Configuration:** register AppVisibility through `framework.plugins` in `quasar.config`.",
-    "apiReferences": ["AppVisibility"],
+    "apiReferences": [
+      "AppVisibility"
+    ],
     "exampleReferences": []
   },
   {
     "id": "quasar-plugins/app-visibility#usage",
     "documentId": "quasar-plugins/app-visibility",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/app-visibility#usage",
     "content": "```js Outside of a Vue file\nimport { AppVisibility } from 'quasar'\nAppVisibility.appVisible // Boolean\n\n// inside of a Vue file\nimport { useQuasar } from 'quasar'\nsetup () {\n  const $q = useQuasar()\n  // now use $q.appVisible (Boolean)\n}\n```\n\nExample: AppVisibility (Basic.vue)",
@@ -30,7 +37,10 @@
     "id": "quasar-plugins/app-visibility#watching-for-status-change",
     "documentId": "quasar-plugins/app-visibility",
     "heading": "Watching for status change",
-    "breadcrumb": ["Watching for status change", "Watching for status change"],
+    "breadcrumb": [
+      "Watching for status change",
+      "Watching for status change"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/app-visibility#watching-for-status-change",
     "content": "```html\n<template>...</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n  import { watch } from 'vue'\n\n  const $q = useQuasar()\n\n  watch(\n    () => $q.appVisible,\n    val => {\n      console.log(val ? 'App became visible' : 'App went in the background')\n    }\n  )\n</script>\n```",

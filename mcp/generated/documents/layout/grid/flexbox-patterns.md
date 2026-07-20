@@ -48,7 +48,7 @@ You can use `q-py-##` on row breaking elements or `q-px-##` on column breaking e
 
 Source: [BreakRow.vue](../../../examples/grid/BreakRow.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-break-row">
     <div class="row items-start example-container">
@@ -78,7 +78,7 @@ Source: [BreakRow.vue](../../../examples/grid/BreakRow.vue)
       padding: 4px 8px
       box-shadow: inset 0 0 0 2px #9e9e9e
 </style>
-```
+````
 
 ::: warning
 When using `column` type flex you must define a height for the container. The height must be large enough to hold the longest column.
@@ -88,7 +88,7 @@ When using `column` type flex you must define a height for the container. The he
 
 Source: [BreakColumn.vue](../../../examples/grid/BreakColumn.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-break-column">
     <div class="column inline items-start example-container">
@@ -120,7 +120,7 @@ Source: [BreakColumn.vue](../../../examples/grid/BreakColumn.vue)
       padding: 4px 8px
       box-shadow: inset 0 0 0 2px #9e9e9e
 </style>
-```
+````
 
 ## Masonry-like layout
 
@@ -186,7 +186,7 @@ Example, supposing you want a 4 column layout:
 
 Source: [Masonry.vue](../../../examples/grid/Masonry.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-masonry">
     <q-btn
@@ -262,7 +262,7 @@ function onClick() {
         padding: 4px 8px
         box-shadow: inset 0 0 0 2px #9e9e9e
 </style>
-```
+````
 
 ## Masonry with pseudo selectors to break rows / columns
 
@@ -298,7 +298,7 @@ When it's not easy or not possible to insert the elements for row / column break
 
 Source: [MasonryTableGrid.vue](../../../examples/grid/MasonryTableGrid.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-table
@@ -456,4 +456,4 @@ const rowsPerPageOptions = computed(() =>
       width: 0 !important
       order: 2
 </style>
-```
+````

@@ -5,12 +5,14 @@
   "description": "(@quasar/app-vite) Configuring the Quasar SSG Renderer.",
   "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/ssg-renderer",
   "source": "docs/src/pages/quasar-cli-vite/developing-ssg/ssg-renderer.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "quasar-cli-vite/ssg",
-  "kinds": ["guide"],
+  "kinds": [
+    "guide"
+  ],
   "apiReferences": [],
   "examples": []
 }

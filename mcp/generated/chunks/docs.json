@@ -3,7 +3,9 @@
     "id": "docs#overview",
     "documentId": "docs",
     "heading": "Documentation",
-    "breadcrumb": ["Documentation"],
+    "breadcrumb": [
+      "Documentation"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/docs",
     "content": "Use the documentation index in this artifact to browse Quasar guides and APIs.",

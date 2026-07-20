@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/prefetch-feature#overview",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "PreFetch Feature",
-    "breadcrumb": ["PreFetch Feature"],
+    "breadcrumb": [
+      "PreFetch Feature"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature",
     "content": "The PreFetch is a feature (**only available when using Quasar CLI**) which allows the components picked up by Vue Router (defined in `/src/router/routes.js`) to:\n\n- pre-fetch data\n- validate the route\n- redirect to another route, when some conditions aren't met (like user isn't logged in)\n- can help in initializing the Store state\n\nAll the above will run before the actual route component is rendered.\n\n**It is designed to work with all Quasar modes** (SPA, PWA, SSR, SSG, Cordova, Electron), but it is especially useful for SSR builds.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/prefetch-feature#installation",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "Installation",
-    "breadcrumb": ["Installation", "Installation"],
+    "breadcrumb": [
+      "Installation",
+      "Installation"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature#installation",
     "content": "```js /quasar.config file\nreturn {\n  preFetch: true\n}\n```\n\n::: warning\nWhen you use it to pre-fetch data, you may want to use Pinia, so make sure that your project folder has the `/src/stores` (for Pinia) folders when you create your project, otherwise generate a new project and copy the store folder contents to your current project (or use `quasar new store` command).\n:::",
@@ -53,7 +58,10 @@
     "id": "quasar-cli-vite/prefetch-feature#usage",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature#usage",
     "content": "The hook is defined as a custom static function called `preFetch` on our route components. Note that because this function will be called before the components are instantiated, it doesn't have access to `this`.\n\nExample below is when using Pinia:\n\n```html Some .vue component used as route\n<script setup>\n  /**\n   * The defineOptions is a macro.\n   * The options will be hoisted to module scope and cannot access local\n   * variables in <script setup> that are not literal constants.\n   */\n  defineOptions({\n    // our hook here\n    preFetch({\n      store,\n      currentRoute,\n      previousRoute,\n      redirect,\n      ssrContext,\n      urlPath,\n      publicPath\n    }) {\n      // fetch data, validate route and optionally redirect to some other route...\n\n      // ssrContext is available only server-side in SSR/SSG mode\n\n      // No access to \"this\" here\n\n      // Return a Promise if you are running an async job\n      // Example:\n      const myStore = useMyStore() // useMyStore(store) for SSR/SSG\n      return myStore.fetchItem(currentRoute.params.id) // assumes it is async\n    }\n  })\n\n  const myStore = useMyStore()\n  const $route = useRoute()\n\n  // display the item from store state.\n  const item = computed(() => myStore.items[$route.params.id])\n</script>\n```\n\nAlternatively, with Composition API and `<script>`:\n\n```html Some .vue component used as route\n<template>\n  <div>{{ item.title }}</div>\n</template>\n\n<script>\n  import { useRoute } from 'vue-router'\n  import { useMyStore } from '@/stores/myStore.js'\n\n  export default {\n    preFetch() {\n      console.log('Running preFetch')\n    },\n\n    setup({\n      store,\n      currentRoute,\n      previousRoute,\n      redirect,\n      ssrContext,\n      urlPath,\n      publicPath\n    }) {\n      const myStore = useMyStore()\n      const $route = useRoute()\n\n      // display the item from store state.\n      const item = computed(() => myStore.items[$route.params.id])\n\n      return { item }\n    }\n  }\n</script>\n```\n\n::: tip\nIf you are developing a SSR/SSG app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.\n:::\n\n```js\n// related action for Promise example\n// ...\n\nactions: {\n  fetchItem ({ commit }, id) {\n    return axiosInstance.get(url, id).then(({ data }) => {\n      this.items = data\n    })\n  }\n}\n\n// ...\n```",
@@ -64,7 +72,11 @@
     "id": "quasar-cli-vite/prefetch-feature#redirecting-example",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "Redirecting Example",
-    "breadcrumb": ["Usage", "Redirecting Example", "Redirecting Example"],
+    "breadcrumb": [
+      "Usage",
+      "Redirecting Example",
+      "Redirecting Example"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature#redirecting-example",
     "content": "::: warning\nPlease be mindful when redirecting as you might configure the app to go into an infinite redirect loop.\n:::\n\n::: warning\nPlease remember to return from the function immediately after calling `redirect()`.\n:::\n\nBelow is an example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.\n\n```js\n// We assume here we already wrote the authentication logic\n// in one Pinia Store, so take as a high-level example only.\nimport { useMyStore } from '@/stores/myStore'\n\npreFetch ({ store, redirect }) {\n  const myStore = useMyStore() // useMyStore(store) for SSR/SSG\n  if (!myStore.isAuthenticated) {\n    redirect({ path: '/login' })\n    return\n  }\n}\n```\n\nHere is the definition for it:\n\n```ts\nreadonly redirect: (\n  url: string | RouteLocationRaw,\n  /**\n   * HTTP status code to use for the redirection.\n   * Only used in SSR mode (but NOT SSG mode).\n   *\n   * @default 302\n   */\n  httpStatusCode?: HttpRedirectStatusCode\n) => void;\n```\n\nThe `redirect()` method accepts a String (full URL) or a Vue Router location String or Object. On SSR it can receive a second parameter which should be a Number for any of the HTTP STATUS codes that redirect the browser (3xx ones).\n\n```js\n// Examples for redirect() with a Vue Router location:\nredirect('/1') // Vue Router location as String\nredirect({ path: '/1' }) // Vue Router location as Object\n\n// Example for redirect() with a URL:\nredirect('https://quasar.dev')\n```\n\n::: warning IMPORTANT!\nThe Vue Router location (in String or Object form) does not refer to URL path (and hash), but to the actual Vue Router routes that you have defined.\nSo **don't add the publicPath** to it and if you're using the Vue Router hash mode then don't add the hash to it.\n:::\n\n<br>Let's say that we have this Vue Router route defined:<br>\n\n```js\n{\n  path: '/one',\n  component: PageOne\n}\n```\n\n<br>Then **regardless of our publicPath** we can call `redirect()` like this:<br><br>\n\n```js\n// publicPath: /wiki; vueRouterMode: history\nredirect('/one') // good way\nredirect({ path: '/one' }) // good way\nredirect('/wiki/one') // WRONG!\n\n// publicPath: /wiki; vueRouterMode: hash\nredirect('/one') // good way\nredirect({ path: '/one' }) // good way\nredirect('/wiki/#/one') // WRONG!\n\n// no publicPath; vueRouterMode: hash\nredirect('/one') // good way\nredirect({ path: '/one' }) // good way\nredirect('/#/one') // WRONG!\n```",
@@ -90,7 +102,10 @@
     "id": "quasar-cli-vite/prefetch-feature#loading-state",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "Loading State",
-    "breadcrumb": ["Loading State", "Loading State"],
+    "breadcrumb": [
+      "Loading State",
+      "Loading State"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature#loading-state",
     "content": "A good UX includes notifying the user that something is being worked on in the background while he/she waits for the page to be ready. Quasar CLI offers two options for this out of the box.",
@@ -101,7 +116,11 @@
     "id": "quasar-cli-vite/prefetch-feature#loadingbar",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "LoadingBar",
-    "breadcrumb": ["Loading State", "LoadingBar", "LoadingBar"],
+    "breadcrumb": [
+      "Loading State",
+      "LoadingBar",
+      "LoadingBar"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature#loadingbar",
     "content": "When you add Quasar [LoadingBar](/quasar-plugins/loading-bar) plugin to your app, Quasar CLI will use it while it runs the preFetch hooks by default.",
@@ -112,7 +131,11 @@
     "id": "quasar-cli-vite/prefetch-feature#loading",
     "documentId": "quasar-cli-vite/prefetch-feature",
     "heading": "Loading",
-    "breadcrumb": ["Loading State", "Loading", "Loading"],
+    "breadcrumb": [
+      "Loading State",
+      "Loading",
+      "Loading"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/prefetch-feature#loading",
     "content": "There's also the possibility to use Quasar [Loading](/quasar-plugins/loading) plugin. Here's an example:\n\n```js A route .vue component\nimport { Loading } from 'quasar'\n\ndefineOptions({\n  preFetch({/* ... */}) {\n    Loading.show()\n\n    return new Promise(resolve => {\n      // do something async here\n      // then call \"resolve()\"\n    }).then(() => {\n      Loading.hide()\n    })\n  }\n})\n```",

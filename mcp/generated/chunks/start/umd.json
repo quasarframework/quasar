@@ -3,7 +3,9 @@
     "id": "start/umd#overview",
     "documentId": "start/umd",
     "heading": "Quasar UMD - CDN install",
-    "breadcrumb": ["Quasar UMD - CDN install"],
+    "breadcrumb": [
+      "Quasar UMD - CDN install"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/umd",
     "content": "If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.",
@@ -14,7 +16,10 @@
     "id": "start/umd#installation",
     "documentId": "start/umd",
     "heading": "Installation",
-    "breadcrumb": ["Installation", "Installation"],
+    "breadcrumb": [
+      "Installation",
+      "Installation"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/umd#installation",
     "content": "UMD is all about adding Quasar style and javascript tags. Please select what you will be using and check out the output below it.\n\n\n\n<UmdTags />\n\n::: warning\n\n- Please notice the `<!doctype html>` at the beginning of the document. Do not forget to add it, or else some browsers (notably Safari) will use some compatibility mode that breaks flex.\n- If you are using an RTL Quasar language pack (eg. Hebrew) then toggle the \"RTL CSS support\" above too!\n- Do NOT use self-closing tags, like `<q-icon ... />`. Instead, go with `<q-icon ...></q-icon>`.\n- It might be wise to pin all the packages that you use to specific versions that you've already tested in development. Regressions can occur, like in Vue 3.2.32 and this can break your pages. Example of pinning Vue to a specific version (point the script tag to): https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.prod.js\n\n:::\n\n::: tip\nAll components, directives and Quasar plugins are ready to be used out of the box. There is no need for additional code to install them. Just make sure that you will NOT be using self-closing tags.\n:::",
@@ -25,7 +30,10 @@
     "id": "start/umd#jsfiddle-codepen",
     "documentId": "start/umd",
     "heading": "JsFiddle / Codepen",
-    "breadcrumb": ["JsFiddle / Codepen", "JsFiddle / Codepen"],
+    "breadcrumb": [
+      "JsFiddle / Codepen",
+      "JsFiddle / Codepen"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/umd#jsfiddle-codepen",
     "content": "You can fork and use these links for reporting issues on GitHub too:\n\n| Supplier | URL                                                        |\n| -------- | ---------------------------------------------------------- |\n| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |\n| Codepen  | [https://codepen.quasar.dev](https://codepen.quasar.dev)   |\n\nThese links (obviously) use the Quasar UMD version.",
@@ -36,7 +44,10 @@
     "id": "start/umd#quasar-global-object",
     "documentId": "start/umd",
     "heading": "Quasar Global Object",
-    "breadcrumb": ["Quasar Global Object", "Quasar Global Object"],
+    "breadcrumb": [
+      "Quasar Global Object",
+      "Quasar Global Object"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/umd#quasar-global-object",
     "content": "When you embed Quasar UMD into a webpage you'll get a `Quasar` global Object injected:\n\n```js\nQuasar = {\n  version, // Quasar version\n\n  ...components,\n  ...directives,\n  ...plugins, // Quasar plugins\n  ...utils, // Quasar utils\n\n  // if you want to change current icon set or Quasar Language pack\n  // (must include CDN links so they are available first!)\n  lang,\n  iconSet\n}\n```\n\nSome usage examples:\n\n```js\nQuasar.QBtn\nQuasar.getCssVar('primary')\nQuasar.debounce(fn, 200)\nQuasar.Notify.create('Hi and welcome!')\nQuasar.utils.is.deepEqual(objA, objB)\n```",
@@ -47,7 +58,10 @@
     "id": "start/umd#quasar-config-object",
     "documentId": "start/umd",
     "heading": "Quasar Config Object",
-    "breadcrumb": ["Quasar Config Object", "Quasar Config Object"],
+    "breadcrumb": [
+      "Quasar Config Object",
+      "Quasar Config Object"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/umd#quasar-config-object",
     "content": "There are some configuration options for Quasar & Quasar plugins:\n\n```js\napp.use(Quasar, {\n  config: {\n    brand: {\n      primary: '#e46262',\n      // ... or all other brand colors\n    },\n    notify: {...}, // default set of options for Notify Quasar plugin\n    loading: {...}, // default set of options for Loading Quasar plugin\n    loadingBar: { ... }, // settings for LoadingBar Quasar plugin\n    // ..and many more\n  }\n})\n```",
@@ -58,7 +72,10 @@
     "id": "start/umd#usage",
     "documentId": "start/umd",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/umd#usage",
     "content": "So, after you figured out the CDN links that you need to embed into your webpages, now it's time to use Quasar.\n\nBy using the UMD version, you'll have all of the components, directives and Quasar plugins already installed for you. You just need to start using them.\n\n**Do not use self-closing tags with the UMD version:**\nYou will notice that you won't be able to use the self-closing tag form of any of the components. You must close all components tags.\n\n```html\n<!-- Incorrect usage: In docs, but for Quasar CLI usage -->\n<q-btn label=\"My Button\" />\n<!-- ^^^ can't use it like this on UMD -->\n\n<!-- Correct usage: Instead, include a self-closing tag too: -->\n<q-btn label=\"My Button\"></q-btn>\n```",
@@ -69,7 +86,11 @@
     "id": "start/umd#examples",
     "documentId": "start/umd",
     "heading": "Examples",
-    "breadcrumb": ["Usage", "Examples", "Examples"],
+    "breadcrumb": [
+      "Usage",
+      "Examples",
+      "Examples"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/start/umd#examples",
     "content": "```html\n<!-- components -->\n<q-btn label=\"My Button\"></q-btn>\n\n<!-- directives -->\n<div v-ripple>...</div>\n```\n\n```js\n// Quasar plugins\nQuasar.BottomSheet.create({...})\n\n// Quasar utils\nQuasar.openURL('https://quasar.dev')\n```",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge#overview",
     "documentId": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
     "heading": "BEX Bridge Communication",
-    "breadcrumb": ["BEX Bridge Communication"],
+    "breadcrumb": [
+      "BEX Bridge Communication"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/bex-bridge",
     "content": "Allowing a Quasar App to communicate with the various parts of the BEX is essential. Quasar closes this gap using a `bridge`.\n\nThere are three areas in a BEX that may need a communication layer:\n\n1. The Quasar App, such as a popup, options page, developer-tools page, or embedded web page\n2. The background script or service worker\n3. Content scripts",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge#communication-rules",
     "documentId": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
     "heading": "Communication Rules",
-    "breadcrumb": ["Communication Rules", "Communication Rules"],
+    "breadcrumb": [
+      "Communication Rules",
+      "Communication Rules"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/bex-bridge#communication-rules",
     "content": "You can use our BEX bridge to directly communicate between the background script, instances of the content scripts and the popup/devtools/options page.\n\nThe use of the BEX bridge is optional for each part of the BEX, however if you want to be able to directly communicate between any bex part, then you need to create it in your background script. Under the hood, the background script acts as the main point of communication. All messages go through the bridge in the background script (and get redirected to the right recipient).\n\n::: warning\nTreat every bridge message as untrusted input, especially messages originating from a content script that interacts with arbitrary web pages. Validate the event name, sender, payload shape, URLs, and identifiers before using extension permissions or accessing stored data. Expose narrow operations instead of a generic privileged command, and request only the manifest permissions and host access your extension needs.\n:::",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge#the-bridge",
     "documentId": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
     "heading": "The Bridge",
-    "breadcrumb": ["The Bridge", "The Bridge"],
+    "breadcrumb": [
+      "The Bridge",
+      "The Bridge"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/bex-bridge#the-bridge",
     "content": "The bridge is a Promise-based event system shared by the BEX contexts. It lets each context listen for events, send messages to a specific connected port, and return synchronous or asynchronous responses.\n\nTo access the bridge from within your Quasar App (/src) you can use `$q.bex`. In other areas, the bridge is made available via creating an instance of it.\n\nLet's see how it works.",
@@ -51,7 +59,11 @@
     "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge#content-scripts",
     "documentId": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
     "heading": "Content scripts",
-    "breadcrumb": ["The Bridge", "Content scripts", "Content scripts"],
+    "breadcrumb": [
+      "The Bridge",
+      "Content scripts",
+      "Content scripts"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/bex-bridge#content-scripts",
     "content": "```js\n/**\n * Importing the file below initializes the content script.\n *\n * Warning:\n *   Do not remove the import statement below. It is required for the extension to work.\n *   If you don't need createBridge(), leave it as \"import '#q-app/bex/content'\".\n */\nimport { createBridge } from '#q-app/bex/content'\n\n// The use of the bridge is optional.\nconst bridge = createBridge({ debug: false })\n/**\n * bridge.portName is 'content@<path>-<number>'\n *   where <path> is the relative path of this content script\n *   filename (without extension) from /src-bex\n *   (eg. 'my-content-script', 'subdir/my-script')\n *   and <number> is a unique instance number (1-10000).\n */\n\n// Attach initial bridge listeners...\n\n/**\n * Leave this AFTER you attach your initial listeners\n * so that the bridge can properly handle them.\n *\n * You can also disconnect from the background script\n * later on by calling bridge.disconnectFromBackground().\n *\n * To check connection status, access bridge.isConnected\n */\nbridge\n  .connectToBackground()\n  .then(() => {\n    console.log('Connected to background')\n  })\n  .catch(err => {\n    console.error('Failed to connect to background:', err)\n  })\n```",
@@ -92,7 +104,11 @@
     "id": "quasar-cli-vite/developing-browser-extensions/bex-bridge#bridge-debug-mode",
     "documentId": "quasar-cli-vite/developing-browser-extensions/bex-bridge",
     "heading": "Bridge debug mode",
-    "breadcrumb": ["The Bridge", "Bridge debug mode", "Bridge debug mode"],
+    "breadcrumb": [
+      "The Bridge",
+      "Bridge debug mode",
+      "Bridge debug mode"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/bex-bridge#bridge-debug-mode",
     "content": "If you encounter problems with sending messages between the BEX parts, you could enable the debug mode for the bridges that interest you. In doing so, the communication will also be outputted to the browser console:\n\n```js Bridge debug mode\n// Dynamically set debug mode\nbridge.setDebug(true) // boolean\n\n// Log a message on the console (if debug is enabled)\nbridge.log('Hello world!')\nbridge.log('Hello', 'world!')\nbridge.log('Hello world!', { some: 'data' })\nbridge.log('Hello', 'world', '!', { some: 'object' })\n// Log a warning on the console (regardless of the debug setting)\nbridge.warn('Hello world!')\nbridge.warn('Hello', 'world!')\nbridge.warn('Hello world!', { some: 'data' })\nbridge.warn('Hello', 'world', '!', { some: 'object' })\n```",

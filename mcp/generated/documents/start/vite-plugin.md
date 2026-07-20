@@ -68,6 +68,8 @@ bun add -D @quasar/vite-plugin sass-embedded@^1.93.2
 
 We have built a configurator to help you get started as quickly as possible:
 
+
+
 <VitePluginUsage />
 
 ## @quasar/vite-plugin options

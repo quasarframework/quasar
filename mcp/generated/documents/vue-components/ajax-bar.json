@@ -5,13 +5,17 @@
   "description": "The QAjaxBar Vue component displays a loading bar whenever an Ajax call is in progress.",
   "canonicalUrl": "https://quasar.dev/vue-components/ajax-bar",
   "source": "docs/src/pages/vue-components/ajax-bar.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-components",
-  "kinds": ["component"],
-  "apiReferences": ["QAjaxBar"],
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QAjaxBar"
+  ],
   "examples": [
     {
       "title": "Basic",

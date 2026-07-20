@@ -3,7 +3,9 @@
     "id": "security/dos-and-donts#overview",
     "documentId": "security/dos-and-donts",
     "heading": "Security DO's and DON'Ts",
-    "breadcrumb": ["Security DO's and DON'Ts"],
+    "breadcrumb": [
+      "Security DO's and DON'Ts"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts",
     "content": "**DO** periodically review the security of your application, because any lapse may be putting yourself, your team, your users and even your server at risk of serious exploitation. **DON'T** ignore this page because you think you know everything.\n\nWe have collected some best practices for those of you new to the security theater and a few insights for security professionals new to the Vue ecosystem. We will be revising and adding to this document as we become aware of risks through our own research and the publications of the amazing security community.\n\n![Quasar Audited - Gold](https://cdn.quasar.dev/img/secure-gold-hero.jpg 'Quasar Audited - Gold')",
@@ -29,7 +31,11 @@
     "id": "security/dos-and-donts#vue-i18n",
     "documentId": "security/dos-and-donts",
     "heading": "vue-i18n",
-    "breadcrumb": ["Vue Security Risks", "vue-i18n", "vue-i18n"],
+    "breadcrumb": [
+      "Vue Security Risks",
+      "vue-i18n",
+      "vue-i18n"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#vue-i18n",
     "content": "The quasi-official internationali(s/z)ation package for Vue allows you to store html in your key's values and [potentially render them](https://kazupon.github.io/vue-i18n/guide/formatting.html#html-formatting). If users can't modify these values, you should be ok - but make sure you trust (aka review) the translators! Our recommendation (although it is more work and will slow-down HMR) is **DO** use [template interpolation](https://kazupon.github.io/vue-i18n/guide/interpolation.html#basic-usage).",
@@ -40,7 +46,11 @@
     "id": "security/dos-and-donts#eval",
     "documentId": "security/dos-and-donts",
     "heading": "eval()",
-    "breadcrumb": ["Vue Security Risks", "eval()", "eval()"],
+    "breadcrumb": [
+      "Vue Security Risks",
+      "eval()",
+      "eval()"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#eval",
     "content": "Although you may be tempted to use `eval()`, even if you know what you are doing, just **DON'T**.\n\n![Don't be eval()](https://cdn.quasar.dev/img/dont-be-eval.png \"Don't be eval()\")",
@@ -51,7 +61,10 @@
     "id": "security/dos-and-donts#quasar-components",
     "documentId": "security/dos-and-donts",
     "heading": "Quasar Components",
-    "breadcrumb": ["Quasar Components", "Quasar Components"],
+    "breadcrumb": [
+      "Quasar Components",
+      "Quasar Components"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#quasar-components",
     "content": "Some Quasar components and Plugins can be configured to allow rendering of \"insecure content\". This is an opt-in feature that is performed by using `*-html` type boolean props. These components are discussed below.",
@@ -62,7 +75,11 @@
     "id": "security/dos-and-donts#qselect",
     "documentId": "security/dos-and-donts",
     "heading": "QSelect",
-    "breadcrumb": ["Quasar Components", "QSelect", "QSelect"],
+    "breadcrumb": [
+      "Quasar Components",
+      "QSelect",
+      "QSelect"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#qselect",
     "content": "If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML (by not enabling it through the component props) in the labels and sublabels. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.",
@@ -73,7 +90,11 @@
     "id": "security/dos-and-donts#qchat-emoji",
     "documentId": "security/dos-and-donts",
     "heading": "QChat & Emoji",
-    "breadcrumb": ["Quasar Components", "QChat & Emoji", "QChat & Emoji"],
+    "breadcrumb": [
+      "Quasar Components",
+      "QChat & Emoji",
+      "QChat & Emoji"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#qchat-emoji",
     "content": "The `QChatMessage` component does not display content as HTML by default. But you can enable it (through the `*-html` props) in which case you should sanitize the content.\n\n::: tip\nThere have been a number of recent exploits (especially for older Android and iOS devices) where certain emoji and non-standard UTF-8 actually triggered mobile device restarts and boot-screen loops. **DO** consider a devland integration of markdown parsing in a plain-text type of input field and render it to HTML on the server side before you pass it to the chat recipients.\n:::",
@@ -84,7 +105,11 @@
     "id": "security/dos-and-donts#loading",
     "documentId": "security/dos-and-donts",
     "heading": "Loading",
-    "breadcrumb": ["Quasar Components", "Loading", "Loading"],
+    "breadcrumb": [
+      "Quasar Components",
+      "Loading",
+      "Loading"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#loading",
     "content": "Many developers have asked that the Loading plugin be able to display HTML, so this was enabled by default, but if you are worried, **DO** add `sanitize: true` and you removed the vector.",
@@ -95,7 +120,11 @@
     "id": "security/dos-and-donts#notify",
     "documentId": "security/dos-and-donts",
     "heading": "Notify",
-    "breadcrumb": ["Quasar Components", "Notify", "Notify"],
+    "breadcrumb": [
+      "Quasar Components",
+      "Notify",
+      "Notify"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#notify",
     "content": "Being able to style the Notify plugin with HTML is not enabled by default, but if you do set the boolean prop `html: true` then you are responsible for sanitizing it.",
@@ -106,7 +135,11 @@
     "id": "security/dos-and-donts#dialog",
     "documentId": "security/dos-and-donts",
     "heading": "Dialog",
-    "breadcrumb": ["Quasar Components", "Dialog", "Dialog"],
+    "breadcrumb": [
+      "Quasar Components",
+      "Dialog",
+      "Dialog"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#dialog",
     "content": "Being able to style the Dialog plugin with HTML is not enabled by default, but if you do set the boolean prop `html: true` then you are responsible for sanitizing the title and message.",
@@ -117,7 +150,11 @@
     "id": "security/dos-and-donts#qinput",
     "documentId": "security/dos-and-donts",
     "heading": "QInput",
-    "breadcrumb": ["Quasar Components", "QInput", "QInput"],
+    "breadcrumb": [
+      "Quasar Components",
+      "QInput",
+      "QInput"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#qinput",
     "content": "Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!",
@@ -128,7 +165,11 @@
     "id": "security/dos-and-donts#qeditor",
     "documentId": "security/dos-and-donts",
     "heading": "QEditor",
-    "breadcrumb": ["Quasar Components", "QEditor", "QEditor"],
+    "breadcrumb": [
+      "Quasar Components",
+      "QEditor",
+      "QEditor"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#qeditor",
     "content": "This component allows the users to actually create HTML (and even paste it). If you are going to be saving this and showing it to other users, care will be needed on the server-side to validate it. In that case **DO** strip out `<script></script>` and `<iframe></iframe>`. You can visit the [v-html vs. double-moustache](/vue-components/editor#example--default-editor) example in the docs to play around with the QEditor component and see what the two rendering methods will provide. There is NO `sanitize` tag for QEditor. Further, if you create custom buttons, it is your responsibility to make them safe. You have been warned.",
@@ -139,7 +180,10 @@
     "id": "security/dos-and-donts#dotenv-files",
     "documentId": "security/dos-and-donts",
     "heading": "Dotenv Files",
-    "breadcrumb": ["Dotenv Files", "Dotenv Files"],
+    "breadcrumb": [
+      "Dotenv Files",
+      "Dotenv Files"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#dotenv-files",
     "content": "Dotenv files (eg. `.env`) keep sensitive data, like database passwords, API keys, and secret tokens—safe. But if you commit these files to a public repository (eg. on GitHub) then you've just handed over your secrets to anyone.\n\nTo avoid this, you might want to edit your `/.gitignore` file and add:\n\n```bash\n# ignore dotenv files\n.env*\n```\n\nFor the actual production code, Quasar CLI also offers a security feature when parsing the dotenv files, to make sure that what gets exposed to the client code is explicitly intended as such: it filters out definitions that don't match the `QCLI_` prefix. This prefix can be changed and it might be a good idea to do it to differentiate from all the other Quasar apps:\n\n```ts /quasar.config file setting\nbuild: {\n  env: {\n    /**\n     * For security reasons, only variables with this prefix from the env files\n     * and Node.js process.env will be exposed to the code shipped to the client.\n     * The client app code includes Electron main & preload scripts, as they get\n     * shipped to the client side as well.\n     *\n     * Such variables exposed to the client app code should not contain sensitive\n     * information such as API keys.\n     *\n     * Avoid setting it to 'QUASAR_' so it won't conflict with\n     * Quasar's own environment variables.\n     *\n     * Setting it to an empty string will default to\n     * the default value (QCLI_).\n     *\n     * @default 'QCLI_'\n     */\n    clientPrefix?: string | string[];\n    /**\n     * Setting this prefix will filter out env files variables and Node.js process.env\n     * variables that are exposed to the backend code (like the SSR/SSG server-side).\n     *\n     * Avoid setting it to 'QUASAR_' so it won't conflict with\n     * Quasar's own environment variables.\n     *\n     * @default ''\n     */\n    backendPrefix?: string | string[];\n  }\n}\n```\n\n```json For /quasar.config file itself\n\"quasarCli\": {\n  \"quasarConfEnv\": {\n    /**\n     * Setting this prefix will filter out env files variables and Node.js process.env\n     * variables that are exposed.\n     *\n     * Avoid setting it to 'QUASAR_' so it won't conflict with\n     * Quasar's own environment variables.\n     *\n     * @default ''\n     */\n    \"prefix\": \"\"\n  }\n}\n```",
@@ -164,7 +208,10 @@
     "id": "security/dos-and-donts#dealing-with-files",
     "documentId": "security/dos-and-donts",
     "heading": "Dealing with Files",
-    "breadcrumb": ["Dealing with Files", "Dealing with Files"],
+    "breadcrumb": [
+      "Dealing with Files",
+      "Dealing with Files"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#dealing-with-files",
     "content": "So how do you validate and sanitize a file? Well, although this is a bit out of scope for a \"front-end-framework\", we know that many of you reading this will also be storing user-created files on servers. If you are just storing them (and not processing them in any way), **DO** validate that the file is of the appropriate type by detecting the [magic numbers](https://en.wikipedia.org/wiki/List_of_file_signatures). **DO** consider using ClamAV to check files for known viral signatures.",
@@ -175,7 +222,11 @@
     "id": "security/dos-and-donts#images",
     "documentId": "security/dos-and-donts",
     "heading": "Images",
-    "breadcrumb": ["Dealing with Files", "Images", "Images"],
+    "breadcrumb": [
+      "Dealing with Files",
+      "Images",
+      "Images"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#images",
     "content": "If you are allowing users to upload images to your server, you should know that many commonly used modules merely check the file suffix. It is trivial to craft an image that only superficially appears to be an image. **DO** verify that the file is what it claims to be by checking the magic numbers and for this consider using [is-image](https://github.com/sindresorhus/image-type). While you could check the magic number in the browser [with this method](https://medium.com/the-everyday-developer/detect-file-mime-type-using-magic-numbers-and-javascript-16bc513d4e1e), another approach is to let the user load an image into a canvas and then upload directly from the canvas. [Vue-croppa](https://github.com/zhanziyang/vue-croppa) is great front-end tool to do this.",
@@ -186,7 +237,11 @@
     "id": "security/dos-and-donts#archives",
     "documentId": "security/dos-and-donts",
     "heading": "Archives",
-    "breadcrumb": ["Dealing with Files", "Archives", "Archives"],
+    "breadcrumb": [
+      "Dealing with Files",
+      "Archives",
+      "Archives"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#archives",
     "content": "Archive decompression attacks for directory traversal are a real security issue and are virtually impossible to detect without decompressing the file. If you can get away with NOT accepting this type of media, then do it. Otherwise, on linux **DO** use the humble `less` / `lesspipe` and `.lessfilter` for preprocessing these files with your custom workflows.",
@@ -197,7 +252,10 @@
     "id": "security/dos-and-donts#passwords",
     "documentId": "security/dos-and-donts",
     "heading": "Passwords",
-    "breadcrumb": ["Passwords", "Passwords"],
+    "breadcrumb": [
+      "Passwords",
+      "Passwords"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#passwords",
     "content": "**DON'T** save passwords in plaintext, in fact - **DON'T** save them at all. **DO** save secure hashes and compute them in memory according to a scheme using secure salt and proper algorithms. **DO** limit the length of passwords (both minimum and maximum number of characters) BUT make the upper limit high enough that no legitimate user will ever hit. **DO** consider a highly secure application flow for password resetting and enable the user to configure it according to their preferences. This is a process unique to every project, so we can't tell you how to solve the problem. Nevertheless here are a few good links:\n\n- [OWASP cheatsheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Choosing_and_Using_Security_Questions_Cheat_Sheet.md)\n- [FIDO Guidelines](https://fidoalliance.org/recommended-account-recovery-practices/)",
@@ -208,7 +266,10 @@
     "id": "security/dos-and-donts#cryptography",
     "documentId": "security/dos-and-donts",
     "heading": "Cryptography",
-    "breadcrumb": ["Cryptography", "Cryptography"],
+    "breadcrumb": [
+      "Cryptography",
+      "Cryptography"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#cryptography",
     "content": "- **DON'T** create your own cryptographic solution\n- **DON'T** store personal information in plaintext\n- **DON'T** create your own cryptographic solution _(intentionally repeating it)_\n- **DON'T** ignore any aspect of implementation details\n- **DON'T** create your own cryptographic solution _(intentionally repeating it)_\n- **DON'T** use MD5 or SHA1\n- **DON’T** create your [own cryptographic solution](https://about.unimelb.edu.au/newsroom/news/2019/march/researchers-find-trapdoor-in-swissvote-election-system)\n\nA great place to read about this topic and properly choose an industrial strength solution is [libsodium](https://download.libsodium.org/doc/)",
@@ -219,7 +280,10 @@
     "id": "security/dos-and-donts#distribution",
     "documentId": "security/dos-and-donts",
     "heading": "Distribution",
-    "breadcrumb": ["Distribution", "Distribution"],
+    "breadcrumb": [
+      "Distribution",
+      "Distribution"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#distribution",
     "content": "::: tip\nIf someone wants to change something in your database or add some file to the server and they are not using an SSH key, **DO** validate **AND** sanitize the input.\n:::",
@@ -230,7 +294,11 @@
     "id": "security/dos-and-donts#web",
     "documentId": "security/dos-and-donts",
     "heading": "Web",
-    "breadcrumb": ["Distribution", "Web", "Web"],
+    "breadcrumb": [
+      "Distribution",
+      "Web",
+      "Web"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#web",
     "content": "- **DON'T** use http\n- **DON'T** store sensitive data in JWT\n- **DO** Use https / wss\n- **DO** manually audit your certificates\n- **DO** validate users\n- **DO** remember that JWT isn't encrypted per sé\n- **DO** use JWE instead of JWT and use AES256 CBC + HMAC SHA512\n- **DO** double-down and perform the complete OWASP web audit",
@@ -256,7 +324,11 @@
     "id": "security/dos-and-donts#electron",
     "documentId": "security/dos-and-donts",
     "heading": "Electron",
-    "breadcrumb": ["Distribution", "Electron", "Electron"],
+    "breadcrumb": [
+      "Distribution",
+      "Electron",
+      "Electron"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#electron",
     "content": "Electron is a very special case, because XSS and remote code injection can actually lead to complete compromise of the end-user's (or even developer's) device.\n\n- **DON'T** disable `websecurity`\n- **DON'T** enable remote code execution\n- **DO** read our guidelines for enhanced [Electron Safety](/quasar-cli-vite/developing-electron-apps/electron-security-concerns).",
@@ -267,7 +339,11 @@
     "id": "security/dos-and-donts#ssr",
     "documentId": "security/dos-and-donts",
     "heading": "SSR",
-    "breadcrumb": ["Distribution", "SSR", "SSR"],
+    "breadcrumb": [
+      "Distribution",
+      "SSR",
+      "SSR"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#ssr",
     "content": "When you generate your project with the SSR mode, you are provided with a minimal Express server. It is your responsibility to harden your environment to protect your server and your users. To this end, we have provided a collection of important HEADERS that you can consider and should selectively activate before your project enters the production phase (see `src-ssr/server.js`). It is important to remember, that HEADERS are not bulletproof, because it is up to Browser vendors to respect them - and for example [Chrome will break PDF viewing](https://bugs.chromium.org/p/chromium/issues/detail?id=413851) if your Content Security Policy uses the `sandbox` value.\n\n- **DON'T** forget to set restrictive headers\n- **DON'T** think that headers alone will protect you from all attacks\n- **DO** read about [headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)",
@@ -278,7 +354,10 @@
     "id": "security/dos-and-donts#environmental-safety",
     "documentId": "security/dos-and-donts",
     "heading": "Environmental Safety",
-    "breadcrumb": ["Environmental Safety", "Environmental Safety"],
+    "breadcrumb": [
+      "Environmental Safety",
+      "Environmental Safety"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#environmental-safety",
     "content": "Being more safe means taking many things into consideration, and the more of the following guidelines you respect, the smaller the attack footprint will be.\n\n![Valid SSL certificate](https://cdn.quasar.dev/img/lets-encrypt.jpg 'Valid SSL certificate')",
@@ -319,7 +398,10 @@
     "id": "security/dos-and-donts#final-note",
     "documentId": "security/dos-and-donts",
     "heading": "Final Note",
-    "breadcrumb": ["Final Note", "Final Note"],
+    "breadcrumb": [
+      "Final Note",
+      "Final Note"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/security/dos-and-donts#final-note",
     "content": "Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/security/dos-and-donts#user-input-and-the-dangers-of-v-html). We won't tell anybody.",

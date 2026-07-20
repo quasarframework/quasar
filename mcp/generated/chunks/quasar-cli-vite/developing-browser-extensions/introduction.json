@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-browser-extensions/introduction#overview",
     "documentId": "quasar-cli-vite/developing-browser-extensions/introduction",
     "heading": "What is a Browser Extension",
-    "breadcrumb": ["What is a Browser Extension"],
+    "breadcrumb": [
+      "What is a Browser Extension"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/introduction",
     "content": "A Browser Extension (BEX) is an application that runs in browser-managed contexts and customizes the browser or the pages it displays.\n\nThey are built on web technologies such as HTML, JavaScript, and CSS and will aim to fulfill a single purpose. A single BEX\ncan be built in any way the user deems fit but must contribute towards fulfilling that single purpose.\n\nHere a few things a BEX can do:\n\n- Override page content\n- Add to (or alter) the browser's interface\n- Intercept page requests\n- Be a full featured app that runs in the browser.\n- Interact with and alter the development tools of the browser.\n\nWe've all used Browser Extensions in some capacity. Quasar BEX allows you to do anything a browser extension allows but with the simplicity Quasar offers in all other modes.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/introduction#supported-browsers",
     "documentId": "quasar-cli-vite/developing-browser-extensions/introduction",
     "heading": "Supported browsers",
-    "breadcrumb": ["Supported browsers", "Supported browsers"],
+    "breadcrumb": [
+      "Supported browsers",
+      "Supported browsers"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/introduction#supported-browsers",
     "content": "Whilst BEX mode has been tested and developed on Firefox and Chrome, all Chromium based browsers should be supported. Where Chrome is mentioned in the documentation, you can safely assume this will apply to the various Chromium browsers as well. If in doubt, refer to the specific browser documentation for clarification.",

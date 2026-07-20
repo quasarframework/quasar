@@ -3,7 +3,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/build-commands#developing",
     "documentId": "quasar-cli-vite/developing-electron-apps/build-commands",
     "heading": "Developing",
-    "breadcrumb": ["Developing", "Developing"],
+    "breadcrumb": [
+      "Developing",
+      "Developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/build-commands#developing",
     "content": "```bash\nquasar dev -m electron\n\n# ..or the longer form:\nquasar dev --mode electron\n\n# passing extra parameters and/or options to\n# underlying \"electron\" executable:\nquasar dev -m electron -- --force-device-scale-factor=1\n# when on Windows and using Powershell:\nquasar dev -m electron '--' --force-device-scale-factor=1\n```\n\nIt opens an Electron window. The default template also opens renderer DevTools. The renderer supports HMR; changing a main or preload source rebuilds it and restarts Electron.\n\nArguments after `--` are forwarded to Electron. The sandbox-disabling arguments above illustrate forwarding syntax, but should only be used when a constrained environment requires them and after considering the security impact.\n\nSee [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron) to extend the Rolldown configurations for the main process and preload scripts.",
@@ -14,7 +17,11 @@
     "id": "quasar-cli-vite/developing-electron-apps/build-commands#chrome-devtools",
     "documentId": "quasar-cli-vite/developing-electron-apps/build-commands",
     "heading": "Chrome DevTools",
-    "breadcrumb": ["Developing", "Chrome DevTools", "Chrome DevTools"],
+    "breadcrumb": [
+      "Developing",
+      "Chrome DevTools",
+      "Chrome DevTools"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/build-commands#chrome-devtools",
     "content": "While in dev mode, hit the following combination (while your app window has focus):\n\n- macOS: <kbd>Cmd</kbd> <kbd>Alt</kbd> <kbd>I</kbd> or <kbd>F12</kbd>\n- Linux: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>\n- Windows: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>",
@@ -25,7 +32,11 @@
     "id": "quasar-cli-vite/developing-electron-apps/build-commands#vue-devtools",
     "documentId": "quasar-cli-vite/developing-electron-apps/build-commands",
     "heading": "Vue DevTools",
-    "breadcrumb": ["Developing", "Vue DevTools", "Vue DevTools"],
+    "breadcrumb": [
+      "Developing",
+      "Vue DevTools",
+      "Vue DevTools"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/build-commands#vue-devtools",
     "content": "To load Vue DevTools for the renderer process:\n\n```bash\nquasar dev -m electron --devtools\n```",
@@ -36,7 +47,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/build-commands#building-for-production",
     "documentId": "quasar-cli-vite/developing-electron-apps/build-commands",
     "heading": "Building for Production",
-    "breadcrumb": ["Building for Production", "Building for Production"],
+    "breadcrumb": [
+      "Building for Production",
+      "Building for Production"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/build-commands#building-for-production",
     "content": "```bash\nquasar build -m electron\n\n# ..or the longer form:\nquasar build --mode electron\n```\n\nIt builds the application and packages it with the configured bundler. The default is `@electron/packager`; select `electron-builder` when you need its installer, signing, or publishing features. See [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron).\n\nIf you want a production build with debugging enabled for the UI code:\n\n```bash\nquasar build -m electron -d\n\n# ..or the longer form\nquasar build -m electron --debug\n```\n\nHere is the folder structure of the outcome:\n\n- dist-electron\n  - Packaged — Packaged by @electron/packager or electron-builder\n  - UnPackaged\n    - assets/... — Vite compiled /src assets\n    - electron-assets — /src-electron/electron-assets copied as-is\n      - icons/ — Electron app icons\n    - node_modules/\n    - index.html\n    - package.json\n    - electron-main.js\n    - electron-preload.cjs — (Electron has only CJS support for the preload scripts)\n    - ...contents of /public",

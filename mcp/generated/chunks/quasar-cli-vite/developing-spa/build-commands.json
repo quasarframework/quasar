@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-spa/build-commands#overview",
     "documentId": "quasar-cli-vite/developing-spa/build-commands",
     "heading": "SPA Build Commands",
-    "breadcrumb": ["SPA Build Commands"],
+    "breadcrumb": [
+      "SPA Build Commands"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/build-commands",
     "content": "Developing:\n\n```bash\nquasar dev\n```\n\nBuilding for production:\n\n```bash\nquasar build\n```\n\nIf you want a production build with debugging enabled:\n\n```bash\nquasar build -d\n\n# ..or the longer form\nquasar build --debug\n```",

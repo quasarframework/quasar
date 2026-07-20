@@ -3,18 +3,25 @@
     "id": "quasar-plugins/loading#overview",
     "documentId": "quasar-plugins/loading",
     "heading": "Loading Plugin",
-    "breadcrumb": ["Loading Plugin"],
+    "breadcrumb": [
+      "Loading Plugin"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading",
     "content": "Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.\n\nAPI reference: Loading\n\n**Configuration:** register Loading through `framework.plugins` in `quasar.config` and configure `framework.config.loading` in `quasar.config`.",
-    "apiReferences": ["Loading"],
+    "apiReferences": [
+      "Loading"
+    ],
     "exampleReferences": []
   },
   {
     "id": "quasar-plugins/loading#usage",
     "documentId": "quasar-plugins/loading",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#usage",
     "content": "Loading uses a delay (500ms) to display itself so that quick operations won't make the screen flicker. This happens by showing and then quickly hiding the progress spinner without the user having a chance to see what happens. The delay before showing it eliminates confusion.\n\nInside a Vue component:\n\n```js\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.loading.show({\n    delay: 400 // ms\n  })\n\n  $q.loading.hide()\n}\n```\n\nOutside of a Vue component:\n\n```js\nimport {\n  Loading,\n\n  // optional!, for example below\n  // with custom spinner\n  QSpinnerGears\n} from 'quasar'\n\n// default options\nLoading.show()\n\n// fully customizable\nLoading.show({\n  spinner: QSpinnerGears\n  // other props\n})\n\nLoading.hide()\n```",
@@ -25,7 +32,11 @@
     "id": "quasar-plugins/loading#default-options",
     "documentId": "quasar-plugins/loading",
     "heading": "Default options",
-    "breadcrumb": ["Usage", "Default options", "Default options"],
+    "breadcrumb": [
+      "Usage",
+      "Default options",
+      "Default options"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#default-options",
     "content": "Example: Default options (Default.vue)",
@@ -41,7 +52,11 @@
     "id": "quasar-plugins/loading#customization",
     "documentId": "quasar-plugins/loading",
     "heading": "Customization",
-    "breadcrumb": ["Usage", "Customization", "Customization"],
+    "breadcrumb": [
+      "Usage",
+      "Customization",
+      "Customization"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#customization",
     "content": "Example: With message (WithMessage.vue)\n\nExample: With customized box (WithBox.vue)\n\nExample: Customized (Customized.vue)\n\nExample: Show and Change (ShowAndChange.vue)",
@@ -69,7 +84,11 @@
     "id": "quasar-plugins/loading#content-sanitization",
     "documentId": "quasar-plugins/loading",
     "heading": "Content sanitization",
-    "breadcrumb": ["Usage", "Content sanitization", "Content sanitization"],
+    "breadcrumb": [
+      "Usage",
+      "Content sanitization",
+      "Content sanitization"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#content-sanitization",
     "content": "Example: With unsafe message, but sanitized (WithMessageSanitized.vue)",
@@ -105,7 +124,11 @@
     "id": "quasar-plugins/loading#setting-up-defaults",
     "documentId": "quasar-plugins/loading",
     "heading": "Setting Up Defaults",
-    "breadcrumb": ["Usage", "Setting Up Defaults", "Setting Up Defaults"],
+    "breadcrumb": [
+      "Usage",
+      "Setting Up Defaults",
+      "Setting Up Defaults"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading#setting-up-defaults",
     "content": "Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config file > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.",

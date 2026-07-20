@@ -120,7 +120,7 @@ Example of adding an exception to an icon:
 
 Source: [StatusBar.vue](../../../examples/frameless-electron-window/StatusBar.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <!--
@@ -249,7 +249,7 @@ function closeApp() {
   window.myWindowAPI?.close()
 }
 </script>
-```
+````
 
 In the example above, notice that we add `q-electron-drag` to our QBar and we also add handlers for the minimize, maximize and close app buttons by using the injected `window.myWindowAPI` Object (from the Electron preload script).
 

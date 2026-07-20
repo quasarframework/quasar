@@ -32,7 +32,7 @@ These classes are to be used when the direct children don't have `col-*` or `off
 
 Source: [GutterSize.vue](../../../examples/grid/GutterSize.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md" style="max-width: 500px">
     <p>q-gutter-xs</p>
@@ -61,7 +61,7 @@ Source: [GutterSize.vue](../../../examples/grid/GutterSize.vue)
     </div>
   </div>
 </template>
-```
+````
 
 There's also the `q-gutter-none` class (equivalent to: no gutter applied) which wasn't included in the example above.
 
@@ -69,7 +69,7 @@ There's also the `q-gutter-none` class (equivalent to: no gutter applied) which 
 
 Source: [GutterHorizontal.vue](../../../examples/grid/GutterHorizontal.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-x-md">
@@ -77,13 +77,13 @@ Source: [GutterHorizontal.vue](../../../examples/grid/GutterHorizontal.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: Vertical only q-gutter**
 
 Source: [GutterVertical.vue](../../../examples/grid/GutterVertical.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md" style="max-width: 500px">
     <div class="q-gutter-y-md">
@@ -91,13 +91,13 @@ Source: [GutterVertical.vue](../../../examples/grid/GutterVertical.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: Mixed horizontal and vertical q-gutter**
 
 Source: [GutterMixed.vue](../../../examples/grid/GutterMixed.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md" style="max-width: 400px">
     <div class="q-gutter-x-xs q-gutter-y-lg">
@@ -105,7 +105,7 @@ Source: [GutterMixed.vue](../../../examples/grid/GutterMixed.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ## Classes "q-col-gutter-{size}"
 
@@ -119,7 +119,7 @@ These classes are to be used when the direct children have `col-*` or `offset-*`
 
 Source: [ColGutterSize.vue](../../../examples/grid/ColGutterSize.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-col-gutter-size">
     <div class="row q-col-gutter-none">
@@ -177,13 +177,13 @@ Source: [ColGutterSize.vue](../../../examples/grid/ColGutterSize.vue)
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 **Example: Horizontal only q-col-gutter**
 
 Source: [ColGutterHorizontal.vue](../../../examples/grid/ColGutterHorizontal.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-col-gutter-horizontal">
     <div class="row q-col-gutter-x-md">
@@ -201,13 +201,13 @@ Source: [ColGutterHorizontal.vue](../../../examples/grid/ColGutterHorizontal.vue
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 **Example: Vertical only q-col-gutter**
 
 Source: [ColGutterVertical.vue](../../../examples/grid/ColGutterVertical.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-col-gutter-vertical">
     <div class="row q-col-gutter-y-md">
@@ -225,13 +225,13 @@ Source: [ColGutterVertical.vue](../../../examples/grid/ColGutterVertical.vue)
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 **Example: Mixed horizontal and vertical q-col-gutter**
 
 Source: [ColGutterMixed.vue](../../../examples/grid/ColGutterMixed.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-col-gutter-mixed">
     <div class="row q-col-gutter-x-xs q-col-gutter-y-lg">
@@ -249,7 +249,7 @@ Source: [ColGutterMixed.vue](../../../examples/grid/ColGutterMixed.vue)
     background: rgba(#999,.15)
     border: 1px solid rgba(#999,.2)
 </style>
-```
+````
 
 ## Pros, cons and how to workaround problems - "q-gutter-{size}" vs. "q-col-gutter-{size}"
 
@@ -265,7 +265,7 @@ Instead you need to wrap them in a container, apply the styling on the container
 
 Source: [ParentStyling.vue](../../../examples/grid/ParentStyling.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md" style="max-width: 500px">
     <div class="row">
@@ -309,7 +309,7 @@ Source: [ParentStyling.vue](../../../examples/grid/ParentStyling.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ::: tip
 The `q-gutter-*` classes **do not change** the internal dimensions of the children, so you can use `background` or `border` directly on children.
@@ -323,7 +323,7 @@ The `q-col-gutter-*` classes **do change** the external dimensions of the childr
 
 Source: [ChildrenSizeCompare.vue](../../../examples/grid/ChildrenSizeCompare.vue)
 
-```vue
+````vue
 <template>
   <div class="q-px-xl q-py-md" style="max-width: 500px">
     <p>.q-gutter and unsized children</p>
@@ -401,7 +401,7 @@ Source: [ChildrenSizeCompare.vue](../../../examples/grid/ChildrenSizeCompare.vue
 .semi-transparent
   opacity: .7
 </style>
-```
+````
 
 ::: warning
 Because `q-col-gutter-*` classes apply a **negative top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.
@@ -411,7 +411,7 @@ Because `q-col-gutter-*` classes apply a **negative top and left padding** to th
 
 Source: [ChildrenStyling.vue](../../../examples/grid/ChildrenStyling.vue)
 
-```vue
+````vue
 <template>
   <div class="q-px-xl q-py-md" style="max-width: 500px">
     <p>.q-col-gutter with styling on children</p>
@@ -481,7 +481,7 @@ Source: [ChildrenStyling.vue](../../../examples/grid/ChildrenStyling.vue)
 .semi-transparent
   opacity: .7
 </style>
-```
+````
 
 ## Flex Grid Playground
 

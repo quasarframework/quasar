@@ -3,7 +3,9 @@
     "id": "vue-composables/use-id#overview",
     "documentId": "vue-composables/use-id",
     "heading": "useId composable",
-    "breadcrumb": ["useId composable"],
+    "breadcrumb": [
+      "useId composable"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-id",
     "content": "The `useId()` composable returns a Vue Ref holding a string that can be used as a unique identifier to apply to a DOM node attribute.\n\nShould you supply a function (`getValue` from the typing below) to get the value that the id might have, it will make sure to keep it updated.\n\nOn SSR/SSG, it takes into account the process of hydration so that your component won't generate any such errors.",
@@ -14,7 +16,10 @@
     "id": "vue-composables/use-id#syntax",
     "documentId": "vue-composables/use-id",
     "heading": "Syntax",
-    "breadcrumb": ["Syntax", "Syntax"],
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-id#syntax",
     "content": "```js\nimport { useId } from 'quasar'\n\nsetup () {\n  const id = useId()\n  // ...\n}\n```\n\n```ts\nfunction useId(opts?: {\n  getValue?: () => string | null | undefined\n  required?: boolean // default: true\n}): Ref<string | null>\n```",
@@ -25,7 +30,10 @@
     "id": "vue-composables/use-id#example",
     "documentId": "vue-composables/use-id",
     "heading": "Example",
-    "breadcrumb": ["Example", "Example"],
+    "breadcrumb": [
+      "Example",
+      "Example"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-id#example",
     "content": "```html\n<template>\n  <div :id=\"id\"> Some component </div>\n</template>\n\n<script setup>\n  import { useId } from 'quasar'\n\n  const props = defineProps({\n    for: String\n  })\n\n  const id = useId({\n    getValue: () => props.for,\n    required: true\n  })\n</script>\n```",

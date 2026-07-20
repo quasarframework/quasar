@@ -3,7 +3,11 @@
     "id": "quasar-utils/dom-utils#helping-tree-shake",
     "documentId": "quasar-utils/dom-utils",
     "heading": "Helping Tree-Shake",
-    "breadcrumb": [null, "Helping Tree-Shake", "Helping Tree-Shake"],
+    "breadcrumb": [
+      null,
+      "Helping Tree-Shake",
+      "Helping Tree-Shake"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-utils/dom-utils#helping-tree-shake",
     "content": "You will notice all examples import different parts of Quasar. However, if you need only one specific util method, then you can use destructuring to help Tree Shaking embed only that method and not all around it.\n\nExample with `dom` utils:\n\n```js\nimport { dom } from 'quasar'\nconst { offset } = dom\n\n// Offset on screen\nconsole.log(offset(DomElement))\n// { top: 10, left: 100 }\n```\n\nYou can also import all of dom utils and use whatever you need like this (but note that your bundle will contain unused methods too):\n\n```js\nimport { dom } from 'quasar'\n\n// Offset on screen\nconsole.log(dom.offset(DomElement))\n// { top: 10, left: 100 }\n```\n\n::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
@@ -14,7 +18,10 @@
     "id": "quasar-utils/dom-utils#offset-on-screen-viewport",
     "documentId": "quasar-utils/dom-utils",
     "heading": "Offset on screen viewport",
-    "breadcrumb": ["Offset on screen viewport", "Offset on screen viewport"],
+    "breadcrumb": [
+      "Offset on screen viewport",
+      "Offset on screen viewport"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/dom-utils#offset-on-screen-viewport",
     "content": "```js\nimport { dom } from 'quasar'\nconst { offset } = dom\n\n// Offset on screen\nconsole.log(offset(DomElement))\n// { top: 10, left: 100 }\n```",
@@ -25,7 +32,10 @@
     "id": "quasar-utils/dom-utils#get-computed-style",
     "documentId": "quasar-utils/dom-utils",
     "heading": "Get Computed Style",
-    "breadcrumb": ["Get Computed Style", "Get Computed Style"],
+    "breadcrumb": [
+      "Get Computed Style",
+      "Get Computed Style"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/dom-utils#get-computed-style",
     "content": "This applies only when DomElement is visible! It returns the **computed** browser style, so the property you are asking for doesn't necessary has to be applied within a `style` attribute.\n\n```js\nimport { dom } from 'quasar'\nconst { style } = dom\n\n// Get COMPUTED style (when DomElement is visible!)\n// Computed means a DomElement might not have \"height\" CSS property set,\n// but that does not mean it doesn't have a height when it's displayed.\n// The following method accesses the computed CSS provided by the browser:\nconsole.log(style(DomElement, 'height'))\n// '10px' <<< notice it returns a String ending in 'px'\n```",
@@ -36,7 +46,10 @@
     "id": "quasar-utils/dom-utils#get-height-width",
     "documentId": "quasar-utils/dom-utils",
     "heading": "Get Height / Width",
-    "breadcrumb": ["Get Height / Width", "Get Height / Width"],
+    "breadcrumb": [
+      "Get Height / Width",
+      "Get Height / Width"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/dom-utils#get-height-width",
     "content": "```js\nimport { dom } from 'quasar'\nconst { height, width } = dom\n\n// Some aliases of the previous method for \"width\" and \"height\" which\n// returns Numbers instead of Strings:\nconsole.log(height(DomElement), width(DomElement))\n// 10 100\n```",
@@ -61,7 +74,10 @@
     "id": "quasar-utils/dom-utils#execute-when-dom-is-ready",
     "documentId": "quasar-utils/dom-utils",
     "heading": "Execute when DOM is ready",
-    "breadcrumb": ["Execute when DOM is ready", "Execute when DOM is ready"],
+    "breadcrumb": [
+      "Execute when DOM is ready",
+      "Execute when DOM is ready"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/dom-utils#execute-when-dom-is-ready",
     "content": "```js\nimport { dom } from 'quasar'\nconst { ready } = dom\n\n// Execute a Function when DOM is ready:\nready(function () {\n  // ....\n})\n```",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-spa/app-icons-spa#overview",
     "documentId": "quasar-cli-vite/developing-spa/app-icons-spa",
     "heading": "App Icons for SPA",
-    "breadcrumb": ["App Icons for SPA"],
+    "breadcrumb": [
+      "App Icons for SPA"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/app-icons-spa",
     "content": "This build target includes favicon formats and sizes used by different browsers and operating systems. Icon Genie generates the recommended set for you. If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).\n\n<img src=\"/img/iconfactory.png\" style=\"float:right;max-width:15%;min-width:240px;padding-top:40px\">",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-spa/app-icons-spa#icon-genie-cli",
     "documentId": "quasar-cli-vite/developing-spa/app-icons-spa",
     "heading": "Icon Genie CLI",
-    "breadcrumb": ["Icon Genie CLI", "Icon Genie CLI"],
+    "breadcrumb": [
+      "Icon Genie CLI",
+      "Icon Genie CLI"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/app-icons-spa#icon-genie-cli",
     "content": "::: tip\nWe highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your `/index.html` file.\n:::\n\nQuickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.\n\n```bash\nicongenie generate -m spa -i /path/to/source/icon.png\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-spa/app-icons-spa#manual-instructions",
     "documentId": "quasar-cli-vite/developing-spa/app-icons-spa",
     "heading": "Manual instructions",
-    "breadcrumb": ["Manual instructions", "Manual instructions"],
+    "breadcrumb": [
+      "Manual instructions",
+      "Manual instructions"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-spa/app-icons-spa#manual-instructions",
     "content": "- public\n  - favicon.ico\n  - icons\n    - favicon-128x128.png\n    - favicon-96x96.png\n    - favicon-32x32.png\n    - favicon-16x16.png\n\nThe required HTML code that goes into `/index.html` to reference the above files:\n\n```html\n<link rel=\"icon\" type=\"image/ico\" href=\"favicon.ico\" />\n<link\n  rel=\"icon\"\n  type=\"image/png\"\n  sizes=\"128x128\"\n  href=\"icons/favicon-128x128.png\"\n/>\n<link\n  rel=\"icon\"\n  type=\"image/png\"\n  sizes=\"96x96\"\n  href=\"icons/favicon-96x96.png\"\n/>\n<link\n  rel=\"icon\"\n  type=\"image/png\"\n  sizes=\"32x32\"\n  href=\"icons/favicon-32x32.png\"\n/>\n<link\n  rel=\"icon\"\n  type=\"image/png\"\n  sizes=\"16x16\"\n  href=\"icons/favicon-16x16.png\"\n/>\n```",

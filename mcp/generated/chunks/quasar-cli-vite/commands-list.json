@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/commands-list#overview",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Commands List",
-    "breadcrumb": ["Commands List"],
+    "breadcrumb": [
+      "Commands List"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list",
     "content": "Familiarize yourself with the list of available commands inside a Quasar project:\n\n```\n$ quasar -h\n\n  Running @quasar/cli v<...>\n  Running @quasar/app-vite v<...>\n\n  Example usage\n    $ quasar <command> <options>\n\n  Help for a command\n    $ quasar <command> --help\n    $ quasar <command> -h\n\n  Options\n    --no-color    Disable colored output (can be used with any command)\n    --version, -v Print Quasar App CLI version\n\n  Commands\n    dev, d        Start a dev server for your App\n    build, b      Build your app for production\n    prepare, p    Prepare the app for linting, type-checking, IDE integration, etc.\n    clean, c      Clean dev/build cache, /dist folder & entry points\n    new, n        Quickly scaffold page/layout/component/... vue file\n    mode, m       Add/remove Quasar Modes for your App\n    inspect       Inspect Vite/Rolldown configs used under the hood\n                    - keeps into account your quasar.config file\n                      and your installed App Extensions\n    ext, e        Manage Quasar App Extensions\n    run, r        Run specific command provided by an installed\n                    Quasar App Extension\n    describe      Describe a Quasar API (component)\n    info, i       Display info about your machine and your App\n    help, h       Displays this message\n\n  Commands supplied by @quasar/cli global installation:\n\n    upgrade       Check (and optionally) upgrade Quasar packages\n                    from a Quasar project folder\n    serve         Create an ad-hoc server on App's distributables\n```\n\nSee help for any command:\n\n```bash\nquasar [command-name] --help\n```",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/commands-list#upgrade",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Upgrade",
-    "breadcrumb": ["Upgrade", "Upgrade"],
+    "breadcrumb": [
+      "Upgrade",
+      "Upgrade"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#upgrade",
     "content": "Helper command to upgrade Quasar packages from a Quasar project folder:\n\n```\n$ quasar upgrade -h\n\n  Description\n    Upgrades all Quasar packages to their latest version\n    which are compatible with the API that you are currently using\n    (unless -m/--major param is used which may include breaking changes).\n\n    Works only in a project folder by upgrading to latest minor versions\n    (or latest major versions if chosen to) of all Quasar related packages.\n\n    This will also upgrade official Quasar App Extensions.\n\n  Usage\n    # will prompt you to install\n    $ quasar upgrade\n\n    # checks for pre-releases (alpha/beta/rc) also:\n    $ quasar upgrade -p\n\n    # checks for major new releases (includes breaking changes):\n    $ quasar upgrade -m\n\n    # to skip the install prompt and just do it,\n    # combine any of the params above and add \"-i\" (or \"--install\"):\n    $ quasar upgrade -i\n\n  Options\n    --install, -i     Skips the install prompt and just does it\n    --prerelease, -p  Allow pre-release versions (alpha/beta/rc)\n    --major, -m       Allow newer major versions (breaking changes)\n    --registry, -r    NPM registry URL\n                        * default is taken from your machine's npm config\n                        * example: https://registry.npmjs.org/\n    --no-color        Disable colored output\n    --help, -h        Displays this message\n```\n\n::: warning Note for code editor terminals\nIf you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error _Command not found_ or _@quasar/cli_ version appears to be _undefined_, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) _Add 'node_modules/.bin' from the project root to %PATH%_ then restart your code editor.\n:::",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/commands-list#info",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Info",
-    "breadcrumb": ["Info", "Info"],
+    "breadcrumb": [
+      "Info",
+      "Info"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#info",
     "content": "The Quasar CLI uses a tested combination of build packages such as Vite and Vue, which are updated regularly.\n\nIn order for you to see what versions of Node, Quasar CLI, Quasar, Vue (and many others) you are using, issue this command in a Quasar project folder: `quasar info`.",
@@ -36,7 +44,10 @@
     "id": "quasar-cli-vite/commands-list#dev",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Dev",
-    "breadcrumb": ["Dev", "Dev"],
+    "breadcrumb": [
+      "Dev",
+      "Dev"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#dev",
     "content": "The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.\n\n> Hot Reload is much more than just refreshing your browser when code changes. It skips the refresh and updates your code on the fly, while maintaining your App's state (like your Vue's model data). Please note that there are cases when this is impossible, so the dev webserver will simply refresh your browser. (Always ensure you are running only one instance of Quasar CLI at a time, otherwise Hot-Reload and other stuff will break!)\n\nBased on what you want to develop, you can start the development server by using \"quasar dev\" command as follows:\n\n```\n$ quasar dev -h\n\n  Description\n    Starts the app in development mode (hot-code reloading, error\n    reporting, etc)\n\n  Usage\n    $ quasar dev\n    $ quasar dev -p <port number>\n\n    $ quasar dev -m ssr\n\n    # alias for \"quasar dev -m capacitor -T ios\"\n    $ quasar dev -m ios\n\n    # alias for \"quasar dev -m capacitor -T android\"\n    $ quasar dev -m android\n\n    # passing extra parameters and/or options to\n    # underlying \"cordova\" or \"electron\" executables:\n    $ quasar dev -m cordova -T ios -- some params --and options --here\n    $ quasar dev -m electron -- --force-device-scale-factor=1\n    # when on Windows and using Powershell:\n    $ quasar dev -m cordova -T ios '--' some params --and options --here\n    $ quasar dev -m electron '--' --force-device-scale-factor=1\n\n  Options\n    --mode, -m       App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)\n    --port, -p       A port number on which to start the application\n    --hostname, -H   A hostname to use for serving the application\n    --devtools, -d   Open remote Vue Devtools\n    --no-color       Disable colored output\n    --help, -h       Displays this message\n\n    Only for Capacitor & Cordova modes:\n    --target, -T     (required) App target [android|ios]\n    --ide, -i        (prod only) Open IDE to build the app instead of using CLI tools\n\n    Only for BEX mode:\n    --target, -T     Browser family target [chrome|firefox]\n                       (default: chrome)\n```\n\nIf you wish to change the hostname or port serving your App you have 3 options:\n\n- Edit the '/quasar.config' file:\n  ```js\n  devServer: {\n    host: '...',\n    port: ...\n  }\n  ```\n- Through '-H' (hostname) and '-p' (port) command options.\n- If this is a one time thing, specify the hostname and/or port as an environment variable:\n  ```bash\n  PORT=3000 quasar dev\n  HOSTNAME=1.1.1.14 quasar dev\n  ```",
@@ -47,7 +58,10 @@
     "id": "quasar-cli-vite/commands-list#build",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Build",
-    "breadcrumb": ["Build", "Build"],
+    "breadcrumb": [
+      "Build",
+      "Build"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#build",
     "content": "```\n$ quasar build -h\n\n  Description\n    Builds distributables of your app.\n\n  Usage\n    $ quasar build\n\n    $ quasar build -m ssr\n    $ quasar build -m capacitor -T ios\n\n    # passing extra parameters and/or options to\n    # underlying \"cordova\" executable:\n    $ quasar build -m cordova -T ios -- some params --and options --here\n    # when on Windows and using PowerShell:\n    $ quasar build -m cordova -T ios '--' some params --and options --here\n\n  Options\n    --mode, -m      App mode [spa|ssr|ssg|pwa|cordova|capacitor|electron|bex] (default: spa)\n    --target, -T    App target\n                      - Cordova (default: all installed)\n                        [android|ios]\n                      - Capacitor\n                        [android|ios]\n                      - Electron with default \"@electron/packager\" bundler (default: yours)\n                        [darwin|win32|linux|mas|all]\n                      - Electron with \"electron-builder\" bundler (default: yours)\n                        [darwin|mac|win32|win|linux|all]\n                      - Bex\n                        [chrome|firefox]\n    --publish, -P   Also trigger publishing hooks (if any are specified)\n                      - Has special meaning when building with Electron mode and using\n                        electron-builder as bundler\n    --debug, -d     Build for debugging purposes\n    --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables or BEX zip file)\n                      - Cordova (it only fills in /src-cordova/www folder with the UI code)\n                      - Capacitor (it only fills in /src-capacitor/www folder with the UI code)\n                      - Electron (it only creates the unpackaged app folder)\n                      - BEX (it only creates the unpackaged extension folder)\n    --no-summary    Don't output build summary at the end of the process\n    --no-color      Disable colored output\n    --help, -h      Displays this message\n\n    ONLY for Cordova and Capacitor mode:\n    --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a\n                      terminal/console-only build\n\n    ONLY for Electron mode:\n    --bundler, -b   Bundler (@electron/packager or electron-builder)\n                      [packager|builder]\n    --arch, -A      App architecture (default: yours)\n                      - with default \"@electron/packager\" bundler:\n                          [ia32|x64|armv7l|arm64|mips64el|all]\n                      - with \"electron-builder\" bundler:\n                          [ia32|x64|armv7l|arm64|all]\n\n    ONLY for electron-builder (when using \"publish\" parameter):\n    --publish, -P   Publish options [onTag|onTagOrDraft|always|never]\n                      - see https://www.electron.build/configuration/publish\n```\n\nThe Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.\n\n```bash\n# Build a SPA for production\nquasar build\n# ...or\nquasar build -m spa\n\n# Build a SSR for production\nquasar build -m ssr\n\n# Build a PWA for production\nquasar build -m pwa\n\n# Build a BEX for production\nquasar build -m bex -T [chrome|firefox]\n\n# Build a Mobile App (through Capacitor)\nquasar build -m capacitor -T [android|ios]\n# or the short form:\nquasar build -m [android|ios]\n\n# Build an Electron App for production\nquasar build -m electron\n\n# passing extra parameters and/or options to\n# underlying \"cordova\" executable:\nquasar build -m cordova -T ios -- some params --and options --here\n# when on Windows and using PowerShell:\nquasar build -m cordova -T ios '--' some params --and options --here\n\n# Create a production build with ability to debug it\n# (has source-maps and code is NOT minified)\nquasar build -d [-m <mode>]\n```",
@@ -58,7 +72,10 @@
     "id": "quasar-cli-vite/commands-list#prepare",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Prepare",
-    "breadcrumb": ["Prepare", "Prepare"],
+    "breadcrumb": [
+      "Prepare",
+      "Prepare"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#prepare",
     "content": "Prepares your project folder for the IDE, making autocompletion and other IDE features work correctly.\n\n```bash\nquasar prepare\n\n# silent (no terminal output)\nquasar prepare --silent\nquasar prepare -s\n```",
@@ -69,7 +86,10 @@
     "id": "quasar-cli-vite/commands-list#clean",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Clean",
-    "breadcrumb": ["Clean", "Clean"],
+    "breadcrumb": [
+      "Clean",
+      "Clean"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#clean",
     "content": "Cleans up all the build assets:\n\n```bash\nquasar clean\n# requires \"quasar prepare\" to be called again\n```",
@@ -80,7 +100,10 @@
     "id": "quasar-cli-vite/commands-list#new",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "New",
-    "breadcrumb": ["New", "New"],
+    "breadcrumb": [
+      "New",
+      "New"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#new",
     "content": "Generates Components, Pages, Layouts, Pinia Store.\n\n::: tip\nThis command is simply a helper in order to quickly scaffold a page/layout/component/pinia store module. You are not required to use it, but can help you when you don't know how to start.\n:::\n\n```\n$ quasar new -h\n\n  Description\n    Quickly scaffold files.\n\n  Usage\n    $ quasar new <p|page> [-f <js|ts>] <page_file_name>\n    $ quasar new <l|layout> [-f <js|ts>] <layout_file_name>\n    $ quasar new <c|component> [-f <js|ts>] <component_file_name>\n    $ quasar new <b|boot> [-f <js|ts>] <boot_name>\n    $ quasar new <s|store> [-f <js|ts>] <store_module_name>\n    $ quasar new ssrmiddleware [-f <js|ts>] <middleware_name>\n\n  Examples\n    # Create src/pages/MyNewPage.vue:\n    $ quasar new p MyNewPage\n\n    # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:\n    $ quasar new p MyNewPage OtherPage\n\n    # Create src/layouts/shop/Checkout.vue\n    $ quasar new layout shop/Checkout.vue\n\n    # Create src/layouts/shop/Checkout.vue (forcing TypeScript)\n    $ quasar new layout -f ts shop/Checkout.vue\n\n    # Create a store with TypeScript (-f ts is optional if tsconfig.json is present)\n    $ quasar new store -f ts myStore\n\n  Options\n    --no-color            Disable colored output\n    --help, -h            Displays this message\n\n    --format -f <option>  (optional) Use a supported format for the template.\n                          This gets inferred automatically for your project.\n                          Possible overriding values:\n                             * js - JS template\n                             * ts - TS template\n```",
@@ -91,7 +114,10 @@
     "id": "quasar-cli-vite/commands-list#mode",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Mode",
-    "breadcrumb": ["Mode", "Mode"],
+    "breadcrumb": [
+      "Mode",
+      "Mode"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#mode",
     "content": "```\n$ quasar mode -h\n\n  Description\n    Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.\n\n  Usage\n    $ quasar mode [add|remove] [pwa|ssr|ssg|bex|cordova|capacitor|electron] [--yes]\n\n    # determine what modes are currently installed:\n    $ quasar mode\n\n  Options\n    --yes, -y     Skips the \"Are you sure?\" question\n                  when removing a Quasar mode\n    --no-color    Disable colored output\n    --help, -h    Displays this message\n```\n\nWhen you initialize a project with the CLI, you can build SPA (Single Page Website/Application), SSR (Server-side Render Website/Application with optional PWA client takeover), SSG (Static Site Generator with optional PWA client takeover), PWA (Progressive Web App), Mobile App (through Cordova), and/or Electron Apps. When you develop for SSR, SSG, PWA, Cordova or Electron, you need these modes installed. If you issue \"quasar dev\" or \"quasar build\" they will automatically be installed.\n\nThese modes will add a \"src-\\*\" folder into your project with very specific code for it:\n\n| Folder       | Mode     | Description                                                                                                                                                                                                                                                           |\n| ------------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| src-ssr      | ssr      | Contains the production Node.js server files.                                                                                                                                                                                                                         |\n| src-ssg      | ssg      | Contains the ssg-renderer script file.                                                                                                                                                                                                                                |\n| src-pwa      | pwa      | Contains the Service Worker file that you can tweak.                                                                                                                                                                                                                  |\n| src-cordova  | cordova  | Is a Cordova project folder that will be using your 'src' as content. Tweak Cordova config, add/remove platforms, splash screens, Cordova plugins and so on from this folder. Do NOT touch \"src-cordova/www\" folder though as it will get overwritten at every build. |\n| src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'.                                                                                                                                                                                 |\n| src-bex      | bex      | Contains the specific files for Browser Extensions mode.                                                                                                                                                                                                              |\n\nIf for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective \"src-\\*\" folder.\n\n```bash\nquasar mode remove pwa\n```",
@@ -102,7 +128,10 @@
     "id": "quasar-cli-vite/commands-list#describe",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Describe",
-    "breadcrumb": ["Describe", "Describe"],
+    "breadcrumb": [
+      "Describe",
+      "Describe"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#describe",
     "content": "This command is useful to describe the API of any Quasar components/directives/plugins that your project is using. **It is specific to your Quasar version installed in your project folder.**\n\nExamples: `quasar describe QIcon`, `quasar describe TouchPan`, `quasar describe Cookies`.\n\n```\n$ quasar describe -h\n\n  Description\n    Describes a component API for project's Quasar version being used\n\n  Usage\n    $ quasar describe <component/directive/Quasar plugin>\n\n    # list all available API entries:\n    $ quasar describe list\n    # list available API entries that contain a String (ex \"storage\"):\n    $ quasar describe list storage\n\n    # display everything:\n    $ quasar describe QIcon\n\n    # displaying only props:\n    $ quasar describe QIcon -p\n    # displaying props and methods only:\n    $ quasar describe QIcon -p -m\n    # filtering by \"si\":\n    $ quasar describe QIcon -f si\n    # filtering only props by \"co\":\n    $ quasar describe QIcon -p -f co\n\n    # Open docs URL:\n    $ quasar describe QIcon -d\n\n  Options\n    --filter, -f <filter> Filters the API\n    --props, -p           Displays the API props\n    --slots, -s           Displays the API slots\n    --events, -e          Displays the API events\n    --methods, -m         Displays the API methods\n    --computedProps, -c   Displays the API computed props\n    --value, -v           Displays the API value\n    --arg, -a             Displays the API arg\n    --modifiers, -M       Displays the API modifiers\n    --injection, -i       Displays the API injection\n    --quasar, -q          Displays the API quasar conf options\n    --docs, -d            Opens the docs API URL\n    --no-color            Disable colored output\n    --help, -h            Displays this message\n```\n\n```\n$ quasar describe QIcon\n\n Describing QIcon component API\n Description is based on your project's Quasar version\n\n Properties\n\n   name (String)\n     Description: Name of the icon, following Quasar convention\n     Examples:\n       map\n       ion-add\n\n   color (String)\n     Description: Color name for component from the Quasar Color Palette\n     Examples:\n       primary\n       teal-10\n\n   size (String)\n     Description: Size in CSS units, including unit name\n     Examples:\n       16px\n       2rem\n\n   left (Boolean)\n     Description: Apply a standard margin on the left side. Useful if icon is on the right side of something.\n\n   right (Boolean)\n     Description: Apply a standard margin on the right side. Useful if icon is on the left side of something.\n\n Slots\n\n   default\n     Suggestions: QTooltip or QMenu\n\n Scoped Slots\n\n   *No scoped slots*\n\n Events\n\n   *No events*\n\n Methods\n\n   *No methods*\n```",
@@ -113,7 +142,10 @@
     "id": "quasar-cli-vite/commands-list#inspect",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Inspect",
-    "breadcrumb": ["Inspect", "Inspect"],
+    "breadcrumb": [
+      "Inspect",
+      "Inspect"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#inspect",
     "content": "This command can be used to inspect the Vite config generated by Quasar CLI.\n\n```\n$ quasar inspect -h\n\n  Description\n    Inspect Quasar generated Vite config\n\n  Usage\n    $ quasar inspect\n    $ quasar inspect -c build\n    $ quasar inspect -m electron -p 'build.outDir'\n\n  Options\n    --cmd, -c        Quasar command [dev|build] (default: dev)\n    --mode, -m       App mode [spa|ssr|ssg|pwa|bex|cordova|capacitor|electron] (default: spa)\n    --depth, -d      Number of levels deep (default: 2)\n    --path, -p       Path of config in dot notation\n                        Examples:\n                          -p build.outDir\n                          -p server.port\n                          -p plugins\n    --thread, -t     Display only one specific app mode config thread\n    --no-color       Disable colored output\n    --help, -h       Displays this message\n```",
@@ -124,7 +156,10 @@
     "id": "quasar-cli-vite/commands-list#ext",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Ext",
-    "breadcrumb": ["Ext", "Ext"],
+    "breadcrumb": [
+      "Ext",
+      "Ext"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#ext",
     "content": "This command is used to manage [App Extensions](/app-extensions/introduction).\n\n```\n$ quasar ext -h\n\n  Description\n    Manage Quasar App Extensions\n\n  Usage\n    # display list of installed extensions\n    $ quasar ext\n\n    # Add Quasar App Extension\n    $ quasar ext add <ext-id>\n\n    # Remove Quasar App Extension\n    $ quasar ext remove <ext-id>\n\n    # Add Quasar App Extension, but\n    # skip installing the npm package\n    # (assumes it's already installed)\n    $ quasar ext invoke <ext-id>\n\n    # Remove Quasar App Extension, but\n    # skip uninstalling the npm package\n    $ quasar ext uninvoke <ext-id>\n\n  Options\n    --no-color       Disable colored output\n    --help, -h       Displays this message\n```",
@@ -135,7 +170,10 @@
     "id": "quasar-cli-vite/commands-list#run",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Run",
-    "breadcrumb": ["Run", "Run"],
+    "breadcrumb": [
+      "Run",
+      "Run"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#run",
     "content": "This command is used to run commands supplied by the [App Extensions](/app-extensions/introduction) that you've installed into your project folder.\n\n```\n$ quasar run -h\n\n  Description\n    Run app extension provided commands\n\n  Usage\n    $ quasar run <extension-id> <cmd> [args, params]\n    $ quasar <extension-id> <cmd> [args, params]\n\n    $ quasar run iconify create pic -s --mark some_file\n    $ quasar iconify create pic -s --mark some_file\n        # Note: \"iconify\" is an example and not a real extension.\n        # Looks for installed extension called \"iconify\"\n        # (quasar-app-extension-iconify extension package)\n        # and runs its custom defined \"create\" command\n        # with \"pic\" argument and \"-s --mark some_file\" params\n\n  Options\n    --no-color       Disable colored output\n    --help, -h       Displays this message\n```",
@@ -146,7 +184,10 @@
     "id": "quasar-cli-vite/commands-list#serve",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Serve",
-    "breadcrumb": ["Serve", "Serve"],
+    "breadcrumb": [
+      "Serve",
+      "Serve"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#serve",
     "content": "This command should NOT be used in production. It is rather a quick convenience way to test things out and it is being supplied by the global installation of `@quasar/cli` package.\n\n```\n$ quasar serve -h\n\n  Description\n    Start a HTTP(S) server on a folder.\n\n  Usage\n    $ quasar serve [path]\n    $ quasar serve . # serve current folder\n\n    If you serve a SSR dist folder built with Quasar CLI then\n    run \"node index.js\" instead.\n\n  Options\n    --port, -p              Port to use (default: 4000)\n    --hostname, -H          Address to use (default: 0.0.0.0)\n    --silent, -s            Suppress log message\n    --cors                  Enable CORS\n    --open, -o              Open browser window after starting\n\n    --index, -i <path>      Index url path (default: index.html)\n    --history               Use history mode;\n                              All requests fallback to /index.html,\n                              or whatever \"--index\" parameter specifies\n                              (default: false)\n\n    --https                 Enable HTTPS\n    --cert, -C [path]       Path to SSL cert file (Optional)\n    --key, -K [path]        Path to SSL key file (Optional)\n\n    --no-color              Disable colored output\n    --help, -h              Displays this message\n\n    --proxy, -P [path]      Path to proxy definition file (Optional)\n\n  Proxy file example:\n    // https://hono.dev/docs/helpers/proxy\n    // \"proxy\" param is hono/proxy\n    export default ({ app, proxy }) => {\n      app.get('/proxy/:path', (c) => {\n        return proxy('http://some.api.com/' + c.req.param('path'))\n      })\n}\n```\n\n::: warning\n`quasar serve` binds to `0.0.0.0` by default, which can make it reachable from other devices on the network. Use `--hostname localhost` for local-only testing. Enable `--cors` or a proxy only when required, and do not use this convenience server to expose sensitive files or services.\n:::",
@@ -157,7 +198,11 @@
     "id": "quasar-cli-vite/commands-list#custom-node-js-server",
     "documentId": "quasar-cli-vite/commands-list",
     "heading": "Custom Node.js server",
-    "breadcrumb": ["Serve", "Custom Node.js server", "Custom Node.js server"],
+    "breadcrumb": [
+      "Serve",
+      "Custom Node.js server",
+      "Custom Node.js server"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/commands-list#custom-node-js-server",
     "content": "When building a SPA or PWA, the distributable folder can be served by any static webserver. To test it out (assuming you don't have a specific publicPath or not using Vue Router \"history\" mode), you can use the \"http-server\" npm package.\n\nOr you can build your own server. Here are some examples:\n\n```js When using default Vue Router 'hash' mode\nimport express from 'express'\nimport serveStatic from 'serve-static'\n\nconst port = process.env.PORT || 5000\nconst app = express()\n\napp.use(serveStatic(...path-to-dist...))\napp.listen(port)\n```\n\n```js When using Vue Router 'history' mode\nimport express from 'express'\nimport serveStatic from 'serve-static'\nimport history from 'connect-history-api-fallback'\n\nconst port = process.env.PORT || 5000\nconst app = express()\n\napp.use(history())\napp.use(serveStatic(...path-to-dist...))\napp.listen(port)\n```\n\nIf you need URL rewrites of API, or simply put you want to proxy your API requests, then you can use \"http-proxy-middleware\" package:\n\n```js\n// add this to one of the two previous examples:\nimport { createProxyMiddleware } from 'http-proxy-middleware'\n\n// ...\napp.use(\n  '/api',\n  createProxyMiddleware({\n    target: `http://my-api.com:5050`,\n    pathRewrite: { '^/api': '' }\n  })\n)\n\n// then app.listen(...)\n```\n\nFinally, run one of these files: `node my-server.js`",

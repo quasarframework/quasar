@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-pwa/preparation#overview",
     "documentId": "quasar-cli-vite/developing-pwa/preparation",
     "heading": "Preparation for PWA",
-    "breadcrumb": ["Preparation for PWA"],
+    "breadcrumb": [
+      "Preparation for PWA"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-pwa/preparation",
     "content": "Quasar CLI selects the PWA build target through the mode argument passed to `quasar dev` and `quasar build`.\n\nIn order to build a PWA, we first need to add the PWA mode to our Quasar project:\n\n```bash\nquasar mode add pwa\n```\n\nIf you want to jump right in and start developing, you can skip the \"quasar mode\" command and issue:\n\n```bash\nquasar dev -m pwa\n```\n\nThis will add PWA mode automatically, if it is missing.\n\nA new folder will appear in your project folder (which is explained in detail on the [Configuring PWA](/quasar-cli-vite/developing-pwa/configuring-pwa) page):\n\n- src-pwa\n  - register-sw.js — (or .ts) UI code *managing* service worker (main thread)\n  - manifest.json — Your PWA manifest file\n  - package.json — helps install PWA only deps directly under /src-pwa\n  - sw — Service worker context (WebWorker)\n    - custom-sw.js — (or .ts) Optional custom service worker file (InjectManifest mode ONLY)\n    - tsconfig.json — TypeScript only - WebWorker lib, scoped to /src-pwa/sw/\n\nAll the files above are going to be detailed in the next pages, but the high overview is:\n\n- The `register-sw.js` file is part of the UI code and communicates with the service worker.\n- The `manifest.json` is the PWA manifest file.\n- When using InjectManifest, you can write your own custom service worker (`sw/custom-sw.js`). It lives in `/src-pwa/sw/`, code runs in WebWorker context (no DOM), and compiled separately from the rest of the app.\n\nShould you want to use different filenames, you can do so by editing the `/quasar.config` file:\n\n```js /quasar.config file\nsourceFiles: {\n  pwaRegisterServiceWorker: 'src-pwa/register-sw',\n  pwaServiceWorker: 'src-pwa/sw/custom-sw',\n  pwaManifestFile: 'src-pwa/manifest.json',\n}\n```",

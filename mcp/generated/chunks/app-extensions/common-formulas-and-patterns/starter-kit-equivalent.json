@@ -3,7 +3,9 @@
     "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent#overview",
     "documentId": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "heading": "Starter kit equivalent",
-    "breadcrumb": ["Starter kit equivalent"],
+    "breadcrumb": [
+      "Starter kit equivalent"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "content": "This guide is for when you want to create what essentially is a \"starter kit\" that adds stuff (/quasar.config file configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.\n\n::: tip\nIn order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).\n:::\n\n::: tip Full Example\nTo see an example of what we will build, head over to the [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v3/my-starter-kit) on GitHub.\n:::\n\nWe'll be creating an example App Extension which does the following:\n\n- it prompts the user what features it wants this App Extension to install\n- renders (copies) files into the host app according to the user's answers\n- it extends the /quasar.config file\n- it extends the Vite configuration\n- it uses an App Extension hook (onPublish)\n- it removes the added files when the App Extension gets uninstalled\n- it uses the prompts to define what the App Extension does",
@@ -14,7 +16,10 @@
     "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-structure",
     "documentId": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "heading": "The structure",
-    "breadcrumb": ["The structure", "The structure"],
+    "breadcrumb": [
+      "The structure",
+      "The structure"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-structure",
     "content": "For the intents of this example, we'll be creating the following folder structure:\n\n- /ae\n  - README.md\n  - package.json\n  - src\n    - templates\n      - common-files\n        - README.md\n        - some-folder\n          - tasks.md\n      - serviceA\n        - src\n          - services\n            - serviceA.js — (or .ts)\n      - serviceB\n        - src\n          - services\n            - serviceB.js — (or .ts)\n    - index.js — (or .ts) Described in Index API\n    - install.js — (or .ts) Described in Install API\n    - prompts.js — (or .ts) Described in Prompts API\n    - uninstall.js — (or .ts) Described in Uninstall API",
@@ -25,7 +30,10 @@
     "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-prompts-script",
     "documentId": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "heading": "The Prompts script",
-    "breadcrumb": ["The Prompts script", "The Prompts script"],
+    "breadcrumb": [
+      "The Prompts script",
+      "The Prompts script"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-prompts-script",
     "content": "The prompts script below uses [@clack/prompts](https://www.npmjs.com/package/@clack/prompts), but you can replace it with anything if you want to. Just remember to install the prompt package that you are using (in `/ae`, into `dependencies`, since it will be a runtime dependency).\n\nThis script will be called upon AE installation/invoking procedure.\n\n```js /ae/src/prompts.js (or .ts)\n/**\n * Quasar App Extension prompts script\n * https://quasar.dev/app-extensions/development-guide/prompts-api\n */\n\nimport { definePromptsScript } from '#q-app'\nimport { intro, outro, confirm, text, group, cancel } from '@clack/prompts'\n\nexport default definePromptsScript(async (/* api */) => {\n  intro('Starter Kit App Extension')\n\n  const answers = await group(\n    {\n      serviceA: () => confirm({ message: 'Do you want service \"A\"?' }),\n      serviceB: () => confirm({ message: 'Do you want service \"B\"?' }),\n      productName: ({ results }) => {\n        if (!results.serviceB) return\n        return text({\n          message: 'Since you want service \"B\", what is the Product Name?',\n          initialValue: 'MyProduct',\n          validate(value) {\n            if (value.length === 0) return 'Please enter a product name'\n          }\n        })\n      },\n      publishService: () =>\n        confirm({\n          message: 'Do you want the publishing service?',\n          initialValue: true\n        })\n    },\n    {\n      // On Cancel callback that wraps the group\n      // So if the user cancels one of the prompts in the group this function will be called\n      onCancel: (/* { results } */) => {\n        cancel('Operation cancelled.')\n        process.exit(0)\n      }\n    }\n  )\n\n  outro('Thanks for answering the questions!')\n\n  return answers\n})\n```",
@@ -36,7 +44,10 @@
     "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-install-script",
     "documentId": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "heading": "The Install script",
-    "breadcrumb": ["The Install script", "The Install script"],
+    "breadcrumb": [
+      "The Install script",
+      "The Install script"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-install-script",
     "content": "The install script below is only rendering files into the hosted app. Notice the `/src/templates` folder above, where we decided to keep these templates.\n\n```js /ae/src/install.js (or .ts)\nimport { defineInstallScript } from '#q-app'\n\nexport default defineInstallScript(api => {\n  // (Optional!)\n  // Quasar compatibility check; you may need\n  // hard dependencies, as in a minimum version of the \"quasar\"\n  // package or a minimum version of Quasar App CLI\n  api.compatibleWith('quasar', '^2.0.0')\n  api.compatibleWith('@quasar/app-vite', '^3.0.0')\n\n  // We render some files into the hosting project\n\n  if (api.prompts.serviceA) {\n    api.render('./templates/serviceA')\n  }\n\n  if (api.prompts.serviceB) {\n    // we supply interpolation variables\n    // to the template\n    api.render('./templates/serviceB', {\n      productName: api.prompts.productName\n    })\n  }\n\n  // we always render the following template:\n  api.render('./templates/common-files')\n})\n```\n\nNotice that we use the prompts to decide what to render into the hosting project. Furthermore, if the user has selected \"service B\", then we'll also have a \"productName\" that we can use when we render the service B's file.",
@@ -47,7 +58,10 @@
     "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-index-script",
     "documentId": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "heading": "The Index script",
-    "breadcrumb": ["The Index script", "The Index script"],
+    "breadcrumb": [
+      "The Index script",
+      "The Index script"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-index-script",
     "content": "We do a few things in the index script, like extending the /quasar.config file, hooking into one of the many Index API hooks (onPublish in this case):\n\n```js /ae/src/index.js (or .ts)\nimport { defineIndexScript } from '#q-app'\n\nexport default defineIndexScript(api => {\n  // (Optional!)\n  // Quasar compatibility check; you may need\n  // hard dependencies, as in a minimum version of the \"quasar\"\n  // package or a minimum version of Quasar App CLI\n  api.compatibleWith('quasar', '^2.0.0')\n  api.compatibleWith('@quasar/app-vite', '^3.0.0')\n\n  // Here we extend the /quasar.config file;\n  // (extendQuasarConf() will be defined later in this tutorial, continue reading)\n  api.extendQuasarConf(extendQuasarConf)\n\n  // Here we register the onPublish hook,\n  // only if the user requested the publishing service\n  if (api.prompts.publishService) {\n    // onPublish() will be defined later in this tutorial, continue reading\n    api.onPublish(onPublish)\n  }\n\n  api.extendViteConf(extendVite)\n\n  // there's lots more hooks that you can use...\n})\n```\n\nHere's an example of `extendQuasarConf` definition:\n\n```js\nfunction extendQuasarConf(conf, api) {\n  conf.extras.push('ionicons-v4')\n  conf.framework.iconSet = 'ionicons-v4'\n\n  //\n  // We register a boot file. User does not need to tamper with it,\n  // so we keep it into the App Extension code:\n  //\n\n  // make sure my-ext boot file is registered\n  conf.boot.push(\n    '~quasar-app-extension-my-starter-kit/src/runtime/my-starter-kit-boot.js'\n  )\n}\n```\n\nThe `onPublish` function:\n\n```js\nfunction onPublish(api, { arg, distDir }) {\n  // this hook is called when \"quasar build --publish\" is called\n\n  // your publish logic here...\n  console.log('We should publish now. But maybe later? :)')\n\n  // are we trying to publish a Cordova app?\n  if (api.ctx.modeName === 'cordova') {\n    // do something\n  }\n}\n```\n\nThe `extendVite` function:\n\n```js\nfunction extendVite(viteConf, { isClient, isServer }, api) {\n  // viteConf is a Vite config object generated by Quasar CLI\n}\n```",
@@ -58,7 +72,10 @@
     "id": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-uninstall-script",
     "documentId": "app-extensions/common-formulas-and-patterns/starter-kit-equivalent",
     "heading": "The Uninstall script",
-    "breadcrumb": ["The Uninstall script", "The Uninstall script"],
+    "breadcrumb": [
+      "The Uninstall script",
+      "The Uninstall script"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/starter-kit-equivalent#the-uninstall-script",
     "content": "When the App Extension is uninstalled, we need to do some cleanup. Be careful about what you delete from the host app because some files may still be needed.\n\n```js\nimport { defineUninstallScript } from '#q-app'\n\nexport default defineUninstallScript(api => {\n  // Careful when you remove folders!\n  // You don't want to delete files that are still needed by the Project,\n  // or files that are not owned by this app extension.\n\n  // Here, we could also remove the /src/services folder altogether,\n  // but what if the user has added other files into this folder?\n\n  if (api.prompts.serviceA) {\n    // we added it on install, so we remove it\n    api.removePath('src/services/serviceA.js')\n  }\n\n  if (api.prompts.serviceB) {\n    // we added it on install, so we remove it\n    api.removePath('src/services/serviceB.js')\n  }\n\n  // we added it on install, so we remove it\n  api.removePath('some-folder')\n  // warning... we've added this folder, but what if the\n  // developer added more files into this folder???\n})\n```\n\nSee [api.removePath](/app-extensions/development-guide/uninstall-api#api-removepath) for details. Only remove files that the extension owns; a user may have added content to a directory after installation.",

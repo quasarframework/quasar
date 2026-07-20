@@ -10,4 +10,6 @@ generated: true
 
 Here you can explore the API for all the Quasar UI Vue components, Vue directives & Quasar UI plugins.
 
+
+
 Use the structured API resources in this artifact to explore Quasar components, directives, and plugins.

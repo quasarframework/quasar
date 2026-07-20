@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-cordova-apps/configuring-cordova#overview",
     "documentId": "quasar-cli-vite/developing-cordova-apps/configuring-cordova",
     "heading": "Configuring Cordova",
-    "breadcrumb": ["Configuring Cordova"],
+    "breadcrumb": [
+      "Configuring Cordova"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova",
     "content": "Quasar CLI selects the Cordova build target through the mode and target arguments passed to `quasar dev` and `quasar build`. Cordova CLI manages the native project under `/src-cordova`.\n\nThere are two configuration files of great importance to your mobile apps. We'll go over each one.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/configuring-cordova#config-xml",
     "documentId": "quasar-cli-vite/developing-cordova-apps/configuring-cordova",
     "heading": "config.xml",
-    "breadcrumb": ["config.xml", "config.xml"],
+    "breadcrumb": [
+      "config.xml",
+      "config.xml"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova#config-xml",
     "content": "The most important config file for your mobile app is `/src-cordova/config.xml`. The `/src-cordova` folder is a Cordova project, so please refer to [Cordova documentation](https://cordova.apache.org/docs/en/latest/) in order to understand what each file from there does. But for now, have a few moments to read about [config.xml](https://cordova.apache.org/docs/en/latest/config_ref/).\n\nSome properties from this file will get overwritten as we'll see in next section.",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/configuring-cordova#quasar-config-file",
     "documentId": "quasar-cli-vite/developing-cordova-apps/configuring-cordova",
     "heading": "quasar.config file",
-    "breadcrumb": ["quasar.config file", "quasar.config file"],
+    "breadcrumb": [
+      "quasar.config file",
+      "quasar.config file"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova#quasar-config-file",
     "content": "Quasar CLI updates the app version, description, and optional Android version code in `config.xml` before Cordova runs. The widget `id` is set when the Cordova project is created and is not rewritten from the Quasar config.\n\nFor determining the values for each of the properties mentioned above, Quasar CLI:\n\n1. Looks in the `/quasar.config` file for a \"cordova\" Object. Does it have \"version\", \"description\" and/or \"androidVersionCode\"? If yes, it will use them.\n2. If not, it falls back to `/package.json > version` and `/package.json > description`.\n\n```ts /quasar.config file > cordova\ncordova: {\n  /** If not present, will look for `package.json > version` */\n  version?: string;\n  /** If not present, will look for `package.json > description` */\n  description?: string;\n  androidVersionCode?: string;\n\n  /**\n   * Function to return the Cordova build command parameters that\n   * will be executed after the UI has compiled.\n   *\n   * @param context.debug - True if in debug mode\n   * @param context.target - The target platform\n   * @returns Array of strings (command parameters)\n   *\n   * @default: [ 'build', '--debug'/'--release', '--device', 'ios'/'android' ]\n   * @example: ({ debug, target }) => [ 'build', `--${debug ? 'debug' : 'release'}`, '--device', target ]\n   */\n  getCordovaBuildParams?: (context: { debug: boolean; target: string }) => string[];\n\n  /**\n   * Function to return the Cordova output folder after the \"cordova build\"\n   * command is executed.\n   * The relative to /src-cordova path is used to copy the Cordova output\n   * to the /dist folder.\n   *\n   * @param context.debug - True if in debug mode\n   * @param context.target - The target platform\n   * @returns string | string[] | undefined - (relative path(s) from /src-cordova)\n   *\n   * @default ios: platforms/ios/build/... and android: platforms/android/app/build/outputs\n   * @example:\n   *    ({ debug, target }) => {\n   *       return target === 'ios'\n   *          ? `platforms/ios/build/${debug ? 'Debug' : 'Release'}-iphoneos`\n   *          : 'platforms/android/app/build/outputs'\n   *    }\n   * @example: (when interested in only one platform, leaving the other to the default value)\n   *    ({ debug, target }) => {\n   *       if (target === 'ios') {\n   *          return `platforms/ios/build/${debug ? 'Debug' : 'Release'}-iphoneos`\n   *       }\n   *    }\n   * @example: ()\n   *    ({ debug, target }) => {\n   *       if (target === 'ios') {\n   *          // try these two folders\n   *          return [ 'platforms/ios/build/device', 'platforms/ios/build/emulator' ]\n   *       }\n   *    }\n   */\n  getCordovaBuildOutputFolder?: (context: { debug: boolean; target: string }) => string | string[] | undefined;\n}\n```\n\nOther options you can configure:\n\n```js /quasar.config file\nreturn {\n  framework: {\n    config: {\n      cordova: {\n        // add the dynamic top padding on iOS mobile devices\n        iosStatusBarPadding: true / false,\n\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true / false / '*' / ['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true / false\n      }\n    }\n  }\n}\n```\n\nShould you want to tamper with the Vite config for UI in /src:\n\n```js /quasar.config file\nexport default defineConfig(ctx => {\n  return {\n    build: {\n      extendViteConf(viteConf) {\n        if (ctx.mode.cordova) {\n          // do something with viteConf\n          // or return an object to deeply merge with current viteConf\n        }\n      }\n    }\n  }\n})\n```",

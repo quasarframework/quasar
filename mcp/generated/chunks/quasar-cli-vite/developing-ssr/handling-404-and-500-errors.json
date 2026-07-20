@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors#overview",
     "documentId": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors",
     "heading": "SSR Handling of 404 and 500 Errors",
-    "breadcrumb": ["SSR Handling of 404 and 500 Errors"],
+    "breadcrumb": [
+      "SSR Handling of 404 and 500 Errors"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/handling-404-and-500-errors",
     "content": "The handling of the 404 & 500 errors on SSR is a bit different than on the other modes (like SPA). If you check out the default `/src-ssr/middlewares/render.js`, you will notice that 404 & 500 errors are handled there, based on the outcome of the `render()` call (if it throws error or not).\n\nHere is an example with Express, but the same idea applies to any webserver you choose. The section below is written after catching the other possible requests (like for /public folder, the manifest.json and service worker, etc). This is where we render the page with Vue and Vue Router.\n\n```js /src-ssr/middlewares/render.js\n/**\n * We try to render the page html with Vue.\n * If all goes well, we have it and we use it.\n */\ntry {\n  const renderedHtml = await render(/* the ssrContext: */ { req, res })\n  res.send(renderedHtml)\n} catch (err) {\n  /**\n   * If the render() call threw an error, we have a few\n   * cases:\n   */\n\n  if (err?.routeNotFound) {\n    /**\n     * Hmm, Vue Router could not find the requested route\n     * and it does not have a \"catch-all\" route, so we\n     * essentially have a 404. We should handle it here.\n     */\n\n    // ...handle it\n    return\n  }\n\n  if (err?.redirectUrl) {\n    /**\n     * We were told to redirect to another URL, so use\n     * your webserver to do exactly that.\n     */\n\n    // ...handle it\n    return\n  }\n\n  /**\n   * If we reach this point, we essentially have\n   * a rendering error and we're in the 500 domain.\n   */\n\n  if (import.meta.env.QUASAR_DEV) {\n    /**\n     * Well, we treat any other code as error;\n     * if we're in dev mode, then we can use Quasar CLI\n     * to display a nice error page that contains the stack\n     * and other useful information\n     *\n     * Note that serve.devError is available on dev only\n     */\n    const { errorHeaders, errorHtml } = serve.devError({ err, req })\n\n    // ...handle it\n    return\n  }\n\n  /**\n   * If we reach this point, we're in production.\n   * Did we compile with debugging information?\n   */\n  if (import.meta.env.QUASAR_DEBUG) {\n    console.error(err instanceof Error ? err.stack : (err ?? 'Unknown error'))\n  }\n\n  /**\n   * Render Error Page on production or\n   * alternatively, create a route (/src/routes) for an error page and redirect to it\n   * (just make sure that route won't crash too, otherwise you'll end up in an infinite loop!)\n   */\n  // ...handle the 500 response\n}\n```",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors#things-to-be-aware-of",
     "documentId": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors",
     "heading": "Things to be aware of",
-    "breadcrumb": ["Things to be aware of", "Things to be aware of"],
+    "breadcrumb": [
+      "Things to be aware of",
+      "Things to be aware of"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/handling-404-and-500-errors#things-to-be-aware-of",
     "content": "We'll discuss some architectural decisions that you need to be aware of. Choose whatever fits your app best.",
@@ -25,7 +30,11 @@
     "id": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors#error-404",
     "documentId": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors",
     "heading": "Error 404",
-    "breadcrumb": ["Things to be aware of", "Error 404", "Error 404"],
+    "breadcrumb": [
+      "Things to be aware of",
+      "Error 404",
+      "Error 404"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/handling-404-and-500-errors#error-404",
     "content": "If you define an equivalent 404 route on your Vue Router `/src/router/routes.js` file (like below), then the `if(err.routeNotFound)` part from the example above will NEVER be `true` since Vue Router already handled it.\n\n```js /src/router/routes file\n// Example of route for catching 404 with Vue Router\n{ path: '/:catchAll(.*)*', component: () => import('@/pages/Error404.vue') }\n```",
@@ -36,7 +45,11 @@
     "id": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors#error-500",
     "documentId": "quasar-cli-vite/developing-ssr/handling-404-and-500-errors",
     "heading": "Error 500",
-    "breadcrumb": ["Things to be aware of", "Error 500", "Error 500"],
+    "breadcrumb": [
+      "Things to be aware of",
+      "Error 500",
+      "Error 500"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/handling-404-and-500-errors#error-500",
     "content": "On the `/src-ssr/middlewares/render.js` example at the top of the page, notice that we may end up with a 500 error in dev or production. For the dev part, we can use Quasar CLI's `serve.devError()` to generate a nice page to send back to the client. But for production, this feature is not available, and we can send back the http status code along with a string (some error to be displayed?).\n\nHowever, if we want to show a nice page instead, either create a function to return its html (just like serve.devError does), or even (and this is a bit dangerous) create a VueRouter route to handle it:\n\n1. Add a specific route in `/src/router/routes.js`, like:\n\n```js /src/router/routes file\n{ path: 'error500', component: () => import('@/pages/Error500.vue') }\n```\n\n2. Write the Vue component to handle this page. In this example, we create `/src/pages/Error500.vue`\n3. Then in `/src-ssr/middlewares/render.js` redirect the client to this path.\n\n::: danger\nThe only caveat in this case is that you may end up in an endless loop if this VueRouter route throws an erorr too! So be extremely carefull should you choose this path.\n:::\n\nThe perfect approach to avoid this would simply be to directly return the HTML (as String) of the error 500 page from `/src-ssr/middlewares/render.js`",

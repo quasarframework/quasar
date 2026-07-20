@@ -3,7 +3,9 @@
     "id": "start/quick-start#overview",
     "documentId": "start/quick-start",
     "heading": "Quick Start",
-    "breadcrumb": ["Quick Start"],
+    "breadcrumb": [
+      "Quick Start"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/quick-start",
     "content": "It takes two easy steps and in a couple of minutes, you are off and running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI and also ready with Quasar's own powerful UI library.\n\n::: tip\nIf you are a more advanced Vue developer, we invite you to start off by [deciding between all Quasar flavours](/start/pick-quasar-flavour).\n:::",
@@ -14,7 +16,10 @@
     "id": "start/quick-start#prerequisites",
     "documentId": "start/quick-start",
     "heading": "Prerequisites",
-    "breadcrumb": ["Prerequisites", "Prerequisites"],
+    "breadcrumb": [
+      "Prerequisites",
+      "Prerequisites"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quick-start#prerequisites",
     "content": "Make sure that you have Node.js >=22 (or any newer **LTS Node.js version**) and PNPM v11+ or Yarn v1 classic or or NPM or Bun installed on your machine. Again, please do not use non LTS versions of Node.js.",
@@ -25,7 +30,10 @@
     "id": "start/quick-start#step-1-create-a-project",
     "documentId": "start/quick-start",
     "heading": "Step 1: Create a Project",
-    "breadcrumb": ["Step 1: Create a Project", "Step 1: Create a Project"],
+    "breadcrumb": [
+      "Step 1: Create a Project",
+      "Step 1: Create a Project"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quick-start#step-1-create-a-project",
     "content": "Navigate to the folder above where you want your project to be. Quasar will later prompt you for the name of the project folder and create that folder within this.\n\nEnter the following command:\n\n```tabs\n<<| bash PNPM |>>\npnpm create quasar@latest\n<<| bash Yarn |>>\nyarn create quasar\n<<| bash NPM |>>\nnpm init quasar@latest\n<<| bash Bun |>>\nbun create quasar@latest\n```\n\nAs the command above runs, you'll be prompted with some options. Depending on your needs, you can add things like TypeScript support or a different CSS preprocessor. If you are unsure about any of the options, just take the defaults (hit enter) and you'll be good to go. You can change the options, except for the CLI type, later if you wish.",
@@ -51,7 +59,10 @@
     "id": "start/quick-start#step-2-start-developing",
     "documentId": "start/quick-start",
     "heading": "Step 2: Start developing",
-    "breadcrumb": ["Step 2: Start developing", "Step 2: Start developing"],
+    "breadcrumb": [
+      "Step 2: Start developing",
+      "Step 2: Start developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quick-start#step-2-start-developing",
     "content": "For the second and last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.\n\n```tabs\n<<| bash PNPM |>>\n# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\npnpm run dev\n# to run a local Quasar CLI command:\npnpm quasar dev\n<<| bash Yarn |>>\n# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\nyarn run dev\n# to run a local Quasar CLI command:\nyarn quasar dev\n<<| bash NPM |>>\n# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\nnpm run dev\n# to run a local Quasar CLI command:\nnpx quasar dev\n<<| bash Bun |>>\n# if you have the global CLI:\nquasar dev\n\n# otherwise:\n\nbun run dev\n# to run a local Quasar CLI command:\nbun quasar dev\n```\n\nYou'll see the dev server compiling your new application and once it is finished, your new app should open up in your browser. That's it! You can now develop your app with your favorite IDE / Code Editor.",
@@ -62,7 +73,10 @@
     "id": "start/quick-start#now-what",
     "documentId": "start/quick-start",
     "heading": "Now What?",
-    "breadcrumb": ["Now What?", "Now What?"],
+    "breadcrumb": [
+      "Now What?",
+      "Now What?"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/quick-start#now-what",
     "content": "If you are new to Quasar and a...\n\n**(Beginner Vue) JavaScript Dev** - We highly recommend [learning Vue](/start/how-to-use-vue).\n\n**Intermediate Vue Dev** - We recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli-vite/directory-structure) and its different build modes, [starting with SSR](/quasar-cli-vite/developing-ssr/introduction) (the project you built is an SPA).\n\n**Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli-vite/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).",

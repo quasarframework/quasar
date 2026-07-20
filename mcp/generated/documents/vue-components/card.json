@@ -5,13 +5,19 @@
   "description": "The QCard Vue component is a great way to display important pieces of grouped content. It assists the viewer by containing and organizing information, while also setting up predictable expectations.",
   "canonicalUrl": "https://quasar.dev/vue-components/card",
   "source": "docs/src/pages/vue-components/card.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-components",
-  "kinds": ["component"],
-  "apiReferences": ["QCard", "QCardActions", "QCardSection"],
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QCard",
+    "QCardActions",
+    "QCardSection"
+  ],
   "examples": [
     {
       "title": "Basic cards",

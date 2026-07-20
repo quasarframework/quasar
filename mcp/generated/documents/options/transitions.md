@@ -29,6 +29,8 @@ There are a few Quasar components that implement transitions through `transition
 
 We're going to showcase these transitions here.
 
+
+
 <TransitionList />
 
 Use the names indicated in the captions above for the transition props. Example:

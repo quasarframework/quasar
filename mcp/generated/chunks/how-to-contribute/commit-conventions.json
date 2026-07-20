@@ -3,7 +3,10 @@
     "id": "how-to-contribute/commit-conventions#goals",
     "documentId": "how-to-contribute/commit-conventions",
     "heading": "Goals",
-    "breadcrumb": ["Goals", "Goals"],
+    "breadcrumb": [
+      "Goals",
+      "Goals"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/commit-conventions#goals",
     "content": "- Allow ignoring commits by git bisect (not important commits like formatting)\n- Provide better information when browsing the history\n\n::: warning\nThis rule applies to ALL [Quasar repositories](https://github.com/quasarframework).\n:::\n\nWell-cared log is a beautiful and useful thing. `git blame`, `revert`, `rebase`, `log`, `shortlog` and other subcommands come to life. Reviewing others’ commits and pull requests becomes something worth doing, and suddenly can be done independently. Understanding why something happened months or years ago becomes not only possible but efficient.",
@@ -28,7 +31,10 @@
     "id": "how-to-contribute/commit-conventions#format-of-a-commit-message",
     "documentId": "how-to-contribute/commit-conventions",
     "heading": "Format of a Commit Message",
-    "breadcrumb": ["Format of a Commit Message", "Format of a Commit Message"],
+    "breadcrumb": [
+      "Format of a Commit Message",
+      "Format of a Commit Message"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/commit-conventions#format-of-a-commit-message",
     "content": "```\ntype(<scope>): <Subject> #<github-ref-id>\n\n<body>\n\n<footer>\n```",
@@ -68,7 +74,10 @@
     "id": "how-to-contribute/commit-conventions#message-body",
     "documentId": "how-to-contribute/commit-conventions",
     "heading": "Message Body",
-    "breadcrumb": ["Message Body", "Message Body"],
+    "breadcrumb": [
+      "Message Body",
+      "Message Body"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/commit-conventions#message-body",
     "content": "- uses the imperative, present tense: “change” not “changed” nor “changes”\n- includes motivation for the change and contrasts with previous behavior",
@@ -79,7 +88,11 @@
     "id": "how-to-contribute/commit-conventions#breaking-changes",
     "documentId": "how-to-contribute/commit-conventions",
     "heading": "Breaking Changes",
-    "breadcrumb": ["Message Footer", "Breaking Changes", "Breaking Changes"],
+    "breadcrumb": [
+      "Message Footer",
+      "Breaking Changes",
+      "Breaking Changes"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/commit-conventions#breaking-changes",
     "content": "All breaking changes have to be mentioned as a breaking change block in the footer, which should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit message is then the description of the change, justification and migration notes.\n\n```\nBREAKING CHANGE: isolate scope bindings definition has changed and\n    the inject option for the directive controller injection was removed.\n\n    To migrate the code follow the example below:\n\n    Before:\n\n    scope: {\n      myAttr: 'attribute',\n      myBind: 'bind',\n      myExpression: 'expression',\n      myEval: 'evaluate',\n      myAccessor: 'accessor'\n    }\n\n    After:\n\n    scope: {\n      myAttr: '@',\n      myBind: '@',\n      myExpression: '&',\n      // myEval - usually not useful, but in cases where the expression is assignable, you can use '='\n      myAccessor: '=' // in directive's template change myAccessor() to myAccessor\n    }\n```",

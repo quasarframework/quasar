@@ -3,7 +3,9 @@
     "id": "quasar-utils/type-checking-utils#overview",
     "documentId": "quasar-utils/type-checking-utils",
     "heading": "Type Checking Utils (<is>)",
-    "breadcrumb": ["Type Checking Utils (<is>)"],
+    "breadcrumb": [
+      "Type Checking Utils (<is>)"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-utils/type-checking-utils",
     "content": "::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
@@ -14,7 +16,10 @@
     "id": "quasar-utils/type-checking-utils#is-deepequal",
     "documentId": "quasar-utils/type-checking-utils",
     "heading": "is.deepEqual",
-    "breadcrumb": ["is.deepEqual", "is.deepEqual"],
+    "breadcrumb": [
+      "is.deepEqual",
+      "is.deepEqual"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/type-checking-utils#is-deepequal",
     "content": "Recursively checks if one Object is equal to another. Also supports Map, Set, ArrayBuffer, Regexp, Date, and many more.\n\n```js\nimport { is } from 'quasar'\n\nconst objA = {/* ... */}\nconst objB = {/* ... */}\n\nconsole.log(is.deepEqual(objA, objB)) // true or false\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-utils/type-checking-utils#is-object",
     "documentId": "quasar-utils/type-checking-utils",
     "heading": "is.object",
-    "breadcrumb": ["is.object", "is.object"],
+    "breadcrumb": [
+      "is.object",
+      "is.object"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/type-checking-utils#is-object",
     "content": "```js\nimport { is } from 'quasar'\n\nconst obj = { some: 'value' }\nconsole.log(is.object(obj)) // true\n```",
@@ -36,7 +44,10 @@
     "id": "quasar-utils/type-checking-utils#is-date",
     "documentId": "quasar-utils/type-checking-utils",
     "heading": "is.date",
-    "breadcrumb": ["is.date", "is.date"],
+    "breadcrumb": [
+      "is.date",
+      "is.date"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/type-checking-utils#is-date",
     "content": "```js\nimport { is } from 'quasar'\n\nconst date = new Date()\nconsole.log(is.date(date)) // true\n\nconst now = Date.now()\nconsole.log(is.date(now)) // false\n```",
@@ -47,7 +58,10 @@
     "id": "quasar-utils/type-checking-utils#is-regexp",
     "documentId": "quasar-utils/type-checking-utils",
     "heading": "is.regexp",
-    "breadcrumb": ["is.regexp", "is.regexp"],
+    "breadcrumb": [
+      "is.regexp",
+      "is.regexp"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/type-checking-utils#is-regexp",
     "content": "```js\nimport { is } from 'quasar'\n\nconst pattern1 = /\\w+/\nconsole.log(is.regexp(pattern1)) // true\n\nconst pattern2 = new RegExp('\\\\w+')\nconsole.log(is.regexp(pattern2)) // true\n```",
@@ -58,7 +72,10 @@
     "id": "quasar-utils/type-checking-utils#is-number",
     "documentId": "quasar-utils/type-checking-utils",
     "heading": "is.number",
-    "breadcrumb": ["is.number", "is.number"],
+    "breadcrumb": [
+      "is.number",
+      "is.number"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/type-checking-utils#is-number",
     "content": "```js\nimport { is } from 'quasar'\n\nconst myNumber = 80\nconsole.log(is.number(myNumber)) // true\n```",

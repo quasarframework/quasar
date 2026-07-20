@@ -3,7 +3,9 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#overview",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Quasar JSON API Schema",
-    "breadcrumb": ["Quasar JSON API Schema"],
+    "breadcrumb": [
+      "Quasar JSON API Schema"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api",
     "content": "This page describes the JSON API Schema used for component App Extensions. Read this page if your App Extension contains a UI component.\n\n::: tip\nYou might want to read about the Index script's [api.registerDescribeApi](/app-extensions/development-guide/index-api#api-registerdescribeapi) method. Its sole purpose is to provide a hook into the `quasar describe` CLI command so that users have another way to learn how to use your component.\n:::",
@@ -14,7 +16,10 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#benefits-of-using-json-api",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Benefits of using JSON API",
-    "breadcrumb": ["Benefits of using JSON API", "Benefits of using JSON API"],
+    "breadcrumb": [
+      "Benefits of using JSON API",
+      "Benefits of using JSON API"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#benefits-of-using-json-api",
     "content": "1. Describes your existing data format(s)\n2. Provides clear human and machine-readable documentation\n3. Validates data which is useful for:\n   - Automated testing\n   - Ensuring quality of submitted data",
@@ -25,7 +30,10 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#json-data-structures",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "JSON Data Structures",
-    "breadcrumb": ["JSON Data Structures", "JSON Data Structures"],
+    "breadcrumb": [
+      "JSON Data Structures",
+      "JSON Data Structures"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#json-data-structures",
     "content": "At its heart, JSON is built on the following data structures:\n\n```js\n// object:\n{ \"key1\": \"value1\", \"key2\": \"value2\" }\n\n// array:\n[\"first\", \"second\", \"third\"]\n\n// number:\n42\n3.1415926\n\n// string:\n\"This is a string\"\n\n// boolean:\ntrue\nfalse\n\n// null:\nnull\n```",
@@ -36,7 +44,10 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#quasar-json-api",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Quasar JSON API",
-    "breadcrumb": ["Quasar JSON API", "Quasar JSON API"],
+    "breadcrumb": [
+      "Quasar JSON API",
+      "Quasar JSON API"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#quasar-json-api",
     "content": "The unfilled schema typically looks like this:\n\n```json\n{\n  \"type\": \"component\",\n  \"props\": {},\n  \"events\": {},\n  \"slots\": {},\n  \"methods\": {}\n}\n```",
@@ -47,7 +58,11 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#general",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "General",
-    "breadcrumb": ["Quasar JSON API", "General", "General"],
+    "breadcrumb": [
+      "Quasar JSON API",
+      "General",
+      "General"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#general",
     "content": "The first part of a definition is the actual item name itself.\n\n::: tip\nIf in the `props` section, this should be the forward facing name. Meaning, if your item being described is in camelCase, then the forward facing item name is in kebab-case. ex: `myProp` becomes `my-prop`.\n:::\n\nThe rest of the definitions can be one of the following:\n\n| Name       | Description                                                                                                                                                                                                                                                              |\n| :--------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| type       | Optional for everything but `props`. This can be a single item or array of items. Values are: `[\"Array\", \"Boolean\", \"Function\", \"Number\", \"Object\", \"String\", \"Null\", \"Any\"]`                                                                                            |\n| desc       | Any string that describes the item being described                                                                                                                                                                                                                       |\n| required   | [true,false]                                                                                                                                                                                                                                                             |\n| values     | an array of constrained values. Ex: `[0, 0.5, 1.0, 1.5, 2.0]`                                                                                                                                                                                                            |\n| definition | Describes an object definition. This is an object that pretty much conforms to the base object. It can contain `\"type\"`, `\"desc\"`, `\"required\"`, `\"examples\"`, `\"values\"` and `\"definition\"` (recursive)                                                                 |\n| params     | Typically is used to describe parameters to a function. This needs one or more parameters as the key to an object that pretty much conforms to the base object. It can contain `\"type\"`, `\"desc\"`, `\"required\"`, `\"examples\"`, `\"values\"` and `\"definition\"` (recursive) |\n| returns    | The returned value (for methods or functions)                                                                                                                                                                                                                            |\n| category   | Used for grouping                                                                                                                                                                                                                                                        |\n\nAll items are optional, but in the very least you should provide a description.",
@@ -58,7 +73,11 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#props-example",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Props example",
-    "breadcrumb": ["Quasar JSON API", "Props example", "Props example"],
+    "breadcrumb": [
+      "Quasar JSON API",
+      "Props example",
+      "Props example"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#props-example",
     "content": "```json\n  \"props\": {\n    \"value\": {\n      \"type\": \"Boolean\",\n      \"desc\": \"Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'input' event) OR use v-model directive\",\n      \"default\": true,\n      \"examples\": [\n        \"v-model=\\\"footerState\\\"\"\n      ],\n      \"category\": \"model\"\n    },\n    \"locale\": {\n      \"type\": \"Object\",\n      \"desc\": \"Locale formatting options\",\n      \"examples\": [ \":locale=\\\"{ monthsShort: ['Ian', 'Feb', 'Mar', '...'] }\\\"\" ],\n      \"definition\": {\n        \"days\": {\n          \"type\": \"Array\",\n          \"desc\": \"List of full day names (DDDD), starting with Sunday\",\n          \"examples\": [ \"['Duminica', 'Luni', 'Marti', '...']\" ]\n        },\n        \"daysShort\": {\n          \"type\": \"Array\",\n          \"desc\": \"List of short day names (DDD), starting with Sunday\",\n          \"examples\": [ \"['Dum', 'Lun', 'Mar', '...']\" ]\n        },\n        \"months\": {\n          \"type\": \"Array\",\n          \"desc\": \"List of full month names (MMMM), starting with January\",\n          \"examples\": [ \"['Ianuarie', 'Februarie', 'Martie', '...']\" ]\n        },\n        \"monthsShort\": {\n          \"type\": \"Array\",\n          \"desc\": \"List of short month names (MMM), starting with January\",\n          \"examples\": [ \"['Ian', 'Feb', 'Mar', '...']\" ]\n        }\n      },\n      \"category\": \"model\"\n    },\n    \"options\": {\n      \"type\": \"Function\",\n      \"desc\": \"Optionally configure what time is the user allowed to set; Overridden by 'hour-options', 'minute-options' and 'second-options' if those are set\",\n      \"params\": {\n        \"hr\": {\n          \"type\": \"Number\",\n          \"desc\": \"Hour\",\n          \"examples\": [ 15 ]\n        },\n        \"min\": {\n          \"type\": \"Number\",\n          \"desc\": \"Minutes\",\n          \"examples\": [ 38 ]\n        },\n        \"sec\": {\n          \"type\": \"Number\",\n          \"desc\": \"Seconds\",\n          \"examples\": [ 12 ]\n        }\n      },\n      \"returns\": null,\n      \"examples\": [\n        \":options=\\\"(hr, min, sec) => hr <= 6\\\"\"\n      ],\n      \"category\": \"behavior\"\n    },\n    \"events\": {\n      \"type\": [ \"Array\", \"Function\" ],\n      \"desc\": \"A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not)\",\n      \"examples\": [\n        \":events=\\\"['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']\\\"\",\n        \":events=\\\"date => date[9] % 3 === 0\\\"\"\n      ],\n      \"category\": \"model\"\n    }\n  }\n```",
@@ -69,7 +88,11 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#events-example",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Events example",
-    "breadcrumb": ["Quasar JSON API", "Events example", "Events example"],
+    "breadcrumb": [
+      "Quasar JSON API",
+      "Events example",
+      "Events example"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#events-example",
     "content": "```json\n  \"events\": {\n    \"show\": {\n      \"desc\": \"Emitted after component has triggered show()\",\n      \"params\": {\n        \"evt\": {\n          \"type\": \"Object\",\n          \"desc\": \"JS event object\",\n          \"required\": true\n        }\n      }\n    },\n    \"input\": {\n      \"params\": {\n        \"value\": {\n          \"type\": \"String\"\n        },\n        \"reason\": {\n          \"type\": \"String\",\n          \"desc\": \"Reason of the user interaction (what was picked)\",\n          \"values\": [ \"year\", \"month\", \"day\", \"today\", \"locale\", \"mask\" ]\n        },\n        \"details\": {\n          \"type\": \"Object\",\n          \"desc\": \"Object of properties on the new model\",\n          \"definition\": {\n            \"year\": {\n              \"type\": \"Number\"\n            },\n            \"month\": {\n              \"type\": \"Number\"\n            },\n            \"day\": {\n              \"type\": \"Number\"\n            }\n          }\n        }\n      }\n    }\n  }\n```",
@@ -80,7 +103,11 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#slots-example",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Slots example",
-    "breadcrumb": ["Quasar JSON API", "Slots example", "Slots example"],
+    "breadcrumb": [
+      "Quasar JSON API",
+      "Slots example",
+      "Slots example"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#slots-example",
     "content": "```json\n  \"slots\": {\n    \"default\": {\n      \"desc\": \"This is where Banner content goes\"\n    },\n\n    \"avatar\": {\n      \"desc\": \"Slot for displaying an avatar (suggestions: QIcon, QAvatar)\"\n    },\n\n    \"selected-item\": {\n      \"desc\": \"Override default selection slot; Suggestion: QChip\",\n      \"scope\": {\n        \"index\": {\n          \"type\": \"Number\",\n          \"desc\": \"Selection index\",\n          \"examples\": [ 0 ]\n        },\n        \"opt\": {\n          \"type\": \"Any\",\n          \"desc\": \"Selected option -- its value is taken from model\"\n        },\n        \"selected\": {\n          \"type\": \"Boolean\",\n          \"desc\": \"Always true -- passed down as prop to QItem (when using QItem)\"\n        },\n        \"removeAtIndex\": {\n          \"type\": \"Function\",\n          \"desc\": \"Remove selected option located at specific index\",\n          \"params\": {\n            \"index\": {\n              \"type\": \"Number\",\n              \"required\": true,\n              \"desc\": \"Index at which to remove selection\",\n              \"examples\": [ 0 ]\n            }\n          },\n          \"returns\": null\n        },\n        \"toggleOption\": {\n          \"type\": \"Function\",\n          \"desc\": \"Add/remove option from model\",\n          \"params\": {\n            \"opt\": {\n              \"type\": \"Any\",\n              \"required\": true,\n              \"desc\": \"Option to add to model\",\n              \"__exemption\": [ \"examples\" ]\n            }\n          },\n          \"returns\": null\n        },\n        \"tabindex\": {\n          \"type\": \"Number\",\n          \"desc\": \"Tabindex HTML attribute value associated with respective option\",\n          \"values\": [ 0, -1 ]\n        }\n      }\n    }\n  },\n```",
@@ -91,7 +118,11 @@
     "id": "app-extensions/common-formulas-and-patterns/json-api#methods-example",
     "documentId": "app-extensions/common-formulas-and-patterns/json-api",
     "heading": "Methods example",
-    "breadcrumb": ["Quasar JSON API", "Methods example", "Methods example"],
+    "breadcrumb": [
+      "Quasar JSON API",
+      "Methods example",
+      "Methods example"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/json-api#methods-example",
     "content": "```json\n  \"methods\": {\n    \"focus\": {\n      \"desc\": \"Focus on first focusable element/component in the form\"\n    },\n\n    \"validate\": {\n      \"desc\": \"Triggers a validation on all applicable inner Quasar components\",\n      \"params\": {\n        \"shouldFocus\": {\n          \"type\": \"Boolean\",\n          \"desc\": \"Tell if it should focus or not on component with error on submitting form; Overrides 'no-focus-error' prop if specified\"\n        }\n      },\n      \"returns\": {\n        \"type\": \"Promise<boolean>\",\n        \"desc\": \"Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)\",\n        \"examples\": [\n          \"validate().then(outcome => { ... })\"\n        ]\n      }\n    }\n  }\n```",

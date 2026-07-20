@@ -13,7 +13,7 @@ generated: true
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
 - src-pwa
-  - register-sw.js — (or .ts) UI code _managing_ service worker (main thread)
+  - register-sw.js — (or .ts) UI code *managing* service worker (main thread)
   - manifest.json — Your PWA manifest file
   - package.json — helps install PWA only deps directly under /src-pwa
   - sw — Service worker context (WebWorker)

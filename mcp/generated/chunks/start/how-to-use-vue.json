@@ -3,7 +3,9 @@
     "id": "start/how-to-use-vue#overview",
     "documentId": "start/how-to-use-vue",
     "heading": "How To Use Vue",
-    "breadcrumb": ["How To Use Vue"],
+    "breadcrumb": [
+      "How To Use Vue"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue",
     "content": "Before you begin with Quasar, it is a good idea to have a fairly good knowledge about how Vue 3 works. For devs experienced with reactive UIs, the [Vue 3 documentation](https://vuejs.org/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.\n\n::: tip\nIf you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at [Vue and Quasar video tutorials](/video-tutorials).\n:::\n\nAfter reading the Vue documentation, let's clear up some of the most frequently asked questions, like _\"How can I use Quasar components, Vue properties, methods and events\"_.",
@@ -43,7 +45,10 @@
     "id": "start/how-to-use-vue#using-quasar-directives",
     "documentId": "start/how-to-use-vue",
     "heading": "Using Quasar Directives",
-    "breadcrumb": ["Using Quasar Directives", "Using Quasar Directives"],
+    "breadcrumb": [
+      "Using Quasar Directives",
+      "Using Quasar Directives"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#using-quasar-directives",
     "content": "Quasar comes with a few custom [Vue Directives](https://vuejs.org/guide/reusability/custom-directives.html). These directives can be applied on almost any DOM element or Component.\n\nExample of a Quasar directive:\n\n```html\n<div v-ripple>Click Me</div>\n```\n\n> Notice how Ripple is used in the HTML template as `v-ripple`. Vue directives are prefixed with `v-`.\n\n```html\n<div v-touch-pan=\"handler\">...</div>\n<div v-touch-swipe=\"handler\">...</div>\n<div v-ripple>Click me. I got ripples.</div>\n```",
@@ -54,7 +59,10 @@
     "id": "start/how-to-use-vue#using-quasar-components",
     "documentId": "start/how-to-use-vue",
     "heading": "Using Quasar Components",
-    "breadcrumb": ["Using Quasar Components", "Using Quasar Components"],
+    "breadcrumb": [
+      "Using Quasar Components",
+      "Using Quasar Components"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#using-quasar-components",
     "content": "Quasar components have names beginning with \"Q\" like \"QBtn\" or \"QElementResizeObserver\". In order to use them, you need to add a reference to them in the `/quasar.config` file.\n\nLet's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:\n\n```html\n<div>\n  <q-btn @click=\"doSomething\" label=\"Do something\" />\n  <q-icon name=\"alarm\" />\n</div>\n```\n\n> Notice how QBtn is used in the Vue HTML template as `<q-btn>`. If we'd import QElementResizeObserver, then we'd use it in template as `<q-element-resize-observer>`.",
@@ -65,7 +73,10 @@
     "id": "start/how-to-use-vue#using-quasar-plugins",
     "documentId": "start/how-to-use-vue",
     "heading": "Using Quasar Plugins",
-    "breadcrumb": ["Using Quasar Plugins", "Using Quasar Plugins"],
+    "breadcrumb": [
+      "Using Quasar Plugins",
+      "Using Quasar Plugins"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#using-quasar-plugins",
     "content": "Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.\n\n::: warning\n**Before using them in your app**, you need to add a reference to them in the `/quasar.config` file (as shown below).\n:::\n\n```js\nframework: {\n  plugins: ['Notify', 'BottomSheet']\n}\n```\n\nLet's take Notify as an example and see how we can then use it. In a Vue file, you'd write something like this (Composition API):\n\n```html\n<template>\n  <div>\n    <q-btn\n      @click=\"$q.notify('My message')\"\n      color=\"primary\"\n      label=\"Show a notification\"\n    />\n\n    <q-btn\n      @click=\"showNotification\"\n      color=\"primary\"\n      label=\"Show another notification\"\n    />\n  </div>\n</template>\n\n<script setup>\n  import { useQuasar } from 'quasar'\n\n  const $q = useQuasar()\n\n  function showNotification() {\n    $q.notify('Some other message')\n  }\n</script>\n```\n\n> Notice that in the template area we're using `$q.<plugin-name>`.\n\nAn equivalent script section in Options API:\n\n```js\nexport default {\n  methods: {\n    showNotification() {\n      this.$q.notify('Some other message')\n    }\n  }\n}\n```\n\nNow let's see an example of Notify being used outside of a Vue file:\n\n```js\nimport { Notify } from 'quasar'\n\n// ...\nNotify.create('My message')\n```",
@@ -91,7 +102,10 @@
     "id": "start/how-to-use-vue#handling-vue-properties",
     "documentId": "start/how-to-use-vue",
     "heading": "Handling Vue Properties",
-    "breadcrumb": ["Handling Vue Properties", "Handling Vue Properties"],
+    "breadcrumb": [
+      "Handling Vue Properties",
+      "Handling Vue Properties"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#handling-vue-properties",
     "content": "Let's take some examples with a bogus Quasar component (we will call it QBogus) that supports the properties below. We will discuss each of the types of Vue properties in the below sections.\n\n| Vue Property | Type    | Description                                                            |\n| ------------ | ------- | ---------------------------------------------------------------------- |\n| `infinite`   | Boolean | Infinite slides scrolling                                              |\n| `size`       | String  | Thickness of loading bar.                                              |\n| `speed`      | Number  | How fast should loading bar update its value (in milliseconds).        |\n| `columns`    | Object  | Object defining columns (see \"Columns Definition\" below).              |\n| `offset`     | Array   | Array with two numbers. Offset on horizontal and vertical (in pixels). |",
@@ -177,7 +191,10 @@
     "id": "start/how-to-use-vue#handling-vue-methods",
     "documentId": "start/how-to-use-vue",
     "heading": "Handling Vue Methods",
-    "breadcrumb": ["Handling Vue Methods", "Handling Vue Methods"],
+    "breadcrumb": [
+      "Handling Vue Methods",
+      "Handling Vue Methods"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#handling-vue-methods",
     "content": "You will notice throughout the documentation that some Quasar components have methods that can be called. Example:\n\n| Vue Method           | Description              |\n| -------------------- | ------------------------ |\n| `next()`             | Goes to next slide.      |\n| `previous(doneFn)`   | Goes to previous slide.  |\n| `toggleFullscreen()` | Toggles fullscreen mode. |\n\nIn order for you to access these methods, you will need to set a Vue reference on the component first. Here's an example with Composition API:\n\n```html\n<template>\n  <!--\n    Notice ref=\"myRef\". We will use the name\n    assigned to \"ref\" in the script part below\n  -->\n  <q-bogus ref=\"myRef\" />\n</template>\n\n<script setup>\n  import { useTemplateRef, onMounted } from 'vue'\n\n  const myRef = useTemplateRef('myRef')\n\n  // after the component has mounted into DOM:\n  onMounted(() => {\n    // we call \"next()\" method of our component\n    myRef.value.next()\n  })\n  // calling before mount point might result in errors\n  // as Vue hasn't yet prepared the Vue reference\n</script>\n```\n\nAnd here is the same example, but with Options API:\n\n```html\n<template>\n  <!--\n    Notice ref=\"myRef\". We will use the name\n    assigned to \"ref\" in the script part below\n  -->\n  <q-bogus ref=\"myRef\" />\n</template>\n\n<script>\n  export default {\n    // we can now access `this.$refs.myRef`\n    // an example on the mounted() Vue component hook\n    mounted() {\n      // calling \"next()\" method:\n      this.$refs.myRef.next()\n    }\n    // calling before mount point might result in errors\n    // as Vue hasn't yet prepared the Vue reference\n  }\n</script>\n```",
@@ -188,7 +205,10 @@
     "id": "start/how-to-use-vue#handling-vue-events",
     "documentId": "start/how-to-use-vue",
     "heading": "Handling Vue Events",
-    "breadcrumb": ["Handling Vue Events", "Handling Vue Events"],
+    "breadcrumb": [
+      "Handling Vue Events",
+      "Handling Vue Events"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/how-to-use-vue#handling-vue-events",
     "content": "You will notice throughout the documentation that some Quasar components have a section called \"Vue Events\".\n\nExample of \"Vue Events\":\n\n| Event Name | Description                                |\n| ---------- | ------------------------------------------ |\n| `@show`    | Triggered right after the Modal is shown.  |\n| `@hide`    | Triggered right after the Modal is hidden. |\n\nIn order for you to catch these events, when they are triggered, you will need to add listeners for them on the component itself in the HTML template. Here's an example:\n\n```html\n<template>\n  <q-bogus @show=\"doSomething\" @hide=\"doSomethingElse\" />\n</template>\n\n<script setup>\n  function doSomething() {\n    // this method has been called (in this case)\n    // because @show event was triggered by QBogus component\n  }\n\n  function doSomethingElse() {\n    // this method has been called (in this case)\n    // because @hide event was triggered by QBogus component\n  }\n</script>\n```",

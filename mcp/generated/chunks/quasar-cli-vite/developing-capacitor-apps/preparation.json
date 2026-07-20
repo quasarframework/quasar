@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/preparation#overview",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/preparation",
     "heading": "Preparation for Capacitor App",
-    "breadcrumb": ["Preparation for Capacitor App"],
+    "breadcrumb": [
+      "Preparation for Capacitor App"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/preparation",
     "content": "Before we dive in to the actual development, we need to do some preparation work.",
@@ -14,7 +16,11 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/preparation#android-setup",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/preparation",
     "heading": "Android setup",
-    "breadcrumb": ["Step 1: Installation", "Android setup", "Android setup"],
+    "breadcrumb": [
+      "Step 1: Installation",
+      "Android setup",
+      "Android setup"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/preparation#android-setup",
     "content": "- You will need to install Android Studio and the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.\n\n- After installing the Android SDK, accept its licenses by running `sdkmanager --licenses`. With a current command-line tools installation, `sdkmanager` is under `$ANDROID_HOME/cmdline-tools/latest/bin`.\n\n::: warning\n`ANDROID_HOME` is the current variable for the Android SDK location. `ANDROID_SDK_ROOT` is deprecated; if an older tool still requires it, give both variables the same value.\n:::\n\n- Add Android installation to your path:",
@@ -57,7 +63,11 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/preparation#ios-setup",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/preparation",
     "heading": "iOS setup",
-    "breadcrumb": ["Step 1: Installation", "iOS setup", "iOS setup"],
+    "breadcrumb": [
+      "Step 1: Installation",
+      "iOS setup",
+      "iOS setup"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/preparation#ios-setup",
     "content": "You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed. After you've installed it, open Xcode in order to get the license prompt. Accept the license, then you can close it.",
@@ -98,7 +108,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/preparation#step-3-start-developing",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/preparation",
     "heading": "Step 3: Start Developing",
-    "breadcrumb": ["Step 3: Start Developing", "Step 3: Start Developing"],
+    "breadcrumb": [
+      "Step 3: Start Developing",
+      "Step 3: Start Developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/preparation#step-3-start-developing",
     "content": "To start a dev server with HMR, run the command below:\n\n```bash\nquasar dev -m capacitor -T [android|ios]\n```\n\nOnce the dev server is ready, your IDE will open (Android Studio or Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.\n\n::: warning\nDo not accept Android Studio upgrade suggestions automatically. Keep Gradle, the Android Gradle Plugin, Java, and SDK versions within the requirements of the Capacitor major version used by the project. Consult Capacitor's upgrade guide before changing the generated native toolchain.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-upgrade-notice.png\" alt=\"Gradle upgrade\" class=\"q-my-md rounded-borders\" style=\"max-width: 350px\">\n\nIf you encounter any IDE errors then click on File > Invalidate caches and restart.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-invalidate-cache.png\" alt=\"Gradle upgrade\" class=\"q-mt-md rounded-borders\" style=\"max-width: 350px\">\n\n:::",

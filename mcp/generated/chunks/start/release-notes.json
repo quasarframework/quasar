@@ -3,7 +3,9 @@
     "id": "start/release-notes#overview",
     "documentId": "start/release-notes",
     "heading": "Release Notes",
-    "breadcrumb": ["Release Notes"],
+    "breadcrumb": [
+      "Release Notes"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/release-notes",
     "content": "Release notes (with changelog) for Quasar core packages are available on [GitHub Releases](https://github.com/quasarframework/quasar/releases).\n\nFor all other packages, visit the [Quasar Organization](https://github.com/quasarframework) GitHub page and look for the repository that you are interested in then click on its \"Releases\".\n\n\n\n<QuasarReleases />\n\n```tabs\n<<| bash PNPM |>>\n# project packages:\npnpm add quasar@latest\npnpm add -D @quasar/app-vite@latest\npnpm add @quasar/extras@latest\npnpm add -D @quasar/vite-plugin@latest\n\n# global packages:\npnpm add -g @quasar/cli@latest\npnpm add -g @quasar/icongenie@latest\n<<| bash Yarn |>>\n# project packages:\nyarn add quasar@latest\nyarn add -D @quasar/app-vite@latest\nyarn add @quasar/extras@latest\nyarn add -D @quasar/vite-plugin@latest\n\n# global packages:\nyarn global add @quasar/cli@latest\nyarn global add @quasar/icongenie@latest\n<<| bash NPM |>>\nnpm install quasar@latest\npnpm install -D @quasar/app-vite@latest\npnpm install @quasar/extras@latest\npnpm install -D @quasar/vite-plugin@latest\n\n# global packages:\npnpm install -g @quasar/cli@latest\nnpm install -g @quasar/icongenie@latest\n<<| bash Bun |>>\n# project packages:\nbun add quasar@latest\nbun add -D @quasar/app-vite@latest\nbun add @quasar/extras@latest\nbun add -D @quasar/vite-plugin@latest\n\n# global packages:\nbun add -g @quasar/cli@latest\nbun add -g @quasar/icongenie@latest\n```",

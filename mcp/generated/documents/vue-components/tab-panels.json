@@ -5,13 +5,18 @@
   "description": "The QTabPanel Vue component is a way of displaying more information using less window real estate.",
   "canonicalUrl": "https://quasar.dev/vue-components/tab-panels",
   "source": "docs/src/pages/vue-components/tab-panels.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-components",
-  "kinds": ["component"],
-  "apiReferences": ["QTabPanel", "QTabPanels"],
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QTabPanel",
+    "QTabPanels"
+  ],
   "examples": [
     {
       "title": "Basic",

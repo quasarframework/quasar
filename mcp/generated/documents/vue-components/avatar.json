@@ -5,13 +5,17 @@
   "description": "The QAvatar Vue component creates an element that can embed a letter, an icon or an image within its shape.",
   "canonicalUrl": "https://quasar.dev/vue-components/avatar",
   "source": "docs/src/pages/vue-components/avatar.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-components",
-  "kinds": ["component"],
-  "apiReferences": ["QAvatar"],
+  "kinds": [
+    "component"
+  ],
+  "apiReferences": [
+    "QAvatar"
+  ],
   "examples": [
     {
       "title": "Basic",

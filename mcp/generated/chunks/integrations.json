@@ -3,7 +3,9 @@
     "id": "integrations#overview",
     "documentId": "integrations",
     "heading": "Quasar Integrations",
-    "breadcrumb": ["Quasar Integrations"],
+    "breadcrumb": [
+      "Quasar Integrations"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/integrations",
     "content": "<QuasarIntegrations />",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssg/ssg-404-error-page#overview",
     "documentId": "quasar-cli-vite/developing-ssg/ssg-404-error-page",
     "heading": "SSG 404 Error Page",
-    "breadcrumb": ["SSG 404 Error Page"],
+    "breadcrumb": [
+      "SSG 404 Error Page"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/ssg-404-error-page",
     "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::\n\nBy default, a production SSG build renders the app's Vue Router not-found route and writes it to `dist/ssg/404.html`.\n\nFor this to produce the expected page, your router should include a catch-all route:\n\n```js /src/router/routes file\n{\n  path: '/:catchAll(.*)*',\n  component: () => import('pages/ErrorNotFound.vue')\n}\n```",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssg/ssg-404-error-page#configuration",
     "documentId": "quasar-cli-vite/developing-ssg/ssg-404-error-page",
     "heading": "Configuration",
-    "breadcrumb": ["Configuration", "Configuration"],
+    "breadcrumb": [
+      "Configuration",
+      "Configuration"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/ssg-404-error-page#configuration",
     "content": "```js /quasar.config file\nexport default defineConfig(() => ({\n  ssg: {\n    // Default: '404.html'\n    error404HtmlFilename: 'not-found.html'\n  }\n}))\n```\n\nSet `error404HtmlFilename: false` if the host supplies its own error page or if you generate custom 404 files through `getSsgPages()`.\n\nThe filename alone does not configure your host. Static providers such as Netlify, Cloudflare Pages, Vercel, and GitHub Pages automatically recognize a root `404.html`. Other servers may need an explicit rule. For nginx:\n\n```nginx\nlocation / {\n    try_files $uri $uri/ =404;\n}\n\nerror_page 404 /404.html;\n```\n\nKeep the HTTP response status as `404`; serving the correct markup with a `200` response creates a soft 404. See [Deploying SSG](/quasar-cli-vite/developing-ssg/deploying#404-page) for more host-specific guidance.",

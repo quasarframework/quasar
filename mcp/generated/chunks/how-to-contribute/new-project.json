@@ -3,7 +3,9 @@
     "id": "how-to-contribute/new-project#overview",
     "documentId": "how-to-contribute/new-project",
     "heading": "How-to Start a New Project",
-    "breadcrumb": ["How-to Start a New Project"],
+    "breadcrumb": [
+      "How-to Start a New Project"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/new-project",
     "content": "You have a great new idea which is in line with the [Quasar vision](/introduction-to-quasar). Great, here is how to make it happen!\n\n1. Email to Razvan (`razvan.stoenescu [at] gmail [dot] com`) the following:\n\n   a. **The need** you are fulfilling with the new Quasar Project\n\n   b. **Name of the owner**/maintainer the project?\n\n   c. **Vision** and a **technical high-level overview**\n\n   d. **When do you plan the first public release**?\n\n   e. **Milestones** with estimated dates\n\n   f. How much **time you need from the Quasar team**\n\n   g. Document the **changes** which are needed **in the Quasar core / extensions**\n\n   h. Sustainability plan - any project creates more work and pressure on the existing Quasar team - what is **your long-term maintenance plan**\n\n2. Set up a meeting with Razvan to discuss it and invite all engaged in the project",

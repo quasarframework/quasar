@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-mobile-apps#overview",
     "documentId": "quasar-cli-vite/developing-mobile-apps",
     "heading": "Developing Mobile Apps",
-    "breadcrumb": ["Developing Mobile Apps"],
+    "breadcrumb": [
+      "Developing Mobile Apps"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-mobile-apps",
     "content": "Quasar offers two solutions for creating mobile apps:\n\n- **Capacitor** was created by Ionic Framework as a more modern replacement for Cordova. It supports most, but not all, Cordova plugins as well as Capacitor-specific plugins.\n- **Cordova** is a mobile application development framework originally created by Nitobi. Adobe Systems purchased Nitobi in 2011, rebranded it as PhoneGap, and later released an open source version of the software called Apache Cordova.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-mobile-apps#more-info",
     "documentId": "quasar-cli-vite/developing-mobile-apps",
     "heading": "More info",
-    "breadcrumb": ["More info", "More info"],
+    "breadcrumb": [
+      "More info",
+      "More info"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-mobile-apps#more-info",
     "content": "Both tools enable you to run your website as a native app through a WebView. They both expose native device APIs to your JavaScript code, and allow you to write native code in the form of plugins, which can be called through JS. While Cordova supports a wide range of targets, Capacitor only supports iOS and Android.\n\nCheck the related links below to get started.",

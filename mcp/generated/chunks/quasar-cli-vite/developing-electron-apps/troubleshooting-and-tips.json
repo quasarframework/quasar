@@ -3,7 +3,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#browser-devtools",
     "documentId": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
     "heading": "Browser Devtools",
-    "breadcrumb": ["Browser Devtools", "Browser Devtools"],
+    "breadcrumb": [
+      "Browser Devtools",
+      "Browser Devtools"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#browser-devtools",
     "content": "The generated main-process file opens renderer DevTools when `import.meta.env.QUASAR_DEBUG` is true. This includes development and production builds created with `quasar build --debug`.\n\n```js /src-electron/electron-main\nfunction createWindow () {\n  const mainWindow = new BrowserWindow({ ... })\n\n  if (import.meta.env.QUASAR_DEBUG) {\n    // if on DEV or Production with debug enabled\n    mainWindow.webContents.openDevTools()\n  }\n  else {\n    // Production build without --debug\n    mainWindow.webContents.on('devtools-opened', () => {\n      mainWindow.webContents.closeDevTools()\n    })\n  }\n}\n```\n\nDo not treat hiding DevTools as a security control. Secure the renderer even when a user can inspect or modify its local state.",
@@ -14,7 +17,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#debugging-the-main-process",
     "documentId": "quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips",
     "heading": "Debugging the main process",
-    "breadcrumb": ["Debugging the main process", "Debugging the main process"],
+    "breadcrumb": [
+      "Debugging the main process",
+      "Debugging the main process"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/troubleshooting-and-tips#debugging-the-main-process",
     "content": "In development, Quasar starts Electron's main process with Node's `--inspect` option. Attach a Node-compatible debugger, such as the Chrome DevTools page at `chrome://inspect` or a JavaScript debugger in your editor.\n\n```bash\nDebugger listening on ws://127.0.0.1:5858/b285586a-6091-4c41-b6ea-0d389e6f9c93\nFor help, see: https://nodejs.org/en/docs/inspector\n```\n\nSet the preferred port with `quasar.config > electron > inspectPort`. Quasar uses the closest available port when that port is occupied.",

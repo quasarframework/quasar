@@ -3,7 +3,9 @@
     "id": "start/vs-code-configuration#overview",
     "documentId": "start/vs-code-configuration",
     "heading": "Configure VS Code",
-    "breadcrumb": ["Configure VS Code"],
+    "breadcrumb": [
+      "Configure VS Code"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/vs-code-configuration",
     "content": "::: tip\nThis guide assumes you have already installed VS Code(Visual Studio Code).\n:::",
@@ -29,7 +31,11 @@
     "id": "start/vs-code-configuration#recommended",
     "documentId": "start/vs-code-configuration",
     "heading": "Recommended",
-    "breadcrumb": ["VS Code Extensions", "Recommended", "Recommended"],
+    "breadcrumb": [
+      "VS Code Extensions",
+      "Recommended",
+      "Recommended"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/start/vs-code-configuration#recommended",
     "content": "- [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight)\n- [GitLens — Git supercharged](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)\n- [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)\n- [VS Code Icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons)\n- [Quasar Docs](https://marketplace.visualstudio.com/items?itemName=CodeCoaching.quasar-docs)\n- [Common Intellisense](https://marketplace.visualstudio.com/items?itemName=simonhe.common-intellisense)",
@@ -40,7 +46,10 @@
     "id": "start/vs-code-configuration#quasar-cli-with-vite",
     "documentId": "start/vs-code-configuration",
     "heading": "Quasar CLI (with Vite)",
-    "breadcrumb": ["Quasar CLI (with Vite)", "Quasar CLI (with Vite)"],
+    "breadcrumb": [
+      "Quasar CLI (with Vite)",
+      "Quasar CLI (with Vite)"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/vs-code-configuration#quasar-cli-with-vite",
     "content": "If you created your project with Quasar CLI, you already have the recommended VS Code configuration. 💪\n\nWhen you open your project on VS Code, it will prompt you to install our recommended extensions if you haven't installed them already.\nJust restart VS Code after installing them and you are ready to go! 🚀",
@@ -51,7 +60,10 @@
     "id": "start/vs-code-configuration#quasar-vite-plugin",
     "documentId": "start/vs-code-configuration",
     "heading": "Quasar Vite Plugin",
-    "breadcrumb": ["Quasar Vite Plugin", "Quasar Vite Plugin"],
+    "breadcrumb": [
+      "Quasar Vite Plugin",
+      "Quasar Vite Plugin"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/vs-code-configuration#quasar-vite-plugin",
     "content": "Depending on which features/presets you are using, you can add the related options to `.vscode/settings.json`.",
@@ -77,7 +89,11 @@
     "id": "start/vs-code-configuration#eslint",
     "documentId": "start/vs-code-configuration",
     "heading": "ESLint",
-    "breadcrumb": ["Quasar Vite Plugin", "ESLint", "ESLint"],
+    "breadcrumb": [
+      "Quasar Vite Plugin",
+      "ESLint",
+      "ESLint"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/start/vs-code-configuration#eslint",
     "content": "```json\n{\n  \"editor.formatOnSave\": true,\n  \"editor.codeActionsOnSave\": [\"source.fixAll.eslint\"],\n  \"eslint.validate\": [\"javascript\", \"javascriptreact\", \"typescript\", \"vue\"]\n}\n```",
@@ -120,7 +136,11 @@
     "id": "start/vs-code-configuration#typescript",
     "documentId": "start/vs-code-configuration",
     "heading": "TypeScript",
-    "breadcrumb": ["Quasar Vite Plugin", "TypeScript", "TypeScript"],
+    "breadcrumb": [
+      "Quasar Vite Plugin",
+      "TypeScript",
+      "TypeScript"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/start/vs-code-configuration#typescript",
     "content": "```json\n{\n  \"js/ts.tsdk.path\": \"node_modules/typescript/lib\"\n}\n```",

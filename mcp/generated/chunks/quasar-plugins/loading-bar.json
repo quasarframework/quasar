@@ -3,18 +3,25 @@
     "id": "quasar-plugins/loading-bar#overview",
     "documentId": "quasar-plugins/loading-bar",
     "heading": "LoadingBar",
-    "breadcrumb": ["LoadingBar"],
+    "breadcrumb": [
+      "LoadingBar"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading-bar",
     "content": "The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/vue-components/ajax-bar) in case you don't want to handle a QAjaxBar component yourself.\n\nFor a demo, please visit the QAjaxBar documentation page.\n\nAPI reference: LoadingBar\n\n**Configuration:** register LoadingBar through `framework.plugins` in `quasar.config` and configure `framework.config.loadingBar` in `quasar.config`.\n\nLoadingBar options are same as when configuring a [QAjaxBar](/vue-components/ajax-bar).\n\n::: warning\nWhen using the UMD version of Quasar, all components, directives and plugins are installed by default. This includes LoadingBar. Should you wish to disable it, specify `loadingBar: { skipHijack: true }` (which turns off listening to Ajax traffic).\n:::",
-    "apiReferences": ["LoadingBar"],
+    "apiReferences": [
+      "LoadingBar"
+    ],
     "exampleReferences": []
   },
   {
     "id": "quasar-plugins/loading-bar#usage",
     "documentId": "quasar-plugins/loading-bar",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading-bar#usage",
     "content": "Inside Vue components:\n\n```js\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.loadingBar.start()\n  $q.loadingBar.stop()\n  $q.loadingBar.increment(value)\n}\n```\n\nOutside of Vue components:\n\n```js\nimport { LoadingBar } from 'quasar'\n\nLoadingBar.start()\nLoadingBar.stop()\nLoadingBar.increment(value)\n```",
@@ -25,7 +32,11 @@
     "id": "quasar-plugins/loading-bar#setting-up-defaults",
     "documentId": "quasar-plugins/loading-bar",
     "heading": "Setting Up Defaults",
-    "breadcrumb": ["Usage", "Setting Up Defaults", "Setting Up Defaults"],
+    "breadcrumb": [
+      "Usage",
+      "Setting Up Defaults",
+      "Setting Up Defaults"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/loading-bar#setting-up-defaults",
     "content": "Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config file > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `$q.loadingBar.setDefaults({...})`. Supports all [QAjaxBar](/vue-components/ajax-bar) properties.\n\nInside Vue components:\n\n```js\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  $q.loadingBar.setDefaults({\n    color: 'purple',\n    size: '15px',\n    position: 'bottom'\n  })\n}\n```\n\nOutside of Vue components (includes boot files):\n\n```js\nimport { LoadingBar } from 'quasar'\n\nLoadingBar.setDefaults({\n  color: 'purple',\n  size: '15px',\n  position: 'bottom'\n})\n```",

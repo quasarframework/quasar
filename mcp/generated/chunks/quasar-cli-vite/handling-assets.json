@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/handling-assets#overview",
     "documentId": "quasar-cli-vite/handling-assets",
     "heading": "App Handling Assets",
-    "breadcrumb": ["App Handling Assets"],
+    "breadcrumb": [
+      "App Handling Assets"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-assets",
     "content": "You will notice in the project structure we have two directories for assets: `/public/` and `/src/assets/`. What is the difference between them? Some are static assets while the others are processed and embedded by the build system.\n\nSo let's try to answer the question above. We'll first talk about using regular assets then we'll see what the difference is for static assets.",
@@ -43,7 +45,10 @@
     "id": "quasar-cli-vite/handling-assets#static-assets-public",
     "documentId": "quasar-cli-vite/handling-assets",
     "heading": "Static Assets - /public",
-    "breadcrumb": ["Static Assets - /public", "Static Assets - /public"],
+    "breadcrumb": [
+      "Static Assets - /public",
+      "Static Assets - /public"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-assets#static-assets-public",
     "content": "Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed at all. The content of the public folder is simply copied over to the distributable folder as-is.\n\n::: tip Assets vs Statics\nFiles in the \"assets\" folder are only included in your build if they have a literal reference in one of your Vue files.\nEvery file and folder from the \"public\" folder are copied into your production build as-is, no matter what.\n:::\n\n::: danger\nWhen not building a SPA/PWA/SSR/SSG, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.\n:::",
@@ -54,7 +59,10 @@
     "id": "quasar-cli-vite/handling-assets#more-info-with-vite",
     "documentId": "quasar-cli-vite/handling-assets",
     "heading": "More info with Vite",
-    "breadcrumb": ["More info with Vite", "More info with Vite"],
+    "breadcrumb": [
+      "More info with Vite",
+      "More info with Vite"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/handling-assets#more-info-with-vite",
     "content": "Please read Vite's guide [here](https://vitejs.dev/guide/assets.html).",

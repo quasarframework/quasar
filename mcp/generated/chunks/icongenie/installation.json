@@ -3,7 +3,9 @@
     "id": "icongenie/installation#overview",
     "documentId": "icongenie/installation",
     "heading": "Icon Genie CLI Installation",
-    "breadcrumb": ["Icon Genie CLI Installation"],
+    "breadcrumb": [
+      "Icon Genie CLI Installation"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/icongenie/installation",
     "content": "::: warning\n**Do not use uneven versions of Node.js i.e. 19, 21, 23 etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.\n:::\n\nYou will be installing the Icon Genie CLI globally. You don't need to install it in your project folder.\n\n```tabs\n<<| bash PNPM |>>\n# Node.js >=22 is required.\npnpm add -g @quasar/icongenie\n<<| bash Yarn |>>\n# Node.js >=22 is required.\nyarn global add @quasar/icongenie\n<<| bash NPM |>>\n# Node.js >=22 is required.\nnpm i -g @quasar/icongenie\n<<| bash Bun |>>\n# Node.js >=22 is required.\nbun install -g @quasar/icongenie\n```\n\nThis will install the `icongenie` command line tool.\n\n::: tip Attention developers on Windows\nIf you get an error like \"pngquant failed to build\" then you need to also globally install windows-build-tools (\"yarn global add windows-build-tools\" or \"npm install --global windows-build-tools\"). Then go to C:\\Users\\\\<windows_username>\\\\.windows-build-tools and run vs_BuildTools.exe. From there select npm/yarn and python to install. After this step it might require you to reboot your machine, otherwise you can now install @quasar/icongenie.\n:::",
@@ -14,7 +16,10 @@
     "id": "icongenie/installation#installation-tips",
     "documentId": "icongenie/installation",
     "heading": "Installation tips",
-    "breadcrumb": ["Installation tips", "Installation tips"],
+    "breadcrumb": [
+      "Installation tips",
+      "Installation tips"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/icongenie/installation#installation-tips",
     "content": "If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:\n\n```bash\n# in ~/.bashrc or equivalent\nexport PATH=\"$(yarn global bin):$PATH\"\n```\n\nUnder Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\\yarn\\bin`, otherwise if you're using npm then add `%APPDATA%\\npm`.",
@@ -25,7 +30,10 @@
     "id": "icongenie/installation#upgrading-to-icon-genie-v2",
     "documentId": "icongenie/installation",
     "heading": "Upgrading to Icon Genie v2",
-    "breadcrumb": ["Upgrading to Icon Genie v2", "Upgrading to Icon Genie v2"],
+    "breadcrumb": [
+      "Upgrading to Icon Genie v2",
+      "Upgrading to Icon Genie v2"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/icongenie/installation#upgrading-to-icon-genie-v2",
     "content": "This section applies to those that have been using Icon Genie v1 and are now upgrading to Icon Genie v2.",
@@ -51,7 +59,11 @@
     "id": "icongenie/installation#input-files",
     "documentId": "icongenie/installation",
     "heading": "Input files",
-    "breadcrumb": ["Upgrading to Icon Genie v2", "Input files", "Input files"],
+    "breadcrumb": [
+      "Upgrading to Icon Genie v2",
+      "Input files",
+      "Input files"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/icongenie/installation#input-files",
     "content": "With version 1 you required to have an app-icon.png and an app-splashscreen.png (at a fixed width and height). This is no longer the case with version 2. You will now just need a png file (its name can be anything) with transparency and with minimum of 64x64 px (but the higher, the better! -- recommended min size: 1024x1024) for the icon, and then another optional png (any name) for the background of the splash screens (min 128x128 px, but recommended minimum is 1024x1024 px).\n\nThe splash screens work in a completely different manner too. They will get generated with the icon on top of the optional background. The size ratio of the icon to width or height (whichever is lower) can be adjusted with the CLI params (`--splashscreen-icon-ratio`). You can even tell Icon Genie that the ratio is 0 so it won't add the icon on top of the background.",

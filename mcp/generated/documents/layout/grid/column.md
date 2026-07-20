@@ -20,7 +20,7 @@ For example, here are two grid layouts that apply to every device and viewport, 
 
 Source: [ColumnEqualWidth.vue](../../../examples/grid/ColumnEqualWidth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-equal-width">
     <div class="column" style="height: 150px">
@@ -45,7 +45,7 @@ Source: [ColumnEqualWidth.vue](../../../examples/grid/ColumnEqualWidth.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ## Setting one row height
 
@@ -55,7 +55,7 @@ Auto-layout for flexbox grid rows also means you can set the height of one row a
 
 Source: [ColumnRowWidth.vue](../../../examples/grid/ColumnRowWidth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-row-width">
     <div class="column" style="height: 150px">
@@ -81,7 +81,7 @@ Source: [ColumnRowWidth.vue](../../../examples/grid/ColumnRowWidth.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ## Variable height content
 
@@ -91,7 +91,7 @@ Using the `col-{breakpoint}-auto` classes, rows can size itself based on the nat
 
 Source: [ColumnVariableWidth.vue](../../../examples/grid/ColumnVariableWidth.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-variable-height">
     <div class="column justify-center" style="height: 250px">
@@ -119,7 +119,7 @@ Source: [ColumnVariableWidth.vue](../../../examples/grid/ColumnVariableWidth.vue
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ## Responsive classes
 
@@ -133,7 +133,7 @@ For grids that are the same from the smallest of devices to the largest, use the
 
 Source: [ColumnAllBreakpoints.vue](../../../examples/grid/ColumnAllBreakpoints.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-all-breakpoints">
     <div class="column" style="height: 150px">
@@ -159,7 +159,7 @@ Source: [ColumnAllBreakpoints.vue](../../../examples/grid/ColumnAllBreakpoints.v
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ### Mix and match
 
@@ -169,7 +169,7 @@ Don’t want your rows to simply stack in some grid tiers? Use a combination of 
 
 Source: [ColumnMixAndMatch.vue](../../../examples/grid/ColumnMixAndMatch.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-mix-and-match">
     <!-- Stack the columns on mobile by making one full-width and the other half-width -->
@@ -202,7 +202,7 @@ Source: [ColumnMixAndMatch.vue](../../../examples/grid/ColumnMixAndMatch.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ### Alignment
 
@@ -212,7 +212,7 @@ Use flexbox alignment utilities to vertically and horizontally align columns.
 
 Source: [ColumnHorizontalAlignment.vue](../../../examples/grid/ColumnHorizontalAlignment.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-horizontal-alignment">
     <q-badge>items-start</q-badge>
@@ -256,13 +256,13 @@ Source: [ColumnHorizontalAlignment.vue](../../../examples/grid/ColumnHorizontalA
   .column
     background: rgba(#aa0, .1)
 </style>
-```
+````
 
 **Example: Vertical alignment**
 
 Source: [ColumnVerticalAlignment.vue](../../../examples/grid/ColumnVerticalAlignment.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-vertical-alignment">
     <q-badge>justify-start</q-badge>
@@ -314,7 +314,7 @@ Source: [ColumnVerticalAlignment.vue](../../../examples/grid/ColumnVerticalAlign
   .column
     background: rgba(#aa0, .1)
 </style>
-```
+````
 
 ::: tip
 There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
@@ -328,7 +328,7 @@ If more than 12 columns are placed within a single row, each group of extra colu
 
 Source: [ColumnRowWrapping.vue](../../../examples/grid/ColumnRowWrapping.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-row-wrapping">
     <div class="column" style="height: 300px; max-height: 100%">
@@ -365,7 +365,7 @@ Source: [ColumnRowWrapping.vue](../../../examples/grid/ColumnRowWrapping.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ### Reordering
 
@@ -373,7 +373,7 @@ Source: [ColumnRowWrapping.vue](../../../examples/grid/ColumnRowWrapping.vue)
 
 Source: [ColumnReverse.vue](../../../examples/grid/ColumnReverse.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-reverse">
     <div class="column reverse" style="height: 150px">
@@ -393,13 +393,13 @@ Source: [ColumnReverse.vue](../../../examples/grid/ColumnReverse.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 **Example: Flex order**
 
 Source: [ColumnFlexOrder.vue](../../../examples/grid/ColumnFlexOrder.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-flex-order">
     <div class="column" style="height: 190px">
@@ -428,7 +428,7 @@ Source: [ColumnFlexOrder.vue](../../../examples/grid/ColumnFlexOrder.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ### Nesting
 
@@ -438,7 +438,7 @@ To nest your content with the default grid, add a new `.row` and set of `.col-sm
 
 Source: [ColumnNesting.vue](../../../examples/grid/ColumnNesting.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md example-column-nesting">
     <div class="column" style="height: 200px">
@@ -460,7 +460,7 @@ Source: [ColumnNesting.vue](../../../examples/grid/ColumnNesting.vue)
   .column + .column
     margin-top: 1rem
 </style>
-```
+````
 
 ## Flex Grid Playground
 

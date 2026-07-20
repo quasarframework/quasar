@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/browser-compatibility#overview",
     "documentId": "quasar-cli-vite/browser-compatibility",
     "heading": "Browser compatibility",
-    "breadcrumb": ["Browser compatibility"],
+    "breadcrumb": [
+      "Browser compatibility"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/browser-compatibility",
     "content": "In order to configure the browser compatibility for your app, you will need to edit the `/quasar.config` file:\n\n```js /quasar.config file\nbuild: {\n  target: {\n    browser: 'baseline-widely-available',\n    node: 'node22'\n  }\n}\n```\n\nBased on the Quasar Mode that you will be using (SPA/SSR/SSG/PWA/Electron/... etc) you will have client-side files (that run in the browser) and possibly Node.js running files. This is what the two keys of `target` Object above are for.\n\nFurthermore, based on your `/postcss.config.js` file content, your CSS will also pass through `autoprefixer` for which you can configure the browser levels that you are interested in:\n\n```js /postcss.config.js\nautoprefixer({\n  overrideBrowserslist: [\n    'last 4 Chrome versions',\n    'last 4 Firefox versions',\n    'last 4 Edge versions',\n    'last 4 Safari versions',\n    'last 4 Android versions',\n    'last 4 ChromeAndroid versions',\n    'last 4 FirefoxAndroid versions',\n    'last 4 iOS versions'\n  ]\n})\n```\n\nMore info on how to specify `autoprefixer` browser ranges: [browserslist](https://github.com/browserslist/browserslist).",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-preload-script#overview",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-preload-script",
     "heading": "Electron Preload Script",
-    "breadcrumb": ["Electron Preload Script"],
+    "breadcrumb": [
+      "Electron Preload Script"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script",
     "content": "The renderer process (your UI code from `/src`) does not have direct access to Node.js or Electron APIs in Quasar's default secure configuration. Use the preload script at `/src-electron/electron-preload.js` (or `.ts`) and Electron's `contextBridge` to expose only the operations the UI needs.\n\nThe default renderer sandbox gives the preload script a limited API. Perform filesystem access and other privileged work in the main process, then expose purpose-built operations through IPC.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-preload-script#how-to-use-it",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-preload-script",
     "heading": "How to use it",
-    "breadcrumb": ["How to use it", "How to use it"],
+    "breadcrumb": [
+      "How to use it",
+      "How to use it"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script#how-to-use-it",
     "content": "The generated `/src-electron/electron-preload.js` already exposes Quasar's runtime path helpers. Add your own bridge methods alongside it.\n\nMake sure that your `/src-electron/electron-main.js` has the following (near the \"webPreferences\" section):\n\n```js /src-electron/electron-main\n// Add this at the top:\nimport path from 'node:path'\n\n// ...\n\nfunction createWindow () {\n  // ...\n  const mainWindow = new BrowserWindow({\n    // ...\n    webPreferences: {\n      // HERE IS THE MAGIC (notice .cjs - NOT a mistake):\n      preload: path.join(import.meta.dirname, \"electron-preload.cjs\")\n    }\n  })\n```\n\nExample of `/src-electron/electron-preload` content:\n\n```js\n/**\n * This file is used specifically for security reasons.\n * Here you can securely expose privileged APIs into the renderer process\n * by leveraging Electron's contextBridge functionality and communicating\n * with the main process through Electron's inter-process communication (IPC).\n *\n * WARNING!\n * The preload script sandboxing offers limited access to a full Node.js environment.\n * Do NOT attempt to import packages from node_modules or use Node.js APIs directly in this file.\n * Instead, use IPC to communicate with the main process and access packages and Node.js\n * functionality there.\n *\n * Example of exposing window.myAPI.doAThing() to the renderer process:\n *\n *   import { contextBridge } from 'electron'\n *\n *   contextBridge.exposeInMainWorld('myAPI', {\n *     doAThing: () => {}\n *   })\n *\n * Preload script documentation:\n * https://www.electronjs.org/docs/latest/tutorial/tutorial-preload\n */\nimport { contextBridge } from 'electron'\nimport { quasarRuntime } from '#q-app/electron/preload'\n\ncontextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime)\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-electron-apps/electron-preload-script#security-considerations",
     "documentId": "quasar-cli-vite/developing-electron-apps/electron-preload-script",
     "heading": "Security considerations",
-    "breadcrumb": ["Security considerations", "Security considerations"],
+    "breadcrumb": [
+      "Security considerations",
+      "Security considerations"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script#security-considerations",
     "content": "Just by using `contextBridge` does not automatically mean that everything you do is safe. For instance the code below is unsafe:\n\n```js\n// BAD code; DON'T!!\ncontextBridge.exposeInMainWorld('myAPI', {\n  send: ipcRenderer.send\n})\n```\n\nIt directly exposes a powerful API without any kind of argument filtering. This would allow any website to send arbitrary IPC messages which you do not want to be possible. The correct way to expose IPC-based APIs would instead be to provide one method per IPC message.\n\n```js\n// Good code\ncontextBridge.exposeInMainWorld('myAPI', {\n  loadPreferences: () => ipcRenderer.invoke('myAPI:load-prefs')\n})\n```\n\nNow, `loadPreferences` is available to renderer code as `window.myAPI.loadPreferences()`.\n\n::: warning\nChoose a name that does not collide with an existing `Window` property.\n:::\n\nHandle the corresponding `load-prefs` invocation in the main process:\n\n```js\nipcMain.handle('myAPI:load-prefs', () => {\n  return {\n    // object that contains preferences\n  }\n})\n```",

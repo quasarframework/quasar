@@ -3,7 +3,9 @@
     "id": "why-donate#overview",
     "documentId": "why-donate",
     "heading": "Why Donate?",
-    "breadcrumb": ["Why Donate?"],
+    "breadcrumb": [
+      "Why Donate?"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/why-donate",
     "content": "Quasar Framework is an MIT-licensed open-source project maintained by Razvan Stoenescu along with his Team and a community of open source contributors. We work on behalf of the community to create new features, fix bugs, and maintain Quasar so you can get on with your own development projects. We’re working to shape the future of the Vue.js ecosystem to write code once and simultaneously deploy it as a website (SPA/PWA/SSR/SSG), a Mobile App and/or an Electron App.\n\nLike most open source products, Quasar can't do it alone. We rely on _sponsors, backers and supporters_ to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!",
@@ -14,7 +16,10 @@
     "id": "why-donate#our-manifesto",
     "documentId": "why-donate",
     "heading": "Our Manifesto",
-    "breadcrumb": ["Our Manifesto", "Our Manifesto"],
+    "breadcrumb": [
+      "Our Manifesto",
+      "Our Manifesto"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/why-donate#our-manifesto",
     "content": "The dream of open source is a noble cause, where communities grow and code is nurtured. In line with the philosophy of Free Open Source, Quasar has committed itself to the tenets of Good Labs' [![Greater-Good Affirmation](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation).\n\nQuasar is and always will be free and open source, a self-managed place where everyone who abides by the community rules is invited and encouraged to participate.\n\n![What do we sustain](/img/what-do-we-sustain.png)",
@@ -70,7 +75,10 @@
     "id": "why-donate#donating",
     "documentId": "why-donate",
     "heading": "Donating",
-    "breadcrumb": ["Donating", "Donating"],
+    "breadcrumb": [
+      "Donating",
+      "Donating"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/why-donate#donating",
     "content": "You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.\n\nDonating through the **GitHub Sponsorship is recommended** because GitHub will also match your donation (making it worth double your amount).\n\n\n\n<DonatingButtons />\n\nAll donations are used for Quasar Development purposes exclusively.",

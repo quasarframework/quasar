@@ -14,6 +14,8 @@ If you want to embed Quasar into your existing website project, integrating it i
 
 UMD is all about adding Quasar style and javascript tags. Please select what you will be using and check out the output below it.
 
+
+
 <UmdTags />
 
 ::: warning

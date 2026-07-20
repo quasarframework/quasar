@@ -3,18 +3,25 @@
     "id": "vue-components/time#overview",
     "documentId": "vue-components/time",
     "heading": "QTime",
-    "breadcrumb": ["QTime"],
+    "breadcrumb": [
+      "QTime"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/time",
     "content": "The QTime component provides a method to input time.\n\n::: tip\nFor handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).\n:::\n\nAPI reference: QTime",
-    "apiReferences": ["QTime"],
+    "apiReferences": [
+      "QTime"
+    ],
     "exampleReferences": []
   },
   {
     "id": "vue-components/time#usage",
     "documentId": "vue-components/time",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/time#usage",
     "content": "Notice that the model is a String only.",
@@ -25,7 +32,11 @@
     "id": "vue-components/time#basic",
     "documentId": "vue-components/time",
     "heading": "Basic",
-    "breadcrumb": ["Usage", "Basic", "Basic"],
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#basic",
     "content": "<DocExample title=\"Basic\" file=\"Basic\" overflow />\n\n<DocExample title=\"Landscape\" file=\"Landscape\" overflow />\n\n::: tip\nFor landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape=\"$q.screen.gt.xs\"`. More info: [Quasar Screen Plugin](/options/screen-plugin).\n:::",
@@ -45,7 +56,11 @@
     "id": "vue-components/time#keyboard-navigation",
     "documentId": "vue-components/time",
     "heading": "Keyboard navigation",
-    "breadcrumb": ["Usage", "Keyboard navigation", "Keyboard navigation"],
+    "breadcrumb": [
+      "Usage",
+      "Keyboard navigation",
+      "Keyboard navigation"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#keyboard-navigation",
     "content": "The hour, minute, second, and AM/PM controls can be activated with `Space` or `Enter`. When an hour, minute, or second control has focus, use `Arrow Left` and `Arrow Right` to adjust its value.",
@@ -56,7 +71,11 @@
     "id": "vue-components/time#functionality",
     "documentId": "vue-components/time",
     "heading": "Functionality",
-    "breadcrumb": ["Usage", "Functionality", "Functionality"],
+    "breadcrumb": [
+      "Usage",
+      "Functionality",
+      "Functionality"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#functionality",
     "content": "The 24 hour format is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.\n\n<DocExample title=\"24h format\" file=\"Format24h\" overflow />\n\nClicking on the \"Now\" button sets time to current user time:\n\n<DocExample title=\"Now button\" file=\"NowBtn\" overflow />\n\n<DocExample title=\"Disable and readonly\" file=\"DisableReadonly\" overflow />",
@@ -80,7 +99,11 @@
     "id": "vue-components/time#model-mask",
     "documentId": "vue-components/time",
     "heading": "Model mask",
-    "breadcrumb": ["Usage", "Model mask", "Model mask"],
+    "breadcrumb": [
+      "Usage",
+      "Model mask",
+      "Model mask"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#model-mask",
     "content": "The default model mask is `HH:mm` (or `HH:mm:ss` when using `with-seconds` prop), however you can use custom masks too.\n\nThe `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).\n\n::: warning Note on SSR/SSG\nUsing `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.\n\nIf the mask contains date tokens, set `default-date` explicitly when using SSR or SSG. The runtime default is the current local date, which can differ between the server and browser.\n:::\n\n::: danger Note on persian calendar\nWhen using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:mm:ss` (if `with-seconds` is specified).\n:::\n\n<DocExample title=\"Simple mask\" file=\"MaskSimple\" overflow />\n\nIf you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.\n\n<DocExample title=\"Mask with escaped characters\" file=\"MaskEscape\" overflow />\n\nUsing the mask to connect a [QDate](/vue-components/date) and QTime to the same model:\n\n<DocExample title=\"QDate and QTime on same model\" file=\"MaskDateTime\" overflow />",
@@ -104,7 +127,11 @@
     "id": "vue-components/time#custom-ad-hoc-locale",
     "documentId": "vue-components/time",
     "heading": "Custom ad-hoc locale",
-    "breadcrumb": ["Usage", "Custom ad-hoc locale", "Custom ad-hoc locale"],
+    "breadcrumb": [
+      "Usage",
+      "Custom ad-hoc locale",
+      "Custom ad-hoc locale"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#custom-ad-hoc-locale",
     "content": "If, for some reason, you need to use a custom ad-hoc locale rather than the current Quasar Language Pack that has been set, you can use the `locale` prop:\n\n<DocExample title=\"Custom ad-hoc locale\" file=\"CustomLocale\" overflow />",
@@ -120,7 +147,11 @@
     "id": "vue-components/time#coloring",
     "documentId": "vue-components/time",
     "heading": "Coloring",
-    "breadcrumb": ["Usage", "Coloring", "Coloring"],
+    "breadcrumb": [
+      "Usage",
+      "Coloring",
+      "Coloring"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#coloring",
     "content": "<DocExample title=\"Coloring\" file=\"Color\" overflow />\n\n<DocExample title=\"Force dark mode\" file=\"Dark\" overflow />",
@@ -140,7 +171,11 @@
     "id": "vue-components/time#limiting-options",
     "documentId": "vue-components/time",
     "heading": "Limiting options",
-    "breadcrumb": ["Usage", "Limiting options", "Limiting options"],
+    "breadcrumb": [
+      "Usage",
+      "Limiting options",
+      "Limiting options"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#limiting-options",
     "content": "- You can use the `hour-options`, `minute-options` and `second-options` props to limit user selection to certain times.\n- Alternatively, for a more in-depth way of limiting options, you can also supply a function (second example below) to `options-fn` prop.\n\n<DocExample title=\"Options\" file=\"Options\" overflow />",
@@ -156,7 +191,11 @@
     "id": "vue-components/time#with-qinput",
     "documentId": "vue-components/time",
     "heading": "With QInput",
-    "breadcrumb": ["Usage", "With QInput", "With QInput"],
+    "breadcrumb": [
+      "Usage",
+      "With QInput",
+      "With QInput"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#with-qinput",
     "content": "<DocExample title=\"Input\" file=\"Input\" overflow />\n\nConnecting a QDate and QTime with same model on a QInput:\n\n<DocExample title=\"QDate and QTime with QInput\" file=\"InputFull\" overflow />\n\nThe following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).\n\n- Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6).\n- Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).\n\nExamples: \"date\", \"time\", \"fulltime\".\n\nMore info: [QInput](/vue-components/input).",
@@ -196,7 +235,11 @@
     "id": "vue-components/time#native-form-submit",
     "documentId": "vue-components/time",
     "heading": "Native form submit",
-    "breadcrumb": ["Usage", "Native form submit", "Native form submit"],
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/time#native-form-submit",
     "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QTime, otherwise formData will not contain it (if it should):\n\nExample: Native form (NativeForm.vue)",

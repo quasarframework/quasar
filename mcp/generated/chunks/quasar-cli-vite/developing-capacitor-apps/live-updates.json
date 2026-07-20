@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/live-updates#overview",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/live-updates",
     "heading": "Live Updates",
-    "breadcrumb": ["Live Updates"],
+    "breadcrumb": [
+      "Live Updates"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/live-updates",
     "content": "Live Updates, also known as Over-the-Air (OTA) or hot code updates, are a way to push updates to your app without going through the app store review process. This is particularly useful for bug fixes or minor updates that don't require a full app release.\n\n::: warning\nA live-update bundle is executable application code. Use only an update service and plugin configuration that verifies the authenticity and integrity of downloaded bundles, protect publishing credentials, and test rollback behavior. Restrict updates to web assets; native code, plugins, permissions, and other binary changes require a signed store release. Confirm that your update policy complies with the requirements of every store where the app is distributed.\n\nOTA updates must comply with the rules of every target store and must not replace native code, native dependencies, permissions, or behavior that requires store review. Review the current Apple, Google Play, and plugin-provider requirements before enabling live updates in production.\n:::",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/live-updates#installation",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/live-updates",
     "heading": "Installation",
-    "breadcrumb": ["Installation", "Installation"],
+    "breadcrumb": [
+      "Installation",
+      "Installation"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/live-updates#installation",
     "content": "To enable Live Updates in your Quasar Capacitor app, you need to install the `@capawesome/capacitor-live-update` plugin. First, navigate to your Capacitor project directory:\n\n```bash\ncd src-capacitor\n```\n\nThen, install the plugin:\n\n```tabs\n<<| bash PNPM |>>\npnpm add @capawesome/capacitor-live-update\n<<| bash Yarn |>>\nyarn add @capawesome/capacitor-live-update\n<<| bash NPM |>>\nnpm install @capawesome/capacitor-live-update\n<<| bash Bun |>>\nbun add @capawesome/capacitor-live-update\n```\n\nAfter that, you need to sync the changes with your native projects:\n\n```bash\nnpx cap sync\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/live-updates#configuration",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/live-updates",
     "heading": "Configuration",
-    "breadcrumb": ["Configuration", "Configuration"],
+    "breadcrumb": [
+      "Configuration",
+      "Configuration"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/live-updates#configuration",
     "content": "Next, you need to configure the plugin to work with [Capawesome Cloud](https://cloud.capawesome.io/).",
@@ -36,7 +44,11 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/live-updates#app-id",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/live-updates",
     "heading": "App ID",
-    "breadcrumb": ["Configuration", "App ID", "App ID"],
+    "breadcrumb": [
+      "Configuration",
+      "App ID",
+      "App ID"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/live-updates#app-id",
     "content": "In order for your app to identify itself to Capawesome Cloud, you need to set the `appId` in your `capacitor.config` file. For this, you need to create an app on the [Capawesome Cloud Console](https://console.cloud.capawesome.io/) and get the App ID.\n\n```ts /src-capacitor/capacitor.config.ts\nimport { defineCapacitorConfig } from '@quasar/app-vite/capacitor'\n\nexport default defineCapacitorConfig({\n  plugins: {\n    LiveUpdate: {\n      appId: '00000000-0000-0000-0000-000000000000'\n    }\n  }\n})\n```\n\nReplace `00000000-0000-0000-0000-000000000000` with your actual App ID from the Capawesome Cloud Console.\n\nAfter configuring the App ID, sync your Capacitor project again:\n\n```bash\nnpx cap sync\n```",
@@ -47,7 +59,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/live-updates#usage",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/live-updates",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/live-updates#usage",
     "content": "The most basic usage of the Live Update plugin is to call the [`sync(...)`](https://capawesome.io/plugins/live-update/#sync) method when the app starts. This method checks for updates, downloads them if available, and sets them as the next bundle to be applied. You can then call the [`reload()`](https://capawesome.io/plugins/live-update/#reload) method to apply the update immediately. If the [`reload()`](https://capawesome.io/plugins/live-update/#reload) method is not called, the new bundle will be used on the next app start.\n\n```js\nimport { LiveUpdate } from '@capawesome/capacitor-live-update'\n\nconst sync = async () => {\n  const result = await LiveUpdate.sync()\n  if (result.nextBundleId) {\n    await LiveUpdate.reload()\n  }\n}\n```",
@@ -58,7 +73,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/live-updates#publishing-updates",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/live-updates",
     "heading": "Publishing updates",
-    "breadcrumb": ["Publishing updates", "Publishing updates"],
+    "breadcrumb": [
+      "Publishing updates",
+      "Publishing updates"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/live-updates#publishing-updates",
     "content": "To publish your first update, you need to [create a bundle](https://capawesome.io/cloud/live-updates/bundles/#create-a-bundle) on Capawesome Cloud. For this, you need a bundle artifact. A bundle artifact is the build output of your web app. In Quasar, this is the `src-capacitor/www` folder. You can create a bundle artifact by running the following command:\n\n```bash\nquasar build -m capacitor -T [android|ios] --skip-pkg\n```\n\nThis will create a `src-capacitor/www` folder with the build output of your web app. You can then upload this folder to Capawesome Cloud using the [Capawesome CLI](https://capawesome.io/cloud/cli/).\nTo install the Capawesome CLI, run the following command:\n\n```tabs\n<<| bash PNPM |>>\npnpm add -g @capawesome/cli\n<<| bash Yarn |>>\nyarn global add @capawesome/cli\n<<| bash NPM |>>\nnpm i -g @capawesome/cli\n<<| bash Bun |>>\nbun install -g @capawesome/cli\n```\n\nAfter installing the Capawesome CLI, log in to your Capawesome Cloud account and follow the prompts:\n\n```bash\ncapawesome login\n```\n\nOnce you are logged in, you can create a bundle by running the following command:\n\n```bash\ncapawesome apps:bundles:create --path src-capacitor/www\n```\n\nCongratulations! You have successfully published your first live update. You can now test it by running your app on a device or emulator. The app will check for updates and apply them if available.\nFeel free to check out the [documentation](https://capawesome.io/plugins/live-update/) of the Live Update plugin to see what else you can do with it.",

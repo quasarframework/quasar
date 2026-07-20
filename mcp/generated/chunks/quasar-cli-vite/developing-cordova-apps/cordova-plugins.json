@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#overview",
     "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
     "heading": "Cordova Plugins",
-    "breadcrumb": ["Cordova Plugins"],
+    "breadcrumb": [
+      "Cordova Plugins"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins",
     "content": "You can hook into the native device APIs by using [Cordova Plugins](https://cordova.apache.org/docs/en/latest/#plugin-apis).",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#cordova-plugins",
     "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
     "heading": "Cordova plugins",
-    "breadcrumb": ["Cordova plugins", "Cordova plugins"],
+    "breadcrumb": [
+      "Cordova plugins",
+      "Cordova plugins"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#cordova-plugins",
     "content": "A few examples of such plugins:\n\n- Battery Status\n- Camera\n- Contacts\n- Device\n- Device Motion\n- Geolocation\n- Media\n- Media Capture\n- Network Information\n- Splashscreen\n- Vibration\n- Statusbar",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#deviceready-event",
     "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
     "heading": "`deviceready` event",
-    "breadcrumb": ["`deviceready` event", "`deviceready` event"],
+    "breadcrumb": [
+      "`deviceready` event",
+      "`deviceready` event"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#deviceready-event",
     "content": "Some Cordova plugins are usable only after `deviceready`. In Cordova mode, Quasar waits for this event before mounting the root Vue application, so component setup and lifecycle hooks can use initialized plugin APIs.",
@@ -36,7 +44,11 @@
     "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#caveat",
     "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
     "heading": "Caveat",
-    "breadcrumb": ["`deviceready` event", "Caveat", "Caveat"],
+    "breadcrumb": [
+      "`deviceready` event",
+      "Caveat",
+      "Caveat"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#caveat",
     "content": "Let's take a vue file for example:\n\n```html\n<template> ... we are sure 'deviceready' has been triggered here ... </template>\n\n<script>\n  // outside of the default export,\n  // we need to listen to the event for ourselves:\n  document.addEventListener(\n    'deviceready',\n    () => {\n      // it's only now that we are sure\n      // the event has triggered\n    },\n    false\n  )\n\n  export default {\n    // we are sure 'deviceready' has been triggered here\n  }\n</script>\n```\n\nModule-level code can still execute while Vue files are imported, before the application mounts. Avoid accessing Cordova plugin globals at module scope. If module-level initialization is unavoidable, listen for `deviceready` explicitly as shown above.",
@@ -47,7 +59,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/cordova-plugins#using-a-cordova-plugin",
     "documentId": "quasar-cli-vite/developing-cordova-apps/cordova-plugins",
     "heading": "Using a Cordova Plugin",
-    "breadcrumb": ["Using a Cordova Plugin", "Using a Cordova Plugin"],
+    "breadcrumb": [
+      "Using a Cordova Plugin",
+      "Using a Cordova Plugin"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/cordova-plugins#using-a-cordova-plugin",
     "content": "Let's learn by taking some examples, assuming you've added Cordova mode to your Quasar project and installed a platform (android, ios, ...) already.",

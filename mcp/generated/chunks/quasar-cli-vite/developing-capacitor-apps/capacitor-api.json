@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#overview",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
     "heading": "Capacitor APIs",
-    "breadcrumb": ["Capacitor APIs"],
+    "breadcrumb": [
+      "Capacitor APIs"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api",
     "content": "You can access native device features through [Capacitor plugins](https://capacitorjs.com/docs/plugins).",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#capacitor-apis",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
     "heading": "Capacitor APIs",
-    "breadcrumb": ["Capacitor APIs", "Capacitor APIs"],
+    "breadcrumb": [
+      "Capacitor APIs",
+      "Capacitor APIs"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#capacitor-apis",
     "content": "A few examples include:\n\n- Camera\n- Device\n- Filesystem\n- Geolocation\n- Motion\n- Network\n- Push Notifications\n- Share\n- Splash Screen\n- Status Bar",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/capacitor-api#using-a-capacitor-api",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/capacitor-api",
     "heading": "Using a Capacitor API",
-    "breadcrumb": ["Using a Capacitor API", "Using a Capacitor API"],
+    "breadcrumb": [
+      "Using a Capacitor API",
+      "Using a Capacitor API"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/capacitor-api#using-a-capacitor-api",
     "content": "Let's learn by taking some examples, assuming you've added Capacitor mode to your Quasar project already.",

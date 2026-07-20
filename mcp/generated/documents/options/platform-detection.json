@@ -5,13 +5,17 @@
   "description": "How to detect the platform under which a Quasar app is running.",
   "canonicalUrl": "https://quasar.dev/options/platform-detection",
   "source": "docs/src/pages/options/platform-detection.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "options",
-  "kinds": ["plugin"],
-  "apiReferences": ["Platform"],
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Platform"
+  ],
   "examples": [
     {
       "title": "Your device",

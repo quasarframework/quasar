@@ -70,6 +70,8 @@ You can help Quasar Development by making a monthly pledge through Patreon or se
 
 Donating through the **GitHub Sponsorship is recommended** because GitHub will also match your donation (making it worth double your amount).
 
+
+
 <DonatingButtons />
 
 All donations are used for Quasar Development purposes exclusively.

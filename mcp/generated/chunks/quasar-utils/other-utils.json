@@ -3,7 +3,9 @@
     "id": "quasar-utils/other-utils#overview",
     "documentId": "quasar-utils/other-utils",
     "heading": "Other Utils",
-    "breadcrumb": ["Other Utils"],
+    "breadcrumb": [
+      "Other Utils"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils",
     "content": "::: tip\nFor usage with the UMD build see [here](/start/umd#quasar-global-object).\n:::",
@@ -14,7 +16,10 @@
     "id": "quasar-utils/other-utils#openurl",
     "documentId": "quasar-utils/other-utils",
     "heading": "openURL",
-    "breadcrumb": ["openURL", "openURL"],
+    "breadcrumb": [
+      "openURL",
+      "openURL"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#openurl",
     "content": "```js\nimport { openURL } from 'quasar'\n\nopenURL('http://...')\n\n// full syntax:\nopenURL(\n  String url,\n  Function rejectFn, // optional; gets called if window cannot be opened\n  Object windowFeatures // optional requested features for the new window\n)\n```\n\nIt will take care of the quirks involved when running under Cordova, Electron or on a browser, including notifying the user he/she has to acknowledge opening popups.\n\nWhen wrapping with Cordova (or Capacitor), it's best (but not \"a must do\") if [InAppBrowser](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/) Cordova plugin is also installed, so that openURL can hook into that.\n\nIf running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller) is installed, then openURL will first try to hook into it.\n\nThe optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not defers to using `window.open()`.\n\n```js Example of openURL() with windowFeatures:\nopenURL(\n  'http://...',\n  undefined, // in this example we don't care about the rejectFn()\n\n  // this is the windowFeatures Object param:\n  {\n    noopener: true, // this is set by default for security purposes\n    // but it can be disabled if specified with a Boolean false value\n    menubar: true,\n    toolbar: true,\n    noreferrer: true\n    // .....any other window features\n  }\n)\n```\n\n::: tip\nIf you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href=\"tel:123456789\">` tags or `<QBtn href=\"tel:123456789\">`\n:::",
@@ -25,7 +30,10 @@
     "id": "quasar-utils/other-utils#copytoclipboard",
     "documentId": "quasar-utils/other-utils",
     "heading": "copyToClipboard",
-    "breadcrumb": ["copyToClipboard", "copyToClipboard"],
+    "breadcrumb": [
+      "copyToClipboard",
+      "copyToClipboard"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#copytoclipboard",
     "content": "The following is a helper to copy some text to Clipboard. The method returns a Promise.\n\n```js\nimport { copyToClipboard } from 'quasar'\n\ncopyToClipboard('some text')\n  .then(() => {\n    // success!\n  })\n  .catch(() => {\n    // fail\n  })\n```",
@@ -36,7 +44,10 @@
     "id": "quasar-utils/other-utils#exportfile",
     "documentId": "quasar-utils/other-utils",
     "heading": "exportFile",
-    "breadcrumb": ["exportFile", "exportFile"],
+    "breadcrumb": [
+      "exportFile",
+      "exportFile"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#exportfile",
     "content": "The following is a helper to trigger the browser to start downloading a file with the specified content.\n\n```js\n/**\n * Forces browser to download file with specified content\n *\n * @param {*} fileName - String\n * @param {*} rawData - String | ArrayBuffer | ArrayBufferView | Blob\n * @param {*} opts - String (mimeType) or Object\n *                   Object form: { mimeType?: String, byteOrderMark?: String | Uint8Array, encoding?: String }\n * @returns Boolean | Error\n */\n```\n\nThe `opts` parameter is optional and can be a String (mimeType) or an Object with the following form:\n\n- **mimeType** (optional)\n\n  Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'\n  [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)\n\n- **byteOrderMark** (optional)\n\n  (BOM) Example: '\\uFEFF'\n  [https://en.wikipedia.org/wiki/Byte_order_mark](https://en.wikipedia.org/wiki/Byte_order_mark)\n\n- **encoding** (optional)\n\n  Performs a TextEncoder.encode() over the rawData;\n  Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)\n  [https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)\n\nExamples:\n\n```js\nimport { exportFile } from 'quasar'\n\nconst status = exportFile('important.txt', 'some content')\n\nif (status) {\n  // browser allowed it\n} else {\n  // browser denied it\n  console.log('Error: ' + status)\n}\n```\n\n```js\nimport { exportFile } from 'quasar'\n\nconst status = exportFile('file.csv', 'éà; ça; 12\\nà@€; çï; 13', {\n  encoding: 'windows-1252',\n  mimeType: 'text/csv;charset=windows-1252;'\n})\n\nif (status) {\n  // browser allowed it\n} else {\n  // browser denied it\n  console.error('Error: ' + status)\n}\n```",
@@ -61,7 +72,10 @@
     "id": "quasar-utils/other-utils#debounce",
     "documentId": "quasar-utils/other-utils",
     "heading": "debounce",
-    "breadcrumb": ["debounce", "debounce"],
+    "breadcrumb": [
+      "debounce",
+      "debounce"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#debounce",
     "content": "If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.\n\nDebouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in \"execute this function only if 100 milliseconds have passed without it being called.\"\n\nA quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?\n\n```js\n// Returns a function, that, as long as it continues to be invoked, will not\n// be triggered. The function will be called after it stops being called for\n// N milliseconds. If `immediate` is passed, trigger the function on the\n// leading edge, instead of the trailing.\nimport { debounce } from 'quasar'\n\n(Debounced Function) debounce(Function fn, Number milliseconds_to_wait, Boolean immediate)\n\n// Example:\nwindow.addEventListener(\n  'resize',\n  debounce(function() {\n    // .... things to do ...\n  }, 300 /*ms to wait*/)\n)\n```\n\nOr calling as a method in a .vue file:\n\n```js\nmethods: {\n  myMethod () { .... }\n},\n\ncreated () {\n  this.myMethod = debounce(this.myMethod, 500)\n}\n```\n\n::: warning\nDebouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between _all_ rendered instances of this component, so debouncing is also shared. Moreover, `this.myMethod.cancel()` won't work, because Vue wraps each method with another function to ensure proper `this` binding. This should be avoided by following the code snippet above.\n:::\n\nThere's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).\n\n```js\nimport { frameDebounce } from 'quasar'\n\n(Debounced Function) frameDebounce(Function fn)\n\n// Example:\nwindow.addEventListener(\n  'resize',\n  frameDebounce(function() {\n    .... things to do ...\n  })\n)\n```",
@@ -72,7 +86,10 @@
     "id": "quasar-utils/other-utils#throttle",
     "documentId": "quasar-utils/other-utils",
     "heading": "throttle",
-    "breadcrumb": ["throttle", "throttle"],
+    "breadcrumb": [
+      "throttle",
+      "throttle"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#throttle",
     "content": "Throttling enforces a maximum number of times a function can be called over time. As in \"execute this function at most once every X milliseconds.\"\n\n```js\nimport { throttle } from 'quasar'\n\n(Throttled Function) throttle(Function fn, Number limit_in_milliseconds)\n\n// Example:\nwindow.addEventListener(\n  'resize',\n  throttle(function() {\n    .... things to do ...\n  }, 300 /* execute at most once every 0.3s */)\n)\n```\n\nOr calling as a method in a .vue file:\n\n```js\nmethods: {\n  myMethod () { .... }\n},\n\ncreated () {\n  this.myMethod = throttle(this.myMethod, 500)\n}\n```\n\n::: warning\nThrottling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between _all_ rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.\n:::",
@@ -97,7 +114,10 @@
     "id": "quasar-utils/other-utils#uid-generate-uid",
     "documentId": "quasar-utils/other-utils",
     "heading": "uid - Generate UID",
-    "breadcrumb": ["uid - Generate UID", "uid - Generate UID"],
+    "breadcrumb": [
+      "uid - Generate UID",
+      "uid - Generate UID"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#uid-generate-uid",
     "content": "Generate unique identifiers:\n\n```js\nimport { uid } from 'quasar'\n\nlet uid = uid()\n// Example: 84402c0e-7a8c-4784-b0b1-2e471e631645\n```",
@@ -108,7 +128,10 @@
     "id": "quasar-utils/other-utils#testpattern",
     "documentId": "quasar-utils/other-utils",
     "heading": "testPattern",
-    "breadcrumb": ["testPattern", "testPattern"],
+    "breadcrumb": [
+      "testPattern",
+      "testPattern"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-utils/other-utils#testpattern",
     "content": "Test against particular patterns.\n\n```js\nimport { patterns } from 'quasar'\n\nconst { testPattern } = patterns\n\ntestPattern.email('foo@bar.com') // true\ntestPattern.email('foo') // false\n\ntestPattern.hexColor('#fff') // true\ntestPattern.hexColor('#ffffff') // true\ntestPattern.hexColor('#FFF') // true\ntestPattern.hexColor('#gggggg') // false\n```\n\nSee the full list of patterns [here](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).",

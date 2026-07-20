@@ -34,7 +34,7 @@ Make sure that your DOM element or component has CSS `position: relative` or Qua
 
 Source: [Basic.vue](../../examples/Ripple/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md row justify-center">
     <div
@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
   width: 80%
   max-width: 500px
 </style>
-```
+````
 
 ### Coloring
 
@@ -102,7 +102,7 @@ The Material Ripple takes the CSS color of text by default, but you can configur
 
 Source: [Colored.vue](../../examples/Ripple/Colored.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md column items-center">
     <div
@@ -138,7 +138,7 @@ Source: [Colored.vue](../../examples/Ripple/Colored.vue)
   width: 80%
   max-width: 500px
 </style>
-```
+````
 
 ### Positioning
 
@@ -148,7 +148,7 @@ You can also configure if the ripple should always start from center or not, reg
 
 Source: [Positioning.vue](../../examples/Ripple/Positioning.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-md row justify-center">
     <div
@@ -174,7 +174,7 @@ Source: [Positioning.vue](../../examples/Ripple/Positioning.vue)
   width: 150px
   height: 150px
 </style>
-```
+````
 
 ### Triggering early
 
@@ -186,7 +186,7 @@ This is especially noticeable on touchscreens where if a user accidentally moves
 
 Source: [Early.vue](../../examples/Ripple/Early.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md column items-center">
     <div
@@ -214,7 +214,7 @@ Source: [Early.vue](../../examples/Ripple/Early.vue)
   width: 80%
   max-width: 500px
 </style>
-```
+````
 
 ### Disable
 
@@ -224,7 +224,7 @@ If for some reason you have a scenario where the ripples need to be disabled, th
 
 Source: [Disable.vue](../../examples/Ripple/Disable.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md column items-center">
     <div
@@ -254,4 +254,4 @@ const state = ref(true)
   width: 80%
   max-width: 500px
 </style>
-```
+````

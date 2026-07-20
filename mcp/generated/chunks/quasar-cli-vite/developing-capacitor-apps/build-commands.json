@@ -3,7 +3,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/build-commands#developing",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/build-commands",
     "heading": "Developing",
-    "breadcrumb": ["Developing", "Developing"],
+    "breadcrumb": [
+      "Developing",
+      "Developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/build-commands#developing",
     "content": "```bash\nquasar dev -m capacitor -T [ios|android]\n\n# ..or the longer form:\nquasar dev --mode capacitor --target [ios|android]\n```\n\nIt will open the IDE (Android Studio / Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a real mobile/tablet device.\n\n::: warning\nDo not accept Android Studio upgrade suggestions automatically. Check the requirements and upgrade guide for your Capacitor major version before changing Gradle, the Android Gradle Plugin, Java, or SDK versions.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-upgrade-notice.png\" alt=\"Gradle upgrade\" class=\"q-my-md rounded-borders\" style=\"max-width: 350px\">\n\nIf you encounter any IDE errors then click on File > Invalidate caches and restart.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-invalidate-cache.png\" alt=\"Gradle upgrade\" class=\"q-mt-md rounded-borders\" style=\"max-width: 350px\">\n\n:::\n\nIn order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:\n\n1. Detects your machine's external IP address. If there are multiple such IPs detected, then it asks you to choose one. If you'll be using a mobile phone to develop then choose the IP address of your machine that's pingable from the phone/tablet.\n2. It starts up a development server on your machine.\n3. It tells Capacitor to use the IP previously detected. This allows the app to connect to the development server.\n4. It uses the Capacitor CLI to update all of your plugins.\n5. Finally, it opens your native IDE. Run your app here, and it will automatically connect to the dev server.\n\n::: danger\nIf developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.\n:::",
@@ -14,7 +17,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/build-commands#building-for-production",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/build-commands",
     "heading": "Building for production",
-    "breadcrumb": ["Building for production", "Building for production"],
+    "breadcrumb": [
+      "Building for production",
+      "Building for production"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/build-commands#building-for-production",
     "content": "```bash\nquasar build -m capacitor -T [ios|android]\n\n# ..or the longer form:\nquasar build --mode capacitor --target [ios|android]\n```\n\n- These commands build `/src` into `/src-capacitor/www`, run the configured Capacitor preparation command, and then invoke Gradle or `xcodebuild` to produce the native output.\n\n- Built packages will be located in `/dist/capacitor` unless configured otherwise.\n\n- If you wish to skip the Gradle/xcodebuild step and only fill `/src-capacitor/www` folder:\n\n```bash\nquasar build -m capacitor -T [ios|android] --skip-pkg\n```\n\n- Should you wish to manually build the final assets using the IDE (Android Studio / Xcode) instead of doing a terminal build, then:\n\n```bash\nquasar build -m capacitor -T [ios|android] --ide\n```\n\n::: warning\nDo not accept Android Studio upgrade suggestions automatically. Check the requirements and upgrade guide for your Capacitor major version before changing the generated native toolchain.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-upgrade-notice.png\" alt=\"Gradle upgrade\" class=\"q-my-md rounded-borders\" style=\"max-width: 350px\">\n\nIf you encounter any IDE errors then click on File > Invalidate caches and restart.\n\n<img src=\"https://cdn.quasar.dev/img/gradle-invalidate-cache.png\" alt=\"Gradle upgrade\" class=\"q-mt-md rounded-borders\" style=\"max-width: 350px\">\n\n:::\n\nIf you want a production build with debugging enabled for the UI code:\n\n```bash\nquasar build -m capacitor -T [ios|android] -d\n\n# ..or the longer form\nquasar build -m capacitor -T [ios|android] --debug\n```",

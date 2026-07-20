@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssg/build-commands#overview",
     "documentId": "quasar-cli-vite/developing-ssg/build-commands",
     "heading": "SSG Build Commands",
-    "breadcrumb": ["SSG Build Commands"],
+    "breadcrumb": [
+      "SSG Build Commands"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/build-commands",
     "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssg/build-commands#developing",
     "documentId": "quasar-cli-vite/developing-ssg/build-commands",
     "heading": "Developing",
-    "breadcrumb": ["Developing", "Developing"],
+    "breadcrumb": [
+      "Developing",
+      "Developing"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/build-commands#developing",
     "content": "```bash\nquasar dev -m ssg\n\n# ..or the longer form:\nquasar dev --mode ssg\n```\n\nThe development server renders normal SSG routes through the SSR pipeline. Routes matched by `ssg.clientSideRenderingRoutes` are rendered on the client. The `/src-ssg/ssg-renderer` file is used only during a production build, so the development server does not write static HTML files.",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-ssg/build-commands#building-for-production",
     "documentId": "quasar-cli-vite/developing-ssg/build-commands",
     "heading": "Building for Production",
-    "breadcrumb": ["Building for Production", "Building for Production"],
+    "breadcrumb": [
+      "Building for Production",
+      "Building for Production"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/build-commands#building-for-production",
     "content": "```bash\nquasar build -m ssg\n\n# ..or the longer form:\nquasar build --mode ssg\n```\n\nThe default output directory is `dist/ssg`. The build fails if `getSsgPages()` returns no pages or if two page definitions try to write the same file.\n\n::: tip\nShould you want to change the default error handling behaviour of the SSG render process (fail on first error), and instead you want to go through all SSG pages then error out, or just warn but not fail, or ignore the errors completely, you can use the quasar.config > ssg > [onSsgRendererError](/quasar-cli-vite/developing-ssg/configuring-ssg).\n:::\n\nIf you want a production build with debugging enabled:\n\n```bash\nquasar build -m ssg -d\n\n# ..or the longer form\nquasar build -m ssg --debug\n```",

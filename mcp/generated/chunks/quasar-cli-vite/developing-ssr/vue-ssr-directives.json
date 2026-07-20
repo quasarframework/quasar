@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssr/vue-ssr-directives#overview",
     "documentId": "quasar-cli-vite/developing-ssr/vue-ssr-directives",
     "heading": "Vue SSR/SSG Directives",
-    "breadcrumb": ["Vue SSR/SSG Directives"],
+    "breadcrumb": [
+      "Vue SSR/SSG Directives"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/vue-ssr-directives",
     "content": "::: warning\nThis guide refers to usage with Quasar v2.6+\n:::\n\nA SSR app has the same code running on server and on client. Declaring a Vue directive (or directly importing it) in a .vue SFC file is usually enough for making it to work on non-SSR builds. But on SSR builds and due to the architecture of Vue 3 it requires some extra leg work.\n\nServer-side builds require all Vue directives to also specify a getSSRProps() method in their definition.\n\n::: tip\n\n- You will NOT need to do anything for the Quasar supplied Vue directives to work.\n- However, if you are using a third-party supplied Vue directive and the CLI errors out on it then you will need to contact the owner of that package in order for them to make it compliant with Vue 3 SSR specs (which is to add the getSSRProps() method in the directive's definition).\n\n:::",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssr/vue-ssr-directives#how-to-declare-a-directive",
     "documentId": "quasar-cli-vite/developing-ssr/vue-ssr-directives",
     "heading": "How to declare a directive",
-    "breadcrumb": ["How to declare a directive", "How to declare a directive"],
+    "breadcrumb": [
+      "How to declare a directive",
+      "How to declare a directive"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssr/vue-ssr-directives#how-to-declare-a-directive",
     "content": "The following is taken from [Vue.js docs](https://vuejs.org/guide/scaling-up/ssr.html#custom-directives):\n\n> Since most custom directives involve direct DOM manipulation, they are ignored during SSR/SSG. However, if you want to specify how a custom directive should be rendered (i.e. what attributes it should add to the rendered element), you can use the getSSRProps directive hook:\n\n```js\nconst myDirective = {\n  mounted(el, binding) {\n    // client-side implementation:\n    // directly update the DOM\n    el.id = binding.value\n  },\n\n  getSSRProps(binding) {\n    // server-side implementation:\n    // return the props to be rendered.\n    // getSSRProps only receives the directive binding.\n    return {\n      id: binding.value\n    }\n  }\n}\n```",

@@ -12,6 +12,8 @@ Hailing from all around the planet, the Quasar Team is not only international bu
 
 With hundreds of contributors to Quasar, **the list of people you can meet below is by no means exhaustive**. Just remember to thank everyone using Quasar and supporting us, because together we all help you push your products light-years ahead of your competition. A great way to do that is to [donate](https://donate.quasar.dev).
 
+
+
 ### Core Team
 
 <div class="row items-stretch q-gutter-sm">

@@ -3,7 +3,9 @@
     "id": "start/vite-plugin#overview",
     "documentId": "start/vite-plugin",
     "heading": "Vite plugin for Quasar",
-    "breadcrumb": ["Vite plugin for Quasar"],
+    "breadcrumb": [
+      "Vite plugin for Quasar"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/start/vite-plugin",
     "content": "If you want to embed Quasar into your existing [Vite](https://vitejs.dev) project then follow this guide to install and use the `@quasar/vite-plugin`.\nWhat our Vite plugin offers out of the box is tree-shaking for Quasar and also Quasar Sass variables integration.\n\n::: warning Warning! Limitation ahead:\n\n- Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) under the hood.\n- SSR/SSG builds with our Vite plugin are not supported (only through our Quasar CLI with Vite).\n\n:::\n\n> Cross-platform support with Vite is handled by community plugins. These are not tightly integrated with Quasar as with Quasar CLI and may have issues. This is why for the best developer experience we recommend using [Quasar CLI with Vite](/start/quasar-cli#installation-project-scaffolding) instead.",
@@ -14,7 +16,10 @@
     "id": "start/vite-plugin#creating-a-vite-project",
     "documentId": "start/vite-plugin",
     "heading": "Creating a Vite project",
-    "breadcrumb": ["Creating a Vite project", "Creating a Vite project"],
+    "breadcrumb": [
+      "Creating a Vite project",
+      "Creating a Vite project"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/vite-plugin#creating-a-vite-project",
     "content": "```tabs\n<<| bash PNPM |>>\npnpm create vite my-vue-app -- --template vue\n<<| bash Yarn |>>\nyarn create vite my-vue-app --template vue\n<<| bash NPM |>>\nnpm init vite my-vue-app -- --template vue\n<<| bash Bun |>>\nbun create vite my-vue-app\n# then select \"Vue\"\n```\n\nFor the official (and full) guide, please visit the [Vite guide for scaffolding](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) a Vite project. **Select \"Vue\" when asked.**",
@@ -25,7 +30,10 @@
     "id": "start/vite-plugin#installation",
     "documentId": "start/vite-plugin",
     "heading": "Installation",
-    "breadcrumb": ["Installation", "Installation"],
+    "breadcrumb": [
+      "Installation",
+      "Installation"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/vite-plugin#installation",
     "content": "Navigate to your Vite project folder and install the necessary packages.\n\n::: tip\n\n- Notice that `@quasar/extras` is optional.\n- Also, if you want to use the Quasar Sass/SCSS variables then you need to add the Sass dependency, based on your version of Quasar UI:\n  - For Quasar >= v2.14 then add `sass-embedded@^1.93.2`\n  - For Quasar <= v2.13 add `sass@1.32.12` (**_notice the exact pinned version_**)\n\n:::\n\n```tabs\n<<| bash PNPM |>>\npnpm add quasar @quasar/extras\npnpm add -D @quasar/vite-plugin sass-embedded@^1.93.2\n<<| bash Yarn |>>\nyarn add quasar @quasar/extras\nyarn add -D @quasar/vite-plugin sass-embedded@^1.93.2\n<<| bash NPM |>>\nnpm install quasar @quasar/extras\nnpm install -D @quasar/vite-plugin sass-embedded@^1.93.2\n<<| bash Bun |>>\nbun add quasar @quasar/extras\nbun add -D @quasar/vite-plugin sass-embedded@^1.93.2\n```",
@@ -36,7 +44,10 @@
     "id": "start/vite-plugin#using-quasar",
     "documentId": "start/vite-plugin",
     "heading": "Using Quasar",
-    "breadcrumb": ["Using Quasar", "Using Quasar"],
+    "breadcrumb": [
+      "Using Quasar",
+      "Using Quasar"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/vite-plugin#using-quasar",
     "content": "We have built a configurator to help you get started as quickly as possible:\n\n\n\n<VitePluginUsage />",
@@ -61,7 +72,10 @@
     "id": "start/vite-plugin#rtl-support",
     "documentId": "start/vite-plugin",
     "heading": "RTL support",
-    "breadcrumb": ["RTL support", "RTL support"],
+    "breadcrumb": [
+      "RTL support",
+      "RTL support"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/start/vite-plugin#rtl-support",
     "content": "For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.",

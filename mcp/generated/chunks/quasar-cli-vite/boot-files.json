@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/boot-files#overview",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "Boot files",
-    "breadcrumb": ["Boot files"],
+    "breadcrumb": [
+      "Boot files"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files",
     "content": "A common use case for Quasar applications is to **run code before the root Vue app instance is instantiated**, like injecting and initializing your own dependencies (examples: Vue components, libraries...) or simply configuring some startup code of your app.\n\nSince you won't have access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/SSG/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.\n\nIn earlier Quasar versions, to run code before the root Vue instance was instantiated, you could alter the `/src/main.js` file and add any code you needed to execute.\n\nThere is a major problem with this approach: with a growing project, your `main.js` file was very likely to get cluttered and challenging to maintain, which breaks with Quasar's concept of encouraging developers to write maintainable and elegant cross-platform applications.\n\nWith boot files, it is possible to split each of your dependencies into self-contained, easy to maintain files. It is also trivial to disable any of the boot files or even contextually determine which of the boot files get into the build through the `quasar.config` file configuration.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/boot-files#anatomy-of-a-boot-file",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "Anatomy of a boot file",
-    "breadcrumb": ["Anatomy of a boot file", "Anatomy of a boot file"],
+    "breadcrumb": [
+      "Anatomy of a boot file",
+      "Anatomy of a boot file"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files#anatomy-of-a-boot-file",
     "content": "A boot file is a simple JavaScript file which can optionally export a function. Quasar will then call the exported function when it boots the application and additionally pass **an object** with the following properties to the function:\n\n| Prop name    | Description                                                                                                       |\n| ------------ | ----------------------------------------------------------------------------------------------------------------- |\n| `app`        | Vue app instance                                                                                                  |\n| `router`     | Instance of Vue Router from 'src/router/index.js'                                                                 |\n| `store`      | Instance of Pinia - **store only will be passed if your project uses Pinia (you have src/stores)**                |\n| `ssrContext` | Available only on server-side, if building for SSR/SSG. [More info](/quasar-cli-vite/developing-ssr/ssr-context)  |\n| `urlPath`    | The pathname (path + search) part of the URL. It also contains the hash on client-side.                           |\n| `publicPath` | The configured public path.                                                                                       |\n| `redirect`   | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |\n\n```js\nimport { defineBoot } from '#q-app'\nexport default defineBoot(({ app, router, store }) => {\n  // something to do\n})\n```\n\nBoot files can also be async:\n\n```js\nimport { defineBoot } from '#q-app'\nexport default defineBoot(async ({ app, router, store }) => {\n  // something to do\n  await something()\n})\n```\n\nNotice the `defineBoot` import. This is essentially a no-op function, but its purpose is to help with a better IDE autocomplete experience:\n\n```js\nimport { defineBoot } from '#q-app'\n\nexport default defineBoot(async ({ app, router, store }) => {\n  // something to do\n  await something()\n})\n```\n\nYou may ask yourself why we need to export a function. This is actually optional, but before you decide to remove the default export, you need to understand when you need it:\n\n```js\n// Outside of default export:\n//  - Code here gets executed immediately,\n//  - Good place for import statements,\n//  - No access to router, Pinia instance, ...\n\nexport default defineBoot(async ({ app, router, store }) => {\n  // Code here has access to the Object param above, connecting\n  // with other parts of your app;\n  // Code here can be async (use async/await or directly return a Promise);\n  // Code here gets executed by Quasar CLI at the correct time in app's lifecycle:\n  //  - we have a Router instantiated,\n  //  - we have the optional Pinia instance,\n  //  - we have the root app's component [\"app\" prop in Object param] Object with\n  //      which Quasar will instantiate the Vue app\n  //      (\"new Vue(app)\" -- do NOT call this by yourself),\n  //  - ...\n})\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/boot-files#when-to-use-boot-files",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "When to use boot files",
-    "breadcrumb": ["When to use boot files", "When to use boot files"],
+    "breadcrumb": [
+      "When to use boot files",
+      "When to use boot files"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files#when-to-use-boot-files",
     "content": "::: warning\nPlease make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.\n:::\n\nBoot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.",
@@ -66,7 +74,10 @@
     "id": "quasar-cli-vite/boot-files#usage-of-boot-files",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "Usage of boot files",
-    "breadcrumb": ["Usage of boot files", "Usage of boot files"],
+    "breadcrumb": [
+      "Usage of boot files",
+      "Usage of boot files"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files#usage-of-boot-files",
     "content": "The first step is always to generate a new boot file using Quasar CLI:\n\n```bash\nquasar new boot <name> [--format ts]\n```\n\nWhere `<name>` should be exchanged by a suitable name for your boot file.\n\nThis command creates a new file: `/src/boot/<name>.js` with the following content:\n\n```js\n// import something here\n\n// \"async\" is optional!\n// remove it if you don't need it\nexport default async defineBoot(({ /* app, router, store */ }) => {\n  // something to do\n})\n```\n\nYou can also return a Promise:\n\n```js\n// import something here\n\nexport default defineBoot(({/* app, router, store */}) => {\n  return new Promise((resolve, reject) => {\n    // do something\n  })\n})\n```\n\n::: tip\nThe default export can be left out of the boot file if you don't need it. These are the cases where you don't need to access the \"app\", \"router\", \"store\" and so on.\n:::\n\nYou can now add content to that file depending on the intended use of your boot file.\n\n> Do not forget that your default export needs to be a function.\n> However, you can have as many named exports as you want, should the boot file expose something for later usage. In this case, you can import any of these named exports anywhere in your app.\n\nThe last step is to tell Quasar to use your new boot file. For this to happen you need to add the file in the `/quasar.config` one:\n\n```js\nboot: [\n  // references /src/boot/<name>.js\n  '<name>'\n]\n```\n\nWhen building a SSR/SSG app, you may want some boot files to run only on the server or only on the client, in which case you can do so like below:\n\n```js\nboot: [\n  {\n    server: false, // run on client-side only!\n    path: '<name>' // references /src/boot/<name>.js\n  },\n  {\n    client: false, // run on server-side only!\n    path: '<name>' // references /src/boot/<name>.js\n  }\n]\n```\n\nIn case you want to specify boot files from node_modules, you can do so by prepending the path with `~` (tilde) character:\n\n```js\nboot: [\n  // boot file from an npm package\n  '~my-npm-package/some/file'\n]\n```\n\nIf you want a boot file to be injected into your app only for a specific build type:\n\n```js\nboot: [ctx.mode.electron ? 'some-file' : '']\n```",
@@ -92,7 +103,11 @@
     "id": "quasar-cli-vite/boot-files#quasar-app-flow",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "Quasar App Flow",
-    "breadcrumb": ["Usage of boot files", "Quasar App Flow", "Quasar App Flow"],
+    "breadcrumb": [
+      "Usage of boot files",
+      "Quasar App Flow",
+      "Quasar App Flow"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files#quasar-app-flow",
     "content": "In order to better understand how a boot file works and what it does, you need to understand how your website/app boots:\n\n1. Quasar is initialized (components, directives, plugins, Quasar i18n, Quasar icon sets)\n2. Quasar Extras get imported (Roboto font -- if used, icons, animations, ...)\n3. Quasar CSS & your app's global CSS are imported\n4. App.vue is loaded (not yet being used)\n5. Pinia (if using) is injected into the Vue app instance\n6. Router is imported (in src/router)\n7. Boot files are imported\n8. Router default export function executed\n9. Boot files get their default export function executed\n10. (if on Electron mode) Electron is imported and injected into Vue prototype\n11. (if on Cordova mode) Listening for \"deviceready\" event and only then continuing with following steps\n12. Instantiating Vue with root component and attaching to DOM",
@@ -103,7 +118,11 @@
     "id": "quasar-cli-vite/boot-files#axios",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "Axios",
-    "breadcrumb": ["Examples of boot files", "Axios", "Axios"],
+    "breadcrumb": [
+      "Examples of boot files",
+      "Axios",
+      "Axios"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files#axios",
     "content": "```js\nimport { defineBoot } from '#q-app'\nimport axios from 'axios'\n\nconst api = axios.create({ baseURL: 'https://api.example.com' })\n\nexport default defineBoot(({ app }) => {\n  // for use inside Vue files (Options API) through this.$axios and this.$api\n\n  app.config.globalProperties.$axios = axios\n  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)\n  //       so you won't necessarily have to import axios in each vue file\n\n  app.config.globalProperties.$api = api\n  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)\n  //       so you can easily perform requests against your app's API\n})\n\nexport { axios, api }\n```",
@@ -114,7 +133,11 @@
     "id": "quasar-cli-vite/boot-files#vue-i18n",
     "documentId": "quasar-cli-vite/boot-files",
     "heading": "vue-i18n",
-    "breadcrumb": ["Examples of boot files", "vue-i18n", "vue-i18n"],
+    "breadcrumb": [
+      "Examples of boot files",
+      "vue-i18n",
+      "vue-i18n"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/boot-files#vue-i18n",
     "content": "```js\nimport { defineBoot } from '#q-app'\nimport { createI18n } from 'vue-i18n'\nimport messages from '@/i18n'\n\nexport default defineBoot(({ app }) => {\n  // Create I18n instance\n  const i18n = createI18n({\n    locale: 'en-US',\n    messages\n  })\n\n  // Tell app to use the I18n instance\n  app.use(i18n)\n})\n```",

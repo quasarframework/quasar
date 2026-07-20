@@ -3,18 +3,25 @@
     "id": "style/color-palette#overview",
     "documentId": "style/color-palette",
     "heading": "Color Palette",
-    "breadcrumb": ["Color Palette"],
+    "breadcrumb": [
+      "Color Palette"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/style/color-palette",
     "content": "Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.\n\nAPI reference: Brand\n\n**Configuration:** configure `framework.config.brand` in `quasar.config`.",
-    "apiReferences": ["Brand"],
+    "apiReferences": [
+      "Brand"
+    ],
     "exampleReferences": []
   },
   {
     "id": "style/color-palette#brand-colors",
     "documentId": "style/color-palette",
     "heading": "Brand Colors",
-    "breadcrumb": ["Brand Colors", "Brand Colors"],
+    "breadcrumb": [
+      "Brand Colors",
+      "Brand Colors"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/color-palette#brand-colors",
     "content": "Most of the colors that Quasar Components use are strongly linked with these eight colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.\n\n\n\n<BrandColors />\n\n::: tip TIPS\nAlso check [Theme Builder](/style/theme-builder) for a tool on customizing the brand colors of your website/app.\n:::",
@@ -25,7 +32,10 @@
     "id": "style/color-palette#color-list",
     "documentId": "style/color-palette",
     "heading": "Color List",
-    "breadcrumb": ["Color List", "Color List"],
+    "breadcrumb": [
+      "Color List",
+      "Color List"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/color-palette#color-list",
     "content": "Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) in `<style lang=\"...\">` tags.\n\n\n\n<ColorList />",
@@ -36,7 +46,10 @@
     "id": "style/color-palette#using-as-css-classes",
     "documentId": "style/color-palette",
     "heading": "Using as CSS Classes",
-    "breadcrumb": ["Using as CSS Classes", "Using as CSS Classes"],
+    "breadcrumb": [
+      "Using as CSS Classes",
+      "Using as CSS Classes"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/color-palette#using-as-css-classes",
     "content": "Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background.\n\n```html\n<!-- changing text color -->\n<p class=\"text-primary\">....</p>\n\n<!-- changing background color -->\n<p class=\"bg-positive\">...</p>\n```",
@@ -47,7 +60,10 @@
     "id": "style/color-palette#using-sass-scss-variables",
     "documentId": "style/color-palette",
     "heading": "Using Sass/SCSS Variables",
-    "breadcrumb": ["Using Sass/SCSS Variables", "Using Sass/SCSS Variables"],
+    "breadcrumb": [
+      "Using Sass/SCSS Variables",
+      "Using Sass/SCSS Variables"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/color-palette#using-sass-scss-variables",
     "content": "In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on.\n\n```html\n<!-- Notice lang=\"sass\" -->\n<style lang=\"sass\">\n  div\n    color: $red-1\n    background-color: $grey-5\n</style>\n```\n\n```html\n<!-- Notice lang=\"scss\" -->\n<style lang=\"scss\">\n  div {\n    color: $red-1;\n    background-color: $grey-5;\n  }\n</style>\n```",
@@ -58,7 +74,10 @@
     "id": "style/color-palette#adding-your-own-colors",
     "documentId": "style/color-palette",
     "heading": "Adding Your Own Colors",
-    "breadcrumb": ["Adding Your Own Colors", "Adding Your Own Colors"],
+    "breadcrumb": [
+      "Adding Your Own Colors",
+      "Adding Your Own Colors"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/color-palette#adding-your-own-colors",
     "content": "If you want to use your own colors for your components (let's say we are adding a color named \"brand\") all you need to do is add the following CSS into your app:\n\n```css\n.text-brand {\n  color: #a2aa33 !important;\n}\n.bg-brand {\n  background: #a2aa33 !important;\n}\n```\n\nNow we can use this color for Quasar components:\n\n```html\n<q-btn color=\"brand\" ... />\n```\n\nYou can access a custom color value (hex string) in JS context with the [getPaletteColor](/quasar-utils/color-utils#helper-getpalettecolor) util.",
@@ -129,7 +148,10 @@
     "id": "style/color-palette#setting-up-defaults",
     "documentId": "style/color-palette",
     "heading": "Setting Up Defaults",
-    "breadcrumb": ["Setting Up Defaults", "Setting Up Defaults"],
+    "breadcrumb": [
+      "Setting Up Defaults",
+      "Setting Up Defaults"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/color-palette#setting-up-defaults",
     "content": "You can set up some brand colors without tampering with the Sass/SCSS variables.\n\nSee the [Configuration](/style/color-palette#configuration) section above for setting it during initial configuration for Quasar CLI, Quasar Vite plugin, and UMD projects.\n\nIf you are using Quasar CLI, you can also use a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files).\nThis is especially useful if you want to change the colors dynamically at initial load time, perhaps after fetching them from an API.\n\n```js /src/boot/brand-colors.js - or any other name\nimport { setCssVar } from 'quasar'\nimport { defineBoot } from '#q-app'\n\nexport default defineBoot(() => {\n  setCssVar('primary', '#ff0000')\n})\n```\n\nIf using SSR/SSG mode, disable this boot file when running on server-side:\n\n```js /quasar.config file\nboot: [\n  { server: false, path: 'brand-colors' }, // or the name you gave it\n  // ...\n],\n```",

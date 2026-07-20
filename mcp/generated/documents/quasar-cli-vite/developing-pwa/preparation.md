@@ -27,7 +27,7 @@ This will add PWA mode automatically, if it is missing.
 A new folder will appear in your project folder (which is explained in detail on the [Configuring PWA](/quasar-cli-vite/developing-pwa/configuring-pwa) page):
 
 - src-pwa
-  - register-sw.js — (or .ts) UI code _managing_ service worker (main thread)
+  - register-sw.js — (or .ts) UI code *managing* service worker (main thread)
   - manifest.json — Your PWA manifest file
   - package.json — helps install PWA only deps directly under /src-pwa
   - sw — Service worker context (WebWorker)

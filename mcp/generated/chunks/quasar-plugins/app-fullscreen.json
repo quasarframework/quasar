@@ -3,18 +3,25 @@
     "id": "quasar-plugins/app-fullscreen#overview",
     "documentId": "quasar-plugins/app-fullscreen",
     "heading": "Fullscreen Plugin",
-    "breadcrumb": ["Fullscreen Plugin"],
+    "breadcrumb": [
+      "Fullscreen Plugin"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/app-fullscreen",
     "content": "There are times when you want your website or App to run in fullscreen.\nQuasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).\n\n::: warning\nPlease note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.\n:::\n\nAPI reference: AppFullscreen\n\n**Configuration:** register AppFullscreen through `framework.plugins` in `quasar.config`.",
-    "apiReferences": ["AppFullscreen"],
+    "apiReferences": [
+      "AppFullscreen"
+    ],
     "exampleReferences": []
   },
   {
     "id": "quasar-plugins/app-fullscreen#usage",
     "documentId": "quasar-plugins/app-fullscreen",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/app-fullscreen#usage",
     "content": "::: tip\nFor an exhaustive list of properties and methods, please check out the API section.\n:::\n\n```js Outside of a Vue file\nimport { AppFullscreen } from 'quasar'\n\n// Requesting fullscreen mode:\nAppFullscreen.request()\n  .then(() => {\n    // success!\n  })\n  .catch(err => {\n    // oh, no!!!\n  })\n\n// Exiting fullscreen mode:\nAppFullscreen.exit()\n  .then(() => {\n    // success!\n  })\n  .catch(err => {\n    // oh, no!!!\n  })\n```\n\n```js Inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n\n  // Requesting fullscreen mode:\n  $q.fullscreen.request()\n    .then(() => {\n      // success!\n    })\n    .catch(err => {\n      // oh, no!!!\n    })\n\n  // Exiting fullscreen mode:\n  $q.fullscreen.exit()\n    .then(() => {\n      // success!\n    })\n    .catch(err => {\n      // oh, no!!!\n    })\n}\n```\n\nExample: Basic (Basic.vue)\n\nExample: On custom element (Targeted.vue)\n\n::: warning\nOn some phones this will have little effect:\n\n- For example, on Samsung S4, when App goes into fullscreen, the top bar will slide up but still remain on screen.\n- On Nexus phones, on the other hand, like Nexus 5, Android navigation buttons and top bar disappear completely.\n\nIt all depends on the Web Fullscreen API support of the platform the code is running on.\n:::",

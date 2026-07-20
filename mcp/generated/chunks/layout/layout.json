@@ -3,18 +3,25 @@
     "id": "layout/layout#overview",
     "documentId": "layout/layout",
     "heading": "Layout",
-    "breadcrumb": ["Layout"],
+    "breadcrumb": [
+      "Layout"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/layout/layout",
     "content": "The QLayout is a component designed to manage the entire window and wrap page content with elements such as a navigational bar or a drawer. Multiple pages can share the same QLayout, so the code is reusable, which is one of their key points.\n\n**QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.\n\nAPI reference: QLayout",
-    "apiReferences": ["QLayout"],
+    "apiReferences": [
+      "QLayout"
+    ],
     "exampleReferences": []
   },
   {
     "id": "layout/layout#layout-builder",
     "documentId": "layout/layout",
     "heading": "Layout Builder",
-    "breadcrumb": ["Layout Builder", "Layout Builder"],
+    "breadcrumb": [
+      "Layout Builder",
+      "Layout Builder"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/layout#layout-builder",
     "content": "Scaffold your layout(s) by clicking on the button below.\n\n::: tip\nKeep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.config file.\n:::\n\n<q-btn icon-right=\"launch\" label=\"Layout Builder\" href=\"/layout-builder\" target=\"_blank\" />",
@@ -25,7 +32,10 @@
     "id": "layout/layout#usage",
     "documentId": "layout/layout",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/layout#usage",
     "content": "::: warning Using margin CSS will break the layout\nQLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use _CSS margins_ as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use _CSS padding_.\n:::\n\n::: tip\nIf your layout uses Vue Router sub-routes (recommended), then it makes sense to use Vue's `<router-view />` component, which is just a placeholder where sub-routes are injected. For more information, please read [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages).\n:::",
@@ -51,7 +61,11 @@
     "id": "layout/layout#containerized-qlayout",
     "documentId": "layout/layout",
     "heading": "Containerized QLayout",
-    "breadcrumb": ["Usage", "Containerized QLayout", "Containerized QLayout"],
+    "breadcrumb": [
+      "Usage",
+      "Containerized QLayout",
+      "Containerized QLayout"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/layout/layout#containerized-qlayout",
     "content": "By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.\n\n::: warning\nPlease note that it **requires a CSS height (or min-height) being set explicitly**, otherwise it can't and it won't work.\n:::\n\nIn the example below, there is a containerized QLayout with drawers on each side (breakpoint of 700px on the left-side drawer and 500px on the right-side drawer). The breakpoint does not refer to the window width, but to the actual width of the QLayout container.\n\nExample: Containerized QLayout (Container.vue)\n\nExample: In a QDialog (ContainerDialog.vue)",

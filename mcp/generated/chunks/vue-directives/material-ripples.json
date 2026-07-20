@@ -3,18 +3,25 @@
     "id": "vue-directives/material-ripples#overview",
     "documentId": "vue-directives/material-ripples",
     "heading": "Material Ripples",
-    "breadcrumb": ["Material Ripples"],
+    "breadcrumb": [
+      "Material Ripples"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples",
     "content": "Material Ripple effect can easily be added to any DOM element (or component) through the `v-ripple` Quasar directive.\n\n::: danger\nDo not use this directive on components that already have material ripples baked in (example: `QBtn`). Rather configure the internal ripples through those component's `ripple` property.\n:::\n\nAPI reference: Ripple\n\n**Configuration:** configure `framework.config.ripple` in `quasar.config`.",
-    "apiReferences": ["Ripple"],
+    "apiReferences": [
+      "Ripple"
+    ],
     "exampleReferences": []
   },
   {
     "id": "vue-directives/material-ripples#usage",
     "documentId": "vue-directives/material-ripples",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples#usage",
     "content": "::: warning\nMake sure that your DOM element or component has CSS `position: relative` or Quasar CSS helper class `relative-position` attached to it.\n:::",
@@ -25,7 +32,11 @@
     "id": "vue-directives/material-ripples#basic",
     "documentId": "vue-directives/material-ripples",
     "heading": "Basic",
-    "breadcrumb": ["Usage", "Basic", "Basic"],
+    "breadcrumb": [
+      "Usage",
+      "Basic",
+      "Basic"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples#basic",
     "content": "Example: Basic (Basic.vue)",
@@ -41,7 +52,11 @@
     "id": "vue-directives/material-ripples#coloring",
     "documentId": "vue-directives/material-ripples",
     "heading": "Coloring",
-    "breadcrumb": ["Usage", "Coloring", "Coloring"],
+    "breadcrumb": [
+      "Usage",
+      "Coloring",
+      "Coloring"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples#coloring",
     "content": "The Material Ripple takes the CSS color of text by default, but you can configure it:\n\nExample: Colored (Colored.vue)",
@@ -57,7 +72,11 @@
     "id": "vue-directives/material-ripples#positioning",
     "documentId": "vue-directives/material-ripples",
     "heading": "Positioning",
-    "breadcrumb": ["Usage", "Positioning", "Positioning"],
+    "breadcrumb": [
+      "Usage",
+      "Positioning",
+      "Positioning"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples#positioning",
     "content": "You can also configure if the ripple should always start from center or not, regardless of the touch point:\n\nExample: Positioning (Positioning.vue)",
@@ -73,7 +92,11 @@
     "id": "vue-directives/material-ripples#triggering-early",
     "documentId": "vue-directives/material-ripples",
     "heading": "Triggering early",
-    "breadcrumb": ["Usage", "Triggering early", "Triggering early"],
+    "breadcrumb": [
+      "Usage",
+      "Triggering early",
+      "Triggering early"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples#triggering-early",
     "content": "By default, the Ripple directive is triggered on click or keyup. However, you can change that and make it trigger earlier, on the first user interaction (mousedown, touchstart, keydown). Please note that in most situations the event sets may overlap (small delay between first and last user interaction) and there is no difference in the user perception, but in certain conditions it may lead to misleading the user.\n\nThis is especially noticeable on touchscreens where if a user accidentally moves their finger after the touchstart it can sometimes be interpreted as a very small scroll event instead of a click so the click event isn't triggered but there is still a ripple.\n\nExample: Triggering immediately (Early.vue)",
@@ -89,7 +112,11 @@
     "id": "vue-directives/material-ripples#disable",
     "documentId": "vue-directives/material-ripples",
     "heading": "Disable",
-    "breadcrumb": ["Usage", "Disable", "Disable"],
+    "breadcrumb": [
+      "Usage",
+      "Disable",
+      "Disable"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/material-ripples#disable",
     "content": "If for some reason you have a scenario where the ripples need to be disabled, then you can assign a Boolean as value for the directive:\n\nExample: Disable (Disable.vue)",

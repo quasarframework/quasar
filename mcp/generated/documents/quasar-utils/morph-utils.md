@@ -76,7 +76,7 @@ Regarding the cancel() function (the return value of a call to morph()):
 
 Source: [SameElement.vue](../../examples/MorphUtils/SameElement.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-y-md">
     <div class="row no-wrap q-gutter-x-lg items-center relative-position">
@@ -190,13 +190,13 @@ function morphContent2() {
   }
 }
 </script>
-```
+````
 
 **Example: Morphing a QCard from a QFabAction**
 
 Source: [FabCard.vue](../../examples/MorphUtils/FabCard.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md relative-position" style="min-height: 300px">
     <div class="absolute-bottom-right q-ma-lg">
@@ -261,13 +261,13 @@ function morphState(state) {
   })
 }
 </script>
-```
+````
 
 **Example: Image gallery **
 
 Source: [ImageGallery.vue](../../examples/MorphUtils/ImageGallery.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div
@@ -425,13 +425,13 @@ function zoomImage(index) {
       + div > .image-gallery__image
         z-index: 2001
 </style>
-```
+````
 
 **Example: Horizontal image strip **
 
 Source: [ImageStripHorizontal.vue](../../examples/MorphUtils/ImageStripHorizontal.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div
@@ -503,13 +503,13 @@ function zoomImage(index) {
   }
 }
 </script>
-```
+````
 
 **Example: Vertical image strip **
 
 Source: [ImageStripVertical.vue](../../examples/MorphUtils/ImageStripVertical.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div
@@ -590,4 +590,4 @@ function zoomImage(index) {
   }
 }
 </script>
-```
+````

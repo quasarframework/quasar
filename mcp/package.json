@@ -23,7 +23,9 @@
     "bin",
     "src",
     "generated",
-    "README.md"
+    "README.md",
+    "MAINTENANCE.md",
+    "HOSTING.md"
   ],
   "type": "module",
   "publishConfig": {
@@ -48,5 +50,6 @@
   },
   "engines": {
     "node": ">=22"
-  }
+  },
+  "packageManager": "pnpm@11.9.0"
 }

@@ -31,7 +31,7 @@ Alternatively, you can use the QMenu's property `auto-close` or handle closing t
 
 Source: [Basic.vue](../../examples/QMenu/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -126,13 +126,13 @@ Source: [Basic.vue](../../examples/QMenu/Basic.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: Idea for content**
 
 Source: [VariousContent.vue](../../examples/QMenu/VariousContent.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="purple" label="Account Settings">
@@ -173,13 +173,13 @@ import { ref } from 'vue'
 const mobileData = ref(true)
 const bluetooth = ref(false)
 </script>
-```
+````
 
 **Example: Toggle through v-model**
 
 Source: [VModel.vue](../../examples/QMenu/VModel.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
@@ -221,7 +221,7 @@ import { ref } from 'vue'
 
 const showing = ref(false)
 </script>
-```
+````
 
 ::: warning
 If you want to conditionally activate or de-activate a QMenu, please use `v-if` on it instead of `v-show`.
@@ -233,7 +233,7 @@ If you want to conditionally activate or de-activate a QMenu, please use `v-if` 
 
 Source: [MenuInMenu.vue](../../examples/QMenu/MenuInMenu.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row items-center">
@@ -353,7 +353,7 @@ Source: [MenuInMenu.vue](../../examples/QMenu/MenuInMenu.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ### Sizing and styling
 
@@ -361,7 +361,7 @@ Source: [MenuInMenu.vue](../../examples/QMenu/MenuInMenu.vue)
 
 Source: [Sizing.vue](../../examples/QMenu/Sizing.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md">
@@ -480,13 +480,13 @@ Source: [Sizing.vue](../../examples/QMenu/Sizing.vue)
     </div>
   </div>
 </template>
-```
+````
 
 **Example: Style**
 
 Source: [Style.vue](../../examples/QMenu/Style.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row">
@@ -558,7 +558,7 @@ Source: [Style.vue](../../examples/QMenu/Style.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ### Context menu
 
@@ -568,7 +568,7 @@ You can also set QMenu to act as a context menu. On desktop, you need to right c
 
 Source: [ContextMenu.vue](../../examples/QMenu/ContextMenu.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-img src="https://cdn.quasar.dev/img/parallax1.jpg" style="height: 100px">
@@ -614,7 +614,7 @@ Source: [ContextMenu.vue](../../examples/QMenu/ContextMenu.vue)
     </q-img>
   </div>
 </template>
-```
+````
 
 ### Persistent
 
@@ -624,7 +624,7 @@ If you want the QMenu to not close if app route changes or if hitting ESCAPE key
 
 Source: [Persistent.vue](../../examples/QMenu/Persistent.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <q-btn color="primary" label="Persistent Menu">
@@ -661,7 +661,7 @@ Source: [Persistent.vue](../../examples/QMenu/Persistent.vue)
     </q-btn>
   </div>
 </template>
-```
+````
 
 ### Transitions
 
@@ -671,7 +671,7 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 Source: [Transitions.vue](../../examples/QMenu/Transitions.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row">
@@ -745,7 +745,7 @@ Source: [Transitions.vue](../../examples/QMenu/Transitions.vue)
     </div>
   </div>
 </template>
-```
+````
 
 ### Reusable
 
@@ -755,7 +755,7 @@ The example below shows how to create a re-usable menu that can be shared with d
 
 Source: [Target.vue](../../examples/QMenu/Target.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-md">
     <div class="row justify-center">
@@ -815,7 +815,7 @@ import { ref } from 'vue'
 
 const targetEl = ref('#target-img-1')
 </script>
-```
+````
 
 ### Positioning
 
@@ -823,7 +823,7 @@ const targetEl = ref('#target-img-1')
 
 Source: [Positions.vue](../../examples/QMenu/Positions.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-md row">
@@ -907,7 +907,7 @@ Source: [Positions.vue](../../examples/QMenu/Positions.vue)
     </div>
   </div>
 </template>
-```
+````
 
 The position of QMenu can be customized. It keeps account of the `anchor` and `self` optional props.
 The final position of QMenu popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
@@ -917,5 +917,7 @@ For horizontal positioning you can use `start` and `end` when you want to automa
 ::: tip
 The `offset` prop is applied to the **anchor element's bounding box**, and only then is the final position clamped to the available screen real estate. As a result, a large offset — or anchoring QMenu to a full-width / screen-edge element — can push the popup against a viewport edge, where it gets clamped and the offset appears to have no effect (the clamped position then becomes independent of the offset value). If an `offset` seems to be ignored on one axis, make sure the chosen `anchor`/`self` lets the popup expand into free space on that axis — for example, attach QMenu to an inline / `inline-block` trigger rather than to a full-width block element.
 :::
+
+
 
 <MenuPositioning />

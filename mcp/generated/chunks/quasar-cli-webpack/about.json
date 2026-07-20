@@ -3,7 +3,9 @@
     "id": "quasar-cli-webpack/about#overview",
     "documentId": "quasar-cli-webpack/about",
     "heading": "Quasar CLI (with Webpack)",
-    "breadcrumb": ["Quasar CLI (with Webpack)"],
+    "breadcrumb": [
+      "Quasar CLI (with Webpack)"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-webpack/about",
     "content": "The Quasar CLI with Webpack (`@quasar/app-webpack`) has been officially deprecated and will no longer receive new features. However, we will continue to push fixes to it.\n\nThe docs for it have moved to [https://legacy-app.quasar.dev](https://legacy-app.quasar.dev).",

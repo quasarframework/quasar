@@ -3,7 +3,9 @@
     "id": "vue-composables/use-split-attrs#overview",
     "documentId": "vue-composables/use-split-attrs",
     "heading": "useSplitAttrs composable",
-    "breadcrumb": ["useSplitAttrs composable"],
+    "breadcrumb": [
+      "useSplitAttrs composable"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-split-attrs",
     "content": "Vue's `attrs` in a component can contain both listeners and real HTML attributes. The `useSplitAttrs()` composable breaks down this Vue attr object into the two categories and keeps them updated.",
@@ -14,7 +16,10 @@
     "id": "vue-composables/use-split-attrs#syntax",
     "documentId": "vue-composables/use-split-attrs",
     "heading": "Syntax",
-    "breadcrumb": ["Syntax", "Syntax"],
+    "breadcrumb": [
+      "Syntax",
+      "Syntax"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-split-attrs#syntax",
     "content": "```js\nimport { useSplitAttrs } from 'quasar'\n\nsetup () {\n  const {\n    attributes,\n    listeners\n  } = useSplitAttrs()\n\n  // ...\n}\n```\n\n```js\nimport { Ref } from 'vue'\n\nfunction useSplitAttrs(): {\n  attributes: Ref<Record<string, unknown>>;\n  listeners: Ref<\n    Record<\n      string,\n      ((...args: any[]) => any) | ((...args: any[]) => any)[]\n    >\n  >;\n};\n```",
@@ -25,7 +30,10 @@
     "id": "vue-composables/use-split-attrs#example",
     "documentId": "vue-composables/use-split-attrs",
     "heading": "Example",
-    "breadcrumb": ["Example", "Example"],
+    "breadcrumb": [
+      "Example",
+      "Example"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-composables/use-split-attrs#example",
     "content": "```js\nimport { useSplitAttrs } from 'quasar'\n\nsetup () {\n  const {\n    attributes, // is a Vue ref()\n    listeners // is a Vue ref()\n  } = useSplitAttrs()\n\n  console.log(attributes.value)\n  // prints out a key-value object\n\n  console.log(listeners.value)\n  // prints out a key-value object\n\n  // ...\n}\n```",

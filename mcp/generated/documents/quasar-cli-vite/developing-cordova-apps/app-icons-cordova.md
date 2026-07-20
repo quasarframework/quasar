@@ -85,14 +85,14 @@ Unless you are using Icon Genie CLI, replace the generated resources and keep th
       - splash-land-xxxhdpi.png
       - splash-port-xxxhdpi.png
     - ios
-      - Default@2x~~iphone~~comcom.png
-      - Default@2x~~iphone~~comany.png
-      - Default@2x~~iphone~~anyany.png
-      - Default@3x~~iphone~~anycom.png
-      - Default@3x~~iphone~~comany.png
-      - Default@3x~~iphone~~anyany.png
-      - Default@2x~~ipad~~comany.png
-      - Default@2x~~ipad~~anyany.png
+      - Default@2x~iphone~comcom.png
+      - Default@2x~iphone~comany.png
+      - Default@2x~iphone~anyany.png
+      - Default@3x~iphone~anycom.png
+      - Default@3x~iphone~comany.png
+      - Default@3x~iphone~anyany.png
+      - Default@2x~ipad~comany.png
+      - Default@2x~ipad~anyany.png
 
 And here is part of what your config.xml should look like:
 

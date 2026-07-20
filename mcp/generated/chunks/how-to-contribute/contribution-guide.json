@@ -3,7 +3,9 @@
     "id": "how-to-contribute/contribution-guide#overview",
     "documentId": "how-to-contribute/contribution-guide",
     "heading": "Contribution Guide",
-    "breadcrumb": ["Contribution Guide"],
+    "breadcrumb": [
+      "Contribution Guide"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide",
     "content": "This guide covers ways in which you can become a part of the ongoing development of Quasar.\n\nBut, before we begin, a first important note. Everyone interacting in Quasar is expected to follow the [Quasar Code of Conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md).\n\nNow that we've got that covered, let's go!\n\nAfter reading this guide, you will know:\n\n- How to use GitHub to report issues.\n- How to clone the repo and run the test suite.\n- How to help resolve existing issues.\n- How to contribute to the Quasar documentation.\n- How to create a Quasar App Extension.\n- How to contribute to the Quasar source code.\n\nQuasar is not \"someone else's framework\". Many people have contributed to Quasar ranging from a single character to massive architectural changes or significant documentation - all with the goal of making Quasar better for everyone. Even if you don't feel up to writing code or documentation yet, there are a variety of other ways that you can contribute, from reporting issues to testing patches.",
@@ -14,7 +16,10 @@
     "id": "how-to-contribute/contribution-guide#help-with-support",
     "documentId": "how-to-contribute/contribution-guide",
     "heading": "Help with Support",
-    "breadcrumb": ["Help with Support", "Help with Support"],
+    "breadcrumb": [
+      "Help with Support",
+      "Help with Support"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#help-with-support",
     "content": "One of the easiest ways to contribute is to answer questions in the different Q&A systems we have. Be a supportive and positive member of the Quasar community by answering questions you know answers to, or even by adding your best guess. Being a part of such discussions can also be a good learning experience. It's a win-win!\n\nHere are our discussion/Q&A venues:\n\n- [GitHub Discussions](https://forum.quasar.dev/): A place to ask questions and get answers about Quasar and its ecosystem. It’s also a great place to share your knowledge and experience with others. You can also use it to share your ideas and feature requests.\n- [Discord Server](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time. You can ask questions, share your knowledge, and help others. It's also possible to post job offers or look for a job there.",
@@ -39,7 +44,10 @@
     "id": "how-to-contribute/contribution-guide#reporting-an-issue",
     "documentId": "how-to-contribute/contribution-guide",
     "heading": "Reporting an Issue",
-    "breadcrumb": ["Reporting an Issue", "Reporting an Issue"],
+    "breadcrumb": [
+      "Reporting an Issue",
+      "Reporting an Issue"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#reporting-an-issue",
     "content": "- [GitHub](https://github.com/quasarframework/quasar/issues): If you want to create a bug report or a docs report, that’s what the GitHub issues are for. Make sure that you select the correct template and follow the given instructions while creating an issue.\n\n::: danger Reporting a vulnerability\nPlease do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.\n:::\n\nIf you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).\n\n- The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and docs reports. Non-conforming issues will be closed immediately.\n  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).\n\n  - For more complicated questions, you can use [the Discussions section](https://forum.quasar.dev). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!\n\n  - For feature requests, you can [start a new feature discussion](https://github.com/quasarframework/quasar/discussions/new?category=ideas-proposals).\n\n- Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).\n\n- Check if the issue is reproducible with the latest stable version of Quasar. Please always indicate the specific version you are using.\n\n- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Although we would love to help our users as much as possible, diagnosing issues without clear reproduction steps is extremely time-consuming and simply not sustainable.\n\n- Use only the minimum amount of code necessary to reproduce the unexpected behavior. A good bug report should isolate specific methods that exhibit unexpected behavior and precisely define how expectations were violated. What did you expect the method or methods to do, and how did the observed behavior differ? The more precisely you isolate the issue, the faster we can investigate.\n\n- Issues with no clear reproduction steps will not be triaged. If an issue labeled \"bug/0-needs-info\" receives no further input from the issue author for a significant period of time, it will be closed.\n\n- If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.\n\n- Most importantly, we beg your patience: the team must balance your request against many other responsibilities — fixing other bugs, answering other questions, new features, new documentation, etc. The issue list is not paid support and we cannot make guarantees about how fast your issue can be resolved, although we do our very best.",
@@ -237,7 +245,10 @@
     "id": "how-to-contribute/contribution-guide#write-your-story",
     "documentId": "how-to-contribute/contribution-guide",
     "heading": "Write your Story",
-    "breadcrumb": ["Write your Story", "Write your Story"],
+    "breadcrumb": [
+      "Write your Story",
+      "Write your Story"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#write-your-story",
     "content": "We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium publication channel and we'll also make sure your article gets the attention it deserves with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!",
@@ -356,7 +367,10 @@
     "id": "how-to-contribute/contribution-guide#financial-contribution",
     "documentId": "how-to-contribute/contribution-guide",
     "heading": "Financial Contribution",
-    "breadcrumb": ["Financial Contribution", "Financial Contribution"],
+    "breadcrumb": [
+      "Financial Contribution",
+      "Financial Contribution"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#financial-contribution",
     "content": "Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/quasarframework/quasar/blob/dev/backers.md).\n\n**Please read our manifest on [Why donations are important](/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).",
@@ -367,7 +381,10 @@
     "id": "how-to-contribute/contribution-guide#quasar-contributors",
     "documentId": "how-to-contribute/contribution-guide",
     "heading": "Quasar Contributors",
-    "breadcrumb": ["Quasar Contributors", "Quasar Contributors"],
+    "breadcrumb": [
+      "Quasar Contributors",
+      "Quasar Contributors"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/how-to-contribute/contribution-guide#quasar-contributors",
     "content": "Thank you to all the people who already [contributed to Quasar](https://github.com/quasarframework/quasar/graphs/contributors)!",

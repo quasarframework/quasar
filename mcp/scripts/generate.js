@@ -226,10 +226,8 @@ function buildProcessedMarkdown(document, body, examples) {
 
 await rm(outputRoot, { recursive: true, force: true })
 await mkdir(outputRoot, { recursive: true })
-await writeOutput(
-  '.oxlintrc.json',
-  `${JSON.stringify({ ignorePatterns: ['**/*'] }, null, 2)}\n`
-)
+await writeOutput('.oxlintrc.json', '{\n  "ignorePatterns": ["**/*"]\n}\n')
+await writeOutput('.oxfmtrc.json', '{\n  "ignorePatterns": ["**/*"]\n}\n')
 
 const allPageFiles = await walk(pagesRoot, '.md')
 const pageFiles = allPageFiles.filter(

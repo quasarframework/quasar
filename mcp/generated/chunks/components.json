@@ -3,7 +3,9 @@
     "id": "components#overview",
     "documentId": "components",
     "heading": "Quasar Components",
-    "breadcrumb": ["Quasar Components"],
+    "breadcrumb": [
+      "Quasar Components"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/components",
     "content": "<ComponentsListing />",

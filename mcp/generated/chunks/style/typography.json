@@ -3,7 +3,9 @@
     "id": "style/typography#overview",
     "documentId": "style/typography",
     "heading": "Typography",
-    "breadcrumb": ["Typography"],
+    "breadcrumb": [
+      "Typography"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/style/typography",
     "content": "We'll handle the typography supplied by Quasar in the sections below.",
@@ -14,7 +16,10 @@
     "id": "style/typography#headings",
     "documentId": "style/typography",
     "heading": "Headings",
-    "breadcrumb": ["Headings", "Headings"],
+    "breadcrumb": [
+      "Headings",
+      "Headings"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/typography#headings",
     "content": "<TypographyHeadings />",
@@ -25,7 +30,10 @@
     "id": "style/typography#font-weights",
     "documentId": "style/typography",
     "heading": "Font Weights",
-    "breadcrumb": ["Font Weights", "Font Weights"],
+    "breadcrumb": [
+      "Font Weights",
+      "Font Weights"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/typography#font-weights",
     "content": "<TypographyWeights />",
@@ -36,7 +44,10 @@
     "id": "style/typography#css-helper-classes",
     "documentId": "style/typography",
     "heading": "CSS Helper Classes",
-    "breadcrumb": ["CSS Helper Classes", "CSS Helper Classes"],
+    "breadcrumb": [
+      "CSS Helper Classes",
+      "CSS Helper Classes"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/typography#css-helper-classes",
     "content": "| Class Name        | Description                                        |\n| ----------------- | -------------------------------------------------- |\n| `text-right`      | Align text to the right                            |\n| `text-left`       | Align text to the left                             |\n| `text-center`     | Align text to the center                           |\n| `text-justify`    | Text will be justified                             |\n| `text-bold`       | Text will be in bold                               |\n| `text-italic`     | Text will be in italic                             |\n| `text-no-wrap`    | Non wrappable text (applies `white-space: nowrap`) |\n| `text-strike`     | Applies `text-decoration: line-through`            |\n| `text-uppercase`  | Transform text to uppercase                        |\n| `text-lowercase`  | Transform text to lowercase                        |\n| `text-capitalize` | Capitalize first letter of the text                |",
@@ -47,7 +58,10 @@
     "id": "style/typography#default-font",
     "documentId": "style/typography",
     "heading": "Default Font",
-    "breadcrumb": ["Default Font", "Default Font"],
+    "breadcrumb": [
+      "Default Font",
+      "Default Font"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/typography#default-font",
     "content": "The default webfont embedded is [Roboto](https://fonts.google.com/specimen/Roboto). **But it is not required**. You can use whatever font(s) you like.\n\nRoboto comes with 6 different font weights you can use: 100, 300, 400, 500, 700, 900.\n\nThis is where Roboto font comes embedded by default, if you are looking to remove it:\n\n```js /quasar.config file\nextras: ['roboto-font']\n```",
@@ -58,7 +72,10 @@
     "id": "style/typography#add-custom-fonts",
     "documentId": "style/typography",
     "heading": "Add custom fonts",
-    "breadcrumb": ["Add custom fonts", "Add custom fonts"],
+    "breadcrumb": [
+      "Add custom fonts",
+      "Add custom fonts"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/typography#add-custom-fonts",
     "content": "It is also possible to include other fonts to use them in the app. The following is one way to do it:\n\n1. Copy your new webfont `[customfont].woff` (or whatever extension it has; recommended is `woff` for compatibility across all browsers) in a directory of your choice, for example: `./src/css/fonts/[customfont.woff]`\n2. Declare your font in `./src/css/app.{css|sass|scss|styl}` (or in any place you see fit, but correctly update the relative path to the webfont file):\n\n```css\n@font-face {\n  font-family: customfont;\n  src: url(./fonts/customfont.woff);\n}\n\n// declare a class which applies it\n.my-font {\n  font-family: 'customfont';\n}\n```\n\n3. Then use that class where you need it.",

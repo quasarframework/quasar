@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/upgrade-guide#overview",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Upgrade Guide for Quasar CLI with Vite",
-    "breadcrumb": ["Upgrade Guide for Quasar CLI with Vite"],
+    "breadcrumb": [
+      "Upgrade Guide for Quasar CLI with Vite"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide",
     "content": "::: warning Important!\nThis guide refers to upgrading a @quasar/app-vite v2 project to @quasar/app-vite v3.\nFor older versions, please refer to [https://legacy-app.quasar.dev](https://legacy-app.quasar.dev).\n:::",
@@ -42,7 +44,10 @@
     "id": "quasar-cli-vite/upgrade-guide#start-the-upgrade",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Start the upgrade",
-    "breadcrumb": ["Start the upgrade", "Start the upgrade"],
+    "breadcrumb": [
+      "Start the upgrade",
+      "Start the upgrade"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#start-the-upgrade",
     "content": "::: tip\nIf you are unsure that you won't skip by mistake any of the recommended changes, you can scaffold a new project folder with the @quasar/app-vite v3 at any time and then easily start porting your app from there.\n<br><br>\n\n```tabs\n<<| bash PNPM |>>\npnpm create quasar@latest\n<<| bash Yarn |>>\nyarn create quasar\n<<| bash NPM |>>\nnpm init quasar@latest\n<<| bash Bun |>>\nbun create quasar@latest\n```\n\n:::",
@@ -53,7 +58,11 @@
     "id": "quasar-cli-vite/upgrade-guide#pnpm-related",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "PNPM related",
-    "breadcrumb": ["Start the upgrade", "PNPM related", "PNPM related"],
+    "breadcrumb": [
+      "Start the upgrade",
+      "PNPM related",
+      "PNPM related"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#pnpm-related",
     "content": "If you're using PNPM v11, edit your `/pnpm-workspace.yaml` file. No longer needing the shamefullyHoist config.\n\n```yaml /pnpm-workspace.yaml\n# https://pnpm.io/settings\n\nallowBuilds:\n  '@parcel/watcher': true\n  core-js: true\n  electron-winstaller: true\n  esbuild: true\n  lightningcss: true\n  rolldown: true\n  unrs-resolver: true\n```\n\nAlso, create a `pnpm-workspace.yaml` file inside `/src-<bex|pwa|electron|ssr>` with this content:\n\n```bash /src-<bex|pwa|electron|ssr>/pnpm-workspace.yaml\n# This file exists to force pnpm install deps here, regardless of upper workspaces\n# https://pnpm.io/settings\n```",
@@ -64,7 +73,11 @@
     "id": "quasar-cli-vite/upgrade-guide#package-json",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "/package.json",
-    "breadcrumb": ["Start the upgrade", "/package.json", "/package.json"],
+    "breadcrumb": [
+      "Start the upgrade",
+      "/package.json",
+      "/package.json"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#package-json",
     "content": "Edit your `/package.json` on the `@quasar/app-vite` entry:\n\n```json /package.json\n\"devDependencies\": {\n  \"@quasar/app-vite\": \"^2.0.0\", // [!code --]\n  \"@quasar/app-vite\": \"^3.0.0\" // [!code ++]\n}\n```\n\nMake sure you also have Vue Router v5+ too, which is now the minimum version required!\n\n```json /package.json\n\"dependencies\": {\n  \"vue-router\": \"^5.0.6\"\n}\n```",
@@ -135,7 +148,11 @@
     "id": "quasar-cli-vite/upgrade-guide#install-new-deps",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Install new deps",
-    "breadcrumb": ["Start the upgrade", "Install new deps", "Install new deps"],
+    "breadcrumb": [
+      "Start the upgrade",
+      "Install new deps",
+      "Install new deps"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#install-new-deps",
     "content": "Then pnpm/yarn/npm/bun install in the root folder and run `quasar prepare`. Restart your IDE to make sure the new dependencies have been correctly picked up.\n\nMake sure to update your `/quasar.config` file with the newest specs in order to satisfy the types. Check all following sections.",
@@ -146,7 +163,10 @@
     "id": "quasar-cli-vite/upgrade-guide#notable-breaking-changes",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Notable breaking changes",
-    "breadcrumb": ["Notable breaking changes", "Notable breaking changes"],
+    "breadcrumb": [
+      "Notable breaking changes",
+      "Notable breaking changes"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#notable-breaking-changes",
     "content": "- All imports from `#q-app/wrappers` need to be replaced with `#q-app`. Do a global search and replace.\n- Switched from `process.env` to the modern `import.meta.env`. [Link](/quasar-cli-vite/handling-import-meta-env)\n- /quasar.config > build > vueOptionsAPI is now `false` by default. Check other Vue 3 packages and components. If they use the `Options` API, you will need to set this to true.\n- /quasar.config > build > polyfillModulePreload (removed and now defaulting to Vite's own config for this)\n- /index.html -> new [HTML Constant Replacement](/quasar-cli-vite/handling-import-meta-env#html-constant-replacement). `<% if (process.env.X) %>` will no longer work.\n- New [dotenv files support](/quasar-cli-vite/handling-import-meta-end#more-on-dotenv-files), including for the `/quasar.config` file itself. By default, Quasar CLI will only look for `.env` and `.env.local`, but you can add other files as well to support the ones with prod/dev/mode suffixes.\n- /quasar.config > `env` is now used by the new dotenv support. Dropped `build > rawDefine` as well. Use the new build > `define` & `defineEnv` instead. [Link](/quasar-cli-vite/handling-import-meta-env#adding-to-import-meta-env)\n- Boot files & preFetch > redirect() usage has changed. Need to return immediately after calling it. No longer supporting throwing an error (or returning a Promise) with the `{ url }` syntax. Directly use `redirect()` instead.\n- The /quasar.config file can come with `.js` or `.ts` extensions only. Dropped support for `.cjs`, `.mjs`, `.cts` and `.mts`.\n- All Quasar Modes now need to install their specific dependencies directly under their `/src-<mode>` folder.\n- Replaced `esbuild` tool with `Rolldown` for all the specific Quasar mode files (under their `/src-<mode>` folders). This also has impact over all the /quasar.config `extendX()` methods, as they will now receive a Rolldown config object.\n- All /quasar.config `extendX()` methods can now be async and optionally return a (Rolldown/etc) config that will be merged with the default one.\n- Dropped support for Capacitor v4 and below\n- Dropped support for `@electron/packager` v18 and below\n- Cordova with iOS now uses the modern build system. The `noIosLegacyBuildFlag` has been removed.\n- The \"quasar dev -m cordova\" command now opens up the corresponding IDE instead (just like Capacitor mode)\n- The \"quasar dev/build -m bex\" command now defaults to \"chrome\" target, so the `-t|--target` option can be ommitted.",
@@ -157,7 +177,10 @@
     "id": "quasar-cli-vite/upgrade-guide#electron-mode-changes",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Electron mode changes",
-    "breadcrumb": ["Electron mode changes", "Electron mode changes"],
+    "breadcrumb": [
+      "Electron mode changes",
+      "Electron mode changes"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#electron-mode-changes",
     "content": "We are introducing `quasarRuntime`. [More info](/quasar-cli-vite/developing-electron-apps/electron-accessing-files).\n\nMove your `/src-electron/icons` to `/src-electron/electron-assets/icons` (create the new `electron-assets` folder).",
@@ -168,7 +191,11 @@
     "id": "quasar-cli-vite/upgrade-guide#preload-script",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Preload script",
-    "breadcrumb": ["Electron mode changes", "Preload script", "Preload script"],
+    "breadcrumb": [
+      "Electron mode changes",
+      "Preload script",
+      "Preload script"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#preload-script",
     "content": "```js /src-electron/electron-preload (Optional!)\n/**\n * Only one preload script should contain this\n */\n\nimport { contextBridge } from 'electron'\nimport { quasarRuntime } from '#q-app/electron/preload'\n\n/**\n * Can be used in the renderer process through `window.quasarRuntime`\n */\ncontextBridge.exposeInMainWorld('quasarRuntime', quasarRuntime)\n```",
@@ -179,7 +206,11 @@
     "id": "quasar-cli-vite/upgrade-guide#main-script",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Main script",
-    "breadcrumb": ["Electron mode changes", "Main script", "Main script"],
+    "breadcrumb": [
+      "Electron mode changes",
+      "Main script",
+      "Main script"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#main-script",
     "content": "And you might also want to update your `/src-electron/electron-main` script:\n\n```tabs /src-electron/electron-main\n<<| js Diff |>>\nimport { fileURLToPath } from 'url' // [!code --]\nconst currentDir = fileURLToPath(new URL('.', import.meta.url)) // [!code --]\n\nimport {\n  registerQuasarRuntime,\n  resolveElectronAssetsPath\n} from \"#q-app/electron/main\"\n\nlet mainWindow: BrowserWindow | undefined; // [!code --]\nasync function createWindow() { // [!code --]\n  mainWindow = new BrowserWindow({ // [!code --]\n    icon: path.resolve(currentDir, 'icons/icon.png'), // tray icon // [!code --]\n    webPreferences: { // [!code --]\n      preload: path.resolve( // [!code --]\n        currentDir, // [!code --]\n        path.join(process.env.QUASAR_ELECTRON_PRELOAD_FOLDER, 'electron-preload' + process.env.QUASAR_ELECTRON_PRELOAD_EXTENSION) // [!code --]\n      ), // [!code --]\n    }, // [!code --]\nasync function createWindow() {\n  const mainWindow = new BrowserWindow({\n    icon: resolveElectronAssetsPath(\"icons/icon.png\"), // linux\n    webPreferences: {\n      preload: path.join(import.meta.dirname, \"electron-preload.cjs\")\n    },\n\n   if (process.env.DEV) { // [!code --]\n     await mainWindow.loadURL(process.env.APP_URL); // [!code --]\n   } // [!code --]\n   if (import.meta.env.QUASAR_DEV) {\n     await mainWindow.loadURL(import.meta.env.QUASAR_APP_URL);\n   }\n\n   mainWindow.on('closed', () => { // [!code --]\n     mainWindow = undefined; // [!code --]\n   }); // [!code --]\n}\n\nvoid app.whenReady().then(createWindow); // [!code --]\napp.on('window-all-closed', () => { // [!code --]\n  if (platform !== 'darwin') { // [!code --]\n    app.quit(); // [!code --]\n  } // [!code --]\n}); // [!code --]\napp.on('activate', () => { // [!code --]\n  if (mainWindow === undefined) { // [!code --]\n    void createWindow(); // [!code --]\n  } // [!code --]\n}); // [!code --]\nvoid app.whenReady().then(() => {\n  registerQuasarRuntime();\n  void createWindow();\n  app.on(\"activate\", () => {\n    if (BrowserWindow.getAllWindows().length === 0) {\n      void createWindow();\n    }\n  });\n});\napp.on(\"window-all-closed\", () => {\n  if (platform !== \"darwin\") {\n    app.quit();\n  }\n});\n<<| js Full (JS) |>>\nimport { app, BrowserWindow } from 'electron'\nimport path from 'node:path'\nimport os from 'node:os'\nimport {\n  registerQuasarRuntime,\n  resolveElectronAssetsPath\n} from '#q-app/electron/main'\n\n// needed in case process is undefined under Linux\nconst platform = process.platform || os.platform()\n\nasync function createWindow () {\n  /**\n   * Initial window options\n   */\n  const mainWindow = new BrowserWindow({\n    icon: resolveElectronAssetsPath('icons/icon.png'), // linux\n    width: 1000,\n    height: 600,\n    useContentSize: true,\n    webPreferences: {\n      contextIsolation: true,\n      // https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script\n      preload: path.join(import.meta.dirname, 'electron-preload.cjs')\n    }\n  })\n\n  if (import.meta.env.QUASAR_DEV) {\n    await mainWindow.loadURL(import.meta.env.QUASAR_APP_URL)\n  } else {\n    await mainWindow.loadFile('index.html')\n  }\n\n  if (import.meta.env.QUASAR_DEBUG) {\n    // if on DEV or Production with debug enabled\n    mainWindow.webContents.openDevTools()\n  } else {\n    // we're on production; no access to devtools pls\n    mainWindow.webContents.on('devtools-opened', () => {\n      mainWindow.webContents.closeDevTools()\n    })\n  }\n}\n\nvoid app.whenReady().then(() => {\n  registerQuasarRuntime()\n  createWindow()\n\n  app.on('activate', () => {\n    if (BrowserWindow.getAllWindows().length === 0) {\n      createWindow()\n    }\n  })\n})\n\napp.on('window-all-closed', () => {\n  if (platform !== 'darwin') {\n    app.quit()\n  }\n})\n<<| ts Full (TypeScript) |>>\nimport { BrowserWindow, app } from \"electron\";\nimport path from \"node:path\";\nimport os from \"node:os\";\nimport {\n  registerQuasarRuntime,\n  resolveElectronAssetsPath\n} from \"#q-app/electron/main\";\n\n// needed in case process is undefined under Linux\nconst platform = process.platform || os.platform();\n\nasync function createWindow() {\n  /**\n   * Initial window options\n   */\n  const mainWindow = new BrowserWindow({\n    icon: resolveElectronAssetsPath(\"icons/icon.png\"), // linux\n    width: 1000,\n    height: 600,\n    useContentSize: true,\n    webPreferences: {\n      contextIsolation: true,\n      // https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script\n      preload: path.join(import.meta.dirname, \"electron-preload.cjs\")\n    }\n  });\n\n  if (import.meta.env.QUASAR_DEV) {\n    await mainWindow.loadURL(import.meta.env.QUASAR_APP_URL);\n  } else {\n    await mainWindow.loadFile(\"index.html\");\n  }\n\n  if (import.meta.env.QUASAR_DEBUG) {\n    // if on DEV or Production with debug enabled\n    mainWindow.webContents.openDevTools();\n  } else {\n    // we're on production; no access to devtools pls\n    mainWindow.webContents.on(\"devtools-opened\", () => {\n      mainWindow?.webContents.closeDevTools();\n    });\n  }\n}\n\nvoid app.whenReady().then(() => {\n  registerQuasarRuntime();\n  void createWindow();\n\n  app.on(\"activate\", () => {\n    if (BrowserWindow.getAllWindows().length === 0) {\n      void createWindow();\n    }\n  });\n});\n\napp.on(\"window-all-closed\", () => {\n  if (platform !== \"darwin\") {\n    app.quit();\n  }\n});\n```",
@@ -205,7 +236,10 @@
     "id": "quasar-cli-vite/upgrade-guide#ssr-mode-changes",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "SSR mode changes",
-    "breadcrumb": ["SSR mode changes", "SSR mode changes"],
+    "breadcrumb": [
+      "SSR mode changes",
+      "SSR mode changes"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#ssr-mode-changes",
     "content": "We've added way better support for non-Express.js webservers and highly improved typings. When the SSR mode is added to a project, the Quasar CLI will ask what webserver you would like to use. You can pick from Hono/Express.js/Fastify/Koa.\n\nInstead of diffing here, you might want to check the next pages (even if you still want to stay with Express.js):\n\n- [Installing SSR Dependencies](/quasar-cli-vite/developing-ssr/installing-ssr-dependencies)\n- New ability to run as [Hybrid SSR + partial CSR](/quasar-cli-vite/developing-ssr/hybrid-ssr-with-partial-csr)\n- Webserver: check out examples with Hono/Express/Fastify/Koa: [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver); or remove and add SSR mode again.\n- Middlewares: check out examples with Hono/Express/Fastify/Koa: [SSR Middleware](/quasar-cli-vite/developing-ssr/ssr-middleware); or remove and add SSR mode again.\n- Check out the [SSR Handling of 404 and 500 Errors](/quasar-cli-vite/developing-ssr/handling-404-and-500-errors) page.\n- If using a serverless architecture, then check out the new [Serverless](/quasar-cli-vite/developing-ssr/ssr-webserver#serverless) section in SSR Webserver page.\n- You might also want to use thew new `/src-ssr/server-assets` folder (create it). This is copied as-is to dist and can be used in dev too, through `resolve.serverAssets()` or `folders.serverAssets`.\n- One more thing to note, for SSR middlewares: `serve.error()` has been changed to `serve.devError()` (with new params).",
@@ -397,7 +431,10 @@
     "id": "quasar-cli-vite/upgrade-guide#final-note",
     "documentId": "quasar-cli-vite/upgrade-guide",
     "heading": "Final Note",
-    "breadcrumb": ["Final Note", "Final Note"],
+    "breadcrumb": [
+      "Final Note",
+      "Final Note"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/upgrade-guide#final-note",
     "content": "A quick favor to ask: Please consider supporting our efforts! If you use Quasar at work, drop a message to your management about sponsoring us at [https://donate.quasar.dev/](https://donate.quasar.dev/). We rely on your support to make massive updates like this possible!\n\nAnd don't forget to enjoy your new modern setup! That's it! 🚀",

@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssg/ssg-with-pwa#overview",
     "documentId": "quasar-cli-vite/developing-ssg/ssg-with-pwa",
     "heading": "SSG with PWA Client Takeover",
-    "breadcrumb": ["SSG with PWA Client Takeover"],
+    "breadcrumb": [
+      "SSG with PWA Client Takeover"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/ssg-with-pwa",
     "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::\n\nSSG can serve pre-rendered HTML on the first visit and then install a service worker for offline support and subsequent navigations. The following options are generated in the `ssg` section of `/quasar.config`:\n\n```js /quasar.config file\nssg: {\n  /**\n   * If a PWA should take over or just a SPA.\n   * @default false\n   */\n  pwa?: boolean;\n\n  /**\n   * When using SSG+PWA, this is the name of the\n   * PWA index html file that the client-side fallbacks to.\n   * For production only.\n   *\n   * Make sure to name it so that the SSG generated html files\n   * don't conflict with it. It may intentionally match\n   * `clientSideRenderingHtmlFilename` to reuse the same application shell.\n   *\n   * @default ssr.pwaOfflineHtmlFilename (when configured), otherwise 'offline.html'\n   */\n  pwaOfflineHtmlFilename?: string;\n\n  /**\n   * Extend/configure the Workbox GenerateSW options\n   * Specify Workbox options which will be applied on top of\n   *  `pwa > extendPWAGenerateSWOptions()`.\n   *\n   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/\n   *\n   * Can be async. Can directly modify the \"config\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendSSGGenerateSWOptions?: (\n    config: GenerateSWOptions\n  ) => void | GenerateSWOptions | Promise<void | GenerateSWOptions>;\n\n  /**\n   * Extend/configure the Workbox InjectManifest options\n   * Specify Workbox options which will be applied on top of\n   *  `pwa > extendPWAInjectManifestOptions()`.\n   *\n   * https://developer.chrome.com/docs/workbox/the-ways-of-workbox/\n   *\n   * Can be async. Can directly modify the \"config\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendSSGInjectManifestOptions?: (\n    config: InjectManifestOptions\n  ) => void | InjectManifestOptions | Promise<void | InjectManifestOptions>;\n}\n```\n\nSet `pwa: true` to enable PWA takeover. Adding SSG mode with this option enabled also installs PWA mode when needed. Configure the manifest, icons, Workbox mode, and service worker through the normal [`pwa` configuration](/quasar-cli-vite/developing-pwa/configuring-pwa).\n\nThe production build generates the normal SSG pages, the PWA assets, and an application shell at `dist/ssg/offline.html` by default. The service worker uses that shell as its navigation fallback. Do not name it `index.html`, and do not give it the same name as a generated SSG page.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssg/ssg-with-pwa#customizing-workbox",
     "documentId": "quasar-cli-vite/developing-ssg/ssg-with-pwa",
     "heading": "Customizing Workbox",
-    "breadcrumb": ["Customizing Workbox", "Customizing Workbox"],
+    "breadcrumb": [
+      "Customizing Workbox",
+      "Customizing Workbox"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/ssg-with-pwa#customizing-workbox",
     "content": "SSG-specific extension hooks run after their corresponding PWA hooks:\n\n```js /quasar.config file\nssg: {\n  pwa: true,\n\n  extendSSGGenerateSWOptions (workboxConfig) {\n    workboxConfig.navigateFallbackDenylist.push(\n      /^\\/api\\//,\n      /^\\/admin\\//\n    )\n  }\n}\n```\n\nUse `extendSSGGenerateSWOptions` with Workbox `GenerateSW`, or `extendSSGInjectManifestOptions` with `InjectManifest`. The service worker's actual caching behavior depends on those settings; it should not be assumed that every later request is always served from cache.\n\n::: warning\nDeploy the entire output directory, including the service worker, manifest, icons, Workbox files, generated pages, and offline shell. Service workers also require HTTPS in production, except on localhost.\n:::\n\n> For more information on PWA, head on to [PWA Introduction](/quasar-cli-vite/developing-pwa/introduction) and read the whole PWA Guide section.",

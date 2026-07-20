@@ -5,13 +5,17 @@
   "description": "Vue directive that morphs between DOM elements or even between the two states of the same DOM element.",
   "canonicalUrl": "https://quasar.dev/vue-directives/morph",
   "source": "docs/src/pages/vue-directives/morph.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-directives",
-  "kinds": ["directive"],
-  "apiReferences": ["Morph"],
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Morph"
+  ],
   "examples": [
     {
       "title": "Morph between multiple elements in a group",

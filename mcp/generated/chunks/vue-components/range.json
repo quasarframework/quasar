@@ -3,18 +3,25 @@
     "id": "vue-components/range#overview",
     "documentId": "vue-components/range",
     "heading": "Range",
-    "breadcrumb": ["Range"],
+    "breadcrumb": [
+      "Range"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-components/range",
     "content": "The QRange component is a great way to offer the user the selection of a sub-range of values between a minimum and maximum value, with optional steps to select those values. An example use case for the Range component would be to offer a price range selection.\n\nAlso check out its “sibling”, the [QSlider](/vue-components/slider) component.\n\nAPI reference: QRange",
-    "apiReferences": ["QRange"],
+    "apiReferences": [
+      "QRange"
+    ],
     "exampleReferences": []
   },
   {
     "id": "vue-components/range#usage",
     "documentId": "vue-components/range",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-components/range#usage",
     "content": "Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.",
@@ -25,7 +32,11 @@
     "id": "vue-components/range#standard",
     "documentId": "vue-components/range",
     "heading": "Standard",
-    "breadcrumb": ["Usage", "Standard", "Standard"],
+    "breadcrumb": [
+      "Usage",
+      "Standard",
+      "Standard"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#standard",
     "content": "::: warning\nYou are responsible for accommodating the space around QRange so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.\n:::\n\nExample: Standard (Standard.vue)",
@@ -41,7 +52,11 @@
     "id": "vue-components/range#vertical",
     "documentId": "vue-components/range",
     "heading": "Vertical",
-    "breadcrumb": ["Usage", "Vertical", "Vertical"],
+    "breadcrumb": [
+      "Usage",
+      "Vertical",
+      "Vertical"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#vertical",
     "content": "Example: Vertical orientation (Vertical.vue)",
@@ -77,7 +92,11 @@
     "id": "vue-components/range#with-step",
     "documentId": "vue-components/range",
     "heading": "With step",
-    "breadcrumb": ["Usage", "With step", "With step"],
+    "breadcrumb": [
+      "Usage",
+      "With step",
+      "With step"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#with-step",
     "content": "Example: With Step (Step.vue)\n\nThe `step` property can also be a floating point number (or numeric `0` if you need infinite precision).\n\nExample: Floating point (FloatingPoint.vue)\n\nExample: Snaps to steps (Snap.vue)",
@@ -101,7 +120,11 @@
     "id": "vue-components/range#with-label",
     "documentId": "vue-components/range",
     "heading": "With label",
-    "breadcrumb": ["Usage", "With label", "With label"],
+    "breadcrumb": [
+      "Usage",
+      "With label",
+      "With label"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#with-label",
     "content": "In the example below, move the slider to see the label.\n\nExample: With label (Label.vue)\n\nExample: Always display label (LabelAlways.vue)\n\nExample: Custom label values (LabelValue.vue)\n\nThe example below is better highlighting how QRange handles label positioning so that it always stays inside the QRange's box horizontally.\n\nExample: Long label (LabelLong.vue)",
@@ -129,7 +152,11 @@
     "id": "vue-components/range#markers",
     "documentId": "vue-components/range",
     "heading": "Markers",
-    "breadcrumb": ["Usage", "Markers", "Markers"],
+    "breadcrumb": [
+      "Usage",
+      "Markers",
+      "Markers"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#markers",
     "content": "Example: Markers (Markers.vue)",
@@ -201,7 +228,11 @@
     "id": "vue-components/range#dragging-range",
     "documentId": "vue-components/range",
     "heading": "Dragging range",
-    "breadcrumb": ["Usage", "Dragging range", "Dragging range"],
+    "breadcrumb": [
+      "Usage",
+      "Dragging range",
+      "Dragging range"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#dragging-range",
     "content": "Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.\n\nExample: Drag range (Drag.vue)\n\nExample: Drag range + snap to step (DragSnap.vue)\n\nExample: Drag only range (fixed interval) (DragOnly.vue)",
@@ -225,7 +256,11 @@
     "id": "vue-components/range#lazy-input",
     "documentId": "vue-components/range",
     "heading": "Lazy input",
-    "breadcrumb": ["Usage", "Lazy input", "Lazy input"],
+    "breadcrumb": [
+      "Usage",
+      "Lazy input",
+      "Lazy input"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#lazy-input",
     "content": "Example: Lazy input (Lazy.vue)",
@@ -241,7 +276,11 @@
     "id": "vue-components/range#null-values",
     "documentId": "vue-components/range",
     "heading": "Null values",
-    "breadcrumb": ["Usage", "Null values", "Null values"],
+    "breadcrumb": [
+      "Usage",
+      "Null values",
+      "Null values"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#null-values",
     "content": "Example: Null values (Null.vue)",
@@ -257,7 +296,11 @@
     "id": "vue-components/range#reverse",
     "documentId": "vue-components/range",
     "heading": "Reverse",
-    "breadcrumb": ["Usage", "Reverse", "Reverse"],
+    "breadcrumb": [
+      "Usage",
+      "Reverse",
+      "Reverse"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#reverse",
     "content": "Example: In reverse (Reverse.vue)",
@@ -273,7 +316,11 @@
     "id": "vue-components/range#force-dark-mode",
     "documentId": "vue-components/range",
     "heading": "Force dark mode",
-    "breadcrumb": ["Usage", "Force dark mode", "Force dark mode"],
+    "breadcrumb": [
+      "Usage",
+      "Force dark mode",
+      "Force dark mode"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#force-dark-mode",
     "content": "Example: Force dark mode (Dark.vue)",
@@ -289,7 +336,11 @@
     "id": "vue-components/range#readonly-and-disable",
     "documentId": "vue-components/range",
     "heading": "Readonly and disable",
-    "breadcrumb": ["Usage", "Readonly and disable", "Readonly and disable"],
+    "breadcrumb": [
+      "Usage",
+      "Readonly and disable",
+      "Readonly and disable"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#readonly-and-disable",
     "content": "Example: Readonly (Readonly.vue)\n\nExample: Disable (Disable.vue)",
@@ -309,7 +360,11 @@
     "id": "vue-components/range#with-qitem",
     "documentId": "vue-components/range",
     "heading": "With QItem",
-    "breadcrumb": ["Usage", "With QItem", "With QItem"],
+    "breadcrumb": [
+      "Usage",
+      "With QItem",
+      "With QItem"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#with-qitem",
     "content": "Example: With QItem (List.vue)",
@@ -325,7 +380,11 @@
     "id": "vue-components/range#native-form-submit",
     "documentId": "vue-components/range",
     "heading": "Native form submit",
-    "breadcrumb": ["Usage", "Native form submit", "Native form submit"],
+    "breadcrumb": [
+      "Usage",
+      "Native form submit",
+      "Native form submit"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-components/range#native-form-submit",
     "content": "When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):\n\nThe submitted value contains the minimum and maximum values separated by a pipe (`min|max`).\n\nExample: Native form (NativeForm.vue)",

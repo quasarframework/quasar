@@ -3,7 +3,9 @@
     "id": "quasar-plugins/meta#overview",
     "documentId": "quasar-plugins/meta",
     "heading": "Quasar Meta Plugin",
-    "breadcrumb": ["Quasar Meta Plugin"],
+    "breadcrumb": [
+      "Quasar Meta Plugin"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta",
     "content": "**Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.\n\n::: tip\nTake full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) and SSG builds**. It may make sense to use it for SPA (Single Page Applications) too, however the meta information in this case will be added at runtime and not supplied directly by the webserver (as on SSR/SSG builds). Modern web-crawlers like the [Googlebot](https://developers.google.com/search/docs/guides/javascript-seo-basics) may render dynamic pages and extract out the dynamically set meta information.\n:::\n\n**Configuration:** register Meta through `framework.plugins` in `quasar.config`.",
@@ -14,7 +16,10 @@
     "id": "quasar-plugins/meta#usage",
     "documentId": "quasar-plugins/meta",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#usage",
     "content": "What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features.\n\n::: warning Important!\nMake sure not to duplicate content that already exists in /index.html. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.\n:::",
@@ -25,7 +30,11 @@
     "id": "quasar-plugins/meta#composition-api",
     "documentId": "quasar-plugins/meta",
     "heading": "Composition API",
-    "breadcrumb": ["Usage", "Composition API", "Composition API"],
+    "breadcrumb": [
+      "Usage",
+      "Composition API",
+      "Composition API"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#composition-api",
     "content": "We will be using the [useMeta](/vue-composables/use-meta) composable.\n\n```js Some .vue file\nimport { useMeta } from 'quasar'\n\nconst metaData = {\n  // sets document title\n  title: 'Index Page',\n  // optional; sets final title as \"Index Page - My Website\", useful for multiple level meta\n  titleTemplate: title => `${title} - My Website`,\n\n  // meta tags\n  meta: {\n    description: { name: 'description', content: 'Page 1' },\n    keywords: { name: 'keywords', content: 'Quasar website' },\n    equiv: {\n      'http-equiv': 'Content-Type',\n      content: 'text/html; charset=UTF-8'\n    },\n    // note: for Open Graph type metadata you will need to use SSR/SSG, to ensure page is rendered by the server\n    ogTitle: {\n      property: 'og:title',\n      // optional; similar to titleTemplate, but allows templating with other meta properties\n      template(ogTitle) {\n        return `${ogTitle} - My Website`\n      }\n    }\n  },\n\n  // CSS tags\n  link: {\n    material: {\n      rel: 'stylesheet',\n      href: 'https://fonts.googleapis.com/icon?family=Material+Icons'\n    }\n  },\n\n  // JS tags\n  script: {\n    ldJson: {\n      type: 'application/ld+json',\n      innerHTML: `{ \"@context\": \"http://schema.org\" }`\n    }\n  },\n\n  // <html> attributes\n  htmlAttr: {\n    'xmlns:cc': 'http://creativecommons.org/ns#', // generates <html xmlns:cc=\"http://creativecommons.org/ns#\">,\n    empty: undefined // generates <html empty>\n  },\n\n  // <body> attributes\n  bodyAttr: {\n    'action-scope': 'xyz', // generates <body action-scope=\"xyz\">\n    empty: undefined // generates <body empty>\n  },\n\n  // <noscript> tags\n  noscript: {\n    default: 'This is content for browsers with no JS (or disabled JS)'\n  }\n}\n\nexport default {\n  setup() {\n    // needs to be called in setup()\n    useMeta(metaData)\n  }\n}\n```\n\n::: warning Raw content\nThe `innerHTML` property of a script entry and the content of a `noscript` entry are inserted as raw HTML. Never pass untrusted or unsanitized content to these properties. Prefer regular meta properties such as `content` for dynamic user-provided text.\n:::\n\nIf you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself. For more information, check the \"Reactive\" section on this page.",
@@ -36,7 +45,11 @@
     "id": "quasar-plugins/meta#options-api",
     "documentId": "quasar-plugins/meta",
     "heading": "Options API",
-    "breadcrumb": ["Usage", "Options API", "Options API"],
+    "breadcrumb": [
+      "Usage",
+      "Options API",
+      "Options API"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#options-api",
     "content": "```js Some .vue file\nimport { createMetaMixin } from 'quasar'\n\nconst metaData = {\n  // sets document title\n  title: 'Index Page',\n  // optional; sets final title as \"Index Page - My Website\", useful for multiple level meta\n  titleTemplate: title => `${title} - My Website`,\n\n  // meta tags\n  meta: {\n    description: { name: 'description', content: 'Page 1' },\n    keywords: { name: 'keywords', content: 'Quasar website' },\n    equiv: {\n      'http-equiv': 'Content-Type',\n      content: 'text/html; charset=UTF-8'\n    },\n    // note: for Open Graph type metadata you will need to use SSR/SSG, to ensure page is rendered by the server\n    ogTitle: {\n      property: 'og:title',\n      // optional; similar to titleTemplate, but allows templating with other meta properties\n      template(ogTitle) {\n        return `${ogTitle} - My Website`\n      }\n    }\n  },\n\n  // CSS tags\n  link: {\n    material: {\n      rel: 'stylesheet',\n      href: 'https://fonts.googleapis.com/icon?family=Material+Icons'\n    }\n  },\n\n  // JS tags\n  script: {\n    ldJson: {\n      type: 'application/ld+json',\n      innerHTML: `{ \"@context\": \"http://schema.org\" }`\n    }\n  },\n\n  // <html> attributes\n  htmlAttr: {\n    'xmlns:cc': 'http://creativecommons.org/ns#', // generates <html xmlns:cc=\"http://creativecommons.org/ns#\">\n    empty: undefined // generates <html empty>\n  },\n\n  // <body> attributes\n  bodyAttr: {\n    'action-scope': 'xyz', // generates <body action-scope=\"xyz\">\n    empty: undefined // generates <body empty>\n  },\n\n  // <noscript> tags\n  noscript: {\n    default: 'This is content for browsers with no JS (or disabled JS)'\n  }\n}\n\nexport default {\n  mixins: [createMetaMixin(metaData)]\n}\n```\n\nFor the Options API approach, if you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself:\n\n```js\nexport default {\n  mixins: [\n    createMetaMixin(function () {\n      // \"this\" here refers to your component\n      return {\n        // assuming `this.myTitle` exists in your mixed in component\n        title: this.myTitle\n      }\n    })\n  ]\n}\n```",
@@ -47,7 +60,10 @@
     "id": "quasar-plugins/meta#how-it-works",
     "documentId": "quasar-plugins/meta",
     "heading": "How It Works",
-    "breadcrumb": ["How It Works", "How It Works"],
+    "breadcrumb": [
+      "How It Works",
+      "How It Works"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#how-it-works",
     "content": "Metas are computed from .vue files in the order their vue components are activated by Vue Router (let’s call this a chain for further explanations). Example: App.vue > SomeLayout.vue > IndexPage.vue > …?\n\nWhen a component that uses Meta plugin gets rendered or destroyed, it is added/removed to/from the chain and metas are updated accordingly.",
@@ -73,7 +89,11 @@
     "id": "quasar-plugins/meta#non-reactive",
     "documentId": "quasar-plugins/meta",
     "heading": "Non-reactive",
-    "breadcrumb": ["How It Works", "Non-reactive", "Non-reactive"],
+    "breadcrumb": [
+      "How It Works",
+      "Non-reactive",
+      "Non-reactive"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#non-reactive",
     "content": "Notice that all properties (except for title and titleTemplate) are Objects; you can override meta props defined in previous Vue components in the chain by using the same keys again. Example:\n\n```js\n// first loaded Vue component\nsetup () {\n  useMeta({\n    meta: {\n      myKey: { name: 'description', content: 'My Website' }\n    }\n  })\n}\n\n// a subsequent Vue component in the chain;\n// this will override the first definition on \"myKey\"\nsetup () {\n  useMeta({\n    meta: {\n      myKey: { name: 'description', content: 'Page 1' }\n    }\n  })\n}\n```",
@@ -84,7 +104,11 @@
     "id": "quasar-plugins/meta#reactive",
     "documentId": "quasar-plugins/meta",
     "heading": "Reactive",
-    "breadcrumb": ["How It Works", "Reactive", "Reactive"],
+    "breadcrumb": [
+      "How It Works",
+      "Reactive",
+      "Reactive"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#reactive",
     "content": "In the section above, you noticed all of the meta props are \"static\". But they can be dynamic (reactive) instead, should you wish. This is how you can manage them just as with a Vue computed property:\n\n```js Some .vue file\nimport { useMeta } from 'quasar'\nimport { ref } from 'vue'\n\nexport default {\n  setup() {\n    const title = ref('Some title') // we define the \"title\" prop\n\n    // NOTICE the parameter here is a function\n    // Under the hood, it is converted to a Vue computed prop for reactivity\n    useMeta(() => {\n      return {\n        // whenever \"title\" from above changes, your meta will automatically update\n        title: title.value\n      }\n    })\n\n    function setAnotherTitle() {\n      title.value = 'Another title' // will automatically trigger a Meta update due to the binding\n    }\n\n    return {\n      setAnotherTitle\n    }\n  }\n}\n```",
@@ -95,7 +119,10 @@
     "id": "quasar-plugins/meta#testing-meta",
     "documentId": "quasar-plugins/meta",
     "heading": "Testing Meta",
-    "breadcrumb": ["Testing Meta", "Testing Meta"],
+    "breadcrumb": [
+      "Testing Meta",
+      "Testing Meta"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-plugins/meta#testing-meta",
     "content": "Before you deploy, you really should make sure that your work on the meta tags is compliant. Although you could just copy and paste your link into a Discord chat, a Facebook post or a Tweet, we recommend verifying with [https://metatags.io/](https://metatags.io/).\n\n::: warning Important!\n**This test will only work for SSR/SSG builds** because SSR/SSG directly supplies the rendered HTML when accessing the webserver (as opposed to SPA or PWA which supplies an empty page then loads the code that renders the page on client's browser). Services like above (metatags.io) expect the page to be already rendered when fetching it (it does not run the JS to render it themselves).\n:::",

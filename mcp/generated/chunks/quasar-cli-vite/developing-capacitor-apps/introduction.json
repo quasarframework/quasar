@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/introduction#overview",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/introduction",
     "heading": "What is Capacitor",
-    "breadcrumb": ["What is Capacitor"],
+    "breadcrumb": [
+      "What is Capacitor"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/introduction",
     "content": "[Capacitor](https://capacitorjs.com) is a cross-platform native runtime for deploying web applications to mobile devices. It is maintained by [Ionic](https://ionic.io) and designed as a modern successor to Cordova. Capacitor plugins expose native device features through JavaScript APIs, and many Cordova plugins can also be used when a Capacitor equivalent is unavailable.",

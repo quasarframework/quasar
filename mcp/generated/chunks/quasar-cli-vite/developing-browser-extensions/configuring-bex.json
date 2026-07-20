@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex#overview",
     "documentId": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "heading": "Configuring BEX",
-    "breadcrumb": ["Configuring BEX"],
+    "breadcrumb": [
+      "Configuring BEX"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "content": "Before we can configure anything, we need to understand how the BEX is structured. A BEX can be one (or more) of the following:\n\n1. Runs in its own tab in the browser\n2. Runs in the [Developer Tools](https://developer.chrome.com/docs/extensions/how-to/devtools/extend-devtools) window.\n3. Runs in a [Popup](https://developer.chrome.com/docs/extensions/develop/ui#popups) window.\n4. Runs as [Options](https://developer.chrome.com/docs/extensions/develop/ui/options-page) window.\n5. Runs in the context of a web page (injected into a website)\n\nYou do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/quasar-cli-vite/developing-browser-extensions/types-of-bex).",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex#quasar-config-file",
     "documentId": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "heading": "quasar.config file",
-    "breadcrumb": ["quasar.config file", "quasar.config file"],
+    "breadcrumb": [
+      "quasar.config file",
+      "quasar.config file"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex#quasar-config-file",
     "content": "```ts /quasar.config file > sourceFiles\n// should you wish to change default files\nsourceFiles: {\n  bexManifestFile?: 'src-bex/manifest.json',\n}\n```\n\n```ts /quasar.config file > bex\nbex: {\n  /**\n   * Minify the browser extension build.\n   *\n   * @default false\n   */\n  minify?: boolean;\n\n  /**\n   * The list of extra scripts (js/ts) not in your bex manifest that you want to\n   * compile and use dynamically in your browser extension.\n   *\n   * Each entry in the list should be a relative filename to /src-bex/\n   *\n   * @example [ 'my-script.ts', 'sub-folder/my-other-script.js' ]\n   */\n  extraScripts?: string[];\n\n  /**\n   * Extend the Rolldown config that is used for the bex scripts\n   * (background, content scripts, dom script).\n   *\n   * Can be async. Can directly modify the \"config\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendBexScriptsConf?: (\n    config: RolldownOptions\n  ) => void | RolldownOptions | Promise<void | RolldownOptions>;\n\n  /**\n   * Should you need some dynamic changes to the Browser Extension manifest file\n   * (/src-bex/manifest.json) then use this method to do it.\n   *\n   * Can be async. Can directly modify the \"json\" parameter or\n   * return a new one that will be merged with the default one.\n   */\n  extendBexManifestJson?: (\n    json: object\n  ) => void | object | Promise<void | object>;\n}\n```",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex#ui-in-src",
     "documentId": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "heading": "UI in /src",
-    "breadcrumb": ["UI in /src", "UI in /src"],
+    "breadcrumb": [
+      "UI in /src",
+      "UI in /src"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex#ui-in-src",
     "content": "Should you want to tamper with the Vite config for UI in /src:\n\n```js /quasar.config file\nexport default defineConfig(ctx => {\n  return {\n    build: {\n      extendViteConf(viteConf) {\n        if (ctx.mode.bex) {\n          // do something with viteConf\n          // or return an object to deeply merge with current viteConf\n        }\n      }\n    }\n  }\n})\n```\n\nThe UI files will be injected and available as `www` folder when you build (or develop) the browser extension.",
@@ -36,7 +44,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex#manifest-json",
     "documentId": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "heading": "Manifest.json",
-    "breadcrumb": ["Manifest.json", "Manifest.json"],
+    "breadcrumb": [
+      "Manifest.json",
+      "Manifest.json"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex#manifest-json",
     "content": "The most important config file for your BEX is `/src-bex/manifest.json`. It is recommended that you [read up on this file](https://developer.chrome.com/extensions/manifest) before starting your project.\n\nWhen you first add the BEX mode, you will notice that the manifest file contains three root props: `all`, `chrome` & `firefox`. The manifest for chrome is deeply merged from all+chrome, while the firefox one is generated from all+firefox. You could even have different manifest versions for each target:\n\n```json /src-bex/manifest.json\n{\n  \"all\": {\n    \"manifest_version\": 3,\n\n    \"icons\": {\n      \"16\": \"icons/icon-16x16.png\",\n      \"48\": \"icons/icon-48x48.png\",\n      \"128\": \"icons/icon-128x128.png\"\n    },\n\n    \"permissions\": [\"storage\", \"tabs\"],\n\n    \"host_permissions\": [\"*://*/*\"],\n    \"content_security_policy\": {\n      \"extension_pages\": \"script-src 'self'; object-src 'self';\"\n    },\n    \"web_accessible_resources\": [\n      {\n        \"resources\": [\"*\"],\n        \"matches\": [\"*://*/*\"]\n      }\n    ],\n\n    \"action\": {\n      \"default_popup\": \"www/index.html\"\n    },\n\n    \"content_scripts\": [\n      {\n        \"matches\": [\"<all_urls>\"],\n        \"css\": [\"assets/content.css\"],\n        \"js\": [\"my-content-script.ts\"]\n      }\n    ]\n  },\n\n  \"chrome\": {\n    \"background\": {\n      \"service_worker\": \"background.ts\"\n    }\n  },\n\n  \"firefox\": {\n    \"background\": {\n      \"scripts\": [\"background.ts\"]\n    }\n  }\n}\n```\n\n::: warning For TS devs\nYour background and content scripts have the `.ts` extension. Use that extension in the manifest.json file as well! Examples: \"background.ts\", \"my-content-script.ts\". While the browser vendors do support only the `.js` extension, Quasar CLI will convert the file extensions automatically.\n:::",
@@ -76,7 +87,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex#css",
     "documentId": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "heading": "CSS",
-    "breadcrumb": ["CSS", "CSS"],
+    "breadcrumb": [
+      "CSS",
+      "CSS"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex#css",
     "content": "Any styles you want to be made available to your web page (not your Quasar App) should be included as a file in `src-bex/assets/<name>.css`. When adding such a file, please make sure that you reference it from your `/src-bex/manifest.json` around the content scripts that need it:\n\n```json /src-bex/manifest.json\n// example linking /src-bex/assets/content.css\n\"content_scripts\": [\n  {\n    \"matches\": [ \"<all_urls>\" ],\n    \"css\": [ \"assets/content.css\" ],\n    \"js\": [ /*...*/ ]\n  }\n]\n```\n\n::: warning\nThis must be native CSS as it's not preprocessed via Sass.\n:::",
@@ -87,7 +101,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/configuring-bex#dynamic-other-scripts",
     "documentId": "quasar-cli-vite/developing-browser-extensions/configuring-bex",
     "heading": "Dynamic/other scripts",
-    "breadcrumb": ["Dynamic/other scripts", "Dynamic/other scripts"],
+    "breadcrumb": [
+      "Dynamic/other scripts",
+      "Dynamic/other scripts"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/configuring-bex#dynamic-other-scripts",
     "content": "Should you need other scripts to be dynamically loaded or compiled for your BEX, you can add them by editing your quasar.config file:\n\n```js /quasar.config file\nbex: {\n  minify: true,\n\n  /**\n   * The list of extra scripts (js/ts) not in your bex manifest that you want to\n   * compile and use dynamically in your browser extension.\n   *\n   * Each entry in the list should be a relative filename to /src-bex/\n   *\n   * @example [ 'my-script.ts', 'sub-folder/my-other-script.js' ]\n   */\n  extraScripts?: string[];\n}\n```",

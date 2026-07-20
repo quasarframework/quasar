@@ -3,7 +3,9 @@
     "id": "layout/grid/introduction-to-flexbox#overview",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Introduction to Flexbox",
-    "breadcrumb": ["Introduction to Flexbox"],
+    "breadcrumb": [
+      "Introduction to Flexbox"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox",
     "content": "Quasar provides lots of CSS classes to help you build your UI easily with the help of [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Think of it like operating with rows and columns with many options at hand.\n\nFlexbox (upon which Quasar Flex CSS classes are based) module aims to provide a more efficient way to lay out, align and distribute space among items in a container, even when their size is unknown and/or dynamic (thus the word “flex”).\n\n::: tip\nThis page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layout/grid/gutter).\n:::",
@@ -14,7 +16,10 @@
     "id": "layout/grid/introduction-to-flexbox#key-concept",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Key concept",
-    "breadcrumb": ["Key concept", "Key concept"],
+    "breadcrumb": [
+      "Key concept",
+      "Key concept"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#key-concept",
     "content": "Quasar Flex CSS classes apply to either the Container (Parent) or the Container's items (Children).\n\n![Flexbox Container](/img/flexbox-container.svg)\n![Flexbox Items](/img/flexbox-items.svg)",
@@ -25,7 +30,11 @@
     "id": "layout/grid/introduction-to-flexbox#setting-direction",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Setting Direction",
-    "breadcrumb": ["Managing Parent", "Setting Direction", "Setting Direction"],
+    "breadcrumb": [
+      "Managing Parent",
+      "Setting Direction",
+      "Setting Direction"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#setting-direction",
     "content": "One of the following CSS classes is mandatory for the parent in order for ones on the children (described in next sections) to have any effect.\n\n![Flexbox Direction](/img/flexbox-direction.svg)\n\n| Class Name       | Description                                               |\n| ---------------- | --------------------------------------------------------- |\n| `row`            | Flex row                                                  |\n| `row inline`     | Inline Flex row                                           |\n| `column`         | Flex column                                               |\n| `column inline`  | Inline Flex column                                        |\n| `row reverse`    | Flex row with `flex-direction` set to `row-reverse`       |\n| `column reverse` | Flex column with `flex-direction` set to `column-reverse` |\n\nExample:\n\n```html\n<div class=\"row\">\n  <div>First column</div>\n  <div>Second column</div>\n  <div>Third column</div>\n</div>\n```",
@@ -51,7 +60,11 @@
     "id": "layout/grid/introduction-to-flexbox#alignment",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Alignment",
-    "breadcrumb": ["Managing Parent", "Alignment", "Alignment"],
+    "breadcrumb": [
+      "Managing Parent",
+      "Alignment",
+      "Alignment"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#alignment",
     "content": "**For alignment along the main axis**, use classes below. It helps distribute left over free space when either all the flex items on a line are inflexible, or are flexible but have reached their maximum size. It also exerts some control over the alignment of items when they overflow the line.\n\n![Flexbox Justify Content](/img/flexbox-main-axis-align---2.svg)\n\n**For alignment perpendicular to the main axis**, use classes below. This defines the default behavior for how flex items are laid out along the cross axis on the current line. Think of it as the horizontal-\\* version for the cross-axis (perpendicular to the main-axis).\n\n![Flexbox Items Align](/img/flexbox-cross-axis-align.svg)\n\n::: tip\nThere is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.\n:::\n\nThe next classes **align a flex container's lines** within when there is extra space in the cross-axis, similar to how horizontal-\\* aligns individual items within the main-axis.\n\n![Flexbox Content Align](/img/flexbox-content-align.svg)",
@@ -77,7 +90,11 @@
     "id": "layout/grid/introduction-to-flexbox#wrapping",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Wrapping",
-    "breadcrumb": ["Managing Children", "Wrapping", "Wrapping"],
+    "breadcrumb": [
+      "Managing Children",
+      "Wrapping",
+      "Wrapping"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#wrapping",
     "content": "Wrapping is a key feature in understanding Flex CSS classes. You are not bound to use exactly 12 points per row. You can use less or even more.\n\nThis allows you, among other things, to dynamically stack rows vertically on smaller screens while displaying them on a single line on bigger screens. Read the \"Responsive Design\" section.\n\n```html\n<div class=\"row\">\n  <div class=\"col-2\">...</div>\n\n  <!-- 2 + 6 < 12, so next element is placed on same line -->\n  <div class=\"col-6\">...</div>\n\n  <!-- 2 + 6 + 10 > 12, so next element wraps to next line -->\n  <div class=\"col-10\">...</div>\n\n  <!--\n    10 + 3 > 12, so next element wraps to next line.\n    Note that we take into consideration the current line only\n    (with col-10 only, since it was wrapped to its own line).\n  -->\n  <div class=\"col-3\">...</div>\n</div>\n```\n\n> Note that rows are wrappable by default. Should you wish to disable this, use the `no-wrap` CSS helper class.",
@@ -88,7 +105,11 @@
     "id": "layout/grid/introduction-to-flexbox#self-alignment",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Self Alignment",
-    "breadcrumb": ["Managing Children", "Self Alignment", "Self Alignment"],
+    "breadcrumb": [
+      "Managing Children",
+      "Self Alignment",
+      "Self Alignment"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#self-alignment",
     "content": "**An item can override the aligned specified on parent**. This allows alignment to be overridden for individual flex items. Please see the \"Alignment\" explanation from \"Managing Parent\" to understand the available values (`self-start`, `self-center`, `self-baseline`, `self-end`, `self-stretch`).\n\n![Flexbox Self](/img/flexbox-self.svg)",
@@ -99,7 +120,11 @@
     "id": "layout/grid/introduction-to-flexbox#order",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Order",
-    "breadcrumb": ["Managing Children", "Order", "Order"],
+    "breadcrumb": [
+      "Managing Children",
+      "Order",
+      "Order"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#order",
     "content": "**You can set the order** of child elements by using `order-first` and `order-last` CSS helper classes.\n\nBy default, flex items are laid out in source order. However, the order property controls the order in which they appear in the flex container. If you need more granularity, use `order` CSS property and assign the desired value.\n\nExample:\n\n```html\n<div class=\"row\">\n  <div style=\"order: 2\">Second column</div>\n  <div class=\"order-last\">Third column</div>\n  <div class=\"order-first\">First column</div>\n</div>\n```\n\nHere is how the CSS `order` property works:\n\n![Flexbox Order](/img/flexbox-order.svg)",
@@ -110,7 +135,10 @@
     "id": "layout/grid/introduction-to-flexbox#responsive-design",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Responsive Design",
-    "breadcrumb": ["Responsive Design", "Responsive Design"],
+    "breadcrumb": [
+      "Responsive Design",
+      "Responsive Design"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#responsive-design",
     "content": "Quasar Flex CSS classes can be applied based on the width of the screen, to help you in making a responsive UI. The 12 points grid is inspired by Bootstrap's, so there are a lot of similarities.\n\nBreakpoint specifiers use a mobile-first approach, where the larger breakpoint definitions will override the smaller ones.\n\nWhat we've learned so far is that, for example, we can size the columns regardless of window width. If we are to create a responsive UI, we need to dynamically change the sizing while taking window width into account. First, let's learn about some tokens that you can inject in middle of `col-*`, `offset-*` and `col-auto` helper classes (look at table below for tokens).\n\n| Token | Min window width | Description / When it applies if not overridden by another larger breakpoint |\n| ----- | ---------------- | ---------------------------------------------------------------------------- |\n| `xs`  | 0px              | All window sizes (same as no breakpoint specifier)                           |\n| `sm`  | 600px            | Larger than extra small sized window                                         |\n| `md`  | 1024px           | Larger than small window                                                     |\n| `lg`  | 1440px           | Larger than medium-sized sized window                                        |\n| `xl`  | 1920px           | Larger than large sized window                                               |\n\nExample: `col-md-7`, `offset-lg-3`, `col-xs-auto`.\n\nA full example: let's say we have a row with three children. In extra small windows, we need to stack the children vertically, In small windows we need to display them side by side (each having equal width), and starting with medium windows we should display them all on same line:\n\n```html\n<div class=\"row\">\n  <div class=\"col-xs-12 col-sm-6 col-md-4\"> col </div>\n  <div class=\"col-xs-12 col-sm-6 col-md-4\"> col </div>\n  <div class=\"col-xs-12 col-sm-6 col-md-4\"> col </div>\n</div>\n```\n\nNotice in the above example that we used `col-xs-12` (12/12 = 100% of row, so each child will take full width of the container making all children stack vertically, since rows wrap content by default), `col-sm-6` (6/12 = 50% of row) and `col-md-4` (4/12 = 33% of row).\n\nLike previously mentioned, rows wrap content by default, so when 12 (or more) grid points are used for a row, content is wrapped to the next line. If we have two `<div>`s and we use `col-8` on both, they will also stack, since 8 + 8 = 16 and we can only display 12 points on a single line.\n\n```html\n<div class=\"row\">\n  <!--\n    more than 12 grid points together,\n    so second <div> will wrap on next line\n  -->\n  <div class=\"col-8\">col</div>\n  <div class=\"col-8\">col</div>\n</div>\n```\n\nAlso check [Visibility](/style/visibility#window-width-related) Style page to see thresholds on window width and these tokens (xs, sm, md, lg, xl) used on their own to hide or show DOM elements.",
@@ -121,7 +149,10 @@
     "id": "layout/grid/introduction-to-flexbox#flex-addons",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Flex Addons",
-    "breadcrumb": ["Flex Addons", "Flex Addons"],
+    "breadcrumb": [
+      "Flex Addons",
+      "Flex Addons"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#flex-addons",
     "content": "When enabled (through `quasar.config file > framework > cssAddon: true`) it provides breakpoint aware versions for all flex (and display) related CSS classes.\n\n::: warning\nNote that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.\n:::\n\n```\n.flex-<bp>-(block|inline)\n.(row|column|flex)-<bp>(|-inline-<bp>)\n.reverse-<bp>\n.(wrap|no-wrap|reverse-wrap)-<bp>\n.order-<bp>-(first|last|none)\n.justify-<bp>-(start|end|center|between|around|evenly)\n.items-<bp>-(start|end|center|baseline|stretch)\n.content-<bp>-(start|end|center|between|around)\n.self-<bp>-(start|end|center|baseline|stretch)\n.flex-<bp>-center\n.q-gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)\n.(col|offset)-<bp>-(|0..12)\n```\n\nThere are also responsive classes for spacing, both for padding and for margin:\n\n```\n.q-(p|m)(t|r|b|l|a|x|y)-<bp>-(none|auto|xs|sm|md|lg|xl)\n```\n\nExamples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`",
@@ -132,7 +163,10 @@
     "id": "layout/grid/introduction-to-flexbox#flex-playground",
     "documentId": "layout/grid/introduction-to-flexbox",
     "heading": "Flex Playground",
-    "breadcrumb": ["Flex Playground", "Flex Playground"],
+    "breadcrumb": [
+      "Flex Playground",
+      "Flex Playground"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/grid/introduction-to-flexbox#flex-playground",
     "content": "To see the Flex in action, you can use the Flex Playground to interactively learn more.\n\n<q-btn icon-right=\"launch\" label=\"Flex Playground\" to=\"/layout/grid/flex-playground\" />",

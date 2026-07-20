@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-browser-extensions/types-of-bex#overview",
     "documentId": "quasar-cli-vite/developing-browser-extensions/types-of-bex",
     "heading": "Types of BEX",
-    "breadcrumb": ["Types of BEX"],
+    "breadcrumb": [
+      "Types of BEX"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/types-of-bex",
     "content": "One Quasar App can provide a new-tab page, options page, popup, developer-tools page, or UI injected into a web page. Use routes to select the UI for each extension entry point.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/types-of-bex#new-tab",
     "documentId": "quasar-cli-vite/developing-browser-extensions/types-of-bex",
     "heading": "New Tab",
-    "breadcrumb": ["New Tab", "New Tab"],
+    "breadcrumb": [
+      "New Tab",
+      "New Tab"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/types-of-bex#new-tab",
     "content": "A new-tab extension replaces the browser's new-tab page. Configure the appropriate manifest override to point to `www/index.html`; clicking the extension icon instead uses the manifest's `action` or `browser_action` configuration.",
@@ -39,7 +44,10 @@
     "id": "quasar-cli-vite/developing-browser-extensions/types-of-bex#case-study-web-page",
     "documentId": "quasar-cli-vite/developing-browser-extensions/types-of-bex",
     "heading": "Case study: Web Page",
-    "breadcrumb": ["Case study: Web Page", "Case study: Web Page"],
+    "breadcrumb": [
+      "Case study: Web Page",
+      "Case study: Web Page"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/types-of-bex#case-study-web-page",
     "content": "This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and use it as an overlay making it seem like our Quasar App is part of the page experience.\n\nHere's a brief rundown of how you could achieve this:\n\n- `src-bex/my-content-script.js`\n\nThe idea here is to create an IFrame and add our Quasar app into it, then inject that into the page.\n\nGiven our Quasar App might need to take the full height of the window (and thus stop any interaction with the underlying page) we have an event to handle setting the height of the IFrame. By default the IFrame height is just high enough to allow for the Quasar toolbar to show (and in turn allowing interaction with the rest of the page).\n\n```js /src-bex/my-content-script.js\n/**\n * Importing the file below initializes the content script.\n *\n * Warning:\n *   Do not remove the import statement below. It is required for the extension to work.\n *   If you don't need createBridge(), leave it as \"import '#q-app/bex/content'\".\n */\nimport { createBridge } from '#q-app/bex/content'\n\nconst bridge = createBridge({ debug: false })\n\n/**\n * When the drawer is toggled set the iFrame height to take the whole page.\n * Reset when the drawer is closed.\n */\nbridge.on('wb.drawer.toggle', ({ payload }) => {\n  if (payload.open) {\n    setIFrameHeight('100%')\n  } else {\n    resetIFrameHeight()\n  }\n})\n\nconst iFrame = document.createElement('iframe')\nconst defaultFrameHeight = '62px'\n\n/**\n * Set the height of our iFrame housing our BEX\n * @param height\n */\nfunction setIFrameHeight(height) {\n  iFrame.height = height\n}\n\n/**\n * Reset the iFrame to its default height e.g The height of the top bar.\n */\nfunction resetIFrameHeight() {\n  setIFrameHeight(defaultFrameHeight)\n}\n\n/**\n * The code below will get everything going. Initialize the iFrame with defaults and add it to the page.\n * @type {string}\n */\niFrame.id = 'bex-app-iframe'\niFrame.width = '100%'\nresetIFrameHeight()\n\n// Assign some styling so it looks seamless\nObject.assign(iFrame.style, {\n  position: 'fixed',\n  top: '0',\n  right: '0',\n  bottom: '0',\n  left: '0',\n  border: '0',\n  zIndex: '9999999', // Make sure it's on top\n  overflow: 'visible'\n})\n;(function () {\n  // When the page loads, insert our browser extension app.\n  iFrame.src = chrome.runtime.getURL('www/index.html')\n  document.body.prepend(iFrame)\n})()\n```\n\nWe can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.\n\n- `src-bex/assets/content.css`\n\nAdd a margin to the top of our document so our Quasar toolbar doesn't overlap the actual page content.\n\n```css\n.target-some-header-class {\n  margin-top: 62px;\n}\n```\n\n- `Quasar App (/src)`\n\nThen in our Quasar app (/src), we have a function that toggles the drawer and sends an event to the content script telling it to\nresize the IFrame thus allowing our whole app to be visible:\n\n```html\n<q-drawer :model-value=\"drawerIsOpen\" @update:model-value=\"drawerToggled\">\n  Some Content\n</q-drawer>\n```\n\n```js\nimport { useQuasar } from 'quasar'\nimport { ref } from 'vue'\n\nsetup () {\n  const $q = useQuasar()\n  const drawerIsOpen = ref(true)\n\n  async function drawerToggled () {\n    const contentPort = $q.bex.portList.find(portName =>\n      portName.startsWith('content@my-content-script-')\n    )\n\n    if (contentPort === void 0) {\n      return\n    }\n\n    await $q.bex.send({\n      event: 'wb.drawer.toggle',\n      to: contentPort,\n      payload: {\n        open: drawerIsOpen.value\n      }\n    })\n\n    // Only set this once the promise has resolved so we can see the entire slide animation.\n    drawerIsOpen.value = !drawerIsOpen.value\n  }\n\n  return { drawerToggled }\n}\n```\n\nNow you have a Quasar App running in a web page. You can now trigger other events from the Quasar App that the content\nscript can listen to and interact with the underlying page.\n\n::: warning\nBe sure to check your manifest.json file, especially around the reference to `my-content-script.js`. Note that **you can have multiple content scripts**. Whenever you create a new one, you need to reference it in the manifest file. Same for any css files created in `/src-bex/assets` folder.\n\n<br>\n\n```json /src-bex/manifest.json\n\"content_scripts\": [\n  {\n    \"matches\": [ \"<all_urls>\" ],\n    \"css\": [ \"assets/content.css\" ],\n    \"js\": [ \"my-content-script.js\" ]\n  }\n]\n```\n\n:::",

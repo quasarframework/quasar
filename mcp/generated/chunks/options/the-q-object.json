@@ -3,7 +3,9 @@
     "id": "options/the-q-object#overview",
     "documentId": "options/the-q-object",
     "heading": "The $q object",
-    "breadcrumb": ["The $q object"],
+    "breadcrumb": [
+      "The $q object"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/options/the-q-object",
     "content": "Quasar supplies a `$q` object that you can use for various purposes. You will notice it throughout the docs.\n\n| Prop name      | Type   | Description                                                                                                                                                                                                                                                                                  |\n| -------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `$q.version`   | String | Quasar version.                                                                                                                                                                                                                                                                              |\n| `$q.platform`  | Object | Same object as [Platform](/options/platform-detection) import from Quasar.                                                                                                                                                                                                                   |\n| `$q.screen`    | Object | Object supplied by [Screen Plugin](/options/screen-plugin).                                                                                                                                                                                                                                  |\n| `$q.lang`      | Object | Quasar Language pack management, containing labels etc (one of [lang files](https://github.com/quasarframework/quasar/tree/dev/ui/lang)). Designed for Quasar components, but you can use it in your app components too. More info: [Quasar Language Packs](/options/quasar-language-packs). |\n| `$q.iconSet`   | Object | Quasar icon set management (one of [icon set files](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set)). Designed for Quasar components, but you can use it in your app components too. More info: [Quasar Icon Sets](/options/quasar-icon-sets).                               |\n| `$q.cordova`   | Object | Reference to Cordova global object. Available only when running under a Cordova app.                                                                                                                                                                                                         |\n| `$q.capacitor` | Object | Reference to Capacitor global object. Available only when running under a Capacitor app.                                                                                                                                                                                                     |",
@@ -14,7 +16,10 @@
     "id": "options/the-q-object#usage",
     "documentId": "options/the-q-object",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/the-q-object#usage",
     "content": "The following sections will teach you how to use it in .vue files (with both Composition API and Options API) and outside of them.",
@@ -55,7 +60,11 @@
     "id": "options/the-q-object#options-api",
     "documentId": "options/the-q-object",
     "heading": "Options API",
-    "breadcrumb": ["Usage", "Options API", "Options API"],
+    "breadcrumb": [
+      "Usage",
+      "Options API",
+      "Options API"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/options/the-q-object#options-api",
     "content": "The following is a .vue file:\n\n```html\n<template>\n  <div>\n    <div v-if=\"$q.platform.is.ios\"> Gets rendered only on iOS platform. </div>\n  </div>\n</template>\n\n<script>\n  // not available here outside\n  // of the export\n\n  export default {\n    // inside a Vue component script\n    ...,\n\n    // showing an example on a method, but\n    // can be any part of Vue script\n    methods: {\n      show () {\n        // prints out Quasar version\n        console.log(this.$q.version)\n      }\n    }\n  }\n</script>\n```",
@@ -66,7 +75,11 @@
     "id": "options/the-q-object#outside-of-a-vue-file",
     "documentId": "options/the-q-object",
     "heading": "Outside of a .vue file",
-    "breadcrumb": ["Usage", "Outside of a .vue file", "Outside of a .vue file"],
+    "breadcrumb": [
+      "Usage",
+      "Outside of a .vue file",
+      "Outside of a .vue file"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/options/the-q-object#outside-of-a-vue-file",
     "content": "```js\nimport { Quasar, Platform } from 'quasar'\n\nconsole.log(Quasar.version)\nconsole.log(Platform.is.ios)\n```",

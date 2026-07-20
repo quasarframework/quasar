@@ -3,18 +3,25 @@
     "id": "vue-directives/touch-repeat#overview",
     "documentId": "vue-directives/touch-repeat",
     "heading": "Touch Repeat Directive",
-    "breadcrumb": ["Touch Repeat Directive"],
+    "breadcrumb": [
+      "Touch Repeat Directive"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat",
     "content": "Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and `v-touch-repeat`.\n\n> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.\n\nWe will be describing `v-touch-repeat` on the lines below.\n\nAPI reference: TouchRepeat",
-    "apiReferences": ["TouchRepeat"],
+    "apiReferences": [
+      "TouchRepeat"
+    ],
     "exampleReferences": []
   },
   {
     "id": "vue-directives/touch-repeat#usage",
     "documentId": "vue-directives/touch-repeat",
     "heading": "Usage",
-    "breadcrumb": ["Usage", "Usage"],
+    "breadcrumb": [
+      "Usage",
+      "Usage"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat#usage",
     "content": "Click and hold with your mouse on the area below to see it in action.\nNotice that on touch capable devices the scrolling is not blocked.\n\n> The default repeat pattern is 0:600:300 (ms).\n\nExample: Basic (Basic.vue)\n\nBelow is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:300:200 (ms) repeat pattern. Hit & hold keys, or click/tap and hold.\n\nExample: Custom keys (Keys.vue)\n\nBelow is an example of applying TouchRepeat to QBtn. Notice how we play with the directive arguments in order to make the blue buttons increment slower than the red ones.\n\nExample: Applied to QBtn (Buttons.vue)",
@@ -38,7 +45,11 @@
     "id": "vue-directives/touch-repeat#handling-mouse-events",
     "documentId": "vue-directives/touch-repeat",
     "heading": "Handling Mouse Events",
-    "breadcrumb": ["Usage", "Handling Mouse Events", "Handling Mouse Events"],
+    "breadcrumb": [
+      "Usage",
+      "Handling Mouse Events",
+      "Handling Mouse Events"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat#handling-mouse-events",
     "content": "When you want to handle mouse events too, use the `mouse` modifier:\n\n```html\n<div v-touch-repeat.mouse=\"myHandler\">...</div>\n```",
@@ -49,7 +60,11 @@
     "id": "vue-directives/touch-repeat#handling-key-events",
     "documentId": "vue-directives/touch-repeat",
     "heading": "Handling Key Events",
-    "breadcrumb": ["Usage", "Handling Key Events", "Handling Key Events"],
+    "breadcrumb": [
+      "Usage",
+      "Handling Key Events",
+      "Handling Key Events"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat#handling-key-events",
     "content": "When you want to handle key events too, use [keycodes](https://keycode.info/) as modifiers:\n\n```html\n<div v-touch-repeat.65.70=\"myHandler\">...</div>\n```\n\nFor common keys, you can use the named modifiers `esc`, `tab`, `enter`, `space`, `up`, `left`, `right`, `down`, and `delete` instead of writing their keycodes. The `delete` modifier handles both Backspace and Delete.",
@@ -60,7 +75,11 @@
     "id": "vue-directives/touch-repeat#inhibiting-touchrepeat",
     "documentId": "vue-directives/touch-repeat",
     "heading": "Inhibiting TouchRepeat",
-    "breadcrumb": ["Usage", "Inhibiting TouchRepeat", "Inhibiting TouchRepeat"],
+    "breadcrumb": [
+      "Usage",
+      "Inhibiting TouchRepeat",
+      "Inhibiting TouchRepeat"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat#inhibiting-touchrepeat",
     "content": "When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart` / `mousedown` / `keydown` events from the inner content:\n\n```html\n<div v-touch-repeat.mouse.enter=\"userHasHold\">\n  <!-- ...content -->\n  <div @touchstart.stop @mousedown.stop @keydown.stop>\n    <!--\n      TouchRepeat will not apply here because\n      we are calling stopPropagation() on touchstart,\n      mousedown and keydown events\n    -->\n  </div>\n  <!-- ...content -->\n</div>\n```\n\nHowever, if you are using `capture`, `mouseCapture` or `keyCapture` modifiers then events will first reach the TouchRepeat directive then the inner content, so TouchRepeat will still trigger.",
@@ -71,7 +90,10 @@
     "id": "vue-directives/touch-repeat#note-on-hmr",
     "documentId": "vue-directives/touch-repeat",
     "heading": "Note on HMR",
-    "breadcrumb": ["Note on HMR", "Note on HMR"],
+    "breadcrumb": [
+      "Note on HMR",
+      "Note on HMR"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/vue-directives/touch-repeat#note-on-hmr",
     "content": "Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.",

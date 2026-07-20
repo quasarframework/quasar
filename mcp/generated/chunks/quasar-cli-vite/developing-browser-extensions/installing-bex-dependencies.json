@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies#overview",
     "documentId": "quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies",
     "heading": "Installing BEX-specific dependencies",
-    "breadcrumb": ["Installing BEX-specific dependencies"],
+    "breadcrumb": [
+      "Installing BEX-specific dependencies"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-browser-extensions/installing-bex-dependencies",
     "content": "Notice the `/src-bex/package.json` file in your generated `/src-bex` folder. The purpose of it is for you to be able to install packages used by the BEX mode directly under this folder (and not pollute the common `/src`).\n\n```tabs /src-bex/package.json\n<<| json Javascript |>>\n{\n  \"name\": \"quasar-bex-app\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Quasar BEX Folder\",\n  \"private\": true,\n  \"type\": \"module\"\n}\n<<| json TypeScript |>>\n{\n  \"name\": \"quasar-bex-app\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Quasar BEX Folder\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"devDependencies\": {\n    \"@types/chrome\": \"^0.1.40\"\n  }\n}\n```\n\nInstalling BEX specific packages:\n\n```tabs\n<<| bash PNPM |>>\n# run in /src-bex for deps:\npnpm add <deps>\n\n# run in /src-bex for deps used by the build system (eg. @types/chrome)\npnpm add -D <dev-deps>\n<<| bash Yarn |>>\n# run in /src-bex for deps:\nyarn add <deps>\n\n# run in /src-bex for deps used by the build system (eg. @types/chrome)\nyarn add -D <dev-deps>\n<<| bash NPM |>>\n# run in /src-bex for deps:\nnpm install <deps>\n\n# run in /src-bex for deps used by the build system (eg. @types/chrome)\nnpm install -D <dev-deps>\n<<| bash Bun |>>\n# run in /src-bex for deps:\nbun add <deps>\n\n# run in /src-bex for deps used by the build system (eg. @types/chrome)\nbun add -D <dev-deps>\n```",

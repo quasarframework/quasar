@@ -3,7 +3,9 @@
     "id": "options/app-internationalization#overview",
     "documentId": "options/app-internationalization",
     "heading": "App Internationalization (i18n)",
-    "breadcrumb": ["App Internationalization (i18n)"],
+    "breadcrumb": [
+      "App Internationalization (i18n)"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization",
     "content": "Internationalization is a design process that ensures a product (a website or application) can be adapted to various languages and regions without requiring engineering changes to the source code. Think of internationalization as readiness for localization.\n\n::: tip\nThe recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n-next). This package should be added through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.\n:::\n\n::: warning\nQuasar documentation assumes you are already familiar with [vue-i18n](https://github.com/intlify/vue-i18n-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue I18n documentation](https://vue-i18n.intlify.dev).\n:::",
@@ -14,7 +16,10 @@
     "id": "options/app-internationalization#setup-manually",
     "documentId": "options/app-internationalization",
     "heading": "Setup manually",
-    "breadcrumb": ["Setup manually", "Setup manually"],
+    "breadcrumb": [
+      "Setup manually",
+      "Setup manually"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization#setup-manually",
     "content": "If you missed enabling i18n during `yarn create quasar` (or `npm init quasar@latest` or the pnpm or Bun equivalent) wizard, here is how you can set it up manually.\n\n1. Install the `vue-i18n` dependency into your app.\n\n```tabs\n<<| bash PNPM |>>\npnpm add vue-i18n\n<<| bash Yarn |>>\nyarn add vue-i18n\n<<| bash NPM |>>\nnpm install vue-i18n\n<<| bash Bun |>>\nbun add vue-i18n\n```\n\n2. Create a file `/src/boot/i18n.js` with following content:\n\n```tabs\n<<| js JS |>>\nimport { defineBoot } from '#q-app'\nimport { createI18n } from 'vue-i18n'\nimport messages from '@/i18n'\n\nexport default defineBoot(({ app }) => {\n  const i18n = createI18n({\n    locale: 'en-US',\n    globalInjection: true,\n    messages\n  })\n\n  // Set i18n instance on app\n  app.use(i18n)\n})\n<<| js TypeScript |>>\nimport { defineBoot } from '#q-app';\nimport { createI18n } from 'vue-i18n';\n\nimport messages from '@/i18n';\n\nexport type MessageLanguages = keyof typeof messages;\n// Type-define 'en-US' as the master schema for the resource\nexport type MessageSchema = typeof messages['en-US'];\n\n// See https://vue-i18n.intlify.dev/guide/advanced/typescript.html#global-resource-schema-type-definition\n/* eslint-disable @typescript-eslint/no-empty-object-type */\ndeclare module 'vue-i18n' {\n  // define the locale messages schema\n  export interface DefineLocaleMessage extends MessageSchema {}\n\n  // define the datetime format schema\n  export interface DefineDateTimeFormat {}\n\n  // define the number format schema\n  export interface DefineNumberFormat {}\n}\n/* eslint-enable @typescript-eslint/no-empty-object-type */\n\nexport default defineBoot(({ app }) => {\n  const i18n = createI18n<{ message: MessageSchema }, MessageLanguages>({\n    locale: 'en-US',<% if (sfcStyle === 'composition' || sfcStyle === 'composition-setup') { %>\n    legacy: false,<% } %>\n    messages,\n  });\n\n  // Set i18n instance on app\n  app.use(i18n);\n});\n```\n\n3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the \"import messages from '@/i18n'\" from step 2. This is step where you write the content that gets imported.\n\n4. Now reference this file in `quasar.config` one in the `boot` section:\n\n```js /quasar.config file\nreturn {\n  boot: [\n    // ...\n    'i18n'\n  ]\n\n  // ...\n}\n```\n\nNow you are ready to use it in your pages.",
@@ -39,7 +44,10 @@
     "id": "options/app-internationalization#how-to-use",
     "documentId": "options/app-internationalization",
     "heading": "How to use",
-    "breadcrumb": ["How to use", "How to use"],
+    "breadcrumb": [
+      "How to use",
+      "How to use"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization#how-to-use",
     "content": "Here is an example displaying the main use cases:\n\n```html\n<template>\n  <q-page>\n    <!-- text interpolation, reactive -->\n    {{ $t('hello') }}\n\n    <!-- prop/attr binding, reactive -->\n    <q-btn :label=\"$t('hello')\" />\n\n    <!-- v-html directive usage -->\n    <span v-html=\"content\"></span>\n  </q-page>\n</template>\n\n<script setup>\n  import { computed } from 'vue'\n  import { useI18n } from 'vue-i18n'\n\n  const { t } = useI18n()\n\n  // bound to a static variable, non-reactive\n  // const staticContent = t('hello')\n  // bound to a reactive variable, but one-time assignment, locale changes will not update the value\n  // const reactiveStaticContent = ref(t('hello'))\n\n  // bound to a reactive variable, locale changes will reflect the value\n  const content = computed(() => t('hello'))\n\n  function notify() {\n    Notify.create({\n      type: 'positive',\n      message: t('hello')\n    })\n  }\n</script>\n```",
@@ -50,7 +58,10 @@
     "id": "options/app-internationalization#add-new-language",
     "documentId": "options/app-internationalization",
     "heading": "Add new language",
-    "breadcrumb": ["Add new language", "Add new language"],
+    "breadcrumb": [
+      "Add new language",
+      "Add new language"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization#add-new-language",
     "content": "Let's say you want to add new German language.\n\n1. Create the new file `/src/i18n/de/index.js` and copy there the content of the file `/src/i18n/en-US/index.js` then make changes to the language strings.\n2. Now change `/src/i18n/index.js` and add the new `de` language there.\n\n```js\nimport enUS from './en-US'\nimport de from './de'\n\nexport default {\n  'en-US': enUS,\n  de: de\n}\n```",
@@ -61,7 +72,10 @@
     "id": "options/app-internationalization#create-language-switcher",
     "documentId": "options/app-internationalization",
     "heading": "Create language switcher",
-    "breadcrumb": ["Create language switcher", "Create language switcher"],
+    "breadcrumb": [
+      "Create language switcher",
+      "Create language switcher"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization#create-language-switcher",
     "content": "```html Some Vue file\n<template>\n  <!-- ...... -->\n  <q-select\n    v-model=\"locale\"\n    :options=\"localeOptions\"\n    label=\"Quasar Language\"\n    dense\n    borderless\n    emit-value\n    map-options\n    options-dense\n    style=\"min-width: 150px\"\n  />\n  <!-- ...... -->\n</template>\n\n<script setup>\n  import { useI18n } from 'vue-i18n'\n\n  const { locale } = useI18n({ useScope: 'global' })\n\n  const localeOptions: [\n    { value: 'en-US', label: 'English' },\n    { value: 'de', label: 'German' }\n  ]\n</script>\n```",
@@ -72,7 +86,10 @@
     "id": "options/app-internationalization#uppercase",
     "documentId": "options/app-internationalization",
     "heading": "UPPERCASE",
-    "breadcrumb": ["UPPERCASE", "UPPERCASE"],
+    "breadcrumb": [
+      "UPPERCASE",
+      "UPPERCASE"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization#uppercase",
     "content": "Many languages, such as Greek, German and Dutch have non-intuitive rules for uppercase display, and there is an edge case that you should be aware of:\n\nQBtn component will use the CSS `text-transform: uppercase` rule to automatically turn its label into all-caps. According to the [MDN webdocs](https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform), \"The language is defined by the lang HTML attribute or the xml:lang XML attribute.\" Unfortunately, this has spotty implementation across browsers, and the 2017 ISO standard for the uppercase German eszett `ß` has not really entered the canon. At the moment you have two options:\n\n1. use the prop `no-caps` in your label and write the string as it should appear\n2. use the prop `no-caps` in your label and rewrite the string with [toLocaleUpperCase](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase) by using the locale as detected by `$q.lang.getLocale()`",
@@ -83,7 +100,10 @@
     "id": "options/app-internationalization#detecting-locale",
     "documentId": "options/app-internationalization",
     "heading": "Detecting Locale",
-    "breadcrumb": ["Detecting Locale", "Detecting Locale"],
+    "breadcrumb": [
+      "Detecting Locale",
+      "Detecting Locale"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/options/app-internationalization#detecting-locale",
     "content": "There's also a method to determine user locale which is supplied by Quasar out of the box:\n\n```js\n// outside of a Vue file\nimport { Lang } from 'quasar'\nLang.getLocale() // returns a string\n\n// inside of a Vue file\nimport { useQuasar } from 'quasar'\n\nsetup () {\n  const $q = useQuasar()\n  $q.lang.getLocale() // returns a string\n}\n```\n\n::: warning\nIf you use Quasar's set method (`$q.lang.set()`), this will not be reflected by Quasar's getLocale above. The reason for this is that `getLocale()` will always return the _users_ locale (based on browser settings). The `set()` method refers to Quasars internal locale setting which is used to determine which language file to use. If you would like to see which language has been set using `set()` you can use `$q.lang.isoName`.\n:::",

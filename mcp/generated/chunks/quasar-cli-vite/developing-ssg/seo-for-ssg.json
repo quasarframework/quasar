@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssg/seo-for-ssg#overview",
     "documentId": "quasar-cli-vite/developing-ssg/seo-for-ssg",
     "heading": "SEO for SSG",
-    "breadcrumb": ["SEO for SSG"],
+    "breadcrumb": [
+      "SEO for SSG"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/seo-for-ssg",
     "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::\n\nSSG gives crawlers rendered HTML, but each generated route still needs an accurate title, description, canonical URL, and social-sharing metadata. Use the [Quasar Meta Plugin](/quasar-plugins/meta) from the page component so those values are included during the build.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssg/seo-for-ssg#quasar-meta-plugin",
     "documentId": "quasar-cli-vite/developing-ssg/seo-for-ssg",
     "heading": "Quasar Meta Plugin",
-    "breadcrumb": ["Quasar Meta Plugin", "Quasar Meta Plugin"],
+    "breadcrumb": [
+      "Quasar Meta Plugin",
+      "Quasar Meta Plugin"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/seo-for-ssg#quasar-meta-plugin",
     "content": "The [Quasar Meta Plugin](/quasar-plugins/meta) can change the page title, manage `<meta>` tags, set attributes on the `<html>` and `<body>` elements, add or update `<style>` and `<script>` tags in the document head, and manage `<noscript>` tags. This includes structured data such as JSON-LD.\n\n::: tip\nThe Meta Plugin is integrated with Quasar's rendering pipeline, so metadata declared while an SSG page is rendered is included in the generated HTML.\n:::\n\nFor example, an article page can provide its title, description, Open Graph fields, and canonical URL:\n\n```html /src/pages/ArticlePage.vue\n<script setup>\n  import { useMeta } from 'quasar'\n\n  const article = {\n    title: 'Choosing a rendering mode',\n    description: 'Compare SPA, SSR, and SSG for a Quasar application.',\n    url: 'https://example.com/guides/rendering-modes'\n  }\n\n  useMeta({\n    title: article.title,\n    meta: {\n      description: {\n        name: 'description',\n        content: article.description\n      },\n      ogTitle: {\n        property: 'og:title',\n        content: article.title\n      },\n      ogDescription: {\n        property: 'og:description',\n        content: article.description\n      }\n    },\n    link: {\n      canonical: {\n        rel: 'canonical',\n        href: article.url\n      }\n    }\n  })\n</script>\n```\n\nData used to create build-time metadata must be available while the page is rendered. If metadata is fetched only after hydration, it will not be present in the generated HTML.\n\nAlso generate and deploy a `robots.txt` file and sitemap when the site needs them. These are site-level files and are not generated automatically from the SSG page list.",

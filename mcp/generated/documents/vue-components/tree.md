@@ -24,7 +24,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 Source: [Basic.vue](../../examples/QTree/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree :nodes="simple" node-key="label" />
@@ -67,7 +67,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 ### Keyboard navigation
 
@@ -85,7 +85,7 @@ When a tree node has focus:
 
 Source: [NoConnectors.vue](../../examples/QTree/NoConnectors.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree
@@ -140,7 +140,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 ### Dense <q-badge label="v2.2.4+" />
 
@@ -148,7 +148,7 @@ const simple = [
 
 Source: [DenseTree.vue](../../examples/QTree/DenseTree.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree
@@ -203,7 +203,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 ### Force dark mode
 
@@ -211,7 +211,7 @@ const simple = [
 
 Source: [Dark.vue](../../examples/QTree/Dark.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md bg-grey-9 text-white">
     <q-tree :nodes="simple" node-key="label" v-model:expanded="expanded" dark />
@@ -261,7 +261,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 ### Perf considerations <q-badge label="v2.9.2+" />
 
@@ -277,7 +277,7 @@ When using relatively large data, for performance we recommend using the `no-tra
 
 Source: [Splitter.vue](../../examples/QTree/Splitter.vue)
 
-```vue
+````vue
 <template>
   <div>
     <q-splitter v-model="splitterModel" style="height: 400px">
@@ -400,7 +400,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
 
@@ -412,7 +412,7 @@ Notice (in the example below) the default header and body slot customization.
 
 Source: [SlotsDefault.vue](../../examples/QTree/SlotsDefault.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree :nodes="customize" node-key="label" default-expand-all>
@@ -492,7 +492,7 @@ const customize = ref([
   }
 ])
 </script>
-```
+````
 
 Notice (in the example below) the custom header and body slots.
 
@@ -500,7 +500,7 @@ Notice (in the example below) the custom header and body slots.
 
 Source: [SlotsCustomized.vue](../../examples/QTree/SlotsCustomized.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree :nodes="customize" node-key="label" default-expand-all>
@@ -597,7 +597,7 @@ const customize = ref([
   }
 ])
 </script>
-```
+````
 
 ::: warning
 Clicking or pressing `ENTER` on the custom header selects the tree item (and the custom header is blurred). Pressing `SPACE` toggles its expansion.
@@ -613,7 +613,7 @@ In the example below, sibling nodes get contracted when one gets expanded.
 
 Source: [Accordion.vue](../../examples/QTree/Accordion.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree
@@ -667,13 +667,13 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 **Example: Filtering nodes**
 
 Source: [FilterDefault.vue](../../examples/QTree/FilterDefault.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-input ref="filterRef" filled v-model="filter" label="Filter">
@@ -735,13 +735,13 @@ function resetFilter() {
   filterRef.value.focus()
 }
 </script>
-```
+````
 
 **Example: Selectable nodes**
 
 Source: [Selectable.vue](../../examples/QTree/Selectable.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <div>
@@ -822,7 +822,7 @@ const props = [
   }
 ]
 </script>
-```
+````
 
 ### Lazy loading
 
@@ -830,7 +830,7 @@ const props = [
 
 Source: [LazyLoad.vue](../../examples/QTree/LazyLoad.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-tree
@@ -895,7 +895,7 @@ function onLazyLoad({ node, key, done, fail }) {
   }, 1000)
 }
 </script>
-```
+````
 
 ### Selection vs ticking, expansion
 
@@ -909,7 +909,7 @@ All properties above require to be dynamically bound using `v-model:<prop_name>`
 
 Source: [Sync.vue](../../examples/QTree/Sync.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md row q-col-gutter-sm">
     <q-tree
@@ -992,7 +992,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 ### Tick strategy
 
@@ -1010,7 +1010,7 @@ You can apply a global tick strategy for a QTree and locally change the ticking 
 
 Source: [TickStrategy.vue](../../examples/QTree/TickStrategy.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md row q-col-gutter-sm">
     <q-tree
@@ -1076,7 +1076,7 @@ const simple = [
   }
 ]
 </script>
-```
+````
 
 ### Custom filter method
 
@@ -1086,7 +1086,7 @@ You can customize the filtering method by specifying the `filter-method` prop. T
 
 Source: [FilterCustom.vue](../../examples/QTree/FilterCustom.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-input
@@ -1164,7 +1164,7 @@ function resetFilter() {
   filterRef.value.focus()
 }
 </script>
-```
+````
 
 ### Nodes model structure
 

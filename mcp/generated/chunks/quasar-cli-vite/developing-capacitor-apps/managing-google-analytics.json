@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#overview",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics",
     "heading": "Managing Google Analytics",
-    "breadcrumb": ["Managing Google Analytics"],
+    "breadcrumb": [
+      "Managing Google Analytics"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics",
     "content": "Google Analytics does not provide an official Capacitor plugin. Choose an analytics integration that supports the platforms and consent requirements of your app. For native Google Analytics, a common approach is to use Firebase Analytics through a community Capacitor plugin.\n\n::: warning\n\n- Analytics may require user consent, privacy disclosures, data-safety declarations, and platform-specific configuration. Review the current Google Play, App Store, analytics-provider, and applicable legal requirements before collecting data.\n- A remote script executes inside your app's WebView and receives the access available to that renderer. Load scripts only from origins you trust, restrict them with your Content Security Policy, and prefer a maintained native analytics integration when possible. Collect only the data you need, avoid sending secrets or direct identifiers, obtain any consent required by applicable law and store policy, and document collection in the app's privacy disclosures.\n\n:::",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#prerequisites",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics",
     "heading": "Prerequisites",
-    "breadcrumb": ["Prerequisites", "Prerequisites"],
+    "breadcrumb": [
+      "Prerequisites",
+      "Prerequisites"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#prerequisites",
     "content": "- Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Page Routing with Vue Router](/quasar-cli-vite/page-routing-with-vue-router) for more info on routing.\n- Have Basic knowledge of Google Analytics",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#preparation",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics",
     "heading": "Preparation",
-    "breadcrumb": ["Preparation", "Preparation"],
+    "breadcrumb": [
+      "Preparation",
+      "Preparation"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#preparation",
     "content": "Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](https://www.multiminds.eu/blog/2016/12/google-analytics-and-tag-manager-with-ionic-and-cordova-apps/) to do so.",
@@ -50,7 +58,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#track-route-changes",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/managing-google-analytics",
     "heading": "Track route changes",
-    "breadcrumb": ["Track route changes", "Track route changes"],
+    "breadcrumb": [
+      "Track route changes",
+      "Track route changes"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/managing-google-analytics#track-route-changes",
     "content": "Create a boot file that reports route changes after navigation:\n\n```bash\nquasar new boot firebase-analytics [--format ts]\n```\n\n```js /src/boot/firebase-analytics.js\nimport { FirebaseAnalytics } from '@capacitor-firebase/analytics'\nimport { defineBoot } from '#q-app'\n\nexport default defineBoot(({ router }) => {\n  router.afterEach(to => {\n    FirebaseAnalytics.setCurrentScreen({\n      screenName: String(to.name ?? to.path)\n    }).catch(error => {\n      console.error('Unable to record analytics screen', error)\n    })\n  })\n})\n```\n\nRegister the boot file only for Capacitor mode:\n\n```js /quasar.config file\nexport default defineConfig(ctx => ({\n  boot: [...(ctx.mode.capacitor ? ['firebase-analytics'] : [])]\n}))\n```\n\nRefer to the plugin documentation for recording events, setting user properties, managing collection, and handling platform-specific behavior. Keep analytics calls behind a small application service if you may change providers later.",

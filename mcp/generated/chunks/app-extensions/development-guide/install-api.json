@@ -3,7 +3,9 @@
     "id": "app-extensions/development-guide/install-api#overview",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "App Extension Install API",
-    "breadcrumb": ["App Extension Install API"],
+    "breadcrumb": [
+      "App Extension Install API"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api",
     "content": "This page refers to `/ae/src/install.js|ts` file which is executed on the installation of the App Extension only. Not all App Extensions will need an install -- this is an optional step.\n\nExample of basic structure of the file:\n\n```js /ae/src/install.js (or .ts)\nimport { defineInstallScript } from '#q-app'\n\n// can be async\nexport default defineInstallScript((/* api */) => {})\n```",
@@ -14,7 +16,11 @@
     "id": "app-extensions/development-guide/install-api#api-ctx",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.ctx",
-    "breadcrumb": ["The API param", "api.ctx", "api.ctx"],
+    "breadcrumb": [
+      "The API param",
+      "api.ctx",
+      "api.ctx"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-ctx",
     "content": "Same as the `ctx` from the `/quasar.config` file.\n\n```js api.ctx example:\n{\n  appPaths: {\n    cliDir: '...absolute path of it',\n    appDir: '...absolute path of it',\n    srcDir: '...absolute path of it',\n    publicDir: '...absolute path of it',\n    pwaDir: '...absolute path of it',\n    ssrDir: '...absolute path of it',\n    ssgDir: '...absolute path of it',\n    cordovaDir: '...absolute path of it',\n    capacitorDir: '...absolute path of it',\n    electronDir: '...absolute path of it',\n    bexDir: '...absolute path of it',\n    quasarConfigFilename: '...absolute path of the quasar.config file',\n    quasarConfigInputFormat: 'js', // or 'ts'\n    resolve: {\n      cli: (...paths) => theAbsolutePathToCliDir,\n      app: (...paths) => theAbsolutePathToAppDir,\n      src: (...paths) => theAbsolutePathToAppSrcDir,\n      public: (...paths) => theAbsolutePathToPublicDir,\n      pwa: (...paths) => theAbsolutePathToAppSrcPwaDir,\n      ssr: (...paths) => theAbsolutePathToAppSrcSsrDir,\n      ssg: (...paths) => theAbsolutePathToAppSrcSsgDir,\n      cordova: (...paths) => theAbsolutePathToAppSrcCordovaDir,\n      capacitor: (...paths) => theAbsolutePathToAppSrcCapacitorDir,\n      electron: (...paths) => theAbsolutePathToAppSrcElectronDir,\n      bex: (...paths) => theAbsolutePathToAppSrcBexDir\n    }\n  }\n}\n```",
@@ -25,7 +31,11 @@
     "id": "app-extensions/development-guide/install-api#api-extid",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.extId",
-    "breadcrumb": ["The API param", "api.extId", "api.extId"],
+    "breadcrumb": [
+      "The API param",
+      "api.extId",
+      "api.extId"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-extid",
     "content": "Contains the `ext-id` (String) of this App Extension.",
@@ -36,7 +46,11 @@
     "id": "app-extensions/development-guide/install-api#api-prompts",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.prompts",
-    "breadcrumb": ["The API param", "api.prompts", "api.prompts"],
+    "breadcrumb": [
+      "The API param",
+      "api.prompts",
+      "api.prompts"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-prompts",
     "content": "An object containing the answers returned by the prompts script. For more information, see the [Prompts API](/app-extensions/development-guide/prompts-api).",
@@ -47,7 +61,11 @@
     "id": "app-extensions/development-guide/install-api#api-resolve",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.resolve",
-    "breadcrumb": ["The API param", "api.resolve", "api.resolve"],
+    "breadcrumb": [
+      "The API param",
+      "api.resolve",
+      "api.resolve"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-resolve",
     "content": "Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.\n\n```js\n// resolves to root of app\napi.resolve.app('src/my-file.js')\n\n// resolves to root/src of app\napi.resolve.src('my-file.js')\n\n// resolves to root/public of app\napi.resolve.public('my-image.png')\n\n// resolves to root/src-pwa of app\napi.resolve.pwa('some-file.js')\n\n// resolves to root/src-ssr of app\napi.resolve.ssr('some-file.js')\n\n// resolves to root/src-ssg of app\napi.resolve.ssg('some-file.js')\n\n// resolves to root/src-cordova of app\napi.resolve.cordova('config.xml')\n\n// resolves to root/src-electron of app\napi.resolve.electron('some-file.js')\n\n// resolves to root/src-bex of app\napi.resolve.bex('some-file.js')\n```",
@@ -58,7 +76,11 @@
     "id": "app-extensions/development-guide/install-api#api-appdir",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.appDir",
-    "breadcrumb": ["The API param", "api.appDir", "api.appDir"],
+    "breadcrumb": [
+      "The API param",
+      "api.appDir",
+      "api.appDir"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-appdir",
     "content": "Contains the full path (String) to the root of the app on which this App Extension is running.",
@@ -69,7 +91,11 @@
     "id": "app-extensions/development-guide/install-api#api-logger",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.logger",
-    "breadcrumb": ["The API param", "api.logger", "api.logger"],
+    "breadcrumb": [
+      "The API param",
+      "api.logger",
+      "api.logger"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-logger",
     "content": "A logger scoped to this App Extension. Every method tags its output with `AE (<extId>)`, so users can see which extension printed which line.\n\n```js\napi.logger.log('hello') // green-bannered line\napi.logger.warn('careful') // yellow-bannered warning\napi.logger.fatal('boom') // red-bannered error; exits with code 1\napi.logger.tip('try foo') // TIP-pilled tip line\napi.logger.info('synced') // INFO-pilled line\napi.logger.info('synced', 'SYNC') // custom pill text instead of INFO\napi.logger.success('built')\napi.logger.error('oh no')\napi.logger.warning('hmm')\n\nconst finish = api.logger.progress({\n  tool: 'ssg',\n  waitAction: 'building',\n  doneAction: 'built'\n})\n// ...later\nfinish() // prints the DONE line with elapsed time\n\napi.logger.dot // the bullet character the helpers print\n```",
@@ -80,7 +106,11 @@
     "id": "app-extensions/development-guide/install-api#api-hastypescript",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.hasTypescript",
-    "breadcrumb": ["The API param", "api.hasTypescript", "api.hasTypescript"],
+    "breadcrumb": [
+      "The API param",
+      "api.hasTypescript",
+      "api.hasTypescript"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-hastypescript",
     "content": "```js\n/**\n * @return {Promise<boolean>} host project has TypeScript active or not\n */\nawait api.hasTypescript()\n```",
@@ -121,7 +151,11 @@
     "id": "app-extensions/development-guide/install-api#api-compatiblewith",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.compatibleWith",
-    "breadcrumb": ["The API param", "api.compatibleWith", "api.compatibleWith"],
+    "breadcrumb": [
+      "The API param",
+      "api.compatibleWith",
+      "api.compatibleWith"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-compatiblewith",
     "content": "Ensure the App Extension is compatible with a package installed in the host app through a semver condition.\n\nIf the semver condition is not met, then Quasar CLI errors out and halts execution.\n\nExample of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.\n\n```js\n/**\n * @param {string} packageName\n * @param {string} semverCondition\n */\napi.compatibleWith(packageName, '3.x')\n```\n\n```js A more complex example:\napi.compatibleWith('@quasar/app-vite', '^3.0.0')\n```",
@@ -132,7 +166,11 @@
     "id": "app-extensions/development-guide/install-api#api-haspackage",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.hasPackage",
-    "breadcrumb": ["The API param", "api.hasPackage", "api.hasPackage"],
+    "breadcrumb": [
+      "The API param",
+      "api.hasPackage",
+      "api.hasPackage"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-haspackage",
     "content": "Determine if some package is installed in the host app through a semver condition.\n\nExample of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.\n\n```js\n/**\n * @param {string} packageName\n * @param {string} (optional) semverCondition\n * @return {boolean} package is installed and meets optional semver condition\n */\nif (api.hasPackage('vuelidate')) {\n  // hey, this app has it (any version of it)\n}\nif (api.hasPackage('quasar', '^2.0.0')) {\n  // hey, this app has Quasar UI v2 installed\n}\n```",
@@ -143,7 +181,11 @@
     "id": "app-extensions/development-guide/install-api#api-hasextension",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.hasExtension",
-    "breadcrumb": ["The API param", "api.hasExtension", "api.hasExtension"],
+    "breadcrumb": [
+      "The API param",
+      "api.hasExtension",
+      "api.hasExtension"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-hasextension",
     "content": "Check if another app extension is npm installed and Quasar CLI has invoked it.\n\n```js\n/**\n * Check if another app extension is installed\n *\n * @param {string} extId\n * @return {boolean} has the extension installed & invoked\n */\nif (api.hasExtension(extId)) {\n  // hey, we have it\n}\n```",
@@ -184,7 +226,11 @@
     "id": "app-extensions/development-guide/install-api#api-extendjsonfile",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.extendJsonFile",
-    "breadcrumb": ["The API param", "api.extendJsonFile", "api.extendJsonFile"],
+    "breadcrumb": [
+      "The API param",
+      "api.extendJsonFile",
+      "api.extendJsonFile"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-extendjsonfile",
     "content": "Extend a JSON file with new props (deep merge). If specifying existing props, it will override them.\n\n```js\n/**\n * @param {string} file (relative path to app root folder)\n * @param {object} newData (Object to merge in)\n */\napi.extendJsonFile('src/some.json', {\n  newProp: 'some-value'\n})\n```",
@@ -195,7 +241,11 @@
     "id": "app-extensions/development-guide/install-api#api-render",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.render",
-    "breadcrumb": ["The API param", "api.render", "api.render"],
+    "breadcrumb": [
+      "The API param",
+      "api.render",
+      "api.render"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-render",
     "content": "Renders (copies) a folder from your App Extension templates (any folder you specify) into root of the app. Maintains the same folder structure that the template folder has.\n\nIf some of the files already exist in the app then it will ask the user if they should be overwritten or not.\n\nNeeds a relative path to the folder of the file calling render().\n\n```js\n/**\n * Render a folder from extension templates into devland\n * Needs a path (to a folder) relative to the path of the file where render() is called\n *\n * @param {string} templatePath (relative path to folder to render in app)\n * @param {object} scope (optional; rendering scope variables)\n */\napi.render('./path/to/a/template/folder')\n```",
@@ -222,7 +272,12 @@
     "id": "app-extensions/development-guide/install-api#using-scope",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "Using scope",
-    "breadcrumb": ["The API param", "api.render", "Using scope", "Using scope"],
+    "breadcrumb": [
+      "The API param",
+      "api.render",
+      "Using scope",
+      "Using scope"
+    ],
     "level": 4,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#using-scope",
     "content": "You can also inject some decision-making code into the files to be rendered by interpolating with [lodash/template](https://lodash.com/docs/4.17.15#template) syntax.\n\nExample:\n\n```js src/install.js\n// (my-folder is located in same folder as\n// the file in which following call takes place)\napi.render('./my-folder', {\n  prompts: api.prompts\n})\n```\n\nLet's imagine we use a [Prompts API](/app-extensions/development-guide/prompts-api) file too. It asks the user whether they want \"Feature X\" and stores the answer in a variable called `featureX`.\n\nWe can take some decisions on what the files that we render look like, during rendering them. This removes the need of creating two folders and deciding which to render, based on some decision.\n\n```js src/my-folder/some-file.js\n<% if (prompts.featureX) { %>\nconst message = 'This is content when \"Feature X\" exists'\n<% } else { %>\nconst message = 'This is content when we don\\'t have \"Feature X\"'\n<% } %>\n```\n\nPossibilities are limited only by your imagination.",
@@ -233,7 +288,11 @@
     "id": "app-extensions/development-guide/install-api#api-renderfile",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.renderFile",
-    "breadcrumb": ["The API param", "api.renderFile", "api.renderFile"],
+    "breadcrumb": [
+      "The API param",
+      "api.renderFile",
+      "api.renderFile"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-renderfile",
     "content": "Similar with api.render() with the difference that this method renders a single file.\n\n```js\n/**\n * Render a file from extension template into devland\n * Needs a path (to a file) relative to the path of the file where renderFile() is called\n *\n * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)\n * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)\n * @param {object} scope (optional; rendering scope variables)\n */\napi.renderFile(\n  './path/to/a/template/filename',\n  'path/relative/to/app/root/filename',\n  {\n    prompts: api.prompts\n  }\n)\n\napi.renderFile('./my-file.json', 'src/my-file.json')\n```",
@@ -289,7 +348,11 @@
     "id": "app-extensions/development-guide/install-api#api-onexitlog",
     "documentId": "app-extensions/development-guide/install-api",
     "heading": "api.onExitLog",
-    "breadcrumb": ["The API param", "api.onExitLog", "api.onExitLog"],
+    "breadcrumb": [
+      "The API param",
+      "api.onExitLog",
+      "api.onExitLog"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/app-extensions/development-guide/install-api#api-onexitlog",
     "content": "Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.\n\n```js\n/**\n * @param {string} msg\n */\napi.onExitLog('Thanks for installing my awesome extension')\n```",

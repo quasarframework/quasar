@@ -3,7 +3,9 @@
     "id": "style/visibility#overview",
     "documentId": "style/visibility",
     "heading": "CSS Visibility",
-    "breadcrumb": ["CSS Visibility"],
+    "breadcrumb": [
+      "CSS Visibility"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/style/visibility",
     "content": "There are some CSS classes that you can use out of the box for common functionality.\n\n| Class Name         | Description                                                                                                                                              |\n| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `disabled`         | Cursor is changed to notify a 'disable' and opacity is set to a lower value.                                                                             |\n| `hidden`           | Set `display` to `none`. Compare with below - the class `hidden` means the element will not show _and_ will not take up space in the layout.             |\n| `invisible`        | Set `visibility` to `hidden`. Compare with above - the class `invisible` means the element will not show, but it will still take up space in the layout. |\n| `transparent`      | Background color is transparent.                                                                                                                         |\n| `dimmed`           | Apply dark transparent overlay on top of your element. Do not use on elements which already have **:after** pseudoelement.                               |\n| `light-dimmed`     | Apply white transparent overlay on top of your element. Do not use on elements which already have **:after** pseudoelement.                              |\n| `ellipsis`         | Truncates text and shows ellipsis when not enough space available.                                                                                       |\n| `ellipsis-2-lines` | Truncates text and shows ellipsis when not enough space available on two lines (works only on Webkit browsers).                                          |\n| `ellipsis-3-lines` | Truncates text and shows ellipsis when not enough space available on three lines (works only on Webkit browsers).                                        |\n| `z-top`            | Positions your element on top of any other component, but behind Popovers, Tooltips, Notifications.                                                      |\n| `z-max`            | Positions your element on top of any other component (including Drawer, Modals, Notifications, Layout header/footer, ...)                                |",
@@ -14,7 +16,10 @@
     "id": "style/visibility#window-width-related",
     "documentId": "style/visibility",
     "heading": "Window Width Related",
-    "breadcrumb": ["Window Width Related", "Window Width Related"],
+    "breadcrumb": [
+      "Window Width Related",
+      "Window Width Related"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/visibility#window-width-related",
     "content": "First of all, let's define what the breakpoints are:\n\n| Window Size | Name | Min-width threshold in pixels | Max-width threshold in pixels |\n| ----------- | ---- | ----------------------------- | ----------------------------- |\n| Extra Small | `xs` | 0px                           | 599.99px                      |\n| Small       | `sm` | 600px                         | 1023.99px                     |\n| Medium      | `md` | 1024px                        | 1439.99px                     |\n| Large       | `lg` | 1440px                        | 1919.99px                     |\n| Extra Large | `xl` | 1920px                        | Infinity                      |\n\nNow on to the window width related CSS classes.\n\n| Class Name | Description                          |\n| ---------- | ------------------------------------ |\n| `xs`       | Display only on extra small windows  |\n| `sm`       | Display only on small windows        |\n| `md`       | Display only on medium-sized windows |\n| `lg`       | Display only on large windows        |\n| `xl`       | Display only on extra large windows  |\n\nYou can also show some DOM element or component **if it's lower than one of the sizes**. **Same for greater than one of the sizes**. Just attach `lt-` or `gt-` prefixes, which come from \"lower than\" and \"greater than\". Example: `lt-md` (display on xs and sm only), `lt-xl` (display on xs, sm, md and lg windows only), `gt-md` (display on greater than medium windows: lg and xl).\n\n::: tip\nYou can combine the visibility classes with the `inline` class for inline-blocks.\n\nExample: `<span class=\"gt-sm inline\">...</span>`\n:::\n\n::: tip\nIf you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).\n:::",
@@ -25,7 +30,10 @@
     "id": "style/visibility#platform-related",
     "documentId": "style/visibility",
     "heading": "Platform Related",
-    "breadcrumb": ["Platform Related", "Platform Related"],
+    "breadcrumb": [
+      "Platform Related",
+      "Platform Related"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/visibility#platform-related",
     "content": "Visible only on:\n\n| Class Name              | Description                                             |\n| ----------------------- | ------------------------------------------------------- |\n| `desktop-only`          | Visible only on desktop                                 |\n| `mobile-only`           | Visible only on mobile                                  |\n| `native-mobile-only`    | Visible only on Cordova/Capacitor                       |\n| `cordova-only`          | Visible only on Cordova wrapped Apps                    |\n| `capacitor-only`        | Visible only on Capacitor wrapped Apps                  |\n| `electron-only`         | Visible only on Electron wrapped Apps                   |\n| `touch-only`            | Visible only on touch capable platforms                 |\n| `platform-ios-only`     | Visible only on an iOS platform                         |\n| `platform-android-only` | Visible only on an Android platform                     |\n| `within-iframe-only`    | Visible only when entire website is under an IFRAME tag |\n\nHide on:\n\n| Class Name              | Description                                          |\n| ----------------------- | ---------------------------------------------------- |\n| `desktop-hide`          | Hide on desktop                                      |\n| `mobile-hide`           | Hide on mobile                                       |\n| `native-mobile-hide`    | Hide on Cordova/Capacitor                            |\n| `cordova-hide`          | Hide on Cordova wrapped Apps                         |\n| `capacitor-hide`        | Hide on Capacitor wrapped Apps                       |\n| `electron-hide`         | Hide on Electron wrapped Apps                        |\n| `touch-hide`            | Hide on touch capable platforms                      |\n| `platform-ios-hide`     | Hide on iOS platform                                 |\n| `platform-android-hide` | Hide on Android platform                             |\n| `within-iframe-hide`    | Hide only when entire website is under an IFRAME tag |\n\n::: tip\nBased on your needs, you might want to also check [Platform Detection](/options/platform-detection) page to see how you can achieve the same effect using Javascript. This latter method allows you to not even render a DOM element or component. It is useful when the rendering process is expensive.\n:::",
@@ -36,7 +44,10 @@
     "id": "style/visibility#orientation-related",
     "documentId": "style/visibility",
     "heading": "Orientation Related",
-    "breadcrumb": ["Orientation Related", "Orientation Related"],
+    "breadcrumb": [
+      "Orientation Related",
+      "Orientation Related"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/visibility#orientation-related",
     "content": "| Class Name              | Description                                         |\n| ----------------------- | --------------------------------------------------- |\n| `orientation-portrait`  | Visible only when screen orientation is _Portrait_  |\n| `orientation-landscape` | Visible only when screen orientation is _Landscape_ |",
@@ -47,7 +58,10 @@
     "id": "style/visibility#printing-related",
     "documentId": "style/visibility",
     "heading": "Printing Related",
-    "breadcrumb": ["Printing Related", "Printing Related"],
+    "breadcrumb": [
+      "Printing Related",
+      "Printing Related"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/style/visibility#printing-related",
     "content": "| Class Name   | Description                                            |\n| ------------ | ------------------------------------------------------ |\n| `print-only` | Visible only on print media - hidden on _screen_ media |\n| `print-hide` | Visible on _screen_ media - hidden on _print_ media    |",

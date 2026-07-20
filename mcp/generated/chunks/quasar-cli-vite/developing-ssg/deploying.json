@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#overview",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Deploying SSG",
-    "breadcrumb": ["Deploying SSG"],
+    "breadcrumb": [
+      "Deploying SSG"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying",
     "content": "::: warning Warning! Beta Stage\nThe Quasar SSG Mode is currently in the \"beta\" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade \"@quasar/app-vite\".\n:::\n\nAn SSG build produces a directory of static files. You deploy those files to a static web server or static hosting provider. There is no Node.js renderer to run in production.\n\nThe important difference from a SPA deployment is that SSG can generate many html files, not just one `index.html`. Your host should serve those generated files first, then apply any client-side fallback rules that you explicitly need.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#build-output",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Build Output",
-    "breadcrumb": ["Build Output", "Build Output"],
+    "breadcrumb": [
+      "Build Output",
+      "Build Output"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#build-output",
     "content": "Build the app in SSG mode:\n\n```bash\nquasar build -m ssg\n```\n\nThe default output folder is:\n\n> dist/ssg\n\nDeploy the contents of `dist/ssg`, not the folder itself, unless your host asks for a publish directory.\n\nFor example, when a route is rendered as `/guide/install`, the generated file is usually written as:\n\n> dist/ssg/guide/install/index.html\n\nStatic hosts that support directory indexes can serve that file for `/guide/install` or `/guide/install/`.",
@@ -25,7 +30,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#static-host-checklist",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Static Host Checklist",
-    "breadcrumb": ["Static Host Checklist", "Static Host Checklist"],
+    "breadcrumb": [
+      "Static Host Checklist",
+      "Static Host Checklist"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#static-host-checklist",
     "content": "Use this order when configuring a host:\n\n1. Serve existing files and generated route directories first.\n2. Serve long-lived cache headers for hashed assets such as JavaScript, CSS, fonts, and images.\n3. Serve html files with short or no browser caching, especially when deploying frequent updates.\n4. If you use hybrid SSG + partial CSR, rewrite the designated client-rendered routes to the CSR shell file.\n5. Serve the generated `404.html` file for real not-found requests.\n\nAvoid copying the usual SPA rule of rewriting every unknown request to `index.html`. That can hide missing generated pages and can make a pre-rendered SSG site behave like a regular SPA.",
@@ -36,7 +44,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#404-page",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "404 Page",
-    "breadcrumb": ["404 Page", "404 Page"],
+    "breadcrumb": [
+      "404 Page",
+      "404 Page"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#404-page",
     "content": "By default, Quasar generates:\n\n> dist/ssg/404.html\n\nConfigure your host to serve it when a request does not match a generated file or static asset.\n\nYou can change or disable this filename with `ssg.error404HtmlFilename` in `/quasar.config`:\n\n```js /quasar.config file\nexport default defineConfig(() => {\n  return {\n    ssg: {\n      error404HtmlFilename: '404.html'\n    }\n  }\n})\n```\n\nSome hosts automatically use a root `404.html` file. Others require an explicit `error_page`, rewrite, or fallback rule.",
@@ -47,7 +58,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#hybrid-ssg-partial-csr",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Hybrid SSG + Partial CSR",
-    "breadcrumb": ["Hybrid SSG + Partial CSR", "Hybrid SSG + Partial CSR"],
+    "breadcrumb": [
+      "Hybrid SSG + Partial CSR",
+      "Hybrid SSG + Partial CSR"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#hybrid-ssg-partial-csr",
     "content": "If you configure `ssg.clientSideRenderingRoutes`, Quasar can generate a separate html shell for routes that should be rendered only on the client:\n\n```js /quasar.config file\nexport default defineConfig(() => {\n  return {\n    ssg: {\n      clientSideRenderingHtmlFilename: 'csr.html',\n\n      /**\n       * Exclude these routes from pre-rendering and generate csr.html\n       * Note on picomatch patterns:\n       *   \"/admin\" matches the exact route only\n       *   \"/admin/**\" matches the exact route and all sub-routes of /admin\n       *   \"/admin/*\" matches only direct sub-routes of /admin\n       *   \"/admin/{users,settings}\" matches both exact routes /admin/users and /admin/settings\n       */\n      clientSideRenderingRoutes: ['/dashboard/**', '/admin']\n    }\n  }\n})\n```\n\nIn this setup, configure your host to rewrite only those route patterns to:\n\n> dist/ssg/csr.html\n\nDo not use `csr.html` as the fallback for every unknown URL unless you intentionally want unmatched routes to become client-rendered pages. Keep `404.html` for real not-found requests.",
@@ -58,7 +72,11 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#example-nginx",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Example: nginx",
-    "breadcrumb": ["Examples", "Example: nginx", "Example: nginx"],
+    "breadcrumb": [
+      "Examples",
+      "Example: nginx",
+      "Example: nginx"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#example-nginx",
     "content": "This example serves generated SSG files first, uses a CSR shell only for `/dashboard` and `/admin`, and uses `404.html` for all other missing files:\n\n::: tip\nThis and the following examples assume that `build.publicPath` is `/`. If you deploy under a sub-folder, prefix the request paths and fallback destinations with that sub-folder.\n:::\n\n```nginx\nserver {\n    listen 80;\n    server_name example.com;\n\n    root /var/www/example.com/dist/ssg;\n    index index.html;\n\n    location = /dashboard {\n        try_files $uri $uri/ /csr.html;\n    }\n\n    location ^~ /dashboard/ {\n        try_files $uri $uri/ /csr.html;\n    }\n\n    location = /admin {\n        try_files $uri $uri/ /csr.html;\n    }\n\n    location ^~ /admin/ {\n        try_files $uri $uri/ /csr.html;\n    }\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n\n    error_page 404 /404.html;\n}\n```\n\nIf your site does not use hybrid CSR routes, remove the `/dashboard` and `/admin` blocks.",
@@ -69,7 +87,11 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#example-netlify",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Example: Netlify",
-    "breadcrumb": ["Examples", "Example: Netlify", "Example: Netlify"],
+    "breadcrumb": [
+      "Examples",
+      "Example: Netlify",
+      "Example: Netlify"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#example-netlify",
     "content": "Set the publish directory to:\n\n> dist/ssg\n\nFor a fully pre-rendered SSG site, the generated files and root `404.html` are enough. Netlify automatically serves the root `404.html` for requests that do not resolve to a static file.\n\nFor hybrid CSR routes, add a `_redirects` file to `/public`. Quasar copies it to the root of the output folder:\n\n```text public/_redirects\n/dashboard    /csr.html  200\n/dashboard/*  /csr.html  200\n/admin        /csr.html  200\n/admin/*      /csr.html  200\n```\n\nNetlify serves existing static files before applying these unforced rewrites. You do not need a catch-all rule for `404.html`.\n\nAdjust the route patterns to match your `ssg.clientSideRenderingRoutes` configuration. See the [Netlify redirects documentation](https://docs.netlify.com/manage/routing/redirects/overview/) for more options.",
@@ -95,7 +117,11 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#example-vercel",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Example: Vercel",
-    "breadcrumb": ["Examples", "Example: Vercel", "Example: Vercel"],
+    "breadcrumb": [
+      "Examples",
+      "Example: Vercel",
+      "Example: Vercel"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#example-vercel",
     "content": "Set the output directory to:\n\n> dist/ssg\n\nFor a fully pre-rendered SSG site, Vercel can serve the generated static files directly.\n\nFor hybrid CSR routes, add rewrites for only those routes:\n\n```json vercel.json\n{\n  \"rewrites\": [\n    { \"source\": \"/dashboard\", \"destination\": \"/csr.html\" },\n    { \"source\": \"/dashboard/:path*\", \"destination\": \"/csr.html\" },\n    { \"source\": \"/admin\", \"destination\": \"/csr.html\" },\n    { \"source\": \"/admin/:path*\", \"destination\": \"/csr.html\" }\n  ]\n}\n```\n\nVercel automatically serves a `404.html` from the output directory when no other static file or route matches. See the [Vercel rewrites documentation](https://vercel.com/docs/rewrites) for more routing options.",
@@ -121,7 +147,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#ssg-with-pwa",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "SSG with PWA",
-    "breadcrumb": ["SSG with PWA", "SSG with PWA"],
+    "breadcrumb": [
+      "SSG with PWA",
+      "SSG with PWA"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#ssg-with-pwa",
     "content": "When `ssg.pwa` is enabled, Quasar also generates service worker assets and an offline shell, usually:\n\n> dist/ssg/offline.html\n\nDeploy the whole `dist/ssg` directory, including the service worker and manifest assets. Make sure your host does not rewrite service worker files, the web manifest, icons, or generated Workbox assets to another html file.\n\nSee [SSG with PWA](/quasar-cli-vite/developing-ssg/ssg-with-pwa) for the SSG-specific PWA options.",
@@ -146,7 +175,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#cache-headers",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Cache Headers",
-    "breadcrumb": ["Cache Headers", "Cache Headers"],
+    "breadcrumb": [
+      "Cache Headers",
+      "Cache Headers"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#cache-headers",
     "content": "The exact syntax and the provider defaults vary, but a good starting point for a self-managed server is:\n\n- Html files: `Cache-Control: no-cache`\n- Hashed assets: `Cache-Control: public, max-age=31536000, immutable`\n- Service worker files: follow the recommendations from the [PWA deployment guide](/quasar-cli-vite/developing-pwa/deploying)\n\nDo not allow stale html files to remain cached after a new deployment. Otherwise a browser may load old html that points to assets no longer present on the server.\n\nManaged hosts may already provide deployment-aware caching. Check the host's defaults before overriding them. For example, Cloudflare Pages recommends its default caching behavior for most sites and supports custom browser headers through a `/public/_headers` file.",
@@ -157,7 +189,10 @@
     "id": "quasar-cli-vite/developing-ssg/deploying#final-verification",
     "documentId": "quasar-cli-vite/developing-ssg/deploying",
     "heading": "Final Verification",
-    "breadcrumb": ["Final Verification", "Final Verification"],
+    "breadcrumb": [
+      "Final Verification",
+      "Final Verification"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-ssg/deploying#final-verification",
     "content": "After deployment, open a few URLs directly in a fresh browser tab:\n\n- `/`\n- a generated nested route such as `/guide/install`\n- a not-found route that should show `404.html`\n- a hybrid CSR route, if configured\n- a refresh on a generated route after client-side navigation\n\nIf these direct requests work, the static host is serving the SSG output correctly.",

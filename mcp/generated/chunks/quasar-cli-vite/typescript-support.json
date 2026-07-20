@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/typescript-support#overview",
     "documentId": "quasar-cli-vite/typescript-support",
     "heading": "TypeScript Support",
-    "breadcrumb": ["TypeScript Support"],
+    "breadcrumb": [
+      "TypeScript Support"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/typescript-support",
     "content": "If you didn't select TypeScript support when creating your project, you can still add it later. This guide will show you how to add TypeScript support to your existing JavaScript-based Quasar project.",
@@ -28,7 +30,10 @@
     "id": "quasar-cli-vite/typescript-support#linting-setup",
     "documentId": "quasar-cli-vite/typescript-support",
     "heading": "Linting setup",
-    "breadcrumb": ["Linting setup", "Linting setup"],
+    "breadcrumb": [
+      "Linting setup",
+      "Linting setup"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/typescript-support#linting-setup",
     "content": "You might want to check the requirements for it [here](/quasar-cli-vite/lint-and-format-code).",
@@ -53,7 +58,11 @@
     "id": "quasar-cli-vite/typescript-support#pinia",
     "documentId": "quasar-cli-vite/typescript-support",
     "heading": "Pinia",
-    "breadcrumb": ["TypeScript Declaration Files", "Pinia", "Pinia"],
+    "breadcrumb": [
+      "TypeScript Declaration Files",
+      "Pinia",
+      "Pinia"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/typescript-support#pinia",
     "content": "If you are using Pinia, Quasar CLI augments the `router` property inside `.quasar/pinia.d.ts` automatically. So, don't manually add the \"router\" property from the PiniaCustomProperties interface in the /src/stores/index.ts file.\n\n```ts /src/stores/index.ts\nimport { defineStore } from '#q-app'\nimport { createPinia } from 'pinia'\nimport { type Router } from 'vue-router' // [!code --]\n\n/*\n * When adding new properties to stores, you should also\n * extend the `PiniaCustomProperties` interface.\n * @see https://pinia.vuejs.org/core-concepts/plugins.html#Typing-new-store-properties\n */\ndeclare module 'pinia' {\n  export interface PiniaCustomProperties {\n    readonly router: Router // [!code --]\n    // add your custom properties here, if any\n  }\n}\n```",
@@ -79,7 +88,11 @@
     "id": "quasar-cli-vite/typescript-support#tsconfig-json",
     "documentId": "quasar-cli-vite/typescript-support",
     "heading": "tsconfig.json",
-    "breadcrumb": ["Configuring TypeScript", "tsconfig.json", "tsconfig.json"],
+    "breadcrumb": [
+      "Configuring TypeScript",
+      "tsconfig.json",
+      "tsconfig.json"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/typescript-support#tsconfig-json",
     "content": "Notice the `/tsconfig.json` file in your project folder. This file is used by the Quasar CLI to detect if you want TypeScript support or not. Its content should look like this:\n\n```json /tsconfig.json (How it should look like)\n{\n  \"extends\": \"./.quasar/tsconfig.json\"\n}\n```\n\nFor reviewing purposes, here is an example of the generated tsconfig (non strict) that your `/tsconfig.json` is extending:\n\n```json Example /.quasar/tsconfig.json\n{\n  \"compilerOptions\": {\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"target\": \"esnext\",\n    \"allowJs\": true,\n    \"resolveJsonModule\": true,\n    \"moduleDetection\": \"force\",\n    \"moduleResolution\": \"bundler\",\n    \"isolatedModules\": true,\n    \"module\": \"preserve\",\n    \"noEmit\": true,\n    \"lib\": [\n      \"esnext\",\n      \"dom\",\n      \"dom.iterable\"\n    ],\n    \"paths\": { ... }\n  },\n  \"exclude\": [ ... ]\n}\n```\n\nProperly running typechecking and linting requires the `.quasar/tsconfig.json` to be present. The file will be auto-generated when running \"quasar dev\" or \"quasar build\" commands. But, as a lightweight alternative, there is the CLI command \"quasar prepare\" that will generate the .quasar/tsconfig.json file and some types files. It is especially useful for CI/CD pipelines.\n\n```bash\nquasar prepare\n```\n\nYou can add it as a `postinstall` script to make sure it's run after installing the dependencies. This would be helpful when someone is pulling the project for the first time.\n\n```json /package.json\n{\n  \"scripts\": {\n    \"postinstall\": \"quasar prepare --silent\"\n  }\n}\n```\n\nAnother benefit of this is that folder aliases (quasar.config file > build > alias) are automatically recognized by TypeScript. So, you can remove tsconfig.json > compilerOptions > paths. If you are using a plugin like `vite-tsconfig-paths`, you can uninstall it and use quasar.config file > build > alias as the source of truth.\n\nIf you are using ESLint, we recommend enabling `@typescript-eslint/consistent-type-imports` rules in your ESLint configuration. If you don't have linting set up, we recommend using `verbatimModuleSyntax` in your tsconfig.json file as an alternative (_unlike ESLint rules, it's not auto-fixable_). These changes will help you unify your imports regarding regular and type-only imports. Please read [typescript-eslint Blog - Consistent Type Imports and Exports: Why and How](https://typescript-eslint.io/blog/consistent-type-imports-and-exports-why-and-how) for more information about this and how to set it up. Here is an example:\n\n```js /eslint.config.js\nrules: {\n  // ...\n  '@typescript-eslint/consistent-type-imports': [\n    'error',\n    { prefer: 'type-imports' },\n  ],\n  // ...\n}\n```",

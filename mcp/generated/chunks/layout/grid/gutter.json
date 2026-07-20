@@ -3,7 +3,9 @@
     "id": "layout/grid/gutter#overview",
     "documentId": "layout/grid/gutter",
     "heading": "Grid Gutter",
-    "breadcrumb": ["Grid Gutter"],
+    "breadcrumb": [
+      "Grid Gutter"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/layout/grid/gutter",
     "content": "In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Gutters.\n\nGutter Quasar CSS classes offer an easy way to space out elements (especially in a [Grid Row](/layout/grid/row)) one from each other at equal distance.",
@@ -14,7 +16,10 @@
     "id": "layout/grid/gutter#types",
     "documentId": "layout/grid/gutter",
     "heading": "Types",
-    "breadcrumb": ["Types", "Types"],
+    "breadcrumb": [
+      "Types",
+      "Types"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/grid/gutter#types",
     "content": "There are two main types of gutters depending on your use-case: `q-gutter-{size}` and `q-col-gutter-{size}`. The first is to be used when the elements that you want to distance one from each other don't use `col-*` or `offset-*` classes that specify a width, and the latter is to be used when they do have `col-*` or `offset-*` classes specifying a width.\n\n::: tip\nSuffixes (`-none`, `-xs`, `-sm`, `-md`, `-lg`, `-xl`) do not refer to device screen size, but to the size of gutter between elements.\n:::",
@@ -114,7 +119,10 @@
     "id": "layout/grid/gutter#flex-grid-playground",
     "documentId": "layout/grid/gutter",
     "heading": "Flex Grid Playground",
-    "breadcrumb": ["Flex Grid Playground", "Flex Grid Playground"],
+    "breadcrumb": [
+      "Flex Grid Playground",
+      "Flex Grid Playground"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/layout/grid/gutter#flex-grid-playground",
     "content": "To see the Flex in action, you can use the Flex Playground to interactively learn more.\n\n<q-btn icon-right=\"launch\" label=\"Flex Playground\" to=\"/layout/grid/flex-playground\" />",

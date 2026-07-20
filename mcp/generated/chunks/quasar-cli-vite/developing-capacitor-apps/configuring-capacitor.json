@@ -3,7 +3,9 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#overview",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
     "heading": "Configuring Capacitor",
-    "breadcrumb": ["Configuring Capacitor"],
+    "breadcrumb": [
+      "Configuring Capacitor"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
     "content": "A Quasar Capacitor app has two configuration surfaces, each with a distinct job. The native Capacitor project lives under `/src-capacitor` and is configured by `capacitor.config.{ts,js}`. Quasar's own build/dev behavior is configured by the top-level `/quasar.config` file. We'll go over each.",
@@ -14,7 +16,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-capacitor-config-file",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
     "heading": "The capacitor.config file",
-    "breadcrumb": ["The capacitor.config file", "The capacitor.config file"],
+    "breadcrumb": [
+      "The capacitor.config file",
+      "The capacitor.config file"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#the-capacitor-config-file",
     "content": "`capacitor.config.{ts,js}` is Capacitor's own config file. The `/src-capacitor` folder is a Capacitor project, so for the schema itself and what each field does, see Capacitor's [Configuring your app](https://capacitorjs.com/docs/basics/configuring-your-app) docs.\n\nThe important mental model: this file is loaded by the Capacitor CLI process, not bundled by Vite. When Quasar runs `cap sync` (or similar) on your behalf, the cap CLI is a separate Node process that reads `capacitor.config.*` directly with `require()` (`.js`) or its TypeScript loader (`.ts`). Once that's in your head, the rest of the page is just consequences.",
@@ -25,7 +30,11 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#file-format",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
     "heading": "File format",
-    "breadcrumb": ["The capacitor.config file", "File format", "File format"],
+    "breadcrumb": [
+      "The capacitor.config file",
+      "File format",
+      "File format"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#file-format",
     "content": "Quasar CLI looks for `capacitor.config.ts`, then `.js`. When you run `quasar mode add capacitor`, the scaffolded format depends on whether your project uses TypeScript:\n\n- TS projects get `capacitor.config.ts`.\n- JS projects get `capacitor.config.js` in CommonJS form.\n\nCapacitor's `.js` config loader doesn't yet handle ESM exports correctly, so we have to stick with `module.exports` in JS projects.",
@@ -96,7 +105,10 @@
     "id": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#quasar-config-file",
     "documentId": "quasar-cli-vite/developing-capacitor-apps/configuring-capacitor",
     "heading": "quasar.config file",
-    "breadcrumb": ["quasar.config file", "quasar.config file"],
+    "breadcrumb": [
+      "quasar.config file",
+      "quasar.config file"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor#quasar-config-file",
     "content": "Quasar-specific Capacitor options live in the top-level `/quasar.config` file. These are about Quasar's build/dev behavior, not Capacitor's native config (which belongs in `capacitor.config.*`).\n\n```ts /quasar.config file\nreturn {\n  capacitor: {\n    /**\n     * Automatically hide the Capacitor Splashscreen when app is ready,\n     * (is using the Splashscreen Capacitor plugin).\n     *\n     * @default true\n     */\n    hideSplashscreen?: boolean;\n\n    /**\n     * Preparation params with which the Capacitor CLI is called\n     *\n     * @default [ 'sync', ctx.targetName ]\n     */\n    capacitorCliPreparationParams?: string[];\n  }\n}\n```\n\nAnd you can also configure:\n\n```js /quasar.config file\nreturn {\n  framework: {\n    config: {\n      capacitor: {\n        iosStatusBarPadding: true / false // add the dynamic top padding on iOS mobile devices\n      }\n    }\n  }\n}\n```\n\nFinally, you can also disable or configure the back button hook (used for Dialogs):\n\n```js /quasar.config file\nreturn {\n  framework: {\n    config: {\n      capacitor: {\n        // Quasar handles app exit on mobile phone back button.\n        backButtonExit: true / false / '*' / ['/login', '/home', '/my-page'],\n\n        // On the other hand, the following completely\n        // disables Quasar's back button management.\n        backButton: true / false\n      }\n    }\n  }\n}\n```\n\nShould you want to tamper with the Vite config for UI in /src:\n\n```js /quasar.config file\nexport default defineConfig(ctx => {\n  return {\n    build: {\n      extendViteConf(viteConf) {\n        if (ctx.mode.capacitor) {\n          // do something with viteConf\n          // or return an object to deeply merge with current viteConf\n        }\n      }\n    }\n  }\n})\n```",

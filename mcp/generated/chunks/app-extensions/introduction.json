@@ -3,7 +3,9 @@
     "id": "app-extensions/introduction#overview",
     "documentId": "app-extensions/introduction",
     "heading": "App Extensions",
-    "breadcrumb": ["App Extensions"],
+    "breadcrumb": [
+      "App Extensions"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/app-extensions/introduction",
     "content": "App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend Vite configuration, the `quasar.config` file, tightly couple external UI components to core, and even register new commands with the Quasar CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).\n\nThe patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.\n\n::: warning\nApp Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them with the Quasar Vite plugin or in UMD environments.\n:::",
@@ -28,7 +30,10 @@
     "id": "app-extensions/introduction#app-extension-ext-id",
     "documentId": "app-extensions/introduction",
     "heading": "App Extension ext-id",
-    "breadcrumb": ["App Extension ext-id", "App Extension ext-id"],
+    "breadcrumb": [
+      "App Extension ext-id",
+      "App Extension ext-id"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/introduction#app-extension-ext-id",
     "content": "All App Extensions must prefix their name with `quasar-app-extension-`. Everything that follows after this prefix is considered to be the short alias of it. We call this the `ext-id` throughout the documentation.\n\nExample:\n\n- ext-id for `quasar-app-extension-awesomeness` is `awesomeness`\n- ext-id for `@some-npm-org/quasar-app-extension-awesomeness` is `@some-npm-org/awesomeness`\n\nOne of the benefits of this naming scheme is that it makes Quasar App Extensions discoverability easy while searching for their npm packages: [App Extension - Discover](/app-extensions/discover).",
@@ -39,7 +44,10 @@
     "id": "app-extensions/introduction#anatomy-of-app-extensions",
     "documentId": "app-extensions/introduction",
     "heading": "Anatomy of App Extensions",
-    "breadcrumb": ["Anatomy of App Extensions", "Anatomy of App Extensions"],
+    "breadcrumb": [
+      "Anatomy of App Extensions",
+      "Anatomy of App Extensions"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/app-extensions/introduction#anatomy-of-app-extensions",
     "content": "App Extensions can be installed, executed and also uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.",

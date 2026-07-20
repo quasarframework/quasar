@@ -5,13 +5,17 @@
   "description": "Vue directive that uses Mutation Observer API to watch for changes being made to the DOM tree.",
   "canonicalUrl": "https://quasar.dev/vue-directives/mutation",
   "source": "docs/src/pages/vue-directives/mutation.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "vue-directives",
-  "kinds": ["directive"],
-  "apiReferences": ["Mutation"],
+  "kinds": [
+    "directive"
+  ],
+  "apiReferences": [
+    "Mutation"
+  ],
   "examples": [
     {
       "title": "Catch everything",

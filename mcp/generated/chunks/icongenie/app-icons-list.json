@@ -3,7 +3,9 @@
     "id": "icongenie/app-icons-list#overview",
     "documentId": "icongenie/app-icons-list",
     "heading": "App Icons List",
-    "breadcrumb": ["App Icons List"],
+    "breadcrumb": [
+      "App Icons List"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/icongenie/app-icons-list",
     "content": "Each Quasar CLI mode uses a different set of icons and, where applicable, splash screens.\nIcon Genie creates the appropriate assets through its [generate](/icongenie/command-list#generate) command.\n\nHere are the links to each mode's list:\n\n| Quasar Mode                  | Link                                                                                   |\n| ---------------------------- | -------------------------------------------------------------------------------------- |\n| App icons for SPA mode       | [SPA mode](/quasar-cli-vite/developing-spa/app-icons-spa)                              |\n| App icons for PWA mode       | [PWA mode](/quasar-cli-vite/developing-pwa/app-icons-pwa)                              |\n| App icons for SSR mode       | [SSR mode](/quasar-cli-vite/developing-ssr/app-icons-ssr)                              |\n| App icons for SSG mode       | [SSG mode](/quasar-cli-vite/developing-ssg/app-icons-ssg)                              |\n| App icons for Capacitor mode | [Capacitor mode](/quasar-cli-vite/developing-capacitor-apps/app-icons-capacitor)       |\n| App icons for Cordova mode   | [Cordova mode](/quasar-cli-vite/developing-cordova-apps/app-icons-cordova)             |\n| App icons for Electron mode  | [Electron mode](/quasar-cli-vite/developing-electron-apps/app-icons-electron)          |\n| App icons for BEX mode       | [BEX mode](/quasar-cli-vite/developing-browser-extensions/app-icons-browser-extension) |",

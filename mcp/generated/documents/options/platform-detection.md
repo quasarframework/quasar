@@ -75,7 +75,7 @@ Now, let's say we want to render different components or DOM elements, based on 
 
 Source: [Basic.vue](../../examples/Platform/Basic.vue)
 
-```vue
+````vue
 <template>
   <div class="q-pa-md">
     <div class="q-mb-md">
@@ -129,7 +129,7 @@ body
     .platform-detection--row-highlight
       background-color: rgba(255,255,255,.05)
 </style>
-```
+````
 
 ## Properties
 

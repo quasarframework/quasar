@@ -5,12 +5,16 @@
   "description": "Quasar plugin that helps in writing a dynamic and responsive UI through Javascript code.",
   "canonicalUrl": "https://quasar.dev/options/screen-plugin",
   "source": "docs/src/pages/options/screen-plugin.md",
-  "sourceCommit": "ce0a48fd6b630899d16203816e32c7d11afcb4be",
+  "sourceCommit": "306b70ecbb2e9271a3eb4aeda3292e0700a7e723",
   "products": {
     "quasar": "2.21.4"
   },
   "area": "options",
-  "kinds": ["plugin"],
-  "apiReferences": ["Screen"],
+  "kinds": [
+    "plugin"
+  ],
+  "apiReferences": [
+    "Screen"
+  ],
   "examples": []
 }

@@ -3,7 +3,9 @@
     "id": "app-extensions/common-formulas-and-patterns/inject-quasar-plugin#overview",
     "documentId": "app-extensions/common-formulas-and-patterns/inject-quasar-plugin",
     "heading": "Injecting Quasar Plugin",
-    "breadcrumb": ["Injecting Quasar Plugin"],
+    "breadcrumb": [
+      "Injecting Quasar Plugin"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/app-extensions/common-formulas-and-patterns/inject-quasar-plugin",
     "content": "This guide is for when you want to ensure that a [Quasar Plugin](/quasar-plugins) will be injected into the hosting app, because you depend on it for your own App Extension to work.\n\nWe will only need to touch the Index script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure the /quasar.config file from the host app to include our required Quasar Plugin.\n\n```js /ae/src/index.js (or .ts)\nimport { defineIndexScript } from '#q-app'\n\nexport default defineIndexScript(api => {\n  // ...\n\n  // Here we extend /quasar.config file, so we can add\n  // a boot file which registers our new Vue directive;\n  // \"extendConf\" will be defined below (keep reading the tutorial)\n  api.extendQuasarConf((conf, api) => {\n    // Let's play nice and add it only if it's not defined already\n    if (!conf.framework.plugins.includes('AppVisibility')) {\n      conf.framework.plugins.push('AppVisibility')\n    }\n  })\n})\n```",

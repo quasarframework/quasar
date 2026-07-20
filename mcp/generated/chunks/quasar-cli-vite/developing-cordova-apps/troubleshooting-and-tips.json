@@ -3,7 +3,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#q-cordova",
     "documentId": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips",
     "heading": "$q.cordova",
-    "breadcrumb": ["$q.cordova", "$q.cordova"],
+    "breadcrumb": [
+      "$q.cordova",
+      "$q.cordova"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#q-cordova",
     "content": "In Cordova mode, `$q.cordova` provides the global Cordova object in Vue components. Plugin APIs may expose additional globals after the `deviceready` event.",
@@ -42,7 +45,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#android",
     "documentId": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips",
     "heading": "Android",
-    "breadcrumb": ["Android", "Android"],
+    "breadcrumb": [
+      "Android",
+      "Android"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#android",
     "content": "Use Chrome's [WebView remote debugging](https://developer.chrome.com/docs/devtools/remote-debugging/webviews) to inspect an Android device or emulator. Open `chrome://inspect` after enabling USB debugging and connecting the device.\n\nFor native failures, use Android Studio's [Logcat window](https://developer.android.com/studio/debug/logcat) or stream device logs from a terminal with `adb logcat`. Filter by your application ID or process to reduce unrelated system output.\n\nAccept SDK licenses with `sdkmanager --licenses`. Set `ANDROID_HOME` and the current `cmdline-tools/latest/bin` and `platform-tools` paths as described on the [Preparation](/quasar-cli-vite/developing-cordova-apps/preparation) page. Run these commands to inspect the installed toolchain and device connection:\n\n```bash\ncordova requirements android\nadb devices\n```\n\nOn Linux, follow Android's current [hardware-device setup](https://developer.android.com/studio/run/device#setting-up) instructions rather than applying a generic permissive udev ruleset.\n\nDo not accept Android Studio upgrades automatically. The compatible Java, Gradle, Android Gradle Plugin, SDK, and build-tools versions depend on the installed `cordova-android` version.",
@@ -53,7 +59,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#ios",
     "documentId": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips",
     "heading": "iOS",
-    "breadcrumb": ["iOS", "iOS"],
+    "breadcrumb": [
+      "iOS",
+      "iOS"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#ios",
     "content": "Use Safari Web Inspector to inspect an app on an iOS device or simulator. Enable Web Inspector on the device and Safari's Develop menu, then select the app's WebView.\n\nIf a simulator requested through additional Cordova arguments no longer exists, list the installed devices with `xcrun simctl list devices` and pass a currently available target using the syntax supported by your `cordova-ios` version.",
@@ -78,7 +87,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#safe-areas",
     "documentId": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips",
     "heading": "Safe areas",
-    "breadcrumb": ["Safe areas", "Safe areas"],
+    "breadcrumb": [
+      "Safe areas",
+      "Safe areas"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#safe-areas",
     "content": "Quasar components such as QHeader, QFooter, and Notify account for common safe-area cases. Test multiple devices and orientations. Custom layout elements can use the standard CSS environment variables:\n\n```css\nbody.cordova .top-element {\n  padding-top: env(safe-area-inset-top, 0px);\n}\n\nbody.cordova .bottom-element {\n  padding-bottom: env(safe-area-inset-bottom, 0px);\n}\n```",
@@ -89,7 +101,10 @@
     "id": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#disable-ios-overscroll",
     "documentId": "quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips",
     "heading": "Disable iOS overscroll",
-    "breadcrumb": ["Disable iOS overscroll", "Disable iOS overscroll"],
+    "breadcrumb": [
+      "Disable iOS overscroll",
+      "Disable iOS overscroll"
+    ],
     "level": 2,
     "canonicalUrl": "https://quasar.dev/quasar-cli-vite/developing-cordova-apps/troubleshooting-and-tips#disable-ios-overscroll",
     "content": "To disable the rubber-band overscroll effect, add this preference to `/src-cordova/config.xml`:\n\n```xml\n<preference name=\"DisallowOverscroll\" value=\"true\" />\n```",

@@ -3,7 +3,9 @@
     "id": "style/breakpoints#overview",
     "documentId": "style/breakpoints",
     "heading": "Breakpoints",
-    "breadcrumb": ["Breakpoints"],
+    "breadcrumb": [
+      "Breakpoints"
+    ],
     "level": 1,
     "canonicalUrl": "https://quasar.dev/style/breakpoints",
     "content": "Quasar uses the following CSS breakpoints:\n\n| Window Size | Name | Min-width threshold in pixels | Max-width threshold in pixels |\n| ----------- | ---- | ----------------------------- | ----------------------------- |\n| Extra Small | `xs` | 0px                           | 599.99px                      |\n| Small       | `sm` | 600px                         | 1023.99px                     |\n| Medium      | `md` | 1024px                        | 1439.99px                     |\n| Large       | `lg` | 1440px                        | 1919.99px                     |\n| Extra Large | `xl` | 1920px                        | Infinity                      |\n\nTo learn how to use them, please visit the [Visibility](/style/visibility) page.\n\nYou might also want to take a look at the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox#responsive-design) on the \"Responsive Design\" section.",
@@ -14,7 +16,11 @@
     "id": "style/breakpoints#sass",
     "documentId": "style/breakpoints",
     "heading": "Sass",
-    "breadcrumb": [null, "Sass", "Sass"],
+    "breadcrumb": [
+      null,
+      "Sass",
+      "Sass"
+    ],
     "level": 3,
     "canonicalUrl": "https://quasar.dev/style/breakpoints#sass",
     "content": "You can also use the breakpoints in Sass:\n\n```sass\n@media (max-width: $breakpoint-xs-max)\n  font-size: 10px\n```\n\nThe syntax for these variables is shown below, where `<breakpoint>` is to be replaced by \"xs\", \"sm\", \"md\", \"lg\" or \"xl\":\n\n```\n$breakpoint-<breakpoint>-min\n$breakpoint-<breakpoint>-max\n```\n\nThere's also:\n\n```\n$sizes.<breakpoint>\n// replace <breakpoint> with xs, sm, md, lg or xl\n```\n\n[If enabled (only)](/options/screen-plugin#how-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen--xl`.\n\n```sass\n.my-div\n  body.screen--xs &\n    color: #000\n  body.screen--sm &\n    color: #fff\n```",
