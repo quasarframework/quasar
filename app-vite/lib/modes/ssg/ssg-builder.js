@@ -183,7 +183,6 @@ function getParseVueRouterRoutesFn(quasarConf) {
             }
 
             if (dynamicFullPath.includes(':')) {
-              opts.acc.ignoredDynamicParamSsgPages.push(dynamicSsgPage)
               const routeBanner =
                 dynamicFullPath !== fullPath ? ` (${fullPath})` : ''
 
