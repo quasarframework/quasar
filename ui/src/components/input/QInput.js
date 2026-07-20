@@ -153,17 +153,7 @@ export default createComponent({
         readonly: props.readonly
       }
 
-      if (state.hasError?.value === true) {
-        acc['aria-invalid'] = 'true'
-
-        if (state.errorMessageId?.value !== void 0) {
-          acc['aria-errormessage'] = state.errorMessageId.value
-          acc['aria-describedby'] =
-            acc['aria-describedby'] !== void 0
-              ? `${acc['aria-describedby']} ${state.errorMessageId.value}`
-              : state.errorMessageId.value
-        }
-      }
+      Object.assign(acc, state.getErrorAriaAttrs(acc))
 
       if (!isTextarea.value) {
         acc.type = props.type

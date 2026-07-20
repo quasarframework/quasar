@@ -213,10 +213,30 @@ export default function useField(state) {
       : void 0
   )
 
+  function getErrorAriaAttrs(controlAttrs) {
+    if (hasError.value !== true) return {}
+
+    const acc = { 'aria-invalid': 'true' }
+
+    if (errorMessageId.value !== void 0) {
+      acc['aria-errormessage'] =
+        controlAttrs?.['aria-errormessage'] !== void 0
+          ? controlAttrs['aria-errormessage']
+          : errorMessageId.value
+      acc['aria-describedby'] =
+        controlAttrs?.['aria-describedby'] !== void 0
+          ? `${controlAttrs['aria-describedby']} ${errorMessageId.value}`
+          : errorMessageId.value
+    }
+
+    return acc
+  }
+
   Object.assign(state, {
     hasError,
     errorMessage,
-    errorMessageId
+    errorMessageId,
+    getErrorAriaAttrs
   })
 
   const floatingLabel =

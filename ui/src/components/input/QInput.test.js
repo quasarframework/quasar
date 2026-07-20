@@ -45,5 +45,22 @@ describe('[QInput API]', () => {
 
       expect(describedBy?.split(' ')).toEqual(['external-help', messageId])
     })
+
+    test('preserves an explicit aria-errormessage value', () => {
+      const wrapper = mount(QInput, {
+        attrs: {
+          'aria-errormessage': 'external-error'
+        },
+        props: {
+          modelValue: '',
+          error: true,
+          errorMessage: 'Required'
+        }
+      })
+
+      expect(wrapper.get('input').attributes('aria-errormessage')).toBe(
+        'external-error'
+      )
+    })
   })
 })
