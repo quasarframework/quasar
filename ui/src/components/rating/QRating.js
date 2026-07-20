@@ -102,7 +102,7 @@ export default createComponent({
             : props.iconSelected,
         halfIconLen,
         halfIcon:
-          halfIconLen > 0 ? props.iconHalf[selIconLen - 1] : props.iconHalf,
+          halfIconLen > 0 ? props.iconHalf[halfIconLen - 1] : props.iconHalf,
         colorLen,
         color: colorLen > 0 ? props.color[colorLen - 1] : props.color,
         selColorLen,
@@ -138,7 +138,12 @@ export default createComponent({
       const acc = [],
         icons = iconData.value,
         ceil = Math.ceil(props.modelValue),
-        tabindex = editable.value ? 0 : null
+        tabIndex =
+          Number.isInteger(props.modelValue) &&
+          props.modelValue >= 1 &&
+          props.modelValue <= props.max
+            ? props.modelValue
+            : 1
 
       const halfIndex =
         props.iconHalf === void 0 || ceil === props.modelValue ? -1 : ceil
@@ -191,7 +196,7 @@ export default createComponent({
                   : icons.icon) || $q.iconSet.rating.icon,
 
           attrs: {
-            tabindex,
+            tabindex: editable.value ? (i === tabIndex ? 0 : -1) : null,
             role: 'radio',
             'aria-checked': props.modelValue === i ? 'true' : 'false',
             'aria-label': iconLabel.value(i, name)
@@ -242,7 +247,7 @@ export default createComponent({
       }
     }
 
-    function onKeyup(e, i) {
+    function onKeydown(e, i) {
       switch (e.keyCode) {
         case 13:
         case 32: {
@@ -250,19 +255,19 @@ export default createComponent({
           return stopAndPrevent(e)
         }
         case 37: // LEFT ARROW
-        case 40: {
-          // DOWN ARROW
-          if (iconRefs[`rt${i - 1}`]) {
-            iconRefs[`rt${i - 1}`].focus()
-          }
+        case 38: {
+          // UP ARROW
+          const next = i === 1 ? Number(props.max) : i - 1
+          iconRefs[`rt${next}`]?.focus()
+          set(next)
           return stopAndPrevent(e)
         }
         case 39: // RIGHT ARROW
-        case 38: {
-          // UP ARROW
-          if (iconRefs[`rt${i + 1}`]) {
-            iconRefs[`rt${i + 1}`].focus()
-          }
+        case 40: {
+          // DOWN ARROW
+          const next = i === Number(props.max) ? 1 : i + 1
+          iconRefs[`rt${next}`]?.focus()
+          set(next)
           return stopAndPrevent(e)
         }
       }
@@ -303,8 +308,8 @@ export default createComponent({
                 setHoverValue(i)
               },
               onBlur: resetMouseModel,
-              onKeyup(e) {
-                onKeyup(e, i)
+              onKeydown(e) {
+                onKeydown(e, i)
               }
             },
             hMergeSlot(slots[`tip-${i}`], [

@@ -43,6 +43,8 @@ QRouteTab won't and cannot work with the UMD version if you don't also install V
 
 <DocExample title="Basic" file="Basic" />
 
+Use the arrow keys to move focus between tabs. Horizontal tabs use `Arrow Left` and `Arrow Right`; vertical tabs use `Arrow Up` and `Arrow Down`. Navigation wraps at either end, and `Home` or `End` moves focus to the first or last tab. Press `Space` or `Enter` to activate the focused tab.
+
 ### Outside, inside and visible on mobile arrows
 
 <DocExample title="Outside, inside and visible on mobile arrows" file="ArrowsModifiers" />

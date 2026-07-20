@@ -118,6 +118,10 @@ export default createComponent({
       emit('keyup', e)
     }
 
+    function onKeydown(e) {
+      if (isClickable.value && e.keyCode === 32) stopAndPrevent(e)
+    }
+
     function getContent() {
       const child = hUniqueSlot(slots.default, [])
 
@@ -139,8 +143,13 @@ export default createComponent({
         ref: rootRef,
         class: classes.value,
         style: style.value,
-        role: 'listitem',
+        role: hasLink.value
+          ? void 0
+          : isClickable.value
+            ? 'button'
+            : 'listitem',
         onClick,
+        onKeydown,
         onKeyup
       }
 
