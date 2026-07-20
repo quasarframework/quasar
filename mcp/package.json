@@ -15,10 +15,12 @@
   "type": "module",
   "scripts": {
     "generate": "node scripts/generate.js",
+    "evaluate": "node scripts/evaluate.js",
     "validate": "node scripts/validate.js",
     "test": "node --test tests/*.test.js",
     "test:immutability": "node scripts/verify-immutability.js",
     "test:server": "node --test tests/server.test.js",
+    "prepack": "pnpm validate && pnpm evaluate && pnpm test",
     "start": "node bin/quasar-mcp.js"
   },
   "dependencies": {

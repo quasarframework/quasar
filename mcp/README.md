@@ -61,6 +61,7 @@ The prototype is deliberately not registered in the root pnpm workspace. Run it 
 ```bash
 node mcp/scripts/generate.js
 node mcp/scripts/validate.js
+node mcp/scripts/evaluate.js
 node --test mcp/tests/*.test.js
 node mcp/scripts/verify-immutability.js
 node mcp/bin/quasar-mcp.js
@@ -100,3 +101,7 @@ The generator produces:
 APIs are associated with pages through both explicit `<DocApi>` references and their canonical `docsUrl`. This includes public APIs that intentionally share a page without having a separate tag, such as spinner variants, `QSpace`, `QFormChildMixin`, `Meta`, and `QUploaderAddTrigger`.
 
 The runtime server only reads `generated/`. Artifact generation remains a separate development operation and is never performed when an MCP client starts the package.
+
+## Retrieval evaluation
+
+`eval/search-cases.json` is a small, reviewable benchmark of natural-language Quasar searches across components, directives, plugins, and composables. Run `pnpm evaluate` from this directory to report pass rate and mean reciprocal rank. The command exits unsuccessfully whenever an expected result falls below its declared maximum rank, making retrieval regressions suitable for CI checks.

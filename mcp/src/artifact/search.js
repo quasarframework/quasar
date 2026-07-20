@@ -7,6 +7,42 @@ function normalize(value) {
     .trim()
 }
 
+const ignoredTerms = new Set([
+  'a',
+  'an',
+  'and',
+  'for',
+  'in',
+  'of',
+  'on',
+  'the',
+  'to',
+  'use',
+  'using',
+  'with'
+])
+
+const termAliases = {
+  autocomplete: ['select'],
+  dropdown: ['select'],
+  fullscreen: ['appfullscreen'],
+  modal: ['dialog'],
+  notification: ['notify'],
+  sidebar: ['drawer'],
+  storage: ['webstorage'],
+  timer: ['interval', 'timeout'],
+  toast: ['notify'],
+  upload: ['uploader'],
+  uploader: ['upload'],
+  viewport: ['screen']
+}
+
+function queryTerms(query) {
+  const original = query.split(' ').filter(term => !ignoredTerms.has(term))
+  const aliases = original.flatMap(term => termAliases[term] ?? [])
+  return [...new Set([...original, ...aliases])]
+}
+
 function distance(left, right) {
   if (left === right) return 0
   if (left.length === 0) return right.length
@@ -68,7 +104,7 @@ function scoreRecord(record, query, terms) {
 
 export function searchRecords(records, query, options = {}) {
   const normalizedQuery = normalize(query)
-  const terms = normalizedQuery.split(' ').filter(Boolean)
+  const terms = queryTerms(normalizedQuery)
   const kinds = new Set(options.kinds)
 
   if (terms.length === 0) return []

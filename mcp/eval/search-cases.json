@@ -1,0 +1,66 @@
+[
+  { "query": "upload files to server", "expected": "QUploader", "maxRank": 3 },
+  { "query": "select dropdown options", "expected": "QSelect", "maxRank": 3 },
+  { "query": "notification toast", "expected": "Notify", "maxRank": 3 },
+  { "query": "modal dialog", "expected": "Dialog", "maxRank": 3 },
+  {
+    "query": "responsive viewport breakpoints",
+    "expected": "Screen",
+    "maxRank": 3
+  },
+  { "query": "browser fullscreen", "expected": "Fullscreen", "maxRank": 3 },
+  { "query": "sidebar drawer", "expected": "QDrawer", "maxRank": 3 },
+  {
+    "query": "local session storage",
+    "expected": "Local/Session Storage",
+    "maxRank": 3
+  },
+  {
+    "query": "interval timer composable",
+    "expected": "useInterval",
+    "maxRank": 3
+  },
+  {
+    "query": "timeout timer composable",
+    "expected": "useTimeout",
+    "maxRank": 3
+  },
+  {
+    "query": "intersection observer directive",
+    "expected": "Intersection Directive",
+    "maxRank": 3
+  },
+  {
+    "query": "swipe gesture directive",
+    "expected": "Touch Swipe Directive",
+    "maxRank": 3
+  },
+  {
+    "query": "close popup directive",
+    "expected": "Close Popup Directive",
+    "maxRank": 3
+  },
+  { "query": "dark mode plugin", "expected": "Dark", "maxRank": 3 },
+  {
+    "query": "table server pagination sorting",
+    "expected": "QTable",
+    "maxRank": 3
+  },
+  {
+    "query": "virtual scrolling large list",
+    "expected": "Virtual Scroll",
+    "maxRank": 3
+  },
+  { "query": "form validation rules", "expected": "QForm", "maxRank": 5 },
+  {
+    "query": "dialog plugin component composable",
+    "expected": "useDialogPluginComponent",
+    "maxRank": 3
+  },
+  {
+    "query": "quasar hydration composable",
+    "expected": "useHydration",
+    "maxRank": 3
+  },
+  { "query": "image lazy loading", "expected": "QImg", "maxRank": 5 }
+]
