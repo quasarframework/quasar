@@ -1,12 +1,16 @@
-export default function getCssVar(propName, element = document.body) {
+import { getTeleportTargetElement } from '../private.dom/teleport-target.js'
+
+export default function getCssVar(propName, element) {
   if (typeof propName !== 'string') {
     throw new TypeError('Expected a string as propName')
   }
-  if (!(element instanceof Element)) {
+  const target = element === void 0 ? getTeleportTargetElement() : element
+
+  if (!(target instanceof Element)) {
     throw new TypeError('Expected a DOM element')
   }
 
   return (
-    getComputedStyle(element).getPropertyValue(`--q-${propName}`).trim() || null
+    getComputedStyle(target).getPropertyValue(`--q-${propName}`).trim() || null
   )
 }

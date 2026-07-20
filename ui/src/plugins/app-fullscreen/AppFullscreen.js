@@ -1,5 +1,6 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
 import { changeGlobalNodesTarget } from '../../utils/private.config/nodes.js'
+import { getTeleportTarget } from '../../utils/private.dom/teleport-target.js'
 
 const prefixes = {}
 
@@ -27,7 +28,9 @@ function updateEl() {
     : null)
 
   changeGlobalNodesTarget(
-    newEl === null || newEl === document.documentElement ? document.body : newEl
+    newEl === null || newEl === document.documentElement
+      ? getTeleportTarget()
+      : newEl
   )
 }
 

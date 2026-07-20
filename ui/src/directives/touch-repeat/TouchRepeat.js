@@ -12,6 +12,7 @@ import {
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { isKeyCode } from '../../utils/private.keyboard/key-composition.js'
 import getSSRProps from '../../utils/private.noop-ssr-directive-transform/noop-ssr-directive-transform.js'
+import { getTeleportTargetElement } from '../../utils/private.dom/teleport-target.js'
 
 const keyCodes = {
     esc: 27,
@@ -32,7 +33,7 @@ function shouldEnd(evt, origin) {
 }
 
 function removeBodyNonSelectable() {
-  document.body.classList.remove('non-selectable')
+  getTeleportTargetElement().classList.remove('non-selectable')
 }
 
 export default createDirective(
@@ -135,7 +136,7 @@ export default createDirective(
               }
 
               if (client.is.mobile) {
-                document.body.classList.add('non-selectable')
+                getTeleportTargetElement().classList.add('non-selectable')
                 clearSelection()
                 ctx.styleCleanup = styleCleanup
               }
@@ -164,7 +165,7 @@ export default createDirective(
 
                   if (!client.is.mobile) {
                     document.documentElement.style.cursor = 'pointer'
-                    document.body.classList.add('non-selectable')
+                    getTeleportTargetElement().classList.add('non-selectable')
                     clearSelection()
                     ctx.styleCleanup = styleCleanup
                   }

@@ -1,4 +1,5 @@
 import { createReactivePlugin } from '../../utils/private.create/create.js'
+import { getTeleportTargetElement } from '../../utils/private.dom/teleport-target.js'
 
 const Plugin = createReactivePlugin(
   {
@@ -29,8 +30,9 @@ const Plugin = createReactivePlugin(
       }
 
       Plugin.isActive = val === true
-      document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
-      document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
+      const target = getTeleportTargetElement()
+      target.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
+      target.classList.add(`body--${val === true ? 'dark' : 'light'}`)
     },
 
     toggle() {
@@ -39,7 +41,7 @@ const Plugin = createReactivePlugin(
 
     install({ $q, ssrContext }) {
       const dark = __QUASAR_SSR_CLIENT__
-        ? document.body.classList.contains('body--dark')
+        ? getTeleportTargetElement().classList.contains('body--dark')
         : $q.config.dark
 
       if (__QUASAR_SSR_SERVER__) {
