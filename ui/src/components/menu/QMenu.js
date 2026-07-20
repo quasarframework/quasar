@@ -137,6 +137,7 @@ export default createComponent({
       canShow,
       handleShow,
       handleHide,
+      handleRouteChange,
       hideOnRouteChange,
       processOnMount: true
     })
@@ -297,13 +298,15 @@ export default createComponent({
           // menu was not closed from a mouse or touch clickOutside
           !evt.qClickOutside)
       ) {
-        ;(
+        const target =
           (evt?.type.indexOf('key') === 0
             ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
             : void 0) || refocusTarget
-        ).focus()
 
         refocusTarget = null
+        addFocusFn(() => {
+          if (target.isConnected) target.focus()
+        })
       }
 
       // should removeTimeout() if this gets removed
@@ -311,6 +314,10 @@ export default createComponent({
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
       }, props.transitionDuration)
+    }
+
+    function handleRouteChange() {
+      refocusTarget = null
     }
 
     function anchorCleanup(hiding) {
