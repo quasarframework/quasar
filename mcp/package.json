@@ -1,14 +1,29 @@
 {
-  "name": "@quasar/mcp-prototype",
-  "version": "0.0.0",
+  "name": "@quasar/mcp",
+  "version": "0.1.0",
   "private": true,
-  "description": "Read-only prototype for generating AI-ready Quasar documentation artifacts",
+  "description": "Official read-only MCP server for Quasar UI documentation",
+  "bin": {
+    "quasar-mcp": "bin/quasar-mcp.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "generated",
+    "README.md"
+  ],
   "type": "module",
   "scripts": {
     "generate": "node scripts/generate.js",
     "validate": "node scripts/validate.js",
     "test": "node --test tests/*.test.js",
-    "test:immutability": "node scripts/verify-immutability.js"
+    "test:immutability": "node scripts/verify-immutability.js",
+    "test:server": "node --test tests/server.test.js",
+    "start": "node bin/quasar-mcp.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "4.4.3"
   },
   "engines": {
     "node": ">=22"

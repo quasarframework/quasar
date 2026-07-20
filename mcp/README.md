@@ -1,6 +1,51 @@
-# Quasar documentation artifact prototype
+# Quasar MCP server
 
-This directory contains Phase 1 of an AI-readable Quasar UI documentation artifact. It processes every public component, directive, plugin, and composable guide together with the resolved API definitions and associated examples.
+This directory contains an offline, read-only Model Context Protocol server backed by a generated Quasar UI documentation artifact. It covers every public component, directive, plugin, and composable guide together with resolved API definitions and official examples.
+
+## MCP setup
+
+The package exposes a stdio server through the `quasar-mcp` binary. After publication, MCP clients can configure it as follows:
+
+```json
+{
+  "mcpServers": {
+    "quasar-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@quasar/mcp@latest"]
+    }
+  }
+}
+```
+
+For development from this checkout:
+
+```json
+{
+  "mcpServers": {
+    "quasar-mcp": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/quasar/mcp/bin/quasar-mcp.js"]
+    }
+  }
+}
+```
+
+The server exposes six tools:
+
+- `searchQuasarDocs` — ranked exact, lexical, and typo-tolerant search;
+- `getQuasarDoc` — a complete guide or one retrieval-sized section;
+- `getQuasarApi` — a complete API, member group, or exact member;
+- `getQuasarExamples` — official examples filtered by topic;
+- `getQuasarComposable` — public composable documentation and optional source; and
+- `getQuasarMcpInfo` — artifact version, coverage, and safety information.
+
+Stable `quasar://` resources expose the manifest, documentation, API contracts, composables, and Vue examples.
+
+Responses contain the included Quasar version, source commit, and canonical documentation URL. Large responses are bounded and direct callers toward narrower follow-up requests.
+
+The server does not access project files, execute commands, use the network, install packages, or modify state.
 
 ## Immutability boundary
 
@@ -18,6 +63,7 @@ node mcp/scripts/generate.js
 node mcp/scripts/validate.js
 node --test mcp/tests/*.test.js
 node mcp/scripts/verify-immutability.js
+node mcp/bin/quasar-mcp.js
 ```
 
 The source repository can be supplied explicitly when testing the generator elsewhere:
@@ -53,4 +99,4 @@ The generator produces:
 
 APIs are associated with pages through both explicit `<DocApi>` references and their canonical `docsUrl`. This includes public APIs that intentionally share a page without having a separate tag, such as spinner variants, `QSpace`, `QFormChildMixin`, `Meta`, and `QUploaderAddTrigger`.
 
-This is an artifact-generation project only. It intentionally contains no MCP server or protocol dependency yet.
+The runtime server only reads `generated/`. Artifact generation remains a separate development operation and is never performed when an MCP client starts the package.
