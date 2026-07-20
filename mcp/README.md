@@ -74,6 +74,12 @@ node mcp/scripts/generate.js --source-root /path/to/quasar
 node mcp/scripts/validate.js --source-root /path/to/quasar
 ```
 
+Generation can also target a disposable directory inside `mcp/`, which is how the immutability check avoids altering the checked-in artifact:
+
+```bash
+node mcp/scripts/generate.js --output-root .verify-output
+```
+
 ## Generated artifact
 
 The generator currently covers:

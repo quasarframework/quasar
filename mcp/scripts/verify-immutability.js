@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
+import { mkdtemp, rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import process from 'node:process'
 
@@ -22,11 +23,24 @@ function trackedSourceHashes() {
 }
 
 const before = trackedSourceHashes()
+const temporaryOutput = await mkdtemp(join(projectRoot, '.verify-'))
 
-execFileSync(process.execPath, [join(projectRoot, 'scripts/generate.js')], {
-  cwd: sourceRoot,
-  stdio: 'inherit'
-})
+try {
+  execFileSync(
+    process.execPath,
+    [
+      join(projectRoot, 'scripts/generate.js'),
+      '--output-root',
+      temporaryOutput
+    ],
+    {
+      cwd: sourceRoot,
+      stdio: 'inherit'
+    }
+  )
+} finally {
+  await rm(temporaryOutput, { recursive: true, force: true })
+}
 
 const after = trackedSourceHashes()
 

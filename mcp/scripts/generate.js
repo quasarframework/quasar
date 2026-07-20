@@ -18,8 +18,12 @@ import {
 } from './lib.js'
 
 const projectRoot = resolve(import.meta.dirname, '..')
-const outputRoot = assertWithin(projectRoot, join(projectRoot, 'generated'))
 const args = parseCliArgs(process.argv.slice(2))
+const outputRoot = assertWithin(
+  projectRoot,
+  resolve(projectRoot, args.get('output-root') ?? 'generated'),
+  'Output root'
+)
 const sourceRoot = await resolveSourceRoot(
   args.get('source-root') ?? resolve(projectRoot, '..')
 )
