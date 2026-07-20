@@ -73,25 +73,25 @@ export type SsgParseVueRouterResult = {
    * List of Vue Router routes that were ignored due to matching
    * the crawlIgnoreRoutes patterns.
    */
-  crawlIgnoredRoutes: RouteRecordRaw[];
+  crawlIgnoredSsgPages: SsgPage[];
 
   /**
    * List of Vue Router routes that were ignored due to
    * being redirects.
    */
-  ignoredRedirectingRoutes: RouteRecordRaw[];
+  ignoredRedirectSsgPages: SsgPage[];
 
   /**
    * List of Vue Router routes that were ignored due to
    * having dynamic parameters.
    */
-  ignoredDynamicRoutes: RouteRecordRaw[];
+  ignoredDynamicParamSsgPages: SsgPage[];
 
   /**
    * List of Vue Router routes that were ignored due to being
    * marked as client-side rendered (CSR).
    */
-  ignoredCsrRoutes: RouteRecordRaw[];
+  ignoredCsrSsgPages: SsgPage[];
 };
 
 export type SsgParseVueRouterRoutes = (

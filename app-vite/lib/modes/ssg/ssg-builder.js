@@ -100,8 +100,13 @@ function getParseVueRouterRoutesFn(quasarConf) {
         routePath === '' ? parentPath : `${parentPath}/${routePath}`
       ).replaceAll(multiSlashRE, '/')
 
+      const ssgPage = {
+        route: fullPath,
+        vueRouterRoute: route
+      }
+
       if (opts.isCrawlIgnoreMatch?.(fullPath)) {
-        opts.acc.crawlIgnoredRoutes.push(route)
+        opts.acc.crawlIgnoredSsgPages.push(ssgPage)
 
         if (opts.verbose) {
           warn(
@@ -122,7 +127,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (isCSRMatch?.(fullPath)) {
-        opts.acc.ignoredCsrRoutes.push(route)
+        opts.acc.ignoredCsrSsgPages.push(ssgPage)
 
         if (opts.verbose) {
           warn(`Ignored route (CSR): ${fullPath}`, 'parseVueRouterRoutes()')
@@ -140,7 +145,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (routePath.includes(':')) {
-        opts.acc.ignoredDynamicRoutes.push(route)
+        opts.acc.ignoredDynamicParamSsgPages.push(ssgPage)
 
         if (opts.verbose) {
           warn(
@@ -163,7 +168,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
       }
 
       if (route.redirect) {
-        opts.acc.ignoredRedirectingRoutes.push(route)
+        opts.acc.ignoredRedirectSsgPages.push(ssgPage)
 
         if (opts.verbose) {
           warn(
@@ -175,7 +180,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
         continue
       }
 
-      opts.acc.ssgPages.push({ route: fullPath, vueRouterRoute: route })
+      opts.acc.ssgPages.push(ssgPage)
     }
   }
 
@@ -188,10 +193,10 @@ function getParseVueRouterRoutesFn(quasarConf) {
     const acc = {
       ssgPages: [],
       hasIgnoredRoutes: false,
-      crawlIgnoredRoutes: [],
-      ignoredRedirectingRoutes: [],
-      ignoredDynamicRoutes: [],
-      ignoredCsrRoutes: []
+      crawlIgnoredSsgPages: [],
+      ignoredRedirectSsgPages: [],
+      ignoredDynamicParamSsgPages: [],
+      ignoredCsrSsgPages: []
     }
 
     parseVueRouterRoutes({
@@ -212,10 +217,10 @@ function getParseVueRouterRoutesFn(quasarConf) {
     })
 
     acc.hasIgnoredRoutes =
-      acc.crawlIgnoredRoutes.length !== 0 ||
-      acc.ignoredRedirectingRoutes.length !== 0 ||
-      acc.ignoredDynamicRoutes.length !== 0 ||
-      acc.ignoredCsrRoutes.length !== 0
+      acc.crawlIgnoredSsgPages.length !== 0 ||
+      acc.ignoredRedirectSsgPages.length !== 0 ||
+      acc.ignoredDynamicParamSsgPages.length !== 0 ||
+      acc.ignoredCsrSsgPages.length !== 0
 
     return acc
   }

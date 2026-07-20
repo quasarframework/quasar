@@ -7,6 +7,10 @@ desc: (@quasar/app-vite) Introduction on Static Site Generator (SSG) apps with Q
 The Quasar SSG Mode is currently in the "beta" stage. Based on the community feedback, the API may change in the future, so check the release notes each time you upgrade "@quasar/app-vite".
 :::
 
+::: warning
+Running SSG mode requires Quasar UI v2.22+.
+:::
+
 Quasar and Vue.js are frameworks for building client-side applications. By default, Vue components produce and manipulate DOM in the browser as output. However, it is also possible to pre-render the exact same components into HTML strings at build time, send those static pages directly to the browser, and finally "hydrate" the static markup into a fully interactive app on the client.
 
 A statically generated Quasar app uses the same Vue architecture as other Quasar modes, but renders selected routes to HTML files at build time. When a browser loads one of those files, Vue hydrates the existing markup and the app becomes interactive.
