@@ -217,10 +217,20 @@ type SsgParseVueRouterParams = {
    * Each entry in the array should be an object where the keys are the dynamic
    * segment names and the values are the corresponding values to use for those segments.
    *
+   * The expansion uses the vue-router path parser, so all vue-router param
+   * syntaxes are supported, with the same semantics as router.resolve().
+   *
    * Note on optional route parameters (eg. /user/:id?):
-   * Use { [name]: "" } (empty string as value) for optional params. Do not omit any
-   * optional params in the object.
-   * Example: { "/user/:id?": [{ id: "" }] } will generate a SSG page for /user route.
+   * Omit the param key or use an empty string as its value to drop the segment.
+   * Example: { "/user/:id?": [{ id: "" }] } will generate a SSG page for the /user route.
+   *
+   * Note on repeatable route parameters (eg. /chapters/:chapter+):
+   * Use an array as the value to fill the repeated segments.
+   * Example: { "/chapters/:chapter+": [{ chapter: ["one", "two"] }] } generates /chapters/one/two.
+   *
+   * Note on custom regex parameters (eg. /items/:id(\\d+)):
+   * Values are substituted without being validated against the custom regex,
+   * matching the router.resolve() behavior.
    *
    * @example { "/user/:id": [{ id: 1 }, { id: 2 }] }
    * @example { "/product/:category/:id": [{ category: "electronics", id: 123 }, { category: "books", id: 456 }] }
@@ -228,7 +238,7 @@ type SsgParseVueRouterParams = {
    */
   routesDynamicParamsMap?: Record<
     string,
-    Array<Record<string, string | number>>
+    Record<string, string | number | (string | number)[]>[]
   >;
 
   /**
