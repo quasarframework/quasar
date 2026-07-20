@@ -533,7 +533,7 @@ export class QuasarModeBuilder extends AppBuilder {
       noPreloadTagRoutes,
       ssgRendererRetryCount,
       ssgRendererRetryDelay,
-      autoSubfolderIndex
+      ssgRendererDirectoryIndexes
     } = this.quasarConf.ssg
 
     const isNoPreloadMatcher =
@@ -559,7 +559,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     const getSsgPageFilename = ssgPage => {
       if (
-        autoSubfolderIndex === false &&
+        ssgRendererDirectoryIndexes === false &&
         ssgPage.dir === void 0 &&
         ssgPage.filename === void 0
       ) {

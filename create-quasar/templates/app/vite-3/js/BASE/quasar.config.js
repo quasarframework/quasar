@@ -170,6 +170,7 @@ export default defineConfig((<% if (scope.preset.i18n) { %>ctx<% } else { %>/* c
       // ssgRendererConcurrency: 1,
       // ssgRendererRetryCount: 0,
       // ssgRendererRetryDelay: 1000,
+      // ssgRendererDirectoryIndexes: true,
       // error404HtmlFilename: '404.html',
       // clientSideRenderingHtmlFilename: 'csr.html',
       // clientSideRenderingRoutes: [],

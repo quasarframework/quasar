@@ -147,7 +147,7 @@ ssg: {
    *
    * @default true
    */
-  autoSubfolderIndex?: boolean;
+  ssgRendererDirectoryIndexes?: boolean;
 
   /**
     * The name of the html file that will be used for the 404 page.

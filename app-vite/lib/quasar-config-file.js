@@ -937,7 +937,7 @@ export class QuasarConfigFile {
           ssgRendererConcurrency: 1,
           ssgRendererRetryCount: 0,
           ssgRendererRetryDelay: 1000,
-          autoSubfolderIndex: true,
+          ssgRendererDirectoryIndexes: true,
           pwa: false,
           error404HtmlFilename: '404.html',
           pwaOfflineHtmlFilename: 'offline.html',
