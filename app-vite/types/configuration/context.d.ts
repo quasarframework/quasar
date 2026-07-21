@@ -226,7 +226,7 @@ interface BexQuasarContext extends BaseQuasarContext {
     spa: false;
     ssr: false;
     ssg: false;
-    pwa: boolean;
+    pwa: false;
     capacitor: false;
     cordova: false;
     electron: false;
