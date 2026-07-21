@@ -104,4 +104,18 @@ describe('[click-outside]', () => {
 
     expect(outer.onClickOutside).not.toHaveBeenCalled()
   })
+
+  test('a QTooltip above a modal dialog does not unshield an earlier menu', () => {
+    // stack (open order): outer QMenu -> modal QDialog -> QTooltip
+    // the QTooltip is skipped while scanning for the dialog boundary; that
+    // skip must not let the click reach the menu opened before the dialog
+    const outer = pushMenu()
+    const dialogEl = pushPortal('QDialog', { seamless: false })
+    pushPortal('QTooltip')
+
+    // click inside the dialog, outside every popup
+    mousedownOn(dialogEl)
+
+    expect(outer.onClickOutside).not.toHaveBeenCalled()
+  })
 })
