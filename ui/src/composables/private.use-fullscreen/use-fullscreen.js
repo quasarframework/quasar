@@ -8,6 +8,10 @@ import {
 } from 'vue'
 
 import History from '../../plugins/private.history/History.js'
+import {
+  getTeleportTarget,
+  getTeleportTargetElement
+} from '../../utils/private.dom/teleport-target.js'
 import { vmHasRouter } from '../../utils/private.vm/vm.js'
 
 let counter = 0
@@ -25,6 +29,8 @@ export default function useFullscreen() {
 
   let historyEntry,
     fullscreenFillerNode,
+    fullscreenTarget,
+    fullscreenTargetElement,
     isUnmounting = false
   const inFullscreen = ref(false)
 
@@ -62,11 +68,13 @@ export default function useFullscreen() {
 
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
-    document.body.append(proxy.$el)
+    fullscreenTarget = getTeleportTarget()
+    fullscreenTargetElement = getTeleportTargetElement()
+    fullscreenTarget.append(proxy.$el)
 
     counter++
     if (counter === 1) {
-      document.body.classList.add('q-body--fullscreen-mixin')
+      fullscreenTargetElement.classList.add('q-body--fullscreen-mixin')
     }
 
     historyEntry = {
@@ -89,7 +97,7 @@ export default function useFullscreen() {
     counter = Math.max(0, counter - 1)
 
     if (counter === 0) {
-      document.body.classList.remove('q-body--fullscreen-mixin')
+      fullscreenTargetElement.classList.remove('q-body--fullscreen-mixin')
 
       if (!isUnmounting && proxy.$el.scrollIntoView !== void 0) {
         setTimeout(() => {

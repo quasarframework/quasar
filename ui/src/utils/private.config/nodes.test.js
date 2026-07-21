@@ -11,6 +11,7 @@ let el = null
 
 afterEach(() => {
   delete globalConfig.globalNodes
+  delete globalConfig.teleportTarget
 
   if (el !== null) {
     removeGlobalNode(el)
@@ -59,6 +60,30 @@ describe('[nodes API]', () => {
         expect(element.getAttribute('id')).toMatch(/^q-portal--portType--\d+$/)
         expect(element.getAttribute('class')).toBe('port-class')
         expect(element.parentNode).toBe(document.body)
+      })
+
+      test('uses configured selector target', () => {
+        const target = document.createElement('div')
+        target.id = 'teleport-target'
+        document.body.append(target)
+        globalConfig.teleportTarget = '#teleport-target'
+
+        el = createGlobalNode('configured-target')
+
+        expect(el.parentNode).toBe(target)
+        target.remove()
+      })
+
+      test('uses configured ShadowRoot target', () => {
+        const host = document.createElement('div')
+        document.body.append(host)
+        const shadowRoot = host.attachShadow({ mode: 'open' })
+        globalConfig.teleportTarget = () => shadowRoot
+
+        el = createGlobalNode('shadow-target')
+
+        expect(el.parentNode).toBe(shadowRoot)
+        host.remove()
       })
     })
 

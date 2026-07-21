@@ -1,4 +1,5 @@
 import { globalConfig } from '../private.config/instance-config.js'
+import { getTeleportTarget } from '../private.dom/teleport-target.js'
 
 const nodesList = []
 const portalTypeList = []
@@ -17,6 +18,11 @@ export function createGlobalNode(id, portalType) {
     if (cls !== void 0) {
       el.className = cls
     }
+  }
+
+  const configuredTarget = getTeleportTarget()
+  if (configuredTarget !== target) {
+    changeGlobalNodesTarget(configuredTarget)
   }
 
   target.append(el)
@@ -41,7 +47,7 @@ export function changeGlobalNodesTarget(newTarget) {
   target = newTarget
 
   if (
-    target === document.body ||
+    target === getTeleportTarget() ||
     // or we have less than 2 dialogs:
     portalTypeList.reduce(
       (acc, type) => (type === 'dialog' ? acc + 1 : acc),

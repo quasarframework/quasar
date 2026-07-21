@@ -28,6 +28,7 @@ import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { addEvt, cleanEvt, stopAndPrevent } from '../../utils/event/event.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
+import { getTeleportTargetElement } from '../../utils/private.dom/teleport-target.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
   addClickOutside,
@@ -339,7 +340,10 @@ export default createComponent({
 
       hasNonSelectable = state
       nonSelectableCount += state ? 1 : -1
-      document.body.classList.toggle('non-selectable', nonSelectableCount > 0)
+      getTeleportTargetElement().classList.toggle(
+        'non-selectable',
+        nonSelectableCount > 0
+      )
 
       if (!state && removeNonSelectableTimer !== void 0) {
         clearTimeout(removeNonSelectableTimer)

@@ -13,6 +13,8 @@ function globalHandler(evt) {
   }
 
   const target = evt.target
+  const path =
+    typeof evt.composedPath === 'function' ? evt.composedPath() : void 0
 
   if (
     target === void 0 ||
@@ -46,14 +48,15 @@ function globalHandler(evt) {
 
   for (let i = registeredList.length - 1; i >= 0; i--) {
     const state = registeredList[i]
+    const anchor = state.anchorEl.value
+    const inner = state.innerRef.value
+    const isInside =
+      path !== void 0
+        ? path.includes(anchor) || (inner !== null && path.includes(inner))
+        : (anchor !== null && anchor.contains(target)) ||
+          (inner !== null && inner.contains(target))
 
-    if (
-      (state.anchorEl.value === null ||
-        !state.anchorEl.value.contains(target)) &&
-      (target === document.body ||
-        (state.innerRef.value !== null &&
-          !state.innerRef.value.contains(target)))
-    ) {
+    if (!isInside) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
       evt.qClickOutside = true

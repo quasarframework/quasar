@@ -22,7 +22,7 @@ import usePortal from '../../composables/private.use-portal/use-portal.js'
 import usePreventScroll from '../../composables/private.use-prevent-scroll/use-prevent-scroll.js'
 
 import { createComponent } from '../../utils/private.create/create.js'
-import { childHasFocus } from '../../utils/dom/dom.js'
+import { childHasFocus, getActualActiveElement } from '../../utils/dom/dom.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
   addEscapeKey,
@@ -194,8 +194,8 @@ export default createComponent({
       addToHistory()
 
       refocusTarget =
-        !props.noRefocus && document.activeElement !== null
-          ? document.activeElement
+        !props.noRefocus && getActualActiveElement() !== null
+          ? getActualActiveElement()
           : null
 
       updateMaximized(props.maximized)
@@ -204,16 +204,16 @@ export default createComponent({
 
       if (props.noFocus) removeTick()
       else {
-        document.activeElement?.blur()
+        getActualActiveElement()?.blur()
         registerTick(focus)
       }
 
       // should removeTimeout() if this gets removed
       registerTimeout(() => {
         if (vm.proxy.$q.platform.is.ios) {
-          if (!props.seamless && document.activeElement) {
+          if (!props.seamless && getActualActiveElement()) {
             const { top, bottom } =
-                document.activeElement.getBoundingClientRect(),
+                getActualActiveElement().getBoundingClientRect(),
               { innerHeight } = window,
               height =
                 window.visualViewport !== void 0
@@ -231,7 +231,7 @@ export default createComponent({
               )
             }
 
-            document.activeElement.scrollIntoView()
+            getActualActiveElement().scrollIntoView()
           }
 
           // required in order to avoid the "double-tap needed" issue
@@ -291,7 +291,7 @@ export default createComponent({
           }
         }
 
-        if (!node.contains(document.activeElement)) {
+        if (!node.contains(getActualActiveElement())) {
           node =
             node.querySelector(
               '[autofocus][tabindex], [data-autofocus][tabindex]'
