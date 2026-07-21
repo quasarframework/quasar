@@ -3,7 +3,11 @@
 import { describe, expect, onTestFinished, test, vi } from 'vitest'
 import { ref } from 'vue'
 
-import dom, { childHasFocus, getElement } from './dom.js'
+import dom, {
+  childHasFocus,
+  getActualActiveElement,
+  getElement
+} from './dom.js'
 
 function createEl({ top, left } = {}) {
   const el = document.createElement('div')
@@ -196,6 +200,13 @@ describe('[dom API]', () => {
         const el = createEl()
 
         expect(childHasFocus(el, prevSiblingEl)).toBe(false)
+      })
+    })
+
+    describe('[(function)getActualActiveElement]', () => {
+      test('has correct return value', () => {
+        const result = getActualActiveElement()
+        expect(result).toBeDefined()
       })
     })
   })
