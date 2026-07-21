@@ -124,7 +124,7 @@ async function start ({
 
   app.use(router)
 
-  <% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
+<% if (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) { %>
     if (isClientSideRenderedPage) {
       <% if (quasarConf.preFetch) { %>
       addPreFetchHooks({ router, isClientSideRenderedPage<%= quasarConf.metaConf.hasStore ? ', store' : '' %> })
@@ -141,9 +141,7 @@ async function start ({
         app.mount('#q-app')
       })
     }
-
-  <% } else { // not SSR %>
-
+<% } else { // not SSR %>
     <% if (quasarConf.preFetch) { %>
     addPreFetchHooks({ router<%= quasarConf.metaConf.hasStore ? ', store' : '' %> })
     <% } %>
@@ -156,7 +154,7 @@ async function start ({
     <% } else { %>
       app.mount('#q-app')
     <% } %>
-  <% } // end of Non SSR %>
+<% } // end of Non SSR %>
 
 }
 

@@ -44,12 +44,14 @@ import <%= '{' + importStatement.join(',') + '}' %> from 'quasar'
 
 <% if (quasarConf.framework.config.loading?.spinner || quasarConf.framework.config.notify?.spinner) { %>
 const userOptions = { <%= useStatement.join(',') %> }
-  <% if (quasarConf.framework.config.loading?.spinner) { %>
+<% if (quasarConf.framework.config.loading?.spinner) { %>
 userOptions.config.loading.spinner = <%= quasarConf.framework.config.loading.spinner %>
-  <% } %>
-  <% if (quasarConf.framework.config.notify?.spinner) { %>
+<% } %>
+
+<% if (quasarConf.framework.config.notify?.spinner) { %>
 userOptions.config.notify.spinner = <%= quasarConf.framework.config.notify.spinner %>
-  <% } %>
+<% } %>
+
 export default userOptions
 <% } else { %>
 export default { <%= useStatement.join(',') %> }

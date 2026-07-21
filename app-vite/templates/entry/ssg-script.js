@@ -91,11 +91,11 @@ export async function renderSsgPage (ssrContext, usePreloadTags) {
 
   ssrContext._meta.runtimePageContent = runtimePageContent
 
-  <% if (quasarConf.metaConf.hasStore && quasarConf.ssg.manualStoreSerialization !== true) { %>
+<% if (quasarConf.metaConf.hasStore && quasarConf.ssg.manualStoreSerialization !== true) { %>
   if (ssrContext.state !== void 0) {
     ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
   }
-  <% } %>
+<% } %>
 
   if (usePreloadTags) {
     // @vitejs/plugin-vue injects code into a component's setup() that registers

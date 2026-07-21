@@ -107,9 +107,9 @@ const { components, directives, ...qUserOptions } = quasarUserOptions
   if (bootEntries.length !== 0) { %>
 let bootFunctions = null
 let bootPromise = Promise.allSettled([
-  <% bootEntries.forEach((asset, index) => { %>
+<% bootEntries.forEach((asset, index) => { %>
   import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
-  <% }) %>
+<% }) %>
 ])
 .then(bootFiles => bootFiles.map(result => {
   if (result.status === 'rejected') {
@@ -126,12 +126,12 @@ let bootPromise = Promise.allSettled([
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default async ssrContext => {
-  <% if (bootEntries.length !== 0) { %>
+<% if (bootEntries.length !== 0) { %>
   if (bootFunctions === null) {
     bootFunctions = await bootPromise
     bootPromise = null
   }
-  <% } %>
+<% } %>
 
   const {
     app, router<%= quasarConf.metaConf.hasStore ? ', store' : '' %>
@@ -140,7 +140,7 @@ export default async ssrContext => {
   const origUrlPath = fastStripHost(ssrContext.url || ssrContext.req.url)
   const urlPath = origUrlPath<% if (quasarConf.build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
 
-  <% if (bootEntries.length !== 0) { %>
+<% if (bootEntries.length !== 0) { %>
   let bootRedirect = false
   const bootRedirectFn = (url, httpStatusCode) => {
     bootRedirect = {
@@ -166,7 +166,7 @@ export default async ssrContext => {
 
     if (bootRedirect) throw bootRedirect
   }
-  <% } %>
+<% } %>
 
   app.use(router)
 
@@ -195,7 +195,7 @@ export default async ssrContext => {
     throw { routeNotFound: true }
   }
 
-  <% if (quasarConf.preFetch) { %>
+<% if (quasarConf.preFetch) { %>
   let prefetchRedirect = false
   const prefetchRedirectFn = (url, httpStatusCode) => {
     prefetchRedirect = {
@@ -239,9 +239,9 @@ export default async ssrContext => {
   )
 
   if (prefetchRedirect) throw prefetchRedirect
-  <% } %>
+<% } %>
 
-  <% if (
+<% if (
     quasarConf.metaConf.hasStore &&
     (
       (quasarConf.ctx.mode.ssr && quasarConf.ssr.manualStoreSsrContextInjection !== true)
@@ -249,7 +249,7 @@ export default async ssrContext => {
     )
   ) { %>
   ssrContext.state = unref(store.state)
-  <% } %>
+<% } %>
 
   return app
 }

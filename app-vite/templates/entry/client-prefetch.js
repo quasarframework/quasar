@@ -75,21 +75,21 @@ export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasar
       ))
       .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
 
-    <% if ((!quasarConf.ctx.mode.ssr && !quasarConf.ctx.mode.ssg) || quasarConf.ctx.mode.pwa) { %>
+<% if ((!quasarConf.ctx.mode.ssr && !quasarConf.ctx.mode.ssg) || quasarConf.ctx.mode.pwa) { %>
     if (<%= (quasarConf.ctx.mode.ssr || quasarConf.ctx.mode.ssg) ? 'isClientSideRenderedPage && ' : '' %>appPrefetch !== false) {
       preFetchList.unshift(appPrefetch)
       appPrefetch = false
     }
-    <% } %>
+<% } %>
 
     if (preFetchList.length === 0) return
 
     let redirectArg = null
     const redirect = url => { redirectArg = url }
 
-    <% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
+<% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
     LoadingBar.start()
-    <% } %>
+<% } %>
 
     for (let i = 0; redirectArg === null && i < preFetchList.length; i++) {
       try {
@@ -102,18 +102,18 @@ export function addPreFetchHooks ({ router<%= (quasarConf.ctx.mode.ssr || quasar
           publicPath
         })
       } catch (e) {
-        <% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
+<% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
         LoadingBar.stop()
-        <% } %>
+<% } %>
         if (redirectArg !== null) return redirectArg
         console.error(e)
         return
       }
     }
 
-    <% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
+<% if (quasarConf.metaConf.hasLoadingBarPlugin) { %>
     LoadingBar.stop()
-    <% } %>
+<% } %>
 
     if (redirectArg !== null) return redirectArg
   })
