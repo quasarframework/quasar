@@ -27,6 +27,10 @@ import useId from '../../composables/use-id/use-id.js'
 import { createComponent } from '../../utils/private.create/create.js'
 import { getScrollTarget, scrollTargetProp } from '../../utils/scroll/scroll.js'
 import { addEvt, cleanEvt, stopAndPrevent } from '../../utils/event/event.js'
+import {
+  addEscapeKey,
+  removeEscapeKey
+} from '../../utils/private.keyboard/escape-key.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
 import { getTeleportTargetElement } from '../../utils/private.dom/teleport-target.js'
 import { hSlot } from '../../utils/private.render/render.js'
@@ -147,7 +151,7 @@ export default createComponent({
       processOnMount: true
     })
 
-    Object.assign(anchorEvents, { delayShow, delayHide })
+    Object.assign(anchorEvents, { delayShow, delayHide, focusShow })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(
       vm,
@@ -193,6 +197,17 @@ export default createComponent({
         removeClickOutside(clickOutsideProps)
       })
     }
+
+    // dismiss with the ESC key (WCAG 1.4.13) without moving focus;
+    // uses the shared escape stack so only the top-most popup reacts
+    const handlesEscape = computed(
+      () => showing.value === true && props.persistent !== true
+    )
+
+    watch(handlesEscape, val => {
+      const fn = val === true ? addEscapeKey : removeEscapeKey
+      fn(onEscapeKey)
+    })
 
     function handleShow(evt) {
       showPortal()
@@ -265,6 +280,7 @@ export default createComponent({
       }
 
       unconfigureScrollTarget()
+      removeEscapeKey(onEscapeKey)
       cleanEvt(anchorEvents, 'tooltipTemp')
       removeAriaDescription()
       setNonSelectable(false)
@@ -322,6 +338,25 @@ export default createComponent({
       }, props.hideDelay)
     }
 
+    function focusShow(evt) {
+      const el = anchorEl.value
+
+      if (el === null) return
+
+      // only react to keyboard focus, not to focus coming from a pointer,
+      // so the tooltip doesn't pop up when the target is clicked;
+      // guard the call for engines that don't support :focus-visible
+      try {
+        if (el.matches(':focus-visible') === false) return
+      } catch {}
+
+      delayShow(evt)
+    }
+
+    function onEscapeKey(evt) {
+      hide(evt)
+    }
+
     function configureAnchorEl() {
       if (props.noParentEvent || anchorEl.value === null) return
 
@@ -329,7 +364,9 @@ export default createComponent({
         ? [[anchorEl.value, 'touchstart', 'delayShow', 'passive']]
         : [
             [anchorEl.value, 'mouseenter', 'delayShow', 'passive'],
-            [anchorEl.value, 'mouseleave', 'delayHide', 'passive']
+            [anchorEl.value, 'mouseleave', 'delayHide', 'passive'],
+            [anchorEl.value, 'focus', 'focusShow', 'passive'],
+            [anchorEl.value, 'blur', 'delayHide', 'passive']
           ]
 
       addEvt(anchorEvents, 'anchor', evts)
