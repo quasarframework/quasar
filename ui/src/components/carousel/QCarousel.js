@@ -89,6 +89,7 @@ export default createComponent({
 
     const {
       updatePanelsList,
+      updatePanelIndex,
       getPanelContent,
       panelDirectives,
       goToPanel,
@@ -322,6 +323,7 @@ export default createComponent({
 
     return () => {
       panelsLen = updatePanelsList(slots)
+      updatePanelIndex()
 
       return h(
         'div',
