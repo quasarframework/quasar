@@ -17,6 +17,13 @@
       "examples": ["# v-model=\"myText\""]
     },
 
+    "model-modifiers": {
+      "type": "Object",
+      "desc": "Modifiers supplied by Vue for the component's v-model binding",
+      "examples": ["{ trim: true }"],
+      "internal": true
+    },
+
     "shadow-text": {
       "type": "String",
       "desc": "Text to be displayed as shadow at the end of the text in the control; Does NOT applies to type=file",
