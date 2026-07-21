@@ -124,6 +124,36 @@ describe('[nodes API]', () => {
           expect(node.parentElement).toBe(newTargetEl)
         })
       })
+
+      test('preserves target for subsequently created nodes', () => {
+        const configuredTarget = document.createElement('div')
+        const fullscreenTarget = document.createElement('div')
+        document.body.append(configuredTarget, fullscreenTarget)
+
+        globalConfig.teleportTarget = configuredTarget
+        changeGlobalNodesTarget(configuredTarget)
+
+        const firstNode = createGlobalNode('before-fullscreen')
+        let secondNode
+
+        try {
+          expect(firstNode.parentElement).toBe(configuredTarget)
+
+          changeGlobalNodesTarget(fullscreenTarget)
+          secondNode = createGlobalNode('during-fullscreen')
+
+          expect(firstNode.parentElement).toBe(fullscreenTarget)
+          expect(secondNode.parentElement).toBe(fullscreenTarget)
+        } finally {
+          changeGlobalNodesTarget(document.body)
+          removeGlobalNode(firstNode)
+          if (secondNode !== void 0) {
+            removeGlobalNode(secondNode)
+          }
+          configuredTarget.remove()
+          fullscreenTarget.remove()
+        }
+      })
     })
   })
 })

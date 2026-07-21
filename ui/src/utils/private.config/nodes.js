@@ -5,7 +5,8 @@ const nodesList = []
 const portalTypeList = []
 
 let portalIndex = 1
-let target = __QUASAR_SSR_SERVER__ ? void 0 : document.body
+let configuredTarget = __QUASAR_SSR_SERVER__ ? void 0 : document.body
+let target = configuredTarget
 
 export function createGlobalNode(id, portalType) {
   const el = document.createElement('div')
@@ -20,9 +21,14 @@ export function createGlobalNode(id, portalType) {
     }
   }
 
-  const configuredTarget = getTeleportTarget()
-  if (configuredTarget !== target) {
-    changeGlobalNodesTarget(configuredTarget)
+  const newConfiguredTarget = getTeleportTarget()
+  if (newConfiguredTarget !== configuredTarget) {
+    const targetIsConfigured = target === configuredTarget
+    configuredTarget = newConfiguredTarget
+
+    if (targetIsConfigured) {
+      changeGlobalNodesTarget(configuredTarget)
+    }
   }
 
   target.append(el)
