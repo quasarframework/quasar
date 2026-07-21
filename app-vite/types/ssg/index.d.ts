@@ -19,6 +19,11 @@ export type SsgRenderPreloadTagCallback = (
   options: SsgRenderPreloadTagCallbackOptions
 ) => string;
 
+export type RoutesDynamicParamsMap = Record<
+  string,
+  Record<string, string | number | (string | number)[]>[]
+>;
+
 export type SsgParseVueRouterParams = {
   /**
    * Vue Router routes definition to parse.
@@ -72,12 +77,10 @@ export type SsgParseVueRouterParams = {
    *
    * @example { "/user/:id": [{ id: 1 }, { id: 2 }] }
    * @example { "/product/:category/:id": [{ category: "electronics", id: 123 }, { category: "books", id: 456 }] }
+   * @type RoutesDynamicParamsMap {@link RoutesDynamicParamsMap}
    * @default {}
    */
-  routesDynamicParamsMap?: Record<
-    string,
-    Record<string, string | number | (string | number)[]>[]
-  >;
+  routesDynamicParamsMap?: RoutesDynamicParamsMap;
 
   /**
    * Optional flag to enable verbose logging.
@@ -152,6 +155,7 @@ export interface SsgGetPagesParams {
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse. {@link RouteRecordRaw}
    * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
    * @param {string[]} [options.crawlIgnoreRoutes=[]] - Optional picomatch patterns for routes to omit while still traversing their children.
+   * @param {RoutesDynamicParamsMap} [options.routesDynamicParamsMap={}] - Optional map of dynamic parameters for routes with dynamic segments. {@link RoutesDynamicParamsMap}
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
    * @returns {Promise<SsgParseVueRouterResult>} {@link SsgParseVueRouterResult}
    */

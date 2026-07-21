@@ -166,6 +166,7 @@ interface SsgGetPagesParams {
    * @param {RouteRecordRaw[]} options.routes - Vue Router routes definition to parse.
    * @param {string} [options.parentPath='/'] - Optional parent path to use for these routes.
    * @param {string[]} [options.crawlIgnoreRoutes=[]] - Optional picomatch patterns for routes to omit while still traversing their children.
+   * @param {Record<string, Record<string, string | number | (string | number)[]>[]>} [options.routesDynamicParamsMap={}] - Optional map of dynamic parameters for routes with dynamic segments.
    * @param {boolean} [options.verbose=false] - Optional flag to enable verbose logging. If true, it logs ignored routes with dynamic parameters.
    * @returns {Promise<SsgParseVueRouterResult>}
    */
