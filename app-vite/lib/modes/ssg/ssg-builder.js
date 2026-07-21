@@ -2,6 +2,7 @@ import { join } from 'node:path'
 import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
+import { getPackage } from '../../utils/get-package.js'
 import { getRouteMatcher } from '../../utils/get-route-matcher.js'
 import { quasarSsgConfig } from './ssg-config.js'
 import {
@@ -87,7 +88,7 @@ function getSsgRendererErrorHandler(onSsgRendererError) {
   )
 }
 
-function getParseVueRouterRoutesFn(quasarConf) {
+function getParseVueRouterRoutesFn(quasarConf, createRouterMatcher) {
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
@@ -159,46 +160,55 @@ function getParseVueRouterRoutesFn(quasarConf) {
         } else {
           opts.dynamicRoutesMatched.push(fullPath)
 
+          /**
+           * Reuse the vue-router path parser so param substitution has
+           * the exact router.resolve() semantics (optional, repeatable
+           * and custom regex params, special chars in values).
+           */
+          const routeParser = createRouterMatcher(
+            [{ path: fullPath, component: {} }],
+            {}
+          ).getRoutes()[0]
+          const paramNames = new Set(
+            routeParser.keys.map(paramKey => paramKey.name)
+          )
+
           for (const dynamicEntry of dynamicMap) {
-            let dynamicFullPath = fullPath
-            for (const [key, value] of Object.entries(dynamicEntry)) {
-              if (dynamicFullPath.includes(`:${key}`) === false) {
+            // stringify() silently ignores extra keys, so catch typos here
+            for (const paramName of Object.keys(dynamicEntry)) {
+              if (paramNames.has(paramName) === false) {
                 fatal(
-                  `Dynamic param ":${key}" not found in route: ${dynamicFullPath}`,
+                  `Dynamic param ":${paramName}" not found in route: ${fullPath}`,
                   'parseVueRouterRoutes() FAILED'
                 )
               }
-
-              dynamicFullPath =
-                value === ''
-                  ? dynamicFullPath.replaceAll(`/:${key}?`, '')
-                  : dynamicFullPath
-                      .replaceAll(`:${key}?`, value)
-                      .replaceAll(`:${key}`, value)
             }
 
-            const dynamicSsgPage = {
-              ...ssgPage,
-              route: dynamicFullPath
-            }
-
-            if (dynamicFullPath.includes(':')) {
-              const routeBanner =
-                dynamicFullPath !== fullPath ? ` (${fullPath})` : ''
-
+            let dynamicFullPath
+            try {
+              dynamicFullPath = routeParser.stringify(dynamicEntry)
+            } catch (err) {
               fatal(
-                `Not all dynamic params defined for route: ${dynamicFullPath}${routeBanner}`,
+                `Failed to expand dynamic route "${fullPath}" with params` +
+                  ` ${JSON.stringify(dynamicEntry)}: ${err.message}`,
                 'parseVueRouterRoutes() FAILED'
               )
-            } else if (route.children) {
+            }
+
+            if (route.children) {
               parseVueRouterRoutes({
                 routes: route.children,
                 parentPath: dynamicFullPath,
                 opts
               })
-            } else {
-              opts.acc.ssgPages.push(dynamicSsgPage)
+
+              continue
             }
+
+            opts.acc.ssgPages.push({
+              ...ssgPage,
+              route: dynamicFullPath
+            })
           }
         }
 
@@ -504,10 +514,26 @@ export class QuasarModeBuilder extends AppBuilder {
       join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
     )
 
+    const vueRouterPkg = await getPackage(
+      'vue-router',
+      this.quasarConf.ctx.appPaths.appDir
+    )
+
+    if (vueRouterPkg?.createRouterMatcher === void 0) {
+      fatal(
+        "Could not load createRouterMatcher() from your app's vue-router package." +
+          ' Make sure vue-router >= 5 is installed.',
+        'SSG FAIL'
+      )
+    }
+
     const ssgPageList = await getSsgPages({
       ctx: this.quasarConf.ctx,
       quasarConfSsg: this.quasarConf.ssg,
-      parseVueRouterRoutes: getParseVueRouterRoutesFn(this.quasarConf),
+      parseVueRouterRoutes: getParseVueRouterRoutesFn(
+        this.quasarConf,
+        vueRouterPkg.createRouterMatcher
+      ),
       getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
 
