@@ -343,8 +343,8 @@ export default createComponent({
     }
 
     function onFocusin(evt) {
-      const el = anchorEl.value
-      if (el === null) return
+      const el = evt.target
+      if (!el) return
 
       // only react to keyboard focus, not to focus coming from a pointer,
       // so the tooltip doesn't pop up when the target is clicked;
