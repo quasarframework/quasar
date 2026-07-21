@@ -1,0 +1,153 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: en-US
+
+tone_instructions: 'Be terse and direct. No praise, no filler, no restating the diff. Comment only on substantive findings and give concrete fixes. Use precise technical language.'
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    ignore_title_keywords:
+      - 'WIP'
+    # We need an explicit list as our default branch is not `main`
+    base_branches:
+      - dev
+    labels:
+      - '!skip-coderabbit'
+
+  pre_merge_checks:
+    docstrings:
+      mode: 'off'
+    description:
+      mode: 'off'
+    title:
+      mode: 'warning'
+      requirements: 'Conventional commit format "type(scope): subject", e.g. "fix(QBtn): handle loading state". Types: feat, fix, docs, refactor, perf, test, chore. Scope is the affected package, component or area.'
+    custom_checks:
+      - name: 'Undocumented breaking change'
+        mode: 'warning'
+        instructions: 'Breaking changes to public APIs (component props/events/slots/methods, CLI commands and flags, configuration keys) must carry the "breaking-change" label and be explicitly called out in the PR description.'
+
+  path_filters:
+    # Generated icon sets, ~39MB
+    - '!extras/exports/**'
+    - '!pnpm-lock.yaml'
+    - '!**/dist/**'
+    - '!**/node_modules/**'
+    # Static doc assets
+    - '!docs/public/**'
+
+  path_instructions:
+    - path: 'ui/src/**'
+      instructions: |
+        Vue 3 component library built with render functions.
+        - Flag SSR-unsafe code: bare `window`/`document` access outside client-only guards.
+        - Flag breaking changes to the public component API (props, events, slots, exposed methods).
+        - Check accessibility (ARIA attributes, keyboard navigation) and RTL support.
+    - path: 'ui/src/{components,directives,plugins}/**'
+      instructions: |
+        Components, directives and plugins have sibling JSON API files
+        (e.g. QBtn.json) that drive the docs and TypeScript types. Flag changes
+        to props, events, slots or exposed methods that do not update the
+        corresponding .json API file.
+    - path: 'ui/src/composables/**'
+      instructions: |
+        Composables must clean up listeners, timers and observers on unmount
+        and stay SSR-safe (no window/document access during server-side setup).
+    - path: 'ui/lang/**'
+      instructions: |
+        Language packs must have exactly the key structure of ui/lang/en-US.js.
+        Flag missing or extra keys.
+    - path: 'ui/icon-set/**'
+      instructions: |
+        Icon sets must mirror the structure of the existing sets
+        (e.g. material-icons.js). Flag missing or extra icon definitions.
+    - path: 'ui/**/*.sass'
+      instructions: |
+        Check RTL support for direction-sensitive rules. CSS custom properties
+        must use the --q-* prefix.
+    - path: '{app-vite,cli,icongenie}/**'
+      instructions: |
+        Node.js CLI tooling.
+        - Flag path handling that breaks on Windows.
+        - Watch for ESM/CJS interop issues.
+    - path: 'app-vite/types/**'
+      instructions: |
+        Type declarations must match the runtime implementation in app-vite/lib.
+        Flag declarations that drift from the corresponding lib code.
+    - path: 'create-quasar/**'
+      instructions: |
+        Project scaffolding kit. Template files contain intentional placeholder
+        syntax; do not flag it as an error.
+    - path: 'docs/src/pages/**'
+      instructions: |
+        Documentation content. Check technical accuracy and flag references to
+        deprecated Quasar APIs.
+    - path: 'docs/src/examples/**'
+      instructions: |
+        Runnable documentation examples. Must use current Quasar APIs; flag
+        deprecated patterns.
+    - path: '**/*.test.js'
+      instructions: |
+        Vitest tests. Check for descriptive test names and coverage of edge
+        cases and error paths.
+    - path: '.github/workflows/**'
+      instructions: |
+        GitHub Actions workflows.
+        - Third-party actions must be pinned to a commit SHA.
+        - Jobs should declare least-privilege permissions.
+        - Flag pull_request_target usage that checks out or runs PR code.
+
+  labeling_instructions:
+    - label: 'area/components'
+      instructions: 'Changes under ui/src/components.'
+    - label: 'area/composables'
+      instructions: 'Changes under ui/src/composables.'
+    - label: 'area/directives'
+      instructions: 'Changes under ui/src/directives.'
+    - label: 'area/plugins'
+      instructions: 'Changes under ui/src/plugins.'
+    - label: 'area/style'
+      instructions: 'Changes to ui/src/css or Sass files in ui.'
+    - label: 'area/utils'
+      instructions: 'Changes under ui/src/utils.'
+    - label: 'area/typescript'
+      instructions: 'Changes to TypeScript declarations (.d.ts) or type generation.'
+    - label: 'area/extras'
+      instructions: 'Changes under the extras package.'
+    - label: 'area/icongenie'
+      instructions: 'Changes under the icongenie package.'
+    - label: 'area/cli'
+      instructions: 'Changes under the cli package (global @quasar/cli).'
+    - label: 'area/devops'
+      instructions: 'Changes to GitHub Actions workflows or CI configuration.'
+    - label: 'area/project-creation'
+      instructions: 'Changes under the create-quasar package.'
+    - label: 'flavour/quasar-cli-vite'
+      instructions: 'Changes under the app-vite package.'
+    - label: 'flavour/vite-plugin'
+      instructions: 'Changes under the vite-plugin package.'
+    - label: 'breaking-change'
+      instructions: 'PR introduces a breaking change to a public API: component props/events/slots/methods, CLI commands or flags, or configuration keys.'
+    - label: 'mode/ssr'
+      instructions: 'Changes to SSR mode code in app-vite or SSR-specific ui code.'
+    - label: 'mode/pwa'
+      instructions: 'Changes to PWA mode code in app-vite.'
+    - label: 'mode/bex'
+      instructions: 'Changes to browser extension (BEX) mode code in app-vite.'
+    - label: 'mode/electron'
+      instructions: 'Changes to Electron mode code in app-vite.'
+    - label: 'mode/cordova'
+      instructions: 'Changes to Cordova mode code in app-vite.'
+    - label: 'mode/capacitor'
+      instructions: 'Changes to Capacitor mode code in app-vite.'
+
+chat:
+  auto_reply: true
