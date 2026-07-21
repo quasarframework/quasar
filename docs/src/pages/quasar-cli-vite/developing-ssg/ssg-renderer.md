@@ -222,7 +222,8 @@ type SsgParseVueRouterParams = {
    *
    * Note on optional route parameters (eg. /user/:id?):
    * Omit the param key or use an empty string as its value to drop the segment.
-   * Example: { "/user/:id?": [{ id: "" }] } will generate a SSG page for the /user route.
+   * Example: { "/user/:id?": [{}] } or { "/user/:id?": [{ id: "" }] }
+   * will generate a SSG page for the /user route.
    *
    * Note on repeatable route parameters (eg. /chapters/:chapter+):
    * Use an array as the value to fill the repeated segments.
