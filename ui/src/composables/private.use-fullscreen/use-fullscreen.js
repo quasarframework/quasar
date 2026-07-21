@@ -31,7 +31,9 @@ export default function useFullscreen() {
 
   let historyEntry,
     fullscreenFillerNode,
-    isUnmounting = false
+    isUnmounting = false,
+    restoreFrame = null,
+    restoreToken = 0
   const inFullscreen = ref(false)
 
   if (vmHasRouter(vm)) {
@@ -63,8 +65,18 @@ export default function useFullscreen() {
     }
   }
 
+  function cancelScrollRestore() {
+    restoreToken++
+    if (restoreFrame !== null) {
+      cancelAnimationFrame(restoreFrame)
+      restoreFrame = null
+    }
+  }
+
   function setFullscreen() {
     if (inFullscreen.value) return
+
+    cancelScrollRestore()
 
     if (counter === 0) {
       bodyScrollPosition = {
@@ -106,8 +118,12 @@ export default function useFullscreen() {
 
       if (isUnmounting === false && bodyScrollPosition !== null) {
         const { left, top } = bodyScrollPosition
+        const token = ++restoreToken
         nextTick(() => {
-          requestAnimationFrame(() => {
+          if (token !== restoreToken || counter !== 0) return
+          restoreFrame = requestAnimationFrame(() => {
+            restoreFrame = null
+            if (token !== restoreToken || counter !== 0) return
             window.scrollTo(left, top)
           })
         })
@@ -128,6 +144,7 @@ export default function useFullscreen() {
   onBeforeUnmount(() => {
     isUnmounting = true
     exitFullscreen()
+    cancelScrollRestore()
   })
 
   // expose public methods
