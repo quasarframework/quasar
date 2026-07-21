@@ -228,19 +228,6 @@ function getParseVueRouterRoutesFn(quasarConf) {
         continue
       }
 
-      if (route.redirect) {
-        opts.acc.ignoredRedirectSsgPages.push(ssgPage)
-
-        if (opts.verbose) {
-          warn(
-            `Ignored route (redirects): ${fullPath}`,
-            'parseVueRouterRoutes()'
-          )
-        }
-
-        continue
-      }
-
       opts.acc.ssgPages.push(ssgPage)
     }
   }
@@ -274,7 +261,6 @@ function getParseVueRouterRoutesFn(quasarConf) {
       ssgPages: [],
       hasIgnoredRoutes: false,
       crawlIgnoredSsgPages: [],
-      ignoredRedirectSsgPages: [],
       ignoredDynamicParamSsgPages: [],
       ignoredCsrSsgPages: []
     }
@@ -309,7 +295,6 @@ function getParseVueRouterRoutesFn(quasarConf) {
 
     acc.hasIgnoredRoutes =
       acc.crawlIgnoredSsgPages.length !== 0 ||
-      acc.ignoredRedirectSsgPages.length !== 0 ||
       acc.ignoredDynamicParamSsgPages.length !== 0 ||
       acc.ignoredCsrSsgPages.length !== 0
 
