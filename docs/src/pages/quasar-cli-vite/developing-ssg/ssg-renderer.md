@@ -23,7 +23,7 @@ import { defineSsgGetPages, defineSsgRenderPreloadTag } from '#q-app'
 import routes from '@/router/routes'
 
 export const getSsgPages = defineSsgGetPages(
-  async ({ parseVueRouterRoutes /*, ctx */ }) => {
+  async ({ parseVueRouterRoutes }) => {
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
     const { ssgPages } = await parseVueRouterRoutes({ routes, verbose: true })
     return ssgPages
@@ -75,7 +75,7 @@ export const renderPreloadTag = defineSsgRenderPreloadTag(
 import { defineSsgGetPages, defineSsgRenderPreloadTag } from '#q-app'
 
 export const getSsgPages = defineSsgGetPages(
-  async ({ getFilenameBasedRoutes, parseVueRouterRoutes /*, ctx */ }) => {
+  async ({ getFilenameBasedRoutes, parseVueRouterRoutes }) => {
     const routes = await getFilenameBasedRoutes()
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
@@ -391,7 +391,7 @@ export const getSsgPages = defineSsgGetPages(
 import { defineSsgGetPages } from '#q-app'
 
 export const getSsgPages = defineSsgGetPages(
-  async ({ getFilenameBasedRoutes, parseVueRouterRoutes /*, ctx */ }) => {
+  async ({ getFilenameBasedRoutes, parseVueRouterRoutes }) => {
     const routes = await getFilenameBasedRoutes()
 
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
