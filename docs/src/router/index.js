@@ -25,7 +25,7 @@ export default function appRouter() {
     history: createHistory(import.meta.env.QUASAR_VUE_ROUTER_BASE)
   })
 
-  if (import.meta.env.QUASAR_CLIENT) {
+  if (import.meta.env.QUASAR_CLIENT && import.meta.env.PROD) {
     Router.afterEach(to => {
       gtag('config', 'G-WRH1VBGG35', {
         page_path: to.path
