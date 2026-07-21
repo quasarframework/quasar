@@ -40,8 +40,8 @@
     "@vitejs/plugin-vue": "^6.0.8",
     "prismjs": "^1.29.0",
     "quasar": "workspace:*",
-    "vite": "^8.1.4",
-    "vue": "^3.5.39",
+    "vite": "^8.1.5",
+    "vue": "^3.5.40",
     "vue-router": "^5.2.0"
   },
   "engines": {

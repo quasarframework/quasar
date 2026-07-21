@@ -16,10 +16,10 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.8",
+    "lint-staged": "^17.1.0",
     "oxfmt": "0.59.0",
     "oxlint": "1.74.0",
-    "oxlint-tsgolint": "^0.24.0",
+    "oxlint-tsgolint": "^0.25.0",
     "typescript": "^6.0.3"
   },
   "lint-staged": {
