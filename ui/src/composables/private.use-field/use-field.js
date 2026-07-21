@@ -307,15 +307,8 @@ export default function useField(state) {
     return acc
   })
 
-  function getActiveEl() {
-    return (
-      state.rootRef.value?.getRootNode?.().activeElement ??
-      document.activeElement
-    )
-  }
-
   function focusHandler() {
-    const el = getActiveEl()
+    const el = document.activeElement
     let target = state.targetRef?.value
 
     if (target && (el === null || el.id !== state.targetUid.value)) {
@@ -335,7 +328,7 @@ export default function useField(state) {
 
   function blur() {
     removeFocusFn(focusHandler)
-    const el = getActiveEl()
+    const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
     }
@@ -363,7 +356,7 @@ export default function useField(state) {
         (state.hasPopupOpen ||
           state.controlRef === void 0 ||
           state.controlRef.value === null ||
-          state.controlRef.value.contains(getActiveEl()))
+          state.controlRef.value.contains(document.activeElement))
       ) {
         return
       }
@@ -384,8 +377,8 @@ export default function useField(state) {
     if (!$q.platform.is.mobile) {
       const el = state.targetRef?.value || state.rootRef.value
       el.focus()
-    } else if (state.rootRef.value.contains(getActiveEl())) {
-      getActiveEl().blur()
+    } else if (state.rootRef.value.contains(document.activeElement)) {
+      document.activeElement.blur()
     }
 
     if (props.type === 'file') {

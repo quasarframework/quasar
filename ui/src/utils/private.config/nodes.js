@@ -1,12 +1,10 @@
 import { globalConfig } from '../private.config/instance-config.js'
-import { getTeleportTarget } from '../private.dom/teleport-target.js'
 
 const nodesList = []
 const portalTypeList = []
 
 let portalIndex = 1
-let configuredTarget = __QUASAR_SSR_SERVER__ ? void 0 : document.body
-let target = configuredTarget
+let target = __QUASAR_SSR_SERVER__ ? void 0 : document.body
 
 export function createGlobalNode(id, portalType) {
   const el = document.createElement('div')
@@ -18,16 +16,6 @@ export function createGlobalNode(id, portalType) {
     const cls = globalConfig.globalNodes.class
     if (cls !== void 0) {
       el.className = cls
-    }
-  }
-
-  const newConfiguredTarget = getTeleportTarget()
-  if (newConfiguredTarget !== configuredTarget) {
-    const targetIsConfigured = target === configuredTarget
-    configuredTarget = newConfiguredTarget
-
-    if (targetIsConfigured) {
-      changeGlobalNodesTarget(configuredTarget)
     }
   }
 
@@ -53,7 +41,7 @@ export function changeGlobalNodesTarget(newTarget) {
   target = newTarget
 
   if (
-    target === getTeleportTarget() ||
+    target === document.body ||
     // or we have less than 2 dialogs:
     portalTypeList.reduce(
       (acc, type) => (type === 'dialog' ? acc + 1 : acc),

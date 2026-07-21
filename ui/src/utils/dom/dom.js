@@ -62,20 +62,8 @@ export function getElement(el) {
   }
 }
 
-export function getActualActiveElement() {
-  let el = document.activeElement
-
-  while (el?.shadowRoot?.activeElement) {
-    el = el.shadowRoot.activeElement
-  }
-
-  return el
-}
-
 // internal
 export function childHasFocus(el, focusedEl) {
-  focusedEl ??= getActualActiveElement()
-
   if (el === void 0 || el === null || el.contains(focusedEl)) {
     return true
   }

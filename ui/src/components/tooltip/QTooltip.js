@@ -32,7 +32,6 @@ import {
   removeEscapeKey
 } from '../../utils/private.keyboard/escape-key.js'
 import { clearSelection } from '../../utils/private.selection/selection.js'
-import { getTeleportTargetElement } from '../../utils/private.dom/teleport-target.js'
 import { hSlot } from '../../utils/private.render/render.js'
 import {
   addClickOutside,
@@ -382,10 +381,7 @@ export default createComponent({
 
       hasNonSelectable = state
       nonSelectableCount += state ? 1 : -1
-      getTeleportTargetElement().classList.toggle(
-        'non-selectable',
-        nonSelectableCount > 0
-      )
+      document.body.classList.toggle('non-selectable', nonSelectableCount > 0)
 
       if (!state && removeNonSelectableTimer !== void 0) {
         clearTimeout(removeNonSelectableTimer)

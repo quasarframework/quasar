@@ -11,7 +11,6 @@ let el = null
 
 afterEach(() => {
   delete globalConfig.globalNodes
-  delete globalConfig.teleportTarget
 
   if (el !== null) {
     removeGlobalNode(el)
@@ -61,30 +60,6 @@ describe('[nodes API]', () => {
         expect(element.getAttribute('class')).toBe('port-class')
         expect(element.parentNode).toBe(document.body)
       })
-
-      test('uses configured selector target', () => {
-        const target = document.createElement('div')
-        target.id = 'teleport-target'
-        document.body.append(target)
-        globalConfig.teleportTarget = '#teleport-target'
-
-        el = createGlobalNode('configured-target')
-
-        expect(el.parentNode).toBe(target)
-        target.remove()
-      })
-
-      test('uses configured ShadowRoot target', () => {
-        const host = document.createElement('div')
-        document.body.append(host)
-        const shadowRoot = host.attachShadow({ mode: 'open' })
-        globalConfig.teleportTarget = () => shadowRoot
-
-        el = createGlobalNode('shadow-target')
-
-        expect(el.parentNode).toBe(shadowRoot)
-        host.remove()
-      })
     })
 
     describe('[(function)removeGlobalNode]', () => {
@@ -123,36 +98,6 @@ describe('[nodes API]', () => {
         elList.forEach(node => {
           expect(node.parentElement).toBe(newTargetEl)
         })
-      })
-
-      test('preserves target for subsequently created nodes', () => {
-        const configuredTarget = document.createElement('div')
-        const fullscreenTarget = document.createElement('div')
-        document.body.append(configuredTarget, fullscreenTarget)
-
-        globalConfig.teleportTarget = configuredTarget
-        changeGlobalNodesTarget(configuredTarget)
-
-        const firstNode = createGlobalNode('before-fullscreen')
-        let secondNode
-
-        try {
-          expect(firstNode.parentElement).toBe(configuredTarget)
-
-          changeGlobalNodesTarget(fullscreenTarget)
-          secondNode = createGlobalNode('during-fullscreen')
-
-          expect(firstNode.parentElement).toBe(fullscreenTarget)
-          expect(secondNode.parentElement).toBe(fullscreenTarget)
-        } finally {
-          changeGlobalNodesTarget(document.body)
-          removeGlobalNode(firstNode)
-          if (secondNode !== void 0) {
-            removeGlobalNode(secondNode)
-          }
-          configuredTarget.remove()
-          fullscreenTarget.remove()
-        }
       })
     })
   })
