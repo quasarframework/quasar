@@ -105,7 +105,9 @@ export default function useFile({
       files = filterFiles(files, rejectedFiles, 'accept', file =>
         extensions.value.some(
           ext =>
-            file.type.toUpperCase().startsWith(ext) ||
+            (ext.endsWith('/')
+              ? file.type.toUpperCase().startsWith(ext)
+              : file.type.toUpperCase() === ext) ||
             file.name.toUpperCase().endsWith(ext)
         )
       )
@@ -137,19 +139,23 @@ export default function useFile({
 
     // Compute key to use for each file
     files.forEach(file => {
-      file.__key =
-        file.webkitRelativePath + file.lastModified + file.name + file.size
+      file.__key = JSON.stringify([
+        file.webkitRelativePath,
+        file.lastModified,
+        file.name,
+        file.size
+      ])
     })
 
     if (append) {
       // Avoid duplicate files
-      const filenameMap = currentFileList.map(entry => entry.__key)
-      files = filterFiles(
-        files,
-        rejectedFiles,
-        'duplicate',
-        file => !filenameMap.includes(file.__key)
-      )
+      const filenameSet = new Set(currentFileList.map(entry => entry.__key))
+      files = filterFiles(files, rejectedFiles, 'duplicate', file => {
+        if (filenameSet.has(file.__key)) return false
+
+        filenameSet.add(file.__key)
+        return true
+      })
     }
 
     if (files.length === 0) {
@@ -162,8 +168,11 @@ export default function useFile({
         : 0
 
       files = filterFiles(files, rejectedFiles, 'max-total-size', file => {
-        size += file.size
-        return size <= maxTotalSizeNumber.value
+        const newSize = size + file.size
+        if (newSize > maxTotalSizeNumber.value) return false
+
+        size = newSize
+        return true
       })
 
       if (files.length === 0) {

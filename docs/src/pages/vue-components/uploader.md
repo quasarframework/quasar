@@ -81,9 +81,9 @@ You can also customize the HTTP headers and HTTP method through `headers` and `m
 
 ### Factory function
 
-There is a `factory` prop you can use which must be a Function. This function can return either an Object or a Promise resolving with an Object (and in case the Promise fails, `@factory-failed` event is emitted).
+There is a `factory` prop you can use which must be a Function. This function can return either an Object or a Promise resolving with an Object. The `@factory-failed` event is emitted if the function throws, returns an invalid value, or returns a Promise which is rejected or aborted.
 
-The Object described above can override the following QUploader props: `url`, `method`, `headers`, `formFields`, `fieldName`, `withCredentials`, `sendRaw`). The props of this Object can be Functions as well (of form `(file[s]) => value`):
+The Object described above can override the following QUploader props: `url`, `method`, `headers`, `formFields`, `fieldName`, `withCredentials`, and `sendRaw`. The props of this Object can be Functions as well (of form `(file[s]) => value`):
 
 <DocExample title="Promise-based factory function" file="FactoryPromise" />
 

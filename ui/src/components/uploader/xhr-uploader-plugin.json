@@ -103,7 +103,7 @@
         }
       },
       "returns": {
-        "type": "String",
+        "type": "Array",
         "desc": "An array consisting of objects with header definitions"
       },
       "category": "upload"
@@ -138,8 +138,8 @@
         }
       },
       "returns": {
-        "type": "String",
-        "desc": "An array consists of objects with additional fields definitions (used by Form to be uploaded)"
+        "type": "Array",
+        "desc": "An array consisting of objects with additional field definitions (used by FormData to be uploaded)"
       },
       "category": "upload"
     },
@@ -264,7 +264,7 @@
     },
 
     "factory-failed": {
-      "desc": "Emitted when factory function is supplied with a Promise which is rejected",
+      "desc": "Emitted when the factory function throws, returns an invalid value, or supplies a Promise which is rejected or aborted",
       "params": {
         "err": {
           "type": "Error",
