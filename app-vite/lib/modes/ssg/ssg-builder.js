@@ -88,7 +88,9 @@ function getSsgRendererErrorHandler(onSsgRendererError) {
   )
 }
 
-function getParseVueRouterRoutesFn(quasarConf, createRouterMatcher) {
+function getParseVueRouterRoutesFn(quasarConf) {
+  let createRouterMatcher = null
+
   const { clientSideRenderingRoutes } = quasarConf.ssg
   const isCSRMatch =
     clientSideRenderingRoutes.length !== 0
@@ -165,10 +167,11 @@ function getParseVueRouterRoutesFn(quasarConf, createRouterMatcher) {
            * the exact router.resolve() semantics (optional, repeatable
            * and custom regex params, special chars in values).
            */
-          const routeParser = createRouterMatcher(
+          const [routeParser] = createRouterMatcher(
             [{ path: fullPath, component: {} }],
             {}
-          ).getRoutes()[0]
+          ).getRoutes()
+
           const paramNames = new Set(
             routeParser.keys.map(paramKey => paramKey.name)
           )
@@ -242,13 +245,30 @@ function getParseVueRouterRoutesFn(quasarConf, createRouterMatcher) {
     }
   }
 
-  return ({
+  return async ({
     routes,
     parentPath = '/',
     crawlIgnoreRoutes = [],
     routesDynamicParamsMap = {},
     verbose = false
   }) => {
+    if (createRouterMatcher === null) {
+      const vueRouterPkg = await getPackage(
+        'vue-router',
+        quasarConf.ctx.appPaths.appDir
+      )
+
+      if (vueRouterPkg?.createRouterMatcher === void 0) {
+        fatal(
+          "Could not load createRouterMatcher() from your app's vue-router package." +
+            ' Make sure vue-router >= 5 is installed.',
+          'SSG FAIL'
+        )
+      }
+
+      createRouterMatcher = vueRouterPkg.createRouterMatcher
+    }
+
     const dynamicRoutesMatched = []
     const acc = {
       ssgPages: [],
@@ -514,26 +534,10 @@ export class QuasarModeBuilder extends AppBuilder {
       join(this.quasarConf.build.distDir, '__ssg__/ssg-script.js')
     )
 
-    const vueRouterPkg = await getPackage(
-      'vue-router',
-      this.quasarConf.ctx.appPaths.appDir
-    )
-
-    if (vueRouterPkg?.createRouterMatcher === void 0) {
-      fatal(
-        "Could not load createRouterMatcher() from your app's vue-router package." +
-          ' Make sure vue-router >= 5 is installed.',
-        'SSG FAIL'
-      )
-    }
-
     const ssgPageList = await getSsgPages({
       ctx: this.quasarConf.ctx,
       quasarConfSsg: this.quasarConf.ssg,
-      parseVueRouterRoutes: getParseVueRouterRoutesFn(
-        this.quasarConf,
-        vueRouterPkg.createRouterMatcher
-      ),
+      parseVueRouterRoutes: getParseVueRouterRoutesFn(this.quasarConf),
       getFilenameBasedRoutes: () => this.#getFilenameBasedRoutes()
     })
 

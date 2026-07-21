@@ -15,10 +15,12 @@ The wrapper functions infer their callback and return types:
 import { defineSsgGetPages } from '#q-app'
 import routes from '@/router/routes'
 
-export const getSsgPages = defineSsgGetPages(({ parseVueRouterRoutes }) => {
-  const { ssgPages } = parseVueRouterRoutes({ routes, verbose: true })
-  return ssgPages
-})
+export const getSsgPages = defineSsgGetPages(
+  async ({ parseVueRouterRoutes }) => {
+    const { ssgPages } = await parseVueRouterRoutes({ routes, verbose: true })
+    return ssgPages
+  }
+)
 ```
 
 Dependencies imported only by the renderer belong in `/src-ssg/package.json`. If a dependency does not include its own declarations, install its `@types/*` package there as a development dependency.

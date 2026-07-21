@@ -102,9 +102,9 @@ import { defineSsgGetPages } from '#q-app'
 import routes from '@/router/routes'
 
 export const getSsgPages = defineSsgGetPages(
-  ({ parseVueRouterRoutes /*, ctx */ }) => {
+  async ({ parseVueRouterRoutes /*, ctx */ }) => {
     // The use of parseVueRouterRoutes is optional as it's just a helper function.
-    const { ssgPages: initialPages } = parseVueRouterRoutes({
+    const { ssgPages: initialPages } = await parseVueRouterRoutes({
       routes,
       verbose: true
     })
