@@ -78,7 +78,7 @@
         </q-btn>
 
         <q-toggle v-model="toggleOn" />
-        <q-btn color="indigo" label="External Model">
+        <q-btn color="indigo" label="External Model (no update)">
           <q-tooltip
             :model-value="toggleOn"
             :no-parent-event="true"

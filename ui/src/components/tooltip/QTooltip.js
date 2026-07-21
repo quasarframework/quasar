@@ -151,7 +151,7 @@ export default createComponent({
       processOnMount: true
     })
 
-    Object.assign(anchorEvents, { delayShow, delayHide, focusShow })
+    Object.assign(anchorEvents, { delayShow, delayHide, onFocusin })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(
       vm,
@@ -196,18 +196,22 @@ export default createComponent({
       onBeforeUnmount(() => {
         removeClickOutside(clickOutsideProps)
       })
+    } else {
+      // dismiss with the ESC key (WCAG 1.4.13) without moving focus;
+      // uses the shared escape stack so only the top-most popup reacts
+      watch(
+        () =>
+          // trigger only if it doesn't have external model
+          // or else only if the model can be updated (otherwise respect the external model)
+          (props.modelValue === null || props['onUpdate:modelValue']) &&
+          showing.value === true &&
+          props.persistent !== true,
+        val => {
+          const fn = val === true ? addEscapeKey : removeEscapeKey
+          fn(onEscapeKey)
+        }
+      )
     }
-
-    // dismiss with the ESC key (WCAG 1.4.13) without moving focus;
-    // uses the shared escape stack so only the top-most popup reacts
-    const handlesEscape = computed(
-      () => showing.value === true && props.persistent !== true
-    )
-
-    watch(handlesEscape, val => {
-      const fn = val === true ? addEscapeKey : removeEscapeKey
-      fn(onEscapeKey)
-    })
 
     function handleShow(evt) {
       showPortal()
@@ -338,9 +342,8 @@ export default createComponent({
       }, props.hideDelay)
     }
 
-    function focusShow(evt) {
+    function onFocusin(evt) {
       const el = anchorEl.value
-
       if (el === null) return
 
       // only react to keyboard focus, not to focus coming from a pointer,
@@ -353,6 +356,8 @@ export default createComponent({
       delayShow(evt)
     }
 
+    // trigger only if it doesn't have external model
+    // or else only if the model can be updated (otherwise respect the external model)
     function onEscapeKey(evt) {
       hide(evt)
     }
@@ -365,8 +370,8 @@ export default createComponent({
         : [
             [anchorEl.value, 'mouseenter', 'delayShow', 'passive'],
             [anchorEl.value, 'mouseleave', 'delayHide', 'passive'],
-            [anchorEl.value, 'focus', 'focusShow', 'passive'],
-            [anchorEl.value, 'blur', 'delayHide', 'passive']
+            [anchorEl.value, 'focusin', 'onFocusin', 'passive'],
+            [anchorEl.value, 'focusout', 'delayHide', 'passive']
           ]
 
       addEvt(anchorEvents, 'anchor', evts)
