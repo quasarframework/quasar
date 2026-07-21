@@ -101,7 +101,11 @@ function getParseVueRouterRoutesFn(quasarConf) {
     for (const route of routes) {
       const routePath = route.path
       const fullPath = (
-        routePath === '' ? parentPath : `${parentPath}/${routePath}`
+        routePath === ''
+          ? parentPath
+          : routePath.startsWith('/')
+            ? routePath
+            : `${parentPath}/${routePath}`
       ).replaceAll(multiSlashRE, '/')
 
       const ssgPage = {
