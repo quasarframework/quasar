@@ -149,7 +149,10 @@ export const quasarSsrConfig = {
         './server/server-entry.js'
       )
 
-      if (quasarConf.ssr.clientSideRenderingRoutes.length !== 0) {
+      if (
+        quasarConf.ssr.clientSideRenderingRoutes.length !== 0 ||
+        quasarConf.ssr.noPreloadTagRoutes.length !== 0
+      ) {
         cfg.resolve.alias['#q-picomatch'] = getPackagePath('picomatch', cliDir)
       }
 
