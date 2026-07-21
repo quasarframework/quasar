@@ -51,6 +51,9 @@ reviews:
         - Flag SSR-unsafe code: bare `window`/`document` access outside client-only guards.
         - Flag breaking changes to the public component API (props, events, slots, exposed methods).
         - Check accessibility (ARIA attributes, keyboard navigation) and RTL support.
+        - Flag reactive overhead a platform never uses: computed props, watchers
+          or listeners created unconditionally but only consumed on desktop or
+          only on mobile. Their creation should be gated on the platform check.
     - path: 'ui/src/{components,directives,plugins}/**'
       instructions: |
         Components, directives and plugins have sibling JSON API files
