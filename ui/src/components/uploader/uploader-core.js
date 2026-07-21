@@ -264,15 +264,16 @@ export function getRenderer(getPlugin, expose) {
   function removeFile(file) {
     if (props.disable) return
 
+    const isUploading = file.__status === 'uploading'
+
     if (file.__status === 'uploaded') {
       state.uploadedSize.value -= file.size
       uploadSize.value -= file.size
       state.uploadedFiles.value = state.uploadedFiles.value.filter(
         f => f.__key !== file.__key
       )
-    } else if (file.__status === 'uploading') {
+    } else if (isUploading) {
       uploadSize.value -= file.size
-      file.__abort()
     } else {
       uploadSize.value -= file.size
     }
@@ -290,6 +291,11 @@ export function getRenderer(getPlugin, expose) {
     state.queuedFiles.value = state.queuedFiles.value.filter(
       f => f.__key !== file.__key
     )
+
+    if (isUploading) {
+      file.__abort()
+    }
+
     emit('removed', [file])
   }
 
