@@ -343,7 +343,7 @@ export default createComponent({
     }
 
     function onFocusin(evt) {
-      const el = anchorEl.value
+      const el = evt.target
       if (el === null) return
 
       // only react to keyboard focus, not to focus coming from a pointer,
