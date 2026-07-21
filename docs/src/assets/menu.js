@@ -91,7 +91,8 @@ export default [
       },
       {
         name: 'Teleport Target',
-        path: 'teleport-target'
+        path: 'teleport-target',
+        badge: 'new'
       }
     ]
   },
