@@ -31,7 +31,7 @@ export async function displayBanner({ argv, ctx, cmd, details }) {
   }
 
   banner += `
- ${cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............'} ${green(argv.mode)}
+ ${cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............'} ${green(argv.mode.toUpperCase())}
  Pkg quasar............. ${green('v' + ctx.pkg.quasarPkg.version)}
  Pkg @quasar/app-vite... ${green('v' + cliPkg.version)}
  Pkg vite............... ${green('v' + ctx.pkg.vitePkg.version)}
@@ -164,7 +164,7 @@ export function printDevRunningBanner(quasarConf) {
   }
 
   banner.push(
-    ` ${greenBanner} Dev mode............... ${green(ctx.modeName + ((ctx.mode.ssr || ctx.mode.ssg) && ctx.mode.pwa ? ' + pwa' : ''))}`,
+    ` ${greenBanner} Dev mode............... ${green(ctx.modeName.toUpperCase() + ((ctx.mode.ssr || ctx.mode.ssg) && ctx.mode.pwa ? ' + PWA' : ''))}`,
     ` ${greenBanner} Pkg quasar............. ${green('v' + ctx.pkg.quasarPkg.version)}`,
     ` ${greenBanner} Pkg @quasar/app-vite... ${green('v' + cliPkg.version)}`,
     ` ${greenBanner} Browser target......... ${getCompilationTarget(quasarConf.build.target.browser)}`
