@@ -1,5 +1,6 @@
 import {
   getCurrentInstance,
+  nextTick,
   onBeforeMount,
   onBeforeUnmount,
   onMounted,
@@ -9,8 +10,13 @@ import {
 
 import History from '../../plugins/private.history/History.js'
 import { vmHasRouter } from '../../utils/private.vm/vm.js'
+import {
+  getHorizontalScrollPosition,
+  getVerticalScrollPosition
+} from '../../utils/scroll/scroll.js'
 
 let counter = 0
+let bodyScrollPosition = null
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -60,6 +66,13 @@ export default function useFullscreen() {
   function setFullscreen() {
     if (inFullscreen.value) return
 
+    if (counter === 0) {
+      bodyScrollPosition = {
+        left: getHorizontalScrollPosition(window),
+        top: getVerticalScrollPosition(window)
+      }
+    }
+
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
     document.body.append(proxy.$el)
@@ -91,11 +104,16 @@ export default function useFullscreen() {
     if (counter === 0) {
       document.body.classList.remove('q-body--fullscreen-mixin')
 
-      if (!isUnmounting && proxy.$el.scrollIntoView !== void 0) {
-        setTimeout(() => {
-          proxy.$el.scrollIntoView()
-        }, 0)
+      if (isUnmounting === false && bodyScrollPosition !== null) {
+        const { left, top } = bodyScrollPosition
+        nextTick(() => {
+          requestAnimationFrame(() => {
+            window.scrollTo(left, top)
+          })
+        })
       }
+
+      bodyScrollPosition = null
     }
   }
 
