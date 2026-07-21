@@ -1,15 +1,12 @@
 ---
 title: Teleport Target
 desc: Configuring where Quasar places dialogs, menus and other teleported content.
+badge: v2.22+
 related:
   - /quasar-cli-vite/quasar-config-file
 ---
 
 Quasar normally appends dialogs, menus, tooltips and other globally managed content to `document.body`. You can configure another target when the application is hosted in a Shadow DOM or another isolated document subtree.
-
-::: warning
-You need Quasar UI v2.22+ for this feature.
-:::
 
 ## Quasar CLI
 
