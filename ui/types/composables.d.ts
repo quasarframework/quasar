@@ -3,6 +3,11 @@ import { MetaOptions } from "./meta";
 import { Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
+export function useAnimationFrame(): {
+  registerAnimationFrame: (fn: () => void) => void;
+  removeAnimationFrame: () => void;
+};
+
 interface useDialogPluginComponent {
   <T = any>(): {
     dialogRef: Ref<QDialog | null>;
