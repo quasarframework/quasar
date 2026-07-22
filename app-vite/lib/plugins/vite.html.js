@@ -263,11 +263,6 @@ export function getDevSsrTemplateFn(template, htmlVariables, quasarConf) {
     )
   }
 
-  html = html.replace(
-    entryPointMarkup,
-    `${entryPointMarkup}${quasarConf.metaConf.entryScript.tag}`
-  )
-
   return compileTemplateToFn(html, ssrTemplateCompileOpts)
 }
 
