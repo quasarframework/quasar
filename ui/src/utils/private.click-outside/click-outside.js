@@ -22,30 +22,45 @@ function globalHandler(evt) {
     return
   }
 
-  // check last portal vm if it's
-  // a QDialog and not in seamless mode
-  let portalIndex = portalProxyList.length - 1
+  // a modal (non-seamless) QDialog shields popups opened before it,
+  // so only popups opened after it can be closed by this click (#18091)
+  let closableContentEls = null
+  let sawClosablePortal = false
 
-  while (portalIndex >= 0) {
-    const proxy = portalProxyList[portalIndex].$
+  for (let i = portalProxyList.length - 1; i >= 0; i--) {
+    const proxy = portalProxyList[i].$
+    const name = proxy.type.name
 
     // skip QTooltip portals
-    if (proxy.type.name === 'QTooltip') {
-      portalIndex--
+    if (name === 'QTooltip') {
       continue
     }
 
-    if (proxy.type.name !== 'QDialog') {
-      break
+    if (name === 'QDialog') {
+      if (proxy.props.seamless !== true) {
+        if (sawClosablePortal === false) return
+
+        closableContentEls = new Set(
+          portalProxyList.slice(i + 1).map(vm => vm.contentEl)
+        )
+        break
+      }
+
+      continue
     }
 
-    if (!proxy.props.seamless) return
-
-    portalIndex--
+    sawClosablePortal = true
   }
 
   for (let i = registeredList.length - 1; i >= 0; i--) {
     const state = registeredList[i]
+
+    if (
+      closableContentEls !== null &&
+      !closableContentEls.has(state.innerRef.value)
+    ) {
+      return
+    }
 
     if (
       (state.anchorEl.value === null ||
