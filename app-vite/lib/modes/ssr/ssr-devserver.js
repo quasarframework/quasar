@@ -19,6 +19,7 @@ import {
 } from '../../plugins/vite.html.js'
 
 import {
+  getRenderedSfcFiles,
   injectCriticalCssPath,
   logServerMessage,
   renderStoreState
@@ -292,6 +293,10 @@ export class QuasarModeDevserver extends AppDevserver {
         if (entryModules) {
           const criticalCSS = {
             seenNodes: new Set(),
+            renderedSfcFiles: getRenderedSfcFiles(
+              ssrContext,
+              this.#pathMap.rootFolder
+            ),
             ssrContext,
             nonce:
               ssrContext.nonce !== void 0 ? ` nonce="${ssrContext.nonce}"` : ''
