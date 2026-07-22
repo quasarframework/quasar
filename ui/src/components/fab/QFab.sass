@@ -100,19 +100,20 @@
     .q-btn
       margin: 5px
 
+    // physical direction, not text-based: don't let rtlcss mirror it
     &--right
-      transform-origin: 0 50%
-      transform: scale(.4) translateX(-62px)
+      transform-origin: 0 50% #{"/* rtl:ignore */"}
+      transform: scale(.4) translateX(-62px) #{"/* rtl:ignore */"}
       height: 56px
-      left: 100%
-      margin-left: 9px
+      left: 100% #{"/* rtl:ignore */"}
+      margin-left: 9px #{"/* rtl:ignore */"}
 
     &--left
-      transform-origin: 100% 50%
-      transform: scale(.4) translateX(62px)
+      transform-origin: 100% 50% #{"/* rtl:ignore */"}
+      transform: scale(.4) translateX(62px) #{"/* rtl:ignore */"}
       height: 56px
-      right: 100%
-      margin-right: 9px
+      right: 100% #{"/* rtl:ignore */"}
+      margin-right: 9px #{"/* rtl:ignore */"}
       flex-direction: row-reverse
 
     &--up
