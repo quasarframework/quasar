@@ -408,6 +408,7 @@ function main() {
       )
     }
   }
+  console.log()
 
   // Fail loud on config and fatal. These signal a broken build, not source authoring.
   if (warningsByKind.fatal.length !== 0 || warningsByKind.config.length !== 0) {
