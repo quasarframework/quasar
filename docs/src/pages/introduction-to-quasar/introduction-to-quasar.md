@@ -106,4 +106,4 @@ And finally, it’s worth mentioning the significant amount of time taken to wri
 
 ## Get started in under a minute
 
-Having said this, let's [get started](/start)! You'll be running a website or app in under a minute.
+Having said this, let's [get started](/start/quick-start)! You'll be running a website or app in under a minute.

@@ -7,6 +7,10 @@ const docInstallationRE = /<DocInstall /
 const docTreeRE = /<DocTree /
 const scriptRE = /<script doc>\n((.|\n)*?)\n<\/script>/g
 
+const LLM_ONLY_RE = /<llm-only(?:\s[^>]*)?>[\s\S]*?<\/llm-only>/g
+const LLM_EXCLUDE_OPEN_RE = /<llm-exclude(?:\s[^>]*)?>/g
+const LLM_EXCLUDE_CLOSE_RE = /<\/llm-exclude>/g
+
 /**
  * Extract the user scripts from the rendered content
  */
@@ -21,8 +25,28 @@ function splitRenderedContent(mdPageContent) {
   return { mdContent, userScripts }
 }
 
+/**
+ * Inverse of the AI-docs pipeline's applyLlmContentControl: drop
+ * `<llm-only>...</llm-only>` content entirely (it's meant ONLY for AI export),
+ * and strip `<llm-exclude>...</llm-exclude>` wrappers while keeping their
+ * content (the wrapper means "exclude from AI export, keep on live site").
+ *
+ * Applied at the entry of mdParse so the markdown-it tokenizer and the
+ * downstream Vue template never see the marker tags.
+ *
+ * @param {string} source raw page source (including frontmatter)
+ * @returns {string} source with llm-* markers normalized for the HTML pipeline
+ */
+function applyHtmlContentControl(source) {
+  return source
+    .replace(LLM_ONLY_RE, '')
+    .replace(LLM_EXCLUDE_OPEN_RE, '')
+    .replace(LLM_EXCLUDE_CLOSE_RE, '')
+}
+
 export default function mdParse(code, id, isProd) {
-  const { data: frontMatter, content } = parseFrontMatter(code)
+  const cleanedCode = applyHtmlContentControl(code)
+  const { data: frontMatter, content } = parseFrontMatter(cleanedCode)
 
   frontMatter.id = id
   frontMatter.title ||= 'Generic Page'
@@ -45,15 +69,17 @@ export default function mdParse(code, id, isProd) {
       "import DocExample from '@/components/DocExample.vue'"
     )
   }
-  if (docApiRE.test(code)) {
+  // Probe cleanedCode, not code. A component living only inside a stripped
+  // <llm-only> block must not add a dead import.
+  if (docApiRE.test(cleanedCode)) {
     frontMatter.pageScripts.add("import DocApi from '@/components/DocApi.vue'")
   }
-  if (docInstallationRE.test(code)) {
+  if (docInstallationRE.test(cleanedCode)) {
     frontMatter.pageScripts.add(
       "import DocInstall from '@/components/DocInstall.vue'"
     )
   }
-  if (docTreeRE.test(code)) {
+  if (docTreeRE.test(cleanedCode)) {
     frontMatter.pageScripts.add(
       "import DocTree from '@/components/DocTree.vue'"
     )

@@ -15,6 +15,8 @@ The `/src-ssr/server.js` file is used for both DEV and PROD, so please be carefu
 
 Now let's see what it contains, for JS projects first and then for TypeScript. Pick the one you want to use based on the webserver of your choice:
 
+<llm-exclude reason="Mirrors the TypeScript :::details below without the type annotations. LLMs can derive the JS form from the TS version.">
+
 ::: details Javascript
 
 ```tabs /src-ssr/server.js
@@ -762,6 +764,8 @@ export const renderPreloadTag = defineSsrRenderPreloadTag(
 ```
 
 :::
+
+</llm-exclude>
 
 ::: details TypeScript
 

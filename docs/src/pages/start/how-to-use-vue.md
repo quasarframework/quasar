@@ -223,7 +223,7 @@ Let's take some examples with a bogus Quasar component (we will call it QBogus) 
 A boolean property means it only accepts a strictly Boolean value. The values will not be cast to Boolean, so you must ensure you are using a true Boolean.
 
 ::: tip
-In Quasar, all Boolean properties have `false` as the default value. As a result, you don't have to explictly assign them the `false` value.
+In Quasar, all Boolean properties have `false` as the default value. As a result, you don't have to explicitly assign them the `false` value.
 :::
 
 If you are trying to control that property and change it dynamically at runtime, then bind it to a variable in your scope:

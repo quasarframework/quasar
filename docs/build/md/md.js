@@ -1,5 +1,7 @@
 import markdownIt from 'markdown-it'
 
+import { sharedMdOptions } from './md-rules.js'
+
 import mdPluginLink from './md-plugin-link.js'
 import mdPluginToken from './md-plugin-token.js'
 import mdPluginBlockquote from './md-plugin-blockquote.js'
@@ -9,13 +11,7 @@ import mdPluginContainers from './md-plugin-containers.js'
 import mdPluginTable from './md-plugin-table.js'
 import mdPluginCodeblock from './md-plugin-codeblock.js'
 
-const opts = {
-  html: true,
-  linkify: false,
-  typographer: true
-}
-
-const md = markdownIt(opts)
+const md = markdownIt(sharedMdOptions)
   .use(mdPluginLink)
   .use(mdPluginToken)
   .use(mdPluginBlockquote)

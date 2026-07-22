@@ -6,7 +6,7 @@
   "value": {
     "type": ["Function"],
     "desc": "Function to call when mutation occurs; It is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",
-    "examples": ["# v-intersection=\"myHandler\""],
+    "examples": ["# v-mutation=\"myHandler\""],
 
     "returns": {
       "type": "Boolean",

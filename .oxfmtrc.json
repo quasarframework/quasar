@@ -16,7 +16,9 @@
     "!create-quasar/templates/**/create-quasar-script.js",
 
     "utils/render-ssr-error/compiled-assets/",
-    "**/*/typed-router.d.ts"
+    "**/*/typed-router.d.ts",
+
+    "docs/build/md/__tests__/snapshots/"
   ],
 
   "printWidth": 80,
