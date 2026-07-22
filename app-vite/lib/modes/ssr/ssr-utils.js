@@ -50,7 +50,7 @@ function walkCriticalCssModules(moduleList, criticalCSS) {
       !inlineStyleRE.test(url) &&
       (url.includes('vue&type=style') || styleUrlRE.test(url))
     ) {
-      criticalCSS.ssrContext._meta.endingHeadTags +=
+      criticalCSS.meta.endingHeadTags +=
         `<link${criticalCSS.nonce} rel="stylesheet"` +
         ` href="${url}" data-quasar-ssr-style>`
     }
@@ -86,7 +86,7 @@ export function injectCriticalCssPath({
       seenNodes: new Set(),
       renderedSfcFiles,
       nonce,
-      ssrContext
+      meta: ssrContext._meta
     })
   }
 }

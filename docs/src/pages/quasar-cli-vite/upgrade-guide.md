@@ -247,7 +247,7 @@ We've also massively upgraded the dev setup for AEs. You might want to do a top 
 
 - 📦 Smarter Dependency Isolation: We now have a clear separation of dependencies for each Quasar mode. You can install mode-specific packages directly in their respective /src-\* folders. For example, the default Electron app will no longer require dependencies to be installed in its dist folder—only what you explicitly install in /src-electron will be included.
 
-- 🌍 Redesigned SSR Architecture: SSR mode now features superior support for custom web servers and proper TypeScript integration. When adding SSR, the CLI will prompt you to spawn a preconfigured /src-ssr folder using Hono, Fastify, Express, or Koa (let us know what other out-of-the-box servers you’d like!). Hybrid SSR + partial CSR now available, too! Also, Quasar CLI now handles the critical CSS paths on the development server-side render too!
+- 🌍 Redesigned SSR Architecture: SSR mode now features superior support for custom web servers and proper TypeScript integration. When adding SSR, the CLI will prompt you to spawn a preconfigured /src-ssr folder using Hono, Fastify, Express, or Koa (let us know what other out-of-the-box servers you’d like!). Hybrid SSR + partial CSR now available, too! Also, Quasar CLI now handles the critical CSS paths on the development server-side render too, so no more FOUC for it!
 
 - 📂 New Server Assets Folder for SSR: We've introduced a /src-ssr/server-assets folder alongside helpful utility functions. This makes it incredibly easy to reference assets (like HTTPS certificates) across dev and production runtimes, eliminating the strict need for an Apache/Nginx wrapper. We've also made the serverless support a breeze.
 
@@ -1002,7 +1002,7 @@ app.on("window-all-closed", () => {
 
 We've added way better support for non-Express.js webservers and highly improved typings. When the SSR mode is added to a project, the Quasar CLI will ask what webserver you would like to use. You can pick from Hono/Express.js/Fastify/Koa.
 
-Quasar CLI now also handles the critical CSS paths on the development server-side render too! This feature was added in `@quasar/app-vite` v3.2.
+Quasar CLI now also handles the critical CSS paths on the development server-side render too! No more FOUC for it. This feature was added in `@quasar/app-vite` v3.2.
 
 Instead of diffing here, you might want to check the next pages (even if you still want to stay with Express.js):
 
