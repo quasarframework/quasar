@@ -114,3 +114,12 @@ test('handles already-object related entries', () => {
     { title: 'Circular Progress', path: 'vue-components/circular-progress.md' }
   ])
 })
+
+test('object related entry with a title but empty path is dropped with a warning', () => {
+  const { frontmatter: output } = processFrontmatter(
+    { title: 'X', related: [{ name: 'Ghost', path: '' }] },
+    menuByPath,
+    'vue-components/knob.md'
+  )
+  expect(output.related).toStrictEqual([])
+})

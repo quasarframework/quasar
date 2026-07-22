@@ -53,9 +53,9 @@ function resolveRelatedEntry(entry, menuByPath, fromOutputPath) {
         entry
       )
     const rawPath = entryObject.path ?? entryObject.url
-    // An entry with a title but no target would survive the title filter
-    // with a garbage path. Treat it as unresolvable instead.
-    if (rawPath === void 0) {
+    // An entry with a title but no usable target would survive the title
+    // filter with a garbage path. Treat it as unresolvable instead.
+    if (typeof rawPath !== 'string' || rawPath.trim() === '') {
       return null
     }
 
