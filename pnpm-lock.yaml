@@ -289,7 +289,7 @@ importers:
         version: 5.2.0(@vue/compiler-sfc@3.5.40)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rolldown@1.2.0)(rollup@4.61.1)(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))
     devDependencies:
       '@quasar/app-vite':
-        specifier: ^3.1.0
+        specifier: ^3.2.0
         version: link:../app-vite
       '@rolldown/pluginutils':
         specifier: ^1.0.1
