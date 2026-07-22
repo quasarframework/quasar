@@ -51,7 +51,7 @@
 <p>We’ll describe setting the defaults through a <doc-link to="/quasar-cli-vite/boot-files">@quasar/app-vite Boot File</doc-link> (works the same anywhere in your code, but a boot file ensures this is run before your app starts):</p>
 <p>First we create the boot file. Let’s name it “notify-defaults.js”.</p>
 <DocPrerender><DocCode lang="bash" :code="&quot;quasar new boot notify-defaults [--format ts]&quot;" /></DocPrerender><p>Add the created notify-defaults.js file to the boot array in the <code class="doc-token">/quasar.config</code> file:</p>
-<DocPrerender><DocCode lang="js" :code="&quot;import { defineBoot } from '#q-app'\n\nexport default defineBoot(ctx => {\n  return {\n    // ...\n    boot: ['notify-defaults']\n    // ...\n  }\n})&quot;" /></DocPrerender><p>We then edit the newly created <code class="doc-token">/src/boot/notify-defaults.js</code>:</p>
+<DocPrerender><DocCode lang="js" :code="&quot;import { defineConfig } from '#q-app'\n\nexport default defineConfig(ctx => {\n  return {\n    // ...\n    boot: ['notify-defaults']\n    // ...\n  }\n})&quot;" /></DocPrerender><p>We then edit the newly created <code class="doc-token">/src/boot/notify-defaults.js</code>:</p>
 <DocPrerender><DocCode lang="ts" :code="&quot;import { Notify } from \'quasar'\n\nNotify.setDefaults({\n  timeout: 2500,\n  textColor: 'white',\n  actions: [{ icon: 'close', color: 'white' }],\n  position: 'top-right'\n})&quot;" /></DocPrerender><div class="doc-note doc-note--warning"><p class="doc-note__title">WARNING</p>
 <p>You can only set default <code class="doc-token">actions</code> through this method. Specifying <code class="doc-token">actions</code> with handlers in the <code class="doc-token">/quasar.config</code> file cannot and will NOT work.</p>
 </div>
