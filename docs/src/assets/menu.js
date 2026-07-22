@@ -687,6 +687,11 @@ export default [
         path: 'use-timeout'
       },
       {
+        name: 'useAnimationFrame',
+        badge: 'new',
+        path: 'use-animation-frame'
+      },
+      {
         name: 'useSplitAttrs',
         path: 'use-split-attrs'
       }
@@ -860,8 +865,8 @@ export default [
           },
           {
             name: 'Hybrid SSR + partial CSR',
-            path: 'hybrid-ssr-with-partial-csr',
-            badge: 'new'
+            badge: 'new',
+            path: 'hybrid-ssr-with-partial-csr'
           },
           {
             name: 'SSR with TypeScript',

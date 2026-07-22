@@ -1,8 +1,8 @@
+export { default as useAnimationFrame } from './composables/use-animation-frame/use-animation-frame.js'
 export { default as useDialogPluginComponent } from './composables/use-dialog-plugin-component/use-dialog-plugin-component.js'
 export { default as useFormChild } from './composables/use-form/use-form-child.js'
 export { default as useMeta } from './composables/use-meta/use-meta.js'
 export { default as useQuasar } from './composables/use-quasar/use-quasar.js'
-
 export { default as useHydration } from './composables/use-hydration/use-hydration.js'
 export { default as useId } from './composables/use-id/use-id.js'
 export { default as useInterval } from './composables/use-interval/use-interval.js'
