@@ -51,7 +51,7 @@ _The schedule may change based on unforeseen and/or out of the ordinary circumst
 ### Q3-Q4 2026
 
 - Plans for Quasar v3. We will need your input on some of the decisions that we will be taking for the new major version.
-- Critical CSS path for SSR & SSG dev modes
+- ✌️ (DONE) Critical CSS path for SSR & SSG dev modes (avoids FOUC on development)
 
 ### Q1 2027
 
