@@ -53,69 +53,80 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('[click-outside]', () => {
-  test('closes nested menus that have no dialog between them', () => {
-    // stack (open order): outer QMenu -> inner QMenu
-    const outer = pushMenu()
-    const inner = pushMenu()
+describe('[clickOutside API]', () => {
+  describe('[Functions]', () => {
+    describe('[(function)addClickOutside]', () => {
+      test('closes nested menus that have no dialog between them', () => {
+        // stack (open order): outer QMenu -> inner QMenu
+        const outer = pushMenu()
+        const inner = pushMenu()
 
-    // click somewhere outside both menus
-    mousedownOn(createEl())
+        // click somewhere outside both menus
+        mousedownOn(createEl())
 
-    expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
-    expect(outer.onClickOutside).toHaveBeenCalledTimes(1)
-  })
+        expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(outer.onClickOutside).toHaveBeenCalledTimes(1)
+      })
 
-  test('does not close a menu shielded by a modal dialog (issue #18091)', () => {
-    // stack (open order): outer QMenu -> modal QDialog -> inner QMenu
-    const outer = pushMenu()
-    const dialogEl = pushPortal('QDialog', { seamless: false })
-    const inner = pushMenu()
+      test('does not close a menu shielded by a modal dialog (issue #18091)', () => {
+        // stack (open order): outer QMenu -> modal QDialog -> inner QMenu
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: false })
+        const inner = pushMenu()
 
-    // click inside the dialog, but outside the inner menu popup
-    mousedownOn(dialogEl)
+        // click inside the dialog, but outside the inner menu popup
+        mousedownOn(dialogEl)
 
-    // only the inner Select popup should close
-    expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
-    // the outer Select popup stays open (shielded by the dialog backdrop)
-    expect(outer.onClickOutside).not.toHaveBeenCalled()
-  })
+        // only the inner Select popup should close
+        expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
+        // the outer Select popup stays open (shielded by the dialog backdrop)
+        expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
 
-  test('a seamless dialog is not a boundary (has no backdrop)', () => {
-    // stack (open order): outer QMenu -> seamless QDialog -> inner QMenu
-    const outer = pushMenu()
-    const dialogEl = pushPortal('QDialog', { seamless: true })
-    const inner = pushMenu()
+      test('a seamless dialog is not a boundary (has no backdrop)', () => {
+        // stack (open order): outer QMenu -> seamless QDialog -> inner QMenu
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: true })
+        const inner = pushMenu()
 
-    // click inside the seamless dialog, outside the inner menu popup
-    mousedownOn(dialogEl)
+        // click inside the seamless dialog, outside the inner menu popup
+        mousedownOn(dialogEl)
 
-    // without a backdrop, both menus close as before
-    expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
-    expect(outer.onClickOutside).toHaveBeenCalledTimes(1)
-  })
+        // without a backdrop, both menus close as before
+        expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(outer.onClickOutside).toHaveBeenCalledTimes(1)
+      })
 
-  test('a modal dialog on top closes nothing beneath it', () => {
-    // stack (open order): outer QMenu -> modal QDialog (top-most)
-    const outer = pushMenu()
-    const dialogEl = pushPortal('QDialog', { seamless: false })
+      test('a modal dialog on top closes nothing beneath it', () => {
+        // stack (open order): outer QMenu -> modal QDialog (top-most)
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: false })
 
-    mousedownOn(dialogEl)
+        mousedownOn(dialogEl)
 
-    expect(outer.onClickOutside).not.toHaveBeenCalled()
-  })
+        expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
 
-  test('a QTooltip above a modal dialog does not unshield an earlier menu', () => {
-    // stack (open order): outer QMenu -> modal QDialog -> QTooltip
-    // the QTooltip is skipped while scanning for the dialog boundary; that
-    // skip must not let the click reach the menu opened before the dialog
-    const outer = pushMenu()
-    const dialogEl = pushPortal('QDialog', { seamless: false })
-    pushPortal('QTooltip')
+      test('a QTooltip above a modal dialog does not unshield an earlier menu', () => {
+        // stack (open order): outer QMenu -> modal QDialog -> QTooltip
+        // the QTooltip is skipped while scanning for the dialog boundary; that
+        // skip must not let the click reach the menu opened before the dialog
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: false })
+        pushPortal('QTooltip')
 
-    // click inside the dialog, outside every popup
-    mousedownOn(dialogEl)
+        // click inside the dialog, outside every popup
+        mousedownOn(dialogEl)
 
-    expect(outer.onClickOutside).not.toHaveBeenCalled()
+        expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)removeClickOutside]', () => {
+      test('has correct return value', () => {
+        const result = removeClickOutside({})
+        expect(result).toBeUndefined()
+      })
+    })
   })
 })
