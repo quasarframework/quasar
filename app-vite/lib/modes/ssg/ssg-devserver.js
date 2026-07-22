@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { createServer, createServerModuleRunner, normalizePath } from 'vite'
+import { createServer, createServerModuleRunner } from 'vite'
 import { watch as chokidarWatch } from 'chokidar'
 
 import { AppDevserver } from '../../app-devserver.js'
@@ -17,7 +17,7 @@ import {
 } from '../../plugins/vite.html.js'
 
 import {
-  getRenderedSfcFiles,
+  getNonceAttr,
   injectCriticalCssPath,
   logServerMessage,
   renderStoreState
@@ -204,22 +204,15 @@ export class QuasarModeDevserver extends AppDevserver {
 
         const app = await renderApp.default(ssrContext)
         const runtimePageContent = await vueRenderToString(app, ssrContext)
+        const nonce = getNonceAttr(ssrContext)
 
-        const entryModules = viteServer.moduleGraph.getModulesByFile(
-          normalizePath(serverEntryFile)
-        )
-
-        if (entryModules) {
-          const criticalCSS = {
-            seenNodes: new Set(),
-            renderedSfcFiles: getRenderedSfcFiles(ssrContext, rootFolder),
-            ssrContext,
-            nonce:
-              ssrContext.nonce !== void 0 ? ` nonce="${ssrContext.nonce}"` : ''
-          }
-
-          injectCriticalCssPath(entryModules, criticalCSS)
-        }
+        injectCriticalCssPath({
+          viteServer,
+          serverEntryFile,
+          rootFolder,
+          nonce,
+          ssrContext
+        })
 
         onRenderedList.forEach(fn => {
           fn()
@@ -234,7 +227,7 @@ export class QuasarModeDevserver extends AppDevserver {
           quasarConf.ssg.manualStoreSerialization !== true
         ) {
           ssrContext._meta.headTags =
-            renderStoreState(ssrContext) + ssrContext._meta.headTags
+            renderStoreState(ssrContext, nonce) + ssrContext._meta.headTags
         }
 
         let html = this.#renderTemplate(ssrContext)
