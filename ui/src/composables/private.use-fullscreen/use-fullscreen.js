@@ -1,22 +1,24 @@
 import {
   getCurrentInstance,
-  nextTick,
   onBeforeMount,
   onBeforeUnmount,
+  onDeactivated,
   onMounted,
   ref,
   watch
 } from 'vue'
 
 import History from '../../plugins/private.history/History.js'
-import { vmHasRouter } from '../../utils/private.vm/vm.js'
+import { vmHasRouter, vmIsDestroyed } from '../../utils/private.vm/vm.js'
+import useTick from '../use-tick/use-tick.js'
+import useAnimationFrame from '../use-animation-frame/use-animation-frame.js'
 import {
   getHorizontalScrollPosition,
   getVerticalScrollPosition
 } from '../../utils/scroll/scroll.js'
 
 let counter = 0
-let bodyScrollPosition = null
+let restoreState = null
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -29,12 +31,11 @@ export default function useFullscreen() {
   const vm = getCurrentInstance()
   const { props, emit, proxy } = vm
 
-  let historyEntry,
-    fullscreenFillerNode,
-    isUnmounting = false,
-    restoreFrame = null,
-    restoreToken = 0
+  let historyEntry, fullscreenFillerNode
+
   const inFullscreen = ref(false)
+  const { registerTick, removeTick } = useTick()
+  const { registerAnimationFrame, removeAnimationFrame } = useAnimationFrame()
 
   if (vmHasRouter(vm)) {
     watch(
@@ -65,23 +66,18 @@ export default function useFullscreen() {
     }
   }
 
-  function cancelScrollRestore() {
-    restoreToken++
-    if (restoreFrame !== null) {
-      cancelAnimationFrame(restoreFrame)
-      restoreFrame = null
-    }
-  }
-
   function setFullscreen() {
-    if (inFullscreen.value) return
+    if (vmIsDestroyed(vm) || inFullscreen.value) return
 
-    cancelScrollRestore()
+    removeAnimationFrame()
+    removeTick()
 
     if (counter === 0) {
-      bodyScrollPosition = {
+      restoreState = {
         left: getHorizontalScrollPosition(window),
-        top: getVerticalScrollPosition(window)
+        top: getVerticalScrollPosition(window),
+        width: window.innerWidth,
+        height: window.innerHeight
       }
     }
 
@@ -112,25 +108,35 @@ export default function useFullscreen() {
     inFullscreen.value = false
 
     counter = Math.max(0, counter - 1)
+    if (counter !== 0) return
 
-    if (counter === 0) {
-      document.body.classList.remove('q-body--fullscreen-mixin')
+    document.body.classList.remove('q-body--fullscreen-mixin')
 
-      if (isUnmounting === false && bodyScrollPosition !== null) {
-        const { left, top } = bodyScrollPosition
-        const token = ++restoreToken
-        nextTick(() => {
-          if (token !== restoreToken || counter !== 0) return
-          restoreFrame = requestAnimationFrame(() => {
-            restoreFrame = null
-            if (token !== restoreToken || counter !== 0) return
-            window.scrollTo(left, top)
-          })
-        })
-      }
+    if (restoreState === null) return
 
-      bodyScrollPosition = null
-    }
+    const { left, top, width, height } = restoreState
+    restoreState = null
+
+    if (vmIsDestroyed(vm)) return
+
+    registerTick(() => {
+      if (counter !== 0) return
+      registerAnimationFrame(() => {
+        if (counter !== 0) return
+
+        if (window.innerWidth !== width || window.innerHeight !== height) {
+          /**
+           * If user has resized the window while in fullscreen mode,
+           * we cannot restore the scroll position because it will be wrong.
+           * So we just scroll the element into view instead,
+           * which is the best we can do.
+           */
+          proxy.$el.scrollIntoView()
+        } else {
+          window.scrollTo(left, top)
+        }
+      })
+    })
   }
 
   onBeforeMount(() => {
@@ -141,11 +147,8 @@ export default function useFullscreen() {
     if (props.fullscreen) setFullscreen()
   })
 
-  onBeforeUnmount(() => {
-    isUnmounting = true
-    exitFullscreen()
-    cancelScrollRestore()
-  })
+  onDeactivated(exitFullscreen)
+  onBeforeUnmount(exitFullscreen)
 
   // expose public methods
   Object.assign(proxy, {
