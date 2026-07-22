@@ -21,20 +21,26 @@ export function logServerMessage(title, msg, additional) {
   )
 }
 
-const styleUrlRE = /\.(css|sass|scss|less|styl|stylus)(\?.*)?$/
+const styleUrlRE = /\.(css|sass|scss|less|styl|stylus|pcss|postcss|sss)(\?.*)?$/
+const inlineStyleRE = /[?&]inline\b/
 
-export function injectCriticalCssPath(nodeList, criticalCssPaths) {
+export function injectCriticalCssPath(nodeList, criticalCSS) {
   for (const { url, importedModules } of nodeList) {
     // Prevent infinite loops from circular dependencies
-    if (criticalCssPaths.seenNodes.has(url)) continue
-    criticalCssPaths.seenNodes.add(url)
+    if (criticalCSS.seenNodes.has(url)) continue
+    criticalCSS.seenNodes.add(url)
 
-    if (url.includes('vue&type=style') || styleUrlRE.test(url)) {
-      criticalCssPaths.ssrContext._meta.endingHeadTags += `<link rel="stylesheet" href="${url}" data-quasar-ssr-style>`
+    if (
+      !inlineStyleRE.test(url) &&
+      (url.includes('vue&type=style') || styleUrlRE.test(url))
+    ) {
+      criticalCSS.ssrContext._meta.endingHeadTags +=
+        `<link${criticalCSS.nonce} rel="stylesheet"` +
+        ` href="${url}" data-quasar-ssr-style>`
     }
 
     if (importedModules?.size) {
-      injectCriticalCssPath(importedModules, criticalCssPaths)
+      injectCriticalCssPath(importedModules, criticalCSS)
     }
   }
 }

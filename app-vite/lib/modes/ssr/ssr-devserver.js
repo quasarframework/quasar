@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { createServer, createServerModuleRunner } from 'vite'
+import { createServer, createServerModuleRunner, normalizePath } from 'vite'
 import { watch as chokidarWatch } from 'chokidar'
 
 import { AppDevserver } from '../../app-devserver.js'
@@ -286,10 +286,19 @@ export class QuasarModeDevserver extends AppDevserver {
         const runtimePageContent = await vueRenderToString(app, ssrContext)
 
         const entryModules = viteServer.moduleGraph.getModulesByFile(
-          this.#pathMap.serverEntryFile
+          normalizePath(this.#pathMap.serverEntryFile)
         )
-        const criticalCssPaths = { seenNodes: new Set(), ssrContext }
-        injectCriticalCssPath(entryModules, criticalCssPaths)
+
+        if (entryModules) {
+          const criticalCSS = {
+            seenNodes: new Set(),
+            ssrContext,
+            nonce:
+              ssrContext.nonce !== void 0 ? ` nonce="${ssrContext.nonce}"` : ''
+          }
+
+          injectCriticalCssPath(entryModules, criticalCSS)
+        }
 
         onRenderedList.forEach(fn => {
           fn()
