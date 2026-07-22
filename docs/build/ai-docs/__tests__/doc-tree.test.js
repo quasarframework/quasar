@@ -49,3 +49,25 @@ test('node with kind=directory gets trailing slash', () => {
   const output = handler.block(token, ctx)
   expect(output).toMatch(/- \*\*src\/\*\*/)
 })
+
+test('missing :def attribute emits nothing and warns', () => {
+  const handler = docTreeHandler()
+  const token = { content: '<DocTree />' }
+  const ctx = { warnings: [], sourcePath: 't.md', frontMatter: {} }
+  expect(handler.block(token, ctx)).toBe('')
+  expect(ctx.warnings.length).toBe(1)
+  expect(ctx.warnings[0]).toMatch(/missing :def=/)
+})
+
+test(':def resolving to null emits nothing and warns', () => {
+  const handler = docTreeHandler()
+  const token = { content: '<DocTree :def="scope.tree" />' }
+  const ctx = {
+    warnings: [],
+    sourcePath: 't.md',
+    frontMatter: { scope: { tree: null } }
+  }
+  expect(handler.block(token, ctx)).toBe('')
+  expect(ctx.warnings.length).toBe(1)
+  expect(ctx.warnings[0]).toMatch(/resolved to null/)
+})

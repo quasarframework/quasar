@@ -28,7 +28,7 @@ Page selection comes from the site menu (`menu.js`: flat-menu + header links). N
 
 ## Serving
 
-`pnpm build` copies `dist/` into the SSG output, so the docs deploy ships a `.md` sibling for every page (`/vue-components/button.md`) plus `/llms.txt`. Also, in the hosting layer (outside the repo):
+`pnpm build` copies `dist/` into the SSG output, so the docs deploy ships a `.md` sibling for every included menu page (`/vue-components/button.md`) plus `/llms.txt`. Also, in the hosting layer (outside the repo):
 
 - Make sure `.md` files are served with `Content-Type: text/markdown; charset=utf-8`.
 - Optional, but nice to have: when a page is requested with an `Accept: text/markdown` header, respond with a 302 to the `.md` sibling. Send `Vary: Accept` on that response so that the CDN caches stay valid.

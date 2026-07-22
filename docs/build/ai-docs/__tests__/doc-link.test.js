@@ -20,3 +20,12 @@ test('paired DocLink uses the target as label (children arrive as separate token
   const output = handler.inline(token, ctx)
   expect(output).toBe('[/vue-components/knob](/vue-components/knob)')
 })
+
+test('missing to attribute emits nothing and warns', () => {
+  const handler = docLinkHandler()
+  const token = { content: '<DocLink />' }
+  const ctx = { warnings: [], sourcePath: 't.md' }
+  expect(handler.inline(token, ctx)).toBe('')
+  expect(ctx.warnings.length).toBe(1)
+  expect(ctx.warnings[0]).toMatch(/missing to=/)
+})

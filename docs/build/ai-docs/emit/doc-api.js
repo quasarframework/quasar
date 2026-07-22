@@ -55,6 +55,14 @@ export function docApiHandler({ apiDir }) {
         )
         return `<!-- DocApi: ${name} parse error: ${err.message} -->\n\n`
       }
+      // Valid JSON that isn't an object (null, a number) would crash
+      // renderApi outside the catch above. Same degradation path.
+      if (json === null || typeof json !== 'object' || Array.isArray(json)) {
+        ctx.warnings.push(
+          `<DocApi file="${name}"> failed to parse ${jsonPath}: not a JSON object`
+        )
+        return `<!-- DocApi: ${name} parse error: not a JSON object -->\n\n`
+      }
       return renderApi(name, json) + '\n'
     }
   }

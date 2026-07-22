@@ -10,6 +10,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { applyCollapseMarkers } from './collapse-markers.js'
+import { fenceFor } from './fence-utils.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 /** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
@@ -58,7 +59,14 @@ export function docExampleHandler({ examplesDir }) {
         )
         return ''
       }
-      const source = applyCollapseMarkers(readFileSync(fullPath, 'utf8').trim())
+      const { source, warnings: collapseWarnings } = applyCollapseMarkers(
+        readFileSync(fullPath, 'utf8').trim()
+      )
+      for (const warning of collapseWarnings) {
+        ctx.warnings.push(
+          `${warning} in example ${examplesKey}/${file}.vue (${ctx.sourcePath})`
+        )
+      }
       // Skip the tag's own `### {title}` when a heading sits right before it
       // with no body in between. The example IS the section, so that heading
       // makes the title redundant. Near-matches (`### Min and max` then
@@ -68,7 +76,8 @@ export function docExampleHandler({ examplesDir }) {
       // The example body counts as non-heading content, so a later sibling
       // example doesn't also suppress its title.
       ctx._lastBlockWasHeading = false
-      return `${heading}\`\`\`vue\n${source}\n\`\`\`\n\n`
+      const fence = fenceFor(source)
+      return `${heading}${fence}vue\n${source}\n${fence}\n\n`
     }
   }
 }

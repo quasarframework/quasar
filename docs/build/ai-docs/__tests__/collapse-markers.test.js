@@ -12,7 +12,7 @@ test('strips a #region block, replacing with a placeholder', () => {
     '  // #endregion',
     ']'
   ].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   expect(output).toContain('{ a: 1 }')
   expect(output).toContain('{ b: 2 }')
   expect(output).not.toContain('{ c: 3 }')
@@ -24,14 +24,14 @@ test('strips a #region block, replacing with a placeholder', () => {
 
 test('passes through code with no region markers', () => {
   const src = 'const x = [1, 2, 3]'
-  expect(applyCollapseMarkers(src)).toBe(src)
+  expect(applyCollapseMarkers(src).source).toBe(src)
 })
 
 test('region with a label still gets stripped', () => {
   const src = ['// #region remaining rows', 'omitted', '// #endregion'].join(
     '\n'
   )
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   expect(output).toBe('// ...')
 })
 
@@ -45,17 +45,39 @@ test('nested regions: inner pair folds into outer placeholder', () => {
     'c',
     '// #endregion'
   ].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   expect(output).toBe('// ...')
 })
 
-test('missing #endregion leaves the open marker in place', () => {
+test('missing #endregion leaves the open marker in place and warns', () => {
   const src = ['// #region', 'a', 'b'].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output, warnings } = applyCollapseMarkers(src)
   // Should preserve original lines (no silent loss)
   expect(output).toContain('// #region')
   expect(output).toContain('a')
   expect(output).toContain('b')
+  expect(warnings.length).toBe(1)
+  expect(warnings[0]).toMatch(/Unclosed region marker at line 1/)
+})
+
+test('unclosed outer region warns while a closed inner region still collapses', () => {
+  const src = [
+    '// #region outer',
+    'setup stuff',
+    '// #region inner',
+    'inner content',
+    '// #endregion',
+    'more stuff'
+  ].join('\n')
+  const { source: output, warnings } = applyCollapseMarkers(src)
+  // The lone #endregion pairs with the inner open, matching editor folding.
+  expect(output).toContain('// #region outer')
+  expect(output).toContain('setup stuff')
+  expect(output).toContain('// ...')
+  expect(output).not.toContain('inner content')
+  expect(output).toContain('more stuff')
+  expect(warnings.length).toBe(1)
+  expect(warnings[0]).toMatch(/Unclosed region marker at line 1/)
 })
 
 test('preserves indentation of the opening marker', () => {
@@ -66,7 +88,7 @@ test('preserves indentation of the opening marker', () => {
     '  // #endregion',
     '}'
   ].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   expect(output).toContain('  // ...')
 })
 
@@ -82,7 +104,7 @@ test('HTML comment markers are recognized', () => {
     '  </ul>',
     '</template>'
   ].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   expect(output).toContain('<li>kept</li>')
   expect(output).not.toContain('<li>dropped</li>')
   expect(output).not.toContain('#region')
@@ -99,7 +121,7 @@ test('HTML comment markers with a label are recognized', () => {
     '  <!-- #endregion -->',
     '</template>'
   ].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   expect(output).not.toContain('<li>dropped</li>')
   expect(output).not.toContain('#region')
   expect(output).not.toContain('#endregion')
@@ -121,7 +143,7 @@ test('JS and HTML markers can coexist in the same source', () => {
     ']',
     '</script>'
   ].join('\n')
-  const output = applyCollapseMarkers(src)
+  const { source: output } = applyCollapseMarkers(src)
   // Two placeholders, each matching its opening marker style
   expect(output).toContain('  <!-- ... -->')
   expect(output).toContain('  // ...')

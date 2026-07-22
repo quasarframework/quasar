@@ -152,3 +152,27 @@ test('paired Vue component (TeamMember with attributes) is stripped from passthr
     '<TeamMember'
   )
 })
+
+test('closing standard HTML tag arriving as its own token passes through', () => {
+  setup()
+  const ctx = createCtx({ sourcePath: 't.md', frontMatter: {} })
+  // markdown-it tokenizes inline `<kbd>X</kbd>` as open/text/close tokens.
+  // Only the html tokens matter here, setup() registers no text emitter.
+  const output = emitTokens(
+    [
+      { type: 'html_inline', content: '<kbd>' },
+      { type: 'html_inline', content: '</kbd>' }
+    ],
+    ctx
+  )
+  expect(output).toBe('<kbd></kbd>')
+  expect(ctx.warnings.length).toBe(0)
+})
+
+test('closing tag of a dropped component is dropped silently', () => {
+  setup()
+  const ctx = createCtx({ sourcePath: 't.md', frontMatter: {} })
+  emitTokens([{ type: 'html_inline', content: '</TeamMember>' }], ctx)
+  expect(ctx.output.join('')).toBe('')
+  expect(ctx.warnings.length).toBe(0)
+})

@@ -35,10 +35,12 @@ const HTML_MARKER = '<!--'
 
 /**
  * @param {string} source raw .vue or .js text
- * @returns {string} source with region blocks replaced by a placeholder line
+ * @returns {{ source: string, warnings: string[] }} source with region blocks
+ *   replaced by a placeholder line, plus unclosed-marker warnings
  */
 export function applyCollapseMarkers(source) {
   const lines = source.split('\n')
+  const warnings = []
   const output = []
   let index = 0
   while (index < lines.length) {
@@ -66,7 +68,11 @@ export function applyCollapseMarkers(source) {
     }
 
     if (endIndex >= lines.length) {
-      // No matching #endregion. Keep the open marker, continue parsing.
+      // No matching #endregion. Keep the open marker so nothing is lost,
+      // continue parsing, and surface the authoring slip.
+      warnings.push(
+        `Unclosed region marker at line ${index + 1}: ${lines[index].trim()}`
+      )
       output.push(lines[index])
       index++
       continue
@@ -77,5 +83,5 @@ export function applyCollapseMarkers(source) {
     output.push(indent + placeholder)
     index = endIndex + 1
   }
-  return output.join('\n')
+  return { source: output.join('\n'), warnings }
 }

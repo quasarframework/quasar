@@ -81,3 +81,21 @@ test('root-only path with fragment preserved through introduction fallback', () 
     'quasar-plugins/introduction.md#install'
   )
 })
+
+test('in-tree link from a nested output page resolves relative to it', () => {
+  const output = rewriteLink(
+    '/vue-composables/use-quasar',
+    menuPaths,
+    'vue-components/knob.md'
+  )
+  expect(output).toBe('../vue-composables/use-quasar.md')
+})
+
+test('in-tree link to a sibling page stays in the same directory', () => {
+  const output = rewriteLink(
+    '/vue-components/circular-progress',
+    menuPaths,
+    'vue-components/knob.md'
+  )
+  expect(output).toBe('circular-progress.md')
+})

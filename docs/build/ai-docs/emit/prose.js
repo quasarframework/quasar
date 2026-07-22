@@ -9,6 +9,7 @@
 import { emit, emitTokens, registerEmitter } from './walker.js'
 import { rewriteLink } from './link-rewrite.js'
 import { transformMagicComments } from './code-magic-comments.js'
+import { fenceFor } from './fence-utils.js'
 import { sourceToOutputPath } from '../routes.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
@@ -138,9 +139,13 @@ export function registerProseEmitters() {
       emit(ctx, '\n')
     }
   })
-  registerEmitter('ordered_list_open', (_, ctx) => {
+  registerEmitter('ordered_list_open', (token, ctx) => {
     ctx._lastBlockWasHeading = false
-    listState(ctx).push({ type: 'ordered', counter: 0 })
+    // Lists can start at any number (`5. item`). markdown-it carries it as
+    // a `start` attr, absent when the list starts at 1.
+    const startAttr = token.attrs?.find(([name]) => name === 'start')
+    const start = startAttr ? Number(startAttr[1]) : 1
+    listState(ctx).push({ type: 'ordered', counter: start - 1 })
   })
   registerEmitter('ordered_list_close', (_, ctx) => {
     listState(ctx).pop()
@@ -167,14 +172,16 @@ export function registerProseEmitters() {
     const langMatch = token.info.trim().match(/^(\S+)/)
     const lang = langMatch ? langMatch[1] : ''
     const content = transformMagicComments(token.content.replace(/\n$/, ''))
+    const fence = fenceFor(content)
     ctx._lastBlockWasHeading = false
-    emit(ctx, '```' + lang + '\n' + content + '\n```\n\n')
+    emit(ctx, fence + lang + '\n' + content + '\n' + fence + '\n\n')
   })
 
   registerEmitter('code_block', (token, ctx) => {
     const content = token.content.replace(/\n$/, '')
+    const fence = fenceFor(content)
     ctx._lastBlockWasHeading = false
-    emit(ctx, '```\n' + content + '\n```\n\n')
+    emit(ctx, fence + '\n' + content + '\n' + fence + '\n\n')
   })
 
   registerEmitter('blockquote_open', (_, ctx) => {

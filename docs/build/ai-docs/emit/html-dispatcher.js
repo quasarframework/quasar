@@ -163,12 +163,22 @@ export function clearTagHandlers() {
  * @param {'block'|'inline'} contextKey
  */
 function dispatch(token, ctx, contextKey) {
-  const tagMatch = token.content.match(/^<([A-Za-z][\w-]*)/)
+  const tagMatch = token.content.match(/^<(\/?)([A-Za-z][\w-]*)/)
   if (!tagMatch) {
     return
   }
 
-  const [, tag] = tagMatch
+  const [, closingSlash, tag] = tagMatch
+
+  // markdown-it splits inline HTML into separate open/close tokens, so
+  // `</kbd>` arrives on its own. Closing standard HTML tags pass through,
+  // closes of stripped/handled/component tags drop like their opens.
+  if (closingSlash) {
+    if (STANDARD_HTML_TAGS.has(tag.toLowerCase())) {
+      emit(ctx, token.content)
+    }
+    return
+  }
   const handler = tagHandlers.get(tag)
   if (handler) {
     const handlerFn = handler[contextKey]
@@ -203,6 +213,14 @@ function dispatch(token, ctx, contextKey) {
   // components are stripped first so their markup doesn't leak through.
   if (STANDARD_HTML_TAGS.has(tagLower)) {
     const cleaned = token.content.replace(DROP_VUE_COMPONENT_RE, '')
+    // DROP_VUE_COMPONENT_RE is an allowlist, so a component it doesn't know
+    // passes through as raw Vue markup. Warn so the list gets extended.
+    const leaked = cleaned.match(/<([A-Z][A-Za-z0-9]*|q-[a-z-]+)[\s/>]/)
+    if (leaked) {
+      ctx.warnings.push(
+        `Vue component <${leaked[1]}> leaked through raw HTML in ${ctx.sourcePath}`
+      )
+    }
     emit(ctx, cleaned)
     return
   }

@@ -21,3 +21,8 @@ test('indented code block', () => {
   const output = render('    indented\n    code')
   expect(output).toBe('```\nindented\ncode\n```\n\n')
 })
+
+test('code containing triple backticks gets a longer output fence', () => {
+  const output = render('````md\n```js\nconst x = 1\n```\n````')
+  expect(output).toBe('````md\n```js\nconst x = 1\n```\n````\n\n')
+})

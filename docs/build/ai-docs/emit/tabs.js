@@ -18,6 +18,7 @@
 
 import { emit, registerEmitter } from './walker.js'
 import { transformMagicComments } from './code-magic-comments.js'
+import { fenceFor } from './fence-utils.js'
 
 /** @typedef {import('./walker.js').EmitCtx} EmitCtx */
 /** @typedef {import('./walker.js').MarkdownItToken} MarkdownItToken */
@@ -88,15 +89,16 @@ export function pruneTabs(tabs) {
 export function renderTabs(tabs) {
   if (tabs.length === 1) {
     const tab = tabs[0]
-    return (
-      '```' + tab.lang + '\n' + transformMagicComments(tab.code) + '\n```\n\n'
-    )
+    const code = transformMagicComments(tab.code)
+    const fence = fenceFor(code)
+    return fence + tab.lang + '\n' + code + '\n' + fence + '\n\n'
   }
   return tabs
-    .map(
-      tab =>
-        `**${tab.label}:**\n\n\`\`\`${tab.lang}\n${transformMagicComments(tab.code)}\n\`\`\`\n\n`
-    )
+    .map(tab => {
+      const code = transformMagicComments(tab.code)
+      const fence = fenceFor(code)
+      return `**${tab.label}:**\n\n${fence}${tab.lang}\n${code}\n${fence}\n\n`
+    })
     .join('')
 }
 
@@ -141,8 +143,9 @@ const previousFence = (token, ctx) => {
   const langMatch = token.info.trim().match(/^(\S+)/)
   const lang = langMatch ? langMatch[1] : ''
   const content = transformMagicComments(token.content.replace(/\n$/, ''))
+  const fence = fenceFor(content)
   ctx._lastBlockWasHeading = false
-  emit(ctx, '```' + lang + '\n' + content + '\n```\n\n')
+  emit(ctx, fence + lang + '\n' + content + '\n' + fence + '\n\n')
 }
 
 /**

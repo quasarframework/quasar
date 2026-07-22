@@ -117,12 +117,9 @@ function extractOne({ relativePath, md, menuByKey, menuPaths }) {
     menuPaths
   })
   const body = emitTokens(tokens, ctx)
-  const outputFrontmatter = processFrontmatter(
-    data,
-    menuByKey,
-    relativePath,
-    ctx.warnings
-  )
+  const { frontmatter: outputFrontmatter, warnings: frontmatterWarnings } =
+    processFrontmatter(data, menuByKey, relativePath)
+  ctx.warnings.push(...frontmatterWarnings)
   if (!outputFrontmatter.title) {
     outputFrontmatter.title = basename(relativePath, '.md')
   }
@@ -336,7 +333,9 @@ function main() {
     srcPagesDir: SRC_PAGES,
     includedPages: included
   })
-  warningsByKind.source.push(...coverageWarnings)
+  for (const warning of coverageWarnings) {
+    warningsByKind[classifyWarning(warning)].push(warning)
+  }
 
   const quasarVersion = writeMeta(writtenPaths.length)
   writeLlmsTxt(writtenPaths, menuByKey, quasarVersion)

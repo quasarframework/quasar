@@ -52,7 +52,13 @@ function resolveRelatedEntry(entry, menuByPath, fromOutputPath) {
       /** @type {{ name?: string, title?: string, path?: string, url?: string }} */ (
         entry
       )
-    const rawPath = entryObject.path ?? entryObject.url ?? ''
+    const rawPath = entryObject.path ?? entryObject.url
+    // An entry with a title but no target would survive the title filter
+    // with a garbage path. Treat it as unresolvable instead.
+    if (rawPath === void 0) {
+      return null
+    }
+
     const key = pathToMenuKey(rawPath)
     const title =
       entryObject.name ??
@@ -107,15 +113,10 @@ function applyCliOverline(output, sourcePath) {
  * @param {Record<string, unknown>} rawFrontmatter Raw frontmatter object (from gray-matter).
  * @param {Map<string, { title?: string }>} menuByPath Flat menu keyed by route path (no leading slash, no trailing slash, no `.md`).
  * @param {string} [sourcePath] Relative source path, used to inject a CLI-section overline when one isn't authored.
- * @param {string[]} [warnings] Sink for dropped-related warnings.
- * @returns {Record<string, unknown>} New object containing only kept fields, with `related` normalized.
+ * @returns {{ frontmatter: Record<string, unknown>, warnings: string[] }} Kept fields with `related` normalized, plus dropped-related warnings.
  */
-export function processFrontmatter(
-  rawFrontmatter,
-  menuByPath,
-  sourcePath,
-  warnings = []
-) {
+export function processFrontmatter(rawFrontmatter, menuByPath, sourcePath) {
+  const warnings = []
   /** @type {Record<string, unknown>} */
   const output = {}
   for (const fieldName of KEEP_FIELDS) {
@@ -123,7 +124,15 @@ export function processFrontmatter(
       output[fieldName] = rawFrontmatter[fieldName]
     }
   }
-  if (rawFrontmatter.related) {
+  if (
+    rawFrontmatter.related !== void 0 &&
+    !Array.isArray(rawFrontmatter.related)
+  ) {
+    // A YAML slip (bare string instead of a list) would throw on .map and
+    // fail the whole page. Warn and drop instead.
+    delete output.related
+    warnings.push(`related in ${sourcePath} is not a list, dropping it`)
+  } else if (rawFrontmatter.related) {
     const fromOutputPath = sourceToOutputPath(sourcePath ?? '')
     const relatedEntries = /** @type {unknown[]} */ (rawFrontmatter.related)
     output.related = relatedEntries
@@ -146,5 +155,6 @@ export function processFrontmatter(
       .map(({ title, path: relatedPath }) => ({ title, path: relatedPath }))
   }
   applyCliOverline(output, sourcePath)
-  return output
+
+  return { frontmatter: output, warnings }
 }
