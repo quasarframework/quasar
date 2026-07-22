@@ -139,6 +139,12 @@ async function start ({
         addPreFetchHooks({ router<%= quasarConf.metaConf.hasStore ? ', store' : '' %>, publicPath })
         <% } %>
         app.mount('#q-app')
+
+        <% if (quasarConf.ctx.dev) { %>
+        // now remove the injected critical CSS paths
+        document.head.querySelectorAll('link[data-quasar-ssr-style]')
+          .forEach(el => el.remove())
+        <% } %>
       })
     }
 <% } else { /* not SSR */ %>
