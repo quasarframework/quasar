@@ -1,6 +1,6 @@
 ---
 title: Directory Structure
-dese: (@quasar/app-vite) The structure of a Quasar app with explanations for each folder and file.
+desc: (@quasar/app-vite) The structure of a Quasar app with explanations for each folder and file.
 scope:
   tree:
     l: '.'

@@ -253,7 +253,7 @@ The exact syntax and the provider defaults vary, but a good starting point for a
 
 - Html files: `Cache-Control: no-cache`
 - Hashed assets: `Cache-Control: public, max-age=31536000, immutable`
-- Service worker files: follow the recommendations from the [PWA deployment guide](/quasar-cli-vite/developing-pwa/deploying)
+- Service worker files: `Cache-Control: no-cache`, so browsers pick up new service worker versions promptly
 
 Do not allow stale html files to remain cached after a new deployment. Otherwise a browser may load old html that points to assets no longer present on the server.
 

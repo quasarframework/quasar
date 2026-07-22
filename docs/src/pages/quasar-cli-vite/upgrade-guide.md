@@ -766,7 +766,7 @@ Make sure to update your `/quasar.config` file with the newest specs in order to
 - /quasar.config > build > vueOptionsAPI is now `false` by default. Check other Vue 3 packages and components. If they use the `Options` API, you will need to set this to true.
 - /quasar.config > build > polyfillModulePreload (removed and now defaulting to Vite's own config for this)
 - /index.html -> new [HTML Constant Replacement](/quasar-cli-vite/handling-import-meta-env#html-constant-replacement). `<% if (process.env.X) %>` will no longer work.
-- New [dotenv files support](/quasar-cli-vite/handling-import-meta-end#more-on-dotenv-files), including for the `/quasar.config` file itself. By default, Quasar CLI will only look for `.env` and `.env.local`, but you can add other files as well to support the ones with prod/dev/mode suffixes.
+- New [dotenv files support](/quasar-cli-vite/handling-import-meta-env#more-on-dotenv-files), including for the `/quasar.config` file itself. By default, Quasar CLI will only look for `.env` and `.env.local`, but you can add other files as well to support the ones with prod/dev/mode suffixes.
 - /quasar.config > `env` is now used by the new dotenv support. Dropped `build > rawDefine` as well. Use the new build > `define` & `defineEnv` instead. [Link](/quasar-cli-vite/handling-import-meta-env#adding-to-import-meta-env)
 - Boot files & preFetch > redirect() usage has changed. Need to return immediately after calling it. No longer supporting throwing an error (or returning a Promise) with the `{ url }` syntax. Directly use `redirect()` instead.
 - The /quasar.config file can come with `.js` or `.ts` extensions only. Dropped support for `.cjs`, `.mjs`, `.cts` and `.mts`.

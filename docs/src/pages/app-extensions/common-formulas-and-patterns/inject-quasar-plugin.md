@@ -6,7 +6,7 @@ related:
   - /app-extensions/development-guide/index-api
 ---
 
-This guide is for when you want to ensure that a [Quasar Plugin](/quasar-plugins) will be injected into the hosting app, because you depend on it for your own App Extension to work.
+This guide is for when you want to ensure that a [Quasar Plugin](/components) will be injected into the hosting app, because you depend on it for your own App Extension to work.
 
 We will only need to touch the Index script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure the /quasar.config file from the host app to include our required Quasar Plugin.
 

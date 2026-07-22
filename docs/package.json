@@ -7,12 +7,15 @@
   "type": "module",
   "scripts": {
     "prepare:types": "quasar prepare --silent",
+    "generate:ai-docs": "node build/ai-docs/extract.js",
+    "test": "vitest run",
     "dev": "quasar dev",
     "dev:ssg": "quasar dev -m ssg",
     "dev:ssr": "quasar dev -m ssr",
     "preview": "quasar clean && quasar build -m ssr --no-summary && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && node dist/quasar.dev",
-    "build": "quasar clean && node build/search.js && quasar build -m ssg --no-summary && du -sh dist/quasar.dev && du -h dist/quasar.dev/service-worker.js",
-    "relnotes": "node build/release-notes/index.js"
+    "build": "quasar clean && node build/search.js && quasar build -m ssg --no-summary && pnpm generate:ai-docs && cp -R build/ai-docs/dist/. dist/quasar.dev/ && rm -f dist/quasar.dev/_warnings.json && du -sh dist/quasar.dev && du -h dist/quasar.dev/service-worker.js",
+    "relnotes": "node build/release-notes/index.js",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@quasar/extras": "^2.0.0",
@@ -32,7 +35,9 @@
     "markdown-it": "^14.3.0",
     "markdown-it-container": "^4.0.0",
     "tinyglobby": "^0.2.17",
+    "tokenx": "^1.3.0",
     "toml": "^5.0.0",
+    "vitest": "^4.1.10",
     "workbox-build": "^7.4.1"
   },
   "productName": "quasar-docs"
