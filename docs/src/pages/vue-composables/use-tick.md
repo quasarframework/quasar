@@ -9,7 +9,7 @@ The `useTick()` composable is similar in scope with the `nextTick()` from Vue, w
 
 In other words, if you want to schedule a function on the next Vue "tick" but you might want to override it or even cancel it, this is the composable for you.
 
-The useTick composable also automatically cancels the next registered "tick" (if any was registered and still pending) when your component gets destroyed.
+The useTick composable also automatically cancels the next registered "tick" (if any was registered and still pending) when your component gets destroyed or deactivated (keep-alive related).
 
 ## Syntax
 
