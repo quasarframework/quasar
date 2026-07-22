@@ -290,7 +290,7 @@ export default createComponent({
         blurTarget !== document.activeElement
       ) {
         blurTarget.setAttribute('tabindex', -1)
-        blurTarget.focus()
+        blurTarget.focus({ preventScroll: true })
       }
 
       if (touchTarget === rootRef.value) {

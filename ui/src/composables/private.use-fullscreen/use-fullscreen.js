@@ -1,5 +1,6 @@
 import {
   getCurrentInstance,
+  nextTick,
   onBeforeMount,
   onBeforeUnmount,
   onMounted,
@@ -9,8 +10,13 @@ import {
 
 import History from '../../plugins/private.history/History.js'
 import { vmHasRouter } from '../../utils/private.vm/vm.js'
+import {
+  getHorizontalScrollPosition,
+  getVerticalScrollPosition
+} from '../../utils/scroll/scroll.js'
 
 let counter = 0
+let bodyScrollPosition = null
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -25,7 +31,9 @@ export default function useFullscreen() {
 
   let historyEntry,
     fullscreenFillerNode,
-    isUnmounting = false
+    isUnmounting = false,
+    restoreFrame = null,
+    restoreToken = 0
   const inFullscreen = ref(false)
 
   if (vmHasRouter(vm)) {
@@ -57,8 +65,25 @@ export default function useFullscreen() {
     }
   }
 
+  function cancelScrollRestore() {
+    restoreToken++
+    if (restoreFrame !== null) {
+      cancelAnimationFrame(restoreFrame)
+      restoreFrame = null
+    }
+  }
+
   function setFullscreen() {
     if (inFullscreen.value) return
+
+    cancelScrollRestore()
+
+    if (counter === 0) {
+      bodyScrollPosition = {
+        left: getHorizontalScrollPosition(window),
+        top: getVerticalScrollPosition(window)
+      }
+    }
 
     inFullscreen.value = true
     proxy.$el.replaceWith(fullscreenFillerNode)
@@ -91,11 +116,20 @@ export default function useFullscreen() {
     if (counter === 0) {
       document.body.classList.remove('q-body--fullscreen-mixin')
 
-      if (!isUnmounting && proxy.$el.scrollIntoView !== void 0) {
-        setTimeout(() => {
-          proxy.$el.scrollIntoView()
-        }, 0)
+      if (isUnmounting === false && bodyScrollPosition !== null) {
+        const { left, top } = bodyScrollPosition
+        const token = ++restoreToken
+        nextTick(() => {
+          if (token !== restoreToken || counter !== 0) return
+          restoreFrame = requestAnimationFrame(() => {
+            restoreFrame = null
+            if (token !== restoreToken || counter !== 0) return
+            window.scrollTo(left, top)
+          })
+        })
       }
+
+      bodyScrollPosition = null
     }
   }
 
@@ -110,6 +144,7 @@ export default function useFullscreen() {
   onBeforeUnmount(() => {
     isUnmounting = true
     exitFullscreen()
+    cancelScrollRestore()
   })
 
   // expose public methods
