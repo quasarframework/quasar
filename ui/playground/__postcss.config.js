@@ -6,5 +6,5 @@
 import rtlcss from 'postcss-rtlcss'
 
 export default {
-  plugins: [rtlcss()]
+  plugins: [rtlcss({ mode: 'override' })]
 }
