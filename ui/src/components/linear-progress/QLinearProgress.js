@@ -18,11 +18,9 @@ const defaultSizes = {
   xl: 14
 }
 
-function width(val, reverse, $q) {
+function width(val) {
   return {
-    transform: reverse
-      ? `translateX(${$q.lang.rtl ? '-' : ''}100%) scale3d(${-val},1,1)`
-      : `scale3d(${val},1,1)`
+    transform: `scale3d(${val},1,1)`
   }
 }
 
@@ -62,7 +60,6 @@ export default createComponent({
     const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate || props.query)
-    const widthReverse = computed(() => props.reverse !== props.query)
     const style = computed(() => ({
       ...(sizeStyle.value !== null ? sizeStyle.value : {}),
       '--q-linear-progress-speed': `${props.animationSpeed}ms`
@@ -77,11 +74,7 @@ export default createComponent({
     )
 
     const trackStyle = computed(() =>
-      width(
-        props.buffer !== void 0 ? props.buffer : 1,
-        widthReverse.value,
-        proxy.$q
-      )
+      width(props.buffer !== void 0 ? props.buffer : 1)
     )
     const transitionSuffix = computed(
       () => `with${props.instantFeedback ? 'out' : ''}-transition`
@@ -96,7 +89,7 @@ export default createComponent({
     )
 
     const modelStyle = computed(() =>
-      width(motion.value ? 1 : props.value, widthReverse.value, proxy.$q)
+      width(motion.value ? 1 : props.value)
     )
     const modelClass = computed(
       () =>
