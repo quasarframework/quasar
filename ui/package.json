@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "description": "Build high-performance Vue.js user interfaces (SPA, PWA, SSR, SSG, Mobile and Desktop) in record time",
   "keywords": [
     "desktop",
