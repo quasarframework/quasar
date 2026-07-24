@@ -88,9 +88,7 @@ export default createComponent({
         (props.trackColor !== void 0 ? ` bg-${props.trackColor}` : '')
     )
 
-    const modelStyle = computed(() =>
-      width(motion.value ? 1 : props.value)
-    )
+    const modelStyle = computed(() => width(motion.value ? 1 : props.value))
     const modelClass = computed(
       () =>
         'q-linear-progress__model absolute-full' +

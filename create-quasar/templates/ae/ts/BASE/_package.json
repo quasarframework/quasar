@@ -22,7 +22,7 @@
 <% if (scope.linter === 'oxlint') { %>
     "oxfmt": "^0.x",
     "oxlint": "^1.x",
-    "oxlint-tsgolint": "^0.x",
+    "oxlint-tsgolint": "^7.0.2001",
 <% } %>
     "typescript": "^6.0.0",
     "vue-tsc": "^3.3.3"
