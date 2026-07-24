@@ -90,7 +90,8 @@ export default defineConfig(ctx => ({
   animations: ['fadeIn', 'fadeOut'],
 
   ssr: {
-    middlewares: ['render']
+    middlewares: ['render'],
+    pwa: true
   },
 
   ssg: {
@@ -110,11 +111,12 @@ export default defineConfig(ctx => ({
     injectPWAMetaTags: false,
     swFilename: 'service-worker.js',
 
-    async extendPWAGenerateSWOptions(cfg) {
-      Object.assign(cfg, {
+    async extendPWAGenerateSWOptions() {
+      return {
         cleanupOutdatedCaches: true,
         skipWaiting: true,
         clientsClaim: true,
+        navigateFallbackDenylist: [/\.md$/],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/cdn/,
@@ -132,7 +134,7 @@ export default defineConfig(ctx => ({
           ...(await getSponsors()),
           ...(await getTeam())
         ]
-      })
+      }
     }
   }
 }))
