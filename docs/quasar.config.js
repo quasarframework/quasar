@@ -90,8 +90,7 @@ export default defineConfig(ctx => ({
   animations: ['fadeIn', 'fadeOut'],
 
   ssr: {
-    middlewares: ['render'],
-    pwa: true
+    middlewares: ['render']
   },
 
   ssg: {
