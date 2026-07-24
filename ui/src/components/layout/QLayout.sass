@@ -136,7 +136,7 @@ body.q-safe-area-padding
   .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-top: var(--q-safe-area-inset-top)
     min-height: calc(var(--q-safe-area-inset-top) + #{$toolbar-min-height})
-  .q-layout--standard .q-footer > .q-toolbar:last-child,
+  .q-layout--standard .q-footer > .q-toolbar:nth-last-child(1 of :not(.q-layout__shadow)),
   .q-layout--standard .q-footer > .q-tabs:nth-last-child(1 of :not(.q-layout__shadow)) .q-tabs__content,
   .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-bottom: var(--q-safe-area-inset-bottom)
