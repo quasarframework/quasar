@@ -4,7 +4,8 @@
  */
 
 import rtlcss from 'postcss-rtlcss'
+import { Mode } from 'postcss-rtlcss/options'
 
 export default {
-  plugins: [rtlcss({ mode: 'override' })]
+  plugins: [rtlcss({ mode: Mode.Override })]
 }
