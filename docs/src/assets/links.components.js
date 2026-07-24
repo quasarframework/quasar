@@ -619,6 +619,7 @@ export const quasarElements = [
     const kebab = componentNameToKebabCase(entry.name)
     return {
       ...entry,
+      category: 'vue-components',
       img: `/components/${kebab}.jpg`,
       to: `/vue-components/${entry.path || kebab}`
     }
@@ -626,27 +627,32 @@ export const quasarElements = [
 
   ...directives.map(entry => ({
     ...entry,
+    category: 'vue-directives',
     to: `/vue-directives/${entry.path || componentNameToKebabCase(entry.name)}`
   })),
 
   ...plugins.map(entry => ({
     ...entry,
+    category: 'quasar-plugins',
     to: `/quasar-plugins/${entry.path || componentNameToKebabCase(entry.name)}`
   })),
 
   ...composables.map(entry => ({
     ...entry,
+    category: 'vue-composables',
     to: `/vue-composables/${entry.path || composableNameToKebabCase(entry.name)}`
   })),
 
   ...utils.map(entry => ({
     ...entry,
+    category: 'quasar-utils',
     to: `/quasar-utils/${componentNameToKebabCase(entry.name)}`
   }))
 ].map((entry, key) => ({
   key,
   name: entry.name,
   description: entry.description,
+  category: entry.category,
   tag: entry.tag,
   img: entry.img,
   haystack:

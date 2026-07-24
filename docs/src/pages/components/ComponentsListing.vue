@@ -86,6 +86,7 @@
 
 <script setup>
 import { ref, useTemplateRef, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { quasarElements } from '@/assets/links.components.js'
 
@@ -102,10 +103,15 @@ const filterChips = [
   { label: 'Scroll', value: 'scroll' },
   { label: 'Tables', value: 'table' },
   { label: 'Other Components', value: 'other' },
-  { label: 'Directives', value: 'directive' },
-  { label: 'Plugins', value: 'plugin' },
-  { label: 'Composables', value: 'composable' },
-  { label: 'Utils', value: 'util' }
+  {
+    label: 'All Components',
+    value: 'vue-components',
+    category: 'vue-components'
+  },
+  { label: 'Directives', value: 'directive', category: 'vue-directives' },
+  { label: 'Plugins', value: 'plugin', category: 'quasar-plugins' },
+  { label: 'Composables', value: 'composable', category: 'vue-composables' },
+  { label: 'Utils', value: 'util', category: 'quasar-utils' }
 ].map((entry, index) => ({
   ...entry,
   onClick: () => {
@@ -121,41 +127,6 @@ const filterTag = ref(null)
 const searchTerms = ref('')
 const searchResults = ref(quasarElements)
 const noResultsLabel = ref(false)
-
-let searchTimer
-watch([searchTerms, filterTag], () => {
-  clearTimeout(searchTimer)
-  searchTimer = setTimeout(() => {
-    const terms = searchTerms.value.trim().toLowerCase()
-    const tag = filterTag.value
-
-    if (terms === '' && tag === null) {
-      searchResults.value = quasarElements
-    }
-
-    // allow to search for direct components name (example: qbtn)
-    const needle =
-      terms.length !== 1 && terms.startsWith('q') ? terms.slice(1) : terms
-
-    const results = quasarElements.filter(
-      entry =>
-        (tag === null || entry.tag === tag) && entry.haystack.includes(needle)
-    )
-
-    if (results.length === 0) {
-      const tagLabel =
-        tag !== null
-          ? filterChips.find(entry => entry.value === tag).label
-          : null
-
-      noResultsLabel.value = `Nothing matches ${tagLabel !== null ? `the "${tagLabel}" tag and ` : ''}"${terms}" search terms.`
-    } else {
-      noResultsLabel.value = false
-    }
-
-    searchResults.value = results
-  }, 300)
-})
 
 let lastIndex = null
 
@@ -177,6 +148,58 @@ function setFilterTag(filterChipValue, index) {
     chipColor.value[index] = 'brand-accent'
   }
 }
+
+const route = useRoute()
+const initialCategory = route.query.initial || null
+if (
+  initialCategory &&
+  filterChips.some(entry => entry.category === initialCategory)
+) {
+  const chipIndex = filterChips.findIndex(
+    entry => entry.category === initialCategory
+  )
+  if (chipIndex !== -1) {
+    setFilterTag(filterChips[chipIndex].value, chipIndex)
+    filterResults()
+  }
+}
+
+function filterResults() {
+  const terms = searchTerms.value.trim().toLowerCase()
+  const tag = filterTag.value
+
+  if (terms === '' && tag === null) {
+    searchResults.value = quasarElements
+    return
+  }
+
+  // allow to search for direct components name (example: qbtn)
+  const needle =
+    terms.length !== 1 && terms.startsWith('q') ? terms.slice(1) : terms
+
+  const results = quasarElements.filter(
+    entry =>
+      (tag === null || entry.tag === tag || entry.category === tag) &&
+      (needle === '' || entry.haystack.includes(needle))
+  )
+
+  if (results.length === 0) {
+    const tagLabel =
+      tag !== null ? filterChips.find(entry => entry.value === tag).label : null
+
+    noResultsLabel.value = `Nothing matches ${tagLabel !== null ? `the "${tagLabel}" tag and ` : ''}"${terms}" search terms.`
+  } else {
+    noResultsLabel.value = false
+  }
+
+  searchResults.value = results
+}
+
+let searchTimer
+watch([searchTerms, filterTag], () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(filterResults, 300)
+})
 
 function clearSearchTerms() {
   searchTerms.value = ''
