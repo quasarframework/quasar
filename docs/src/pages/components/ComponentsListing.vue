@@ -53,7 +53,7 @@
 
     <div
       v-else
-      class="q-py-xl text-size-16 row items-center justify-center q-gutter-lg relative-position"
+      class="q-py-xl text-size-14 row items-center justify-center q-gutter-lg relative-position"
     >
       <transition-group name="page-all-transition">
         <DocCardLink
@@ -67,11 +67,13 @@
             <div class="page-all__card-img">
               <q-img v-if="entry.img" :src="entry.img" />
             </div>
-            <q-card-section class="text-brand-primary text-weight-bold">
+            <q-card-section
+              class="text-size-14 text-brand-primary text-weight-bold"
+            >
               {{ entry.name }}
             </q-card-section>
             <q-card-section
-              class="page-all__card-description text-dark q-pt-none"
+              class="text-size-12 page-all__card-description text-dark q-pt-none"
             >
               {{ entry.description }}
             </q-card-section>
@@ -102,6 +104,7 @@ const filterChips = [
   { label: 'Other Components', value: 'other' },
   { label: 'Directives', value: 'directive' },
   { label: 'Plugins', value: 'plugin' },
+  { label: 'Composables', value: 'composable' },
   { label: 'Utils', value: 'util' }
 ].map((entry, index) => ({
   ...entry,
