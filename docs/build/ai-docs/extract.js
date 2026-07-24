@@ -13,6 +13,7 @@ import {
   rmSync,
   writeFileSync
 } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { basename, join, resolve } from 'node:path'
 import { execSync } from 'node:child_process'
 import { performance } from 'node:perf_hooks'
@@ -51,10 +52,9 @@ import { writePage } from './output/per-page.js'
 import { buildLlmsTxt } from './output/llms-txt.js'
 import { countTokens } from './tokens.js'
 
-const __dirname = import.meta.dirname
-const REPO_ROOT = resolve(__dirname, '../../..')
+const REPO_ROOT = resolve(import.meta.dirname, '../../..')
 const SRC_PAGES = join(REPO_ROOT, 'docs/src/pages')
-const API_DIR = join(REPO_ROOT, 'ui/dist/api')
+const API_DIR = fileURLToPath(import.meta.resolve('quasar/dist/api'))
 const EXAMPLES_DIR = join(REPO_ROOT, 'docs/src/examples')
 const DIST_DIR = join(REPO_ROOT, 'docs/build/ai-docs/dist')
 
