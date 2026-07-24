@@ -34,7 +34,7 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Reverse direction of progress",
+      "desc": "Reverse direction of progress (has no effect for query behaviour)",
       "category": "behavior"
     },
 

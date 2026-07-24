@@ -193,6 +193,14 @@
           stripe
           color="warning"
         />
+        <div>Reverse:</div>
+        <q-linear-progress
+          :dark="dark"
+          class="q-my-sm"
+          :value="progress"
+          stripe
+          reverse
+        />
       </div>
 
       <h5>Stripe and Animate</h5>
@@ -203,6 +211,16 @@
         stripe
         animate
         color="secondary"
+      />
+      <div>Reverse:</div>
+      <q-linear-progress
+        :dark="dark"
+        class="q-my-sm"
+        :value="progress"
+        stripe
+        animate
+        color="secondary"
+        reverse
       />
 
       <h5>Buffering</h5>
@@ -349,6 +367,14 @@
           indeterminate
           color="dark"
         />
+        <div>Reverse:</div>
+        <q-linear-progress
+          :dark="dark"
+          class="q-my-sm"
+          indeterminate
+          color="positive"
+          reverse
+        />
       </div>
 
       <h5>Query State</h5>
@@ -368,6 +394,14 @@
           color="negative"
         />
         <q-linear-progress :dark="dark" class="q-my-sm" query color="dark" />
+        <div>Reverse:</div>
+        <q-linear-progress
+          :dark="dark"
+          class="q-my-sm"
+          query
+          color="positive"
+          reverse
+        />
       </div>
 
       <h5>Specific Height</h5>
