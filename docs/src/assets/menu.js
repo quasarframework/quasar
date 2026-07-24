@@ -1215,8 +1215,8 @@ export default [
         ]
       },
       {
-        name: 'Ajax Requests',
-        path: 'ajax-requests'
+        name: 'Fetching Data',
+        path: 'fetching-data'
       },
       {
         name: 'Opening Dev Server To Public',

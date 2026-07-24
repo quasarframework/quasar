@@ -41,6 +41,10 @@ const routes = [
     path: '/quasar-cli-vite/routing',
     redirect: '/quasar-cli-vite/page-routing-with-vue-router'
   },
+  {
+    path: '/quasar-cli-vite/ajax-requests',
+    redirect: '/quasar-cli-vite/fetching-data'
+  },
 
   // shortcuts
   { path: '/start', redirect: '/start/quick-start' },
