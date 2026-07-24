@@ -11,7 +11,7 @@ import {
   writeFile
 } from './build.utils.js'
 
-const postCssRtl = postcss([rtl({})])
+const postCssRtl = postcss([rtl({ mode: 'override' })])
 const sassUseRE = /@use\s+['"][^'"]+['"]/g
 
 function moveUseStatementsToTop(code) {
