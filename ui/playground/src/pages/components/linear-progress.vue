@@ -203,26 +203,6 @@
         />
       </div>
 
-      <h5>Stripe and Animate</h5>
-      <q-linear-progress
-        :dark="dark"
-        class="q-my-sm"
-        :value="progress"
-        stripe
-        animate
-        color="secondary"
-      />
-      <div>Reverse:</div>
-      <q-linear-progress
-        :dark="dark"
-        class="q-my-sm"
-        :value="progress"
-        stripe
-        animate
-        color="secondary"
-        reverse
-      />
-
       <h5>Buffering</h5>
       <div class="group">
         <q-btn size="sm" color="primary" @click="randomizeBuffer">
@@ -246,7 +226,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
         />
@@ -271,7 +250,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
           fill-color="yellow"
@@ -304,7 +282,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
         />
@@ -332,7 +309,6 @@
           class="q-my-sm"
           :value="progressBuffer"
           stripe
-          animate
           color="secondary"
           :buffer="buffer"
           fill-color="yellow"
@@ -411,7 +387,6 @@
           class="q-my-sm"
           :value="progress"
           stripe
-          animate
           size="45px"
         />
       </div>
