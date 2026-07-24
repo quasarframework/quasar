@@ -41,96 +41,118 @@ const OtherComponent = defineComponent({
 })
 
 describe('[useFullscreen API]', () => {
-  describe('[KeepAlive lifecycle]', () => {
-    test('does not move a deactivated root back into the live DOM', async () => {
-      const showFullscreen = ref(true)
-
-      mountTarget = document.createElement('div')
-      document.body.append(mountTarget)
-
-      wrapper = mount(
-        defineComponent({
-          setup: () => () =>
-            h(KeepAlive, null, () =>
-              showFullscreen.value === true
-                ? h(FullscreenComponent, { fullscreen: true })
-                : h(OtherComponent)
-            )
-        }),
-        { attachTo: mountTarget }
-      )
-
-      await flushPromises()
-
-      const getFullscreenElement = () =>
-        document.body.querySelector('[data-test="fullscreen-component"]')
-
-      expect(getFullscreenElement()).not.toBeNull()
-      expect(getFullscreenElement().dataset.fullscreen).toBe('true')
-      expect(document.body.classList.contains('q-body--fullscreen-mixin')).toBe(
-        true
-      )
-
-      showFullscreen.value = false
-      await flushPromises()
-
-      expect(getFullscreenElement()).toBeNull()
-      expect(wrapper.find('[data-test="other-component"]').exists()).toBe(true)
-      expect(document.body.classList.contains('q-body--fullscreen-mixin')).toBe(
-        false
-      )
-
-      showFullscreen.value = true
-      await flushPromises()
-
-      expect(getFullscreenElement()).not.toBeNull()
-      expect(getFullscreenElement().dataset.fullscreen).toBe('true')
-      expect(document.body.classList.contains('q-body--fullscreen-mixin')).toBe(
-        true
-      )
+  describe('[Variables]', () => {
+    describe('[(variable)useFullscreenProps]', () => {
+      test('is defined correctly', () => {
+        expect(useFullscreenProps).toBeTypeOf('object')
+        expect(Object.keys(useFullscreenProps)).not.toHaveLength(0)
+      })
     })
 
-    test('restores a nested fullscreen component to cached content', async () => {
-      const showFullscreen = ref(true)
-      const CachedComponent = defineComponent({
-        name: 'CachedComponent',
-        setup: () => () =>
-          h('main', null, [h(FullscreenComponent, { fullscreen: true })])
+    describe('[(variable)useFullscreenEmits]', () => {
+      test('is defined correctly', () => {
+        expect(Array.isArray(useFullscreenEmits)).toBe(true)
+        expect(useFullscreenEmits).not.toHaveLength(0)
+      })
+    })
+  })
+
+  describe('[Functions]', () => {
+    describe('[(function)default]', () => {
+      test('does not move a deactivated root back into the live DOM', async () => {
+        const showFullscreen = ref(true)
+
+        mountTarget = document.createElement('div')
+        document.body.append(mountTarget)
+
+        wrapper = mount(
+          defineComponent({
+            setup: () => () =>
+              h(KeepAlive, null, () =>
+                showFullscreen.value === true
+                  ? h(FullscreenComponent, { fullscreen: true })
+                  : h(OtherComponent)
+              )
+          }),
+          { attachTo: mountTarget }
+        )
+
+        await flushPromises()
+
+        const getFullscreenElement = () =>
+          document.body.querySelector('[data-test="fullscreen-component"]')
+
+        expect(getFullscreenElement()).not.toBeNull()
+        expect(getFullscreenElement().dataset.fullscreen).toBe('true')
+        expect(
+          document.body.classList.contains('q-body--fullscreen-mixin')
+        ).toBe(true)
+
+        showFullscreen.value = false
+        await flushPromises()
+
+        expect(getFullscreenElement()).toBeNull()
+        expect(wrapper.find('[data-test="other-component"]').exists()).toBe(
+          true
+        )
+        expect(
+          document.body.classList.contains('q-body--fullscreen-mixin')
+        ).toBe(false)
+
+        showFullscreen.value = true
+        await flushPromises()
+
+        expect(getFullscreenElement()).not.toBeNull()
+        expect(getFullscreenElement().dataset.fullscreen).toBe('true')
+        expect(
+          document.body.classList.contains('q-body--fullscreen-mixin')
+        ).toBe(true)
       })
 
-      mountTarget = document.createElement('div')
-      document.body.append(mountTarget)
-
-      wrapper = mount(
-        defineComponent({
+      test('restores a nested fullscreen component to cached content', async () => {
+        const showFullscreen = ref(true)
+        const CachedComponent = defineComponent({
+          name: 'CachedComponent',
           setup: () => () =>
-            h(KeepAlive, null, () =>
-              showFullscreen.value === true
-                ? h(CachedComponent)
-                : h(OtherComponent)
-            )
-        }),
-        { attachTo: mountTarget }
-      )
+            h('main', null, [h(FullscreenComponent, { fullscreen: true })])
+        })
 
-      await flushPromises()
+        mountTarget = document.createElement('div')
+        document.body.append(mountTarget)
 
-      const getFullscreenElement = () =>
-        document.body.querySelector('[data-test="fullscreen-component"]')
+        wrapper = mount(
+          defineComponent({
+            setup: () => () =>
+              h(KeepAlive, null, () =>
+                showFullscreen.value === true
+                  ? h(CachedComponent)
+                  : h(OtherComponent)
+              )
+          }),
+          { attachTo: mountTarget }
+        )
 
-      expect(getFullscreenElement()).not.toBeNull()
+        await flushPromises()
 
-      showFullscreen.value = false
-      await flushPromises()
+        const getFullscreenElement = () =>
+          document.body.querySelector('[data-test="fullscreen-component"]')
 
-      expect(getFullscreenElement()).toBeNull()
-      expect(wrapper.find('[data-test="other-component"]').exists()).toBe(true)
+        expect(getFullscreenElement()).not.toBeNull()
 
-      showFullscreen.value = true
-      await flushPromises()
+        showFullscreen.value = false
+        await flushPromises()
 
-      expect(getFullscreenElement()).not.toBeNull()
-      expect(getFullscreenElement().dataset.fullscreen).toBe('true')
+        expect(getFullscreenElement()).toBeNull()
+        expect(wrapper.find('[data-test="other-component"]').exists()).toBe(
+          true
+        )
+
+        showFullscreen.value = true
+        await flushPromises()
+
+        expect(getFullscreenElement()).not.toBeNull()
+        expect(getFullscreenElement().dataset.fullscreen).toBe('true')
+      })
     })
   })
 })
