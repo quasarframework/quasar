@@ -69,10 +69,10 @@
   max-width: 100vw
   max-height: 100vh
 
-body.q-ios-padding .fullscreen
-  padding-top: $ios-statusbar-height !important
-  padding-top: env(safe-area-inset-top) !important
-  padding-bottom: env(safe-area-inset-bottom) !important
+body.q-ios-padding .fullscreen,
+body.q-safe-area-padding .fullscreen
+  padding-top: var(--q-safe-area-inset-top) !important
+  padding-bottom: var(--q-safe-area-inset-bottom) !important
 
 .absolute-full, .fullscreen, .fixed-full
   top: 0

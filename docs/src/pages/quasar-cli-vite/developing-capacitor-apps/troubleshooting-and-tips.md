@@ -59,15 +59,30 @@ If Capacitor reports that CocoaPods is unavailable or Xcode cannot load a Pods c
 
 Devices can reserve space for status bars, rounded corners, camera cutouts, and home indicators. Quasar components such as QHeader, QFooter, and Notify account for common safe-area cases, but test the app on multiple device shapes and orientations.
 
-For custom layout elements, use the standard CSS environment variables:
+On Android, Quasar uses the `--safe-area-inset-*` variables supplied by the [Capacitor 8 System Bars API](https://capacitorjs.com/docs/apis/system-bars) and falls back to the standard CSS environment variables. If your app handles Android safe areas itself, disable Quasar's automatic component padding:
+
+```js /quasar.config file
+framework: {
+  config: {
+    capacitor: {
+      androidSafeAreaPadding: false
+    }
+  }
+}
+```
+
+For custom layout elements, use the same fallback:
 
 ```css
 .top-element {
-  padding-top: env(safe-area-inset-top, 0px);
+  padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
 }
 
 .bottom-element {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-bottom: var(
+    --safe-area-inset-bottom,
+    env(safe-area-inset-bottom, 0px)
+  );
 }
 ```
 

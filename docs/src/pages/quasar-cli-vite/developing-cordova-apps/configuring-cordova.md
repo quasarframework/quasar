@@ -90,6 +90,9 @@ return {
         // add the dynamic top padding on iOS mobile devices
         iosStatusBarPadding: true / false,
 
+        // account for Android safe areas (defaults to true)
+        androidSafeAreaPadding: true / false,
+
         // Quasar handles app exit on mobile phone back button.
         backButtonExit: true / false / '*' / ['/login', '/home', '/my-page'],
 
