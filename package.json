@@ -28,5 +28,8 @@
       "oxlint --deny-warnings --fix --no-error-on-unmatched-pattern"
     ]
   },
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@11.9.0",
+  "dependencies": {
+    "fast-uri": "3.1.3"
+  }
 }
