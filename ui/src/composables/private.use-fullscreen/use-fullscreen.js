@@ -110,6 +110,7 @@ export default function useFullscreen() {
     } else {
       fullscreenFillerNode.remove()
     }
+
     inFullscreen.value = false
 
     counter = Math.max(0, counter - 1)
