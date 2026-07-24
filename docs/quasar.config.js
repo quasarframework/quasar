@@ -119,6 +119,13 @@ export default defineConfig(ctx => ({
           {
             urlPattern: /^https:\/\/cdn/,
             handler: 'StaleWhileRevalidate'
+          },
+          {
+            urlPattern: /\.md$/,
+            handler: 'NetworkOnly',
+            options: {
+              cacheName: 'markdown-network-only'
+            }
           }
         ],
         additionalManifestEntries: [
