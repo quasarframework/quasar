@@ -1,5 +1,6 @@
 import {
   getCurrentInstance,
+  onActivated,
   onBeforeMount,
   onBeforeUnmount,
   onDeactivated,
@@ -96,7 +97,7 @@ export default function useFullscreen() {
     History.add(historyEntry)
   }
 
-  function exitFullscreen() {
+  function exitFullscreenImpl(shouldRestoreElement) {
     if (!inFullscreen.value) return
 
     if (historyEntry !== void 0) {
@@ -104,7 +105,12 @@ export default function useFullscreen() {
       historyEntry = void 0
     }
 
-    fullscreenFillerNode.replaceWith(proxy.$el)
+    if (shouldRestoreElement === true) {
+      fullscreenFillerNode.replaceWith(proxy.$el)
+    } else {
+      fullscreenFillerNode.remove()
+    }
+
     inFullscreen.value = false
 
     counter = Math.max(0, counter - 1)
@@ -139,6 +145,10 @@ export default function useFullscreen() {
     })
   }
 
+  function exitFullscreen() {
+    exitFullscreenImpl(true)
+  }
+
   onBeforeMount(() => {
     fullscreenFillerNode = document.createElement('span')
   })
@@ -147,7 +157,14 @@ export default function useFullscreen() {
     if (props.fullscreen) setFullscreen()
   })
 
-  onDeactivated(exitFullscreen)
+  onDeactivated(() => {
+    // A direct child of KeepAlive has already been moved to its storage
+    // container at this point. Its filler must not move it back into the DOM.
+    exitFullscreenImpl(proxy.$el.isConnected)
+  })
+  onActivated(() => {
+    if (props.fullscreen) setFullscreen()
+  })
   onBeforeUnmount(exitFullscreen)
 
   // expose public methods
