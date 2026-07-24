@@ -16,8 +16,13 @@
 
   &--reverse
     .q-linear-progress
-      &__model, &__track
-        transform-origin: 0 100%
+      &__model--determinate, &__track
+        transform-origin: 100% 0
+
+      // motion modes span the full width, so anchoring cannot reverse them: mirror them in place
+      &__model--indeterminate, &__model--query
+        transform-origin: 50% 0
+        scale: -1 1
 
   &__model
 
