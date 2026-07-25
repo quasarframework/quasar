@@ -524,7 +524,7 @@ export function getWeekOfYear(date) {
 
   // Check if daylight-saving-time-switch occurred and correct for it
   const ds = thursday.getTimezoneOffset() - firstThursday.getTimezoneOffset()
-  thursday.setHours(thursday.getHours() - ds)
+  thursday.setMinutes(thursday.getMinutes() - ds)
 
   // Number of weeks between target Thursday and first Thursday
   const weekDiff = (thursday - firstThursday) / (MILLISECONDS_IN_DAY * 7)
