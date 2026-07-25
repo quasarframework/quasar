@@ -103,6 +103,16 @@ describe('[EventBus API]', () => {
         expect(callback).toHaveBeenCalledTimes(1)
         expect(callback).toHaveBeenCalledWith(1, 2, 'testing')
       })
+      test('a once listener does not fire twice on a re-entrant emit', () => {
+        const instance = new EventBus()
+        const second = vi.fn()
+
+        instance.once('e', () => instance.emit('e')) // re-emits during dispatch
+        instance.once('e', second)
+        instance.emit('e')
+
+        expect(second).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })

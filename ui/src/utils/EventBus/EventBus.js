@@ -18,7 +18,10 @@ export default class EventBus {
   }
 
   once(name, callback, ctx) {
+    let fired = false
     const listener = (...args) => {
+      if (fired === true) return
+      fired = true
       this.off(name, listener)
       callback.apply(ctx, args)
     }
