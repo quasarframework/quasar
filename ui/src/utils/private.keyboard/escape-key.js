@@ -15,12 +15,9 @@ function onBlur() {
 }
 
 function onKeyup(evt) {
-  if (escDown) {
+  if (escDown && isKeyCode(evt, 27)) {
     escDown = false
-
-    if (isKeyCode(evt, 27)) {
-      handlers.at(-1)(evt)
-    }
+    handlers.at(-1)(evt)
   }
 }
 

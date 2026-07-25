@@ -100,6 +100,19 @@ describe('[escapeKey API]', () => {
 
         expect(removeEscapeKey(fn)).toBeUndefined()
       })
+      test('does not swallow ESC when another key is released while ESC is held', () => {
+        const fn = createTestFn()
+        addEscapeKey(fn)
+
+        window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 16 })) // Shift down
+        window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // Esc down
+        window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 16 })) // Shift released first
+        const escUp = new KeyboardEvent('keyup', { keyCode: 27 })
+        window.dispatchEvent(escUp) // Esc released
+
+        expect(fn).toHaveBeenCalledTimes(1)
+        expect(fn).toHaveBeenCalledWith(escUp)
+      })
     })
   })
 })
