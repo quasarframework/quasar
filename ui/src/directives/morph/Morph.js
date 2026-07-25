@@ -165,9 +165,13 @@ export default createDirective(
         name: 'morph',
         getSSRProps: binding => {
           const name = binding.arg ? binding.arg.split(':')[0] : false
+          const model =
+            Object(binding.value) === binding.value
+              ? binding.value.model
+              : binding.value
 
           return {
-            class: name === binding.value ? '' : 'q-morph--invisible'
+            class: name === model ? '' : 'q-morph--invisible'
           }
         }
       }
