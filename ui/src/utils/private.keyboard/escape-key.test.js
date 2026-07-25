@@ -113,6 +113,18 @@ describe('[escapeKey API]', () => {
         expect(fn).toHaveBeenCalledTimes(1)
         expect(fn).toHaveBeenCalledWith(escUp)
       })
+      test('does not swallow ESC when another key is pressed while ESC is held', () => {
+        const fn = createTestFn()
+        addEscapeKey(fn)
+
+        window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // Esc down
+        window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 65 })) // 'a' down while Esc held
+        const escUp = new KeyboardEvent('keyup', { keyCode: 27 })
+        window.dispatchEvent(escUp) // Esc released
+
+        expect(fn).toHaveBeenCalledTimes(1)
+        expect(fn).toHaveBeenCalledWith(escUp)
+      })
     })
   })
 })

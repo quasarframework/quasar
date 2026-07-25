@@ -5,7 +5,9 @@ const handlers = []
 let escDown
 
 function onKeydown(evt) {
-  escDown = evt.keyCode === 27
+  if (evt.keyCode === 27) {
+    escDown = true
+  }
 }
 
 function onBlur() {
