@@ -9,7 +9,8 @@ describe('[date API]', () => {
     describe('[(function)getWeekOfYear]', () => {
       const originalTZ = process.env.TZ
       afterEach(() => {
-        process.env.TZ = originalTZ
+        if (originalTZ === void 0) delete process.env.TZ
+        else process.env.TZ = originalTZ
       })
 
       // Mon 8 Apr 2024 is ISO week 15 (Jan 1 2024 is a Monday).
