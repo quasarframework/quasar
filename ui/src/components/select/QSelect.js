@@ -1130,6 +1130,11 @@ export default createComponent({
 
     function setInputValue(val, emitImmediately) {
       if (inputValue.value !== val) {
+        if (inputValueTimer !== null) {
+          clearTimeout(inputValueTimer)
+          inputValueTimer = null
+        }
+
         inputValue.value = val
 
         if (
