@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 
 import useSplitAttrs from './use-split-attrs.js'
 
@@ -51,6 +51,35 @@ describe('[useSplitAttrs API]', () => {
           attributes: expect.$ref(attrs),
           listeners: expect.$ref(fnList)
         })
+      })
+
+      test('reflects an updated event handler after re-render (not the stale setup-time one)', async () => {
+        const Child = defineComponent({
+          name: 'Child',
+          setup() {
+            return { result: useSplitAttrs() }
+          },
+          render() {
+            return h('div')
+          }
+        })
+        const handler = ref(() => 'A')
+        const wrapper = mount(
+          defineComponent({
+            setup() {
+              return () => h(Child, { onFoo: handler.value })
+            }
+          })
+        )
+        const child = wrapper.findComponent({ name: 'Child' })
+
+        expect(child.vm.result.listeners.value.onFoo()).toBe('A')
+
+        handler.value = () => 'B'
+        await nextTick()
+        await nextTick()
+
+        expect(child.vm.result.listeners.value.onFoo()).toBe('B')
       })
     })
   })
