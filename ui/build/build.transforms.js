@@ -28,8 +28,8 @@ function lowerCamelCase(name) {
 
 function addComponents(map, autoImport) {
   globSync('src/components/*/Q*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file)),
         kebab = kebabCase(name)
@@ -45,8 +45,8 @@ function addComponents(map, autoImport) {
 
 function addDirectives(map, autoImport) {
   globSync('src/directives/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file)),
         kebab = 'v-' + kebabCase(name)
@@ -60,8 +60,8 @@ function addDirectives(map, autoImport) {
 
 function addPlugins(map) {
   globSync('src/plugins/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[name] = file
@@ -70,8 +70,8 @@ function addPlugins(map) {
 
 function addComposables(map) {
   globSync('src/composables/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[lowerCamelCase(name)] = file
@@ -80,8 +80,8 @@ function addComposables(map) {
 
 function addUtils(map) {
   globSync('src/utils/*/*.js', { cwd: rootFolder, absolute: true })
-    .filter(filterOutPrivateFiles)
     .map(relative)
+    .filter(filterOutPrivateFiles)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
