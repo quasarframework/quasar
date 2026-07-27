@@ -134,8 +134,14 @@ describe('[date API]', () => {
 
       test('excludes the boundaries by default', () => {
         expect(date.isBetweenDates(middle, from, to)).toBe(true)
-        expect(date.isBetweenDates(from, from, to)).toBeFalsy()
-        expect(date.isBetweenDates(to, from, to)).toBeFalsy()
+        expect(date.isBetweenDates(from, from, to)).toBe(false)
+        expect(date.isBetweenDates(to, from, to)).toBe(false)
+        expect(date.isBetweenDates(new Date(2024, 0, 9, 10), from, to)).toBe(
+          false
+        )
+        expect(date.isBetweenDates(new Date(2024, 0, 13, 10), from, to)).toBe(
+          false
+        )
       })
 
       test('supports inclusive boundaries', () => {
@@ -448,12 +454,16 @@ describe('[date API]', () => {
         )
       })
 
-      test.each([void 0, null, '', Number.POSITIVE_INFINITY])(
-        'returns undefined for %o',
-        value => {
-          expect(date.formatDate(value)).toBeUndefined()
-        }
-      )
+      test.each([
+        void 0,
+        null,
+        '',
+        'not a date',
+        Number.POSITIVE_INFINITY,
+        new Date('bad')
+      ])('returns undefined for %o', value => {
+        expect(date.formatDate(value)).toBeUndefined()
+      })
     })
 
     describe('[(function)clone]', () => {
