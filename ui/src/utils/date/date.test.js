@@ -74,6 +74,17 @@ describe('[date API]', () => {
           date.extractDate(value, 'YYYY-MM-DDTHH:mm:ss.SSSZ').getTime()
         ).toBe(Date.parse(value))
       })
+
+      test.each(['X', 'x'])(
+        'round-trips a pre-1970 date through the %s mask',
+        mask => {
+          const value = new Date(1950, 5, 15)
+
+          expect(
+            date.extractDate(date.formatDate(value, mask), mask).getTime()
+          ).toBe(value.getTime())
+        }
+      )
     })
 
     describe('[(function)buildDate]', () => {

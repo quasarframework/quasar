@@ -406,7 +406,7 @@ export function __splitDate(str, mask, dateLocale, calendar, defaultModel) {
 
   if (map.X !== void 0 || map.x !== void 0) {
     const stamp = Number.parseInt(match[map.X ?? map.x], 10)
-    if (Number.isNaN(stamp) || stamp < 0) return date
+    if (Number.isNaN(stamp)) return date
 
     const d = new Date(stamp * (map.X !== void 0 ? 1000 : 1))
 
