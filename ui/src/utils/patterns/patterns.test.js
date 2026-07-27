@@ -31,6 +31,11 @@ describe('[patterns API]', () => {
         expect(date('2024/1/01')).toBe(false)
         expect(date('2024/01/1')).toBe(false)
         expect(date('2024/1/1')).toBe(false)
+
+        expect(date('2024/13/01')).toBe(false)
+        expect(date('2024/00/01')).toBe(false)
+        expect(date('2024/01/32')).toBe(false)
+        expect(date('2024/01/00')).toBe(false)
       })
 
       test('time', () => {
