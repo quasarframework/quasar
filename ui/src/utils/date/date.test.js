@@ -85,6 +85,39 @@ describe('[date API]', () => {
           ).toBe(value.getTime())
         }
       )
+
+      test('keeps localized parsers isolated by all embedded locale names', async () => {
+        const { default: enUS } = await import('quasar/lang/en-US.js')
+        const cases = [
+          ['MMMM D YYYY', 'months', 'Alpha 1 2024', 'Beta 1 2024'],
+          ['MMM D YYYY', 'monthsShort', 'Alp 1 2024', 'Bet 1 2024'],
+          ['ddd YYYY-MM-DD', 'daysShort', 'Alp 2024-01-01', 'Bet 2024-01-01'],
+          ['dddd YYYY-MM-DD', 'days', 'Alpha 2024-01-01', 'Beta 2024-01-01']
+        ]
+
+        for (const [mask, localeField, firstValue, secondValue] of cases) {
+          const firstNames = [...enUS.date[localeField]]
+          const secondNames = [...firstNames]
+          firstNames[0] = firstValue.split(' ')[0]
+          secondNames[0] = secondValue.split(' ')[0]
+
+          const firstLocale = {
+            ...enUS.date,
+            [localeField]: firstNames
+          }
+          const secondLocale = {
+            ...enUS.date,
+            [localeField]: secondNames
+          }
+
+          expect(date.extractDate(firstValue, mask, firstLocale)).toStrictEqual(
+            new Date(2024, 0, 1)
+          )
+          expect(
+            date.extractDate(secondValue, mask, secondLocale)
+          ).toStrictEqual(new Date(2024, 0, 1))
+        }
+      })
     })
 
     describe('[(function)buildDate]', () => {
@@ -245,6 +278,12 @@ describe('[date API]', () => {
 
     describe('[(function)endOfDate]', () => {
       const original = new Date('2024-07-14T13:14:15.678Z')
+      const originalTZ = process.env.TZ
+
+      afterEach(() => {
+        if (originalTZ === void 0) delete process.env.TZ
+        else process.env.TZ = originalTZ
+      })
 
       test.each([
         ['year', '2024-12-31T23:59:59.999Z'],
@@ -258,6 +297,25 @@ describe('[date API]', () => {
           expected
         )
         expect(original.toISOString()).toBe('2024-07-14T13:14:15.678Z')
+      })
+
+      test.each([
+        [
+          'America/Los_Angeles',
+          '2024-03-01T00:30:00.000Z',
+          '2024-03-31T23:59:59.999Z'
+        ],
+        [
+          'Pacific/Kiritimati',
+          '2024-01-31T23:30:00.000Z',
+          '2024-01-31T23:59:59.999Z'
+        ]
+      ])('uses the UTC month length in %s', (timezone, value, expected) => {
+        process.env.TZ = timezone
+
+        expect(date.endOfDate(value, 'month', true).toISOString()).toBe(
+          expected
+        )
       })
     })
 
