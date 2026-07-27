@@ -25,7 +25,10 @@ import useKeyComposition from '../../composables/private.use-key-composition/use
 
 import { createComponent } from '../../utils/private.create/create.js'
 import { stop } from '../../utils/event/event.js'
-import { addFocusFn } from '../../utils/private.focus/focus-manager.js'
+import {
+  addFocusFn,
+  removeFocusFn
+} from '../../utils/private.focus/focus-manager.js'
 import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
 
 export default createComponent({
@@ -240,17 +243,27 @@ export default createComponent({
       }
     )
 
+    function focusHandler() {
+      const el = document.activeElement
+      if (
+        inputRef.value !== null &&
+        inputRef.value !== el &&
+        (el === null || el.id !== state.targetUid.value)
+      ) {
+        inputRef.value.focus({ preventScroll: true })
+      }
+    }
+
     function focus() {
-      addFocusFn(() => {
-        const el = document.activeElement
-        if (
-          inputRef.value !== null &&
-          inputRef.value !== el &&
-          (el === null || el.id !== state.targetUid.value)
-        ) {
-          inputRef.value.focus({ preventScroll: true })
-        }
-      })
+      addFocusFn(focusHandler)
+    }
+
+    function blur() {
+      removeFocusFn(focusHandler)
+      const el = document.activeElement
+      if (el !== null && state.rootRef.value.contains(el)) {
+        el.blur()
+      }
     }
 
     function select() {
@@ -529,6 +542,7 @@ export default createComponent({
     // expose public methods
     Object.assign(proxy, {
       focus,
+      blur,
       select,
       getNativeElement: () => inputRef.value // deprecated
     })
