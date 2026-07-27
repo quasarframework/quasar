@@ -5,7 +5,9 @@ const handlers = []
 let escDown
 
 function onKeydown(evt) {
-  escDown = evt.keyCode === 27
+  if (evt.keyCode === 27) {
+    escDown = true
+  }
 }
 
 function onBlur() {
@@ -15,12 +17,9 @@ function onBlur() {
 }
 
 function onKeyup(evt) {
-  if (escDown) {
+  if (escDown && isKeyCode(evt, 27)) {
     escDown = false
-
-    if (isKeyCode(evt, 27)) {
-      handlers.at(-1)(evt)
-    }
+    handlers.at(-1)(evt)
   }
 }
 
