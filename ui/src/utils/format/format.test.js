@@ -36,6 +36,10 @@ describe('[format API]', () => {
       test('has correct return value', () => {
         expect(format.capitalize('abc')).toBe('Abc')
       })
+
+      test('returns empty string for empty input', () => {
+        expect(format.capitalize('')).toBe('')
+      })
     })
 
     describe('[(function)between]', () => {
