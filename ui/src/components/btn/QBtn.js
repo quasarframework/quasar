@@ -69,7 +69,8 @@ export default createComponent({
 
     let localTouchTargetEl = null,
       avoidMouseRipple,
-      mouseTimer = null
+      mouseTimer = null,
+      clickCleanup = null
 
     const hasLabel = computed(
       () => props.label !== void 0 && props.label !== null && props.label !== ''
@@ -157,6 +158,7 @@ export default createComponent({
           if (!e.qAvoidFocus) rootRef.value.focus()
 
           const onClickCleanup = () => {
+            clickCleanup = null
             document.removeEventListener('keydown', stopAndPrevent, true)
             document.removeEventListener(
               'keyup',
@@ -170,6 +172,7 @@ export default createComponent({
             )
           }
 
+          clickCleanup = onClickCleanup
           document.addEventListener('keydown', stopAndPrevent, true)
           document.addEventListener('keyup', onClickCleanup, passiveCapture)
           rootRef.value.addEventListener('blur', onClickCleanup, passiveCapture)
@@ -281,6 +284,8 @@ export default createComponent({
     }
 
     function cleanup(destroying) {
+      clickCleanup?.()
+
       const blurTarget = blurTargetRef.value
 
       if (

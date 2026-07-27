@@ -80,6 +80,31 @@ describe('[QBtn API]', () => {
           expect(target.attributes('type')).toBe(propVal)
         }
       )
+
+      test('type "submit" releases its keydown guard on unmount', async () => {
+        const outside = document.createElement('input')
+        document.body.append(outside)
+        outside.focus()
+
+        const wrapper = mount(QBtn, {
+          props: { type: 'submit' },
+          attachTo: document.body
+        })
+
+        await wrapper.trigger('click')
+
+        const armed = new KeyboardEvent('keydown', { cancelable: true })
+        document.dispatchEvent(armed)
+        expect(armed.defaultPrevented).toBe(true)
+
+        wrapper.unmount()
+
+        const released = new KeyboardEvent('keydown', { cancelable: true })
+        document.dispatchEvent(released)
+        expect(released.defaultPrevented).toBe(false)
+
+        outside.remove()
+      })
     })
 
     describe('[(prop)to]', () => {
