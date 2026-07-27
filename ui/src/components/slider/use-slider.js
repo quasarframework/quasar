@@ -304,7 +304,7 @@ export default function useSlider({
   }
 
   const markerStep = computed(() =>
-    isNumber(props.markers) ? props.markers : keyStep.value
+    isNumber(props.markers) && props.markers > 0 ? props.markers : keyStep.value
   )
 
   const markerTicks = computed(() => {
