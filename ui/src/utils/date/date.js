@@ -545,7 +545,7 @@ export function isBetweenDates(date, from, to, opts = {}) {
     d2 = getDateIdentifier(to, opts.onlyDate),
     cur = getDateIdentifier(date, opts.onlyDate)
 
-  return (
+  return Boolean(
     (cur > d1 || (opts.inclusiveFrom && cur === d1)) &&
     (cur < d2 || (opts.inclusiveTo && cur === d2))
   )
@@ -1051,7 +1051,7 @@ export function formatDate(
 
   const date = new Date(val)
 
-  if (Number.isNaN(date)) return
+  if (Number.isNaN(date.getTime())) return
 
   if (mask === void 0) {
     mask = defaultMask
