@@ -79,7 +79,7 @@ Do not edit `/src-cordova/www` directly; Quasar overwrites it. Fix application c
 
 ## Safe areas
 
-Quasar components such as QHeader, QFooter, and Notify account for common safe-area cases. Android native safe-area padding is enabled by default and can be disabled with `framework.config.cordova.androidSafeAreaPadding` if your app handles the insets itself. Test multiple devices and orientations. Custom layout elements can use the standard CSS environment variables:
+Quasar components such as QHeader, QFooter, and Notify account for common safe-area cases. Android native safe-area padding is enabled by default and can be disabled with `framework.config.cordova.androidStatusBarPadding` if your app handles the insets itself. Test multiple devices and orientations. Custom layout elements can use the standard CSS environment variables:
 
 ```css
 body.cordova .top-element {

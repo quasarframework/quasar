@@ -82,23 +82,23 @@ cordova: {
 
 Other options you can configure:
 
-```js /quasar.config file
+```ts /quasar.config file
 return {
   framework: {
     config: {
       cordova: {
         // add the dynamic top padding on iOS mobile devices
-        iosStatusBarPadding: true / false,
+        iosStatusBarPadding?: boolean,
 
         // account for Android safe areas (defaults to true)
-        androidSafeAreaPadding: true / false,
+        androidStatusBarPadding?: boolean,
 
         // Quasar handles app exit on mobile phone back button.
-        backButtonExit: true / false / '*' / ['/login', '/home', '/my-page'],
+        backButtonExit?: boolean | '*' | ['/login', '/home', '/my-page'],
 
         // On the other hand, the following completely
         // disables Quasar's back button management.
-        backButton: true / false
+        backButton?: boolean
       }
     }
   }

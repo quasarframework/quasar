@@ -65,7 +65,7 @@ On Android, Quasar uses the `--safe-area-inset-*` variables supplied by the [Cap
 framework: {
   config: {
     capacitor: {
-      androidSafeAreaPadding: false
+      androidStatusBarPadding: false
     }
   }
 }

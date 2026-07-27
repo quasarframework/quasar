@@ -65,7 +65,7 @@ describe('[Body API]', () => {
       test('allows Android native mobile safe area padding to be disabled', () => {
         const classes = getNativeMobilePlatform(
           { android: true },
-          { capacitor: { androidSafeAreaPadding: false } }
+          { capacitor: { androidStatusBarPadding: false } }
         )
 
         expect(classes).not.toContain('q-safe-area-padding')

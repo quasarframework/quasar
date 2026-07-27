@@ -30,7 +30,7 @@ export function getBodyClasses({ is, has, within }, cfg) {
       cls.push('q-ios-padding')
     } else if (
       is.android &&
-      (mobileCfg === void 0 || mobileCfg.androidSafeAreaPadding !== false)
+      (mobileCfg === void 0 || mobileCfg.androidStatusBarPadding !== false)
     ) {
       cls.push('q-safe-area-padding')
     }
