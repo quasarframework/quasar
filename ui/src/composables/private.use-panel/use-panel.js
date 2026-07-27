@@ -90,7 +90,8 @@ export default function usePanel() {
   function onSwipe(evt) {
     const dir = props.vertical ? 'up' : 'left'
     goToPanelByOffset(
-      (proxy.$q.lang.rtl ? -1 : 1) * (evt.direction === dir ? 1 : -1)
+      (!props.vertical && proxy.$q.lang.rtl ? -1 : 1) *
+        (evt.direction === dir ? 1 : -1)
     )
   }
 
