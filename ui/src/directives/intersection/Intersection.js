@@ -9,17 +9,17 @@ const defaultCfg = {
 }
 
 function update(el, ctx, value) {
-  let handler, cfg, changed
+  let handler, cfg
 
   if (typeof value === 'function') {
     handler = value
     cfg = defaultCfg
-    changed = ctx.cfg === void 0
   } else {
     handler = value.handler
     cfg = { ...defaultCfg, ...value.cfg }
-    changed = ctx.cfg === void 0 || !isDeepEqual(ctx.cfg, cfg)
   }
+
+  const changed = ctx.cfg === void 0 || !isDeepEqual(ctx.cfg, cfg)
 
   if (ctx.handler !== handler) {
     ctx.handler = handler
