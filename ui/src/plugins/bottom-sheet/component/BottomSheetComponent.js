@@ -71,7 +71,7 @@ export default createComponent({
               {
                 class: [
                   'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
-                  action.class
+                  action.classes
                 ],
                 style: action.style,
                 tabindex: 0,
