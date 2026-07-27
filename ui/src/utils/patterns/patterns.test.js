@@ -250,7 +250,14 @@ describe('[patterns API]', () => {
         expect(rgbaColor('rgba(255,0,0,0.1)')).toBe(true)
         expect(rgbaColor('rgba(0,255,0,0.9)')).toBe(true)
 
+        expect(rgbaColor('rgba(0,0,255,0.20)')).toBe(true)
+        expect(rgbaColor('rgba(0,0,255,0.50)')).toBe(true)
+        expect(rgbaColor('rgba(0,0,255,0.0)')).toBe(true)
+        expect(rgbaColor('rgba(255,255,255,1.0)')).toBe(true)
+
         expect(rgbaColor('rgba(0,255,0,1.9)')).toBe(false)
+        expect(rgbaColor('rgba(0,255,0,1.01)')).toBe(false)
+        expect(rgbaColor('rgba(0,255,0,2.0)')).toBe(false)
 
         expect(rgbaColor('rgba(0,0,0)')).toBe(false)
         expect(rgbaColor('rgba(0,0,0,0')).toBe(false)
