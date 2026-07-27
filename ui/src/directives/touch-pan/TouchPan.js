@@ -426,7 +426,7 @@ export default createDirective(
 
           if (ctx !== void 0) {
             if (bindings.oldValue !== bindings.value) {
-              if (typeof value !== 'function') ctx.end()
+              if (typeof bindings.value !== 'function') ctx.end()
               ctx.handler = bindings.value
             }
 
