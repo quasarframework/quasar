@@ -175,7 +175,8 @@ return {
   framework: {
     config: {
       capacitor: {
-        iosStatusBarPadding: true / false // add the dynamic top padding on iOS mobile devices
+        iosStatusBarPadding: true / false, // add the dynamic top padding on iOS mobile devices
+        androidSafeAreaPadding: true / false // account for Android safe areas (default: true)
       }
     }
   }

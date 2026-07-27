@@ -14,12 +14,12 @@
   &--bottom
     bottom: 0
 
-body.q-ios-padding .q-notifications__list
+body.q-ios-padding .q-notifications__list,
+body.q-safe-area-padding .q-notifications__list
   &--center, &--top
-    top: $ios-statusbar-height
-    top: env(safe-area-inset-top)
+    top: var(--q-safe-area-inset-top)
   &--center, &--bottom
-    bottom: env(safe-area-inset-bottom)
+    bottom: var(--q-safe-area-inset-bottom)
 
 .q-notification
   box-shadow: $shadow-2
