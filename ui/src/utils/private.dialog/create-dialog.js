@@ -16,7 +16,7 @@ export function merge(target, source) {
     if (
       key !== 'spinner' &&
       Object(source[key]) === source[key] &&
-      Array.isArray(source[key]) === false
+      !Array.isArray(source[key])
     ) {
       target[key] =
         Object(target[key]) !== target[key] ? {} : { ...target[key] }

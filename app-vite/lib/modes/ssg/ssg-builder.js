@@ -183,7 +183,7 @@ function getParseVueRouterRoutesFn(quasarConf) {
           for (const dynamicEntry of dynamicMap) {
             // stringify() silently ignores extra keys, so catch typos here
             for (const paramName of Object.keys(dynamicEntry)) {
-              if (paramNames.has(paramName) === false) {
+              if (!paramNames.has(paramName)) {
                 fatal(
                   `Dynamic param ":${paramName}" not found in route: ${fullPath}`,
                   'parseVueRouterRoutes() FAILED'

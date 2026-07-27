@@ -33,11 +33,7 @@ function flatten(obj, prefix = '') {
   for (const [key, value] of Object.entries(obj)) {
     const path = prefix === '' ? key : `${prefix}.${key}`
 
-    if (
-      value !== null &&
-      typeof value === 'object' &&
-      Array.isArray(value) === false
-    ) {
+    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
       for (const entry of flatten(value, path)) {
         entries.set(entry[0], entry[1])
       }
@@ -50,7 +46,7 @@ function flatten(obj, prefix = '') {
 }
 
 function validateStringArray(errors, file, path, value) {
-  if (Array.isArray(value) === false) return
+  if (!Array.isArray(value)) return
 
   value.forEach((entry, index) => {
     if (typeof entry !== 'string' || entry.length === 0) {
@@ -72,7 +68,7 @@ function validateLanguageShape(file, lang, expectedPaths) {
   }
 
   for (const [path, expectedValue] of expectedPaths) {
-    if (paths.has(path) === false) {
+    if (!paths.has(path)) {
       throw new Error(`${file}: missing ${path}`)
     }
 
@@ -86,10 +82,7 @@ function validateLanguageShape(file, lang, expectedPaths) {
   }
 
   for (const path of paths.keys()) {
-    if (
-      expectedPaths.has(path) === false &&
-      optionalPaths.has(path) === false
-    ) {
+    if (!expectedPaths.has(path) && !optionalPaths.has(path)) {
       throw new Error(`${file}: unknown ${path}`)
     }
   }

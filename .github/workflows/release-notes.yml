@@ -120,7 +120,7 @@ jobs:
                 }
                 if (
                   versionPatterns[packageName] &&
-                  versionPatterns[packageName].test(version) === false
+                  !versionPatterns[packageName].test(version)
                 ) {
                   continue;
                 }
