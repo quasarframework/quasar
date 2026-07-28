@@ -30,12 +30,14 @@ function normalizeUserAgent(userAgent) {
     : ''
 }
 
+const safariVersionRE = /(?:^|\s)version\/([\w.]+)/
+const applewebkitRE = /(?:^|\s)applewebkit\/[\w.]+/
+const safariAgentRE = /(?:^|\s)safari\/[\w.]+/
 function getSafariMatch(userAgent) {
-  const versionMatch = /(?:^|\s)version\/([\w.]+)/.exec(userAgent)
-
+  const versionMatch = safariVersionRE.exec(userAgent)
   return versionMatch !== null &&
-    /(?:^|\s)applewebkit\/[\w.]+/.test(userAgent) &&
-    /(?:^|\s)safari\/[\w.]+/.test(userAgent)
+    applewebkitRE.test(userAgent) &&
+    safariAgentRE.test(userAgent)
     ? {
         browser: 'safari',
         version: versionMatch[1]
@@ -43,12 +45,13 @@ function getSafariMatch(userAgent) {
     : null
 }
 
+const operaAgentRE = /(?:^|\s)opera\/([\w.]+)/
+const operaVersionRE = /(?:^|\s)version\/([\w.]+)/
 function getOperaMatch(userAgent) {
-  const operaMatch = /(?:^|\s)opera\/([\w.]+)/.exec(userAgent)
-
+  const operaMatch = operaAgentRE.exec(userAgent)
   if (operaMatch === null) return null
 
-  const versionMatch = /(?:^|\s)version\/([\w.]+)/.exec(userAgent)
+  const versionMatch = operaVersionRE.exec(userAgent)
 
   return {
     browser: 'opera',
@@ -56,12 +59,18 @@ function getOperaMatch(userAgent) {
   }
 }
 
+const edgeRE = /(edg|edge|edga|edgios)\/([\w.]+)/
+const oprRE = /(opr)[\/]([\w.]+)/
+const vivaldiRE = /(vivaldi)[\/]([\w.]+)/
+const chromeRE = /(chrome|crios)[\/]([\w.]+)/
+const firefoxRE = /(firefox|fxios)[\/]([\w.]+)/
+const webkitRE = /(webkit)[\/]([\w.]+)/
 function getMatch(userAgent, platformMatch) {
   let match =
-    /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
-    /(opr)[\/]([\w.]+)/.exec(userAgent) ||
-    /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
+    edgeRE.exec(userAgent) ||
+    oprRE.exec(userAgent) ||
+    vivaldiRE.exec(userAgent) ||
+    chromeRE.exec(userAgent)
 
   if (match === null) {
     const safariMatch = getSafariMatch(userAgent)
@@ -73,9 +82,7 @@ function getMatch(userAgent, platformMatch) {
       }
     }
 
-    match =
-      /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
-      /(webkit)[\/]([\w.]+)/.exec(userAgent)
+    match = firefoxRE.exec(userAgent) || webkitRE.exec(userAgent)
 
     if (match === null) {
       const operaMatch = getOperaMatch(userAgent)
@@ -98,24 +105,38 @@ function getMatch(userAgent, platformMatch) {
   }
 }
 
+const ipadRE = /(ipad)/
+const ipodRE = /(ipod)/
+const iphoneRE = /(iphone)/
+const windowsPhoneRE = /(windows phone)/
+const kindleRE = /(kindle)/
+const silkRE = /(silk)/
+const androidRE = /(android)/
+const winRE = /(win)/ // "windows" is too generic and can be used in other platforms' UA
+const macRE = /(mac)/
+const linuxRE = /(linux)/
+const crosRE = /(cros)/
+const playbookRE = /(playbook)/
+const bbRE = /(bb)/
+const blackberryRE = /(blackberry)/
 function getPlatformMatch(userAgent) {
   return (
-    /(ipad)/.exec(userAgent) ||
-    /(ipod)/.exec(userAgent) ||
-    /(windows phone)/.exec(userAgent) ||
-    /(iphone)/.exec(userAgent) ||
-    /(kindle)/.exec(userAgent) ||
-    /(silk)/.exec(userAgent) ||
-    /(android)/.exec(userAgent) ||
-    /(win)/.exec(userAgent) ||
-    /(mac)/.exec(userAgent) ||
-    /(linux)/.exec(userAgent) ||
-    /(cros)/.exec(userAgent) ||
+    ipadRE.exec(userAgent) ||
+    ipodRE.exec(userAgent) ||
+    windowsPhoneRE.exec(userAgent) ||
+    iphoneRE.exec(userAgent) ||
+    kindleRE.exec(userAgent) ||
+    silkRE.exec(userAgent) ||
+    androidRE.exec(userAgent) ||
+    winRE.exec(userAgent) ||
+    macRE.exec(userAgent) ||
+    linuxRE.exec(userAgent) ||
+    crosRE.exec(userAgent) ||
     // TODO: Remove BlackBerry detection. BlackBerry OS, BlackBerry 10, and BlackBerry PlayBook OS
     // is officially dead as of January 4, 2022 (https://www.blackberry.com/us/en/support/devices/end-of-life)
-    /(playbook)/.exec(userAgent) ||
-    /(bb)/.exec(userAgent) ||
-    /(blackberry)/.exec(userAgent) ||
+    playbookRE.exec(userAgent) ||
+    bbRE.exec(userAgent) ||
+    blackberryRE.exec(userAgent) ||
     []
   )
 }
