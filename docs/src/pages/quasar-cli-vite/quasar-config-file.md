@@ -569,6 +569,8 @@ interface QuasarStaticBuildConfiguration {
   distDir?: string
 
   /**
+   * Added in @quasar/app-vite v3.2.1
+   *
    * Allow `distDir` to resolve outside the project root directory.
    * This does not allow Quasar CLI to remove a filesystem root,
    * the user home directory or the project root.
