@@ -73,6 +73,38 @@ If the Specs script itself changes, also run the additional validation required
 by `ui/testing/README.md`: build the UI, run `pnpm test:specs --dry-run`, run
 `pnpm test:specs:ci`, and then run the root `pnpm test`.
 
+### Test design
+
+- Test public behavior and reusable structure rather than a fixed snapshot of
+  the current implementation.
+- For generic Vue props and emits declaration tests, use the `$props()` and
+  `$emits()` matchers from `ui/testing/vitest.setup.js`. Do not duplicate the
+  exact prop or event names, types, defaults, validators, or ordering merely to
+  prove that the declaration is valid. Adding, changing, or removing an
+  unrelated prop or event should not break such a test.
+- Continue to assert an exact prop, event, default, validator, or emitted
+  payload when that specific public behavior is the subject of the test.
+- Apply the same principle to other exported definitions. Prefer an existing
+  structural matcher, such as `$objectValues()` or `$arrayValues()`, over
+  assertions coupled to the current members. When a recurring definition form
+  has no suitable matcher, add a reusable matcher to
+  `ui/testing/vitest.setup.js` rather than repeating implementation-specific
+  assertions across test files.
+
+## Generated Quasar configuration
+
+- Quasar apps generate `.quasar/tsconfig.json` and related type files during
+  `quasar dev` and `quasar build`. Use `quasar prepare` when those generated
+  files are needed without starting a development server or build.
+- Prepare an app after a fresh checkout or clean worktree, after dependency or
+  Quasar configuration changes that affect generated types, and whenever lint
+  or typechecking reports that `.quasar/tsconfig.json` is missing or
+  unreadable.
+- From the repository root, run `pnpm prepare:types` to prepare all workspace
+  packages that define that script. To prepare a single app, run
+  `pnpm --dir <app-directory> exec quasar prepare --silent`.
+- Treat `.quasar` as generated output. Do not edit or commit its contents.
+
 ## Validation
 
 - Run the narrowest relevant test while developing and the package's complete
@@ -93,3 +125,8 @@ by `ui/testing/README.md`: build the UI, run `pnpm test:specs --dry-run`, run
   implications when applicable.
 - Do not include unrelated dependency, lockfile, formatting, or generated-file
   changes.
+- Treat CodeRabbitAI and all other automated review output as advisory. Verify
+  each claim against the current code, tests, generated Specs requirements, and
+  intended public contract. Apply valid findings, but reject or explain
+  incorrect, stale, duplicate, or speculative suggestions instead of changing
+  code or weakening tests merely to satisfy a bot.
