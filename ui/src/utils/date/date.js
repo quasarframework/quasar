@@ -11,17 +11,23 @@ const MILLISECONDS_IN_DAY = 86_400_000,
     /\[((?:[^\]\\]|\\]|\\)*)\]|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
   reverseToken =
     /(\[[^\]]*\])|do|d{1,4}|Mo|M{1,4}|m{1,2}|wo|w{1,2}|Qo|Do|DDDo|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
-  regexStore = {}
+  regexStore = new Map()
 
 function getRegexData(mask, dateLocale) {
-  const days = '(' + dateLocale.days.join('|') + ')',
-    key = mask + days
+  const key = JSON.stringify([
+    mask,
+    dateLocale.days,
+    dateLocale.daysShort,
+    dateLocale.months,
+    dateLocale.monthsShort
+  ])
 
-  if (regexStore[key] !== void 0) {
-    return regexStore[key]
+  if (regexStore.has(key)) {
+    return regexStore.get(key)
   }
 
-  const daysShort = '(' + dateLocale.daysShort.join('|') + ')',
+  const days = '(' + dateLocale.days.join('|') + ')',
+    daysShort = '(' + dateLocale.daysShort.join('|') + ')',
     months = '(' + dateLocale.months.join('|') + ')',
     monthsShort = '(' + dateLocale.monthsShort.join('|') + ')'
 
@@ -195,7 +201,7 @@ function getRegexData(mask, dateLocale) {
   })
 
   const res = { map, regex: new RegExp('^' + regexText) }
-  regexStore[key] = res
+  regexStore.set(key, res)
 
   return res
 }
@@ -603,7 +609,7 @@ export function endOfDate(date, unit, utc) {
     }
     case 'month': // oxlint-disable-line no-fallthrough
     case 'months': {
-      t[`${prefix}Date`](daysInMonth(t))
+      t[`${prefix}Date`](getDaysInMonth(t, utc))
     }
     case 'day': // oxlint-disable-line no-fallthrough
     case 'days':
@@ -790,8 +796,19 @@ export function isSameDate(date, date2, unit) {
   return true
 }
 
+function getDaysInMonth(date, utc) {
+  const prefix = utc ? 'UTC' : '',
+    t = new Date(date)
+
+  t[`set${prefix}Date`](1)
+  t[`set${prefix}Month`](t[`get${prefix}Month`]() + 1)
+  t[`set${prefix}Date`](0)
+
+  return t[`get${prefix}Date`]()
+}
+
 export function daysInMonth(date) {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+  return getDaysInMonth(date, false)
 }
 
 function getOrdinal(n) {
