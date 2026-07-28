@@ -76,7 +76,7 @@ describe('[usePortal API]', () => {
         expect(portalProxy.contentEl).toBe(
           wrapper.get('[data-test="portal-host"]').element
         )
-        expect(portalProxyList).not.toContain(portalProxy)
+        expect(portalProxyList.includes(portalProxy)).toBe(false)
 
         portal.showPortal()
         portal.showPortal()
@@ -86,7 +86,8 @@ describe('[usePortal API]', () => {
 
         expect(portal.portalIsActive).$ref(true)
         expect(portal.portalIsAccessible).$ref(false)
-        expect(portalProxyList).toStrictEqual([portalProxy])
+        expect(portalProxyList.length).toBe(1)
+        expect(portalProxyList[0]).toBe(portalProxy)
         expect(portalNode).not.toBeNull()
         expect(
           portalNode.querySelector('[data-test="portal-content"]')
@@ -100,14 +101,14 @@ describe('[usePortal API]', () => {
 
         expect(portal.portalIsActive).$ref(true)
         expect(portal.portalIsAccessible).$ref(false)
-        expect(portalProxyList).toContain(portalProxy)
+        expect(portalProxyList.includes(portalProxy)).toBe(true)
 
         portal.hidePortal(true)
         await nextTick()
 
         expect(portal.portalIsActive).$ref(false)
         expect(portal.portalIsAccessible).$ref(false)
-        expect(portalProxyList).not.toContain(portalProxy)
+        expect(portalProxyList.includes(portalProxy)).toBe(false)
         expect(portalNode.isConnected).toBe(false)
       })
 
@@ -120,12 +121,12 @@ describe('[usePortal API]', () => {
         const portalNode = document.querySelector('[id^="q-portal--dialog--"]')
 
         expect(portalNode).not.toBeNull()
-        expect(portalProxyList).toContain(portalProxy)
+        expect(portalProxyList.includes(portalProxy)).toBe(true)
 
         wrapper.unmount()
         wrapper = void 0
 
-        expect(portalProxyList).not.toContain(portalProxy)
+        expect(portalProxyList.includes(portalProxy)).toBe(false)
         expect(portalNode.isConnected).toBe(false)
         expect(portal.portalIsActive).$ref(false)
       })
@@ -141,13 +142,14 @@ describe('[usePortal API]', () => {
 
         expect(document.querySelector('[id^="q-portal--dialog--"]')).toBeNull()
         expect(wrapper.find('[data-test="portal-content"]').exists()).toBe(true)
-        expect(portalProxyList).toStrictEqual([portalProxy])
+        expect(portalProxyList.length).toBe(1)
+        expect(portalProxyList[0]).toBe(portalProxy)
 
         portal.hidePortal(true)
         await nextTick()
 
         expect(portal.portalIsActive).$ref(false)
-        expect(portalProxyList).not.toContain(portalProxy)
+        expect(portalProxyList.includes(portalProxy)).toBe(false)
         expect(wrapper.find('[data-test="portal-content"]').exists()).toBe(true)
       })
     })
