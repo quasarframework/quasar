@@ -115,9 +115,18 @@ const { QuasarModeBuilder } = await import(
 )
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 
-const { default: fse } = await import('fs-extra')
 let outputFolder = quasarConf.build.distDir
-fse.removeSync(outputFolder)
+const { removeBuildArtifacts } =
+  await import('../utils/remove-build-artifacts.js')
+try {
+  removeBuildArtifacts({
+    targetDir: outputFolder,
+    projectDir: ctx.appPaths.appDir,
+    allowOutsideProject: quasarConf.build.allowOutsideProjectDistDir
+  })
+} catch (err) {
+  fatal(err.message, 'FAIL')
+}
 
 const { EntryFilesGenerator } = await import('../entry-files-generator.js')
 const entryFiles = new EntryFilesGenerator(ctx)

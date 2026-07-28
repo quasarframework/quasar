@@ -1,9 +1,8 @@
-import fse from 'fs-extra'
-
 import { build as viteBuild } from 'vite'
 import { rolldown, watch as rolldownWatch } from 'rolldown'
 
-import { progress } from './utils/logger.js'
+import { fatal, progress } from './utils/logger.js'
+import { removeBuildArtifacts } from './utils/remove-build-artifacts.js'
 
 export class AppTool {
   argv
@@ -78,7 +77,18 @@ export class AppTool {
     done()
   }
 
-  cleanArtifacts(dir = this.quasarConf.build.distDir) {
-    fse.removeSync(dir)
+  cleanArtifacts(
+    dir = this.quasarConf.build.distDir,
+    allowOutsideProject = this.quasarConf.build.allowOutsideProjectDistDir
+  ) {
+    try {
+      removeBuildArtifacts({
+        targetDir: dir,
+        projectDir: this.ctx.appPaths.appDir,
+        allowOutsideProject
+      })
+    } catch (err) {
+      fatal(err.message, 'FAIL')
+    }
   }
 }

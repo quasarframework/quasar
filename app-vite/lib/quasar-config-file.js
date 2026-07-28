@@ -1128,6 +1128,7 @@ export class QuasarConfigFile {
 
         useFilenameHashes: true,
         distDir: join('dist', this.#ctx.modeName),
+        allowOutsideProjectDistDir: false,
 
         htmlMinifyOptions: {
           removeComments: true,
