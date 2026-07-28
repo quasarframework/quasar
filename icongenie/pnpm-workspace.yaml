@@ -2,5 +2,4 @@
 # https://pnpm.io/settings
 
 allowBuilds:
-  pngquant-bin: true
   sharp: true
