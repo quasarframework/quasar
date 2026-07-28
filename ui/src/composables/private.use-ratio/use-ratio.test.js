@@ -6,8 +6,7 @@ describe('[useRatio API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useRatioProps]', () => {
       test('is defined correctly', () => {
-        expect(useRatioProps).toBeTypeOf('object')
-        expect(Object.keys(useRatioProps)).not.toHaveLength(0)
+        expect(useRatioProps).$props()
       })
     })
   })

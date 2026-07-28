@@ -20,8 +20,7 @@ describe('[useAlign API]', () => {
 
     describe('[(variable)useAlignProps]', () => {
       test('is defined correctly', () => {
-        expect(useAlignProps).toBeTypeOf('object')
-        expect(Object.keys(useAlignProps)).not.toHaveLength(0)
+        expect(useAlignProps).$props()
       })
     })
   })
