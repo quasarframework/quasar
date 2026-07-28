@@ -8,6 +8,18 @@ import 'quasar/src/css/index.sass'
 
 import quasarVuePlugin from 'quasar/src/vue-plugin.js'
 
+const originalConsoleError = console.error
+console.error = (...args) => {
+  originalConsoleError(...args)
+  throw new Error(`Test failed due to console.error: ${args.join(' ')}`)
+}
+
+const originalConsoleWarn = console.warn
+console.warn = (...args) => {
+  originalConsoleWarn(...args)
+  throw new Error(`Test failed due to console.warn: ${args.join(' ')}`)
+}
+
 config.global.plugins.push(quasarVuePlugin)
 
 config.plugins.DOMWrapper.install(wrapper => ({
