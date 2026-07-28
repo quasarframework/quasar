@@ -187,6 +187,11 @@ function getPlatform(UA) {
     browser[matched.platform] = true
   }
 
+  if (browser['windows phone']) {
+    browser.winphone = true
+    delete browser['windows phone']
+  }
+
   const knownMobiles =
     browser.android ||
     browser.ios ||
@@ -195,7 +200,7 @@ function getPlatform(UA) {
     browser.ipod ||
     browser.kindle ||
     browser.silk ||
-    browser['windows phone']
+    browser.winphone
 
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.includes('mobile')) {
@@ -206,11 +211,6 @@ function getPlatform(UA) {
   // (browser.cros || browser.mac || browser.linux || browser.win)
   else {
     browser.desktop = true
-  }
-
-  if (browser['windows phone']) {
-    browser.winphone = true
-    delete browser['windows phone']
   }
 
   if (browser.edga || browser.edgios || browser.edg) {
