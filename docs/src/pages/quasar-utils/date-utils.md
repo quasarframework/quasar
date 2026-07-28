@@ -369,6 +369,9 @@ import { date } from 'quasar'
 
 const newDate = new Date()
 const days = date.daysInMonth(newDate) // e.g. 30
+
+// with UTC:
+const days = date.daysInMonth(newDate, true)
 ```
 
 ### Start/End of time

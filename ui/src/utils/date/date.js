@@ -14,22 +14,16 @@ const MILLISECONDS_IN_DAY = 86_400_000,
   regexStore = new Map()
 
 function getRegexData(mask, dateLocale) {
-  const key = JSON.stringify([
-    mask,
-    dateLocale.days,
-    dateLocale.daysShort,
-    dateLocale.months,
-    dateLocale.monthsShort
-  ])
-
-  if (regexStore.has(key)) {
-    return regexStore.get(key)
-  }
-
   const days = '(' + dateLocale.days.join('|') + ')',
     daysShort = '(' + dateLocale.daysShort.join('|') + ')',
     months = '(' + dateLocale.months.join('|') + ')',
     monthsShort = '(' + dateLocale.monthsShort.join('|') + ')'
+
+  const key = [mask, days, daysShort, months, monthsShort].join('|')
+
+  if (regexStore.has(key)) {
+    return regexStore.get(key)
+  }
 
   const map = {}
   let index = 0
@@ -609,7 +603,7 @@ export function endOfDate(date, unit, utc) {
     }
     case 'month': // oxlint-disable-line no-fallthrough
     case 'months': {
-      t[`${prefix}Date`](getDaysInMonth(t, utc))
+      t[`${prefix}Date`](daysInMonth(t, utc))
     }
     case 'day': // oxlint-disable-line no-fallthrough
     case 'days':
@@ -796,7 +790,7 @@ export function isSameDate(date, date2, unit) {
   return true
 }
 
-function getDaysInMonth(date, utc) {
+export function daysInMonth(date, utc) {
   const prefix = utc ? 'UTC' : '',
     t = new Date(date)
 
@@ -805,10 +799,6 @@ function getDaysInMonth(date, utc) {
   t[`set${prefix}Date`](0)
 
   return t[`get${prefix}Date`]()
-}
-
-export function daysInMonth(date) {
-  return getDaysInMonth(date, false)
 }
 
 function getOrdinal(n) {
