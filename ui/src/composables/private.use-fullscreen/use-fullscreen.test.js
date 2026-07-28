@@ -44,8 +44,7 @@ describe('[useFullscreen API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useFullscreenProps]', () => {
       test('is defined correctly', () => {
-        expect(useFullscreenProps).toBeTypeOf('object')
-        expect(Object.keys(useFullscreenProps)).not.toHaveLength(0)
+        expect(useFullscreenProps).$props()
       })
     })
 

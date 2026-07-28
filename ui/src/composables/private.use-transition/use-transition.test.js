@@ -6,8 +6,7 @@ describe('[useTransition API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useTransitionProps]', () => {
       test('is defined correctly', () => {
-        expect(useTransitionProps).toBeTypeOf('object')
-        expect(Object.keys(useTransitionProps)).not.toHaveLength(0)
+        expect(useTransitionProps).$props()
       })
     })
   })

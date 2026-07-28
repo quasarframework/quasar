@@ -12,8 +12,7 @@ describe('[useForm API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useFormProps]', () => {
       test('is defined correctly', () => {
-        expect(useFormProps).toBeTypeOf('object')
-        expect(Object.keys(useFormProps)).not.toHaveLength(0)
+        expect(useFormProps).$props()
       })
     })
   })

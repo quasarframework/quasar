@@ -7,8 +7,7 @@ describe('[useSpinner API]', () => {
   describe('[Variables]', () => {
     describe('[(variable)useSpinnerProps]', () => {
       test('is defined correctly', () => {
-        expect(useSpinnerProps).toBeTypeOf('object')
-        expect(Object.keys(useSpinnerProps)).not.toHaveLength(0)
+        expect(useSpinnerProps).$props()
       })
     })
   })

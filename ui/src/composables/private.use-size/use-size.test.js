@@ -13,8 +13,7 @@ describe('[useSize API]', () => {
 
     describe('[(variable)useSizeProps]', () => {
       test('is defined correctly', () => {
-        expect(useSizeProps).toBeTypeOf('object')
-        expect(Object.keys(useSizeProps)).not.toHaveLength(0)
+        expect(useSizeProps).$props()
       })
     })
   })

@@ -37,15 +37,13 @@ describe('[useBtn API]', () => {
 
     describe('[(variable)useBtnProps]', () => {
       test('is defined correctly', () => {
-        expect(useBtnProps).toBeTypeOf('object')
-        expect(Object.keys(useBtnProps)).not.toHaveLength(0)
+        expect(useBtnProps).$props()
       })
     })
 
     describe('[(variable)nonRoundBtnProps]', () => {
       test('is defined correctly', () => {
-        expect(nonRoundBtnProps).toBeTypeOf('object')
-        expect(Object.keys(nonRoundBtnProps)).not.toHaveLength(0)
+        expect(nonRoundBtnProps).$props()
       })
     })
   })
