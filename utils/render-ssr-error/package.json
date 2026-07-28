@@ -26,6 +26,7 @@
   },
   "scripts": {
     "dev": "cd src-ui && vite",
+    "test": "node ./test/index.js",
     "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && vite build",
     "build:package": "node ./build/index.js",

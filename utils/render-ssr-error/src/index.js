@@ -14,6 +14,21 @@ function readFile(target) {
 const before = readFile('before')
 const after = readFile('after')
 
+const scriptEscapeMap = {
+  '<': String.raw`\u003C`,
+  '>': String.raw`\u003E`,
+  '&': String.raw`\u0026`,
+  '\u2028': String.raw`\u2028`,
+  '\u2029': String.raw`\u2029`
+}
+
+function stringifyForScript(data) {
+  return JSON.stringify(data).replaceAll(
+    /[<>&\u2028\u2029]/g,
+    character => scriptEscapeMap[character]
+  )
+}
+
 /**
  * @param {{
  *  err: Error;
@@ -46,9 +61,6 @@ export default function renderSSRError({
       Expires: '0'
     },
 
-    errorHtml:
-      before +
-      JSON.stringify(data).replaceAll('</script>', String.raw`<\/script>`) +
-      after
+    errorHtml: before + stringifyForScript(data) + after
   }
 }
